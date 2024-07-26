@@ -913,6 +913,8 @@ export const REPORT_TYPE = {
   LEADS: 'LEADS',
   CAMPAIGNS: 'CAMPAIGN',
   addToNew: 'addToNew',
+  SHARED_WITH_PERMISSIONS: 'sharedWithPermissions',
+  NEW_DASHBOARD_PERMISSIONS: 'newDashboardPermissions',
 };
 
 export const FIELD_TYPE = {
@@ -1082,7 +1084,14 @@ export const DOWNLOAD_FILE_TYPE = {
 };
 export const WEEK_NUMBERS = [1, 2, 3, 4, 5, 6, 7];
 export const WEEK_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
+export const WEEKS = [
+  '1st Week',
+  '2nd Week',
+  '3rd Week',
+  '4th Week',
+  '5th Week',
+  '6th Week',
+];
 export const DYNAMIC_REPORTS_TYPES = {
   CUSTOM: 'CUSTOM',
   DASHBOARD: 'DASHBOARD',

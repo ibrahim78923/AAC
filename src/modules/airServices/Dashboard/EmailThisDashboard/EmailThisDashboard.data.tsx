@@ -22,11 +22,11 @@ export const EMAIL_SEND_SCHEDULE = {
 };
 
 export const EMAIL_SEND_TYPE = {
-  ONCE: 'once',
-  RECURRING: 'recurring',
+  ONCE: 'NO',
+  RECURRING: 'YES',
 };
 
-export const emailSendTypeOptions = [
+export const isRecurringOptions = [
   {
     value: EMAIL_SEND_TYPE?.ONCE,
     label: 'No, this email will only be sent once',
@@ -63,32 +63,46 @@ export const emailScheduleOptions = [
   },
 ];
 
-export const createEmailThisDashboardValidationSchema: any =
+export const createEmailThisDashboardValidationSchema: any = (
+  isMultiple = false,
+) =>
   Yup?.object()?.shape({
-    emailSendType: Yup?.string()?.required('Required'),
-    internalRecipients: Yup?.array()
-      ?.of(Yup?.string())
-      ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
-        if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
-          return false;
+    isRecurring: Yup?.string()?.required('Type is required'),
+    email: Yup?.string()
+      ?.trim()
+      ?.email('Invalid email address')
+      ?.required('Recipient is required'),
+    ...(isMultiple
+      ? {
+          email: Yup?.array()
+            ?.of(Yup?.string())
+            ?.test(
+              'is-emails-valid',
+              'Enter valid email formats',
+              function (value) {
+                if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
+                  return false;
+                }
+                return value?.every(
+                  (email) => Yup?.string()?.email()?.isValidSync(email),
+                );
+              },
+            ),
         }
-        return value?.every(
-          (email) => Yup?.string()?.email()?.isValidSync(email),
-        );
-      }),
+      : {}),
     emailSubject: Yup?.string()?.trim()?.required('Subject is required'),
     message: Yup?.string()?.trim(),
     fileType: Yup?.mixed()?.nullable(),
     schedule: Yup?.mixed()
       ?.nullable()
-      ?.when('emailSendType', {
+      ?.when('isRecurring', {
         is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
         then: () => Yup?.mixed()?.nullable()?.required('Required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
     timeOfDays: Yup?.mixed()
       ?.nullable()
-      ?.when('emailSendType', {
+      ?.when('isRecurring', {
         is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
         then: () => Yup?.mixed()?.nullable()?.required('Required'),
         otherwise: () => Yup?.mixed()?.nullable(),
@@ -96,8 +110,8 @@ export const createEmailThisDashboardValidationSchema: any =
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
-  emailSendType: '',
-  internalRecipients: [],
+  isRecurring: '',
+  email: null,
   emailSubject: '',
   message: '',
   fileType: null,
@@ -107,7 +121,7 @@ export const createEmailThisDashboardDefaultValues: any = {
 };
 
 export const sendDashboardViaEmailFormFieldsDynamic = (
-  emailSendTypeWatch: any,
+  isRecurringWatch: any,
 ) => {
   return [
     {
@@ -123,28 +137,23 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     {
       id: 2,
       componentProps: {
-        name: 'emailSendType',
-        fullWidth: true,
+        name: 'isRecurring',
         row: false,
-        options: emailSendTypeOptions,
+        options: isRecurringOptions,
       },
       component: RHFRadioGroup,
       md: 12,
     },
     {
-      id: 3,
+      id: 4.3,
       componentProps: {
-        name: 'internalRecipients',
+        name: 'email',
         label: 'Internal recipients',
         fullWidth: true,
         required: true,
         placeholder: 'Add internal recipient email',
-        freeSolo: true,
-        options: [],
-        multiple: true,
-        isOptionEqualToValue: () => {},
       },
-      component: RHFAutocomplete,
+      component: RHFTextField,
       md: 12,
     },
     {
@@ -172,7 +181,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
       component: RHFTextField,
       md: 12,
     },
-    ...(emailSendTypeWatch === EMAIL_SEND_TYPE?.RECURRING
+    ...(isRecurringWatch === EMAIL_SEND_TYPE?.RECURRING
       ? [
           {
             id: 42,

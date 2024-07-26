@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { addNoteValidationSchema } from './Notes.data';
 import { viewDefaultValues } from './ViewNote/ViewNote.data';
+import { AddNoteI } from './Notes.interface';
 const useNotes = () => {
   // Action Dropdown
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -38,13 +39,15 @@ const useNotes = () => {
     resetAddNoteForm();
   };
 
-  const onSubmitAddNote = async (values: any, contactId: any) => {
+  const onSubmitAddNote = async (values: AddNoteI, contactId: string) => {
     const formData = new FormData();
     formData?.append('contactId', contactId);
-    formData?.append('title', values?.title);
-    formData?.append('description', values?.description);
-    formData?.append('attachment', values?.attachment);
     formData?.append('recordType', 'deals');
+    formData?.append('title', values?.title);
+    formData.append('description', values?.description);
+    if (values?.attachment) {
+      formData?.append('attachment', values?.attachment);
+    }
 
     try {
       await postAddNote({ body: formData })?.unwrap();
@@ -162,7 +165,7 @@ const useNotes = () => {
     try {
       await deleteNote(items)?.unwrap();
       handleCloseModalDelete();
-      selectedCheckboxes([]);
+      setSelectedCheckboxes([]);
       enqueueSnackbar('Contact Note Deleted Successfully.', {
         variant: 'success',
       });

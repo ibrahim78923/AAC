@@ -6,7 +6,6 @@ import Tickets from './Tickets';
 import Deal from './Deal';
 
 import { styles } from '../ViewDetails.style';
-// import useAssociations from './useAssociations';
 
 const Associations = ({ contactId }: any) => {
   return (

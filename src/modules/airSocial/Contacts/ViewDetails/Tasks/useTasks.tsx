@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { parseISO } from 'date-fns';
 import { enqueueSnackbar } from 'notistack';
 
-const useTasks = (contactId: any) => {
+const useTasks = (contactId: string) => {
   const { data: dataContactsList } = useGetContactsQuery({});
   const contactsList = dataContactsList?.data?.contacts?.map((item: any) => ({
     value: item?._id,
@@ -29,15 +29,11 @@ const useTasks = (contactId: any) => {
     setAnchorEl(null);
   };
 
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const defaultParams = {
-  //   page: PAGINATION?.CURRENT_PAGE,
-  //   limit: PAGINATION?.PAGE_LIMIT,
-  // };
   const [searchValue, setSearchValue] = useState(null);
   const [filterParams, setFilterParams] = useState({
     page: page,

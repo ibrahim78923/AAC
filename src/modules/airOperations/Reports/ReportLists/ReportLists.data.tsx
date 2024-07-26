@@ -21,7 +21,11 @@ import {
 } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
-import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
+import {
+  DYNAMIC_REPORTS_TYPES_MAPPED,
+  MANAGE_REPORTS_ACCESS_TYPES_MAPPED,
+} from '@/constants/api-mapped';
+import { CustomChips } from '@/components/CustomChips';
 
 export const actionsForReportListsDynamic = (
   setIsPortalOpen: any,
@@ -279,16 +283,23 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Dashboard Name',
     cell: (info: any) =>
-      !!info?.getValue()?.length
-        ? info?.getValue()?.find((item: any) => item?.name)
-        : '---',
+      !!info?.getValue()?.length ? (
+        <CustomChips
+          data={info
+            ?.getValue()
+            ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
+        />
+      ) : (
+        '---'
+      ),
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: true,
     header: 'Type',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) =>
+      DYNAMIC_REPORTS_TYPES_MAPPED?.[info?.getValue()] ?? '---',
   },
   {
     accessorFn: (row: any) => row?.createdAt,

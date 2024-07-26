@@ -9,6 +9,7 @@ export interface AddPlanFormProps {
   setSelectProductSuite: (value: string) => void;
   isSuccess: boolean;
   editPlan: any;
+  isFreePlan: boolean;
 }
 
 export interface FeaturesModalProps {

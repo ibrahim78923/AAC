@@ -9,7 +9,7 @@ export const defaultValues = {
   contactOwnerId: null,
 };
 
-export const AssignModalData = (contactOwnerData: any, orgId: any) => {
+export const AssignModalData = (contactOwnerData: any, orgId: string) => {
   return [
     {
       id: 'contactOwnerId',

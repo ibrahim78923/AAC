@@ -13,6 +13,7 @@ import {
 import { useDispatch } from 'react-redux';
 import {
   setDescribeFormData,
+  setPerformanceData,
   setTeamDurationFormData,
 } from '@/redux/slices/forecast/forecastSlice';
 import {
@@ -21,6 +22,9 @@ import {
 } from './TeamDuration/TeamDuration.data';
 import { enqueueSnackbar } from 'notistack';
 import { GOALS_YEARLY_FORMAT } from '@/constants';
+import { useAppSelector } from '@/redux/store';
+import dayjs from 'dayjs';
+import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -31,6 +35,53 @@ export const useCreateGoal = () => {
   const hanldeGoBack = () => {
     router?.back();
   };
+
+  const [inputValues, setInputValues] = useState({});
+
+  const handleInputChange = (contributorId: any, month: any, value: any) => {
+    setInputValues((prev) => ({
+      ...prev,
+      [contributorId]: {
+        ...prev[contributorId],
+        [month]: value,
+      },
+    }));
+  };
+
+  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
+  const [selectedValues, setSelectedValues] = useState({});
+
+  const processData = (data: any) => {
+    return data?.map((item: any) => ({
+      id: item?._id,
+      name: item?.name,
+    }));
+  };
+
+  // Assuming 'apiResponse' is the data you get from the API
+  const processedData = processData(dealPipelineData?.data);
+
+  const handleChange = (rowId: any) => (event: any) => {
+    const {
+      target: { value },
+    } = event;
+
+    const selectedStagesArray =
+      typeof value === 'string' ? value?.split(',') : value;
+
+    const stagesForRow = processedData?.filter(
+      (stage: any) => selectedStagesArray?.includes(stage?.id),
+    );
+
+    setSelectedValues((prevSelectedValues) => ({
+      ...prevSelectedValues,
+      [rowId]: stagesForRow,
+    }));
+  };
+
+  const teamDurationForm: any = useAppSelector(
+    (state) => state?.forecastForm?.teamDurationForm,
+  );
 
   // this is describe step
   const describeScratchMethods: any = useForm({
@@ -74,13 +125,32 @@ export const useCreateGoal = () => {
   const handleTeamDurationForm = teamDurationHandleSubmit(onSubmitTeamDuration);
   // this is team & duration step
 
+  // this is performance step
+  const handlePerformanceSubmit = () => {
+    const transformData = () => {
+      return teamDurationForm?.collaborators?.map((row: any, index: any) => ({
+        contributorId: row?._id,
+        pipelines:
+          selectedValues[index]?.map((pipeline: any) => pipeline?.id) || [], // Set selected pipeline
+        unit: 'USD',
+        year: dayjs()?.year(),
+        months: inputValues[row?._id] || {},
+      }));
+    };
+
+    const transformedData = transformData();
+    dispatch(setPerformanceData(transformedData));
+    setActiveStep((prev: any) => prev + 1);
+  };
+  // this is performance step
+
   const handleNextStep = () => {
     if (activeStep === 0) {
       handleDescribeForm();
     } else if (activeStep === 1) {
       handleTeamDurationForm();
     } else if (activeStep === 2) {
-      setActiveStep((prev: any) => prev + 1);
+      handlePerformanceSubmit();
     } else {
       router?.back();
     }
@@ -126,6 +196,11 @@ export const useCreateGoal = () => {
         <Performance
           tableRowValues={tableRowValues}
           setTableRowValues={setTableRowValues}
+          handleInputChange={handleInputChange}
+          inputValues={inputValues}
+          processedData={processedData}
+          selectedValues={selectedValues}
+          handleChange={handleChange}
         />
       ),
     },

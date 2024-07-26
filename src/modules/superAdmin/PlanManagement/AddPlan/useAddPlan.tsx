@@ -27,6 +27,7 @@ import { useAppSelector } from '@/redux/store';
 import {
   useGetPermissionsByProductsQuery,
   useGetPlanMangementByIdQuery,
+  useGetPlanTypesQuery,
   useGetProductsFeaturesAllQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
@@ -44,7 +45,11 @@ import {
   useGetPlanIdQuery,
 } from '@/services/superAdmin/billing-invoices';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
-import { indexNumbers, productSuiteName } from '@/constants';
+import {
+  indexNumbers,
+  PLAN_PRICE_TYPE_TAGS,
+  productSuiteName,
+} from '@/constants';
 import {
   DRAWER_TYPES,
   IMPORT_ACTION_TYPE,
@@ -61,6 +66,7 @@ export const useAddPlan = () => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
   const [selectedModule, setSelectedModule] = useState<string>();
   const [selectedSubModule, setSelectedSubModule] = useState<string>();
+  const [isFreePlan, setIsFreePlan] = useState(false);
 
   const handleExpandAccordionChange = (module: string) => {
     if (module === selectedModule) {
@@ -182,6 +188,11 @@ export const useAddPlan = () => {
   const planTypeId = watch('planTypeId');
   const productId = watch('productId');
 
+  const { data: planTypeData } = useGetPlanTypesQuery<any>({
+    refetchOnMountOrArgChange: true,
+    pagination: `page=1&limit=10`,
+  });
+
   const queryParameters = {
     planTypeId: planTypeId,
     productId:
@@ -272,6 +283,10 @@ export const useAddPlan = () => {
       });
     } else if (isNullOrEmpty(crmValue) && !isNullOrEmpty(values?.suite)) {
       enqueueSnackbar('Please enter CRM Name', {
+        variant: 'error',
+      });
+    } else if (!isFreePlan && isNullOrEmpty(values?.planPrice)) {
+      enqueueSnackbar('Please enter Plan Price', {
         variant: 'error',
       });
     } else {
@@ -438,7 +453,9 @@ export const useAddPlan = () => {
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
         defaultStorage: parseInt(planForm?.defaultStorage),
-        planPrice: parseInt(planForm?.planPrice),
+        planPrice: isNullOrEmpty(planForm?.planPrice)
+          ? 0
+          : parseInt(planForm?.planPrice),
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
@@ -551,6 +568,7 @@ export const useAddPlan = () => {
           setSelectProductSuite={setSelectProductSuite}
           isSuccess={isSuccess}
           editPlan={singlePlan?.data}
+          isFreePlan={isFreePlan}
         />
       ),
 
@@ -655,6 +673,19 @@ export const useAddPlan = () => {
       setValue('additionalPerUserPrice', indexNumbers?.ZERO);
     }
   }, [AdditionalStorageValue, AdditionalUserValue]);
+
+  useEffect(() => {
+    const plan = planTypeData?.data?.find(
+      (plan: any) =>
+        plan?._id === planTypeId && plan?.name === PLAN_PRICE_TYPE_TAGS?.FREE,
+    );
+    if (plan) {
+      setIsFreePlan(true);
+      setValue('planPrice', 0);
+    } else {
+      setIsFreePlan(false);
+    }
+  }, [planTypeId]);
 
   return {
     methods,

@@ -46,15 +46,16 @@ const useAddBankAccounts = (
   });
 
   const { handleSubmit, reset } = methods;
-
   useEffect(() => {
     if (isOpenAddAccountDrawer?.type === DRAWER_TYPES?.EDIT) {
-      // EditAccountData.data.companyAccountName = EditAccountData?.data?.companyAccountName?._id
       reset(EditAccountData?.data);
     }
   }, [EditAccountData?.data]);
 
   const onSubmit = async (values: any) => {
+    values.organizationCompanyAccountId = values?.companyAccount?._id;
+    delete values?.companyAccount;
+
     try {
       if (isOpenAddAccountDrawer?.type === DRAWER_TYPES?.ADD) {
         await postReceiverBankAccount({ body: values })?.unwrap();

@@ -17,8 +17,8 @@ import {
   dealsCallsDataArray,
   drawerButtonTitle,
   drawerTitle,
+  options,
 } from './ScheduleCallDrawer.data';
-import { options } from '@/modules/airSales/Contacts/ViewDetails/Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 import useScheduleEditorDrawer from './useScheduleEditorDrawer';
 
 const ScheduleEditorDrawer = (props: any) => {

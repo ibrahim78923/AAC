@@ -27,6 +27,8 @@ export const teamGoalTableColumns: any = (
   selectedValues: any,
   processedData: any,
   theme: any,
+  inputValues: any,
+  handleInputChange: any,
 ) => {
   // Base columns that are always present
   const baseColumns = [
@@ -135,10 +137,10 @@ export const teamGoalTableColumns: any = (
       header: 'Pipeline',
       isSortable: true,
       cell: (info: any) => {
-        const rowId = info.row.id; // Assuming 'id' is a unique identifier for each row
+        const rowId = info?.row?.id; // Assuming 'id' is a unique identifier for each row
         const selectedStagesForRow = selectedValues[rowId] || [];
         const selectedStageIds = selectedStagesForRow?.map(
-          (stage: any) => stage.id,
+          (stage: any) => stage?.id,
         );
 
         return (
@@ -153,11 +155,11 @@ export const teamGoalTableColumns: any = (
                 renderValue={(selected: any) => {
                   const selectedNames = selected?.map((id: any) => {
                     const stage = processedData?.find(
-                      (stage: any) => stage.id === id,
+                      (stage: any) => stage?.id === id,
                     );
-                    return stage ? stage.name : '';
+                    return stage ? stage?.name : '';
                   });
-                  return selectedNames.join(', ');
+                  return selectedNames?.join(', ');
                 }}
                 placeholder="all"
                 multiple
@@ -180,56 +182,64 @@ export const teamGoalTableColumns: any = (
   ];
 
   const formatHeader = (from: any, to: any) => {
-    const formattedFrom = dayjs(from).format(DATE_TIME_FORMAT?.DDMMM);
-    const formattedTo = dayjs(to).format(DATE_TIME_FORMAT?.DDMMMYYYY);
+    const formattedFrom = dayjs(from)?.format(DATE_TIME_FORMAT?.DDMMM);
+    const formattedTo = dayjs(to)?.format(DATE_TIME_FORMAT?.DDMMMYYYY);
     return `${formattedFrom} - ${formattedTo}`;
   };
 
   let headers = [];
+  const currentYear = dayjs().year();
   if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.MONTHLY) {
     headers = [
-      'Jan 2024',
-      'Feb 2024',
-      'Mar 2024',
-      'Apr 2024',
-      'May 2024',
-      'Jun 2024',
-      'Jul 2024',
-      'Aug 2024',
-      'Sep 2024',
-      'Oct 2024',
-      'Nov 2024',
-      'Dec 2024',
+      `Jan ${currentYear}`,
+      `Feb ${currentYear}`,
+      `Mar ${currentYear}`,
+      `Apr ${currentYear}`,
+      `May ${currentYear}`,
+      `Jun ${currentYear}`,
+      `Jul ${currentYear}`,
+      `Aug ${currentYear}`,
+      `Sep ${currentYear}`,
+      `Oct ${currentYear}`,
+      `Nov ${currentYear}`,
+      `Dec ${currentYear}`,
     ];
   } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.YEARLY) {
-    headers = ['Jan - Dec 2024'];
+    headers = [`Jan - Dec ${currentYear}`];
   } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.QUARTERLY) {
     headers = [
-      'Q1-Jan 2024 - Mar 2024',
-      'Q2-Apr 2024 - Jun 2024',
-      'Q3-Jul 2024 - Sep 2024',
-      'Q4-Oct 2024 - Dec 2024',
+      `Q1-Jan ${currentYear} - Mar ${currentYear}`,
+      `Q2-Apr ${currentYear} - Jun ${currentYear}`,
+      `Q3-Jul ${currentYear} - Sep ${currentYear}`,
+      `Q4-Oct ${currentYear} - Dec ${currentYear}`,
     ];
   } else {
     headers = [formatHeader(teamDurationForm?.from, teamDurationForm?.to)];
   }
 
-  // Add month columns based on the duration
-  const monthColumns = headers?.map((header, index) => ({
-    accessorFn: (row: any) => row[`month${index + 1}`],
-    id: `month${index + 1}`,
-    header: header,
-    isSortable: true,
-    cell: () => (
-      <Box>
-        <TextField
-          type="number"
-          placeholder="0"
-          sx={{ '& input': { height: '12px' } }}
-        />
-      </Box>
-    ),
-  }));
+  const monthColumns = headers?.map((header, index) => {
+    const month = header.split(' ')[0].toLowerCase(); // Extract month abbreviation from header
+
+    return {
+      accessorFn: (row: any) => row[`month${index + 1}`],
+      id: `month${index + 1}`,
+      header: header,
+      isSortable: true,
+      cell: ({ row: { original } }: any) => (
+        <Box>
+          <TextField
+            type="number"
+            value={inputValues[original?._id]?.[month] || ''}
+            onChange={(e) =>
+              handleInputChange(original?._id, month, e?.target?.value)
+            }
+            placeholder="0"
+            sx={{ '& input': { height: '12px' } }}
+          />
+        </Box>
+      ),
+    };
+  });
 
   // Add yearly total column
   const yearlyTotalColumn = {

@@ -137,8 +137,9 @@ export const tableEditorData: any = {
       collectionName: COLLECTION_NAME?.SALES_PIPELINES,
     },
     {
-      fieldType: FIELD_TYPE?.STRING,
+      fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'users',
+      collectionName: COLLECTION_NAME?.USERS,
     },
     {
       fieldType: FIELD_TYPE?.STRING,

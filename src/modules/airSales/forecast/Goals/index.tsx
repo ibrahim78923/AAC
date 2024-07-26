@@ -22,8 +22,6 @@ const Goals = () => {
   const {
     theme,
     anchorEl,
-    isDisabled,
-    setIsDisabled,
     tableRowValues,
     setTableRowValues,
     open,
@@ -43,6 +41,8 @@ const Goals = () => {
     isFetching,
     search,
     setSearch,
+    handleDelete,
+    loadingDelete,
   } = useGoals();
 
   return (
@@ -78,7 +78,7 @@ const Goals = () => {
               onClick={handleClick}
               className="small"
               sx={styles?.actionButton(theme)}
-              disabled={isDisabled}
+              disabled={tableRowValues?.length < 1 ? true : false}
             >
               Actions <ArrowDropDownIcon />
             </Button>
@@ -97,6 +97,7 @@ const Goals = () => {
                   setIsViewDealDrawer(true);
                   setAnchorEl(null);
                 }}
+                disabled={tableRowValues?.length > 1}
               >
                 View Deal
               </MenuItem>
@@ -105,6 +106,7 @@ const Goals = () => {
                   setIsEditDrawer(true);
                   setAnchorEl(null);
                 }}
+                disabled={tableRowValues?.length > 1}
               >
                 Edit Goals
               </MenuItem>
@@ -132,10 +134,9 @@ const Goals = () => {
         <TanstackTable
           columns={manageTableColumns(
             theme,
-            isDisabled,
-            setIsDisabled,
             tableRowValues,
             setTableRowValues,
+            goalsData,
           )}
           data={goalsData?.goals}
           isPagination
@@ -161,6 +162,7 @@ const Goals = () => {
       {isViewDealDrawer && (
         <ViewDetailsDrwaer
           isOpenDrawer={isViewDealDrawer}
+          tableRowValues={tableRowValues}
           onClose={() => setIsViewDealDrawer(false)}
         />
       )}
@@ -179,8 +181,9 @@ const Goals = () => {
         cancelBtnText="Cancel"
         handleClose={() => setIsDelete(false)}
         handleSubmitBtn={() => {
-          setIsDelete(false);
+          handleDelete();
         }}
+        loading={loadingDelete}
       />
     </Box>
   );

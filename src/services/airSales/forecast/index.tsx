@@ -12,7 +12,27 @@ export const forecastApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    deleteForecastGoals: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${END_POINTS?.GOALS}/${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    getSingleForecastGoals: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_GOAL}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetForecastGoalsQuery } = forecastApi;
+export const {
+  useGetForecastGoalsQuery,
+  useDeleteForecastGoalsMutation,
+  useGetSingleForecastGoalsQuery,
+} = forecastApi;

@@ -193,6 +193,13 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         if (response) return response?.data?.departments;
       },
     }),
+    sendServiceDashboardViaEmail: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.DASHBOARD_EMAIL,
+        method: 'POST',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -220,4 +227,5 @@ export const {
   useDeleteDynamicServicesDashboardMutation,
   useLazyGetDepartmentsDropdownListForDashboardQuery,
   useLazyGetUsersDropdownListForDashboardQuery,
+  useSendServiceDashboardViaEmailMutation,
 } = dashboardAPI;

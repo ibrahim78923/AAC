@@ -7,7 +7,21 @@ import {
 } from '@/components/ReactHookForm';
 import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import * as Yup from 'yup';
-import { usersDropdownOptionsI } from './SaveReportDrawer.interface';
+import {
+  SpecialUsersFieldsI,
+  SpecificUsersAccessColumnsI,
+  SpecificUsersAccessFormFieldsDynamicI,
+  usersDropdownOptionsI,
+} from './SaveReportDrawer.interface';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import { pxToRem } from '@/utils/getFontValue';
 
 const sharedWithOptionsArray = [
   { value: REPORT_TYPE?.VIEW_AND_EDIT, label: 'View and Edit' },
@@ -39,11 +53,27 @@ export const reportsValidationSchema = (reportValidation: any) =>
         ? Yup?.array()?.min(1, 'At least one user is required')
         : Yup?.array()?.notRequired(),
     ),
-    specificUsersConditionTwo: Yup?.string()?.when(() =>
-      reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.nullable()?.required('Required')
-        : Yup?.string()?.notRequired(),
-    ),
+    sharedWithPermissions: Yup?.array()
+      ?.of(
+        Yup?.object()?.shape({
+          name: Yup?.string(),
+          permission: Yup?.string(),
+          userId: Yup?.string(),
+        }),
+      )
+      ?.when('sharedWith', {
+        is: (value: any) => value === REPORT_TYPE?.SPECIFIC_USERS,
+        then: () => {
+          return Yup?.array()?.of(
+            Yup?.object()?.shape({
+              name: Yup?.string(),
+              permission: Yup?.string()?.required('Permission is required'),
+              userId: Yup?.string(),
+            }),
+          );
+        },
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
     addToExistingCondition: Yup?.array()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
         ? Yup?.array()?.min(1, 'At least one dashboard is required')
@@ -69,11 +99,27 @@ export const reportsValidationSchema = (reportValidation: any) =>
         ? Yup?.array()?.min(1, 'At least one user is required')
         : Yup?.array()?.notRequired(),
     ),
-    newDashboardSpecificUsersConditionTwo: Yup?.string()?.when(() =>
-      reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.nullable()?.required('Required')
-        : Yup?.string()?.notRequired(),
-    ),
+    newDashboardPermissions: Yup?.array()
+      ?.of(
+        Yup?.object()?.shape({
+          name: Yup?.string(),
+          permission: Yup?.string(),
+          userId: Yup?.string(),
+        }),
+      )
+      ?.when('addToNewConditionTwo', {
+        is: (value: any) => value === REPORT_TYPE?.SPECIFIC_USERS,
+        then: () => {
+          return Yup?.array()?.of(
+            Yup?.object()?.shape({
+              name: Yup?.string(),
+              permission: Yup?.string()?.required('Permission is required'),
+              userId: Yup?.string(),
+            }),
+          );
+        },
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
   });
 
 export const reportsDefaultValues = (singleReport: any) => {
@@ -98,6 +144,8 @@ export const reportsDefaultValues = (singleReport: any) => {
 export const reportsDataArray = (
   usersDropdown: any,
   dashboardDropdown: any,
+  newDashboardFields: SpecialUsersFieldsI[],
+  sharedWithFields: SpecialUsersFieldsI[],
 ) => [
   {
     id: 7578,
@@ -145,12 +193,52 @@ export const reportsDataArray = (
             meta: false,
           }}
         />
-        <RHFRadioGroup
-          name="specificUsersConditionTwo"
-          size="small"
-          row={false}
-          options={sharedWithOptionsArray}
-        />
+        <TableContainer
+          sx={{
+            maxHeight: pxToRem(400),
+            border: '1px solid',
+            borderColor: 'custom.off_white_three',
+            borderRadius: 2,
+          }}
+        >
+          <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
+            <TableHead>
+              <TableRow>
+                {specificUsersAccessColumns?.map(
+                  (column: SpecificUsersAccessColumnsI) => (
+                    <TableCell key={column?._id}>{column?.label}</TableCell>
+                  ),
+                )}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {sharedWithFields?.map((item: any, index: number) => {
+                return (
+                  <TableRow key={item?.id}>
+                    {specificUsersAccessFormFieldsDynamic?.(
+                      'sharedWithPermissions',
+                      index,
+                    )?.map(
+                      (
+                        singleField:
+                          | SpecificUsersAccessFormFieldsDynamicI
+                          | any,
+                      ) => (
+                        <TableCell
+                          key={singleField?.id}
+                          align={singleField?.align}
+                        >
+                          {singleField?.data}
+                        </TableCell>
+                      ),
+                    )}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </>
     ),
   },
@@ -217,12 +305,52 @@ export const reportsDataArray = (
             meta: false,
           }}
         />
-        <RHFRadioGroup
-          name="newDashboardSpecificUsersConditionTwo"
-          size="small"
-          row={false}
-          options={sharedWithOptionsArray}
-        />
+        <TableContainer
+          sx={{
+            maxHeight: pxToRem(400),
+            border: '1px solid',
+            borderColor: 'custom.off_white_three',
+            borderRadius: 2,
+          }}
+        >
+          <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
+            <TableHead>
+              <TableRow>
+                {specificUsersAccessColumns?.map(
+                  (column: SpecificUsersAccessColumnsI) => (
+                    <TableCell key={column?._id}>{column?.label}</TableCell>
+                  ),
+                )}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {newDashboardFields?.map((item: any, index: number) => {
+                return (
+                  <TableRow key={item?.id}>
+                    {specificUsersAccessFormFieldsDynamic?.(
+                      'newDashboardPermissions',
+                      index,
+                    )?.map(
+                      (
+                        singleField:
+                          | SpecificUsersAccessFormFieldsDynamicI
+                          | any,
+                      ) => (
+                        <TableCell
+                          key={singleField?.id}
+                          align={singleField?.align}
+                        >
+                          {singleField?.data}
+                        </TableCell>
+                      ),
+                    )}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </>
     ),
   },
@@ -235,5 +363,51 @@ export const reportsDataArray = (
       checkedIcon: <CheckboxCheckedIcon />,
     },
     component: RHFCheckbox,
+  },
+];
+
+export const specificUsersAccessColumns = [
+  { _id: 'name', label: 'Name' },
+  { _id: 'viewAndEdit', label: 'View and Edit' },
+  { _id: 'viewOnly', label: 'View Only' },
+];
+
+export const specificUsersAccessFormFieldsDynamic = (
+  name: string,
+  index: number,
+) => [
+  {
+    id: 1,
+    data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
+  },
+  {
+    id: 2,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        options={[
+          {
+            value: REPORT_TYPE?.VIEW_AND_EDIT,
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    id: 3,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        options={[
+          {
+            value: REPORT_TYPE?.VIEW_ONLY,
+          },
+        ]}
+      />
+    ),
   },
 ];

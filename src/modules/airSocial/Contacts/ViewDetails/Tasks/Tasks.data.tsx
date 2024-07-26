@@ -2,14 +2,15 @@ import { RHFSelect } from '@/components/ReactHookForm';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
+import { ColumnsPropsI } from './Task.interface';
 
-export const columns = (
-  selectedRow: any,
-  setSelectedRow: any,
-  setIsActionsDisabled: (value: boolean) => void,
-  setRowId: any,
+export const columns: ColumnsPropsI = (
+  selectedRow,
+  setSelectedRow,
+  setIsActionsDisabled,
+  setRowId,
 ) => {
-  const handleRowClick = (id: any) => {
+  const handleRowClick = (id: string) => {
     const selectedIndex = selectedRow?.indexOf(id);
     let newSelected: any = [];
 
@@ -80,6 +81,7 @@ export const columns = (
               selectedRow?.length === info?.table?.options?.data?.length
             }
             onChange={(event) => handleSelectAllClick(event, rows)}
+            disabled={rows?.length === 0}
           />
         );
       },

@@ -35,7 +35,8 @@ export const useManageReportAccess = (props: any) => {
     resolver: yupResolver(manageReportAccessValidationSchema),
   });
 
-  const { handleSubmit, reset, control, clearErrors, setValue } = methods;
+  const { handleSubmit, reset, control, clearErrors, setValue, getValues } =
+    methods;
 
   const watchForAccessType = useWatch({
     control,
@@ -51,21 +52,59 @@ export const useManageReportAccess = (props: any) => {
     control,
     name: 'permissionsUsers',
   });
+
   const specificUserWatch = useWatch({
     control,
     name: 'specialUsers',
     defaultValue: [],
   });
 
+  const setPermissions = () => {
+    const permissionUser = getValues('permissionsUsers');
+
+    const userMap = new Map(
+      specificUserWatch?.map((item: any) => [item?._id, item]),
+    );
+
+    const validUserIds = new Set(
+      specificUserWatch?.map((item: any) => item?._id),
+    );
+
+    const updatedPermissionUser = permissionUser
+      ?.filter((item: any) => validUserIds?.has(item?.id))
+      ?.map((item: any) => {
+        const mappedUser: any = userMap?.get(item?.id);
+        if (mappedUser) {
+          return {
+            ...item,
+            ...mappedUser,
+            name: `${mappedUser?.firstName} ${mappedUser?.lastName}`,
+            access: item?.access ?? '',
+          };
+        }
+        return item;
+      });
+
+    const newEntries = specificUserWatch
+      ?.filter(
+        (item: any) =>
+          !permissionUser?.some(
+            (existingItem: any) => existingItem?.id === item?._id,
+          ),
+      )
+      ?.map((item: any) => ({
+        ...item,
+        name: `${item?.firstName} ${item?.lastName}`,
+        id: item?._id,
+        access: item?.access ?? '',
+      }));
+
+    const finalResult = [...updatedPermissionUser, ...newEntries];
+    setValue('permissionsUsers', finalResult);
+  };
+
   useEffect(() => {
-    if (!!specificUserWatch?.length)
-      setValue(
-        'permissionsUsers',
-        specificUserWatch?.map((item: any) => ({
-          name: `${item?.firstName} ${item?.lastName}`,
-          userId: item?._id,
-        })),
-      );
+    setPermissions();
   }, [specificUserWatch]);
 
   const submitAssignedTicketsForm = async (formData: any) => {
@@ -80,8 +119,8 @@ export const useManageReportAccess = (props: any) => {
         filterFormData?.access ===
         MANAGE_REPORT_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS
           ? formData?.permissionsUsers?.map((user: any) => ({
-              userId: user?.userId,
-              permission: user?.permission,
+              id: user?.id,
+              access: user?.access,
             }))
           : [{}],
     };

@@ -8,6 +8,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const manageStatusData = [
   { title: 'Goal', count: 120, divider: true },
@@ -24,29 +25,47 @@ export const manageAccountData = [
 //table data
 export const manageTableColumns: any = (
   theme: any,
-  isDisabled: boolean,
-  setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
+  goalsData: any,
 ) => {
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setTableRowValues([...tableRowValues, id]);
+    } else {
+      setTableRowValues(tableRowValues?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setTableRowValues(
+      checked ? goalsData?.goals?.map(({ _id }: any) => _id) : [],
+    );
+  };
+
   return [
     {
       accessorFn: (row: any) => row?.id,
       id: 'id',
-      cell: (info: any) => (
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          checked={
-            info?.cell?.row?.original?.id ===
-              tableRowValues?.cell?.row?.original?.id && !isDisabled
-          }
-          name={info?.getValue()}
-          onClick={() => {
-            setTableRowValues(info), setIsDisabled(!isDisabled);
+          checked={tableRowValues?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
           }}
         />
       ),
-      header: '',
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={
+            goalsData?.goals?.length &&
+            tableRowValues?.length === goalsData?.goals?.length
+          }
+        />
+      ),
       isSortable: false,
     },
     {
@@ -101,19 +120,21 @@ export const manageTableColumns: any = (
       id: 'duration',
       header: 'Duration',
       isSortable: true,
-      cell: (info: any) => (
-        <Stack direction="row" gap={2} alignItems="center">
-          <Box>
-            <Typography fontSize="13px">{info?.getValue()}</Typography>
-
-            <Box display="flex" gap={0.5}>
-              <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.durationData}
+      cell: (info: any) => {
+        const currentYear = dayjs().year();
+        return (
+          <Stack direction="row" gap={2} alignItems="center">
+            <Box>
+              <Typography fontSize="13px" fontWeight={600}>
+                {info?.getValue()}
+              </Typography>
+              <Typography fontSize="12px">
+                Jan 01 {currentYear} - DEC 31 {currentYear}
               </Typography>
             </Box>
-          </Box>
-        </Stack>
-      ),
+          </Stack>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.target,

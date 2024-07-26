@@ -1,8 +1,4 @@
-import {
-  RHFDropZone,
-  RHFEditor,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
 export const viewDefaultValues = {
   title: '',
@@ -33,17 +29,6 @@ export const viewNoteFields = () => {
         disabled: true,
       },
       component: RHFEditor,
-      md: 12,
-    },
-    {
-      id: 'attachment',
-      componentProps: {
-        name: 'attachment',
-        label: '',
-        fullWidth: true,
-        disabled: true,
-      },
-      component: RHFDropZone,
       md: 12,
     },
   ];

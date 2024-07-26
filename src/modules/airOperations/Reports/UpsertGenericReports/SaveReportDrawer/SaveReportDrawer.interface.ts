@@ -5,6 +5,9 @@ export interface usersDropdownOptionsI {
   role: string;
   status: string;
   _id: string;
+  name: string;
+  permission: string;
+  userId: string;
 }
 
 export interface SaveReportI {
@@ -21,4 +24,18 @@ export interface SaveReportI {
   newDashboardSpecificUsersConditionOne: [];
   newDashboardSpecificUsersConditionTwo: string;
   addFilter: boolean;
+}
+export interface SpecificUsersAccessColumnsI {
+  label: string;
+  _id: string;
+}
+export interface SpecificUsersAccessFormFieldsDynamicI {
+  id: number;
+  data: any;
+  align?: 'center' | 'inherit' | 'left' | 'right' | 'justify' | undefined;
+  [key: string]: any;
+}
+export interface SpecialUsersFieldsI {
+  id: string;
+  name?: string;
 }

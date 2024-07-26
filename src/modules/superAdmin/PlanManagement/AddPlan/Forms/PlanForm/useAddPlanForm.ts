@@ -14,6 +14,7 @@ export const useAddPlanForm = (
   selectProductSuite: string,
   setSelectProductSuite: any,
   isSuccess: boolean,
+  isFreePlan: boolean,
 ) => {
   const router = useRouter();
   const { data } = useGetProductsQuery({});
@@ -24,6 +25,7 @@ export const useAddPlanForm = (
     AdditionalStorageValue,
     AdditionalUsereValue,
     isSuccess,
+    isFreePlan,
   );
 
   const productsOptions = data?.data?.map((product: ProductOption) => ({

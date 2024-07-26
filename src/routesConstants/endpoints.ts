@@ -468,6 +468,7 @@ export const END_POINTS = {
   SERVICE_DASHBOARD_DROPDOWN: `/air-services-dashboard`,
   SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
   GOALS: '/goals',
+  GET_SINGLE_GOAL: '/goals/broadcast',
   DELETE_SERVICES_DASHBOARD: `/air-services-dashboard/delete-dashboards`,
   SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,
   RESTORE_DELETED_GENERIC_REPORTS: `/generic-reports/restore-deleted-generic-reports`,
@@ -476,6 +477,8 @@ export const END_POINTS = {
   UPDATE_GENERIC_REPORTS_ACTION: `/generic-reports/update-generic-report-action`,
   GET_SINGLE_GENERIC_REPORT_DETAIL: `/generic-reports/get-generic-report-details`,
   CHANGE_DEFAULT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-default-option`,
+  UPDATE_LINK_DASHBOARDS_REPORTS_ACTION: `/generic-reports/update-link-dashboard`,
+  MARKETING_DASHBOARD_LISTS_DROPDOWN: `/marketing-dashboard`,
   CONTRACT_TYPE_SERVICES_SETTINGS: `/contract-type`,
 };
 

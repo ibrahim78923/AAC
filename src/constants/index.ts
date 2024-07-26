@@ -49,6 +49,7 @@ export const DATE_TIME_FORMAT = {
   DDMMM: 'DD MMM',
   DDMMMYYYY: 'DD MMM YYYY',
   HHMMA: 'hh:mm A',
+  MMMMD: 'MMMM D[th] [at] h:mmA',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -537,6 +538,7 @@ export const BILLING_AND_INVOICES_TAB = {
 export const PLAN_PRICE_TYPE_TAGS = {
   FREE_PLAN: 'Free Plan',
   PAID_PLAN: 'Paid Plan',
+  FREE: 'Free',
 };
 export const PLAN_PAYMENT_TYPE_TAGS = {
   PAID_MONTHLY: 'paidMonthly',

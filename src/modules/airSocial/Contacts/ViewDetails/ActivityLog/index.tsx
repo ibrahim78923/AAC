@@ -1,12 +1,7 @@
 import Image from 'next/image';
 import { isNullOrEmpty } from '@/utils';
 import { Box, Typography } from '@mui/material';
-import {
-  CalendarActiveImage,
-  // CallActiveImage,
-  // MessageActiveImage,
-  // NotesAvatarImage,
-} from '@/assets/images';
+import { CalendarActiveImage } from '@/assets/images';
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 import { styles } from '../ViewDetails.style';
 import { useGetSubActivityLogQuery } from '@/services/orgAdmin/activity-log';
@@ -71,18 +66,6 @@ const ActivityLog = ({ contactId }: any) => {
                   </Typography>
                 </Box>
               </Box>
-
-              {/* {index !== ActivitiesLog?.length - 1 && (
-              <Box
-                sx={{
-                  width: '1px',
-                  backgroundColor: theme?.palette?.grey[700],
-                  mx: 2.5,
-                  height: '40px',
-                  my: 1,
-                }}
-              ></Box>
-            )} */}
             </Box>
           ))}
         </Box>

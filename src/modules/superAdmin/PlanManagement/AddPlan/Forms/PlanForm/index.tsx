@@ -46,6 +46,7 @@ const AddPlanForm = ({
   setSelectProductSuite,
   isSuccess,
   editPlan,
+  isFreePlan,
 }: AddPlanFormProps) => {
   const {
     formDefaultValuesFunction,
@@ -59,6 +60,7 @@ const AddPlanForm = ({
     selectProductSuite,
     setSelectProductSuite,
     isSuccess,
+    isFreePlan,
   );
 
   const filter = createFilterOptions<Option>();

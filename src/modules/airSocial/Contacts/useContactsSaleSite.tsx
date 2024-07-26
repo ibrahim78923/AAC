@@ -23,17 +23,23 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { sharedWithOptions } from './ContactsSaleSite.data';
+import {
+  ViewTabsI,
+  FilterValuesI,
+  FilterPayloadI,
+  ReassignValuesI,
+} from './Contacts.interface';
 
 const useContactsSaleSite = () => {
   const { user }: any = getSession();
   const { data: dataContactViews } = useGetContactsViewQuery({});
 
-  const getTabsArray = (data: any) => {
+  const getTabsArray = (data: ViewTabsI) => {
     const tabsArray = [{ _id: 'all', name: 'All Contacts' }];
     if (!data || !Array.isArray(data)) {
       return tabsArray;
     }
-    const dataArray = data.map((view: any) => ({
+    const dataArray = data.map((view: ViewTabsI) => ({
       _id: view._id,
       name: view.name,
     }));
@@ -43,7 +49,7 @@ const useContactsSaleSite = () => {
   const tabsArray = getTabsArray(dataContactViews?.data);
 
   const [tabValue, setTabValue] = useState('all');
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
@@ -58,7 +64,7 @@ const useContactsSaleSite = () => {
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  const methodsFilter: any = useForm();
+  const methodsFilter = useForm<FilterValuesI>();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
   const {
@@ -87,10 +93,10 @@ const useContactsSaleSite = () => {
     setOpenFilters(false);
   };
 
-  const onSubmitFilters = async (values: any) => {
-    const filterPayload: any = {};
+  const onSubmitFilters = async (values: FilterValuesI) => {
+    const filterPayload: FilterPayloadI = {};
 
-    Object.entries(values).forEach(([key, value]: any) => {
+    Object.entries(values).forEach(([key, value]: [string, any]) => {
       if (value) {
         switch (key) {
           case 'createdAt':
@@ -240,7 +246,7 @@ const useContactsSaleSite = () => {
     setIsReAssign(false);
   };
 
-  const onSubmitReAssign = async (values: any) => {
+  const onSubmitReAssign = async (values: ReassignValuesI) => {
     const payload = {
       contactOwnerId: values?.contactOwnerId?._id,
     };
@@ -287,7 +293,10 @@ const useContactsSaleSite = () => {
     }
   }, [columnsData]);
 
-  const handleCheckboxChange = (event: any, attribute: any) => {
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    attribute: string,
+  ) => {
     setSelectedColumns(
       (prevColumns: any) =>
         prevColumns?.map((col: any) =>

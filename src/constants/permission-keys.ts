@@ -309,8 +309,6 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   EDIT_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-edit',
   DELETE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-delete',
   BROADCAST_LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
-  DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
-
   CRAETE_GROUP: 'marketer-sms-marketing-contacts-create-group',
   CONTACTS_LIST_VIEW: 'marketer-sms-marketing-contacts-list-view',
   SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
@@ -321,7 +319,11 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
 };
 
 export const AIR_MARKETER_SMS_MARKETING_CREATE_TEMPLATE_PERMISSIONS = {
-  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+  CREATE_TEMPLATE: 'marketer-sms-marketing-sms-broadcast-detail-view',
+};
+
+export const AIR_MARKETER_SMS_MARKETING_BROADCAST_DETAILS_PERMISSIONS = {
+  DETAIL_VIEW: 'marketer-sms-marketing-templates-create',
 };
 
 export const AIR_MARKETER_SMS_BROADCAST_CREATE_BROADCAST = {

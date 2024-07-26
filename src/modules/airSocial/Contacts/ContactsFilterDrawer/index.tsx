@@ -3,6 +3,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterData } from './ContactsFilterDrawer.data';
 import useFilterDrawer from './useFilterDrawer';
+import { FormFieldI } from './ContactsFilterDrawer.interface';
 
 const ContactsFilterDrawer = ({
   open,
@@ -34,7 +35,7 @@ const ContactsFilterDrawer = ({
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
-          {formFields?.map((obj) => (
+          {formFields?.map((obj: FormFieldI) => (
             <Grid item xs={12} key={obj?.componentProps?.name}>
               <obj.component
                 fullWidth

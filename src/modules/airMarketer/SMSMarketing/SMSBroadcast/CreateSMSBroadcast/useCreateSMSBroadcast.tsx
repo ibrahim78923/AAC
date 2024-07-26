@@ -27,9 +27,7 @@ const useCreateSMSBroadcast = () => {
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
-  const [isSchedule, setIsSchedule] = useState(
-    type === DRAWER_TYPES?.EDIT ? true : false,
-  );
+  const [isSchedule, setIsSchedule] = useState(false);
   const { getIsPhoneConnected } = useSMSMarketing();
 
   const { data: getSmsBroadcatsById, isLoading: smsBroadcastLoading } =
@@ -79,8 +77,9 @@ const useCreateSMSBroadcast = () => {
       }
       setSelectedContactsData(data?.recipients ?? []);
       setSelectedRec(data?.recipients);
+      setIsSchedule(data?.schedualDate ? true : false);
     }
-  }, [getSmsBroadcatsById]);
+  }, [getSmsBroadcatsById, templateData?.detail]);
 
   const onSubmit = async (values: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -88,25 +87,28 @@ const useCreateSMSBroadcast = () => {
     values.senderId = getIsPhoneConnected?.data?._id;
     values.campaignId = values?.campaignId?._id;
     values.templateId = values?.templateId?._id;
-    values.recipients = selectedContactsData[indexNumbers?.ZERO]?.contacts?.map(
-      (item: any) => item?._id,
-    );
-    values.detail = cleanedDetailsText;
+    values.recipients = selectedContactsData?.map((item: any) => item?._id);
     values.status = createStatus;
-    values.schedualDate = values.schedualDate ?? undefined;
+    if (isSchedule) {
+      values.schedualDate = values.schedualDate;
+    }
 
     try {
+      const payload = {
+        ...values,
+        detail: cleanedDetailsText,
+      };
       if (type === DRAWER_TYPES?.EDIT) {
         await updateSmsBroadcast({
           id: selectedBroadCast,
-          body: values,
+          body: payload,
         })?.unwrap();
         enqueueSnackbar(`Sms Broadcast updated Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         navigate?.push(AIR_MARKETER?.SMS_MARKETING);
       }
-      await postSmsBroadcast({ body: values })?.unwrap();
+      await postSmsBroadcast({ body: payload })?.unwrap();
       enqueueSnackbar(`Sms Broadcast created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

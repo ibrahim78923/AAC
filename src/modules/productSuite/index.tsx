@@ -258,7 +258,13 @@ const ProductSuite = () => {
                   sx={{
                     boxShadow: 'rgb(147 147 147 / 20%) 0px 6px 19px',
                     borderRadius: '12px',
-
+                    backgroundColor: !product?.accounts
+                      ? theme?.palette?.grey[200]
+                      : 'inherit',
+                    color: !product?.accounts
+                      ? theme?.palette?.grey[500]
+                      : 'inherit',
+                    pointerEvents: !product?.accounts ? 'none' : 'auto',
                     '&:hover': {
                       transition: '0.3s',
                       outline: `1.5px solid ${theme?.palette?.primary?.main}`,
@@ -290,8 +296,8 @@ const ProductSuite = () => {
                       {product?.logo && (
                         <Image
                           src={generateImage(product?.logo?.url)}
-                          width={25}
-                          height={25}
+                          width={48}
+                          height={48}
                           alt="product"
                         />
                       )}
@@ -302,29 +308,41 @@ const ProductSuite = () => {
 
                     <CardContent
                       sx={{
-                        marginTop: '20px',
-                        display: 'block',
-                        padding: '10px 0px 10px 5px',
-
                         color: theme?.palette?.custom?.main,
+                        p: 0,
                         width: '100%',
-                        '&:hover': {
-                          color: theme?.palette?.common?.black,
-                          backgroundColor: theme?.palette?.primary?.light,
-                          borderRadius: '10px',
-                          display: 'flex',
-                          alignItems: 'center',
-                        },
+                        display: 'block',
+                        cursor: 'pointer',
+                        maxHeight: '200px',
+                        overflowY: 'scroll',
                       }}
                     >
                       {product?.accounts?.map((account: any) => (
-                        <Box key={uuidv4()}>
+                        <Box
+                          key={uuidv4()}
+                          sx={{
+                            width: '100%',
+                            padding: '10px 0px 10px 5px',
+                            '&:hover': {
+                              color: theme?.palette?.common?.black,
+                              backgroundColor: theme?.palette?.primary?.light,
+                              borderRadius: '10px',
+                            },
+                          }}
+                          onClick={() => {
+                            findModulePermissionKey(
+                              product?.name,
+                              account?._id,
+                            );
+                            setActiveProduct(product);
+                            setActiveAccountSession(account);
+                          }}
+                        >
                           <Typography
                             variant="body2"
                             color="inherit"
                             fontWeight={600}
                             sx={{
-                              cursor: 'pointer',
                               marginLeft: '20px',
                               position: 'relative',
                               textTransform: 'capitalize',
@@ -342,14 +360,6 @@ const ProductSuite = () => {
                                     theme?.palette?.common?.black,
                                 },
                               },
-                            }}
-                            onClick={() => {
-                              findModulePermissionKey(
-                                product?.name,
-                                account?._id,
-                              );
-                              setActiveProduct(product);
-                              setActiveAccountSession(account);
                             }}
                           >
                             {account?.company?.accountName}

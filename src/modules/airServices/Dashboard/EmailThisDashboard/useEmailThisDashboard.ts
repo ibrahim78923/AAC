@@ -3,11 +3,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   createEmailThisDashboardDefaultValues,
   createEmailThisDashboardValidationSchema,
-  EMAIL_SEND_TYPE,
   sendDashboardViaEmailFormFieldsDynamic,
 } from './EmailThisDashboard.data';
-import { usePostEmailDashboardMutation } from '@/services/airServices/dashboard';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useSendServiceDashboardViaEmailMutation } from '@/services/airServices/dashboard';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 
 export const useEmailThisDashboard = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -18,40 +21,34 @@ export const useEmailThisDashboard = (props: any) => {
 
   const { handleSubmit, control, reset } = methods;
 
-  const [postEmailTrigger, postEmailProgress] = usePostEmailDashboardMutation();
+  const [
+    sendServiceDashboardViaEmailTrigger,
+    sendServiceDashboardViaEmailStatus,
+  ] = useSendServiceDashboardViaEmailMutation();
 
-  const emailSendTypeWatch = useWatch({
+  const isRecurringWatch = useWatch({
     control,
-    name: 'emailSendType',
+    name: 'isRecurring',
     defaultValue: '',
   });
 
-  const submitEmail = async (data: any) => {
-    const formData = new FormData();
-    formData?.append('isRecurring', data?.emailCondition);
-    formData?.append('email', data?.internalRecipients);
-    formData?.append('subject', data?.emailSubject);
-    formData?.append('message', data?.message);
-    formData?.append('fileType', data?.fileType);
-    data?.emailSendType === EMAIL_SEND_TYPE?.RECURRING &&
-      formData?.append('time', data?.time);
-    data?.emailSendType === EMAIL_SEND_TYPE?.RECURRING &&
-      formData?.append('schedule', data?.schedule);
+  const submitEmail = async (formData: any) => {
+    const filteredFormData = filteredEmptyValues(formData);
 
-    const postEmailParameter = {
-      body: formData,
+    const apiDataParameter = {
+      queryParams: filteredFormData,
     };
-
     try {
-      await postEmailTrigger(postEmailParameter)?.unwrap();
+      await sendServiceDashboardViaEmailTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Email sent successfully');
+      closeDrawer?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const sendDashboardViaEmailFormFields =
-    sendDashboardViaEmailFormFieldsDynamic?.(emailSendTypeWatch);
+    sendDashboardViaEmailFormFieldsDynamic?.(isRecurringWatch);
 
   const closeDrawer = () => {
     reset();
@@ -61,7 +58,7 @@ export const useEmailThisDashboard = (props: any) => {
   return {
     methods,
     sendDashboardViaEmailFormFields,
-    postEmailProgress,
+    sendServiceDashboardViaEmailStatus,
     handleSubmit,
     submitEmail,
     closeDrawer,
