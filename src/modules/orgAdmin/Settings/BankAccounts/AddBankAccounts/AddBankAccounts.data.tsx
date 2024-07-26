@@ -4,7 +4,7 @@ import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const addAccountsFormValidationSchema = Yup?.object()?.shape({
-  companyAccountName: Yup?.object()?.required('Field is Required')?.nullable(),
+  companyAccount: Yup?.object()?.required('Field is Required')?.nullable(),
   bankName: Yup?.string()
     .matches(/^[a-zA-Z\s]+$/, 'Bank name must contain only alphabets')
     ?.required('Field is Required'),
@@ -20,7 +20,7 @@ export const addAccountsFormValidationSchema = Yup?.object()?.shape({
 });
 
 export const addAccountsFormDefaultValues = {
-  companyAccountName: null,
+  companyAccount: null,
   bankName: '',
   accountHolder: '',
   accountNumber: '',
@@ -35,12 +35,12 @@ export const addAccountsForm = () => {
     {
       componentProps: {
         label: 'Company Account Name',
-        name: 'companyAccountName',
+        name: 'companyAccount',
         placeholder: 'Select Company Account',
         required: true,
         apiQuery: companyAccounts,
         getOptionLabel: (option: any) => option?.accountName,
-        externalParams: { orgId: user?.organization?._id },
+        externalParams: { orgId: user?.organization?._id, limit: 50 },
         queryKey: 'ordId',
       },
       component: RHFAutocompleteAsync,

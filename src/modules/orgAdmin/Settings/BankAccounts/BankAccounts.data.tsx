@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from '@/utils/api';
+import { capitalizeFirstLetters } from '@/utils';
 import { Checkbox } from '@mui/material';
 
 interface IBankAccountsColumns {
@@ -53,25 +53,25 @@ export const bankAccountsColumns = (columnsProps: IBankAccountsColumns) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.companyAccountName,
+      accessorFn: (row: any) => row?.companyAccount?.accountName,
       id: 'companyAccounts',
       header: 'Company Account',
       isSortable: true,
-      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.bankName,
       id: 'bankName',
       isSortable: true,
       header: 'Banks Name',
-      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.accountHolder,
       id: 'accountHolder',
       header: 'Account Holder',
       isSortable: true,
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.accountNumber,
