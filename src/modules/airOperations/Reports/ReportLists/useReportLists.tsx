@@ -90,7 +90,11 @@ export const useReportLists = (props: any) => {
 
     try {
       await addReportToFavoriteListTrigger(apiDataParameter)?.unwrap();
-      successSnackbar?.('Report added to favourite');
+      const isRemoved = 'removed from';
+      const isAdded = 'added to';
+      successSnackbar?.(
+        `Report is ${e?.target?.checked ? isAdded : isRemoved} favorite`,
+      );
       const newPage =
         lazyGetReportsListStatus?.data?.data?.genericReports?.length ===
         SELECTED_ARRAY_LENGTH?.ONE

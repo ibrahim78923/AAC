@@ -8,8 +8,10 @@ const EmailThisDashboard = (props: any) => {
   const {
     methods,
     sendDashboardViaEmailFormFields,
-    postEmailProgress,
+    sendServiceDashboardViaEmailStatus,
     closeDrawer,
+    handleSubmit,
+    submitEmail,
   } = useEmailThisDashboard(props);
 
   return (
@@ -18,13 +20,13 @@ const EmailThisDashboard = (props: any) => {
         isDrawerOpen={isDrawerOpen}
         onClose={() => closeDrawer?.()}
         title="Email this dashboard"
-        submitHandler={() => {}}
+        submitHandler={() => handleSubmit(submitEmail)()}
         footer
         isOk
         okText="Send"
-        isDisabled={postEmailProgress?.isLoading}
-        isLoading={postEmailProgress?.isLoading}
-        disabledCancelBtn={postEmailProgress?.isLoading}
+        isDisabled={sendServiceDashboardViaEmailStatus?.isLoading}
+        isLoading={sendServiceDashboardViaEmailStatus?.isLoading}
+        disabledCancelBtn={sendServiceDashboardViaEmailStatus?.isLoading}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>

@@ -53,8 +53,8 @@ export const manageReportAccessValidationSchema = Yup?.object()?.shape({
     ?.of(
       Yup?.object()?.shape({
         name: Yup?.string(),
-        permission: Yup?.string(),
-        userId: Yup?.string(),
+        access: Yup?.string(),
+        id: Yup?.string(),
       }),
     )
     ?.when('access', {
@@ -64,8 +64,8 @@ export const manageReportAccessValidationSchema = Yup?.object()?.shape({
         return Yup?.array()?.of(
           Yup?.object()?.shape({
             name: Yup?.string(),
-            permission: Yup?.string()?.required('Permission is required'),
-            userId: Yup?.string(),
+            access: Yup?.string()?.required('access is required'),
+            id: Yup?.string(),
           }),
         );
       },
@@ -101,7 +101,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     align: 'center',
     data: (
       <RHFRadioGroup
-        name={`${name}.${index}.permission`}
+        name={`${name}.${index}.access`}
         size="small"
         options={[
           {
@@ -116,7 +116,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     align: 'center',
     data: (
       <RHFRadioGroup
-        name={`${name}.${index}.permission`}
+        name={`${name}.${index}.access`}
         size="small"
         options={[
           {
@@ -127,6 +127,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     ),
   },
 ];
+
 export const manageReportAccessFromFieldsDynamic = (
   apiQueryUsers: any,
   fields: any,

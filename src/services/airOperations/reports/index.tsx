@@ -50,7 +50,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     addReportsToDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        url: END_POINTS?.UPDATE_LINK_DASHBOARDS_REPORTS_ACTION,
         method: 'PATCH',
         body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
@@ -92,7 +92,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      keepUnusedDataFor: 1,
     }),
     getReportsOwnersDropdownListForReports: builder?.query({
       query: ({ params }: any) => ({
@@ -133,12 +132,12 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     getMarketingDashboardDropdownListToAddReportsToDashboard: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        url: `${END_POINTS?.MARKETING_DASHBOARD_LISTS_DROPDOWN}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.dynamicdashboards;
+        if (response) return response?.dynamicdashboards ?? [];
       },
     }),
     getUserAccessListDropdownListForReportsAccessManagement: builder?.query({

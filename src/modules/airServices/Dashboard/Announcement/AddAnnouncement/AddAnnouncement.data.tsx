@@ -99,7 +99,7 @@ export const createAddAnnouncementDataArray = (
       fullWidth: true,
       apiQuery: userDropdown,
       required: true,
-      externalParams: { requester: false },
+      externalParams: { requester: false, admin: true },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
