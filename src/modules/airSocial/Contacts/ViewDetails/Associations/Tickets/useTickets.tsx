@@ -24,7 +24,7 @@ import {
 } from './TicketsEditorDrawer/TicketsEditorDrawer.data';
 import { makeDateTime } from '@/utils/api';
 
-const useTickets = (contactId: any) => {
+const useTickets = (contactId: string) => {
   const theme = useTheme();
 
   // Get Association Tickets

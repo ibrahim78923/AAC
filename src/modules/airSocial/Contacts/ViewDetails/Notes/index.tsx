@@ -276,7 +276,7 @@ const Notes = ({ contactId }: any) => {
           open={isDeleteModal}
           handleClose={handleCloseModalDelete}
           handleSubmitBtn={handleDeleteSubmit}
-          isLoading={loadingDelete}
+          loading={loadingDelete}
         />
       </>
     </PermissionsGuard>
