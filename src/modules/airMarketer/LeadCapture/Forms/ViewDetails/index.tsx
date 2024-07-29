@@ -9,9 +9,9 @@ import {
   Typography,
 } from '@mui/material';
 import CommonTabs from '@/components/Tabs';
+import DeleteModal from '../DeleteModal';
 import {
   ActionMenuIcon,
-  ActivateIcon,
   AddPenIcon,
   ArrowBackIcon,
   TrashIcon,
@@ -37,6 +37,11 @@ const ViewDetails = () => {
     htmlTemplate,
     status,
     formId,
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    loadingDelete,
+    handleDeleteForm,
   } = useViewDetails();
 
   return (
@@ -126,15 +131,12 @@ const ViewDetails = () => {
                   }}
                 >
                   <MenuItem
-                    sx={{ color: theme?.palette?.slateBlue?.main, gap: '5px' }}
+                    onClick={handleOpenModalDelete}
+                    sx={{
+                      color: theme?.palette?.error?.main,
+                      gap: '5px',
+                    }}
                   >
-                    {' '}
-                    <ActivateIcon /> Activate
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ color: theme?.palette?.error?.main, gap: '5px' }}
-                  >
-                    {' '}
                     <TrashIcon /> Move to Trash
                   </MenuItem>
                 </Menu>
@@ -179,6 +181,13 @@ const ViewDetails = () => {
           )}
         </Box>
       )}
+
+      <DeleteModal
+        open={openModalDelete}
+        onClose={handleCloseModalDelete}
+        handleSubmit={handleDeleteForm}
+        loading={loadingDelete}
+      />
     </>
   );
 };

@@ -1,6 +1,7 @@
 export const styles = {
   fieldWrapper: () => ({
     position: 'relative',
+    padding: '20px 0',
   }),
 
   field: (theme: any) => ({
