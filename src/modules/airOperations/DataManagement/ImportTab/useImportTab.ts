@@ -79,7 +79,6 @@ export const useImportTab = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    search,
     setSearch,
     data,
     isFetching,

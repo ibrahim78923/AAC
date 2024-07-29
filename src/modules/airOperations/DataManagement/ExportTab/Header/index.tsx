@@ -8,7 +8,6 @@ import { ExportButton } from '@/components/ExportButton';
 
 export const Header = (props: any) => {
   const {
-    search,
     setSearch,
     setIsOpenFilterDrawer,
     isOpenFilterDrawer,
@@ -31,7 +30,9 @@ export const Header = (props: any) => {
           AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
         ]}
       >
-        <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
+        <Box mb={1}>
+          <Search label="Search Here" setSearchBy={setSearch} />
+        </Box>
       </PermissionsGuard>
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
         <PermissionsGuard

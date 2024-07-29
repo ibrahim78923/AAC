@@ -31,7 +31,6 @@ export const useSaveReportDrawer = (props: any) => {
     form,
     setOpen,
     reportId,
-    setForm,
     metricType,
     selectedModule,
     singleReport,
@@ -332,8 +331,6 @@ export const useSaveReportDrawer = (props: any) => {
       try {
         await patchGenericReportTrigger(params)?.unwrap();
         successSnackbar('Report Edit Successfully');
-        setForm([]);
-        handleCancel();
         handleMoveBack();
       } catch (err: any) {
         errorSnackbar(err?.message ?? 'Error in Edit report');
@@ -342,8 +339,6 @@ export const useSaveReportDrawer = (props: any) => {
       try {
         await postGenericReportTrigger(params)?.unwrap();
         successSnackbar('Report Created Successfully');
-        setForm([]);
-        handleCancel();
         handleMoveBack();
       } catch (err: any) {
         errorSnackbar(err?.message ?? 'Error in saving report');

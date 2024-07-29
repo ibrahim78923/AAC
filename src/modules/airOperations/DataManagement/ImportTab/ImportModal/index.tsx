@@ -1,6 +1,5 @@
 import { ImportIcon } from '@/assets/icons';
 import {
-  AppBar,
   Box,
   Button,
   Chip,
@@ -78,108 +77,75 @@ const ImportModal = () => {
       {isDrawerOpen && (
         <Drawer anchor="right" open={isDrawerOpen} onClose={handleClose}>
           <Box
-            display="flex"
-            flexDirection="column"
-            minHeight="100vh"
             width={
               modalStep === 3
-                ? { sm: '65vh', xs: '100vw' }
-                : { sm: '55vh', xs: '100vw' }
+                ? { sm: '45rem', xs: '100%' }
+                : { sm: '35rem', xs: '100%' }
             }
           >
-            <AppBar
-              sx={{
-                backgroundColor: theme?.palette?.common?.white,
-                color: theme?.palette?.common?.black,
-                boxShadow: 'none',
-              }}
-              position="static"
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              p={2}
             >
-              <Toolbar
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  pt: '20px',
-                }}
-              >
-                <Box
-                  sx={{
-                    marginBottom: '20px',
-                    display: 'flex',
-                    gap: 1,
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography variant="subtitle1" textTransform="capitalize">
-                    Import Data
-                  </Typography>
-                </Box>
-                <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
-                  <CloseIcon />
-                </Box>
-              </Toolbar>
-            </AppBar>
-            <Box flex="1" overflow="scroll">
-              <Container>
-                <Box marginY={2} />
-
-                <Chip label={`Step ${modalStep} of 3`} color="secondary" />
+              <Typography variant="h3" textTransform="capitalize">
+                Import Data
+              </Typography>
+              <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
+                <CloseIcon />
+              </Box>
+            </Box>
+            <Container>
+              <Chip label={`Step ${modalStep} of 3`} color="secondary" />
+              <Box height={'49rem'} overflow={'scroll'} mt={1}>
                 <FormProvider methods={methodsImportModalForm}>
                   {steps[modalStep]}
                 </FormProvider>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    gap: 2,
-                    justifyContent: 'flex-end',
-                    position: 'absolute',
-                    right: 24,
-                    bottom: 8,
-                    zIndex: 50,
-                    minWidth: '800px',
-                  }}
+              </Box>
+              <Toolbar
+                sx={{
+                  borderTop: 1,
+                  borderColor: theme?.palette?.custom?.dark,
+                  mt: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  gap: 1,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={resetImportModalForm}
+                  disabled={
+                    lazyGetSignedUrlForImportStatus?.isLoading ||
+                    uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                    importFileStatus?.isLoading ||
+                    newImportFileForServicesStatus?.isLoading
+                  }
                 >
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={resetImportModalForm}
-                    disabled={
-                      lazyGetSignedUrlForImportStatus?.isLoading ||
-                      uploadFileTos3UsingSignedUrlStatus?.isLoading ||
-                      importFileStatus?.isLoading ||
-                      newImportFileForServicesStatus?.isLoading
-                    }
-                  >
-                    {modalStep === 1 ? 'Cancel' : 'Back'}
-                  </Button>
-                  <LoadingButton
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit(submitImportModalForm)}
-                    disabled={
-                      !!!importLog ||
-                      product === null ||
-                      (modalStep === 2 && importDeals === null)
-                    }
-                    loading={
-                      uploadFileTos3UsingSignedUrlStatus?.isLoading ||
-                      lazyGetSignedUrlForImportStatus?.isLoading ||
-                      importFileStatus?.isLoading ||
-                      newImportFileForServicesStatus?.isLoading
-                    }
-                  >
-                    {modalStep === 3 ? 'Import' : 'Next'}
-                  </LoadingButton>
-                </Box>
-              </Container>
-            </Box>
-            <Toolbar
-              sx={{
-                borderTop: 1,
-                borderColor: theme?.palette?.custom?.dark,
-              }}
-            />
+                  {modalStep === 1 ? 'Cancel' : 'Back'}
+                </Button>
+                <LoadingButton
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit(submitImportModalForm)}
+                  disabled={
+                    !!!importLog ||
+                    product === null ||
+                    (modalStep === 2 && importDeals === null)
+                  }
+                  loading={
+                    uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                    lazyGetSignedUrlForImportStatus?.isLoading ||
+                    importFileStatus?.isLoading ||
+                    newImportFileForServicesStatus?.isLoading
+                  }
+                >
+                  {modalStep === 3 ? 'Import' : 'Next'}
+                </LoadingButton>
+              </Toolbar>
+            </Container>
           </Box>
         </Drawer>
       )}

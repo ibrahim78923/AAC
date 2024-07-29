@@ -163,13 +163,12 @@ export const tableEditorData: any = {
   ],
   LEADS: [
     {
-      fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'campaignOwner',
-      collectionName: COLLECTION_NAME?.USERS,
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'formViews',
     },
     {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'status',
+      fieldName: 'ctaClicks',
     },
   ],
 };

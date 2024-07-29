@@ -79,7 +79,6 @@ export const useExportTab = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    search,
     setSearch,
     data,
     isFetching,

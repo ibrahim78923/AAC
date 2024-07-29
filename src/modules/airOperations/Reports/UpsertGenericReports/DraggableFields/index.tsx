@@ -295,7 +295,6 @@ export default function DraggableFields({
               setOpen={setOpenDrawer}
               form={form}
               reportId={reportId}
-              setForm={setForm}
               metricType={metricType}
               selectedModule={selectedModule}
               singleReport={singleReport}

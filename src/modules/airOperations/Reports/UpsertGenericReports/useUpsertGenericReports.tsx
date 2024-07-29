@@ -40,7 +40,7 @@ export default function useUpsertGenericReports() {
       skip: !!!reportId,
     },
   );
-  const singleReport = (data as any)?.data?.report?.reportDoc;
+  const singleReport = (data as any)?.data?.results?.genericReports;
 
   const getDefaultModule = () => {
     switch (moduleName) {
@@ -191,7 +191,7 @@ export default function useUpsertGenericReports() {
   useEffect(() => {
     if (singleReport) {
       const newFormItems = singleReport?.widgets
-        ?.map((item: any) => {
+        ?.map((item: any, index: any) => {
           const uniqueId = generateUniqueId();
           if (item?.type === REPORT_TYPE?.TEXT) {
             return {
@@ -284,6 +284,15 @@ export default function useUpsertGenericReports() {
                     ? item?.barChart?.xAxis?.selectedIds
                     : null,
               subFilter: item?.isDateFilter,
+            };
+          }
+          if (item?.type === REPORT_TYPE?.TEMPLATE_TEXT) {
+            return {
+              id: uniqueId,
+              reportType: REPORT_TYPE?.COUNTER,
+              ticketCount: index,
+              title: item?.title,
+              templateType: REPORT_TYPE?.TEMPLATE_TEXT,
             };
           }
           return null;
