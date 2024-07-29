@@ -6,12 +6,13 @@ import {
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 
-const useUsers: any = () => {
+const useUsers = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const theme = useTheme<Theme>();
   const open = Boolean(anchorEl);
-  const [updateProductsUsers] = useUpdateProductsUsersMutation();
+  const [updateProductsUsers, { isLoading: updateUserLoading }] =
+    useUpdateProductsUsersMutation();
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
 
@@ -65,6 +66,7 @@ const useUsers: any = () => {
     handleUpdateStatus,
     deleteHandler,
     deleteProductUsersLoading,
+    updateUserLoading,
   };
 };
 

@@ -9,8 +9,9 @@ import useUsers from './useUsers';
 import { DeleteIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { UserTableProps } from '../UserManagement.interface';
 
-const UserTable = (props: any) => {
+const UserTable = (props: UserTableProps) => {
   const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
     props;
   const {

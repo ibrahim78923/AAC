@@ -6,13 +6,13 @@ import {
 } from '@/services/airSales/settings/teams';
 import { PAGINATION } from '@/config';
 
-const useTeams = (teamId?: any) => {
+const useTeams = (teamId?: number) => {
   const theme = useTheme<Theme>();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [page, setPage] = useState<any>(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState<any>(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const params = {
     page: page,

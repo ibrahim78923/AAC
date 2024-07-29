@@ -8,13 +8,18 @@ import {
   useUpdateProductsUsersMutation,
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
-import { DRAWER_TYPES } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { indexNumbers } from '@/constants';
 
+interface IsAddUserDrawer {
+  isToggle: boolean;
+  type: string;
+  recordId: string;
+}
+
 const useAddUser = (
-  checkedUser: any,
-  isAddUserDrawer: any,
-  setIsAddUserDrawer: any,
+  isAddUserDrawer: IsAddUserDrawer,
+  setIsAddUserDrawer: (val: IsAddUserDrawer) => void,
 ) => {
   const [postPoductUser, { isLoading: postUserLoading }] =
     usePostPoductUserMutation();
@@ -99,13 +104,13 @@ const useAddUser = (
           body: values,
         })?.unwrap();
         enqueueSnackbar('User updated successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false });
       }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };

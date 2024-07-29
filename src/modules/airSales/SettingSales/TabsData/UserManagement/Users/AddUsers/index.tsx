@@ -8,9 +8,10 @@ import {
   DRAWER_TITLES,
   DRAWER_TYPES,
 } from '@/constants/strings';
+import { AddUsersProps } from '../../UserManagement.interface';
 
-const AddUsers = (props: any) => {
-  const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
+const AddUsers = (props: AddUsersProps) => {
+  const { isAddUserDrawer, setIsAddUserDrawer } = props;
   const theme = useTheme();
   const {
     methods,
@@ -20,7 +21,7 @@ const AddUsers = (props: any) => {
     postUserLoading,
     updateUserLoading,
     productUserByIdLoading,
-  } = useAddUser(checkedUser, isAddUserDrawer, setIsAddUserDrawer);
+  } = useAddUser(isAddUserDrawer, setIsAddUserDrawer);
 
   return (
     <CommonDrawer

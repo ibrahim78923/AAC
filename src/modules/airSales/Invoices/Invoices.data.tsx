@@ -1,7 +1,6 @@
 import { Checkbox } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-// import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
 import StatusBadge from '@/components/StatusBadge';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
@@ -133,7 +132,7 @@ export const invoicesTableColumns: any = (
       id: 'invoiceAmount',
       isSortable: true,
       header: 'Invoice Amount',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -170,7 +169,7 @@ export const invoicesTableColumns: any = (
       id: 'linkedQuote',
       isSortable: true,
       header: 'Linked Quote',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) =>

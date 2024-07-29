@@ -113,8 +113,6 @@ const Users = () => {
         <AddUsers
           isAddUserDrawer={isAddUserDrawer}
           setIsAddUserDrawer={setIsAddUserDrawer}
-          setCheckedUser={setCheckedUser}
-          checkedUser={checkedUser}
         />
       )}
       {isOpenDelete && (

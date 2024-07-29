@@ -6,8 +6,9 @@ import MemberDetails from '../MemberDetails';
 import { v4 as uuidv4 } from 'uuid';
 import useUserManagement from '../../useUserManagement';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ViewTeamsPropsI } from '../Teams.interface';
 
-const ViewTeams = (props: any) => {
+const ViewTeams = (props: ViewTeamsPropsI) => {
   const theme = useTheme();
   const { isTeamDrawer, setIsTeamDrawer, teamData, teamByIdLoading } = props;
   const { skeletonLines } = useUserManagement();

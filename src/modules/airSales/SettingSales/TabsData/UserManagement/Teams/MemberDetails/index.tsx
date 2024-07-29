@@ -1,9 +1,11 @@
 import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { MemberDetailsPropsI } from '../Teams.interface';
 
-const MemberDetails = (props: any) => {
+const MemberDetails = (props: MemberDetailsPropsI) => {
   const theme = useTheme();
+
   return (
     <>
       <Box

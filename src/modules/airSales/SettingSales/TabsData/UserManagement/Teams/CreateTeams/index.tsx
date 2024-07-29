@@ -7,8 +7,19 @@ import { teamsDataArray } from './CreateTeams.data';
 import useUserManagement from '../../useUserManagement';
 import { DRAWER_TYPES } from '@/constants/strings';
 
-const CreateTeams = (props?: any) => {
+interface IsAddTeamI {
+  isToggle: boolean;
+  type: string;
+}
+interface CreateTeamsPropsI {
+  isAddTeam: IsAddTeamI;
+  setIsAddTeam: (isAddTeam: IsAddTeamI) => void;
+  teamDataById: number;
+  teamByIdLoading: boolean;
+}
+const CreateTeams = (props: CreateTeamsPropsI) => {
   const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
+
   const {
     methods,
     handleSubmit,
@@ -23,7 +34,7 @@ const CreateTeams = (props?: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={isAddTeam?.isToggle}
-      onClose={() => setIsAddTeam(false)}
+      onClose={() => setIsAddTeam({ ...isAddTeam, isToggle: false })}
       title={
         isAddTeam?.type === DRAWER_TYPES?.ADD ? 'Create Team' : 'Edit Team'
       }

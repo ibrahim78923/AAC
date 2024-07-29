@@ -7,8 +7,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import ViewTeams from './ViewTeams';
 import CreateTeams from './CreateTeams';
+import { TeamsPropsI } from './Teams.interface';
 
-const Teams = (props: any) => {
+const Teams = (props: TeamsPropsI) => {
   const {
     isAddTeam,
     setIsAddTeam,

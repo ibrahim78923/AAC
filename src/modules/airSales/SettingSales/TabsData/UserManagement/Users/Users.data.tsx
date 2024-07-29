@@ -16,28 +16,28 @@ import { capitalizeFirstLetter } from '@/utils/api';
 export const userValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.required('Field is Required')
-    .matches(
+    ?.matches(
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
   lastName: Yup?.string()
     ?.required('Field is Required')
-    .matches(
+    ?.matches(
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   address: Yup?.string()?.trim()?.required('Field is Required'),
   role: Yup?.object()?.required('Field is Required'),
-  facebookUrl: Yup.string()
-    .url('Please enter a valid URL starting with http://')
-    .optional(),
-  twitterUrl: Yup.string()
-    .url('Please enter a valid URL starting with http://')
-    .optional(),
-  linkedInUrl: Yup.string()
-    .url('Please enter a valid URL starting with http://')
-    .optional(),
+  facebookUrl: Yup?.string()
+    ?.url('Please enter a valid URL starting with http://')
+    ?.optional(),
+  twitterUrl: Yup?.string()
+    ?.url('Please enter a valid URL starting with http://')
+    ?.optional(),
+  linkedInUrl: Yup?.string()
+    ?.url('Please enter a valid URL starting with http://')
+    ?.optional(),
 });
 
 export const dataArray = () => {

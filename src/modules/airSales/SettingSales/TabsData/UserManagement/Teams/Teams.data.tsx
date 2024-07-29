@@ -6,8 +6,9 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ColumnsPropsI } from './Teams.interface';
 
-export const columnsTeams = (props: any) => {
+export const columnsTeams = (props: ColumnsPropsI) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
     props;
   return [
