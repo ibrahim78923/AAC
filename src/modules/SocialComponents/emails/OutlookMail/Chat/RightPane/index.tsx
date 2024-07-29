@@ -105,7 +105,7 @@ const RightPane = ({
     }
   }, [activeRecord?.conversationId]);
 
-  const handelMoreinfo = (id: any) => {
+  const handelMoreinfo = (id: string) => {
     if (selectedRecordId === id) {
       setSelectedRecordId('');
     } else {

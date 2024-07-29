@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
-import { UserDetailsDrawerI } from './EmailSettingDrawer.interface';
+import { RecipientI, UserDetailsDrawerI } from './EmailSettingDrawer.interface';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { BlueArrowIcon, BluePhoneIcon } from '@/assets/icons';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
@@ -58,7 +58,7 @@ const UserDetailsDrawer = ({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                   <Typography variant="body3">To: </Typography>
-                  {isUserDetail?.toRecipients?.map((item: any) => (
+                  {isUserDetail?.toRecipients?.map((item: RecipientI) => (
                     <Typography variant="body3" key={uuidv4()}>
                       {item?.emailAddress?.name}
                     </Typography>

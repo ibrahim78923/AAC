@@ -30,11 +30,20 @@ import {
   setUpdateMailList,
 } from '@/redux/slices/email/outlook/slice';
 
+interface ActionBtnPropsI {
+  sortedData: any[];
+  mailType: string;
+  setMailType: (type: string) => void;
+  setIsOpenSendEmailDrawer: (isOpen: boolean) => void;
+  isOpenSendEmailDrawer: boolean;
+  handelRefresh: () => Promise<void>;
+}
+
 const ActionBtn = ({
   sortedData,
   setIsOpenSendEmailDrawer,
   setMailType,
-}: any) => {
+}: ActionBtnPropsI) => {
   const dispatch = useDispatch();
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,

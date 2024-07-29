@@ -546,7 +546,8 @@ const ChoosePlan = () => {
                           {getData?.map((planFeature: PlanDataI) => {
                             const isFeatureIncluded =
                               planFeature?.planProductFeatures?.some(
-                                (row: any) => row?.featureId === feature?._id,
+                                (row: any) =>
+                                  row?.featureId?.includes(feature?._id),
                               );
                             if (isFeatureIncluded) {
                               return (
@@ -556,7 +557,9 @@ const ChoosePlan = () => {
                                     {
                                       planFeature?.planProductFeatures?.find(
                                         (row: any) =>
-                                          row?.featureId === feature?._id,
+                                          row?.featureId?.includes(
+                                            feature?._id,
+                                          ),
                                       )?.dealsAssociationsDetail
                                     }
                                   </p>

@@ -33,13 +33,14 @@ import CommonModal from '@/components/CommonModal';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
+import { LeftPanePropsI } from './leftPane.interface';
 
 const LeftPane = ({
   isOpenSendEmailDrawer,
   setIsOpenSendEmailDrawer,
   mailType,
   setMailType,
-}: any) => {
+}: LeftPanePropsI) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const router = useRouter();

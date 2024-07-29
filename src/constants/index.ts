@@ -568,3 +568,12 @@ export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
   TOTAL_DEALS_OPEN_DEALS:
     'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
 };
+
+export const PRODUCT_LABELS = {
+  AIR_SALES: 'Air Sales',
+  AIR_SERVICES: 'Air Services',
+  AIR_MARKETER: 'Air Marketer',
+  AIR_OPERATIONS: 'Air Operations',
+  LOYALTY_PROGRAM: 'Loyalty Program',
+  CALL_CENTER: 'Call Center',
+};

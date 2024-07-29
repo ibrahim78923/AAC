@@ -23,8 +23,9 @@ import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
 import useOtherMailDrawer from './useOtherMailDrawer';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { API_STATUS } from '@/constants';
+import { OtherMailDrawerPropsI } from './otherMailDrawer.interface';
 
-const OtherMailDrawer = (props: any) => {
+const OtherMailDrawer = (props: OtherMailDrawerPropsI) => {
   const {
     openDrawer,
     setOpenDrawer,
