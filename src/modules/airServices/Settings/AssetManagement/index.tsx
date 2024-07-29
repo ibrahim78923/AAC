@@ -1,6 +1,7 @@
 import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { assetManagement } from './AssetManagement.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const AssetManagement = () => {
   const theme = useTheme();
@@ -11,37 +12,39 @@ export const AssetManagement = () => {
       <br />
       <Grid container spacing={3}>
         {assetManagement?.map((item: any) => (
-          <Grid key={item?.id} item md={6} lg={4} xs={12}>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              flexWrap={'wrap'}
-              border={`1px solid ${theme?.palette?.primary?.main}`}
-              borderRadius={2}
-              gap={1}
-              padding={2}
-              onClick={() => {
-                router?.push({
-                  pathname: item?.link,
-                });
-              }}
-              sx={{ cursor: 'pointer' }}
-            >
-              <Avatar
-                variant="rounded"
-                sx={{ backgroundColor: theme?.palette?.primary?.light }}
+          <PermissionsGuard key={item?.id} permissions={item?.permissions}>
+            <Grid item md={6} lg={4} xs={12}>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                flexWrap={'wrap'}
+                border={`1px solid ${theme?.palette?.primary?.main}`}
+                borderRadius={2}
+                gap={1}
+                padding={2}
+                onClick={() => {
+                  router?.push({
+                    pathname: item?.link,
+                  });
+                }}
+                sx={{ cursor: 'pointer' }}
               >
-                <item.avatar sx={{ color: theme?.palette?.primary?.main }} />
-              </Avatar>
-              <Typography
-                variant="body2"
-                color="slateBlue.main"
-                whiteSpace={'nowrap'}
-              >
-                {item?.type}
-              </Typography>
-            </Box>
-          </Grid>
+                <Avatar
+                  variant="rounded"
+                  sx={{ backgroundColor: theme?.palette?.primary?.light }}
+                >
+                  <item.avatar sx={{ color: theme?.palette?.primary?.main }} />
+                </Avatar>
+                <Typography
+                  variant="body2"
+                  color="slateBlue.main"
+                  whiteSpace={'nowrap'}
+                >
+                  {item?.type}
+                </Typography>
+              </Box>
+            </Grid>
+          </PermissionsGuard>
         ))}
       </Grid>
     </>
