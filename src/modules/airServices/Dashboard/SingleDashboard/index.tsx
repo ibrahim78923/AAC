@@ -71,7 +71,7 @@ export const SingleDashboard = (props: any) => {
             {lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports?.map(
               (item: any, index: any) =>
                 item?.type === REPORT_TYPES?.STATIC ? (
-                  <Grid item xs={12} md={6} key={item?.name}>
+                  <Grid item xs={12} lg={6} key={item?.name}>
                     {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
                       createElement(
                         AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name],

@@ -1,8 +1,10 @@
 import {
   RHFAutocomplete,
+  RHFDropZone,
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { FILE_MAX_SIZE } from '@/config';
 import { DOWNLOAD_FILE_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -63,33 +65,19 @@ export const emailScheduleOptions = [
   },
 ];
 
-export const createEmailThisDashboardValidationSchema: any = (
-  isMultiple = false,
-) =>
+export const createEmailThisDashboardValidationSchema: any =
   Yup?.object()?.shape({
     isRecurring: Yup?.string()?.required('Type is required'),
-    email: Yup?.string()
-      ?.trim()
-      ?.email('Invalid email address')
-      ?.required('Recipient is required'),
-    ...(isMultiple
-      ? {
-          email: Yup?.array()
-            ?.of(Yup?.string())
-            ?.test(
-              'is-emails-valid',
-              'Enter valid email formats',
-              function (value) {
-                if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
-                  return false;
-                }
-                return value?.every(
-                  (email) => Yup?.string()?.email()?.isValidSync(email),
-                );
-              },
-            ),
+    email: Yup?.array()
+      ?.of(Yup?.string())
+      ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
+        if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
+          return false;
         }
-      : {}),
+        return value?.every(
+          (email) => Yup?.string()?.email()?.isValidSync(email),
+        );
+      }),
     emailSubject: Yup?.string()?.trim()?.required('Subject is required'),
     message: Yup?.string()?.trim(),
     fileType: Yup?.mixed()?.nullable(),
@@ -145,16 +133,18 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
       md: 12,
     },
     {
-      id: 4.3,
+      id: 3,
       componentProps: {
         name: 'email',
-        label: 'Internal recipients',
-        fullWidth: true,
+        label: 'internalRecipients',
+        placeholder: 'Enter Recipients and press enter',
         required: true,
-        placeholder: 'Add internal recipient email',
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
-      component: RHFTextField,
-      md: 12,
+      component: RHFAutocomplete,
     },
     {
       id: 4,
@@ -209,20 +199,43 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
             component: RHFTextField,
             md: 12,
           },
+          {
+            id: 6,
+            componentProps: {
+              name: 'filetype',
+              label: 'File type',
+              placeholder: 'Select',
+              fullWidth: true,
+              options: fileTypeOptions,
+              getOptionLabel: (option: any) => option?.label,
+            },
+            component: RHFAutocomplete,
+            md: 12,
+          },
         ]
       : []),
-    {
-      id: 6,
-      componentProps: {
-        name: 'filetype',
-        label: 'File type',
-        placeholder: 'Select',
-        fullWidth: true,
-        options: fileTypeOptions,
-        getOptionLabel: (option: any) => option?.label,
-      },
-      component: RHFAutocomplete,
-      md: 12,
-    },
+
+    ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
+      ? [
+          {
+            id: 5,
+            componentProps: {
+              name: 'attachments',
+              label: 'Attach Report',
+              fullWidth: true,
+              required: true,
+              fileName: 'Attach the report',
+              fileType: `PDF and PNG only (max ${
+                FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
+              } MB)`,
+              accept: {
+                'application/pdf': ['.pdf'],
+                'image/png': ['.png', '.PNG'],
+              },
+            },
+            component: RHFDropZone,
+          },
+        ]
+      : []),
   ];
 };

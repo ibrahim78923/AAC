@@ -1,11 +1,15 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useSingleGenericReportDetail } from './useSingleGenericReportDetail';
 import { Box, Grid } from '@mui/material';
-import { REPORTS_WIDGET_COMPONENT } from '@/modules/airServices/Dashboard/ReportsWidgets/ReportsWidgets.data';
+import {
+  REPORTS_WIDGETS,
+  REPORTS_WIDGET_COMPONENT,
+} from '@/modules/airServices/Dashboard/ReportsWidgets/ReportsWidgets.data';
 import { createElement } from 'react';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { MUI_GRID_LENGTH } from '@/constants/strings';
 
 export const SingleGenericReportDetail = () => {
   const {
@@ -15,6 +19,7 @@ export const SingleGenericReportDetail = () => {
     reportRef,
     router,
     singleReportApi,
+    isDownloading,
   } = useSingleGenericReportDetail?.();
 
   if (singleReportApi?.isLoading || singleReportApi?.isFetching)
@@ -24,20 +29,34 @@ export const SingleGenericReportDetail = () => {
 
   return (
     <>
-      <Box ref={reportRef} p={2}>
+      <Box ref={reportRef}>
         <PageTitledHeader
           title={reportWidgets?.name}
           canMovedBack
           moveBack={() => router?.back()}
         >
-          <LoadingButton onClick={() => downloadReport?.()}>
+          <LoadingButton
+            variant="contained"
+            disabled={isDownloading}
+            loading={isDownloading}
+            onClick={() => downloadReport?.()}
+          >
             Download PDF
           </LoadingButton>
         </PageTitledHeader>
         <br />
         <Grid container spacing={2}>
           {reportWidgets?.widgets?.map((item: any, index: any) => (
-            <Grid item xs={12} key={item?._id}>
+            <Grid
+              key={item?._id}
+              item
+              xs={12}
+              lg={
+                item?.type === REPORTS_WIDGETS?.TEMPLATE_TEXT
+                  ? MUI_GRID_LENGTH?.SIX
+                  : MUI_GRID_LENGTH?.TWELVE
+              }
+            >
               {REPORTS_WIDGET_COMPONENT?.[item?.type] &&
                 createElement(REPORTS_WIDGET_COMPONENT?.[item?.type], {
                   data: reportResults?.[index],

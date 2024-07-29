@@ -15,8 +15,8 @@ export const Table = (props: any) => {
       height="100%"
     >
       <PageTitledHeader title={title} />
-      <Box maxHeight={'40vh'} overflow={'auto'}>
-        <TanstackTable data={data} columns={tableColumn} />
+      <Box>
+        <TanstackTable data={data?.slice?.(0, 10)} columns={tableColumn} />
       </Box>
     </Box>
   );

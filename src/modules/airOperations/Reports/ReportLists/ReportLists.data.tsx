@@ -246,7 +246,7 @@ export const reportListsColumnsDynamic = (
             }
             disabled={addReportToFavoriteListStatus?.isLoading}
             color="primary"
-            name={info?.getValue()}
+            name={info?.row?.original?._id}
           />
         )}
         <Box display={'flex'} alignItems={'center'} gap={1}>

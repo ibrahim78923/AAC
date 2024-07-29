@@ -1096,3 +1096,8 @@ export const DYNAMIC_REPORTS_TYPES = {
   CUSTOM: 'CUSTOM',
   DASHBOARD: 'DASHBOARD',
 };
+
+export const MUI_GRID_LENGTH = {
+  TWELVE: 12,
+  SIX: 6,
+};
