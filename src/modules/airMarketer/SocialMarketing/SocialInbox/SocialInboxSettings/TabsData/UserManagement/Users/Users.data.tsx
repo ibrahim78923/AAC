@@ -177,9 +177,9 @@ export const dataArray = () => {
 };
 
 export const columnsUser = (
-  checkedUser: any,
-  setCheckedUser: any,
-  updateUserLoading: any,
+  checkedUser: string[],
+  setCheckedUser: (value: string[]) => void,
+  updateUserLoading: boolean,
   tableData: any,
 ) => {
   const { handleUpdateStatus } = useUsers();

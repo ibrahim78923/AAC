@@ -5,20 +5,17 @@ import {
   useUpdateProductsUsersMutation,
 } from '@/services/airMarketer/settings/users';
 import { enqueueSnackbar } from 'notistack';
+import { LOYALTY_RULE_STATUS, NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useUsers: any = () => {
+const useUsers = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const theme = useTheme<Theme>();
   const open = Boolean(anchorEl);
-  const [updateProductsUsers] = useUpdateProductsUsersMutation();
+  const [updateProductsUsers, { isLoading: updateUserLoading }] =
+    useUpdateProductsUsersMutation();
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
-
-  const statusType = {
-    ACTIVE: 'ACTIVE',
-    INACTIVE: 'INACTIVE',
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,19 +27,19 @@ const useUsers: any = () => {
 
   const handleUpdateStatus = async (id: any, value: any) => {
     const statusVal = value?.target?.checked
-      ? statusType?.ACTIVE
-      : statusType?.INACTIVE;
+      ? LOYALTY_RULE_STATUS?.ACTIVE
+      : LOYALTY_RULE_STATUS?.IN_ACTIVE;
     try {
       await updateProductsUsers({
         id: id,
         body: { status: statusVal },
       })?.unwrap();
       enqueueSnackbar('Status updated successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -51,27 +48,28 @@ const useUsers: any = () => {
     try {
       await deleteProductUser({ body: { ids: ids } })?.unwrap();
       enqueueSnackbar('Users deleted successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
 
   return {
-    isOpenDelete,
-    setIsOpenDelete,
-    anchorEl,
-    setAnchorEl,
-    open,
-    theme,
-    handleClick,
-    handleClose,
-    handleUpdateStatus,
-    deleteHandler,
     deleteProductUsersLoading,
+    handleUpdateStatus,
+    updateUserLoading,
+    setIsOpenDelete,
+    deleteHandler,
+    isOpenDelete,
+    handleClick,
+    setAnchorEl,
+    handleClose,
+    anchorEl,
+    theme,
+    open,
   };
 };
 

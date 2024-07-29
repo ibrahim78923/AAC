@@ -1097,6 +1097,10 @@ export const DYNAMIC_REPORTS_TYPES = {
   DASHBOARD: 'DASHBOARD',
 };
 
+export const SETTINGS_CONSTANTS = {
+  EMAIL: 'Email',
+  COMPANIES: 'Companies',
+};
 export const MUI_GRID_LENGTH = {
   TWELVE: 12,
   SIX: 6,

@@ -4,8 +4,10 @@ import { Box, Grid, Skeleton, Typography, useTheme } from '@mui/material';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
 import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/useUserManagement';
+import { AddUsersI } from '../../UserManagement.interface';
+import { SETTINGS_CONSTANTS } from '@/constants/strings';
 
-const AddUsers = (props: any) => {
+const AddUsers = (props: AddUsersI) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
   const {
@@ -56,7 +58,8 @@ const AddUsers = (props: any) => {
                     disabled={
                       isAddUserDrawer?.type === drawyerType?.VIEW ||
                       (isAddUserDrawer?.type === drawyerType?.EDIT &&
-                        item?.componentProps?.name === 'email')
+                        item?.componentProps?.name ===
+                          SETTINGS_CONSTANTS?.EMAIL?.toLowerCase())
                         ? true
                         : false
                     }

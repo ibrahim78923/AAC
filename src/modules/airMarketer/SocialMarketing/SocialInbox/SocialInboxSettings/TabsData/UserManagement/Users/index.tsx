@@ -10,10 +10,12 @@ import { DeleteIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { UserTableProps } from '../UserManagement.interface';
 
-const UserTable = (props: any) => {
+const UserTable = (props: UserTableProps) => {
   const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
     props;
+
   const {
     isOpenDelete,
     setIsOpenDelete,

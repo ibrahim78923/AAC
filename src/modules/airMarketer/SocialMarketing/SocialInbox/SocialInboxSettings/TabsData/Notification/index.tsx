@@ -1,15 +1,13 @@
 import React from 'react';
 
 import { Box, Typography } from '@mui/material';
-
 import useNotification from './useNotification';
-
 import { styles } from './Notification.style';
-
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { v4 as uuidv4 } from 'uuid';
+import { SETTINGS_CONSTANTS } from '@/constants/strings';
 
 const Notification = () => {
   const {
@@ -29,7 +27,7 @@ const Notification = () => {
           sx={{
             border: `1px solid ${theme?.palette?.grey[700]}`,
             padding: '2rem 1rem',
-            boxShadow: '0px 1px 2px 0px #1018280F',
+            boxShadow: `0px 1px 2px 0px ${theme?.palette.custom?.dark_shade_green}`,
             borderRadius: '8px',
           }}
         >
@@ -46,19 +44,21 @@ const Notification = () => {
           <Box display="flex" gap={2} flexDirection="column">
             {notificationList?.map((item: any) => (
               <>
-                {item?.title === 'Email' && (
+                {item?.title === SETTINGS_CONSTANTS?.EMAIL && (
                   <Typography
                     variant="h6"
-                    sx={{ marginTop: '20px', fontWeight: '600' }}
+                    fontWeight="600"
+                    sx={{ marginTop: '20px' }}
                   >
                     Email Notification
                   </Typography>
                 )}
 
-                {item?.title === 'Companies' && (
+                {item?.title === SETTINGS_CONSTANTS?.COMPANIES && (
                   <Typography
                     variant="h6"
-                    sx={{ marginTop: '20px', fontWeight: '600' }}
+                    fontWeight="600"
+                    sx={{ marginTop: '20px' }}
                   >
                     Module List Notification
                   </Typography>

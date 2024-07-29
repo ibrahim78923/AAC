@@ -106,7 +106,7 @@ const Users = () => {
         <AddUsers
           isAddUserDrawer={isAddUserDrawer}
           setIsAddUserDrawer={setIsAddUserDrawer}
-          setCheckedUser={setCheckedUser}
+          // setCheckedUser={setCheckedUser}
           checkedUser={checkedUser}
         />
       )}
