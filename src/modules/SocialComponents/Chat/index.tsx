@@ -31,7 +31,7 @@ import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
 import { UserDefault } from '@/assets/images';
 import { PAGINATION } from '@/config';
-import { API_STATUS } from '@/constants';
+import { API_STATUS, CHAT_TYPES } from '@/constants';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -77,9 +77,9 @@ const Chat = () => {
       activeChatId: activeChatId,
       limit: chatMetaInfo?.limit,
       page: chatMetaInfo?.page,
-      isGroup: chatMode === 'groupChat' ? true : false,
+      isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
     },
-    { skip: activeChatId ? false : true },
+    { skip: activeChatId ? false : true, refetchOnMountOrArgChange: true },
   );
 
   const { user }: { user: any } = getSession();
@@ -95,6 +95,7 @@ const Chat = () => {
   });
   const handleManualRefetch = () => {
     if (activeChatId) {
+      dispatch(setChatMessages([]));
       refetch();
     }
   };

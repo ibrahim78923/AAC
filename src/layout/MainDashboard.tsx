@@ -554,6 +554,10 @@ const DashboardLayout = ({ children, window }: any) => {
             dispatch(
               setChatContacts({
                 ...currentData,
+                lastMessage: {
+                  ...currentData?.lastMessage,
+                  content: payload?.data?.content,
+                },
                 unReadMessagesCount: currentData?.unReadMessagesCount + 1,
               }),
             );

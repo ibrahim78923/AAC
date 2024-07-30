@@ -94,6 +94,7 @@ const ContactsCard = ({
       });
     }
   };
+
   const handleCurrentUserSelect = () => {
     dispatch(setChatMessages([])),
       dispatch(setActiveChatId(cardData?.item?._id)),
@@ -111,7 +112,6 @@ const ContactsCard = ({
           limit: PAGINATION?.PAGE_LIMIT,
         }),
       );
-
     dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({
