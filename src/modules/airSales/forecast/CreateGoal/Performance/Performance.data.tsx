@@ -4,6 +4,7 @@ import {
   GOALS_YEARLY_FORMAT,
   RADIO_VALUE,
 } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
 import {
   Avatar,
   Box,
@@ -17,6 +18,44 @@ import {
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
+export const getHeaders = (teamDurationForm: any) => {
+  const formatHeader = (from: any, to: any) => {
+    const formattedFrom = dayjs(from)?.format(DATE_TIME_FORMAT?.DDMMM);
+    const formattedTo = dayjs(to)?.format(DATE_TIME_FORMAT?.DDMMMYYYY);
+    return `${formattedFrom} - ${formattedTo}`;
+  };
+
+  let headers = [];
+  const currentYear = dayjs().year();
+  if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.MONTHLY) {
+    headers = [
+      `Jan ${currentYear}`,
+      `Feb ${currentYear}`,
+      `Mar ${currentYear}`,
+      `Apr ${currentYear}`,
+      `May ${currentYear}`,
+      `Jun ${currentYear}`,
+      `Jul ${currentYear}`,
+      `Aug ${currentYear}`,
+      `Sep ${currentYear}`,
+      `Oct ${currentYear}`,
+      `Nov ${currentYear}`,
+      `Dec ${currentYear}`,
+    ];
+  } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.YEARLY) {
+    headers = [`Jan - Dec ${currentYear}`];
+  } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.QUARTERLY) {
+    headers = [
+      `Q1-Jan ${currentYear} - Mar ${currentYear}`,
+      `Q2-Apr ${currentYear} - Jun ${currentYear}`,
+      `Q3-Jul ${currentYear} - Sep ${currentYear}`,
+      `Q4-Oct ${currentYear} - Dec ${currentYear}`,
+    ];
+  } else {
+    headers = [formatHeader(teamDurationForm?.from, teamDurationForm?.to)];
+  }
+  return headers;
+};
 
 //table data
 export const teamGoalTableColumns: any = (
@@ -30,6 +69,7 @@ export const teamGoalTableColumns: any = (
   inputValues: any,
   handleInputChange: any,
 ) => {
+  const headers = getHeaders(teamDurationForm);
   // Base columns that are always present
   const baseColumns = [
     {
@@ -181,42 +221,6 @@ export const teamGoalTableColumns: any = (
     },
   ];
 
-  const formatHeader = (from: any, to: any) => {
-    const formattedFrom = dayjs(from)?.format(DATE_TIME_FORMAT?.DDMMM);
-    const formattedTo = dayjs(to)?.format(DATE_TIME_FORMAT?.DDMMMYYYY);
-    return `${formattedFrom} - ${formattedTo}`;
-  };
-
-  let headers = [];
-  const currentYear = dayjs().year();
-  if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.MONTHLY) {
-    headers = [
-      `Jan ${currentYear}`,
-      `Feb ${currentYear}`,
-      `Mar ${currentYear}`,
-      `Apr ${currentYear}`,
-      `May ${currentYear}`,
-      `Jun ${currentYear}`,
-      `Jul ${currentYear}`,
-      `Aug ${currentYear}`,
-      `Sep ${currentYear}`,
-      `Oct ${currentYear}`,
-      `Nov ${currentYear}`,
-      `Dec ${currentYear}`,
-    ];
-  } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.YEARLY) {
-    headers = [`Jan - Dec ${currentYear}`];
-  } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.QUARTERLY) {
-    headers = [
-      `Q1-Jan ${currentYear} - Mar ${currentYear}`,
-      `Q2-Apr ${currentYear} - Jun ${currentYear}`,
-      `Q3-Jul ${currentYear} - Sep ${currentYear}`,
-      `Q4-Oct ${currentYear} - Dec ${currentYear}`,
-    ];
-  } else {
-    headers = [formatHeader(teamDurationForm?.from, teamDurationForm?.to)];
-  }
-
   const monthColumns = headers?.map((header, index) => {
     const month = header.split(' ')[0].toLowerCase(); // Extract month abbreviation from header
 
@@ -241,27 +245,62 @@ export const teamGoalTableColumns: any = (
     };
   });
 
-  // Add yearly total column
   const yearlyTotalColumn = {
     accessorFn: (row: any) => row?.yearlyTotal,
     id: 'yearlyTotal',
     header: 'Yearly Total',
     isSortable: true,
-    cell: (info: any) => (
-      <Box>
-        <Typography fontSize="12px" fontWeight={600} textAlign={'right'}>
-          {info?.getValue()} Deals ({info?.row?.original?.yearlyTotal}%)
-        </Typography>
-        <Typography
-          fontSize="12px"
-          fontWeight={500}
-          textAlign={'right'}
-          mt={0.5}
-        >
-          {info?.getValue()}/12 months
-        </Typography>
-      </Box>
-    ),
+    cell: ({ row: { original } }: any) => {
+      const isQuarterly =
+        teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.QUARTERLY;
+      const isCustom =
+        !isQuarterly &&
+        teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.CUSTOM;
+      const customStartMonth = teamDurationForm?.from
+        ? dayjs(teamDurationForm?.from).month()
+        : 0;
+      const customEndMonth = teamDurationForm?.to
+        ? dayjs(teamDurationForm?.to).month()
+        : 0;
+      const totalMonths = isCustom ? customEndMonth - customStartMonth + 1 : 0;
+
+      const sum = headers?.reduce((total, header, index) => {
+        const month = header.split(' ')[ARRAY_INDEX?.ZERO].toLowerCase(); // Extract month abbreviation
+
+        const value = parseFloat(inputValues[original?._id]?.[month]) || 0;
+
+        if (isQuarterly) {
+          // Multiply each quarter by 3 months
+          if (index % 3 === 0) {
+            total += value * 3;
+          } else if (index % 3 === 1) {
+            total += value * 3;
+          } else if (index % 3 === 2) {
+            total += value * 3;
+          }
+        } else if (isCustom) {
+          // Multiply by number of months in the custom range
+          total += value * totalMonths;
+        } else if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.YEARLY) {
+          total = value * 12;
+        } else {
+          total += value;
+        }
+
+        return total;
+      }, 0);
+
+      return (
+        <Box>
+          <Typography fontSize="12px" fontWeight={600}>
+            {sum} Deals
+          </Typography>
+          <Typography fontSize="12px" fontWeight={400}>
+            {sum} / {isCustom ? totalMonths : 12} months
+          </Typography>
+        </Box>
+      );
+    },
   };
   // Combine base columns, month columns, and yearly total column
   return [...baseColumns, ...monthColumns, yearlyTotalColumn];

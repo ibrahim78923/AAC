@@ -21,14 +21,17 @@ import {
   teamDurationValidationSchema,
 } from './TeamDuration/TeamDuration.data';
 import { enqueueSnackbar } from 'notistack';
-import { GOALS_YEARLY_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, GOALS_YEARLY_FORMAT } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import dayjs from 'dayjs';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { usePostGoalMutation } from '@/services/airSales/forecast';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [tableRowValues, setTableRowValues] = useState([]);
+  const [selectedNotifications, setSelectedNotifications] = useState([]);
   const dispatch = useDispatch();
 
   const router: any = useRouter();
@@ -39,11 +42,14 @@ export const useCreateGoal = () => {
   const [inputValues, setInputValues] = useState({});
 
   const handleInputChange = (contributorId: any, month: any, value: any) => {
+    // Convert the input value to a number
+    const numericValue = parseFloat(value);
+
     setInputValues((prev) => ({
       ...prev,
       [contributorId]: {
         ...prev[contributorId],
-        [month]: value,
+        [month]: isNaN(numericValue) ? 0 : numericValue,
       },
     }));
   };
@@ -128,14 +134,75 @@ export const useCreateGoal = () => {
   // this is performance step
   const handlePerformanceSubmit = () => {
     const transformData = () => {
-      return teamDurationForm?.collaborators?.map((row: any, index: any) => ({
-        contributorId: row?._id,
-        pipelines:
-          selectedValues[index]?.map((pipeline: any) => pipeline?.id) || [], // Set selected pipeline
-        unit: 'USD',
-        year: dayjs()?.year(),
-        months: inputValues[row?._id] || {},
-      }));
+      return teamDurationForm?.collaborators?.map((row: any, index: any) => {
+        let monthlyData: any = inputValues[row?._id] || {};
+
+        if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.QUARTERLY) {
+          monthlyData = {
+            jan: monthlyData?.['q1-jan'] || '',
+            feb: monthlyData?.['q1-jan'] || '',
+            mar: monthlyData?.['q1-jan'] || '',
+            apr: monthlyData?.['q2-apr'] || '',
+            may: monthlyData?.['q2-apr'] || '',
+            jun: monthlyData?.['q2-apr'] || '',
+            jul: monthlyData?.['q3-jul'] || '',
+            aug: monthlyData?.['q3-jul'] || '',
+            sep: monthlyData?.['q3-jul'] || '',
+            oct: monthlyData?.['q4-oct'] || '',
+            nov: monthlyData?.['q4-oct'] || '',
+            dec: monthlyData?.['q4-oct'] || '',
+          };
+        }
+
+        if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.YEARLY) {
+          monthlyData = {
+            jan: monthlyData?.['jan'] || '',
+            feb: monthlyData?.['jan'] || '',
+            mar: monthlyData?.['jan'] || '',
+            apr: monthlyData?.['jan'] || '',
+            may: monthlyData?.['jan'] || '',
+            jun: monthlyData?.['jan'] || '',
+            jul: monthlyData?.['jan'] || '',
+            aug: monthlyData?.['jan'] || '',
+            sep: monthlyData?.['jan'] || '',
+            oct: monthlyData?.['jan'] || '',
+            nov: monthlyData?.['jan'] || '',
+            dec: monthlyData?.['jan'] || '',
+          };
+        }
+        if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.CUSTOM) {
+          const startDate = dayjs(teamDurationForm?.from);
+          const endDate = dayjs(teamDurationForm?.to);
+
+          for (
+            let currentDate = startDate;
+            currentDate?.isBefore(endDate) || currentDate?.isSame(endDate);
+            currentDate = currentDate?.add(1, 'month')
+          ) {
+            const monthName = currentDate
+              ?.format(DATE_TIME_FORMAT?.MMM)
+              ?.toLowerCase();
+            const date = currentDate?.format(DATE_TIME_FORMAT?.DD);
+
+            monthlyData[monthName] = inputValues[row?._id]?.[date] || '';
+          }
+
+          // Delete the first entry in the months object
+          const firstKey = Object?.keys(monthlyData)[ARRAY_INDEX?.ZERO];
+          if (firstKey) {
+            delete monthlyData[firstKey];
+          }
+        }
+
+        return {
+          contributorId: row?._id,
+          pipelines:
+            selectedValues[index]?.map((pipeline: any) => pipeline?.id) || [], // Set selected pipeline
+          unit: 'USD',
+          year: dayjs()?.year(),
+          months: monthlyData,
+        };
+      });
     };
 
     const transformedData = transformData();
@@ -144,6 +211,61 @@ export const useCreateGoal = () => {
   };
   // this is performance step
 
+  const handleCheckboxChange = (event: any) => {
+    const { name, checked } = event?.target;
+    if (checked) {
+      setSelectedNotifications((prev: any) => [...prev, name]);
+    } else {
+      setSelectedNotifications((prev) =>
+        prev.filter((notification) => notification !== name),
+      );
+    }
+  };
+
+  const performanceData: any = useAppSelector(
+    (state) => state?.forecastForm?.performanceData,
+  );
+
+  const describeForm: any = useAppSelector(
+    (state) => state?.forecastForm?.describeForm,
+  );
+  const [postCreateInvoice, { isLoading }] = usePostGoalMutation();
+
+  // this is final step
+  const handleFinalSubmit = async () => {
+    const payload = {
+      trackingMethod: describeForm?.trackingMethod,
+      goalName: describeForm?.goalName,
+      duration: teamDurationForm?.duration,
+      ...(teamDurationForm?.userTeam === 'USER'
+        ? {
+            contributors: teamDurationForm?.collaborators?.map(
+              (collaborator: any) => collaborator?._id,
+            ),
+          }
+        : {
+            teams: teamDurationForm?.collaborators?.map(
+              (collaborator: any) => collaborator?._id,
+            ),
+          }),
+      targets: performanceData,
+      notification: selectedNotifications,
+    };
+
+    try {
+      await postCreateInvoice({ body: payload })?.unwrap();
+      enqueueSnackbar('Goals added successfully', {
+        variant: 'success',
+      });
+      router?.back();
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  // this is final step
   const handleNextStep = () => {
     if (activeStep === 0) {
       handleDescribeForm();
@@ -152,7 +274,7 @@ export const useCreateGoal = () => {
     } else if (activeStep === 2) {
       handlePerformanceSubmit();
     } else {
-      router?.back();
+      handleFinalSubmit();
     }
   };
 
@@ -201,13 +323,19 @@ export const useCreateGoal = () => {
           processedData={processedData}
           selectedValues={selectedValues}
           handleChange={handleChange}
+          setInputValues={setInputValues}
         />
       ),
     },
     {
       key: 'settings',
       label: 'Settings',
-      component: <GoalsSettings />,
+      component: (
+        <GoalsSettings
+          selectedNotifications={selectedNotifications}
+          handleCheckboxChange={handleCheckboxChange}
+        />
+      ),
     },
   ];
 
@@ -217,5 +345,6 @@ export const useCreateGoal = () => {
     activeStep,
     handleNextStep,
     handleStepBack,
+    isLoading,
   };
 };

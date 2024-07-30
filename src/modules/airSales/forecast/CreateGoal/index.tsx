@@ -3,6 +3,7 @@ import { Box, Button, Stack } from '@mui/material';
 import { useCreateGoal } from './useCreateGoal';
 import { ArrowLeft } from '@/assets/icons';
 import AppHorizontalStepper from '@/components/Stepper';
+import { LoadingButton } from '@mui/lab';
 
 const CreateGoal = () => {
   const {
@@ -11,6 +12,7 @@ const CreateGoal = () => {
     activeStep,
     handleNextStep,
     handleStepBack,
+    isLoading,
   } = useCreateGoal();
 
   return (
@@ -46,16 +48,17 @@ const CreateGoal = () => {
               <Button onClick={hanldeGoBack} variant="outlined" color="inherit">
                 Cancel
               </Button>
-              <Button
+              <LoadingButton
                 variant="contained"
                 onClick={handleNextStep}
+                loading={isLoading}
                 sx={{
                   marginLeft: { xs: '3px !important', sm: '12px !important' },
                   marginTop: { xs: '20px', sm: '0' },
                 }}
               >
                 {activeStep === 3 ? 'finsih' : 'Next'}
-              </Button>
+              </LoadingButton>
             </Stack>
           </Stack>
         }

@@ -50,6 +50,8 @@ export const DATE_TIME_FORMAT = {
   DDMMMYYYY: 'DD MMM YYYY',
   HHMMA: 'hh:mm A',
   MMMMD: 'MMMM D[th] [at] h:mmA',
+  MMM: 'MMM',
+  DD: 'DD',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -526,7 +528,7 @@ export const TEMPLATES_CARDS = {
 
 export const GOALS_YEARLY_FORMAT = {
   MONTHLY: 'monthly',
-  YEARLY: 'yearly',
+  YEARLY: 'Yearly',
   QUARTERLY: 'quarterly',
   CUSTOM: 'custom',
 };
@@ -576,4 +578,11 @@ export const PRODUCT_LABELS = {
   AIR_OPERATIONS: 'Air Operations',
   LOYALTY_PROGRAM: 'Loyalty Program',
   CALL_CENTER: 'Call Center',
+};
+
+export const AIR_SALES_GOAL_NOTIFICATION = {
+  STARTED: 'goalStarted',
+  EXCEEDED: 'goalExceeded',
+  ACHIEVED: 'goalAchieved',
+  MISSED: 'goalMissed',
 };

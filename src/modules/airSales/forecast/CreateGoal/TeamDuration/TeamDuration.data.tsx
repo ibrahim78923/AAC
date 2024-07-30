@@ -87,7 +87,7 @@ export const teamDurationArray = (userTeamValue: any) => {
       options: [
         { value: 'monthly', label: 'Monthly' },
         { value: 'quarterly', label: 'Quarterly' },
-        { value: 'yearly', label: 'Yearly' },
+        { value: 'Yearly', label: 'Yearly' },
         { value: 'custom', label: 'Custom' },
       ],
       component: RHFSelect,

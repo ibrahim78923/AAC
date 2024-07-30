@@ -14,10 +14,11 @@ import {
 } from '@/assets/icons';
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { teamGoalTableColumns } from './Performance.data';
+import { getHeaders, teamGoalTableColumns } from './Performance.data';
 import { useAppSelector } from '@/redux/store';
 import { isNullOrEmpty } from '@/utils';
 import dayjs from 'dayjs';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const Performance = ({
   tableRowValues,
@@ -28,13 +29,42 @@ const Performance = ({
   processedData,
   selectedValues,
   handleChange,
+  setInputValues,
 }: any) => {
   const theme = useTheme();
   const [isAddTargetModal, setIsAddTargetModal] = useState(false);
+  const [modalInputValue, setModalInputValue] = useState('');
 
   const teamDurationForm: any = useAppSelector(
     (state) => state?.forecastForm?.teamDurationForm,
   );
+
+  const headers = getHeaders(teamDurationForm);
+
+  const applyModalValueToRow = () => {
+    if (tableRowValues && modalInputValue !== '') {
+      setInputValues((prev: any) => {
+        const updatedValues = { ...prev };
+        tableRowValues?.forEach((rowId: string) => {
+          headers?.forEach((header: string) => {
+            const month = header?.split(' ')[ARRAY_INDEX?.ZERO]?.toLowerCase();
+            if (!updatedValues[rowId]) {
+              updatedValues[rowId] = {};
+            }
+            // Convert modalInputValue to a number
+            const numericValue = parseFloat(modalInputValue);
+            updatedValues[rowId][month] = isNaN(numericValue)
+              ? 0
+              : numericValue;
+          });
+        });
+        return updatedValues;
+      });
+      setIsAddTargetModal(false);
+      setTableRowValues([]);
+      setModalInputValue('');
+    }
+  };
 
   return (
     <>
@@ -135,7 +165,7 @@ const Performance = ({
         open={isAddTargetModal}
         handleClose={() => setIsAddTargetModal(false)}
         handleCancel={() => setIsAddTargetModal(false)}
-        handleSubmit={() => setIsAddTargetModal(false)}
+        handleSubmit={applyModalValueToRow}
         title="Apply this value to all targets in this row."
       >
         <Box>
@@ -146,6 +176,8 @@ const Performance = ({
             type="number"
             fullWidth
             placeholder=" £"
+            value={modalInputValue}
+            onChange={(e) => setModalInputValue(e.target.value)}
             sx={{
               '& input': {
                 height: '12px',
@@ -167,7 +199,7 @@ const Performance = ({
             <Button
               variant="contained"
               type="submit"
-              onClick={() => setIsAddTargetModal(false)}
+              onClick={applyModalValueToRow}
               sx={{ marginLeft: '10px' }}
             >
               Apply
