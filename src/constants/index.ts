@@ -578,6 +578,7 @@ export const PRODUCT_LABELS = {
   AIR_OPERATIONS: 'Air Operations',
   LOYALTY_PROGRAM: 'Loyalty Program',
   CALL_CENTER: 'Call Center',
+  CUSTOMER_PORTAL: 'Customer Portal',
 };
 
 export const AIR_SALES_GOAL_NOTIFICATION = {

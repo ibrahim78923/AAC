@@ -78,7 +78,7 @@ const ContactsCard = ({
         body: payload,
         id: cardData?.item?.conversationId,
       })?.unwrap();
-      enqueueSnackbar('successfully', {
+      enqueueSnackbar('Success', {
         variant: 'success',
       });
       dispatch(

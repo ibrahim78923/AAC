@@ -142,7 +142,7 @@ const AddGroupModal = ({
     reader.onload = () => {
       setImagePreview(reader?.result);
     };
-    reader.readAsDataURL(selectedImage);
+    reader?.readAsDataURL(selectedImage);
   };
 
   return (

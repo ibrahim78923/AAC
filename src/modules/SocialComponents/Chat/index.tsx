@@ -72,12 +72,15 @@ const Chat = () => {
     refetch,
     status,
     isError,
-  } = useGetUserChatsQuery({
-    activeChatId: activeChatId,
-    limit: chatMetaInfo?.limit,
-    page: chatMetaInfo?.page,
-    isGroup: chatMode === 'groupChat' ? true : false,
-  });
+  } = useGetUserChatsQuery(
+    {
+      activeChatId: activeChatId,
+      limit: chatMetaInfo?.limit,
+      page: chatMetaInfo?.page,
+      isGroup: chatMode === 'groupChat' ? true : false,
+    },
+    { skip: activeChatId ? false : true },
+  );
 
   const { user }: { user: any } = getSession();
   const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -90,11 +93,11 @@ const Chat = () => {
       search: searchTerm,
     },
   });
-
   const handleManualRefetch = () => {
-    refetch();
+    if (activeChatId) {
+      refetch();
+    }
   };
-
   useEffect(() => {
     if (chatsData?.data?.meta?.page === 1) {
       dispatch(setChatMetaInfo(chatsData?.data?.meta));
@@ -108,9 +111,8 @@ const Chat = () => {
       );
     }
   }, [chatsData]);
-
   useEffect(() => {
-    if (status === 'pending') {
+    if (status === API_STATUS?.PENDING) {
       dispatch(setChatMessagesLoading(true));
     } else {
       dispatch(setChatMessagesLoading(false));
@@ -124,7 +126,6 @@ const Chat = () => {
     email: item?.email,
     src: UserDefault,
   }));
-
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
