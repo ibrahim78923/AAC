@@ -6,8 +6,12 @@ import {
   triggerOptions,
   workflowType,
 } from './WorkflowRunAndTrigger.data';
+import {
+  WorkflowDropdownI,
+  WorkflowRunAndTriggerI,
+} from './WorkflowRunAndTrigger.interface';
 
-export const WorkflowRunAndTrigger = (props: any) => {
+export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
   const { palette, watch } = props;
   const watchType = watch('type');
   return (
@@ -62,7 +66,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
                 required
                 options={triggerOptions}
                 placeholder="Select Trigger"
-                getOptionLabel={(option: any) => option?.label}
+                getOptionLabel={(option: WorkflowDropdownI) => option?.label}
               />
             </Grid>
           )}
@@ -74,7 +78,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
               placeholder="Select Run Type"
               required
               options={andRunOptions}
-              getOptionLabel={(option: any) => option?.label}
+              getOptionLabel={(option: WorkflowDropdownI) => option?.label}
             />
           </Grid>
         </Grid>

@@ -1,3 +1,4 @@
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Checkbox } from '@mui/material';
 import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
@@ -6,17 +7,18 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter, warningSnackbar } from '@/utils/api';
+import { SalesWorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const salesWorkflowActionDropdownDynamic = (
-  selectedSalesWorkflowLists: any,
-  setDeleteWorkflow: any,
-  handleEditWorkflow: any,
-  handleClone: any,
+  selectedSalesWorkflowLists: SalesWorkflowI[],
+  setDeleteWorkflow: Dispatch<SetStateAction<boolean>>,
+  handleEditWorkflow: () => void,
+  handleClone: () => void,
 ) => [
   {
     id: 1,
     title: 'Edit',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       if (selectedSalesWorkflowLists?.length > 1) {
         warningSnackbar('Please select only one workflow');
         closeMenu?.();
@@ -32,7 +34,7 @@ export const salesWorkflowActionDropdownDynamic = (
   {
     id: 2,
     title: 'Clone',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       if (selectedSalesWorkflowLists?.length > 1) {
         warningSnackbar('Please select only one workflow to proceed.');
         closeMenu?.();
@@ -46,7 +48,7 @@ export const salesWorkflowActionDropdownDynamic = (
   {
     id: 3,
     title: 'Delete',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       setDeleteWorkflow(true);
       closeMenu?.();
     },
@@ -56,12 +58,12 @@ export const salesWorkflowActionDropdownDynamic = (
   },
 ];
 
-export const salesWorkflowListsColumnDynamic: any = (
-  activeCheck: any,
-  setActiveCheck: any,
-  tableData: any,
-  handleChangeStatus: any,
-  switchLoading: any,
+export const salesWorkflowListsColumnDynamic = (
+  activeCheck: SalesWorkflowI[],
+  setActiveCheck: Dispatch<SetStateAction<any[]>>,
+  tableData: SalesWorkflowI[],
+  handleChangeStatus: (arg: SalesWorkflowI) => void,
+  switchLoading: boolean[],
 ) => {
   return [
     {
@@ -72,18 +74,20 @@ export const salesWorkflowListsColumnDynamic: any = (
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!activeCheck?.find((item: any) => item?._id === info?.getValue())
+            !!activeCheck?.find(
+              (item: SalesWorkflowI) => item?._id === info?.getValue(),
+            )
           }
-          onChange={(e: any) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
                   tableData?.find(
-                    (item: any) => item?._id === info?.getValue(),
+                    (item: SalesWorkflowI) => item?._id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
-                  activeCheck?.filter((item: any) => {
+                  activeCheck?.filter((item: SalesWorkflowI) => {
                     return item?._id !== info?.getValue();
                   }),
                 );
@@ -101,7 +105,7 @@ export const salesWorkflowListsColumnDynamic: any = (
               ? activeCheck?.length === tableData?.length
               : false
           }
-          onChange={(e: any) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             e?.target?.checked
               ? setActiveCheck([...tableData])
               : setActiveCheck([]);

@@ -16,11 +16,11 @@ import {
 } from './WorkflowSchedule.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { WorkflowScheduleI } from './WorkflowSchedule.interface';
 
-export const WorkflowSchedule = (props: any) => {
+export const WorkflowSchedule = (props: WorkflowScheduleI) => {
   const { selectedSchedule, selectedScheduleRadio, selectedScheduleWeek } =
     useWorkflowSchedule(props);
-
   return (
     <>
       <Grid item lg={5.6} sm={8.6}>
@@ -58,6 +58,7 @@ export const WorkflowSchedule = (props: any) => {
                 label="Month"
                 fullWidth
                 views={['month']}
+                format="MMMM"
               />
             )}
           </Grid>

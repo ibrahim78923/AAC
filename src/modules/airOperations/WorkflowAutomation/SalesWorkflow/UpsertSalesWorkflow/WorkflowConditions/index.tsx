@@ -5,8 +5,9 @@ import { AddCircle } from '@mui/icons-material';
 import { RHFButtonGroup } from '@/components/ReactHookForm';
 import { styles } from './WorkflowConditions.style';
 import { useWorkflowConditions } from './useWorkflowConditions';
+import { WorkflowConditionsI } from './WorkflowConditions.interface';
 
-export const WorkflowConditions = (props: any) => {
+export const WorkflowConditions = (props: WorkflowConditionsI) => {
   const { setValue, control, watch } = props;
   const { fields, remove, palette, handleAddGroup } =
     useWorkflowConditions(props);

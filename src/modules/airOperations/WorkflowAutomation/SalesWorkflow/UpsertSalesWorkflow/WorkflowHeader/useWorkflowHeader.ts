@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
+import { WorkflowHeaderI } from './WorkflowHeader.interface';
 
-export const useWorkflowHeader = (props: any) => {
+export const useWorkflowHeader = (props: WorkflowHeaderI) => {
   const { watch } = props;
   const { push, query } = useRouter();
   const workflowId = query?.id;

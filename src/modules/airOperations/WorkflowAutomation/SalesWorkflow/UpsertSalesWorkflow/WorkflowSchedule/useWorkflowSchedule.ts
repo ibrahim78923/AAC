@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { scheduleTypes } from './WorkflowSchedule.data';
 import { useRouter } from 'next/router';
+import { WorkflowScheduleI } from './WorkflowSchedule.interface';
 
-export const useWorkflowSchedule = (props: any) => {
+export const useWorkflowSchedule = (props: WorkflowScheduleI) => {
   const { watch, setValue } = props;
   const selectedSchedule = watch('schedule');
   const selectedScheduleRadio = watch('type');

@@ -14,9 +14,10 @@ import {
   salesWorkflowActionDropdownDynamic,
   salesWorkflowListsColumnDynamic,
 } from '../../SalesWorkflow.data';
+import { SalesWorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const useQuote = () => {
-  const [activeCheck, setActiveCheck] = useState<any>([]);
+  const [activeCheck, setActiveCheck] = useState<SalesWorkflowI[]>([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -24,7 +25,7 @@ export const useQuote = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const { push } = useRouter();
-  const workflowId = activeCheck?.find((item: any) => item);
+  const workflowId = activeCheck?.find((item) => item);
   const handleEditWorkflow = () => {
     push({
       pathname: AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW,
@@ -82,12 +83,12 @@ export const useQuote = () => {
   const tableData = data?.data?.workFlows;
   const meta = data?.data?.meta;
   const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
-  const handleChangeStatus = async (rowData: any) => {
+  const handleChangeStatus = async (rowData: SalesWorkflowI) => {
     const status =
       rowData?.status === REQUESTORS_STATUS?.ACTIVE
         ? REQUESTORS_STATUS?.INACTIVE
         : REQUESTORS_STATUS?.ACTIVE;
-    setSwitchLoading((prevState: any) => ({
+    setSwitchLoading((prevState: SalesWorkflowI) => ({
       ...prevState,
       [rowData?._id]: true,
     }));
@@ -117,7 +118,7 @@ export const useQuote = () => {
   const [deleteTrigger, { isLoading: deleteLoading }] =
     useDeleteWorkflowMutation();
   const deleteParams = activeCheck
-    ?.map((item: any) => `ids=${item?._id}`)
+    ?.map((item) => `ids=${item?._id}`)
     ?.join('&');
   const handleDelete = async () => {
     const response: any = await deleteTrigger(deleteParams);

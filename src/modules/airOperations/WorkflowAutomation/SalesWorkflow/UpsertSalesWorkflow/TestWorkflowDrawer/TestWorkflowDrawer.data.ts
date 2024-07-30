@@ -1,5 +1,7 @@
 import { Cancel, CheckCircle } from '@mui/icons-material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { UseFormWatch } from 'react-hook-form';
+import { WorkflowModuleTitleI } from './TestWorkflowDrawer.interface';
 
 export const testingData = [
   {
@@ -8,17 +10,18 @@ export const testingData = [
     description: ['Since this is a test, no actions will be executed'],
   },
 ];
-const moduleTitle: any = {
+const moduleTitle: WorkflowModuleTitleI = {
   DEALS: 'Deals',
   QUOTES: 'Quotes',
-  SALES_TASK: 'Tasks',
+  SALES_TASKS: 'Tasks',
 };
+type ModuleKey = keyof typeof moduleTitle;
 export const WorkflowConditionData = (
   testWorkflowResponse: any,
-  watch: any,
+  watch: UseFormWatch<any>,
 ) => {
   const total = testWorkflowResponse?.data?.data?.meta?.total;
-  const moduleSelectedOption = watch('module');
+  const moduleSelectedOption: ModuleKey = watch('module');
   const titleData = moduleTitle[moduleSelectedOption];
   let icon;
   let heading;
@@ -35,7 +38,7 @@ export const WorkflowConditionData = (
 
   return [
     {
-      _id: 453,
+      id: 453,
       icon: icon,
       color: color,
       heading: heading,
