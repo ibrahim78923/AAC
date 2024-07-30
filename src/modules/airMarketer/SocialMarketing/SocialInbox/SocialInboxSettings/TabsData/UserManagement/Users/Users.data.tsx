@@ -8,7 +8,7 @@ import { useLazyGetCompanyAccountsRolesListQuery } from '@/services/common-APIs'
 import { getSession } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
 
-export const userValidationSchema = Yup?.object()?.shape({
+export const userValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.required('Field is Required')
     .matches(
@@ -24,15 +24,15 @@ export const userValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.trim()?.required('Field is Required'),
   address: Yup?.string()?.trim()?.required('Field is Required'),
   role: Yup?.object()?.required('Field is Required'),
-  facebookUrl: Yup.string()
-    .url('Please enter a valid URL starting with http://')
-    .optional(),
-  twitterUrl: Yup.string()
-    .url('Please enter a valid URL starting with http://')
-    .optional(),
-  linkedInUrl: Yup.string()
-    .url('Please enter a valid URL starting with http://')
-    .optional(),
+  facebookUrl: Yup?.string()
+    ?.url('Please enter a valid URL starting with http://')
+    ?.optional(),
+  twitterUrl: Yup?.string()
+    ?.url('Please enter a valid URL starting with http://')
+    ?.optional(),
+  linkedInUrl: Yup?.string()
+    ?.url('Please enter a valid URL starting with http://')
+    ?.optional(),
 });
 
 export const dataArray = () => {

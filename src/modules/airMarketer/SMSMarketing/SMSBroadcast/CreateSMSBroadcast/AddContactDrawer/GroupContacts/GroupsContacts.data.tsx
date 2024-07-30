@@ -29,7 +29,7 @@ export const groupsColumns: any = ({
           onChange={({ target }) => {
             handleSelectContactGroupById(target?.checked, original._id);
           }}
-          checked={contactsGroupData?.some(
+          checked={selectedRec?.some(
             (contact: any) => contact._id === original._id,
           )}
           // defaultChecked={contactsGroupData?.map((contact: any) => contact._id)}

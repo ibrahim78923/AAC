@@ -16,8 +16,9 @@ import useSMSDashboard from '../useSMSDashboard';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { SMSDashboardProps } from '../SMSDashboard-interface';
 
-const ScheduledSMS = (props: any) => {
+const ScheduledSMS = (props: SMSDashboardProps) => {
   const { setTabVal } = props;
   const { theme, statusTag } = useScheduledSMS();
   const { dashboardBroadcastData, broadCastLoading } = useSMSDashboard();

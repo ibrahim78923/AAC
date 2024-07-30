@@ -10,7 +10,7 @@ import { useState } from 'react';
 const useUserManagement = () => {
   const ActiveProduct = getActiveProductSession();
   const skeletonLines = [];
-  const [teamId, setTeamId] = useState();
+  const [teamId, setTeamId] = useState('');
   const [checkedUser, setCheckedUser] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(0);
   const [isOpenDelete, setIsOpenDelete] = useState(false);

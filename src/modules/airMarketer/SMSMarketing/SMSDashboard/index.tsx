@@ -3,8 +3,9 @@ import StatisticsCard from './StatisticsCard';
 import ScheduledSMS from './ScheduledSMS';
 import SMSContacts from './SMSContacts';
 import StatusCards from './StatusCards';
+import { SMSDashboardProps } from './SMSDashboard-interface';
 
-const SMSDashboard = (props: any) => {
+const SMSDashboard = (props: SMSDashboardProps) => {
   const { setTabVal } = props;
 
   return (

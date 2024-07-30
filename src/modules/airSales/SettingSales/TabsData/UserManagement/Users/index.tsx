@@ -10,10 +10,18 @@ import { DeleteIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { UserTableProps } from '../UserManagement.interface';
+import { indexNumbers } from '@/constants';
 
 const UserTable = (props: UserTableProps) => {
-  const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
-    props;
+  const {
+    setIsAddUserDrawer,
+    isAddUserDrawer,
+    checkedUser,
+    setCheckedUser,
+    productsUsers,
+    setPage,
+    setPageLimit,
+  } = props;
   const {
     isOpenDelete,
     setIsOpenDelete,
@@ -28,11 +36,11 @@ const UserTable = (props: UserTableProps) => {
   } = useUsers();
 
   const {
-    productsUsers,
+    // productsUsers,
     searchUser,
     setSearchUser,
-    setPage,
-    setPageLimit,
+    // setPage,
+    // setPageLimit,
     isLoading,
     isSuccess,
   } = useUserManagement();
@@ -72,7 +80,7 @@ const UserTable = (props: UserTableProps) => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            disabled={checkedUser?.length > 0 ? false : true}
+            disabled={checkedUser?.length > indexNumbers?.ZERO ? false : true}
             sx={{
               border: `1px solid ${theme?.palette?.grey[700]}`,
               borderRadius: '4px',

@@ -10,8 +10,7 @@ import { getActiveProductSession } from '@/utils';
 const useUserManagement = () => {
   const ActiveProduct = getActiveProductSession();
   const skeletonLines = [];
-  const INITIAL_VAL = 0;
-  const [teamId, setTeamId] = useState();
+  const [teamId, setTeamId] = useState('');
   const [checkedUser, setCheckedUser] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(0);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -92,7 +91,6 @@ const useUserManagement = () => {
     deleteTeamLoading,
     skeletonLines,
     drawyerType,
-    INITIAL_VAL,
   };
 };
 

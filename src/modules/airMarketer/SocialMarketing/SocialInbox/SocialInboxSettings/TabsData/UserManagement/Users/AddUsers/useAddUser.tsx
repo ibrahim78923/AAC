@@ -10,11 +10,12 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { indexNumbers } from '@/constants';
+import { DrawerI } from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/UserManagement.interface';
 
 const useAddUser = (
-  checkedUser: any,
-  isAddUserDrawer: any,
-  setIsAddUserDrawer: any,
+  checkedUser: string[],
+  isAddUserDrawer: DrawerI,
+  setIsAddUserDrawer: (value: DrawerI) => void,
 ) => {
   const [postPoductUser, { isLoading: postUserLoading }] =
     usePostPoductUserMutation();
@@ -28,21 +29,19 @@ const useAddUser = (
     address: '',
     phoneNumber: '',
     jobTitle: '',
-    role: '',
-    team: '',
-    language: '',
-    timezone: '',
+    role: null,
+    team: null,
     facebookUrl: '',
     linkedInUrl: '',
     twitterUrl: '',
   };
 
-  const methods: any = useForm({
+  const methods = useForm({
     resolver: yupResolver(userValidationSchema),
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit, setValue, reset } = methods;
+  const { handleSubmit, reset } = methods;
 
   const { data: productUsersById, isLoading: productUserByIdLoading } =
     useGetproductUsersByIdQuery(
@@ -57,26 +56,17 @@ const useAddUser = (
     );
 
   useEffect(() => {
-    const data = productUsersById?.data;
-    const fieldsToSet: any = {
-      firstName: data?.user?.firstName,
-      lastName: data?.user?.lastName,
-      email: data?.user?.email,
-      address: data?.user?.address?.composite,
-      phoneNumber: data?.user?.phoneNumber,
-      jobTitle: data?.user?.jobTitle,
-      language: data?.user?.language,
-      timezone: data?.user?.timezone,
-      facebookUrl: data?.user?.facebookUrl,
-      linkedInUrl: data?.user?.linkedInUrl,
-      twitterUrl: data?.user?.twitterUrl,
-      role: data?.role ?? null,
-      team: data?.team ?? null,
-    };
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
+    if (isAddUserDrawer?.type !== DRAWER_TYPES?.ADD) {
+      const data = productUsersById?.data;
+      const fieldsToSet = {
+        ...data?.user,
+        address: data?.user?.address?.composite,
+        role: data?.role ?? null,
+        team: data?.team ?? null,
+      };
+      reset(fieldsToSet);
     }
-  }, [productUsersById?.data]);
+  }, [productUsersById?.data, reset]);
 
   const onSubmit = async (values: any) => {
     values.address = {

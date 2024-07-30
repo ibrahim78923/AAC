@@ -20,3 +20,18 @@ export interface AddUsersI {
   setIsAddUserDrawer: (value: DrawerI) => void;
   checkedUser: string[];
 }
+
+interface addTeamDrawerI {
+  isToggle: boolean;
+  type: string;
+}
+
+export interface TeamsProps {
+  isAddTeam: addTeamDrawerI;
+  setIsAddTeam: (value: addTeamDrawerI) => void;
+  setTeamId: (id: string) => void;
+  teamId: string;
+  setIsTeamDrawer: (value: boolean) => void;
+  isTeamDrawer: boolean;
+  setIsOpenDelete: (value: boolean) => void;
+}

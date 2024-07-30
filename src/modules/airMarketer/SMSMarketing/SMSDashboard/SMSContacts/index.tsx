@@ -7,8 +7,9 @@ import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-k
 import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { SMSDashboardProps } from '@/modules/airMarketer/SMSMarketing/SMSDashboard/SMSDashboard-interface';
 
-const SMSContacts = (props: any) => {
+const SMSContacts = (props: SMSDashboardProps) => {
   const { setTabVal } = props;
   const { theme } = useSMSContacts();
   const { getContactData, contactDataLoading } = useSMSDashboard();

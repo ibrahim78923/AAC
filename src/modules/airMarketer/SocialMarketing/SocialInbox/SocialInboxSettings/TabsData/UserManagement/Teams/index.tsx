@@ -7,8 +7,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import ViewTeams from './ViewTeams';
 import CreateTeams from './CreateTeams';
+import { TeamsProps } from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/UserManagement.interface';
 
-const Teams = (props: any) => {
+const Teams = (props: TeamsProps) => {
   const {
     isAddTeam,
     setIsAddTeam,

@@ -265,6 +265,14 @@ export const AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS = {
   DELETE: 'sale-delete-task',
   TASK_VIEW: 'sale-task-view',
 };
+
+export const AIR_SALES_FORECAST_REPORTS = {
+  FORECAST_REPORTS: 'air-sales-report-forecast',
+};
+export const AIR_SALES_DEALS_REPORTS = {
+  DEALS_REPORTS: 'air-sales-report-deals-report',
+};
+
 export const AIR_MARKETER_PAID_ADS_PERMISSIONS = {
   MANAGE_ADS: 'paid-ads-manage-ads',
   AUDIENCE_LIST: 'paid-ads-audiences-list',

@@ -9,6 +9,7 @@ import AddUsers from './Users/AddUsers';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { indexNumbers } from '@/constants';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -29,7 +30,9 @@ const Users = () => {
     setIsOpenDelete,
     handleDeleteTeam,
     deleteTeamLoading,
-    // productsUsers
+    productsUsers,
+    setPageLimit,
+    setPage,
   } = useUserManagement();
 
   return (
@@ -55,7 +58,7 @@ const Users = () => {
               className="small"
               onClick={() => {
                 {
-                  activeTab === 0
+                  activeTab === indexNumbers?.ZERO
                     ? (setIsAddUserDrawer({
                         ...isAddUserDrawer,
                         isToggle: true,
@@ -80,7 +83,7 @@ const Users = () => {
                   fontSize: '16px',
                 }}
               />
-              {activeTab === 0 ? 'Add User' : 'Create Team'}
+              {activeTab === indexNumbers?.ZERO ? 'Add User' : 'Create Team'}
             </Button>
           </PermissionsGuard>
         </Box>
@@ -94,6 +97,9 @@ const Users = () => {
               setIsAddUserDrawer={setIsAddUserDrawer}
               checkedUser={checkedUser}
               setCheckedUser={setCheckedUser}
+              productsUsers={productsUsers}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
             />
 
             <TeamsTable

@@ -6,11 +6,12 @@ import {
   SentSmsIcon,
 } from '@/assets/icons';
 import { Theme, useTheme } from '@mui/material';
+import { DashboardCardsDataInterface } from '../SMSDashboard-interface';
 
 const useStatusCards = (
-  dashboardCardsData: any,
-  analytics: any,
-  isDashboard: any,
+  dashboardCardsData: DashboardCardsDataInterface,
+  analytics: DashboardCardsDataInterface,
+  isDashboard: boolean,
 ) => {
   const theme = useTheme<Theme>();
 

@@ -21,13 +21,13 @@ const GroupContacts = ({ selectedRec, setSelectedRec }: any) => {
 
   return (
     <>
-      <Box sx={{ mb: '8px', color: 'slateBlue.main' }}>
+      {/* <Box sx={{ mb: '8px', color: 'slateBlue.main' }}>
         Selected contacts (
         {selectedRec?.length < 10
           ? `0${selectedRec?.length}`
           : `${selectedRec?.length}`}
         )
-      </Box>
+      </Box> */}
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.custom?.off_white_three}`,

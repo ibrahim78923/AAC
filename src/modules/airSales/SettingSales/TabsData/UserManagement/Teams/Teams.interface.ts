@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 export interface AddTeamsDrawerPropsI {
   isToggle: boolean;
   type: string;
@@ -6,8 +8,8 @@ export interface AddTeamsDrawerPropsI {
 export interface TeamsPropsI {
   isAddTeam: AddTeamsDrawerPropsI;
   setIsAddTeam: (isAddTeam: AddTeamsDrawerPropsI) => void;
-  setTeamId: (teamId: number) => void;
-  teamId: number;
+  setTeamId: (teamId: string) => void;
+  teamId: string;
   setIsTeamDrawer: (isTeamDrawer: boolean) => void;
   isTeamDrawer: boolean;
   setIsOpenDelete: (isOpenDelete: boolean) => void;
@@ -16,8 +18,8 @@ export interface TeamsPropsI {
 export interface ColumnsPropsI {
   setIsTeamDrawer: (isTeamDrawer: boolean) => void;
   setIsOpenDelete: (isOpenDelete: boolean) => void;
-  theme: any;
-  setTeamId: (teamId: number) => void;
+  theme: Theme;
+  setTeamId: (teamId: string) => void;
   setIsAddTeam: (isAddTeam: any) => void;
 }
 

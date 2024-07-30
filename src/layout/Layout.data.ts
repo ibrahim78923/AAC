@@ -575,7 +575,9 @@ export const SalesRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_SALES_DEALS_REPORTS ||
+      Permissions?.AIR_SALES_FORECAST_REPORTS,
   },
 ];
 

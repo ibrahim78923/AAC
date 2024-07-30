@@ -3,12 +3,17 @@ import useStatusCards from './useStatusCards';
 import { v4 as uuidv4 } from 'uuid';
 import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { StatusCardsProps } from '@/modules/airMarketer/SMSMarketing/SMSDashboard/SMSDashboard-interface';
 
-const StatusCards = ({ analytics, isDashboard = true, isLoading }: any) => {
+const StatusCards = ({
+  analytics,
+  isDashboard = true,
+  isLoading,
+}: StatusCardsProps) => {
   const { dashboardCards, dashboardLoading } = useSMSDashboard();
   const { theme, smsStatusArray } = useStatusCards(
     dashboardCards,
-    analytics,
+    analytics ?? dashboardCards,
     isDashboard,
   );
 

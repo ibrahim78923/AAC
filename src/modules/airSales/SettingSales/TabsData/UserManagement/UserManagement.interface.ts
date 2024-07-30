@@ -19,9 +19,12 @@ export interface UserTableProps {
   setIsAddUserDrawer: (drawerState: {
     isToggle: boolean;
     type: string;
-    recordId: any;
+    recordId: string;
   }) => void;
   isAddUserDrawer: { isToggle: boolean; type: string; recordId: any };
   checkedUser: string[];
   setCheckedUser: (users: string[]) => void;
+  productsUsers: any;
+  setPage: (page: number) => void;
+  setPageLimit: (pageLimit: number) => void;
 }

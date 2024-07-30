@@ -7,7 +7,6 @@ import AllContacts from './AllContacts';
 import GroupContacts from './GroupContacts';
 import { ROLES_ACCORDION_DETAILS } from '@/constants/strings';
 import useAddContactDrawer from './useAddContactDrawer';
-import { useEffect } from 'react';
 
 const AddContactDrawer = (props: any) => {
   const {
@@ -17,6 +16,7 @@ const AddContactDrawer = (props: any) => {
     setSelectedRec,
     setSelectedContactsData,
   } = props;
+
   const {
     onSubmit,
     handleSubmit,
@@ -27,9 +27,9 @@ const AddContactDrawer = (props: any) => {
     setPage,
   } = useAddContactDrawer(onClose, setSelectedContactsData, selectedRec);
 
-  useEffect(() => {
-    setSelectedRec([]);
-  }, [radioVal]);
+  // useEffect(() => {
+  //   setSelectedRec([]);
+  // }, [radioVal]);
 
   return (
     <CommonDrawer

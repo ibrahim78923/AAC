@@ -8,6 +8,7 @@ import { AlertModals } from '@/components/AlertModals';
 import AddUsers from './Users/AddUsers';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { indexNumbers } from '@/constants';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -29,7 +30,6 @@ const Users = () => {
     handleDeleteTeam,
     deleteTeamLoading,
     drawyerType,
-    INITIAL_VAL,
   } = useUserManagement();
 
   return (
@@ -49,7 +49,7 @@ const Users = () => {
             className="small"
             onClick={() => {
               {
-                activeTab === INITIAL_VAL
+                activeTab === indexNumbers?.ZERO
                   ? (setIsAddUserDrawer({
                       ...isAddUserDrawer,
                       isToggle: true,
@@ -74,7 +74,7 @@ const Users = () => {
                 fontSize: '16px',
               }}
             />
-            {activeTab === INITIAL_VAL ? 'Add User' : 'Create Team'}
+            {activeTab === indexNumbers?.ZERO ? 'Add User' : 'Create Team'}
           </Button>
         </PermissionsGuard>
       </Box>

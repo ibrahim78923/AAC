@@ -362,6 +362,7 @@ const CreateSMSBroadcast = () => {
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
           setSelectedContactsData={setSelectedContactsData}
+          selectedContactsData={selectedContactsData}
         />
       )}
     </>
