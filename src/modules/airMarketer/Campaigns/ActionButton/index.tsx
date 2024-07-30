@@ -1,26 +1,20 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
-
 import { ArrowDropDown } from '@mui/icons-material';
-
 import useCampaigns from '../useCampaigns';
 import { actionsOptions } from './ActionButton.data';
-
 import CloneModal from '../CloneModal';
 import EditGoalDrawer from '../EidtGoalDrawer';
 import ExportCompaignDrawer from '../ExportCampaignDrawer';
 import EditCompaign from '../EditCampaign';
-
 import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon, DeleteIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
 import CompaignDetails from '../CampaignDetails';
 import EditTask from '../Tasks/EditTask';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
-import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
 import { enqueueSnackbar } from 'notistack';
-import { indexNumbers } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
   const {
@@ -33,23 +27,17 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
     deleteCampaignsLoading,
   } = useCampaigns();
 
-  const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows, {
-    skip:
-      !Array?.isArray(selectedRows) ||
-      selectedRows?.length === indexNumbers?.ZERO,
-  });
-
-  const handleDeleteCampaigns = async (id: any) => {
+  const handleDeleteCampaigns = async (id: string) => {
     try {
       await deleteCampaigns({ ids: id })?.unwrap();
       enqueueSnackbar('Campaigns deleted successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedRows([]);
       setActionsModalDetails({ ...actionsModalDetails, isDelete: false });
     } catch (error) {
       enqueueSnackbar('Error while deleting campaigns', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -130,7 +118,6 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
               isClone: false,
             })
           }
-          compaignsDataById={compaignsDataById}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
         />
@@ -171,7 +158,6 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
         >
           <EditCompaign
             isOpenDrawer={actionsModalDetails?.isEditCompaign}
-            compaignsDataById={compaignsDataById}
             selectedRows={selectedRows}
             onClose={() =>
               setActionsModalDetails({
@@ -194,6 +180,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
                 isViewDeatsils: false,
               })
             }
+            selectedRows={selectedRows}
           />
         </PermissionsGuard>
       )}

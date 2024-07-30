@@ -597,6 +597,11 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const CAMPAIGNS_TASKS_CONSTANTS = {
+  GRID_VIEW: 'gridView',
+  LIST_VIEW: 'listView',
+};
+
 export const ROLES_AND_RIGHTS_CONST = {
   PERMISSIONS: 'permissions',
 };

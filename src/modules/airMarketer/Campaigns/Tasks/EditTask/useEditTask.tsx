@@ -60,7 +60,6 @@ const useEditTask = ({
   const onSubmit = async (values: any) => {
     values.assignedTo = values.assignedTo?._id;
     values.campaignId = values.campaignId?._id;
-
     try {
       if (isType === DRAWER_TYPES?.EDIT) {
         delete values?.campaignId;

@@ -12,28 +12,14 @@ import {
 import { DATE_FORMAT, DATE_TIME_FORMAT, indexNumbers } from '@/constants';
 import useCalander from './useCalander';
 import dayjs from 'dayjs';
-
-interface taskFilters {
-  campaignId: string;
-  assignedTo: string;
-  status: string;
-  taskType: string;
-  startDate: string;
-  endDate: string;
-}
-interface Props {
-  setTaskFilters: (value: taskFilters) => void;
-  setCurrentTabVal: (value: number) => void;
-  setIsOpen: (value: boolean) => void;
-  taskFilters: taskFilters;
-}
+import { CalanderI } from '../../ResetTaskFilters.interface';
 
 const Calander = ({
   setCurrentTabVal,
   setIsOpen,
   taskFilters,
   setTaskFilters,
-}: Props) => {
+}: CalanderI) => {
   const {
     theme,
     datePickerVal,

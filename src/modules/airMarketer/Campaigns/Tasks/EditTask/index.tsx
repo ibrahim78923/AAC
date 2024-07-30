@@ -4,6 +4,10 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray, defaultValues } from './EditTask.data';
 import useEditTask from './useEditTask';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { Controller } from 'react-hook-form';
 
 export default function EditTask({
   onClose,
@@ -73,6 +77,33 @@ export default function EditTask({
                       ))}
                   </item.component>
                 )}
+                {item?.componentProps?.name === 'dueDate' &&
+                  !loadingCampaignTasks && (
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <Typography
+                        variant="body2"
+                        fontWeight={500}
+                        sx={{ mt: 2 }}
+                      >
+                        Due Time
+                      </Typography>
+                      <Controller
+                        name="time"
+                        control={methods?.control}
+                        render={({ field }) => (
+                          <TimePicker
+                            {...field}
+                            onChange={(newValue) => field?.onChange(newValue)}
+                            sx={{
+                              width: '100%',
+                              '& .MuiInputBase-input': { height: '9px' },
+                              '& .MuiPickersLayout-root': { width: '500px' },
+                            }}
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+                  )}
               </Grid>
             ))}
           </Grid>

@@ -1,14 +1,20 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
-
 import { v4 as uuidv4 } from 'uuid';
 import { campaignDetailsData } from './CampaignDetails.data';
-import useCampaigns from '../useCampaigns';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
+import { indexNumbers } from '@/constants';
 
-const CampaignDetails = ({ open, onClose }: any) => {
-  const { campaignsById, campaignsLoadingById } = useCampaigns();
+const CampaignDetails = ({ open, onClose, selectedRows }: any) => {
   const theme: any = useTheme();
+  const { data: compaignsDataById, isLoading: campaignsLoadingById } =
+    useGetCampaignsByIdQuery(selectedRows, {
+      skip:
+        !Array?.isArray(selectedRows) ||
+        selectedRows?.length === indexNumbers?.ZERO,
+    });
+
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -23,7 +29,7 @@ const CampaignDetails = ({ open, onClose }: any) => {
       ) : (
         <Box mt={1}>
           <Grid container>
-            {campaignDetailsData(campaignsById)?.map((campaign) => {
+            {campaignDetailsData(compaignsDataById)?.map((campaign) => {
               return (
                 <Grid
                   key={uuidv4()}

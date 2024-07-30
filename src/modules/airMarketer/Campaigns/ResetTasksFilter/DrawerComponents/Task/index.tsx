@@ -10,31 +10,7 @@ import Filters from '../Filters';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { AlertModals } from '@/components/AlertModals';
 import EditTask from './EditTask';
-interface DeleteDrawer {
-  isToggled: boolean;
-  id: string;
-}
-interface EditDrawer {
-  isToggled: boolean;
-  id: string;
-  type: string;
-}
-interface Props {
-  setIsOpenDeleteDrawer: (value: DeleteDrawer) => void;
-  setIsEditDrawer: (value: EditDrawer) => void;
-  handleDeleteModal: (value: string) => void;
-  setCurrentTabVal: (value: number) => void;
-  setIsFilters: (value: boolean) => void;
-  setIsOpen: (value: boolean) => void;
-  isOpenDeleteDrawer: DeleteDrawer;
-  deleteTaskLoading: boolean;
-  isEditDrawer: EditDrawer;
-  isFilters: boolean;
-  reset: () => void;
-  loading: boolean;
-  methods: any;
-  data: any;
-}
+import { TasksI } from '../../ResetTaskFilters.interface';
 
 const Task = ({
   setIsOpenDeleteDrawer,
@@ -51,7 +27,7 @@ const Task = ({
   methods,
   data,
   reset,
-}: Props) => {
+}: TasksI) => {
   return (
     <>
       {isFilters ? (

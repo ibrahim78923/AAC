@@ -2,8 +2,14 @@ import { Box, Checkbox, Grid, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import useTaskCardView from './useTaskCardView';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { TaskViewCardI } from './TaskCardView.interface';
 
-const TaskViewCard = ({ data, loading, selectedRec, setSelectedRec }: any) => {
+const TaskViewCard = ({
+  data,
+  loading,
+  selectedRec,
+  setSelectedRec,
+}: TaskViewCardI) => {
   const { theme, taskCardData, statusConstants, handleSelectTaskById } =
     useTaskCardView({ data, selectedRec, setSelectedRec });
   return (
@@ -26,7 +32,7 @@ const TaskViewCard = ({ data, loading, selectedRec, setSelectedRec }: any) => {
                 <Box
                   sx={{
                     background: `${theme?.palette?.common?.white}`,
-                    boxShadow: '0px 3px 6px 0px #6B72801A',
+                    boxShadow: `0px 3px 6px 0px ${theme?.palette?.custom?.custom_shadow}`,
                     borderRadius: '10px 10px 0px 0px',
                     padding: '8px',
                     position: 'sticky',

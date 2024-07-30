@@ -6,7 +6,6 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import { campaignsOptions } from './Campaigns.data';
 import {
   useDeleteCampaignsMutation,
-  useGetCampaignsByIdQuery,
   useGetCampaignsQuery,
   useGetCampaignsSaveViewQuery,
   usePostCampaignsCloneMutation,
@@ -21,7 +20,6 @@ import {
 } from '@/services/airSales/deals';
 import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
-import { useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -55,12 +53,11 @@ const useCampaigns = () => {
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
   const [searchCampaigns, setSearchCampaigns] = useState('');
   const [selectedRows, setSelectedRows] = useState<any>([]);
-  const campaignId = useSearchParams()?.get('id');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [checkedColumns, setcheckedColumns] = useState<any>(null);
-  const [rowId, setRowId] = useState(null);
+  const [rowId, setRowId] = useState('');
 
   // collapse menu task filters start here
 
@@ -165,8 +162,6 @@ const useCampaigns = () => {
         : undefined,
     });
 
-  const { data: campaignsById, isLoading: campaignsLoadingById } =
-    useGetCampaignsByIdQuery(campaignId, { skip: !campaignId });
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
@@ -318,7 +313,6 @@ const useCampaigns = () => {
     setCampaignDataById,
     UserListData,
     updateCampaigns,
-    campaignsById,
     postCampaignsCloneLoading,
     postCampaignsClone,
     deleteCampaigns,
@@ -335,7 +329,6 @@ const useCampaigns = () => {
     checkedColumns,
     setcheckedColumns,
     updateCampaignLoading,
-    campaignsLoadingById,
     resetTasksFilters,
     setCurrentTabVal,
     organizationId,

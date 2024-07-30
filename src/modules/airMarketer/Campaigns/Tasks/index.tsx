@@ -15,6 +15,7 @@ import Search from '@/components/Search';
 import TaskViewCard from './TaskCardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
+import { CAMPAIGNS_TASKS_CONSTANTS, DRAWER_TYPES } from '@/constants/strings';
 
 const Tasks = () => {
   const {
@@ -119,7 +120,10 @@ const Tasks = () => {
                   disabled={selectedRec?.length > 1 ? true : false}
                   onClick={() => {
                     setAnchorEl(null);
-                    setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' });
+                    setIsOpenEditTaskDrawer({
+                      isToggle: true,
+                      type: DRAWER_TYPES?.EDIT,
+                    });
                   }}
                 >
                   Edit
@@ -151,7 +155,10 @@ const Tasks = () => {
           >
             <Button
               onClick={() => {
-                setIsOpenEditTaskDrawer({ isToggle: true, type: 'add' });
+                setIsOpenEditTaskDrawer({
+                  isToggle: true,
+                  type: DRAWER_TYPES?.ADD,
+                });
               }}
               startIcon={<ArrowDownDarkIcon />}
               className="small"
@@ -175,7 +182,9 @@ const Tasks = () => {
             >
               <Button
                 className="small"
-                onClick={() => handleListViewClick('listView')}
+                onClick={() =>
+                  handleListViewClick(CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW)
+                }
               >
                 <ListViewIcon />
               </Button>
@@ -184,7 +193,9 @@ const Tasks = () => {
               permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.BOARD_VIEW]}
             >
               <Button
-                onClick={() => handleListViewClick('gridView')}
+                onClick={() =>
+                  handleListViewClick(CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW)
+                }
                 className="small"
               >
                 <GridViewIcon />
@@ -193,7 +204,7 @@ const Tasks = () => {
           </ButtonGroup>
         </Stack>
       </Box>
-      {isListView === 'listView' ? (
+      {isListView === CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW ? (
         <TanstackTable
           columns={columns(columnsProps)}
           data={compaignsTasksData}

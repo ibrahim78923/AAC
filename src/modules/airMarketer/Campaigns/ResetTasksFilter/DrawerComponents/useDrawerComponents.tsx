@@ -14,6 +14,24 @@ import {
   REPORT_TYPE,
 } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
+import { taskFilters } from '../ResetTaskFilters.interface';
+
+interface DrawerComponentsProps {
+  setCurrentTabVal: (value: any) => void;
+  setIsOpen: (isOpen: boolean) => void;
+  methods: any;
+  taskFilters: taskFilters;
+  reset: () => void;
+  setIsFiltersOpen: (isOpen: boolean) => void;
+  isFilterOpen: boolean;
+  setTaskFilters: (filters: taskFilters) => void;
+}
+
+interface DrawerState {
+  isToggled: boolean;
+  id: string;
+  type?: string;
+}
 
 const useDrawerComponents = ({
   setCurrentTabVal,
@@ -24,7 +42,7 @@ const useDrawerComponents = ({
   setIsFiltersOpen,
   isFilterOpen,
   setTaskFilters,
-}: any) => {
+}: DrawerComponentsProps) => {
   const theme = useTheme();
   const [selectedButton, setSelectedButton] = useState(
     CAMPAIGNS_CONSTANTS?.TASKS,
@@ -32,11 +50,11 @@ const useDrawerComponents = ({
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState({
+  const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState<DrawerState>({
     isToggled: false,
     id: '',
   });
-  const [isEditDrawer, setIsEditDrawer] = useState({
+  const [isEditDrawer, setIsEditDrawer] = useState<DrawerState>({
     isToggled: false,
     id: '',
     type: '',

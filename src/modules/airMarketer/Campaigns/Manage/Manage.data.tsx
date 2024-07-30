@@ -1,30 +1,24 @@
 import React from 'react';
 import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
-
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
-
 import { RHFTextField } from '@/components/ReactHookForm';
-
 import { ExpandMore } from '@mui/icons-material';
-
 import { SwitchBtn } from '@/components/SwitchButton';
-
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 
-export const columns: any = (
-  selectedRows: any,
-  setSelectedRows: any,
-  setIsActionsDisabled: any,
+export const columns = (
+  selectedRows: string[],
+  setSelectedRows: (value: string[]) => void,
+  setIsActionsDisabled: (value: boolean) => void,
   setRowId: any,
   activeColumns: any,
 ) => {
   const router = useRouter();
-  const handleRowClick = (id: any, status: any) => {
+  const handleRowClick = (id: any, status: string) => {
     const selectedIndex = selectedRows?.indexOf(id);
 
     let newSelected: any = [];

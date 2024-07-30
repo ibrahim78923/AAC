@@ -26,15 +26,13 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useEffect } from 'react';
 import useCustomize from '../EditColumns/useCustomize';
+import { ManageI } from './Manage.interface';
 
 const Manage = ({
   campaignsData,
   handleResetFilters,
   filterLoading,
-  handleSelectSingleCheckBox,
-  handleSelectAllCheckbox,
   selectedRows,
-  allCamopaignsData,
   searchCampaigns,
   setSearchCampaigns,
   setSelectedRows,
@@ -45,7 +43,7 @@ const Manage = ({
   setIsActionsDisabled,
   setcheckedColumns,
   setRowId,
-}: any) => {
+}: ManageI) => {
   const theme = useTheme();
   const {
     handleOpenFilter,
@@ -65,11 +63,6 @@ const Manage = ({
     setIsActionsDisabled,
     setRowId,
     activeColumns,
-    handleSelectSingleCheckBox,
-    handleSelectAllCheckbox,
-    selectedRows,
-    allCamopaignsData,
-    setSelectedRows,
   );
 
   useEffect(() => {
@@ -192,8 +185,10 @@ const Manage = ({
             setFilters({
               ...filters,
               campaignStatus: '',
-              startDate: null,
-              endDate: null,
+              // startDate: null,
+              // endDate: null,
+              startDate: '',
+              endDate: '',
             })
           }
         >

@@ -5,7 +5,6 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
 import {
@@ -38,7 +37,6 @@ export const defaultValues = {
 export const dataArray = () => {
   const { user }: any = getSession();
   const orgId = user?.organization?._id;
-  const theme = useTheme();
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const userListData = useLazyGetDealOwnersListQuery();
   return [
@@ -100,26 +98,6 @@ export const dataArray = () => {
       },
       component: RHFDatePicker,
       md: 12,
-    },
-    {
-      componentProps: {
-        name: 'time',
-        label: 'Due Time',
-        fullWidth: true,
-      },
-
-      component: RHFDatePicker,
-
-      md: 12,
-    },
-    {
-      componentProps: {
-        color: theme?.palette?.grey[500],
-        variant: 'body2',
-        heading: 'You can customize your default settings. Go to Settings',
-      },
-      gridLength: 12,
-      component: Typography,
     },
     {
       componentProps: {
