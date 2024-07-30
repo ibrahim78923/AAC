@@ -106,7 +106,7 @@ export const xAxesDataArray: any = {
     {
       label: 'Users',
       value: 'users',
-      ref: null,
+      ref: COLLECTION_NAME?.USERS,
     },
   ],
   CAMPAIGN: [

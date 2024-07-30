@@ -33,6 +33,11 @@ export const SaveReportDrawer = (props: any) => {
           ? patchGenericReportStatus?.isLoading
           : postGenericReportStatus?.isLoading
       }
+      disabledCancelBtn={
+        reportId
+          ? patchGenericReportStatus?.isLoading
+          : postGenericReportStatus?.isLoading
+      }
     >
       <FormProvider methods={saveReportsMethods}>
         <Grid container spacing={1}>

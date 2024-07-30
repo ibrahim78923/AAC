@@ -79,8 +79,8 @@ const ImportModal = () => {
           <Box
             width={
               modalStep === 3
-                ? { sm: '45rem', xs: '100%' }
-                : { sm: '35rem', xs: '100%' }
+                ? { md: '45rem', xs: '100vw' }
+                : { sm: '35rem', xs: '100vw' }
             }
           >
             <Box
@@ -98,7 +98,16 @@ const ImportModal = () => {
             </Box>
             <Container>
               <Chip label={`Step ${modalStep} of 3`} color="secondary" />
-              <Box height={'49rem'} overflow={'scroll'} mt={1}>
+              {modalStep === 3 && (
+                <Typography fontWeight={600} color="custom.main" mt={1.5}>
+                  Map Columns from your file to the right CRM fields.
+                </Typography>
+              )}
+              <Box
+                height={modalStep === 3 ? '47rem' : '49rem'}
+                overflow={'scroll'}
+                mt={1}
+              >
                 <FormProvider methods={methodsImportModalForm}>
                   {steps[modalStep]}
                 </FormProvider>

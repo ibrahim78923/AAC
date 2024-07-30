@@ -165,6 +165,7 @@ export const importTableFields = (
           name={`${name}.${index}.fileColumn`}
           control={control}
           size="small"
+          sx={{ minWidth: '10rem' }}
           disabled={true}
         />
       ),
@@ -178,7 +179,7 @@ export const importTableFields = (
           options={stepsData[importLog]}
           fullWidth
           required={true}
-          sx={{ minWidth: { sm: '14rem', xs: '7rem' } }}
+          sx={{ minWidth: '10rem' }}
           placeholder={'Select'}
         />
       ),
