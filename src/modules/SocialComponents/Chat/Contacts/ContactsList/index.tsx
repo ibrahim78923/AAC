@@ -36,8 +36,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
+import { ContactListPropsI } from './contactsList.interface';
 
-const ContactList = ({ chatMode, handleManualRefetch }: any) => {
+const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   const theme = useTheme();
   const [isDeletedFilter, setIsDeletedFilter] = useState(false);
   const [unReadFilter, setUnReadFilter] = useState(false);

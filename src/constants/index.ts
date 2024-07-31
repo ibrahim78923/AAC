@@ -592,4 +592,6 @@ export const AIR_SALES_GOAL_NOTIFICATION = {
 export const CHAT_TYPES = {
   GROUP_CHAT: 'groupChat',
   PERSONAL_CHAT: 'personalChat',
+  SENDER: 'sender',
+  RECIEVER: 'receiver',
 };

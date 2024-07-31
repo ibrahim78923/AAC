@@ -109,7 +109,11 @@ const ChatHeader = ({ chatMode }: any) => {
           <Box>
             <Typography
               variant="h4"
-              sx={{ fontWeight: '500', color: theme?.palette?.common?.white }}
+              sx={{
+                fontWeight: '500',
+                color: theme?.palette?.common?.white,
+                textTransform: 'capitalize',
+              }}
             >
               {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>

@@ -149,6 +149,18 @@ const ChatField = ({ isError }: any) => {
                 </>
               )}
             </Box>
+
+            {isChatMessagesLoading && chatDataToShow?.length < 0 && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginBottom: '-30px',
+                }}
+              >
+                <CircularProgress size={25} />
+              </Box>
+            )}
           </>
         )}
       </Box>

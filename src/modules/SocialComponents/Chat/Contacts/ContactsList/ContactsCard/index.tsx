@@ -28,13 +28,14 @@ import { useUpdateChatMutation } from '@/services/chat';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 import { PAGINATION } from '@/config';
+import { ContactsCardPropsI } from './contactsCard.interface';
 
 const ContactsCard = ({
   cardData,
   setSelectedValues,
   selectedValues,
   handleManualRefetch,
-}: any) => {
+}: ContactsCardPropsI) => {
   const theme = useTheme();
   const [isCardHover, setIsCardHover] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -200,7 +201,11 @@ const ContactsCard = ({
               <Box sx={{ maxWidth: '220px' }}>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: '600', whiteSpace: 'nowrap' }}
+                  sx={{
+                    fontWeight: '600',
+                    whiteSpace: 'nowrap',
+                    textTransform: 'capitalize',
+                  }}
                 >
                   {chatMode === 'groupChat' ? (
                     <>{cardData?.item?.groupName}</>

@@ -4,6 +4,11 @@ import { Box, Menu, MenuItem } from '@mui/material';
 
 import { v4 as uuidv4 } from 'uuid';
 
+interface MenuI {
+  handler: () => void;
+  menuLabel: string;
+}
+
 const ChatDropdown = ({
   anchorEl,
   actionMenuOpen,
@@ -19,7 +24,7 @@ const ChatDropdown = ({
         open={actionMenuOpen}
         onClose={handleClose}
       >
-        {menuData?.map((menu: any) => (
+        {menuData?.map((menu: MenuI) => (
           <MenuItem onClick={menu?.handler} key={uuidv4()}>
             {menu?.menuLabel}
           </MenuItem>

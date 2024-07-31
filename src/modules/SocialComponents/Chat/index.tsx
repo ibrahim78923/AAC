@@ -32,6 +32,7 @@ import { enqueueSnackbar } from 'notistack';
 import { UserDefault } from '@/assets/images';
 import { PAGINATION } from '@/config';
 import { API_STATUS, CHAT_TYPES } from '@/constants';
+import { UserI } from './chat.interface';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -120,7 +121,7 @@ const Chat = () => {
     }
   }, [status]);
 
-  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+  const transformedData = chatsUsers?.data?.users?.map((item: UserI) => ({
     id: item?._id,
     firstName: item?.firstName,
     lastName: item?.lastName,
