@@ -79,6 +79,7 @@ export const useCreateFeedback = (props: any) => {
   const sendSurveyPeople = watch('sendSurveyPeople');
   const shareSurveyPeople = watch('shareSurveyPeople');
   const surveyTitle = watch('surveyTitle');
+  const uuid = watch('UUID');
   const handlePublish = async (handleClose: any) => {
     setIsStatus(true);
     if (!!sendSurveyPeople?.length || !!shareSurveyPeople?.length) {
@@ -88,7 +89,10 @@ export const useCreateFeedback = (props: any) => {
         'subject',
         `Invitation to Participate in ${surveyTitle} Survey`,
       );
-      emailParams?.append('html', emailHtml({ sessionData, theme }));
+      emailParams?.append(
+        'html',
+        emailHtml({ sessionData, theme, uuid, surveyTitle }),
+      );
       await postSurveyEmailTrigger(emailParams);
     }
     const publishParams = {

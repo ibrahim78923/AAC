@@ -1,5 +1,5 @@
 import { Permissions } from '@/constants/permissions';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Theme } from '@mui/material';
 
 export const feedbackValuesType = {
   survey: 'survey',
@@ -92,12 +92,22 @@ export const feedbackSubmitDropdown = ({
     permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
   },
 ];
-export const emailHtml = ({ sessionData, theme }: any) =>
+export const emailHtml = ({
+  sessionData,
+  theme,
+  uuid,
+  surveyTitle,
+}: {
+  theme: Theme;
+  uuid: string;
+  surveyTitle: string;
+  sessionData: { user: { organization: { name: string } } };
+}) =>
   `<p><b>Dear Valued Contributor,</b></p>
 <p>I hope this message finds you well. We would like to invite you to participate in an anonymous survey for the Learning Workshop 2023.</p>
 <p>The purpose of this survey is to help our management team better understand your work experience. Your participation is completely private, and your answers will remain confidential.</p>
 <p>To fill out the survey, please visit the following link:<br>
-<a href="https://example.com/survey" style="text-decoration: underline; color: ${theme?.palette?.blue?.link_blue}" target="_blank">Learning Workshop 2023 Survey</a></p><br/>
+<a href="${window?.location?.origin}/survey/response?surveyId=${uuid}" style="text-decoration: underline; color: ${theme?.palette?.blue?.link_blue}" target="_blank">${surveyTitle}</a></p><br/>
 <p>Thank you in advance for your valuable feedback.</p><br/>
-<p>Regards,<br><b>${sessionData?.user?.organization?.name}</b></p>
+<p>Regards,<br/><br><b>${sessionData?.user?.organization?.name}</b></p>
 `;
