@@ -30,14 +30,9 @@ export default function DroppableArea(props: any) {
     fontSize,
     color,
     form,
-    tableTitle,
-    chartType,
     setAddProperties,
     columnsData,
     allChartComponents,
-    chartTitle,
-    textTitle,
-    subFilter,
     setShowTemplate,
     showTemplate,
     draggedItemData,
@@ -50,6 +45,7 @@ export default function DroppableArea(props: any) {
     setValue,
     isLoading,
     isFetching,
+    watch,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -362,11 +358,9 @@ export default function DroppableArea(props: any) {
                 <>
                   {modal?.chart && (
                     <Chart
-                      chartType={chartType}
                       allChartComponents={allChartComponents}
-                      chartTitle={chartTitle}
-                      subFilter={subFilter}
                       setCalendarFilter={setCalendarFilter}
+                      watch={watch}
                     />
                   )}
                   {modal?.text && (
@@ -375,13 +369,13 @@ export default function DroppableArea(props: any) {
                       setEditorState={setEditorState}
                       fontSize={fontSize}
                       color={color}
-                      textTitle={textTitle}
                       setValue={setValue}
+                      watch={watch}
                     />
                   )}
                   {modal?.table && (
                     <Table
-                      tableTitle={tableTitle}
+                      watch={watch}
                       setAddProperties={setAddProperties}
                       columnsData={columnsData}
                     />

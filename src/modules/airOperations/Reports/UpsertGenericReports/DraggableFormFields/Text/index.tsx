@@ -6,9 +6,16 @@ import { CheckBox } from '@mui/icons-material';
 import { EditInputIcon } from '@/assets/icons';
 
 export const Text = (props: any) => {
-  const { editorState, setEditorState, textTitle, setValue } = props;
-  const { handleKeyCommand, styleMap, setEditValue, editValue, setEdit, edit } =
-    useText(props);
+  const { editorState, setEditorState, setValue } = props;
+  const {
+    handleKeyCommand,
+    styleMap,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
+    textTitle,
+  } = useText(props);
 
   return (
     <>

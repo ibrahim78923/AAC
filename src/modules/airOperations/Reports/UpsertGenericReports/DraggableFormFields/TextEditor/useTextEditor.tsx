@@ -15,11 +15,12 @@ export const useTextEditor = (props: any) => {
     setEditorState,
     form,
     setForm,
-    textTitle,
     setValue,
     setDraggedItemData,
+    watch,
   } = props;
   const [saveDisable, setSaveDisable] = useState(true);
+  const textTitle = watch('textTitle');
   useEffect(() => {
     const rawContentState = convertToRaw(editorState?.getCurrentContent());
     const blocks = rawContentState?.blocks;

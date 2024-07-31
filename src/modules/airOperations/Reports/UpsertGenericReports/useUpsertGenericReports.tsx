@@ -61,13 +61,7 @@ export default function useUpsertGenericReports() {
   });
 
   const { watch, setValue } = methods;
-  const textTitle = watch('textTitle');
-  const tableTitle = watch('tableTitle');
-  const chartTitle = watch('chartTitle');
   const chartType = watch('chartType');
-  const xAxisData = watch('xAxis');
-  const subFilter = watch('subFilter');
-  const xAxisType = watch('xAxisType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -298,7 +292,7 @@ export default function useUpsertGenericReports() {
           return null;
         })
         .filter(Boolean);
-      setForm([...form, ...newFormItems]);
+      setForm(() => [...newFormItems]);
     }
   }, [singleReport]);
 
@@ -337,8 +331,6 @@ export default function useUpsertGenericReports() {
     color,
     setFontSize,
     fontSize,
-    textTitle,
-    tableTitle,
     setValue,
     AddProperties,
     setAddProperties,
@@ -346,12 +338,8 @@ export default function useUpsertGenericReports() {
     setColumnsData,
     setOpenDrawer,
     openDrawer,
-    chartType,
     setMetricType,
     metricType,
-    chartTitle,
-    xAxisData,
-    subFilter,
     allChartComponents,
     showTemplate,
     setShowTemplate,
@@ -362,11 +350,11 @@ export default function useUpsertGenericReports() {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
-    xAxisType,
     moduleName,
     isLoading,
     isFetching,
     singleReport,
     handleMoveBack,
+    watch,
   };
 }

@@ -19,7 +19,6 @@ import { useTableEditor } from './useTableEditor';
 import { tableFieldsI } from './TableEditor.interface';
 export const TableEditor = (props: any) => {
   const {
-    tableTitle,
     setValue,
     setColumnsData,
     setAddProperties,
@@ -35,6 +34,7 @@ export const TableEditor = (props: any) => {
     edit,
     handleSave,
     setColumnObject,
+    tableTitle,
   } = useTableEditor(props);
   return (
     <>

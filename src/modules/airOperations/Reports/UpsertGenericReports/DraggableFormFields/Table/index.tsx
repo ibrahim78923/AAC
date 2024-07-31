@@ -3,7 +3,8 @@ import { Box, Typography } from '@mui/material';
 import { tableColumn } from './Table.data';
 
 export const Table = (props: any) => {
-  const { tableTitle, columnsData } = props;
+  const { columnsData, watch } = props;
+  const tableTitle = watch('tableTitle');
   return (
     <>
       <Box boxShadow={2} p={2} borderRadius={2}>

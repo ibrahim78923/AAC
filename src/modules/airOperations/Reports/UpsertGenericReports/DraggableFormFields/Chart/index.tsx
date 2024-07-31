@@ -2,14 +2,10 @@ import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import { Box, Typography } from '@mui/material';
 
 export const Chart = (props: any) => {
-  const {
-    chartType,
-    allChartComponents,
-    chartTitle,
-    subFilter,
-    setCalendarFilter,
-  } = props;
-
+  const { allChartComponents, setCalendarFilter, watch } = props;
+  const chartTitle = watch('chartTitle');
+  const subFilter = watch('subFilter');
+  const chartType = watch('chartType');
   return (
     <>
       <Box border={1} borderColor={'grey.700'} p={1} borderRadius={2}>

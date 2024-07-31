@@ -20,13 +20,9 @@ export default function DraggableFields({
   setFieldData,
   form,
   setForm,
-  chartType,
   metricType,
   setValue,
-  chartTitle,
   allChartComponents,
-  xAxisData,
-  subFilter,
   setEditorState,
   fieldsList,
   fieldData,
@@ -36,8 +32,6 @@ export default function DraggableFields({
   setFontSize,
   color,
   setColor,
-  textTitle,
-  tableTitle,
   AddProperties,
   setAddProperties,
   setColumnsData,
@@ -50,13 +44,13 @@ export default function DraggableFields({
   reportId,
   setDraggedItemData,
   disableTemplate,
-  xAxisType,
   draggedItemData,
   templateList,
   mainMetrics,
   selectedModule,
   singleReport,
   handleMoveBack,
+  watch,
 }: any) {
   const theme: any = useTheme();
 
@@ -233,20 +227,16 @@ export default function DraggableFields({
                 <ChartEditor
                   setModal={setModal}
                   setFieldData={setFieldData}
-                  chartType={chartType}
                   metricType={metricType}
                   setValue={setValue}
-                  chartTitle={chartTitle}
                   form={form}
                   setForm={setForm}
                   allChartComponents={allChartComponents}
-                  xAxisData={xAxisData}
-                  subFilter={subFilter}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
                   disableTemplate={disableTemplate}
-                  xAxisType={xAxisType}
                   draggedItemData={draggedItemData}
+                  watch={watch}
                 />
               )}
 
@@ -265,13 +255,12 @@ export default function DraggableFields({
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
                   setValue={setValue}
-                  textTitle={textTitle}
+                  watch={watch}
                 />
               )}
               {modal?.table && (
                 <TableEditor
                   setValue={setValue}
-                  tableTitle={tableTitle}
                   AddProperties={AddProperties}
                   setColumnsData={setColumnsData}
                   setAddProperties={setAddProperties}
@@ -285,6 +274,7 @@ export default function DraggableFields({
                   disableTemplate={disableTemplate}
                   metricType={metricType}
                   draggedItemData={draggedItemData}
+                  watch={watch}
                 />
               )}
             </>

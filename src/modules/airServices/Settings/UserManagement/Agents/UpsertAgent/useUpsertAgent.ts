@@ -16,7 +16,7 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import { ROLES } from '@/constants/strings';
+import { ARRAY_INDEX, ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
@@ -171,8 +171,9 @@ export const useUpsertAgent = (props: any) => {
   const updateAgent = async (formData: any) => {
     delete formData?.email;
     const body = {
-      id: selectedAgentList?.[0]?._id,
       ...formData,
+      permissionsRole: formData?.permissionsRole?._id,
+      id: selectedAgentList?.[ARRAY_INDEX?.ZERO]?._id,
     };
 
     const apiDataParameter = {

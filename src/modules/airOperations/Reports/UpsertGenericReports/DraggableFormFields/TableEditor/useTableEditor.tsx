@@ -9,14 +9,15 @@ export const useTableEditor = (props: any) => {
     setModal,
     setFieldData,
     form,
-    tableTitle,
     setValue,
     setColumnsData,
     columnsData,
     setDraggedItemData,
     draggedItemData,
+    watch,
   } = props;
   const [edit, setEdit] = useState(true);
+  const tableTitle = watch('tableTitle');
   const [columnObject, setColumnObject] = useState([]);
   const [editValue, setEditValue] = useState(tableTitle);
   const handleSave = () => {
@@ -54,5 +55,6 @@ export const useTableEditor = (props: any) => {
     edit,
     handleSave,
     setColumnObject,
+    tableTitle,
   };
 };

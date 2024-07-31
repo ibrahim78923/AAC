@@ -18,18 +18,19 @@ export const useChartEditor = (props: any) => {
     setFieldData,
     setModal,
     setValue,
-    chartTitle,
     form,
     setForm,
-    xAxisData,
-    chartType,
-    subFilter,
     setDraggedItemData,
-    xAxisType,
     draggedItemData,
+    watch,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
+  const chartTitle = watch('chartTitle');
+  const xAxisData = watch('xAxis');
+  const xAxisType = watch('xAxisType');
+  const subFilter = watch('subFilter');
+  const chartType = watch('chartType');
   const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
 
   const handleSave = () => {
@@ -136,5 +137,9 @@ export const useChartEditor = (props: any) => {
     editValue,
     setEditValue,
     singleFieldDropdown,
+    chartTitle,
+    xAxisData,
+    xAxisType,
+    chartType,
   };
 };

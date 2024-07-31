@@ -56,7 +56,7 @@ export const DATE_TIME_FORMAT = {
 
 export const VALIDATION_CONSTANT = {
   PHONE_NUMBER: {
-    regex: /^\+447[0-9]{9}$/,
+    regex: /^\+44[0-9]{11}$/,
     message: 'Only UK phone number',
   },
 };

@@ -330,10 +330,10 @@ export const useSaveReportDrawer = (props: any) => {
     if (reportId) {
       try {
         await patchGenericReportTrigger(params)?.unwrap();
-        successSnackbar('Report Edit Successfully');
+        successSnackbar('Report Customize Successfully');
         handleMoveBack();
       } catch (err: any) {
-        errorSnackbar(err?.message ?? 'Error in Edit report');
+        errorSnackbar(err?.message ?? 'Error in customize report');
       }
     } else {
       try {
@@ -341,7 +341,7 @@ export const useSaveReportDrawer = (props: any) => {
         successSnackbar('Report Created Successfully');
         handleMoveBack();
       } catch (err: any) {
-        errorSnackbar(err?.message ?? 'Error in saving report');
+        errorSnackbar(err?.message ?? 'Error in creating report');
       }
     }
   };
