@@ -4,7 +4,7 @@ import useAuth from '@/hooks/useAuth';
 import { useLazyGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
 import { AIR_SERVICES } from '@/constants';
 import { dashboardDropdownActionsDynamic } from './Dashboard.data';
-import { successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { htmlToPdfConvert, htmlToPngConvert } from '@/utils/file';
 import { useTheme } from '@mui/material';
 import { DOWNLOAD_FILE_TYPE } from '@/constants/strings';
@@ -27,11 +27,11 @@ export const useDashboard = () => {
             downloadRef,
             theme?.palette?.common?.white,
             apiLoader?.data?.data?.dashboard?.name,
-            3,
           )
         : await htmlToPdfConvert?.(
             downloadRef,
             apiLoader?.data?.data?.dashboard?.name,
+            20,
           );
     } catch (error) {}
     setIsDownloading({});
@@ -49,6 +49,10 @@ export const useDashboard = () => {
   }`;
 
   const copyEmail = () => {
+    if (!apiLoader?.data?.data?.dashboard?._id) {
+      errorSnackbar('Dashboard link not found.');
+      return;
+    }
     navigator?.clipboard?.writeText(emailToCopy);
     successSnackbar('Link has been copied successfully.');
   };
@@ -78,6 +82,9 @@ export const useDashboard = () => {
   });
 
   const onsubmit = (data: any) => {
+    if (router?.query?.dashboardId) {
+      router?.push?.(AIR_SERVICES?.DASHBOARD);
+    }
     setDashboardId?.(data?.dashboardId);
   };
 

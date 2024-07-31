@@ -51,9 +51,7 @@ export const manageDashboardsDataColumnsDynamic = (
             changeDefaultServicesDashboardStatus?.originalArgs?.body?.id ===
               info?.row?.original?._id
           }
-          disabled={
-            info?.getValue() || changeDefaultServicesDashboardStatus?.isLoading
-          }
+          disabled={changeDefaultServicesDashboardStatus?.isLoading}
         />
       </PermissionsGuard>
     ),

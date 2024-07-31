@@ -61,5 +61,6 @@ export const useSingleDashboard = (props: any) => {
     setTicketType,
     departmentId,
     setDepartmentId,
+    router,
   };
 };

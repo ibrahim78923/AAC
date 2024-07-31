@@ -109,6 +109,13 @@ export const UpsertSurveyResponse = (props: any) => {
                   >
                     <Typography variant="h6" mb={1}>
                       {item?.questionTitle}
+
+                      {item?.isRequired && (
+                        <Typography color={'error.main'} component="span">
+                          {' '}
+                          *
+                        </Typography>
+                      )}
                     </Typography>
                     <>
                       {FEEDBACK_SURVEY_RESPONSE_QUESTION?.[

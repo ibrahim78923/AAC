@@ -23,3 +23,5 @@ export const dashboardDropdownActionsDynamic = (
     permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD],
   },
 ];
+
+export const NO_DEFAULT_DASHBOARD = 'No Default Dashboard found!';

@@ -65,7 +65,8 @@ export const useEmailThisDashboard = (props: any) => {
     emailFormData?.append('recipients', formData?.email);
     emailFormData?.append('subject', formData?.emailSubject);
     emailFormData?.append('html', formData?.message);
-    emailFormData?.append('attachments', formData?.attachments);
+    formData?.attachments !== null &&
+      emailFormData?.append('attachments', formData?.attachments);
 
     const apiDataParameter = {
       body: emailFormData,
@@ -79,6 +80,7 @@ export const useEmailThisDashboard = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const sendDashboardViaEmailFormFields =
     sendDashboardViaEmailFormFieldsDynamic?.(isRecurringWatch);
 

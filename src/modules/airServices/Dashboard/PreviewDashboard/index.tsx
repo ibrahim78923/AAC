@@ -34,7 +34,9 @@ export const PreviewDashboard = (props: any) => {
             mb={1.5}
           >
             <Typography variant="h4" color="slateBlue.main">
-              Service
+              {isPortalOpen?.isStaticView
+                ? 'Preview Dashboard'
+                : isPortalOpen?.data?.name}
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
@@ -46,7 +48,7 @@ export const PreviewDashboard = (props: any) => {
           <Grid container spacing={3} p={2}>
             {isPortalOpen?.isDynamicPreview ? (
               <SingleDashboard
-                dashboardId={isPortalOpen?.data?._id}
+                dashboardId={{ _id: isPortalOpen?.data?._id }}
                 isPreviewMode
               />
             ) : isPortalOpen?.isStaticView ? (

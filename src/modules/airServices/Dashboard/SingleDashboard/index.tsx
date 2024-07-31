@@ -1,5 +1,5 @@
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
-import { Box, Grid, Skeleton } from '@mui/material';
+import { Box, Button, Grid, Skeleton } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import NoData from '@/components/NoData';
@@ -11,6 +11,8 @@ import { useSingleDashboard } from './useSingleDashboard';
 import { ticketDashboardCardsData } from '../TicketDashboardCards/TicketDashboardCards.data';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
 import { ReportsWidgets } from '../ReportsWidgets';
+import { NO_DEFAULT_DASHBOARD } from '../Dashboard.data';
+import { AIR_SERVICES } from '@/constants';
 
 export const SingleDashboard = (props: any) => {
   const { isPreviewMode = false } = props;
@@ -23,6 +25,7 @@ export const SingleDashboard = (props: any) => {
     setTicketType,
     departmentId,
     setDepartmentId,
+    router,
   } = useSingleDashboard(props);
 
   if (
@@ -62,7 +65,24 @@ export const SingleDashboard = (props: any) => {
 
         <br />
         {lazyGetSingleServicesDashboardStatus?.isError ? (
-          <ApiErrorState />
+          <ApiErrorState
+            message={
+              lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
+              NO_DEFAULT_DASHBOARD
+                ? 'No default dashboard found!'
+                : 'Something went wrong'
+            }
+          >
+            {lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
+              NO_DEFAULT_DASHBOARD && (
+              <Button
+                variant="contained"
+                onClick={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
+              >
+                Create Dashboard
+              </Button>
+            )}
+          </ApiErrorState>
         ) : !!!lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard
             ?.reports?.length ? (
           <NoData />

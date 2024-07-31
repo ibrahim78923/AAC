@@ -16,7 +16,7 @@ export const Table = (props: any) => {
     >
       <PageTitledHeader title={title} />
       <Box>
-        <TanstackTable data={data?.slice?.(0, 10)} columns={tableColumn} />
+        <TanstackTable data={data?.slice?.(-10)} columns={tableColumn} />
       </Box>
     </Box>
   );

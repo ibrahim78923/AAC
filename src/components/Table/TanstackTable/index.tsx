@@ -45,6 +45,7 @@ const TanstackTable = (props: any) => {
     paginationPaddingX = 2,
     noDataTableText = 'No data available',
     noDataTableImage = NoAssociationFoundImage,
+    errorChildren,
   } = props;
 
   const { table } = useTanstackTable(data, columns, showSerialNo);
@@ -129,7 +130,7 @@ const TanstackTable = (props: any) => {
               </TableBody>
             </Table>
             {isError ? (
-              <ApiErrorState />
+              <ApiErrorState>{errorChildren}</ApiErrorState>
             ) : (
               !table?.getCoreRowModel()?.rows?.length &&
               isSuccess && (

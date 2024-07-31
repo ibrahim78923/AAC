@@ -97,7 +97,7 @@ export const AIR_SERVICES = {
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
-  CREATE_DASHBOARD: '/air-services/dashboard/create-dashboard',
+  CREATE_DASHBOARD: '/air-services/dashboard/upsert-dashboard',
   MANAGE_DASHBOARD: '/air-services/dashboard/manage-dashboard',
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
   KNOWLEDGE_BASE_VIEW_ARTICLE:

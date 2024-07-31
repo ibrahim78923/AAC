@@ -18,6 +18,8 @@ export const ManageDashboard = () => {
     isPortalOpen,
     setIsPortalOpen,
     manageDashboardsDataColumns,
+    getDashboardListData,
+    page,
   } = useManageDashboard();
 
   return (
@@ -70,6 +72,14 @@ export const ManageDashboard = () => {
           isSuccess={lazyGetDashboardStatus?.isSuccess}
           onPageChange={(page: any) => setPage(page)}
           isPagination
+          errorChildren={
+            <Button
+              variant="contained"
+              onClick={() => getDashboardListData?.(page)}
+            >
+              Refresh
+            </Button>
+          }
         />
       </Box>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

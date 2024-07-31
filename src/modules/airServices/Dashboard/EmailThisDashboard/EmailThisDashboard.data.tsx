@@ -92,7 +92,16 @@ export const createEmailThisDashboardValidationSchema: any =
       ?.nullable()
       ?.when('isRecurring', {
         is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
-        then: () => Yup?.mixed()?.nullable()?.required('Required'),
+        then: () =>
+          Yup?.mixed()?.nullable()?.required('Time of days is Required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
+    attachments: Yup?.mixed()
+      ?.nullable()
+      ?.when('isRecurring', {
+        is: (value: any) => value === EMAIL_SEND_TYPE?.ONCE,
+        then: () =>
+          Yup?.mixed()?.nullable()?.required('Attachments is Required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
   });
@@ -106,6 +115,7 @@ export const createEmailThisDashboardDefaultValues: any = {
   emailNickname: '',
   schedule: null,
   timeOfDays: null,
+  attachments: null,
 };
 
 export const sendDashboardViaEmailFormFieldsDynamic = (
@@ -174,7 +184,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.RECURRING
       ? [
           {
-            id: 42,
+            id: 6,
             componentProps: {
               name: 'schedule',
               label: 'Schedule',
@@ -188,7 +198,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 43,
+            id: 7,
             componentProps: {
               name: 'timeOfDays',
               label: 'Time of days',
@@ -200,7 +210,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 6,
+            id: 8,
             componentProps: {
               name: 'filetype',
               label: 'File type',
@@ -218,7 +228,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
       ? [
           {
-            id: 5,
+            id: 9,
             componentProps: {
               name: 'attachments',
               label: 'Attach Report',

@@ -54,11 +54,11 @@ export const useManageDashboard = () => {
     getDashboardListData();
   }, [search, page, pageLimit, dashboardFilterLists]);
 
-  const changeDefaultDashboard = async (_: any, data: any) => {
+  const changeDefaultDashboard = async (e: any, data: any) => {
     const apiDataParameter = {
       body: {
         id: data?._id,
-        isDefault: true,
+        isDefault: e?.target?.checked,
       },
     };
 
@@ -110,5 +110,7 @@ export const useManageDashboard = () => {
     isPortalOpen,
     setIsPortalOpen,
     manageDashboardsDataColumns,
+    getDashboardListData,
+    page,
   };
 };

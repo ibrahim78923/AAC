@@ -32,7 +32,7 @@ const Dashboard = () => {
     <PermissionsGuard
       permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
     >
-      <Box ref={downloadRef}>
+      <Box>
         {apiLoader?.isLoading || apiLoader?.isFetching ? (
           <Skeleton />
         ) : (
@@ -60,6 +60,7 @@ const Dashboard = () => {
               dropdownOptions={dashboardDropdownActions}
               dropdownName="Actions"
               disabled={apiLoader?.isLoading || apiLoader?.isFetching}
+              color="inherit"
             />
             <FormProvider methods={methods}>
               <RHFAutocompleteAsync
@@ -83,6 +84,7 @@ const Dashboard = () => {
                     display={'flex'}
                     alignItems={'center'}
                     justifyContent={'space-between'}
+                    width={'100%'}
                   >
                     <Box>
                       <Typography variant="body2" component={'span'} flex={1}>
@@ -103,7 +105,7 @@ const Dashboard = () => {
               />
             </FormProvider>
             <Button
-              color="secondary"
+              color="inherit"
               variant="outlined"
               onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
               disabled={apiLoader?.isLoading || apiLoader?.isFetching}
@@ -113,12 +115,15 @@ const Dashboard = () => {
           </Box>
         </Box>
         <br />
-        <SingleDashboard
-          dashboardId={dashboardId}
-          setDashboardId={setDashboardId}
-          apiLoader={apiLoader}
-          setApiLoader={setApiLoader}
-        />
+        <br />
+        <Box ref={downloadRef}>
+          <SingleDashboard
+            dashboardId={dashboardId}
+            setDashboardId={setDashboardId}
+            apiLoader={apiLoader}
+            setApiLoader={setApiLoader}
+          />
+        </Box>
         <br />
         {isDrawerOpen && (
           <EmailThisDashboard
