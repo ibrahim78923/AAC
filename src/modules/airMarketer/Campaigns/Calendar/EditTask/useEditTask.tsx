@@ -10,7 +10,7 @@ import {
   useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
 import { useEffect } from 'react';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 const useEditTask = ({
@@ -20,15 +20,15 @@ const useEditTask = ({
   createTask,
 }: any) => {
   const theme = useTheme();
+  const CAMPAIGN_ID = 'campaignId';
   const [postCampaignTask, { isLoading: postTaskLoading }] =
     usePostCampaignTaskMutation();
 
   const [updateCampaignTasks, { isLoading: updateTaskLoading }] =
     useUpdateCampaignTasksMutation();
 
-  const { data: getCampaignsTaskById } = useGetCampaignsTaskByIdQuery(
-    createTask?.id,
-  );
+  const { data: getCampaignsTaskById, isLoading: loadingCampaignTasks } =
+    useGetCampaignsTaskByIdQuery(createTask?.id);
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -45,7 +45,9 @@ const useEditTask = ({
       campaignId: data?.campaignDetails[0],
       assignedTo: data?.assignedTo[0],
       dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
-      time: data?.time ? new Date(data?.time) : null,
+      time: data?.time
+        ? dayjs(data?.time)?.format(DATE_TIME_FORMAT?.DUE_DATE_TIME)
+        : null,
       note: data?.note,
     };
     for (const key in fieldsToSet) {
@@ -83,9 +85,11 @@ const useEditTask = ({
   };
 
   return {
+    loadingCampaignTasks,
     updateTaskLoading,
     postTaskLoading,
     handleSubmit,
+    CAMPAIGN_ID,
     onSubmit,
     methods,
     theme,

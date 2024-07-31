@@ -15,8 +15,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ActionButtonI } from '../Campaigns.interface';
 
-const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
+const ActionButton = ({ selectedRows, setSelectedRows }: ActionButtonI) => {
   const {
     selectedValue,
     handleClick,
@@ -27,7 +28,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
     deleteCampaignsLoading,
   } = useCampaigns();
 
-  const handleDeleteCampaigns = async (id: string) => {
+  const handleDeleteCampaigns = async (id: string[]) => {
     try {
       await deleteCampaigns({ ids: id })?.unwrap();
       enqueueSnackbar('Campaigns deleted successfully', {
@@ -109,6 +110,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
           />
         </PermissionsGuard>
       )}
+
       {actionsModalDetails?.isClone && (
         <CloneModal
           openCloneModal={actionsModalDetails?.isClone}
@@ -122,6 +124,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
           setSelectedRows={setSelectedRows}
         />
       )}
+
       {actionsModalDetails?.isOpenFilterDrawer && (
         <PermissionsGuard
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_GOALS]}
@@ -137,6 +140,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
           />
         </PermissionsGuard>
       )}
+
       {actionsModalDetails?.isExportCompaign && (
         <PermissionsGuard
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EXPORT_CAMPAIGNS]}
@@ -152,6 +156,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
           />
         </PermissionsGuard>
       )}
+
       {actionsModalDetails?.isEditCompaign && (
         <PermissionsGuard
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_CAMPAIGNS]}
@@ -168,6 +173,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
           />
         </PermissionsGuard>
       )}
+
       {actionsModalDetails?.isViewDeatsils && (
         <PermissionsGuard
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.VIEW_DETAILS]}
@@ -184,6 +190,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
           />
         </PermissionsGuard>
       )}
+
       {actionsModalDetails?.isCreateTask && (
         <EditTask
           isOpenDrawer={actionsModalDetails?.isCreateTask}

@@ -52,6 +52,7 @@ export const DATE_TIME_FORMAT = {
   MMMMD: 'MMMM D[th] [at] h:mmA',
   MMM: 'MMM',
   DD: 'DD',
+  DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
 };
 
 export const VALIDATION_CONSTANT = {

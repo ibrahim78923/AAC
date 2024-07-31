@@ -23,7 +23,11 @@ import { getSession } from '@/utils';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { initvalues, validationSchema } from './Compaigns.data';
+import {
+  compareInitialVals,
+  initvalues,
+  validationSchema,
+} from './Compaigns.data';
 import { enqueueSnackbar } from 'notistack';
 
 const useCampaigns = () => {
@@ -52,7 +56,7 @@ const useCampaigns = () => {
   const [searchVal, setSearchVal] = useState('');
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
   const [searchCampaigns, setSearchCampaigns] = useState('');
-  const [selectedRows, setSelectedRows] = useState<any>([]);
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
@@ -96,6 +100,11 @@ const useCampaigns = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: initvalues,
   });
+
+  const compareMethods = useForm<any>({
+    defaultValues: compareInitialVals,
+  });
+
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
@@ -258,16 +267,6 @@ const useCampaigns = () => {
     setSelectedOptionsValue(option);
     setSelectedValue(null);
   };
-  const allCamopaignsData = campaignsData?.data?.campaigns;
-  const handleSelectAllCheckbox = (checked: any) => {
-    setSelectedRows(
-      checked ? allCamopaignsData?.map((obj: { _id: string }) => obj?._id) : [],
-    );
-  };
-  const handleSelectSingleCheckBox = (value: any, id: string) => {
-    if (value?.target?.checked) setSelectedRows([...selectedRows, id]);
-    else setSelectedRows(selectedRows?.filter((row: any) => row !== id));
-  };
 
   return {
     theme,
@@ -304,10 +303,7 @@ const useCampaigns = () => {
     searchCampaigns,
     handleResetFilters,
     filterLoading,
-    handleSelectSingleCheckBox,
-    handleSelectAllCheckbox,
     selectedRows,
-    allCamopaignsData,
     deleteCampaignsLoading,
     campaignDataById,
     setCampaignDataById,
@@ -332,6 +328,7 @@ const useCampaigns = () => {
     resetTasksFilters,
     setCurrentTabVal,
     organizationId,
+    compareMethods,
     setTaskFilters,
     currentTabVal,
     setIsFilters,

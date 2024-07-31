@@ -27,11 +27,12 @@ const CloneModal = ({
   const { createCampaignsLoading, UserListData, postCampaigns }: any =
     useCampaigns();
 
-  const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows, {
-    skip:
-      !Array?.isArray(selectedRows) ||
-      selectedRows?.length === indexNumbers?.ZERO,
-  });
+  const { data: compaignsDataById, isLoading: campaignByIdLoading } =
+    useGetCampaignsByIdQuery(selectedRows, {
+      skip:
+        !Array?.isArray(selectedRows) ||
+        selectedRows?.length === indexNumbers?.ZERO,
+    });
 
   useEffect(() => {
     const data = compaignsDataById?.data[indexNumbers?.ZERO];
@@ -103,7 +104,7 @@ const CloneModal = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={createCampaignsLoading}
       >
-        {createCampaignsLoading ? (
+        {campaignByIdLoading ? (
           <SkeletonTable />
         ) : (
           <Box mt={1}>

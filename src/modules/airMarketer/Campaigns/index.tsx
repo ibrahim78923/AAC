@@ -18,16 +18,12 @@ import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys'
 
 const Campaigns = () => {
   const {
-    handleSelectSingleCheckBox,
-    handleSelectAllCheckbox,
     createCampaignsLoading,
     setIsResetTaskFilter,
     setIsActionsDisabled,
     handleResetFilters,
     setSearchCampaigns,
     isResetTaskFilter,
-    allCamopaignsData,
-    isActionsDisabled,
     resetTasksFilters,
     setcheckedColumns,
     setCurrentTabVal,
@@ -35,7 +31,6 @@ const Campaigns = () => {
     setIsOpenFilter,
     searchCampaigns,
     setSelectedRows,
-    checkedColumns,
     setTaskFilters,
     organizationId,
     campaignsData,
@@ -57,6 +52,7 @@ const Campaigns = () => {
     filters,
     setPage,
     methods,
+    compareMethods,
     theme,
   } = useCampaigns();
 
@@ -136,10 +132,7 @@ const Campaigns = () => {
               campaignsData={campaignsData}
               handleResetFilters={handleResetFilters}
               filterLoading={filterLoading}
-              handleSelectSingleCheckBox={handleSelectSingleCheckBox}
-              handleSelectAllCheckbox={handleSelectAllCheckbox}
               selectedRows={selectedRows}
-              allCamopaignsData={allCamopaignsData}
               setSearchCampaigns={setSearchCampaigns}
               searchCampaigns={searchCampaigns}
               setSelectedRows={setSelectedRows}
@@ -147,9 +140,7 @@ const Campaigns = () => {
               setFilters={setFilters}
               setPageLimit={setPageLimit}
               setPage={setPage}
-              isActionsDisabled={isActionsDisabled}
               setIsActionsDisabled={setIsActionsDisabled}
-              checkedColumns={checkedColumns}
               setcheckedColumns={setcheckedColumns}
               setRowId={setRowId}
             />
@@ -212,14 +203,18 @@ const Campaigns = () => {
           footer={true}
         >
           <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={''}>
+            <FormProvider methods={compareMethods}>
               <Grid container spacing={2}>
                 {compareCampaignArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component
-                      {...item.componentProps}
-                      size={'small'}
-                    ></item.component>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
                   </Grid>
                 ))}
               </Grid>

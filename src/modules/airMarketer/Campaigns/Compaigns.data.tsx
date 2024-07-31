@@ -25,6 +25,7 @@ export const initvalues = {
   campaignAudience: '',
   campaignBudget: null,
 };
+
 export const campaignArray = (userListData: any, organizationId: any) => {
   return [
     {
@@ -129,6 +130,13 @@ export const campaignArray = (userListData: any, organizationId: any) => {
   ];
 };
 
+export const compareInitialVals = {
+  startDate: '',
+  endDate: '',
+  selectFirstCampaign: '',
+  selectSecondCampaign: '',
+};
+
 export const compareCampaignArray = [
   {
     componentProps: {
@@ -152,7 +160,7 @@ export const compareCampaignArray = [
   },
   {
     componentProps: {
-      name: 'selectCampaign1',
+      name: 'selectFirstCampaign',
       label: 'Select Campaign 1',
       fullWidth: true,
       select: true,
@@ -162,7 +170,7 @@ export const compareCampaignArray = [
   },
   {
     componentProps: {
-      name: 'Select Campaign 2',
+      name: 'selectSecondCampaign',
       label: 'Select Campaign 2',
       fullWidth: true,
       select: true,

@@ -23,11 +23,12 @@ export default function EditCampaign({
   const { UserListData, updateCampaigns, updateCampaignLoading } =
     useCampaigns();
 
-  const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows, {
-    skip:
-      !Array?.isArray(selectedRows) ||
-      selectedRows?.length === indexNumbers?.ZERO,
-  });
+  const { data: compaignsDataById, isLoading: campaignByIdLoading } =
+    useGetCampaignsByIdQuery(selectedRows, {
+      skip:
+        !Array?.isArray(selectedRows) ||
+        selectedRows?.length === indexNumbers?.ZERO,
+    });
 
   const methods = useForm({
     resolver: yupResolver(validationSchema),
@@ -117,7 +118,7 @@ export default function EditCampaign({
       submitHandler={handleSubmit(onSubmit)}
       isLoading={updateCampaignLoading}
     >
-      {updateCampaignLoading ? (
+      {campaignByIdLoading ? (
         <SkeletonTable />
       ) : (
         <Box mt={1}>
