@@ -8,7 +8,7 @@ export const eventArray = [
   {
     title: 'Testing 1',
     start: '2024-04-10T12:30:00',
-    end: '2024-04-10T13:30:00',
+    end: '2024-04-14T13:30:00',
     data: {
       email: 'kamran.zafar@ceative.co.uk',
       meetingTitle: 'BA meeting',

@@ -2,14 +2,15 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import multiMonthPlugin from '@fullcalendar/multimonth';
-import { eventArray } from '../CalendarView.data';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { CALENDER_TYPES } from '@/constants/strings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { EditPenCustomIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { truncateText } from '@/utils/avatarUtils';
-import { TIME_FORMAT } from '@/constants';
+import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { useRouter } from 'next/router';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const FullCalendarView = (props: any) => {
   const {
@@ -20,8 +21,12 @@ export const FullCalendarView = (props: any) => {
     hoveredEvent,
     handleEventMouseEnter,
     handleEventMouseLeave,
+    status,
+    meetingActiveType,
   } = props;
-
+  const router = useRouter();
+  const statusData = status?.data;
+  if (status?.isLoading || status?.isFetching) return <SkeletonForm />;
   return (
     <Box
       sx={{
@@ -58,91 +63,12 @@ export const FullCalendarView = (props: any) => {
             minute: '2-digit',
             timeZone: 'UTC',
           }}
-          events={eventArray}
+          events={statusData}
           eventClick={handleEventClick}
           eventContent={(eventInfo: any) => {
-            const eventId = eventInfo?.event?._def?.defId;
+            const eventId = eventInfo?.event?._def?.extendedProps?._id;
             const isHovered = eventId === hoveredEvent;
-            return (
-              <Tooltip
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: 'primary.light',
-                      boxShadow: 2,
-                      maxWidth: 'unset',
-                      borderRadius: 3,
-                      color: 'primary.dark',
-                    },
-                  },
-                }}
-                title={
-                  <>
-                    <Box
-                      display={'flex'}
-                      width={'100%'}
-                      gap={'1rem'}
-                      p={1}
-                      onMouseEnter={() => handleEventMouseEnter(eventId)}
-                      onMouseLeave={handleEventMouseLeave}
-                      key={eventId}
-                    >
-                      <Box
-                        display={'flex'}
-                        alignItems={'center'}
-                        gap={1}
-                        onClick={() => handleEventClick(eventInfo)}
-                        sx={{ cursor: 'pointer' }}
-                      >
-                        <Typography variant="body2">
-                          {eventInfo?.event?._def?.title}
-                        </Typography>
-                        <Typography variant="body2">
-                          {
-                            eventInfo?.event?._def?.extendedProps?.data
-                              ?.invitedBy
-                          }
-                        </Typography>
-                      </Box>
-                      {isHovered && (
-                        <Box
-                          display={'flex'}
-                          alignItems={'center'}
-                          sx={{ cursor: 'pointer' }}
-                        >
-                          <EditPenCustomIcon
-                            penColor={theme?.palette?.primary?.dark}
-                          />
-                          <DeleteIcon onClick={handleDelete} />
-                        </Box>
-                      )}
-                    </Box>
-                  </>
-                }
-              >
-                <Typography variant="body2" align="center" height={'100%'}>
-                  {truncateText(eventInfo?.event?._def?.title)}
-                </Typography>
-              </Tooltip>
-            );
-          }}
-        />
-      )}
-      {currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER && (
-        <FullCalendar
-          plugins={[timeGridPlugin]}
-          initialView={CALENDER_TYPES?.WEEK_VIEW_CALENDER}
-          allDaySlot={false}
-          eventTimeFormat={{
-            hour: 'numeric',
-            minute: '2-digit',
-            timeZone: 'UTC',
-          }}
-          events={eventArray}
-          eventClick={handleEventClick}
-          eventContent={(eventInfo: any) => {
-            const eventId = eventInfo?.event?._def?.defId;
-            const isHovered = eventId === hoveredEvent;
+            const findData = eventInfo?.event?._def?.extendedProps;
 
             return (
               <Tooltip
@@ -179,18 +105,126 @@ export const FullCalendarView = (props: any) => {
                           {eventInfo?.event?._def?.title}
                         </Typography>
                         <Typography variant="body2">
-                          {
-                            eventInfo?.event?._def?.extendedProps?.data
-                              ?.invitedBy
-                          }
+                          {eventInfo?.event?._def?.extendedProps?.userName}
                         </Typography>
                       </Box>
                       {isHovered && (
-                        <Box sx={{ cursor: 'pointer' }}>
-                          <EditPenCustomIcon
-                            penColor={theme?.palette?.primary?.dark}
-                          />
-                          <DeleteIcon onClick={handleDelete} />
+                        <Box
+                          display={'flex'}
+                          alignItems={'center'}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          <IconButton
+                            onClick={() =>
+                              router?.push({
+                                pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                                query: {
+                                  type: meetingActiveType(
+                                    eventInfo?.event?._def?.extendedProps?.type,
+                                  ),
+                                  id: eventId,
+                                },
+                              })
+                            }
+                          >
+                            <EditPenCustomIcon
+                              penColor={theme?.palette?.primary?.dark}
+                            />
+                          </IconButton>
+                          <DeleteIcon onClick={() => handleDelete(findData)} />
+                        </Box>
+                      )}
+                    </Box>
+                  </>
+                }
+              >
+                <Typography variant="body2" align="center" height={'100%'}>
+                  {truncateText(eventInfo?.event?._def?.title)}
+                </Typography>
+              </Tooltip>
+            );
+          }}
+        />
+      )}
+      {currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER && (
+        <FullCalendar
+          plugins={[timeGridPlugin]}
+          initialView={CALENDER_TYPES?.WEEK_VIEW_CALENDER}
+          allDaySlot={false}
+          eventTimeFormat={{
+            hour: 'numeric',
+            minute: '2-digit',
+            timeZone: 'UTC',
+          }}
+          events={statusData}
+          eventClick={handleEventClick}
+          eventContent={(eventInfo: any) => {
+            const eventId = eventInfo?.event?._def?.extendedProps?._id;
+            const isHovered = eventId === hoveredEvent;
+            const findData = eventInfo?.event?._def?.extendedProps;
+
+            return (
+              <Tooltip
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: 'primary.light',
+                      boxShadow: 2,
+                      maxWidth: 'unset',
+                      borderRadius: 3,
+                      color: 'primary.dark',
+                    },
+                  },
+                }}
+                title={
+                  <>
+                    <Box
+                      display={'flex'}
+                      width={'100%'}
+                      gap={'1rem'}
+                      p={1}
+                      onMouseEnter={() => handleEventMouseEnter(eventId)}
+                      onMouseLeave={handleEventMouseLeave}
+                      key={eventId}
+                    >
+                      <Box
+                        display={'flex'}
+                        alignItems={'center'}
+                        gap={1}
+                        onClick={() => handleEventClick(eventInfo)}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        <Typography variant="body2">
+                          {eventInfo?.event?._def?.title}
+                        </Typography>
+                        <Typography variant="body2">
+                          {eventInfo?.event?._def?.extendedProps?.userName}
+                        </Typography>
+                      </Box>
+                      {isHovered && (
+                        <Box
+                          display={'flex'}
+                          alignItems={'center'}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          <IconButton
+                            onClick={() =>
+                              router?.push({
+                                pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                                query: {
+                                  type: meetingActiveType(
+                                    eventInfo?.event?._def?.extendedProps?.type,
+                                  ),
+                                  id: eventId,
+                                },
+                              })
+                            }
+                          >
+                            <EditPenCustomIcon
+                              penColor={theme?.palette?.primary?.dark}
+                            />
+                          </IconButton>
+                          <DeleteIcon onClick={() => handleDelete(findData)} />
                         </Box>
                       )}
                     </Box>
@@ -216,11 +250,12 @@ export const FullCalendarView = (props: any) => {
             minute: '2-digit',
             timeZone: 'UTC',
           }}
-          events={eventArray}
+          events={statusData}
           eventContent={(eventInfo: any) => {
-            const eventId = eventInfo?.event?._def?.defId;
+            const eventId = eventInfo?.event?._def?.extendedProps?._id;
             const isHovered = eventId === hoveredEvent;
             const { start, end } = eventInfo?.event;
+            const findData = eventInfo?.event?._def?.extendedProps;
             return (
               <Box
                 display={'flex'}
@@ -242,11 +277,11 @@ export const FullCalendarView = (props: any) => {
                 >
                   <Box>
                     <Typography variant="body4">
-                      {dayjs(start).format(TIME_FORMAT?.UI)}
+                      {dayjs(start)?.format(TIME_FORMAT?.UI)}
                     </Typography>
                     <br />
                     <Typography variant="body4">
-                      {dayjs(end).format(TIME_FORMAT?.UI)}
+                      {dayjs(end)?.format(TIME_FORMAT?.UI)}
                     </Typography>
                   </Box>
                   <Box>
@@ -256,7 +291,7 @@ export const FullCalendarView = (props: any) => {
                     <br />
                     <Typography variant="body4">
                       {truncateText(
-                        eventInfo?.event?._def?.extendedProps?.data?.invitedBy,
+                        eventInfo?.event?._def?.extendedProps?.userName,
                         10,
                       )}
                     </Typography>
@@ -264,20 +299,28 @@ export const FullCalendarView = (props: any) => {
                 </Box>
                 {isHovered && (
                   <Box
-                    position="absolute"
                     display={'flex'}
                     alignItems={'center'}
-                    justifyContent={'center'}
-                    top={0}
-                    right={0}
-                    bottom={0}
-                    left={125}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: 'pointer', pr: 1.5 }}
                   >
-                    <EditPenCustomIcon
-                      penColor={theme?.palette?.primary?.lighter}
-                    />
-                    <DeleteIcon onClick={handleDelete} />
+                    <IconButton
+                      onClick={() =>
+                        router?.push({
+                          pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                          query: {
+                            type: meetingActiveType(
+                              eventInfo?.event?._def?.extendedProps?.type,
+                            ),
+                            id: eventId,
+                          },
+                        })
+                      }
+                    >
+                      <EditPenCustomIcon
+                        penColor={theme?.palette?.primary?.lighter}
+                      />
+                    </IconButton>
+                    <DeleteIcon onClick={() => handleDelete(findData)} />
                   </Box>
                 )}
               </Box>
@@ -296,11 +339,13 @@ export const FullCalendarView = (props: any) => {
             minute: '2-digit',
             timeZone: 'UTC',
           }}
-          events={eventArray}
+          events={statusData}
           eventContent={(eventInfo: any) => {
-            const eventId = eventInfo?.event?._def?.defId;
+            const eventId = eventInfo?.event?._def?.extendedProps?._id;
             const isHovered = eventId === hoveredEvent;
             const { start, end } = eventInfo?.event;
+            const findData = eventInfo?.event?._def?.extendedProps;
+
             return (
               <Box
                 display={'flex'}
@@ -337,7 +382,7 @@ export const FullCalendarView = (props: any) => {
                     <br />
                     <Typography variant="body4">
                       {truncateText(
-                        eventInfo?.event?._def?.extendedProps?.data?.invitedBy,
+                        eventInfo?.event?._def?.extendedProps?.userName,
                         10,
                       )}
                     </Typography>
@@ -345,19 +390,28 @@ export const FullCalendarView = (props: any) => {
                 </Box>
                 {isHovered && (
                   <Box
-                    position="absolute"
-                    top={0}
-                    right={0}
-                    bottom={0}
-                    left={140}
                     display={'flex'}
                     alignItems={'center'}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <EditPenCustomIcon
-                      penColor={theme?.palette?.primary?.lighter}
-                    />
-                    <DeleteIcon onClick={handleDelete} />
+                    <IconButton
+                      onClick={() =>
+                        router?.push({
+                          pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                          query: {
+                            type: meetingActiveType(
+                              eventInfo?.event?._def?.extendedProps?.type,
+                            ),
+                            id: eventId,
+                          },
+                        })
+                      }
+                    >
+                      <EditPenCustomIcon
+                        penColor={theme?.palette?.primary?.lighter}
+                      />
+                    </IconButton>
+                    <DeleteIcon onClick={() => handleDelete(findData)} />
                   </Box>
                 )}
               </Box>

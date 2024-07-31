@@ -14,6 +14,19 @@ const CreateEmail = () => {
     theme,
     methods,
   } = useCreateEmail();
+  const customModules = {
+    toolbar: {
+      container: [
+        [{ header: '1' }, { header: '2' }, { font: [] }],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['bold', 'italic', 'underline'],
+        [{ color: [] }, { background: [] }],
+        [{ align: [] }],
+        ['link', 'image'],
+        ['clean'],
+      ],
+    },
+  };
   return (
     <>
       <FormProvider methods={methods}>
@@ -23,7 +36,11 @@ const CreateEmail = () => {
           moveBack={() => router?.back()}
         />
         <Box pb={1.4}>
-          <RHFEditor name="emailTemplate" style={{ height: 600 }} />
+          <RHFEditor
+            name="emailTemplate"
+            style={{ height: 600 }}
+            toolbar={customModules?.toolbar}
+          />
         </Box>
         <Box display={'flex'} justifyContent={'space-between'}>
           <Button

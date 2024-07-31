@@ -11,7 +11,7 @@ import {
   typeOptions,
 } from './MeetingForm/Reminder/Reminder.data';
 import { timeZone } from '@/constants/time-zone';
-import { capitalizeFirstLetter, timeFormatter } from '@/utils/api';
+import { timeFormatter } from '@/utils/api';
 
 export const schemaTypes = {
   allDay: 'allDay',
@@ -62,8 +62,8 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
         ? schemaTypes?.onDate
         : schemaTypes?.onThe,
     monthlyDate: meetingData?.recurring?.days ?? [],
-    monthlyWeeks: capitalizeFirstLetter(meetingData?.recurring?.onWeek) ?? [],
-    monthlyDays: capitalizeFirstLetter(meetingData?.recurring?.onDay) ?? [],
+    monthlyWeeks: meetingData?.recurring?.onWeek ?? [],
+    monthlyDays: meetingData?.recurring?.onDay ?? [],
     description: meetingData?.agenda ?? '',
     meetingType: meetingData?.type
       ? meetingTypeOption?.find(

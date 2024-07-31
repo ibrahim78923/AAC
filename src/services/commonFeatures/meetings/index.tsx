@@ -40,6 +40,14 @@ export const meetingApi = baseAPI?.injectEndpoints({
       },
       providesTags: [LOCATION_TAG],
     }),
+    addMeetingTemplate: builder?.mutation({
+      query: (meetingParameter: any) => ({
+        url: `${END_POINTS?.MEETINGS_TEMPLATE}`,
+        method: 'POST',
+        params: meetingParameter?.body,
+      }),
+      invalidatesTags: [MEETINGS_TAG],
+    }),
     updateMeeting: builder?.mutation({
       query: (body: any) => ({
         url: `${END_POINTS?.POST_MEETINGS}`,
@@ -69,6 +77,53 @@ export const meetingApi = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: meetingParameter?.queryParams,
       }),
+      invalidatesTags: [MEETINGS_TAG],
+    }),
+    getMeetingsSlotsList: builder?.query({
+      query: (meetingParameter: any) => ({
+        url: `${END_POINTS?.GET_MEETINGS_SLOTS}`,
+        method: 'GET',
+        params: meetingParameter?.queryParams,
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
+    getMeetingsCalenderList: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_MEETINGS_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response)
+          return (
+            response?.data?.meetings?.map((item: any) => ({
+              start: item?.startDate,
+              end: item?.endDate,
+              title: item?.title,
+              extendedProps: {
+                _id: item?._id,
+                userName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
+                joinUrl: item?.joinUrl,
+                email: item?.userDetails?.email,
+                type: item?.category,
+                platform: item?.type,
+                avatar: item?.userDetails?.avatar?.url,
+                people: item?.peoples,
+              },
+            })) ?? []
+          );
+      },
+      providesTags: [MEETINGS_TAG],
+    }),
+    getUsersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
     }),
   }),
 });
@@ -78,9 +133,14 @@ export const {
   useGetTimeSlotsQuery,
   useAddMeetingMutation,
   useLazyGetLocationListQuery,
+  useAddMeetingTemplateMutation,
   useUpdateMeetingMutation,
   useGetMeetingsListQuery,
   useLazyGetMeetingsListQuery,
   useGetByIdMeetingsListQuery,
   useDeleteMeetingsMutation,
+  useGetMeetingsSlotsListQuery,
+  useLazyGetMeetingsSlotsListQuery,
+  useLazyGetMeetingsCalenderListQuery,
+  useLazyGetUsersDropdownListQuery,
 } = meetingApi;

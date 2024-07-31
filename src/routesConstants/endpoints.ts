@@ -459,6 +459,7 @@ export const END_POINTS = {
   CREATE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/create-dynamic-dashboard`,
   EDIT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-dynamic-dashboard`,
   DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  MEETINGS_TEMPLATE: '/Meetings/create-meeting-template',
   POST_MEETINGS: '/Meetings/edit-meeting',
   DELETE_MEETINGS: '/Meetings/delete-meeting',
   GET_MEETINGS_LIST: '/Meetings/get-meeting',
@@ -480,6 +481,7 @@ export const END_POINTS = {
   UPDATE_LINK_DASHBOARDS_REPORTS_ACTION: `/generic-reports/update-link-dashboard`,
   MARKETING_DASHBOARD_LISTS_DROPDOWN: `/marketing-dashboard`,
   CONTRACT_TYPE_SERVICES_SETTINGS: `/contract-type`,
+  GET_MEETINGS_SLOTS: '/meeting-time-slots/suggested-time-slots',
 };
 
 export const LEAD_CAPTURE_FORM = {

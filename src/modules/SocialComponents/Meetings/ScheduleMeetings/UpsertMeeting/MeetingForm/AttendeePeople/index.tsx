@@ -7,18 +7,29 @@ import {
   generateColorFromName,
 } from '@/utils/avatarUtils';
 import { generateImage } from '@/utils/avatarUtils';
-import {
-  meetingPeople,
-  peopleTypes,
-  suggestedData,
-} from './AttendeePeople.data';
+import { meetingPeople, peopleTypes } from './AttendeePeople.data';
 import { DateRangePickerIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ROUTER_CONSTANTS } from '@/constants/strings';
+import NoData from '@/components/NoData';
+import { CustomTooltip } from '@/components/CustomTooltip';
 
 export const AttendeePeople = (props: any) => {
-  const { contactDropdown, peopleData, organizer, handleDateValues, router } =
-    useAttendeePeople(props);
+  const {
+    userDropdown,
+    peopleData,
+    organizer,
+    handleDateValues,
+    router,
+    handleFetchMeetingSlots,
+    status,
+    slotsData,
+    watchStartDate,
+    meetingType,
+  } = useAttendeePeople(props);
   return (
     <>
       <Box
@@ -31,8 +42,7 @@ export const AttendeePeople = (props: any) => {
         <RHFAutocompleteAsync
           name="people"
           label="People"
-          apiQuery={contactDropdown}
-          externalParam={{ limit: 100 }}
+          apiQuery={userDropdown}
           required
           getOptionLabel={(option: any) =>
             `${option?.firstName}  ${option?.lastName}`
@@ -99,42 +109,109 @@ export const AttendeePeople = (props: any) => {
           <Typography variant="body1" fontWeight={500} color="grey.600">
             Suggested Slots
           </Typography>
-          <Button sx={{ fontWeight: 500 }}>Check Availability</Button>
+          <Button
+            sx={{ fontWeight: 500 }}
+            onClick={() => handleFetchMeetingSlots()}
+          >
+            Check Availability
+          </Button>
         </Box>
-        <Grid container spacing={2} mt={0}>
-          {suggestedData?.map((item: any) => (
-            <Grid item lg={6} sm={6} xs={12} key={item?.id}>
-              <Box
-                p={1}
-                border="1px solid"
-                borderColor="primary.main"
-                borderRadius={2}
-                display="flex"
-                flexDirection="column"
-                gap={1}
-                sx={{ cursor: 'pointer' }}
-                onClick={() => handleDateValues(item)}
-              >
-                <Typography variant="subtitle2">
-                  Available: {item?.available}
-                </Typography>
-                <Typography variant="body4" color="custom.main">
-                  {item?.from} - {item?.to}
-                </Typography>
-                <Typography
-                  variant="body3"
-                  color="custom.main"
-                  display="flex"
-                  alignItems="center"
-                  gap={0.5}
+        {status?.isLoading || status?.isFetching ? (
+          <SkeletonForm />
+        ) : status?.isError ? (
+          <ApiErrorState />
+        ) : slotsData?.length ? (
+          <Grid container spacing={2} mt={0}>
+            {slotsData?.map((slot: any) => {
+              const availability = slot?.data?.availability || {};
+              const noTimeAvailable =
+                Object?.keys(slot?.data?.availability || {})?.length === 0;
+              const unavailableUserNames = Object?.values(availability)
+                ?.flatMap(
+                  (timeRange: any) =>
+                    timeRange?.unavailable?.map((user: any) => user?.name),
+                )
+                ?.join(', ');
+
+              const totalCounts: any = Object?.values(availability)?.reduce(
+                (acc: any, timeRange: any) => {
+                  acc.totalAvailableCount += timeRange?.availableCount || 0;
+                  acc.totalUnavailableCount += timeRange?.unavailableCount || 0;
+                  return acc;
+                },
+                { totalAvailableCount: 0, totalUnavailableCount: 0 },
+              );
+
+              return (
+                <CustomTooltip
+                  title={
+                    meetingType === ROUTER_CONSTANTS?.GROUP
+                      ? `${unavailableUserNames}`
+                      : null
+                  }
+                  key={slot?.data?.userDetails?._id}
                 >
-                  <DateRangePickerIcon />
-                  {dayjs(item?.date?.toString())?.format(DATE_TIME_FORMAT?.WDM)}
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+                  {!!!noTimeAvailable ? (
+                    <Grid item lg={6} sm={6} xs={12}>
+                      <Box
+                        p={1}
+                        border="1px solid"
+                        borderColor="primary.main"
+                        borderRadius={2}
+                        display="flex"
+                        flexDirection="column"
+                        gap={1}
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          const timeRange = Object?.keys(availability)[0];
+                          const [startTime, endTime] = timeRange?.split('-');
+                          handleDateValues(startTime, endTime);
+                        }}
+                        key={slot?.data?.userDetails?._id}
+                      >
+                        <Typography variant="subtitle2">
+                          Available:
+                          {meetingType === ROUTER_CONSTANTS?.GROUP
+                            ? `${Object.keys(availability)?.length} / ${
+                                totalCounts?.totalAvailableCount +
+                                totalCounts?.totalUnavailableCount
+                              }`
+                            : 'Everyone'}
+                        </Typography>
+                        {Object?.keys(availability)?.map((timeRange: any) => {
+                          const [startTime, endTime] = timeRange?.split('-');
+                          return (
+                            <Typography
+                              key={timeRange}
+                              variant="body4"
+                              color="custom.main"
+                            >
+                              {startTime}-{endTime}
+                            </Typography>
+                          );
+                        })}
+                        <Typography
+                          variant="body3"
+                          color="custom.main"
+                          display="flex"
+                          alignItems="center"
+                          gap={0.5}
+                        >
+                          <DateRangePickerIcon />
+                          {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ) : (
+                    <NoData height="50vh" message="No Slots found" />
+                  )}
+                </CustomTooltip>
+              );
+            })}
+          </Grid>
+        ) : (
+          <NoData height="50vh" message="No Slots found" />
+        )}
       </Box>
     </>
   );
