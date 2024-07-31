@@ -7,7 +7,7 @@ export const addFormvalidationSchema = Yup?.object()?.shape({
     'Name must be alphanumeric & max length 50',
     function (value) {
       if (!value) {
-        return this.createError({ message: 'Required Field' });
+        return this.createError({ message: 'Field is Required' });
       }
       return /^[a-zA-Z0-9\s]+$/.test(value)
         ? value.length <= 50

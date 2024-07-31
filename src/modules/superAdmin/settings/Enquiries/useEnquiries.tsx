@@ -119,7 +119,8 @@ export const useEnquiries = () => {
   const handleQuerySubmit = handleMethodQuery(onSubmitQuery);
 
   const [isEnquiriesDeleteModal, setIsEnquiriesDeleteModal] = useState(false);
-  const [deleteEnquiriesMutation] = useDeleteEnquiryMutation();
+  const [deleteEnquiriesMutation, { isLoading: loadingDeleteEnquiries }] =
+    useDeleteEnquiryMutation();
 
   const handleOpenModalDelete = () => {
     handleClose();
@@ -130,9 +131,11 @@ export const useEnquiries = () => {
   };
 
   const handleDeleteEnquiries = async () => {
+    const items = await selectedRow?.join(',');
     try {
-      await deleteEnquiriesMutation({ ids: selectedRow?.join(',') });
+      await deleteEnquiriesMutation(items);
       handleCloseModalDelete();
+      setSelectedRow([]);
       enqueueSnackbar('Enquiries delete successfully', {
         variant: 'success',
       });
@@ -191,6 +194,7 @@ export const useEnquiries = () => {
     handleCloseModalDelete,
     handleOpenModalDelete,
     handleDeleteEnquiries,
+    loadingDeleteEnquiries,
     handleStatusChange,
     patchEnquiriesStatus,
   };

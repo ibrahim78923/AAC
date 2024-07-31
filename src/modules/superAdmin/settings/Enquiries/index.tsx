@@ -56,6 +56,7 @@ const Enquiries = () => {
     handleCloseModalDelete,
     handleOpenModalDelete,
     handleDeleteEnquiries,
+    loadingDeleteEnquiries,
     handleStatusChange,
     patchEnquiriesStatus,
   } = useEnquiries();
@@ -137,6 +138,7 @@ const Enquiries = () => {
                   <MenuItem
                     onClick={handleOpenModalQuery}
                     style={{ fontSize: '14px' }}
+                    disabled={selectedRow?.length > 1}
                   >
                     View & Reply
                   </MenuItem>
@@ -247,6 +249,7 @@ const Enquiries = () => {
         open={isEnquiriesDeleteModal}
         handleClose={handleCloseModalDelete}
         handleSubmitBtn={handleDeleteEnquiries}
+        loading={loadingDeleteEnquiries}
       />
     </Box>
   );

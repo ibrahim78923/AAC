@@ -14,7 +14,7 @@ export const enquiriesApi = baseAPI.injectEndpoints({
     }),
 
     deleteEnquiry: builder.mutation({
-      query: ({ id }) => ({
+      query: (id) => ({
         url: `${END_POINTS?.ENQUIRIES}/${id}`,
         method: 'DELETE',
       }),

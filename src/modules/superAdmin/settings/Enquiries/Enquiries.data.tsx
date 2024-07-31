@@ -126,6 +126,7 @@ export const columns: ColumnsProps = (
               size={'small'}
               sx={{
                 color: 'custom.main',
+                fontSize: '14px',
                 '.MuiOutlinedInput-notchedOutline': {
                   border: 'none',
                 },
