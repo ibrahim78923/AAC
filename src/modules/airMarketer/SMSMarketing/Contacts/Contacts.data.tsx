@@ -1,7 +1,8 @@
+import { indexNumbers } from '@/constants';
 import { generateImage } from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Theme, Typography } from '@mui/material';
 
-export const columns: any = (theme: any) => {
+export const columns: any = (theme: Theme) => {
   return [
     {
       accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
@@ -24,8 +25,12 @@ export const columns: any = (theme: any) => {
                 color: theme?.palette?.custom?.dim_grey,
               }}
             >
-              {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
-              {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+              {info?.row?.original?.firstName
+                ?.charAt(indexNumbers?.ZERO)
+                ?.toUpperCase()}
+              {info?.row?.original?.lastName
+                ?.charAt(indexNumbers?.ZERO)
+                ?.toUpperCase()}
             </Typography>
           </Avatar>
           {info?.getValue() ?? 'N/A'}

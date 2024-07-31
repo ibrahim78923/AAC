@@ -110,7 +110,8 @@ const CreateSMSBroadcast = () => {
                     md={item?.md}
                     key={item?.componentProps?.name}
                   >
-                    {item?.componentProps?.name === 'recipients' &&
+                    {item?.componentProps?.name ===
+                      SMS_BROADCAST_CONSTANTS?.RECIPIENTS &&
                       !smsBroadcastLoading && (
                         <Box
                           position="relative"
@@ -264,7 +265,6 @@ const CreateSMSBroadcast = () => {
                         : broadcastName?.title
                           ? broadcastName?.title
                           : broadcastName}
-                      {/* {broadcastName ? broadcastName?.title : 'Broadcast Name'} */}
                     </Typography>
                     <Typography
                       variant="body2"

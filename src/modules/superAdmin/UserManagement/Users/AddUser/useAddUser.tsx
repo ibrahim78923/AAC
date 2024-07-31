@@ -239,6 +239,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
             })?.unwrap(),
             setIsOpenAdduserDrawer(false))
           : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+      setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
       enqueueSnackbar(
         `User ${
           isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT

@@ -2,8 +2,9 @@ import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { groupsColumns } from './GroupsContacts.data';
 import useAddContactDrawer from '../useAddContactDrawer';
+import { GroupContactsProps } from '../../../SMSBroadcast-interface';
 
-const GroupContacts = ({ selectedRec, setSelectedRec }: any) => {
+const GroupContacts = ({ selectedRec, setSelectedRec }: GroupContactsProps) => {
   const {
     contactGroupsLoading,
     contactsGroupData,
@@ -21,13 +22,6 @@ const GroupContacts = ({ selectedRec, setSelectedRec }: any) => {
 
   return (
     <>
-      {/* <Box sx={{ mb: '8px', color: 'slateBlue.main' }}>
-        Selected contacts (
-        {selectedRec?.length < 10
-          ? `0${selectedRec?.length}`
-          : `${selectedRec?.length}`}
-        )
-      </Box> */}
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.custom?.off_white_three}`,

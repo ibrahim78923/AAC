@@ -23,8 +23,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { LoadingButton } from '@mui/lab';
+import { SMSBroadcastHeaderProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
 
-const SMSBroadcastHeader = (props: any) => {
+const SMSBroadcastHeader = (props: SMSBroadcastHeaderProps) => {
   const {
     filterValues,
     setFilterValues,

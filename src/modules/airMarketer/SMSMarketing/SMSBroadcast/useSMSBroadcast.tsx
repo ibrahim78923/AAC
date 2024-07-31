@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Theme, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { PAGINATION } from '@/config';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import {
   useDeleteSmsBroadcastMutation,
   useGetSmsBroadcatsQuery,
@@ -76,7 +76,9 @@ const useSMSBroadcast = () => {
       });
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      const errMessage = Array?.isArray(errMsg)
+        ? errMsg[indexNumbers?.ZERO]
+        : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
