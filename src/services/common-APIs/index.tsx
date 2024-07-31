@@ -31,6 +31,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['DROPDOWNS'],
     }),
 
+    getAllDropdownProducts: builder.query({
+      query: ({ params }: any) => ({
+        url: organization?.GET_PRODUCTS_ALL,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['DROPDOWNS'],
+    }),
+
     getDropdownProductsList: builder.query({
       query: () => ({
         url: END_POINTS?.DROPDOWN_PRODUCTS,
@@ -355,4 +367,5 @@ export const {
   useLazyGetAllTicketsQuery,
   useGetPipelineQuery,
   useGetContactsListQuery,
+  useLazyGetAllDropdownProductsQuery,
 } = CommonAPIS;

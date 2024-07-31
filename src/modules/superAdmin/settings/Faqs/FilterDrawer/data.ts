@@ -14,6 +14,9 @@ export const filtersDataArray = (products: any, createdByUsers: any) => {
         label: 'Category',
         placeholder: 'Select Category',
         apiQuery: products,
+        externalParams: {
+          status: 'active',
+        },
         getOptionLabel: (option: any) => option?.name,
       },
     },

@@ -16,8 +16,8 @@ const EditFaq = ({
   onViewDisabled,
   disabledSubmit,
 }: EditFaqPropsI) => {
-  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
-  const products = useLazyGetDropdownProductsQuery();
+  const { useLazyGetAllDropdownProductsQuery }: any = CommonAPIS;
+  const products = useLazyGetAllDropdownProductsQuery();
 
   return (
     <CommonModal

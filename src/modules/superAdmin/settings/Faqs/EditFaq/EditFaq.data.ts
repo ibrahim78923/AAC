@@ -14,6 +14,9 @@ export const editFaqsDataArray = (products: any, onViewDisabled?: boolean) => {
         label: 'Select FAQ Category',
         placeholder: 'Select product',
         apiQuery: products,
+        externalParams: {
+          status: 'active',
+        },
         getOptionLabel: (option: any) => option?.name,
         required: true,
         disabled: onViewDisabled,

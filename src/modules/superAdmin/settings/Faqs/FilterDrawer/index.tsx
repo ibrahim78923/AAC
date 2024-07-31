@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { FilterPropsI } from './interface';
 import { filtersDataArray } from './data';
-import { useLazyGetDropdownProductsQuery } from '@/services/common-APIs';
+import { useLazyGetAllDropdownProductsQuery } from '@/services/common-APIs';
 import { useLazyGetUserDropdownListQuery } from '@/services/superAdmin/settings/faqs';
 
 const FilterDrawer = ({
@@ -15,7 +15,7 @@ const FilterDrawer = ({
   isLoading,
 }: FilterPropsI) => {
   const createdByUsers = useLazyGetUserDropdownListQuery();
-  const products = useLazyGetDropdownProductsQuery();
+  const products = useLazyGetAllDropdownProductsQuery();
   const formFieldsArray = filtersDataArray(products, createdByUsers);
 
   return (
