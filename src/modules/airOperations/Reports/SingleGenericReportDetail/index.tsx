@@ -33,7 +33,9 @@ export const SingleGenericReportDetail = () => {
         <PageTitledHeader
           title={reportWidgets?.name}
           canMovedBack
-          moveBack={() => router?.back()}
+          moveBack={() =>
+            router?.push({ pathname: router?.query?.redirect as string })
+          }
         >
           <LoadingButton
             variant="contained"

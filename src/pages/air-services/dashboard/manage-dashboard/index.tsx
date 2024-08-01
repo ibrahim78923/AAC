@@ -11,7 +11,7 @@ export default AirServicesManageDashboard;
 
 AirServicesManageDashboard.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_SERVICES_VIEW_DASHBOARD}>
+    <Layout permissions={Permissions?.AIR_SERVICES_MANAGE_DASHBOARD}>
       {page}
     </Layout>
   );

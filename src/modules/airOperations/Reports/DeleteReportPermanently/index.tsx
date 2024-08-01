@@ -1,8 +1,11 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteReportPermanently } from './useDeleteReportPermanently';
+import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
 
-export const DeleteReportPermanently = (props: any) => {
+export const DeleteReportPermanently = (
+  props: RestoreReportsListsComponentPropsI,
+) => {
   const { isPortalOpen } = props;
   const { deleteReport, closeModal, deleteRestoreReportPermanentlyStatus } =
     useDeleteReportPermanently(props);

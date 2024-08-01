@@ -22,7 +22,7 @@ export const EmailReport = (props: any) => {
     <CommonDrawer
       isDrawerOpen={isPortalOpen?.isEmail}
       onClose={() => onClose?.()}
-      title={'New Email'}
+      title="Email this report"
       isOk
       okText={'Send'}
       footer

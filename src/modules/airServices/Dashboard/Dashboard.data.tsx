@@ -11,7 +11,7 @@ export const dashboardDropdownActionsDynamic = (
       copyEmail();
       closeMenu?.();
     },
-    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD],
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD],
   },
   {
     id: 2,

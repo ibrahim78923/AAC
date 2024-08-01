@@ -1,8 +1,9 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteReport } from './useDeleteReport';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const DeleteReport = (props: any) => {
+export const DeleteReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
   const { deleteReport, closeModal, deleteReportTemporaryStatus } =
     useDeleteReport(props);

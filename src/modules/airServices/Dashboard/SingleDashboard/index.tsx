@@ -41,7 +41,7 @@ export const SingleDashboard = (props: any) => {
 
   return (
     <PermissionsGuard
-      permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+      permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD]}
     >
       <Box>
         <br />
@@ -75,12 +75,18 @@ export const SingleDashboard = (props: any) => {
           >
             {lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
               NO_DEFAULT_DASHBOARD && (
-              <Button
-                variant="contained"
-                onClick={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD,
+                ]}
               >
-                Create Dashboard
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
+                >
+                  Create Dashboard
+                </Button>
+              </PermissionsGuard>
             )}
           </ApiErrorState>
         ) : !!!lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard

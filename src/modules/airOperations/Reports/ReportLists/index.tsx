@@ -5,8 +5,9 @@ import { FilterIcon, RestoreIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useReportLists } from './useReportLists';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ReportsListsPropsI } from '../Reports.interface';
 
-export const ReportLists = (props: any) => {
+export const ReportLists = (props: ReportsListsPropsI) => {
   const { onRestoreClick, permission } = props;
   const {
     reportListsColumns,

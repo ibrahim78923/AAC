@@ -27,7 +27,7 @@ export const HorizontalChart = (props: any) => {
           height={348}
         />
       ) : (
-        <NoData height="" />
+        <NoData height="50%" />
       )}
     </Box>
   );

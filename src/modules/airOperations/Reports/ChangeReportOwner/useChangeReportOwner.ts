@@ -7,8 +7,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useChangeReportOwner = (props: any) => {
+export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
   const {
     setIsPortalOpen,
     setSelectedReportLists,

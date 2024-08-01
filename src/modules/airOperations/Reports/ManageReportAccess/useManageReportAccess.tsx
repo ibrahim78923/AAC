@@ -17,8 +17,9 @@ import {
   useManageReportAccessMutation,
 } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useManageReportAccess = (props: any) => {
+export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
   const {
     setIsPortalOpen,
     setSelectedReportLists,

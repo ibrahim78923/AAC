@@ -61,6 +61,7 @@ export const useNewEmailDrawer = (props: any) => {
       pathname: AIR_OPERATIONS?.SINGLE_GENERIC_REPORTS_DETAILS,
       query: {
         reportId: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        redirect: router?.pathname,
       },
     });
 

@@ -283,12 +283,16 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Dashboard Name',
     cell: (info: any) =>
-      !!info?.getValue()?.length ? (
-        <CustomChips
-          data={info
-            ?.getValue()
-            ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
-        />
+      Array?.isArray(info?.getValue()) ? (
+        !!info?.getValue()?.length ? (
+          <CustomChips
+            data={info
+              ?.getValue()
+              ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
+          />
+        ) : (
+          '---'
+        )
       ) : (
         '---'
       ),

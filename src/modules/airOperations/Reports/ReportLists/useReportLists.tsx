@@ -25,8 +25,13 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
+import {
+  ReportListsIsPortalOpenI,
+  ReportsListsComponentPropsI,
+  ReportsListsPropsI,
+} from '../Reports.interface';
 
-export const useReportLists = (props: any) => {
+export const useReportLists = (props: ReportsListsPropsI) => {
   const {
     filter = [],
     apiQuery,
@@ -39,7 +44,9 @@ export const useReportLists = (props: any) => {
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [isPortalOpen, setIsPortalOpen] = useState<ReportListsIsPortalOpenI>(
+    {},
+  );
   const [reportFilters, setReportFilter] = useState<any>({});
   const [lazyGetReportsListTrigger, lazyGetReportsListStatus]: any = apiQuery;
   const [lazyExportReportsListTrigger]: any = exportApiQuery;
@@ -186,7 +193,7 @@ export const useReportLists = (props: any) => {
     addReportToFavoriteListStatus,
   );
 
-  const portalComponentProps = {
+  const portalComponentProps: ReportsListsComponentPropsI = {
     isPortalOpen: isPortalOpen,
     setIsPortalOpen: setIsPortalOpen,
     setSelectedReportLists: setSelectedReportLists,

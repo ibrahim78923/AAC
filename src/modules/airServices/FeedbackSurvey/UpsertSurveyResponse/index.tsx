@@ -54,6 +54,7 @@ export const UpsertSurveyResponse = (props: any) => {
   if (patchSingleSurveyDropoutAnswerForResponseStatus?.isSuccess)
     return (
       <NoData
+        height="100vh"
         message={`Survey cancellation successful. If you change your mind, you're welcome to complete it later. Thank you!`}
       />
     );

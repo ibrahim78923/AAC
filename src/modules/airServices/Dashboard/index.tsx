@@ -9,6 +9,7 @@ import { truncateText } from '@/utils/avatarUtils';
 import { AIR_SERVICES } from '@/constants';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { pxToRem } from '@/utils/getFontValue';
+import { Permissions } from '@/constants/permissions';
 
 const Dashboard = () => {
   const {
@@ -29,39 +30,46 @@ const Dashboard = () => {
   } = useDashboard();
 
   return (
-    <PermissionsGuard
-      permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
-    >
-      <Box>
-        {apiLoader?.isLoading || apiLoader?.isFetching ? (
-          <Skeleton />
-        ) : (
-          <Typography variant="h3" color="primary.main">
-            {`${truncateText(apiLoader?.data?.data?.dashboard?.name, 30)}` ??
-              '---'}
-          </Typography>
-        )}
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          flexWrap={'wrap'}
-          gap={1}
-          mt={1}
-        >
-          <Typography variant="h4" fontWeight={500} color="blue.main">
-            <Typography component="span" variant="h4">
-              Hi {user?.firstName ?? '---'}!
-            </Typography>{' '}
-            Happy to See You again
-          </Typography>
-          <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+    <Box>
+      {apiLoader?.isLoading || apiLoader?.isFetching ? (
+        <Skeleton />
+      ) : (
+        <Typography variant="h3" color="primary.main">
+          {`${truncateText(apiLoader?.data?.data?.dashboard?.name, 30)}` ??
+            '---'}
+        </Typography>
+      )}
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1}
+        mt={1}
+      >
+        <Typography variant="h4" fontWeight={500} color="blue.main">
+          <Typography component="span" variant="h4">
+            Hi {user?.firstName ?? '---'}!
+          </Typography>{' '}
+          Happy to See You again
+        </Typography>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
+              AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD,
+            ]}
+          >
             <SingleDropdownButton
               dropdownOptions={dashboardDropdownActions}
               dropdownName="Actions"
               disabled={apiLoader?.isLoading || apiLoader?.isFetching}
               color="inherit"
             />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+          >
             <FormProvider methods={methods}>
               <RHFAutocompleteAsync
                 disabled={apiLoader?.isLoading || apiLoader?.isFetching}
@@ -104,6 +112,10 @@ const Dashboard = () => {
                 )}
               />
             </FormProvider>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={Permissions?.AIR_SERVICES_MANAGE_DASHBOARD}
+          >
             <Button
               color="inherit"
               variant="outlined"
@@ -112,29 +124,29 @@ const Dashboard = () => {
             >
               Manage Dashboards
             </Button>
-          </Box>
+          </PermissionsGuard>
         </Box>
-        <br />
-        <br />
-        <Box ref={downloadRef}>
-          <SingleDashboard
-            dashboardId={dashboardId}
-            setDashboardId={setDashboardId}
-            apiLoader={apiLoader}
-            setApiLoader={setApiLoader}
-          />
-        </Box>
-        <br />
-        {isDrawerOpen && (
-          <EmailThisDashboard
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-            downloadReport={(type: any) => downloadReport?.(type)}
-            isDownloading={isDownloading}
-          />
-        )}
       </Box>
-    </PermissionsGuard>
+      <br />
+      <br />
+      <Box ref={downloadRef}>
+        <SingleDashboard
+          dashboardId={dashboardId}
+          setDashboardId={setDashboardId}
+          apiLoader={apiLoader}
+          setApiLoader={setApiLoader}
+        />
+      </Box>
+      <br />
+      {isDrawerOpen && (
+        <EmailThisDashboard
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          downloadReport={(type: any) => downloadReport?.(type)}
+          isDownloading={isDownloading}
+        />
+      )}
+    </Box>
   );
 };
 

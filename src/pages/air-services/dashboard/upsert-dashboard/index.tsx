@@ -10,7 +10,7 @@ export default UpsertServicesDashboardPage;
 
 UpsertServicesDashboardPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_SERVICES_VIEW_DASHBOARD}>
+    <Layout permissions={Permissions?.AIR_SERVICES_UPSERT_DASHBOARD}>
       {page}
     </Layout>
   );

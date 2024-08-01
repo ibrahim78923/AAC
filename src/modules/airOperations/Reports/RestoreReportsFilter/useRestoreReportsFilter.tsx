@@ -5,8 +5,11 @@ import {
   restoreReportFilterFormFieldsDynamic,
   restoreReportFiltersDefaultValues,
 } from './RestoreReportsFilter.data';
+import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useRestoreReportsFilter = (props: any) => {
+export const useRestoreReportsFilter = (
+  props: RestoreReportsListsComponentPropsI,
+) => {
   const { setIsPortalOpen, reportFilters, setReportFilter } = props;
   const methods: any = useForm({
     defaultValues: restoreReportFiltersDefaultValues?.(reportFilters),

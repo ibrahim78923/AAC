@@ -8,14 +8,20 @@ import {
 import { RestoreReport } from '../RestoreReport';
 import { RestoreReportsFilter } from '../RestoreReportsFilter';
 import { DeleteReportPermanently } from '../DeleteReportPermanently';
+import {
+  RestoreReportListsIsPortalOpenI,
+  RestoreReportsListsComponentPropsI,
+  RestoreReportsListsPropsI,
+} from '../Reports.interface';
 
-export const useRestoreReportsLists = (props: any) => {
+export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
   const { filter, apiQuery, permissions, baseModule } = props;
   const [search, setSearch] = useState('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [isPortalOpen, setIsPortalOpen] =
+    useState<RestoreReportListsIsPortalOpenI>({});
   const [reportFilters, setReportFilter] = useState<any>({});
 
   const [
@@ -58,7 +64,7 @@ export const useRestoreReportsLists = (props: any) => {
     lazyGetRestoreReportsListStatus?.data?.data?.genericReports,
   );
 
-  const portalComponentProps = {
+  const portalComponentProps: RestoreReportsListsComponentPropsI = {
     isPortalOpen: isPortalOpen,
     setIsPortalOpen: setIsPortalOpen,
     setSelectedReportLists: setSelectedReportLists,

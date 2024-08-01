@@ -10,8 +10,9 @@ import {
 } from '@mui/material';
 import { useChangeReportOwner } from './useChangeReportOwner';
 import CloseIcon from '@mui/icons-material/Close';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const ChangeReportOwner = (props: any) => {
+export const ChangeReportOwner = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
   const {
     methods,
@@ -24,7 +25,7 @@ export const ChangeReportOwner = (props: any) => {
 
   return (
     <Dialog
-      open={isPortalOpen?.isChangeOwner}
+      open={isPortalOpen?.isChangeOwner as boolean}
       onClose={() => closeModal?.()}
       fullWidth
       maxWidth={'sm'}
