@@ -87,6 +87,14 @@ export const meetingApi = baseAPI?.injectEndpoints({
       }),
       providesTags: [MEETINGS_TAG],
     }),
+    getBookedMeetingsSlotsList: builder?.query({
+      query: (meetingParameter: any) => ({
+        url: `${END_POINTS?.GET_BOOKED_MEETINGS_SLOTS}`,
+        method: 'GET',
+        params: meetingParameter?.queryParams,
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
     getMeetingsCalenderList: builder?.query({
       query: (params: any) => ({
         url: `${END_POINTS?.GET_MEETINGS_LIST}`,
@@ -96,21 +104,29 @@ export const meetingApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response)
           return (
-            response?.data?.meetings?.map((item: any) => ({
-              start: item?.startDate,
-              end: item?.endDate,
-              title: item?.title,
-              extendedProps: {
-                _id: item?._id,
-                userName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
-                joinUrl: item?.joinUrl,
-                email: item?.userDetails?.email,
-                type: item?.category,
-                platform: item?.type,
-                avatar: item?.userDetails?.avatar?.url,
-                people: item?.peoples,
-              },
-            })) ?? []
+            {
+              allMeetings: response?.data?.allMeetings,
+              upCommings: response?.data?.upCommings,
+              completed: response?.data?.completed,
+              data: response?.data?.meetings?.map((item: any) => ({
+                start: item?.startDate,
+                end: item?.endDate,
+                title: item?.title,
+                extendedProps: {
+                  _id: item?._id,
+                  userName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
+                  joinUrl: item?.joinUrl,
+                  email: item?.userDetails?.email,
+                  type: item?.category,
+                  platform: item?.type,
+                  avatar: item?.userDetails?.avatar?.url,
+                  people: item?.peoples,
+                  startTime: item?.startTime,
+                  endTime: item?.endTime,
+                  startDate: item?.startDate,
+                },
+              })),
+            } ?? []
           );
       },
       providesTags: [MEETINGS_TAG],
@@ -143,4 +159,5 @@ export const {
   useLazyGetMeetingsSlotsListQuery,
   useLazyGetMeetingsCalenderListQuery,
   useLazyGetUsersDropdownListQuery,
+  useLazyGetBookedMeetingsSlotsListQuery,
 } = meetingApi;

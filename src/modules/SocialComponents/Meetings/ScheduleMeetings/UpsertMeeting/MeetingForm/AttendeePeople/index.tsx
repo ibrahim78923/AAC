@@ -29,6 +29,9 @@ export const AttendeePeople = (props: any) => {
     slotsData,
     watchStartDate,
     meetingType,
+    handleFetchBookedMeetingSlots,
+    bookedStatus,
+    bookedSlotsData,
   } = useAttendeePeople(props);
   return (
     <>
@@ -111,7 +114,10 @@ export const AttendeePeople = (props: any) => {
           </Typography>
           <Button
             sx={{ fontWeight: 500 }}
-            onClick={() => handleFetchMeetingSlots()}
+            onClick={() => {
+              handleFetchBookedMeetingSlots();
+              handleFetchMeetingSlots();
+            }}
           >
             Check Availability
           </Button>
@@ -206,6 +212,90 @@ export const AttendeePeople = (props: any) => {
                     <NoData height="50vh" message="No Slots found" />
                   )}
                 </CustomTooltip>
+              );
+            })}
+          </Grid>
+        ) : (
+          <NoData height="50vh" message="No Slots found" />
+        )}
+      </Box>
+      <Box
+        p={2}
+        border="1.5px solid"
+        borderColor="grey.0"
+        borderRadius={2}
+        mt={1.5}
+      >
+        <Box display="flex" alignItems="center">
+          <Typography variant="body1" fontWeight={500} color="grey.600">
+            My Booked Slots
+          </Typography>
+        </Box>
+        {bookedStatus?.isLoading || bookedStatus?.isFetching ? (
+          <SkeletonForm />
+        ) : bookedStatus?.isError ? (
+          <ApiErrorState />
+        ) : slotsData?.length ? (
+          <Grid container spacing={2} mt={0}>
+            {bookedSlotsData?.map((slot: any) => {
+              const availability = slot?.data?.availability || {};
+              const noTimeAvailable =
+                Object?.keys(slot?.data?.availability || {})?.length === 0;
+
+              return (
+                <>
+                  {!!!noTimeAvailable ? (
+                    <Grid
+                      item
+                      lg={6}
+                      sm={6}
+                      xs={12}
+                      key={slot?.data?.userDetails?._id}
+                    >
+                      <Box
+                        p={1}
+                        border="1px solid"
+                        borderColor="primary.main"
+                        borderRadius={2}
+                        display="flex"
+                        flexDirection="column"
+                        gap={1}
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          const timeRange = Object?.keys(availability)[0];
+                          const [startTime, endTime] = timeRange?.split('-');
+                          handleDateValues(startTime, endTime);
+                        }}
+                        key={slot?.data?.userDetails?._id}
+                      >
+                        {Object?.keys(availability)?.map((timeRange: any) => {
+                          const [startTime, endTime] = timeRange?.split('-');
+                          return (
+                            <Typography
+                              key={timeRange}
+                              variant="body4"
+                              color="custom.main"
+                            >
+                              {startTime}-{endTime}
+                            </Typography>
+                          );
+                        })}
+                        <Typography
+                          variant="body3"
+                          color="custom.main"
+                          display="flex"
+                          alignItems="center"
+                          gap={0.5}
+                        >
+                          <DateRangePickerIcon />
+                          {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ) : (
+                    <NoData height="50vh" message="No Slots found" />
+                  )}
+                </>
               );
             })}
           </Grid>

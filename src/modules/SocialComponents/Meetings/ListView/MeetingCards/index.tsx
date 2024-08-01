@@ -4,9 +4,9 @@ export const MeetingCards = ({
   meetingHeading,
   meetingCount,
   color,
-  onClick,
   isActive,
-  setCardValue,
+  meetingType,
+  router,
 }: any) => {
   return (
     <Grid item xs={12} sm={6} lg={4}>
@@ -20,8 +20,12 @@ export const MeetingCards = ({
         borderRadius={2}
         marginBottom={2}
         onClick={() => {
-          onClick(meetingHeading);
-          setCardValue(meetingHeading);
+          router?.push({
+            ...router?.basePath,
+            query: {
+              type: meetingType,
+            },
+          });
         }}
         sx={{
           cursor: 'pointer',

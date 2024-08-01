@@ -19,12 +19,12 @@ export const useCalendarView = () => {
 
   const router = useRouter();
   const theme: any = useTheme();
-  const meetingCard = meetingCardArray(theme);
-
   const [trigger, status] = useLazyGetMeetingsCalenderListQuery();
   useEffect(() => {
     trigger(null);
   }, []);
+
+  const meetingCard = meetingCardArray(theme, status);
 
   const handleViewChange = (view: any) => {
     setCurrentView(view);

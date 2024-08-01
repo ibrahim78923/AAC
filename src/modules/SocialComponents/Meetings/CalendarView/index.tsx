@@ -46,6 +46,7 @@ export const CalendarView = () => {
               meetingsCount={item?.meetingsCount}
               color={item?.color}
               router={router}
+              type={item?.type}
             />
           </Grid>
         ))}

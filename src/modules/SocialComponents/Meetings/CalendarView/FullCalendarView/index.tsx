@@ -25,7 +25,7 @@ export const FullCalendarView = (props: any) => {
     meetingActiveType,
   } = props;
   const router = useRouter();
-  const statusData = status?.data;
+  const statusData = status?.data?.data;
   if (status?.isLoading || status?.isFetching) return <SkeletonForm />;
   return (
     <Box

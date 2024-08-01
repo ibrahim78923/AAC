@@ -18,7 +18,6 @@ export const ListView = () => {
     deleteModal,
     submitDeleteModal,
     router,
-    isActiveCard,
     activeCard,
     getMeetingListStatus,
     setPage,
@@ -34,11 +33,13 @@ export const ListView = () => {
           <MeetingCards
             key={meeting?.id}
             meetingHeading={meeting?.meetingHeading}
+            meetingType={meeting?.meetingType}
             meetingCount={meeting?.meetingCount}
             color={meeting?.color}
             setCardValue={setCardValue}
-            isActive={isActiveCard === meeting?.meetingHeading}
+            isActive={router?.query?.type === meeting?.meetingType}
             onClick={activeCard}
+            router={router}
           />
         ))}
       </Grid>

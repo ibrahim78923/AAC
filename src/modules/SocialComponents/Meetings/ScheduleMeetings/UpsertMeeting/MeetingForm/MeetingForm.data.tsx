@@ -47,7 +47,7 @@ export const meetingFormFields = (props: any) => {
   } = props;
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
-  const watchFrom = watch('fromDate');
+  const watchFrom = watch('startDate');
   const watchAllowAttendee = watch('allowAttendee');
   const OTHER_SETTINGS = 'Other Settings';
   return [
@@ -121,6 +121,7 @@ export const meetingFormFields = (props: any) => {
         label: 'End Date',
         name: 'endDate',
         minDate: watchFrom,
+        disablePast: true,
         required: true,
         fullWidth: true,
         size: 'small',

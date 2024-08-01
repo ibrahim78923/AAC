@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 
 export const useListView = () => {
   const theme = useTheme();
-  const router = useRouter();
+  const router: any = useRouter();
   const meetingsType = router?.query?.type;
   const [search, setSearch] = useState('');
   const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
@@ -21,8 +21,9 @@ export const useListView = () => {
   const [openForm, setOpenForm] = useState<any>({});
   const [deleteModal, setDeleteModal] = useState<any>({});
   const [isActiveCard, setIsActiveCard] = useState<any>(
-    meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL,
+    meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
   );
+
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
@@ -33,6 +34,7 @@ export const useListView = () => {
       ['page', pages + ''],
       ['limit', pageLimit + ''],
       ['search', search],
+      ['type', meetingsType],
     ];
     const meetingParam: any = buildQueryParams(additionalParams);
 
@@ -48,11 +50,18 @@ export const useListView = () => {
 
   useEffect(() => {
     getMeetingListData();
-  }, [search, page, pageLimit]);
+  }, [search, page, pageLimit, cardValue]);
   const listViewMeetingData = getMeetingListStatus?.data?.data?.meetings;
 
-  const activeCard = (meetingHeading: any) => {
+  const activeCard = (meetingType: any, meetingHeading: any) => {
     setIsActiveCard(meetingHeading);
+    setCardValue(meetingType);
+    router?.push({
+      pathname: ROUTER_CONSTANTS?.MEETINGS,
+      query: {
+        type: meetingType,
+      },
+    });
   };
 
   useEffect(() => {
@@ -107,6 +116,13 @@ export const useListView = () => {
   const meetingActiveType = (activeMeeting: any) => {
     return ROUTER_CONSTANTS?.[activeMeeting];
   };
+
+  useEffect(() => {
+    router?.push({
+      ...router?.basePath,
+      query: { type: 'allMeetings' },
+    });
+  }, []);
 
   return {
     theme,

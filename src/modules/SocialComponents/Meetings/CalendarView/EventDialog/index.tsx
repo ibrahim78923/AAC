@@ -10,17 +10,24 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { generateImage } from '@/utils/avatarUtils';
-import { formatDateTime } from '@/utils/dateTime';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const EventDialog = (params: any) => {
   const { openEventModal, setOpenEventModal, eventData, theme } = params;
-  const { start, end } = eventData;
+  const { startDate, startTime, endTime } =
+    eventData?.event?._def?.extendedProps;
+
   const handleJoinClick = () => {
     const joinUrl = eventData?.event?._def?.extendedProps?.joinUrl;
     if (joinUrl) {
       window?.open(joinUrl, '_blank');
     }
   };
+
+  const dateAndTime = `${dayjs(startDate)?.format(
+    DATE_TIME_FORMAT?.DDMMYYY,
+  )} - ${startTime} to ${endTime}`;
 
   return (
     <Dialog
@@ -60,7 +67,7 @@ export const EventDialog = (params: any) => {
         />
         <Box sx={{ margin: 1 }}>
           <Typography variant="body1" mb={0.4}>
-            {formatDateTime(start, end)}
+            {dateAndTime}
           </Typography>
           <Button variant="contained" onClick={handleJoinClick}>
             Join Now

@@ -12,6 +12,7 @@ import {
 } from './MeetingForm/Reminder/Reminder.data';
 import { timeZone } from '@/constants/time-zone';
 import { timeFormatter } from '@/utils/api';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const schemaTypes = {
   allDay: 'allDay',
@@ -70,7 +71,9 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
           (item: any) => item?.value === meetingData?.type,
         )
       : null,
-    location: meetingData?.location ?? null,
+    location: meetingData?.locationDetails
+      ? meetingData?.locationDetails
+      : null,
     bufferBefore: true,
     bufferAfter: true,
     bufferBeforeTime: meetingData?.bufferTime?.before
@@ -84,9 +87,9 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
         )
       : '',
     people:
-      meetingData?.peoples ?? router?.query?.type === schemaTypes?.group
-        ? []
-        : null,
+      router?.query?.type === schemaTypes?.group
+        ? meetingData?.peoplesDetails ?? []
+        : meetingData?.peoplesDetails?.[ARRAY_INDEX?.ZERO] ?? null,
     allowAttendee: false,
     timeSlotDuration: { label: '30 Minutes', value: 30 },
     selectedSlots: [],
@@ -243,7 +246,7 @@ export const allDayValues = [
   },
   {
     name: 'location',
-    value: '',
+    value: null,
   },
   {
     name: 'startTime',

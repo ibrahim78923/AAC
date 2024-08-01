@@ -482,6 +482,7 @@ export const END_POINTS = {
   MARKETING_DASHBOARD_LISTS_DROPDOWN: `/marketing-dashboard`,
   CONTRACT_TYPE_SERVICES_SETTINGS: `/contract-type`,
   GET_MEETINGS_SLOTS: '/meeting-time-slots/suggested-time-slots',
+  GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
 };
 
 export const LEAD_CAPTURE_FORM = {

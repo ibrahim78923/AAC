@@ -3,6 +3,7 @@ import { getSession } from '@/utils';
 import { peopleTypes } from './AttendeePeople.data';
 import { timeFormatter } from '@/utils/api';
 import {
+  useLazyGetBookedMeetingsSlotsListQuery,
   useLazyGetMeetingsSlotsListQuery,
   useLazyGetUsersDropdownListQuery,
 } from '@/services/commonFeatures/meetings';
@@ -23,6 +24,8 @@ export const useAttendeePeople = (props: any) => {
   const peopleData =
     router?.query?.type === peopleTypes?.group ? watchPeople : [watchPeople];
   const [trigger, status]: any = useLazyGetMeetingsSlotsListQuery();
+  const [bookedTrigger, bookedStatus]: any =
+    useLazyGetBookedMeetingsSlotsListQuery();
   const handleFetchMeetingSlots = async () => {
     const meetingParameter = {
       queryParams: [
@@ -38,7 +41,17 @@ export const useAttendeePeople = (props: any) => {
       await trigger(meetingParameter)?.unwrap();
     } catch (error) {}
   };
+  const handleFetchBookedMeetingSlots = async () => {
+    const meetingParameter = {
+      queryParams: `startDate=${watchStartDate}`,
+    };
+
+    try {
+      await bookedTrigger(meetingParameter)?.unwrap();
+    } catch (error) {}
+  };
   const slotsData = status?.data;
+  const bookedSlotsData = bookedStatus?.data;
 
   return {
     userDropdown,
@@ -51,5 +64,8 @@ export const useAttendeePeople = (props: any) => {
     slotsData,
     watchStartDate,
     meetingType,
+    handleFetchBookedMeetingSlots,
+    bookedStatus,
+    bookedSlotsData,
   };
 };

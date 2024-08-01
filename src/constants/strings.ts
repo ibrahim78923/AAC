@@ -573,9 +573,12 @@ export const RULES_BENEFIT_TYPE = {
 };
 
 export const MEETINGS_DETAILS_TYPE = {
-  ALL: 'All',
-  UPCOMING: 'Upcoming',
-  COMPLETED: 'Completed',
+  ALL: 'allMeetings',
+  UPCOMING: 'upComming',
+  COMPLETED: 'completed',
+  ALL_MEETINGS: 'All',
+  UPCOMING_MEETINGS: 'Upcoming',
+  COMPLETED_MEETINGS: 'Completed',
 };
 export const MEETINGS_ACTION_TYPE = {
   CREATED: 'created',
