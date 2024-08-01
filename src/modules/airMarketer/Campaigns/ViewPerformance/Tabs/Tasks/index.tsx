@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Grid, Menu, MenuItem, Stack } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
@@ -9,6 +9,7 @@ import EditTask from './EditTask';
 
 import { AlertModalDeleteIcon, DownIcon } from '@/assets/icons';
 import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
+import Search from '@/components/Search';
 
 const Tasks = () => {
   const {
@@ -23,46 +24,64 @@ const Tasks = () => {
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
+    searchUser,
+    setSearchUser,
   } = useTasks();
+
   return (
     <>
-      <Box>
-        <Button
-          id="basic-button"
-          aria-controls={'basic-menu'}
-          aria-haspopup="true"
-          aria-expanded={'true'}
-          className="small"
-          variant="outlined"
-          color="inherit"
-          onClick={handleActionsMenuClick}
-          sx={{
-            color: theme?.palette?.grey[500],
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Stack direction={'row'} justifyContent={'space-between'}>
+            <Search
+              searchBy={searchUser}
+              // width="260px"
+              size="small"
+              label={'Search here'}
+              setSearchBy={setSearchUser}
+            />
+            <Box>
+              <Button
+                id="basic-button"
+                aria-controls={'basic-menu'}
+                aria-haspopup="true"
+                aria-expanded={'true'}
+                className="small"
+                variant="outlined"
+                color="inherit"
+                onClick={handleActionsMenuClick}
+                sx={{
+                  color: theme?.palette?.grey[500],
 
-            //
-            border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
-            '@media (max-width:581px)': {
-              width: '100%',
-            },
-          }}
-        >
-          Actions &nbsp; <DownIcon />
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={actionMenuOpen}
-          onClose={handleActionsMenuClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
+                  //
+                  border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
+                  '@media (max-width:581px)': {
+                    width: '100%',
+                  },
+                }}
+              >
+                Actions &nbsp; <DownIcon />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={actionMenuOpen}
+                onClose={handleActionsMenuClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
 
-          <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
-        </Menu>
-      </Box>
-      <TanstackTable columns={columns} data={tableData} isPagination />
+                <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+              </Menu>
+            </Box>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <TanstackTable columns={columns} data={tableData} isPagination />
+        </Grid>
+      </Grid>
 
       {isOpenEditTaskDrawer && (
         <EditTask

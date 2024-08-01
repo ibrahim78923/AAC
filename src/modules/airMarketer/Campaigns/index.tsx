@@ -20,37 +20,23 @@ const Campaigns = () => {
   const {
     createCampaignsLoading,
     setIsResetTaskFilter,
-    setIsActionsDisabled,
-    handleResetFilters,
-    setSearchCampaigns,
     isResetTaskFilter,
     resetTasksFilters,
-    setcheckedColumns,
     setCurrentTabVal,
     setIsCreateTask,
     setIsOpenFilter,
-    searchCampaigns,
-    setSelectedRows,
     setTaskFilters,
     organizationId,
-    campaignsData,
-    filterLoading,
     isCreateTask,
     setIsFilters,
-    selectedRows,
-    setPageLimit,
     setIsCompare,
     currentTabVal,
     userListData,
     handleSubmit,
     taskFilters,
-    setFilters,
     isFilters,
     isCompare,
-    setRowId,
     onSubmit,
-    filters,
-    setPage,
     methods,
     compareMethods,
     theme,
@@ -128,22 +114,7 @@ const Campaigns = () => {
             defaultValue={currentTabVal}
             tabsDataArray={campaignsTabs}
           >
-            <Manage
-              campaignsData={campaignsData}
-              handleResetFilters={handleResetFilters}
-              filterLoading={filterLoading}
-              selectedRows={selectedRows}
-              setSearchCampaigns={setSearchCampaigns}
-              searchCampaigns={searchCampaigns}
-              setSelectedRows={setSelectedRows}
-              filters={filters}
-              setFilters={setFilters}
-              setPageLimit={setPageLimit}
-              setPage={setPage}
-              setIsActionsDisabled={setIsActionsDisabled}
-              setcheckedColumns={setcheckedColumns}
-              setRowId={setRowId}
-            />
+            <Manage />
             <Calendar />
             <Tasks />
           </HorizontalTabs>

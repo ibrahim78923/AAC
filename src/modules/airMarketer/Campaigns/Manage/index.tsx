@@ -1,14 +1,7 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { columns } from './Manage.data';
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Stack,
-  Tooltip,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, ButtonGroup, Stack, Tooltip } from '@mui/material';
 import ActionButton from '../ActionButton';
 import {
   BookMarkDarkIcon,
@@ -16,7 +9,6 @@ import {
   FilterrIcon,
   RefreshTasksIcon,
 } from '@/assets/icons';
-import useCampaigns from '../useCampaigns';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
 import EditColumns from '../EditColumns';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -26,34 +18,33 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useEffect } from 'react';
 import useCustomize from '../EditColumns/useCustomize';
-import { ManageI } from './Manage.interface';
+import useManage from './useManage';
 
-const Manage = ({
-  campaignsData,
-  handleResetFilters,
-  filterLoading,
-  selectedRows,
-  searchCampaigns,
-  setSearchCampaigns,
-  setSelectedRows,
-  filters,
-  setFilters,
-  setPage,
-  setPageLimit,
-  setIsActionsDisabled,
-  setcheckedColumns,
-  setRowId,
-}: ManageI) => {
-  const theme = useTheme();
+const Manage = () => {
   const {
-    handleOpenFilter,
-    isOpenFilter,
-    setIsOpenFilter,
-    handleSaveView,
-    actionsModalDetails,
     setActionsModalDetails,
     saveViewCampaignsData,
-  } = useCampaigns();
+    setIsActionsDisabled,
+    actionsModalDetails,
+    setSearchCampaigns,
+    handleResetFilters,
+    setcheckedColumns,
+    handleOpenFilter,
+    setIsOpenFilter,
+    searchCampaigns,
+    setSelectedRows,
+    handleSaveView,
+    campaignsData,
+    filterLoading,
+    selectedRows,
+    setPageLimit,
+    isOpenFilter,
+    setFilters,
+    setRowId,
+    filters,
+    setPage,
+    theme,
+  } = useManage();
 
   const { activeColumns } = useCustomize({});
 

@@ -10,7 +10,7 @@ import {
   useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
 import { useEffect } from 'react';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/constants';
+import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 const useEditTask = ({
@@ -45,9 +45,7 @@ const useEditTask = ({
       campaignId: data?.campaignDetails[0],
       assignedTo: data?.assignedTo[0],
       dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
-      time: data?.time
-        ? dayjs(data?.time)?.format(DATE_TIME_FORMAT?.DUE_DATE_TIME)
-        : null,
+      time: data?.time ? dayjs(data?.time) : null,
       note: data?.note,
     };
     for (const key in fieldsToSet) {
