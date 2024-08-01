@@ -182,6 +182,7 @@ export const AIR_SERVICES = {
 
 export const AIR_CUSTOMER_PORTAL = {
   DASHBOARD: `/air-customer-portal`,
+  EDIT_PROFILE: `/air-customer-portal/edit-profile`,
   TICKETS: `/air-customer-portal/tickets`,
   SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
   KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',
@@ -594,4 +595,12 @@ export const CHAT_TYPES = {
   PERSONAL_CHAT: 'personalChat',
   SENDER: 'sender',
   RECIEVER: 'receiver',
+};
+
+export const PROFILE_DROPDOWNS = {
+  EDIT_PROFILE: 'Edit Profile',
+  AIR_CUSTOMER_PORTAL: 'air-customer-portal',
+  CHANGE_PASSWORD: 'Change Password',
+  DELEGATE: 'Delegate',
+
 };

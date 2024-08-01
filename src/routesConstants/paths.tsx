@@ -233,6 +233,10 @@ export const ORG_ADMIN = {
   ORGANIZATION: '/org-admin/organization-admin',
 };
 
+export const COMMON_ROUTES = {
+  DELEGATE: '/delegate',
+};
+
 export const SOCIAL_FEATURES_CHAT = {
   CHAT: 'chat/',
   CHAT_LIST: 'chat/list/',

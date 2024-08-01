@@ -4,6 +4,7 @@ import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import StatusBadge from '@/components/StatusBadge';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { InfoI, RowI } from './invoice.interface';
 
 export const cardDetails = [
   {
@@ -39,9 +40,9 @@ export const invoiceDetail = [
 //sales list view columns
 export const invoicesTableColumns: any = (
   selectedRow: any,
-  setSelectedRow: any,
+  setSelectedRow: (row: any) => void,
   setIsActionsDisabled: (value: boolean) => void,
-  setRowId: any,
+  setRowId: (id: any) => void,
   handleUpdateStatus: any,
 ) => {
   const handleRowClick = (id: any) => {
@@ -88,9 +89,9 @@ export const invoicesTableColumns: any = (
 
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: RowI) => row?._id,
       id: '_id',
-      cell: (info: any) => {
+      cell: (info: InfoI) => {
         return (
           <Checkbox
             color="primary"
@@ -102,7 +103,7 @@ export const invoicesTableColumns: any = (
           />
         );
       },
-      header: (info: any) => {
+      header: (info: InfoI) => {
         const rows = info?.table?.options?.data;
         return (
           <Checkbox
@@ -121,21 +122,21 @@ export const invoicesTableColumns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.invoiceNo,
+      accessorFn: (row: RowI) => row?.invoiceNo,
       id: 'invoiceNo',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: InfoI) => info?.getValue(),
       header: 'Invoice Number',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.quote?.deal?.amount,
+      accessorFn: (row: RowI) => row?.quote?.deal?.amount,
       id: 'invoiceAmount',
       isSortable: true,
       header: 'Invoice Amount',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: InfoI) => info?.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: RowI) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -165,14 +166,14 @@ export const invoicesTableColumns: any = (
       },
     },
     {
-      accessorFn: (row: any) => row?.quote?.name,
+      accessorFn: (row: RowI) => row?.quote?.name,
       id: 'linkedQuote',
       isSortable: true,
       header: 'Linked Quote',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) =>
+      accessorFn: (row: RowI) =>
         `${row?.preparedBy?.firstName} ${row?.preparedBy?.lastName}`,
       id: 'createdBy',
       isSortable: true,
@@ -180,7 +181,7 @@ export const invoicesTableColumns: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
+      accessorFn: (row: RowI) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
