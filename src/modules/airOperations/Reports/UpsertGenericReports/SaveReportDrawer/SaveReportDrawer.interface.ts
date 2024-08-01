@@ -1,4 +1,4 @@
-export interface usersDropdownOptionsI {
+export interface UsersDropdownOptionsI {
   email: string;
   firstName: string;
   lastName: string;
@@ -9,7 +9,6 @@ export interface usersDropdownOptionsI {
   permission: string;
   userId: string;
 }
-
 export interface SaveReportI {
   reportName: string;
   sharedWith: string;
@@ -38,4 +37,14 @@ export interface SpecificUsersAccessFormFieldsDynamicI {
 export interface SpecialUsersFieldsI {
   id: string;
   name?: string;
+}
+export interface SaveReportDrawerI {
+  open: boolean;
+  reportId: any;
+  form: any;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  metricType: string;
+  selectedModule: string;
+  singleReport: any;
+  handleMoveBack: () => void;
 }

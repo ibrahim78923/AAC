@@ -11,6 +11,7 @@ import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permissio
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import useAuth from '@/hooks/useAuth';
 import { ROLES } from '@/constants/strings';
+import { HeaderI } from './Header.interface';
 
 export const Header = () => {
   const {
@@ -20,11 +21,9 @@ export const Header = () => {
     anchorEl,
     handleButtonClick,
     handleClose,
-    handleSubmitModal,
     push,
-  }: any = useDashboard();
+  }: HeaderI = useDashboard();
   const router = useRouter();
-
   const { user }: any = useAuth();
 
   return (
@@ -125,7 +124,6 @@ export const Header = () => {
         <ReportAnIssueModal
           openReportAnIssueModal={openReportAnIssueModal}
           setOpenReportAnIssueModal={setOpenReportAnIssueModal}
-          handleSubmitModal={handleSubmitModal}
         />
       )}
     </>

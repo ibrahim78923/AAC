@@ -4,8 +4,9 @@ import { Box, Dialog, Grid, IconButton, Typography } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
 import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
 import { LoadingButton } from '@mui/lab';
+import { ReportAnIssueModalI } from './ReportAnIssueModal.interface';
 
-const ReportAnIssueModal = (props: any) => {
+const ReportAnIssueModal = (props: ReportAnIssueModalI) => {
   const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
   const {
     methods,

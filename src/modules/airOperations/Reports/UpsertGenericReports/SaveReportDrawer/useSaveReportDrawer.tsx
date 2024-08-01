@@ -14,8 +14,9 @@ import {
   GENERIC_REPORT_MODULES,
 } from '@/constants/strings';
 import {
+  SaveReportDrawerI,
   SaveReportI,
-  usersDropdownOptionsI,
+  UsersDropdownOptionsI,
 } from './SaveReportDrawer.interface';
 import {
   useLazyUsersDropdownQuery,
@@ -26,7 +27,7 @@ import {
   usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
-export const useSaveReportDrawer = (props: any) => {
+export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const {
     form,
     setOpen,
@@ -294,7 +295,7 @@ export const useSaveReportDrawer = (props: any) => {
           }),
           ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
             users: sharedWithSpecificUserWatch?.map(
-              (item: usersDropdownOptionsI) => ({
+              (item: UsersDropdownOptionsI) => ({
                 id: item?.userId,
                 access: item?.permission,
               }),
@@ -312,7 +313,7 @@ export const useSaveReportDrawer = (props: any) => {
           }),
           ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
             specialUsers: newDashboardSpecificUserWatch?.map(
-              (item: usersDropdownOptionsI) => ({
+              (item: UsersDropdownOptionsI) => ({
                 userId: item?.userId,
                 permission: item?.permission,
               }),

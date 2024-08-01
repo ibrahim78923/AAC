@@ -70,7 +70,6 @@ export default function useUpsertGenericReports() {
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
   const [metricType, setMetricType] = useState(defaultModule);
-  const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
   const [disableTemplate, setDisableTemplate] = useState(false);
@@ -332,8 +331,6 @@ export default function useUpsertGenericReports() {
     setFontSize,
     fontSize,
     setValue,
-    AddProperties,
-    setAddProperties,
     columnsData,
     setColumnsData,
     setOpenDrawer,

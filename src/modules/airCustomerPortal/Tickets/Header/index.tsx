@@ -14,7 +14,6 @@ export const Header = (props: any) => {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
     allTicketsDropdownFunction,
-    handleSubmitModal,
     handleButtonClick,
     handleClose,
     anchorEl,
@@ -92,7 +91,6 @@ export const Header = (props: any) => {
         <ReportAnIssueModal
           openReportAnIssueModal={openReportAnIssueModal}
           setOpenReportAnIssueModal={setOpenReportAnIssueModal}
-          handleSubmitModal={handleSubmitModal}
         />
       )}
     </>

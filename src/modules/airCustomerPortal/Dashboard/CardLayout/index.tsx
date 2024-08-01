@@ -1,13 +1,14 @@
 import { Box, Button, Typography } from '@mui/material';
+import { CardLayoutI } from './CardLayout.interface';
 
 export const CardLayout = ({
   title,
   btnClick,
   btnPosition,
-  buttonText = 'View All',
-  maxHeight = 222,
+  buttonText,
+  maxHeight,
   children,
-}: any) => {
+}: CardLayoutI) => {
   return (
     <Box bgcolor={'common.white'} p={2} borderRadius={4} height="100%">
       <Box

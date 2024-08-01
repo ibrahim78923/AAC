@@ -16,12 +16,11 @@ import {
 import { CheckBox } from '@mui/icons-material';
 import { tableEditorData } from './TableEditor.data';
 import { useTableEditor } from './useTableEditor';
-import { tableFieldsI } from './TableEditor.interface';
-export const TableEditor = (props: any) => {
+import { TableEditorI, tableFieldsI } from './TableEditor.interface';
+export const TableEditor = (props: TableEditorI) => {
   const {
     setValue,
     setColumnsData,
-    setAddProperties,
     columnsData,
     handleCancel,
     disableTemplate,
@@ -72,14 +71,7 @@ export const TableEditor = (props: any) => {
           ),
         }}
       />
-      <Box
-        display={'flex'}
-        alignItems={'center'}
-        gap={1}
-        mt={1}
-        sx={{ cursor: 'pointer' }}
-        onClick={() => setAddProperties(true)}
-      >
+      <Box display={'flex'} alignItems={'center'} gap={1} mt={1}>
         <Typography variant="h4">Edit Properties</Typography>
       </Box>
       <Box height={'50vh'} overflow={'scroll'}>
@@ -125,7 +117,7 @@ export const TableEditor = (props: any) => {
         <Button
           variant="contained"
           onClick={handleSave}
-          disabled={!columnsData?.length}
+          disabled={!columnsData?.length || !tableTitle}
         >
           Save
         </Button>

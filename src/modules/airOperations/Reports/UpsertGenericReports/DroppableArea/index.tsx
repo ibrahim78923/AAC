@@ -20,8 +20,9 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { tableColumn } from '../DraggableFormFields/Table/Table.data';
 import { Counter } from '../DraggableFormFields/Counter';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { DroppableAreaI } from './DroppableArea.interface';
 
-export default function DroppableArea(props: any) {
+export default function DroppableArea(props: DroppableAreaI) {
   const {
     fieldData,
     modal,
@@ -30,7 +31,6 @@ export default function DroppableArea(props: any) {
     fontSize,
     color,
     form,
-    setAddProperties,
     columnsData,
     allChartComponents,
     setShowTemplate,
@@ -374,11 +374,7 @@ export default function DroppableArea(props: any) {
                     />
                   )}
                   {modal?.table && (
-                    <Table
-                      watch={watch}
-                      setAddProperties={setAddProperties}
-                      columnsData={columnsData}
-                    />
+                    <Table watch={watch} columnsData={columnsData} />
                   )}
                   {modal?.counter && (
                     <Counter

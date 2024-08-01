@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { stateToHTML } from 'draft-js-export-html';
 import { REPORT_TYPE, TEXT_FORMATE } from '@/constants/strings';
 import { generateUniqueId } from '@/utils/dynamic-forms';
+import { TextEditorI } from './TextEditor.interface';
 
-export const useTextEditor = (props: any) => {
+export const useTextEditor = (props: TextEditorI) => {
   const {
     setFieldData,
     setModal,
@@ -224,5 +225,6 @@ export const useTextEditor = (props: any) => {
     onColorChange,
     onFontSizeChange,
     saveDisable,
+    textTitle,
   };
 };

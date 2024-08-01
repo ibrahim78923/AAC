@@ -27,6 +27,8 @@ export const Announcements = () => {
         title={'Announcements'}
         btnPosition="center"
         btnClick={() => setDrawerOpen(true)}
+        buttonText="View All"
+        maxHeight={222}
       >
         {isLoading || isFetching ? (
           <SkeletonForm />

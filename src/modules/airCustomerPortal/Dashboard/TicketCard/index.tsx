@@ -3,9 +3,10 @@ import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
 import { FirstAidKitIcon } from '@/assets/icons';
+import { TicketCardI } from './TicketCard.interface';
 
-export const TicketCard = (props: any) => {
-  const { totalCount, data }: any = props;
+export const TicketCard = (props: TicketCardI) => {
+  const { totalCount, data } = props;
 
   return (
     <Box

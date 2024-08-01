@@ -4,8 +4,9 @@ import { Editor } from 'draft-js';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { CheckBox } from '@mui/icons-material';
 import { EditInputIcon } from '@/assets/icons';
+import { TextI } from './Text.interface';
 
-export const Text = (props: any) => {
+export const Text = (props: TextI) => {
   const { editorState, setEditorState, setValue } = props;
   const {
     handleKeyCommand,

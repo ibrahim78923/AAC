@@ -9,8 +9,9 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { TEXT_FORMATE } from '@/constants/strings';
+import { TextEditorI } from './TextEditor.interface';
 
-export const TextEditor = (props: any) => {
+export const TextEditor = (props: TextEditorI) => {
   const { fontSize, color, handleCancel } = props;
   const {
     handleSave,
@@ -18,6 +19,7 @@ export const TextEditor = (props: any) => {
     onColorChange,
     onFontSizeChange,
     saveDisable,
+    textTitle,
   } = useTextEditor(props);
   return (
     <>
@@ -120,7 +122,11 @@ export const TextEditor = (props: any) => {
         <Button variant="outlined" onClick={handleCancel} color="secondary">
           Cancel
         </Button>
-        <Button variant="contained" disabled={saveDisable} onClick={handleSave}>
+        <Button
+          variant="contained"
+          disabled={saveDisable || !textTitle}
+          onClick={handleSave}
+        >
           Save
         </Button>
       </Toolbar>

@@ -12,8 +12,9 @@ import {
   useLazyUsersDropdownQuery,
   useLazySalesDropdownQuery,
 } from '@/services/airOperations/reports/upsert-generic-reports';
+import { ChartEditorI } from './ChartEditor.interface';
 
-export const useChartEditor = (props: any) => {
+export const useChartEditor = (props: ChartEditorI) => {
   const {
     setFieldData,
     setModal,

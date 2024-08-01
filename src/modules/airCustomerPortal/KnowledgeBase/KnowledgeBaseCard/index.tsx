@@ -2,8 +2,9 @@ import { FolderIcon } from '@/assets/icons';
 import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { KnowledgeBaseCardI } from './KnowledgeBaseCard.interface';
 
-export const KnowledgeBaseCard = (props: any) => {
+export const KnowledgeBaseCard = (props: KnowledgeBaseCardI) => {
   const { folderId, name, createdBy, createdDate, handleKnowledgeBaseDetail } =
     props;
 

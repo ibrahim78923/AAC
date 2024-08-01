@@ -5,6 +5,7 @@ import {
   Toolbar,
   Typography,
   useTheme,
+  Theme,
 } from '@mui/material';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { Draggable } from 'react-beautiful-dnd';
@@ -14,6 +15,7 @@ import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AppsIcon from '@mui/icons-material/Apps';
+import { DraggableFieldsI } from './DraggableFields.interface';
 
 export default function DraggableFields({
   setModal,
@@ -22,7 +24,6 @@ export default function DraggableFields({
   setForm,
   metricType,
   setValue,
-  allChartComponents,
   setEditorState,
   fieldsList,
   fieldData,
@@ -32,8 +33,6 @@ export default function DraggableFields({
   setFontSize,
   color,
   setColor,
-  AddProperties,
-  setAddProperties,
   setColumnsData,
   setOpenDrawer,
   openDrawer,
@@ -51,8 +50,8 @@ export default function DraggableFields({
   singleReport,
   handleMoveBack,
   watch,
-}: any) {
-  const theme: any = useTheme();
+}: DraggableFieldsI) {
+  const theme: Theme = useTheme();
 
   return (
     <Droppable droppableId={'draggable'}>
@@ -231,7 +230,6 @@ export default function DraggableFields({
                   setValue={setValue}
                   form={form}
                   setForm={setForm}
-                  allChartComponents={allChartComponents}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
                   disableTemplate={disableTemplate}
@@ -261,9 +259,7 @@ export default function DraggableFields({
               {modal?.table && (
                 <TableEditor
                   setValue={setValue}
-                  AddProperties={AddProperties}
                   setColumnsData={setColumnsData}
-                  setAddProperties={setAddProperties}
                   setModal={setModal}
                   form={form}
                   setForm={setForm}

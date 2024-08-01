@@ -28,8 +28,6 @@ export const UpsertGenericReports = () => {
     setFieldData,
     setModal,
     setValue,
-    AddProperties,
-    setAddProperties,
     columnsData,
     setColumnsData,
     setOpenDrawer,
@@ -114,7 +112,6 @@ export const UpsertGenericReports = () => {
               color={color}
               form={form}
               setForm={setForm}
-              setAddProperties={setAddProperties}
               columnsData={columnsData}
               allChartComponents={allChartComponents}
               setShowTemplate={setShowTemplate}
@@ -153,7 +150,6 @@ export const UpsertGenericReports = () => {
               setModal={setModal}
               setFieldData={setFieldData}
               setValue={setValue}
-              AddProperties={AddProperties}
               setColumnsData={setColumnsData}
               setOpenDrawer={setOpenDrawer}
               openDrawer={openDrawer}
@@ -161,7 +157,6 @@ export const UpsertGenericReports = () => {
               metricType={metricType}
               form={form}
               setForm={setForm}
-              allChartComponents={allChartComponents}
               columnsData={columnsData}
               showTemplate={showTemplate}
               handleCancel={handleCancel}

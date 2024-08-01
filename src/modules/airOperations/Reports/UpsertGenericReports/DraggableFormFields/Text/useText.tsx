@@ -1,7 +1,8 @@
 import { EditorState, RichUtils } from 'draft-js';
 import { useMemo, useState } from 'react';
+import { TextI } from './Text.interface';
 
-export const useText = (props: any) => {
+export const useText = (props: TextI) => {
   const { setEditorState, fontSize, color, watch } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();

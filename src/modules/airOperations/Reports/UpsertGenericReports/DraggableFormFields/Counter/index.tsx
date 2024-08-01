@@ -1,7 +1,8 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useCounter } from './useCounter';
+import { CounterI } from './Counter.interface';
 
-export const Counter = (props: any) => {
+export const Counter = (props: CounterI) => {
   const { draggedItemData, handleCancel } = props;
   const { handleSave } = useCounter(props);
   return (
