@@ -602,5 +602,4 @@ export const PROFILE_DROPDOWNS = {
   AIR_CUSTOMER_PORTAL: 'air-customer-portal',
   CHANGE_PASSWORD: 'Change Password',
   DELEGATE: 'Delegate',
-
 };

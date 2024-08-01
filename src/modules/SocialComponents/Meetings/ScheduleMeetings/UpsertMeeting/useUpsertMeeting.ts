@@ -159,7 +159,7 @@ export const useUpsertMeeting = () => {
       locationId:
         watchMeetingType?.label === schemaTypes?.inPersonMeeting
           ? formData?.location?._id
-          : null,
+          : '',
       bufferTime: {
         before: formData?.bufferBeforeTime?.value,
         after: formData?.bufferAfterTime?.value,

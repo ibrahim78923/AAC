@@ -34,7 +34,7 @@ export const useListView = () => {
       ['page', pages + ''],
       ['limit', pageLimit + ''],
       ['search', search],
-      ['type', meetingsType],
+      ['type', meetingsType ?? 'allMeetings'],
     ];
     const meetingParam: any = buildQueryParams(additionalParams);
 
