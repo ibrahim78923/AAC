@@ -7,8 +7,9 @@ import {
   TicketsReportsIcon,
 } from '@/assets/icons';
 import { Permissions } from '@/constants/permissions';
+import { ServicesReportsTypesI } from './Reports.interface';
 
-export const reportsTypes = [
+export const reportsTypes: ServicesReportsTypesI[] = [
   {
     id: 1,
     avatar: TicketsReportsIcon,

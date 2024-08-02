@@ -278,8 +278,8 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.dashboard,
-    id: 'dashboard',
+    accessorFn: (row: any) => row?.dashboardDetails,
+    id: 'dashboardDetails',
     isSortable: true,
     header: 'Dashboard Name',
     cell: (info: any) =>
@@ -294,7 +294,7 @@ export const reportListsColumnsDynamic = (
           '---'
         )
       ) : (
-        '---'
+        info?.getValue()?.name ?? '---'
       ),
   },
   {

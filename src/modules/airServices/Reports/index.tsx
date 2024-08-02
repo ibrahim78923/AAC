@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { reportsTypes } from './Reports.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ServicesReportsTypesI } from './Reports.interface';
 
 export const Reports = () => {
   const theme = useTheme();
@@ -13,7 +14,7 @@ export const Reports = () => {
       <PageTitledHeader title="Reports and Analytics" />
       <br />
       <Grid container spacing={3}>
-        {reportsTypes?.map((item: any) => (
+        {reportsTypes?.map((item: ServicesReportsTypesI) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
             <Grid
               item
