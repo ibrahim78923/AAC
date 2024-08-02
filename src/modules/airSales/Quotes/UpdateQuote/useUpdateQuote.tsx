@@ -253,12 +253,12 @@ const useUpdateQuote = () => {
       await updateQuote({ id: router?.query?.data, body: values })?.unwrap();
 
       enqueueSnackbar('Deal & Details updated successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       handleStepNext();
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };

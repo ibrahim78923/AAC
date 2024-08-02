@@ -153,16 +153,16 @@ interface QuotesUpdateI {
   data?: any;
   detailValues?: any;
   methodStepDeal?: any;
-  openCreateDeal?: any;
-  openAddContact?: any;
-  openAddCompany?: any;
-  openCreateProduct?: any;
+  openCreateDeal?: () => void;
+  openAddContact?: () => void;
+  openAddCompany?: () => void;
+  openCreateProduct?: () => void;
   // signatureValue?: any;
   methodsSignature?: any;
-  handleBuyerContactChange: any;
-  selectedBuyerContactIds: any;
-  handleCompanyChange: any;
-  selectedCompanyIds: any;
+  handleBuyerContactChange: (ids: string[]) => void;
+  selectedBuyerContactIds: string[];
+  handleCompanyChange: (ids: string[]) => void;
+  selectedCompanyIds: string[];
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
   return [

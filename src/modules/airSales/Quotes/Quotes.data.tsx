@@ -1,5 +1,6 @@
 import { DATE_TIME_FORMAT } from '@/constants';
 import { quoteStatus } from '@/routesConstants/paths';
+import { capitalizeFirstLetters } from '@/utils';
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
@@ -74,12 +75,19 @@ export const quotesColumns = (
   const activeColumnsData = (attribute: any, info: any) => {
     if (attribute === DEAL_ATTRIBUTES?.DEAL_NAME) {
       return (
-        <Box sx={{ cursor: 'pointer' }}>
-          {info?.row?.original?.name ?? 'N/A'}
+        <Box
+          sx={{
+            cursor: 'pointer',
+            '&:hover': {
+              color: theme?.palette?.primary?.main,
+            },
+          }}
+        >
+          {capitalizeFirstLetters(info?.row?.original?.name) ?? 'N/A'}
         </Box>
       );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_AMOUNT) {
-      return info?.row?.original?.deal?.amount ?? 'N/A';
+      return `£${info?.row?.original?.deal?.amount}` ?? 'N/A';
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_STATUS) {
       return (
         <Typography
@@ -95,13 +103,13 @@ export const quotesColumns = (
         </Typography>
       );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_DEAL_NAME) {
-      return info?.row?.original?.deal?.name ?? 'N/A';
+      return capitalizeFirstLetters(info?.row?.original?.deal?.name) ?? 'N/A';
     } else if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_CREATED_BY)) {
       const name =
         info?.row?.original?.createdBy?.firstName +
         ' ' +
         info?.row?.original?.createdBy?.lastName;
-      return name ?? 'N/A';
+      return capitalizeFirstLetters(name) ?? 'N/A';
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CREATED_AT) {
       return (
         dayjs(info?.row?.original?.createdAt)?.format(

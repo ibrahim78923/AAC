@@ -1,16 +1,17 @@
 import {
+  RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
   RHFMultiCheckbox,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
-import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
+import { capitalizeFirstLetter } from '@/utils/api';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -28,9 +29,10 @@ export const defaultValues = {
 };
 export const createDealData = ({ dealPipelineId }: any) => {
   const { user }: any = getSession();
-
   const organizationId: any = user?.organization?._id;
-  const { pipelineListDropdown, salesProduct }: any = useDealTab();
+
+  const { salesProduct, pipelineListDropdown }: any = useDealTab();
+
   const UserListData = useLazyGetUsersListDropdownQuery();
 
   const filteredStages: any = pipelineListDropdown
@@ -119,14 +121,10 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'priority',
         label: 'Priority',
-        select: true,
+        placeholder: 'Select Priority',
+        options: ['Low', 'Medium', 'High'],
       },
-      options: [
-        { value: 'Low', label: 'Low' },
-        { value: 'Medium', label: 'Medium' },
-        { value: 'High', label: 'High' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
     },
     {
       componentProps: {
@@ -136,7 +134,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         label: 'Add Line Item',
         options: salesProduct?.data?.salesproducts?.map((item: any) => ({
           value: item?._id,
-          label: item?.name,
+          label: capitalizeFirstLetter(item?.name),
         })),
         fullWidth: true,
       },
@@ -147,13 +145,11 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'billingFrequency',
         label: 'Billing Frequency',
+        placeholder: 'Select Frequency',
         select: true,
+        options: ['monthly', 'quarterly'],
       },
-      options: [
-        { value: 'monthly', label: 'monthly' },
-        { value: 'quarterly', label: 'quarterly' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
     },
   ];
 };

@@ -1,5 +1,5 @@
 export interface TableToolbarI {
-  setSearchValue: any;
+  setSearchValue: (value: string) => void;
   handleFilters: () => void;
   handleCustomizeColumns: () => void;
   handleResetFilters: () => void;

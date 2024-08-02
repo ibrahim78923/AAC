@@ -46,7 +46,6 @@ const TableToolbar: FC<TableToolbarI> = ({
             setSearchBy={setSearchValue}
             label="Search Here"
             size="small"
-            width={'100%'}
           />
         </PermissionsGuard>
       </Box>
