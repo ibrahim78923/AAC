@@ -1,4 +1,4 @@
-import { Box, Checkbox } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
@@ -13,7 +13,7 @@ import { useLazyGetCompanyAccountsRolesListQuery } from '@/services/common-APIs'
 import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
 import { capitalizeFirstLetter } from '@/utils/api';
 
-export const userValidationSchema = Yup?.object()?.shape({
+export const userValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.required('Field is Required')
     ?.matches(
@@ -210,9 +210,9 @@ export const dataArray = () => {
 export const columnsUser = (
   checkedUser: any,
   setCheckedUser: any,
-  updateUserLoading: any,
   tableData: any,
 ) => {
+  const { user }: any = getSession();
   const { handleUpdateStatus } = useUsers();
 
   const handleSelectCompaniesById = (checked: boolean, id: string): void => {
@@ -271,21 +271,16 @@ export const columnsUser = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Box>
-          {updateUserLoading ? (
-            <Box>Loading...</Box>
-          ) : (
-            <SwitchBtn
-              defaultChecked={
-                info?.row?.original?.status === 'ACTIVE' ? true : false
-              }
-              name={info?.getValue()}
-              handleSwitchChange={(val: any) =>
-                handleUpdateStatus(info?.row?.original?._id, val)
-              }
-            />
-          )}
-        </Box>
+        <SwitchBtn
+          defaultChecked={
+            info?.row?.original?.status === 'ACTIVE' ? true : false
+          }
+          name={info?.getValue()}
+          handleSwitchChange={(val: any) =>
+            handleUpdateStatus(info?.row?.original?._id, val)
+          }
+          disabled={info?.row?.original?.user === user?._id}
+        />
       ),
     },
   ];

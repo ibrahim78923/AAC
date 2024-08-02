@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { userValidationSchema } from '../Users.data';
 import {
   useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
@@ -10,11 +9,12 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { indexNumbers } from '@/constants';
+import { userValidationSchema } from '../Users/Users.data';
 
 interface IsAddUserDrawer {
   isToggle: boolean;
   type: string;
-  recordId: string;
+  recordId: string[];
 }
 
 const useAddUser = (
@@ -33,8 +33,8 @@ const useAddUser = (
     address: '',
     phoneNumber: '',
     jobTitle: '',
-    role: '',
-    team: '',
+    role: null,
+    team: null,
     language: '',
     timezone: '',
     facebookUrl: '',
@@ -61,24 +61,26 @@ const useAddUser = (
     );
 
   useEffect(() => {
-    const data = productUsersById?.data;
-    const fieldsToSet: any = {
-      firstName: data?.user?.firstName,
-      lastName: data?.user?.lastName,
-      email: data?.user?.email,
-      address: data?.user?.address?.composite,
-      phoneNumber: data?.user?.phoneNumber,
-      jobTitle: data?.user?.jobTitle,
-      language: data?.user?.language,
-      timezone: data?.user?.timezone,
-      facebookUrl: data?.user?.facebookUrl,
-      linkedInUrl: data?.user?.linkedInUrl,
-      twitterUrl: data?.user?.twitterUrl,
-      role: data?.role ?? null,
-      team: data?.team ?? null,
-    };
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
+    if (isAddUserDrawer?.type !== DRAWER_TYPES?.ADD) {
+      const data = productUsersById?.data;
+      const fieldsToSet: any = {
+        firstName: data?.user?.firstName,
+        lastName: data?.user?.lastName,
+        email: data?.user?.email,
+        address: data?.user?.address?.composite,
+        phoneNumber: data?.user?.phoneNumber,
+        jobTitle: data?.user?.jobTitle,
+        language: data?.user?.language,
+        timezone: data?.user?.timezone,
+        facebookUrl: data?.user?.facebookUrl,
+        linkedInUrl: data?.user?.linkedInUrl,
+        twitterUrl: data?.user?.twitterUrl,
+        role: data?.role ?? null,
+        team: data?.team ?? null,
+      };
+      for (const key in fieldsToSet) {
+        setValue(key, fieldsToSet[key]);
+      }
     }
   }, [productUsersById]);
 

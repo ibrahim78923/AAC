@@ -1,14 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Skeleton, Typography, useTheme } from '@mui/material';
-import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
 import {
   DRAWER_ACTIONS_TITLES,
   DRAWER_TITLES,
   DRAWER_TYPES,
 } from '@/constants/strings';
-import { AddUsersProps } from '../../UserManagement.interface';
+import React from 'react';
+import { AddUsersProps } from '../UserManagement.interface';
+import { dataArray } from '../Users/Users.data';
 
 const AddUsers = (props: AddUsersProps) => {
   const { isAddUserDrawer, setIsAddUserDrawer } = props;

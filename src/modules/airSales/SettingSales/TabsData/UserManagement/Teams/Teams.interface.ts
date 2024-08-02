@@ -4,17 +4,6 @@ export interface AddTeamsDrawerPropsI {
   isToggle: boolean;
   type: string;
 }
-
-export interface TeamsPropsI {
-  isAddTeam: AddTeamsDrawerPropsI;
-  setIsAddTeam: (isAddTeam: AddTeamsDrawerPropsI) => void;
-  setTeamId: (teamId: string) => void;
-  teamId: string;
-  setIsTeamDrawer: (isTeamDrawer: boolean) => void;
-  isTeamDrawer: boolean;
-  setIsOpenDelete: (isOpenDelete: boolean) => void;
-}
-
 export interface ColumnsPropsI {
   setIsTeamDrawer: (isTeamDrawer: boolean) => void;
   setIsOpenDelete: (isOpenDelete: boolean) => void;
@@ -26,8 +15,7 @@ export interface ColumnsPropsI {
 export interface ViewTeamsPropsI {
   isTeamDrawer: boolean;
   setIsTeamDrawer: (isTeamDrawer: boolean) => void;
-  teamData: any;
-  teamByIdLoading: boolean;
+  teamId: string;
 }
 
 export interface MemberDetailsPropsI {
@@ -35,4 +23,14 @@ export interface MemberDetailsPropsI {
   name: string;
   email: string;
   designation: string;
+}
+
+export interface IsAddTeamI {
+  isToggle: boolean;
+  type: string;
+}
+export interface CreateTeamsPropsI {
+  isAddTeam: IsAddTeamI;
+  setIsAddTeam: (isAddTeam: IsAddTeamI) => void;
+  teamId: string;
 }

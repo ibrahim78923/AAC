@@ -13,28 +13,30 @@ import {
   useGetAvailedUsersQuery,
   useGetProductsUsersQuery,
 } from '@/services/airSales/settings/users';
+import { useGetTeamsByIdQuery } from '@/services/airSales/settings/teams';
 
-const useCreateTeams = (
-  teamDataById: any,
-  setIsAddTeam: any,
-  drawerType: any,
-) => {
+const useCreateTeams = (teamId: string, setIsAddTeam: any, drawerType: any) => {
   const ActiveProduct = getActiveProductSession();
 
   const productUserParams = {
     product: ActiveProduct?._id,
     meta: false,
   };
-  const { data: productsUsers } = useGetProductsUsersQuery(productUserParams);
+  const { data: productsUsers, isLoading: poductUsersLoading } =
+    useGetProductsUsersQuery(productUserParams);
+
+  const { data: teamDataById, isLoading: teamByIdLoading } =
+    useGetTeamsByIdQuery(teamId, { skip: !teamId });
+
   const availableUsersParams = {
     teamId: teamDataById?.data?._id,
     product: ActiveProduct?._id,
   };
 
-  const { data: availableUsersData } = useGetAvailedUsersQuery(
-    availableUsersParams,
-    { skip: !teamDataById?.data?._id },
-  );
+  const { data: availableUsersData, isLoading: availableUsersLoading } =
+    useGetAvailedUsersQuery(availableUsersParams, {
+      skip: !teamDataById?.data?._id,
+    });
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();
@@ -93,6 +95,9 @@ const useCreateTeams = (
     postTeamLoading,
     updateTeamLoading,
     availableUsersData,
+    teamByIdLoading,
+    poductUsersLoading,
+    availableUsersLoading,
   };
 };
 

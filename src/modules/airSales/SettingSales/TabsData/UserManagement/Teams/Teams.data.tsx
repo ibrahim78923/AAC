@@ -36,8 +36,8 @@ export const columnsTeams = (props: ColumnsPropsI) => {
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              setIsTeamDrawer(true);
               setTeamId(info?.row?.original?._id);
+              setIsTeamDrawer(true);
             }}
           >
             <VisibilityIcon
@@ -51,11 +51,11 @@ export const columnsTeams = (props: ColumnsPropsI) => {
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              setIsAddTeam({
-                isToggle: true,
-                type: DRAWER_TYPES?.EDIT,
-              });
-              setTeamId(info?.row?.original?._id);
+              setTeamId(info?.row?.original?._id),
+                setIsAddTeam({
+                  isToggle: true,
+                  type: DRAWER_TYPES?.EDIT,
+                });
             }}
           >
             <EditPenIcon />

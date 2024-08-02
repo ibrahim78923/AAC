@@ -5,14 +5,44 @@ import {
   useUpdateProductsUsersMutation,
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
+import { PAGINATION } from '@/config';
+import { getActiveProductSession } from '@/utils';
+import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useUsers = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const theme = useTheme<Theme>();
+  const ActiveProduct = getActiveProductSession();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [checkedUser, setCheckedUser] = useState<string[]>([]);
+  const [isAddUserDrawer, setIsAddUserDrawer] = useState<any>({
+    isToggle: false,
+    type: DRAWER_TYPES?.ADD,
+    recordId: [],
+  });
+  const [searchUser, setSearchUser] = useState('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const productUserParams = {
+    page: page,
+    limit: pageLimit,
+    search: searchUser ? searchUser : undefined,
+    product: ActiveProduct?._id,
+    meta: true,
+  };
+  const {
+    data: productsUsers,
+    isLoading,
+    isSuccess,
+  } = useGetProductsUsersQuery(productUserParams);
+
   const [updateProductsUsers, { isLoading: updateUserLoading }] =
     useUpdateProductsUsersMutation();
+
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
 
@@ -67,6 +97,17 @@ const useUsers = () => {
     deleteHandler,
     deleteProductUsersLoading,
     updateUserLoading,
+    productsUsers,
+    searchUser,
+    setSearchUser,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
+    checkedUser,
+    setCheckedUser,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   };
 };
 

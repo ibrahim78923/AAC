@@ -4,24 +4,16 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { columnsUser } from './Users.data';
-import useUserManagement from '../useUserManagement';
 import useUsers from './useUsers';
-import { DeleteIcon } from '@/assets/icons';
+import { AddWhiteBgIcon, DeleteIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { DRAWER_TYPES } from '@/constants/strings';
-import { UserTableProps } from '../UserManagement.interface';
 import { indexNumbers } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import AddUsers from '../AddUsers';
 
-const UserTable = (props: UserTableProps) => {
-  const {
-    setIsAddUserDrawer,
-    isAddUserDrawer,
-    checkedUser,
-    setCheckedUser,
-    productsUsers,
-    setPage,
-    setPageLimit,
-  } = props;
+const UserTable = () => {
   const {
     isOpenDelete,
     setIsOpenDelete,
@@ -30,20 +22,20 @@ const UserTable = (props: UserTableProps) => {
     theme,
     handleClick,
     handleClose,
-    updateUserLoading,
     deleteHandler,
     deleteProductUsersLoading,
-  } = useUsers();
-
-  const {
-    // productsUsers,
+    productsUsers,
+    setPage,
+    setPageLimit,
     searchUser,
     setSearchUser,
-    // setPage,
-    // setPageLimit,
     isLoading,
     isSuccess,
-  } = useUserManagement();
+    checkedUser,
+    setCheckedUser,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
+  } = useUsers();
 
   return (
     <>
@@ -61,90 +53,109 @@ const UserTable = (props: UserTableProps) => {
           width="260px"
           label={'Search here'}
           setSearchBy={setSearchUser}
+          size="small"
         />
-        {checkedUser?.length > 1 ? (
-          <LoadingButton
-            className="small"
-            variant="outlined"
-            color="inherit"
-            startIcon={<DeleteIcon />}
-            loading={deleteProductUsersLoading}
-            onClick={() => deleteHandler(checkedUser)}
-          >
-            Delete
-          </LoadingButton>
-        ) : (
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            disabled={checkedUser?.length > indexNumbers?.ZERO ? false : true}
-            sx={{
-              border: `1px solid ${theme?.palette?.grey[700]}`,
-              borderRadius: '4px',
-              color: `${theme?.palette?.custom.main}`,
-              display: 'flex',
-              alignItems: 'center',
-              padding: '0.7rem',
-              fontWeight: 500,
-              marginY: { xs: '10px', sm: '0px' },
-              width: { xs: '100%', sm: 'fit-content' },
+        <Box display="flex" gap={2}>
+          {checkedUser?.length > indexNumbers?.ONE ? (
+            <LoadingButton
+              className="small"
+              variant="outlined"
+              color="inherit"
+              startIcon={<DeleteIcon />}
+              loading={deleteProductUsersLoading}
+              onClick={() => deleteHandler(checkedUser)}
+            >
+              Delete
+            </LoadingButton>
+          ) : (
+            <Button
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              className="small"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+              disabled={checkedUser?.length > indexNumbers?.ZERO ? false : true}
+              sx={{
+                border: `1px solid ${theme?.palette?.grey[700]}`,
+                borderRadius: '4px',
+                color: `${theme?.palette?.custom.main}`,
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.7rem',
+                fontWeight: 500,
+                marginY: { xs: '10px', sm: '0px' },
+                width: { xs: '100%', sm: 'fit-content' },
+              }}
+            >
+              Actions <ArrowDropDownIcon />
+            </Button>
+          )}
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
             }}
           >
-            Actions <ArrowDropDownIcon />
-          </Button>
-        )}
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              setIsAddUserDrawer({
-                isToggle: true,
-                type: DRAWER_TYPES?.EDIT,
-                recordId: checkedUser,
-              });
-              handleClose();
-            }}
-          >
-            Edit
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsAddUserDrawer({
-                ...isAddUserDrawer,
-                isToggle: true,
-                type: DRAWER_TYPES?.VIEW,
-                recordId: checkedUser,
-              });
-              handleClose();
-            }}
-          >
-            View
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsOpenDelete(true);
-              handleClose();
-            }}
-          >
-            Delete
-          </MenuItem>
-        </Menu>
+            <MenuItem
+              onClick={() => {
+                setIsAddUserDrawer({
+                  isToggle: true,
+                  type: DRAWER_TYPES?.EDIT,
+                  recordId: checkedUser,
+                });
+                handleClose();
+              }}
+            >
+              Edit
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setIsAddUserDrawer({
+                  ...isAddUserDrawer,
+                  isToggle: true,
+                  type: DRAWER_TYPES?.VIEW,
+                  recordId: checkedUser,
+                });
+                handleClose();
+              }}
+            >
+              View
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setIsOpenDelete(true);
+                handleClose();
+              }}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_USER]}>
+            <Button
+              className="small"
+              onClick={() => {
+                setIsAddUserDrawer({
+                  ...isAddUserDrawer,
+                  isToggle: true,
+                  type: DRAWER_TYPES?.ADD,
+                });
+              }}
+              startIcon={<AddWhiteBgIcon />}
+              variant="contained"
+            >
+              Add User
+            </Button>
+          </PermissionsGuard>
+        </Box>
       </Box>
       <TanstackTable
         columns={columnsUser(
           checkedUser,
           setCheckedUser,
-          updateUserLoading,
           productsUsers?.data?.usercompanyaccounts,
         )}
         data={productsUsers?.data?.usercompanyaccounts}
@@ -167,6 +178,12 @@ const UserTable = (props: UserTableProps) => {
         loading={deleteProductUsersLoading}
         handleSubmitBtn={() => deleteHandler(checkedUser)}
       />
+      {isAddUserDrawer?.isToggle && (
+        <AddUsers
+          isAddUserDrawer={isAddUserDrawer}
+          setIsAddUserDrawer={setIsAddUserDrawer}
+        />
+      )}
     </>
   );
 };

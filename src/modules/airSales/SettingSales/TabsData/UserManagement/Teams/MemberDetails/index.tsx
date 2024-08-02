@@ -53,7 +53,7 @@ const MemberDetails = (props: MemberDetailsPropsI) => {
                 color: `${theme?.palette?.custom?.steel_blue_alpha}`,
               }}
             >
-              {props?.email}
+              {props?.email ?? 'N/A'}
             </Typography>
             <Typography
               variant="body3"
@@ -62,7 +62,7 @@ const MemberDetails = (props: MemberDetailsPropsI) => {
                 color: `${theme?.palette?.custom?.steel_blue_alpha}`,
               }}
             >
-              {props?.designation}
+              {props?.designation ?? 'N/A'}
             </Typography>
           </Box>
         </Box>
