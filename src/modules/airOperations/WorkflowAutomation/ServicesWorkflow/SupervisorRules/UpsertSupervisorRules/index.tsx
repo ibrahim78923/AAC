@@ -53,7 +53,7 @@ export const UpsertSupervisorRules = () => {
           movePage={movePage}
         />
         <Grid container spacing={2}>
-          {rulesWorkflowDataArray?.map((item: any) => (
+          {rulesWorkflowDataArray?.map((item) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>

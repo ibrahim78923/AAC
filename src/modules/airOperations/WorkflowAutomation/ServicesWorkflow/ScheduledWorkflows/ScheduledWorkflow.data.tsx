@@ -8,10 +8,12 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const ScheduleWorkflowActionsDropdown = (
-  handleActionClick: any,
-  handleCloneWorkflow: any,
+  handleActionClick: (type: string) => void,
+  handleCloneWorkflow: () => void,
 ) => [
   {
     id: 1,
@@ -19,7 +21,7 @@ export const ScheduleWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: (arg: boolean) => void) => {
       handleActionClick('edit');
       close?.(false);
     },
@@ -30,7 +32,7 @@ export const ScheduleWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CLONE_WORKFLOW,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: (arg: boolean) => void) => {
       handleActionClick('clone');
       handleCloneWorkflow();
       close?.(false);
@@ -42,7 +44,7 @@ export const ScheduleWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.DELETE,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: (arg: boolean) => void) => {
       handleActionClick?.('delete');
       close?.(false);
     },
@@ -50,11 +52,11 @@ export const ScheduleWorkflowActionsDropdown = (
 ];
 
 export const listsColumnsFunction = (
-  selectedAction: any,
-  setSelectedAction: any,
-  listData: any,
+  selectedAction: WorkflowI[],
+  setSelectedAction: React.Dispatch<React.SetStateAction<any>>,
+  listData: WorkflowI[],
   theme: any,
-  handleChangeStatus: any,
+  handleChangeStatus: (data: WorkflowI) => void,
   switchLoading: any,
 ): any => [
   {
@@ -192,8 +194,6 @@ export const listsColumnsFunction = (
     isSortable: true,
     header: 'Last Activity',
     cell: (info: any) => {
-      const capitalizeFirstLetter = (type: any) =>
-        type.charAt(0).toUpperCase() + type.slice(1);
       const type = info?.getValue()?.type;
       const capitalizedType = type
         ? capitalizeFirstLetter(type.toLowerCase())

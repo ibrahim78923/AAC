@@ -6,11 +6,12 @@ import { AIR_OPERATIONS } from '@/constants';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import FilterWorkflow from '../../../FilterWorkflow';
 import { WorkflowDelete } from '../../WorkflowDelete';
 import { useTicketsHeader } from './useTicketsHeader';
 
-const TicketsHeader = (props: any) => {
+const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
     selectedList,
     setSearch,

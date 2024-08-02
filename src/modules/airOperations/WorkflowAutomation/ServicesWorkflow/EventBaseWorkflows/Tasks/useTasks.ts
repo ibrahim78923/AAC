@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useCloneServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const useTasks = () => {
   const theme = useTheme();
@@ -27,16 +28,16 @@ export const useTasks = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [selectedAction, setSelectedAction] = useState([]);
+  const [selectedAction, setSelectedAction] = useState<WorkflowI[]>([]);
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const EDIT_WORKFLOW = 'edit';
-  const selectedId = selectedAction?.map((item: any) => item?._id);
+  const selectedId = selectedAction?.map((item) => item?._id);
 
   const [
     getWorkflowListTrigger,
     { data, isLoading, isFetching, isSuccess, isError },
-  ]: any = useLazyGetWorkflowListQuery();
+  ] = useLazyGetWorkflowListQuery();
   const totalRecords = data?.data?.workFlows;
 
   const workflowParams = {
@@ -52,7 +53,7 @@ export const useTasks = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
-  const onSubmitListFilter = async (filterData: any) => {
+  const onSubmitListFilter = async (filterData: WorkflowI) => {
     const filterParams: any = {
       ...workflowParams,
       createdBy: filterData?.createdBy?._id,
@@ -66,12 +67,12 @@ export const useTasks = () => {
   const taskData = data?.data;
   const listData = data?.data?.workFlows;
   const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
-  const handleChangeStatus = async (rowData: any) => {
+  const handleChangeStatus = async (rowData: WorkflowI) => {
     const status =
       rowData?.status === REQUESTORS_STATUS?.ACTIVE
         ? REQUESTORS_STATUS?.INACTIVE
         : REQUESTORS_STATUS?.ACTIVE;
-    setSwitchLoading((prevState: any) => ({
+    setSwitchLoading((prevState: WorkflowI) => ({
       ...prevState,
       [rowData?._id]: true,
     }));

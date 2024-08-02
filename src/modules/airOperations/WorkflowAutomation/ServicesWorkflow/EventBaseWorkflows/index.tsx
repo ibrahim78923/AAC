@@ -4,7 +4,6 @@ import { eventBaseWorkflowTabsData } from './EventBaseWorkflow.data';
 import Tickets from './Tickets';
 import Assets from './Assets';
 import Tasks from './Tasks';
-import Meetings from './Meetings';
 
 const EventBaseWorkflows = () => {
   const theme = useTheme();
@@ -20,7 +19,6 @@ const EventBaseWorkflows = () => {
           <Tickets />
           <Assets />
           <Tasks />
-          <Meetings />
         </HorizontalTabs>
       </Box>
     </>

@@ -1,3 +1,5 @@
+import { NextRouter } from 'next/router';
+
 interface User {
   _id: string;
   firstName: string;
@@ -95,7 +97,7 @@ interface Activity {
 
 interface CreatedBy extends User {}
 
-export interface SalesWorkflowI {
+export interface WorkflowI {
   _id: string;
   title: string;
   module?: string;
@@ -117,4 +119,23 @@ export interface SalesWorkflowI {
   companyId?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+export interface WorkflowListHeaderI {
+  selectedList: boolean;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  search: string;
+  onSubmitListFilter: (data: any) => Promise<void>;
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  dropdownOptions: any;
+  router: NextRouter;
+  setDeleteWorkflow: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteWorkflow: boolean;
+  handleWorkflow: () => void;
+  selectedAction: WorkflowI[];
+  setSelectedAction: React.Dispatch<React.SetStateAction<WorkflowI[]>>;
+  totalRecords: number;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  listData: WorkflowI[];
 }

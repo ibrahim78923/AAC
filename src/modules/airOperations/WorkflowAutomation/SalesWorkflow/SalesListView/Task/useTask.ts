@@ -14,10 +14,10 @@ import {
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { REQUESTORS_STATUS } from '@/constants/strings';
-import { SalesWorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const useTask = () => {
-  const [activeCheck, setActiveCheck] = useState<SalesWorkflowI[]>([]);
+  const [activeCheck, setActiveCheck] = useState<WorkflowI[]>([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -66,7 +66,7 @@ export const useTask = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
-  const onSubmitFilter = async (filterData: SalesWorkflowI) => {
+  const onSubmitFilter = async (filterData: WorkflowI) => {
     const filterParams: any = {
       ...workflowParams,
       createdBy: filterData?.createdBy?._id,
@@ -83,7 +83,7 @@ export const useTask = () => {
   const tableData = data?.data?.workFlows;
   const meta = data?.data?.meta;
   const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
-  const handleChangeStatus = async (rowData: SalesWorkflowI) => {
+  const handleChangeStatus = async (rowData: WorkflowI) => {
     const status =
       rowData?.status === REQUESTORS_STATUS?.ACTIVE
         ? REQUESTORS_STATUS?.INACTIVE

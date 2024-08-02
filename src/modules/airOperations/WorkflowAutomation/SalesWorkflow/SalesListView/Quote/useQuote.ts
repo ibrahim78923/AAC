@@ -14,10 +14,10 @@ import {
   salesWorkflowActionDropdownDynamic,
   salesWorkflowListsColumnDynamic,
 } from '../../SalesWorkflow.data';
-import { SalesWorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const useQuote = () => {
-  const [activeCheck, setActiveCheck] = useState<SalesWorkflowI[]>([]);
+  const [activeCheck, setActiveCheck] = useState<WorkflowI[]>([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -83,12 +83,12 @@ export const useQuote = () => {
   const tableData = data?.data?.workFlows;
   const meta = data?.data?.meta;
   const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
-  const handleChangeStatus = async (rowData: SalesWorkflowI) => {
+  const handleChangeStatus = async (rowData: WorkflowI) => {
     const status =
       rowData?.status === REQUESTORS_STATUS?.ACTIVE
         ? REQUESTORS_STATUS?.INACTIVE
         : REQUESTORS_STATUS?.ACTIVE;
-    setSwitchLoading((prevState: SalesWorkflowI) => ({
+    setSwitchLoading((prevState: WorkflowI) => ({
       ...prevState,
       [rowData?._id]: true,
     }));

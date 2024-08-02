@@ -1,3 +1,4 @@
+import React from 'react';
 import EventBaseWorkflows from './EventBaseWorkflows';
 import ScheduledWorkflows from './ScheduledWorkflows';
 import SupervisorRules from './SupervisorRules';
@@ -30,7 +31,7 @@ export const serviceWorkflowsCardData = [
     buttonTitle: 'Total work Flows: 3',
   },
 ];
-export const cardRelatedData: any = {
+export const cardRelatedData: { [key: number]: React.ReactElement } = {
   1: <EventBaseWorkflows />,
   2: <ScheduledWorkflows />,
   3: <SupervisorRules />,

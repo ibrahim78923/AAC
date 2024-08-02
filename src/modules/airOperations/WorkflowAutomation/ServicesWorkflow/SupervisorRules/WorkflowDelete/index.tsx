@@ -1,7 +1,12 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-export const WorkflowDelete = (props: any) => {
+export const WorkflowDelete: React.FC<{
+  deleteWorkflow: boolean;
+  setDeleteWorkflow: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDelete: () => void;
+  deleteStatus: any;
+}> = (props) => {
   const { deleteWorkflow, setDeleteWorkflow, deleteStatus, handleDelete } =
     props;
   return (

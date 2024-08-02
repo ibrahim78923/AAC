@@ -7,10 +7,10 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter, warningSnackbar } from '@/utils/api';
-import { SalesWorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const salesWorkflowActionDropdownDynamic = (
-  selectedSalesWorkflowLists: SalesWorkflowI[],
+  selectedSalesWorkflowLists: WorkflowI[],
   setDeleteWorkflow: Dispatch<SetStateAction<boolean>>,
   handleEditWorkflow: () => void,
   handleClone: () => void,
@@ -59,10 +59,10 @@ export const salesWorkflowActionDropdownDynamic = (
 ];
 
 export const salesWorkflowListsColumnDynamic = (
-  activeCheck: SalesWorkflowI[],
+  activeCheck: WorkflowI[],
   setActiveCheck: Dispatch<SetStateAction<any[]>>,
-  tableData: SalesWorkflowI[],
-  handleChangeStatus: (arg: SalesWorkflowI) => void,
+  tableData: WorkflowI[],
+  handleChangeStatus: (arg: WorkflowI) => void,
   switchLoading: boolean[],
 ) => {
   return [
@@ -75,7 +75,7 @@ export const salesWorkflowListsColumnDynamic = (
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!activeCheck?.find(
-              (item: SalesWorkflowI) => item?._id === info?.getValue(),
+              (item: WorkflowI) => item?._id === info?.getValue(),
             )
           }
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -83,11 +83,11 @@ export const salesWorkflowListsColumnDynamic = (
               ? setActiveCheck([
                   ...activeCheck,
                   tableData?.find(
-                    (item: SalesWorkflowI) => item?._id === info?.getValue(),
+                    (item: WorkflowI) => item?._id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
-                  activeCheck?.filter((item: SalesWorkflowI) => {
+                  activeCheck?.filter((item: WorkflowI) => {
                     return item?._id !== info?.getValue();
                   }),
                 );

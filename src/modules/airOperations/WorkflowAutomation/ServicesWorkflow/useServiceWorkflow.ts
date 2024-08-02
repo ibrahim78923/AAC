@@ -12,9 +12,9 @@ export const useServiceWorkflow = () => {
       : router?.query?.type === cardTitle?.scheduleWorkflow
         ? 2
         : 1;
-  const [activeItem, setActiveItem] = useState<any>(backClick);
+  const [activeItem, setActiveItem] = useState<number>(backClick);
 
-  const handleItemClick = (id: any, title: any) => {
+  const handleItemClick = (id: number, title: string) => {
     setActiveItem(id);
     router?.push({
       query: { type: title },
