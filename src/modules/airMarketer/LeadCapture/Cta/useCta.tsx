@@ -14,7 +14,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { BUTTON_TYPE, DRAWER_TITLE } from './Cta.data';
-import Image from 'next/image';
+// import Image from 'next/image';
+import IframeComponent from './IframeComponent';
 
 const step1ValidationSchema = Yup?.object()?.shape({
   buttonContent: Yup?.string()
@@ -121,7 +122,7 @@ const getMarPad = (value: string) => {
       }
     });
   } else {
-    str = '';
+    str = '0';
   }
   return str;
 };
@@ -287,27 +288,25 @@ const useCta = () => {
       const padding = getMarPad(drawerFormValues?.buttonPadding);
       const margin = getMarPad(drawerFormValues?.buttonMargin);
 
-      const styles: any = {
-        display: 'block',
-        textAlign: 'center',
-        border: `1px solid ${theme?.palette?.primary?.main}`,
-        padding: padding,
-        margin: margin,
-      };
+      const styles = `{
+        display: block;
+        text-align: center;
+        border: 1px solid ${theme?.palette?.primary?.main};
+        padding: ${padding};
+        margin: ${margin};
+      }`;
+      const cleanStyles = styles.replace(/\s+/g, '');
 
       const ButtonHtmlComponent = () => (
-        <a target="_blank" href={buttonUrl} style={styles} rel="noreferrer">
-          {drawerFormValues?.buttonContent instanceof File ? (
-            <Image
-              src="buttonImageUrl"
-              alt={altText}
-              width={imgWidth}
-              height={imgHeight}
-            />
-          ) : (
-            drawerFormValues?.buttonContent
-          )}
-        </a>
+        <IframeComponent
+          buttonContent={drawerFormValues?.buttonContent}
+          buttonUrl={buttonUrl}
+          styles={styles}
+          buttonImageUrl="buttonImageUrl"
+          altText={altText}
+          imgWidth={imgWidth}
+          imgHeight={imgHeight}
+        />
       );
 
       // Render the ButtonHtml component to a string
@@ -323,6 +322,7 @@ const useCta = () => {
       formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
       formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
       formData.append('url', drawerFormValues?.url);
+      formData.append('styles', cleanStyles);
 
       if (drawerTitle === 'Create') {
         try {
