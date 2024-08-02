@@ -1,109 +1,55 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
-import { Box, Chip } from '@mui/material';
-export const meetingCardsDetails = (theme: any) => [
+import { TimeFormatDuration } from '@/utils/api';
+import { Box, Typography } from '@mui/material';
+import dayjs from 'dayjs';
+export const meetingCardsDetails = (theme: any, filterMeetingData: any) => [
   {
     id: 1,
-    meetingHeading: MEETINGS_DETAILS_TYPE?.ALL,
-    meetingCount: '5',
+    meetingHeading: MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
+    meetingType: MEETINGS_DETAILS_TYPE?.ALL,
+    meetingCount: filterMeetingData?.allMeetings ?? 0,
     color: theme?.palette?.info?.main,
   },
   {
     id: 2,
-    meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING,
-    meetingCount: '2',
+    meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING_MEETINGS,
+    meetingType: MEETINGS_DETAILS_TYPE?.UPCOMING,
+    meetingCount: filterMeetingData?.upCommings ?? 0,
     color: theme?.palette?.error?.main,
   },
   {
     id: 3,
-    meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED,
-    meetingCount: '3',
+    meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS,
+    meetingType: MEETINGS_DETAILS_TYPE?.COMPLETED,
+    meetingCount: filterMeetingData?.completed ?? 0,
     color: theme?.palette?.success?.dark,
   },
 ];
 
-export const meetingListData = [
+export const listViewDetails = (
+  setDeleteModal: any,
+  setOpenForm: any,
+  router: any,
+  meetingActiveType: any,
+) => [
   {
-    id: 7654,
-    meetingName: '60 min, 30min, and 15 min meeting',
-    meetingEmail: '@adil-khan',
-    organizer: 'Sharemydine',
-    type: 'one-on-one',
-    duration: 'Multiple',
-    meetingBooked: 0,
-    status: 'Upcoming',
-  },
-  {
-    id: 6484,
-    meetingName: '60 min, 30min, and 15 min meeting',
-    meetingEmail: '@adil-khan',
-    organizer: 'Sharemydine',
-    type: 'one-on-one',
-    duration: 'Multiple',
-    meetingBooked: 0,
-    status: 'Upcoming',
-  },
-  {
-    id: 3468,
-    meetingName: '60 min, 30min, and 15 min meeting',
-    meetingEmail: '@adil-khan',
-    organizer: 'Sharemydine',
-    type: 'one-on-one',
-    duration: 'Multiple',
-    meetingBooked: 0,
-    status: 'Completed',
-  },
-  {
-    id: 3703,
-    meetingName: '60 min, 30min, and 15 min meeting',
-    meetingEmail: '@adil-khan',
-    organizer: 'Sharemydine',
-    type: 'one-on-one',
-    duration: 'Multiple',
-    meetingBooked: 0,
-    status: 'Completed',
-  },
-  {
-    id: 8843,
-    meetingName: '60 min, 30min, and 15 min meeting',
-    meetingEmail: '@adil-khan',
-    organizer: 'Sharemydine',
-    type: 'one-on-one',
-    duration: 'Multiple',
-    meetingBooked: 0,
-    status: 'Completed',
-  },
-];
-
-export const meetingListArray = (theme: any, setDeleteModal: any) => [
-  {
-    accessorFn: (row: any) => {
-      return `${row?.meetingName}\n${row?.meetingEmail}`;
-    },
-    id: 'meetingName',
+    accessorFn: (row: any) => row?.title,
+    id: 'title',
     isSortable: false,
     header: 'Meeting Name',
-    cell: (info: any) => {
-      const row = info?.row?.original;
-      const meetingEmailColor = row?.meetingEmail
-        ? theme?.palette?.primary?.main
-        : theme?.palette?.blue?.dull_blue;
-      const meetingNameColor = theme?.palette?.blue?.dull_blue;
-      return (
-        <Box>
-          <span style={{ color: meetingNameColor }}>{row?.meetingName}</span>
-          <br />
-          <span style={{ color: meetingEmailColor }}>{row?.meetingEmail}</span>
-        </Box>
-      );
-    },
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.organizer,
     id: 'organizer',
     isSortable: false,
     header: 'Organizer',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => {
+      const { firstName, lastName } = info?.row?.original?.userDetails || {};
+      return <Typography>{`${firstName} ${lastName}`}</Typography>;
+    },
   },
   {
     accessorFn: (row: any) => row?.type,
@@ -117,30 +63,10 @@ export const meetingListArray = (theme: any, setDeleteModal: any) => [
     id: 'duration',
     isSortable: false,
     header: 'Duration',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.status,
-    id: 'status',
-    isSortable: false,
-    header: 'Status',
     cell: (info: any) => {
-      return (
-        <Chip
-          sx={{
-            backgroundColor:
-              info?.getValue() === MEETINGS_DETAILS_TYPE?.COMPLETED
-                ? 'success.lighter'
-                : 'custom.error_lighter',
-
-            color:
-              info?.getValue() === MEETINGS_DETAILS_TYPE?.COMPLETED
-                ? 'success.main'
-                : 'error.main',
-          }}
-          label={info?.getValue()}
-        />
-      );
+      const startTime = info?.row?.original?.startTime;
+      const endTime = info?.row?.original?.endTime;
+      return TimeFormatDuration(startTime, endTime);
     },
   },
   {
@@ -148,19 +74,39 @@ export const meetingListArray = (theme: any, setDeleteModal: any) => [
     id: 'meetingBooked',
     isSortable: false,
     header: 'Meeting Booked',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
   },
   {
     accessorFn: (row: any) => row?.actions,
     id: 'actions',
     isSortable: true,
     header: 'Action',
-    cell: () => (
+    cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Box sx={{ cursor: 'pointer' }}>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() =>
+            setOpenForm(() => {
+              router?.push({
+                pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                query: {
+                  type: meetingActiveType(info?.row?.original?.category),
+                  id: info?.row?.original?._id,
+                  moduleType: 'TICKET',
+                  ticketId: info?.row?.original?.moduleId,
+                },
+              });
+            })
+          }
+        >
           <EditPenIcon />
         </Box>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => setDeleteModal(true)}>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() =>
+            setDeleteModal({ isOpen: true, data: info?.row?.original })
+          }
+        >
           <DeleteCrossIcon />
         </Box>
       </Box>

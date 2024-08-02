@@ -1,26 +1,65 @@
 import { useTheme } from '@mui/material';
-import { meetingListData, meetingCardsDetails } from './Meeting.data';
+import { meetingCardsDetails } from './Meeting.data';
 import { useEffect, useState } from 'react';
-import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { MEETINGS_DETAILS_TYPE, ROUTER_CONSTANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  useDeleteMeetingsMutation,
+  useLazyGetMeetingsListQuery,
+} from '@/services/commonFeatures/meetings';
+import { PAGINATION } from '@/config';
 
 export const useMeeting = () => {
   const theme = useTheme();
-  const router = useRouter();
+  const router: any = useRouter();
   const ticketId = router?.query?.ticketId;
   const meetingsType = router?.query?.type;
   const [search, setSearch] = useState('');
   const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
   const [listData, setListData] = useState<any>([]);
-  const [deleteModal, setDeleteModal] = useState<any>();
+  const [openForm, setOpenForm] = useState<any>({});
+  const [deleteModal, setDeleteModal] = useState<any>({});
   const [isActiveCard, setIsActiveCard] = useState<any>(
     meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL,
   );
-  const meetings = meetingCardsDetails(theme);
 
-  const activeCard = (meetingHeading: any) => {
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const [getMeetingListTrigger, getMeetingListStatus]: any =
+    useLazyGetMeetingsListQuery();
+  const getMeetingListData = async (pages = page) => {
+    const additionalParams = [
+      ['page', pages + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ['type', cardValue],
+      ['moduleId', ticketId],
+      ['moduleType', 'TICKET'],
+    ];
+    const meetingParam: any = buildQueryParams(additionalParams);
+
+    const meetingParameter = {
+      queryParams: meetingParam,
+    };
+
+    try {
+      await getMeetingListTrigger(meetingParameter)?.unwrap();
+      setListData([]);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getMeetingListData();
+  }, [search, page, pageLimit, cardValue]);
+  const filterMeetingData = getMeetingListStatus?.data?.data;
+
+  const meetings = meetingCardsDetails(theme, filterMeetingData);
+
+  const activeCard = (meetingType: any, meetingHeading: any) => {
     setIsActiveCard(meetingHeading);
+    setCardValue(meetingType);
   };
 
   useEffect(() => {
@@ -31,24 +70,27 @@ export const useMeeting = () => {
     }
   }, [meetingsType]);
 
-  useEffect(() => {
-    if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
-      setListData(meetingListData);
-    } else {
-      const listFilter = meetingListData?.filter(
-        (item: any) => item?.status === cardValue,
-      );
-      setListData(listFilter);
-    }
-  }, [cardValue]);
+  const [deleteMeetingsTrigger, deleteMeetingsStatus]: any =
+    useDeleteMeetingsMutation();
 
   const submitDeleteModal = async () => {
+    const deleteMeetingsParameter = {
+      queryParams: {
+        id: deleteModal?.data?._id,
+        platform: deleteModal?.data?.type?.toLowerCase(),
+      },
+    };
     try {
-      await successSnackbar('Delete Successfully');
-      setDeleteModal(false);
+      await deleteMeetingsTrigger(deleteMeetingsParameter)?.unwrap();
+      successSnackbar();
+      setDeleteModal({});
     } catch (error: any) {
-      errorSnackbar(error);
+      errorSnackbar(error?.data?.message);
     }
+  };
+
+  const meetingActiveType = (activeMeeting: any) => {
+    return ROUTER_CONSTANTS?.[activeMeeting];
   };
 
   return {
@@ -66,5 +108,12 @@ export const useMeeting = () => {
     setIsActiveCard,
     activeCard,
     ticketId,
+    deleteMeetingsStatus,
+    getMeetingListStatus,
+    setPageLimit,
+    setPage,
+    openForm,
+    setOpenForm,
+    meetingActiveType,
   };
 };

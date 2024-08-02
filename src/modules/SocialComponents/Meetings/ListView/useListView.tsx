@@ -9,7 +9,6 @@ import {
   useLazyGetMeetingsListQuery,
 } from '@/services/commonFeatures/meetings';
 import { PAGINATION } from '@/config';
-import dayjs from 'dayjs';
 
 export const useListView = () => {
   const theme = useTheme();
@@ -34,7 +33,7 @@ export const useListView = () => {
       ['page', pages + ''],
       ['limit', pageLimit + ''],
       ['search', search],
-      ['type', meetingsType ?? 'allMeetings'],
+      ['type', cardValue],
     ];
     const meetingParam: any = buildQueryParams(additionalParams);
 
@@ -71,27 +70,6 @@ export const useListView = () => {
       setCardValue(MEETINGS_DETAILS_TYPE?.ALL);
     }
   }, [meetingsType]);
-
-  useEffect(() => {
-    const now = dayjs();
-
-    if (listViewMeetingData) {
-      const filteredData = listViewMeetingData?.filter((item: any) => {
-        if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
-          return true;
-        }
-        if (cardValue === MEETINGS_DETAILS_TYPE?.UPCOMING) {
-          return dayjs(item?.startDate)?.isAfter(now);
-        }
-        if (cardValue === MEETINGS_DETAILS_TYPE?.COMPLETED) {
-          return dayjs(item?.startDate)?.isBefore(now);
-        }
-        return false;
-      });
-
-      setListData(filteredData);
-    }
-  }, [cardValue, listViewMeetingData]);
 
   const meetings = meetingCardsDetails(theme, getMeetingListStatus);
   const [deleteMeetingsTrigger, deleteMeetingsStatus]: any =

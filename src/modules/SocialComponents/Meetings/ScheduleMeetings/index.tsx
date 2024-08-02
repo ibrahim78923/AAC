@@ -8,6 +8,7 @@ import { styles } from './ScheduleMeetings.style';
 export const ScheduleMeetings = () => {
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
+  const moduleType = router?.query?.moduleType;
 
   return (
     <>
@@ -15,7 +16,7 @@ export const ScheduleMeetings = () => {
         title="Select Meeting Category"
         canMovedBack
         moveBack={() =>
-          ticketId
+          moduleType
             ? router?.push({
                 pathname: AIR_SERVICES?.TICKETS_LIST,
                 query: {
@@ -26,7 +27,7 @@ export const ScheduleMeetings = () => {
         }
       />
       <Grid container spacing={{ lg: 3, xs: 2 }}>
-        {scheduleCards?.map((item: any) => (
+        {scheduleCards(ticketId, moduleType)?.map((item: any) => (
           <Grid item xl={3} lg={4} md={6} xs={12} key={item?.id}>
             <Box
               sx={styles?.cardBox}

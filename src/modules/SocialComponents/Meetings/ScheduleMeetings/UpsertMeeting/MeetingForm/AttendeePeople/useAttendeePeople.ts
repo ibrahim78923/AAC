@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { getSession } from '@/utils';
 import { peopleTypes } from './AttendeePeople.data';
-import { timeFormatter } from '@/utils/api';
+import { errorSnackbar, timeFormatter } from '@/utils/api';
 import {
   useLazyGetBookedMeetingsSlotsListQuery,
   useLazyGetMeetingsSlotsListQuery,
@@ -39,7 +39,9 @@ export const useAttendeePeople = (props: any) => {
 
     try {
       await trigger(meetingParameter)?.unwrap();
-    } catch (error) {}
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
   const handleFetchBookedMeetingSlots = async () => {
     const meetingParameter = {
@@ -51,7 +53,7 @@ export const useAttendeePeople = (props: any) => {
     } catch (error) {}
   };
   const slotsData = status?.data;
-  const bookedSlotsData = bookedStatus?.data;
+  const bookedSlotsData = bookedStatus?.data?.data?.bookedSlots;
 
   return {
     userDropdown,

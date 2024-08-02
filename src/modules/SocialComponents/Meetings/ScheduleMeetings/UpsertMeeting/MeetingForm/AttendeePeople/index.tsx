@@ -33,6 +33,7 @@ export const AttendeePeople = (props: any) => {
     bookedStatus,
     bookedSlotsData,
   } = useAttendeePeople(props);
+
   return (
     <>
       <Box
@@ -124,8 +125,6 @@ export const AttendeePeople = (props: any) => {
         </Box>
         {status?.isLoading || status?.isFetching ? (
           <SkeletonForm />
-        ) : status?.isError ? (
-          <ApiErrorState />
         ) : slotsData?.length ? (
           <Grid container spacing={2} mt={0}>
             {slotsData?.map((slot: any) => {
@@ -209,14 +208,16 @@ export const AttendeePeople = (props: any) => {
                       </Box>
                     </Grid>
                   ) : (
-                    <NoData height="50vh" message="No Slots found" />
+                    <Grid item xs={12}>
+                      <NoData height="20vh" message="No Slots found" />
+                    </Grid>
                   )}
                 </CustomTooltip>
               );
             })}
           </Grid>
         ) : (
-          <NoData height="50vh" message="No Slots found" />
+          <NoData height="20vh" message="No Slots found" />
         )}
       </Box>
       <Box
@@ -235,72 +236,43 @@ export const AttendeePeople = (props: any) => {
           <SkeletonForm />
         ) : bookedStatus?.isError ? (
           <ApiErrorState />
-        ) : slotsData?.length ? (
+        ) : bookedSlotsData?.length ? (
           <Grid container spacing={2} mt={0}>
             {bookedSlotsData?.map((slot: any) => {
-              const availability = slot?.data?.availability || {};
-              const noTimeAvailable =
-                Object?.keys(slot?.data?.availability || {})?.length === 0;
-
               return (
                 <>
-                  {!!!noTimeAvailable ? (
-                    <Grid
-                      item
-                      lg={6}
-                      sm={6}
-                      xs={12}
-                      key={slot?.data?.userDetails?._id}
+                  <Grid item lg={6} sm={6} xs={12} key={slot?._id}>
+                    <Box
+                      p={1}
+                      border="1px solid"
+                      borderColor="primary.main"
+                      borderRadius={2}
+                      display="flex"
+                      flexDirection="column"
+                      gap={1}
+                      sx={{ cursor: 'pointer' }}
                     >
-                      <Box
-                        p={1}
-                        border="1px solid"
-                        borderColor="primary.main"
-                        borderRadius={2}
+                      <Typography variant="body4" color="custom.main">
+                        {slot?.startTime}-{slot?.endTime}
+                      </Typography>
+                      <Typography
+                        variant="body3"
+                        color="custom.main"
                         display="flex"
-                        flexDirection="column"
-                        gap={1}
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          const timeRange = Object?.keys(availability)[0];
-                          const [startTime, endTime] = timeRange?.split('-');
-                          handleDateValues(startTime, endTime);
-                        }}
-                        key={slot?.data?.userDetails?._id}
+                        alignItems="center"
+                        gap={0.5}
                       >
-                        {Object?.keys(availability)?.map((timeRange: any) => {
-                          const [startTime, endTime] = timeRange?.split('-');
-                          return (
-                            <Typography
-                              key={timeRange}
-                              variant="body4"
-                              color="custom.main"
-                            >
-                              {startTime}-{endTime}
-                            </Typography>
-                          );
-                        })}
-                        <Typography
-                          variant="body3"
-                          color="custom.main"
-                          display="flex"
-                          alignItems="center"
-                          gap={0.5}
-                        >
-                          <DateRangePickerIcon />
-                          {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  ) : (
-                    <NoData height="50vh" message="No Slots found" />
-                  )}
+                        <DateRangePickerIcon />
+                        {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
+                      </Typography>
+                    </Box>
+                  </Grid>
                 </>
               );
             })}
           </Grid>
         ) : (
-          <NoData height="50vh" message="No Slots found" />
+          <NoData height="20vh" message="No Slots found" />
         )}
       </Box>
     </>
