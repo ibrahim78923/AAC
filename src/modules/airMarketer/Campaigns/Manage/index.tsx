@@ -176,8 +176,6 @@ const Manage = () => {
             setFilters({
               ...filters,
               campaignStatus: '',
-              // startDate: null,
-              // endDate: null,
               startDate: '',
               endDate: '',
             })

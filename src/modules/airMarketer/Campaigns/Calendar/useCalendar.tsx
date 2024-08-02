@@ -32,7 +32,7 @@ const useCalendar = () => {
   const currentDate = dayjs().format(CALANDER_DATE_FORMAT?.UI);
   const [calendarDate, setCalendarDate] = useState(currentDate);
   const [isDelete, setIsDelete] = useState(false);
-  const [clickedDate, setClickedDate] = useState(null);
+  const [clickedDate, setClickedDate] = useState(new Date());
   const [createTask, setCreateTask] = useState({
     isToggle: false,
     type: '',

@@ -19,9 +19,9 @@ import {
   useLazyGetUsersListDropdownQuery,
 } from '@/services/airSales/deals';
 import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
-import { getSession } from '@/utils';
+import { getActiveProductSession, getSession } from '@/utils';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   compareInitialVals,
@@ -32,6 +32,12 @@ import { enqueueSnackbar } from 'notistack';
 
 const useManage = () => {
   const theme = useTheme();
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
+  const activeProduct = getActiveProductSession();
+  const companyAccountId =
+    activeProduct?.accounts[indexNumbers?.ZERO]?.company?._id;
+
   const [tabVal, setTabVal] = useState<number>(0);
   const [currentTabVal, setCurrentTabVal] = useState(0);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -156,6 +162,7 @@ const useManage = () => {
     useGetCampaignsQuery({
       page: page,
       limit: pageLimit,
+      companyId: companyAccountId,
       search: searchCampaigns ? searchCampaigns : undefined,
       campaignOwner: filters?.campaignOwner
         ? filters?.campaignOwner?._id
@@ -171,8 +178,6 @@ const useManage = () => {
         : undefined,
     });
 
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
     role: ROLES?.ORG_EMPLOYEE,
     organization: organizationId,

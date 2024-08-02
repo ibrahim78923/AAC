@@ -43,11 +43,11 @@ const Campaigns = () => {
   } = useCampaigns();
 
   return (
-    <Box>
+    <>
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.custom?.off_white_three} `,
-          p: '24px 0px',
+          p: '24px',
           borderRadius: '8px',
         }}
       >
@@ -55,7 +55,6 @@ const Campaigns = () => {
           display="flex"
           direction={{ md: 'row' }}
           justifyContent="space-between"
-          sx={{ padding: '0px 24px' }}
         >
           <Typography variant="h4" mb={1} onClick={() => setIsOpenFilter(true)}>
             Campaigns
@@ -106,7 +105,7 @@ const Campaigns = () => {
           </Box>
         </Stack>
 
-        <Box sx={{ padding: '0px 24px' }} mt={1.6}>
+        <Box mt={1.6}>
           <HorizontalTabs
             setActiveTab={(val: number) => {
               setCurrentTabVal(val);
@@ -211,7 +210,7 @@ const Campaigns = () => {
           isFilterOpen={isFilters}
         />
       )}
-    </Box>
+    </>
   );
 };
 export default Campaigns;

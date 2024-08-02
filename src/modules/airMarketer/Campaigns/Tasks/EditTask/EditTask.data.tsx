@@ -22,6 +22,10 @@ export const validationSchema = Yup?.object().shape({
   dueDate: Yup?.date()
     ?.min(today, 'You cannot select a past date')
     ?.required('Date is required'),
+  taskType: Yup?.string()?.required('Field is Required'),
+  campaignId: Yup?.object()?.required('Field is Required'),
+  assignedTo: Yup?.object()?.required('Field is Required'),
+  note: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -57,6 +61,7 @@ export const dataArray = () => {
         name: 'taskType',
         label: 'Task Type',
         fullWidth: true,
+        required: true,
         options: ['email', 'call', 'others'],
       },
 
@@ -70,6 +75,7 @@ export const dataArray = () => {
         label: 'Select Campaign',
         apiQuery: campaignsList,
         fullWidth: true,
+        required: true,
         getOptionLabel: (option: any) => option?.title,
       },
       component: RHFAutocompleteAsync,
@@ -80,6 +86,7 @@ export const dataArray = () => {
         placeholder: 'Select assignee',
         name: 'assignedTo',
         label: 'Assigned To',
+        required: true,
         apiQuery: userListData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
@@ -104,6 +111,7 @@ export const dataArray = () => {
         name: 'note',
         label: 'Note',
         fullWidth: true,
+        required: true,
       },
       component: RHFEditor,
       md: 12,
