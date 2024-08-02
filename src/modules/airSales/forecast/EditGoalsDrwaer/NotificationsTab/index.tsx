@@ -1,7 +1,34 @@
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { uuid } from 'uuidv4';
 
-const NotificationsTab = () => {
+const NotificationsTab = ({
+  editNotificationOptions,
+  handleCheckboxChange,
+}: any) => {
   const theme = useTheme();
+
+  // Define the notification options
+  const notificationOptions = [
+    { label: 'Goal kick-off', value: 'goalKickoff' },
+    { label: 'Goal becomes Exceeded', value: 'goalExceeded' },
+    { label: 'Goal becomes Achieved', value: 'goalAchieved' },
+    { label: 'Goal becomes Missed', value: 'goalMissed' },
+  ];
+
+  const notificationStyles = {
+    goalExceeded: {
+      background: theme?.palette?.custom?.light_blue_bg,
+      color: theme?.palette?.custom?.bright,
+    },
+    goalAchieved: {
+      background: theme?.palette?.custom?.light_green_bg,
+      color: theme?.palette?.success?.main,
+    },
+    goalMissed: {
+      background: theme?.palette?.custom?.light_red_bg,
+      color: theme?.palette?.error?.main,
+    },
+  };
 
   return (
     <Box>
@@ -13,87 +40,50 @@ const NotificationsTab = () => {
       >
         Select Notifications
       </Typography>
-      <Box display={'flex'}>
-        <Checkbox />
-        <Box>
-          <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
-            Goal kick-off
-          </Typography>
-          <Typography variant="body3" color={theme?.palette?.custom?.main}>
-            Receive a notification when the goal has started.
-          </Typography>
-        </Box>
-      </Box>
-      <Box display={'flex'} mt={2}>
-        <Checkbox />
-        <Box>
-          <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
-            {' '}
-            Goal becomes
-            <span
-              style={{
-                marginLeft: '10px',
-                borderRadius: '20px',
-                padding: '2px 8px',
-                background: theme?.palette?.custom?.light_blue_bg,
-                color: theme?.palette?.custom?.bright,
-              }}
-            >
-              Exceeded
-            </span>
-          </Typography>
-          <Typography variant="body3" color={theme?.palette?.custom?.main}>
-            Receive a notification when goal exceeded 100% of the target by the
-            duration of the goal.
-          </Typography>
-        </Box>
-      </Box>
-      <Box display={'flex'} mt={2}>
-        <Checkbox />
-        <Box>
-          <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
-            Goal becomes
-            <span
-              style={{
-                marginLeft: '10px',
-                borderRadius: '20px',
-                padding: '2px 8px',
-                background: theme?.palette?.custom?.light_green_bg,
-                color: theme?.palette?.success?.main,
-              }}
-            >
-              Achieved
-            </span>
-          </Typography>
-          <Typography variant="body3" color={theme?.palette?.custom?.main}>
-            Receive a notification when goal reached 100% of the target by the
-            duration of the goal.
-          </Typography>
-        </Box>
-      </Box>
-      <Box display={'flex'} mt={2}>
-        <Checkbox />
-        <Box>
-          <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
-            Goal becomes
-            <span
-              style={{
-                marginLeft: '10px',
-                borderRadius: '20px',
-                padding: '2px 8px',
-                background: theme?.palette?.custom?.light_red_bg,
-                color: theme?.palette?.error?.main,
-              }}
-            >
-              Exceeded
-            </span>
-          </Typography>
-          <Typography variant="body3" color={theme?.palette?.custom?.main}>
-            Receive a notification when goal didn’t 100% of the target by the
-            duration of the goal.
-          </Typography>
-        </Box>
-      </Box>
+      {notificationOptions?.map((option) => {
+        const labelKey = option?.value;
+        return (
+          <Box display={'flex'} mt={2} key={uuid()}>
+            <Checkbox
+              checked={editNotificationOptions?.includes(option?.value)}
+              onChange={() => handleCheckboxChange(option?.value)}
+            />
+            <Box>
+              <Typography
+                variant="body1"
+                color={theme?.palette?.slateBlue?.main}
+              >
+                {option?.label?.includes('Goal becomes') ? (
+                  <>
+                    {option?.label?.split('Goal becomes')[0]} Goal becomes
+                    <span
+                      style={{
+                        marginLeft: '10px',
+                        borderRadius: '20px',
+                        padding: '2px 8px',
+                        ...notificationStyles[labelKey],
+                      }}
+                    >
+                      {option?.label?.split('Goal becomes')[1]?.trim()}
+                    </span>
+                  </>
+                ) : (
+                  option?.label
+                )}
+              </Typography>
+              <Typography variant="body3" color={theme?.palette?.custom?.main}>
+                {option?.label === 'Goal kick-off'
+                  ? 'Receive a notification when the goal has started.'
+                  : option?.label === 'Goal becomes Exceeded'
+                    ? 'Receive a notification when the goal exceeds 100% of the target by the duration of the goal.'
+                    : option?.label === 'Goal becomes Achieved'
+                      ? 'Receive a notification when the goal reaches 100% of the target by the duration of the goal.'
+                      : 'Receive a notification when the goal didn’t reach 100% of the target by the duration of the goal.'}
+              </Typography>
+            </Box>
+          </Box>
+        );
+      })}
     </Box>
   );
 };

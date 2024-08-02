@@ -1,9 +1,11 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
-import useCreateCompany from './useCreateCompany';
-import { isNullOrEmpty } from '@/utils';
-import { createCompanyI } from './createcompany.interface';
+import { getSession, isNullOrEmpty } from '@/utils';
 
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
@@ -16,7 +18,7 @@ export const createComapnySchema = Yup?.object()?.shape({
 export const defaultCreateCompanyValues = {
   domain: '',
   name: '',
-  ownerId: '',
+  ownerId: null,
   industry: '',
   type: '',
   noOfEmloyee: 0,
@@ -28,8 +30,9 @@ export const defaultCreateCompanyValues = {
   linkedInUrl: '',
 };
 
-export const dataArray = () => {
-  const { getCompanyContacts } = useCreateCompany();
+export const dataArray = (getCompanyContactsList: any) => {
+  const { user } = getSession();
+
   return [
     {
       componentProps: {
@@ -57,21 +60,19 @@ export const dataArray = () => {
     },
     {
       componentProps: {
+        placeholder: 'Select company owner',
         name: 'ownerId',
         label: 'Company Owner',
-        fullWidth: true,
-        select: true,
         required: true,
+        apiQuery: getCompanyContactsList,
+        getOptionLabel: (option: any) =>
+          isNullOrEmpty(option?.firstName)
+            ? `${option?.email}`
+            : `${option?.firstName} ${option?.lastName}`,
+        externalParams: { page: 1, limit: 100, contactOwnerId: user?._id },
+        queryKey: 'contactOwnerId',
       },
-      options: getCompanyContacts?.data?.contacts?.map(
-        (item: createCompanyI) => ({
-          value: item?._id,
-          label: isNullOrEmpty(item?.firstName)
-            ? item?.email
-            : `${item?.firstName} ${item?.lastName}`,
-        }),
-      ),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

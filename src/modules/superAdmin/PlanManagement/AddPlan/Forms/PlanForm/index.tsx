@@ -255,6 +255,7 @@ const AddPlanForm = ({
                           }}
                         />
                       )}
+                      disabled={!!editPlan}
                     />
                   </>
                 )}

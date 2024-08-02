@@ -4,7 +4,10 @@ import {
   createComapnySchema,
   defaultCreateCompanyValues,
 } from './CreateCompany.data';
-import { useGetCompanyContactsQuery } from '@/services/common-APIs';
+import {
+  useGetCompanyContactsQuery,
+  useLazyGetCompanyContactsListQuery,
+} from '@/services/common-APIs';
 import { getSession, isNullOrEmpty } from '@/utils';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 
@@ -18,9 +21,10 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
 
   const params = {
     page: 1,
-    limit: 10,
+    limit: 100,
     contactOwnerId: user?._id,
   };
+  const getCompanyContactsList = useLazyGetCompanyContactsListQuery();
 
   const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
@@ -75,6 +79,7 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     onSubmit,
     reset,
     getCompanyContacts,
+    getCompanyContactsList,
   };
 };
 

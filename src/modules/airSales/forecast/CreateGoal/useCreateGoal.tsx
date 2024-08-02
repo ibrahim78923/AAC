@@ -27,6 +27,7 @@ import dayjs from 'dayjs';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { usePostGoalMutation } from '@/services/airSales/forecast';
+import { isNullOrEmpty } from '@/utils';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -206,8 +207,47 @@ export const useCreateGoal = () => {
     };
 
     const transformedData = transformData();
-    dispatch(setPerformanceData(transformedData));
-    setActiveStep((prev: any) => prev + 1);
+    let validationPassed = true;
+
+    transformedData?.forEach((item: any) => {
+      if (!item?.pipelines || isNullOrEmpty(item?.pipelines)) {
+        enqueueSnackbar('Please select Pipelines', {
+          variant: 'error',
+        });
+        validationPassed = false;
+      } else if (
+        teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.CUSTOM &&
+        Object?.keys(item?.months)?.length === 0
+      ) {
+        enqueueSnackbar('Please enter target values in Months ', {
+          variant: 'error',
+        });
+        validationPassed = false;
+      } else if (
+        teamDurationForm?.duration !== GOALS_YEARLY_FORMAT?.CUSTOM &&
+        Object?.keys(item?.months)?.length !== 12
+      ) {
+        enqueueSnackbar('Please enter target values in Months ', {
+          variant: 'error',
+        });
+        validationPassed = false;
+      } else {
+        for (const [, value] of Object.entries(item.months)) {
+          if (typeof value !== 'number' || isNaN(value) || value === '') {
+            enqueueSnackbar('please enter all values.', {
+              variant: 'error',
+            });
+            validationPassed = false;
+            break; // Exit loop as error found
+          }
+        }
+      }
+    });
+
+    if (validationPassed) {
+      dispatch(setPerformanceData(transformedData));
+      setActiveStep((prev: any) => prev + 1);
+    }
   };
   // this is performance step
 
@@ -233,35 +273,41 @@ export const useCreateGoal = () => {
 
   // this is final step
   const handleFinalSubmit = async () => {
-    const payload = {
-      trackingMethod: describeForm?.trackingMethod,
-      goalName: describeForm?.goalName,
-      duration: teamDurationForm?.duration,
-      ...(teamDurationForm?.userTeam === 'USER'
-        ? {
-            contributors: teamDurationForm?.collaborators?.map(
-              (collaborator: any) => collaborator?._id,
-            ),
-          }
-        : {
-            teams: teamDurationForm?.collaborators?.map(
-              (collaborator: any) => collaborator?._id,
-            ),
-          }),
-      targets: performanceData,
-      notification: selectedNotifications,
-    };
-
-    try {
-      await postCreateInvoice({ body: payload })?.unwrap();
-      enqueueSnackbar('Goals added successfully', {
-        variant: 'success',
-      });
-      router?.back();
-    } catch (error: any) {
-      enqueueSnackbar('An error occured', {
+    if (isNullOrEmpty(selectedNotifications)) {
+      enqueueSnackbar('Please select a notification', {
         variant: 'error',
       });
+    } else {
+      const payload = {
+        trackingMethod: describeForm?.trackingMethod,
+        goalName: describeForm?.goalName,
+        duration: teamDurationForm?.duration,
+        ...(teamDurationForm?.userTeam === 'USER'
+          ? {
+              contributors: teamDurationForm?.collaborators?.map(
+                (collaborator: any) => collaborator?._id,
+              ),
+            }
+          : {
+              teams: teamDurationForm?.collaborators?.map(
+                (collaborator: any) => collaborator?._id,
+              ),
+            }),
+        targets: performanceData,
+        notification: selectedNotifications,
+      };
+
+      try {
+        await postCreateInvoice({ body: payload })?.unwrap();
+        enqueueSnackbar('Goals added successfully', {
+          variant: 'success',
+        });
+        router?.back();
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
     }
   };
 

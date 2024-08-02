@@ -20,7 +20,8 @@ export const EmailCradsData = [
 export const EmailMarketingRateCard = [
   {
     heading: 'Open Rate',
-    precentage: 65,
+    Progress: 65,
+    precentage: '65%',
     rates: [
       {
         newHeading: 'Successfully Deliveries',
@@ -38,7 +39,8 @@ export const EmailMarketingRateCard = [
   },
   {
     heading: 'Open Rate',
-    precentage: 50,
+    Progress: 50,
+    precentage: '50%',
     rates: [
       {
         newHeading: 'Total Clicks',

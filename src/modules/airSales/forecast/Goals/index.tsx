@@ -170,6 +170,7 @@ const Goals = () => {
         <EditGoalsDrwaer
           isOpenDrawer={isEditDrawer}
           onClose={() => setIsEditDrawer(false)}
+          tableRowValues={tableRowValues}
         />
       )}
 
