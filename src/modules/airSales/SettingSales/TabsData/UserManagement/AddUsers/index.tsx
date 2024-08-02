@@ -9,7 +9,7 @@ import {
 } from '@/constants/strings';
 import React from 'react';
 import { AddUsersProps } from '../UserManagement.interface';
-import { dataArray } from '../Users/Users.data';
+import { dataArray } from './AddUsers.data';
 
 const AddUsers = (props: AddUsersProps) => {
   const { isAddUserDrawer, setIsAddUserDrawer } = props;

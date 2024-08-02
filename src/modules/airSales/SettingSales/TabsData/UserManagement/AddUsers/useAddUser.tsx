@@ -9,8 +9,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { indexNumbers } from '@/constants';
-import { userValidationSchema } from '../Users/Users.data';
-
+import { userValidationSchema } from './AddUsers.data';
 interface IsAddUserDrawer {
   isToggle: boolean;
   type: string;

@@ -1,19 +1,48 @@
 import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import { PAGINATION } from '@/config';
+import { getActiveProductSession } from '@/utils';
+import { DRAWER_TYPES } from '@/constants/strings';
 import {
   useDeleteProductUserMutation,
+  useGetProductsUsersQuery,
   useUpdateProductsUsersMutation,
 } from '@/services/airMarketer/settings/users';
-import { enqueueSnackbar } from 'notistack';
-import { LOYALTY_RULE_STATUS, NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useUsers = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const theme = useTheme<Theme>();
+  const ActiveProduct = getActiveProductSession();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [checkedUser, setCheckedUser] = useState<string[]>([]);
+  const [isAddUserDrawer, setIsAddUserDrawer] = useState<any>({
+    isToggle: false,
+    type: DRAWER_TYPES?.ADD,
+    recordId: [],
+  });
+  const [searchUser, setSearchUser] = useState('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const productUserParams = {
+    page: page,
+    limit: pageLimit,
+    search: searchUser ? searchUser : undefined,
+    product: ActiveProduct?._id,
+    meta: true,
+  };
+  const {
+    data: productsUsers,
+    isLoading,
+    isSuccess,
+  } = useGetProductsUsersQuery(productUserParams);
+
   const [updateProductsUsers, { isLoading: updateUserLoading }] =
     useUpdateProductsUsersMutation();
+
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
 
@@ -26,20 +55,18 @@ const useUsers = () => {
   };
 
   const handleUpdateStatus = async (id: any, value: any) => {
-    const statusVal = value?.target?.checked
-      ? LOYALTY_RULE_STATUS?.ACTIVE
-      : LOYALTY_RULE_STATUS?.IN_ACTIVE;
+    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     try {
       await updateProductsUsers({
         id: id,
         body: { status: statusVal },
       })?.unwrap();
       enqueueSnackbar('Status updated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
+        variant: 'success',
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
+        variant: 'error',
       });
     }
   };
@@ -48,28 +75,39 @@ const useUsers = () => {
     try {
       await deleteProductUser({ body: { ids: ids } })?.unwrap();
       enqueueSnackbar('Users deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
+        variant: 'success',
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
+        variant: 'error',
       });
     }
   };
 
   return {
-    deleteProductUsersLoading,
-    handleUpdateStatus,
-    updateUserLoading,
-    setIsOpenDelete,
-    deleteHandler,
     isOpenDelete,
-    handleClick,
-    setAnchorEl,
-    handleClose,
+    setIsOpenDelete,
     anchorEl,
-    theme,
+    setAnchorEl,
     open,
+    theme,
+    handleClick,
+    handleClose,
+    handleUpdateStatus,
+    deleteHandler,
+    deleteProductUsersLoading,
+    updateUserLoading,
+    productsUsers,
+    searchUser,
+    setSearchUser,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
+    checkedUser,
+    setCheckedUser,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   };
 };
 

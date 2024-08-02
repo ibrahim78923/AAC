@@ -51,7 +51,7 @@ const Teams = () => {
           display="flex"
           justifyContent="space-between"
         >
-          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_USER]}>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_TEAM]}>
             <Search
               size="small"
               searchBy={searchBy}
@@ -60,7 +60,7 @@ const Teams = () => {
               setSearchBy={setSearchBy}
             />
           </PermissionsGuard>
-          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_USER]}>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.CREATE_TEAMS]}>
             <Button
               className="small"
               onClick={() => {
@@ -78,7 +78,7 @@ const Teams = () => {
         </Box>
 
         <Grid sx={{ paddingTop: '1rem' }}>
-          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.USER_LIST]}>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.TEAM_LIST]}>
             <TanstackTable
               columns={columnsTeams(columnsProps)}
               data={teamsData?.data?.userTeams}

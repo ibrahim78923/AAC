@@ -1,21 +1,25 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { userValidationSchema } from '../Users.data';
+import { enqueueSnackbar } from 'notistack';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { indexNumbers } from '@/constants';
 import {
   useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
   useUpdateProductsUsersMutation,
 } from '@/services/airMarketer/settings/users';
-import { enqueueSnackbar } from 'notistack';
-import { DRAWER_TYPES } from '@/constants/strings';
-import { indexNumbers } from '@/constants';
-import { DrawerI } from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/UserManagement.interface';
+import { userValidationSchema } from './AddUser-data';
+
+interface IsAddUserDrawer {
+  isToggle: boolean;
+  type: string;
+  recordId: string[];
+}
 
 const useAddUser = (
-  checkedUser: string[],
-  isAddUserDrawer: DrawerI,
-  setIsAddUserDrawer: (value: DrawerI) => void,
+  isAddUserDrawer: IsAddUserDrawer,
+  setIsAddUserDrawer: (val: IsAddUserDrawer) => void,
 ) => {
   const [postPoductUser, { isLoading: postUserLoading }] =
     usePostPoductUserMutation();
@@ -31,18 +35,19 @@ const useAddUser = (
     jobTitle: '',
     role: null,
     team: null,
+    language: '',
+    timezone: '',
     facebookUrl: '',
     linkedInUrl: '',
     twitterUrl: '',
   };
 
-  const methods = useForm({
+  const methods: any = useForm({
     resolver: yupResolver(userValidationSchema),
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit, reset } = methods;
-
+  const { handleSubmit, setValue, reset } = methods;
   const { data: productUsersById, isLoading: productUserByIdLoading } =
     useGetproductUsersByIdQuery(
       {
@@ -58,15 +63,26 @@ const useAddUser = (
   useEffect(() => {
     if (isAddUserDrawer?.type !== DRAWER_TYPES?.ADD) {
       const data = productUsersById?.data;
-      const fieldsToSet = {
-        ...data?.user,
+      const fieldsToSet: any = {
+        firstName: data?.user?.firstName,
+        lastName: data?.user?.lastName,
+        email: data?.user?.email,
         address: data?.user?.address?.composite,
+        phoneNumber: data?.user?.phoneNumber,
+        jobTitle: data?.user?.jobTitle,
+        language: data?.user?.language,
+        timezone: data?.user?.timezone,
+        facebookUrl: data?.user?.facebookUrl,
+        linkedInUrl: data?.user?.linkedInUrl,
+        twitterUrl: data?.user?.twitterUrl,
         role: data?.role ?? null,
         team: data?.team ?? null,
       };
-      reset(fieldsToSet);
+      for (const key in fieldsToSet) {
+        setValue(key, fieldsToSet[key]);
+      }
     }
-  }, [productUsersById?.data, reset]);
+  }, [productUsersById]);
 
   const onSubmit = async (values: any) => {
     values.address = {
@@ -85,15 +101,18 @@ const useAddUser = (
       } else {
         delete values['email'];
         delete values['timeZone'];
-        await updateProductsUsers({ id: checkedUser, body: values })?.unwrap();
+        await updateProductsUsers({
+          id: isAddUserDrawer?.recordId,
+          body: values,
+        })?.unwrap();
         enqueueSnackbar('User updated successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false });
       }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -104,6 +123,7 @@ const useAddUser = (
     onSubmit,
     postUserLoading,
     updateUserLoading,
+    productUsersById,
     productUserByIdLoading,
   };
 };

@@ -512,6 +512,7 @@ export const AIR_SALES_SETTINGS = {
   ADD_USER: 'sale-setting-add-user',
   SEARCH_USER: 'sale-setting-search-and-filter',
   ACTIVE_INACTIVE_USER: 'sale-setting-active-inactive-user',
+
   TEAM_LIST: 'sale-setting-team-list',
   SEARCH_TEAM: 'sale-setting-teams-search-and-filter',
   CREATE_TEAMS: 'sale-setting-create-team',

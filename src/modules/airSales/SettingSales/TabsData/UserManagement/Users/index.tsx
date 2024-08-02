@@ -48,13 +48,15 @@ const UserTable = () => {
           marginBottom: '1rem',
         }}
       >
-        <Search
-          searchBy={searchUser}
-          width="260px"
-          label={'Search here'}
-          setSearchBy={setSearchUser}
-          size="small"
-        />
+        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_USER]}>
+          <Search
+            searchBy={searchUser}
+            width="260px"
+            label={'Search here'}
+            setSearchBy={setSearchUser}
+            size="small"
+          />
+        </PermissionsGuard>
         <Box display="flex" gap={2}>
           {checkedUser?.length > indexNumbers?.ONE ? (
             <LoadingButton
@@ -152,24 +154,26 @@ const UserTable = () => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <TanstackTable
-        columns={columnsUser(
-          checkedUser,
-          setCheckedUser,
-          productsUsers?.data?.usercompanyaccounts,
-        )}
-        data={productsUsers?.data?.usercompanyaccounts}
-        isPagination
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        count={productsUsers?.data?.meta?.pages}
-        pageLimit={productsUsers?.data?.meta?.limit}
-        totalRecords={productsUsers?.data?.meta?.total}
-        isLoading={isLoading}
-        isSuccess={isSuccess}
-        currentPage={productsUsers?.data?.meta?.page}
-      />
+      <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.USER_LIST]}>
+        <TanstackTable
+          columns={columnsUser(
+            checkedUser,
+            setCheckedUser,
+            productsUsers?.data?.usercompanyaccounts,
+          )}
+          data={productsUsers?.data?.usercompanyaccounts}
+          isPagination
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={productsUsers?.data?.meta?.pages}
+          pageLimit={productsUsers?.data?.meta?.limit}
+          totalRecords={productsUsers?.data?.meta?.total}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          currentPage={productsUsers?.data?.meta?.page}
+        />
+      </PermissionsGuard>
       <AlertModals
         message={'Are you sure you want to delete this user?'}
         type={'delete'}
