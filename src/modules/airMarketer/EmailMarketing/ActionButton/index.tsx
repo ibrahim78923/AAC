@@ -26,14 +26,18 @@ const ActionButton = () => {
   } = useEmailMarketing();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: { xs: '100%', sm: 'auto', md: 'auto', lg: '112px' },
+      }}
+    >
       <Button
         onClick={handleClick}
         variant="outlined"
         color="inherit"
         className="small"
         sx={{
-          width: '112px',
+          width: { xs: '100%', sm: 'auto', md: 'auto', lg: '112px' },
         }}
       >
         Actions

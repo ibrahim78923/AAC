@@ -15,3 +15,11 @@ export const emailMarketingTabsData = [
   'Sent',
   'Archived',
 ];
+
+export const tabData = [
+  { label: 'All', value: 'all' },
+  { label: 'Scheduled', value: 'scheduled' },
+  { label: 'Draft', value: 'draft' },
+  { label: 'Sent', value: 'sent' },
+  { label: 'Archived', value: 'archived' },
+];

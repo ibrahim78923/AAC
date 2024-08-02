@@ -22,7 +22,7 @@ import {
 } from '@/redux/slices/chat/slice';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
-import { TIME_FORMAT } from '@/constants';
+import { CHAT_TYPES, TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { useUpdateChatMutation } from '@/services/chat';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -207,7 +207,7 @@ const ContactsCard = ({
                     textTransform: 'capitalize',
                   }}
                 >
-                  {chatMode === 'groupChat' ? (
+                  {chatMode === CHAT_TYPES?.GROUP_CHAT ? (
                     <>{cardData?.item?.groupName}</>
                   ) : (
                     <>

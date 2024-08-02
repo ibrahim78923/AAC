@@ -501,6 +501,11 @@ export const LEAD_CAPTURE_FORM = {
   PATCH_RESTORE_FORM: '/lead-capture-form/restore-deleted-forms',
 };
 
+export const EMAILS_MARKETING = {
+  EMAIL_MARKETING: '/emails-marketing/get-all-marketingEmails',
+  CREATE_EMAIL: '/emails-marketing/create-email',
+};
+
 export const superAdminBillingInvoices = {
   GET_ORG_PLAN: '/super-admin/get-all-orgplans?',
   GET_PRODUCTS: '/products?status=active',
