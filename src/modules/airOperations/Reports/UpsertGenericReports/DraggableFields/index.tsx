@@ -47,7 +47,7 @@ export default function DraggableFields({
   templateList,
   mainMetrics,
   selectedModule,
-  singleReport,
+  data,
   handleMoveBack,
   watch,
 }: DraggableFieldsI) {
@@ -283,7 +283,7 @@ export default function DraggableFields({
               reportId={reportId}
               metricType={metricType}
               selectedModule={selectedModule}
-              singleReport={singleReport}
+              data={data}
               handleMoveBack={handleMoveBack}
             />
           )}

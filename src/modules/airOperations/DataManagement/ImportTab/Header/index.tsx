@@ -6,8 +6,9 @@ import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ExportButton } from '@/components/ExportButton';
+import { HeaderI } from './Header.interface';
 
-export const Header = (props: any) => {
+export const Header = (props: HeaderI) => {
   const {
     setSearch,
     setIsOpenFilterDrawer,

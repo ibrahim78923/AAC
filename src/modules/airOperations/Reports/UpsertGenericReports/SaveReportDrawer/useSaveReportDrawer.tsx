@@ -34,14 +34,15 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     reportId,
     metricType,
     selectedModule,
-    singleReport,
+    data,
     handleMoveBack,
   } = props;
   const [reportValidation, setReportValidation] = useState<any>({
-    selectSharedWith: '',
-    selectAddToDashboard: '',
+    selectSharedWith: null,
+    selectAddToDashboard: null,
+    selectAddToNewDashboard: null,
   });
-
+  const singleReport = (data as any)?.data?.results;
   const saveReportsMethods = useForm({
     resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues(singleReport),

@@ -350,7 +350,7 @@ export default function useUpsertGenericReports() {
     moduleName,
     isLoading,
     isFetching,
-    singleReport,
+    data,
     handleMoveBack,
     watch,
   };

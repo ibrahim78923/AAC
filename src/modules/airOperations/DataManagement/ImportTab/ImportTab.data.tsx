@@ -2,11 +2,12 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { ImportTabColumnsI } from './ImportTab.interface';
 
-export const importTabColumnsFunction: any = (
-  exportList: any,
-  selectedExportList: any,
-  setSelectedExportList: any,
+export const importTabColumnsFunction: ImportTabColumnsI = (
+  exportList,
+  selectedExportList,
+  setSelectedExportList,
 ) => [
   {
     accessorFn: (row: any) => row?._id,

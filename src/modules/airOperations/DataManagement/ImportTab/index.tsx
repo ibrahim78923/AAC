@@ -2,6 +2,7 @@ import { useImportTab } from './useImportTab';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Header } from './Header';
 import { EXPORT_TYPE } from '@/constants/strings';
+import { ImportTabI } from './ImportTab.interface';
 
 export const ImportTab = () => {
   const {
@@ -19,7 +20,7 @@ export const ImportTab = () => {
     filterValues,
     listDataExport,
     importTabColumns,
-  } = useImportTab();
+  }: ImportTabI = useImportTab();
 
   return (
     <>

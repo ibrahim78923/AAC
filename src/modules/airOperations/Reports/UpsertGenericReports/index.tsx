@@ -49,7 +49,7 @@ export const UpsertGenericReports = () => {
     moduleName,
     isLoading,
     isFetching,
-    singleReport,
+    data,
     handleMoveBack,
     watch,
   } = useUpsertGenericReports();
@@ -167,7 +167,7 @@ export const UpsertGenericReports = () => {
               templateList={templateList}
               mainMetrics={mainMetrics}
               selectedModule={moduleName}
-              singleReport={singleReport}
+              data={data}
               handleMoveBack={handleMoveBack}
               watch={watch}
             />

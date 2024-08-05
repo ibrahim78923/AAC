@@ -5,13 +5,13 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { REPORT_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   SpecialUsersFieldsI,
   SpecificUsersAccessColumnsI,
   SpecificUsersAccessFormFieldsDynamicI,
-  usersDropdownOptionsI,
+  UsersDropdownOptionsI,
 } from './SaveReportDrawer.interface';
 import {
   Table,
@@ -124,20 +124,21 @@ export const reportsValidationSchema = (reportValidation: any) =>
 
 export const reportsDefaultValues = (singleReport: any) => {
   return {
-    reportName: singleReport?.name ?? '',
-    sharedWith: singleReport?.accessLevel?.type ?? null,
+    reportName: singleReport?.genericReports?.name ?? '',
+    sharedWith: singleReport?.genericReports?.accessLevel?.type ?? null,
     addToDashboard: null,
     addToExistingCondition: [],
-    everyoneCondition: singleReport?.accessLevel?.access ?? null,
-    specificUsersConditionOne: singleReport?.accessLevel?.users ?? [],
-    specificUsersConditionTwo:
-      singleReport?.accessLevel?.users[SELECTED_ARRAY_LENGTH?.ZERO] ?? null,
+    everyoneCondition:
+      singleReport?.genericReports?.accessLevel?.access ?? null,
+    specificUsersConditionOne: singleReport?.users ?? [],
+    sharedWithPermissions:
+      singleReport?.genericReports?.accessLevel?.users ?? null,
     addToNewConditionOne: '',
     addToNewConditionTwo: null,
     newDashboardEveryoneCondition: null,
     newDashboardSpecificUsersConditionOne: [],
     newDashboardSpecificUsersConditionTwo: null,
-    addFilter: singleReport?.isDateFilter ?? false,
+    addFilter: singleReport?.genericReports?.isDateFilter ?? false,
   };
 };
 
@@ -185,7 +186,7 @@ export const reportsDataArray = (
           multiple={true}
           required={true}
           apiQuery={usersDropdown}
-          getOptionLabel={(option: usersDropdownOptionsI) =>
+          getOptionLabel={(option: UsersDropdownOptionsI) =>
             `${option?.firstName} ${option?.lastName}`
           }
           placeholder="Select Option"
@@ -297,7 +298,7 @@ export const reportsDataArray = (
           multiple={true}
           required={true}
           apiQuery={usersDropdown}
-          getOptionLabel={(option: usersDropdownOptionsI) =>
+          getOptionLabel={(option: UsersDropdownOptionsI) =>
             `${option?.firstName} ${option?.lastName}`
           }
           placeholder="Select Option"

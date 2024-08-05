@@ -8,8 +8,9 @@ import { parse } from 'json2csv';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
+import { ImportTabI } from './ImportTab.interface';
 
-export const useImportTab = () => {
+export const useImportTab: () => ImportTabI = () => {
   const [selectedTabList, setSelectedTabList] = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);

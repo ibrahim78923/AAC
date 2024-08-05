@@ -44,7 +44,7 @@ export interface DraggableFieldsI {
   templateList: any[];
   mainMetrics: any;
   selectedModule: any;
-  singleReport: any;
+  data: any;
   handleMoveBack: () => void;
   watch: UseFormReturn<FieldValues>['watch'];
 }

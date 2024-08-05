@@ -45,6 +45,6 @@ export interface SaveReportDrawerI {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   metricType: string;
   selectedModule: string;
-  singleReport: any;
+  data: any;
   handleMoveBack: () => void;
 }
