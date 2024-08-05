@@ -16,6 +16,7 @@ import {
   Avatar,
   Box,
   Checkbox,
+  Chip,
   CircularProgress,
   Typography,
 } from '@mui/material';
@@ -283,18 +284,20 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Dashboard Name',
     cell: (info: any) =>
-      Array?.isArray(info?.getValue()) ? (
-        !!info?.getValue()?.length ? (
-          <CustomChips
-            data={info
-              ?.getValue()
-              ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
-          />
-        ) : (
-          '---'
-        )
+      !!info?.getValue()?.length ? (
+        <CustomChips
+          data={info
+            ?.getValue()
+            ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
+        />
       ) : (
-        info?.getValue()?.name ?? '---'
+        <Chip
+          size="small"
+          label="---"
+          variant="filled"
+          color={'primary'}
+          sx={{ mx: 0.5, my: 0.5 }}
+        />
       ),
   },
   {

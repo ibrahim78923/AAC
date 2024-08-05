@@ -8,8 +8,10 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
-export const UpsertTicket = (props: any) => {
+export const UpsertTicket = (props: TicketActionComponentPropsI) => {
   const { isDrawerOpen } = props;
   const {
     handleSubmit,
@@ -32,11 +34,19 @@ export const UpsertTicket = (props: any) => {
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
-      okText={!!ticketId ? 'Update' : 'Submit'}
-      title={!!ticketId ? 'Edit Ticket' : 'Create Ticket'}
+      okText={
+        !!ticketId
+          ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+          : GENERIC_UPSERT_FORM_CONSTANT?.SUBMIT
+      }
+      title={`${
+        !!ticketId
+          ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+          : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+      } Ticket`}
       submitHandler={() => handleSubmit(submitUpsertTicket)()}
       isOk
-      cancelText={'Cancel'}
+      cancelText={GENERIC_UPSERT_FORM_CONSTANT?.CANCEL}
       footer
       isLoading={
         putTicketStatus?.isLoading ||
@@ -44,13 +54,11 @@ export const UpsertTicket = (props: any) => {
         postAttachmentStatus?.isLoading
       }
       isDisabled={
-        isError ||
         postTicketStatus?.isLoading ||
         putTicketStatus?.isLoading ||
         postAttachmentStatus?.isLoading
       }
       disabledCancelBtn={
-        isError ||
         postTicketStatus?.isLoading ||
         putTicketStatus?.isLoading ||
         postAttachmentStatus?.isLoading

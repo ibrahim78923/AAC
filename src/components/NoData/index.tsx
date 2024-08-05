@@ -14,6 +14,7 @@ const NoData = ({
       flexDirection={'column'}
       alignItems={'center'}
       justifyContent={'center'}
+      width={'100%'}
     >
       {!!image && (
         <Box

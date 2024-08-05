@@ -11,20 +11,24 @@ import {
 import { useEffect } from 'react';
 import {
   useGetTicketsByIdQuery,
-  useLazyGetAgentDropdownQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAssociateAssetsDropdownForTicketsQuery,
+  useLazyGetCategoriesDropdownForTicketsQuery,
+  useLazyGetDepartmentDropdownForTicketsQuery,
+  useLazyGetRequesterDropdownForTicketsQuery,
 } from '@/services/airServices/tickets';
+
 import {
   useAddChildTicketsMutation,
   usePutChildTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
 
-export const useUpsertRelatedTicket: any = (props: any) => {
-  const { setIsDrawerOpen, childTicketId, setSelectedChildTickets } = props;
+export const useUpsertRelatedTicket = (
+  props: RelatedTicketsPortalComponentPropsI,
+) => {
+  const { setIsPortalOpen, childTicketId, setSelectedChildTickets } = props;
 
   const router = useRouter();
   const { ticketId } = router?.query;
@@ -109,8 +113,7 @@ export const useUpsertRelatedTicket: any = (props: any) => {
     try {
       await postChildTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Child ticket added successfully');
-      reset();
-      setIsDrawerOpen?.(false);
+      onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -127,9 +130,7 @@ export const useUpsertRelatedTicket: any = (props: any) => {
     try {
       await putChildTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Child ticket updated successfully');
-      setSelectedChildTickets([]);
-      reset();
-      setIsDrawerOpen?.(false);
+      onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -141,14 +142,15 @@ export const useUpsertRelatedTicket: any = (props: any) => {
   const onClose = () => {
     setSelectedChildTickets([]);
     reset?.();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownForTicketsQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
+  const apiQueryAssociateAsset =
+    useLazyGetAssociateAssetsDropdownForTicketsQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownForTicketsQuery();
 
   const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
     apiQueryRequester,

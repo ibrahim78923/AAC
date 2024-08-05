@@ -18,8 +18,9 @@ import {
   usePostAddReplyToBulkUpdateMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useTicketBulkUpdate = (props: any) => {
+export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   const {
     setIsDrawerOpen,
     setSelectedTicketList,
@@ -117,6 +118,7 @@ export const useTicketBulkUpdate = (props: any) => {
     reset?.();
     setIsDrawerOpen(false);
   };
+
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   const ticketsBulkUpdateFormFields = ticketsBulkUpdateFormFieldsDynamic?.(

@@ -28,8 +28,9 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 
-export const useUpsertTasks = (props: any) => {
+export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
   const {
     setIsPortalOpen,
     selectedTasksList,

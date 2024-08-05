@@ -8,13 +8,11 @@ import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
+import { TicketBoardViewPropsI } from '../TicketsLists.interface';
 
-export const TableBoardView = ({
-  setTicketAction,
-  setSelectedTicketList,
-  search,
-  filterTicketLists,
-}: any) => {
+export const TableBoardView = (props: TicketBoardViewPropsI) => {
+  const { setTicketAction, setSelectedTicketList } = props;
+
   const {
     HEAD_STATUS,
     lazyGetTicketsStatus,
@@ -22,7 +20,7 @@ export const TableBoardView = ({
     setPageLimit,
     getValueTicketsListData,
     page,
-  } = useTicketsBoardView({ search, filterTicketLists });
+  } = useTicketsBoardView(props);
 
   if (lazyGetTicketsStatus?.isError) return <ApiErrorState />;
   if (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching)

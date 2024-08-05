@@ -8,12 +8,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useAssignedTickets = (props: any) => {
+export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
   const router = useRouter();
   const { makePath } = usePath();
   const {
-    setIsAssignedModalOpen,
+    setIsDrawerOpen,
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
@@ -75,7 +76,7 @@ export const useAssignedTickets = (props: any) => {
     );
     reset();
     setSelectedTicketList([]);
-    setIsAssignedModalOpen?.(false);
+    setIsDrawerOpen?.(false);
   };
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();

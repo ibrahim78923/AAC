@@ -2,7 +2,6 @@ import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../Tasks';
 import { Approvals } from '../Approvals';
-import RelatedTickets from '../RelatedTickets';
 import { Details } from '../Details';
 import { Activities } from '../Activities';
 import { Conversations } from '../Conversations';
@@ -13,6 +12,7 @@ import { Meeting } from '../Meeting';
 import { Skeleton } from '@mui/lab';
 import { TICKET_TYPE } from '@/constants/strings';
 import Association from '../Association';
+import { RelatedTickets } from '../RelatedTickets';
 
 export const SingleTicketDetailTabs = (props: any) => {
   const { apiStatus, data } = props;

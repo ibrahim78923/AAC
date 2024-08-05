@@ -8,8 +8,11 @@ import {
 } from './DetailTaskDrawer.data';
 import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 
-export const useDetailTaskDrawer = (props: any) => {
+export const useDetailTaskDrawer = (
+  props: TicketsTasksPortalComponentPropsI,
+) => {
   const { setIsPortalOpen, setSelectedTasksLists, isPortalOpen } = props;
 
   const method = useForm({

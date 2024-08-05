@@ -14,6 +14,7 @@ export const RecentActivities = (props: any) => {
       border={`1px solid`}
       borderColor="custom.off_white"
       maxHeight="100%"
+      height={'100%'}
       display="flex"
       flexDirection={'column'}
     >

@@ -11,15 +11,21 @@ import { useRouter } from 'next/router';
 import { DetailTaskDrawer } from './DetailTaskDrawer';
 import { DeleteTask } from './DeleteTask';
 import { UpsertTasks } from './UpsertTasks';
+import {
+  TicketsTasksIsPortalOpenI,
+  TicketsTasksPortalComponentPropsI,
+} from './Tasks.interface';
 
 export const useTasks = () => {
   const theme = useTheme();
   const router = useRouter();
   const { ticketId } = router?.query;
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [isPortalOpen, setIsPortalOpen] = useState<TicketsTasksIsPortalOpenI>(
+    {},
+  );
   const [selectedTasksList, setSelectedTasksLists] = useState<any>([]);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const [lazyGetTicketsTasksTrigger, lazyGetTicketsTasksStatus] =
     useLazyGetTaskByIdQuery();
@@ -32,7 +38,7 @@ export const useTasks = () => {
       ['ticketId', ticketId],
     ];
 
-    const getTicketTasksParam: any = buildQueryParams(additionalParams);
+    const getTicketTasksParam = buildQueryParams(additionalParams);
 
     const apiDataParameter = {
       queryParams: getTicketTasksParam,
@@ -47,7 +53,7 @@ export const useTasks = () => {
     getTaskListData();
   }, [page, pageLimit]);
 
-  const portalComponentProps = {
+  const portalComponentProps: TicketsTasksPortalComponentPropsI = {
     isPortalOpen,
     setIsPortalOpen,
     selectedTasksList,

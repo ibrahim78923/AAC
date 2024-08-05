@@ -76,9 +76,7 @@ export const useAddTime = (props: any) => {
   const onSubmit = async (data: any) => {
     const { hours } = getValues();
     if (hours?.trim() !== '' && !/^\d+h\d+m$/?.test(hours)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+      errorSnackbar('Invalid format for hours. Please use format like 1h10m');
       return;
     }
 

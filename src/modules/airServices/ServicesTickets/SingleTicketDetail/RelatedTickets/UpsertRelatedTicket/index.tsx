@@ -5,9 +5,14 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertRelatedTicket } from './useUpsertRelatedTicket';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import ApiErrorState from '@/components/ApiErrorState';
 
-export const UpsertRelatedTicket = (props: any) => {
-  const { isDrawerOpen, childTicketId } = props;
+export const UpsertRelatedTicket = (
+  props: RelatedTicketsPortalComponentPropsI,
+) => {
+  const { isPortalOpen, childTicketId } = props;
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -23,10 +28,18 @@ export const UpsertRelatedTicket = (props: any) => {
 
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
+      isDrawerOpen={isPortalOpen?.isUpsert as boolean}
       onClose={() => onClose?.()}
-      okText={!!childTicketId ? 'Update' : 'Add Child Ticket'}
-      title={!!childTicketId ? 'Edit Child Ticket' : 'Add Child Ticket'}
+      okText={
+        !!childTicketId
+          ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+          : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+      }
+      title={`${
+        !!childTicketId
+          ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+          : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+      } Child Ticket`}
       submitHandler={() => handleSubmit(submitUpsertTicket)()}
       isOk
       cancelText={'Cancel'}
@@ -35,30 +48,18 @@ export const UpsertRelatedTicket = (props: any) => {
         postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
       }
       isDisabled={
-        isError ||
-        postChildTicketStatus?.isLoading ||
-        putChildTicketStatus?.isLoading
+        postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
       }
       disabledCancelBtn={
-        isError ||
-        postChildTicketStatus?.isLoading ||
-        putChildTicketStatus?.isLoading
+        postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
       }
     >
       {isLoading || isFetching ? (
         <SkeletonForm />
+      ) : isError ? (
+        <ApiErrorState />
       ) : (
         <>
-          {isError && (
-            <Typography
-              component="div"
-              color="error.main"
-              textAlign={'center'}
-              variant="body3"
-            >
-              Something went wrong. Try again later
-            </Typography>
-          )}
           <Box mt={1}>
             <FormProvider
               methods={methods}

@@ -1,4 +1,4 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox, Theme, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { styles } from './Tasks.styles';
@@ -10,13 +10,15 @@ import {
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { TicketsTasksIsPortalOpenI } from './Tasks.interface';
+import { Dispatch, SetStateAction } from 'react';
 
 export const ticketsTasksListsColumnsDynamic: any = (
   selectedTasksList: any,
-  setSelectedTasksLists: any,
-  totalTasks: any = [],
-  setIsPortalOpen: any,
-  theme: any,
+  setSelectedTasksLists: Dispatch<SetStateAction<any>>,
+  totalTasks = [],
+  setIsPortalOpen: Dispatch<SetStateAction<TicketsTasksIsPortalOpenI>>,
+  theme: Theme,
 ) => {
   return [
     {
@@ -133,7 +135,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
 };
 
 export const actionsForTicketTasksListsDynamic = (
-  setIsPortalOpen: any,
+  setIsPortalOpen: Dispatch<SetStateAction<TicketsTasksIsPortalOpenI>>,
   selectedTasksList: any,
 ) => [
   {

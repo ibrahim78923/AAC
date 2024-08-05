@@ -192,6 +192,62 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+
+    getRequesterDropdownForTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_TWO],
+    }),
+    getAgentDropdownForTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getDepartmentDropdownForTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAssociateAssetsDropdownForTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSOCIATE_ASSET}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
+      },
+      providesTags: [TAG_FIVE],
+    }),
+    getCategoriesDropdownForTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.servicecategories;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 export const {
@@ -216,4 +272,9 @@ export const {
   useGetAttachmentsByIdQuery,
   usePostAddReplyToBulkUpdateMutation,
   useLazyGetTicketByIdForMergeQuery,
+  useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAssociateAssetsDropdownForTicketsQuery,
+  useLazyGetCategoriesDropdownForTicketsQuery,
+  useLazyGetDepartmentDropdownForTicketsQuery,
+  useLazyGetRequesterDropdownForTicketsQuery,
 } = ticketsAPI;

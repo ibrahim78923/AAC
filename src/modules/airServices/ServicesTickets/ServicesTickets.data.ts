@@ -7,8 +7,9 @@ import {
   TICKET_TYPE,
   TICKET_TYPES,
 } from '@/constants/strings';
+import { AutocompleteOptionsDropdownI } from './ServicesTickets.interface';
 
-export const ticketStatusOptions = [
+export const ticketStatusOptions: AutocompleteOptionsDropdownI = [
   {
     _id: TICKET_STATUS?.OPEN,
     label: TICKET_STATUS?.OPEN,
@@ -30,14 +31,14 @@ export const ticketStatusOptions = [
     label: TICKET_STATUS?.SPAM,
   },
 ];
-export const ticketDetailsStatusOptions = [
+export const ticketDetailsStatusOptions: string[] = [
   TICKET_STATUS?.OPEN,
   TICKET_STATUS?.CLOSED,
   TICKET_STATUS?.PENDING,
   TICKET_STATUS?.RESOLVED,
   TICKET_STATUS?.SPAM,
 ];
-export const ticketPriorityOptions = [
+export const ticketPriorityOptions: AutocompleteOptionsDropdownI = [
   {
     _id: TICKET_PRIORITY?.LOW,
     label: TICKET_PRIORITY?.LOW,
@@ -56,7 +57,7 @@ export const ticketPriorityOptions = [
   },
 ];
 
-export const ticketImpactOptions = [
+export const ticketImpactOptions: AutocompleteOptionsDropdownI = [
   {
     _id: TICKET_IMPACT?.LOW,
     label: TICKET_IMPACT?.LOW,
@@ -70,18 +71,27 @@ export const ticketImpactOptions = [
     label: TICKET_IMPACT?.HIGH,
   },
 ];
-export const ticketCategoryOptions = [
+export const ticketCategoryOptions: string[] = [
   TICKET_CATEGORY?.SOFTWARE,
   TICKET_CATEGORY?.HARDWARE,
   TICKET_CATEGORY?.NETWORK,
   TICKET_CATEGORY?.OFFICE_APPLICATION,
   TICKET_CATEGORY?.OFFICE_FURNITURE,
 ];
-export const ticketTypeOptions = [TICKET_TYPE?.INC, TICKET_TYPE?.SR];
-export const ticketsSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
-export const ticketImpact = ['LOW', 'MEDIUM', 'HIGH'];
+export const ticketTypeOptions: string[] = [TICKET_TYPE?.INC, TICKET_TYPE?.SR];
+export const ticketsSourceOptions: string[] = [
+  TICKET_SOURCE?.PHONE,
+  TICKET_SOURCE?.EMAIL,
+  TICKET_SOURCE?.PORTAL,
+  TICKET_SOURCE?.CHAT,
+];
+export const ticketImpact: string[] = [
+  TICKET_IMPACT?.LOW,
+  TICKET_IMPACT?.MEDIUM,
+  TICKET_IMPACT?.HIGH,
+];
 
-export const ticketSourceOptions = [
+export const ticketSourceOptions: AutocompleteOptionsDropdownI = [
   {
     _id: TICKET_SOURCE?.PHONE,
     label: TICKET_SOURCE?.PHONE,
@@ -100,7 +110,7 @@ export const ticketSourceOptions = [
   },
 ];
 
-export const ticketsTypeOptions = [
+export const ticketsTypeOptions: AutocompleteOptionsDropdownI = [
   {
     _id: TICKET_TYPE?.INC,
     label: TICKET_TYPES?.INCIDENTS,

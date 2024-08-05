@@ -76,7 +76,10 @@ export const useReportLists = (props: ReportsListsPropsI) => {
 
     try {
       await lazyGetReportsListTrigger?.(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+      setSelectedReportLists([]);
+    } catch (error: any) {
+      setSelectedReportLists([]);
+    }
   };
 
   useEffect(() => {

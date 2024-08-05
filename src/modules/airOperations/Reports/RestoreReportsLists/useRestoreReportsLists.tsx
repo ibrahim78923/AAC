@@ -51,7 +51,10 @@ export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
 
     try {
       await lazyGetRestoreReportsListTrigger?.(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+      setSelectedReportLists([]);
+    } catch (error: any) {
+      setSelectedReportLists([]);
+    }
   };
 
   useEffect(() => {

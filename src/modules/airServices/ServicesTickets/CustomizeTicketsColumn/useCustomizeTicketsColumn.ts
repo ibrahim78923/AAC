@@ -1,9 +1,11 @@
 import usePath from '@/hooks/usePath';
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useCustomizeTicketColumn = (props: any) => {
+export const useCustomizeTicketColumn = (
+  props: TicketActionComponentPropsI,
+) => {
   const {
     ticketsListsColumnPersist,
     setIsDrawerOpen,
@@ -11,7 +13,6 @@ export const useCustomizeTicketColumn = (props: any) => {
     ticketsListsActiveColumn,
   } = props;
 
-  const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
@@ -46,6 +47,5 @@ export const useCustomizeTicketColumn = (props: any) => {
     checkboxHandler,
     customizeColumn,
     ticketsListsColumnPersist,
-    theme,
   };
 };

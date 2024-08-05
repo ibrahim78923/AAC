@@ -5,8 +5,9 @@ import { ChatEditor } from './ChatEditor';
 import { useState } from 'react';
 import { DeleteMessage } from './DeleteMessage';
 import { Close } from '@mui/icons-material';
+import { OpenConversationTypeContextPropsI } from '../Conversation.interface';
 
-export const Discuss = (props: any) => {
+export const Discuss = (props: OpenConversationTypeContextPropsI) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const [selectedMessage, setSelectedMessage] = useState<any>({});
 
@@ -16,7 +17,7 @@ export const Discuss = (props: any) => {
         anchor="right"
         open={isDrawerOpen}
         onClose={() => {
-          setIsDrawerOpen();
+          setIsDrawerOpen({});
           setSelectedMessage?.({});
         }}
         sx={{
@@ -76,7 +77,7 @@ export const Discuss = (props: any) => {
             <Close
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setIsDrawerOpen();
+                setIsDrawerOpen({});
                 setSelectedMessage?.({});
               }}
             />

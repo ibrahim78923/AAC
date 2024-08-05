@@ -1,6 +1,7 @@
 import TanstackTable from '@/components/Table/TanstackTable';
+import { TicketTableViewPropsI } from '../TicketsLists.interface';
 
-export const TicketsTableView = (props: any) => {
+export const TicketsTableView = (props: TicketTableViewPropsI) => {
   const {
     ticketsListsColumn,
     ticketListsData,

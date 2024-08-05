@@ -26,7 +26,7 @@ export const useSinglePurchaseDetail = () => {
 
     try {
       await putPurchaseOrderStatusTrigger(orderedStatusParams)?.unwrap();
-      successSnackbar('purchase was sent for Approval');
+      successSnackbar('Order successfully placed');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

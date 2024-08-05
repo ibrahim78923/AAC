@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
@@ -15,12 +14,13 @@ import {
 } from './FilterTickets.data';
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useFilterTickets = (props: any) => {
+export const useFilterTickets = (props: TicketActionComponentPropsI) => {
   const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists, setPage } =
     props;
   const router = useRouter();
-  const theme: any = useTheme();
+
   const { makePath } = usePath();
 
   const methods: any = useForm({
@@ -75,12 +75,10 @@ export const useFilterTickets = (props: any) => {
 
   return {
     ticketsFilterFormFieldsData,
-    router,
-    theme,
     methods,
     handleSubmit,
     submitTicketFilterForm,
-    resetTicketFilterForm,
     onClose,
+    resetTicketFilterForm,
   };
 };

@@ -4,8 +4,9 @@ import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CommonDrawer from '@/components/CommonDrawer';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const TicketsBulkUpdate = (props: any) => {
+export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
   const { isDrawerOpen } = props;
   const {
     ticketsBulkUpdateFormFields,

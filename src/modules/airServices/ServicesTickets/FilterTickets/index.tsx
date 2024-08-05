@@ -2,8 +2,9 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useFilterTickets } from './useFilterTickets';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const FilterTickets = (props: any) => {
+export const FilterTickets = (props: TicketActionComponentPropsI) => {
   const { isDrawerOpen } = props;
   const {
     ticketsFilterFormFieldsData,

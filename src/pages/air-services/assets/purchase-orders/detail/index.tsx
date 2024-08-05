@@ -1,4 +1,4 @@
-import { Permissions } from '@/constants/permissions';
+import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 import Layout from '@/layout';
 import { SinglePurchaseOrderDetail } from '@/modules/airServices/Assets/PurchaseOrders/SinglePurchaseOrderDetails';
 const SinglePurchaseOrderDetailPage = () => {
@@ -8,7 +8,9 @@ const SinglePurchaseOrderDetailPage = () => {
 SinglePurchaseOrderDetailPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={Permissions?.AIR_SERVICES_ASSETS_PURCHASE_ORDER_LIST_VIEW}
+      permissions={[
+        AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.VIEW_PURCAHSE_ORDER_DETAILS,
+      ]}
     >
       {page}
     </Layout>

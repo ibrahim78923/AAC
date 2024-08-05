@@ -113,11 +113,11 @@ export const billingData = [
 ];
 
 export const itemsDetailsColumnsList = [
-  { label: 'Item Name', value: 'itemName' },
-  { label: 'Description', value: 'description' },
-  { label: 'Cost Per Item', value: 'costPerItem' },
-  { label: 'Quantity', value: 'quantity' },
-  { label: 'Tax Rate(%)', value: 'taxRate' },
-  { label: 'Total()', value: 'total' },
+  { label: 'Item Name *', value: 'itemName' },
+  { label: 'Description *', value: 'description' },
+  { label: 'Cost Per Item *', value: 'costPerItem' },
+  { label: 'Quantity *', value: 'quantity' },
+  { label: 'Tax Rate(%) *', value: 'taxRate' },
+  { label: 'Total() *', value: 'total' },
   { label: 'Action', value: 'action' },
 ];

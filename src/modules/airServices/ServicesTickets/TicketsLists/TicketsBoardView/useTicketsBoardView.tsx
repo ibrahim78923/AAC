@@ -3,8 +3,10 @@ import { buildQueryParams } from '@/utils/api';
 import { neglectKeysInLoop } from '../../FilterTickets/FilterTickets.data';
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
+import { TicketBoardViewPropsI } from '../TicketsLists.interface';
 
-export const useTicketsBoardView = ({ search, filterTicketLists }: any) => {
+export const useTicketsBoardView = (props: TicketBoardViewPropsI) => {
+  const { search, filterTicketLists } = props;
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 

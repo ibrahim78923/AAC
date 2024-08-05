@@ -13,13 +13,14 @@ import {
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useMoveTickets = (props: any) => {
+export const useMoveTickets = (props: TicketActionComponentPropsI) => {
   const router = useRouter();
   const { makePath } = usePath();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
   const {
-    setIsMoveTicketsModalOpen,
+    setIsDrawerOpen,
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
@@ -75,7 +76,7 @@ export const useMoveTickets = (props: any) => {
     );
     reset();
     setSelectedTicketList([]);
-    setIsMoveTicketsModalOpen?.(false);
+    setIsDrawerOpen?.(false);
   };
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();

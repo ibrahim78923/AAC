@@ -7,8 +7,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 
-export const UpsertTasks = (props: any) => {
+export const UpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
   const { isPortalOpen } = props;
 
   const {
@@ -27,13 +28,13 @@ export const UpsertTasks = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isUpsert}
+        isDrawerOpen={isPortalOpen?.isUpsert as boolean}
         onClose={() => handleCloseDrawer?.()}
-        title={TITLE_FORM_USER?.[isPortalOpen?.type]}
+        title={TITLE_FORM_USER?.[isPortalOpen?.type as string]}
         submitHandler={() => handleSubmit?.(submitUpsertTicketTasks)()}
         footer
         isOk
-        okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.type]}
+        okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.type as string]}
         isLoading={
           postTicketTasksStatus?.isLoading ||
           patchTicketTasksStatus?.isLoading ||

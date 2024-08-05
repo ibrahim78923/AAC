@@ -24,8 +24,11 @@ import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { findAttributeValues } from '@/utils/file';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
+import { OpenConversationTypeContextPropsI } from '../Conversation.interface';
 
-export const useUpsertConversation = (props: any) => {
+export const useUpsertConversation = (
+  props: OpenConversationTypeContextPropsI,
+) => {
   const [selectedResponseType, setSelectedResponseType] = useState<any>({});
   const { setIsDrawerOpen, selectedConversationType, refetch } = props;
   const theme = useTheme();
@@ -127,7 +130,7 @@ export const useUpsertConversation = (props: any) => {
     }
   };
   const closeConversationDrawer = () => {
-    setIsDrawerOpen?.();
+    setIsDrawerOpen?.({});
     reset?.();
   };
 

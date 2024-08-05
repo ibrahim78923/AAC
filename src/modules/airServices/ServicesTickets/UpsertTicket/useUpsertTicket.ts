@@ -12,11 +12,11 @@ import { useEffect, useState } from 'react';
 import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
-  useLazyGetAgentDropdownQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAssociateAssetsDropdownForTicketsQuery,
+  useLazyGetCategoriesDropdownForTicketsQuery,
+  useLazyGetDepartmentDropdownForTicketsQuery,
+  useLazyGetRequesterDropdownForTicketsQuery,
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
@@ -36,8 +36,9 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useUpsertTicket = (props: any) => {
+export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
   const {
     setIsDrawerOpen,
     ticketId,
@@ -271,11 +272,12 @@ export const useUpsertTicket = (props: any) => {
     setIsDrawerOpen?.(false);
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownForTicketsQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
+  const apiQueryAssociateAsset =
+    useLazyGetAssociateAssetsDropdownForTicketsQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownForTicketsQuery();
 
   const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
     apiQueryRequester,
