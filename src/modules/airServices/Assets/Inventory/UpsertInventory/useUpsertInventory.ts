@@ -122,7 +122,6 @@ export const useUpsertInventory = () => {
         : null,
     usedByDetails: filledFormValues?.usedBy ?? null,
     fileUrl: null,
-    ...data?.data?.[ARRAY_INDEX?.ZERO],
   };
 
   const prevAssetTypeWatch = useRef(assetTypeWatch);

@@ -15,14 +15,14 @@ export const accountSettings = [
   {
     id: 2,
     avatar: MarkEmailUnreadIcon,
-    type: 'Email Notification',
+    type: 'Email Notifications',
     link: AIR_SERVICES?.EMAIL_NOTIFICATION_SETTINGS,
     permissions: Permissions?.AIR_SERVICES_SETTINGS_EMAIL_NOTIFICATIONS,
   },
   {
     id: 3,
     avatar: SettingsIcon,
-    type: 'Manage Portal Setting',
+    type: 'Manage Portal Settings',
     link: AIR_SERVICES?.MANAGE_PORTAL_SETTINGS,
     permissions: Permissions?.AIR_SERVICES_SETTINGS_MANAGE_PORTAL_SETTINGS,
   },

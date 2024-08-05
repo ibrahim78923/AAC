@@ -82,11 +82,15 @@ export const contractsListsColumnsFunction = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.contractType,
-    id: 'contractType',
+    accessorFn: (row: any) => row?.contractTypeData?.name,
+    id: 'contractTypeData.name',
     header: 'Type',
     isSortable: false,
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant={'body1'} textTransform={'capitalize'}>
+        {truncateText(info?.getValue())}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,

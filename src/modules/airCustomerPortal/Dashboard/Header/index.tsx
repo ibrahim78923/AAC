@@ -51,22 +51,19 @@ export const Header = () => {
             gap: 2.4,
           }}
         >
-          {user?.role === ROLES?.ORG_EMPLOYEE ||
-            (user?.role === ROLES?.ORG_ADMIN && (
-              <Button
-                variant="outlined"
-                color="secondary"
-                startIcon={
-                  <ArrowBackIcon
-                    color={'secondary'}
-                    sx={{ cursor: 'pointer' }}
-                  />
-                }
-                onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
-              >
-                Revert
-              </Button>
-            ))}
+          {(user?.role === ROLES?.ORG_EMPLOYEE ||
+            user?.role === ROLES?.ORG_ADMIN) && (
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={
+                <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
+              }
+              onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+            >
+              Revert
+            </Button>
+          )}
           <Button
             id="demo-customized-button"
             aria-controls={open ? 'demo-customized-menu' : undefined}

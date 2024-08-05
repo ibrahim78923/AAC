@@ -156,7 +156,7 @@ export const useUpsertAgent = (props: any) => {
       };
 
       if (selectedAgentList?.length) {
-        updateAgent?.(body);
+        updateAgent?.(payload);
         return;
       }
 
@@ -172,7 +172,6 @@ export const useUpsertAgent = (props: any) => {
     delete formData?.email;
     const body = {
       ...formData,
-      permissionsRole: formData?.permissionsRole?._id,
       id: selectedAgentList?.[ARRAY_INDEX?.ZERO]?._id,
     };
 

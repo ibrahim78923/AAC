@@ -30,10 +30,10 @@ export const contractTypeAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteContractType: builder.mutation({
-      query: (body: any) => ({
+      query: (params: any) => ({
         url: END_POINTS?.CONTRACT_TYPE_SERVICES_SETTINGS,
         method: 'DELETE',
-        body,
+        params,
       }),
       invalidatesTags: [TAG],
     }),

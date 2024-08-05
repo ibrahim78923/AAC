@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
+import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 
 export const overviewData = ({
@@ -12,12 +13,14 @@ export const overviewData = ({
     detailsData: [
       { name: 'Contact Number', detail: contractData?.contractNumber ?? '--' },
       { name: 'Vendor', detail: contractData?.vendor?.name ?? '--' },
-      { name: 'Type', detail: contractData?.contractType ?? '--' },
+      { name: 'Type', detail: contractData?.contractTypeData?.name ?? '--' },
       { name: 'Status', detail: contractData?.status ?? '--' },
       { name: 'Cost', detail: contractData?.cost ?? '--' },
       {
         name: 'Approver',
-        detail: `${approverName?.firstName} ${approverName?.lastName}` ?? '--',
+        detail: `${approverName?.firstName ?? '---'} ${
+          approverName?.lastName ?? ''
+        }`,
       },
       {
         name: 'Validity',
@@ -50,3 +53,16 @@ export const overviewData = ({
     ],
   },
 ];
+
+export const overviewDataArray = (data: any) => {
+  const customFields =
+    data?.customFields &&
+    typeof data?.customFields === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT
+      ? Object?.keys(data?.customFields)?.reduce((acc: any, key: any) => {
+          acc[key] = data?.customFields[key] ?? '---';
+          return acc;
+        }, {})
+      : {};
+
+  return { ...customFields };
+};

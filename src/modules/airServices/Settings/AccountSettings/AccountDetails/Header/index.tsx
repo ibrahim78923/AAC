@@ -49,7 +49,7 @@ export const Header = (props: any) => {
               });
             }}
           />
-          <Typography variant="h5">Account Detail</Typography>
+          <Typography variant="h5">Account Details</Typography>
         </Box>
       </Box>
       <PermissionsGuard

@@ -11,42 +11,23 @@ import { Box, Typography } from '@mui/material';
 import {
   BILLING_CYCLE,
   CONTRACT_STATUS,
-  CONTRACT_TYPES,
   LICENSE_TYPE,
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
+import { DATE_FORMAT } from '@/constants';
 
-const todayDate = dayjs()?.format('MM/DD/YYYY');
+export const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
-
-export const contractTypeOptions = [
-  {
-    _id: CONTRACT_TYPES?.LEASE,
-    label: CONTRACT_TYPES?.LEASE,
-  },
-  {
-    _id: CONTRACT_TYPES?.MAINTENANCE,
-    label: CONTRACT_TYPES?.MAINTENANCE,
-  },
-  {
-    _id: CONTRACT_TYPES?.SOFTWARE_LICENSE,
-    label: 'SOFTWARE_LICENSE',
-  },
-  {
-    _id: CONTRACT_TYPES?.WARRANTY,
-    label: CONTRACT_TYPES?.WARRANTY,
-  },
-];
+export const CONTRACT_TYPES_CHECK = {
+  LEASE: 'lease',
+  MAINTENANCE: 'maintenance',
+  SOFTWARE_LICENSE: 'software licences',
+  WARRANTY: 'warranty',
+};
 
 export const contractStatusOptions = [
   {
@@ -140,16 +121,16 @@ export const softwareLicense = {
   licenseType: null,
   licenseKey: '',
 };
-export const upsertContractFormDefaultValuesFunction = (data?: any) => {
+export const upsertContractFormDefaultValuesFunction = (
+  data?: any,
+  form?: any,
+) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
     contractName: data?.name ?? '',
     contractNumber: data?.contractNumber ?? '',
-    type: data?.contractType
-      ? contractTypeOptions?.find(
-          (contractTypeOption: any) =>
-            contractTypeOption?._id === data?.contractType,
-        )
-      : null,
+    type: data?.contractTypeData ?? null,
     associateAssets: data?.associatedAsset ?? null,
     cost: data?.cost ?? 0,
     status: data?.status
@@ -187,107 +168,118 @@ export const upsertContractFormDefaultValuesFunction = (data?: any) => {
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
     software: data?.software ?? softwareLicense?.software,
     attachFile: null,
+    ...initialValues,
   };
 };
 
-export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
-  contractName: Yup?.string()?.required('Required'),
-  contractNumber: Yup?.string(),
-  type: Yup?.mixed()?.nullable()?.required('Required'),
-  associateAssets: Yup?.mixed()
-    ?.nullable()
-    ?.when('type', {
-      is: (y: any) => y?._id !== CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
-  cost: Yup?.string(),
-  status: Yup?.mixed()?.nullable()?.required('Required'),
-  vendor: Yup?.mixed()?.nullable(),
-  approver: Yup?.mixed()?.nullable(),
-  startDate: Yup?.date(),
-  endDate: Yup?.date(),
-  autoRenew: Yup?.boolean(),
-  notifyExpiry: Yup?.boolean(),
-  notifyBefore: Yup?.string()
-    ?.trim()
-    ?.ensure()
-    ?.when('notifyExpiry', {
-      is: (value: any) => value,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-  notifyTo: Yup?.mixed()
-    ?.nullable()
-    ?.when('notifyExpiry', {
-      is: (value: any) => value,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
-  software: Yup?.mixed()
-    ?.nullable()
-    ?.when('type', {
-      is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
+export const upsertContractFormSchemaFunction: any = (form?: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-  billingCycle: Yup?.mixed()
-    ?.nullable()
-    ?.when('type', {
-      is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-  licenseType: Yup?.mixed()
-    ?.nullable()
-    ?.when('type', {
-      is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-  licenseKey: Yup?.string()
-    ?.ensure()
-    ?.when('type', {
-      is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) =>
-        schema
-          ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
-          ?.required('Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
-  itemDetail: Yup?.array()
-    ?.of(
-      Yup?.object()?.shape({
-        serviceName: Yup?.string(),
-        priceModel: Yup?.mixed()?.nullable(),
-        cost: Yup?.number(),
-        count: Yup?.number(),
-        comments: Yup?.string(),
+  return Yup?.object()?.shape({
+    contractName: Yup?.string()?.required('Required'),
+    contractNumber: Yup?.string(),
+    type: Yup?.mixed()?.nullable()?.required('Required'),
+    associateAssets: Yup?.mixed()
+      ?.nullable()
+      ?.when('type', {
+        is: (y: any) => y?.name !== CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
       }),
-    )
-    ?.when('type', {
-      is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: () => {
-        return Yup?.array()
-          ?.of(
-            Yup?.object()?.shape({
-              serviceName: Yup?.string()?.required('Required'),
-              priceModel: Yup?.mixed()?.nullable()?.required('Required'),
-              cost: Yup?.number()
-                ?.positive('Greater than zero')
-                ?.typeError('Not a number'),
-              count: Yup?.number()
-                ?.positive('Greater than zero')
-                ?.typeError('Not a number'),
-              comments: Yup?.string(),
-            }),
-          )
-          ?.min(1, 'At least one item is required');
-      },
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
-});
+    cost: Yup?.string(),
+    status: Yup?.mixed()?.nullable()?.required('Required'),
+    vendor: Yup?.mixed()?.nullable(),
+    approver: Yup?.mixed()?.nullable(),
+    startDate: Yup?.date(),
+    endDate: Yup?.date(),
+    autoRenew: Yup?.boolean(),
+    notifyExpiry: Yup?.boolean(),
+    notifyBefore: Yup?.string()
+      ?.trim()
+      ?.ensure()
+      ?.when('notifyExpiry', {
+        is: (value: any) => value,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema) => schema?.notRequired(),
+      }),
+    notifyTo: Yup?.mixed()
+      ?.nullable()
+      ?.when('notifyExpiry', {
+        is: (value: any) => value,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
+    software: Yup?.mixed()
+      ?.nullable()
+      ?.when('type', {
+        is: (value: any) =>
+          value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema) => schema?.notRequired(),
+      }),
+
+    billingCycle: Yup?.mixed()
+      ?.nullable()
+      ?.when('type', {
+        is: (value: any) =>
+          value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema) => schema?.notRequired(),
+      }),
+    licenseType: Yup?.mixed()
+      ?.nullable()
+      ?.when('type', {
+        is: (value: any) =>
+          value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema) => schema?.notRequired(),
+      }),
+    licenseKey: Yup?.string()
+      ?.ensure()
+      ?.when('type', {
+        is: (value: any) =>
+          value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+        then: (schema: any) =>
+          schema
+            ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
+            ?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
+    itemDetail: Yup?.array()
+      ?.of(
+        Yup?.object()?.shape({
+          serviceName: Yup?.string(),
+          priceModel: Yup?.mixed()?.nullable(),
+          cost: Yup?.number(),
+          count: Yup?.number(),
+          comments: Yup?.string(),
+        }),
+      )
+      ?.when('type', {
+        is: (value: any) =>
+          value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+        then: () => {
+          return Yup?.array()
+            ?.of(
+              Yup?.object()?.shape({
+                serviceName: Yup?.string()?.required('Required'),
+                priceModel: Yup?.mixed()?.nullable()?.required('Required'),
+                cost: Yup?.number()
+                  ?.positive('Greater than zero')
+                  ?.typeError('Not a number'),
+                count: Yup?.number()
+                  ?.positive('Greater than zero')
+                  ?.typeError('Not a number'),
+                comments: Yup?.string(),
+              }),
+            )
+            ?.min(1, 'At least one item is required');
+        },
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
+    ...formSchema,
+  });
+};
 
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
@@ -298,6 +290,7 @@ export const upsertContractFormFieldsDataFunction = (
   apiQuerySoftware: any,
   contractId: any,
   productId: any,
+  apiContractType: any,
 ) => [
   {
     id: 1,
@@ -314,7 +307,6 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFTextField,
     md: 6,
     componentProps: {
-      fullWidth: true,
       name: 'contractName',
       label: 'Contract Name',
       required: true,
@@ -323,25 +315,25 @@ export const upsertContractFormFieldsDataFunction = (
   {
     id: 4,
     componentProps: {
-      fullWidth: true,
       name: 'type',
       label: 'Type',
-      options: contractTypeOptions,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: apiContractType,
       required: true,
       disabled: !!contractId,
+      externalParams: { meta: false },
     },
     md: 6,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 5,
     componentProps: {
-      fullWidth: true,
       name: 'associateAssets',
       label: 'Associate Assets',
-      required: watchForContractType?._id !== CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      disabled: watchForContractType?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      required:
+        watchForContractType?.name !== CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
+      disabled:
+        watchForContractType?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
       apiQuery: apiQueryAsset,
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.displayName,
@@ -352,7 +344,6 @@ export const upsertContractFormFieldsDataFunction = (
   {
     id: 6,
     componentProps: {
-      fullWidth: true,
       name: 'status',
       label: 'Status',
       options: contractStatusOptions,
@@ -368,7 +359,6 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFTextField,
     md: 6,
     componentProps: {
-      fullWidth: true,
       name: 'cost',
       label: 'Cost (£)',
     },
@@ -378,7 +368,6 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFAutocompleteAsync,
     md: 6,
     componentProps: {
-      fullWidth: true,
       name: 'approver',
       label: 'Approver',
       apiQuery: apiQueryApprover,
@@ -390,7 +379,6 @@ export const upsertContractFormFieldsDataFunction = (
   {
     id: 9,
     componentProps: {
-      fullWidth: true,
       name: 'vendor',
       label: 'Vendor',
       apiQuery: apiQueryVendor,
@@ -479,7 +467,6 @@ export const upsertContractFormFieldsDataFunction = (
           component: RHFTextField,
           md: 6,
           componentProps: {
-            fullWidth: true,
             name: 'notifyBefore',
             label: 'Notify Before',
             required: true,
@@ -490,7 +477,6 @@ export const upsertContractFormFieldsDataFunction = (
           component: RHFAutocompleteAsync,
           md: 6,
           componentProps: {
-            fullWidth: true,
             name: 'notifyTo',
             label: 'Notify To',
             required: true,
@@ -501,7 +487,7 @@ export const upsertContractFormFieldsDataFunction = (
         },
       ]
     : []),
-  ...(watchForContractType?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE
+  ...(watchForContractType?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE
     ? [
         {
           id: 17,
@@ -518,7 +504,6 @@ export const upsertContractFormFieldsDataFunction = (
           component: RHFAutocompleteAsync,
           md: 6,
           componentProps: {
-            fullWidth: true,
             name: 'software',
             label: 'Software',
             required: true,
@@ -541,7 +526,6 @@ export const upsertContractFormFieldsDataFunction = (
           component: RHFAutocomplete,
           md: 6,
           componentProps: {
-            fullWidth: true,
             name: 'billingCycle',
             label: 'Billing Cycle',
             required: true,
@@ -564,7 +548,6 @@ export const upsertContractFormFieldsDataFunction = (
           component: RHFAutocomplete,
           md: 6,
           componentProps: {
-            fullWidth: true,
             name: 'licenseType',
             label: 'License Type',
             required: true,
@@ -577,7 +560,6 @@ export const upsertContractFormFieldsDataFunction = (
           component: RHFTextField,
           md: 6,
           componentProps: {
-            fullWidth: true,
             name: 'licenseKey',
             label: 'License Key',
             required: true,
