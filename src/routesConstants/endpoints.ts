@@ -207,6 +207,7 @@ export const END_POINTS = {
   AUTH_ACCOUNTS: '/auth/accounts',
   AUTH_ACCOUNTS_SELECT: '/auth/accounts/select',
   AUTH_MY_ACCOUNT: '/auth/me',
+  EMAIL_EXIST: '/users/email/exist',
   ASSETS_SOFTWARE: '/assets/get-software',
   SOFTWARE_OVERVIEW: '/assets/software_overview',
   SOFTWARE_CONTRACT_UTILIZATION: '/assets/software-contract-utilization',

@@ -50,8 +50,8 @@ export const columns: any = (columnsProps: any) => {
           </Typography>
         </Box>
       );
-    } else if (attribute === 'owner.phoneNumber') {
-      return info?.row?.original?.owner?.phoneNumber ?? 'N/A';
+    } else if (attribute === 'owner.PhoneNumber') {
+      return info?.row?.original?.phone ?? 'N/A';
     } else if (attribute === 'owner.name' || attribute === 'owner') {
       const imgAlt = `${info?.row?.original?.owner?.name?.charAt(1)}`;
       return (

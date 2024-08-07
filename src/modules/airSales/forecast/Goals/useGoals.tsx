@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { useAppSelector } from '@/redux/store';
 import {
   useDeleteForecastGoalsMutation,
   useGetForecastGoalsQuery,
@@ -26,13 +27,17 @@ const useGoals = () => {
 
   const open = Boolean(anchorEl);
 
+  const filterData: any = useAppSelector(
+    (state) => state?.forecastForm?.filterValues,
+  );
+
   const {
     data: goalsData,
     isLoading,
     isError,
     isSuccess,
     isFetching,
-  } = useGetForecastGoalsQuery({ params: { ...Params } });
+  } = useGetForecastGoalsQuery({ params: { ...Params, ...filterData } });
 
   const handleClose = () => {
     setAnchorEl(null);

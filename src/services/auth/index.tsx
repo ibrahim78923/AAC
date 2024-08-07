@@ -91,6 +91,14 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['companies', 'ACCOUNTS', 'PERMISSIONS'],
     }),
+
+    getEmailCheck: builder.query({
+      query: ({ email }) => ({
+        url: `${END_POINTS?.EMAIL_EXIST}?email=${email}`,
+        method: 'GET',
+      }),
+      providesTags: ['auth'],
+    }),
   }),
 });
 
@@ -107,4 +115,5 @@ export const {
   useGetAuthMyAccountQuery,
   useAuthCompanyVerificationMutation,
   useChangePasswordMutation,
+  useGetEmailCheckQuery,
 } = authAPI;

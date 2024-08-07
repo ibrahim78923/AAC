@@ -6,13 +6,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import { Grid } from '@mui/material';
 import {
-  usersFilterArray,
+  forecastFilterArray,
   filterDefaultValues,
   filterValidationSchema,
 } from './GoalsDrawer.data';
+import { setFilterValues } from '@/redux/slices/forecast/forecastSlice';
+import { useDispatch } from 'react-redux';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const GoalsFilterDrawer = (props: any) => {
-  const { isOpenDrawer, onClose } = props;
+  const { isOpenDrawer, onClose, setIsFilterDrawer } = props;
+  const dispatch = useDispatch();
 
   const methods: any = useForm({
     resolver: yupResolver(filterValidationSchema),
@@ -21,7 +26,19 @@ const GoalsFilterDrawer = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {};
+  const onSubmit = async (values: any) => {
+    const filter: any = {};
+    if (values?.CloseDate) {
+      filter.closeDate = dayjs(values?.CloseDate).format(DATE_FORMAT?.API);
+    }
+
+    if (values?.pipeline) {
+      filter.pipeline = values?.pipeline;
+    }
+    await dispatch(setFilterValues(filter));
+    setIsFilterDrawer(false);
+  };
+
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -35,7 +52,7 @@ const GoalsFilterDrawer = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
-          {usersFilterArray?.map((item: any) => (
+          {forecastFilterArray()?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&

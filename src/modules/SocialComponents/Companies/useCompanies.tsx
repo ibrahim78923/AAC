@@ -78,7 +78,6 @@ const useCompanies = () => {
     const startEndDate = {
       dateStart: tab?.dateStart,
       dateEnd: tab?.dateEnd,
-      name: tab?.name,
     };
     // setDateRange(tab?.name === 'All Deals' ? {} : startEndDate);
     if (tab?.name === 'All Companies') {

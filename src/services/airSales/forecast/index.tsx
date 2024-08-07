@@ -35,7 +35,16 @@ export const forecastApi = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['INVOICE'],
+      invalidatesTags: TAG,
+    }),
+
+    patchGoal: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.GOALS}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
     }),
   }),
 });
@@ -45,4 +54,5 @@ export const {
   useDeleteForecastGoalsMutation,
   useGetSingleForecastGoalsQuery,
   usePostGoalMutation,
+  usePatchGoalMutation,
 } = forecastApi;

@@ -47,6 +47,7 @@ const SignUp = () => {
     isStepComplete,
     setIsStepComplete,
     isError,
+    isEmailError,
   } = useSignup();
 
   const products = productData?.data.map((product: any) => {
@@ -157,7 +158,7 @@ const SignUp = () => {
                                 ? setIsStepComplete(true)
                                 : setIsStepComplete(false)
                             }
-                            disabled={isError}
+                            disabled={isError || isEmailError}
                           >
                             Next
                           </Button>

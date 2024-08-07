@@ -10,21 +10,23 @@ import {
   useTheme,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  editGoalArray,
-  editGoalDefaultValues,
-  editGoalValidationSchema,
-} from './GoalTab.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { editGoalArray } from './GoalTab.data';
 import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from '@/assets/icons';
 import CommonModal from '@/components/CommonModal';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { ARRAY_INDEX } from '@/constants/strings';
 
-const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
+const GoalTab = ({
+  getOneGoal,
+  isLoading,
+  dealPipelineOption,
+  submitHandler,
+  setValue,
+  methods,
+}: any) => {
   const [isAddTargetModal, setIsAddTargetModal] = useState(false);
+  const [targetValue, setTargetValue] = useState('');
   const theme = useTheme();
 
   useEffect(() => {
@@ -36,14 +38,10 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
       const userFullNames = contributorDetails
         ?.map((user) => `${user.firstName} ${user.lastName}`)
         .join(', ');
-
-      reset({
-        name: goalName,
-        user: teamNames || userFullNames,
-        duration,
-        dealPipelines: targets[ARRAY_INDEX?.ZERO]?.pipelines?.name,
-      });
-
+      setValue('name', goalName);
+      setValue('user', teamNames || userFullNames);
+      setValue('duration', duration);
+      setValue('dealPipelines', targets[ARRAY_INDEX?.ZERO]?.pipelines?.name);
       if (targets?.length > 0) {
         const targetMonths = targets[ARRAY_INDEX?.ZERO]?.months;
         Object?.keys(targetMonths)?.forEach((monthKey) => {
@@ -51,7 +49,7 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
         });
       }
     }
-  }, [getOneGoal]);
+  }, [getOneGoal?.data]);
 
   const showMonth = getOneGoal?.data?.targets[0]?.months
     ? Object.keys(getOneGoal.data.targets[0].months)
@@ -59,14 +57,15 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
 
   const formFields = editGoalArray(showMonth, dealPipelineOption);
 
-  const methods: any = useForm({
-    resolver: yupResolver(editGoalValidationSchema),
-    defaultValues: editGoalDefaultValues,
-  });
+  // Handle modal submit
+  const handleModalSubmit = () => {
+    const numericTargetValue = Number(targetValue);
+    showMonth?.forEach((month) => {
+      setValue(month, numericTargetValue);
+    });
+    setIsAddTargetModal(false);
+  };
 
-  const { handleSubmit, reset, setValue } = methods;
-
-  const onSubmit = async () => {};
   return (
     <>
       {isLoading ? (
@@ -80,7 +79,7 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
           <CircularProgress />{' '}
         </Box>
       ) : (
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods} onSubmit={submitHandler}>
           <Grid container spacing={1}>
             {formFields?.map((item: any, index: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -159,7 +158,7 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
         open={isAddTargetModal}
         handleClose={() => setIsAddTargetModal(false)}
         handleCancel={() => setIsAddTargetModal(false)}
-        handleSubmit={() => setIsAddTargetModal(false)}
+        handleSubmit={handleModalSubmit}
         title="Apply this value to all targets in this row."
       >
         <Box>
@@ -175,6 +174,8 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
                 height: '12px',
               },
             }}
+            value={targetValue}
+            onChange={(e) => setTargetValue(e.target.value)}
           />
           <Box
             mt={2}
@@ -191,7 +192,7 @@ const GoalTab = ({ getOneGoal, isLoading, dealPipelineOption }: any) => {
             <Button
               variant="contained"
               type="submit"
-              onClick={() => setIsAddTargetModal(false)}
+              onClick={handleModalSubmit}
               sx={{ marginLeft: '10px' }}
             >
               Apply

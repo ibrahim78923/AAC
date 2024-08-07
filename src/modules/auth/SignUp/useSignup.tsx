@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import {
   useAuthCompanyVerificationMutation,
   useGetAuthCompaniesQuery,
+  useGetEmailCheckQuery,
   useSignUpMutation,
 } from '@/services/auth';
 import { debouncedSearch } from '@/utils';
@@ -13,6 +14,7 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { AUTH } from '@/constants';
+import { debounce } from 'lodash';
 
 const useSignup = () => {
   const { push } = useRouter();
@@ -48,13 +50,47 @@ const useSignup = () => {
   const organizationNumber = watch('crn');
   const email = watch('email');
 
+  const [emailExists, setEmailExists] = useState(email);
+
   const [orgNumber, setOrgNumber] = useState('');
 
   debouncedSearch(organizationNumber, setOrgNumber);
+
   const { data, isSuccess, isError } = useGetAuthCompaniesQuery(
     { q: orgNumber },
     { skip: orgNumber?.length < 3 },
   );
+
+  const { data: emailData, isError: isEmailError } = useGetEmailCheckQuery(
+    { email: emailExists },
+    { skip: !emailExists },
+  );
+
+  const validateEmailFormat = (email: any) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex?.test(email);
+  };
+
+  const [debouncedEmail, setDebouncedEmail] = useState(email);
+
+  const debounceEmail = debounce((value: any) => {
+    setDebouncedEmail(value);
+  }, 2000);
+
+  useEffect(() => {
+    debounceEmail(email);
+    return () => {
+      debounceEmail?.cancel();
+    };
+  }, [email]);
+
+  useEffect(() => {
+    if (validateEmailFormat(debouncedEmail)) {
+      setEmailExists(debouncedEmail);
+    } else {
+      setEmailExists('');
+    }
+  }, [debouncedEmail]);
 
   const [signUpValue, { isLoading }] = useSignUpMutation();
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
@@ -121,6 +157,14 @@ const useSignup = () => {
   });
 
   useEffect(() => {
+    if (isEmailError) {
+      enqueueSnackbar('Email already exists', {
+        variant: 'error',
+      });
+    }
+  }, [emailData, isEmailError]);
+
+  useEffect(() => {
     if (isError) {
       enqueueSnackbar('Please enter correct Organization Number', {
         variant: 'error',
@@ -144,6 +188,8 @@ const useSignup = () => {
     isStepComplete,
     setIsStepComplete,
     isError,
+    isEmailError,
+    email,
   };
 };
 
