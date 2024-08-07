@@ -51,7 +51,7 @@ const Dashboard = () => {
           <Typography component="span" variant="h4">
             Hi {user?.firstName ?? '---'}!
           </Typography>{' '}
-          Happy to See You again
+          Happy to see you again
         </Typography>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <PermissionsGuard

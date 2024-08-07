@@ -1,40 +1,25 @@
-import { useState } from 'react';
-import { useGetCustomerAnnouncementQuery } from '@/services/airServices/dashboard';
+import { useEffect } from 'react';
 import { PAGINATION } from '@/config';
-import { useRouter } from 'next/router';
 
 export const useAnnouncementList = (props: any) => {
-  const { setIsPortalOpen } = props;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
-  const router = useRouter();
-  const getCustomerAnnouncementApiParameter = {
-    queryParams: {
-      page: page,
-      limit: pageLimit,
-    },
-  };
-
-  const { data, isLoading, isFetching, isError } =
-    useGetCustomerAnnouncementQuery(getCustomerAnnouncementApiParameter, {
-      refetchOnMountOrArgChange: true,
-    });
+  const {
+    setIsPortalOpen,
+    page,
+    setPage,
+    pageLimit,
+    getCustomerAnnouncementData,
+  } = props;
 
   const onClose = () => {
     setIsPortalOpen({});
-    setPage(PAGINATION?.CURRENT_PAGE);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
   };
 
+  useEffect(() => {
+    getCustomerAnnouncementData();
+  }, [page, pageLimit]);
+
   return {
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    router,
-    setPageLimit,
-    pageLimit,
-    page,
     setPage,
     onClose,
   };

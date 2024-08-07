@@ -9,17 +9,16 @@ import CustomPagination from '@/components/CustomPagination';
 import { useAnnouncementList } from './useAnnouncementList';
 
 export const AnnouncementList = (props: any) => {
-  const { isPortalOpen } = props;
-
   const {
-    data,
-    isLoading,
-    isFetching,
-    isError,
+    isPortalOpen,
+    dropdownAnnouncementsOptions,
+    lazyGetCustomerAnnouncementStatus,
     setPageLimit,
     setPage,
-    onClose,
-  } = useAnnouncementList?.(props);
+  } = props;
+
+  const { onClose } = useAnnouncementList?.(props);
+
   return (
     <CommonDrawer
       title="Announcements"
@@ -28,25 +27,38 @@ export const AnnouncementList = (props: any) => {
       isOk
       okText=""
     >
-      {isLoading || isFetching ? (
+      {lazyGetCustomerAnnouncementStatus?.isLoading ||
+      lazyGetCustomerAnnouncementStatus?.isFetching ? (
         <SkeletonForm />
-      ) : isError ? (
+      ) : lazyGetCustomerAnnouncementStatus?.isError ? (
         <ApiErrorState />
       ) : (
         <Box my="0.75rem">
-          {!!data?.annoucements?.length ? (
+          {!!lazyGetCustomerAnnouncementStatus?.data?.annoucements?.length ? (
             <>
-              {data?.annoucements?.map((announcement: any, index: number) => (
-                <Fragment key={announcement?._id}>
-                  <AnnouncementCard data={announcement} index={index} />
-                </Fragment>
-              ))}
+              {lazyGetCustomerAnnouncementStatus?.data?.annoucements?.map(
+                (announcement: any, index: number) => (
+                  <Fragment key={announcement?._id}>
+                    <AnnouncementCard
+                      dropdownAnnouncementsOptions={dropdownAnnouncementsOptions?.(
+                        announcement,
+                      )}
+                      data={announcement}
+                      index={index}
+                    />
+                  </Fragment>
+                ),
+              )}
               <br />
               <CustomPagination
-                count={data?.meta?.pages}
-                pageLimit={data?.meta?.limit}
-                currentPage={data?.meta?.page}
-                totalRecords={data?.meta?.total}
+                count={lazyGetCustomerAnnouncementStatus?.data?.meta?.pages}
+                pageLimit={lazyGetCustomerAnnouncementStatus?.data?.meta?.limit}
+                currentPage={
+                  lazyGetCustomerAnnouncementStatus?.data?.meta?.page
+                }
+                totalRecords={
+                  lazyGetCustomerAnnouncementStatus?.data?.meta?.total
+                }
                 onPageChange={(page: any) => setPage?.(page)}
                 setPage={setPage}
                 setPageLimit={setPageLimit}

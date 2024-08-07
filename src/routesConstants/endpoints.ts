@@ -485,6 +485,7 @@ export const END_POINTS = {
   CONTRACT_TYPE_SERVICES_SETTINGS: `/contract-type`,
   GET_MEETINGS_SLOTS: '/meeting-time-slots/suggested-time-slots',
   GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
+  EXPORT_GENERIC_REPORTS: `/generic-reports/export-reports`,
 };
 
 export const LEAD_CAPTURE_FORM = {

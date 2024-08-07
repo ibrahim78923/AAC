@@ -1,6 +1,4 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import React from 'react';
-
 import { Alert } from '@mui/material';
 import { useReceivedItems } from './useReceivedItems';
 import {
@@ -18,6 +16,9 @@ import {
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { pxToRem } from '@/utils/getFontValue';
+
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
 
@@ -29,7 +30,9 @@ export const ReceivedItems = (props: any) => {
     control,
     method,
     isLoading,
-    patchIsLoading,
+    patchAddToItemStatus,
+    isFetching,
+    isError,
   } = useReceivedItems(props);
 
   return (
@@ -40,33 +43,37 @@ export const ReceivedItems = (props: any) => {
       }}
       title="Receive items"
       submitHandler={() => handleSubmit(submitHandler)()}
-      footer={true}
-      isOk={true}
+      footer
+      isOk
       okText="Receive"
-      isLoading={patchIsLoading}
+      isLoading={patchAddToItemStatus?.isLoading}
+      isDisabled={patchAddToItemStatus?.isLoading}
+      disabledCancelBtn={patchAddToItemStatus?.isLoading}
     >
       <>
         {!!errorOccurred && (
-          <Alert severity="error" style={{ marginBottom: '10px' }}>
+          <Alert severity="error" style={{ marginBottom: pxToRem(10) }}>
             The received item quantity should not exceed the pending item
             quantity
           </Alert>
         )}
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <SkeletonTable />
+        ) : isError ? (
+          <ApiErrorState />
         ) : (
           <FormProvider methods={method}>
             <TableContainer>
-              <Table sx={{ minWidth: '100px' }}>
+              <Table sx={{ minWidth: pxToRem(100) }}>
                 <TableHead>
                   <TableRow>
-                    {itemDetailColumns?.map((column: any) => (
+                    {itemDetailColumns?.map((column: string) => (
                       <TableCell key={column}>{column}</TableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {fields?.map((item: any, index: any) => (
+                  {fields?.map((item: any, index: number) => (
                     <TableRow key={item?.id}>
                       {itemDetailFormFieldsFunction?.(
                         control,
@@ -74,7 +81,7 @@ export const ReceivedItems = (props: any) => {
                         fields,
                         index,
                       )?.map((singleField: any) => (
-                        <TableCell key={item?.id}>
+                        <TableCell key={singleField?.id}>
                           {singleField?.data}
                         </TableCell>
                       ))}

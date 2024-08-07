@@ -120,6 +120,11 @@ export const useUpsertRolesAndRight = () => {
     }
   };
 
+  const permissionAccordionsProps = {
+    reset,
+    methods,
+  };
+
   return {
     router,
     roleId,
@@ -135,5 +140,6 @@ export const useUpsertRolesAndRight = () => {
     patchPermissionsStatus,
     getRolesIsError,
     submitButtonHandler,
+    permissionAccordionsProps,
   };
 };

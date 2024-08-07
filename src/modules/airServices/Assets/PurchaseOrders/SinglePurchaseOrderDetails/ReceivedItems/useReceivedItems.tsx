@@ -18,7 +18,7 @@ export const useReceivedItems = (props: any) => {
   const router = useRouter();
   const [errorOccurred, setErrorOccurred] = useState(false);
   const { purchaseOrderId } = router?.query;
-  const [patchAddToItemTrigger, { isLoading: patchIsLoading }] =
+  const [patchAddToItemTrigger, patchAddToItemStatus] =
     usePatchAddToItemMutation();
 
   const { setIsDrawerOpen } = props;
@@ -28,13 +28,14 @@ export const useReceivedItems = (props: any) => {
     },
   };
 
-  const { data, isLoading } = useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
-    getSingleAddToPurchaseOrderParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!purchaseOrderId,
-    },
-  );
+  const { data, isLoading, isFetching, isError }: { [key: string]: any } =
+    useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
+      getSingleAddToPurchaseOrderParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!purchaseOrderId,
+      },
+    );
 
   const method = useForm<any>({
     resolver: yupResolver(addItemValidationSchemaOne),
@@ -51,12 +52,12 @@ export const useReceivedItems = (props: any) => {
     name: 'receivedItem',
   });
 
-  const submitHandler = async (data: any) => {
-    const isReceivedComplete = data?.receivedItem?.every(
-      (receiveItem: any) => receiveItem?.received == receiveItem.quantity,
+  const submitHandler = async (formData: any) => {
+    const isReceivedComplete = formData?.receivedItem?.every(
+      (receiveItem: any) => receiveItem?.received == receiveItem?.quantity,
     );
 
-    const isReceivedItemNullOrMore = data?.receivedItem?.some(
+    const isReceivedItemNullOrMore = formData?.receivedItem?.some(
       (receiveItem: any) => receiveItem?.received > receiveItem?.quantity,
     );
 
@@ -64,45 +65,45 @@ export const useReceivedItems = (props: any) => {
       setErrorOccurred(true);
       return;
     }
-    const sendData = data?.receivedItem?.map((item: any) => {
-      const purchaseDetails = item?.data?.purchaseDetails?.map(
-        (secondItem: any) => ({
-          ...secondItem,
-          received: item?.received,
-        }),
-      );
 
-      return {
-        id: item?.data?._id,
-        orderName: item?.data?.orderName,
-        orderNumber: item?.data?.orderName,
-        vendorId: item?.data?.vendorId,
-        currency: item?.data?.currency,
-        expectedDeliveryDate: item?.data?.expectedDeliveryDate,
-        locationId: item?.data?.locationId,
-        departmentId: item?.data?.departmentId,
-        termAndCondition: item?.data?.termAndCondition,
-        subTotal: item?.data?.subTotal,
-        status: isReceivedComplete
-          ? PURCHASE_ORDER_STATUS?.RECEIVED
-          : PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
-        purchaseDetails: purchaseDetails,
-      };
-    });
+    const purchaseDetail = data?.data?.purchaseDetails;
+    const purchaseDetails = purchaseDetail?.map(
+      (secondItem: { [key: string]: any }, index: number) => ({
+        ...secondItem,
+        received: formData?.receivedItem?.[index]?.received,
+      }),
+    );
+
+    const body = {
+      id: data?.data?._id,
+      orderName: data?.data?.orderName,
+      orderNumber: data?.data?.orderName,
+      vendorId: data?.data?.vendorId,
+      currency: data?.data?.currency,
+      expectedDeliveryDate: data?.data?.expectedDeliveryDate,
+      locationId: data?.data?.locationId,
+      departmentId: data?.data?.departmentId,
+      termAndCondition: data?.data?.termAndCondition,
+      subTotal: data?.data?.subTotal,
+      status: isReceivedComplete
+        ? PURCHASE_ORDER_STATUS?.RECEIVED
+        : PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
+      purchaseDetails: purchaseDetails,
+    };
 
     const putAddToItemParameter = {
-      body: sendData?.[0],
+      body,
     };
+
     try {
       await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
-
       successSnackbar('Purchase Order items count updated successfully');
       setIsDrawerOpen(false);
+      reset?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
     setErrorOccurred(false);
-    method?.reset?.();
   };
 
   return {
@@ -113,6 +114,8 @@ export const useReceivedItems = (props: any) => {
     control,
     method,
     isLoading,
-    patchIsLoading,
+    patchAddToItemStatus,
+    isFetching,
+    isError,
   };
 };

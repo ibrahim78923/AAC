@@ -34,7 +34,7 @@ export default function useUpsertRoles() {
     defaultValues: upsertRolesDefaultValues(),
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue } = methods;
 
   const {
     data: getRolesData,
@@ -112,6 +112,12 @@ export default function useUpsertRoles() {
     }
   };
 
+  const permissionAccordionsProps = {
+    reset,
+    setValue,
+    methods,
+  };
+
   return {
     router,
     roleId,
@@ -124,5 +130,7 @@ export default function useUpsertRoles() {
     getRolesIsFetching,
     patchPermissionsStatus,
     getRolesIsError,
+    reset,
+    permissionAccordionsProps,
   };
 }

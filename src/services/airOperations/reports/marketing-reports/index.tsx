@@ -33,7 +33,7 @@ const marketingReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -41,7 +41,7 @@ const marketingReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllFavoritesMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -49,7 +49,7 @@ const marketingReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllDashboardsMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -57,7 +57,7 @@ const marketingReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllCustomMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),

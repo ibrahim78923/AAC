@@ -116,11 +116,14 @@ export const ticketsActionDropdownFunction = (
   {
     id: 6,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: putSingleTicketStatusStatus?.isLoading ? (
-      <LinearProgress sx={{ width: '70px' }} />
-    ) : (
-      'Mark as Close'
-    ),
+    title:
+      putSingleTicketStatusStatus?.isLoading &&
+      putSingleTicketStatusStatus?.originalArgs?.queryParams?.status ===
+        TICKET_STATUS?.CLOSED ? (
+        <LinearProgress sx={{ width: '70px' }} />
+      ) : (
+        'Mark as Close'
+      ),
     disabled: putSingleTicketStatusStatus?.isLoading,
     handleClick: async (closeMenu: any) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
@@ -135,11 +138,14 @@ export const ticketsActionDropdownFunction = (
   {
     id: 7,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: putSingleTicketStatusStatus?.isLoading ? (
-      <LinearProgress sx={{ width: '70px' }} />
-    ) : (
-      'Mark as Spam'
-    ),
+    title:
+      putSingleTicketStatusStatus?.isLoading &&
+      putSingleTicketStatusStatus?.originalArgs?.queryParams?.status ===
+        TICKET_STATUS?.SPAM ? (
+        <LinearProgress sx={{ width: '70px' }} />
+      ) : (
+        'Mark as Spam'
+      ),
     disabled: putSingleTicketStatusStatus?.isLoading,
     handleClick: async (closeMenu: any) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {

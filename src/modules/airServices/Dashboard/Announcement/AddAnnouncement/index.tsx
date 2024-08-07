@@ -16,7 +16,7 @@ const AddAnnouncement = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isAdd}
+        isDrawerOpen={isPortalOpen?.isUpsert}
         onClose={handleClose}
         title={'New Announcements'}
         submitHandler={() => handleSubmit(submit)()}

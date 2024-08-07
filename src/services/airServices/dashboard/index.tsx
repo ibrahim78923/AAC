@@ -236,4 +236,5 @@ export const {
   useLazyGetUsersDropdownListForDashboardQuery,
   useSendServiceDashboardViaEmailMutation,
   useSendServiceDashboardViaEmailOnceMutation,
+  useLazyGetCustomerAnnouncementQuery,
 } = dashboardAPI;

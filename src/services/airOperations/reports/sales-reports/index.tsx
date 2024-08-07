@@ -33,7 +33,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -41,7 +41,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllFavoritesSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -49,7 +49,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllDashboardsSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -57,7 +57,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllCustomSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),

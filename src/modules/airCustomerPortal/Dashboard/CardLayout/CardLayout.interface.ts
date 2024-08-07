@@ -3,6 +3,6 @@ export interface CardLayoutI {
   btnClick: any;
   btnPosition: 'left' | 'center' | 'right';
   buttonText: string;
-  maxHeight: number;
+  maxHeight: number | string;
   children: any;
 }

@@ -21,6 +21,7 @@ const UpsertRoles = () => {
     getRolesIsFetching,
     patchPermissionsStatus,
     getRolesIsError,
+    permissionAccordionsProps,
   } = useUpsertRoles();
 
   if (getRolesIsError) return <ApiErrorState />;
@@ -54,7 +55,7 @@ const UpsertRoles = () => {
             <Typography variant="h5">Permissions</Typography>
           </Grid>
           <Grid item xs={12} my={2}>
-            <PermissionsAccordion />
+            <PermissionsAccordion {...permissionAccordionsProps} />
           </Grid>
 
           <Grid item xs={12} textAlign={'end'}>
