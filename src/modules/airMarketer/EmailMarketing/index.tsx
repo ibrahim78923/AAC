@@ -27,9 +27,10 @@ import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useState } from 'react';
 import { styles } from './EmailMarketing.style';
-import { useGetEmailMarketingListQuery } from '@/services/airMarketer/emailMarketing';
 import Table from './Table';
 import { PAGINATION } from '@/config';
+import { API_STATUS, EMAIL_ENUMS } from '@/constants';
+import { useGetEmailMarketingListQuery } from '@/services/airMarketer/emailMarketing';
 
 const EmailMarketing = () => {
   const {
@@ -39,12 +40,12 @@ const EmailMarketing = () => {
     searchEmailMarketing,
     isExportModalOpen,
     setSearchEmailMarketing,
-  } = useEmailMarketing();
+  }: any = useEmailMarketing();
   const router = useRouter();
 
   const theme = useTheme();
 
-  const [value, setValue] = useState('all');
+  const [value, setValue] = useState(EMAIL_ENUMS?.ALL);
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -54,13 +55,17 @@ const EmailMarketing = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const {
-    data: emailMarketingList,
-    isLoading: emailMarketingLoading,
-    status: emailMarketingStatus,
-  } = useGetEmailMarketingListQuery({
-    params: { page: page, limit: pageLimit },
-  });
+  const { data: emailMarketingList, status: emailMarketingStatus } =
+    useGetEmailMarketingListQuery({
+      params: {
+        page: page,
+        limit: pageLimit,
+        ...(value !== EMAIL_ENUMS?.ALL && { status: value }),
+        ...(searchEmailMarketing?.length > 0 && {
+          search: searchEmailMarketing,
+        }),
+      },
+    });
 
   return (
     <>
@@ -117,7 +122,7 @@ const EmailMarketing = () => {
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.CREATE_NEW_EMAIL,
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.CREATE_NEW_EMAIL,
             ]}
           >
             <Button
@@ -178,7 +183,7 @@ const EmailMarketing = () => {
               width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
             }}
           >
-            <ActionButton />
+            <ActionButton selectedRecords={selectedRecords} />
             <Tooltip title={'Refresh Filter'}>
               <Button
                 className="small"
@@ -213,7 +218,7 @@ const EmailMarketing = () => {
         </Box>
         <Table
           emailMarketingList={emailMarketingList}
-          loading={emailMarketingLoading}
+          loading={emailMarketingStatus === API_STATUS?.PENDING}
           emailMarketingStatus={emailMarketingStatus}
           setPage={setPage}
           setPageLimit={setPageLimit}

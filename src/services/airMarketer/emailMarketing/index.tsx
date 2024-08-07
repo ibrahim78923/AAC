@@ -22,7 +22,20 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    deleteEmailTemplate: builder.mutation({
+      query: ({ ids }: any) => {
+        return {
+          url: `${EMAILS_MARKETING?.DELETE_EMAIL}?ids=${ids}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetEmailMarketingListQuery } = emailTemplatesApi;
+export const {
+  useGetEmailMarketingListQuery,
+  usePostEmailTemplatesMutation,
+  useDeleteEmailTemplateMutation,
+} = emailTemplatesApi;

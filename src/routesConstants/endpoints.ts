@@ -507,6 +507,7 @@ export const LEAD_CAPTURE_FORM = {
 export const EMAILS_MARKETING = {
   EMAIL_MARKETING: '/emails-marketing/get-all-marketingEmails',
   CREATE_EMAIL: '/emails-marketing/create-email',
+  DELETE_EMAIL: '/emails-marketing/delete-email',
 };
 
 export const superAdminBillingInvoices = {

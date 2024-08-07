@@ -1,3 +1,4 @@
+import { DATE_TIME_FORMAT } from '@/constants';
 import { calculatePercentage } from '@/utils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
@@ -46,7 +47,9 @@ export const columns = (
           color="primary"
           name="id"
           onClick={handleSelectAll}
-          checked={data?.length === selectedRecords?.length}
+          checked={
+            data?.length > 0 ? data?.length === selectedRecords?.length : false
+          }
         />
       ),
       isSortable: false,
@@ -79,11 +82,13 @@ export const columns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Published Date',
-      cell: (info: any) => <>{dayjs(info?.getValue()).format('MMM D, YYYY')}</>,
+      cell: (info: any) => (
+        <>{dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DMDHMA)}</>
+      ),
     },
     {
-      accessorFn: (row: any) => row?.createdBy,
-      id: 'createdBy',
+      accessorFn: (row: any) => row?.createdByName,
+      id: 'createdByName',
       isSortable: true,
       header: 'Created By',
       cell: (info: any) => info?.getValue(),
@@ -107,7 +112,9 @@ export const columns = (
       id: 'updatedAt',
       isSortable: true,
       header: 'Last Updated',
-      cell: (info: any) => <>{dayjs(info?.getValue()).format('MMM D, YYYY')}</>,
+      cell: (info: any) => (
+        <>{dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DMDHMA)}</>
+      ),
     },
   ];
 };

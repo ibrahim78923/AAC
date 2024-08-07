@@ -12,7 +12,7 @@ const useEmailMarketing = () => {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isAccessValue, setAccessValue] = useState('');
   const [actionsModalDetails, setActionsModalDetails] = useState({
-    isViewDeatsils: false,
+    isViewDetails: false,
     isDuplicate: false,
     isArchive: false,
     isDelete: false,
@@ -51,7 +51,7 @@ const useEmailMarketing = () => {
       case emailOptions?.VIEW_DETAILS:
         setActionsModalDetails({
           ...actionsModalDetails,
-          isViewDeatsils: true,
+          isViewDetails: true,
         });
         break;
       case emailOptions?.MOVE_TO_FOLDER:

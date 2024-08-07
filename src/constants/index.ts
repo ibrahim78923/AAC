@@ -458,6 +458,14 @@ export const Gmail_CONST = {
   Cc: 'Cc',
 };
 
+export const EMAIL_ENUMS = {
+  SCHEDULED: 'SCHEDULED',
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  ARCHIVED: 'ARCHIVED',
+  ALL: 'ALL',
+};
+
 export const REPORTS_HEADER_TITLE = {
   CREATE_REPORT: 'Create Report',
   CREATE_TABLE: 'Create Table',
