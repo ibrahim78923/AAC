@@ -174,6 +174,7 @@ const UserTable = () => {
           currentPage={productsUsers?.data?.meta?.page}
         />
       </PermissionsGuard>
+
       <AlertModals
         message={'Are you sure you want to delete this user?'}
         type={'delete'}
@@ -182,6 +183,7 @@ const UserTable = () => {
         loading={deleteProductUsersLoading}
         handleSubmitBtn={() => deleteHandler(checkedUser)}
       />
+
       {isAddUserDrawer?.isToggle && (
         <AddUsers
           isAddUserDrawer={isAddUserDrawer}

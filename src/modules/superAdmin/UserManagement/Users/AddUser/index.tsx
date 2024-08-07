@@ -2,7 +2,12 @@ import { Box, Grid, InputAdornment, Skeleton, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { addUsersArray } from './AddUser.data';
-import { EQuickLinksType, fieldName, SUPER_ADMIN } from '@/constants/index';
+import {
+  EQuickLinksType,
+  fieldName,
+  indexNumbers,
+  SUPER_ADMIN,
+} from '@/constants/index';
 import useAddUser from './useAddUser';
 import { v4 as uuidv4 } from 'uuid';
 import { style } from '../Users.style';
@@ -43,6 +48,7 @@ const AddUser = ({
     postUserLoading,
     userDetailLoading,
     updateUserLoading,
+    checkedEmailError,
   } = useAddUser(useActionParams);
 
   return (
@@ -61,6 +67,7 @@ const AddUser = ({
           ? 'Update User'
           : 'Add'
       }
+      isDisabled={checkedEmailError}
       isOk={isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       isLoading={postUserLoading || updateUserLoading}
@@ -94,7 +101,7 @@ const AddUser = ({
                         }}
                         position="end"
                       >
-                        {addressVal?.length > 0 ? (
+                        {addressVal?.length > indexNumbers?.ZERO ? (
                           <BorderColorIcon
                             sx={{
                               cursor: 'not-allowed',
@@ -113,7 +120,6 @@ const AddUser = ({
                       </InputAdornment>
                     </Box>
                   )}
-
                   {userDetailLoading ? (
                     <Skeleton variant="rectangular" height={40} />
                   ) : (

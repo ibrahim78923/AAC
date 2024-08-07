@@ -5,6 +5,7 @@ import { getSession } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import { PLAN_STATUS } from '@/constants';
 
 export const columnsUser = (
   checkedUser: any,
@@ -75,7 +76,7 @@ export const columnsUser = (
         >
           <SwitchBtn
             defaultChecked={
-              info?.row?.original?.status === 'ACTIVE' ? true : false
+              info?.row?.original?.status === PLAN_STATUS?.ACTIVE ? true : false
             }
             name={info?.getValue()}
             handleSwitchChange={(val: any) =>

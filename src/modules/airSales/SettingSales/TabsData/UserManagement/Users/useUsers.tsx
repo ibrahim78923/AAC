@@ -72,8 +72,12 @@ const useUsers = () => {
   };
 
   const deleteHandler = async (ids: any) => {
+    const deletedRecords = ids?.map((item: any) => item);
+    const idsString = deletedRecords?.join(', ');
+
     try {
-      await deleteProductUser({ body: { ids: ids } })?.unwrap();
+      await deleteProductUser(idsString)?.unwrap();
+      setIsOpenDelete(false);
       enqueueSnackbar('Users deleted successfully', {
         variant: 'success',
       });
@@ -81,6 +85,7 @@ const useUsers = () => {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
+      setIsOpenDelete(false);
     }
   };
 

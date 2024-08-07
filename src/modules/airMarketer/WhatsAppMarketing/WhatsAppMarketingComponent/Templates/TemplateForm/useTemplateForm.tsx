@@ -12,7 +12,7 @@ import {
 } from '@/services/airMarketer/whatsappMarketing/templates';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
-import { TASK_TYPE } from '@/constants';
+import { indexNumbers, TASK_TYPE } from '@/constants';
 
 const useTemplateForm = () => {
   const theme = useTheme();
@@ -37,7 +37,6 @@ const useTemplateForm = () => {
   useEffect(() => {
     setValue('name', editRecordData?.name);
     setValue('category', editRecordData?.category);
-    setValue('language', editRecordData?.language);
     setValue('detail', editRecordData?.detail);
   }, [editData]);
 
@@ -47,13 +46,32 @@ const useTemplateForm = () => {
   const [updateWhatsappTemplate, { isLoading: updateTemplateLoading }] =
     useUpdateWhatsappTemplateMutation();
 
+  //functon to extract variables from details
+  const extractCurlyBraces = (input: any) => {
+    // Use a regular expression to match words within curly braces
+    const regex = /\{\{(.*?)\}\}/g;
+    const matches = [];
+    let match;
+
+    // Find all matches and store them in the array
+    while ((match = regex?.exec(input)) !== null) {
+      matches?.push(match[indexNumbers?.ONE]);
+    }
+
+    // Join the matches with a comma and return the result
+    return matches?.join(',');
+  };
+
+  const extractVariablesFromDetails = extractCurlyBraces(Details);
+
   const onSubmit = async (values: any) => {
     if (type === TASK_TYPE?.EDIT_TASK) {
-      delete values.attachment;
+      delete values?.attachment;
     }
     const formData: any = new FormData();
-    Object.keys(values).forEach((key: any) => {
-      formData.append(key, values[key]);
+    formData?.append('variables', extractVariablesFromDetails);
+    Object?.keys(values)?.forEach((key: any) => {
+      formData?.append(key, values[key]);
     });
     try {
       if (type === TASK_TYPE?.EDIT_TASK) {
@@ -66,7 +84,7 @@ const useTemplateForm = () => {
         });
         router?.back();
       } else {
-        await postWhatsappTemplate({ body: formData }).unwrap();
+        await postWhatsappTemplate({ body: formData })?.unwrap();
         enqueueSnackbar('Template added successfully', { variant: 'success' });
         router?.back();
       }

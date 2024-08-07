@@ -12,6 +12,15 @@ import { SMS_MARKETING } from '@/services/airMarketer/SmsMarketing';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
+    getEmailExist: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.EMAIL_EXIST}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['USER_MANGEMENT'],
+    }),
+
     getProducts: builder.query({
       query: () => ({
         url: `${END_POINTS?.PRODUCTS}?status=${PRODUCT_USER_STATUS?.active}`,
@@ -368,4 +377,5 @@ export const {
   useGetPipelineQuery,
   useGetContactsListQuery,
   useLazyGetAllDropdownProductsQuery,
+  useGetEmailExistQuery,
 } = CommonAPIS;
