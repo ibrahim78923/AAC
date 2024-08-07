@@ -11,8 +11,9 @@ import {
 import { Questions } from './Questions';
 import { LoadingButton } from '@mui/lab';
 import { EyeIcon } from '@/assets/icons';
+import { CreateFeedbackI } from './CreateFeedback.interface';
 
-export const CreateFeedback = (props: any) => {
+export const CreateFeedback: React.FC<CreateFeedbackI> = (props) => {
   const { setCreateSurvey, unSaveSection, sectionVerification, methods } =
     props;
   const {

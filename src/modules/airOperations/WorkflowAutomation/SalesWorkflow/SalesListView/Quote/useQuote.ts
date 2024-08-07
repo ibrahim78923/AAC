@@ -66,7 +66,11 @@ export const useQuote = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
-  const onSubmitFilter = async (filterData: any) => {
+  const onSubmitFilter = async (filterData: {
+    status: string;
+    createdBy: any;
+    type: string;
+  }) => {
     const filterParams: any = {
       ...workflowParams,
       createdBy: filterData?.createdBy?._id,

@@ -2,8 +2,11 @@ import { ARRAY_INDEX, PERCENTAGES_VALUES } from '@/constants/strings';
 import { BORDER_RADIUS, MARGIN } from '@/constants/style';
 import { progressBarColorsLinearScale } from '@/modules/airServices/FeedbackSurvey/UserResponsesAnalysis/UserResponsesAnalysis.data';
 import { Box, LinearProgress, Typography } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
-export const MultiLevelLinearProgressBar = (props: any) => {
+export const MultiLevelLinearProgressBar: React.FC<{
+  valuesArray?: { percentage: number; text: string }[];
+}> = (props) => {
   const { valuesArray = [] } = props;
   return (
     <>
@@ -12,7 +15,7 @@ export const MultiLevelLinearProgressBar = (props: any) => {
           ?.filter((item: any) => item?.percentage !== PERCENTAGES_VALUES?.ZERO)
           ?.map((item: any, index: any) => (
             <Box
-              key={item?._id}
+              key={uuidv4()}
               sx={{ position: 'relative', marginBottom: '4px' }}
               component={'span'}
             >

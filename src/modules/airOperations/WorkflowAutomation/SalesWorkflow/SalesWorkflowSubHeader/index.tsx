@@ -5,8 +5,11 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { FilterSalesWorkflow } from '../FilterSalesWorkflow';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { SalesWorkflowSubHeaderI } from './SalesWorkflowSubHeader.interface';
 
-export const SalesWorkflowSubHeader = (props: any) => {
+export const SalesWorkflowSubHeader: React.FC<SalesWorkflowSubHeaderI> = (
+  props,
+) => {
   const {
     isFilterOpen,
     setIsFilterOpen,

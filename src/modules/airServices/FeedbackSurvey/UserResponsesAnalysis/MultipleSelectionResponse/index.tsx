@@ -1,16 +1,19 @@
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { dynamicProgressBarColor } from '../UserResponsesAnalysis.data';
+import { v4 as uuidv4 } from 'uuid';
+import { FeedbackResponsesAnalysisI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const MultipleSelectionResponse = (props: any) => {
+export const MultipleSelectionResponse: React.FC<FeedbackResponsesAnalysisI> = (
+  props,
+) => {
   const { answers, question } = props;
-
   return (
     <Box bgcolor={'common.white'} p={2} boxShadow={1} borderRadius={2}>
       <Typography variant="body2">{question}</Typography>
       <br />
-      {answers?.map((answer: any) => (
-        <Fragment key={answer?.option}>
+      {answers?.map((answer) => (
+        <Fragment key={uuidv4()}>
           <Typography variant="body2" component={'p'}>
             {answer?.text}
           </Typography>

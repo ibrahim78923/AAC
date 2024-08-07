@@ -4,8 +4,9 @@ import { Box, Dialog, Typography } from '@mui/material';
 import { useImportQuestions } from './useImportQuestions';
 import { SurveyList } from './SurveyList';
 import { QuestionList } from './QuestionList';
+import { ImportQuestionsI } from './ImportQuestions.interface';
 
-export const ImportQuestions = (props: any) => {
+export const ImportQuestions: React.FC<ImportQuestionsI> = (props) => {
   const { openImport, setOpenImport } = props;
   const { surveyId, setSurveyId, questionsList, setQuestionsList } =
     useImportQuestions();
@@ -45,7 +46,6 @@ export const ImportQuestions = (props: any) => {
           <QuestionList
             setQuestionsList={setQuestionsList}
             surveyId={surveyId}
-            setOpenImport={setOpenImport}
             {...props}
           />
         )}

@@ -7,8 +7,9 @@ import {
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar } from '@/utils/api';
 import { questionTypeData } from './Questions.data';
+import { QuestionsI } from './Questions.interface';
 
-export const useQuestions = (props: any) => {
+export const useQuestions = (props: QuestionsI) => {
   const {
     methods,
     sectionIndex,
@@ -22,7 +23,7 @@ export const useQuestions = (props: any) => {
   const { watch, control, setValue } = methods;
   const [questionIndex, setQuestionIndex] = useState<number | null>(0);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(0);
-  const [openImport, setOpenImport] = useState(false);
+  const [openImport, setOpenImport] = useState<boolean>(false);
   const router = useRouter();
   const surveyId = router?.query?.id;
   const { fields, append, remove } = useFieldArray({

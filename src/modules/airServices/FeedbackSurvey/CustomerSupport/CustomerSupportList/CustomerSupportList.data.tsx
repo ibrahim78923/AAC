@@ -1,3 +1,4 @@
+import { NextRouter } from 'next/router';
 import { Checkbox, Chip, LinearProgress, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
@@ -6,6 +7,7 @@ import dayjs from 'dayjs';
 import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 
 export const surveyDataTypes = {
   customerSupport: 'customer-support',
@@ -20,21 +22,15 @@ const statusColor = (status: string) => {
       return 'warning';
   }
 };
-const statusSwitch = (status: string) => {
-  switch (status) {
-    case FEEDBACK_STATUS?.PUBLISHED:
-      return 'Inactive';
-  }
-};
-const surveyType: any = {
+const surveyType: { [key: string]: string } = {
   customerSupport: 'Customer Support',
   customerSatisfaction: 'Customer Satisfaction',
 };
 export const customerSupportListColumn = (
-  activeCheck: any,
-  setActiveCheck: any,
-  feedbackTableData: any,
-  handleTitleClick: any,
+  activeCheck: FeedbackSurveyListI[],
+  setActiveCheck: React.Dispatch<React.SetStateAction<FeedbackSurveyListI[]>>,
+  feedbackTableData: FeedbackSurveyListI[],
+  handleTitleClick: (data: FeedbackSurveyListI) => void,
 ) => {
   return [
     {
@@ -47,19 +43,19 @@ export const customerSupportListColumn = (
           checked={
             !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
-          onChange={(e: any) => {
-            e?.target?.checked
-              ? setActiveCheck([
-                  ...activeCheck,
-                  feedbackTableData?.find(
-                    (item: any) => item?._id === info?.getValue(),
-                  ),
-                ])
-              : setActiveCheck(
-                  activeCheck?.filter((item: any) => {
-                    return item?._id !== info?.getValue();
-                  }),
-                );
+          onChange={(e) => {
+            if (e?.target?.checked) {
+              const foundItem = feedbackTableData?.find(
+                (item) => item?._id === info?.getValue(),
+              );
+              if (foundItem) {
+                setActiveCheck([...activeCheck, foundItem]);
+              }
+            } else {
+              setActiveCheck(
+                activeCheck?.filter((item) => item?._id !== info?.getValue()),
+              );
+            }
           }}
           color="primary"
           name={info?.getValue()}
@@ -74,7 +70,7 @@ export const customerSupportListColumn = (
               ? activeCheck?.length === feedbackTableData?.length
               : false
           }
-          onChange={(e: any) => {
+          onChange={(e) => {
             e?.target?.checked
               ? setActiveCheck([...feedbackTableData])
               : setActiveCheck([]);
@@ -132,19 +128,19 @@ export const customerSupportListColumn = (
   ];
 };
 export const feedbackDropdown = (
-  activeCheck: any,
-  setOpenModal: any,
-  router: any,
-  handleCloneSurvey: any,
-  cloneLoading: any,
-  handleStatus: any,
-  patchLoading: any,
+  activeCheck: FeedbackSurveyListI[],
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+  router: NextRouter,
+  handleCloneSurvey: (closeMenu: () => void) => Promise<void>,
+  cloneLoading: boolean,
+  handleStatus: (closeMenu: () => void) => Promise<void>,
+  patchLoading: boolean,
 ) => {
-  const dropdownData: any = [
+  const dropdownData = [
     {
       id: 2,
       title: cloneLoading ? <LinearProgress sx={{ width: '70px' }} /> : 'Clone',
-      handleClick: (closeMenu: any) => {
+      handleClick: (closeMenu: () => void) => {
         if (activeCheck?.length > 1) {
           errorSnackbar('Please select only one survey to clone');
           closeMenu?.();
@@ -160,7 +156,7 @@ export const feedbackDropdown = (
     {
       id: 4,
       title: 'Delete',
-      handleClick: (closeMenu: any) => {
+      handleClick: (closeMenu: () => void) => {
         setOpenModal(true);
         closeMenu?.();
       },
@@ -170,7 +166,7 @@ export const feedbackDropdown = (
       ],
     },
   ];
-  const shouldAddStatusSwitch = activeCheck?.map((item: any) => item?.status);
+  const shouldAddStatusSwitch = activeCheck?.map((item) => item?.status);
   if (
     !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.INACTIVE) &&
     !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.DRAFT)
@@ -182,16 +178,13 @@ export const feedbackDropdown = (
       ) : (
         'Inactive'
       ),
-      handleClick: (closeMenu: any) => {
+      handleClick: (closeMenu: () => void) => {
         if (activeCheck?.length > 1) {
           errorSnackbar('Please select only one to change status');
           closeMenu?.();
           return;
         }
-        handleStatus(
-          closeMenu,
-          statusSwitch(activeCheck?.[ARRAY_INDEX?.ZERO]?.status),
-        );
+        handleStatus(closeMenu);
       },
       disabled: cloneLoading || patchLoading,
       permissionKey:
@@ -205,7 +198,7 @@ export const feedbackDropdown = (
     dropdownData?.splice(1, 0, {
       id: 3,
       title: 'Edit Survey',
-      handleClick: (closeMenu: any) => {
+      handleClick: (closeMenu: () => void) => {
         if (activeCheck?.length > 1) {
           errorSnackbar('Please select only one survey to edit');
           closeMenu?.();

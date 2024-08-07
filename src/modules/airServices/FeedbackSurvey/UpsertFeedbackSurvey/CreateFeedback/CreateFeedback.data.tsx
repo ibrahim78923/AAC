@@ -1,5 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import { CircularProgress, Theme } from '@mui/material';
+import {
+  FeedbackDropdownI,
+  SectionDropdownI,
+} from './CreateFeedback.interface';
 
 export const feedbackValuesType = {
   survey: 'survey',
@@ -17,11 +21,11 @@ export const sectionDropdownOptions = ({
   deleteLoading,
   mergeLoading,
   cloneLoading,
-}: any) => [
+}: SectionDropdownI) => [
   {
     id: 1,
     title: cloneLoading ? <CircularProgress size="22px" /> : 'Clone Section',
-    handleClick: (setClose: any) => {
+    handleClick: (setClose: () => void) => {
       cloneSection(index, setClose);
     },
     permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
@@ -30,7 +34,7 @@ export const sectionDropdownOptions = ({
   {
     id: 2,
     title: deleteLoading ? <CircularProgress size="22px" /> : 'Delete Section',
-    handleClick: (setClose: any) => {
+    handleClick: (setClose: () => void) => {
       removeSection(index, setClose);
     },
     permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
@@ -44,7 +48,7 @@ export const sectionDropdownOptions = ({
   {
     id: 3,
     title: mergeLoading ? <CircularProgress size="22px" /> : 'Merge with above',
-    handleClick: (setClose: any) => {
+    handleClick: (setClose: () => void) => {
       mergeSection(index, setClose);
     },
     permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
@@ -62,7 +66,7 @@ export const feedbackSubmitDropdown = ({
   updateLoading,
   emailLoading,
   isStatus,
-}: any) => [
+}: FeedbackDropdownI) => [
   {
     id: 1,
     title:
@@ -71,7 +75,7 @@ export const feedbackSubmitDropdown = ({
       ) : (
         'Publish'
       ),
-    handleClick: (handleClose: any) => {
+    handleClick: (handleClose: () => void) => {
       handlePublish(handleClose);
     },
     disabled: updateLoading || emailLoading,
@@ -85,7 +89,7 @@ export const feedbackSubmitDropdown = ({
       ) : (
         'Save as Draft'
       ),
-    handleClick: (handleClose: any) => {
+    handleClick: (handleClose: () => void) => {
       handleSaveDraft(handleClose);
     },
     disabled: updateLoading || emailLoading,

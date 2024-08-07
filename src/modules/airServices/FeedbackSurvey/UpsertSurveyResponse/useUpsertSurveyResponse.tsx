@@ -15,7 +15,10 @@ import {
 import { ARRAY_INDEX } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 
-export const useUpsertSurveyResponse: any = (props: any) => {
+export const useUpsertSurveyResponse = (props: {
+  loggedInUser?: string;
+  goBack?: () => void;
+}) => {
   const { loggedInUser } = props;
   const router = useRouter();
   const allQuestion: any = useRef({});

@@ -7,6 +7,8 @@ import {
 } from '@/components/ReactHookForm';
 import { successSnackbar } from '@/utils/api';
 import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
+import { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 
 export const surveyConditions = {
   email: 'viaEmail',
@@ -45,8 +47,8 @@ const surveyLinkOptions = [
 ];
 
 export const createSurveyFields = (
-  watch: any,
-  setOpenShare: any,
+  watch: UseFormWatch<FieldValues>,
+  setOpenShare: React.Dispatch<React.SetStateAction<boolean>>,
   userDropdown: any,
 ) => [
   {
@@ -114,10 +116,13 @@ export const createSurveyFields = (
   {
     id: 6,
     type: ['customer-support'],
-    conditionalComponent: (linkRef: any, setValue: any) => {
+    conditionalComponent: (
+      linkRef: React.RefObject<HTMLAnchorElement>,
+      setValue: UseFormSetValue<FieldValues>,
+    ) => {
       const handleCopy = () => {
         navigator?.clipboard
-          ?.writeText(linkRef?.current?.innerText)
+          ?.writeText(linkRef?.current?.innerText as string)
           ?.then(() => {
             setValue('magicLink', linkRef?.current?.innerText);
             successSnackbar('Link copied to clipboard!');

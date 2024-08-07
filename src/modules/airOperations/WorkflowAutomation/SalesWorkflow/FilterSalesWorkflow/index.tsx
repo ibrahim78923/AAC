@@ -3,8 +3,9 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { salesWorkflowFilterFields } from './FilterSalesWorkflow.data';
 import { useFilterSalesWorkflow } from './useFilterSalesWorkflow';
+import { FilterSalesWorkflowI } from './FilterSalesWorkflow.interface';
 
-export const FilterSalesWorkflow = (props: any) => {
+export const FilterSalesWorkflow: React.FC<FilterSalesWorkflowI> = (props) => {
   const { isFilterOpen, setIsFilterOpen, loading, onSubmit } = props;
   const {
     filterMethod,

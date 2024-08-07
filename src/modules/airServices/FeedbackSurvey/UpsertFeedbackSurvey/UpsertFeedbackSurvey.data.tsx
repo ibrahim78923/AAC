@@ -7,6 +7,10 @@ import {
   ShortText,
 } from '@mui/icons-material';
 import { NextRouter } from 'next/router';
+import {
+  FeedbackSurveyI,
+  FeedbackSurveySectionI,
+} from '@/types/modules/AirServices/FeedbackSurvey';
 export const feedbackTypes = {
   createSurvey: 'createSurvey',
   saveQuestion: 'saveQuestion',
@@ -49,7 +53,7 @@ export const questionTypeOptions = [
   },
   { value: 'text' },
 ];
-export const feedbackSurveyValues = (data: any) => {
+export const feedbackSurveyValues = (data: FeedbackSurveyI | null) => {
   return {
     surveyTitle: data?.surveyTitle ?? '',
     description: data?.description ?? '',
@@ -73,24 +77,24 @@ export const feedbackSurveyValues = (data: any) => {
     satisfactionSurveyLinkType:
       data?.satisfactionSurveyLinkType ?? 'toAllAgents',
     UUID: data?.UUID ? data?.UUID : uuidv4(),
-    sections: data?.sections?.map((section: any) => ({
+    sections: data?.sections?.map((section) => ({
       id: section?._id ?? '',
       heading: section?.heading ?? '',
       description: section?.description ?? '',
       questions: !!section?.questions?.length
-        ? section?.questions?.map((question: any) => ({
+        ? section?.questions?.map((question) => ({
             id: question?._id ?? '',
             questionTitle: question?.questionTitle ?? '',
             questionType: questionTypeOptions?.find(
-              (type: any) => type?.value === question?.questionType,
+              (type) => type?.value === question?.questionType,
             ) ?? {
               label: 'Multiple Choice',
               value: 'multipleChoice',
             },
-            text: question?.options?.map((text: any) => ({
+            text: question?.options?.map((text) => ({
               text: text?.text ?? '',
             })) ?? [{ text: '1' }],
-            options: question?.options?.map((option: any) => ({
+            options: question?.options?.map((option) => ({
               text: option?.text ?? '',
               index: option?.index ?? 0,
             })) ?? [{ text: '1', index: 0 }],
@@ -200,22 +204,21 @@ export const linearScaleOption = [
   },
 ];
 
-export const apiSectionData = (data: any) => {
-  const section = data?.data?.sections;
-  return section?.map((item: any) => ({
+export const apiSectionData = (data: FeedbackSurveySectionI[]) => {
+  return data?.map((item) => ({
     heading: item?.heading,
     description: item?.description,
     id: item?._id,
-    questions: item?.questions?.map((ques: any) => ({
+    questions: item?.questions?.map((ques) => ({
       id: ques?._id,
       questionTitle: ques?.questionTitle,
       questionType: questionTypeOptions?.find(
         (type: any) => type?.value === ques?.questionType,
       ),
-      text: ques?.options?.map((option: any) => ({
+      text: ques?.options?.map((option) => ({
         text: option?.text,
       })),
-      options: ques?.options?.map((option: any) => ({
+      options: ques?.options?.map((option) => ({
         text: option?.text,
         index: option?.index,
       })),
@@ -224,11 +227,11 @@ export const apiSectionData = (data: any) => {
     })),
   }));
 };
-export const surveyWatchArray: any[] = [
+export const surveyWatchArray = [
   'surveyTitle',
   'description',
   'displayName',
   'satisfactionSurveyLinkType',
   'customerSupportLinkType',
   'UUID',
-];
+] as const;

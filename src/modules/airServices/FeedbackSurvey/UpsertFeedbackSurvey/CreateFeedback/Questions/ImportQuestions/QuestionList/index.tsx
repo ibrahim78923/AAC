@@ -7,8 +7,10 @@ import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { QuestionListI } from './QuestionList.interface';
+import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const QuestionList = (props: any) => {
+export const QuestionList: React.FC<QuestionListI> = (props) => {
   const {
     surveyData,
     handleMoveBack,
@@ -25,10 +27,11 @@ export const QuestionList = (props: any) => {
   if (isLoading || isFetching) return <SkeletonTable />;
   return (
     <>
-      {isSuccess && surveyData?.find((item: any) => !item?._id) ? (
+      {isSuccess &&
+      surveyData?.find((item: FeedbackSurveySectionI) => !item?._id) ? (
         <NoData message="No question found" />
       ) : (
-        surveyData?.map((section: any, index: number) => {
+        surveyData?.map((section: FeedbackSurveySectionI, index: number) => {
           return (
             <Box key={section?._id}>
               <Box>
@@ -79,7 +82,7 @@ export const QuestionList = (props: any) => {
                       <Checkbox
                         icon={<CheckboxIcon />}
                         checkedIcon={<CheckboxCheckedIcon />}
-                        onChange={(e: any) => handleCheckboxClick(e, question)}
+                        onChange={(e) => handleCheckboxClick(e, question)}
                       />
                     </Grid>
                     <Grid

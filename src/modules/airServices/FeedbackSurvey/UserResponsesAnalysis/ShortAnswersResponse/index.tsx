@@ -1,7 +1,10 @@
 import NoData from '@/components/NoData';
+import { FeedbackResponsesAnalysisI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { Box, Typography } from '@mui/material';
 
-export const ShortAnswersResponse = (props: any) => {
+export const ShortAnswersResponse: React.FC<FeedbackResponsesAnalysisI> = (
+  props,
+) => {
   const { question, answers } = props;
   return (
     <Box bgcolor={'common.white'} p={2} boxShadow={1} borderRadius={2}>

@@ -17,11 +17,12 @@ import { feedbackDropdown, surveyDataTypes } from './CustomerSupportList.data';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants';
+import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const useCustomerSupportList = (props: any) => {
+export const useCustomerSupportList = (props: { status?: string }) => {
   const { status } = props;
   const router = useRouter();
-  const [activeCheck, setActiveCheck] = useState<any[]>([]);
+  const [activeCheck, setActiveCheck] = useState<FeedbackSurveyListI[]>([]);
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -36,7 +37,7 @@ export const useCustomerSupportList = (props: any) => {
     usePatchFeedbackSurveyMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
-    activeCheck?.forEach((item: any) => deleteParams?.append('ids', item?._id));
+    activeCheck?.forEach((item) => deleteParams?.append('ids', item?._id));
     const response: any = await deleteSurveyTrigger(deleteParams);
     if (response?.data?.message) {
       setOpenModal(false);
@@ -60,7 +61,7 @@ export const useCustomerSupportList = (props: any) => {
   useEffect(() => {
     handleFeedbackList();
   }, [search, page, limit, status]);
-  const handleCloneSurvey = async (closeMenu: any) => {
+  const handleCloneSurvey = async (closeMenu: () => void) => {
     const cloneParams = {
       id: singleSurvey?._id,
     };
@@ -76,27 +77,27 @@ export const useCustomerSupportList = (props: any) => {
       errorSnackbar(response?.error?.data?.message);
     }
   };
-  const handleStatus = async (closeMenu: any, status: string) => {
+  const handleStatus = async (closeMenu: () => void) => {
     const patchParams = {
       params: {
         id: singleSurvey?._id,
       },
       body: {
-        status: status?.toLowerCase(),
+        status: FEEDBACK_STATUS?.INACTIVE,
       },
     };
     const response: any = await patchSurveyTrigger(patchParams);
     if (response?.data?.message) {
       closeMenu();
       successSnackbar(
-        `${response?.data?.data?.surveyTitle} ${status} Successfully`,
+        `${response?.data?.data?.surveyTitle} ${FEEDBACK_STATUS?.INACTIVE} Successfully`,
       );
       setActiveCheck([]);
     } else {
       errorSnackbar(response?.error?.data?.message);
     }
   };
-  const handleTitleClick = (surveyData: any) => {
+  const handleTitleClick = (surveyData: FeedbackSurveyListI) => {
     if (
       (getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
