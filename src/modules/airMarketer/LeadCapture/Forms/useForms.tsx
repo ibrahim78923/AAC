@@ -139,9 +139,9 @@ const useForms = () => {
   };
 
   const handleDeleteForm = async () => {
-    const formIds = await selectedRow[0];
+    const formIds = await selectedRow?.join(',');
     try {
-      await deleteForm(formIds)?.unwrap();
+      await deleteForm({ ids: formIds })?.unwrap();
       handleCloseModalDelete();
       enqueueSnackbar('Form has been deleted.', {
         variant: 'success',

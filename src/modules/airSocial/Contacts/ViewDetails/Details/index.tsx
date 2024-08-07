@@ -111,12 +111,13 @@ const Details = () => {
           </Menu>
         </Box>
         <Box sx={styles.horizontalTabsInnnerBox}>
-          <Typography variant="h4">Basic Information</Typography>
+          <Typography sx={{ mb: '16px' }} variant="h4">
+            Basic Information
+          </Typography>
           <FormProvider methods={methodsDetails}>
-            <Grid container spacing={4}>
+            <Grid container rowSpacing={'12px'} columnSpacing={'30px'}>
               {detailsFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <Typography>{item?.label}</Typography>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (

@@ -39,6 +39,8 @@ export const styles = {
     padding: '15px 32px 15px 15px',
     borderRadius: '8px',
     position: 'relative',
+    maxHeight: '320px',
+    overflowY: 'auto',
   }),
   dialogCode: (theme: any) => ({
     color: theme?.palette?.grey[900],

@@ -140,7 +140,18 @@ const FormField: React.FC<FieldProps> = ({
         )}
 
         {field?.type === fieldTypes?.space && (
-          <Box sx={{ height: `${field?.space}px` }}></Box>
+          <Box>
+            <Box
+              sx={{
+                fontSize: '16px',
+                color: 'rgba(0,0,0,0.25)',
+                textAlign: 'center',
+                fontWeight: '700',
+              }}
+            >
+              SPACE
+            </Box>
+          </Box>
         )}
 
         {field?.type === fieldTypes?.divider && (

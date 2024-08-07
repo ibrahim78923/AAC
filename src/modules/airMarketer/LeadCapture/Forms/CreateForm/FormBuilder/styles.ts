@@ -57,12 +57,13 @@ export const styles = {
       : theme?.palette?.grey[900],
   }),
 
-  dropZone: () => ({
-    maxWidth: '660px',
+  dropZone: (desktop: boolean) => ({
+    transition: 'all 0.4s linear 0.1s ',
+    maxWidth: desktop ? '660px' : '420px',
     boxShadow: '0px 0px 10px -2px rgba(0, 0, 0, 0.19);',
     borderRadius: '8px',
     margin: '0 auto',
-    padding: '15px',
+    padding: '45px 15px',
     overflowY: 'auto',
     height: 'calc(100% - 72px)',
   }),

@@ -16,6 +16,7 @@ import { isNullOrEmpty } from '@/utils';
 import { BUTTON_TYPE, DRAWER_TITLE } from './Cta.data';
 // import Image from 'next/image';
 import IframeComponent from './IframeComponent';
+import { convertKebabToCamelCase } from '@/utils';
 
 const step1ValidationSchema = Yup?.object()?.shape({
   buttonContent: Yup?.string()
@@ -175,36 +176,41 @@ const useCta = () => {
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = buttonHTML;
 
-      const anchorElem = tempDiv.querySelector('a');
-      const textContent = anchorElem?.textContent;
-      const styleAttribute = anchorElem?.getAttribute('style');
-      const stylesArray = styleAttribute?.split(';');
-      const stylesObject: any = {};
-      stylesArray?.forEach((style) => {
-        const [property, value] = style.split(':');
-        stylesObject[property] = value;
+      const stylesString = data?.styles;
+      const stylesArray: string[] = stylesString
+        .replace(/[{}]/g, '')
+        .split(';');
+
+      const stylesObject: { [key: string]: string } = {};
+      stylesArray.forEach((style) => {
+        if (style.trim()) {
+          let [key, value] = style.split(':');
+          key = convertKebabToCamelCase(key.trim());
+          value = value.trim();
+          if (key === 'padding' || key === 'margin') {
+            const parts = value.split('px').filter((part) => part !== '');
+            const result = parts
+              .map((part, index) =>
+                index < parts.length - 1 ? part + 'px, ' : part + 'px',
+              )
+              .join('');
+            value = result;
+          }
+          stylesObject[key] = value;
+        }
       });
+
       const paddingValue =
         stylesObject.padding === '0' ? null : stylesObject?.padding;
       const marginValue =
         stylesObject.margin === '0' ? null : stylesObject?.margin;
 
-      let imgWidth;
-      let imgHeight;
-      let imgAlt = '';
-      const imgElem = anchorElem?.querySelector('img');
-      if (imgElem) {
-        imgWidth = imgElem.width;
-        imgHeight = imgElem.height;
-        imgAlt = imgElem.alt;
-      }
-
       if (isImage) {
-        methodsEditCTA.setValue('imageWidth', imgWidth || null);
-        methodsEditCTA.setValue('imageHeight', imgHeight || null);
-        methodsEditCTA.setValue('altText', imgAlt);
+        methodsEditCTA.setValue('imageWidth', data?.imageWidth || null);
+        methodsEditCTA.setValue('imageHeight', data?.imageHeight || null);
+        methodsEditCTA.setValue('altText', data?.imageAlt || null);
       }
-      methodsEditCTA.setValue('buttonContent', textContent || null);
+      methodsEditCTA.setValue('buttonContent', data?.buttonContent || null);
       methodsEditCTA.setValue('ctaInternalName', data?.ctaInternalName);
       methodsEditCTA.setValue('urlRedirectType', data?.urlRedirectType);
       methodsEditCTA.setValue('url', data?.url);
@@ -295,7 +301,6 @@ const useCta = () => {
         padding: ${padding};
         margin: ${margin};
       }`;
-      const cleanStyles = styles.replace(/\s+/g, '');
 
       const ButtonHtmlComponent = () => (
         <IframeComponent
@@ -322,7 +327,7 @@ const useCta = () => {
       formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
       formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
       formData.append('url', drawerFormValues?.url);
-      formData.append('styles', cleanStyles);
+      formData.append('styles', styles);
 
       if (drawerTitle === 'Create') {
         try {

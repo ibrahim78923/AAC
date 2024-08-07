@@ -129,7 +129,7 @@ const FormBuilder = ({ fields, setFields, mode }: any) => {
               Desktop
             </Button>
           </Box>
-          <Box ref={drop} sx={styles?.dropZone}>
+          <Box ref={drop} sx={styles?.dropZone(desktopView)}>
             {isNullOrEmpty(fields) && (
               <Typography variant="body2" sx={{ textAlign: 'center' }}>
                 Please Create your Form from side bar menu selection.

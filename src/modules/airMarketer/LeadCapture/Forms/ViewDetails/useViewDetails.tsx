@@ -55,11 +55,12 @@ const useViewDetails = () => {
 
   const handleDeleteForm = async () => {
     try {
-      await deleteForm(formId)?.unwrap();
+      await deleteForm({ ids: formId })?.unwrap();
       handleCloseModalDelete();
       enqueueSnackbar('Form has been deleted.', {
         variant: 'success',
       });
+      router.push(AIR_MARKETER?.ALL_TABLE);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',

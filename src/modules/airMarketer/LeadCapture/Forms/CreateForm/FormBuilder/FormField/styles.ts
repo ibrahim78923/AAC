@@ -1,14 +1,12 @@
 export const styles = {
   fieldWrapper: () => ({
     position: 'relative',
-    padding: '20px 0',
   }),
 
   field: (theme: any) => ({
     position: 'relative',
     border: '1px solid transparent',
     padding: '30px',
-    mt: '20px',
     borderRadius: '5px',
     '&:hover': {
       borderColor: theme?.palette?.primary?.main,

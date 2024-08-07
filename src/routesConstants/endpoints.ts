@@ -498,6 +498,8 @@ export const LEAD_CAPTURE_FORM = {
   POST_MANAGE_FIELDS: '/lead-capture-form/manage-lead-form-fields',
   GET_MANAGE_FIELD: '/lead-capture-form/get-form-field',
   GET_FORM_SUBMISSIONS: '/lead-capture-form/get-lead-capture-submissions',
+  GET_SUBMISSION_EMAIL:
+    '/lead-capture-form/get-lead-capture-submissions-emails',
   POST_FORM_SUBMISSIONS: '/lead-capture-form/lead-capture-submission',
   GET_RESTORE_FORMS: '/lead-capture-form/get-lead-capture-soft-deleted-forms',
   DELETE_FORM_PERMANENT: '/lead-capture-form/permanent-delete-forms',
