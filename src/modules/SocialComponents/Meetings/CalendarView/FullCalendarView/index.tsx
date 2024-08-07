@@ -6,9 +6,8 @@ import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { CALENDER_TYPES } from '@/constants/strings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { EditPenCustomIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
 import { truncateText } from '@/utils/avatarUtils';
-import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { SOCIAL_COMPONENTS } from '@/constants';
 import { useRouter } from 'next/router';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
@@ -57,7 +56,11 @@ export const FullCalendarView = (props: any) => {
         <FullCalendar
           plugins={[timeGridPlugin]}
           initialView={CALENDER_TYPES?.DAY_VIEW_CALENDER}
-          allDaySlot={false}
+          views={{
+            timeGrid: {
+              allDaySlot: false,
+            },
+          }}
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
@@ -150,7 +153,11 @@ export const FullCalendarView = (props: any) => {
         <FullCalendar
           plugins={[timeGridPlugin]}
           initialView={CALENDER_TYPES?.WEEK_VIEW_CALENDER}
-          allDaySlot={false}
+          views={{
+            timeGrid: {
+              allDaySlot: false,
+            },
+          }}
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
@@ -244,7 +251,11 @@ export const FullCalendarView = (props: any) => {
           plugins={[dayGridPlugin]}
           initialView={CALENDER_TYPES?.MONTH_VIEW_CALENDER}
           dayMaxEventRows={true}
-          allDaySlot={false}
+          views={{
+            timeGrid: {
+              allDaySlot: false,
+            },
+          }}
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
@@ -254,8 +265,10 @@ export const FullCalendarView = (props: any) => {
           eventContent={(eventInfo: any) => {
             const eventId = eventInfo?.event?._def?.extendedProps?._id;
             const isHovered = eventId === hoveredEvent;
-            const { start, end } = eventInfo?.event;
+            const { startTime, endTime } =
+              eventInfo?.event?._def?.extendedProps;
             const findData = eventInfo?.event?._def?.extendedProps;
+
             return (
               <Box
                 display={'flex'}
@@ -276,13 +289,9 @@ export const FullCalendarView = (props: any) => {
                   width={'100%'}
                 >
                   <Box>
-                    <Typography variant="body4">
-                      {dayjs(start)?.format(TIME_FORMAT?.UI)}
-                    </Typography>
+                    <Typography variant="body4">{startTime}</Typography>
                     <br />
-                    <Typography variant="body4">
-                      {dayjs(end)?.format(TIME_FORMAT?.UI)}
-                    </Typography>
+                    <Typography variant="body4">{endTime}</Typography>
                   </Box>
                   <Box>
                     <Typography variant="body4">
@@ -333,7 +342,11 @@ export const FullCalendarView = (props: any) => {
           plugins={[multiMonthPlugin]}
           initialView={CALENDER_TYPES?.YEAR_VIEW_CALENDER}
           dayMaxEventRows={true}
-          allDaySlot={false}
+          views={{
+            timeGrid: {
+              allDaySlot: false,
+            },
+          }}
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
@@ -343,7 +356,8 @@ export const FullCalendarView = (props: any) => {
           eventContent={(eventInfo: any) => {
             const eventId = eventInfo?.event?._def?.extendedProps?._id;
             const isHovered = eventId === hoveredEvent;
-            const { start, end } = eventInfo?.event;
+            const { startTime, endTime } =
+              eventInfo?.event?._def?.extendedProps;
             const findData = eventInfo?.event?._def?.extendedProps;
 
             return (
@@ -367,13 +381,9 @@ export const FullCalendarView = (props: any) => {
                   width={'100%'}
                 >
                   <Box>
-                    <Typography variant="body4">
-                      {dayjs(start).format(TIME_FORMAT?.UI)}
-                    </Typography>
+                    <Typography variant="body4">{startTime}</Typography>
                     <br />
-                    <Typography variant="body4">
-                      {dayjs(end).format(TIME_FORMAT?.UI)}
-                    </Typography>
+                    <Typography variant="body4">{endTime}</Typography>
                   </Box>
                   <Box>
                     <Typography variant="body4">

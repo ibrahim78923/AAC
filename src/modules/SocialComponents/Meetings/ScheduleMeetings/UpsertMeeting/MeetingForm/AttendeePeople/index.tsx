@@ -1,5 +1,5 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import { useAttendeePeople } from './useAttendeePeople';
 import {
   fullName,
@@ -12,7 +12,6 @@ import { DateRangePickerIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { ROUTER_CONSTANTS } from '@/constants/strings';
 import NoData from '@/components/NoData';
 import { CustomTooltip } from '@/components/CustomTooltip';
@@ -124,7 +123,7 @@ export const AttendeePeople = (props: any) => {
           </Button>
         </Box>
         {status?.isLoading || status?.isFetching ? (
-          <SkeletonForm />
+          <Skeleton />
         ) : slotsData?.length ? (
           <Grid container spacing={2} mt={0}>
             {slotsData?.map((slot: any) => {
@@ -233,7 +232,7 @@ export const AttendeePeople = (props: any) => {
           </Typography>
         </Box>
         {bookedStatus?.isLoading || bookedStatus?.isFetching ? (
-          <SkeletonForm />
+          <Skeleton />
         ) : bookedStatus?.isError ? (
           <ApiErrorState />
         ) : bookedSlotsData?.length ? (
@@ -250,7 +249,6 @@ export const AttendeePeople = (props: any) => {
                       display="flex"
                       flexDirection="column"
                       gap={1}
-                      sx={{ cursor: 'pointer' }}
                     >
                       <Typography variant="body4" color="custom.main">
                         {slot?.startTime}-{slot?.endTime}

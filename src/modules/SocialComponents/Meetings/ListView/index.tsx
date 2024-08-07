@@ -86,14 +86,14 @@ export const ListView = () => {
           isFetching={getMeetingListStatus?.isFetching}
           isError={getMeetingListStatus?.isError}
           isSuccess={getMeetingListStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
         />
       </Box>
       {deleteModal && (
         <AgentConversionDelete
           message={'Are you sure you want to delete this entry?'}
-          open={deleteModal?.isOpen}
+          open={deleteModal?.isOpen ?? false}
           handleClose={() => {
             setDeleteModal({});
           }}

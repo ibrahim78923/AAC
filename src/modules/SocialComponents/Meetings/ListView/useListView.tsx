@@ -23,8 +23,8 @@ export const useListView = () => {
     meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
   );
 
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const [getMeetingListTrigger, getMeetingListStatus]: any =
     useLazyGetMeetingsListQuery();
@@ -52,7 +52,7 @@ export const useListView = () => {
   }, [search, page, pageLimit, cardValue]);
   const listViewMeetingData = getMeetingListStatus?.data?.data?.meetings;
 
-  const activeCard = (meetingType: any, meetingHeading: any) => {
+  const activeCard = (meetingType: string, meetingHeading: string) => {
     setIsActiveCard(meetingHeading);
     setCardValue(meetingType);
     router?.push({
@@ -91,7 +91,7 @@ export const useListView = () => {
     }
   };
 
-  const meetingActiveType = (activeMeeting: any) => {
+  const meetingActiveType = (activeMeeting: string) => {
     return ROUTER_CONSTANTS?.[activeMeeting];
   };
 

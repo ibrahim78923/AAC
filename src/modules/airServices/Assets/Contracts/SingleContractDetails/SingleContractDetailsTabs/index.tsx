@@ -5,8 +5,8 @@ import { AssetsAssociate } from '../AssetsAssociate';
 import { ContractHistory } from '../ContractHistory';
 import { Activity } from '../Activity';
 import { Attachment } from '../Attachment';
-import { Skeleton } from '@mui/lab';
 import { CONTRACT_TYPES } from '@/constants/strings';
+import { Skeleton } from '@mui/material';
 
 export const SingleContractDetailsTabs = (props: any) => {
   const { apiStatus, data } = props;

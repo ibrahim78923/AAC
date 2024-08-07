@@ -8,8 +8,10 @@ import {
 } from '@/services/airServices/settings/agent-performance-management/leader-board/award-points';
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useAwardPoints = () => {
+  const router = useRouter();
   const { palette }: any = useTheme();
 
   const [addAwardPointsTrigger, addAwardPointsStatus] =
@@ -51,5 +53,6 @@ export const useAwardPoints = () => {
     isLoading,
     isFetching,
     addAwardPointsStatus,
+    router,
   };
 };

@@ -94,7 +94,7 @@ export const Meeting = () => {
           isFetching={getMeetingListStatus?.isFetching}
           isError={getMeetingListStatus?.isError}
           isSuccess={getMeetingListStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
         />
       </Box>
@@ -102,9 +102,9 @@ export const Meeting = () => {
         <AlertModals
           type={ALERT_MODALS_TYPE?.DELETE}
           message={'Are you sure you want to delete this entry?'}
-          open={deleteModal?.isOpen}
+          open={deleteModal?.isOpen ?? false}
           handleClose={() => {
-            setDeleteModal(false);
+            setDeleteModal({});
           }}
           handleSubmitBtn={() => {
             submitDeleteModal();

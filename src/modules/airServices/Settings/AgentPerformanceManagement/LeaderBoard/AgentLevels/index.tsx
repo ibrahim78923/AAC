@@ -15,6 +15,7 @@ const AgentLevels = () => {
     isLoading,
     isFetching,
     addAgentLevelsPointsStatus,
+    router,
   } = useAgentLevelsPoints();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -57,6 +58,7 @@ const AgentLevels = () => {
             type="button"
             variant="outlined"
             color="inherit"
+            onClick={() => router?.back()}
           >
             Cancel
           </LoadingButton>
