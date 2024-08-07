@@ -21,6 +21,7 @@ import { tableColumn } from '../DraggableFormFields/Table/Table.data';
 import { Counter } from '../DraggableFormFields/Counter';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { DroppableAreaI } from './DroppableArea.interface';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export default function DroppableArea(props: DroppableAreaI) {
   const {
@@ -45,6 +46,7 @@ export default function DroppableArea(props: DroppableAreaI) {
     setValue,
     isLoading,
     isFetching,
+    isError,
     watch,
   } = props;
 
@@ -59,8 +61,12 @@ export default function DroppableArea(props: DroppableAreaI) {
           ref={provided?.innerRef}
           {...provided?.droppableProps}
         >
-          {isLoading || isFetching ? (
-            <SkeletonTable />
+          {isLoading || isFetching || isError ? (
+            isError ? (
+              <ApiErrorState />
+            ) : (
+              <SkeletonTable />
+            )
           ) : (
             <>
               {!!!fieldData ? (
@@ -75,17 +81,21 @@ export default function DroppableArea(props: DroppableAreaI) {
                         height={'100%'}
                       >
                         <ReportsIcon />
-                        <Typography variant={'h6'} mt={1} component={'span'}>
-                          <span style={{ color: theme.palette.primary.main }}>
-                            {' '}
-                            Drag{' '}
-                          </span>
-                          or
-                          <span style={{ color: theme.palette.primary.main }}>
-                            {' '}
-                            Drop{' '}
-                          </span>
-                          widgets here to create your report!
+                        <Typography variant="h6" mt={1} component="span">
+                          <Box
+                            component="span"
+                            sx={{ color: theme.palette.primary.main }}
+                          >
+                            Drag
+                          </Box>
+                          {' or '}
+                          <Box
+                            component="span"
+                            sx={{ color: theme.palette.primary.main }}
+                          >
+                            Drop
+                          </Box>
+                          {' widgets here to create your report!'}
                         </Typography>
                         <Box
                           display="flex"

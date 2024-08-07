@@ -2,11 +2,12 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { ExportTabColumnsI } from './ExportTab.interface';
 
-export const exportTabColumnsFunction: any = (
-  exportList: any,
-  selectedExportList: any,
-  setSelectedExportList: any,
+export const exportTabColumnsFunction: ExportTabColumnsI = (
+  exportList,
+  selectedExportList,
+  setSelectedExportList,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -66,10 +67,17 @@ export const exportTabColumnsFunction: any = (
         <Avatar
           sx={{ bgcolor: 'error.lighter' }}
           style={{ width: 24, height: 24 }}
-          src={info?.row?.original?.user?.profileImg?.src}
-          alt={info?.row?.original?.user?.name}
+          src={info?.row?.original?.users?.avatar?.url}
+          alt={info?.row?.original?.users?.firstName}
         />
-        {info?.getValue() ?? '---'}
+        <Box display={'flex'} flexDirection={'column'}>
+          <Typography variant="body1" color={'grey.800'}>
+            {info?.row?.original?.users?.firstName ?? '---'}
+          </Typography>
+          <Typography variant="body2" color={'grey.900'}>
+            {info?.row?.original?.users?.email ?? '---'}
+          </Typography>
+        </Box>
       </Box>
     ),
   },

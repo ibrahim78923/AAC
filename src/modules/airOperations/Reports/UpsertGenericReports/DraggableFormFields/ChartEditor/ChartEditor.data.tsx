@@ -94,7 +94,7 @@ export const xAxesDataArray: any = {
   FORECAST: [
     {
       label: 'Pipelines',
-      value: 'sales_pipelineId',
+      value: 'sales_pipelinesId',
       ref: COLLECTION_NAME?.SALES_PIPELINES,
     },
     { label: 'Goal Status', value: 'goal_status', ref: null },
@@ -105,7 +105,7 @@ export const xAxesDataArray: any = {
     },
     {
       label: 'Users',
-      value: 'users',
+      value: 'usersId',
       ref: COLLECTION_NAME?.USERS,
     },
   ],

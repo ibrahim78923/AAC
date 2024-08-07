@@ -33,13 +33,11 @@ export default function useUpsertGenericReports() {
   const params = {
     id: reportId,
   };
-  const { data, isLoading, isFetching } = useGetSingleGenericReportsQuery(
-    params,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetSingleGenericReportsQuery(params, {
       refetchOnMountOrArgChange: true,
       skip: !!!reportId,
-    },
-  );
+    });
   const singleReport = (data as any)?.data?.results?.genericReports;
 
   const getDefaultModule = () => {
@@ -353,5 +351,6 @@ export default function useUpsertGenericReports() {
     data,
     handleMoveBack,
     watch,
+    isError,
   };
 }

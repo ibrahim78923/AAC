@@ -50,6 +50,7 @@ export const Header = (props: HeaderI) => {
             handleCsvExport={() => {
               handleCsvExport?.();
             }}
+            btnText={'Download'}
           />
         </PermissionsGuard>
         <PermissionsGuard

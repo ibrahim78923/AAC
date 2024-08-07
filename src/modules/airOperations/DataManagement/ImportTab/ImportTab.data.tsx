@@ -66,11 +66,18 @@ export const importTabColumnsFunction: ImportTabColumnsI = (
       <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
         <Avatar
           sx={{ bgcolor: 'error.lighter' }}
-          style={{ width: 24, height: 24 }}
-          src={info?.row?.original?.user?.profileImg?.src}
-          alt={info?.row?.original?.user?.name}
+          style={{ width: 28, height: 28 }}
+          src={info?.row?.original?.users?.avatar?.url}
+          alt={info?.row?.original?.users?.firstName}
         />
-        {info?.getValue() ?? '---'}
+        <Box display={'flex'} flexDirection={'column'}>
+          <Typography variant="body1" color={'grey.800'}>
+            {info?.row?.original?.users?.firstName ?? '---'}
+          </Typography>
+          <Typography variant="body2" color={'grey.900'}>
+            {info?.row?.original?.users?.email ?? '---'}
+          </Typography>
+        </Box>
       </Box>
     ),
   },

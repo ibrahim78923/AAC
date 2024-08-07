@@ -20,7 +20,7 @@ export const useImportTab: () => ImportTabI = () => {
 
   const filterBody = {
     product: filterValues?.product,
-    user: filterValues?.user,
+    user: filterValues?.user && filterValues?.user?._id,
     object: filterValues?.object,
     createdDate:
       filterValues?.createdDate &&
@@ -45,7 +45,7 @@ export const useImportTab: () => ImportTabI = () => {
 
   const listDataExport = async (type: any) => {
     if (!selectedTabList?.length) {
-      errorSnackbar('please select record to export.');
+      errorSnackbar('Please select record to download.');
       return;
     }
     try {
@@ -66,12 +66,12 @@ export const useImportTab: () => ImportTabI = () => {
         });
         saveAs(blob, 'Import List.xlsx');
       } else {
-        errorSnackbar('Invalid export type.');
+        errorSnackbar('Invalid download type.');
         return;
       }
-      successSnackbar('File Exported successfully');
+      successSnackbar('File downloaded successfully');
     } catch (error: any) {
-      errorSnackbar(error?.message || 'An error occurred during file export');
+      errorSnackbar(error?.message || 'An error occurred during file download');
     }
   };
 

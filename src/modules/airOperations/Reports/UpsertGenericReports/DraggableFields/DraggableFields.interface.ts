@@ -46,5 +46,8 @@ export interface DraggableFieldsI {
   selectedModule: any;
   data: any;
   handleMoveBack: () => void;
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
   watch: UseFormReturn<FieldValues>['watch'];
 }

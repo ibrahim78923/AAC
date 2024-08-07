@@ -25,6 +25,7 @@ import {
   useLazyServiceDashboardDropdownQuery,
   usePostGenericReportsMutation,
   usePatchGenericReportsMutation,
+  useAllUsersQuery,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
@@ -42,11 +43,34 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     selectAddToDashboard: null,
     selectAddToNewDashboard: null,
   });
+  const { data: usersData } = useAllUsersQuery(null);
   const singleReport = (data as any)?.data?.results;
   const saveReportsMethods = useForm({
     resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues(singleReport),
   });
+  const allUsersData = (usersData as any)?.data;
+  useEffect(() => {
+    if (singleReport?.genericReports?.accessLevel && allUsersData) {
+      const { users: accessUsers } = singleReport?.genericReports?.accessLevel;
+      const matchedUsersData = allUsersData
+        .filter((user: any) =>
+          accessUsers.some((accessUser: any) => accessUser?.id === user?._id),
+        )
+        .map((user: any) => {
+          const permission = accessUsers?.find(
+            (accessUser: any) => accessUser?.id === user?._id,
+          )?.access;
+          return {
+            _id: user?._id,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            permission,
+          };
+        });
+      setValue('specificUsersConditionOne', matchedUsersData ?? []);
+    }
+  }, [allUsersData]);
 
   const { watch, handleSubmit, reset, setValue, control, getValues } =
     saveReportsMethods;

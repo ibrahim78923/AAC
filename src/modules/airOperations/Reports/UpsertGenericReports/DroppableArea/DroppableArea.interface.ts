@@ -36,5 +36,6 @@ export interface DroppableAreaI {
   setValue: UseFormReturn<FieldValues>['setValue'];
   isLoading: boolean;
   isFetching: boolean;
+  isError: boolean;
   watch: UseFormReturn<FieldValues>['watch'];
 }

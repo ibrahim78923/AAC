@@ -130,9 +130,7 @@ export const reportsDefaultValues = (singleReport: any) => {
     addToExistingCondition: [],
     everyoneCondition:
       singleReport?.genericReports?.accessLevel?.access ?? null,
-    specificUsersConditionOne: singleReport?.users ?? [],
-    sharedWithPermissions:
-      singleReport?.genericReports?.accessLevel?.users ?? null,
+    specificUsersConditionOne: [],
     addToNewConditionOne: '',
     addToNewConditionTwo: null,
     newDashboardEveryoneCondition: null,

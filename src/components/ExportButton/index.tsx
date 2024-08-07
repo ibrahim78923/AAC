@@ -3,7 +3,12 @@ import { ExportIcon } from '@/assets/icons';
 import { useExportButton } from './useExportButton';
 
 export const ExportButton = (props: any) => {
-  const { handleCsvExport, handleExcelExport, btnVariant = 'outlined' } = props;
+  const {
+    handleCsvExport,
+    handleExcelExport,
+    btnVariant = 'outlined',
+    btnText = 'Export',
+  } = props;
   const { anchorEl, open, theme, handleClick, handleClose } = useExportButton();
 
   return (
@@ -19,7 +24,7 @@ export const ExportButton = (props: any) => {
         color="secondary"
         size="medium"
       >
-        Export
+        {btnText}
       </Button>
       <Menu
         id="demo-positioned-menu"
