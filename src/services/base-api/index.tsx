@@ -179,6 +179,7 @@ export const TAGS = [
   'Permissions',
   'PRODUCTS',
   'CALENDER_TAG',
+  'REPORTS_LEADS',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

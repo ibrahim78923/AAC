@@ -620,6 +620,7 @@ export const AIR_MARKETER = {
   CAMPAIGNS_TASKS: '/campaigns/task',
   CAMPAIGNS_CLONE: '/campaigns/view/clone',
   CAMPAIGNS_SAVE_VIEW: '/campaigns/view',
+  REPORTS_LEADS: '/lead-capture-form/get-all-lead-capture-stats',
 };
 
 export const SUPER_ADMIN_DASHBOARD = {

@@ -20,6 +20,7 @@ const SwitchableDatepicker = ({
   setDateValue,
   handleDateSubmit,
   placement = 'left',
+  ...others
 }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState('today');
@@ -253,6 +254,7 @@ const SwitchableDatepicker = ({
       {(isCalendarOpen || isOpen) && (
         <>
           <DatePicker
+            {...others}
             inline
             calendarContainer={Container}
             selected={startDate}

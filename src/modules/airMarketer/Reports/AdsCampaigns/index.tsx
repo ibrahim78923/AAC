@@ -20,7 +20,7 @@ import {
   usersData,
 } from './adsCampaigns.data';
 import CampaignsGraphs from './campaignsGraphs';
-import useMarketerReports from '../LeadsReports/useMarketerReports';
+import useMarketerReports from '../LeadsReports/useLeadsReports';
 
 import { DownloadIcon } from '@/assets/icons';
 
