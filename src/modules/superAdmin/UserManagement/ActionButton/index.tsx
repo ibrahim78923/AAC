@@ -8,6 +8,9 @@ import {
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ActionButtonProps } from '@/modules/superAdmin/UserManagement/useManagement-interface';
+import { useRouter } from 'next/router';
+import { SUPER_ADMIN } from '@/constants';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const ActionButton = (props: ActionButtonProps) => {
   const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
@@ -18,7 +21,7 @@ const ActionButton = (props: ActionButtonProps) => {
     handleUsersList,
     isOpenAddUserDrawer,
   } = useUserManagement();
-
+  const navigate = useRouter();
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       <Button
@@ -58,11 +61,16 @@ const ActionButton = (props: ActionButtonProps) => {
           <MenuItem
             onClick={() => {
               handleClose();
-              setIsOpenAddUserDrawer({
-                drawer: true,
-                type: 'view',
-                recordId: checkedRows,
-              });
+              tabVal === 2
+                ? navigate?.push({
+                    pathname: SUPER_ADMIN?.ADDROLE,
+                    query: { type: DRAWER_TYPES?.VIEW, id: checkedRows },
+                  })
+                : setIsOpenAddUserDrawer({
+                    drawer: true,
+                    type: DRAWER_TYPES?.VIEW,
+                    recordId: checkedRows,
+                  });
             }}
           >
             View
@@ -79,11 +87,16 @@ const ActionButton = (props: ActionButtonProps) => {
           <MenuItem
             onClick={() => {
               handleClose();
-              setIsOpenAddUserDrawer({
-                drawer: true,
-                type: 'edit',
-                recordId: checkedRows,
-              });
+              tabVal === 2
+                ? navigate?.push({
+                    pathname: SUPER_ADMIN?.ADDROLE,
+                    query: { type: DRAWER_TYPES?.EDIT, id: checkedRows },
+                  })
+                : setIsOpenAddUserDrawer({
+                    drawer: true,
+                    type: DRAWER_TYPES?.EDIT,
+                    recordId: checkedRows,
+                  });
             }}
           >
             Edit

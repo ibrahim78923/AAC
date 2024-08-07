@@ -8,7 +8,7 @@ import {
   useGetQuotesQuery,
 } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
-import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { MEETINGS_DETAILS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useQuotes = () => {
   const router = useRouter();
@@ -128,14 +128,14 @@ const useQuotes = () => {
     try {
       await DeleteQuotes(selectedRow)?.unwrap();
       enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedRow([]);
       setIsActionsDisabled(true);
       setOpenDeleteQuote(false);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };

@@ -111,7 +111,7 @@ export const columns = (
         </Tooltip>
       );
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignbudget) {
-      return info?.row?.original?.campaignBudget ?? 'N/A';
+      return `₤${info?.row?.original?.campaignBudget}` ?? 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignGoal) {
       return info?.row?.original?.campaignGoal ?? 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignAudience) {

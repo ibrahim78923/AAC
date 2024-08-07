@@ -1,43 +1,28 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const rolesAndRightsApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getRolesAndRights: builder.query({
-      query: ({ id }: any) => ({
-        url: `/users/${id}`,
+    getAdminRolesAndRights: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.GET_ADMIN_PERMISSIONS_ROLES,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['PERMISSIONS'],
+    }),
+
+    getAdminProductsPermissionsById: builder.query({
+      query: ({ productId }: any) => ({
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
         method: 'GET',
       }),
-      providesTags: ['USERS'],
-    }),
-    postRolesAndRights: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/users/${id}`,
-        method: 'POST',
-        body: body,
-      }),
-      invalidatesTags: ['USERS'],
-    }),
-    updateRolesAndRights: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `/users/${id}`,
-        method: 'PUT',
-        body: body,
-      }),
-      invalidatesTags: ['USERS'],
-    }),
-    deleteRolesAndRights: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `/users/${id}`,
-        method: 'GET',
-      }),
-      invalidatesTags: ['USERS'],
+      providesTags: ['PERMISSIONS'],
     }),
   }),
 });
 
 export const {
-  useUpdateRolesAndRightsMutation,
-  usePostRolesAndRightsMutation,
-  useGetRolesAndRightsQuery,
-  useDeleteRolesAndRightsMutation,
+  useGetAdminProductsPermissionsByIdQuery,
+  useGetAdminRolesAndRightsQuery,
 } = rolesAndRightsApi;

@@ -35,8 +35,8 @@ const useAddRole = () => {
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
   const roleDefaultValues: any = {
-    productId: {},
-    organizationCompanyAccountId: {},
+    productId: null,
+    organizationCompanyAccountId: null,
     name: '',
     description: '',
     status: '',

@@ -62,6 +62,7 @@ export const END_POINTS = {
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
   GET_PERMISSIONS_ROLES: '/permissions/role',
+  GET_ADMIN_PERMISSIONS_ROLES: '/permissions/super-admin-roles-rights',
   TASK_MANAGEMENT: '/task/management',
   TASK_MANAGEMENT_UNASSIGN_DEAL: '/task/unassign-deal',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
