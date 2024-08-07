@@ -15,6 +15,7 @@ import {
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const DepartmentCard = (props: any) => {
   const { handleAddMember, item, departmentActionDropdown }: any = props;
@@ -99,9 +100,15 @@ export const DepartmentCard = (props: any) => {
                 />
               ))}
           </AvatarGroup>
-          <IconButton onClick={() => handleAddMember?.(item)}>
-            <AddCircle color="primary" />
-          </IconButton>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_MEMBERS_IN_DEPARTMENTS,
+            ]}
+          >
+            <IconButton onClick={() => handleAddMember?.(item)}>
+              <AddCircle color="primary" />
+            </IconButton>
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

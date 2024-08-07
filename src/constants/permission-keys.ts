@@ -769,7 +769,7 @@ export const AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
   ADD_DEPARTMENTS: 'service-settings-add-departments',
   EDIT_DEPARTMENT: 'service-settings-edit-department',
   DELETE_DEPARTMENT: 'service-settings-delete-department',
-  ADD_MEMBERS_IN_DEPARTMENTS: 'service-settings-add-members-in-departments',
+  ADD_MEMBERS_IN_DEPARTMENTS: 'service-settings-add-memebers-in-departments',
   VIEW_AGENTS_LIST: 'service-settings-view-agents-list',
   ADD_NEW_AGENT: 'service-settings-add-new-agent',
   APPROVE_REJECT_AGENT_REQUEST: 'service-settings-approve-reject-agent-request',

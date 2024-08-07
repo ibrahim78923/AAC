@@ -32,7 +32,13 @@ export const DepartmentsHeader = (props: any) => {
         flexWrap={'wrap'}
         gap={1}
       >
-        <Search placeholder="Search Here" setSearchBy={setSearch} />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_DEPARTMENTS,
+          ]}
+        >
+          <Search placeholder="Search Here" setSearchBy={setSearch} />
+        </PermissionsGuard>
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS,
