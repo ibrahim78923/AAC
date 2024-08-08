@@ -6,14 +6,19 @@ import {
 } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { ISignUpLoads } from './SignUpLeads.interface';
+import { DATE_FORMAT } from '@/constants';
 
 export const getSignUpLeadsColumns = () => [
   {
-    accessorFn: (row: any) => row?.firstName,
+    accessorFn: (row: ISignUpLoads) => row?.firstName,
     id: 'firstName',
     isSortable: true,
     header: 'Contacts',
-    cell: (info: any) => (
+    cell: (info: {
+      getValue: () => string;
+      row: { original: ISignUpLoads };
+    }) => (
       <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
         <Avatar
           sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
@@ -28,38 +33,39 @@ export const getSignUpLeadsColumns = () => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.email,
+    accessorFn: (row: ISignUpLoads) => row?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info?.getValue() ?? '-',
+    cell: (info: { getValue: () => string }) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.address,
+    accessorFn: (row: ISignUpLoads) => row?.address,
     id: 'address',
     isSortable: true,
     header: 'Address',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: { getValue: () => string }) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.dateOfBirth,
+    accessorFn: (row: ISignUpLoads) => row?.dateOfBirth,
     id: 'dateOfBirth',
     isSortable: true,
     header: 'Address',
-    cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+    cell: (info: { getValue: () => string }) =>
+      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.phoneNumber,
+    accessorFn: (row: ISignUpLoads) => row?.phoneNumber,
     id: 'phoneNumber',
     isSortable: true,
     header: 'Phone Number',
-    cell: (info: any) => info?.getValue() ?? '-',
+    cell: (info: { getValue: () => string }) => info?.getValue() ?? '-',
   },
   {
-    accessorFn: (row: any) => row?.whatsAppNumber,
+    accessorFn: (row: ISignUpLoads) => row?.whatsAppNumber,
     id: 'whatsAppNumber',
     isSortable: true,
     header: 'WhatsApp Number',
-    cell: (info: any) => info?.getValue() ?? '-',
+    cell: (info: { getValue: () => string }) => info?.getValue() ?? '-',
   },
 ];
