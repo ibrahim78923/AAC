@@ -2,15 +2,17 @@ import * as Yup from 'yup';
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
 export const upsertFolderValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string(),
-  visibility: Yup?.mixed()?.nullable()?.required('Required'),
+  name: Yup?.string()?.trim()?.required('Name is required'),
+  description: Yup?.string()?.trim(),
+  visibility: Yup?.mixed()?.nullable()?.required('Visibility is required'),
 });
 
-export const upsertFolderFormDefaultValues = {
-  name: '',
-  description: '',
-  visibility: null,
+export const upsertFolderFormDefaultValues = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    description: data?.description ?? '',
+    visibility: null,
+  };
 };
 
 export const upsertFolderFormFields = [

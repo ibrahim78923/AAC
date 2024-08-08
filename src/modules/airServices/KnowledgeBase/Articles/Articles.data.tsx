@@ -3,6 +3,10 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
 import { errorSnackbar } from '@/utils/api';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants';
+
+export const ALL_FOLDER = 'all';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -146,9 +150,8 @@ export const articlesColumnsFunction = (
 };
 
 export const actionBtnData = (
-  setOpenDeleteModal: any,
-  setMoveFolderModal: any,
-  handleEditNavigation: any,
+  setIsPortalOpen: any,
+  router: any,
   selectedArticlesData: any,
 ) => [
   {
@@ -158,12 +161,15 @@ export const actionBtnData = (
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
     ],
     handleClick: (closeMenu: any) => {
-      if (selectedArticlesData?.length > 1) {
+      if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }
-      handleEditNavigation(selectedArticlesData?.[0]);
+      router?.push({
+        pathname: AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE,
+        query: { articleId: selectedArticlesData?.[ARRAY_INDEX?.ZERO] },
+      });
       closeMenu();
     },
   },
@@ -174,7 +180,7 @@ export const actionBtnData = (
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
     ],
     handleClick: (closeMenu: any) => {
-      setOpenDeleteModal(true);
+      setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },
   },
@@ -185,12 +191,12 @@ export const actionBtnData = (
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
     ],
     handleClick: (closeMenu: any) => {
-      if (selectedArticlesData?.length > 1) {
+      if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }
-      setMoveFolderModal(true);
+      setIsPortalOpen({ isOpen: true, isMoveFolder: true });
       closeMenu();
     },
   },

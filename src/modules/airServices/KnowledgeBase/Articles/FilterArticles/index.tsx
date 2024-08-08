@@ -4,10 +4,10 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterArticles } from './useFilterArticle';
 
 const FilterArticles = (props: any) => {
+  const { isPortalOpen } = props;
   const {
     submitHandler,
     resetArticleFilterForm,
-    isOpenFilterDrawer,
     methods,
     onClose,
     handleSubmit,
@@ -16,7 +16,7 @@ const FilterArticles = (props: any) => {
 
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenFilterDrawer}
+      isDrawerOpen={isPortalOpen?.isFilter}
       onClose={() => {
         onClose();
       }}
@@ -26,8 +26,8 @@ const FilterArticles = (props: any) => {
       title={'Filters'}
       okText={'Apply'}
       cancelText="Reset"
-      isOk={true}
-      footer={true}
+      isOk
+      footer
       cancelBtnHandler={() => resetArticleFilterForm?.()}
     >
       <Box mt={1}>

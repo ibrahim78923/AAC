@@ -87,11 +87,6 @@ export const actionsForReportListsDynamic = (
     title: 'Export',
     permissionKey: [permission?.EXPORT_RECORD],
     handleClick: (closeMenu: any) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen?.({
         isExport: true,
         isOpen: true,

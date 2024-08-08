@@ -7,41 +7,42 @@ import {
   Typography,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { useUpsertFolder } from './useUpsertFolder';
 import { LoadingButton } from '@mui/lab';
 import { upsertFolderFormFields } from './UpsertFolder.data';
+import CloseIcon from '@mui/icons-material/Close';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const UpsertFolder = (props: any) => {
-  const { openDialog, setOpenDialog } = props;
-  const {
-    methods,
-    handleSubmit,
-    onSubmit,
-    postFolderStatus,
-    closeUpsetFolderModal,
-  } = useUpsertFolder(props);
+  const { isPortalOpen } = props;
+  const { methods, handleSubmit, onSubmit, postFolderStatus, closePortal } =
+    useUpsertFolder(props);
 
   return (
     <Dialog
-      open={openDialog}
-      onClose={() => setOpenDialog(false)}
+      open={isPortalOpen?.isUpsertFolder as boolean}
+      onClose={() => closePortal()}
       maxWidth={'sm'}
       fullWidth
     >
       <DialogTitle>
         <Box
           display={'flex'}
-          justifyContent={'space-between'}
           alignItems={'center'}
-          paddingBottom={'1rem'}
+          justifyContent={'space-between'}
+          gap={1}
+          flexWrap={'wrap'}
+          mb={1.5}
         >
-          <Typography variant="h5">Create Folder</Typography>
-          <AlertModalCloseIcon
-            onClick={() => {
-              setOpenDialog(false);
-            }}
-            sx={{ cursor: 'pointer' }}
+          <Typography variant="h4" color="slateBlue.main">
+            {isPortalOpen?.data?._id
+              ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}{' '}
+            Folder
+          </Typography>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={() => closePortal?.()}
           />
         </Box>
       </DialogTitle>
@@ -66,7 +67,7 @@ export const UpsertFolder = (props: any) => {
               type="button"
               variant="outlined"
               color="secondary"
-              onClick={() => closeUpsetFolderModal?.()}
+              onClick={() => closePortal?.()}
               disabled={postFolderStatus?.isLoading}
             >
               Cancel
@@ -76,7 +77,9 @@ export const UpsertFolder = (props: any) => {
               variant="contained"
               loading={postFolderStatus?.isLoading}
             >
-              Create
+              {isPortalOpen?.data?._id
+                ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
             </LoadingButton>
           </Box>
         </DialogActions>

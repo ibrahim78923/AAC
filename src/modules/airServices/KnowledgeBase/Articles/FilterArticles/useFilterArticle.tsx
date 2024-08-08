@@ -5,11 +5,13 @@ import {
 } from './FilterArticles.data';
 import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
 import useAuth from '@/hooks/useAuth';
+import { PAGINATION } from '@/config';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const useFilterArticles = (props: any) => {
   const {
     isOpenFilterDrawer,
-    setIsOpenFilterDrawer,
+    setIsPortalOpen,
     filterValues,
     setFilterValues,
     setPage,
@@ -18,25 +20,24 @@ export const useFilterArticles = (props: any) => {
   const auth: any = useAuth();
 
   const { _id: productId } = auth?.product;
+
   const methods: any = useForm({
     defaultValues: filterArticlesDataDefaultValues?.(filterValues),
   });
   const { handleSubmit, reset } = methods;
   const submitHandler = (data: any) => {
-    const articleFilter: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const articleFilter: any = filteredEmptyValues(data);
+
     if (!Object?.keys(articleFilter || {})?.length) {
       setFilterValues({});
       reset();
       onClose();
       return;
     }
-    setPage(1);
+
+    setPage(PAGINATION?.CURRENT_PAGE);
     setFilterValues(articleFilter);
-    setIsOpenFilterDrawer?.(false);
+    onClose();
   };
 
   const resetArticleFilterForm = async () => {
@@ -44,12 +45,13 @@ export const useFilterArticles = (props: any) => {
       setFilterValues({});
     }
     reset();
-    setIsOpenFilterDrawer?.(false);
+    onClose();
   };
 
   const onClose = () => {
-    setIsOpenFilterDrawer?.(false);
+    setIsPortalOpen?.({});
   };
+
   const apiQueryAuthor = useLazyGetUsersDropdownListForAuthorsQuery();
 
   const filterArticlesFormFields = filterArticlesFormFieldsDynamic(
@@ -60,7 +62,7 @@ export const useFilterArticles = (props: any) => {
   return {
     submitHandler,
     isOpenFilterDrawer,
-    setIsOpenFilterDrawer,
+    setIsPortalOpen,
     methods,
     resetArticleFilterForm,
     onClose,

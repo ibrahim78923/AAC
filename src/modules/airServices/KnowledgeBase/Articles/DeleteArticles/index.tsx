@@ -3,7 +3,7 @@ import { useDeleteArticles } from './useDeleteArticles';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const DeleteArticles = (props: any) => {
-  const { deleteModalOpen } = props;
+  const { isPortalOpen } = props;
   const { deleteArticles, closeArticleDeleteModal, deleteArticleStatus } =
     useDeleteArticles(props);
 
@@ -11,7 +11,7 @@ export const DeleteArticles = (props: any) => {
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}
       message="Do you want to delete the selected article?"
-      open={deleteModalOpen}
+      open={isPortalOpen?.isDelete}
       handleClose={() => closeArticleDeleteModal?.()}
       handleSubmitBtn={() => deleteArticles?.()}
       loading={deleteArticleStatus?.isLoading}

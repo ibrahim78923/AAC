@@ -9,12 +9,12 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { useMoveFolder } from './useMoveFolder';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const MoveFolder = (props: any) => {
-  const { moveFolderModal } = props;
+  const { isPortalOpen } = props;
   const {
     methodMoveFolderForm,
     submitMoveFolder,
@@ -25,26 +25,29 @@ export const MoveFolder = (props: any) => {
     closeMoveFolderModal,
     moveFolderFormFields,
   } = useMoveFolder(props);
+
   return (
     <Dialog
-      open={moveFolderModal}
+      open={isPortalOpen?.isMoveFolder as boolean}
       onClose={() => closeMoveFolderModal()}
       maxWidth={'sm'}
       fullWidth
     >
       <DialogTitle>
         <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          gap={1}
           flexWrap={'wrap'}
+          mb={1.5}
         >
-          <Typography variant="h3" color="slateBlue.main">
+          <Typography variant="h4" color="slateBlue.main">
             Move to other folder
           </Typography>
-          <AlertModalCloseIcon
-            onClick={() => closeMoveFolderModal()}
-            style={{ cursor: 'pointer' }}
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={() => closeMoveFolderModal?.()}
           />
         </Box>
       </DialogTitle>

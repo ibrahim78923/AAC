@@ -14,21 +14,20 @@ import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useMoveFolder = (props: any) => {
-  const { selectedArticlesData, setSelectedArticlesData, setMoveFolderModal } =
+  const { selectedArticlesData, setSelectedArticlesData, setIsPortalOpen } =
     props;
+
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
   const getSingleArticleParameter = {
     pathParam: {
       articleId: selectedArticlesData,
     },
   };
-  const { data, isLoading, isFetching } = useGetArticleByIdQuery(
-    getSingleArticleParameter,
-    {
+  const { data, isLoading, isFetching }: { [key: string]: any } =
+    useGetArticleByIdQuery(getSingleArticleParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!selectedArticlesData,
-    },
-  );
+    });
 
   const methodMoveFolderForm = useForm<any>({
     resolver: yupResolver(moveFolderValidationSchema),
@@ -36,6 +35,7 @@ export const useMoveFolder = (props: any) => {
   });
 
   const { reset, handleSubmit } = methodMoveFolderForm;
+
   useEffect(() => {
     reset(() => moveFolderDefaultValues(data?.data));
   }, [selectedArticlesData, data, reset]);
@@ -58,7 +58,7 @@ export const useMoveFolder = (props: any) => {
   };
 
   const closeMoveFolderModal = () => {
-    setMoveFolderModal?.(false);
+    setIsPortalOpen?.({});
     setSelectedArticlesData?.([]);
   };
 

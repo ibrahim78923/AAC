@@ -9,13 +9,15 @@ import {
 } from './UpsertFolder.data';
 
 export const useUpsertFolder = (props: any) => {
-  const { setOpenDialog } = props;
+  const { setIsPortalOpen, isPortalOpen } = props;
+
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertFolderValidationSchema),
-    defaultValues: upsertFolderFormDefaultValues,
+    defaultValues: upsertFolderFormDefaultValues?.(isPortalOpen?.data),
   });
 
   const { handleSubmit, reset } = methods;
+
   const [postFolderTrigger, postFolderStatus] = usePostFolderMutation();
 
   const onSubmit = async (data: any) => {
@@ -27,14 +29,14 @@ export const useUpsertFolder = (props: any) => {
     try {
       await postFolderTrigger(body)?.unwrap();
       successSnackbar('Create Folder Successfully!');
-      closeUpsetFolderModal?.();
+      closePortal?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
   };
 
-  const closeUpsetFolderModal = () => {
-    setOpenDialog(false);
+  const closePortal = () => {
+    setIsPortalOpen({});
     reset();
   };
 
@@ -43,6 +45,6 @@ export const useUpsertFolder = (props: any) => {
     handleSubmit,
     onSubmit,
     postFolderStatus,
-    closeUpsetFolderModal,
+    closePortal,
   };
 };

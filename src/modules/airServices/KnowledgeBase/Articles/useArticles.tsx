@@ -2,37 +2,52 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
-import { actionBtnData, articlesColumnsFunction } from './Articles.data';
+import {
+  ALL_FOLDER,
+  actionBtnData,
+  articlesColumnsFunction,
+} from './Articles.data';
 import {
   useGetArticlesFoldersForFilterQuery,
   useLazyGetArticlesQuery,
 } from '@/services/airServices/knowledge-base/articles';
 import { PAGINATION } from '@/config';
 import { buildQueryParams } from '@/utils/api';
+import FilterArticles from './FilterArticles';
+import { DeleteArticles } from './DeleteArticles';
+import { MoveFolder } from './MoveFolder';
+import { UpsertFolder } from '../Folder/UpsertFolder';
+import { DeleteFolder } from '../Folder/DeleteFolder';
 
-export const useArticles: any = () => {
+export const useArticles: any = (props: any) => {
+  const { isPortalOpen, setIsPortalOpen } = props;
   const theme = useTheme();
-  const { push } = useRouter();
+  const router = useRouter();
+  const { push } = router;
+
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
-  const [selectedArticlesTab, setSelectedArticlesTab] = useState('all');
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [moveFolderModal, setMoveFolderModal] = useState(false);
-  const [openFilter, setOpenFilter] = useState(false);
+  const [selectedArticlesTab, setSelectedArticlesTab] = useState<any>({
+    _id: ALL_FOLDER,
+  });
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
 
   const [filterValues, setFilterValues] = useState<any>({});
+
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
     useLazyGetArticlesQuery();
 
-  const getValueArticlesListData = async (pages = page) => {
+  const getValueArticlesListData = async (currentPage = page) => {
     const additionalParams = [
-      ['page', pages + ''],
+      ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
-      ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
+      [
+        'folderId',
+        selectedArticlesTab?._id === ALL_FOLDER ? '' : selectedArticlesTab?._id,
+      ],
     ];
     const articlesParam: any = buildQueryParams(additionalParams, filterValues);
     const getArticlesParameter = {
@@ -63,7 +78,7 @@ export const useArticles: any = () => {
   );
 
   const foldersList = [
-    { name: 'all', _id: 'all' },
+    { name: ALL_FOLDER, _id: ALL_FOLDER },
     ...(folderData?.data ?? []),
   ];
 
@@ -74,15 +89,9 @@ export const useArticles: any = () => {
     });
   };
 
-  const handleEditNavigation = (id: string) => {
-    push({
-      pathname: AIR_SERVICES?.UPSERT_ARTICLE,
-      query: { articleId: id },
-    });
-  };
-  const setFolder = (id: any) => {
-    setSelectedArticlesTab(id);
-    setPage(1);
+  const setFolder = (folder: any) => {
+    setSelectedArticlesTab(folder);
+    setPage(PAGINATION?.CURRENT_PAGE);
   };
 
   const articlesColumns = articlesColumnsFunction(
@@ -93,41 +102,62 @@ export const useArticles: any = () => {
   );
 
   const dropdownOptions = actionBtnData(
-    setOpenDeleteModal,
-    setMoveFolderModal,
-    handleEditNavigation,
+    setIsPortalOpen,
+    router,
     selectedArticlesData,
   );
+
+  const portalComponentProps = {
+    isPortalOpen: isPortalOpen,
+    setIsPortalOpen: setIsPortalOpen,
+    selectedArticlesData: selectedArticlesData,
+    setSelectedArticlesData: setSelectedArticlesData,
+    setPage: setPage,
+    page: page,
+    getValueArticlesListData: getValueArticlesListData,
+    totalRecords: lazyGetArticlesStatus?.data?.data?.articles?.length,
+    filterValues: filterValues,
+    setFilterValues: setFilterValues,
+    selectedArticlesTab,
+  };
+
+  const renderPortalComponent = () => {
+    if (isPortalOpen?.isFilter) {
+      return <FilterArticles {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isDelete) {
+      return <DeleteArticles {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isMoveFolder) {
+      return <MoveFolder {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isUpsertFolder) {
+      return <UpsertFolder {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isDeleteFolder) {
+      return <DeleteFolder {...portalComponentProps} />;
+    }
+    return <></>;
+  };
 
   return {
     articlesColumns,
     selectedArticlesTab,
-    selectedArticlesData,
-    openDeleteModal,
-    setOpenDeleteModal,
-    moveFolderModal,
-    setMoveFolderModal,
     dropdownOptions,
     theme,
-    openFilter,
-    setOpenFilter,
-    page,
+    lazyGetArticlesStatus,
     setPage,
-    pageLimit,
     setPageLimit,
     setSearch,
     foldersList,
-    lazyGetArticlesStatus,
-    setSelectedArticlesData,
-    filterValues,
-    setFilterValues,
-    setSelectedArticlesTab,
+    selectedArticlesData,
     setFolder,
-    lazyGetArticlesTrigger,
-    search,
-    getValueArticlesListData,
     isLoading,
     isFetching,
     isError,
+    isPortalOpen,
+    setIsPortalOpen,
+    renderPortalComponent,
+    portalComponentProps,
   };
 };
