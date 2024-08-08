@@ -494,7 +494,7 @@ export const templateList = [
   {
     id: '39',
     title: 'Overview',
-    tableColumns: ['salesPipelineId', 'users', 'goalStatus', 'target'],
+    tableColumns: ['salesPipelineId', 'userId', 'goalStatus', 'target'],
     templateColumnsData: [
       {
         fieldType: FIELD_TYPE?.OBJECT_ID,

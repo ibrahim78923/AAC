@@ -138,7 +138,7 @@ export const tableEditorData: any = {
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'users',
+      fieldName: 'userId',
       collectionName: COLLECTION_NAME?.USERS,
     },
     {

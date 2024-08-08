@@ -10,6 +10,8 @@ export default UpsertGenericReportsPage;
 
 UpsertGenericReportsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_OPERATIONS_WORKFLOWS}>{page}</Layout>
+    <Layout permissions={Permissions?.AIR_OPERATION_CREATE_REPORT}>
+      {page}
+    </Layout>
   );
 };

@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Toolbar,
-  Typography,
-  useTheme,
-  Theme,
-} from '@mui/material';
+import { Box, Button, Divider, Toolbar, Typography } from '@mui/material';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { Draggable } from 'react-beautiful-dnd';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
@@ -18,46 +10,48 @@ import AppsIcon from '@mui/icons-material/Apps';
 import { DraggableFieldsI } from './DraggableFields.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { useDraggableFields } from './useDraggableFields';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
 
-export default function DraggableFields({
-  setModal,
-  setFieldData,
-  form,
-  setForm,
-  metricType,
-  setValue,
-  setEditorState,
-  fieldsList,
-  fieldData,
-  modal,
-  editorState,
-  fontSize,
-  setFontSize,
-  color,
-  setColor,
-  setColumnsData,
-  setOpenDrawer,
-  openDrawer,
-  setMetricType,
-  columnsData,
-  showTemplate,
-  handleCancel,
-  reportId,
-  setDraggedItemData,
-  disableTemplate,
-  draggedItemData,
-  templateList,
-  mainMetrics,
-  selectedModule,
-  data,
-  handleMoveBack,
-  watch,
-  isLoading,
-  isFetching,
-  isError,
-}: DraggableFieldsI) {
-  const theme: Theme = useTheme();
+export default function DraggableFields(props: DraggableFieldsI) {
+  const {
+    setModal,
+    setFieldData,
+    form,
+    setForm,
+    setValue,
+    setEditorState,
+    fieldsList,
+    fieldData,
+    modal,
+    editorState,
+    fontSize,
+    setFontSize,
+    color,
+    setColor,
+    setColumnsData,
+    setOpenDrawer,
+    openDrawer,
+    columnsData,
+    showTemplate,
+    handleCancel,
+    reportId,
+    setDraggedItemData,
+    disableTemplate,
+    draggedItemData,
+    templateList,
+    mainMetrics,
+    selectedModule,
+    data,
+    handleMoveBack,
+    watch,
+    isLoading,
+    isFetching,
+    isError,
+  } = props;
 
+  const { theme, metricType, setMetricType } = useDraggableFields(props);
   return (
     <Droppable droppableId={'draggable'}>
       {(provided: any) => (
@@ -81,13 +75,17 @@ export default function DraggableFields({
                     <Typography variant={'h5'} mb={2}>
                       {showTemplate ? 'Form Template' : ' Form Scratch'}
                     </Typography>
-                    <SingleDropdownButton
-                      dropdownOptions={
-                        mainMetrics(setMetricType)[selectedModule]
-                      }
-                      dropdownName={metricType}
-                      disabled={form?.length}
-                    />
+                    <PermissionsGuard
+                      permissions={Permissions?.AIR_OPERATION_CREATE_REPORT}
+                    >
+                      <SingleDropdownButton
+                        dropdownName={metricType}
+                        dropdownOptions={
+                          mainMetrics(setMetricType)[selectedModule]
+                        }
+                        disabled={form?.length}
+                      />
+                    </PermissionsGuard>
                   </Box>
                   <Box height={'60vh'} overflow={'scroll'} p={1}>
                     {showTemplate ? (

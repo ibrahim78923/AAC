@@ -109,7 +109,7 @@ export const TableEditor = (props: TableEditorI) => {
         ))}
       </Box>
       <Toolbar
-        sx={{ mt: 5.5, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
+        sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
       >
         <Button variant="outlined" onClick={handleCancel}>
           Cancel

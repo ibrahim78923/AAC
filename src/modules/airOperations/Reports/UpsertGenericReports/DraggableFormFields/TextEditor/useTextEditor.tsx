@@ -21,6 +21,8 @@ export const useTextEditor = (props: TextEditorI) => {
     watch,
   } = props;
   const [saveDisable, setSaveDisable] = useState(true);
+  const [edit, setEdit] = useState(true);
+  const [editValue, setEditValue] = useState();
   const textTitle = watch('textTitle');
   useEffect(() => {
     const rawContentState = convertToRaw(editorState?.getCurrentContent());
@@ -226,5 +228,9 @@ export const useTextEditor = (props: TextEditorI) => {
     onFontSizeChange,
     saveDisable,
     textTitle,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
   };
 };

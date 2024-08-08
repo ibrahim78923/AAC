@@ -14,7 +14,6 @@ export interface DraggableFieldsI {
   setFieldData: Dispatch<SetStateAction<boolean>>;
   form: any[];
   setForm: Dispatch<SetStateAction<any[]>>;
-  metricType: any;
   setValue: UseFormReturn<FieldValues>['setValue'];
   setEditorState: Dispatch<SetStateAction<EditorState>>;
   fieldsList: any[];
@@ -33,7 +32,6 @@ export interface DraggableFieldsI {
   setColumnsData: any;
   setOpenDrawer: Dispatch<SetStateAction<boolean>>;
   openDrawer: boolean;
-  setMetricType: any;
   columnsData: any[];
   showTemplate: boolean;
   handleCancel: () => void;
@@ -43,7 +41,7 @@ export interface DraggableFieldsI {
   draggedItemData: any;
   templateList: any[];
   mainMetrics: any;
-  selectedModule: any;
+  selectedModule: string;
   data: any;
   handleMoveBack: () => void;
   isLoading: boolean;

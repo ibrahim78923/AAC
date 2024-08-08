@@ -40,20 +40,6 @@ export default function useUpsertGenericReports() {
     });
   const singleReport = (data as any)?.data?.results?.genericReports;
 
-  const getDefaultModule = () => {
-    switch (moduleName) {
-      case GENERIC_REPORT_MODULES?.SERVICES:
-        return REPORT_TYPE?.INVENTORIES;
-      case GENERIC_REPORT_MODULES?.SALES:
-        return REPORT_TYPE?.DEALS;
-      case GENERIC_REPORT_MODULES?.MARKETING:
-        return REPORT_TYPE?.LEADS;
-      default:
-        return [];
-    }
-  };
-  const defaultModule = getDefaultModule();
-
   const methods: any = useForm({
     defaultValues: defaultValues(),
   });
@@ -67,15 +53,10 @@ export default function useUpsertGenericReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [metricType, setMetricType] = useState(defaultModule);
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
   const [disableTemplate, setDisableTemplate] = useState(false);
-  useEffect(() => {
-    if (singleReport) {
-      setMetricType(singleReport?.module);
-    }
-  }, [singleReport]);
+
   useEffect(() => {
     setValue('chartType', draggedItemData?.chartType ?? '');
     setValue('xAxis', draggedItemData?.xAxis ?? null);
@@ -333,8 +314,6 @@ export default function useUpsertGenericReports() {
     setColumnsData,
     setOpenDrawer,
     openDrawer,
-    setMetricType,
-    metricType,
     allChartComponents,
     showTemplate,
     setShowTemplate,
