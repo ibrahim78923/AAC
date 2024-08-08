@@ -105,7 +105,7 @@ export const articlesColumnsFunction = (
               component={'span'}
               style={{ textTransform: 'capitalize' }}
             >
-              {info?.getValue()}
+              {info?.getValue()?.toLowerCase()}
             </Typography>
           }
           size="small"
@@ -136,7 +136,11 @@ export const articlesColumnsFunction = (
       id: 'folder',
       isSortable: true,
       header: 'Folder',
-      cell: (info: any) => info?.getValue()?.name ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.name ?? '---'}
+        </Typography>
+      ),
     },
   ];
 };

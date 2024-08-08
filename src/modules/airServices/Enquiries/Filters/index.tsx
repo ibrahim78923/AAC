@@ -5,8 +5,13 @@ import React from 'react';
 
 import { statusOptions } from '../Enquiries.data';
 import useFilters from './useFilters';
+import { IChildModalState } from '../Enquiries.interface';
 
-export default function Filters({ isModalOpen, onClose, setFilter }: any) {
+export default function Filters({
+  isModalOpen,
+  onClose,
+  setFilter,
+}: IChildModalState) {
   const {
     handleSubmit,
     submitEnquiriesFilters,

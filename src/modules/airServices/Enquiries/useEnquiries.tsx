@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   useGetEnquiriesQuery,
   usePatchEnquiriesMutation,
@@ -10,13 +10,20 @@ import {
 } from './Enquiries.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import useAuth from '@/hooks/useAuth';
+import {
+  IEnquiry,
+  IErrorResponse,
+  IInfo,
+  IModalState,
+} from './Enquiries.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export default function useEnquiries() {
-  const [enquiriesSelected, setEnquiriesSelected] = useState([]);
+  const [enquiriesSelected, setEnquiriesSelected] = useState<IEnquiry[]>([]);
   const [searchBy, setSearchBy] = useState('');
   const [filter, setFilter] = useState('');
 
-  const [isModalOpen, setIsModalOpen] = useState({
+  const [isModalOpen, setIsModalOpen] = useState<IModalState>({
     filterOpen: false,
     viewOpen: false,
     deleteOpen: false,
@@ -34,7 +41,8 @@ export default function useEnquiries() {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const auth: any = useAuth();
-  const { _id: companyAccountId } = auth?.product?.accounts?.[0]?.company;
+  const { _id: companyAccountId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
 
   const params = {
     page: page,
@@ -50,7 +58,10 @@ export default function useEnquiries() {
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
     usePatchEnquiriesMutation();
 
-  const handleStatusChange = async (info: any, event: any) => {
+  const handleStatusChange = async (
+    info: IInfo,
+    event: ChangeEvent<HTMLSelectElement>,
+  ) => {
     const patchEnquiriesParameter = {
       queryParams: info?._id,
       body: { status: event?.target?.value },
@@ -60,15 +71,16 @@ export default function useEnquiries() {
       await patchEnquiriesTrigger(patchEnquiriesParameter)?.unwrap();
       setEnquiriesSelected([]);
       successSnackbar('Status Updated successfully!');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
   const enquiriesColumns = getEnquiriesColumns({
     enquiriesSelected,
     setEnquiriesSelected,
-    dataArray: data?.data?.enquiries,
+    dataArray: data?.data?.enquiries || [],
     handleStatusChange,
     patchEnquiriesStatus,
   });

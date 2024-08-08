@@ -92,7 +92,7 @@ export default function Enquiries() {
               count={data?.data?.meta?.pages}
               pageLimit={data?.data?.meta?.limit}
               totalRecords={data?.data?.meta?.total}
-              onPageChange={(page: any) => setPage(page)}
+              onPageChange={(page: number) => setPage(page)}
             />
           </PermissionsGuard>
         </Grid>

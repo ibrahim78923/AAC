@@ -1,8 +1,12 @@
 import { usePostRequesterMutation } from '@/services/airServices/enquiries';
 import { ROLE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IChildModalState, IErrorResponse } from '../Enquiries.interface';
 
-export default function useCreateRequester({ isModalOpen, onClose }: any) {
+export default function useCreateRequester({
+  isModalOpen,
+  onClose,
+}: IChildModalState) {
   const [postRequesterTrigger, postRequesterStatus] =
     usePostRequesterMutation();
 
@@ -21,8 +25,9 @@ export default function useCreateRequester({ isModalOpen, onClose }: any) {
       await postRequesterTrigger(updatedData)?.unwrap();
       successSnackbar('Requester Created Successfully!');
       onClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       onClose?.();
     }
   };

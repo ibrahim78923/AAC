@@ -10,8 +10,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import useViewEnquiry from './useViewEnquiry';
+import { IChildModalState } from '../Enquiries.interface';
 
-export default function ViewEnquiry({ isModalOpen, onClose }: any) {
+export default function ViewEnquiry({
+  isModalOpen,
+  onClose,
+}: IChildModalState) {
   const { methods, handleSubmit, onSubmit, status } = useViewEnquiry({
     isModalOpen,
     onClose,

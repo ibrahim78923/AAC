@@ -110,7 +110,11 @@ export const purchaseOrderColumnsFunction = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase()?.split('_')?.join(' ') ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.subTotal,
