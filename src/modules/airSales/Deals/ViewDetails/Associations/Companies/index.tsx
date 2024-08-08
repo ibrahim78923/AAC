@@ -12,8 +12,14 @@ import { PlusIcon } from '@/assets/icons';
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { CompaniesProps } from '../Associations-interface';
 
-const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
+const Companies = ({
+  companiesData,
+  dealId,
+  isLoading,
+  handleSearch,
+}: CompaniesProps) => {
   const {
     theme,
     isOpenAlert,

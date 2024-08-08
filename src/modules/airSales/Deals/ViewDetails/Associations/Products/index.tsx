@@ -10,8 +10,14 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { ProductsProps } from '../Associations-interface';
 
-const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
+const Products = ({
+  productsData,
+  isLoading,
+  viewDeal,
+  dealId,
+}: ProductsProps) => {
   const {
     theme,
     isOpenAlert,

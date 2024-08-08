@@ -1,14 +1,16 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   iconWrap: { display: 'flex', gap: '25px', alignItems: 'center' },
 
-  accordianText: (theme: any) => {
+  accordianText: (theme: Theme) => {
     return {
       color: theme?.palette?.slateBlue['main'],
       fontSize: '14px',
       fontWeight: 600,
     };
   },
-  accordianEmail: (theme: any) => {
+  accordianEmail: (theme: Theme) => {
     return {
       color: theme?.palette?.grey['900'],
       fontSize: '14px',
@@ -16,7 +18,7 @@ export const styles = {
     };
   },
   heading: { display: 'flex', justifyContent: 'space-between', my: '15px' },
-  accordianSummary: (theme: any) => {
+  accordianSummary: (theme: Theme) => {
     return {
       background: theme?.palette?.secondary['main'],
       height: '24px',

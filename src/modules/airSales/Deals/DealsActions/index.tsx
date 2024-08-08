@@ -1,8 +1,6 @@
 import { useState } from 'react';
-
 import { Popover, Button, MenuItem, useTheme, Box } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
 import { DealsActionInterfacePropsI } from './Actions.interface';
 
 const DealsActions = ({

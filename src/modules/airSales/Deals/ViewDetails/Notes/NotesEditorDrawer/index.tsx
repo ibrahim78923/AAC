@@ -13,8 +13,9 @@ import {
 } from './NotesEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { NotesEditorDrawerProps } from '../Notes-interface';
 
-const NotesEditorDrawer = (props: any) => {
+const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
   const {
     openDrawer,
     setOpenDrawer,

@@ -1,13 +1,17 @@
 import { Grid, MenuItem } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { ScheduleModals } from '@/components/ScheduleModals';
-
 import { v4 as uuidv4 } from 'uuid';
 import { RestoreModalData } from './RestoreAssign.data';
 import useRestoreAssign from './useRestoreAssign';
+import { AssignModalBoxProps } from '../DealsModalBox-interface';
 
-const AssignModalBox = ({ open, onClose, seletedId, setSelectedRows }: any) => {
+const AssignModalBox = ({
+  open,
+  onClose,
+  seletedId,
+  setSelectedRows,
+}: AssignModalBoxProps) => {
   const { handleSubmit, onSubmit, methods, UserListData, loadingUpdateOwner } =
     useRestoreAssign(seletedId, onClose, setSelectedRows);
 

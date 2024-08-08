@@ -8,17 +8,11 @@ export const dealsColumns: any = (columnsProps: any) => {
   const theme = useTheme();
   const { checkedRows, setCheckedRows, dealsData } = columnsProps;
 
-  // const keyValueObject: any = {};
-
-  // dealColumns?.forEach((key: any, index: any) => {
-  //   keyValueObject[key] = dealColumns[index]; // You can set a default value if needed
-  // });
-
   const handleSelectDealById = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedRows([...checkedRows, id]);
     } else {
-      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+      setCheckedRows(checkedRows?.filter((_id: string) => _id !== id));
     }
   };
   const handleSelectAllDeals = (checked: boolean): void => {

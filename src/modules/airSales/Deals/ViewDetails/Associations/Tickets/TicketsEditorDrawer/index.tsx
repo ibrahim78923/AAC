@@ -10,8 +10,9 @@ import {
 } from './TicketsEditorDrawer.data';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { TICKETS_TYPE } from '@/constants';
+import { TicketsEditorDrawerProps } from '../../Associations-interface';
 
-const TicketsEditorDrawer = (props: any) => {
+const TicketsEditorDrawer = (props: TicketsEditorDrawerProps) => {
   const { openDrawer, setOpenDrawer } = props;
   const {
     handleSubmit,

@@ -24,7 +24,6 @@ const Tickets = ({ isLoading }: any) => {
     delTicketLoading,
     deleteTicketHandler,
     setTicketRecord,
-    ticketRecord,
     ticketsData,
     getTicketsLoading,
   } = useTickets();
@@ -106,7 +105,6 @@ const Tickets = ({ isLoading }: any) => {
         <TicketsEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
-          ticketRecord={ticketRecord}
         />
       )}
 

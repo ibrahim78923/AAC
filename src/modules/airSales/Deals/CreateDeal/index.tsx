@@ -20,8 +20,9 @@ import { ASSOCIATIONS_API_PARAMS_FOR, DATE_FORMAT } from '@/constants';
 import { useEffect } from 'react';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
+import { CreateDealProps } from './CreateDeal-interface';
 
-const CreateDeal = ({ open, onClose }: any) => {
+const CreateDeal = ({ open, onClose }: CreateDealProps) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
     usePostDealsMutation();
   const [postAssociation, { isLoading: createAssociationDealsLoading }] =
@@ -45,12 +46,12 @@ const CreateDeal = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
-    const closeDate = values.closeDate
-      ? dayjs(values.closeDate).format(DATE_FORMAT?.API)
+    const closeDate = values?.closeDate
+      ? dayjs(values.closeDate)?.format(DATE_FORMAT?.API)
       : undefined;
 
     const products =
-      values.products?.map((item: string) => ({
+      values?.products?.map((item: string) => ({
         productId: item,
         quantity: 1,
         unitDiscount: 0,
@@ -66,7 +67,7 @@ const CreateDeal = ({ open, onClose }: any) => {
       ...values,
     };
 
-    Object.keys(obj).forEach((key) => {
+    Object?.keys(obj)?.forEach((key) => {
       if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
         delete obj[key];
       }

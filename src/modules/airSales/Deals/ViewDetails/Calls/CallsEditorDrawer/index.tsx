@@ -22,8 +22,9 @@ import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import { attendeesOptions } from '@/mock/modules/airSales/Deals/ViewDetails';
+import { CallsEditorDrawerProps } from '../Calls-interface';
 
-const CallsEditorDrawer = (props: any) => {
+const CallsEditorDrawer = (props: CallsEditorDrawerProps) => {
   const { openDrawer, setOpenDrawer } = props;
   const { handleSubmit, onSubmit, methodsdealsCalls } = useCallsEditorDrawer();
 

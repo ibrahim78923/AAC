@@ -10,8 +10,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import useDealTab from '../DealTab/useDealTab';
+import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
 
-const DealCustomize = ({ open, onClose }: any) => {
+const DealCustomize = ({ open, onClose }: CreateDealProps) => {
   const { customizeLoading } = useDealTab();
   const {
     handleChackboxChange,

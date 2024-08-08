@@ -1,13 +1,8 @@
 import Image from 'next/image';
-
 import { Box, Grid, Typography } from '@mui/material';
-
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
-
 import { ActivityLogImage } from '@/assets/images';
-
 import { styles } from '../ViewDetails.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import useActivitylog from './useActivitylog';
 import { DATE_TIME_FORMAT } from '@/constants';

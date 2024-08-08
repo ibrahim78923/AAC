@@ -15,8 +15,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { DATE_FORMAT } from '@/constants';
+import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
 
-const CreateView = ({ open, onClose }: any) => {
+const CreateView = ({ open, onClose }: CreateDealProps) => {
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: 'EVERYONE',

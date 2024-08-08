@@ -29,8 +29,6 @@ const Restore = () => {
     theme,
     handleActions,
     restoeDealData,
-    // handleCheckAll,
-    // handleSingleChecked,
     checkedAll,
     handlePermanantDeleteRetore,
     setRestoreFilter,

@@ -18,14 +18,14 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import useViewDetails from './useViewDetails';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
 import { IMG_URL } from '@/config';
 import { v4 as uuidv4 } from 'uuid';
 import { capitalizeFirstLetter } from '@/utils/api';
 
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, selecetdDealId } = useViewDetails();
-  const searchParams = useSearchParams().get('tab-value');
+  const searchParams = useSearchParams()?.get('tab-value');
 
   return (
     <Box>
@@ -131,7 +131,7 @@ const ViewDetails = () => {
               <Typography variant="body2" sx={{ fontWeight: 600 }}>
                 Products
               </Typography>
-              {viewDeal?.products?.length === 0 ? (
+              {viewDeal?.products?.length === indexNumbers?.ZERO ? (
                 <Box sx={styles?.noproductBox}>
                   <Typography
                     variant="body3"
@@ -241,7 +241,7 @@ const ViewDetails = () => {
           <Box>
             <HorizontalTabs
               tabsDataArray={singleUserDealTabsData}
-              defaultValue={Number(searchParams) ?? 0}
+              defaultValue={Number(searchParams) ?? indexNumbers?.ZERO}
             >
               <Details selecetdDealId={selecetdDealId} />
               <PermissionsGuard

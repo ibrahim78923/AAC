@@ -2,8 +2,12 @@ import useImportDeal from './useImportDeal';
 import { Import } from '@/components/Import';
 import { CRM_COLUMNS } from './ImportDealsDrawer.data';
 import { OBJECT_URL_IMPORT } from '@/constants/strings';
+import { ImportDealsDrawerProps } from './ImportDealDrawer-interface';
 
-const ImportDealsDrawer = ({ open, setIsImportDeal }: any) => {
+const ImportDealsDrawer = ({
+  open,
+  setIsImportDeal,
+}: ImportDealsDrawerProps) => {
   const {
     setDrawerDefaultState,
     submitImport,

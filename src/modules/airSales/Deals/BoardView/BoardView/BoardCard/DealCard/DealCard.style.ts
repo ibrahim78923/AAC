@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
-  card: (theme: any) => ({
+  card: (theme: Theme) => ({
     backgroundColor: 'common.white',
     border: `1px solid ${theme?.palette?.grey[700]}`,
     p: '10px',
@@ -26,7 +28,7 @@ export const styles = {
     lineHeight: '1.5',
     color: 'slateBlue.main',
   }),
-  orgName: (theme: any) => ({
+  orgName: (theme: Theme) => ({
     fontSize: '12px',
     fontWeight: '400',
     lineHeight: '1.5',
@@ -54,7 +56,7 @@ export const styles = {
     borderTop: `1px solid ${theme?.palette?.grey[400]}`,
     pt: '8px',
   }),
-  activities: (theme: any) => ({
+  activities: (theme: Theme) => ({
     listStyle: 'none',
     display: 'flex',
     lineHeight: '16px',

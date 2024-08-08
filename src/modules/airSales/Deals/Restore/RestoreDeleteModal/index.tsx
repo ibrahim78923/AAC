@@ -1,13 +1,13 @@
 import { AlertModals } from '@/components/AlertModals';
-
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import useRestore from '../useRestore';
+import { RestoreDeleteModalProps } from '../Restore-interface';
 
 const RestoreDeleteModal = ({
   open,
   onClose,
   handlePermanantDeleteRetore,
-}: any) => {
+}: RestoreDeleteModalProps) => {
   const { updateRestoreLoading } = useRestore();
 
   return (

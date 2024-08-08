@@ -28,8 +28,9 @@ import {
 import { styles } from './ShareMyDine.style';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { ShareMyDineProps } from './ShareMyDine-interface';
 
-const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
+const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
   const theme = useTheme();
   const { data: DealsActionData }: any = useGetDealsActionPreviewQuery({
     id: selectedTableIds[0],

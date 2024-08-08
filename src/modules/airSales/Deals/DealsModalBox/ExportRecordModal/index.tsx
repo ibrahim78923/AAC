@@ -1,22 +1,18 @@
 import { useForm } from 'react-hook-form';
-
 import { Grid } from '@mui/material';
-
 import CommonModal from '@/components/CommonModal';
 import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   recordData,
   customDefaultValues,
   customValidationSchema,
 } from './ExportRecord.data';
-
 import { ExportRecordIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
+import { ExportRecordModalI } from '../DealsModalBox-interface';
 
-const ExportRecordModal = ({ open, onClose }: any) => {
+const ExportRecordModal = ({ open, onClose }: ExportRecordModalI) => {
   const methods: any = useForm({
     resolver: yupResolver(customValidationSchema),
     defaultValues: customDefaultValues,
