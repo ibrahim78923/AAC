@@ -28,4 +28,5 @@ export interface PermissionsAccordionInterface {
   selectAllPermissions: (subModules: SubModule[]) => void;
   watch: (field: string) => string[];
   disabled: boolean;
+  query: any;
 }

@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
+import { capitalizeFirstLetters } from '@/utils';
 
 export const columns = (
   selectedRows: string[],
@@ -84,7 +85,7 @@ export const columns = (
       : 'N/A';
     const userEmail = userDetails ? userDetails?.email : 'N/A';
     if (attribute === CAMNPAIGNS_ATTRIBUTES?.title) {
-      return info?.row?.original?.title ?? 'N/A';
+      return capitalizeFirstLetters(info?.row?.original?.title) ?? 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignOwner) {
       return (
         <Tooltip
@@ -106,7 +107,9 @@ export const columns = (
           placement="top-start"
         >
           <Box>
-            <Typography sx={{ cursor: 'default' }}>{userName}</Typography>
+            <Typography sx={{ cursor: 'default' }}>
+              {capitalizeFirstLetters(userName)}
+            </Typography>
           </Box>
         </Tooltip>
       );

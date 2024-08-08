@@ -48,9 +48,6 @@ const CreateQuote = () => {
                 loading={loadingAddQuote}
                 variant="contained"
                 onClick={handleAddQuoteSubmit}
-                sx={{
-                  marginLeft: { xs: '3px !important', sm: '12px !important' },
-                }}
               >
                 Save & Continue
               </LoadingButton>

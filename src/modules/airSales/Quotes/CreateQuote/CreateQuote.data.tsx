@@ -1,9 +1,9 @@
 import {
   RHFDatePicker,
   RHFTextField,
-  RHFSelect,
   RHFSearchableSelect,
   RHFRadioGroup,
+  RHFAutocomplete,
 } from '@/components/ReactHookForm';
 import { DATE_FORMAT, dealStatus } from '@/constants';
 import * as Yup from 'yup';
@@ -50,19 +50,17 @@ export const dealFormData = (openCreateDeal: any) => {
     },
     {
       id: 'template',
-      component: RHFSelect,
       componentProps: {
+        label: 'Select Quote Template',
         name: 'template',
-        label: 'Select Quote template',
         fullWidth: true,
-        select: true,
-        placeholder: 'Select',
         required: true,
+        placeholder: 'Select quote template',
+        options: ['Basic', 'Original'],
       },
-      options: [
-        { value: 'Basic', label: 'Basic' },
-        { value: 'Original', label: 'Original' },
-      ],
+
+      component: RHFAutocomplete,
+      md: 12,
     },
     {
       id: 'name',
