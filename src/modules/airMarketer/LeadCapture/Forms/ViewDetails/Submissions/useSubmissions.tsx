@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
-import { useGetFormSubmissionsQuery } from '@/services/airMarketer/lead-capture/forms';
+import {
+  useGetFormSubmissionsQuery,
+  useGetSubmissionEmailsQuery,
+} from '@/services/airMarketer/lead-capture/forms';
 import { PAGINATION } from '@/config';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const useSubmissions = (formId: string) => {
   const theme = useTheme();
@@ -46,13 +51,48 @@ const useSubmissions = (formId: string) => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    setFilterParams((prev: any) => ({
-      ...prev,
-      ...values,
-    }));
+    const updateFilterParams = (key: string, value: any) => {
+      setFilterParams((prev: any) => ({
+        ...prev,
+        [key]: value,
+      }));
+    };
+
+    const dateRange = values?.dateRange;
+    const customer = values?.customer;
+
+    if (dateRange && dateRange?.length === 2) {
+      const [start, end] = dateRange;
+      updateFilterParams(
+        'startDate',
+        start ? dayjs(start).format(DATE_FORMAT.API) : null,
+      );
+      updateFilterParams(
+        'endDate',
+        end ? dayjs(end).format(DATE_FORMAT.API) : null,
+      );
+    } else {
+      updateFilterParams('startDate', undefined);
+      updateFilterParams('endDate', undefined);
+    }
+
+    if (customer) {
+      updateFilterParams('customer', customer);
+    } else {
+      updateFilterParams('customer', undefined);
+    }
+
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
+  const { data: dataGetSubmissionEmails } = useGetSubmissionEmailsQuery(formId);
+  const dataCustomers = dataGetSubmissionEmails?.data?.map(
+    (customer: { email: string }) => ({
+      value: customer?.email,
+      label: customer?.email,
+    }),
+  );
 
   return {
     theme,
@@ -67,6 +107,7 @@ const useSubmissions = (formId: string) => {
     handleCloseFilters,
     methodsFilter,
     handleFiltersSubmit,
+    dataCustomers,
   };
 };
 

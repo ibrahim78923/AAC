@@ -28,6 +28,9 @@ export const addFaqsFiltersDataArray = (products: any) => {
         label: 'Select FAQ Category',
         placeholder: 'Select product',
         apiQuery: products,
+        externalParams: {
+          status: 'active',
+        },
         getOptionLabel: (option: any) => option?.name,
         required: true,
       },

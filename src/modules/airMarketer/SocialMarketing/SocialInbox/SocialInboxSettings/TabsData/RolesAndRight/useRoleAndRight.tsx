@@ -8,6 +8,7 @@ import {
   getSession,
 } from '@/utils';
 import { airMarketerRolesAndRightsAPI } from '@/services/airMarketer/settings/roles-and-rights';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useRoleAndRight: any = () => {
   const { user }: any = getSession();
@@ -18,7 +19,7 @@ const useRoleAndRight: any = () => {
 
   const [expanded, setExpanded] = React.useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
-  const [checkedRows, setCheckedRows] = useState();
+  const [checkedRows, setCheckedRows] = useState('');
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
@@ -28,7 +29,7 @@ const useRoleAndRight: any = () => {
 
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
     id: '',
   });
 

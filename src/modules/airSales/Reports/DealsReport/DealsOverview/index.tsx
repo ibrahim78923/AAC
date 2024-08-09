@@ -4,8 +4,9 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './DealsOverview.data';
 import { styles } from './DealsOverview.style';
 import useDealsReports from '../useDealsReports';
+import { DealsOverviewProps } from '../DealsReports-interface';
 
-const DealsOverview = (props: any) => {
+const DealsOverview = (props: DealsOverviewProps) => {
   const { dealsReportsTable, searchBy, setSearchBy, setPage, setLimit } = props;
   const theme = useTheme<Theme>();
   const { isLoading, isSuccess, isError, isFetching } = useDealsReports();

@@ -4,18 +4,18 @@ import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetLifeCycleStagesDropdownListQuery,
-  useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, warningSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { SubWorkflowConditionsI } from './SubWorkflowConditions.interface';
 
-export const useSubWorkflowConditions = (props: any) => {
+export const useSubWorkflowConditions = (props: SubWorkflowConditionsI) => {
   const { control, index, parentField, removeParent, setValue, watch } = props;
   const { fields, remove, append } = useFieldArray({
     control,
     name: `groups.${index}.conditions`,
   });
-  const handleDeleteClick = (subIndex: any) => {
+  const handleDeleteClick = (subIndex: number) => {
     if (parentField?.length === 1 && fields?.length < 2) {
       warningSnackbar('Cannot Delete');
       return;
@@ -36,7 +36,6 @@ export const useSubWorkflowConditions = (props: any) => {
   };
   const dealDropdown = useLazyGetDealDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
-  const userDropdown = useLazyGetUserDropdownListQuery();
   const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
@@ -55,7 +54,6 @@ export const useSubWorkflowConditions = (props: any) => {
     handleDeleteClick,
     dealDropdown,
     stagesDropdown,
-    userDropdown,
     adminUserDropdown,
   };
 };

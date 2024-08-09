@@ -29,7 +29,7 @@ export const dataArray = (productsAllUsers: any) => {
         name: 'createdBy',
         label: 'Created By',
         fullWidth: true,
-        placeholder: 'select option',
+        placeholder: 'Select Option',
         apiQuery: productsAllUsers,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,

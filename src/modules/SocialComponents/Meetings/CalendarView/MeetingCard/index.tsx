@@ -2,7 +2,7 @@ import { SOCIAL_COMPONENTS } from '@/constants';
 import { Box, Typography } from '@mui/material';
 
 export const MeetingCard = (props: any) => {
-  const { heading, meetingsCount, color, router } = props;
+  const { heading, meetingsCount, color, router, type } = props;
 
   return (
     <Box
@@ -24,7 +24,7 @@ export const MeetingCard = (props: any) => {
         router?.push({
           pathname: SOCIAL_COMPONENTS?.MEETINGS,
           query: {
-            type: heading,
+            type,
           },
         })
       }

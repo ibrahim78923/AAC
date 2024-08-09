@@ -1,9 +1,11 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Typography } from '@mui/material';
 import { tableColumn } from './Table.data';
+import { TableI } from './Table.interface';
 
-export const Table = (props: any) => {
-  const { tableTitle, columnsData } = props;
+export const Table = (props: TableI) => {
+  const { columnsData, watch } = props;
+  const tableTitle = watch('tableTitle');
   return (
     <>
       <Box boxShadow={2} p={2} borderRadius={2}>

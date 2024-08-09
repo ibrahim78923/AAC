@@ -200,6 +200,13 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    sendServiceDashboardViaEmailOnce: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.TICKET_NEW_EMAIL,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -228,4 +235,6 @@ export const {
   useLazyGetDepartmentsDropdownListForDashboardQuery,
   useLazyGetUsersDropdownListForDashboardQuery,
   useSendServiceDashboardViaEmailMutation,
+  useSendServiceDashboardViaEmailOnceMutation,
+  useLazyGetCustomerAnnouncementQuery,
 } = dashboardAPI;

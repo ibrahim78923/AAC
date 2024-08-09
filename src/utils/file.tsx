@@ -48,40 +48,69 @@ export const processCSV = (str: any, delimiter = ',') => {
   return filterEmptyValue;
 };
 
-export const htmlToPdfConvert = (elementRef: any, name = 'Pdf') => {
-  const { clientWidth, clientHeight } = elementRef?.current;
-  const contentHeight = elementRef?.current?.clientHeight;
-  const pdf = new jsPDF('p', 'pt', [clientWidth, clientHeight]);
-  const pdfWidth = pdf?.internal?.pageSize?.getWidth();
+export const htmlToPdfConvert = async (
+  elementRef: any,
+  name = 'Pdf',
+  padding = 40,
+) => {
+  try {
+    const { clientWidth, clientHeight } = elementRef?.current;
+    const contentHeight = elementRef?.current?.clientHeight;
 
-  toPng(elementRef?.current, { cacheBust: false })
-    ?.then((dataUrl: any) => {
-      let imgHeight =
-        (contentHeight * pdfWidth) / elementRef?.current?.clientWidth;
+    const pdf = new jsPDF('p', 'pt', [clientWidth, clientHeight]);
+    const pdfWidth = pdf?.internal?.pageSize?.getWidth();
 
-      if (imgHeight > pdf?.internal?.pageSize?.getHeight()) {
-        imgHeight = pdf?.internal?.pageSize?.getHeight();
-      }
+    const dataUrl = await toPng(elementRef?.current, { cacheBust: false });
 
-      pdf?.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, imgHeight);
-      pdf?.save(`${name}.pdf`);
-    })
-    ?.catch((err) => {
-      errorSnackbar(err?.message);
-    });
+    let imgHeight =
+      (contentHeight * pdfWidth) / elementRef?.current?.clientWidth;
+
+    if (imgHeight > pdf?.internal?.pageSize?.getHeight()) {
+      imgHeight = pdf?.internal?.pageSize?.getHeight();
+    }
+
+    pdf?.addImage(
+      dataUrl,
+      'PNG',
+      padding,
+      padding,
+      pdfWidth - 2 * padding,
+      imgHeight - 2 * padding,
+    );
+
+    pdf?.save(`${name}.pdf`);
+  } catch (err: any) {
+    errorSnackbar(err?.message);
+  }
 };
 
-export const htmlToPngConvert = (elementRef: any, name = 'image') => {
-  toPng(elementRef.current, { cacheBust: false })
-    ?.then((dataUrl) => {
-      const link = document?.createElement('a');
-      link!.download = `${name}.png`;
-      link!.href = dataUrl;
-      link?.click();
-    })
-    ?.catch((err) => {
-      errorSnackbar(err?.message);
-    });
+export const htmlToPngConvert = async (
+  elementRef: any,
+  color?: any,
+  name = 'image',
+  padding = 1.5,
+) => {
+  try {
+    const originalElement = elementRef?.current;
+    const wrapper = document?.createElement('div');
+    wrapper.style.padding = `${padding}rem`;
+    wrapper.style.background = color;
+
+    const clonedElement = originalElement?.cloneNode?.(true);
+    wrapper?.appendChild?.(clonedElement);
+
+    document?.body?.appendChild?.(wrapper);
+
+    const dataUrl = await toPng(wrapper, { cacheBust: false });
+
+    const link = document?.createElement?.('a');
+    link.download = `${name}.png`;
+    link.href = dataUrl;
+    link?.click();
+    document?.body?.removeChild?.(wrapper);
+  } catch (err: any) {
+    errorSnackbar(err?.message);
+  }
 };
 
 export const exportDataToCSV = (dataToExport: any, name: any, type: any) => {

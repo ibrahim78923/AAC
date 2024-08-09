@@ -7,9 +7,9 @@ import AllContacts from './AllContacts';
 import GroupContacts from './GroupContacts';
 import { ROLES_ACCORDION_DETAILS } from '@/constants/strings';
 import useAddContactDrawer from './useAddContactDrawer';
-import { useEffect } from 'react';
+import { AddContactDrawerProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
 
-const AddContactDrawer = (props: any) => {
+const AddContactDrawer = (props: AddContactDrawerProps) => {
   const {
     isDrawerOpen,
     onClose,
@@ -17,6 +17,7 @@ const AddContactDrawer = (props: any) => {
     setSelectedRec,
     setSelectedContactsData,
   } = props;
+
   const {
     onSubmit,
     handleSubmit,
@@ -26,10 +27,6 @@ const AddContactDrawer = (props: any) => {
     setPageLimit,
     setPage,
   } = useAddContactDrawer(onClose, setSelectedContactsData, selectedRec);
-
-  useEffect(() => {
-    setSelectedRec([]);
-  }, [radioVal]);
 
   return (
     <CommonDrawer

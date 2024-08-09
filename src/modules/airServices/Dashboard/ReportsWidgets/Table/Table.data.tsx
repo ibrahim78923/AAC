@@ -131,19 +131,18 @@ const header = (column: any) => (
 export const TABLE_DATA_MAP: any = {
   assetType: {
     header: 'Asset Type',
-    id: 'assetTypeDetails',
-    value: (info: any) => (!!info?.getValue() ? info?.getValue()?.name : '---'),
+    id: 'assetType',
+    value: (info: any) => fullName(info?.getValue()?.name),
   },
   locationId: {
     header: 'Location',
-    id: 'locationDetails',
-    value: (info: any) =>
-      !!info?.getValue() ? info?.getValue()?.locationName : '---',
+    id: 'locationId',
+    value: (info: any) => fullName(info?.getValue()?.locationName),
   },
   departmentId: {
     header: 'Department',
-    id: 'departmentDetails',
-    value: (info: any) => (!!info?.getValue() ? info?.getValue()?.name : '---'),
+    id: 'departmentId',
+    value: (info: any) => fullName(info?.getValue()?.name),
   },
   vendorId: {
     header: 'Vendor',
@@ -153,8 +152,8 @@ export const TABLE_DATA_MAP: any = {
   },
   department: {
     header: 'Department',
-    id: 'departmentDetails',
-    value: (info: any) => (!!info?.getValue() ? info?.getValue()?.name : '---'),
+    id: 'department',
+    value: (info: any) => fullName(info?.getValue()?.name),
   },
   requester: {
     header: 'Requester',
@@ -171,17 +170,27 @@ export const TABLE_DATA_MAP: any = {
   category: {
     header: 'Category',
     id: 'category',
-    value: (info: any) =>
-      !!info?.getValue() ? info?.getValue()?.categoryName : '---',
+    value: (info: any) => fullName(info?.getValue()?.categoryName),
   },
   vendor: {
     header: 'Vendor',
     id: 'vendor',
-    value: (info: any) => (!!info?.getValue() ? info?.getValue()?.name : '---'),
+    value: (info: any) => fullName(info?.getValue()?.name),
   },
   approver: {
     header: 'Approver',
     id: 'approver',
+    value: (info: any) =>
+      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+  },
+  dealPipelineId: {
+    header: 'Deal Pipeline',
+    id: 'dealPipelineId',
+    value: (info: any) => fullName(info?.getValue()?.name),
+  },
+  campaignOwner: {
+    header: 'Campaign Owner',
+    id: 'campaignOwner',
     value: (info: any) =>
       fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
   },
@@ -191,11 +200,21 @@ export const makeDynamicColumn = (tableColumns: any) => {
   return tableColumns?.length
     ? tableColumns?.map((column: any) => ({
         accessorFn: (row: any) =>
-          row?.[TABLE_DATA_MAP?.[column?.fieldName]?.id] ??
-          row?.[column?.fieldName],
-        id: TABLE_DATA_MAP?.[column?.fieldName]?.id ?? column?.fieldName,
-        header: TABLE_DATA_MAP?.[column?.fieldName]?.header ?? header?.(column),
-        cell: TABLE_DATA_MAP?.[column?.fieldName]?.value ?? tableCell,
+          column?.fieldType === FIELD_TYPE?.OBJECT_ID
+            ? row?.[TABLE_DATA_MAP?.[column?.fieldName]?.id] ?? '---'
+            : row?.[column?.fieldName],
+        id:
+          column?.fieldType === FIELD_TYPE?.OBJECT_ID
+            ? TABLE_DATA_MAP?.[column?.fieldName]?.id ?? '---'
+            : column?.fieldName,
+        header:
+          column?.fieldType === FIELD_TYPE?.OBJECT_ID
+            ? TABLE_DATA_MAP?.[column?.fieldName]?.header ?? '---'
+            : header?.(column),
+        cell:
+          column?.fieldType === FIELD_TYPE?.OBJECT_ID
+            ? TABLE_DATA_MAP?.[column?.fieldName]?.value ?? '---'
+            : tableCell,
       }))
     : [];
 };

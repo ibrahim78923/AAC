@@ -7,8 +7,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRestoreReportsLists } from './useRestoreReportsLists';
 import { TIME_TO_RESTORE_DELETED_RECORD } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { RestoreReportsListsPropsI } from '../Reports.interface';
 
-export const RestoreReportsLists = (props: any) => {
+export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
   const { goBack, permissions } = props;
   const {
     restoreReportColumns,

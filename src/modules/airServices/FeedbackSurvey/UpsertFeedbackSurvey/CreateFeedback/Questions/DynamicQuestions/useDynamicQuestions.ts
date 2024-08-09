@@ -2,8 +2,9 @@ import { errorSnackbar } from '@/utils/api';
 import { fullNameInitial } from '@/utils/avatarUtils';
 import { useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
+import { DynamicQuestionsI } from './DynamicQuestions.interface';
 
-export const useDynamicQuestions = (props: any) => {
+export const useDynamicQuestions = (props: DynamicQuestionsI) => {
   const { parentMethods, sectionIndex, questionIndex } = props;
   const [isOption, setIsOption] = useState(true);
   const { fields, append, remove } = useFieldArray({

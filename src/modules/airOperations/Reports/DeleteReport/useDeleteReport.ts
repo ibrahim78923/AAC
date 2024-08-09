@@ -1,8 +1,9 @@
 import { PAGINATION } from '@/config';
 import { useDeleteReportTemporaryMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useDeleteReport = (props: any) => {
+export const useDeleteReport = (props: ReportsListsComponentPropsI) => {
   const {
     setIsPortalOpen,
     selectedReportLists,

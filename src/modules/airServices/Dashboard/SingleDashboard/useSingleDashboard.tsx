@@ -34,7 +34,7 @@ export const useSingleDashboard = (props: any) => {
       queryParams: {
         filterBy: ticketType,
         departmentId: departmentId?._id,
-        dashboardId: router?.query?.dashboardId ?? dashboardId,
+        dashboardId: router?.query?.dashboardId ?? dashboardId?._id,
       },
     };
 
@@ -61,5 +61,6 @@ export const useSingleDashboard = (props: any) => {
     setTicketType,
     departmentId,
     setDepartmentId,
+    router,
   };
 };

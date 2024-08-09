@@ -3,8 +3,9 @@ import { salesWorkflowsFilterValues } from './FilterSalesWorkflow.data';
 import { useState } from 'react';
 import { useLazyGetAdminUserDropdownListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { getSession } from '@/utils';
+import { FilterSalesWorkflowI } from './FilterSalesWorkflow.interface';
 
-export const useFilterSalesWorkflow = (props: any) => {
+export const useFilterSalesWorkflow = (props: FilterSalesWorkflowI) => {
   const { setIsFilterOpen, handleWorkflow } = props;
   const filterMethod = useForm({
     defaultValues: salesWorkflowsFilterValues,

@@ -64,7 +64,9 @@ export const useTeams = () => {
     await teamByIdTrigger(teamId);
   };
   useEffect(() => {
-    handleTeamById();
+    if (teamId) {
+      handleTeamById();
+    }
   }, [teamId, isEditDrawerOpen]);
   const onClose = () => {
     setIsEditDrawerOpen(false);

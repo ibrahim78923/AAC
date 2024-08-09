@@ -2,6 +2,10 @@ export interface IFilterValues {
   products?: { _id: string };
   organization?: { _id: string };
   createdDate?: string;
+  roleName?: string;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface IUsersProps {
@@ -81,4 +85,5 @@ export interface UseAddUserReturn {
   postUserLoading: boolean;
   userDetailLoading: boolean;
   updateUserLoading: boolean;
+  checkedEmailError: boolean;
 }

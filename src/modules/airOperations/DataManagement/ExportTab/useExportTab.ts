@@ -8,8 +8,9 @@ import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { useGetExportListQuery } from '@/services/airOperations/data-management/export';
+import { ExportTabI } from './ExportTab.interface';
 
-export const useExportTab = () => {
+export const useExportTab: () => ExportTabI = () => {
   const [selectedTabList, setSelectedTabList] = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -19,7 +20,7 @@ export const useExportTab = () => {
 
   const filterBody = {
     product: filterValues?.product,
-    user: filterValues?.user,
+    user: filterValues?.user && filterValues?.user?._id,
     object: filterValues?.object,
     createdDate:
       filterValues?.createdDate &&
@@ -79,7 +80,6 @@ export const useExportTab = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    search,
     setSearch,
     data,
     isFetching,

@@ -14,12 +14,13 @@ import {
   ImportQuestionIcon,
 } from '@/assets/icons';
 import { DynamicQuestions } from './DynamicQuestions';
+import { UseFormReturn } from 'react-hook-form';
 
 export const tooltipData = (
-  appendSection: any,
-  appendQuestion: any,
-  appendText: any,
-  handleImportOpen: any,
+  appendSection: () => void,
+  appendQuestion: () => void,
+  appendText: () => void,
+  handleImportOpen: () => void,
 ) => [
   {
     id: 1,
@@ -100,9 +101,14 @@ const linearScaleOptions = [
 export const surveyQuestionComponent: any = (
   sectionIndex: number,
   index: number,
-  methods: any,
-  watchType: any,
-  sectionCondition: any,
+  methods: UseFormReturn<any>,
+  watchType: {
+    id?: number;
+    label: string;
+    value: string;
+    icon?: JSX.Element;
+  },
+  sectionCondition: boolean,
 ) => ({
   checkboxes: (
     <DynamicQuestions

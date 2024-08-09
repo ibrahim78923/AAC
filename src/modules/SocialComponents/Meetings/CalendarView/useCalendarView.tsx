@@ -1,20 +1,30 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { meetingCardArray } from './CalendarView.data';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ROUTER_CONSTANTS } from '@/constants/strings';
+import {
+  useDeleteMeetingsMutation,
+  useLazyGetMeetingsCalenderListQuery,
+} from '@/services/commonFeatures/meetings';
 
 export const useCalendarView = () => {
   const [currentView, setCurrentView] = useState('timeGridDay');
   const [search, setSearch] = useState();
   const [openEventModal, setOpenEventModal] = useState(false);
   const [eventData, setEventData] = useState(null);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<any>({});
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null);
 
   const router = useRouter();
   const theme: any = useTheme();
-  const meetingCard = meetingCardArray(theme);
+  const [trigger, status] = useLazyGetMeetingsCalenderListQuery();
+  useEffect(() => {
+    trigger(null);
+  }, []);
+
+  const meetingCard = meetingCardArray(theme, status);
 
   const handleViewChange = (view: any) => {
     setCurrentView(view);
@@ -29,19 +39,31 @@ export const useCalendarView = () => {
   };
   const handleEventClick = (clickInfo: any) => {
     setOpenEventModal(true);
-    setEventData(clickInfo?.event);
+    setEventData(clickInfo);
     handleCloseViewMorePopover();
   };
+  const [deleteMeetingsTrigger, deleteMeetingsStatus]: any =
+    useDeleteMeetingsMutation();
+
   const handleDeleteSubmit = async () => {
+    const deleteMeetingsParameter = {
+      queryParams: {
+        id: openDeleteModal?.data?._id,
+        platform: openDeleteModal?.data?.platform?.toLowerCase(),
+      },
+    };
     try {
-      await successSnackbar('Delete Successfully');
-      setOpenDeleteModal(false);
-    } catch (err: any) {
-      errorSnackbar(err);
+      await deleteMeetingsTrigger(deleteMeetingsParameter)?.unwrap();
+      successSnackbar();
+      setOpenDeleteModal({});
+      await trigger(null);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
-  const handleDelete = () => {
-    setOpenDeleteModal(true);
+
+  const handleDelete = (findData: any) => {
+    setOpenDeleteModal({ isOpen: true, data: findData });
     handleCloseViewMorePopover();
   };
 
@@ -51,6 +73,10 @@ export const useCalendarView = () => {
 
   const handleEventMouseLeave = () => {
     setHoveredEvent(null);
+  };
+
+  const meetingActiveType = (activeMeeting: any) => {
+    return ROUTER_CONSTANTS?.[activeMeeting];
   };
   return {
     handleViewChange,
@@ -71,5 +97,8 @@ export const useCalendarView = () => {
     handleEventMouseEnter,
     handleEventMouseLeave,
     handleDeleteSubmit,
+    status,
+    meetingActiveType,
+    deleteMeetingsStatus,
   };
 };

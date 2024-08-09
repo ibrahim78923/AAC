@@ -1,39 +1,61 @@
 import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
-import {
-  useGetTeamsByIdQuery,
-  useGetTeamsQuery,
-} from '@/services/airSales/settings/teams';
+import { useGetTeamsQuery } from '@/services/airSales/settings/teams';
 import { PAGINATION } from '@/config';
+import { DRAWER_TYPES } from '@/constants/strings';
+import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
+import { enqueueSnackbar } from 'notistack';
 
-const useTeams = (teamId?: any) => {
+const useTeams = () => {
   const theme = useTheme<Theme>();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [page, setPage] = useState<any>(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState<any>(PAGINATION?.PAGE_LIMIT);
+  const [isAddTeam, setIsAddTeam] = useState({
+    isToggle: false,
+    type: DRAWER_TYPES?.ADD,
+  });
+  const [teamId, setTeamId] = useState('');
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isTeamDrawer, setIsTeamDrawer] = useState(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [deleteTeams, { isLoading: deleteTeamLoading }] =
+    useDeleteTeamsMutation();
 
   const params = {
     page: page,
     limit: limit,
     search: searchBy,
   };
+
   const {
     data: teamsData,
     isSuccess,
     isLoading: teamsDataLoading,
   } = useGetTeamsQuery(params);
-  const { data: teamDataById, isLoading: teamByIdLoading } =
-    teamId !== undefined
-      ? useGetTeamsByIdQuery(teamId)
-      : { data: null, isLoading: false };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  //handler delete team
+  const handleDeleteTeam = async (id: any) => {
+    try {
+      await deleteTeams({ id: id })?.unwrap();
+      setIsOpenDelete(false);
+      enqueueSnackbar('Team deleted successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return {
@@ -52,8 +74,16 @@ const useTeams = (teamId?: any) => {
     teamsDataLoading,
     searchBy,
     setSearchBy,
-    teamDataById,
-    teamByIdLoading,
+    isAddTeam,
+    setIsAddTeam,
+    teamId,
+    setTeamId,
+    isOpenDelete,
+    setIsOpenDelete,
+    deleteTeamLoading,
+    handleDeleteTeam,
+    isTeamDrawer,
+    setIsTeamDrawer,
   };
 };
 

@@ -23,7 +23,7 @@ export const feedbackCards = [
     query: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SATISFACTION,
   },
 ];
-export const feedbackComponent: any = {
+export const feedbackComponent = {
   [FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SUPPORT]: (
     <PermissionsGuard
       permissions={Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY}

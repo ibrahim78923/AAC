@@ -1,7 +1,8 @@
 import { useDeleteTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 
-export const useDeleteTask = (props: any) => {
+export const useDeleteTask = (props: TicketsTasksPortalComponentPropsI) => {
   const {
     setIsPortalOpen,
     selectedTasksList,
@@ -11,6 +12,7 @@ export const useDeleteTask = (props: any) => {
     page,
     getTaskListData,
   } = props;
+
   const [deleteTaskTrigger, deleteTaskStatus] = useDeleteTaskMutation();
 
   const deleteTask = async () => {

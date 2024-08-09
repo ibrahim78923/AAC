@@ -1,9 +1,11 @@
 import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { MemberDetailsPropsI } from '../Teams.interface';
 
-const MemberDetails = (props: any) => {
+const MemberDetails = (props: MemberDetailsPropsI) => {
   const theme = useTheme();
+
   return (
     <>
       <Box
@@ -51,7 +53,7 @@ const MemberDetails = (props: any) => {
                 color: `${theme?.palette?.custom?.steel_blue_alpha}`,
               }}
             >
-              {props?.email}
+              {props?.email ?? 'N/A'}
             </Typography>
             <Typography
               variant="body3"
@@ -60,7 +62,7 @@ const MemberDetails = (props: any) => {
                 color: `${theme?.palette?.custom?.steel_blue_alpha}`,
               }}
             >
-              {props?.designation}
+              {props?.designation ?? 'N/A'}
             </Typography>
           </Box>
         </Box>

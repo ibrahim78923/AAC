@@ -34,7 +34,7 @@ export const Announcement = (props: any) => {
           </Typography>
           <IconButton
             disabled={isPreviewMode}
-            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+            onClick={() => setIsPortalOpen({ isOpen: true, isUpsert: true })}
           >
             <ViewDetailSharedIcon />
           </IconButton>

@@ -19,8 +19,9 @@ import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 
-export const DetailTaskDrawer = (props: any) => {
+export const DetailTaskDrawer = (props: TicketsTasksPortalComponentPropsI) => {
   const { isPortalOpen } = props;
   const {
     theme,
@@ -31,10 +32,11 @@ export const DetailTaskDrawer = (props: any) => {
     handleCloseDrawer,
     overviewData,
   } = useDetailTaskDrawer(props);
+
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isView}
+        isDrawerOpen={isPortalOpen?.isView as boolean}
         onClose={() => handleCloseDrawer()}
         title={`#TSK-${isPortalOpen?.data?._id?.slice(-3)?.toUpperCase()}`}
         submitHandler={handleSubmit(onSubmitDrawer)}

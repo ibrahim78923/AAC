@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import { Grid, Box } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { dataArray, validationSchema } from './EditCampaign.data';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,17 +12,25 @@ import useCampaigns from '../useCampaigns';
 import { indexNumbers } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
 
 export default function EditCampaign({
   isOpenDrawer,
   onClose,
   initialValueProps,
-  compaignsDataById,
+  selectedRows,
 }: any) {
   const { UserListData, updateCampaigns, updateCampaignLoading } =
     useCampaigns();
 
-  const methods: any = useForm({
+  const { data: compaignsDataById, isLoading: campaignByIdLoading } =
+    useGetCampaignsByIdQuery(selectedRows, {
+      skip:
+        !Array?.isArray(selectedRows) ||
+        selectedRows?.length === indexNumbers?.ZERO,
+    });
+
+  const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
   });
@@ -114,7 +118,7 @@ export default function EditCampaign({
       submitHandler={handleSubmit(onSubmit)}
       isLoading={updateCampaignLoading}
     >
-      {updateCampaignLoading ? (
+      {campaignByIdLoading ? (
         <SkeletonTable />
       ) : (
         <Box mt={1}>

@@ -70,14 +70,14 @@ export const columns = ({
       id: 'unitPrice',
       isSortable: true,
       header: 'Unit Price',
-      cell: (info: any) => `${info?.getValue()} £`,
+      cell: (info: any) => `£${info?.getValue()}`,
     },
     {
       accessorFn: (row: any) => row?.purchasePrice,
       id: 'purchasePrice',
       isSortable: true,
       header: 'Purchase Price',
-      cell: (info: any) => `${info?.getValue()} £`,
+      cell: (info: any) => `£${info?.getValue()}`,
     },
     {
       accessorFn: (row: any) => row?.createdBy,

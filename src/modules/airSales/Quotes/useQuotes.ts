@@ -6,11 +6,9 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import {
   useDeleteQuotesMutation,
   useGetQuotesQuery,
-  // useDeleteQuotesMutation,
-  // useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
-import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { MEETINGS_DETAILS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useQuotes = () => {
   const router = useRouter();
@@ -39,7 +37,7 @@ const useQuotes = () => {
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [searchValue, setSearchValue] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
   const [filterParams, setFilterParams] = useState({});
   const paginationParams = {
     page: page,
@@ -130,14 +128,14 @@ const useQuotes = () => {
     try {
       await DeleteQuotes(selectedRow)?.unwrap();
       enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedRow([]);
       setIsActionsDisabled(true);
       setOpenDeleteQuote(false);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };

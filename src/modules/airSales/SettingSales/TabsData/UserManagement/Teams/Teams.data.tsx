@@ -6,8 +6,11 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ColumnsPropsI } from './Teams.interface';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
-export const columnsTeams = (props: any) => {
+export const columnsTeams = (props: ColumnsPropsI) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
     props;
   return [
@@ -32,48 +35,54 @@ export const columnsTeams = (props: any) => {
       header: 'Action',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsTeamDrawer(true);
-              setTeamId(info?.row?.original?._id);
-            }}
-          >
-            <VisibilityIcon
-              sx={{
-                color: `${theme?.palette?.blue?.main}`,
-                fontSize: '22px',
-                cursor: 'pointer',
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.VIEW_TEAM]}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setTeamId(info?.row?.original?._id);
+                setIsTeamDrawer(true);
               }}
-            />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsAddTeam({
-                isToggle: true,
-                type: DRAWER_TYPES?.EDIT,
-              });
-              setTeamId(info?.row?.original?._id);
-            }}
-          >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsOpenDelete(true);
-              setTeamId(info?.row?.original?._id);
-            }}
-          >
-            <CancelIcon
-              sx={{
-                color: `${theme?.palette?.error?.main}`,
-                fontSize: '22px',
-                cursor: 'pointer',
+            >
+              <VisibilityIcon
+                sx={{
+                  color: `${theme?.palette?.blue?.main}`,
+                  fontSize: '22px',
+                  cursor: 'pointer',
+                }}
+              />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT_TEAM]}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setTeamId(info?.row?.original?._id),
+                  setIsAddTeam({
+                    isToggle: true,
+                    type: DRAWER_TYPES?.EDIT,
+                  });
               }}
-            />
-          </Box>
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE_TEAM]}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsOpenDelete(true);
+                setTeamId(info?.row?.original?._id);
+              }}
+            >
+              <CancelIcon
+                sx={{
+                  color: `${theme?.palette?.error?.main}`,
+                  fontSize: '22px',
+                  cursor: 'pointer',
+                }}
+              />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

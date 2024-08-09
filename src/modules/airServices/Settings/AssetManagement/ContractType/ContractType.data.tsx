@@ -1,7 +1,7 @@
 import { truncateText } from '@/utils/avatarUtils';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 
 export const getContractTypeColumns = (
   setOpenDialog: any,
@@ -12,7 +12,11 @@ export const getContractTypeColumns = (
     id: 'name',
     header: 'Name',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.description,
@@ -28,23 +32,33 @@ export const getContractTypeColumns = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} mt={1}>
         <IconButton
-          sx={{ color: 'primary.main' }}
+          sx={{
+            color: 'primary.main',
+            '&.Mui-disabled': {
+              color: 'grey.0',
+            },
+          }}
           onClick={() =>
             setOpenDialog({ open: true, data: info?.row?.original })
           }
-          disabled={info?.row?.original?.isPredefined}
+          disabled={info?.row?.original?.perDefine === false}
         >
-          <EditIcon sx={{ color: 'primary.main' }} />
+          <EditIcon />
         </IconButton>
         <IconButton
-          sx={{ color: 'error.lighter' }}
+          sx={{
+            color: 'error.lighter',
+            '&.Mui-disabled': {
+              color: 'grey.0',
+            },
+          }}
           onClick={() =>
             setDeleteModalOpen({
               open: true,
               id: info?.getValue(),
             })
           }
-          disabled={info?.row?.original?.isPredefined}
+          disabled={info?.row?.original?.perDefine === false}
         >
           <DeleteIcon />
         </IconButton>

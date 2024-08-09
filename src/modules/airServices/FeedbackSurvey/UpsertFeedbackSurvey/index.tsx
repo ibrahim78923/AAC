@@ -47,7 +47,10 @@ export const UpsertFeedbackSurvey = () => {
           />
         ) : (
           createSurvey === feedbackTypes?.preview && (
-            <PreviewSurvey data={data} setCreateSurvey={setCreateSurvey} />
+            <PreviewSurvey
+              data={data?.data?.sections}
+              setCreateSurvey={setCreateSurvey}
+            />
           )
         )}
       </FormProvider>

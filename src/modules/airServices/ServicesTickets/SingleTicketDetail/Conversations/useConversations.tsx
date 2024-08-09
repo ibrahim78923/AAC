@@ -33,31 +33,26 @@ export const useConversations = () => {
     setSelectedConversationType,
   );
 
+  const openConversationTypeContextProps = {
+    isDrawerOpen: selectedConversationType?.isOpen,
+    setIsDrawerOpen: setSelectedConversationType,
+    selectedConversationType: selectedConversationType,
+    refetch: refetch,
+  };
+
   const openConversationTypeContext = () => {
     if (
       upsertConversationTypes?.includes(
         selectedConversationType?.conversationType,
       )
     ) {
-      return (
-        <UpsertConversation
-          isDrawerOpen={selectedConversationType?.isOpen}
-          setIsDrawerOpen={setSelectedConversationType}
-          selectedConversationType={selectedConversationType}
-          refetch={refetch}
-        />
-      );
+      return <UpsertConversation {...openConversationTypeContextProps} />;
     }
     if (
       selectedConversationType?.conversationType ===
       TICKET_CONVERSATIONS_TYPE?.DISCUSS
     ) {
-      return (
-        <Discuss
-          isDrawerOpen={selectedConversationType?.isOpen}
-          setIsDrawerOpen={setSelectedConversationType}
-        />
-      );
+      return <Discuss {...openConversationTypeContextProps} />;
     }
     return null;
   };

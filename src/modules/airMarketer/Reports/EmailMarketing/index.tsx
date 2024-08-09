@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   Grid,
-  Stack,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -132,28 +131,34 @@ const EmailMarketing = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography
+                    <Box
                       sx={{
                         mb: 1.5,
-                        fontSize: 24,
-                        color: theme?.palette?.custom?.turquoise_Blue,
-                        fontWeight: 600,
                       }}
+                      display={'flex'}
+                      alignItems={'center'}
+                      justifyContent={'space-between'}
                     >
-                      <Typography variant="h4" sx={{ textAlign: 'end' }}>
-                        {item?.precentage}
-                      </Typography>
-                      <Stack gap={1}>
+                      <Box gap={1} sx={{ width: '87%' }}>
                         <LinearProgress
                           variant="determinate"
-                          value={item?.precentage}
+                          value={item?.Progress}
                           sx={{
                             height: '13px',
                             background: theme?.palette?.warning['main'],
                           }}
                         />
-                      </Stack>
-                    </Typography>
+                      </Box>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          textAlign: 'end',
+                          color: theme?.palette?.custom?.turquoise_Blue,
+                        }}
+                      >
+                        {item?.precentage}
+                      </Typography>
+                    </Box>
                   </Grid>
                 </Grid>
 

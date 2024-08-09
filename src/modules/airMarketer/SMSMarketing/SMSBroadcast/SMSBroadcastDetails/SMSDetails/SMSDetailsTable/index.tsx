@@ -1,12 +1,11 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { smsDetailsColumns } from './SMSDetailsTable.data';
-// import useSMSBroadcast from '../../../useSMSBroadcast';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import useSMSBroadcastDetails from '../../useSMSBroadcastDetails';
+import { SMSDetailsTableProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
 
-const SMSDetailsTable = ({ recipientsData, loading }: any) => {
-  // const { isDelete, handleDelete, setIsDelete } = useSMSBroadcast();
+const SMSDetailsTable = ({ recipientsData, loading }: SMSDetailsTableProps) => {
   const {
     openModalDelete,
     handleCloseDelete,
@@ -35,18 +34,6 @@ const SMSDetailsTable = ({ recipientsData, loading }: any) => {
           loading={updateBroadcastLoading}
         />
       )}
-
-      {/* {isDelete && (
-        <AlertModals
-          message="Are you sure you want to delete this broadcast contact?"
-          type="Delete SMS Broadcast Contact"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
-        />
-        
-      )} */}
     </>
   );
 };

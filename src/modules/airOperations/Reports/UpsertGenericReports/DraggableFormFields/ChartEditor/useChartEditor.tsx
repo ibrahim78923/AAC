@@ -12,24 +12,26 @@ import {
   useLazyUsersDropdownQuery,
   useLazySalesDropdownQuery,
 } from '@/services/airOperations/reports/upsert-generic-reports';
+import { ChartEditorI } from './ChartEditor.interface';
 
-export const useChartEditor = (props: any) => {
+export const useChartEditor = (props: ChartEditorI) => {
   const {
     setFieldData,
     setModal,
     setValue,
-    chartTitle,
     form,
     setForm,
-    xAxisData,
-    chartType,
-    subFilter,
     setDraggedItemData,
-    xAxisType,
     draggedItemData,
+    watch,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
+  const chartTitle = watch('chartTitle');
+  const xAxisData = watch('xAxis');
+  const xAxisType = watch('xAxisType');
+  const subFilter = watch('subFilter');
+  const chartType = watch('chartType');
   const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
 
   const handleSave = () => {
@@ -85,8 +87,8 @@ export const useChartEditor = (props: any) => {
     PURCHASE_ORDER_DEPARTMENT: 'purchaseOrder_departmentId',
     DEALS_PIPELINE_ID: 'deals_dealPipelineId',
     CAMPAIGN_OWNER: 'campaign_campaignOwner',
-    SALES_PIPELINE_ID: 'sales_pipelineId',
-    USERS: 'users',
+    SALES_PIPELINES_ID: 'sales_pipelinesId',
+    USERS: 'usersId',
   };
 
   const getSingleFieldDropdown = () => {
@@ -119,7 +121,7 @@ export const useChartEditor = (props: any) => {
         return dealsDropdown;
       case xAxesFields?.CAMPAIGN_OWNER:
         return usersDropdown;
-      case xAxesFields?.SALES_PIPELINE_ID:
+      case xAxesFields?.SALES_PIPELINES_ID:
         return salesDropdown;
       case xAxesFields?.USERS:
         return usersDropdown;
@@ -136,5 +138,9 @@ export const useChartEditor = (props: any) => {
     editValue,
     setEditValue,
     singleFieldDropdown,
+    chartTitle,
+    xAxisData,
+    xAxisType,
+    chartType,
   };
 };

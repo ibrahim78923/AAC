@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { getSession } from '@/utils';
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
+import { useEffect, useState } from 'react';
 
 const useDetails = (data: any) => {
   const theme = useTheme();
@@ -37,77 +38,43 @@ const useDetails = (data: any) => {
     label: `${item?.firstName} ${item?.lastName}`,
   }));
 
-  const rowApiValues = {
-    CompanyName: data?.name,
-    DomainName: data?.domain,
-    crn: data?.crn,
-    CompanyOwner: data?.ownerId,
-    PhoneNumber: data?.phone,
-    Industry: data?.industry,
-    CompanyType: data?.type,
-    NumberOfEmployees: data?.noOfEmloyee,
-    AnnualRevenue: data?.totalRevenue,
-    City: data?.city,
-    PostalCode: data?.postalCode,
-    LifeCycleStage: data?.LifeCycleStage,
-    LastActivityDate: data?.LastActivityDate,
-    CreatedDate: new Date(data?.createdAt),
-    time: data?.createdAt?.split('T')[1]?.substring(0, 5),
-    LinkedInCompanyPage: data?.linkedInUrl,
-    Address: data?.address,
-    description: data?.description,
-  };
+  const [defaultValues, setDefaultValues] = useState(detailsDefaultValues);
 
-  const methodsDetails: any = useForm({
+  useEffect(() => {
+    if (data) {
+      const rowApiValues = {
+        CompanyName: data?.name,
+        DomainName: data?.domain,
+        crn: data?.crn,
+        CompanyOwner: data?.ownerId,
+        PhoneNumber: data?.phone,
+        Industry: data?.industry,
+        CompanyType: data?.type,
+        NumberOfEmployees: data?.noOfEmloyee,
+        AnnualRevenue: data?.totalRevenue,
+        City: data?.city,
+        PostalCode: data?.postalCode,
+        LifeCycleStage: data?.LifeCycleStage,
+        LastActivityDate: data?.LastActivityDate,
+        CreatedDate: new Date(data?.createdAt),
+        time: data?.createdAt?.split('T')[1]?.substring(0, 5),
+        LinkedInCompanyPage: data?.linkedInUrl,
+        Address: data?.address,
+        description: data?.description,
+      };
+
+      setDefaultValues(rowApiValues);
+    }
+  }, [data]);
+
+  const methodsDetails = useForm({
     resolver: yupResolver(detailsValidationSchema),
-    defaultValues: async () => {
-      // if action is view or update
-
-      if (rowApiValues) {
-        const {
-          CompanyName,
-          DomainName,
-          crn,
-          CompanyOwner,
-          PhoneNumber,
-          Industry,
-          CompanyType,
-          NumberOfEmployees,
-          AnnualRevenue,
-          City,
-          PostalCode,
-          LifeCycleStage,
-          LastActivityDate,
-          CreatedDate,
-          time,
-          LinkedInCompanyPage,
-          Address,
-          description,
-        } = rowApiValues;
-        return {
-          CompanyName,
-          DomainName,
-          crn,
-          CompanyOwner,
-          PhoneNumber,
-          Industry,
-          CompanyType,
-          NumberOfEmployees,
-          AnnualRevenue,
-          City,
-          PostalCode,
-          LifeCycleStage,
-          LastActivityDate,
-          CreatedDate,
-          time,
-          LinkedInCompanyPage,
-          Address,
-          description,
-        };
-      }
-      return detailsDefaultValues;
-    },
+    defaultValues,
   });
+
+  useEffect(() => {
+    methodsDetails.reset(defaultValues);
+  }, [defaultValues, methodsDetails]);
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();

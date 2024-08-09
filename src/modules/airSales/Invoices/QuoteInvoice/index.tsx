@@ -57,7 +57,6 @@ const QuoteInvoice = ({ quoteId }: any) => {
     (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
     0,
   );
-
   return (
     <Box>
       <DetailCard
@@ -220,7 +219,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
           >
             {receiversData?.data?.receiverbankaccounts?.map((account: any) => (
               <MenuItem key={account._id} value={account.accountNumber}>
-                {`${account?.companyAccountName} -- ${account?.accountNumber}`}
+                {`${account?.companyAccount?.accountName} -- ${account?.accountNumber}`}
               </MenuItem>
             ))}
           </Select>

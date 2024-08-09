@@ -90,13 +90,7 @@ export interface PlanDataI {
   planPrice: number;
   additionalPerUserPrice: number;
   planProducts: string[];
-  planProductFeatures: {
-    _id: string;
-    productId: string;
-    featureId: string[];
-    dealsAssociationsDetail: string;
-    __v: number;
-  }[];
+  planProductFeatures: any;
   planProductPermissions: string[];
   additionalStoragePrice: number;
   createdBy: string;

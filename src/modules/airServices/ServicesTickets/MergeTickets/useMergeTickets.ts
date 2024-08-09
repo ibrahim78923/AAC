@@ -17,15 +17,12 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useMergedTickets = (props: any) => {
+export const useMergedTickets = (props: TicketActionComponentPropsI) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const {
-    setIsMergedTicketsModalOpen,
-    setSelectedTicketList,
-    selectedTicketList,
-  } = props;
+  const { setIsDrawerOpen, setSelectedTicketList, selectedTicketList } = props;
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
     usePostMergeTicketsMutation();
   const mergedTicketsFormMethod = useForm({
@@ -81,7 +78,7 @@ export const useMergedTickets = (props: any) => {
     );
     reset();
     setSelectedTicketList?.([]);
-    setIsMergedTicketsModalOpen?.(false);
+    setIsDrawerOpen?.(false);
   };
 
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();

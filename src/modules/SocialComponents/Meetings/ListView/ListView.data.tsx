@@ -9,19 +9,22 @@ export const meetingCardsDetails = (theme: any, getMeetingListStatus: any) => {
   return [
     {
       id: 1,
-      meetingHeading: MEETINGS_DETAILS_TYPE?.ALL,
+      meetingHeading: MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
+      meetingType: MEETINGS_DETAILS_TYPE?.ALL,
       meetingCount: cardData?.allMeetings ?? 0,
       color: theme?.palette?.info?.main,
     },
     {
       id: 2,
-      meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING,
+      meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING_MEETINGS,
+      meetingType: MEETINGS_DETAILS_TYPE?.UPCOMING,
       meetingCount: cardData?.upCommings ?? 0,
       color: theme?.palette?.error?.main,
     },
     {
       id: 3,
-      meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED,
+      meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS,
+      meetingType: MEETINGS_DETAILS_TYPE?.COMPLETED,
       meetingCount: cardData?.completed ?? 0,
       color: theme?.palette?.success?.dark,
     },

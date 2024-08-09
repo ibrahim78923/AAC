@@ -62,7 +62,7 @@ const Assets = () => {
         setPage={setPage}
         count={assetsData?.meta?.pages}
         totalRecords={assetsData?.meta?.total}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         currentPage={assetsData?.meta?.page}
         pageLimit={limit}
       />

@@ -3,6 +3,7 @@ import { DonutChart } from './DonutChart';
 import { HorizontalChart } from './HorizontalChart';
 import { PieChart } from './PieChart';
 import { Table } from './Table';
+import { TemplateText } from './TemplateText';
 import { Text } from './Text';
 
 export const REPORTS_WIDGETS = {
@@ -28,6 +29,7 @@ export const REPORTS_WIDGET_COMPONENT = {
   [REPORTS_WIDGETS?.TEMPLATE_PIE_OR_DONUT_CHART]: PieChart,
   [REPORTS_WIDGETS?.TEXT_FIELD]: Text,
   [REPORTS_WIDGETS?.TEMPLATE_TABLE]: Table,
+  [REPORTS_WIDGETS?.TEMPLATE_TEXT]: TemplateText,
 };
 
 export const ITEMS_DATA_TYPE = {

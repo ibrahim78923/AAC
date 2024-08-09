@@ -5,8 +5,9 @@ import { DragIcon } from '@/assets/icons';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { styles } from './CustomizeColumns.style';
 import useCustomizeColumn from './useCustomizeColumn';
+import { CustomizeColumnsI } from '../Quotes.interface';
 
-const CustomizeColumns = ({ open, onClose }: any) => {
+const CustomizeColumns = ({ open, onClose }: CustomizeColumnsI) => {
   const {
     onDragEnd,
     order,

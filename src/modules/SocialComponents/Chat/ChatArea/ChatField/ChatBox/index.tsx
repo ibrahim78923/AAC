@@ -32,6 +32,7 @@ import dayjs from 'dayjs';
 import {
   CHAT_MESSAGE_ROLES,
   CHAT_MESSAGE_TYPE,
+  CHAT_TYPES,
   TIME_FORMAT,
 } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
@@ -412,7 +413,9 @@ const ChatBox = ({
                     Reply
                   </MenuItem>
 
-                  <MenuItem onClick={handelDelete}>Delete</MenuItem>
+                  {role === CHAT_TYPES?.SENDER && (
+                    <MenuItem onClick={handelDelete}>Delete</MenuItem>
+                  )}
                   <MenuItem onClick={handleCopyClick}>Copy</MenuItem>
                 </Menu>
               )}

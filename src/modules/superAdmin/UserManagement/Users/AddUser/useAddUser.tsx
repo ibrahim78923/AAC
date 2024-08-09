@@ -23,6 +23,8 @@ import {
   UseActionParams,
   UseAddUserReturn,
 } from '@/modules/superAdmin/UserManagement/Users/Users-interface';
+import { debounce } from 'lodash';
+import { useGetEmailExistQuery } from '@/services/common-APIs';
 
 const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
   const [isToggled, setIsToggled] = useToggle(false);
@@ -34,11 +36,13 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     isOpenAddUserDrawer,
   } = useActionParams;
   const [orgNumber, setOrgNumber] = useState('');
+  const [email, setEmail] = useState();
   const pathName = window?.location?.pathname;
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
   const [postUsers, { isLoading: postUserLoading }] = usePostUsersMutation();
   const [updateUsers, { isLoading: updateUserLoading }] =
     useUpdateUsersMutation();
+
   const [postUserEmployee] = usePostUserEmployeeMutation();
   const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
     useUserDetailsList();
@@ -49,6 +53,19 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
       skip: !isOpenAddUserDrawer?.recordId,
     });
   const userDetail = userDetailData?.data;
+
+  const { isError: checkedEmailError } = useGetEmailExistQuery(
+    { email: email },
+    { skip: !email },
+  );
+
+  useEffect(() => {
+    if (checkedEmailError) {
+      enqueueSnackbar('Email already exist', {
+        variant: 'error',
+      });
+    }
+  }, [checkedEmailError]);
 
   const initialTab = 0;
   const tabTitle =
@@ -93,6 +110,24 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
         : companyOwnerMethods;
 
   const { watch, setValue, handleSubmit, reset } = methods;
+  const emailVal = watch('email');
+  const [debouncedEmail, setDebouncedEmail] = useState(emailVal);
+
+  // Debounce function
+  const debounceEmail = debounce((value: any) => {
+    setDebouncedEmail(value);
+  }, 2000);
+
+  useEffect(() => {
+    debounceEmail(emailVal);
+    return () => {
+      debounceEmail.cancel();
+    };
+  }, [emailVal]);
+
+  useEffect(() => {
+    setEmail(debouncedEmail);
+  }, [debouncedEmail]);
 
   //watch all values from forms
   const formValues = watch();
@@ -239,6 +274,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
             })?.unwrap(),
             setIsOpenAdduserDrawer(false))
           : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+      setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
       enqueueSnackbar(
         `User ${
           isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
@@ -273,6 +309,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     postUserLoading,
     userDetailLoading,
     updateUserLoading,
+    checkedEmailError,
   };
 };
 

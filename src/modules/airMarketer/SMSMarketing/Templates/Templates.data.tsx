@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Theme } from '@mui/material';
 import { DeleteIcon, EditBlackIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
@@ -6,9 +6,9 @@ import { DATE_FORMAT, TASK_TYPE } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns = (
-  setIsOpenDeleteModal: any,
+  setIsOpenDeleteModal: (data: any) => void,
   navigate: any,
-  theme: any,
+  theme: Theme,
 ) => {
   return [
     {

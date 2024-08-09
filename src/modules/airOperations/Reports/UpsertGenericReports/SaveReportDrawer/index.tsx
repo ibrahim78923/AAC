@@ -3,8 +3,9 @@ import { useSaveReportDrawer } from './useSaveReportDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { SaveReportDrawerI } from './SaveReportDrawer.interface';
 
-export const SaveReportDrawer = (props: any) => {
+export const SaveReportDrawer = (props: SaveReportDrawerI) => {
   const { open, reportId } = props;
   const {
     saveReportsMethods,
@@ -29,6 +30,11 @@ export const SaveReportDrawer = (props: any) => {
       isOk={true}
       footer={true}
       isLoading={
+        reportId
+          ? patchGenericReportStatus?.isLoading
+          : postGenericReportStatus?.isLoading
+      }
+      disabledCancelBtn={
         reportId
           ? patchGenericReportStatus?.isLoading
           : postGenericReportStatus?.isLoading

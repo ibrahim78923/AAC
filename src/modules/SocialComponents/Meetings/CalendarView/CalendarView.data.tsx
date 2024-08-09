@@ -8,7 +8,7 @@ export const eventArray = [
   {
     title: 'Testing 1',
     start: '2024-04-10T12:30:00',
-    end: '2024-04-10T13:30:00',
+    end: '2024-04-14T13:30:00',
     data: {
       email: 'kamran.zafar@ceative.co.uk',
       meetingTitle: 'BA meeting',
@@ -147,23 +147,26 @@ export const eventArray = [
   },
 ];
 
-export const meetingCardArray = (theme: any) => [
+export const meetingCardArray = (theme: any, status: any) => [
   {
     id: 3543,
     heading: 'All',
-    meetingsCount: '5',
+    type: 'allMeetings',
+    meetingsCount: status?.data?.allMeetings ?? 0,
     color: theme?.palette?.info?.main,
   },
   {
     id: 8476,
     heading: 'Upcoming',
-    meetingsCount: '2',
+    type: 'upComming',
+    meetingsCount: status?.data?.upCommings ?? 0,
     color: theme?.palette?.error?.main,
   },
   {
     id: 8210,
     heading: 'Completed',
-    meetingsCount: '3',
+    type: 'completed',
+    meetingsCount: status?.data?.completed ?? 0,
     color: theme?.palette?.success?.dark,
   },
 ];

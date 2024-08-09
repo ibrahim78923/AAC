@@ -1,35 +1,23 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { CustomerI } from './Submissions.interface';
 
-export const submissionsValidationSchema = Yup?.object()?.shape({
-  Customer: Yup?.string()?.required('Field is Required'),
-});
-
-export const submissionsDefaultValues = {
-  Customer: '',
-};
-
-export const submissionsArray = [
+export const submissionsArray = (customers: CustomerI[]) => [
   {
     componentProps: {
-      name: 'Customer',
+      name: 'customer',
       label: 'Customer',
       select: true,
     },
-    options: [
-      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
-      { value: 'Jacob Jones', label: 'Jacob Jones' },
-      { value: 'Courtney Henry', label: 'Courtney Henry' },
-    ],
+    options: customers,
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'Date Range',
-      label: 'DateRange',
+      name: 'dateRange',
+      label: 'Date Range',
       fullWidth: true,
     },
     component: RHFSwitchableDatepicker,

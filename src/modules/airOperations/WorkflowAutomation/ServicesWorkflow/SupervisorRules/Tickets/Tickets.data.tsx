@@ -7,8 +7,10 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import React from 'react';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: any,
@@ -56,13 +58,13 @@ export const EventBaseWorkflowActionsDropdown = (
 ];
 
 export const listsColumnsFunction = (
-  selectedAction: any,
-  setSelectedAction: any,
-  listData: any,
+  selectedAction: WorkflowI[],
+  setSelectedAction: React.Dispatch<React.SetStateAction<any>>,
+  listData: WorkflowI[],
   theme: any,
-  handleChangeStatus: any,
+  handleChangeStatus: (data: WorkflowI) => void,
   switchLoading: any,
-): any => [
+) => [
   {
     accessorFn: (row: any) => row?._id,
     id: 'id',
@@ -198,8 +200,6 @@ export const listsColumnsFunction = (
     isSortable: true,
     header: 'Last Activity',
     cell: (info: any) => {
-      const capitalizeFirstLetter = (type: any) =>
-        type.charAt(0).toUpperCase() + type.slice(1);
       const type = info?.getValue()?.type;
       const capitalizedType = type
         ? capitalizeFirstLetter(type.toLowerCase())

@@ -1,11 +1,15 @@
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Button, Stack, Tooltip, Typography } from '@mui/material';
-import { emailMarketingTabsData } from './EmailMarketing.data';
-import All from './Tabs/All';
-import Archived from './Tabs/Archived';
-import Draft from './Tabs/Draft';
-import Scheduled from './Tabs/Scheduled';
-import Sent from './Tabs/Sent';
+import {
+  Box,
+  Button,
+  Stack,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { tabData } from './EmailMarketing.data';
+
 import Search from '@/components/Search';
 import {
   ExportIcon,
@@ -16,12 +20,17 @@ import {
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
 import Filters from './Filters';
-// import EmailFolder from './EmailFolder';
 import { ExportButton } from './ExportButton';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { useState } from 'react';
+import { styles } from './EmailMarketing.style';
+import Table from './Table';
+import { PAGINATION } from '@/config';
+import { API_STATUS, EMAIL_ENUMS } from '@/constants';
+import { useGetEmailMarketingListQuery } from '@/services/airMarketer/emailMarketing';
 
 const EmailMarketing = () => {
   const {
@@ -31,16 +40,46 @@ const EmailMarketing = () => {
     searchEmailMarketing,
     isExportModalOpen,
     setSearchEmailMarketing,
-  } = useEmailMarketing();
+  }: any = useEmailMarketing();
   const router = useRouter();
+
+  const theme = useTheme();
+
+  const [value, setValue] = useState(EMAIL_ENUMS?.ALL);
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
+  const [selectedRecords, setSelectedRecords] = useState([]);
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const { data: emailMarketingList, status: emailMarketingStatus } =
+    useGetEmailMarketingListQuery({
+      params: {
+        page: page,
+        limit: pageLimit,
+        ...(value !== EMAIL_ENUMS?.ALL && { status: value }),
+        ...(searchEmailMarketing?.length > 0 && {
+          search: searchEmailMarketing,
+        }),
+      },
+    });
+
   return (
     <>
       <Stack direction={{ lg: 'row' }} justifyContent="space-between">
-        <Typography variant="h4">Email Marketing</Typography>
+        <Typography
+          variant="h4"
+          sx={{ marginBottom: { xs: '20px', sm: '20px', md: '20px', lg: '0' } }}
+        >
+          Email Marketing
+        </Typography>
         <Stack direction="row" gap={1} flexWrap="wrap">
           <PermissionsGuard
             permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.SEARCH_FILTER,
             ]}
           >
             <Search
@@ -83,7 +122,7 @@ const EmailMarketing = () => {
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.CREATE_NEW_EMAIL,
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.CREATE_NEW_EMAIL,
             ]}
           >
             <Button
@@ -98,50 +137,95 @@ const EmailMarketing = () => {
           </PermissionsGuard>
         </Stack>
       </Stack>
-      <Stack
-        direction="row"
-        flexWrap="wrap"
-        justifyContent={{ md: 'flex-end' }}
-        gap={1}
-        my={2}
-      >
-        <ActionButton />
-        <Tooltip title={'Refresh Filter'}>
-          <Button className="small" variant="outlined" color="inherit">
-            <RefreshTasksIcon />
-          </Button>
-        </Tooltip>
-        <PermissionsGuard
-          permissions={[
-            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
-          ]}
-        >
-          <Button
-            onClick={() => setIsOpenFilter(true)}
-            className="small"
-            startIcon={<FilterrIcon />}
-            variant="outlined"
-            color="inherit"
-          >
-            Filters
-          </Button>
-        </PermissionsGuard>
-      </Stack>
+
       <PermissionsGuard
         permissions={[
           AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.VIEW_LIST,
         ]}
       >
-        <HorizontalTabs tabsDataArray={emailMarketingTabsData}>
-          <All />
-          <Archived />
-          <Draft />
-          <Scheduled />
-          <Sent />
-        </HorizontalTabs>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            mt: 2,
+            mb: 2,
+          }}
+        >
+          <Box
+            sx={{ width: { xs: '100%', sm: '100%', md: '100%', lg: 'auto' } }}
+          >
+            <Tabs
+              sx={styles?.tabRoot(theme)}
+              value={value}
+              onChange={handleChange}
+              allowScrollButtonsMobile
+              orientation="horizontal"
+              variant="scrollable"
+            >
+              {tabData?.map((tab) => (
+                <Tab
+                  key={tab?.value}
+                  sx={styles?.tabsStyle?.(theme)}
+                  label={tab?.label}
+                  value={tab.value}
+                />
+              ))}
+            </Tabs>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '10px',
+              flexWrap: 'wrap',
+              width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+            }}
+          >
+            <ActionButton selectedRecords={selectedRecords} />
+            <Tooltip title={'Refresh Filter'}>
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                sx={{
+                  width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+                }}
+              >
+                <RefreshTasksIcon />
+              </Button>
+            </Tooltip>
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
+              ]}
+            >
+              <Button
+                onClick={() => setIsOpenFilter(true)}
+                className="small"
+                startIcon={<FilterrIcon />}
+                variant="outlined"
+                color="inherit"
+                sx={{
+                  width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+                }}
+              >
+                Filters
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
+        <Table
+          emailMarketingList={emailMarketingList}
+          loading={emailMarketingStatus === API_STATUS?.PENDING}
+          emailMarketingStatus={emailMarketingStatus}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          setSelectedRecords={setSelectedRecords}
+          selectedRecords={selectedRecords}
+        />
       </PermissionsGuard>
-      {/* commented for future use  */}
-      {/* <EmailFolder /> */}
 
       {isOpenFilter && (
         <Filters

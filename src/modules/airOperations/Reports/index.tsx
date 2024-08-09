@@ -2,6 +2,7 @@ import { Avatar, Box, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { reportsTypes } from './Reports.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ReportsTypesI } from './Reports.interface';
 
 export const Reports = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ export const Reports = () => {
       </Typography>
       <br />
       <Grid container spacing={3}>
-        {reportsTypes?.map((report: any) => (
+        {reportsTypes?.map((report: ReportsTypesI) => (
           <PermissionsGuard permissions={report?.permission} key={report?.id}>
             <Grid
               item

@@ -15,8 +15,9 @@ import SMSDetailsTable from './SMSDetailsTable';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import SkeletonComponent from '@/components/CardSkeletons';
 import useSMSBroadcastDetails from '../useSMSBroadcastDetails';
+import { SMSDetailsProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
 
-const SMSDetails = ({ detailsData, isLoading }: any) => {
+const SMSDetails = ({ detailsData, isLoading }: SMSDetailsProps) => {
   const { theme, filters, setFilters, updatedRecords } =
     useSMSBroadcastDetails(detailsData);
   return (

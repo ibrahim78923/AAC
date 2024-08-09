@@ -4,9 +4,13 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { createElement } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './PreviewSurvey.data';
 import { FEEDBACK_SURVEY_QUESTION_TYPE } from '@/constants/strings';
+import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const PreviewSurvey = (props: any) => {
-  const { surveyData, handleMoveBack } = usePreviewSurvey(props);
+export const PreviewSurvey: React.FC<{
+  data: FeedbackSurveySectionI[];
+  setCreateSurvey: React.Dispatch<React.SetStateAction<string>>;
+}> = (props) => {
+  const { data, handleMoveBack } = usePreviewSurvey(props);
   return (
     <>
       <PageTitledHeader
@@ -14,7 +18,7 @@ export const PreviewSurvey = (props: any) => {
         canMovedBack
         moveBack={handleMoveBack}
       />
-      {surveyData?.map((section: any, index: number) => {
+      {data?.map((section: FeedbackSurveySectionI, index: number) => {
         return (
           <Box key={section?._id}>
             <Box>

@@ -1,18 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
-import { useGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
-import { PAGINATION } from '@/config';
+import { useLazyGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
 import { AIR_SERVICES } from '@/constants';
-import {
-  dashboardDropdownActionsDynamic,
-  dashboardsListsOptionsDynamic,
-} from './Dashboard.data';
-import { successSnackbar } from '@/utils/api';
+import { dashboardDropdownActionsDynamic } from './Dashboard.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { htmlToPdfConvert, htmlToPngConvert } from '@/utils/file';
+import { useTheme } from '@mui/material';
+import { DOWNLOAD_FILE_TYPE } from '@/constants/strings';
+import { useForm, useWatch } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
 export const useDashboard = () => {
-  const [dashboardId, setDashboardId] = useState('');
+  const [dashboardId, setDashboardId] = useState(null);
   const [apiLoader, setApiLoader] = useState<any>({});
+  const theme = useTheme();
+  const downloadRef = useRef(null);
+  const [isDownloading, setIsDownloading] = useState({});
+
+  const downloadReport = async (isPng?: any) => {
+    setIsDownloading({ isLoading: true, isPng });
+    try {
+      isPng === DOWNLOAD_FILE_TYPE?.PNG
+        ? await htmlToPngConvert?.(
+            downloadRef,
+            theme?.palette?.common?.white,
+            apiLoader?.data?.data?.dashboard?.name,
+          )
+        : await htmlToPdfConvert?.(
+            downloadRef,
+            apiLoader?.data?.data?.dashboard?.name,
+            20,
+          );
+    } catch (error) {}
+    setIsDownloading({});
+  };
 
   const router = useRouter();
   const { user }: any = useAuth();
@@ -26,27 +49,52 @@ export const useDashboard = () => {
   }`;
 
   const copyEmail = () => {
+    if (!apiLoader?.data?.data?.dashboard?._id) {
+      errorSnackbar('Dashboard link not found.');
+      return;
+    }
     navigator?.clipboard?.writeText(emailToCopy);
     successSnackbar('Link has been copied successfully.');
   };
-
-  const dashboardsList = useGetDashboardNameListDropdownListForDashboardQuery(
-    { params: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT } },
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
-
-  const dashboardsListsOptions = dashboardsListsOptionsDynamic(
-    dashboardsList,
-    router,
-    setDashboardId,
-  );
 
   const dashboardDropdownActions = dashboardDropdownActionsDynamic(
     setIsDrawerOpen,
     copyEmail,
   );
+
+  const methods = useForm({
+    defaultValues: { dashboardId: null },
+    resolver: yupResolver(
+      Yup?.object()?.shape({
+        dashboardId: Yup?.mixed()?.nullable(),
+      }),
+    ),
+  });
+
+  const { control, reset, handleSubmit } = methods;
+
+  const apiQueryDashboardList =
+    useLazyGetDashboardNameListDropdownListForDashboardQuery?.();
+
+  const watchDepartment: any = useWatch({
+    control,
+    name: 'dashboardId',
+  });
+
+  const onsubmit = (data: any) => {
+    if (router?.query?.dashboardId) {
+      router?.push?.(AIR_SERVICES?.DASHBOARD);
+    }
+    setDashboardId?.(data?.dashboardId);
+  };
+
+  useEffect(() => {
+    reset({ dashboardId: dashboardId });
+  }, [dashboardId, reset]);
+
+  useEffect(() => {
+    handleSubmit(onsubmit)();
+  }, [watchDepartment?._id]);
 
   return {
     dashboardId,
@@ -58,6 +106,10 @@ export const useDashboard = () => {
     isDrawerOpen,
     setIsDrawerOpen,
     user,
-    dashboardsListsOptions,
+    downloadRef,
+    downloadReport,
+    isDownloading,
+    methods,
+    apiQueryDashboardList,
   };
 };

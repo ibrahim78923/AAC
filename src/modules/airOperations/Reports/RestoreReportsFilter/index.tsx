@@ -2,8 +2,11 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useRestoreReportsFilter } from './useRestoreReportsFilter';
+import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
 
-export const RestoreReportsFilter = (props: any) => {
+export const RestoreReportsFilter = (
+  props: RestoreReportsListsComponentPropsI,
+) => {
   const { isPortalOpen } = props;
   const {
     methods,
@@ -17,7 +20,7 @@ export const RestoreReportsFilter = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isFilter}
+        isDrawerOpen={isPortalOpen?.isFilter as boolean}
         onClose={() => {
           closeFilterForm?.();
         }}

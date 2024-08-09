@@ -1,6 +1,10 @@
+import { AIR_SALES_GOAL_NOTIFICATION } from '@/constants';
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 
-const GoalsSettings = () => {
+const GoalsSettings = ({
+  handleCheckboxChange,
+  selectedNotifications,
+}: any) => {
   const theme = useTheme();
 
   return (
@@ -29,7 +33,13 @@ const GoalsSettings = () => {
         }}
       >
         <Box display={'flex'}>
-          <Checkbox />
+          <Checkbox
+            name="goalStarted"
+            checked={selectedNotifications?.includes(
+              AIR_SALES_GOAL_NOTIFICATION?.STARTED,
+            )}
+            onChange={handleCheckboxChange}
+          />
           <Box>
             <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
               Goal kick-off
@@ -40,7 +50,13 @@ const GoalsSettings = () => {
           </Box>
         </Box>
         <Box display={'flex'} mt={2}>
-          <Checkbox />
+          <Checkbox
+            name="goalExceeded"
+            checked={selectedNotifications?.includes(
+              AIR_SALES_GOAL_NOTIFICATION?.EXCEEDED,
+            )}
+            onChange={handleCheckboxChange}
+          />
           <Box>
             <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
               {' '}
@@ -64,7 +80,13 @@ const GoalsSettings = () => {
           </Box>
         </Box>
         <Box display={'flex'} mt={2}>
-          <Checkbox />
+          <Checkbox
+            name="goalAchieved"
+            checked={selectedNotifications?.includes(
+              AIR_SALES_GOAL_NOTIFICATION?.ACHIEVED,
+            )}
+            onChange={handleCheckboxChange}
+          />
           <Box>
             <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
               Goal becomes
@@ -87,7 +109,13 @@ const GoalsSettings = () => {
           </Box>
         </Box>
         <Box display={'flex'} mt={2} mb={10}>
-          <Checkbox />
+          <Checkbox
+            name="goalMissed"
+            checked={selectedNotifications?.includes(
+              AIR_SALES_GOAL_NOTIFICATION?.MISSED,
+            )}
+            onChange={handleCheckboxChange}
+          />
           <Box>
             <Typography variant="body1" color={theme?.palette?.slateBlue?.main}>
               Goal becomes

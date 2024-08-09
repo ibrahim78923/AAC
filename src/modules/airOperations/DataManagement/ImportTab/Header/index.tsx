@@ -6,10 +6,10 @@ import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ExportButton } from '@/components/ExportButton';
+import { HeaderI } from './Header.interface';
 
-export const Header = (props: any) => {
+export const Header = (props: HeaderI) => {
   const {
-    search,
     setSearch,
     setIsOpenFilterDrawer,
     isOpenFilterDrawer,
@@ -32,7 +32,9 @@ export const Header = (props: any) => {
           AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
         ]}
       >
-        <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
+        <Box mb={1}>
+          <Search label="Search Here" setSearchBy={setSearch} />
+        </Box>
       </PermissionsGuard>
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
         <ImportModal />
@@ -48,6 +50,7 @@ export const Header = (props: any) => {
             handleCsvExport={() => {
               handleCsvExport?.();
             }}
+            btnText={'Download'}
           />
         </PermissionsGuard>
         <PermissionsGuard

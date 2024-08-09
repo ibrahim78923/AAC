@@ -5,8 +5,6 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Typography, useTheme } from '@mui/material';
-
 import * as Yup from 'yup';
 import {
   useLazyGetAllCampaignsListQuery,
@@ -23,6 +21,10 @@ export const validationSchema = Yup?.object().shape({
   dueDate: Yup.date()
     ?.min(today, 'You cannot select a past date')
     ?.required('Date is required'),
+  taskType: Yup?.string()?.required('Field is Required'),
+  campaignId: Yup?.object()?.required('Field is Required'),
+  assignedTo: Yup?.object()?.required('Field is Required'),
+  note: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -30,15 +32,14 @@ export const defaultValues = {
   taskType: '',
   campaignId: null,
   assignedTo: null,
-  dueDate: null,
-  time: null,
+  dueDate: '',
+  time: '',
   note: '',
 };
 
 export const dataArray = () => {
   const { user }: any = getSession();
   const orgId = user?.organization?._id;
-  const theme = useTheme();
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const userListData = useLazyGetDealOwnersListQuery();
   return [
@@ -59,6 +60,7 @@ export const dataArray = () => {
         name: 'taskType',
         label: 'Task Type',
         fullWidth: true,
+        required: true,
         options: ['email', 'call', 'others'],
       },
 
@@ -72,6 +74,7 @@ export const dataArray = () => {
         label: 'Select Campaign',
         apiQuery: campaignsList,
         fullWidth: true,
+        required: true,
         getOptionLabel: (option: any) => option?.title,
       },
       component: RHFAutocompleteAsync,
@@ -82,6 +85,7 @@ export const dataArray = () => {
         placeholder: 'Select assignee',
         name: 'assignedTo',
         label: 'Assigned To',
+        required: true,
         apiQuery: userListData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
@@ -103,29 +107,10 @@ export const dataArray = () => {
     },
     {
       componentProps: {
-        name: 'time',
-        label: 'Due Time',
-        fullWidth: true,
-      },
-
-      component: RHFDatePicker,
-
-      md: 12,
-    },
-    {
-      componentProps: {
-        color: theme?.palette?.grey[500],
-        variant: 'body2',
-        heading: 'You can customize your default settings. Go to Settings',
-      },
-      gridLength: 12,
-      component: Typography,
-    },
-    {
-      componentProps: {
         name: 'note',
         label: 'Note',
         fullWidth: true,
+        required: true,
       },
       component: RHFEditor,
       md: 12,

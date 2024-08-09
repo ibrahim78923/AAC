@@ -1,9 +1,13 @@
+import { PAGINATION } from '@/config';
 import { useDeleteChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
 
-export const useDeleteRelatedTicket = (props: any) => {
+export const useDeleteRelatedTicket = (
+  props: RelatedTicketsPortalComponentPropsI,
+) => {
   const {
-    setIsDelete,
+    setIsPortalOpen,
     selectedChildTickets,
     setSelectedChildTickets,
     setPage,
@@ -11,6 +15,7 @@ export const useDeleteRelatedTicket = (props: any) => {
     page,
     totalRecords,
   } = props;
+
   const [deleteChildTicketsTrigger, deleteChildTicketsStatus] =
     useDeleteChildTicketsMutation();
 
@@ -25,19 +30,21 @@ export const useDeleteRelatedTicket = (props: any) => {
     try {
       await deleteChildTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Child Ticket deleted successfully');
-      setSelectedChildTickets?.([]);
-      const newPage = selectedChildTickets?.length === totalRecords ? 1 : page;
+      closeTicketsDeleteModal?.();
+      const newPage =
+        selectedChildTickets?.length === totalRecords
+          ? PAGINATION?.CURRENT_PAGE
+          : page;
       setPage?.(newPage);
       await getChildTicketsListData?.(newPage);
-      closeTicketsDeleteModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      setSelectedChildTickets?.([]);
-      closeTicketsDeleteModal?.();
     }
   };
+
   const closeTicketsDeleteModal = () => {
-    setIsDelete?.(false);
+    setSelectedChildTickets?.([]);
+    setIsPortalOpen?.({});
   };
 
   return {

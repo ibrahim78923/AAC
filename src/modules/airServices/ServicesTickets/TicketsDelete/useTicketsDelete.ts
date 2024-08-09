@@ -3,12 +3,14 @@ import usePath from '@/hooks/usePath';
 import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { PAGINATION } from '@/config';
 
-export const useTicketDelete = (props: any) => {
+export const useTicketDelete = (props: TicketActionComponentPropsI) => {
   const router = useRouter();
   const { makePath } = usePath();
   const {
-    setDeleteModalOpen,
+    setIsDrawerOpen,
     selectedTicketList,
     setSelectedTicketList,
     setPage,
@@ -17,8 +19,10 @@ export const useTicketDelete = (props: any) => {
     page,
     isMoveBack = false,
   } = props;
+
   const [deleteTicketsTrigger, deleteTicketsStatus] =
     useDeleteTicketsMutation();
+
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
     selectedTicketList?.forEach(
@@ -31,8 +35,10 @@ export const useTicketDelete = (props: any) => {
       await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Ticket deleted successfully');
       closeTicketsDeleteModal?.();
-      setSelectedTicketList?.([]);
-      const newPage = selectedTicketList?.length === totalRecords ? 1 : page;
+      const newPage =
+        selectedTicketList?.length === totalRecords
+          ? PAGINATION?.CURRENT_PAGE
+          : page;
       setPage?.(newPage);
       await getTicketsListData?.(newPage);
       router?.push(
@@ -43,10 +49,9 @@ export const useTicketDelete = (props: any) => {
       );
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      setSelectedTicketList?.([]);
-      closeTicketsDeleteModal?.();
     }
   };
+
   const closeTicketsDeleteModal = () => {
     !isMoveBack &&
       router?.push(
@@ -56,7 +61,7 @@ export const useTicketDelete = (props: any) => {
         }),
       );
     setSelectedTicketList?.([]);
-    setDeleteModalOpen?.(false);
+    setIsDrawerOpen?.(false);
   };
 
   return {

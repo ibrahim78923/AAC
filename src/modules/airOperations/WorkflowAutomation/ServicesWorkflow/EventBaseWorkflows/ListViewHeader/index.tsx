@@ -9,8 +9,9 @@ import { Permissions } from '@/constants/permissions';
 import FilterWorkflow from '../../FilterWorkflow';
 import { EventBasedWorkflowDelete } from '../EventBasedWorkflowDelete';
 import { useListHeader } from './useListHeader';
+import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
-const ListViewHeader = (props: any) => {
+const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
     selectedList,
     setSearch,

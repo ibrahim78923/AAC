@@ -15,7 +15,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 
-export const CustomerSupportList = (props: any) => {
+export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
   const {
     setSearch,
     activeCheck,
@@ -101,7 +101,7 @@ export const CustomerSupportList = (props: any) => {
           pageLimit={limit}
           currentPage={page}
           totalRecords={meta?.total}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           setPage={setPage}
           setPageLimit={setLimit}
         />

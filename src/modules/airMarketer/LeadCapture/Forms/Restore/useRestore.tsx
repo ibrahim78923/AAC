@@ -101,9 +101,9 @@ const useRestore = () => {
   };
 
   const handleDeleteForms = async () => {
-    const formIds = await selectedRow;
+    const formIds = await selectedRow?.join(',');
     try {
-      await deleteForms({ formIds })?.unwrap();
+      await deleteForms({ ids: formIds })?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
       enqueueSnackbar('Form has been permanently deleted.', {
@@ -130,10 +130,10 @@ const useRestore = () => {
   };
 
   const handleSubmitRestoreForm = async () => {
-    // const ids = await selectedRow;
-    const ids = await selectedRow?.join(',');
+    const formIds = await selectedRow?.join(',');
+
     try {
-      await restoreForms({ ids })?.unwrap();
+      await restoreForms({ ids: formIds })?.unwrap();
 
       handleCloseModalRestore();
       setSelectedRow([]);

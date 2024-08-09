@@ -11,9 +11,10 @@ import {
 } from '@mui/material';
 import { useAssignedTickets } from './useAssignedTickets';
 import { ROLES } from '@/constants/strings';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const AssignedTickets = (props: any) => {
-  const { isAssignedModalOpen } = props;
+export const AssignedTickets = (props: TicketActionComponentPropsI) => {
+  const { isDrawerOpen } = props;
   const {
     assignedTicketsMethod,
     handleSubmit,
@@ -25,7 +26,7 @@ export const AssignedTickets = (props: any) => {
 
   return (
     <Dialog
-      open={isAssignedModalOpen}
+      open={isDrawerOpen}
       onClose={() => closeTicketsAssignedModal?.()}
       fullWidth
       maxWidth={'sm'}

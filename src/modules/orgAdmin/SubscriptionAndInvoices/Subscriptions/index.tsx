@@ -14,29 +14,33 @@ import {
   useGetSubscriptionsAllCrmWithSubscriptionsQuery,
   useGetSubscriptionsAndInvoicesQuery,
 } from '@/services/orgAdmin/subscription-and-invoices';
-import { DATE_FORMAT, PLAN_PRICE_TYPE_TAGS } from '@/constants';
+import { DATE_FORMAT, PLAN_PRICE_TYPE_TAGS, PRODUCT_LABELS } from '@/constants';
 import dayjs from 'dayjs';
 
 import { v4 as uuidv4 } from 'uuid';
 import { PlanCRMI, PlanI } from './subscriptions.interface';
+import ProductCallCenterIcon from '@/assets/icons/modules/orgAdmin/SubscriptionAndInvoices/product-call-center-icon';
 
 export const getProductIcon = (product: string) => {
   let iconProduct;
   switch (product) {
-    case 'Air Sales':
+    case PRODUCT_LABELS?.AIR_SALES:
       iconProduct = <ProductSalesIcon />;
       break;
-    case 'Air Services':
+    case PRODUCT_LABELS?.AIR_SERVICES:
       iconProduct = <ProductServiceIcon />;
       break;
-    case 'Air Marketer':
+    case PRODUCT_LABELS?.AIR_MARKETER:
       iconProduct = <ProductMarketingIcon />;
       break;
-    case 'Air Operations':
+    case PRODUCT_LABELS?.AIR_OPERATIONS:
       iconProduct = <ProductOperationIcon />;
       break;
-    case 'Loyalty Program':
+    case PRODUCT_LABELS?.LOYALTY_PROGRAM:
       iconProduct = <ProductLoyaltyProgramIcon />;
+      break;
+    case PRODUCT_LABELS?.CALL_CENTER:
+      iconProduct = <ProductCallCenterIcon />;
       break;
     default:
       iconProduct = <></>;

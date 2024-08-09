@@ -14,10 +14,11 @@ import {
 import { useMergedTickets } from './useMergeTickets';
 import { fullName } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const MergeTickets = (props: any) => {
+export const MergeTickets = (props: TicketActionComponentPropsI) => {
   const theme = useTheme();
-  const { isMergedTicketsModalOpen, singleTicketDetail } = props;
+  const { isDrawerOpen, singleTicketDetail } = props;
   const {
     mergedTicketsFormMethod,
     closeMergedTicketsModal,
@@ -29,7 +30,7 @@ export const MergeTickets = (props: any) => {
 
   return (
     <Dialog
-      open={isMergedTicketsModalOpen}
+      open={isDrawerOpen}
       onClose={() => closeMergedTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}

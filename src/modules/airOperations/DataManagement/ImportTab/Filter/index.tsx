@@ -3,8 +3,9 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useFilter } from './useFilter';
 import { filterFields } from './Filter.data';
+import { FilterI } from './Filter.interface';
 
-export const Filter = (props: any) => {
+export const Filter = (props: FilterI) => {
   const { isOpenFilterDrawer } = props;
   const { methods, handleSubmit, onSubmit, clearFilter, onClose, userList } =
     useFilter(props);

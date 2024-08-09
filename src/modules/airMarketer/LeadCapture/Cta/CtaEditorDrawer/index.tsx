@@ -6,6 +6,7 @@ import StepButtonInfo from './StepButtonInfo';
 import StepCopyCode from './StepCopyCode';
 import StepImageButton from './StepImageButton';
 import { BUTTON_TYPE, DRAWER_TITLE } from '../Cta.data';
+import CtaViewComponent from './CtaViewComponent';
 
 const CtaEditorDrawer = (props: any) => {
   const theme = useTheme();
@@ -53,10 +54,11 @@ const CtaEditorDrawer = (props: any) => {
       >
         <Box sx={{ pt: 2 }}>
           {title === DRAWER_TITLE?.view ? (
-            <Box
-              dangerouslySetInnerHTML={{ __html: ctaButtonData?.buttonHtml }}
-            />
+            <CtaViewComponent buttonHtml={ctaButtonData?.buttonHtml} />
           ) : (
+            // <Box
+            //   dangerouslySetInnerHTML={{ __html: ctaButtonData?.buttonHtml }}
+            // />
             <>
               <Box
                 sx={{

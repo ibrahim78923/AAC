@@ -1,11 +1,15 @@
-export const usePreviewSurvey = (props: any) => {
+import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
+
+export const usePreviewSurvey = (props: {
+  data: FeedbackSurveySectionI[];
+  setCreateSurvey: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const { data, setCreateSurvey } = props;
-  const surveyData = data?.data?.sections;
   const handleMoveBack = () => {
     setCreateSurvey('feedback');
   };
   return {
-    surveyData,
+    data,
     handleMoveBack,
   };
 };

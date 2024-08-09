@@ -1,8 +1,11 @@
 import { PAGINATION } from '@/config';
 import { useDeleteRestoreReportPermanentlyMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useDeleteReportPermanently = (props: any) => {
+export const useDeleteReportPermanently = (
+  props: RestoreReportsListsComponentPropsI,
+) => {
   const {
     setIsPortalOpen,
     selectedReportLists,

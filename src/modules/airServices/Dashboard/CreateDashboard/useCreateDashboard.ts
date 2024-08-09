@@ -52,7 +52,7 @@ export const useCreateDashboard = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleServicesDashboardQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!dashboardId,
@@ -261,5 +261,6 @@ export const useCreateDashboard = () => {
     dashboardWidgetsWatch,
     isPortalOpen,
     setIsPortalOpen,
+    refetch,
   };
 };

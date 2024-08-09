@@ -4,8 +4,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { truncateText } from '@/utils/avatarUtils';
+import { KnowledgeBaseTicketI } from './KnowledgeBaseTicket.interface';
 
-export const KnowledgeBaseTicket = (props: any) => {
+export const KnowledgeBaseTicket = (props: KnowledgeBaseTicketI) => {
   const {
     modifiedDate,
     purposeDescription,

@@ -7,15 +7,23 @@ import {
   truncateText,
 } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { MoreVert } from '@mui/icons-material';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const AnnouncementCard = (props: any) => {
-  const { data, index } = props;
+  const { data, index, dropdownAnnouncementsOptions } = props;
+
   return (
     <Box
       key={data?._id}
       sx={{ p: 2 }}
       borderBottom={
-        index !== data?.announcements?.length - 1 ? '1px solid' : ''
+        index !== data?.announcements?.length - SELECTED_ARRAY_LENGTH?.ONE
+          ? '1px solid'
+          : ''
       }
       borderColor={'custom.off_white'}
     >
@@ -43,9 +51,33 @@ export const AnnouncementCard = (props: any) => {
               {fullNameInitial(data?.userName)}
             </Typography>
           </Avatar>
-          <Typography variant="body3" color={'blue.main'} fontWeight={500}>
-            {fullName(data?.userName)}
-          </Typography>
+          <Box
+            display={'flex'}
+            flexWrap={'wrap'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            gap={1}
+          >
+            <Typography variant="body3" color={'blue.main'} fontWeight={500}>
+              {fullName(data?.userName)}
+            </Typography>
+            {!!dropdownAnnouncementsOptions?.length && (
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
+                ]}
+              >
+                <Box textAlign={'end'}>
+                  <SingleDropdownButton
+                    dropdownOptions={dropdownAnnouncementsOptions}
+                    dropdownName={<MoreVert />}
+                    hasEndIcon={false}
+                    btnVariant="text"
+                  />
+                </Box>
+              </PermissionsGuard>
+            )}
+          </Box>
         </Box>
       </Box>
       <Typography color={'grey.900'} fontSize={'0.75rem'} mt={1}>

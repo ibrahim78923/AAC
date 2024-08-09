@@ -1,8 +1,9 @@
 import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
-
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
-export const columns: any = (columnsProps: any) => {
+import { ColumnsI } from './Tasks.interface';
+
+export const columns = (columnsProps: ColumnsI) => {
   const { selectedRec, setSelectedRec, compaignsTasksData, setStatusVariant } =
     columnsProps;
 

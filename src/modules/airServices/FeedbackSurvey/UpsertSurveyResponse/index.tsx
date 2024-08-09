@@ -9,8 +9,12 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const UpsertSurveyResponse = (props: any) => {
+export const UpsertSurveyResponse: React.FC<{
+  loggedInUser?: string;
+  goBack?: () => void;
+}> = (props) => {
   const { loggedInUser, goBack } = props;
   const {
     handleSubmit,
@@ -54,6 +58,7 @@ export const UpsertSurveyResponse = (props: any) => {
   if (patchSingleSurveyDropoutAnswerForResponseStatus?.isSuccess)
     return (
       <NoData
+        height="100vh"
         message={`Survey cancellation successful. If you change your mind, you're welcome to complete it later. Thank you!`}
       />
     );
@@ -91,7 +96,7 @@ export const UpsertSurveyResponse = (props: any) => {
           ?.sections?.length ? (
           lazyGetSingleSurveyForResponseStatus?.data?.data[
             ARRAY_INDEX?.ZERO
-          ]?.sections?.map((item: any) => (
+          ]?.sections?.map((item: FeedbackSurveySectionI) => (
             <>
               <Typography color="primary" variant="h4">
                 {' '}
@@ -109,6 +114,13 @@ export const UpsertSurveyResponse = (props: any) => {
                   >
                     <Typography variant="h6" mb={1}>
                       {item?.questionTitle}
+
+                      {item?.isRequired && (
+                        <Typography color={'error.main'} component="span">
+                          {' '}
+                          *
+                        </Typography>
+                      )}
                     </Typography>
                     <>
                       {FEEDBACK_SURVEY_RESPONSE_QUESTION?.[

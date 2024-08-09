@@ -9,14 +9,25 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { XlFileImg } from '@/assets/images';
-import Image from 'next/image';
-import { truncateText } from '@/utils/avatarUtils';
-import { formatDateTime } from '@/utils/dateTime';
+import { generateImage } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const EventDialog = (params: any) => {
   const { openEventModal, setOpenEventModal, eventData, theme } = params;
-  const { start, end } = eventData;
+  const { startDate, startTime, endTime } =
+    eventData?.event?._def?.extendedProps;
+
+  const handleJoinClick = () => {
+    const joinUrl = eventData?.event?._def?.extendedProps?.joinUrl;
+    if (joinUrl) {
+      window?.open(joinUrl, '_blank');
+    }
+  };
+
+  const dateAndTime = `${dayjs(startDate)?.format(
+    DATE_TIME_FORMAT?.DDMMYYY,
+  )} - ${startTime} to ${endTime}`;
 
   return (
     <Dialog
@@ -33,7 +44,7 @@ export const EventDialog = (params: any) => {
           mb={1.5}
         >
           <Typography variant="h4">
-            Calender - {eventData?._def?.extendedProps?.data?.email}
+            Calender - {eventData?.event?._def?.extendedProps?.email}
           </Typography>
           <CloseIcon
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
@@ -56,12 +67,11 @@ export const EventDialog = (params: any) => {
         />
         <Box sx={{ margin: 1 }}>
           <Typography variant="body1" mb={0.4}>
-            {formatDateTime(start, end)}
+            {dateAndTime}
           </Typography>
-          <Typography variant="body1" mb={0.4}>
-            Microsoft teams meeting
-          </Typography>
-          <Button variant="contained">Join Now</Button>
+          <Button variant="contained" onClick={handleJoinClick}>
+            Join Now
+          </Button>
         </Box>
         <Divider
           orientation="horizontal"
@@ -82,25 +92,13 @@ export const EventDialog = (params: any) => {
             }}
           >
             <Avatar
-              variant="rounded"
-              src={''}
-              alt={''}
-              sx={{
-                bgcolor: 'primary.light',
-                p: 1.2,
-                width: 20,
-                height: 20,
-                borderRadius: '50%',
-              }}
+              sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+              src={generateImage(eventData?.event?._def?.extendedProps?.avatar)}
             />
             <Typography variant="body1">
-              {eventData?._def?.extendedProps?.data?.invitedBy} invited you.
+              {eventData?.event?._def?.extendedProps?.userName} invited you.
             </Typography>
           </Box>
-          <Typography variant="body1">
-            Accepted {eventData?._def?.extendedProps?.data?.accepted}, didn’t
-            respond {eventData?._def?.extendedProps?.data?.notResponding}
-          </Typography>
         </Box>
         <Divider
           orientation="horizontal"
@@ -112,34 +110,8 @@ export const EventDialog = (params: any) => {
           }}
         />
         <Typography variant="body1" m={1}>
-          Meetings with all {eventData?._def?.extendedProps?.data?.listeners}
+          Meetings with {eventData?.event?._def?.extendedProps?.people?.length}
         </Typography>
-        <Divider
-          orientation="horizontal"
-          flexItem
-          sx={{
-            margin: '0 .5rem',
-            border: `.1rem solid ${theme?.palette?.grey[700]}`,
-            backgroundColor: 'transparent',
-          }}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            padding: 1,
-            border: `.1rem solid ${theme?.palette?.grey?.[0]}`,
-            borderRadius: 2,
-            margin: 1,
-            maxWidth: '45%',
-          }}
-        >
-          <Image src={XlFileImg} alt={''} />
-          <Typography variant="body1">
-            {truncateText(eventData?._def?.extendedProps?.data?.attachment)}
-          </Typography>
-        </Box>
       </DialogContent>
     </Dialog>
   );

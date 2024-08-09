@@ -11,8 +11,9 @@ import {
 import { PAGINATION } from '@/config';
 import { useAddToDashboardReport } from './useAddToDashboardReport';
 import CloseIcon from '@mui/icons-material/Close';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const AddToDashboardReport = (props: any) => {
+export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen, baseModule } = props;
   const {
     methods,
@@ -26,7 +27,7 @@ export const AddToDashboardReport = (props: any) => {
 
   return (
     <Dialog
-      open={isPortalOpen?.isAddedToDashboard}
+      open={isPortalOpen?.isAddedToDashboard as boolean}
       onClose={() => closeModal?.()}
       fullWidth
       maxWidth={'sm'}

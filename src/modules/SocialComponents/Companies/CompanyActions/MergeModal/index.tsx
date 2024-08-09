@@ -18,6 +18,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 interface CompaniesDropdownI {
   _id: number;
   name: string;
+  domain: string;
 }
 
 const MergeModal = ({
@@ -29,7 +30,7 @@ const MergeModal = ({
   const { theme, companyDetails, methods, seletedCompany } =
     useMergeModal(checkedRows);
   const { getAllCompanies } = useCompanies();
-  const companiesDropdown = getAllCompanies?.data?.companies;
+  const companiesDropdown = getAllCompanies?.companies;
   const [mergeCompanies] = useMergeCompaniesMutation();
 
   return (
@@ -73,7 +74,7 @@ const MergeModal = ({
                 <RHFSelect name="mergeCompanies" select={true} size="small">
                   {companiesDropdown?.map((item: CompaniesDropdownI) => (
                     <option key={uuidv4()} value={item?._id}>
-                      {item?.name}
+                      {item?.name ?? item?.domain}
                     </option>
                   ))}
                 </RHFSelect>

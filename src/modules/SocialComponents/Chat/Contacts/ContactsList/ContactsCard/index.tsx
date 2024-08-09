@@ -22,19 +22,20 @@ import {
 } from '@/redux/slices/chat/slice';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
-import { TIME_FORMAT } from '@/constants';
+import { CHAT_TYPES, TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { useUpdateChatMutation } from '@/services/chat';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 import { PAGINATION } from '@/config';
+import { ContactsCardPropsI } from './contactsCard.interface';
 
 const ContactsCard = ({
   cardData,
   setSelectedValues,
   selectedValues,
   handleManualRefetch,
-}: any) => {
+}: ContactsCardPropsI) => {
   const theme = useTheme();
   const [isCardHover, setIsCardHover] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -78,7 +79,7 @@ const ContactsCard = ({
         body: payload,
         id: cardData?.item?.conversationId,
       })?.unwrap();
-      enqueueSnackbar('successfully', {
+      enqueueSnackbar('Success', {
         variant: 'success',
       });
       dispatch(
@@ -94,6 +95,7 @@ const ContactsCard = ({
       });
     }
   };
+
   const handleCurrentUserSelect = () => {
     dispatch(setChatMessages([])),
       dispatch(setActiveChatId(cardData?.item?._id)),
@@ -111,7 +113,6 @@ const ContactsCard = ({
           limit: PAGINATION?.PAGE_LIMIT,
         }),
       );
-
     dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({
@@ -200,9 +201,13 @@ const ContactsCard = ({
               <Box sx={{ maxWidth: '220px' }}>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: '600', whiteSpace: 'nowrap' }}
+                  sx={{
+                    fontWeight: '600',
+                    whiteSpace: 'nowrap',
+                    textTransform: 'capitalize',
+                  }}
                 >
-                  {chatMode === 'groupChat' ? (
+                  {chatMode === CHAT_TYPES?.GROUP_CHAT ? (
                     <>{cardData?.item?.groupName}</>
                   ) : (
                     <>

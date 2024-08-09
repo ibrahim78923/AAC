@@ -1,5 +1,13 @@
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
-import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Typography,
+  useTheme,
+  Theme,
+} from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -18,7 +26,7 @@ import { generateImage } from '@/utils/avatarUtils';
 
 const CatalogService = () => {
   const router = useRouter();
-  const theme: any = useTheme();
+  const theme: Theme = useTheme();
   const serviceData = allServices?.find(
     (service: any) => service?.id == router?.query?.serviceId,
   );

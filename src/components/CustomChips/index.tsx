@@ -47,7 +47,7 @@ export const CustomChips = (props: any) => {
                   ?.slice?.(sliceArray)
                   ?.map((item: any, index: number) => (
                     <Typography key={item?._id}>
-                      {`${index + 1} : ${item?.label}`}
+                      {`${index + sliceArray + 1} : ${item?.label}`}
                     </Typography>
                   ))}
               </Box>

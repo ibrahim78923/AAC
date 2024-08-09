@@ -168,7 +168,11 @@ const DialogFormCreated = ({
             <Box sx={styles?.createdCode}>
               <Box>
                 <pre>
-                  <code style={{ whiteSpace: 'pre-wrap' }}>{formHtml}</code>
+                  <code
+                    style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                  >
+                    {formHtml}
+                  </code>
                 </pre>
               </Box>
               <Tooltip

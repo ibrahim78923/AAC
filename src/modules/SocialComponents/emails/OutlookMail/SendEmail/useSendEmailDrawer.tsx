@@ -21,6 +21,12 @@ import {
   usePostScheduleEmailOutlookMutation,
   usePostSendEmailOutlookMutation,
 } from '@/services/commonFeatures/email/outlook';
+import {
+  DrawerTypeI,
+  EmailAssetsI,
+  SetAutocompleteValuesI,
+  SetValueI,
+} from './sendEmail.interface';
 
 const useSendEmailDrawer = ({
   setOpenDrawer,
@@ -83,21 +89,21 @@ const useSendEmailDrawer = ({
   }, [currentEmailAssets]);
 
   const updateEmailValues = (
-    drawerType: any,
-    setAutocompleteValues: any,
-    setAutocompleteCCValues: any,
-    setAutocompleteBCCValues: any,
-    setValue: any,
-    currentEmailAssets: any,
+    drawerType: DrawerTypeI,
+    setAutocompleteValues: SetAutocompleteValuesI,
+    setAutocompleteCCValues: SetAutocompleteValuesI,
+    setAutocompleteBCCValues: SetAutocompleteValuesI,
+    setValue: SetValueI,
+    currentEmailAssets: EmailAssetsI,
   ) => {
     const isReplyOrReplyAll =
       drawerType === CREATE_EMAIL_TYPES?.REPLY ||
       drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL;
 
     if (isReplyOrReplyAll) {
-      setAutocompleteValues([currentEmailAssets?.from]);
-      setAutocompleteCCValues(currentEmailAssets?.others?.cc);
-      setAutocompleteBCCValues(currentEmailAssets?.others?.bcc);
+      setAutocompleteValues([currentEmailAssets?.from ?? '']);
+      setAutocompleteCCValues(currentEmailAssets?.others?.cc || []);
+      setAutocompleteBCCValues(currentEmailAssets?.others?.bcc ?? []);
 
       setValue('ccChecked', !!currentEmailAssets?.others?.cc?.length);
       setValue('bccChecked', !!currentEmailAssets?.others?.bcc?.length);

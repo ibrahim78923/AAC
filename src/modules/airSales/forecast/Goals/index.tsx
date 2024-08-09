@@ -1,24 +1,17 @@
-import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Stack } from '@mui/material';
 import { manageTableColumns } from './Goals.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useForecast from '../useforecast';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { styles } from './Goals.style';
 import useGoals from './useGoals';
-import GoalsFilterDrawer from '../GoalsDrwaer';
 import ViewDetailsDrwaer from '../ViewDetailsDrwaer';
 import EditGoalsDrwaer from '../EditGoalsDrwaer';
 import { AlertModals } from '@/components/AlertModals';
 
 const Goals = () => {
-  const {
-    isFilterDrawer,
-    setIsFilterDrawer,
-    isViewDealDrawer,
-    setIsViewDealDrawer,
-  } = useForecast();
+  const { isViewDealDrawer, setIsViewDealDrawer } = useForecast();
   const {
     theme,
     anchorEl,
@@ -48,7 +41,6 @@ const Goals = () => {
   return (
     <Box>
       <Box
-        mt={4}
         display="flex"
         justifyContent="space-between"
         flexDirection={{ xs: 'column', sm: 'row' }}
@@ -113,21 +105,6 @@ const Goals = () => {
               <MenuItem onClick={() => setIsDelete(true)}>Delete</MenuItem>
             </Menu>
           </Stack>
-          <Tooltip title={'Refresh Filter'}>
-            <Button variant="outlined" color="inherit" className="small">
-              <RefreshTasksIcon />
-            </Button>
-          </Tooltip>
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            onClick={() => setIsFilterDrawer(true)}
-            startIcon={<FilterrIcon />}
-            sx={{ border: `1px solid ${theme?.palette?.custom?.dark}` }}
-          >
-            Filter
-          </Button>
         </Box>
       </Box>
       <Box mt={2}>
@@ -153,12 +130,6 @@ const Goals = () => {
           onPageChange={(page: any) => setPage(page)}
         />
       </Box>
-      {isFilterDrawer && (
-        <GoalsFilterDrawer
-          isOpenDrawer={isFilterDrawer}
-          onClose={() => setIsFilterDrawer(false)}
-        />
-      )}
       {isViewDealDrawer && (
         <ViewDetailsDrwaer
           isOpenDrawer={isViewDealDrawer}
@@ -170,6 +141,9 @@ const Goals = () => {
         <EditGoalsDrwaer
           isOpenDrawer={isEditDrawer}
           onClose={() => setIsEditDrawer(false)}
+          tableRowValues={tableRowValues}
+          setIsEditDrawer={setIsEditDrawer}
+          setTableRowValues={setTableRowValues}
         />
       )}
 

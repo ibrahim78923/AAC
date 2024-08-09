@@ -36,10 +36,10 @@ export const ServicesWorkflow = () => {
           <Typography variant="h5">Services Workflow</Typography>
         </Box>
         <Grid container gap={4} justifyContent={'center'}>
-          {serviceWorkflowsCardData?.map((item: any) => {
+          {serviceWorkflowsCardData?.map((item) => {
             return (
               <Grid
-                key={item?._id}
+                key={item?.id}
                 item
                 xl={3.7}
                 md={5.5}

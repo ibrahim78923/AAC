@@ -14,8 +14,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useAddToDashboardReport = (props: any) => {
+export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   const {
     setIsPortalOpen,
     selectedReportLists,

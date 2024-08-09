@@ -228,5 +228,13 @@ export const styles = {
         },
       },
     },
+    '& .react-datepicker__day--disabled,& .react-datepicker__month-text--disabled, & .react-datepicker__quarter-text--disabled, & .react-datepicker__year-text--disabled':
+      {
+        color: '#ccc !important',
+        cursor: 'default',
+        '&:hover': {
+          backgroundColor: '#fff !important',
+        },
+      },
   }),
 };

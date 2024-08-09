@@ -31,7 +31,8 @@ import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
 import { UserDefault } from '@/assets/images';
 import { PAGINATION } from '@/config';
-import { API_STATUS } from '@/constants';
+import { API_STATUS, CHAT_TYPES } from '@/constants';
+import { UserI } from './chat.interface';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -72,12 +73,15 @@ const Chat = () => {
     refetch,
     status,
     isError,
-  } = useGetUserChatsQuery({
-    activeChatId: activeChatId,
-    limit: chatMetaInfo?.limit,
-    page: chatMetaInfo?.page,
-    isGroup: chatMode === 'groupChat' ? true : false,
-  });
+  } = useGetUserChatsQuery(
+    {
+      activeChatId: activeChatId,
+      limit: chatMetaInfo?.limit,
+      page: chatMetaInfo?.page,
+      isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
+    },
+    { skip: activeChatId ? false : true, refetchOnMountOrArgChange: true },
+  );
 
   const { user }: { user: any } = getSession();
   const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -90,11 +94,12 @@ const Chat = () => {
       search: searchTerm,
     },
   });
-
   const handleManualRefetch = () => {
-    refetch();
+    if (activeChatId) {
+      dispatch(setChatMessages([]));
+      refetch();
+    }
   };
-
   useEffect(() => {
     if (chatsData?.data?.meta?.page === 1) {
       dispatch(setChatMetaInfo(chatsData?.data?.meta));
@@ -108,23 +113,21 @@ const Chat = () => {
       );
     }
   }, [chatsData]);
-
   useEffect(() => {
-    if (status === 'pending') {
+    if (status === API_STATUS?.PENDING) {
       dispatch(setChatMessagesLoading(true));
     } else {
       dispatch(setChatMessagesLoading(false));
     }
   }, [status]);
 
-  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+  const transformedData = chatsUsers?.data?.users?.map((item: UserI) => ({
     id: item?._id,
     firstName: item?.firstName,
     lastName: item?.lastName,
     email: item?.email,
     src: UserDefault,
   }));
-
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 

@@ -19,12 +19,22 @@ import {
 } from '@/services/airServices/feedback-survey';
 import { useRouter } from 'next/router';
 import { errorSnackbar } from '@/utils/api';
+import {
+  FeedbackSurveyI,
+  FeedbackSurveyQuestionI,
+} from '@/types/modules/AirServices/FeedbackSurvey';
 
 export const useUpsertFeedbackSurvey = () => {
   const [createSurvey, setCreateSurvey] = useState<string>(
     feedbackTypes?.survey,
   );
-  const [submitIndex, setSubmitIndex] = useState<any>({});
+  const [submitIndex, setSubmitIndex] = useState<{
+    index: number;
+    sectionId: string;
+  }>({
+    index: 0,
+    sectionId: '',
+  });
   const [submitType, setSubmitType] = useState('');
   const router: any = useRouter();
   const surveyId = router?.query?.id;
@@ -50,7 +60,7 @@ export const useUpsertFeedbackSurvey = () => {
     usePatchFeedbackSurveyMutation();
   const [addQuestionsTrigger, { isLoading: qusLoading }] =
     useAddFeedbackQuestionsMutation();
-  const modifiedSurveyData = (surveyData: any) => ({
+  const modifiedSurveyData = (surveyData: FeedbackSurveyI) => ({
     surveyTitle: surveyData?.surveyTitle,
     description: surveyData?.description,
     displayName: surveyData?.display ? surveyData?.displayName : '',
@@ -61,18 +71,18 @@ export const useUpsertFeedbackSurvey = () => {
     sendSurveyPeople:
       surveyData?.customerSupportLinkType === feedbackTypes?.viaEmail &&
       surveyData?.sendSurveyPeople?.length
-        ? surveyData?.sendSurveyPeople?.map((item: any) =>
+        ? surveyData?.sendSurveyPeople?.map((item) =>
             item?.email ? item?.email : item,
           )
         : surveyData?.customerSupportLinkType === feedbackTypes?.viaMagicLink &&
             surveyData?.shareSurveyPeople?.length
-          ? surveyData?.shareSurveyPeople?.map((item: any) =>
+          ? surveyData?.shareSurveyPeople?.map((item) =>
               item?.email ? item?.email : item,
             )
           : [],
     surveyType: feedbackSurveyType?.[router?.query?.type],
   });
-  const handleCreateSurvey = async (surveyData: any) => {
+  const handleCreateSurvey = async (surveyData: FeedbackSurveyI) => {
     const response: any = await createFeedbackSurveyTrigger({
       magicLink:
         surveyData?.customerSupportLinkType !== feedbackTypes?.viaEmail
@@ -128,7 +138,7 @@ export const useUpsertFeedbackSurvey = () => {
     sendSurveyPeople: data?.data?.sendSurveyPeople,
     surveyDuration: data?.data?.surveyDuration,
   };
-  const handleUpdateSurvey = async (data: any) => {
+  const handleUpdateSurvey = async (data: FeedbackSurveyI) => {
     const modifiedSurvey = {
       body: {
         magicLink:
@@ -152,12 +162,12 @@ export const useUpsertFeedbackSurvey = () => {
   };
   const watchSectionData = watch('sections');
   const sectionVerification = lodash?.isEqual(
-    apiSectionData(data),
+    apiSectionData(data?.data?.sections),
     watchSectionData,
   );
   let unSaveSection: any;
   watchSectionData?.forEach((newSec: any, index: number) => {
-    const oldSec = apiSectionData(data)?.[index];
+    const oldSec = apiSectionData(data?.data?.sections)?.[index];
     if (!lodash?.isEqual(newSec, oldSec)) {
       unSaveSection = { section: newSec, index };
     }
@@ -167,7 +177,7 @@ export const useUpsertFeedbackSurvey = () => {
   const oldHeading = data?.data?.sections?.[submitIndex?.index]?.heading;
   const oldDescription =
     data?.data?.sections?.[submitIndex?.index]?.description;
-  const handleSubmitQuestion = async (data: any) => {
+  const handleSubmitQuestion = async (data: FeedbackSurveyI) => {
     const selectedSection = data?.sections?.[submitIndex?.index];
     const sectionObj: any = {
       index: submitIndex?.index,
@@ -188,15 +198,24 @@ export const useUpsertFeedbackSurvey = () => {
       patchResponse = await patchFeedbackSurveyTrigger(updateSurvey);
     }
     const sectionData = selectedSection?.questions?.map(
-      (question: any, index: number) => {
+      (question: FeedbackSurveyQuestionI, index: number) => {
+        const questionTypeValue =
+          (
+            question.questionType as {
+              id: number;
+              label: string;
+              value: string;
+              icon: JSX.Element;
+            }
+          )?.value ?? question?.questionType;
         return {
           id: question?.id,
           questionTitle: question?.questionTitle,
-          questionType: question?.questionType?.value,
+          questionType: questionTypeValue,
           options:
-            question?.questionTitle !==
+            questionTypeValue !==
             (feedbackTypes?.text || feedbackTypes?.shortAnswers)
-              ? question?.questionType?.value === feedbackTypes?.linearScale
+              ? questionTypeValue === feedbackTypes?.linearScale
                 ? linearScaleOption
                 : question?.options
               : [],
@@ -216,16 +235,16 @@ export const useUpsertFeedbackSurvey = () => {
       },
     };
     const response: any = await addQuestionsTrigger(questionParams);
-    if (response?.data?.message) {
-      setSubmitIndex({ sectionSave: true });
-    } else {
+    if (response?.error?.data?.message) {
       errorSnackbar(response?.error?.data?.message);
     }
   };
   useEffect(() => {
     reset(feedbackSurveyValues(data?.data));
   }, [surveyId, data]);
-  const onSubmit: any = async (data: any) => {
+  const onSubmit: (data: any) => Promise<void> = async (
+    data: FeedbackSurveyI,
+  ) => {
     if (submitType === feedbackTypes?.createSurvey && !surveyId) {
       await handleCreateSurvey(data);
     } else if (submitType === feedbackTypes?.createSurvey && surveyId) {
@@ -233,7 +252,10 @@ export const useUpsertFeedbackSurvey = () => {
     } else if (submitType === feedbackTypes?.saveQuestion) {
       await handleSubmitQuestion(data);
     }
-    setSubmitIndex({});
+    setSubmitIndex({
+      index: 0,
+      sectionId: '',
+    });
   };
   return {
     methods,

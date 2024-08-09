@@ -10,8 +10,10 @@ import ContactList from './ContactsList';
 import { useContacts } from './useContacts.hook';
 
 import { styles } from './Contact.style';
+import { ContactsPropsI } from './contacts.interface';
+import { CHAT_TYPES } from '@/constants';
 
-const Contacts = ({ handleManualRefetch }: any) => {
+const Contacts = ({ handleManualRefetch }: ContactsPropsI) => {
   const { handleSelection, theme, chatMode } = useContacts();
 
   return (
@@ -28,7 +30,7 @@ const Contacts = ({ handleManualRefetch }: any) => {
             aria-label="text alignment"
           >
             <ToggleButton
-              value="personalChat"
+              value={CHAT_TYPES?.PERSONAL_CHAT}
               sx={styles?.toggleButtonLeft(theme)}
               aria-label="left-aligned"
             >
@@ -37,7 +39,7 @@ const Contacts = ({ handleManualRefetch }: any) => {
               </Typography>
             </ToggleButton>
             <ToggleButton
-              value="groupChat"
+              value={CHAT_TYPES?.GROUP_CHAT}
               sx={styles?.toggleButtonRight(theme)}
               aria-label="right-aligned"
             >

@@ -14,9 +14,10 @@ import {
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const useDeal = () => {
-  const [activeCheck, setActiveCheck] = useState<any>([]);
+  const [activeCheck, setActiveCheck] = useState<WorkflowI[]>([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -24,7 +25,7 @@ export const useDeal = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const { push } = useRouter();
-  const workflowId = activeCheck?.find((item: any) => item);
+  const workflowId = activeCheck?.find((item) => item);
   const handleEditWorkflow = () => {
     push({
       pathname: AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW,
@@ -65,7 +66,11 @@ export const useDeal = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
-  const onSubmitFilter = async (filterData: any) => {
+  const onSubmitFilter = async (filterData: {
+    status: string;
+    createdBy: any;
+    type: string;
+  }) => {
     const filterParams: any = {
       ...workflowParams,
       createdBy: filterData?.createdBy?._id,
@@ -82,12 +87,12 @@ export const useDeal = () => {
   const tableData = data?.data?.workFlows;
   const meta = data?.data?.meta;
   const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
-  const handleChangeStatus = async (rowData: any) => {
+  const handleChangeStatus = async (rowData: WorkflowI) => {
     const status =
       rowData?.status === REQUESTORS_STATUS?.ACTIVE
         ? REQUESTORS_STATUS?.INACTIVE
         : REQUESTORS_STATUS?.ACTIVE;
-    setSwitchLoading((prevState: any) => ({
+    setSwitchLoading((prevState: WorkflowI) => ({
       ...prevState,
       [rowData?._id]: true,
     }));
@@ -117,7 +122,7 @@ export const useDeal = () => {
   const [deleteTrigger, { isLoading: deleteLoading }] =
     useDeleteWorkflowMutation();
   const deleteParams = activeCheck
-    ?.map((item: any) => `ids=${item?._id}`)
+    ?.map((item) => `ids=${item?._id}`)
     ?.join('&');
   const handleDelete = async () => {
     const response: any = await deleteTrigger(deleteParams);

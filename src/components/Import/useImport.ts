@@ -44,9 +44,9 @@ export const useImport = (props: any) => {
     if (!showItemsList) return await getSignedUrl?.(data);
     await uploadImportData?.(data);
   };
-
   const cancelBtnHandler = () => {
     if (!showItemsList) return onClose?.();
+    setValue('csvColumns', []);
     setShowItemsList(false);
   };
 
@@ -93,6 +93,14 @@ export const useImport = (props: any) => {
     const allCrmColumnsKeys = hasNewImportApi
       ? Object?.values(dataColumn ?? {})
       : Object?.keys(dataColumn ?? {});
+
+    const hasDuplicateCrmColumns =
+      new Set(allCrmColumnsKeys)?.size !== allCrmColumnsKeys?.length;
+
+    if (hasDuplicateCrmColumns) {
+      errorSnackbar('Crm fields must be unique');
+      return;
+    }
 
     const isRequiredFieldMap: any = allCrmColumnsKeys?.reduce(
       (acc: any, curr: any) => ((acc[curr] = true), acc),

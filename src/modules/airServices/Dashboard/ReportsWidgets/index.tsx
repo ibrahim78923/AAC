@@ -1,7 +1,11 @@
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { createElement } from 'react';
-import { REPORTS_WIDGET_COMPONENT } from './ReportsWidgets.data';
+import {
+  REPORTS_WIDGETS,
+  REPORTS_WIDGET_COMPONENT,
+} from './ReportsWidgets.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { MUI_GRID_LENGTH } from '@/constants/strings';
 
 export const ReportsWidgets = (props: any) => {
   const { reportWidgets, reportResults } = props;
@@ -9,11 +13,20 @@ export const ReportsWidgets = (props: any) => {
     <>
       <br />
       <PageTitledHeader title={reportWidgets?.name}>
-        {reportWidgets?.isDateFilter && <Button></Button>}
+        {reportWidgets?.isDateFilter && <></>}
       </PageTitledHeader>
       <Grid container spacing={2}>
         {reportWidgets?.widgets?.map((item: any, index: any) => (
-          <Grid item xs={12} key={item?._id}>
+          <Grid
+            item
+            xs={12}
+            lg={
+              item?.type === REPORTS_WIDGETS?.TEMPLATE_TEXT
+                ? MUI_GRID_LENGTH?.SIX
+                : MUI_GRID_LENGTH?.TWELVE
+            }
+            key={item?._id}
+          >
             {REPORTS_WIDGET_COMPONENT?.[item?.type] &&
               createElement(REPORTS_WIDGET_COMPONENT?.[item?.type], {
                 data: reportResults?.[index],

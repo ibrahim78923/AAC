@@ -1,5 +1,5 @@
 import { NoAssociationFoundImage } from '@/assets/images';
-import { Grid, Typography, Box, Avatar } from '@mui/material';
+import { Typography, Box, Avatar } from '@mui/material';
 
 const NoData = ({
   image = NoAssociationFoundImage,
@@ -8,14 +8,22 @@ const NoData = ({
   height = '70vh',
 }: any) => {
   return (
-    <Grid
-      container
-      justifyContent={'center'}
-      alignItems={'center'}
+    <Box
       height={height}
+      display={'flex'}
+      flexDirection={'column'}
+      alignItems={'center'}
+      justifyContent={'center'}
+      width={'100%'}
     >
-      <Grid item textAlign={'center'}>
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      {!!image && (
+        <Box
+          display={'grid'}
+          sx={{
+            placeItems: 'center',
+            placeContent: 'center',
+          }}
+        >
           <Avatar
             src={image?.src}
             alt="Not Found"
@@ -23,12 +31,12 @@ const NoData = ({
             variant={'rounded'}
           />
         </Box>
-        <Typography variant="h6" mb={2}>
-          {message}
-        </Typography>
-        {children}
-      </Grid>
-    </Grid>
+      )}
+      <Typography variant="h6" mb={2}>
+        {message}
+      </Typography>
+      {children}
+    </Box>
   );
 };
 

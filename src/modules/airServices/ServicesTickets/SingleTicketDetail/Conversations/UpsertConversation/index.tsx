@@ -5,8 +5,11 @@ import { Box, Grid, Typography } from '@mui/material';
 import { useUpsertConversation } from './useUpsertConversation';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
+import { OpenConversationTypeContextPropsI } from '../Conversation.interface';
 
-export const UpsertConversation = (props: any) => {
+export const UpsertConversation = (
+  props: OpenConversationTypeContextPropsI,
+) => {
   const { isDrawerOpen, selectedConversationType } = props;
 
   const {

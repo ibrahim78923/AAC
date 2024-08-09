@@ -10,15 +10,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { useRenameReport } from './useRenameReport';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const RenameReport = (props: any) => {
+export const RenameReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
   const { onSubmit, handleSubmit, methods, handleClose, renameReportsStatus } =
     useRenameReport(props);
 
   return (
     <Dialog
-      open={isPortalOpen?.isRename}
+      open={isPortalOpen?.isRename as boolean}
       onClose={() => handleClose()}
       maxWidth={'sm'}
       fullWidth

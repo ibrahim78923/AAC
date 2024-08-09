@@ -6,6 +6,7 @@ import { AttendeePeople } from './AttendeePeople';
 import { useRouter } from 'next/router';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const MeetingForm = (props: any) => {
   const {
@@ -14,6 +15,7 @@ export const MeetingForm = (props: any) => {
     isLoading,
     isFetching,
     isError,
+    meetingId,
   } = props;
   const router = useRouter();
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -71,7 +73,9 @@ export const MeetingForm = (props: any) => {
             addMeetingProgress?.isLoading || updateMeetingProgress?.isLoading
           }
         >
-          Save & Next
+          {meetingId
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
         </LoadingButton>
       </DialogActions>
       <Divider />

@@ -11,9 +11,10 @@ import {
   Typography,
 } from '@mui/material';
 import { useMoveTickets } from './useMoveTickets';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const MoveTickets = (props: any) => {
-  const { isMoveTicketsModalOpen } = props;
+export const MoveTickets = (props: TicketActionComponentPropsI) => {
+  const { isDrawerOpen } = props;
   const {
     moveTicketsFormMethod,
     closeMoveTicketsModal,
@@ -24,7 +25,7 @@ export const MoveTickets = (props: any) => {
   } = useMoveTickets(props);
   return (
     <Dialog
-      open={isMoveTicketsModalOpen}
+      open={isDrawerOpen}
       onClose={() => closeMoveTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}

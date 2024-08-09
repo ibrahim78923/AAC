@@ -19,8 +19,10 @@ import {
 } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useEffect } from 'react';
+import { CatalogRequestI } from './CatalogRequest.interface';
 
-const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
+const useCatalogRequest = (props: CatalogRequestI) => {
+  const { servicesDetails, setOpen } = props;
   const router = useRouter();
 
   const { serviceId } = router?.query;

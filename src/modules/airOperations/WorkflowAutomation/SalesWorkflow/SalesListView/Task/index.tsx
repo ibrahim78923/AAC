@@ -55,7 +55,7 @@ export const Task = () => {
         pageLimit={limit}
         currentPage={page}
         totalRecords={meta?.total}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setLimit}
       />

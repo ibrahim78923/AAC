@@ -1,12 +1,16 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
+
 export const addItemValidationSchemaOne = Yup?.object()?.shape({
   receivedItem: Yup?.array()?.of(
     Yup?.object()
       ?.shape({
         itemName: Yup?.string(),
-        received: Yup?.number()?.required('Required'),
+        received: Yup?.number()
+          ?.typeError('Must be a number')
+          ?.nullable()
+          ?.required('Required'),
         quantity: Yup?.string(),
         pending: Yup?.string(),
       })
@@ -17,11 +21,11 @@ export const addItemValidationSchemaOne = Yup?.object()?.shape({
 export const addItemDefaultValuesFunction = (data: any) => {
   return {
     receivedItem: !!data?.data?.purchaseDetails?.length
-      ? data?.data?.purchaseDetails?.map((x: any) => ({
-          itemName: x?.name ?? '',
+      ? data?.data?.purchaseDetails?.map((item: any) => ({
+          itemName: item?.name ?? '',
           received: null,
-          quantity: x?.quantity ?? '',
-          pending: x?.quantity ?? '',
+          quantity: item?.quantity ?? '',
+          pending: item?.quantity ?? '',
           ...data,
         }))
       : [
@@ -41,13 +45,14 @@ export const itemDetailColumns = [
   'quantity',
   'pending',
 ];
+
 export const itemDetailFormFieldsFunction = (
   control: any,
   name: any,
   fields: any,
   index: any,
 ) => {
-  const item = fields[index];
+  const item = fields?.[index];
   return [
     {
       id: 1,

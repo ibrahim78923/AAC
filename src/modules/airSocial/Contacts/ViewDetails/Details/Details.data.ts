@@ -8,12 +8,12 @@ import * as Yup from 'yup';
 const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 
 export const detailsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
   firstName: Yup.string().nullable(),
   lastName: Yup.string().nullable(),
   address: Yup.string().nullable(),
   dateOfBirth: Yup.date().nullable(),
-  contactOwnerId: Yup.mixed().nullable(),
+  contactOwnerId: Yup.mixed().nullable()?.required('Field is Required'),
   phoneNumber: Yup.string()
     .nullable()
     .matches(phoneRegex, 'Phone number is not valid'),
@@ -52,8 +52,8 @@ export const detailsDataArray = (
   return [
     {
       id: 'firstName',
-      label: 'First Name',
       componentProps: {
+        label: 'First Name',
         name: 'firstName',
         placeholder: 'First Name',
         fullWidth: true,
@@ -63,8 +63,8 @@ export const detailsDataArray = (
     },
     {
       id: 'lastName',
-      label: 'Last Name',
       componentProps: {
+        label: 'Last Name',
         name: 'lastName',
         placeholder: 'Last Name',
         fullWidth: true,
@@ -74,19 +74,20 @@ export const detailsDataArray = (
     },
     {
       id: 'email',
-      label: 'Email',
       componentProps: {
+        label: 'Email',
         name: 'email',
         placeholder: 'Email',
         fullWidth: true,
+        required: true,
       },
       component: RHFTextField,
       md: 4,
     },
     {
       id: 'address',
-      label: 'Address',
       componentProps: {
+        label: 'Address',
         name: 'address',
         placeholder: 'Address',
       },
@@ -95,8 +96,8 @@ export const detailsDataArray = (
     },
     {
       id: 'dateOfBirth',
-      label: 'Date of birth',
       componentProps: {
+        label: 'Date of birth',
         name: 'dateOfBirth',
         placeholder: '10/04/2023',
         fullWidth: true,
@@ -112,6 +113,7 @@ export const detailsDataArray = (
         name: 'contactOwnerId',
         label: 'Contact Owner',
         placeholder: 'Select Owner',
+        required: true,
         apiQuery: contactOwnerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
@@ -120,8 +122,8 @@ export const detailsDataArray = (
     },
     {
       id: 'phoneNumber',
-      label: 'Phone Number',
       componentProps: {
+        label: 'Phone Number',
         name: 'phoneNumber',
         placeholder: '+44 063556245',
       },
@@ -130,8 +132,8 @@ export const detailsDataArray = (
     },
     {
       id: 'whatsAppNumber',
-      label: 'WhatsApp Number',
       componentProps: {
+        label: 'WhatsApp Number',
         name: 'whatsAppNumber',
         placeholder: '+44 063556245',
         select: false,
@@ -154,8 +156,8 @@ export const detailsDataArray = (
     },
     {
       id: 'jobTitle',
-      label: 'Job title',
       componentProps: {
+        label: 'Job title',
         name: 'jobTitle',
         placeholder: 'Data Scientist',
       },
@@ -177,8 +179,8 @@ export const detailsDataArray = (
     },
     {
       id: 'dateOfJoining',
-      label: 'Date of joining',
       componentProps: {
+        label: 'Date of joining',
         name: 'dateOfJoining',
         placeholder: '10/04/2023',
         select: false,

@@ -143,38 +143,3 @@ export const usersColumns: any = [
     cell: (info: any) => info?.getValue(),
   },
 ];
-
-export const CTAReport = [
-  {
-    reportView: 'Form Views',
-    Values: '68',
-  },
-  {
-    reportView: 'CTA Rate',
-    Values: '62%',
-  },
-  {
-    reportView: 'Entrances',
-    Values: '68',
-  },
-  {
-    reportView: 'Average Time Per Page View',
-    Values: '08%',
-  },
-  {
-    reportView: 'Total Submission',
-    Values: '156',
-  },
-  {
-    reportView: 'CTA Clicks',
-    Values: '06',
-  },
-  {
-    reportView: 'CTA Views',
-    Values: '42',
-  },
-  {
-    reportView: 'Bounce Rate',
-    Values: '40%',
-  },
-];

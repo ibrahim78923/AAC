@@ -1,6 +1,12 @@
-import { Box, Checkbox, Avatar, Typography } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Avatar,
+  Typography,
+  LinearProgress,
+} from '@mui/material';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { TICKET_STATUS } from '@/constants/strings';
+import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
@@ -14,6 +20,8 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
+import { NextRouter } from 'next/router';
+import { Dispatch, SetStateAction } from 'react';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -31,6 +39,7 @@ export const ticketsActionDropdownFunction = (
   setTicketAction: any,
   selectedTicketList: any,
   updateTicketStatus: any,
+  putSingleTicketStatusStatus: any,
 ) => [
   {
     id: 1,
@@ -38,8 +47,9 @@ export const ticketsActionDropdownFunction = (
       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
     ],
     title: 'Edit',
+    disabled: putSingleTicketStatusStatus?.isLoading,
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length > 1) {
+      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
@@ -52,8 +62,9 @@ export const ticketsActionDropdownFunction = (
     id: 2,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Assign To',
+    disabled: putSingleTicketStatusStatus?.isLoading,
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length > 1) {
+      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
@@ -66,6 +77,7 @@ export const ticketsActionDropdownFunction = (
     id: 3,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Bulk Update',
+    disabled: putSingleTicketStatusStatus?.isLoading,
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
@@ -75,8 +87,9 @@ export const ticketsActionDropdownFunction = (
     id: 4,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Merge',
+    disabled: putSingleTicketStatusStatus?.isLoading,
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length > 1) {
+      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
@@ -88,9 +101,10 @@ export const ticketsActionDropdownFunction = (
   {
     id: 5,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
+    disabled: putSingleTicketStatusStatus?.isLoading,
     title: 'Move',
     handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length > 1) {
+      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
@@ -102,34 +116,51 @@ export const ticketsActionDropdownFunction = (
   {
     id: 6,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Mark as Close',
-    handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length > 1) {
+    title:
+      putSingleTicketStatusStatus?.isLoading &&
+      putSingleTicketStatusStatus?.originalArgs?.queryParams?.status ===
+        TICKET_STATUS?.CLOSED ? (
+        <LinearProgress sx={{ width: '70px' }} />
+      ) : (
+        'Mark as Close'
+      ),
+    disabled: putSingleTicketStatusStatus?.isLoading,
+    handleClick: async (closeMenu: any) => {
+      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
-      updateTicketStatus?.(TICKET_STATUS?.CLOSED);
+      await updateTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
   },
   {
     id: 7,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Mark as Spam',
-    handleClick: (closeMenu: any) => {
-      if (selectedTicketList?.length > 1) {
+    title:
+      putSingleTicketStatusStatus?.isLoading &&
+      putSingleTicketStatusStatus?.originalArgs?.queryParams?.status ===
+        TICKET_STATUS?.SPAM ? (
+        <LinearProgress sx={{ width: '70px' }} />
+      ) : (
+        'Mark as Spam'
+      ),
+    disabled: putSingleTicketStatusStatus?.isLoading,
+    handleClick: async (closeMenu: any) => {
+      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
-      updateTicketStatus?.(TICKET_STATUS?.SPAM);
+      await updateTicketStatus?.(TICKET_STATUS?.SPAM);
       closeMenu?.();
     },
   },
   {
     id: 8,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
+    disabled: putSingleTicketStatusStatus?.isLoading,
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
@@ -138,7 +169,7 @@ export const ticketsActionDropdownFunction = (
   },
 ];
 
-export const ticketsListInitialColumns = [
+export const ticketsListInitialColumns: string[] = [
   '_id',
   'ticketIdNumber',
   'subject',
@@ -150,11 +181,10 @@ export const ticketsListInitialColumns = [
 ];
 
 export const ticketsListsColumnFunction: any = (
-  theme: any,
-  router: any,
-  ticketList: any = [],
+  router: NextRouter,
+  ticketList = [],
   selectedTicketList: any,
-  setSelectedTicketList: any,
+  setSelectedTicketList: Dispatch<SetStateAction<any>>,
 ) => {
   return [
     {
@@ -216,7 +246,7 @@ export const ticketsListsColumnFunction: any = (
             <Avatar
               variant="rounded"
               sx={{
-                bgcolor: theme?.palette?.blue?.main,
+                bgcolor: 'blue.main',
                 width: 25,
                 height: 25,
               }}
@@ -228,7 +258,7 @@ export const ticketsListsColumnFunction: any = (
             </Avatar>
             <Typography
               sx={{
-                color: theme?.palette?.custom?.bright,
+                color: 'custom.bright',
                 cursor: 'pointer',
               }}
               variant="body2"
@@ -264,7 +294,7 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
+            sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
             src={generateImage(
               info?.row?.original?.requesterDetails?.avatar?.url,
             )}

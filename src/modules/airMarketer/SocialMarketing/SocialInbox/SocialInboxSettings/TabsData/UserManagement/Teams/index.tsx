@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useTeams from './useTeams';
@@ -7,18 +7,10 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import ViewTeams from './ViewTeams';
 import CreateTeams from './CreateTeams';
+import { AddWhiteBgIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
 
-const Teams = (props: any) => {
-  const {
-    isAddTeam,
-    setIsAddTeam,
-    setTeamId,
-    teamId,
-    setIsTeamDrawer,
-    isTeamDrawer,
-    setIsOpenDelete,
-  } = props;
-
+const Teams = () => {
   const {
     theme,
     teamsData,
@@ -28,9 +20,17 @@ const Teams = (props: any) => {
     teamsDataLoading,
     searchBy,
     setSearchBy,
-    teamDataById,
-    teamByIdLoading,
-  } = useTeams(teamId);
+    isAddTeam,
+    setIsAddTeam,
+    teamId,
+    setTeamId,
+    isOpenDelete,
+    setIsOpenDelete,
+    deleteTeamLoading,
+    handleDeleteTeam,
+    isTeamDrawer,
+    setIsTeamDrawer,
+  } = useTeams();
 
   const columnsProps = {
     setIsTeamDrawer,
@@ -48,16 +48,36 @@ const Teams = (props: any) => {
             marginTop: '1rem',
             marginBottom: '1rem',
           }}
+          display="flex"
+          justifyContent="space-between"
         >
           <PermissionsGuard
             permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_TEAMS]}
           >
             <Search
+              size="small"
               searchBy={searchBy}
               width="260px"
               label={'Search here'}
               setSearchBy={setSearchBy}
             />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.CREATE_TEAM]}
+          >
+            <Button
+              className="small"
+              onClick={() => {
+                setIsAddTeam({
+                  isToggle: true,
+                  type: 'add',
+                });
+              }}
+              startIcon={<AddWhiteBgIcon />}
+              variant="contained"
+            >
+              Create Team
+            </Button>
           </PermissionsGuard>
         </Box>
 
@@ -80,16 +100,29 @@ const Teams = (props: any) => {
         <ViewTeams
           isTeamDrawer={isTeamDrawer}
           setIsTeamDrawer={setIsTeamDrawer}
-          teamData={teamDataById}
-          teamByIdLoading={teamByIdLoading}
+          teamId={teamId}
         />
 
-        {isAddTeam && (
+        {isAddTeam?.isToggle && (
           <CreateTeams
             isAddTeam={isAddTeam}
             setIsAddTeam={setIsAddTeam}
-            teamDataById={teamDataById}
-            teamByIdLoading={teamByIdLoading}
+            teamId={teamId}
+          />
+        )}
+
+        {isOpenDelete && (
+          <AlertModals
+            message={'Are you sure you want to delete this team?'}
+            type={'delete'}
+            open={isOpenDelete}
+            submitBtnText="Delete"
+            cancelBtnText="Cancel"
+            loading={deleteTeamLoading}
+            handleClose={() => setIsOpenDelete(false)}
+            handleSubmitBtn={() => {
+              handleDeleteTeam(teamId);
+            }}
           />
         )}
       </Box>

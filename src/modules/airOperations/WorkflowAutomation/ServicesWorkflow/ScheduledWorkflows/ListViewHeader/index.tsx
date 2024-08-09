@@ -8,9 +8,10 @@ import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/consta
 import { Permissions } from '@/constants/permissions';
 import FilterWorkflow from '../../FilterWorkflow';
 import { useListHeader } from './useListHeader';
-import { EventBasedWorkflowDelete } from '../../EventBaseWorkflows/EventBasedWorkflowDelete';
+import { ScheduledWorkflowDelete } from '../ScheduledWorkflowDelete';
+import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
-const ListViewHeader = (props: any) => {
+const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
     selectedList,
     setSearch,
@@ -88,7 +89,7 @@ const ListViewHeader = (props: any) => {
         onSubmitFilter={onSubmitListFilter}
         handleWorkflow={handleWorkflow}
       />
-      <EventBasedWorkflowDelete
+      <ScheduledWorkflowDelete
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
         handleDelete={handleDelete}

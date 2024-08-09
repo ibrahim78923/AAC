@@ -4,13 +4,15 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
-import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/useUserManagement';
+import { DRAWER_TYPES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ColumnsPropsI } from './Teams.interface';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
-export const columnsTeams = (props: any) => {
+export const columnsTeams = (props: ColumnsPropsI) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
     props;
-  const { drawyerType } = useUserManagement();
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -33,48 +35,60 @@ export const columnsTeams = (props: any) => {
       header: 'Action',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsTeamDrawer(true);
-              setTeamId(info?.row?.original?._id);
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_TEAMS]}
           >
-            <VisibilityIcon
-              sx={{
-                color: `${theme?.palette?.blue?.main}`,
-                fontSize: '22px',
-                cursor: 'pointer',
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setTeamId(info?.row?.original?._id);
+                setIsTeamDrawer(true);
               }}
-            />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsAddTeam({
-                isToggle: true,
-                type: drawyerType?.EDIT,
-              });
-              setTeamId(info?.row?.original?._id);
-            }}
+            >
+              <VisibilityIcon
+                sx={{
+                  color: `${theme?.palette?.blue?.main}`,
+                  fontSize: '22px',
+                  cursor: 'pointer',
+                }}
+              />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_TEAMS]}
           >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsOpenDelete(true);
-              setTeamId(info?.row?.original?._id);
-            }}
-          >
-            <CancelIcon
-              sx={{
-                color: `${theme?.palette?.error?.main}`,
-                fontSize: '22px',
-                cursor: 'pointer',
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setTeamId(info?.row?.original?._id),
+                  setIsAddTeam({
+                    isToggle: true,
+                    type: DRAWER_TYPES?.EDIT,
+                  });
               }}
-            />
-          </Box>
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_TEAMS]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsOpenDelete(true);
+                setTeamId(info?.row?.original?._id);
+              }}
+            >
+              <CancelIcon
+                sx={{
+                  color: `${theme?.palette?.error?.main}`,
+                  fontSize: '22px',
+                  cursor: 'pointer',
+                }}
+              />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

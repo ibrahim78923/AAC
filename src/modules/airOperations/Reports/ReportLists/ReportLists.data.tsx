@@ -16,6 +16,7 @@ import {
   Avatar,
   Box,
   Checkbox,
+  Chip,
   CircularProgress,
   Typography,
 } from '@mui/material';
@@ -246,7 +247,7 @@ export const reportListsColumnsDynamic = (
             }
             disabled={addReportToFavoriteListStatus?.isLoading}
             color="primary"
-            name={info?.getValue()}
+            name={info?.row?.original?._id}
           />
         )}
         <Box display={'flex'} alignItems={'center'} gap={1}>
@@ -278,8 +279,8 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.dashboard,
-    id: 'dashboard',
+    accessorFn: (row: any) => row?.dashboardDetails,
+    id: 'dashboardDetails',
     isSortable: true,
     header: 'Dashboard Name',
     cell: (info: any) =>
@@ -290,7 +291,13 @@ export const reportListsColumnsDynamic = (
             ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
         />
       ) : (
-        '---'
+        <Chip
+          size="small"
+          label="---"
+          variant="filled"
+          color={'primary'}
+          sx={{ mx: 0.5, my: 0.5 }}
+        />
       ),
   },
   {

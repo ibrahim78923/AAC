@@ -3,25 +3,9 @@ import { Button, ButtonGroup } from '@mui/material';
 import useDrawerComponents from './DrawerComponents/useDrawerComponents';
 import { CAMPAIGNS_CONSTANTS } from '@/constants/strings';
 import useResetTasksFilter from './useResetTasksFilter';
+import { ResetTasksFilterI } from './ResetTaskFilters.interface';
 
-interface TaskFilters {
-  campaignId: string;
-  taskType: string;
-  status: string;
-  assignedTo: string;
-}
-interface Props {
-  setTaskFilters: (value: TaskFilters) => void;
-  setIsFiltersOpen: (value: boolean) => void;
-  setCurrentTabVal: (value: number) => void;
-  setIsOpen: (value: boolean) => void;
-  taskFilters: TaskFilters;
-  isFilterOpen: boolean;
-  reset: () => void;
-  isOpen: boolean;
-}
-
-const ResetTasksFilter = (props: Props) => {
+const ResetTasksFilter = (props: ResetTasksFilterI) => {
   const {
     isOpen,
     setIsOpen,

@@ -5,7 +5,13 @@ import {
   circularProgressClasses,
 } from '@mui/material';
 
-export const CustomCircularProgressBar = (props: any) => {
+export const CustomCircularProgressBar: React.FC<{
+  size?: number;
+  thickness?: number;
+  progressColor?: string | undefined;
+  value?: number | undefined;
+  percentage?: number;
+}> = (props: any) => {
   const {
     size = 50,
     thickness = 3,

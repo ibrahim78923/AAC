@@ -17,9 +17,10 @@ import {
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 import useUpdateQuote from '../useUpdateQuote';
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 
 const useCreateContacts = (dealId: any, onClose: () => void) => {
-  const userRole = 'ORG_ADMIN';
+  // const userRole = 'ORG_ADMIN';
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
   const lifeCycleStages = useLazyGetUpdatedLifeCycleQuery();
 
@@ -28,7 +29,7 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
   const [postContacts, { isLoading: laodingContactPost }] =
     usePostContactsMutation();
 
-  const { data: userList } = useGetUsersQuery({ role: userRole });
+  const { data: userList } = useGetUsersQuery({ role: ROLES?.ORG_ADMIN });
   const UserListData = useLazyGetUsersListDropdownQuery();
 
   const methodscontacts = useForm<any>({
@@ -64,14 +65,16 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
           };
           createAssociationQuote({ body: associationBody })?.unwrap();
           enqueueSnackbar('Contact Created Successfully', {
-            variant: 'success',
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
           });
         });
 
       reset();
     } catch (error: any) {
       const errMsg = error.response?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
     onClose();
   };

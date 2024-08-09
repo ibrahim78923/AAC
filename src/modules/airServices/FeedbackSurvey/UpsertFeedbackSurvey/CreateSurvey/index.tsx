@@ -4,8 +4,11 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { LoadingButton } from '@mui/lab';
 import { useCreateSurvey } from './useCreateSurvey';
 import { ShareModal } from './ShareModal';
-
-export const CreateSurvey = (props: any) => {
+export const CreateSurvey: React.FC<{
+  methods: any;
+  isLoading: boolean;
+  setSubmitType: React.Dispatch<React.SetStateAction<string>>;
+}> = (props) => {
   const {
     setValue,
     isLoading,
@@ -34,7 +37,7 @@ export const CreateSurvey = (props: any) => {
           props?.methods?.watch,
           setOpenShare,
           userDropdown,
-        )?.map((field: any) => {
+        )?.map((field) => {
           if (
             field?.conditionalComponent &&
             customerSupportLinkType === surveyConditions?.email
@@ -61,7 +64,7 @@ export const CreateSurvey = (props: any) => {
               xs={12}
               md={7}
               sx={{
-                display: !field?.type?.includes(router?.query?.type)
+                display: !field?.type?.includes(router?.query?.type as string)
                   ? 'none'
                   : 'block',
               }}
@@ -74,7 +77,9 @@ export const CreateSurvey = (props: any) => {
                   against tickets
                 </Typography>
               ) : (
-                <field.component {...field?.componentProps} size="small" />
+                field?.component && (
+                  <field.component {...field?.componentProps} size="small" />
+                )
               )}
             </Grid>
           );

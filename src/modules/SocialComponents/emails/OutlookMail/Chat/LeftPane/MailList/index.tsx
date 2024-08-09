@@ -35,6 +35,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { PaperClipIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
+import { MailListPropsI } from './mailList.interface';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -44,7 +45,7 @@ const MailList = ({
   isRefresh,
   handelRefresh,
   manualActionsTrack,
-}: any) => {
+}: MailListPropsI) => {
   const theme = useTheme();
 
   const [isEmptyTrashModal, setIsEmptyTrashModal] = useState(false);

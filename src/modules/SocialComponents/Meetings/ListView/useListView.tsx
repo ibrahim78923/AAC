@@ -9,11 +9,10 @@ import {
   useLazyGetMeetingsListQuery,
 } from '@/services/commonFeatures/meetings';
 import { PAGINATION } from '@/config';
-import dayjs from 'dayjs';
 
 export const useListView = () => {
   const theme = useTheme();
-  const router = useRouter();
+  const router: any = useRouter();
   const meetingsType = router?.query?.type;
   const [search, setSearch] = useState('');
   const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
@@ -21,10 +20,11 @@ export const useListView = () => {
   const [openForm, setOpenForm] = useState<any>({});
   const [deleteModal, setDeleteModal] = useState<any>({});
   const [isActiveCard, setIsActiveCard] = useState<any>(
-    meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL,
+    meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
   );
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const [getMeetingListTrigger, getMeetingListStatus]: any =
     useLazyGetMeetingsListQuery();
@@ -33,6 +33,7 @@ export const useListView = () => {
       ['page', pages + ''],
       ['limit', pageLimit + ''],
       ['search', search],
+      ['type', cardValue],
     ];
     const meetingParam: any = buildQueryParams(additionalParams);
 
@@ -48,11 +49,18 @@ export const useListView = () => {
 
   useEffect(() => {
     getMeetingListData();
-  }, [search, page, pageLimit]);
+  }, [search, page, pageLimit, cardValue]);
   const listViewMeetingData = getMeetingListStatus?.data?.data?.meetings;
 
-  const activeCard = (meetingHeading: any) => {
+  const activeCard = (meetingType: string, meetingHeading: string) => {
     setIsActiveCard(meetingHeading);
+    setCardValue(meetingType);
+    router?.push({
+      pathname: ROUTER_CONSTANTS?.MEETINGS,
+      query: {
+        type: meetingType,
+      },
+    });
   };
 
   useEffect(() => {
@@ -62,27 +70,6 @@ export const useListView = () => {
       setCardValue(MEETINGS_DETAILS_TYPE?.ALL);
     }
   }, [meetingsType]);
-
-  useEffect(() => {
-    const now = dayjs();
-
-    if (listViewMeetingData) {
-      const filteredData = listViewMeetingData?.filter((item: any) => {
-        if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
-          return true;
-        }
-        if (cardValue === MEETINGS_DETAILS_TYPE?.UPCOMING) {
-          return dayjs(item?.startDate)?.isAfter(now);
-        }
-        if (cardValue === MEETINGS_DETAILS_TYPE?.COMPLETED) {
-          return dayjs(item?.startDate)?.isBefore(now);
-        }
-        return false;
-      });
-
-      setListData(filteredData);
-    }
-  }, [cardValue, listViewMeetingData]);
 
   const meetings = meetingCardsDetails(theme, getMeetingListStatus);
   const [deleteMeetingsTrigger, deleteMeetingsStatus]: any =
@@ -104,9 +91,16 @@ export const useListView = () => {
     }
   };
 
-  const meetingActiveType = (activeMeeting: any) => {
+  const meetingActiveType = (activeMeeting: string) => {
     return ROUTER_CONSTANTS?.[activeMeeting];
   };
+
+  useEffect(() => {
+    router?.push({
+      ...router?.basePath,
+      query: { type: 'allMeetings' },
+    });
+  }, []);
 
   return {
     theme,

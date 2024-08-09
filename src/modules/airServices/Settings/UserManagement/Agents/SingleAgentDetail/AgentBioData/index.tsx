@@ -139,19 +139,6 @@ export const AgentBioData = (props: any) => {
               {data?.data?.email ?? '---'}
             </Typography>
           </Box>
-          <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            justifyContent={'space-between'}
-            marginBottom={1}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Mobile Phone
-            </Typography>
-            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {data?.data?.phoneNumber ?? 'N/A'}
-            </Typography>
-          </Box>
         </Grid>
         <Grid item xs={12} md={1} textAlign={'center'}>
           <IconButton onClick={() => handleEditButtonClick?.()}>

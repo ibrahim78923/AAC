@@ -1,36 +1,37 @@
 import { Box } from '@mui/material';
+import { InfoI, RowI } from './viewInvoice.interface';
 
 // products table data
 export const productsTableColumns: any = [
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: RowI) => row?.name,
     id: 'productName',
     header: 'Product Name',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: InfoI) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.description,
+    accessorFn: (row: RowI) => row?.description,
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => (
+    cell: (info: InfoI) => (
       <Box dangerouslySetInnerHTML={{ __html: info?.getValue() }}></Box>
     ),
   },
   {
-    accessorFn: (row: any) => row?.quantity,
+    accessorFn: (row: RowI) => row?.quantity,
     id: 'quantity',
     isSortable: true,
     header: 'Quantity',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: InfoI) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.unitPrice,
+    accessorFn: (row: RowI) => row?.unitPrice,
     id: 'unitPrice',
     isSortable: true,
     header: 'Unit Price',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: InfoI) => info?.getValue(),
   },
   {
     accessorFn: ({ _id }: { _id: string }) => _id,

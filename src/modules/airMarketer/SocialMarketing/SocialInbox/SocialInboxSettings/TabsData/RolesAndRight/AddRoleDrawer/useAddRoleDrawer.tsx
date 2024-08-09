@@ -16,11 +16,12 @@ import {
   usePostPermissionRoleMutation,
   useUpdateRoleRightsMutation,
 } from '@/services/airMarketer/settings/roles-and-rights';
+import { DrawerI } from '../RolesAndRights.interface';
 
 const useAddRoleDrawer: any = (
-  isDrawerOpen: any,
-  onClose: any,
-  setCheckedRows: any,
+  isDrawerOpen: DrawerI,
+  onClose: () => void,
+  setCheckedRows: (value: string) => void,
 ) => {
   const { user }: any = getSession();
   const theme = useTheme<Theme>();
@@ -37,9 +38,8 @@ const useAddRoleDrawer: any = (
   const [trigger, { data: viewPerdetails, isLoading }] =
     useLazyGetPermissionsRolesByIdQuery();
 
-  const { data: defaultPermissions } = useGetRolesDataByIdQuery(
-    isDrawerOpen?.id,
-  );
+  const { data: defaultPermissions, isLoading: getRolesDataLoading } =
+    useGetRolesDataByIdQuery(isDrawerOpen?.id, { skip: !isDrawerOpen?.id });
 
   const defaultActivePermissions =
     defaultPermissions?.data?.permissions?.flatMap((p: any) => {
@@ -149,7 +149,7 @@ const useAddRoleDrawer: any = (
         };
         await updateRoleRights({ id: isDrawerOpen?.id, body: editVals });
       }
-      setCheckedRows([]);
+      setCheckedRows('');
       onClose();
       enqueueSnackbar(
         `${
@@ -169,6 +169,7 @@ const useAddRoleDrawer: any = (
   };
 
   return {
+    getRolesDataLoading,
     selectAllPermissions,
     getModulePermissions,
     postRoleLoading,

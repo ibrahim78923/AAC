@@ -11,8 +11,9 @@ import {
 } from '@mui/material';
 import { useManageReportAccess } from './useManageReportAccess';
 import CloseIcon from '@mui/icons-material/Close';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const ManageReportAccess = (props: any) => {
+export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
   const {
     methods,
@@ -25,7 +26,7 @@ export const ManageReportAccess = (props: any) => {
 
   return (
     <Dialog
-      open={isPortalOpen?.isAccessManage}
+      open={isPortalOpen?.isAccessManage as boolean}
       onClose={() => closeModal?.()}
       fullWidth
       maxWidth={'sm'}

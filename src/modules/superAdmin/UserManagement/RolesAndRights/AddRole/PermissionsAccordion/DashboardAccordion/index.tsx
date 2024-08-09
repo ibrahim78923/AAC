@@ -1,11 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -13,40 +6,55 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
-
-import { useListAccordion } from './useDashboardAccordion';
-import CheckboxLabel from '../CheckboxLabel';
-
+import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  DashboardAccordionProps,
+  SubModule,
+  Permission,
+} from '@/modules/orgAdmin/RolesAndRights/AddRole/PermissionsAccordion/DashboardAccordion/Dashboard-interface';
 
-const DashboardAccordion = () => {
-  const { ListAccordionDashboardData } = useListAccordion();
-
+const DashboardAccordion = ({
+  handleChangeSubModule,
+  selectedSubModule,
+  subModules,
+  disabled,
+}: DashboardAccordionProps) => {
   return (
     <>
-      <Accordion>
-        <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
-          <Typography variant="h4">Dashboard Details</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid container>
-            {ListAccordionDashboardData?.map((item: any) => (
-              <Grid item xs={3} key={uuidv4()}>
-                <Box sx={{ width: 'max-content' }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked={item?.checked} />}
-                      label={
-                        <CheckboxLabel name={item?.name} desc={item?.desc} />
-                      }
-                    />
-                  </FormGroup>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
+      {subModules?.map((item: SubModule) => (
+        <Accordion
+          sx={{ p: 0 }}
+          key={uuidv4()}
+          expanded={selectedSubModule === item?.name?.toLowerCase()}
+          onChange={() => {
+            handleChangeSubModule(item?.name?.toLowerCase());
+          }}
+        >
+          <AccordionSummary
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            sx={{ p: 0 }}
+          >
+            <Typography variant="h6" fontWeight={600}>
+              {item?.name}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <Grid container>
+              <RHFMultiCheckbox
+                disabled={disabled}
+                name="permissions"
+                options={item?.permissions?.map((permission: Permission) => ({
+                  label: permission?.name,
+                  value: permission?.slug,
+                }))}
+                GridView={4}
+              />
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </>
   );
 };

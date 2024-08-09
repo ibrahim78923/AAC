@@ -8,7 +8,7 @@ import {
 import { MEETINGS_DETAILS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 
-const useSMSBroadcastDetails = (detailsData: any) => {
+const useSMSBroadcastDetails = (detailsData?: any) => {
   const theme = useTheme<Theme>();
   const broadcastId = useSearchParams()?.get('id');
   const { data: getSmsBroadcatsById, isLoading: smsDetailsLoading } =

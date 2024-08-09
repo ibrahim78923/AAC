@@ -3,3 +3,14 @@ export interface UserManagementProps {
   index: number;
   value: number;
 }
+
+export interface IsAddUserDrawer {
+  isToggle: boolean;
+  type: string;
+  recordId: string[];
+}
+
+export interface AddUsersProps {
+  isAddUserDrawer: IsAddUserDrawer;
+  setIsAddUserDrawer: (val: IsAddUserDrawer) => void;
+}

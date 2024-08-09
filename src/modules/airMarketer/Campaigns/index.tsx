@@ -18,54 +18,36 @@ import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys'
 
 const Campaigns = () => {
   const {
-    handleSelectSingleCheckBox,
-    handleSelectAllCheckbox,
     createCampaignsLoading,
     setIsResetTaskFilter,
-    setIsActionsDisabled,
-    handleResetFilters,
-    setSearchCampaigns,
     isResetTaskFilter,
-    allCamopaignsData,
-    isActionsDisabled,
     resetTasksFilters,
-    setcheckedColumns,
     setCurrentTabVal,
     setIsCreateTask,
     setIsOpenFilter,
-    searchCampaigns,
-    setSelectedRows,
-    checkedColumns,
     setTaskFilters,
     organizationId,
-    campaignsData,
-    filterLoading,
     isCreateTask,
     setIsFilters,
-    selectedRows,
-    setPageLimit,
     setIsCompare,
     currentTabVal,
     userListData,
     handleSubmit,
     taskFilters,
-    setFilters,
     isFilters,
     isCompare,
-    setRowId,
     onSubmit,
-    filters,
-    setPage,
     methods,
+    compareMethods,
     theme,
   } = useCampaigns();
 
   return (
-    <Box>
+    <>
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.custom?.off_white_three} `,
-          p: '24px 0px',
+          p: '24px',
           borderRadius: '8px',
         }}
       >
@@ -73,7 +55,6 @@ const Campaigns = () => {
           display="flex"
           direction={{ md: 'row' }}
           justifyContent="space-between"
-          sx={{ padding: '0px 24px' }}
         >
           <Typography variant="h4" mb={1} onClick={() => setIsOpenFilter(true)}>
             Campaigns
@@ -124,7 +105,7 @@ const Campaigns = () => {
           </Box>
         </Stack>
 
-        <Box sx={{ padding: '0px 24px' }} mt={1.6}>
+        <Box mt={1.6}>
           <HorizontalTabs
             setActiveTab={(val: number) => {
               setCurrentTabVal(val);
@@ -132,27 +113,7 @@ const Campaigns = () => {
             defaultValue={currentTabVal}
             tabsDataArray={campaignsTabs}
           >
-            <Manage
-              campaignsData={campaignsData}
-              handleResetFilters={handleResetFilters}
-              filterLoading={filterLoading}
-              handleSelectSingleCheckBox={handleSelectSingleCheckBox}
-              handleSelectAllCheckbox={handleSelectAllCheckbox}
-              selectedRows={selectedRows}
-              allCamopaignsData={allCamopaignsData}
-              setSearchCampaigns={setSearchCampaigns}
-              searchCampaigns={searchCampaigns}
-              setSelectedRows={setSelectedRows}
-              filters={filters}
-              setFilters={setFilters}
-              setPageLimit={setPageLimit}
-              setPage={setPage}
-              isActionsDisabled={isActionsDisabled}
-              setIsActionsDisabled={setIsActionsDisabled}
-              checkedColumns={checkedColumns}
-              setcheckedColumns={setcheckedColumns}
-              setRowId={setRowId}
-            />
+            <Manage />
             <Calendar />
             <Tasks />
           </HorizontalTabs>
@@ -212,14 +173,18 @@ const Campaigns = () => {
           footer={true}
         >
           <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={''}>
+            <FormProvider methods={compareMethods}>
               <Grid container spacing={2}>
                 {compareCampaignArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component
-                      {...item.componentProps}
-                      size={'small'}
-                    ></item.component>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
                   </Grid>
                 ))}
               </Grid>
@@ -245,7 +210,7 @@ const Campaigns = () => {
           isFilterOpen={isFilters}
         />
       )}
-    </Box>
+    </>
   );
 };
 export default Campaigns;

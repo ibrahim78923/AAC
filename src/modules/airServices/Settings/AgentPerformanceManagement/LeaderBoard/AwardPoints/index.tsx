@@ -16,6 +16,7 @@ const AwardPoints = () => {
     isLoading,
     isFetching,
     addAwardPointsStatus,
+    router,
   } = useAwardPoints();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -113,6 +114,7 @@ const AwardPoints = () => {
               variant="outlined"
               color="inherit"
               disabled={addAwardPointsStatus?.isLoading}
+              onClick={() => router?.back()}
             >
               Cancel
             </LoadingButton>

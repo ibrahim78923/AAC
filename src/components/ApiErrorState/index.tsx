@@ -2,7 +2,12 @@ import { Avatar, Box, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
 
 const ApiErrorState = (props: any) => {
-  const { height = '50vh', textColor = 'slateBlue.main' } = props;
+  const {
+    height = '50vh',
+    textColor = 'slateBlue.main',
+    message = 'SOMETHING WENT WRONG!',
+    children,
+  } = props;
   return (
     <Box
       height={height}
@@ -26,8 +31,10 @@ const ApiErrorState = (props: any) => {
         />
       </Box>
       <Typography variant="h5" color={textColor}>
-        SOMETHING WENT WRONG!
+        {message}
       </Typography>
+      <br />
+      {children}
     </Box>
   );
 };

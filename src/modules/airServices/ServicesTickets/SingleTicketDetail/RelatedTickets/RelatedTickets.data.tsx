@@ -2,10 +2,31 @@ import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { TICKET_STATUS } from '@/constants/strings';
+import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
 import { fullName, truncateText } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
+import { NextRouter } from 'next/router';
+import { Dispatch, SetStateAction } from 'react';
+import { DeleteRelatedTicket } from './DeleteRelatedTicket';
+import { UpsertRelatedTicket } from './UpsertRelatedTicket';
+import {
+  RelatedTicketsIsPortalOpenI,
+  RelatedTicketsPortalComponentPropsI,
+} from './RelatedTickets.interface';
+
+export const renderPortalComponent = (
+  isPortalOpen: RelatedTicketsIsPortalOpenI,
+  portalComponentProps: RelatedTicketsPortalComponentPropsI,
+) => {
+  if (isPortalOpen?.isDelete) {
+    return <DeleteRelatedTicket {...portalComponentProps} />;
+  }
+  if (isPortalOpen?.isUpsert) {
+    return <UpsertRelatedTicket {...portalComponentProps} />;
+  }
+  return <></>;
+};
 
 const TICKET_STATUS_COLOR: any = {
   [TICKET_STATUS?.OPEN]: 'info',
@@ -16,10 +37,11 @@ const TICKET_STATUS_COLOR: any = {
 };
 
 export const columnsFunction: any = (
-  data: any = [],
-  selectedChildTickets: any = [],
-  setSelectedChildTickets?: any,
-  router?: any,
+  data = [],
+  selectedChildTickets = [],
+  setSelectedChildTickets: Dispatch<SetStateAction<any>>,
+  router: NextRouter,
+  overallPermissions?: any,
 ) => {
   return [
     {
@@ -82,6 +104,12 @@ export const columnsFunction: any = (
             cursor: 'pointer',
           }}
           onClick={() => {
+            if (
+              !overallPermissions?.includes(
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_CHILD_TICKETS_DETAILS,
+              )
+            )
+              return;
             router?.push({
               pathname: AIR_SERVICES?.CHILD_TICKETS_DETAIL,
               query: {
@@ -137,21 +165,23 @@ export const columnsFunction: any = (
 };
 
 export const relatedTicketsActionDropdownFunction = (
-  setIsDelete: any,
+  setIsPortalOpen: any,
   selectedChildTickets: any,
-  setIsDrawerOpen: any,
 ) => [
   {
     id: 1,
     permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_CHILD_TICKETS],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      if (selectedChildTickets?.length > 1) {
+      if (selectedChildTickets?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
-      setIsDrawerOpen(true);
+      setIsPortalOpen?.({
+        isOpen: true,
+        isUpsert: true,
+      });
       closeMenu?.();
     },
   },
@@ -160,7 +190,10 @@ export const relatedTicketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_CHILD_TICKETS],
     title: 'Delete',
     handleClick: (closeMenu: any) => {
-      setIsDelete(true);
+      setIsPortalOpen?.({
+        isOpen: true,
+        isDelete: true,
+      });
       closeMenu?.();
     },
   },

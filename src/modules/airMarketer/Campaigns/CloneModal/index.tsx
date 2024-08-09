@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
-
 import { Grid, Box } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { enqueueSnackbar } from 'notistack';
 import {
   dataArrayFeatures,
   defaultValuesFeatures,
   validationSchemaFeatures,
 } from './CloneModal.data';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,15 +15,24 @@ import useCampaigns from '../useCampaigns';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, indexNumbers } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const CloneModal = ({
   openCloneModal,
   handleCloseFeaturesModal,
-  compaignsDataById,
   setSelectedRows,
+  selectedRows,
 }: any) => {
   const { createCampaignsLoading, UserListData, postCampaigns }: any =
     useCampaigns();
+
+  const { data: compaignsDataById, isLoading: campaignByIdLoading } =
+    useGetCampaignsByIdQuery(selectedRows, {
+      skip:
+        !Array?.isArray(selectedRows) ||
+        selectedRows?.length === indexNumbers?.ZERO,
+    });
 
   useEffect(() => {
     const data = compaignsDataById?.data[indexNumbers?.ZERO];
@@ -75,12 +80,12 @@ const CloneModal = ({
     try {
       await postCampaigns({ body: obj })?.unwrap();
       enqueueSnackbar('Campaigns created successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       handleCloseFeaturesModal();
     } catch (error) {
       enqueueSnackbar('Error while creating campaigns', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
     reset();
@@ -99,7 +104,7 @@ const CloneModal = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={createCampaignsLoading}
       >
-        {createCampaignsLoading ? (
+        {campaignByIdLoading ? (
           <SkeletonTable />
         ) : (
           <Box mt={1}>

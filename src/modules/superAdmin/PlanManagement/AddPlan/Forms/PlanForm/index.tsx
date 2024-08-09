@@ -110,7 +110,8 @@ const AddPlanForm = ({
       >
         {formDefaultValuesFunction?.map(
           (item: FormDefaultValuesItem, index: number) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            // eslint-disable-next-line
+            <Grid item xs={12} md={item?.md} key={index}>
               {selectProductSuite === productSuiteName?.crm &&
                 index === indexNumbers?.ZERO &&
                 !isSuccess && (
@@ -254,6 +255,7 @@ const AddPlanForm = ({
                           }}
                         />
                       )}
+                      disabled={!!editPlan}
                     />
                   </>
                 )}

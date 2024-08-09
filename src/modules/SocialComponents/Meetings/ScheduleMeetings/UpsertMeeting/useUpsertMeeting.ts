@@ -1,4 +1,4 @@
-import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES, SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
@@ -23,6 +23,8 @@ import { MEETINGS_ACTION_TYPE } from '@/constants/strings';
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
   const { id: meetingId } = router?.query;
+  const moduleId = router?.query?.ticketId;
+  const moduleType = router?.query?.moduleType;
 
   const [meetingTemplate, setMeetingTemplate] = useState<boolean>(false);
   const [activeMeetingType, setActiveMeetingType] = useState(
@@ -45,6 +47,7 @@ export const useUpsertMeeting = () => {
     groupMeeting: 'GROUP',
     collective: 'Collective',
     collectiveMeeting: 'COLLECTIVE',
+    location: 'In person meeting',
   };
 
   const { data, isLoading, isFetching, isError }: any =
@@ -78,6 +81,7 @@ export const useUpsertMeeting = () => {
   const [updateMeetingTrigger, updateMeetingProgress] =
     useUpdateMeetingMutation();
 
+  const watchMeetingType = watch('meetingType');
   const onSubmit = async (formData: any) => {
     const isRecurringDailyOnTheDay =
       formData?.recurringType?.label === recurringConstant?.daily &&
@@ -154,7 +158,10 @@ export const useUpsertMeeting = () => {
               onDay: [],
               onWeek: [],
             },
-      locationId: formData?.location?._id,
+      locationId:
+        watchMeetingType?.label === schemaTypes?.inPersonMeeting
+          ? formData?.location?._id
+          : '',
       bufferTime: {
         before: formData?.bufferBeforeTime?.value,
         after: formData?.bufferAfterTime?.value,
@@ -168,12 +175,14 @@ export const useUpsertMeeting = () => {
         router?.query?.type === schemaTypes?.group
           ? formData?.people?.map((item: any) => item?._id)
           : [formData?.people?._id],
+      ...(moduleType && { moduleType }),
+      ...(moduleId && { moduleId }),
     };
 
     const meetingParameter = meetingId ? { ...body, id: meetingId } : body;
 
     try {
-      const res: any = meetingId
+      meetingId
         ? await updateMeetingTrigger(meetingParameter)?.unwrap()
         : await addMeetingTrigger(meetingParameter)?.unwrap();
 
@@ -183,8 +192,10 @@ export const useUpsertMeeting = () => {
       successSnackbar(`${meetingType} Meeting ${action} successfully`);
 
       router?.push({
-        pathname: SOCIAL_COMPONENTS?.MEETINGS,
-        query: { id: res?.data?._id },
+        pathname: moduleId
+          ? AIR_SERVICES?.TICKETS_LIST
+          : SOCIAL_COMPONENTS?.MEETINGS,
+        query: { type: 'allMeetings', ...(moduleId && { ticketId: moduleId }) },
       });
     } catch (err: any) {
       errorSnackbar(err?.data?.message);
@@ -195,17 +206,19 @@ export const useUpsertMeeting = () => {
     setMeetingTemplate(true);
   };
   const handleMoveBack = () => {
-    router?.push(SOCIAL_COMPONENTS?.SCHEDULE_MEETING);
+    router?.push({
+      pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
+      query: {
+        ...(moduleType && { moduleType }),
+        ...(moduleId && { ticketId: moduleId }),
+      },
+    });
   };
 
   const watchAllDay = watch('allDay');
-  const watchMeetingType = watch('meetingType');
   useEffect(() => {
     allDayValues?.forEach((item: any) => setValue(item?.name, item?.value));
   }, [watchAllDay]);
-  useEffect(() => {
-    setValue('location', null);
-  }, [watchMeetingType]);
   const [beforeChecked, setBeforeChecked] = useState(false);
   const [afterChecked, setAfterChecked] = useState(false);
 

@@ -3,7 +3,10 @@ import { Box, Button, Dialog, Typography } from '@mui/material';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { useLazyAllUserDropdownQuery } from '@/services/airServices/feedback-survey';
 
-export const ShareModal = ({ openShare, setOpenShare }: any) => {
+export const ShareModal: React.FC<{
+  openShare: boolean;
+  setOpenShare: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ openShare, setOpenShare }) => {
   const userDropdown = useLazyAllUserDropdownQuery();
   return (
     <Dialog

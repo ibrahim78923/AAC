@@ -3,7 +3,6 @@ import { Box, useTheme } from '@mui/material';
 import Tickets from './Tickets';
 import Assets from './Assets';
 import Tasks from './Tasks';
-import Meetings from './Meetings';
 import { scheduledWorkflowTabsData } from './ScheduledWorkflow.data';
 
 const ScheduledWorkflows = () => {
@@ -20,7 +19,6 @@ const ScheduledWorkflows = () => {
           <Tickets />
           <Assets />
           <Tasks />
-          <Meetings />
         </HorizontalTabs>
       </Box>
     </>

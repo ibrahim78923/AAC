@@ -7,7 +7,6 @@ export const styles = {
     position: 'relative',
     border: '1px solid transparent',
     padding: '30px',
-    mt: '20px',
     borderRadius: '5px',
     '&:hover': {
       borderColor: theme?.palette?.primary?.main,

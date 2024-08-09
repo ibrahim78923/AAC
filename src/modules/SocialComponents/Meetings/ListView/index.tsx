@@ -18,7 +18,6 @@ export const ListView = () => {
     deleteModal,
     submitDeleteModal,
     router,
-    isActiveCard,
     activeCard,
     getMeetingListStatus,
     setPage,
@@ -34,11 +33,13 @@ export const ListView = () => {
           <MeetingCards
             key={meeting?.id}
             meetingHeading={meeting?.meetingHeading}
+            meetingType={meeting?.meetingType}
             meetingCount={meeting?.meetingCount}
             color={meeting?.color}
             setCardValue={setCardValue}
-            isActive={isActiveCard === meeting?.meetingHeading}
+            isActive={router?.query?.type === meeting?.meetingType}
             onClick={activeCard}
+            router={router}
           />
         ))}
       </Grid>
@@ -85,14 +86,14 @@ export const ListView = () => {
           isFetching={getMeetingListStatus?.isFetching}
           isError={getMeetingListStatus?.isError}
           isSuccess={getMeetingListStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
         />
       </Box>
       {deleteModal && (
         <AgentConversionDelete
           message={'Are you sure you want to delete this entry?'}
-          open={deleteModal?.isOpen}
+          open={deleteModal?.isOpen ?? false}
           handleClose={() => {
             setDeleteModal({});
           }}

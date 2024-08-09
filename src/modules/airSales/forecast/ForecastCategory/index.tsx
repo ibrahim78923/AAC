@@ -7,7 +7,6 @@ import {
   Menu,
   MenuItem,
   Stack,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import {
@@ -19,21 +18,14 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useForecast from '../useforecast';
-import ForecastFilterDrawer from '../FilterDrwaer';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { styles } from './ForecastCategory.style';
 import useForecastCategory from './useForecastCategory';
 import ViewDealsDrawer from '../ViewDealsDrwaer';
 
 const ForecastCategory = () => {
-  const {
-    isFilterDrawer,
-    setIsFilterDrawer,
-    isViewDealDrawer,
-    setIsViewDealDrawer,
-  } = useForecast();
+  const { isViewDealDrawer, setIsViewDealDrawer } = useForecast();
   const {
     theme,
     anchorEl,
@@ -182,21 +174,6 @@ const ForecastCategory = () => {
               </MenuItem>
             </Menu>
           </Stack>
-          <Tooltip title={'Refresh Filter'}>
-            <Button variant="outlined" color="inherit" className="small">
-              <RefreshTasksIcon />
-            </Button>
-          </Tooltip>
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            onClick={() => setIsFilterDrawer(true)}
-            startIcon={<FilterrIcon />}
-            sx={{ border: `1px solid ${theme?.palette?.custom?.dark}` }}
-          >
-            Filter
-          </Button>
         </Box>
       </Box>
       <Box mt={2}>
@@ -212,12 +189,6 @@ const ForecastCategory = () => {
           isPagination
         />
       </Box>
-      {isFilterDrawer && (
-        <ForecastFilterDrawer
-          isOpenDrawer={isFilterDrawer}
-          onClose={() => setIsFilterDrawer(false)}
-        />
-      )}
       {isViewDealDrawer && (
         <ViewDealsDrawer
           isOpenDrawer={isViewDealDrawer}

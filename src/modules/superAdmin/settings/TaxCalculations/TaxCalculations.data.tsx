@@ -5,7 +5,7 @@ import {
   RHFTextField,
   RHFMultiCheckbox,
 } from '@/components/ReactHookForm';
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { DATE_FORMAT } from '@/constants';
@@ -31,7 +31,8 @@ export const addTaxFormDataArray = [
   {
     componentProps: {
       name: 'name',
-      label: 'Tax Name*',
+      label: 'Tax Name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -39,16 +40,19 @@ export const addTaxFormDataArray = [
   {
     componentProps: {
       name: 'percentage',
-      label: 'Tax Percentage*',
+      label: 'Tax Percentage',
       type: 'number',
+      required: true,
+      inputProps: { min: 1 },
     },
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
-      label: 'Select Forms*',
+      label: 'Select Forms',
       name: 'applyOn',
+      required: true,
       options: [
         { value: 'invoice', label: 'Invoice' },
         { value: 'quotes', label: 'Quotes' },
@@ -158,6 +162,8 @@ export const columns = (
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
 
+  const theme = useTheme();
+
   return [
     {
       accessorFn: (row: any) => row._id,
@@ -193,21 +199,21 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Tax Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.percentage,
+      accessorFn: (row: any) => row?.percentage,
       id: 'percentage',
       isSortable: true,
-      header: 'tax Percentage',
-      cell: (info: any) => <>{info.getValue()}%</>,
+      header: 'Tax Percentage',
+      cell: (info: any) => <>{info?.getValue()}%</>,
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
@@ -221,7 +227,7 @@ export const columns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row.applyOn,
@@ -241,7 +247,24 @@ export const columns = (
             SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Active_Inactive_Tax,
           ]}
         >
-          {info.getValue()}
+          <Typography
+            variant="body4"
+            sx={{
+              borderRadius: '25px',
+              padding: '2px 6px',
+              textTransform: 'capitalize',
+              color:
+                info?.getValue() === 'inactive'
+                  ? theme?.palette?.error?.main
+                  : theme?.palette?.success?.main,
+              backgroundColor:
+                info?.getValue() === 'inactive'
+                  ? theme?.palette?.custom?.inactive_bg
+                  : theme?.palette?.custom?.active_bg,
+            }}
+          >
+            {info?.getValue()}
+          </Typography>
         </PermissionsGuard>
       ),
     },

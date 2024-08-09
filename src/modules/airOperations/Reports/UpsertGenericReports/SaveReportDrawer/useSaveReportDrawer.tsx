@@ -14,8 +14,9 @@ import {
   GENERIC_REPORT_MODULES,
 } from '@/constants/strings';
 import {
+  SaveReportDrawerI,
   SaveReportI,
-  usersDropdownOptionsI,
+  UsersDropdownOptionsI,
 } from './SaveReportDrawer.interface';
 import {
   useLazyUsersDropdownQuery,
@@ -24,28 +25,52 @@ import {
   useLazyServiceDashboardDropdownQuery,
   usePostGenericReportsMutation,
   usePatchGenericReportsMutation,
+  useAllUsersQuery,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
-export const useSaveReportDrawer = (props: any) => {
+export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const {
     form,
     setOpen,
     reportId,
-    setForm,
     metricType,
     selectedModule,
-    singleReport,
+    data,
     handleMoveBack,
   } = props;
   const [reportValidation, setReportValidation] = useState<any>({
-    selectSharedWith: '',
-    selectAddToDashboard: '',
+    selectSharedWith: null,
+    selectAddToDashboard: null,
+    selectAddToNewDashboard: null,
   });
-
+  const { data: usersData } = useAllUsersQuery(null);
+  const singleReport = (data as any)?.data?.results;
   const saveReportsMethods = useForm({
     resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues(singleReport),
   });
+  const allUsersData = (usersData as any)?.data;
+  useEffect(() => {
+    if (singleReport?.genericReports?.accessLevel && allUsersData) {
+      const { users: accessUsers } = singleReport?.genericReports?.accessLevel;
+      const matchedUsersData = allUsersData
+        .filter((user: any) =>
+          accessUsers.some((accessUser: any) => accessUser?.id === user?._id),
+        )
+        .map((user: any) => {
+          const permission = accessUsers?.find(
+            (accessUser: any) => accessUser?.id === user?._id,
+          )?.access;
+          return {
+            _id: user?._id,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            permission,
+          };
+        });
+      setValue('specificUsersConditionOne', matchedUsersData ?? []);
+    }
+  }, [allUsersData]);
 
   const { watch, handleSubmit, reset, setValue, control, getValues } =
     saveReportsMethods;
@@ -295,7 +320,7 @@ export const useSaveReportDrawer = (props: any) => {
           }),
           ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
             users: sharedWithSpecificUserWatch?.map(
-              (item: usersDropdownOptionsI) => ({
+              (item: UsersDropdownOptionsI) => ({
                 id: item?.userId,
                 access: item?.permission,
               }),
@@ -313,7 +338,7 @@ export const useSaveReportDrawer = (props: any) => {
           }),
           ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
             specialUsers: newDashboardSpecificUserWatch?.map(
-              (item: usersDropdownOptionsI) => ({
+              (item: UsersDropdownOptionsI) => ({
                 userId: item?.userId,
                 permission: item?.permission,
               }),
@@ -331,22 +356,18 @@ export const useSaveReportDrawer = (props: any) => {
     if (reportId) {
       try {
         await patchGenericReportTrigger(params)?.unwrap();
-        successSnackbar('Report Edit Successfully');
-        setForm([]);
-        handleCancel();
+        successSnackbar('Report Customize Successfully');
         handleMoveBack();
       } catch (err: any) {
-        errorSnackbar(err?.message ?? 'Error in Edit report');
+        errorSnackbar(err?.message ?? 'Error in customize report');
       }
     } else {
       try {
         await postGenericReportTrigger(params)?.unwrap();
         successSnackbar('Report Created Successfully');
-        setForm([]);
-        handleCancel();
         handleMoveBack();
       } catch (err: any) {
-        errorSnackbar(err?.message ?? 'Error in saving report');
+        errorSnackbar(err?.message ?? 'Error in creating report');
       }
     }
   };

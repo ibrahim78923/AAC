@@ -10,7 +10,7 @@ export const WorkflowAutomation = () => {
       <Typography variant="h3">Workflow Automation</Typography>
       <br />
       <Grid container spacing={3}>
-        {workflowAutomationTypes?.map((workflow: any) => (
+        {workflowAutomationTypes?.map((workflow) => (
           <Grid
             key={workflow?.id}
             item

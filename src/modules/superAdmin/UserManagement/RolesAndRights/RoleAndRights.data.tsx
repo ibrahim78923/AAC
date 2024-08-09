@@ -1,124 +1,106 @@
 import { Checkbox } from '@mui/material';
-
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
-
-import { RHFTextField } from '@/components/ReactHookForm';
-
+import {
+  RHFAutocomplete,
+  RHFSwitch,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { ExpandMore } from '@mui/icons-material';
-
 import { SwitchBtn } from '@/components/SwitchButton';
-
 import * as Yup from 'yup';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS } from '@/constants/permission-keys';
+import { capitalizeFirstLetters, convertIdToShortNumber } from '@/utils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
-export const data: any = [
-  {
-    Id: 1,
-    RoleId: `123`,
-    RoleName: 'Sub Admin',
-    Products: 'Sales',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 2,
-    RoleId: `456`,
-    RoleName: 'Sub Admin',
-    Products: 'Services',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 3,
-    RoleId: `789`,
-    RoleName: 'Sub Admin',
-    Products: 'Marketing',
-    CreatedOn: '12/10/2023',
-  },
-  {
-    Id: 4,
-    RoleId: `752`,
-    RoleName: 'Sub Admin',
-    Products: 'Loyalty Program',
-    CreatedOn: '12/10/2023',
-  },
-];
+// Table data starts here
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.RoleId,
-    id: 'roleId',
-    cell: (info: any) => info?.getValue(),
-    header: 'Role ID',
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.RoleName,
-    id: 'roleName',
-    isSortable: true,
-    header: 'Role Name',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.Products,
-    id: 'products',
-    isSortable: true,
-    header: 'Products',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.Status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (
-      <PermissionsGuard
-        permissions={[
-          SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ACTIVE_INACTIVE_ROLES,
-        ]}
-      >
-        {' '}
-        <SwitchBtn defaultChecked />
-      </PermissionsGuard>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.CreatedOn,
-    id: 'createdOn',
-    isSortable: true,
-    header: 'Created On',
-    cell: (info: any) => info?.getValue(),
-  },
-];
+export const columns = (columnsProps: any) => {
+  const { handleRolesSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
+  return [
+    {
+      accessorFn: (row: any) => row?.Id,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={info?.getValue()}
+          defaultChecked={checkedRows === info?.row?.original?._id}
+          onChange={(e: any) =>
+            handleCheckboxChange(e, info?.row?.original?._id)
+          }
+        />
+      ),
+      header: '',
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?._id,
+      id: 'roleId',
+      header: 'Role ID',
+      isSortable: false,
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.name,
+      id: 'roleName',
+      isSortable: true,
+      header: 'Role Name',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ACTIVE_INACTIVE_ROLES,
+          ]}
+        >
+          <SwitchBtn
+            defaultChecked={
+              info?.row?.original?.status === PRODUCT_USER_STATUS?.ACTIVE
+                ? true
+                : false
+            }
+            handleSwitchChange={(e: any) =>
+              handleRolesSwitchChange(e, info?.row?.original?._id)
+            }
+          />
+        </PermissionsGuard>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdOn',
+      isSortable: true,
+      header: 'Created On',
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
+    },
+  ];
+};
 
-export const rolesValidationSchema = Yup.object().shape({
-  roleName: Yup.string().required('Field is Required'),
-  product: Yup.string().required('Field is Required'),
-  status: Yup.string().required('Field is Required'),
-  createdDate: Yup.date().required('Field is Required'),
-});
+// Filters data starts here
 
 export const rolesDefaultValues = {
-  roleName: '',
-  product: '',
+  name: '',
   status: '',
-  createdDate: null,
+  startDate: null,
+  endDate: null,
 };
 
 export const rolesFiltersArray = [
   {
     componentProps: {
       label: 'Role Name',
-      name: 'roleName',
-      required: true,
+      name: 'name',
       fullWidth: true,
       select: true,
     },
@@ -131,41 +113,29 @@ export const rolesFiltersArray = [
   },
   {
     componentProps: {
-      label: 'Product',
-      name: 'product',
-      required: true,
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'sales', label: 'Sales' },
-      { value: 'services', label: 'Services' },
-      { value: 'marketing', label: 'Marketing' },
-      { value: 'loyaltyProgram', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    title: 'Status',
-    componentProps: {
+      label: 'Status',
       name: 'status',
       fullWidth: true,
-      select: true,
+      placeholder: 'Select status',
+      options: ['ACTIVE', 'INACTIVE'],
     },
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'inactive', label: 'Inactive' },
-    ],
-    component: RHFSelect,
+
+    component: RHFAutocomplete,
     md: 12,
   },
-
   {
-    title: 'Created Date',
     componentProps: {
-      name: 'createdDate',
+      label: 'Start Date',
+      name: 'startDate',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 12,
+  },
+  {
+    componentProps: {
+      label: 'End Date',
+      name: 'endDate',
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -173,69 +143,48 @@ export const rolesFiltersArray = [
   },
 ];
 
-export const addUserSchema = Yup.object().shape({
-  roleName: Yup.string().required('Field is Required'),
-  productType: Yup.string().required('Field is Required'),
-  defaultUser: Yup.string().required('Field is Required'),
-  desc: Yup.string().required('Field is Required'),
+// Add new role drawer data starts here
+
+export const addUserSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
 });
 
 export const addUserDefault = {
-  roleName: '',
-  productType: '',
-  defaultUser: '',
-  desc: '',
+  name: '',
+  description: '',
+  status: '',
 };
 
 export const addUsersArrayData = [
   {
-    title: 'Role Name',
     componentProps: {
-      name: 'roleName',
-      placeholder: 'Enter Role Name',
-      fullWidth: true,
+      name: 'name',
+      label: 'Role Name',
+      placeholder: 'Enter role name',
+      required: true,
     },
     component: RHFTextField,
-    md: 5,
+    md: 6,
   },
-
   {
-    title: 'Select Product',
     componentProps: {
-      name: 'productType',
-      fullWidth: true,
-      select: true,
+      name: 'description',
+      label: 'Description',
+      placeholder: 'Enter description...',
+      multiline: true,
+      rows: 5,
     },
-    options: [
-      { value: 'airSale', label: 'Air Sale' },
-      { value: 'airMarketer', label: 'Air Marketer' },
-      { value: 'airServices', label: 'Air Services' },
-      { value: 'orgAdmin', label: 'Org Admin' },
-      { value: 'loyalty', label: 'Loyalty' },
-    ],
-    component: RHFSelect,
-    md: 5,
+    component: RHFTextField,
+    md: 6,
   },
-
   {
     componentProps: {
-      name: 'defaultUser',
       label: 'Default User',
+      name: 'status',
       fullWidth: true,
     },
-    component: SwitchBtn,
-    md: 5,
-  },
-
-  {
-    title: 'Description',
-    componentProps: {
-      name: 'desc',
-      placeholder: 'Description',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 5,
+    component: RHFSwitch,
+    md: 6,
   },
 ];
 

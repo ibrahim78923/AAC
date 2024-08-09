@@ -1,18 +1,19 @@
 import { REPORT_TYPE } from '@/constants/strings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
-import { useTheme } from '@mui/material';
+import { useTheme, Theme } from '@mui/material';
 import { useState } from 'react';
+import { DroppableAreaI } from './DroppableArea.interface';
 
-export const useDroppableArea = (props: any) => {
+export const useDroppableArea = (props: DroppableAreaI) => {
   const { setForm, form } = props;
-  const theme: any = useTheme();
+  const theme: Theme = useTheme();
 
   const [calendarFilter, setCalendarFilter] = useState();
   const handleDelete = (id: string) => {
     setForm(form?.filter((item: any) => item?.id !== id));
     const deletedRecord = form?.find((item: any) => item?.id === id);
-    errorSnackbar(`Delete ${deletedRecord?.title} Successfully`);
+    successSnackbar(`Delete ${deletedRecord?.title} Successfully`);
   };
 
   const handleCopy = (id: string) => {

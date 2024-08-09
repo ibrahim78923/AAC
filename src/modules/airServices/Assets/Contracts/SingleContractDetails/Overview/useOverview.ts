@@ -1,6 +1,7 @@
 import { useGetContractsOverviewQuery } from '@/services/airServices/assets/contracts/single-contract-details/overview';
 import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
+import { overviewDataArray } from './Overview.data';
 
 export const useOverview = () => {
   const theme = useTheme();
@@ -30,6 +31,8 @@ export const useOverview = () => {
 
   const approverName = data?.data?.approver;
 
+  const fieldsOverviewData = overviewDataArray(data?.data);
+
   return {
     theme,
     contractData,
@@ -38,5 +41,7 @@ export const useOverview = () => {
     isLoading,
     isFetching,
     isError,
+    fieldsOverviewData,
+    data,
   };
 };

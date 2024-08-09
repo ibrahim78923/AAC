@@ -43,6 +43,7 @@ export const END_POINTS = {
   GET_DEALS_VIEWS: '/deal-views',
   DELETE_DEALS: '/deals/delete-deals',
   RESTORE_DEALS: '/deals/get-soft-deleted-deals',
+  EMAIL_EXIST: '/users/email/exist',
   QUOTE_SUBMIT_WITH_EMAIL: '/quote/submit-with-email',
   TAX_CALCULATION: '/tax-calculation',
   PATCH_RESTORE_DEAL_ACTION: '/deals/restore-deal-action',
@@ -61,6 +62,7 @@ export const END_POINTS = {
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
   GET_PERMISSIONS_ROLES: '/permissions/role',
+  GET_ADMIN_PERMISSIONS_ROLES: '/permissions/super-admin-roles-rights',
   TASK_MANAGEMENT: '/task/management',
   TASK_MANAGEMENT_UNASSIGN_DEAL: '/task/unassign-deal',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
@@ -207,6 +209,7 @@ export const END_POINTS = {
   AUTH_ACCOUNTS: '/auth/accounts',
   AUTH_ACCOUNTS_SELECT: '/auth/accounts/select',
   AUTH_MY_ACCOUNT: '/auth/me',
+  EMAIL_EXIST: '/users/email/exist',
   ASSETS_SOFTWARE: '/assets/get-software',
   SOFTWARE_OVERVIEW: '/assets/software_overview',
   SOFTWARE_CONTRACT_UTILIZATION: '/assets/software-contract-utilization',
@@ -388,8 +391,8 @@ export const END_POINTS = {
   GET_REWARDS_LIST: `/rewards/rewards-list`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
-  LEAD_CAPTURE_CTA: '/lead-capture',
-  DELETE_LEAD_CAPTURE_CTA: '/lead-capture/multiple',
+  LEAD_CAPTURE_CTA: '/lead-capture-cta',
+  DELETE_LEAD_CAPTURE_CTA: '/lead-capture-cta/multiple',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,
   UPDATE_SHOP: `/shops/update-shops`,
@@ -459,6 +462,7 @@ export const END_POINTS = {
   CREATE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/create-dynamic-dashboard`,
   EDIT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-dynamic-dashboard`,
   DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  MEETINGS_TEMPLATE: '/Meetings/create-meeting-template',
   POST_MEETINGS: '/Meetings/edit-meeting',
   DELETE_MEETINGS: '/Meetings/delete-meeting',
   GET_MEETINGS_LIST: '/Meetings/get-meeting',
@@ -480,6 +484,9 @@ export const END_POINTS = {
   UPDATE_LINK_DASHBOARDS_REPORTS_ACTION: `/generic-reports/update-link-dashboard`,
   MARKETING_DASHBOARD_LISTS_DROPDOWN: `/marketing-dashboard`,
   CONTRACT_TYPE_SERVICES_SETTINGS: `/contract-type`,
+  GET_MEETINGS_SLOTS: '/meeting-time-slots/suggested-time-slots',
+  GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
+  EXPORT_GENERIC_REPORTS: `/generic-reports/export-reports`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -492,10 +499,18 @@ export const LEAD_CAPTURE_FORM = {
   POST_MANAGE_FIELDS: '/lead-capture-form/manage-lead-form-fields',
   GET_MANAGE_FIELD: '/lead-capture-form/get-form-field',
   GET_FORM_SUBMISSIONS: '/lead-capture-form/get-lead-capture-submissions',
+  GET_SUBMISSION_EMAIL:
+    '/lead-capture-form/get-lead-capture-submissions-emails',
   POST_FORM_SUBMISSIONS: '/lead-capture-form/lead-capture-submission',
   GET_RESTORE_FORMS: '/lead-capture-form/get-lead-capture-soft-deleted-forms',
   DELETE_FORM_PERMANENT: '/lead-capture-form/permanent-delete-forms',
   PATCH_RESTORE_FORM: '/lead-capture-form/restore-deleted-forms',
+};
+
+export const EMAILS_MARKETING = {
+  EMAIL_MARKETING: '/emails-marketing/get-all-marketingEmails',
+  CREATE_EMAIL: '/emails-marketing/create-email',
+  DELETE_EMAIL: '/emails-marketing/delete-email',
 };
 
 export const superAdminBillingInvoices = {
@@ -587,7 +602,6 @@ export const OPERATION = {
   CLONE_WORKFLOW: '/workflows/clone',
   TEST_WORKFLOW: '/workflows/test',
   GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
-  GET_EXPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
   POST_GENERIC_REPORT: '/generic-reports',
   PATCH_GENERIC_REPORT: '/generic-reports/update-generic-report',
   GET_SINGLE_GENERIC_REPORT: '/generic-reports/get-generic-report-details',
@@ -607,6 +621,7 @@ export const AIR_MARKETER = {
   CAMPAIGNS_TASKS: '/campaigns/task',
   CAMPAIGNS_CLONE: '/campaigns/view/clone',
   CAMPAIGNS_SAVE_VIEW: '/campaigns/view',
+  REPORTS_LEADS: '/lead-capture-form/get-all-lead-capture-stats',
 };
 
 export const SUPER_ADMIN_DASHBOARD = {

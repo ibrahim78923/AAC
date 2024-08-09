@@ -14,13 +14,8 @@ import CommonTabs from '@/components/Tabs';
 const ViewPerformance = () => {
   const router = useRouter();
   const theme = useTheme();
-  const {
-    setIsOpenAddAssets,
-    handleCloseAddAssetsModal,
-    isOpenAddAssets,
-    searchVal,
-    setSearchVal,
-  } = useCampaigns();
+  const { setIsOpenAddAssets, handleCloseAddAssetsModal, isOpenAddAssets } =
+    useCampaigns();
   return (
     <Box
       sx={{
@@ -54,15 +49,7 @@ const ViewPerformance = () => {
       </Box>
       <ViewCompaignDetails />
       <Box sx={{ padding: '0px 24px' }}>
-        <CommonTabs
-          searchBarProps={{
-            label: 'Search Here',
-            setSearchBy: setSearchVal,
-            searchBy: searchVal,
-          }}
-          tabsArray={['Performance', 'Assets', 'Tasks']}
-          isHeader={true}
-        >
+        <CommonTabs tabsArray={['Performance', 'Assets', 'Tasks']}>
           <Performance />
           <Assets />
           <Tasks />

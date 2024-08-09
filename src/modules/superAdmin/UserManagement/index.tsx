@@ -194,7 +194,16 @@ const UserManagement = () => {
               pageLimit={pageLimit}
               setPageLimit={setPageLimit}
             />
-            <RolesAndRights />
+            <RolesAndRights
+              checkedRows={selectedRow}
+              setCheckedRows={setSelectedRow}
+              filterValues={filterValues}
+              searchVal={searchVal}
+              page={page}
+              setPage={setPage}
+              pageLimit={pageLimit}
+              setPageLimit={setPageLimit}
+            />
           </CommonTabs>
         </Box>
       </PermissionsGuard>

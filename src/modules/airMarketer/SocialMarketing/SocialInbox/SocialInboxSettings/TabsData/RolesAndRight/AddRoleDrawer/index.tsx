@@ -7,11 +7,13 @@ import PermissionsAccordion from '../PermissionsAccordion';
 import { FormProvider } from '@/components/ReactHookForm';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { AddRoleDrawerI } from '../RolesAndRights.interface';
 
-const AddRoleDrawer = (props: any) => {
+const AddRoleDrawer = (props: AddRoleDrawerI) => {
   const { isDrawerOpen, onClose, setCheckedRows } = props;
   const {
     selectAllPermissions,
+    getRolesDataLoading,
     getModulePermissions,
     postRoleLoading,
     loadingEditRole,
@@ -47,7 +49,7 @@ const AddRoleDrawer = (props: any) => {
           : loadingEditRole
       }
     >
-      {isLoading ? (
+      {isLoading || getRolesDataLoading ? (
         <SkeletonTable />
       ) : (
         <Box sx={{ paddingTop: '1rem' }}>

@@ -51,8 +51,8 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
-import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { AIR_CUSTOMER_PORTAL, PRODUCT_LABELS } from '@/constants';
 
 const drawerWidth = 230;
 
@@ -102,20 +102,11 @@ const DashboardLayout = ({ children, window }: any) => {
   const basePath = pathSegments[0];
 
   let productName = '';
-  if (
-    `/${basePath}` === AIR_CUSTOMER_PORTAL?.DASHBOARD ||
-    `/${basePath}` === ORG_ADMIN?.EDIT_PROFILE
-  ) {
-    productName = 'Customer Portal';
+  if (`/${basePath}` === AIR_CUSTOMER_PORTAL?.DASHBOARD) {
+    productName = PRODUCT_LABELS?.CUSTOMER_PORTAL;
   } else {
     productName = getActiveProductSession()?.name;
   }
-
-  //   const findRoleByEmail = ({ user, array }: any) => {
-  //     return array?.find((skill: any) => skill?.email === user?.email);
-  //   };
-
-  // const findEmail: any = findRoleByEmail({ user, array });
 
   const routes = getRoutes(productName);
   const lowerRoutes = getLowerRoutes(productName);
@@ -563,6 +554,10 @@ const DashboardLayout = ({ children, window }: any) => {
             dispatch(
               setChatContacts({
                 ...currentData,
+                lastMessage: {
+                  ...currentData?.lastMessage,
+                  content: payload?.data?.content,
+                },
                 unReadMessagesCount: currentData?.unReadMessagesCount + 1,
               }),
             );

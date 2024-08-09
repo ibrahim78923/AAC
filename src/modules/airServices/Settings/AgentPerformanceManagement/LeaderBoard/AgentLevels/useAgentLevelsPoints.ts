@@ -10,8 +10,10 @@ import {
 } from './AgentLevel.data';
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useAgentLevelsPoints = () => {
+  const router = useRouter();
   const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
     useAddAgentLevelsMutation();
 
@@ -44,5 +46,6 @@ export const useAgentLevelsPoints = () => {
     isLoading,
     isFetching,
     addAgentLevelsPointsStatus,
+    router,
   };
 };

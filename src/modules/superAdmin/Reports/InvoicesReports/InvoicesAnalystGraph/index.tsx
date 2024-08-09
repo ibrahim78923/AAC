@@ -9,7 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 import { styles } from './InvoicesAnalystGraph.style';
-import { options, series } from './InvoicesAnalystGraph.data';
+import {
+  options,
+  monthWiseSeries,
+  isWeeklyData,
+  weekWiseSeries,
+} from './InvoicesAnalystGraph.data';
 import { useTheme } from '@mui/material/styles';
 import useInvoicesAnalyst from './useInvoicesAnalyst';
 import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
@@ -18,6 +23,7 @@ import { RefreshTasksIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { InvoicesAnalystGraphProps } from '@/modules/superAdmin/Reports/Reports.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { indexNumbers } from '@/constants';
 
 const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
   const { invoicesReportsGraph, filter, setFilter, resetFilters, isLoading } =
@@ -41,7 +47,7 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
-
+  const isWeeks = isWeeklyData(invoicesReportsGraph);
   return (
     <Box sx={styles?.productWiseGraph}>
       <Box display="flex" justifyContent="space-between">
@@ -173,13 +179,13 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
         <SkeletonTable />
       ) : (
         <Box height="350px">
-          {invoicesReportsGraph?.length === 0 ||
+          {invoicesReportsGraph?.length === indexNumbers?.ZERO ||
           invoicesReportsGraph?.every(
             (item: any) =>
-              item?.paid === 0 &&
-              item?.followUpSoon === 0 &&
-              item?.followUpNow === 0 &&
-              item?.totalAmount === 0,
+              item?.paid === indexNumbers?.ZERO &&
+              item?.followUpSoon === indexNumbers?.ZERO &&
+              item?.followUpNow === indexNumbers?.ZERO &&
+              item?.totalAmount === indexNumbers?.ZERO,
           ) ? (
             <Box
               height="330px"
@@ -198,7 +204,11 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
           ) : (
             <ReactApexChart
               options={options(invoicesReportsGraph)}
-              series={series(invoicesReportsGraph)}
+              series={
+                isWeeks
+                  ? weekWiseSeries(invoicesReportsGraph)
+                  : monthWiseSeries(invoicesReportsGraph)
+              }
               type="bar"
               height={350}
             />

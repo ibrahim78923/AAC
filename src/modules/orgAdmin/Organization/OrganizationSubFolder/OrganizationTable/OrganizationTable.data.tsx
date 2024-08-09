@@ -112,7 +112,7 @@ export const columns = (
                       height: '32px',
                       width: '32px',
                       fontSize: '12px',
-                      borderRadius: '12px',
+                      borderRadius: '30px',
                     },
                   }}
                 >

@@ -25,8 +25,9 @@ import {
 import { StrictModeDroppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { LoadingButton } from '@mui/lab';
 import { ImportQuestions } from './ImportQuestions';
+import { QuestionsI } from './Questions.interface';
 
-export const Questions = (props: any) => {
+export const Questions: React.FC<QuestionsI> = (props) => {
   const {
     sectionIndex,
     isSection,

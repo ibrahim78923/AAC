@@ -12,9 +12,10 @@ import {
 } from '@/services/airMarketer/campaigns';
 import dayjs from 'dayjs';
 import { AddPlusIcon } from '@/assets/icons';
-import { CALANDER_DATE_FORMAT, DATE_FORMAT } from '@/constants';
+import { CALANDER_DATE_FORMAT, DATE_FORMAT, indexNumbers } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
 
 const useCalendar = () => {
   const calendarRef = useRef<any>(null);
@@ -32,7 +33,7 @@ const useCalendar = () => {
   const currentDate = dayjs().format(CALANDER_DATE_FORMAT?.UI);
   const [calendarDate, setCalendarDate] = useState(currentDate);
   const [isDelete, setIsDelete] = useState(false);
-  const [clickedDate, setClickedDate] = useState(null);
+  const [clickedDate, setClickedDate] = useState(new Date());
   const [createTask, setCreateTask] = useState({
     isToggle: false,
     type: '',
@@ -50,12 +51,17 @@ const useCalendar = () => {
     CREATED_BY: 'Created by',
   };
 
+  const activeProduct = getActiveProductSession();
+  const companyAccountId =
+    activeProduct?.accounts[indexNumbers?.ZERO]?.company?._id;
+
   const { data: getCampaignsTasks, isLoading: taskLoading } =
     useGetCampaignsTasksQuery({});
+
   const compaignsTasksData = getCampaignsTasks?.data?.campaigntasks;
 
   const { data: campaignsData, isLoading: campaignsLoading } =
-    useGetCampaignsQuery({});
+    useGetCampaignsQuery({ companyId: companyAccountId });
   const allCampaignsData = campaignsData?.data?.campaigns;
 
   const eventContentHandler = (eventInfo: any) => {

@@ -4,8 +4,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
 import { useRenameReportsMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useRenameReport = (props: any) => {
+export const useRenameReport = (props: ReportsListsComponentPropsI) => {
   const {
     setIsPortalOpen,
     setSelectedReportLists,

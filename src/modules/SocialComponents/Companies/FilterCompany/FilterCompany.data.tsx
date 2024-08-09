@@ -1,8 +1,6 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import useCompanies from '../useCompanies';
 
-export const FilterArray = () => {
-  const { getCompanyContacts } = useCompanies();
+export const FilterArray = (getCompanyContacts: any) => {
   return [
     {
       componentProps: {

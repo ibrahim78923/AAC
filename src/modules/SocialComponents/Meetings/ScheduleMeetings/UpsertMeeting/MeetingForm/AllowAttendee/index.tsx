@@ -61,7 +61,11 @@ export const AllowAttendee = (props: any) => {
           <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView={'timeGridDay'}
-            allDaySlot={false}
+            views={{
+              timeGrid: {
+                allDaySlot: false,
+              },
+            }}
             headerToolbar={false}
             selectable
             select={handleEvents}

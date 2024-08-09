@@ -4,7 +4,7 @@ const initialState = {
   describeForm: {},
   teamDurationForm: {},
   performanceData: {},
-  featureDetails: '',
+  filterValues: '',
 };
 
 const forecastSlice = createSlice({
@@ -20,8 +20,8 @@ const forecastSlice = createSlice({
     setPerformanceData: (state, action) => {
       state.performanceData = action?.payload;
     },
-    setFeatureDetails: (state, action) => {
-      state.featureDetails = action?.payload;
+    setFilterValues: (state, action) => {
+      state.filterValues = action?.payload;
     },
     clearState: () => initialState, // Reset the state to initial state
   },
@@ -31,7 +31,7 @@ export const {
   setDescribeFormData,
   setTeamDurationFormData,
   setPerformanceData,
-  setFeatureDetails,
+  setFilterValues,
   clearState,
 } = forecastSlice?.actions;
 export const getAddPlanForms = (state: any) =>

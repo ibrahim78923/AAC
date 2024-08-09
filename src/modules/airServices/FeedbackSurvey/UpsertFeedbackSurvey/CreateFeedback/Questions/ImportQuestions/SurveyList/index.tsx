@@ -6,8 +6,10 @@ import { useSurveyList } from './useSurveyList';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
+import { SurveyListI } from './SurveyList.interface';
+import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const SurveyList = (props: any) => {
+export const SurveyList: React.FC<SurveyListI> = (props) => {
   const {
     data,
     isLoading,
@@ -24,7 +26,7 @@ export const SurveyList = (props: any) => {
   return (
     <>
       <Grid container spacing={1}>
-        {data?.data?.feedbackSurvey?.map((item: any) => (
+        {data?.data?.feedbackSurvey?.map((item: FeedbackSurveyListI) => (
           <Grid item xs={12} key={item?._id}>
             <Box
               sx={{
@@ -61,7 +63,7 @@ export const SurveyList = (props: any) => {
         pageLimit={data?.data?.meta?.limit}
         currentPage={data?.data?.meta?.page}
         totalRecords={data?.data?.meta?.total}
-        onPageChange={(page: any) => setPage?.(page)}
+        onPageChange={(page: number) => setPage?.(page)}
         setPage={setPage}
         setPageLimit={setLimit}
       />

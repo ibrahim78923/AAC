@@ -1,16 +1,13 @@
 import { useState } from 'react';
-
 import { useRouter } from 'next/router';
-
 import { useTheme } from '@mui/material';
-
 import { SUPER_ADMIN } from '@/constants';
-
 import { usersApi } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useGetProductsQuery } from '@/services/common-APIs';
-import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, PRODUCT_USER_STATUS } from '@/constants/strings';
+import { useUpdateRoleRightsMutation } from '@/services/orgAdmin/roles-and-rights';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -32,6 +29,10 @@ const useUserManagement = () => {
     products: {},
     organization: {},
     createdDate: '',
+    roleName: '',
+    status: '',
+    startDate: '',
+    endDate: '',
   });
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -54,7 +55,7 @@ const useUserManagement = () => {
     setSelectedValue(event?.currentTarget);
   };
   const handleAddRole = () => {
-    navigate.push(SUPER_ADMIN?.ADDROLE);
+    navigate.push({ pathname: SUPER_ADMIN?.ADDROLE, query: { type: 'add' } });
   };
 
   const handleClose = () => {
@@ -77,11 +78,30 @@ const useUserManagement = () => {
     try {
       await updateUsers({ id, body: { status: status } })?.unwrap();
       enqueueSnackbar('User updated successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const [updateRoleRights] = useUpdateRoleRightsMutation();
+
+  const handleRolesSwitchChange = async (e: any, id: string) => {
+    const status =
+      e?.target?.checked || e?.target?.value === PRODUCT_USER_STATUS?.ACTIVE
+        ? PRODUCT_USER_STATUS?.ACTIVE
+        : PRODUCT_USER_STATUS?.INACTIVE;
+    try {
+      await updateRoleRights({ id, body: { status: status } })?.unwrap();
+      enqueueSnackbar('Role updated successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -100,6 +120,7 @@ const useUserManagement = () => {
     theme,
     isOpenAddUserDrawer,
     setIsOpenAddUserDrawer,
+    handleRolesSwitchChange,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     selectedValue,

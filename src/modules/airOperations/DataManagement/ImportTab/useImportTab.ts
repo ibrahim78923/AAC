@@ -8,8 +8,9 @@ import { parse } from 'json2csv';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
+import { ImportTabI } from './ImportTab.interface';
 
-export const useImportTab = () => {
+export const useImportTab: () => ImportTabI = () => {
   const [selectedTabList, setSelectedTabList] = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -19,7 +20,7 @@ export const useImportTab = () => {
 
   const filterBody = {
     product: filterValues?.product,
-    user: filterValues?.user,
+    user: filterValues?.user && filterValues?.user?._id,
     object: filterValues?.object,
     createdDate:
       filterValues?.createdDate &&
@@ -44,7 +45,7 @@ export const useImportTab = () => {
 
   const listDataExport = async (type: any) => {
     if (!selectedTabList?.length) {
-      errorSnackbar('please select record to export.');
+      errorSnackbar('Please select record to download.');
       return;
     }
     try {
@@ -65,12 +66,12 @@ export const useImportTab = () => {
         });
         saveAs(blob, 'Import List.xlsx');
       } else {
-        errorSnackbar('Invalid export type.');
+        errorSnackbar('Invalid download type.');
         return;
       }
-      successSnackbar('File Exported successfully');
+      successSnackbar('File downloaded successfully');
     } catch (error: any) {
-      errorSnackbar(error?.message || 'An error occurred during file export');
+      errorSnackbar(error?.message || 'An error occurred during file download');
     }
   };
 
@@ -79,7 +80,6 @@ export const useImportTab = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    search,
     setSearch,
     data,
     isFetching,

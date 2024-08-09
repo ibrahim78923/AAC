@@ -4,30 +4,35 @@ import React from 'react';
 import { styles } from '../Teams.style';
 import MemberDetails from '../MemberDetails';
 import { v4 as uuidv4 } from 'uuid';
-import useUserManagement from '../../useUserManagement';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ViewTeamsPropsI } from '../Teams.interface';
+import { useGetTeamsByIdQuery } from '@/services/airSales/settings/teams';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-const ViewTeams = (props: any) => {
+const ViewTeams = (props: ViewTeamsPropsI) => {
   const theme = useTheme();
-  const { isTeamDrawer, setIsTeamDrawer, teamData, teamByIdLoading } = props;
-  const { skeletonLines } = useUserManagement();
+  const { isTeamDrawer, setIsTeamDrawer, teamId } = props;
+
+  const { data: teamDataById, isLoading: teamByIdLoading } =
+    useGetTeamsByIdQuery(teamId, { skip: !teamId });
+  const teamData = teamDataById?.data;
 
   return (
     <CommonDrawer
       isDrawerOpen={isTeamDrawer}
       onClose={() => setIsTeamDrawer(false)}
-      title={teamData?.data?.name}
+      title={teamData?.name}
       okText={'Add'}
       footer={false}
       isOk={true}
     >
       {teamByIdLoading ? (
-        <Box>{skeletonLines}</Box>
+        <SkeletonTable />
       ) : (
         <Box>
           <Box sx={styles?.activeMemberBox(theme)}>
             <Typography>Number of active Team Members</Typography>
-            <Typography>{teamData?.data?.accounts?.length}</Typography>
+            <Typography>{teamData?.accounts?.length}</Typography>
           </Box>
           <Box
             sx={{
@@ -40,7 +45,7 @@ const ViewTeams = (props: any) => {
           >
             <Typography>Members detail</Typography>
           </Box>
-          {teamData?.data?.accounts?.length === 0 && (
+          {teamData?.accounts?.length === 0 && (
             <Typography
               variant="body2"
               textAlign="center"
@@ -52,7 +57,7 @@ const ViewTeams = (props: any) => {
             </Typography>
           )}
 
-          {teamData?.data?.accounts?.map((item: any) => (
+          {teamData?.accounts?.map((item: any) => (
             <MemberDetails
               key={uuidv4()}
               img={item?.user?.avatar?.url}

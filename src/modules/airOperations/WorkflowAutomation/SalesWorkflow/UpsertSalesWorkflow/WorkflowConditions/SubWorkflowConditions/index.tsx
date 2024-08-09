@@ -4,8 +4,9 @@ import { AddCircle } from '@mui/icons-material';
 import { workflowConditionsDataArray } from '../WorkflowConditions.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { WORKFLOW_CONDITION_TYPE } from '@/constants/strings';
+import { SubWorkflowConditionsI } from './SubWorkflowConditions.interface';
 
-export const SubWorkflowConditions = (props: any) => {
+export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
   const { index, conditionType, watch } = props;
   const {
     handleAppend,
@@ -13,7 +14,6 @@ export const SubWorkflowConditions = (props: any) => {
     handleDeleteClick,
     dealDropdown,
     stagesDropdown,
-    userDropdown,
     adminUserDropdown,
   } = useSubWorkflowConditions(props);
   return (
@@ -24,7 +24,6 @@ export const SubWorkflowConditions = (props: any) => {
           subIndex,
           watch,
           dealDropdown,
-          userDropdown,
           stagesDropdown,
           adminUserDropdown,
         )?.find((item) => item?.component === Box);
@@ -54,7 +53,6 @@ export const SubWorkflowConditions = (props: any) => {
                   subIndex,
                   watch,
                   dealDropdown,
-                  userDropdown,
                   stagesDropdown,
                   adminUserDropdown,
                 )?.map((item) => (

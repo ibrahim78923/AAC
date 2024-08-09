@@ -21,19 +21,14 @@ import {
   EditInputIcon,
 } from '@/assets/icons';
 import { xAxesDataArray } from './ChartEditor.data';
-import { chartTypeI, xAxisOptionsI } from './ChartEditor.interface';
+import {
+  ChartEditorI,
+  chartTypeI,
+  xAxisOptionsI,
+} from './ChartEditor.interface';
 
-export const ChartEditor = (props: any) => {
-  const {
-    chartType,
-    metricType,
-    setValue,
-    chartTitle,
-    xAxisData,
-    handleCancel,
-    disableTemplate,
-    xAxisType,
-  } = props;
+export const ChartEditor = (props: ChartEditorI) => {
+  const { metricType, setValue, handleCancel, disableTemplate } = props;
 
   const {
     handleSave,
@@ -42,6 +37,10 @@ export const ChartEditor = (props: any) => {
     editValue,
     setEditValue,
     singleFieldDropdown,
+    chartTitle,
+    xAxisData,
+    xAxisType,
+    chartType,
   } = useChartEditor(props);
 
   return (
@@ -199,7 +198,9 @@ export const ChartEditor = (props: any) => {
         </Button>
         <Button
           variant="contained"
-          disabled={!xAxisData || (xAxisData?.ref && !xAxisType?.length)}
+          disabled={
+            !xAxisData || (xAxisData?.ref && !xAxisType?.length) || !chartTitle
+          }
           onClick={() => handleSave()}
         >
           Save

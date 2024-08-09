@@ -5,8 +5,9 @@ import {
 } from '@/assets/icons';
 import { AIR_OPERATIONS } from '@/constants';
 import { Permissions } from '@/constants/permissions';
+import { ReportsTypesI } from './Reports.interface';
 
-export const reportsTypes = [
+export const reportsTypes: ReportsTypesI[] = [
   {
     id: 1,
     avatar: <SalesReportIcon />,

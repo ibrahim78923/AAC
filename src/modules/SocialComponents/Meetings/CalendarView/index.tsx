@@ -30,6 +30,9 @@ export const CalendarView = () => {
     handleEventMouseEnter,
     handleEventMouseLeave,
     handleDeleteSubmit,
+    status,
+    meetingActiveType,
+    deleteMeetingsStatus,
   } = useCalendarView();
 
   return (
@@ -43,6 +46,7 @@ export const CalendarView = () => {
               meetingsCount={item?.meetingsCount}
               color={item?.color}
               router={router}
+              type={item?.type}
             />
           </Grid>
         ))}
@@ -96,20 +100,24 @@ export const CalendarView = () => {
           openEventModal={openEventModal}
           handleEventClick={handleEventClick}
           eventData={eventData}
+          status={status}
           setOpenEventModal={setOpenEventModal}
           handleDelete={handleDelete}
           theme={theme}
           handleEventMouseLeave={handleEventMouseLeave}
           handleEventMouseEnter={handleEventMouseEnter}
           hoveredEvent={hoveredEvent}
+          meetingActiveType={meetingActiveType}
         />
       </Box>
       {openDeleteModal && (
         <AlertModals
           type={ALERT_MODALS_TYPE?.DELETE}
-          open={openDeleteModal}
-          handleClose={() => setOpenDeleteModal(false)}
+          open={openDeleteModal?.isOpen}
+          handleClose={() => setOpenDeleteModal({})}
           handleSubmitBtn={handleDeleteSubmit}
+          loading={deleteMeetingsStatus?.isLoading}
+          disableCancelBtn={deleteMeetingsStatus?.isLoading}
           message="Are you sure want to delete this record?"
         />
       )}

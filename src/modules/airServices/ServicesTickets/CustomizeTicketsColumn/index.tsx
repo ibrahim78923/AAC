@@ -3,7 +3,9 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-export const CustomizeTicketsColumn = (props: any) => {
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+
+export const CustomizeTicketsColumn = (props: TicketActionComponentPropsI) => {
   const { isDrawerOpen } = props;
   const {
     submit,
@@ -11,7 +13,6 @@ export const CustomizeTicketsColumn = (props: any) => {
     checkboxHandler,
     customizeColumn,
     ticketsListsColumnPersist,
-    theme,
   } = useCustomizeTicketColumn(props);
 
   return (
@@ -35,7 +36,8 @@ export const CustomizeTicketsColumn = (props: any) => {
             display={'flex'}
             alignItems={'center'}
             flexWrap={'wrap'}
-            border={`1px solid ${theme?.palette?.primary?.main}`}
+            border={`1px solid `}
+            borderColor={'primary.main'}
             borderRadius={2}
             gap={1}
             marginTop={1.5}
@@ -43,7 +45,7 @@ export const CustomizeTicketsColumn = (props: any) => {
           >
             <DragIndicatorIcon
               style={{ flex: '0.1', textAlign: 'center' }}
-              sx={{ color: theme?.palette?.grey?.[600] }}
+              sx={{ color: 'grey.600' }}
             />
             <Box
               display={'flex'}

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { AIR_CUSTOMER_PORTAL, DATE_TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { generateImage } from '@/utils/avatarUtils';
-import { TICKET_TYPE } from '@/constants/strings';
+import { TICKET_SOURCE, TICKET_TYPE } from '@/constants/strings';
 
 export const TicketsCard = (props: any) => {
   const { ticket } = props;
@@ -67,7 +67,7 @@ export const TicketsCard = (props: any) => {
             variant="body2"
             color="primary.main"
           >
-            {!!ticket?.moduleType ? `- Via ${ticket?.moduleType}` : ''}
+            {!!ticket?.moduleType ? `- Via ${TICKET_SOURCE?.PORTAL}` : ''}
           </Typography>
         </Typography>
       </Box>

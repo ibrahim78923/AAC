@@ -10,8 +10,9 @@ import {
   dynamicQuestionOptions,
   dynamicQuestionType,
 } from './DynamicQuestions.data';
+import { DynamicQuestionsI } from './DynamicQuestions.interface';
 
-export const DynamicQuestions = (props: any) => {
+export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
   const { sectionIndex, questionIndex, watchType, sectionCondition } = props;
   const {
     isOption,

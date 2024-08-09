@@ -7,28 +7,36 @@ import {
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { buildQueryParams } from '@/utils/api';
+import { getActivePermissionsSession } from '@/utils';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import {
+  RelatedTicketsIsPortalOpenI,
+  RelatedTicketsPortalComponentPropsI,
+} from './RelatedTickets.interface';
 
 export const useRelatedTickets = () => {
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
-  const [isDelete, setIsDelete] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isPortalOpen, setIsPortalOpen] = useState<RelatedTicketsIsPortalOpenI>(
+    {},
+  );
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const overallPermissions = getActivePermissionsSession();
 
-  const [selectedChildTickets, setSelectedChildTickets] = useState<any>([]);
+  const [selectedChildTickets, setSelectedChildTickets] = useState([]);
   const [
     lazyGetChildTicketsTrigger,
     { data, isLoading, isFetching, isError, isSuccess },
-  ] = useLazyGetChildTicketsQuery<any>();
+  ] = useLazyGetChildTicketsQuery();
 
-  const getChildTicketsListData = async (currentPage: any = page) => {
+  const getChildTicketsListData = async (currentPage = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
     ];
 
-    const getChildTicketsParam: any = buildQueryParams(additionalParams);
+    const getChildTicketsParam = buildQueryParams(additionalParams);
 
     const getChildTicketsParameter = {
       queryParams: getChildTicketsParam,
@@ -40,45 +48,59 @@ export const useRelatedTickets = () => {
     try {
       await lazyGetChildTicketsTrigger(getChildTicketsParameter)?.unwrap();
       setSelectedChildTickets([]);
-    } catch (error: any) {}
+    } catch (error: any) {
+      setSelectedChildTickets([]);
+    }
   };
+
   const relatedTicketsColumns = columnsFunction(
-    data?.data?.tickets?.length > 1
+    data?.data?.tickets?.length > SELECTED_ARRAY_LENGTH?.ONE
       ? data?.data?.tickets
-      : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+      : !!data?.data?.tickets?.[ARRAY_INDEX?.ZERO]?.childTicketDetails?._id
         ? data?.data?.tickets
         : [],
     selectedChildTickets,
     setSelectedChildTickets,
     router,
+    overallPermissions,
   );
+
   useEffect(() => {
     getChildTicketsListData();
   }, [page, pageLimit]);
 
   const relatedTicketsActionDropdown = relatedTicketsActionDropdownFunction(
-    setIsDelete,
+    setIsPortalOpen,
     selectedChildTickets,
-    setIsDrawerOpen,
   );
 
+  const portalComponentProps: RelatedTicketsPortalComponentPropsI = {
+    isPortalOpen: isPortalOpen,
+    setIsPortalOpen: setIsPortalOpen,
+    selectedChildTickets: selectedChildTickets,
+    setSelectedChildTickets: setSelectedChildTickets,
+    setPage: setPage,
+    totalRecords: data?.data?.tickets?.length,
+    page: page,
+    getChildTicketsListData: getChildTicketsListData,
+    data: selectedChildTickets,
+    childTicketId: selectedChildTickets?.[ARRAY_INDEX?.ZERO],
+  };
+
   return {
-    setIsDrawerOpen,
-    isDrawerOpen,
     selectedChildTickets,
     relatedTicketsColumns,
     setPage,
+    data,
     setPageLimit,
     setSelectedChildTickets,
     relatedTicketsActionDropdown,
-    isDelete,
-    setIsDelete,
-    data,
     isLoading,
     isFetching,
     isError,
     isSuccess,
-    getChildTicketsListData,
-    page,
+    setIsPortalOpen,
+    isPortalOpen,
+    portalComponentProps,
   };
 };

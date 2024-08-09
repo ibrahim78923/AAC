@@ -1,8 +1,9 @@
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
 import { errorSnackbar } from '@/utils/api';
+import { WorkflowConditionsI } from './WorkflowConditions.interface';
 
-export const useWorkflowConditions = (props: any) => {
+export const useWorkflowConditions = (props: WorkflowConditionsI) => {
   const { control } = props;
   const { fields, append, remove } = useFieldArray({
     control,

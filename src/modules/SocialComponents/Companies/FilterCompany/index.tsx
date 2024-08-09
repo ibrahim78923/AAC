@@ -22,11 +22,12 @@ const FilterCompany = ({
   filterValues,
   setFilterValues,
 }: any) => {
-  const { methods, handleSubmit, onSubmit } = useFilterCompany({
-    filterValues,
-    setFilterValues,
-    setIsFilter,
-  });
+  const { methods, handleSubmit, onSubmit, getCompanyContacts } =
+    useFilterCompany({
+      filterValues,
+      setFilterValues,
+      setIsFilter,
+    });
   return (
     <>
       <CommonDrawer
@@ -43,7 +44,7 @@ const FilterCompany = ({
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {FilterArray()?.map((item: DrawerItemI) => (
+              {FilterArray(getCompanyContacts)?.map((item: DrawerItemI) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&

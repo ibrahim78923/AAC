@@ -1,11 +1,14 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import ApiErrorState from '@/components/ApiErrorState';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export const UpsertContract = () => {
   const {
@@ -21,9 +24,15 @@ export const UpsertContract = () => {
     isFetching,
     isError,
     contractId,
+    form,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
+    watchForContractType,
   } = useUpsertContract();
 
   if (isLoading || isFetching) return <SkeletonForm />;
+
+  if (getDynamicFieldsStatus?.isError) return <ApiErrorState />;
 
   return (
     <>
@@ -68,6 +77,32 @@ export const UpsertContract = () => {
                   </item.component>
                 </Grid>
               ))}
+              {getDynamicFieldsStatus?.isLoading ||
+              getDynamicFieldsStatus?.isFetching ? (
+                <Grid item xs={12} textAlign={'center'}>
+                  <CircularProgress />
+                </Grid>
+              ) : (
+                <>
+                  {!!form?.length && (
+                    <Grid item xs={12}>
+                      <Typography variant={'h4'} textTransform={'capitalize'}>
+                        {watchForContractType?.name} Properties
+                      </Typography>
+                    </Grid>
+                  )}
+                  {form?.map((item: any) => (
+                    <Grid item xs={12} key={item?.id}>
+                      {componentMap[item?.component] &&
+                        createElement(componentMap[item?.component], {
+                          ...item?.componentProps,
+                          name: item?.componentProps?.label,
+                          size: 'small',
+                        })}
+                    </Grid>
+                  ))}
+                </>
+              )}
             </Grid>
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
@@ -114,7 +149,8 @@ export const UpsertContract = () => {
                   onClick={() => handleCancelBtn?.()}
                   disabled={
                     postContractStatus?.isLoading ||
-                    putContractStatus?.isLoading
+                    putContractStatus?.isLoading ||
+                    postAttachmentStatus?.isLoading
                   }
                 >
                   Cancel
@@ -122,7 +158,8 @@ export const UpsertContract = () => {
                 <LoadingButton
                   loading={
                     postContractStatus?.isLoading ||
-                    putContractStatus?.isLoading
+                    putContractStatus?.isLoading ||
+                    postAttachmentStatus?.isLoading
                   }
                   variant="contained"
                   type="submit"

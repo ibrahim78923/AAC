@@ -29,6 +29,7 @@ export const CompanyOwnerValidationSchema: any = Yup.object().shape({
   crn: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
 });
+
 export const orgEmployeeValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required('Field is Required')

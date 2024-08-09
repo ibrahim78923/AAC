@@ -185,7 +185,7 @@ const useUpdateQuote = () => {
     try {
       await postManageAssociate({ body: param })?.unwrap();
       enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setIsModalOpen({
         contactsModal: { isToggle: false, id: '' },
@@ -193,7 +193,7 @@ const useUpdateQuote = () => {
       });
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -213,13 +213,13 @@ const useUpdateQuote = () => {
     try {
       await deleteContacts({ contactId: deleteContactModalId })?.unwrap();
       enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setDeleteContactModalId(null);
       handleContactDeleteModal(null);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -253,12 +253,12 @@ const useUpdateQuote = () => {
       await updateQuote({ id: router?.query?.data, body: values })?.unwrap();
 
       enqueueSnackbar('Deal & Details updated successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       handleStepNext();
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -287,13 +287,13 @@ const useUpdateQuote = () => {
           },
         })?.unwrap();
         enqueueSnackbar('Buyer Info updated successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
 
         handleStepNext();
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
-          variant: 'error',
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     }

@@ -315,6 +315,7 @@ const ProductSuite = () => {
                         cursor: 'pointer',
                         maxHeight: '200px',
                         overflowY: 'scroll',
+                        scrollbarWidth: 'none',
                       }}
                     >
                       {product?.accounts?.map((account: any) => (

@@ -6,8 +6,10 @@ import { Fragment } from 'react';
 import { Box, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
+import { CatalogRequestI } from './CatalogRequest.interface';
 
-export const CatalogRequest = ({ open, setOpen, servicesDetails }: any) => {
+export const CatalogRequest = (props: CatalogRequestI) => {
+  const { open } = props;
   const {
     CatalogRequestFormField,
     onSubmitRequest,
@@ -17,7 +19,7 @@ export const CatalogRequest = ({ open, setOpen, servicesDetails }: any) => {
     handleClose,
     searchStringLowerCase,
     postTicketStatus,
-  } = useCatalogRequest(servicesDetails, setOpen);
+  } = useCatalogRequest(props);
 
   return (
     <Fragment>

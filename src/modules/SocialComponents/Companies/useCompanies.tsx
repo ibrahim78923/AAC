@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import useToggle from '@/hooks/useToggle';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 import { PAGINATION } from '@/config';
-import { getSession } from '@/utils';
-import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 
 const useCompanies = () => {
-  const { user }: any = getSession();
   const theme = useTheme<Theme>();
   const [isToggled, setIstoggle] = useToggle(false);
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
@@ -39,14 +36,19 @@ const useCompanies = () => {
     ownerId?: string;
     dateStart?: string;
     dateEnd?: string;
+    name?: string;
   }
 
   const defaultFilterValues = {
-    page,
+    page: page,
     limit: pageLimit,
   };
 
   const [filterValues, setFilterValues] = useState<Filter>(defaultFilterValues);
+
+  useEffect(() => {
+    setFilterValues(defaultFilterValues);
+  }, [page, pageLimit]);
 
   const {
     useGetAllCompaniesQuery,
@@ -85,6 +87,7 @@ const useCompanies = () => {
         ...filterValues,
         dateStart: startEndDate?.dateStart,
         dateEnd: startEndDate?.dateEnd,
+        name: startEndDate?.name,
       });
     }
   };
@@ -113,7 +116,7 @@ const useCompanies = () => {
     data: getAllCompanies,
     isLoading,
     isSuccess,
-  } = useGetAllCompaniesQuery({ ...filterValues, ...defaultFilterValues });
+  } = useGetAllCompaniesQuery({ params: filterValues });
 
   // tabs view code starts here
 
@@ -132,15 +135,6 @@ const useCompanies = () => {
 
   const [deleteCompanies] = useDeleteCompaniesMutation();
 
-  const params = {
-    page: page,
-    limit: pageLimit,
-    contactOwnerId: user?._id,
-  };
-  const { data: getCompanyContacts } = useGetCompanyContactsQuery(params, {
-    skip: !isOpen?.filtersDrawer,
-  });
-
   const handleClose = () => {
     setSelectedValue(null);
   };
@@ -151,6 +145,7 @@ const useCompanies = () => {
 
   const handleResetFilters = () => {
     setFilterValues(defaultFilterValues);
+    setValue(0);
   };
 
   return {
@@ -175,7 +170,6 @@ const useCompanies = () => {
     handleResetFilters,
     isOpen,
     setIsOpen,
-    getCompanyContacts,
     tabsArray,
     value,
     setValue,

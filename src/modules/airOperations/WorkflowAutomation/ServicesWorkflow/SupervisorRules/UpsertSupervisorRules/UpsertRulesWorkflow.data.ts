@@ -179,6 +179,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
 };
 export const rulesWorkflowDataArray = [
   {
+    id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -191,6 +192,7 @@ export const rulesWorkflowDataArray = [
     md: 6,
   },
   {
+    id: 2,
     componentProps: {
       name: '',
       label: 'Hours',
@@ -203,6 +205,7 @@ export const rulesWorkflowDataArray = [
     md: 6,
   },
   {
+    id: 3,
     componentProps: {
       name: 'description',
       label: 'Description',

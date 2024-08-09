@@ -13,8 +13,8 @@ const AddFaq = ({
   formMethods,
   isLoading,
 }: AddFaqPropsI) => {
-  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
-  const products = useLazyGetDropdownProductsQuery();
+  const { useLazyGetAllDropdownProductsQuery }: any = CommonAPIS;
+  const products = useLazyGetAllDropdownProductsQuery();
   const formFields = addFaqsFiltersDataArray(products);
   return (
     <CommonModal

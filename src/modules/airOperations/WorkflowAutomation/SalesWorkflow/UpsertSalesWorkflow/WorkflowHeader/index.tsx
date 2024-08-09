@@ -7,9 +7,10 @@ import { useWorkflowHeader } from './useWorkflowHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
+import { TestWorkflowDrawer } from '../TestWorkflowDrawer';
+import { WorkflowHeaderI } from './WorkflowHeader.interface';
 
-export const WorkflowHeader = (props: any) => {
+export const WorkflowHeader = (props: WorkflowHeaderI) => {
   const {
     isLoading,
     saveLoading,

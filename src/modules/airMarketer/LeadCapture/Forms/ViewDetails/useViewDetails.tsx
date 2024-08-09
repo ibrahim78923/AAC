@@ -5,6 +5,8 @@ import { useGetManageFieldByIdQuery } from '@/services/airMarketer/lead-capture/
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { generateFormHtml } from '@/utils/form-builder';
 import { formMode } from '@/constants/form-builder';
+import { enqueueSnackbar } from 'notistack';
+import { useDeleteLeadCaptureFormMutation } from '@/services/airMarketer/lead-capture/forms';
 
 const useViewDetails = () => {
   const router = useRouter();
@@ -40,6 +42,32 @@ const useViewDetails = () => {
     });
   };
 
+  // Delete Forms
+  const [deleteForm, { isLoading: loadingDelete }] =
+    useDeleteLeadCaptureFormMutation();
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleOpenModalDelete = () => {
+    setOpenModalDelete(true);
+  };
+  const handleCloseModalDelete = () => {
+    setOpenModalDelete(false);
+  };
+
+  const handleDeleteForm = async () => {
+    try {
+      await deleteForm({ ids: formId })?.unwrap();
+      handleCloseModalDelete();
+      enqueueSnackbar('Form has been deleted.', {
+        variant: 'success',
+      });
+      router.push(AIR_MARKETER?.ALL_TABLE);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     theme,
     showSignUpForm,
@@ -57,6 +85,11 @@ const useViewDetails = () => {
     htmlTemplate,
     status,
     formId,
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    loadingDelete,
+    handleDeleteForm,
   };
 };
 

@@ -1,24 +1,50 @@
 import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import { PAGINATION } from '@/config';
+import { getActiveProductSession } from '@/utils';
+import { DRAWER_TYPES } from '@/constants/strings';
 import {
   useDeleteProductUserMutation,
+  useGetProductsUsersQuery,
   useUpdateProductsUsersMutation,
 } from '@/services/airMarketer/settings/users';
-import { enqueueSnackbar } from 'notistack';
 
-const useUsers: any = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
+const useUsers = () => {
   const theme = useTheme<Theme>();
+  const ActiveProduct = getActiveProductSession();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [updateProductsUsers] = useUpdateProductsUsersMutation();
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [checkedUser, setCheckedUser] = useState<string[]>([]);
+  const [isAddUserDrawer, setIsAddUserDrawer] = useState<any>({
+    isToggle: false,
+    type: DRAWER_TYPES?.ADD,
+    recordId: [],
+  });
+  const [searchUser, setSearchUser] = useState('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const productUserParams = {
+    page: page,
+    limit: pageLimit,
+    search: searchUser ? searchUser : undefined,
+    product: ActiveProduct?._id,
+    meta: true,
+  };
+  const {
+    data: productsUsers,
+    isLoading,
+    isSuccess,
+  } = useGetProductsUsersQuery(productUserParams);
+
+  const [updateProductsUsers, { isLoading: updateUserLoading }] =
+    useUpdateProductsUsersMutation();
+
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
-
-  const statusType = {
-    ACTIVE: 'ACTIVE',
-    INACTIVE: 'INACTIVE',
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,9 +55,7 @@ const useUsers: any = () => {
   };
 
   const handleUpdateStatus = async (id: any, value: any) => {
-    const statusVal = value?.target?.checked
-      ? statusType?.ACTIVE
-      : statusType?.INACTIVE;
+    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     try {
       await updateProductsUsers({
         id: id,
@@ -48,8 +72,12 @@ const useUsers: any = () => {
   };
 
   const deleteHandler = async (ids: any) => {
+    const deletedRecords = ids?.map((item: any) => item);
+    const idsString = deletedRecords?.join(', ');
+
     try {
-      await deleteProductUser({ body: { ids: ids } })?.unwrap();
+      await deleteProductUser(idsString)?.unwrap();
+      setIsOpenDelete(false);
       enqueueSnackbar('Users deleted successfully', {
         variant: 'success',
       });
@@ -57,6 +85,7 @@ const useUsers: any = () => {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
+      setIsOpenDelete(false);
     }
   };
 
@@ -72,6 +101,18 @@ const useUsers: any = () => {
     handleUpdateStatus,
     deleteHandler,
     deleteProductUsersLoading,
+    updateUserLoading,
+    productsUsers,
+    searchUser,
+    setSearchUser,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
+    checkedUser,
+    setCheckedUser,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   };
 };
 

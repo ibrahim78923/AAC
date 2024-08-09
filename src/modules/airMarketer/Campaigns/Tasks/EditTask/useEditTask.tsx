@@ -11,6 +11,7 @@ import {
 } from '@/services/airMarketer/campaigns';
 import { useEffect } from 'react';
 import { indexNumbers } from '@/constants';
+import dayjs from 'dayjs';
 
 const useEditTask = ({
   initialValueProps,
@@ -49,7 +50,7 @@ const useEditTask = ({
       campaignId: data?.campaignDetails[0],
       assignedTo: data?.assignedTo[0],
       dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
-      time: data?.time ? new Date(data?.time) : null,
+      time: data?.time ? dayjs(data?.time) : null,
       note: data?.note,
     };
     for (const key in fieldsToSet) {
@@ -60,7 +61,6 @@ const useEditTask = ({
   const onSubmit = async (values: any) => {
     values.assignedTo = values.assignedTo?._id;
     values.campaignId = values.campaignId?._id;
-
     try {
       if (isType === DRAWER_TYPES?.EDIT) {
         delete values?.campaignId;

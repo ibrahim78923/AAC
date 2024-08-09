@@ -11,6 +11,7 @@ import { BackArrIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import useTemplateForm from './useTemplateForm';
 import { createTemplateFiltersDataArray } from './TemplateForm.data';
+import { Info } from '@mui/icons-material';
 
 const TemplateForm = ({ templateType }: any) => {
   const {
@@ -57,6 +58,16 @@ const TemplateForm = ({ templateType }: any) => {
                   key={item?.componentProps?.name}
                 >
                   <item.component {...item.componentProps} size={'small'} />
+                  {item?.componentProps?.name === 'detail' && (
+                    <Box display="flex" gap={1}>
+                      <Info sx={{ color: theme?.palette?.grey[500] }} />
+                      <Typography color={theme?.palette?.grey[500]}>
+                        Please note that the maximum character limit for a
+                        template is 1024 characters. If you exceed this limit,
+                        the message will not be sent.
+                      </Typography>
+                    </Box>
+                  )}
                 </Grid>
               ))}
             </Grid>

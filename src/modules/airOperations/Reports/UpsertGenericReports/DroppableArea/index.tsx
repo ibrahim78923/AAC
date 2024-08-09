@@ -20,8 +20,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { tableColumn } from '../DraggableFormFields/Table/Table.data';
 import { Counter } from '../DraggableFormFields/Counter';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { DroppableAreaI } from './DroppableArea.interface';
+import ApiErrorState from '@/components/ApiErrorState';
 
-export default function DroppableArea(props: any) {
+export default function DroppableArea(props: DroppableAreaI) {
   const {
     fieldData,
     modal,
@@ -30,14 +32,8 @@ export default function DroppableArea(props: any) {
     fontSize,
     color,
     form,
-    tableTitle,
-    chartType,
-    setAddProperties,
     columnsData,
     allChartComponents,
-    chartTitle,
-    textTitle,
-    subFilter,
     setShowTemplate,
     showTemplate,
     draggedItemData,
@@ -50,6 +46,8 @@ export default function DroppableArea(props: any) {
     setValue,
     isLoading,
     isFetching,
+    isError,
+    watch,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -63,8 +61,12 @@ export default function DroppableArea(props: any) {
           ref={provided?.innerRef}
           {...provided?.droppableProps}
         >
-          {isLoading || isFetching ? (
-            <SkeletonTable />
+          {isLoading || isFetching || isError ? (
+            isError ? (
+              <ApiErrorState />
+            ) : (
+              <SkeletonTable />
+            )
           ) : (
             <>
               {!!!fieldData ? (
@@ -79,17 +81,21 @@ export default function DroppableArea(props: any) {
                         height={'100%'}
                       >
                         <ReportsIcon />
-                        <Typography variant={'h6'} mt={1} component={'span'}>
-                          <span style={{ color: theme.palette.primary.main }}>
-                            {' '}
-                            Drag{' '}
-                          </span>
-                          or
-                          <span style={{ color: theme.palette.primary.main }}>
-                            {' '}
-                            Drop{' '}
-                          </span>
-                          widgets here to create your report!
+                        <Typography variant="h6" mt={1} component="span">
+                          <Box
+                            component="span"
+                            sx={{ color: theme.palette.primary.main }}
+                          >
+                            Drag
+                          </Box>
+                          {' or '}
+                          <Box
+                            component="span"
+                            sx={{ color: theme.palette.primary.main }}
+                          >
+                            Drop
+                          </Box>
+                          {' widgets here to create your report!'}
                         </Typography>
                         <Box
                           display="flex"
@@ -362,11 +368,9 @@ export default function DroppableArea(props: any) {
                 <>
                   {modal?.chart && (
                     <Chart
-                      chartType={chartType}
                       allChartComponents={allChartComponents}
-                      chartTitle={chartTitle}
-                      subFilter={subFilter}
                       setCalendarFilter={setCalendarFilter}
+                      watch={watch}
                     />
                   )}
                   {modal?.text && (
@@ -375,16 +379,12 @@ export default function DroppableArea(props: any) {
                       setEditorState={setEditorState}
                       fontSize={fontSize}
                       color={color}
-                      textTitle={textTitle}
                       setValue={setValue}
+                      watch={watch}
                     />
                   )}
                   {modal?.table && (
-                    <Table
-                      tableTitle={tableTitle}
-                      setAddProperties={setAddProperties}
-                      columnsData={columnsData}
-                    />
+                    <Table watch={watch} columnsData={columnsData} />
                   )}
                   {modal?.counter && (
                     <Counter

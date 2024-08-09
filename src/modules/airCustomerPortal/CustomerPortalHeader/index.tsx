@@ -1,10 +1,12 @@
 import { CompanyLogoIcon } from '@/assets/icons';
 import { Box, Button } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter, NextRouter } from 'next/router';
+import { CustomerPortalHeaderI } from './CustomerPortalHeader.interface';
 
-export const CustomerPortalHeader = ({ buttonText, pathname }: any) => {
-  const router: any = useRouter();
+export const CustomerPortalHeader = (props: CustomerPortalHeaderI) => {
+  const { buttonText, pathname } = props;
+  const router: NextRouter = useRouter();
 
   return (
     <Box

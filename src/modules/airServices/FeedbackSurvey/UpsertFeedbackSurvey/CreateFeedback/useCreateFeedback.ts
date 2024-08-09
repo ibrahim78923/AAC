@@ -13,8 +13,9 @@ import { useFieldArray } from 'react-hook-form';
 import { emailHtml, feedbackValuesType } from './CreateFeedback.data';
 import { getSession } from '@/utils';
 import { useTheme } from '@mui/material';
+import { CreateFeedbackI } from './CreateFeedback.interface';
 
-export const useCreateFeedback = (props: any) => {
+export const useCreateFeedback = (props: CreateFeedbackI) => {
   const { methods } = props;
   const { control, watch, setValue } = methods;
   const [isSection, setIsSection] = useState(0);
@@ -37,7 +38,7 @@ export const useCreateFeedback = (props: any) => {
     usePatchFeedbackSurveyMutation();
   const [postSurveyEmailTrigger, { isLoading: emailLoading }] =
     usePostSurveyEmailMutation();
-  const removeSection = async (index: number, setClose: any) => {
+  const removeSection = async (index: number, setClose: () => void) => {
     const sectionId = watch(`sections.${index}.id`);
     const deleteParams = {
       sectionId,
@@ -50,7 +51,7 @@ export const useCreateFeedback = (props: any) => {
       return;
     }
   };
-  const cloneSection = async (index: number, setClose: any) => {
+  const cloneSection = async (index: number, setClose: () => void) => {
     const watchSection = watch(`sections.${index}`);
     const sectionId = watch(`sections.${index}.id`);
     const cloneParams = { surveyId, sectionId };
@@ -60,7 +61,7 @@ export const useCreateFeedback = (props: any) => {
       append(watchSection);
     }
   };
-  const mergeSection = async (index: number, setClose: any) => {
+  const mergeSection = async (index: number, setClose: () => void) => {
     const currentSection = watch(`sections.${index}`);
     const aboveSection = watch(`sections.${index - 1}`);
     const mergedQuestions = [
@@ -79,7 +80,8 @@ export const useCreateFeedback = (props: any) => {
   const sendSurveyPeople = watch('sendSurveyPeople');
   const shareSurveyPeople = watch('shareSurveyPeople');
   const surveyTitle = watch('surveyTitle');
-  const handlePublish = async (handleClose: any) => {
+  const uuid = watch('UUID');
+  const handlePublish = async (handleClose: () => void) => {
     setIsStatus(true);
     if (!!sendSurveyPeople?.length || !!shareSurveyPeople?.length) {
       const emailParams = new FormData();
@@ -88,7 +90,10 @@ export const useCreateFeedback = (props: any) => {
         'subject',
         `Invitation to Participate in ${surveyTitle} Survey`,
       );
-      emailParams?.append('html', emailHtml({ sessionData, theme }));
+      emailParams?.append(
+        'html',
+        emailHtml({ sessionData, theme, uuid, surveyTitle }),
+      );
       await postSurveyEmailTrigger(emailParams);
     }
     const publishParams = {
@@ -107,7 +112,7 @@ export const useCreateFeedback = (props: any) => {
     }
     setIsStatus(false);
   };
-  const handleSaveDraft = async (handleClose: any) => {
+  const handleSaveDraft = async (handleClose: () => void) => {
     const draftParams = {
       body: {
         status: feedbackValuesType?.draft,

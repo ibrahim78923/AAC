@@ -71,7 +71,9 @@ export const PopularArticles = () => {
               </Box>
             ))
           ) : (
-            <NoData height={'100%'} />
+            <Box textAlign={'center'} width={'100%'}>
+              <NoData height={'100%'} />
+            </Box>
           )}
         </Box>
       )}

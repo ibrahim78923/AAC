@@ -12,7 +12,6 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { timeZone } from '@/constants/time-zone';
 import CustomLabel from '@/components/CustomLabel';
 import { Recurring } from './Recurring';
-import { AllowAttendee } from './AllowAttendee';
 import { Reminder } from './Reminder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { SOCIAL_COMPONENTS } from '@/constants';
@@ -38,7 +37,6 @@ const meetingContents = {
 export const meetingFormFields = (props: any) => {
   const {
     watch,
-    meetingType,
     meetingLocationApi,
     router,
     beforeChecked,
@@ -49,7 +47,7 @@ export const meetingFormFields = (props: any) => {
   } = props;
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
-  const watchFrom = watch('fromDate');
+  const watchFrom = watch('startDate');
   const watchAllowAttendee = watch('allowAttendee');
   const OTHER_SETTINGS = 'Other Settings';
   return [
@@ -123,6 +121,7 @@ export const meetingFormFields = (props: any) => {
         label: 'End Date',
         name: 'endDate',
         minDate: watchFrom,
+        disablePast: true,
         required: true,
         fullWidth: true,
         size: 'small',
@@ -193,12 +192,13 @@ export const meetingFormFields = (props: any) => {
       },
       component: RHFAutocompleteAsync,
     },
-    {
-      id: 11,
-      sx: { display: meetingType === meetingContents?.group && 'none' },
-      componentProps: props,
-      component: AllowAttendee,
-    },
+    //pending from BA side....
+    // {
+    //   id: 11,
+    //   sx: { display: meetingType === meetingContents?.group && 'none' },
+    //   componentProps: props,
+    //   component: AllowAttendee,
+    // },
     {
       id: 12,
       sx: {

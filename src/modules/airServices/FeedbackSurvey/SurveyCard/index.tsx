@@ -1,7 +1,8 @@
 import { CustomCircularProgressBar } from '@/components/CustomCircularProgressBar';
 import { Avatar, Box, Typography } from '@mui/material';
+import { SurveyCardI } from './SurveyCard.interface';
 
-export const SurveyCard = (props: any) => {
+export const SurveyCard: React.FC<SurveyCardI> = (props) => {
   const { hasSpinner, data, hasStatusIcon } = props;
   return (
     <Box

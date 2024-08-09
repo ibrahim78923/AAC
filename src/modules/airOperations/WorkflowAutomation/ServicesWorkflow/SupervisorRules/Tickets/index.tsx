@@ -62,7 +62,7 @@ const Tickets = () => {
         setPage={setPage}
         count={ticketsData?.meta?.pages}
         totalRecords={ticketsData?.meta?.total}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         currentPage={ticketsData?.meta?.page}
         limit={limit}
       />

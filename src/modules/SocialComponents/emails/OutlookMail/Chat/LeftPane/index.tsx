@@ -1,4 +1,4 @@
-import { FilterIcon } from '@/assets/icons';
+import { RefreshTasksIcon } from '@/assets/icons';
 import {
   Box,
   Button,
@@ -33,13 +33,17 @@ import CommonModal from '@/components/CommonModal';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
+import { LeftPanePropsI } from './leftPane.interface';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const LeftPane = ({
   isOpenSendEmailDrawer,
   setIsOpenSendEmailDrawer,
   mailType,
   setMailType,
-}: any) => {
+}: LeftPanePropsI) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -102,6 +106,29 @@ const LeftPane = ({
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
 
+  const startedDate = 0;
+  const endedDate = 1;
+  const [isFiltersValues, setIsFiltersValues] = useState<any>({});
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
+
+  const handelDateSubmit = async (datePickerValPram: any) => {
+    if (datePickerValPram) {
+      dispatch(setActiveRecord({}));
+      dispatch(setSelectedRecords([]));
+      dispatch(setMailList('clear'));
+      dispatch(setMailCurrentPage(1));
+      dispatch(setBreakScrollOperation(false));
+      setTrackRenders(1);
+      refetch();
+
+      setIsFiltersValues({
+        ...isFiltersValues,
+        toDate: datePickerValPram[startedDate],
+        fromDate: datePickerValPram[endedDate],
+      });
+    }
+  };
+
   const {
     data: emailsByFolderIdData,
     status: isLoadingEmailsByFolderIdData,
@@ -112,6 +139,12 @@ const LeftPane = ({
         page: mailCurrentPage,
         limit: PAGINATION?.PAGE_LIMIT,
         ...(searchTerm && { search: searchTerm }),
+        ...(isFiltersValues?.toDate && {
+          startDate: dayjs(isFiltersValues?.toDate)?.format(DATE_FORMAT?.API),
+        }),
+        ...(isFiltersValues?.fromDate && {
+          endDate: dayjs(isFiltersValues?.fromDate)?.format(DATE_FORMAT?.API),
+        }),
       },
       id: mailTabType?.id,
     },
@@ -183,21 +216,34 @@ const LeftPane = ({
     refetch();
     setManualActionsTrack(manualActionsTrack + 1);
   };
+  const handelFilterRefresh = () => {
+    handelRefresh();
+    setIsFiltersValues({});
+  };
 
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
         <Typography variant="h3">Email</Typography>
-        <Box>
+        <Box sx={{ display: 'flex', gap: '5px' }}>
           <Button
-            startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ marginRight: '14px', height: '36px' }}
+            style={{ height: '36px' }}
             color="inherit"
-            onClick={() => setIsFiltersOpen(true)}
+            sx={{ marginRight: '5px' }}
+            onClick={handelFilterRefresh}
           >
-            Filter
+            <RefreshTasksIcon />
           </Button>
+          <Box sx={{ marginRight: '5px' }}>
+            <SwitchableDatepicker
+              renderInput="button"
+              placement="left"
+              dateValue={datePickerVal}
+              setDateValue={setDatePickerVal}
+              handleDateSubmit={() => handelDateSubmit(datePickerVal)}
+            />
+          </Box>
           <ActionBtn
             sortedData={sortedData}
             mailType={mailType}

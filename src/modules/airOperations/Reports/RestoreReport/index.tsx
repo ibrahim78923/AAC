@@ -2,8 +2,9 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { RestoreReportIcon } from '@/assets/icons';
 import { useRestoreReport } from './useRestoreReport';
+import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
 
-export const RestoreReport = (props: any) => {
+export const RestoreReport = (props: RestoreReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
   const { restoreReport, closeModal, restoreDeletedReportStatus } =
     useRestoreReport(props);

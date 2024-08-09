@@ -3,6 +3,7 @@ import {
   RHFAutocompleteAsync,
   RHFDatePicker,
 } from '@/components/ReactHookForm';
+import { UsersDropdownOptionsI } from './Filter.interface';
 
 export const productOptions = [
   'SALES',
@@ -61,7 +62,8 @@ export const filterFields = (userList: any) => [
       fullWidth: true,
       placeholder: 'User',
       apiQuery: userList,
-      getOptionLabel: (option: any) => option?.firstName,
+      getOptionLabel: (option: UsersDropdownOptionsI) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     gridLength: 12,
     component: RHFAutocompleteAsync,

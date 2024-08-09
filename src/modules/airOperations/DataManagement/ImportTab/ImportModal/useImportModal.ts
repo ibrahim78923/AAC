@@ -26,7 +26,7 @@ export const useImportModal = () => {
   const [isNewImport, setIsNewImport] = useState(true);
   const [modalStep, setModalStep] = useState(1);
   const [importLog, setImportLog] = useState('');
-  const [filePath, setFilePath] = useState<any>(null);
+  const [fileResponse, setFileResponse] = useState<any>(null);
 
   const methodsImportModalForm = useForm<any>({
     resolver: yupResolver(importValidationSchema(modalStep)),
@@ -126,10 +126,12 @@ export const useImportModal = () => {
             const response: any = await lazyGetSignedUrlForImportTrigger?.(
               signedUrlApiDataParameter,
             )?.unwrap();
-            successSnackbar('File Uploaded');
-            const url = new URL(`${response?.data}`);
-            const filePath = `${url?.origin}${url?.pathname}`;
-            setFilePath(filePath);
+            const s3Data = {
+              file: data?.importDeals,
+              signedUrl: response?.data,
+            };
+            uploadToS3CsvFile(s3Data);
+            setFileResponse(response);
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
           }
@@ -150,6 +152,8 @@ export const useImportModal = () => {
           if (hasDuplicate) {
             errorSnackbar('Duplicate crmFields are not allowed');
           } else {
+            const url = new URL(`${fileResponse?.data}`);
+            const filePath = `${url?.origin}${url?.pathname}`;
             const apiData = {
               body: {
                 filePath: filePath,
@@ -169,7 +173,7 @@ export const useImportModal = () => {
               successSnackbar(response?.message);
               handleClose();
               reset();
-              setFilePath(null);
+              setFileResponse(null);
             } catch (error: any) {
               errorSnackbar(error?.data?.message);
             }
@@ -180,7 +184,6 @@ export const useImportModal = () => {
       errorSnackbar(error?.message);
     }
   };
-
   const uploadToS3CsvFile = async (data: any) => {
     const s3ApiDataParameter = {
       url: data?.signedUrl,

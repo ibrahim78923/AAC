@@ -15,8 +15,10 @@ import SaveEmailAsTemplate from '../SaveEmailAsTemplate';
 import ManageAccess from '../ManageAccess';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { enqueueSnackbar } from 'notistack';
+import { useDeleteEmailTemplateMutation } from '@/services/airMarketer/emailMarketing';
 
-const ActionButton = () => {
+const ActionButton = ({ selectedRecords }: any) => {
   const {
     selectedValue,
     handleClick,
@@ -25,15 +27,41 @@ const ActionButton = () => {
     setActionsModalDetails,
   } = useEmailMarketing();
 
+  const [deleteEmailTemplate, { isLoading: loadingEmailTemplate }] =
+    useDeleteEmailTemplateMutation();
+
+  const handelDeleteRecords = async () => {
+    const selectedIds = selectedRecords?.map((record: any) => record?._id);
+    try {
+      await deleteEmailTemplate({
+        ids: selectedIds,
+      })?.unwrap();
+      enqueueSnackbar('Mail permanently deleted', {
+        variant: 'success',
+      });
+      setActionsModalDetails({
+        ...actionsModalDetails,
+        isDelete: false,
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   return (
-    <Box>
+    <Box
+      sx={{
+        width: { xs: '100%', sm: 'auto', md: 'auto', lg: '112px' },
+      }}
+    >
       <Button
         onClick={handleClick}
         variant="outlined"
         color="inherit"
         className="small"
+        disabled={selectedRecords?.length < 1}
         sx={{
-          width: '112px',
+          width: { xs: '100%', sm: 'auto', md: 'auto', lg: '112px' },
         }}
       >
         Actions
@@ -45,15 +73,16 @@ const ActionButton = () => {
         open={Boolean(selectedValue)}
         onClose={handleSelectedOptionValue}
       >
-        {actionsOptions?.map((option) => {
+        {actionsOptions({ selectedRecords })?.map((option) => {
           return (
             <MenuItem
               key={uuidv4()}
+              disabled={option?.isDisabled}
               onClick={() => {
-                handleSelectedOptionValue(option);
+                handleSelectedOptionValue(option?.label);
               }}
             >
-              {option}
+              {option?.label}
             </MenuItem>
           );
         })}
@@ -62,26 +91,24 @@ const ActionButton = () => {
       {actionsModalDetails?.isDelete && (
         <PermissionsGuard
           permissions={[
-            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.DELETE_EMAILS,
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.DELETE_EMAILS,
           ]}
         >
           <AlertModals
-            message="Are you sure you want to delete this?"
+            message={`Are you sure you want to delete ${
+              selectedRecords?.length > 1 ? 'these' : 'this'
+            } record? `}
             type="Delete"
             typeImage={<AlertModalDeleteIcon />}
             open={actionsModalDetails?.isDelete}
+            loading={loadingEmailTemplate}
             handleClose={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,
                 isDelete: false,
               })
             }
-            handleSubmit={() =>
-              setActionsModalDetails({
-                ...actionsModalDetails,
-                isDelete: false,
-              })
-            }
+            handleSubmitBtn={handelDeleteRecords}
           />
         </PermissionsGuard>
       )}
@@ -154,13 +181,13 @@ const ActionButton = () => {
           />
         </PermissionsGuard>
       )}
-      {actionsModalDetails?.isViewDeatsils && (
+      {actionsModalDetails?.isViewDetails && (
         <ViewDetailsAndPerformance
-          openViewDetails={actionsModalDetails?.isViewDeatsils}
+          openViewDetails={actionsModalDetails?.isViewDetails}
           handleCloseViewDetails={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
-              isViewDeatsils: false,
+              isViewDetails: false,
             })
           }
         />
@@ -182,7 +209,6 @@ const ActionButton = () => {
           />
         </PermissionsGuard>
       )}
-
       {actionsModalDetails?.isManageAccess && (
         <PermissionsGuard
           permissions={[

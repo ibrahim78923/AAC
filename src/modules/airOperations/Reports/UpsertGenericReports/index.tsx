@@ -25,25 +25,17 @@ export const UpsertGenericReports = () => {
     color,
     setFontSize,
     fontSize,
-    textTitle,
     setFieldData,
     setModal,
-    tableTitle,
     setValue,
-    AddProperties,
-    setAddProperties,
     columnsData,
     setColumnsData,
     setOpenDrawer,
     openDrawer,
-    chartType,
     setMetricType,
     metricType,
-    chartTitle,
     form,
     setForm,
-    xAxisData,
-    subFilter,
     allChartComponents,
     showTemplate,
     setShowTemplate,
@@ -54,12 +46,13 @@ export const UpsertGenericReports = () => {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
-    xAxisType,
     moduleName,
     isLoading,
     isFetching,
-    singleReport,
+    data,
     handleMoveBack,
+    watch,
+    isError,
   } = useUpsertGenericReports();
   const { text, table, chart, counter } = modal || {};
 
@@ -118,16 +111,10 @@ export const UpsertGenericReports = () => {
               setEditorState={setEditorState}
               fontSize={fontSize}
               color={color}
-              tableTitle={tableTitle}
-              chartType={chartType}
               form={form}
               setForm={setForm}
-              setAddProperties={setAddProperties}
               columnsData={columnsData}
               allChartComponents={allChartComponents}
-              chartTitle={chartTitle}
-              textTitle={textTitle}
-              subFilter={subFilter}
               setShowTemplate={setShowTemplate}
               showTemplate={showTemplate}
               draggedItemData={draggedItemData}
@@ -139,6 +126,8 @@ export const UpsertGenericReports = () => {
               setValue={setValue}
               isLoading={isLoading}
               isFetching={isFetching}
+              isError={isError}
+              watch={watch}
             />
           </Grid>
           <Grid
@@ -162,22 +151,14 @@ export const UpsertGenericReports = () => {
               setColor={setColor}
               setModal={setModal}
               setFieldData={setFieldData}
-              tableTitle={tableTitle}
-              textTitle={textTitle}
               setValue={setValue}
-              AddProperties={AddProperties}
               setColumnsData={setColumnsData}
               setOpenDrawer={setOpenDrawer}
               openDrawer={openDrawer}
-              chartType={chartType}
               setMetricType={setMetricType}
               metricType={metricType}
-              chartTitle={chartTitle}
               form={form}
               setForm={setForm}
-              allChartComponents={allChartComponents}
-              xAxisData={xAxisData}
-              subFilter={subFilter}
               columnsData={columnsData}
               showTemplate={showTemplate}
               handleCancel={handleCancel}
@@ -185,12 +166,15 @@ export const UpsertGenericReports = () => {
               setDraggedItemData={setDraggedItemData}
               draggedItemData={draggedItemData}
               disableTemplate={disableTemplate}
-              xAxisType={xAxisType}
               templateList={templateList}
               mainMetrics={mainMetrics}
               selectedModule={moduleName}
-              singleReport={singleReport}
+              data={data}
               handleMoveBack={handleMoveBack}
+              watch={watch}
+              isLoading={isLoading}
+              isFetching={isFetching}
+              isError={isError}
             />
           </Grid>
         </Grid>

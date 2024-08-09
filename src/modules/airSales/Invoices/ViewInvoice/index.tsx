@@ -19,6 +19,7 @@ import { productsTableColumns, productTotalDetails } from './ViewInvoice.data';
 import { style } from './ViewInvoice.style';
 import { v4 as uuidv4 } from 'uuid';
 import useViewInvoice from './useViewInvoice';
+import { DetailI, ProductI } from './viewInvoice.interface';
 
 export const ViewInvoice = () => {
   const router = useRouter();
@@ -27,12 +28,12 @@ export const ViewInvoice = () => {
   const theme = useTheme();
 
   const subtotal = data?.data?.quote?.products?.reduce(
-    (acc: any, curr: any) => acc + curr?.unitPrice * curr?.quantity,
+    (acc: number, curr: ProductI) => acc + curr?.unitPrice * curr?.quantity,
     0,
   );
 
   const unitDiscount = data?.data?.quote?.products?.reduce(
-    (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
+    (acc: number, curr: ProductI) => acc + curr?.unitDiscount * curr?.quantity,
     0,
   );
 
@@ -94,7 +95,7 @@ export const ViewInvoice = () => {
                     </Typography>
                   </Stack>
                   <Stack my={1} gap={1}>
-                    {item?.detail?.map((val: any) => (
+                    {item?.detail?.map((val: DetailI) => (
                       <Stack
                         key={uuidv4()}
                         direction="row"

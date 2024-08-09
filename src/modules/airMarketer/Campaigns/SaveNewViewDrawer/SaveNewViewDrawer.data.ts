@@ -24,8 +24,8 @@ export const dataArray = () => {
     {
       componentProps: {
         name: 'name',
-        label: 'name',
-        placeholder: 'John Allen',
+        label: 'Name',
+        placeholder: 'Enter Name',
         fullWidth: true,
         required: true,
       },

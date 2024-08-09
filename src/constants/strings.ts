@@ -573,9 +573,12 @@ export const RULES_BENEFIT_TYPE = {
 };
 
 export const MEETINGS_DETAILS_TYPE = {
-  ALL: 'All',
-  UPCOMING: 'Upcoming',
-  COMPLETED: 'Completed',
+  ALL: 'allMeetings',
+  UPCOMING: 'upComming',
+  COMPLETED: 'completed',
+  ALL_MEETINGS: 'All',
+  UPCOMING_MEETINGS: 'Upcoming',
+  COMPLETED_MEETINGS: 'Completed',
 };
 export const MEETINGS_ACTION_TYPE = {
   CREATED: 'created',
@@ -595,6 +598,11 @@ export const DRAWER_TYPES = {
   ADD: 'add',
   VIEW: 'view',
   UPDATE: 'update',
+};
+
+export const CAMPAIGNS_TASKS_CONSTANTS = {
+  GRID_VIEW: 'gridView',
+  LIST_VIEW: 'listView',
 };
 
 export const ROLES_AND_RIGHTS_CONST = {
@@ -1095,4 +1103,13 @@ export const WEEKS = [
 export const DYNAMIC_REPORTS_TYPES = {
   CUSTOM: 'CUSTOM',
   DASHBOARD: 'DASHBOARD',
+};
+
+export const SETTINGS_CONSTANTS = {
+  EMAIL: 'Email',
+  COMPANIES: 'Companies',
+};
+export const MUI_GRID_LENGTH = {
+  TWELVE: 12,
+  SIX: 6,
 };

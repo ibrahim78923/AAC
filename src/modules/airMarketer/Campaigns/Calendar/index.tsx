@@ -13,6 +13,7 @@ import {
   Button,
   CircularProgress,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -86,97 +87,108 @@ const Calendar = () => {
 
   return (
     <>
-      <Box sx={styles}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <FormControl sx={{ width: '100px' }}>
-            <InputLabel id="demo-simple-select-label">Year</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Year"
-            >
-              {yearsArray?.map((item: any) => (
-                <MenuItem key={uuidv4()} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ width: '100px' }}>
-            <InputLabel id="demo-simple-select-label">Month</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Month"
-            >
-              {monthsArray?.map((item: any) => (
-                <MenuItem key={uuidv4()} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <FullCalendar
-          ref={calendarRef}
-          dateClick={handleDateClick}
-          dayCellContent={renderDayCell}
-          schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
-          plugins={[
-            resourceTimelinePlugin,
-            interactionPlugin,
-            dayGridPlugin,
-            ResourcePlugin,
-          ]}
-          headerToolbar={{
-            left: '',
-            center: 'Prev today Next',
-            right: '',
-          }}
-          customButtons={{
-            today: {
-              text: calendarDate,
-              click: function () {},
-            },
-            Prev: {
-              icon: 'chevron-left',
-              text: '',
-              click: handlePrevClick,
-            },
-            Next: {
-              icon: 'chevron-right',
-              text: '',
-              click: handleNextClick,
-            },
-          }}
-          buttonText={{
-            today: currentDate,
-          }}
-          titleFormat={{
-            month: 'short',
-            day: 'numeric',
-            weekday: 'short',
-          }}
-          initialView="dayGridMonth"
-          noEventsText="No Events to Show"
-          events={taskEvents(theme, compaignsTasksData, allCampaignsData)}
-          dayMaxEventRows={3}
-          moreLinkClick={handleMoreLinkClick}
-          editable={true}
-          droppable={true}
-          slotMinWidth={200}
-          resourceAreaWidth={200}
-          eventMinWidth={100}
-          eventContent={eventContentHandler}
-          slotDuration="24:00:00"
-          slotLabelFormat={[
-            { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
-          ]}
-          eventClick={(info) =>
-            handleEventClick(info, compaignsTasksData, allCampaignsData)
-          }
-        />
-      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+            <FormControl sx={{ width: '100px' }}>
+              <InputLabel id="demo-simple-select-label">Year</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Year"
+              >
+                {yearsArray?.map((item: any) => (
+                  <MenuItem key={uuidv4()} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ width: '100px' }}>
+              <InputLabel id="demo-simple-select-label">Month</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Month"
+              >
+                {monthsArray?.map((item: any) => (
+                  <MenuItem key={uuidv4()} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Grid>
+        <Grid item xs={12} mt={{ xs: 5, lg: 0 }}>
+          <Box sx={styles}>
+            <FullCalendar
+              ref={calendarRef}
+              dateClick={handleDateClick}
+              dayCellContent={renderDayCell}
+              schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+              plugins={[
+                resourceTimelinePlugin,
+                interactionPlugin,
+                dayGridPlugin,
+                ResourcePlugin,
+              ]}
+              headerToolbar={{
+                left: '',
+                center: 'Prev today Next',
+                right: '',
+              }}
+              customButtons={{
+                today: {
+                  text: calendarDate,
+                  click: function () {},
+                },
+                Prev: {
+                  icon: 'chevron-left',
+                  text: '',
+                  click: handlePrevClick,
+                },
+                Next: {
+                  icon: 'chevron-right',
+                  text: '',
+                  click: handleNextClick,
+                },
+              }}
+              buttonText={{
+                today: currentDate,
+              }}
+              titleFormat={{
+                month: 'short',
+                day: 'numeric',
+                weekday: 'short',
+              }}
+              initialView="dayGridMonth"
+              noEventsText="No Events to Show"
+              events={taskEvents(theme, compaignsTasksData, allCampaignsData)}
+              dayMaxEventRows={3}
+              moreLinkClick={handleMoreLinkClick}
+              editable={true}
+              droppable={true}
+              slotMinWidth={200}
+              resourceAreaWidth={200}
+              eventMinWidth={100}
+              eventContent={eventContentHandler}
+              slotDuration="24:00:00"
+              slotLabelFormat={[
+                {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                  weekday: 'long',
+                },
+              ]}
+              eventClick={(info) =>
+                handleEventClick(info, compaignsTasksData, allCampaignsData)
+              }
+            />
+          </Box>
+        </Grid>
+      </Grid>
 
       {isDrawerOpen?.isToggled && (
         <CommonDrawer

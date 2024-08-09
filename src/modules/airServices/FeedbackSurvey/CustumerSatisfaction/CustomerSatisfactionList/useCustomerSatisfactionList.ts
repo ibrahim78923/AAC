@@ -21,16 +21,19 @@ import {
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants';
+import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 
-export const useCustomerSatisfactionList = (props: any) => {
+export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const { status } = props;
   const router = useRouter();
-  const [activeCheck, setActiveCheck] = useState<any[]>([]);
+  const [activeCheck, setActiveCheck] = useState<FeedbackSurveyListI[]>([]);
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [defaultLoading, setDefaultLoading] = useState<any>({});
+  const [defaultLoading, setDefaultLoading] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [getFeedbackList, { data, isLoading, isFetching, isError, isSuccess }] =
     useLazyGetFeedbackListQuery();
   const [deleteSurveyTrigger, { isLoading: deleteLoading }] =
@@ -43,7 +46,7 @@ export const useCustomerSatisfactionList = (props: any) => {
     usePatchFeedbackSurveyMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
-    activeCheck?.forEach((item: any) => deleteParams?.append('ids', item?._id));
+    activeCheck?.forEach((item) => deleteParams?.append('ids', item?._id));
     const response: any = await deleteSurveyTrigger(deleteParams);
     if (response?.data?.message) {
       setOpenModal(false);
@@ -65,7 +68,7 @@ export const useCustomerSatisfactionList = (props: any) => {
   useEffect(() => {
     handleFeedbackList();
   }, [search, page, limit, status]);
-  const handleCloneSurvey = async (closeMenu: any) => {
+  const handleCloneSurvey = async (closeMenu: () => void) => {
     const cloneParams = {
       id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
     };
@@ -77,7 +80,7 @@ export const useCustomerSatisfactionList = (props: any) => {
       errorSnackbar(response?.error?.data?.message);
     }
   };
-  const handleTitleClick = (surveyData: any) => {
+  const handleTitleClick = (surveyData: FeedbackSurveyListI) => {
     if (
       getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
@@ -106,7 +109,7 @@ export const useCustomerSatisfactionList = (props: any) => {
     }
     return;
   };
-  const handleDefaultSurvey = async (surveyValues: any) => {
+  const handleDefaultSurvey = async (surveyValues: FeedbackSurveyListI) => {
     setDefaultLoading({ [surveyValues?._id]: true });
     const patchParams = { id: surveyValues?._id };
     const response: any = await patchDefaultSurveyTrigger(patchParams);
@@ -120,7 +123,7 @@ export const useCustomerSatisfactionList = (props: any) => {
       setDefaultLoading({});
     }
   };
-  const handleStatus = async (closeMenu: any) => {
+  const handleStatus = async (closeMenu: () => void) => {
     const patchParams = {
       params: {
         id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,

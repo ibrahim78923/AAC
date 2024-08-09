@@ -8,6 +8,7 @@ import { fullName } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
+import { UseFormWatch } from 'react-hook-form';
 
 export const conditionTypeOptions = [
   { label: 'Match ALL condition in this group', value: 'AND' },
@@ -17,7 +18,7 @@ export const taskStatusDropdown = ['Pending', 'Inprogress', 'Complete'];
 export const activityTypeDropdown = ['Call', 'Email', 'Company'];
 export const quoteStatus = ['DRAFT', 'PUBLISHED'];
 
-export const workflowConditionsGroupDataArray = (index: any) => [
+export const workflowConditionsGroupDataArray = (index: number) => [
   {
     _id: 9080,
     gridLength: 6,
@@ -40,18 +41,18 @@ export const workflowConditionsGroupDataArray = (index: any) => [
       placeholder: 'Select',
       required: true,
       options: conditionTypeOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: { label: string; value: string }) =>
+        option?.label,
     },
     component: RHFAutocomplete,
   },
 ];
 
 export const workflowConditionsDataArray = (
-  index: any,
-  subIndex: any,
-  watch: any,
+  index: number,
+  subIndex: number,
+  watch: UseFormWatch<any>,
   dealDropdown: any,
-  userDropdown: any,
   stagesDropdown: any,
   adminUserDropdown: any,
 ) => {

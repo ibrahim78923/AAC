@@ -2,9 +2,10 @@ import { Checkbox } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { convertIdToShortNumber } from '@/utils';
+import { ColumnsPropsI } from './RolesAndRights.interface';
 
 // table data starts here
-export const columns: any = (columnsProps: any) => {
+export const columns = (columnsProps: ColumnsPropsI) => {
   const { checkedRows, setCheckedRows } = columnsProps;
 
   const handleCheckboxChange = (val: any, rowId: string) => {

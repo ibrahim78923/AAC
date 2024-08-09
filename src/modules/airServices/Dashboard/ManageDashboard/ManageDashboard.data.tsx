@@ -22,6 +22,7 @@ export const manageDashboardsDataColumnsDynamic = (
   setIsPortalOpen: any,
   changeDefaultDashboard: any,
   changeDefaultServicesDashboardStatus: any,
+  overallPermissions: any,
 ) => [
   {
     accessorFn: (row: any) => row?.name,
@@ -30,34 +31,39 @@ export const manageDashboardsDataColumnsDynamic = (
     header: 'Dashboard Name',
     isSortable: true,
   },
-  {
-    accessorFn: (row: any) => row?.isDefault,
-    id: 'isDefault',
-    isSortable: true,
-    header: 'Default',
-    cell: (info: any) => (
-      <PermissionsGuard
-        permissions={[
-          AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
-        ]}
-      >
-        <AntSwitch
-          checked={info?.getValue()}
-          onChange={(e: any) =>
-            changeDefaultDashboard?.(e, info?.row?.original)
-          }
-          isLoading={
-            changeDefaultServicesDashboardStatus?.isLoading &&
-            changeDefaultServicesDashboardStatus?.originalArgs?.body?.id ===
-              info?.row?.original?._id
-          }
-          disabled={
-            info?.getValue() || changeDefaultServicesDashboardStatus?.isLoading
-          }
-        />
-      </PermissionsGuard>
-    ),
-  },
+
+  ...(overallPermissions?.includes(
+    AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
+  )
+    ? [
+        {
+          accessorFn: (row: any) => row?.isDefault,
+          id: 'isDefault',
+          isSortable: true,
+          header: 'Default',
+          cell: (info: any) => (
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
+              ]}
+            >
+              <AntSwitch
+                checked={info?.getValue()}
+                onChange={(e: any) =>
+                  changeDefaultDashboard?.(e, info?.row?.original)
+                }
+                isLoading={
+                  changeDefaultServicesDashboardStatus?.isLoading &&
+                  changeDefaultServicesDashboardStatus?.originalArgs?.body
+                    ?.id === info?.row?.original?._id
+                }
+                disabled={changeDefaultServicesDashboardStatus?.isLoading}
+              />
+            </PermissionsGuard>
+          ),
+        },
+      ]
+    : []),
   {
     accessorFn: (row: any) => row?.ownerDetails,
     id: 'ownerDetails',

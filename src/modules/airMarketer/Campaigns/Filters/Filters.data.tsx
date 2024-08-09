@@ -6,7 +6,7 @@ import {
 import { DATA_TYPE, ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({});
+export const validationSchema = Yup?.object()?.shape({});
 
 export const defaultValues = (data: any) => {
   return {
@@ -30,7 +30,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        placeholder: 'select status',
+        placeholder: 'Select Status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
       },
       component: RHFAutocomplete,

@@ -6,6 +6,7 @@ const TAG_TWO = 'CONTRACT_TYPE_DROPDOWN';
 const TAG_THREE = 'VENDOR_DROPDOWN';
 const TAG_FOUR = 'USERS_DROPDOWN';
 const TAG_FIVE = 'SOFTWARE_DROPDOWN';
+const TAG_SIX = 'CONTRACT_TYPE';
 
 export const contractAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -212,6 +213,17 @@ export const contractAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FIVE],
     }),
+    getContractTypeList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTRACT_TYPE_SERVICES_SETTINGS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 
@@ -238,4 +250,5 @@ export const {
   useLazyGetAssetsDropdownListForContractApprovalsQuery,
   useLazyGetVendorDropdownListForContractApprovalsQuery,
   useLazyGetSoftwareDropdownListForContractApprovalsQuery,
+  useLazyGetContractTypeListQuery,
 } = contractAPI;

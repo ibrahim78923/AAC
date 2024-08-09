@@ -137,6 +137,13 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    allUsers: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -155,4 +162,5 @@ export const {
   usePatchGenericReportsMutation,
   useGetSingleGenericReportsQuery,
   useLazySalesDropdownQuery,
+  useAllUsersQuery,
 } = UpsertGenericReportApi;

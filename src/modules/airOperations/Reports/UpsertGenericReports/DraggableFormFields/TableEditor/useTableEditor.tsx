@@ -2,21 +2,23 @@ import { REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
+import { TableEditorI } from './TableEditor.interface';
 
-export const useTableEditor = (props: any) => {
+export const useTableEditor = (props: TableEditorI) => {
   const {
     setForm,
     setModal,
     setFieldData,
     form,
-    tableTitle,
     setValue,
     setColumnsData,
     columnsData,
     setDraggedItemData,
     draggedItemData,
+    watch,
   } = props;
   const [edit, setEdit] = useState(true);
+  const tableTitle = watch('tableTitle');
   const [columnObject, setColumnObject] = useState([]);
   const [editValue, setEditValue] = useState(tableTitle);
   const handleSave = () => {
@@ -54,5 +56,6 @@ export const useTableEditor = (props: any) => {
     edit,
     handleSave,
     setColumnObject,
+    tableTitle,
   };
 };

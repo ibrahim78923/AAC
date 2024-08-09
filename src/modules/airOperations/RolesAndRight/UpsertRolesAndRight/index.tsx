@@ -10,8 +10,8 @@ import {
   TITLE_FORM_USER,
 } from './UpsertRolesAndRight.data';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { PermissionsAccordion } from '../PermissionsAccordion';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { PermissionsAccordion } from '../PermissionsAccordion';
 
 export const UpsertRolesAndRight = () => {
   const {
@@ -27,6 +27,7 @@ export const UpsertRolesAndRight = () => {
     patchPermissionsStatus,
     getRolesIsError,
     submitButtonHandler,
+    permissionAccordionsProps,
   } = useUpsertRolesAndRight();
 
   if (getRolesIsError) return <ApiErrorState />;
@@ -67,6 +68,7 @@ export const UpsertRolesAndRight = () => {
           <Grid item xs={12} my={2}>
             <PermissionsAccordion
               disabled={action === GENERIC_UPSERT_FORM_CONSTANT?.VIEW}
+              {...permissionAccordionsProps}
             />
           </Grid>
 

@@ -219,6 +219,17 @@ export const statusTag = (val: any, theme: any) => {
   }
 };
 
+export const calculatePercentage = (value: number, total: number): number => {
+  if (total === 0) {
+    return 0;
+  }
+  return (value / total) * 100;
+};
+
+export const convertKebabToCamelCase = (str: string): string => {
+  return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+};
+
 export {
   getSession,
   setSession,

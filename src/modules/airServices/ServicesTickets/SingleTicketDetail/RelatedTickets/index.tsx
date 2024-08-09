@@ -1,16 +1,18 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { useRelatedTickets } from './useRelatedTickets';
-import { RelatedTicketsHeader } from './RelatedTicketsHeader';
-import { UpsertRelatedTicket } from './UpsertRelatedTicket';
-import { DeleteRelatedTicket } from './DeleteRelatedTicket';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { Permissions } from '@/constants/permissions';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { Typography } from '@mui/material';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { PAGINATION } from '@/config';
+import { useRelatedTickets } from './useRelatedTickets';
+import { renderPortalComponent } from './RelatedTickets.data';
 
-const RelatedTickets = () => {
+export const RelatedTickets = () => {
   const {
-    setIsDrawerOpen,
-    isDrawerOpen,
     selectedChildTickets,
     relatedTicketsColumns,
     setPage,
@@ -18,38 +20,58 @@ const RelatedTickets = () => {
     setPageLimit,
     setSelectedChildTickets,
     relatedTicketsActionDropdown,
-    isDelete,
-    setIsDelete,
     isLoading,
     isFetching,
     isError,
     isSuccess,
-    getChildTicketsListData,
-    page,
+    setIsPortalOpen,
+    isPortalOpen,
+    portalComponentProps,
   } = useRelatedTickets();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
-      <RelatedTicketsHeader
-        relatedTicketsActionDropdown={relatedTicketsActionDropdown}
-        isActive={!!!selectedChildTickets?.length}
-        setIsDrawerOpen={setIsDrawerOpen}
-        setSelectedChildTickets={setSelectedChildTickets}
-        data={data}
-      />
-
-      {isDrawerOpen && (
-        <UpsertRelatedTicket
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          data={selectedChildTickets}
-          childTicketId={selectedChildTickets?.[0]}
-          setSelectedChildTickets={setSelectedChildTickets}
-        />
-      )}
-      <br />
+      <PageTitledHeader
+        title={
+          <>
+            {' '}
+            <Typography variant="h5" color="slateBlue.main">
+              {`Child Tickets (${
+                data?.data?.tickets?.length > SELECTED_ARRAY_LENGTH?.ONE
+                  ? data?.data?.meta?.total
+                  : !!data?.data?.tickets?.[ARRAY_INDEX?.ZERO]
+                        ?.childTicketDetails?._id
+                    ? data?.data?.meta?.total
+                    : SELECTED_ARRAY_LENGTH?.ZERO
+              })`}
+            </Typography>
+          </>
+        }
+        addTitle="Add Child Ticket"
+        createPermissionKey={[
+          AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CHILD_TICKET,
+        ]}
+        handleAction={() => {
+          setSelectedChildTickets?.([]);
+          setIsPortalOpen?.({
+            isOpen: true,
+            isUpsert: true,
+          });
+        }}
+      >
+        <PermissionsGuard
+          permissions={
+            Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CHILD_TICKET_ACTION
+          }
+        >
+          <SingleDropdownButton
+            disabled={!!!selectedChildTickets?.length}
+            dropdownOptions={relatedTicketsActionDropdown}
+          />
+        </PermissionsGuard>
+      </PageTitledHeader>
       <PermissionsGuard
         permissions={[
           AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CHILD_TICKET_LIST_VIEW,
@@ -58,9 +80,10 @@ const RelatedTickets = () => {
         <TanstackTable
           isLoading={isLoading}
           data={
-            data?.data?.tickets?.length > 1
+            data?.data?.tickets?.length > SELECTED_ARRAY_LENGTH?.ONE
               ? data?.data?.tickets
-              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+              : !!data?.data?.tickets?.[ARRAY_INDEX?.ZERO]?.childTicketDetails
+                    ?._id
                 ? data?.data?.tickets
                 : []
           }
@@ -71,25 +94,28 @@ const RelatedTickets = () => {
           isSuccess={isSuccess || true}
           pageLimit={data?.data?.meta?.limit}
           currentPage={
-            data?.data?.tickets?.length > 1
+            data?.data?.tickets?.length > SELECTED_ARRAY_LENGTH?.ONE
               ? data?.data?.meta?.page
-              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+              : !!data?.data?.tickets?.[ARRAY_INDEX?.ZERO]?.childTicketDetails
+                    ?._id
                 ? data?.data?.meta?.page
-                : 0
+                : SELECTED_ARRAY_LENGTH?.ZERO
           }
           count={
-            data?.data?.tickets?.length > 1
+            data?.data?.tickets?.length > SELECTED_ARRAY_LENGTH?.ONE
               ? data?.data?.meta?.pages
-              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+              : !!data?.data?.tickets?.[ARRAY_INDEX?.ZERO]?.childTicketDetails
+                    ?._id
                 ? data?.data?.meta?.pages
-                : 0
+                : SELECTED_ARRAY_LENGTH?.ZERO
           }
           totalRecords={
-            data?.data?.tickets?.length > 1
+            data?.data?.tickets?.length > SELECTED_ARRAY_LENGTH?.ONE
               ? data?.data?.meta?.total
-              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+              : !!data?.data?.tickets?.[ARRAY_INDEX?.ZERO]?.childTicketDetails
+                    ?._id
                 ? data?.data?.meta?.total
-                : 0
+                : PAGINATION?.TOTAL_RECORDS
           }
           onPageChange={(page: any) => setPage(page)}
           setPage={setPage}
@@ -97,20 +123,8 @@ const RelatedTickets = () => {
           isPagination
         />
       </PermissionsGuard>
-      {isDelete && (
-        <DeleteRelatedTicket
-          isDelete={isDelete}
-          setIsDelete={setIsDelete}
-          selectedChildTickets={selectedChildTickets}
-          setSelectedChildTickets={setSelectedChildTickets}
-          setPage={setPage}
-          totalRecords={data?.data?.tickets?.length}
-          page={page}
-          getChildTicketsListData={getChildTicketsListData}
-        />
-      )}
+      {isPortalOpen?.isOpen &&
+        renderPortalComponent?.(isPortalOpen, portalComponentProps)}
     </>
   );
 };
-
-export default RelatedTickets;

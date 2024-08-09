@@ -12,10 +12,10 @@ export const companiesAPI = baseAPI.injectEndpoints({
     }),
 
     getAllCompanies: builder.query({
-      query: (values: any) => ({
+      query: ({ params }: any) => ({
         url: `${END_POINTS?.COMPANY}`,
         method: 'GET',
-        params: values,
+        params: params,
       }),
       providesTags: ['COMPANY'],
     }),

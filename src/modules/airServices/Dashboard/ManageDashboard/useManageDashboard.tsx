@@ -11,6 +11,7 @@ import { ManageDashboardFilter } from './ManageDashboardFilter';
 import { PreviewDashboard } from '../PreviewDashboard';
 import { DeleteDashboard } from '../DeleteDashboard';
 import { manageDashboardsDataColumnsDynamic } from './ManageDashboard.data';
+import { getActivePermissionsSession } from '@/utils';
 
 export const useManageDashboard = () => {
   const matches = useMediaQuery('(max-width:590px)');
@@ -21,6 +22,8 @@ export const useManageDashboard = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+
+  const overallPermissions = getActivePermissionsSession();
 
   const [lazyGetDashboardTrigger, lazyGetDashboardStatus] =
     useLazyGetServicesDashboardListQuery();
@@ -54,11 +57,11 @@ export const useManageDashboard = () => {
     getDashboardListData();
   }, [search, page, pageLimit, dashboardFilterLists]);
 
-  const changeDefaultDashboard = async (_: any, data: any) => {
+  const changeDefaultDashboard = async (e: any, data: any) => {
     const apiDataParameter = {
       body: {
         id: data?._id,
-        isDefault: true,
+        isDefault: e?.target?.checked,
       },
     };
 
@@ -96,6 +99,7 @@ export const useManageDashboard = () => {
     setIsPortalOpen,
     changeDefaultDashboard,
     changeDefaultServicesDashboardStatus,
+    overallPermissions,
   );
   return {
     matches,
@@ -110,5 +114,7 @@ export const useManageDashboard = () => {
     isPortalOpen,
     setIsPortalOpen,
     manageDashboardsDataColumns,
+    getDashboardListData,
+    page,
   };
 };

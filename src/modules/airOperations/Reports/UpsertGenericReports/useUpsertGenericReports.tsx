@@ -33,14 +33,12 @@ export default function useUpsertGenericReports() {
   const params = {
     id: reportId,
   };
-  const { data, isLoading, isFetching } = useGetSingleGenericReportsQuery(
-    params,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetSingleGenericReportsQuery(params, {
       refetchOnMountOrArgChange: true,
       skip: !!!reportId,
-    },
-  );
-  const singleReport = (data as any)?.data?.report?.reportDoc;
+    });
+  const singleReport = (data as any)?.data?.results?.genericReports;
 
   const getDefaultModule = () => {
     switch (moduleName) {
@@ -61,13 +59,7 @@ export default function useUpsertGenericReports() {
   });
 
   const { watch, setValue } = methods;
-  const textTitle = watch('textTitle');
-  const tableTitle = watch('tableTitle');
-  const chartTitle = watch('chartTitle');
   const chartType = watch('chartType');
-  const xAxisData = watch('xAxis');
-  const subFilter = watch('subFilter');
-  const xAxisType = watch('xAxisType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -76,7 +68,6 @@ export default function useUpsertGenericReports() {
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
   const [metricType, setMetricType] = useState(defaultModule);
-  const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
   const [disableTemplate, setDisableTemplate] = useState(false);
@@ -191,7 +182,7 @@ export default function useUpsertGenericReports() {
   useEffect(() => {
     if (singleReport) {
       const newFormItems = singleReport?.widgets
-        ?.map((item: any) => {
+        ?.map((item: any, index: any) => {
           const uniqueId = generateUniqueId();
           if (item?.type === REPORT_TYPE?.TEXT) {
             return {
@@ -286,10 +277,19 @@ export default function useUpsertGenericReports() {
               subFilter: item?.isDateFilter,
             };
           }
+          if (item?.type === REPORT_TYPE?.TEMPLATE_TEXT) {
+            return {
+              id: uniqueId,
+              reportType: REPORT_TYPE?.COUNTER,
+              ticketCount: index,
+              title: item?.title,
+              templateType: REPORT_TYPE?.TEMPLATE_TEXT,
+            };
+          }
           return null;
         })
         .filter(Boolean);
-      setForm([...form, ...newFormItems]);
+      setForm(() => [...newFormItems]);
     }
   }, [singleReport]);
 
@@ -328,21 +328,13 @@ export default function useUpsertGenericReports() {
     color,
     setFontSize,
     fontSize,
-    textTitle,
-    tableTitle,
     setValue,
-    AddProperties,
-    setAddProperties,
     columnsData,
     setColumnsData,
     setOpenDrawer,
     openDrawer,
-    chartType,
     setMetricType,
     metricType,
-    chartTitle,
-    xAxisData,
-    subFilter,
     allChartComponents,
     showTemplate,
     setShowTemplate,
@@ -353,11 +345,12 @@ export default function useUpsertGenericReports() {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
-    xAxisType,
     moduleName,
     isLoading,
     isFetching,
-    singleReport,
+    data,
     handleMoveBack,
+    watch,
+    isError,
   };
 }

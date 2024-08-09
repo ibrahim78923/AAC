@@ -22,6 +22,7 @@ const Submissions = ({ formId }: any) => {
     handleCloseFilters,
     methodsFilter,
     handleFiltersSubmit,
+    dataCustomers,
   } = useSubmissions(formId);
 
   return (
@@ -38,7 +39,7 @@ const Submissions = ({ formId }: any) => {
       >
         <Search
           setSearchBy={setSearchValue}
-          label="Search Heresa"
+          label="Search Here"
           size="small"
           sx={{ margin: '15px' }}
         />
@@ -84,7 +85,7 @@ const Submissions = ({ formId }: any) => {
         isDrawerOpen={openFilters}
         onClose={handleCloseFilters}
         title={'Filters'}
-        okText={'Done'}
+        okText={'Apply'}
         footer={true}
         isOk={true}
         submitHandler={handleFiltersSubmit}
@@ -92,7 +93,7 @@ const Submissions = ({ formId }: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
-              {submissionsArray?.map((item: any) => (
+              {submissionsArray(dataCustomers)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&

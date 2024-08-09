@@ -3,6 +3,7 @@ import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { PortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
+import { DELETE_DASHBOARD_SUCCESS } from '../Dashboard.data';
 
 export const useDeleteDashboard = (props: PortalComponentPropsI) => {
   const {
@@ -25,8 +26,12 @@ export const useDeleteDashboard = (props: PortalComponentPropsI) => {
       },
     };
     try {
-      await deleteSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Dashboard deleted successfully!');
+      const response =
+        await deleteSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
+      if (response?.message !== DELETE_DASHBOARD_SUCCESS) {
+        throw new Error(response?.message);
+      }
+      successSnackbar?.('Dashboard deleted successfully!');
       closeDashboardDeleteModal?.();
       const newPage =
         totalRecords === SELECTED_ARRAY_LENGTH?.ONE
@@ -35,7 +40,7 @@ export const useDeleteDashboard = (props: PortalComponentPropsI) => {
       setPage?.(newPage);
       await getDashboardListData?.(newPage);
     } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+      errorSnackbar(error?.data?.message ?? error?.message);
     }
   };
 

@@ -1,7 +1,8 @@
 import { useDeleteWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useListHeader = (props: any) => {
+export const useListHeader = (props: WorkflowListHeaderI) => {
   const {
     selectedAction,
     setDeleteWorkflow,
@@ -13,7 +14,7 @@ export const useListHeader = (props: any) => {
   const [deleteTrigger, deleteStatus] = useDeleteWorkflowMutation();
   const handleDelete = async () => {
     const deleteParams = selectedAction
-      ?.map((item: any) => `ids=${item?._id}`)
+      ?.map((item) => `ids=${item?._id}`)
       ?.join('&');
     try {
       await deleteTrigger(deleteParams);

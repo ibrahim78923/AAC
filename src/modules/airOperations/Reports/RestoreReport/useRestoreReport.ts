@@ -1,8 +1,9 @@
 import { PAGINATION } from '@/config';
 import { useRestoreDeletedReportMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useRestoreReport = (props: any) => {
+export const useRestoreReport = (props: RestoreReportsListsComponentPropsI) => {
   const {
     setIsPortalOpen,
     selectedReportLists,

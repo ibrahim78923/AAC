@@ -22,8 +22,14 @@ import { ArrowDownImage, ArrowUpImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useRouter } from 'next/router';
 
 const ProfilMenu = () => {
+  const router = useRouter();
+  const currentPath = router?.pathname;
+  const pathSegments = currentPath?.slice(1)?.split('/');
+  const basePath = pathSegments[0];
+
   const [statusDropDown, setStatusDropDown] = useState<null | HTMLElement>(
     null,
   );
@@ -112,8 +118,8 @@ const ProfilMenu = () => {
           </Box>
         </MenuItem>
         <Divider />
-        {!isNullOrEmpty(ProfileDropDown) &&
-          ProfileDropDown?.map((item) => (
+        {!isNullOrEmpty(ProfileDropDown(basePath)) &&
+          ProfileDropDown(basePath)?.map((item) => (
             <MenuItem
               key={uuidv4()}
               onClick={closeStatusDropDown}

@@ -4,8 +4,12 @@ import useStatisticsCard from './useStatisticsCard';
 import { styles } from './StatisticsCard.style';
 import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { StatusCardsProps } from '../SMSDashboard-interface';
 
-const StatisticsCard = ({ analytics, isDashboard = true }: any) => {
+const StatisticsCard = ({
+  analytics,
+  isDashboard = true,
+}: StatusCardsProps) => {
   const { series, options, theme } = useStatisticsCard();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,

@@ -4,11 +4,19 @@ import { Editor } from 'draft-js';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { CheckBox } from '@mui/icons-material';
 import { EditInputIcon } from '@/assets/icons';
+import { TextI } from './Text.interface';
 
-export const Text = (props: any) => {
-  const { editorState, setEditorState, textTitle, setValue } = props;
-  const { handleKeyCommand, styleMap, setEditValue, editValue, setEdit, edit } =
-    useText(props);
+export const Text = (props: TextI) => {
+  const { editorState, setEditorState, setValue } = props;
+  const {
+    handleKeyCommand,
+    styleMap,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
+    textTitle,
+  } = useText(props);
 
   return (
     <>

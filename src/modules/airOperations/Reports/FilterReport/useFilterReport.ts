@@ -6,8 +6,9 @@ import {
 } from './FilterReport.data';
 import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
 import useAuth from '@/hooks/useAuth';
+import { ReportsListsComponentPropsI } from '../Reports.interface';
 
-export const useFilterReport = (props: any) => {
+export const useFilterReport = (props: ReportsListsComponentPropsI) => {
   const { setIsPortalOpen, reportFilters, setReportFilter } = props;
   const auth: any = useAuth();
 

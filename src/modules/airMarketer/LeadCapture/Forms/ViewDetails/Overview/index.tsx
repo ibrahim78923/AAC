@@ -104,7 +104,11 @@ const Overview = ({ data, htmlTemplate }: any) => {
           <Box sx={styles?.dialogContent}>
             <Typography variant="body2" sx={styles?.dialogCode}>
               <pre>
-                <code style={{ whiteSpace: 'pre-wrap' }}>{htmlTemplate}</code>
+                <code
+                  style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
+                >
+                  {htmlTemplate}
+                </code>
               </pre>
             </Typography>
             <Tooltip

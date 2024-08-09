@@ -1,7 +1,8 @@
 import { useDeleteWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useTicketsHeader = (props: any) => {
+export const useTicketsHeader = (props: WorkflowListHeaderI) => {
   const {
     selectedAction,
     setDeleteWorkflow,

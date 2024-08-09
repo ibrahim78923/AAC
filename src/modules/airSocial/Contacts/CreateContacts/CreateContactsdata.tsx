@@ -10,7 +10,7 @@ const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 
 // Define your Yup validation schema
 export const contactsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
   phoneNumber: Yup.string()
     .nullable()
     .test(

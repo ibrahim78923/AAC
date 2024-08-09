@@ -35,8 +35,8 @@ const useAddRole = () => {
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
   const roleDefaultValues: any = {
-    productId: {},
-    organizationCompanyAccountId: {},
+    productId: null,
+    organizationCompanyAccountId: null,
     name: '',
     description: '',
     status: '',
@@ -129,19 +129,13 @@ const useAddRole = () => {
     setIsSwitchVal(!isSwitchVal);
   };
 
-  const {
-    data: productPermissionsData,
-    isLoading: loadingProduct,
-    refetch,
-  } = useGetProductsPermissionsQuery({
-    productId: productVal?._id,
-  });
-
-  useEffect(() => {
-    if (productVal?._id) {
-      refetch();
-    }
-  }, [productVal?._id, refetch]);
+  const { data: productPermissionsData, isLoading: loadingProduct } =
+    useGetProductsPermissionsQuery(
+      {
+        productId: productVal?._id,
+      },
+      { skip: !productVal?._id },
+    );
 
   const [updateRoleRights, { isLoading: loadingUpdateRole }] =
     useUpdateRoleRightsMutation();
@@ -197,7 +191,7 @@ const useAddRole = () => {
     navigate,
     onSubmit,
     disabled,
-    refetch,
+    // refetch,
     methods,
     theme,
   };

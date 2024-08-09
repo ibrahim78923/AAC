@@ -6,26 +6,26 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import { campaignsOptions } from './Campaigns.data';
 import {
   useDeleteCampaignsMutation,
-  useGetCampaignsByIdQuery,
-  useGetCampaignsQuery,
   useGetCampaignsSaveViewQuery,
   usePostCampaignsCloneMutation,
   usePostCampaignsMutation,
   usePostCampaignsSaveViewMutation,
   useUpdateCampaignsMutation,
 } from '@/services/airMarketer/campaigns';
-import { PAGINATION } from '@/config';
 import {
   useGetUsersListQuery,
   useLazyGetUsersListDropdownQuery,
 } from '@/services/airSales/deals';
 import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
-import { useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { initvalues, validationSchema } from './Compaigns.data';
+import {
+  compareInitialVals,
+  initvalues,
+  validationSchema,
+} from './Compaigns.data';
 import { enqueueSnackbar } from 'notistack';
 
 const useCampaigns = () => {
@@ -53,14 +53,6 @@ const useCampaigns = () => {
   const [isCompare, setIsCompare] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
-  const [searchCampaigns, setSearchCampaigns] = useState('');
-  const [selectedRows, setSelectedRows] = useState<any>([]);
-  const campaignId = useSearchParams()?.get('id');
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [checkedColumns, setcheckedColumns] = useState<any>(null);
-  const [rowId, setRowId] = useState(null);
 
   // collapse menu task filters start here
 
@@ -86,19 +78,17 @@ const useCampaigns = () => {
     });
   };
 
-  // collapse menu task filters ends here
-
-  const [filters, setFilters] = useState<any>({
-    campaignOwner: null,
-    campaignStatus: '',
-  });
-
   const userListData = useLazyGetUsersListDropdownQuery();
 
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: initvalues,
   });
+
+  const compareMethods = useForm<any>({
+    defaultValues: compareInitialVals,
+  });
+
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
@@ -146,27 +136,6 @@ const useCampaigns = () => {
     setIsCreateTask(false);
   };
 
-  const { data: campaignsData, isLoading: filterLoading } =
-    useGetCampaignsQuery({
-      page: page,
-      limit: pageLimit,
-      search: searchCampaigns ? searchCampaigns : undefined,
-      campaignOwner: filters?.campaignOwner
-        ? filters?.campaignOwner?._id
-        : undefined,
-      startDate: filters?.startDate
-        ? dayjs(filters?.startDate)?.format(DATE_FORMAT?.API)
-        : undefined,
-      endDate: filters?.endDate
-        ? dayjs(filters?.endDate)?.format(DATE_FORMAT?.API)
-        : undefined,
-      campaignStatus: filters?.campaignStatus
-        ? filters?.campaignStatus
-        : undefined,
-    });
-
-  const { data: campaignsById, isLoading: campaignsLoadingById } =
-    useGetCampaignsByIdQuery(campaignId, { skip: !campaignId });
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
@@ -194,12 +163,7 @@ const useCampaigns = () => {
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
-  const handleResetFilters = () => {
-    setFilters({
-      campaignOwner: '',
-      campaignStatus: '',
-    });
-  };
+
   const handleCloseAddAssetsModal = () => {
     setIsOpenAddAssets(false);
   };
@@ -259,19 +223,8 @@ const useCampaigns = () => {
       default:
         break;
     }
-
     setSelectedOptionsValue(option);
     setSelectedValue(null);
-  };
-  const allCamopaignsData = campaignsData?.data?.campaigns;
-  const handleSelectAllCheckbox = (checked: any) => {
-    setSelectedRows(
-      checked ? allCamopaignsData?.map((obj: { _id: string }) => obj?._id) : [],
-    );
-  };
-  const handleSelectSingleCheckBox = (value: any, id: string) => {
-    if (value?.target?.checked) setSelectedRows([...selectedRows, id]);
-    else setSelectedRows(selectedRows?.filter((row: any) => row !== id));
   };
 
   return {
@@ -302,43 +255,24 @@ const useCampaigns = () => {
     setSearchVal,
     isResetTaskFilter,
     setIsResetTaskFilter,
-    campaignsData,
     postCampaigns,
     createCampaignsLoading,
-    setSearchCampaigns,
-    searchCampaigns,
-    handleResetFilters,
-    filterLoading,
-    handleSelectSingleCheckBox,
-    handleSelectAllCheckbox,
-    selectedRows,
-    allCamopaignsData,
     deleteCampaignsLoading,
     campaignDataById,
     setCampaignDataById,
     UserListData,
     updateCampaigns,
-    campaignsById,
     postCampaignsCloneLoading,
     postCampaignsClone,
     deleteCampaigns,
-    setSelectedRows,
     postCampaignsSaveView,
     postCampaignsSaveViewLoading,
     saveViewCampaignsData,
-    filters,
-    setFilters,
-    setPageLimit,
-    setPage,
-    isActionsDisabled,
-    setIsActionsDisabled,
-    checkedColumns,
-    setcheckedColumns,
     updateCampaignLoading,
-    campaignsLoadingById,
     resetTasksFilters,
     setCurrentTabVal,
     organizationId,
+    compareMethods,
     setTaskFilters,
     currentTabVal,
     setIsFilters,
@@ -346,10 +280,8 @@ const useCampaigns = () => {
     handleSubmit,
     taskFilters,
     isFilters,
-    setRowId,
     onSubmit,
     methods,
-    rowId,
     user,
   };
 };

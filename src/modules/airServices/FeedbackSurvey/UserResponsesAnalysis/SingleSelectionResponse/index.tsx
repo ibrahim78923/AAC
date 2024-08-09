@@ -1,7 +1,10 @@
 import { MultiLevelLinearProgressBar } from '@/components/MultiLevelLinearProgressBar';
+import { FeedbackResponsesAnalysisI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { Box, Typography } from '@mui/material';
 
-export const SingleSelectionResponse = (props: any) => {
+export const SingleSelectionResponse: React.FC<FeedbackResponsesAnalysisI> = (
+  props,
+) => {
   const { question, score, answers } = props;
   return (
     <Box bgcolor={'common.white'} p={2} boxShadow={1} borderRadius={2}>

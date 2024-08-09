@@ -50,11 +50,14 @@ export const DATE_TIME_FORMAT = {
   DDMMMYYYY: 'DD MMM YYYY',
   HHMMA: 'hh:mm A',
   MMMMD: 'MMMM D[th] [at] h:mmA',
+  MMM: 'MMM',
+  DD: 'DD',
+  DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
 };
 
 export const VALIDATION_CONSTANT = {
   PHONE_NUMBER: {
-    regex: /^\+447[0-9]{9}$/,
+    regex: /^\+44[0-9]{11}$/,
     message: 'Only UK phone number',
   },
 };
@@ -94,7 +97,7 @@ export const AIR_SERVICES = {
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
-  CREATE_DASHBOARD: '/air-services/dashboard/create-dashboard',
+  CREATE_DASHBOARD: '/air-services/dashboard/upsert-dashboard',
   MANAGE_DASHBOARD: '/air-services/dashboard/manage-dashboard',
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
   KNOWLEDGE_BASE_VIEW_ARTICLE:
@@ -179,6 +182,7 @@ export const AIR_SERVICES = {
 
 export const AIR_CUSTOMER_PORTAL = {
   DASHBOARD: `/air-customer-portal`,
+  EDIT_PROFILE: `/air-customer-portal/edit-profile`,
   TICKETS: `/air-customer-portal/tickets`,
   SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
   KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',
@@ -454,6 +458,14 @@ export const Gmail_CONST = {
   Cc: 'Cc',
 };
 
+export const EMAIL_ENUMS = {
+  SCHEDULED: 'SCHEDULED',
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  ARCHIVED: 'ARCHIVED',
+  ALL: 'ALL',
+};
+
 export const REPORTS_HEADER_TITLE = {
   CREATE_REPORT: 'Create Report',
   CREATE_TABLE: 'Create Table',
@@ -526,7 +538,7 @@ export const TEMPLATES_CARDS = {
 
 export const GOALS_YEARLY_FORMAT = {
   MONTHLY: 'monthly',
-  YEARLY: 'yearly',
+  YEARLY: 'Yearly',
   QUARTERLY: 'quarterly',
   CUSTOM: 'custom',
 };
@@ -567,4 +579,35 @@ export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
   TEAM_ACTIVITIES_BY_DATE: 'Team Activities by Activity Date',
   TOTAL_DEALS_OPEN_DEALS:
     'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
+};
+
+export const PRODUCT_LABELS = {
+  AIR_SALES: 'Air Sales',
+  AIR_SERVICES: 'Air Services',
+  AIR_MARKETER: 'Air Marketer',
+  AIR_OPERATIONS: 'Air Operations',
+  LOYALTY_PROGRAM: 'Loyalty Program',
+  CALL_CENTER: 'Call Center',
+  CUSTOMER_PORTAL: 'Customer Portal',
+};
+
+export const AIR_SALES_GOAL_NOTIFICATION = {
+  STARTED: 'goalStarted',
+  EXCEEDED: 'goalExceeded',
+  ACHIEVED: 'goalAchieved',
+  MISSED: 'goalMissed',
+};
+
+export const CHAT_TYPES = {
+  GROUP_CHAT: 'groupChat',
+  PERSONAL_CHAT: 'personalChat',
+  SENDER: 'sender',
+  RECIEVER: 'receiver',
+};
+
+export const PROFILE_DROPDOWNS = {
+  EDIT_PROFILE: 'Edit Profile',
+  AIR_CUSTOMER_PORTAL: 'air-customer-portal',
+  CHANGE_PASSWORD: 'Change Password',
+  DELEGATE: 'Delegate',
 };

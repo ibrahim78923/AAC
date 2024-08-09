@@ -21,21 +21,22 @@ export const columns = ({ setDeleteTemplateModal, router }: any) => {
       id: 'description',
       isSortable: false,
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.category,
       id: 'category',
       isSortable: false,
       header: 'Category',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       isSortable: false,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row._id,

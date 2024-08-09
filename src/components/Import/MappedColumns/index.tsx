@@ -13,6 +13,7 @@ import {
   mappedColumnsFormFieldsFunction,
   mappedColumns,
 } from './MappedColumns.data';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const MappedColumns: any = (props: any) => {
   const { fields, name, remove, crmColumnsOptions } = props;
@@ -26,7 +27,7 @@ export const MappedColumns: any = (props: any) => {
       <br />
       <Box boxShadow={1}>
         <TableContainer>
-          <Table sx={{ minWidth: '800px' }}>
+          <Table sx={{ minWidth: pxToRem(700) }}>
             <TableHead>
               <TableRow>
                 {mappedColumns?.map((column: any) => (
