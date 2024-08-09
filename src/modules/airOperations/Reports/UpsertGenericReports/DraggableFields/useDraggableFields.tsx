@@ -15,7 +15,7 @@ export const useDraggableFields = (props: DraggableFieldsI) => {
       case GENERIC_REPORT_MODULES?.SALES:
         return REPORT_TYPE?.DEALS;
       case GENERIC_REPORT_MODULES?.MARKETING:
-        return REPORT_TYPE?.LEADS;
+        return REPORT_TYPE?.CAMPAIGNS;
       default:
         return [];
     }

@@ -827,16 +827,16 @@ export const mainMetrics = (setMetricType: any) => {
     ],
     [GENERIC_REPORT_MODULES?.MARKETING]: [
       {
-        title: REPORT_TYPE?.LEADS,
+        title: REPORT_TYPE?.CAMPAIGNS,
         handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.LEADS);
+          setMetricType(REPORT_TYPE?.CAMPAIGNS);
           closeMenu?.();
         },
       },
       {
-        title: REPORT_TYPE?.CAMPAIGNS,
+        title: REPORT_TYPE?.LEADS,
         handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.CAMPAIGNS);
+          setMetricType(REPORT_TYPE?.LEADS);
           closeMenu?.();
         },
       },

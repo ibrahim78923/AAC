@@ -1,5 +1,6 @@
 import { Avatar, Box, Radio, Typography, useTheme } from '@mui/material';
 import { style } from './CheckboxCard.style';
+import { CheckboxCardI } from './CheckboxCard.interface';
 
 const CheckboxCard = ({
   icon,
@@ -8,7 +9,7 @@ const CheckboxCard = ({
   desc = '',
   checkedValue,
   handleSelect,
-}: any) => {
+}: CheckboxCardI) => {
   const { palette } = useTheme();
   const checked = value === checkedValue;
   return (

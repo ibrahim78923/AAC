@@ -1,8 +1,9 @@
 import { Box, Grid, Typography } from '@mui/material';
 import CheckboxCard from '../CheckboxCard';
 import { importDataField, productData } from '../ImportModal.data';
+import { FirstStepI } from './FirstStep.interface';
 
-const FirstStep = (props: any) => {
+const FirstStep = (props: FirstStepI) => {
   const { handleSelect, importLog, product } = props;
 
   return (

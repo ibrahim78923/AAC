@@ -228,7 +228,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
                   {!modal?.counter && form?.length > 0 && (
                     <Toolbar
                       sx={{
-                        mt: 6,
+                        mt: 4,
                         display: 'flex',
                         justifyContent: 'flex-end',
                       }}

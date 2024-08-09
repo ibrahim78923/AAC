@@ -19,6 +19,7 @@ import {
   IMPORT_PRODUCTS_NAME,
   OBJECT_URL_IMPORT,
 } from '@/constants/strings';
+import { Theme, useTheme } from '@mui/material';
 
 export const useImportModal = () => {
   const [csvFileData, setCsvFileData] = useState<any[]>([]);
@@ -27,7 +28,7 @@ export const useImportModal = () => {
   const [modalStep, setModalStep] = useState(1);
   const [importLog, setImportLog] = useState('');
   const [fileResponse, setFileResponse] = useState<any>(null);
-
+  const theme: Theme = useTheme();
   const methodsImportModalForm = useForm<any>({
     resolver: yupResolver(importValidationSchema(modalStep)),
     defaultValues: importDefaultValues,
@@ -286,5 +287,6 @@ export const useImportModal = () => {
     uploadFileTos3UsingSignedUrlStatus,
     importFileStatus,
     newImportFileForServicesStatus,
+    theme,
   };
 };
