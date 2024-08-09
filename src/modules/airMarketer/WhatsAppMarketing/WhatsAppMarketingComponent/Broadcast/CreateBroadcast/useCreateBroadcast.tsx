@@ -53,6 +53,12 @@ const useCreateBroadcast = () => {
   const previewName = watch(SMS_MARKETING_CONSTANTS?.NAME);
   const previewDetail = watch(SMS_MARKETING_CONSTANTS?.DETAIL);
   const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
+  const templateData = watch('templateId');
+
+  useEffect(() => {
+    setValue('detail', templateData?.detail);
+  }, [templateData?.detail]);
+
   const formFields = createBroadcastFields(handleOpenContactsDrawer);
 
   const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =

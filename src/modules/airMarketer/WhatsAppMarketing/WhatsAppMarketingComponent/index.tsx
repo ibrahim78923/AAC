@@ -85,7 +85,7 @@ const WhatsAppMarketingComponent = () => {
                 onClick={() => {
                   router.push({
                     pathname: AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST,
-                    query: { type: ACTIONS_TYPES?.EDIT },
+                    query: { type: ACTIONS_TYPES?.ADD },
                   });
                 }}
               >

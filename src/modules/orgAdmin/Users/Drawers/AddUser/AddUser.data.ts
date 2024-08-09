@@ -31,19 +31,6 @@ export const superAdminValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  jobTitle: Yup.string()
-    .nullable() // Allow null or undefined values
-    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
-    .transform((value, originalValue) => {
-      if (
-        originalValue === '' ||
-        originalValue === null ||
-        originalValue === undefined
-      ) {
-        return null; // Convert empty string or null/undefined to null
-      }
-      return value;
-    }),
   postCode: Yup.string().required('Field is Required'),
   compositeAddress: Yup.string()?.required('Field is Required'),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),

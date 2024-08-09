@@ -15,6 +15,7 @@ import {
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
   campaignId: Yup?.object()?.required('Field is Required'),
+  templateId: Yup?.object()?.required('Field is Required'),
   detail: Yup?.string()?.required('Field is Required'),
 });
 
@@ -61,7 +62,8 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       componentProps: {
         placeholder: 'Select template',
         name: 'templateId',
-        label: 'Use Template (Optional)',
+        label: 'Use Template',
+        required: true,
         apiQuery: templateList,
         getOptionLabel: (option: any) => option?.name,
       },
@@ -115,19 +117,6 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
     },
   ];
 };
-
-export const contactDetails: any = [
-  {
-    Id: 1,
-    Name: 'Jerome Bell',
-    PhoneNumber: '(219) 555-0114',
-  },
-  {
-    Id: 2,
-    Name: 'Theresa Webb',
-    PhoneNumber: '(219) 555-0115',
-  },
-];
 
 export const contactsColumns: any = [
   {
