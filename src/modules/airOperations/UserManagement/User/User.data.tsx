@@ -1,32 +1,83 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
-import { AntSwitch } from '@/components/AntSwitch';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { REQUESTORS_STATUS } from '@/constants/strings';
+import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  PRODUCT_USER_STATUS,
+  SELECTED_ARRAY_LENGTH,
+} from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
-export const userDropdown = (setDeleteModal: any) => [
+export const actionsForOperationUserDynamic = (
+  setIsPortalOpen: any,
+  selectedUserList: any,
+) => [
   {
     id: 1,
+    title: 'Edit',
+    permissionKey: [
+      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.EDIT_USER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isEdit: true,
+        isUpsert: true,
+        isOpen: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 2,
+    title: 'View',
+    permissionKey: [
+      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.VIEW_USER_DETAIL,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isOpen: true,
+        isUpsert: true,
+        isView: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 3,
     title: 'Delete',
     permissionKey: [
-      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.DELETE_USER,
     ],
-    handleClick: (close: any) => {
-      setDeleteModal(true);
-      close(null);
+    handleClick: (closeMenu: any) => {
+      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen({ isOpen: true, isDelete: true });
+      closeMenu();
     },
   },
 ];
 
-export const userList = (
-  usersData: any = [],
-  selectedUserList: any,
-  setSelectedUserList: any,
-  setIsDrawerOpen: any,
-  setTabData: any,
-  switchLoading: any,
-  handleChangeStatus: any,
+export const operationUsersColumnsDynamic = (
+  selectedUserList?: any,
+  setSelectedUserList?: any,
+  totalUsers: any = [],
+  changeOperationUserStatus?: any,
+  changeSingleUserStatusStatus?: any,
+  setSingleUserDetail?: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -35,8 +86,6 @@ export const userList = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        color="primary"
-        name={info?.getValue()}
         checked={
           !!selectedUserList?.find(
             (item: any) => item?._id === info?.getValue(),
@@ -44,68 +93,62 @@ export const userList = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([
-                ...selectedUserList,
-                usersData?.find((item: any) => item?._id === info?.getValue()),
-              ])
+            ? setSelectedUserList([...selectedUserList, info?.row?.original])
             : setSelectedUserList(
-                selectedUserList?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
+                selectedUserList?.filter(
+                  (item: any) => item?._id !== info?.getValue(),
+                ),
               );
         }}
+        color="primary"
+        name={info?.getValue()}
       />
     ),
     header: (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        color="primary"
-        name="_id"
         checked={
-          !!usersData?.length
-            ? selectedUserList?.length === usersData?.length
+          totalUsers?.length
+            ? selectedUserList?.length === totalUsers?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([...usersData])
+            ? setSelectedUserList(totalUsers?.map((item: any) => item?._id))
             : setSelectedUserList([]);
         }}
+        color="primary"
+        name="id"
       />
     ),
-    isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.user?.firstName,
-    id: 'firstName',
-    header: 'Name',
+    accessorFn: (row: any) => row?.user,
+    id: 'user',
     isSortable: true,
+    header: 'Name',
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar src={`url_for_avatar_${info?.row?.original?._id}`} alt="users">
-          <Typography
-            variant="body2"
-            textTransform={'uppercase'}
-            sx={{
-              color: 'blue.dull_blue',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              setIsDrawerOpen(true);
-              setTabData(info?.row?.original);
-            }}
-          >
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        gap={1}
+        onClick={() => setSingleUserDetail?.(info?.row?.original)}
+        sx={{ cursor: 'pointer' }}
+      >
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.getValue()?.avatar?.url)}
+        >
+          <Typography variant="body2" textTransform={'uppercase'}>
             {fullNameInitial(
-              info?.row?.original?.user?.firstName,
-              info?.row?.original?.user?.lastName,
+              info?.getValue()?.firstName,
+              info?.getValue()?.lastName,
             )}
           </Typography>
         </Avatar>
-        {fullName(
-          info?.row?.original?.user?.firstName,
-          info?.row?.original?.user?.lastName,
-        )}
+        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
       </Box>
     ),
   },
@@ -117,34 +160,36 @@ export const userList = (
     cell: (info: any) => info?.getValue() ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.team?.name,
+    accessorFn: (row: any) => row?.team,
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue()?.name ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.user?.role,
+    accessorFn: (row: any) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue()?.name ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.status,
+    accessorFn: (info: any) => info?.status,
     id: 'status',
-    isSortable: false,
     header: 'Status',
-    cell: (info: any) => {
-      const getValues =
-        info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
-      return (
-        <AntSwitch
-          checked={getValues}
-          isLoading={switchLoading?.[info?.row?.original?._id]}
-          onClick={() => handleChangeStatus?.(info?.row?.original)}
-        />
-      );
-    },
+    cell: (info: any) => (
+      <AntSwitch
+        checked={info?.getValue() === PRODUCT_USER_STATUS?.ACTIVE}
+        onChange={(e: any) =>
+          changeOperationUserStatus?.(e, info?.row?.original?._id)
+        }
+        isLoading={
+          changeSingleUserStatusStatus?.isLoading &&
+          changeSingleUserStatusStatus?.originalArgs?.pathParams?.id ===
+            info?.row?.original?._id
+        }
+        disabled={changeSingleUserStatusStatus?.isLoading}
+      />
+    ),
   },
 ];

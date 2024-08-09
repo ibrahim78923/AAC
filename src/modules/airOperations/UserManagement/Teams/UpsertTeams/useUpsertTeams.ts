@@ -2,77 +2,105 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
   upsertTeamDefaultValues,
+  upsertTeamFormFieldsDynamic,
   upsertTeamValidationSchema,
 } from './UpsertTeams.data';
-import { useEffect, useState } from 'react';
 import {
+  useGetTeamsByIdForOperationQuery,
   useLazyGetProductTeamUserListDropdownQuery,
-  usePatchTeamUsersMutation,
-  usePostCreateTeamMutation,
+  usePatchTeamUsersForOperationMutation,
+  usePostCreateTeamForOperationMutation,
 } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useRouter } from 'next/router';
-export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
-  const router = useRouter();
-  const { teamId } = router?.query;
-  const [disabled, setDisabled] = useState(true);
+import { useEffect } from 'react';
+
+export const useUpsertTeams = (props: any) => {
+  const { isPortalOpen, setIsPortalOpen } = props;
+
   const methods: any = useForm({
     resolver: yupResolver(upsertTeamValidationSchema),
-    defaultValues: upsertTeamDefaultValues(teamData),
+    defaultValues: upsertTeamDefaultValues(),
   });
+
   const { handleSubmit, reset } = methods;
-  useEffect(() => {
-    reset(upsertTeamDefaultValues(teamData));
-  }, [teamData, reset]);
+
   const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
-  const [patchTeamsUsersTrigger, patchProductTeamStatus] =
-    usePatchTeamUsersMutation();
-  const [addTeamUsers, addUsersTeamListStatus] = usePostCreateTeamMutation();
+
+  const { data, isLoading, isFetching, isError }: any =
+    useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!isPortalOpen?.data?._id,
+    });
+
+  const [patchTeamUsersForOperationTrigger, patchTeamUsersForOperationStatus] =
+    usePatchTeamUsersForOperationMutation();
+
+  const [postCreateTeamForOperationTrigger, postCreateTeamForOperationStatus] =
+    usePostCreateTeamForOperationMutation();
+
   const submit = async (data: any) => {
     const { userAccounts, ...rest } = data;
-    const formData = {
-      id: teamId,
-      body: {
-        ...rest,
-        userAccounts: userAccounts?.map((item: any) => item?._id),
-      },
+    const body = {
+      ...rest,
+      userAccounts: userAccounts?.map((item: any) => item?._id),
     };
-    if (!!teamId) {
-      try {
-        await patchTeamsUsersTrigger(formData)?.unwrap();
-        successSnackbar('Products Users Edit  Successfully');
-        handleClose?.();
-      } catch (error: any) {
-        errorSnackbar('error');
-      }
+    const apiDataParameter = {
+      body,
+    };
+
+    if (!!isPortalOpen?.data?._id) {
+      submitTeamUpdate?.(body);
+      return;
+    }
+
+    try {
+      await postCreateTeamForOperationTrigger(apiDataParameter).unwrap();
+      successSnackbar('Team added successfully.');
       handleClose?.();
-    } else {
-      try {
-        const body = {
-          ...rest,
-          userAccounts: userAccounts?.map((item: any) => item?._id),
-        };
-        await addTeamUsers({ body }).unwrap();
-        successSnackbar('Team added successfully.');
-        setIsDrawerOpen(false);
-        reset?.();
-      } catch (error: any) {
-        errorSnackbar(error?.data?.message);
-      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
+
+  const submitTeamUpdate = async (data: any) => {
+    const apiDataParameter = {
+      pathParams: {
+        id: isPortalOpen?.data?._id,
+      },
+      body: data,
+    };
+
+    try {
+      await patchTeamUsersForOperationTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Team edit successfully');
+      handleClose?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
   const handleClose = () => {
-    setIsDrawerOpen({ val: false });
+    setIsPortalOpen({});
     reset?.();
   };
+
+  useEffect(
+    () => reset(() => upsertTeamDefaultValues(data?.data)),
+    [data?.data, reset],
+  );
+
+  const upsertTeamFormFields = upsertTeamFormFieldsDynamic(usersTeamDropdown);
+
   return {
     methods,
     handleSubmit,
     submit,
-    disabled,
-    setDisabled,
-    usersTeamDropdown,
-    patchProductTeamStatus,
-    addUsersTeamListStatus,
+    postCreateTeamForOperationStatus,
+    patchTeamUsersForOperationStatus,
+    handleClose,
+    upsertTeamFormFields,
+    isLoading,
+    isFetching,
+    isError,
   };
 };

@@ -1,34 +1,26 @@
-import { useGetTeamsByIdQuery } from '@/services/airSales/settings/teams';
-import { useState } from 'react';
-import { useTheme } from '@mui/material';
+import { useGetTeamsByIdForOperationQuery } from '@/services/airOperations/user-management/user';
 
 export const useTeamsDetails = (props: any) => {
-  const theme = useTheme();
+  const { setIsPortalOpen, isPortalOpen } = props;
 
-  const { teamId, okText, methods } = props;
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { data, isLoading } = useGetTeamsByIdQuery(teamId);
-  const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);
+  const { data, isLoading, isFetching, isError }: any =
+    useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!isPortalOpen?.data?._id,
+    });
+
   const teamDataArray = data?.data?.accounts || [];
 
-  const handleMenuClick = (event: any) => {
-    setAnchorEl(event?.currentTarget);
+  const closeDrawer = () => {
+    setIsPortalOpen({});
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
   return {
-    handleMenuClick,
-    handleMenuClose,
-    anchorEl,
     teamDataArray,
     data,
     isLoading,
-    theme,
-    isTeamDrawerOpen,
-    setIsTeamDrawerOpen,
-    okText,
-    methods,
+    closeDrawer,
+    isFetching,
+    isError,
   };
 };

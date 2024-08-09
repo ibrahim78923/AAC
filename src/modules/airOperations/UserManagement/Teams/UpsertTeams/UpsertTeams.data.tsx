@@ -1,19 +1,20 @@
 import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
 import { fullName } from '@/utils/avatarUtils';
 import * as Yup from 'yup';
 
 export const upsertTeamValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
+  name: Yup?.string()?.required('Name is required'),
 });
 
 export const upsertTeamDefaultValues = (data?: any) => {
   return {
-    name: data?.data?.name ?? '',
-    userAccounts: data?.data?.accounts?.map((user: any) => user?.user) ?? [],
+    name: data?.name ?? '',
+    userAccounts: !!data?.accounts?.length ? data?.accounts : [],
   };
 };
 
-export const upsertTeamArray = (usersTeamDropdown: any) => [
+export const upsertTeamFormFieldsDynamic = (usersTeamDropdown: any) => [
   {
     id: 1,
     componentProps: {
@@ -33,12 +34,9 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       label: 'Select Team Members',
       placeholder: 'Select',
       fullWidth: true,
-      required: false,
       multiple: true,
       apiQuery: usersTeamDropdown,
-      externalParams: { limit: 100 },
-      isOptionEqualToValue: (option: any, newValue: any) =>
-        option?._id === newValue?._id,
+      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
       getOptionLabel: (option: any) =>
         option?.user?.firstName
           ? fullName(option?.user?.firstName, option?.user?.lastName)

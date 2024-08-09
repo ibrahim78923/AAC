@@ -67,14 +67,6 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_TEAM],
     }),
-    deleteProductUsers: builder?.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
-        method: 'DELETE',
-        body,
-      }),
-      invalidatesTags: [TAG],
-    }),
     patchProductUsers: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
@@ -130,6 +122,99 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       },
       providesTags: ['TEAMS'],
     }),
+    getProductUserListForOperation: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getSingleProductUserDetailForOperation: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    addProductUserForOperation: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteProductUsers: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'DELETE',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    updateProductUserForOperation: builder.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getPermissionsRoleForUpsertOperationUser: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.companyaccountroles;
+      },
+      providesTags: [TAG],
+    }),
+    getTeamDropdownForOperationUserList: builder?.query({
+      query: ({ param }: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'GET',
+        params: param,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.userteams;
+      },
+    }),
+    getTeamListForOperation: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getTeamsByIdForOperation: builder.query({
+      query: (id: any) => {
+        return {
+          url: `${END_POINTS?.SALES_TEAM}/${id}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['TEAMS'],
+    }),
+    patchTeamUsersForOperation: builder.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}/${apiDataParameter?.pathParams?.id}`,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    postCreateTeamForOperation: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -139,9 +224,9 @@ export const {
   useGetProductUserDropdownQuery,
   usePostProductUserListMutation,
   useLazyGetTeamUserListQuery,
-  useDeleteProductUsersMutation,
   usePatchProductUsersMutation,
   useGetTeamListQuery,
+  useLazyGetTeamListQuery,
   useDeleteTeamUsersMutation,
   usePostCreateTeamMutation,
   useGetViewProductUsersQuery,
@@ -150,4 +235,16 @@ export const {
   useLazyGetProductTeamUserListDropdownQuery,
   useLazyGetProductUserDropdownQuery,
   useLazyGetViewProductUsersQuery,
+  useLazyGetProductUserListForOperationQuery,
+  useGetProductUserListForOperationQuery,
+  useAddProductUserForOperationMutation,
+  useDeleteProductUsersMutation,
+  useUpdateProductUserForOperationMutation,
+  useLazyGetPermissionsRoleForUpsertOperationUserQuery,
+  useGetSingleProductUserDetailForOperationQuery,
+  useLazyGetTeamDropdownForOperationUserListQuery,
+  useLazyGetTeamListForOperationQuery,
+  useGetTeamsByIdForOperationQuery,
+  usePostCreateTeamForOperationMutation,
+  usePatchTeamUsersForOperationMutation,
 } = userManagementAPI;

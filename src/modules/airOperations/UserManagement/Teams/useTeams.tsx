@@ -1,107 +1,72 @@
-import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { teamList } from './Teams.data';
 import { PAGINATION } from '@/config';
-import {
-  useDeleteTeamUsersMutation,
-  useGetTeamListQuery,
-  useLazyGetTeamsByIdQuery,
-} from '@/services/airOperations/user-management/user';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useRouter } from 'next/router';
+import { useLazyGetTeamListForOperationQuery } from '@/services/airOperations/user-management/user';
+import UpsertTeams from './UpsertTeams';
+import TeamsDetails from './TeamsDetails';
+import { DeleteTeam } from './DeleteTeam';
 
 export const useTeams = () => {
-  const theme = useTheme();
-  const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
-  const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
-  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
-  const [selectedTeamList, setSelectedTeamList] = useState<any>([]);
-  const [deleteModal, setDeleteModal] = useState<any>({
-    val: false,
-    rowId: null,
-  });
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
-  const [teamData, setTeamData] = useState<any>({});
-  const router = useRouter();
 
-  const [deleteTeamUsersTrigger, deleteStatus] = useDeleteTeamUsersMutation();
+  const [
+    lazyGetTeamListForOperationTrigger,
+    lazyGetTeamListForOperationStatus,
+  ]: any = useLazyGetTeamListForOperationQuery?.();
 
-  const param = {
-    page: page,
-    limit: pageLimit,
-    search,
-  };
-  const { data, isLoading, isError, isFetching, isSuccess }: any =
-    useGetTeamListQuery({ param }, { refetchOnMountOrArgChange: true });
-
-  const metaData = data?.data?.meta;
-
-  const submitDeleteModal = async () => {
+  const getOperationUsersList = async () => {
+    const apiDataParameter = {
+      queryParams: {
+        page,
+        limit: pageLimit,
+        search,
+      },
+    };
     try {
-      await deleteTeamUsersTrigger(deleteModal?.rowId)?.unwrap();
-      successSnackbar('Delete Successfully');
-      setDeleteModal(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+      await lazyGetTeamListForOperationTrigger?.(apiDataParameter)?.unwrap();
+    } catch (error: any) {}
   };
 
-  const teamListColumn = teamList(
-    selectedTeamList,
-    setSelectedTeamList,
-    data?.data?.userTeams,
-    setIsDrawerOpen,
-    setIsEditDrawerOpen,
-    setDeleteModal,
-    setTeamData,
-    router,
-  );
-  const teamId = router?.query?.teamId;
-  const [teamByIdTrigger, { data: teamIdData }] = useLazyGetTeamsByIdQuery();
-  const handleTeamById = async () => {
-    await teamByIdTrigger(teamId);
-  };
   useEffect(() => {
-    if (teamId) {
-      handleTeamById();
-    }
-  }, [teamId, isEditDrawerOpen]);
-  const onClose = () => {
-    setIsEditDrawerOpen(false);
-    router?.push({
-      pathname: router.pathname,
-    });
+    getOperationUsersList?.();
+  }, [page, search, pageLimit]);
+
+  const teamListColumn = teamList(setIsPortalOpen);
+
+  const portalComponentProps = {
+    isPortalOpen,
+    setIsPortalOpen,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    getOperationUsersList,
   };
+
+  const renderPortalComponent = () => {
+    if (isPortalOpen?.isUpsert) {
+      return <UpsertTeams {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isView) {
+      return <TeamsDetails {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isDelete) {
+      return <DeleteTeam {...portalComponentProps} />;
+    }
+    return <></>;
+  };
+
   return {
-    theme,
-    search,
-    setSearch,
-    selectedTeamList,
-    setSelectedTeamList,
     teamListColumn,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    deleteModal,
-    setDeleteModal,
-    submitDeleteModal,
-    metaData,
-    data,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
     setPageLimit,
     setPage,
-    deleteStatus,
-    isCreateDrawerOpen,
-    setIsCreateDrawerOpen,
-    isEditDrawerOpen,
-    setIsEditDrawerOpen,
-    teamData,
-    router,
-    onClose,
-    teamIdData,
+    setSearch,
+    isPortalOpen,
+    setIsPortalOpen,
+    lazyGetTeamListForOperationStatus,
+    renderPortalComponent,
   };
 };

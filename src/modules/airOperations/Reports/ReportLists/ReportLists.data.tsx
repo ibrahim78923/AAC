@@ -281,9 +281,10 @@ export const reportListsColumnsDynamic = (
     cell: (info: any) =>
       !!info?.getValue()?.length ? (
         <CustomChips
-          data={info
-            ?.getValue()
-            ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
+          data={info?.getValue()?.map((item: any, index: number) => ({
+            label: item?.name,
+            _id: index + 1,
+          }))}
         />
       ) : (
         <Chip

@@ -43,6 +43,7 @@ export const useHorizontalChart = (props: any) => {
     ],
     plotOptions: {
       bar: {
+        horizontal: true,
         columnWidth: '30%',
         borderRadius: 2,
       },
