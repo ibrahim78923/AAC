@@ -1,4 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material';
+import { MeetingCardsPropsI } from './MeetingCard.interface';
 
 export const MeetingCards = ({
   meetingHeading,
@@ -7,7 +8,7 @@ export const MeetingCards = ({
   isActive,
   meetingType,
   router,
-}: any) => {
+}: MeetingCardsPropsI) => {
   return (
     <Grid item xs={12} sm={6} lg={4}>
       <Box

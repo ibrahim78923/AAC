@@ -20,18 +20,13 @@ import { useEmilTemplate } from './useEmailTemplate';
 import { SOCIAL_COMPONENTS } from '@/constants';
 
 const EmailTemplate = () => {
-  const {
-    router,
-    handleMoveBackMeeting,
-    handleMoveCreateEmail,
-    dropdownOptions,
-  } = useEmilTemplate();
+  const { router, handleMoveCreateEmail, dropdownOptions } = useEmilTemplate();
   return (
     <Box>
       <PageTitledHeader
         title={`All Template`}
         canMovedBack
-        moveBack={handleMoveBackMeeting}
+        moveBack={() => router?.basePath}
       >
         <Search label="Search Here" setSearchBy={() => {}} />
         <Button

@@ -7,7 +7,6 @@ import DateOverrides from './DateOverrides';
 import BufferTime from './BufferTime';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 
 export const TimeSlotPreferences = () => {
   const {
@@ -31,10 +30,8 @@ export const TimeSlotPreferences = () => {
     timeSlotsData,
     isLoading,
     isFetching,
-    isError,
   } = useTimeSlotPreferences();
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

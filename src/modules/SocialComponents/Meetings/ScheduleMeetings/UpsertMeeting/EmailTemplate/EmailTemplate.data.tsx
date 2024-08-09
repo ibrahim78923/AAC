@@ -28,10 +28,15 @@ export const previewData = [
   },
 ];
 
-export const emailTemplateSchema: any = () =>
-  Yup?.object()?.shape({
-    emailTemplate: Yup?.string()?.required('Required'),
-  });
+export const emailTemplateSchema: any = Yup?.object()?.shape({
+  emailTemplate: Yup?.string()
+    ?.trim()
+    ?.required('Required')
+    ?.test('is-not-empty', 'Required', (value) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
+});
 
 export const defaultValues = {
   emailTemplate: '',

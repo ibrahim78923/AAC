@@ -44,6 +44,7 @@ export const meetingFormFields = (props: any) => {
     handleBeforeChange,
     handleAfterChange,
     meetingId,
+    meetingData,
   } = props;
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
@@ -68,6 +69,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'All Day',
         name: 'allDay',
+        disabled: meetingData,
       },
       component: RHFSwitch,
     },

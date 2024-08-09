@@ -1,14 +1,18 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteLocations } from './useDeleteLocations';
+import {
+  DeleteLocationsProps,
+  UseDeleteLocationsReturnI,
+} from './DeleteLocation.interface';
 
-export const DeleteLocations = (props: any) => {
+export const DeleteLocations = (props: DeleteLocationsProps) => {
   const { isPortalOpen } = props;
   const {
     deleteMeetingsLocation,
     closeDeleteModal,
     deleteCommonMeetingsLocationsStatus,
-  }: any = useDeleteLocations(props);
+  }: UseDeleteLocationsReturnI = useDeleteLocations(props);
 
   return (
     <AlertModals

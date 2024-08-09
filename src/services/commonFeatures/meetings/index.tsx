@@ -41,10 +41,10 @@ export const meetingApi = baseAPI?.injectEndpoints({
       providesTags: [LOCATION_TAG],
     }),
     addMeetingTemplate: builder?.mutation({
-      query: (meetingParameter: any) => ({
+      query: (body: any) => ({
         url: `${END_POINTS?.MEETINGS_TEMPLATE}`,
         method: 'POST',
-        params: meetingParameter?.body,
+        body,
       }),
       invalidatesTags: [MEETINGS_TAG],
     }),

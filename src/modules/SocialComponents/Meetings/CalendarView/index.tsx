@@ -10,6 +10,7 @@ import { ALERT_MODALS_TYPE, MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import { AlertModals } from '@/components/AlertModals';
 import { EventDialog } from './EventDialog';
 import { calendarButtons } from './CalendarView.data';
+import { CalendarButtonI } from './CalenderView.interface';
 
 export const CalendarView = () => {
   const {
@@ -66,7 +67,7 @@ export const CalendarView = () => {
         >
           <Search label="Search Here" setSearchBy={setSearch} />
           <Box display={'flex'} flexWrap={'wrap'} gap={1}>
-            {calendarButtons?.map((data: any) => (
+            {calendarButtons?.map((data: CalendarButtonI) => (
               <Box key={data?.id}>
                 <Button
                   variant={

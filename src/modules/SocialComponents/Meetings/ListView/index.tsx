@@ -12,13 +12,11 @@ export const ListView = () => {
   const {
     meetings,
     setSearch,
-    setCardValue,
     theme,
     setDeleteModal,
     deleteModal,
     submitDeleteModal,
     router,
-    activeCard,
     getMeetingListStatus,
     setPage,
     setPageLimit,
@@ -36,9 +34,7 @@ export const ListView = () => {
             meetingType={meeting?.meetingType}
             meetingCount={meeting?.meetingCount}
             color={meeting?.color}
-            setCardValue={setCardValue}
             isActive={router?.query?.type === meeting?.meetingType}
-            onClick={activeCard}
             router={router}
           />
         ))}

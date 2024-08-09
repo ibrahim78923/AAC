@@ -23,3 +23,4 @@ export { default as RHFRadioButtonTwoLabel } from './RHFRadioButtonTwoLabels';
 export { default as RHFDateTimePicker } from './RHFDateTimePicker';
 export { default as RHFNumberInput } from './RHFNumberInput';
 export { default as RHFDesktopDateTimePicker } from './RHFDesktopDateTimePicker';
+export { default as RHFImageEditor } from './RHFImageEditor';

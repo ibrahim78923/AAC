@@ -1,9 +1,14 @@
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { Box, Typography } from '@mui/material';
+import { MeetingCardsPropsI } from './MeetingsCard.interface';
 
-export const MeetingCard = (props: any) => {
-  const { heading, meetingsCount, color, router, type } = props;
-
+export const MeetingCard = ({
+  heading,
+  meetingsCount,
+  color,
+  router,
+  type,
+}: MeetingCardsPropsI) => {
   return (
     <Box
       display={'flex'}

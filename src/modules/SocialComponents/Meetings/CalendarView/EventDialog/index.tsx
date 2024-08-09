@@ -12,9 +12,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { generateImage } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { EventDataI } from './EventDialog.interface';
 
-export const EventDialog = (params: any) => {
-  const { openEventModal, setOpenEventModal, eventData, theme } = params;
+export const EventDialog = ({
+  openEventModal,
+  setOpenEventModal,
+  eventData,
+  theme,
+}: EventDataI) => {
   const { startDate, startTime, endTime } =
     eventData?.event?._def?.extendedProps;
 

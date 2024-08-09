@@ -2,9 +2,15 @@ import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import { TimeFormatDuration } from '@/utils/api';
-import { Box, Typography } from '@mui/material';
+import { Box, Theme, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-export const meetingCardsDetails = (theme: any, getMeetingListStatus: any) => {
+import { NextRouter } from 'next/router';
+import { Dispatch, SetStateAction } from 'react';
+
+export const meetingCardsDetails = (
+  theme: Theme,
+  getMeetingListStatus: any,
+) => {
   const cardData = getMeetingListStatus?.data?.data;
   return [
     {
@@ -32,10 +38,10 @@ export const meetingCardsDetails = (theme: any, getMeetingListStatus: any) => {
 };
 
 export const listViewDetails = (
-  setDeleteModal: any,
-  setOpenForm: any,
-  router: any,
-  meetingActiveType: any,
+  setDeleteModal: Dispatch<SetStateAction<Record<string, any>>>,
+  setOpenForm: Dispatch<SetStateAction<Record<string, any>>>,
+  router: NextRouter,
+  meetingActiveType: (activeMeeting: string) => string | undefined,
 ) => [
   {
     accessorFn: (row: any) => row?.title,
@@ -77,7 +83,8 @@ export const listViewDetails = (
     id: 'meetingBooked',
     isSortable: false,
     header: 'Meeting Booked',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) =>
+      dayjs(info?.row?.original?.createdAt)?.format(DATE_TIME_FORMAT?.UI),
   },
   {
     accessorFn: (row: any) => row?.actions,
