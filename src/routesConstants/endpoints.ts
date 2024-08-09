@@ -43,7 +43,6 @@ export const END_POINTS = {
   GET_DEALS_VIEWS: '/deal-views',
   DELETE_DEALS: '/deals/delete-deals',
   RESTORE_DEALS: '/deals/get-soft-deleted-deals',
-  EMAIL_EXIST: '/users/email/exist',
   QUOTE_SUBMIT_WITH_EMAIL: '/quote/submit-with-email',
   TAX_CALCULATION: '/tax-calculation',
   PATCH_RESTORE_DEAL_ACTION: '/deals/restore-deal-action',
