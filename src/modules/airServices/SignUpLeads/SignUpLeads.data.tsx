@@ -37,7 +37,12 @@ export const getSignUpLeadsColumns = () => [
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: { getValue: () => string }) => info?.getValue() ?? '---',
+
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: ISignUpLoads) => row?.address,

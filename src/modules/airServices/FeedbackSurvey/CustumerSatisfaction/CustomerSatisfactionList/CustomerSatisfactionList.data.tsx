@@ -104,11 +104,12 @@ export const customerSupportListColumn = (
           &nbsp;&nbsp;&nbsp;
           <Typography
             variant="body2"
+            textTransform={'capitalize'}
             color="primary"
             sx={{ cursor: 'pointer' }}
             onClick={() => handleTitleClick(info?.row?.original)}
           >
-            {info?.getValue()}
+            {info?.getValue()?.toLowerCase() ?? '---'}
           </Typography>
         </Box>
       ),
