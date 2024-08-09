@@ -1,4 +1,3 @@
-import { truncateText } from '@/utils/avatarUtils';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, IconButton, Typography } from '@mui/material';
@@ -13,8 +12,8 @@ export const getContractTypeColumns = (
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
-        {info?.getValue()}
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
       </Typography>
     ),
   },
@@ -23,7 +22,11 @@ export const getContractTypeColumns = (
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?._id,

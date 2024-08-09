@@ -1,21 +1,22 @@
 import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
-
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import ContactsEditorDrawer from './ContactsEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useContacts from './useContacts';
-
 import { columns } from './Contacts.data';
-
 import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { ContactsProps } from '../Associations-interface';
 
-const Contacts = ({ contactsData, dealId, isLoading, handleSearch }: any) => {
+const Contacts = ({
+  contactsData,
+  dealId,
+  isLoading,
+  handleSearch,
+}: ContactsProps) => {
   const {
     theme,
     isOpenAlert,

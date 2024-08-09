@@ -32,8 +32,6 @@ export const UpsertGenericReports = () => {
     setColumnsData,
     setOpenDrawer,
     openDrawer,
-    setMetricType,
-    metricType,
     form,
     setForm,
     allChartComponents,
@@ -66,7 +64,7 @@ export const UpsertGenericReports = () => {
             item
             xs={12}
             lg={7.9}
-            p={2}
+            p={1}
             borderRadius={3}
             boxShadow={`0rem 0rem .2rem .2rem ${theme?.palette?.grey[400]}`}
           >
@@ -123,7 +121,6 @@ export const UpsertGenericReports = () => {
               setDraggedItemData={setDraggedItemData}
               handleCancel={handleCancel}
               handleChooseTemplate={handleChooseTemplate}
-              setValue={setValue}
               isLoading={isLoading}
               isFetching={isFetching}
               isError={isError}
@@ -135,7 +132,7 @@ export const UpsertGenericReports = () => {
             xs={12}
             lg={4}
             mt={{ xs: 1, lg: 0 }}
-            p={2}
+            p={1}
             borderRadius={3}
             boxShadow={`0rem 0rem .2rem .2rem ${theme?.palette?.grey[400]}`}
           >
@@ -155,8 +152,6 @@ export const UpsertGenericReports = () => {
               setColumnsData={setColumnsData}
               setOpenDrawer={setOpenDrawer}
               openDrawer={openDrawer}
-              setMetricType={setMetricType}
-              metricType={metricType}
               form={form}
               setForm={setForm}
               columnsData={columnsData}

@@ -77,6 +77,7 @@ const PermissionsAccordion = (props: PermissionsAccordionInterface) => {
                 <FormControlLabel
                   control={
                     <SwitchBtn
+                      disabled={disabled}
                       checked={getModulePermissions(item?.subModules)?.every(
                         (permission: any) =>
                           watch(ROLES_AND_RIGHTS_CONST?.PERMISSIONS)?.includes(

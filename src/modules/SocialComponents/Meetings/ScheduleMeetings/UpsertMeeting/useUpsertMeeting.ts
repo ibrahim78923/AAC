@@ -1,8 +1,7 @@
-import { AIR_SERVICES, SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
-  allDayValues,
   meetingTitle,
   schemaTypes,
   upsertMeetingSchema,
@@ -182,7 +181,7 @@ export const useUpsertMeeting = () => {
     const meetingParameter = meetingId ? { ...body, id: meetingId } : body;
 
     try {
-      meetingId
+      const res: any = meetingId
         ? await updateMeetingTrigger(meetingParameter)?.unwrap()
         : await addMeetingTrigger(meetingParameter)?.unwrap();
 
@@ -192,10 +191,11 @@ export const useUpsertMeeting = () => {
       successSnackbar(`${meetingType} Meeting ${action} successfully`);
 
       router?.push({
-        pathname: moduleId
-          ? AIR_SERVICES?.TICKETS_LIST
-          : SOCIAL_COMPONENTS?.MEETINGS,
-        query: { type: 'allMeetings', ...(moduleId && { ticketId: moduleId }) },
+        pathname: SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
+        query: {
+          ...(moduleId && { ticketId: res?.data?.moduleId }),
+          meetingId: res?.data?._id,
+        },
       });
     } catch (err: any) {
       errorSnackbar(err?.data?.message);
@@ -217,7 +217,12 @@ export const useUpsertMeeting = () => {
 
   const watchAllDay = watch('allDay');
   useEffect(() => {
-    allDayValues?.forEach((item: any) => setValue(item?.name, item?.value));
+    if (!!watchAllDay) {
+      setValue('meetingType', {
+        value: 'IN_PERSON_MEETING',
+        label: 'In person meeting',
+      });
+    }
   }, [watchAllDay]);
   const [beforeChecked, setBeforeChecked] = useState(false);
   const [afterChecked, setAfterChecked] = useState(false);
@@ -257,6 +262,7 @@ export const useUpsertMeeting = () => {
     handleBeforeChange,
     handleAfterChange,
     meetingId,
+    meetingData,
   };
   return {
     methods,

@@ -1,5 +1,5 @@
 'use client';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import { useGetDealsGridViewQuery } from '@/services/airSales/deals';
 import {
   Avatar,
@@ -19,45 +19,21 @@ const TaskViewCard = () => {
   const theme = useTheme();
   const { data: dealsGridViewData } = useGetDealsGridViewQuery({});
 
-  // const [selected, setSelected] = useState<any[]>([]);
-
-  const [order, setOrder] = useState([
-    dealsGridViewData?.data,
-    // { mainTitle: 'dafdf', cardData: [{_id:'safsdfsdf'}] },
-  ]);
-
-  // const handlePatch = () => {
-  // };
+  const [order, setOrder] = useState([dealsGridViewData?.data]);
 
   const onDragEnd = (result: any, index: number) => {
     const newOrder = [...order];
     const cardData = [...newOrder[index]?.cardData];
-    const items = Array.from(cardData);
+    const items = Array?.from(cardData);
     const [reOrderItem] = items.splice(result?.source?.index, 1);
     items.splice(result?.destination?.index, 0, reOrderItem);
     newOrder[index] = { ...newOrder[index], cardData: items };
     setOrder(newOrder);
-    // handlePatch(reOrderItem?._id);
   };
 
-  // const handleChackboxChange = (checked: boolean, col: any, i: number) => {
-  // const newArr = [...columns];
-  // if (checked) {
-  //   setSelected((prevSelected) => [...prevSelected, col?.slug]);
-  //   newArr[i].active = checked;
-  // } else if (selected?.includes(col?.slug)) {
-  //   setSelected(
-  //     (prevSelected) =>
-  //       prevSelected?.filter((val: string) => val !== col?.slug),
-  //   );
-  //   newArr[i].active = false;
-  // }
-  // setColumns(newArr);
-  // };
-
   useEffect(() => {
-    if (dealsGridViewData?.data?.length > 0)
-      setOrder(JSON.parse(JSON.stringify(dealsGridViewData?.data)));
+    if (dealsGridViewData?.data?.length > indexNumbers?.ZERO)
+      setOrder(JSON?.parse(JSON?.stringify(dealsGridViewData?.data)));
   }, [dealsGridViewData]);
 
   return (

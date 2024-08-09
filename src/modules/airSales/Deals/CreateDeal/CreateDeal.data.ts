@@ -10,7 +10,7 @@ import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
-import { ROLES } from '@/constants/strings';
+import { PRODUCT_USER_STATUS, ROLES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
 
 export const validationSchema = Yup?.object()?.shape({
@@ -113,6 +113,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         externalParams: {
           role: ROLES?.ORG_EMPLOYEE,
           organization: organizationId,
+          status: PRODUCT_USER_STATUS?.ACTIVE,
         },
       },
       component: RHFAutocompleteAsync,

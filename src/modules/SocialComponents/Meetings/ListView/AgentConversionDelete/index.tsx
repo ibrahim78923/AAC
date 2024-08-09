@@ -1,5 +1,6 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { DeleteListViewI } from './AgentConversionDelete.interface';
 
 export const AgentConversionDelete = ({
   open,
@@ -7,7 +8,7 @@ export const AgentConversionDelete = ({
   message,
   submitDeleteModal,
   deleteMeetingsStatus,
-}: any) => {
+}: DeleteListViewI) => {
   return (
     <>
       <AlertModals

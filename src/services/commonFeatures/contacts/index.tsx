@@ -185,6 +185,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['CONTACTS', 'CUSTOMIZE'],
     }),
+
+    getAllUserTeams: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.TEAMS_ALL_USER}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -204,6 +213,7 @@ export const {
   useUpdateContactTaskMutation,
   useDeleteTasksMutation,
   useGetLifeCycleQuery,
+  useGetAllUserTeamsQuery,
   // useLazyGetLifeCycleQuery,
   useGetContactsStatusQuery,
   useGetCustomizeColumnsQuery,

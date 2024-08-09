@@ -6,11 +6,12 @@ import { AlertModals } from '@/components/AlertModals';
 import useNotesActionDropdown from './useNotesActionDropDown';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { NotesActionDropdownProps } from '../Notes-interface';
+import { indexNumbers } from '@/constants';
 
-const NotesActionDropdown = (props: any) => {
+const NotesActionDropdown = (props: NotesActionDropdownProps) => {
   const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
   const {
-    // theme,
     isMenuOpen,
     anchorEl,
     handleOpenMenu,
@@ -39,7 +40,7 @@ const NotesActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={selectedCheckboxes?.length < 1}
+        disabled={selectedCheckboxes?.length < indexNumbers?.ONE}
       >
         Action
       </Button>
@@ -61,7 +62,7 @@ const NotesActionDropdown = (props: any) => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_NOTE]}
         >
           <MenuItem
-            disabled={selectedCheckboxes?.length > 1}
+            disabled={selectedCheckboxes?.length > indexNumbers?.ONE}
             onClick={handleOpenViewDrawer}
           >
             View
@@ -71,7 +72,7 @@ const NotesActionDropdown = (props: any) => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_NOTE]}
         >
           <MenuItem
-            disabled={selectedCheckboxes?.length > 1}
+            disabled={selectedCheckboxes?.length > indexNumbers?.ONE}
             onClick={handleOpenEditDrawer}
           >
             Edit

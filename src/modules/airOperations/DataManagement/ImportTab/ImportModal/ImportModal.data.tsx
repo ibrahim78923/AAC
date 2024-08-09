@@ -152,9 +152,9 @@ export const importDataField = [
 
 export const importTableFields = (
   control: any,
-  name: any,
-  index: any,
-  importLog: any,
+  name: string,
+  index: number,
+  importLog: string,
   remove: any,
 ) => {
   return [

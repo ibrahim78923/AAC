@@ -7,7 +7,6 @@ import {
   Drawer,
   Toolbar,
   Typography,
-  useTheme,
 } from '@mui/material';
 import { useImportModal } from './useImportModal';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -38,8 +37,8 @@ const ImportModal = () => {
     uploadFileTos3UsingSignedUrlStatus,
     importFileStatus,
     newImportFileForServicesStatus,
+    theme,
   } = useImportModal();
-  const theme = useTheme();
   const steps: any = {
     1: (
       <FirstStep

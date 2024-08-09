@@ -33,7 +33,6 @@ export interface DroppableAreaI {
   setDraggedItemData: Dispatch<SetStateAction<any>>;
   handleCancel: () => void;
   handleChooseTemplate: () => void;
-  setValue: UseFormReturn<FieldValues>['setValue'];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;

@@ -3,19 +3,27 @@ import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { Checkbox, CircularProgress, MenuItem, Select } from '@mui/material';
 import { errorSnackbar } from '@/utils/api';
-import { DONE } from '@/constants/strings';
+import { ARRAY_INDEX, DONE } from '@/constants/strings';
+import {
+  ICloseMenu,
+  IEnquiry,
+  IGetEnquiriesActionDropdown,
+  IGetEnquiriesColumnsArgs,
+  IGetEnquiriesColumnsReturn,
+} from './Enquiries.interface';
+import { ChangeEvent } from 'react';
 
 export const statusOptions = ['Done', 'Pending'];
 
 export const getEnquiriesActionDropdown = ({
   enquiriesSelected,
   setIsModalOpen,
-}: any) => [
+}: IGetEnquiriesActionDropdown) => [
   {
     id: 1,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.VIEW_ENQUIRY],
     title: 'View & Reply',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       if (enquiriesSelected?.length > 1) {
         errorSnackbar('Please Select Only One Enquiry!');
         closeMenu?.();
@@ -36,7 +44,7 @@ export const getEnquiriesActionDropdown = ({
     id: 2,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.DELETE_ENQUIRY],
     title: 'Delete',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       setIsModalOpen({
         filterOpen: false,
         viewOpen: false,
@@ -52,18 +60,18 @@ export const getEnquiriesActionDropdown = ({
     id: 3,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST],
     title: 'Convert to Ticket',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: ICloseMenu) => {
       if (enquiriesSelected?.length > 1) {
         errorSnackbar('Please Select Only One Enquiry');
         closeMenu?.();
         return;
       }
-      if (enquiriesSelected?.[0]?.ticketCreated) {
+      if (enquiriesSelected?.[ARRAY_INDEX?.ZERO]?.ticketCreated) {
         errorSnackbar('Ticket Already Created!');
         closeMenu?.();
         return;
       }
-      if (enquiriesSelected?.[0]?.status === DONE) {
+      if (enquiriesSelected?.[ARRAY_INDEX?.ZERO]?.status === DONE) {
         errorSnackbar('Enquiry Already Resolved!');
         closeMenu?.();
         return;
@@ -83,7 +91,7 @@ export const getEnquiriesActionDropdown = ({
     id: 4,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST],
     title: 'Create Requester',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: ICloseMenu) => {
       if (enquiriesSelected?.length > 1) {
         errorSnackbar('Please Select Only One Enquiry');
         closeMenu?.();
@@ -108,24 +116,20 @@ export const getEnquiriesColumns = ({
   dataArray,
   handleStatusChange,
   patchEnquiriesStatus,
-}: any) => [
+}: IGetEnquiriesColumnsArgs): IGetEnquiriesColumnsReturn => [
   {
-    accessorFn: (row: any) => row,
+    accessorFn: (row: IEnquiry) => row,
     id: '_id',
-    cell: (info: any) => (
+    cell: (info) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          !!enquiriesSelected?.find((item: any) => item === info?.getValue())
-        }
-        onChange={(e: any) => {
+        checked={!!enquiriesSelected?.find((item) => item === info?.getValue())}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           e?.target?.checked
             ? setEnquiriesSelected([...enquiriesSelected, info?.getValue()])
             : setEnquiriesSelected(
-                enquiriesSelected?.filter(
-                  (item: any) => item !== info?.getValue(),
-                ),
+                enquiriesSelected?.filter((item) => item !== info?.getValue()),
               );
         }}
         color="primary"
@@ -141,9 +145,9 @@ export const getEnquiriesColumns = ({
             ? enquiriesSelected?.length === dataArray?.length
             : false
         }
-        onChange={(e: any) => {
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           e?.target?.checked
-            ? setEnquiriesSelected(dataArray?.map((enquiry: any) => enquiry))
+            ? setEnquiriesSelected(dataArray?.map((enquiry) => enquiry))
             : setEnquiriesSelected([]);
         }}
         color="primary"
@@ -153,44 +157,44 @@ export const getEnquiriesColumns = ({
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.name ?? '-',
+    accessorFn: (row: IEnquiry) => row?.name ?? '-',
     id: 'name',
     isSortable: true,
     header: 'Name',
-    cell: (info: any) => info?.getValue() ?? '-',
+    cell: (info) => info?.getValue() ?? '-',
   },
   {
-    accessorFn: (row: any) => row?.email,
+    accessorFn: (row: IEnquiry) => row?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info?.getValue() ?? '-',
+    cell: (info) => info?.getValue() ?? '-',
   },
   {
-    accessorFn: (row: any) => row?.phoneNumber,
+    accessorFn: (row: IEnquiry) => row?.phoneNumber,
     id: 'phoneNumber',
     isSortable: true,
     header: 'Phone Number',
-    cell: (info: any) => info?.getValue() ?? '-',
+    cell: (info) => info?.getValue() ?? '-',
   },
   {
-    accessorFn: (row: any) => row?.query,
+    accessorFn: (row: IEnquiry) => row?.query,
     id: 'comments',
     isSortable: true,
     header: 'Comments',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.ticketCreated,
+    accessorFn: (row: IEnquiry) => row?.ticketCreated,
     id: 'ticketCreated',
     header: 'Ticket Created',
-    cell: (info: any) => (info?.getValue() ? 'Created' : 'Not Created'),
+    cell: (info) => (info?.getValue() ? 'Created' : 'Not Created'),
   },
   {
-    accessorFn: (row: any) => row?.status,
+    accessorFn: (row: IEnquiry) => row?.status,
     id: 'status',
     header: 'Status',
-    cell: (info: any) => (
+    cell: (info) => (
       <>
         {patchEnquiriesStatus?.isLoading &&
         patchEnquiriesStatus?.originalArgs?.queryParams ===
@@ -200,8 +204,8 @@ export const getEnquiriesColumns = ({
           <Select
             value={info?.getValue()}
             label={''}
-            onChange={(event: any) =>
-              handleStatusChange?.(info?.row?.original, event)
+            onChange={(event: ChangeEvent<HTMLSelectElement> | any) =>
+              handleStatusChange(info?.row?.original, event)
             }
             disabled={patchEnquiriesStatus?.isLoading}
             size={'small'}

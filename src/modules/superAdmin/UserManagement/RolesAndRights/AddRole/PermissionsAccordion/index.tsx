@@ -12,7 +12,7 @@ import usePermissionAccordion from './usePermissionAccordion';
 import DashboardAccordion from './DashboardAccordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { ROLES_AND_RIGHTS_CONST } from '@/constants/strings';
+import { DRAWER_TYPES, ROLES_AND_RIGHTS_CONST } from '@/constants/strings';
 import { v4 as uuidv4 } from 'uuid';
 import { PermissionsAccordionInterface } from './PermissionsAccordion.interface';
 
@@ -23,6 +23,7 @@ const PermissionsAccordion = (props: PermissionsAccordionInterface) => {
     permissionsData,
     disabled,
     watch,
+    query,
   } = props;
 
   const {
@@ -33,7 +34,10 @@ const PermissionsAccordion = (props: PermissionsAccordionInterface) => {
     selectedSubModule,
   } = usePermissionAccordion();
 
-  const dataArray = permissionsData?.data;
+  const dataArray =
+    query?.type === DRAWER_TYPES?.VIEW
+      ? permissionsData?.permissions
+      : permissionsData?.data;
 
   return (
     <Stack gap={3}>
@@ -75,6 +79,7 @@ const PermissionsAccordion = (props: PermissionsAccordionInterface) => {
                 <FormControlLabel
                   control={
                     <SwitchBtn
+                      disabled={disabled}
                       checked={getModulePermissions(item?.subModules)?.every(
                         (permission: any) =>
                           watch(ROLES_AND_RIGHTS_CONST?.PERMISSIONS)?.includes(

@@ -230,14 +230,22 @@ export const inventoryListsColumnsFunction: any = (
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => truncateText(info?.getValue()?.name),
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {truncateText(info?.getValue()?.name)}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.impact,
     id: 'impact',
     isSortable: true,
     header: 'Impact',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.assetLifeExpiry,

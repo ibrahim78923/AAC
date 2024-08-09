@@ -36,6 +36,7 @@ export const UpsertArticle = () => {
   } = useUpsertArticle();
 
   if (isLoading || isFetching) return <SkeletonForm />;
+
   return (
     <PermissionsGuard
       permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}

@@ -13,8 +13,9 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { MeetingsEditorDrawerProps } from '../Meetings-interface';
 
-const MeetingsDropDown = (props: any) => {
+const MeetingsDropDown = (props: MeetingsEditorDrawerProps) => {
   const { setOpenDrawer } = props;
   const {
     theme,

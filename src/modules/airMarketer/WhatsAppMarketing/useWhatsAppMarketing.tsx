@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useGetIsPhoneConnectedQuery } from '@/services/airMarketer/whatsapp-marketing';
+import { useTheme } from '@mui/material';
 
 const useWhatsAppMarketing = () => {
+  const theme = useTheme();
+  const [tabVal, setTabVal] = useState<number>(0);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isMainLayoutSwitch, setIsMainLayoutSwitch] = useState(true);
   const [templateType, setTemplateType] = useState('');
@@ -21,6 +24,9 @@ const useWhatsAppMarketing = () => {
   }, [getIsPhoneConnected]);
 
   return {
+    tabVal,
+    setTabVal,
+    theme,
     setIsMainLayoutSwitch,
     isMainLayoutSwitch,
     setTemplateType,
@@ -29,6 +35,7 @@ const useWhatsAppMarketing = () => {
     handelSwitch,
     isConnected,
     isLoading,
+    getIsPhoneConnected,
   };
 };
 

@@ -1,5 +1,4 @@
 import { Checkbox } from '@mui/material';
-import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import {
   RHFAutocomplete,
@@ -90,27 +89,12 @@ export const columns = (columnsProps: any) => {
 // Filters data starts here
 
 export const rolesDefaultValues = {
-  name: '',
   status: '',
   startDate: null,
   endDate: null,
 };
 
 export const rolesFiltersArray = [
-  {
-    componentProps: {
-      label: 'Role Name',
-      name: 'name',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
   {
     componentProps: {
       label: 'Status',

@@ -1,46 +1,38 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { FilterIcon, FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { useArticles } from './useArticles';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { MoveFolder } from './MoveFolder';
-import FilterArticles from './FilterArticles';
-import { DeleteArticles } from './DeleteArticles';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { useArticles } from './useArticles';
+import { SingleFolderDetail } from '../Folder/SingleFolderDetail';
+import { ALL_FOLDER } from './Articles.data';
+import { ArticlesComponentPropsI } from './Articles.interface';
 
-export const Articles = () => {
+export const Articles = (props: ArticlesComponentPropsI) => {
+  const { isPortalOpen, setIsPortalOpen } = props;
   const {
     articlesColumns,
     selectedArticlesTab,
-    openDeleteModal,
-    setOpenDeleteModal,
-    moveFolderModal,
-    setMoveFolderModal,
     dropdownOptions,
     theme,
-    openFilter,
-    setOpenFilter,
     lazyGetArticlesStatus,
     setPage,
     setPageLimit,
     setSearch,
     foldersList,
     selectedArticlesData,
-    setSelectedArticlesData,
-    filterValues,
-    setFilterValues,
     setFolder,
-    page,
-    getValueArticlesListData,
     isLoading,
     isFetching,
     isError,
-  } = useArticles();
+    renderPortalComponent,
+    portalComponentProps,
+  } = useArticles(props);
 
   return (
     <>
@@ -72,25 +64,25 @@ export const Articles = () => {
                       gap: 1,
                       p: 1,
                       background:
-                        tab?._id === selectedArticlesTab
+                        tab?._id === selectedArticlesTab?._id
                           ? theme?.palette?.grey?.['400']
-                          : 'white',
+                          : 'common.white',
                       borderRadius: '0.5rem',
                       cursor: 'pointer',
                     }}
-                    onClick={() => setFolder(tab?._id)}
+                    onClick={() => setFolder(tab)}
                   >
                     <FolderGreyIcon
                       fill={
                         theme?.palette?.grey?.[
-                          tab?._id === selectedArticlesTab ? '800' : '900'
+                          tab?._id === selectedArticlesTab?._id ? '800' : '900'
                         ]
                       }
                     />
                     <Typography
                       color={
                         theme?.palette?.grey?.[
-                          tab?._id === selectedArticlesTab ? '800' : '900'
+                          tab?._id === selectedArticlesTab?._id ? '800' : '900'
                         ]
                       }
                       textTransform={'capitalize'}
@@ -104,6 +96,11 @@ export const Articles = () => {
           </PermissionsGuard>
         </Grid>
         <Grid item xs={12} lg={9} xl={10.25}>
+          {selectedArticlesTab?._id === ALL_FOLDER ? (
+            <></>
+          ) : (
+            <SingleFolderDetail {...portalComponentProps} />
+          )}
           <Box
             display={'flex'}
             justifyContent={'space-between'}
@@ -144,7 +141,9 @@ export const Articles = () => {
                   size="large"
                   startIcon={<FilterIcon />}
                   color="secondary"
-                  onClick={() => setOpenFilter(true)}
+                  onClick={() =>
+                    setIsPortalOpen({ isOpen: true, isFilter: true })
+                  }
                 >
                   Filter
                 </Button>
@@ -176,35 +175,7 @@ export const Articles = () => {
           </PermissionsGuard>
         </Grid>
       </Grid>
-      {openDeleteModal && (
-        <DeleteArticles
-          deleteModalOpen={openDeleteModal}
-          setDeleteModalOpen={setOpenDeleteModal}
-          selectedArticlesData={selectedArticlesData}
-          setSelectedArticlesData={setSelectedArticlesData}
-          setPage={setPage}
-          page={page}
-          getValueArticlesListData={getValueArticlesListData}
-          totalRecords={lazyGetArticlesStatus?.data?.data?.articles?.length}
-        />
-      )}
-      {moveFolderModal && (
-        <MoveFolder
-          moveFolderModal={moveFolderModal}
-          setMoveFolderModal={setMoveFolderModal}
-          selectedArticlesData={selectedArticlesData?.[0]}
-          setSelectedArticlesData={setSelectedArticlesData}
-        />
-      )}
-      {openFilter && (
-        <FilterArticles
-          isOpenFilterDrawer={openFilter}
-          setIsOpenFilterDrawer={setOpenFilter}
-          filterValues={filterValues}
-          setFilterValues={setFilterValues}
-          setPage={setPage}
-        />
-      )}
+      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };

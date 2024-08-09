@@ -10,8 +10,9 @@ import {
   drawerButtonTitle,
   drawerTitle,
 } from './ContactsEditorDrawer.data';
+import { ContactsEditorDrawerProps } from '../../Associations-interface';
 
-const ContactsEditorDrawer = (props: any) => {
+const ContactsEditorDrawer = (props: ContactsEditorDrawerProps) => {
   const { openDrawer, setOpenDrawer, contactRecord, dealId } = props;
 
   const {

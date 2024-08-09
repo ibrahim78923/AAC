@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
-  BoxStyle: (theme: any) => ({
+  BoxStyle: (theme: Theme) => ({
     padding: '0px 16px',
     borderRadius: '8px',
     border: `1.5px solid ${theme?.palette?.grey[700]}`,
@@ -15,7 +17,7 @@ export const styles = {
     fontSize: '14px',
     fontWeight: 400,
   },
-  column: (theme: any, isActive: any) => {
+  column: (theme: any, isActive: boolean) => {
     return {
       backgroundColor: isActive ? theme?.grey[100] : theme?.common?.white,
       border: `1px solid ${theme?.grey[700]}`,

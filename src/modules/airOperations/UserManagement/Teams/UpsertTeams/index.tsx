@@ -1,82 +1,74 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { upsertTeamArray } from './UpsertTeams.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTeams } from './useUpsertTeams';
-import { USER_MANAGEMENT } from '@/constants/strings';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
-function UpsertTeams({
-  isDrawerOpen,
-  setIsDrawerOpen,
-  title,
-  okText,
-  teamData,
-}: any) {
+const UpsertTeams = (props: any) => {
+  const { isPortalOpen } = props;
+
   const {
     methods,
     handleSubmit,
     submit,
-    disabled,
-    setDisabled,
-    usersTeamDropdown,
-    addUsersTeamListStatus,
-    patchProductTeamStatus,
-  } = useUpsertTeams(setIsDrawerOpen, teamData);
+    postCreateTeamForOperationStatus,
+    patchTeamUsersForOperationStatus,
+    handleClose,
+    upsertTeamFormFields,
+    isLoading,
+    isFetching,
+    isError,
+  } = useUpsertTeams(props);
 
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
-      onClose={() => {
-        setIsDrawerOpen(false);
-      }}
-      title={title}
-      submitHandler={() => {
-        title === USER_MANAGEMENT?.EDIT_TEAM && disabled
-          ? setDisabled(false)
-          : handleSubmit(submit)();
-      }}
-      footer={true}
-      isOk={true}
+      isDrawerOpen={isPortalOpen?.isUpsert}
+      onClose={() => handleClose?.()}
+      title={`${
+        !!isPortalOpen?.data?._id
+          ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+          : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+      } team`}
+      submitHandler={() => handleSubmit(submit)()}
+      footer
+      isOk
       okText={
-        title === USER_MANAGEMENT?.EDIT_TEAM && disabled
-          ? USER_MANAGEMENT?.EDIT
-          : okText
+        !!isPortalOpen?.data?._id
+          ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+          : GENERIC_UPSERT_FORM_CONSTANT?.ADD
       }
       isLoading={
-        addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        postCreateTeamForOperationStatus?.isLoading ||
+        patchTeamUsersForOperationStatus?.isLoading
       }
       isDisabled={
-        addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        postCreateTeamForOperationStatus?.isLoading ||
+        patchTeamUsersForOperationStatus?.isLoading
       }
       disabledCancelBtn={
-        addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        postCreateTeamForOperationStatus?.isLoading ||
+        patchTeamUsersForOperationStatus?.isLoading
       }
     >
-      <FormProvider methods={methods}>
-        <Grid container spacing={1}>
-          {upsertTeamArray(usersTeamDropdown)?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              {item?.subheading && title !== USER_MANAGEMENT?.EDIT_TEAM && (
-                <Typography variant="body2" sx={{ mb: 2 }}>
-                  {item?.subheading}
-                </Typography>
-              )}
-              <item.component
-                {...item?.componentProps}
-                size={'small'}
-                disabled={title === USER_MANAGEMENT?.EDIT_TEAM && disabled}
-                placeholder={
-                  title === USER_MANAGEMENT?.EDIT_TEAM && teamData?.length > 0
-                    ? (teamData?.[0]?.[item?.componentProps?.name] as string)
-                    : item?.componentProps?.placeholder
-                }
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </FormProvider>
+      {isLoading || isFetching ? (
+        <SkeletonForm />
+      ) : isError ? (
+        <ApiErrorState />
+      ) : (
+        <FormProvider methods={methods}>
+          <Grid container spacing={1}>
+            {upsertTeamFormFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      )}
     </CommonDrawer>
   );
-}
+};
 
 export default UpsertTeams;

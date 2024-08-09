@@ -1,14 +1,18 @@
 import { useForm } from 'react-hook-form';
-
 import { Grid } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterData, defaultValues } from './DealFilterDrawer.data';
 import useDealTab from '../useDealTab';
 import { filteredEmptyValues } from '@/utils/api';
+import { DealFilterDrawerProps } from '../DealTab-interface';
 
-const DealFilterDrawer = ({ open, onClose, setFilters, filters }: any) => {
+const DealFilterDrawer = ({
+  open,
+  onClose,
+  setFilters,
+  filters,
+}: DealFilterDrawerProps) => {
   const { isLoading } = useDealTab();
   const methods: any = useForm({
     defaultValues: defaultValues(filters),

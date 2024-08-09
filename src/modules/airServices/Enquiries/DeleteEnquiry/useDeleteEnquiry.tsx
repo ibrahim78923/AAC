@@ -1,7 +1,11 @@
 import { useDeleteEnquiriesMutation } from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IChildModalState, IErrorResponse } from '../Enquiries.interface';
 
-export default function useDeleteEnquiry({ isModalOpen, onClose }: any) {
+export default function useDeleteEnquiry({
+  isModalOpen,
+  onClose,
+}: IChildModalState) {
   const [deleteEnquiriesTrigger, deleteEnquiriesStatus] =
     useDeleteEnquiriesMutation();
 
@@ -16,8 +20,9 @@ export default function useDeleteEnquiry({ isModalOpen, onClose }: any) {
       await deleteEnquiriesTrigger(deleteEnquiriesParameter)?.unwrap();
       successSnackbar('Enquiries deleted successfully!');
       onClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       onClose?.();
     }
   };

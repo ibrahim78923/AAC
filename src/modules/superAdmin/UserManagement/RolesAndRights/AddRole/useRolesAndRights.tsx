@@ -24,7 +24,7 @@ const useRolesAndRights = () => {
   const { query } = navigate;
 
   const disabled = query?.type === DRAWER_TYPES?.VIEW;
-  const superAdminProductId = '6565c09995129275781dda45';
+  const superAdminProductId = process?.env?.NEXT_PUBLIC_SUPER_ADMIN_PRODUCT_ID;
   const roleId = query?.id;
 
   const [postPermissionRole, { isLoading: addRoleLoading }] =
@@ -39,7 +39,7 @@ const useRolesAndRights = () => {
       { skip: !superAdminProductId },
     );
 
-  const [trigger, { data: viewPerdetails }] =
+  const [trigger, { data: viewPerdetails, isLoading: loadingRoleDetails }] =
     useLazyGetPermissionsRolesByIdQuery();
 
   const roleDefaultValues: any = {
@@ -150,8 +150,10 @@ const useRolesAndRights = () => {
     productPermissionsData,
     selectAllPermissions,
     getModulePermissions,
+    loadingRoleDetails,
     updateRoleLoading,
     addRoleLoading,
+    viewPerdetails,
     handleSubmit,
     navigate,
     disabled,

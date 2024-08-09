@@ -1,7 +1,11 @@
 import { AlertModals } from '@/components/AlertModals';
 import useConvertTicket from './useConvertTicket';
+import { IChildModalState } from '../Enquiries.interface';
 
-export default function ConvertTicket({ isModalOpen, onClose }: any) {
+export default function ConvertTicket({
+  isModalOpen,
+  onClose,
+}: IChildModalState) {
   const { handleCreateRequester, postTicketStatus, patchEnquiriesStatus } =
     useConvertTicket({
       isModalOpen,

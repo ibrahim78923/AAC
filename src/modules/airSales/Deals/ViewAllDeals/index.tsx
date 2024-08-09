@@ -6,8 +6,9 @@ import useViewAllDeals from './useViewAllDeals';
 import { columnsData } from './ViewAllDeals.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
 
-const ViewAllDeals = ({ open, onClose }: any) => {
+const ViewAllDeals = ({ open, onClose }: CreateDealProps) => {
   const { search, setSearch, ColumnsWrapper } = useViewAllDeals();
 
   return (

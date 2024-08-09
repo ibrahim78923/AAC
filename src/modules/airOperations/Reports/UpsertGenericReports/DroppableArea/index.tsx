@@ -43,7 +43,6 @@ export default function DroppableArea(props: DroppableAreaI) {
     setDraggedItemData,
     handleCancel,
     handleChooseTemplate,
-    setValue,
     isLoading,
     isFetching,
     isError,
@@ -379,8 +378,6 @@ export default function DroppableArea(props: DroppableAreaI) {
                       setEditorState={setEditorState}
                       fontSize={fontSize}
                       color={color}
-                      setValue={setValue}
-                      watch={watch}
                     />
                   )}
                   {modal?.table && (

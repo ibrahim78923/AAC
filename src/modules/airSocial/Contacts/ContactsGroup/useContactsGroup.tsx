@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   usePostGroupMutation,
   useGetGroupsQuery,
@@ -13,18 +13,16 @@ import {
   createGroupValidationSchema,
 } from './CreateGroupModal/CreateGroupModal.data';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
-import { AIR_MARKETER } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
-import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
 const useContactsGroup = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [groupId, setGroupId] = useState(null);
-  const [filterParams, setFilterParams] = useState({});
 
-  const router = useRouter();
   // Get Contacts
+  const filterParams = {
+    meta: false,
+  };
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
@@ -32,27 +30,17 @@ const useContactsGroup = () => {
   const {
     data: dataGetContacts,
     isLoading: loadingGetContacts,
-    refetch: refetchContacts,
-  } = useGetContactsQuery({
-    params: { ...filterParams, ...searchPayLoad },
-  });
-  useEffect(() => {
-    if (isCreateModalOpen) {
-      refetchContacts();
-    }
-  }, [isCreateModalOpen]);
-
-  useEffect(() => {
-    if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
-      setFilterParams({ numberType: CONTACTS_CONSTANTS?.WHATSAPP_NUMBER });
-    } else if (router?.pathname === AIR_MARKETER?.SMS_MARKETING) {
-      setFilterParams({ numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER });
-    }
-  }, [router?.pathname]);
+    isFetching: fetchingGetContacts,
+  } = useGetContactsQuery(
+    {
+      params: { ...filterParams, ...searchPayLoad },
+    },
+    { skip: !isCreateModalOpen },
+  );
 
   // Get Groups
   const { data: dataGetContactGroups, isLoading: loadingGetGroups } =
-    useGetGroupsQuery({ params: filterParams });
+    useGetGroupsQuery({});
 
   // Create Group
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -147,6 +135,7 @@ const useContactsGroup = () => {
 
   return {
     loadingGetContacts,
+    fetchingGetContacts,
     dataGetContacts,
     loadingGetGroups,
     dataGetContactGroups,

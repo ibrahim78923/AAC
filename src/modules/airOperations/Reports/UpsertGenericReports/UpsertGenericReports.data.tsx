@@ -494,7 +494,7 @@ export const templateList = [
   {
     id: '39',
     title: 'Overview',
-    tableColumns: ['salesPipelineId', 'users', 'goalStatus', 'target'],
+    tableColumns: ['salesPipelineId', 'userId', 'goalStatus', 'target'],
     templateColumnsData: [
       {
         fieldType: FIELD_TYPE?.OBJECT_ID,
@@ -827,16 +827,16 @@ export const mainMetrics = (setMetricType: any) => {
     ],
     [GENERIC_REPORT_MODULES?.MARKETING]: [
       {
-        title: REPORT_TYPE?.LEADS,
+        title: REPORT_TYPE?.CAMPAIGNS,
         handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.LEADS);
+          setMetricType(REPORT_TYPE?.CAMPAIGNS);
           closeMenu?.();
         },
       },
       {
-        title: REPORT_TYPE?.CAMPAIGNS,
+        title: REPORT_TYPE?.LEADS,
         handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.CAMPAIGNS);
+          setMetricType(REPORT_TYPE?.LEADS);
           closeMenu?.();
         },
       },

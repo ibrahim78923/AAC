@@ -20,7 +20,7 @@ export const PopularArticles = () => {
           pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
         });
       }}
-      maxHeight={260}
+      maxHeight={'40vh'}
       btnPosition={'center'}
       buttonText={'View More'}
     >

@@ -306,7 +306,9 @@ export const ticketsListsColumnFunction: any = (
               )}
             </Typography>
           </Avatar>
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+          <Typography variant="body2" textTransform={'capitalize'}>
+            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+          </Typography>
         </Box>
       ),
     },
@@ -315,29 +317,44 @@ export const ticketsListsColumnFunction: any = (
       id: 'agentDetails',
       isSortable: true,
       header: 'Assigned to',
-      cell: (info: any) =>
-        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.state,
       id: 'state',
       isSortable: true,
       header: 'State',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.pirority,
       id: 'pirority',
       isSortable: true,
       header: 'Priority',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.departmentsDetails,

@@ -124,7 +124,7 @@ export const useReportLists = (props: ReportsListsPropsI) => {
     }
   };
 
-  const handleFileExportSubmit = async (type: any) => {
+  const handleFileExportSubmits = async (type: any) => {
     const exportData =
       lazyGetReportsListStatus?.data?.data?.genericReports?.map(
         (item: any) => ({
@@ -161,12 +161,12 @@ export const useReportLists = (props: ReportsListsPropsI) => {
     }
   };
 
-  const handleFileExportSubmits = async (type: any) => {
+  const handleFileExportSubmit = async (type: any) => {
+    if (!type) return errorSnackbar('Please select a file type');
     const additionalParams = [
-      ['page', page + ''],
-      ['limit', pageLimit + ''],
-      ['search', search],
-      ...(filter ? [['filter', filter]] : []),
+      ['exportType', type],
+      ...(!!filter?.length ? [...filter] : []),
+      ...(baseModule ? [['baseModule', baseModule]] : []),
     ];
 
     const getReportParam: any = buildQueryParams(
@@ -183,6 +183,7 @@ export const useReportLists = (props: ReportsListsPropsI) => {
         await lazyExportReportsListTrigger(apiDataParameter)?.unwrap();
       downloadFile(response, 'ReportsLists', EXPORT_FILE_TYPE?.[type]);
       successSnackbar(`File Exported successfully`);
+      setIsPortalOpen({});
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

@@ -97,7 +97,11 @@ export const contractsListsColumnsFunction = (
     id: 'status',
     isSortable: false,
     header: 'Status',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.renewalStatus,

@@ -10,11 +10,12 @@ import Quotes from './Quotes';
 import useAssociations from './useAssociations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { AssociationsProps } from './Associations-interface';
 
-const Associations = (props: any) => {
+const Associations = (props: AssociationsProps) => {
   const { selected, viewDeal } = props;
 
-  const sectionId = useSearchParams().get('section-id');
+  const sectionId = useSearchParams()?.get('section-id');
   const {
     assocaitionData,
     isLoading,

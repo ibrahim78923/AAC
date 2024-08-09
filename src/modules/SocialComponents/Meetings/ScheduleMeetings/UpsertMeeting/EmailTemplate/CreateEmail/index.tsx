@@ -1,8 +1,9 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { useCreateEmail } from './useCreateEmail';
 import PreviewModal from '../PreviewModal';
-import { FormProvider, RHFEditor } from '@/components/ReactHookForm';
+import { FormProvider, RHFImageEditor } from '@/components/ReactHookForm';
+import { LoadingButton } from '@mui/lab';
 
 const CreateEmail = () => {
   const {
@@ -13,56 +14,55 @@ const CreateEmail = () => {
     router,
     theme,
     methods,
+    onSubmit,
+    handleSubmit,
+    editorData,
+    emailProcess,
   } = useCreateEmail();
-  const customModules = {
-    toolbar: {
-      container: [
-        [{ header: '1' }, { header: '2' }, { font: [] }],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['bold', 'italic', 'underline'],
-        [{ color: [] }, { background: [] }],
-        [{ align: [] }],
-        ['link', 'image'],
-        ['clean'],
-      ],
-    },
-  };
   return (
     <>
-      <FormProvider methods={methods}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <PageTitledHeader
           title={`Email Template`}
           canMovedBack
-          moveBack={() => router?.back()}
+          moveBack={() => router?.basePath}
         />
         <Box pb={1.4}>
-          <RHFEditor
+          <RHFImageEditor
             name="emailTemplate"
             style={{ height: 600 }}
-            toolbar={customModules?.toolbar}
+            placeholder="Enter Email Text"
           />
         </Box>
         <Box display={'flex'} justifyContent={'space-between'}>
-          <Button
+          <LoadingButton
             sx={{
               color: theme?.palette?.grey[500],
               border: ' 1px solid grey.700',
             }}
-            onClick={() => setOpenDialog?.(true)}
+            onClick={() => setOpenDialog(true)}
+            disabled={emailProcess?.isLoading}
           >
             Preview
-          </Button>
+          </LoadingButton>
           <Box display={'flex'} gap={1}>
-            <Button
+            <LoadingButton
               sx={{
                 color: theme?.palette?.grey[500],
                 border: ' 1px solid grey.700',
               }}
               onClick={() => router?.back()}
+              disabled={emailProcess?.isLoading}
             >
               Cancel
-            </Button>
-            <Button variant="contained">Save</Button>
+            </LoadingButton>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={emailProcess?.isLoading}
+            >
+              Save
+            </LoadingButton>
           </Box>
         </Box>
         <PreviewModal
@@ -70,6 +70,7 @@ const CreateEmail = () => {
           setOpenDialog={setOpenDialog}
           value={value}
           handleChange={handleChange}
+          editorData={editorData}
         />
       </FormProvider>
     </>

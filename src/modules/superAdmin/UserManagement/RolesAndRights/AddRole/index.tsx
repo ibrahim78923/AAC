@@ -15,6 +15,8 @@ import { addUsersArrayData } from '../RoleAndRights.data';
 import { SUPER_ADMIN } from '@/constants';
 import useRolesAndRights from './useRolesAndRights';
 import { LoadingButton } from '@mui/lab';
+import { DRAWER_TYPES } from '@/constants/strings';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddRole = () => {
   const {
@@ -22,6 +24,9 @@ const AddRole = () => {
     productPermissionsData,
     selectAllPermissions,
     getModulePermissions,
+    loadingRoleDetails,
+    updateRoleLoading,
+    viewPerdetails,
     addRoleLoading,
     handleSubmit,
     navigate,
@@ -29,7 +34,7 @@ const AddRole = () => {
     disabled,
     methods,
     theme,
-    // query,
+    query,
     watch,
   } = useRolesAndRights();
 
@@ -42,70 +47,100 @@ const AddRole = () => {
           }}
           sx={{ cursor: 'pointer' }}
         />
-        <Typography variant="h4">Add New Role</Typography>
+        <Typography variant="h4">
+          {query?.type === DRAWER_TYPES?.VIEW
+            ? 'View Role'
+            : query?.type === DRAWER_TYPES?.ADD
+              ? 'Add New Role'
+              : 'Edit Role'}
+        </Typography>
       </Box>
       <Box sx={{ my: 2 }}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={2} sx={{ flexDirection: 'column' }}>
-            {addUsersArrayData?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+        {loadingRoleDetails ? (
+          <SkeletonForm />
+        ) : (
+          <FormProvider methods={methods}>
+            <Grid container spacing={2} sx={{ flexDirection: 'column' }}>
+              {addUsersArrayData?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={query?.type === DRAWER_TYPES?.VIEW ? true : false}
+                  >
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+            <Grid container>
+              <Grid item xs={12} lg={10} mt={2}>
+                <Stack direction="row">
+                  <Typography variant="h4">Permissions</Typography>
+                  <Typography style={{ color: theme?.palette?.error?.main }}>
+                    *
+                  </Typography>
+                </Stack>
               </Grid>
-            ))}
-          </Grid>
-          <Grid container>
-            <Grid item xs={12} lg={10} mt={2}>
-              <Stack direction="row">
-                <Typography variant="h4">Permissions</Typography>
-                <Typography style={{ color: theme?.palette?.error?.main }}>
-                  *
-                </Typography>
-              </Stack>
+              <Grid item xs={12} lg={10} mt={2}>
+                {productPermissionsLoading ? (
+                  <Skeleton
+                    variant="rectangular"
+                    animation="wave"
+                    height={46}
+                  />
+                ) : (
+                  <PermissionsAccordion
+                    query={query}
+                    permissionsData={
+                      query?.type === DRAWER_TYPES?.VIEW
+                        ? viewPerdetails?.data
+                        : productPermissionsData
+                    }
+                    getModulePermissions={getModulePermissions}
+                    selectAllPermissions={selectAllPermissions}
+                    watch={watch}
+                    disabled={disabled}
+                  />
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs={12} lg={10} mt={2}>
-              {productPermissionsLoading ? (
-                <Skeleton variant="rectangular" animation="wave" height={46} />
-              ) : (
-                <PermissionsAccordion
-                  permissionsData={productPermissionsData}
-                  getModulePermissions={getModulePermissions}
-                  selectAllPermissions={selectAllPermissions}
-                  watch={watch}
-                  disabled={disabled}
-                />
-              )}
-            </Grid>
-          </Grid>
-          <Divider sx={{ my: 3 }} />
-          <Box
-            sx={{ display: 'flex', gap: '10px', justifyContent: 'end', my: 2 }}
-          >
-            <Button
-              variant="outlined"
-              color="inherit"
-              onClick={() => {
-                navigate?.push(SUPER_ADMIN?.USERMANAGMENT);
+            <Divider sx={{ my: 3 }} />
+            <Box
+              sx={{
+                display: 'flex',
+                gap: '10px',
+                justifyContent: 'end',
+                my: 2,
               }}
             >
-              Cancel
-            </Button>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              onClick={handleSubmit(onSubmit)}
-              loading={addRoleLoading}
-            >
-              Add
-            </LoadingButton>
-          </Box>
-        </FormProvider>
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={() => {
+                  navigate?.push(SUPER_ADMIN?.USERMANAGMENT);
+                }}
+              >
+                {query?.type === DRAWER_TYPES?.VIEW ? 'Back' : 'Cancel'}
+              </Button>
+              {query?.type !== DRAWER_TYPES?.VIEW && (
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  onClick={handleSubmit(onSubmit)}
+                  loading={addRoleLoading || updateRoleLoading}
+                >
+                  {query?.type === DRAWER_TYPES?.EDIT ? 'Update' : 'Add'}
+                </LoadingButton>
+              )}
+            </Box>
+          </FormProvider>
+        )}
       </Box>
     </Box>
   );

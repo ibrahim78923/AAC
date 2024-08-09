@@ -13,6 +13,7 @@ export const CustomChips = (props: any) => {
             title={item?.label?.length > truncateTextLength ? item?.label : ''}
           >
             <Chip
+              key={item?._id}
               size="small"
               label={truncateText(item?.label, truncateTextLength)}
               variant="filled"
@@ -32,6 +33,7 @@ export const CustomChips = (props: any) => {
               }
             >
               <Chip
+                key={item?._id}
                 size="small"
                 label={truncateText(item?.label, truncateTextLength)}
                 variant="filled"

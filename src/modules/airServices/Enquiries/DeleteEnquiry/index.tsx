@@ -1,8 +1,9 @@
 import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import useDeleteEnquiry from './useDeleteEnquiry';
+import { IChildModalState } from '../Enquiries.interface';
 
-export const DeleteEnquiry = ({ isModalOpen, onClose }: any) => {
+export const DeleteEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
   const { deleteEnquiry, deleteEnquiriesStatus } = useDeleteEnquiry({
     isModalOpen,
     onClose,

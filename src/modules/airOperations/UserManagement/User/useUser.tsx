@@ -1,174 +1,116 @@
-import { useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { userList } from './User.data';
-import {
-  useGetProductUserListQuery,
-  useLazyGetTeamUserListQuery,
-  usePatchProductUsersMutation,
-} from '@/services/airOperations/user-management/user';
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import {
-  upsertUserDefaultValues,
-  upsertUserValidationSchema,
-} from './UpsertUser/UpsertUser.data';
-import { useRouter } from 'next/router';
-import { REQUESTORS_STATUS } from '@/constants/strings';
-import { fullName } from '@/utils/avatarUtils';
+  actionsForOperationUserDynamic,
+  operationUsersColumnsDynamic,
+} from './User.data';
+import { ARRAY_INDEX, PRODUCT_USER_STATUS } from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
+import { UpsertUser } from './UpsertUser';
+import {
+  useLazyGetProductUserListForOperationQuery,
+  useUpdateProductUserForOperationMutation,
+} from '@/services/airOperations/user-management/user';
 
 export const useUser = () => {
-  const router = useRouter();
-  const [selectedUserList, setSelectedUserList] = useState<any[]>([]);
-  const theme = useTheme();
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [search, setSearch] = useState('');
+  const [selectedUserList, setSelectedUserList] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [setUserData] = useState<any[]>();
-  const [disabled, setDisabled] = useState(true);
-  const [tabData, setTabData] = useState({});
-  const [switchLoading, setSwitchLoading] = useState<any>({});
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [
+    lazyGetProductUserListForOperationTrigger,
+    lazyGetProductUserListForOperationStatus,
+  ]: any = useLazyGetProductUserListForOperationQuery?.();
 
-  const [changeStatusTrigger] = usePatchProductUsersMutation();
+  const [changeSingleUserStatusTrigger, changeSingleUserStatusStatus]: any =
+    useUpdateProductUserForOperationMutation?.();
 
-  const param = {
-    page: page,
-    limit: pageLimit,
-    search: search,
-  };
-
-  const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetProductUserListQuery({ param });
-  const usersData = data?.data?.usercompanyaccounts;
-  const metaData = data?.data?.meta;
-
-  const handleChangeStatus = async (rowData: any) => {
-    const status =
-      rowData?.status === REQUESTORS_STATUS?.ACTIVE
-        ? REQUESTORS_STATUS?.INACTIVE
-        : REQUESTORS_STATUS?.ACTIVE;
-    setSwitchLoading((prevState: any) => ({
-      ...prevState,
-      [rowData?._id]: true,
-    }));
-    const response: any = await changeStatusTrigger({
-      id: rowData?._id,
-      body: {
-        status,
-      },
-    });
-    try {
-      response;
-      successSnackbar(
-        response?.data?.message &&
-          `${fullName(
-            rowData?.user?.firstName,
-            rowData?.user?.lastName,
-          )} ${status?.toLocaleLowerCase()} successfully`,
-      );
-    } catch (error) {
-      errorSnackbar(response?.error?.data?.message);
-    } finally {
-      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
-    }
-  };
-
-  const userListColumn = userList(
-    usersData,
-    selectedUserList,
-    setSelectedUserList,
-    setIsDrawerOpen,
-    setTabData,
-    switchLoading,
-    handleChangeStatus,
-  );
-
-  const rolesDropdown = useLazyGetDepartmentDropdownQuery();
-  const usersTeamDropdown = useLazyGetTeamUserListQuery();
-
-  const methods: any = useForm({
-    resolver: yupResolver(upsertUserValidationSchema),
-    defaultValues: upsertUserDefaultValues(tabData),
-  });
-
-  const { handleSubmit, reset } = methods;
-  useEffect(() => {
-    reset(upsertUserDefaultValues(tabData));
-  }, [isDrawerOpen]);
-
-  const [patchProductUsersTrigger, patchProductUsersStatus] =
-    usePatchProductUsersMutation();
-
-  const handleClose = () => {
-    setIsDrawerOpen(false);
-    reset?.();
-  };
-
-  const editProductUsersDetails = async (data: any) => {
-    const formData = {
-      id: tabData?._id,
-      body: {
-        firstName: data?.firstName,
-        lastName: data?.lastName,
-        role: data?.role?._id,
-        team: data?.team?._id,
-        phoneNumber: data?.phoneNumber,
-        address: data?.address?.composite,
-        jobTitle: data?.jobTitle,
-        timezone: data?.timezone,
-        language: data?.language,
-        facebookUrl: data?.facebookUrl,
-        linkedInUrl: data?.linkedInUrl,
-        twitterUrl: data?.twitterUrl,
-        status: data?.status,
+  const getOperationUsersList = async () => {
+    const apiDataParameter = {
+      queryParams: {
+        page,
+        limit: pageLimit,
+        search,
       },
     };
     try {
-      await patchProductUsersTrigger(formData)?.unwrap();
-      successSnackbar('Products Users Edit  Successfully');
-      handleClose?.();
-    } catch (error: any) {
-      errorSnackbar('error');
-    }
-    handleClose?.();
+      await lazyGetProductUserListForOperationTrigger?.(
+        apiDataParameter,
+      )?.unwrap();
+    } catch (error: any) {}
   };
 
-  return {
-    usersData,
-    theme,
+  useEffect(() => {
+    getOperationUsersList?.();
+  }, [page, search, pageLimit]);
+
+  const changeOperationUserStatus = async (e: any, id: any) => {
+    const body = {
+      status: e?.target?.checked
+        ? PRODUCT_USER_STATUS?.ACTIVE
+        : PRODUCT_USER_STATUS?.INACTIVE,
+    };
+
+    const apiDataParameter = {
+      pathParams: {
+        id,
+      },
+      body,
+    };
+
+    try {
+      await changeSingleUserStatusTrigger(apiDataParameter)?.unwrap();
+    } catch (error: any) {
+      errorSnackbar?.(error?.data?.message);
+    }
+  };
+  const setSingleUserDetail = (user: any) => {
+    setSelectedUserList?.([user]);
+    setIsPortalOpen?.({
+      isOpen: true,
+      isUpsert: true,
+      isView: true,
+    });
+  };
+
+  const userListColumns = operationUsersColumnsDynamic?.(
     selectedUserList,
     setSelectedUserList,
-    userListColumn,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    deleteModal,
-    setDeleteModal,
+    lazyGetProductUserListForOperationStatus?.data?.data?.usercompanyaccounts,
+    changeOperationUserStatus,
+    changeSingleUserStatusStatus,
+    setSingleUserDetail,
+  );
+  const renderPortalComponent = () => {
+    if (isPortalOpen?.isUpsert) {
+      return (
+        <UpsertUser
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+          userId={selectedUserList?.[ARRAY_INDEX?.ZERO]?._id}
+          setSelectedUserList={setSelectedUserList}
+        />
+      );
+    }
+    return <></>;
+  };
+  const actionButtonDropdown = actionsForOperationUserDynamic?.(
+    setIsPortalOpen,
+    selectedUserList,
+  );
+
+  return {
+    userListColumns,
     setSearch,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
-    setPage,
     setPageLimit,
-    methods,
-    handleSubmit,
-    setUserData,
-    disabled,
-    setDisabled,
-    usersTeamDropdown,
-    handleClose,
-    metaData,
-    rolesDropdown,
-    patchProductUsersStatus,
-    switchLoading,
-    handleChangeStatus,
-    editProductUsersDetails,
-    data,
-    router,
-    tabData,
+    setPage,
+    lazyGetProductUserListForOperationStatus,
+    setIsPortalOpen,
+    isPortalOpen,
+    renderPortalComponent,
+    setSelectedUserList,
+    actionButtonDropdown,
+    selectedUserList,
   };
 };

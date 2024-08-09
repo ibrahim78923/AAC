@@ -6,8 +6,9 @@ import { styles } from '../Associations.style';
 import useQuotes from './useQuotes';
 import { AlertModals } from '@/components/AlertModals';
 import QuotesDrawer from './QuotesDrawer';
+import { QuotesProps } from '../Associations-interface';
 
-const Quotes = ({ quotesData, isLoading, dealId }: any) => {
+const Quotes = ({ quotesData, isLoading, dealId }: QuotesProps) => {
   const {
     theme,
     searchName,

@@ -4,12 +4,7 @@ import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const requestersDropdown: any = (
   setDeleteModalOpen: any,
@@ -149,7 +144,11 @@ export const requestersList: any = (
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -183,6 +182,10 @@ export const requestersList: any = (
     id: 'jobTitle',
     isSortable: true,
     header: 'Job Title',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
 ];

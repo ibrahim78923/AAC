@@ -23,19 +23,13 @@ const Restore = () => {
     handleCloseFilters,
     loadingGetContact,
     dataGetDeletedContacts,
-    // searchValue,
     methodsFilter,
     handleFiltersSubmit,
-    // handleRefresh,
     setPageLimit,
     setPage,
     handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    // rowId,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
@@ -49,12 +43,7 @@ const Restore = () => {
     theme,
   } = useRestore();
 
-  const columns = restoreTableColumns(
-    selectedRow,
-    setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
-  );
+  const columns = restoreTableColumns(selectedRow, setSelectedRow);
 
   return (
     <>
@@ -68,9 +57,9 @@ const Restore = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={AIR_SOCIAL?.CONTACTS}>
+          <Box sx={{ pt: '6px' }} component={Link} href={AIR_SOCIAL?.CONTACTS}>
             <BackArrIcon />
-          </Link>
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -103,6 +92,7 @@ const Restore = () => {
             setSearchBy={setSearchValue}
             fullWidth
             autoComplete="off"
+            size="small"
           />
         </Box>
         <Box
@@ -118,15 +108,17 @@ const Restore = () => {
             actionMenuOpen={actionMenuOpen}
             handleActionsMenuClick={handleActionsMenuClick}
             handleActionsMenuClose={handleActionsMenuClose}
-            disableActionBtn={isActionsDisabled}
+            disableActionBtn={selectedRow?.length === 0}
             openDelete={handleOpenModalDelete}
             openRestoreModal={handleOpenModalRestore}
           />
           <Button
+            className="small"
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+            color="inherit"
             onClick={handleOpenFilters}
+            disabled={dataGetDeletedContacts?.data?.contacts?.length === 0}
           >
             {' '}
             Filter
@@ -154,6 +146,7 @@ const Restore = () => {
         methods={methodsFilter}
         handleSubmit={handleFiltersSubmit}
       />
+
       <RestoreDeleteModal
         open={isDeleteModal}
         onClose={handleCloseModalDelete}

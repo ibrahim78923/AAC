@@ -13,8 +13,9 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { CallsEditorDrawerProps } from '../Calls-interface';
 
-const CallsActionDropdown = (props: any) => {
+const CallsActionDropdown = (props: CallsEditorDrawerProps) => {
   const { setOpenDrawer } = props;
   const {
     theme,

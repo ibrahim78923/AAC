@@ -1,14 +1,10 @@
 import { Typography, Box, Button, SvgIcon } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-
 import ImportDealsDrawer from '../ImportDealsDrawer';
-
 import CreateDeal from '../CreateDeal';
 import ViewAllDeals from '../ViewAllDeals';
 import useDealHeader from './useDealHeader';
-
 import { styles } from './DealHeader.style';
-
 import { ImportIcon, MenuIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';

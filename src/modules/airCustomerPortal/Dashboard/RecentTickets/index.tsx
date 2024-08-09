@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { CardLayout } from '../CardLayout';
 import { useRecentTickets } from './useRecentTickets';
 import NoData from '@/components/NoData';
@@ -19,13 +18,16 @@ export const RecentTickets = () => {
           pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
         });
       }}
+      btnPosition="left"
+      buttonText="View All"
+      maxHeight={'40vh'}
     >
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
         <ApiErrorState height={'100%'} />
       ) : (
-        <Box my={1}>
+        <>
           {!!data?.data?.length ? (
             data?.data?.map((ticket: any) => (
               <Fragment key={ticket?._id}>
@@ -35,7 +37,7 @@ export const RecentTickets = () => {
           ) : (
             <NoData height={'100%'} message="No recent tickets found" />
           )}
-        </Box>
+        </>
       )}
     </CardLayout>
   );

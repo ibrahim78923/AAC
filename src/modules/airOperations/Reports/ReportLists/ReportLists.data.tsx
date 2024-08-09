@@ -87,11 +87,6 @@ export const actionsForReportListsDynamic = (
     title: 'Export',
     permissionKey: [permission?.EXPORT_RECORD],
     handleClick: (closeMenu: any) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen?.({
         isExport: true,
         isOpen: true,
@@ -175,7 +170,7 @@ export const actionsForReportListsDynamic = (
 export const reportListsColumnsDynamic = (
   selectedReportList?: any,
   setSelectedReportList?: any,
-  totalReports: any = [],
+  totalReports = [],
   addReportToFavorite?: any,
   addReportToFavoriteListStatus?: any,
 ) => [
@@ -286,9 +281,10 @@ export const reportListsColumnsDynamic = (
     cell: (info: any) =>
       !!info?.getValue()?.length ? (
         <CustomChips
-          data={info
-            ?.getValue()
-            ?.map((item: any) => ({ label: item?.name, _id: item?._id }))}
+          data={info?.getValue()?.map((item: any, index: number) => ({
+            label: item?.name,
+            _id: index + 1,
+          }))}
         />
       ) : (
         <Chip

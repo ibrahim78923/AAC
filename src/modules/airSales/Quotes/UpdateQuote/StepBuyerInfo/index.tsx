@@ -48,125 +48,124 @@ const StepBuyerInfo = ({
           {BuyerInfoLoading ? (
             <SkeletonTable />
           ) : (
-            <Box>
+            <>
               <Box>
-                <>
-                  {!selectedBuyerContactIds && !selectedCompanyIds && (
-                    <Alert
-                      sx={{
-                        mb: '16px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                        color: theme?.palette?.common?.white,
-                      }}
-                      severity="error"
-                    >
-                      Please select Company and Contact to continue
-                    </Alert>
-                  )}
-                  <Box sx={styles?.rowBuyerInfo}>
-                    <Typography variant="h4" sx={styles?.buyerInfoTitle}>
-                      Buyer Information
-                    </Typography>
-                    <Button
-                      variant="outlined"
-                      className="small"
-                      sx={styles?.btnAddMore}
-                      onClick={openAddContact}
-                      startIcon={<GrayPlusIcon />}
-                    >
-                      Add contact
-                    </Button>
-                  </Box>
-                  <Typography variant="body1" sx={styles?.buyerInfoPara}>
-                    Select the buyer contact information that you would like to
-                    appear in the quote
+                {(!selectedBuyerContactIds || !selectedCompanyIds) && (
+                  <Alert
+                    sx={{
+                      mb: '16px',
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      color: theme?.palette?.common?.white,
+                    }}
+                    severity="error"
+                  >
+                    Please select Company and Contact to continue
+                  </Alert>
+                )}
+                <Box sx={styles?.rowBuyerInfo}>
+                  <Typography variant="h4" sx={styles?.buyerInfoTitle}>
+                    Buyer Information
                   </Typography>
-                  <Box sx={styles?.contactsCont}>
-                    <Typography variant="h6" sx={styles?.contactsHeading}>
-                      Buyer’s Contact
-                    </Typography>
-                    <Box component="ul" sx={styles?.contactsList}>
-                      {contactData &&
-                        contactData[0]?.contacts?.map((item: any) => {
-                          return (
-                            <Box
-                              component="li"
-                              sx={styles?.listItem}
-                              key={item?.id}
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    sx={styles?.btnAddMore}
+                    onClick={openAddContact}
+                    startIcon={<GrayPlusIcon />}
+                  >
+                    Add contact
+                  </Button>
+                </Box>
+                <Typography variant="body1" sx={styles?.buyerInfoPara}>
+                  Select the buyer contact information that you would like to
+                  appear in the quote.
+                </Typography>
+                <Box sx={styles?.contactsCont}>
+                  <Typography variant="h6" sx={styles?.contactsHeading}>
+                    Buyer’s Contact
+                  </Typography>
+                  <Box component="ul" sx={styles?.contactsList}>
+                    {contactData &&
+                      contactData[0]?.contacts?.map((item: any) => {
+                        return (
+                          <Box
+                            component="li"
+                            sx={styles?.listItem}
+                            key={item?.id}
+                          >
+                            <Avatar
+                              alt="user"
+                              src={generateImage(
+                                item?.owner?.profilePicture?.url,
+                              )}
+                              sx={{
+                                width: 35,
+                                height: 35,
+                                background: theme?.palette?.grey[400],
+                              }}
                             >
-                              <Avatar
-                                alt="user"
-                                src={generateImage(
-                                  item?.owner?.profilePicture?.url,
-                                )}
+                              <Typography
+                                variant="body1"
                                 sx={{
-                                  width: 35,
-                                  height: 35,
-                                  background: theme?.palette?.grey[400],
+                                  color: theme?.palette?.custom?.dim_grey,
+                                  textTransform: 'uppercase',
                                 }}
                               >
+                                {item?.email?.charAt(0)}
+                              </Typography>
+                            </Avatar>
+                            <Box flex={1}>
+                              <Typography sx={styles?.itemText}>
+                                {item?.name === '' ? 'N/A' : item?.name}
+                              </Typography>
+                              <Tooltip title={item?.email}>
                                 <Typography
-                                  variant="body1"
                                   sx={{
-                                    color: theme?.palette?.custom?.dim_grey,
+                                    ...styles?.itemText,
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    width: '150px',
                                   }}
                                 >
-                                  {item?.name?.charAt(1)}
-                                  {item?.name?.charAt(item?.name?.length - 1)}
+                                  {item?.email}
                                 </Typography>
-                              </Avatar>
-                              <Box flex={1}>
-                                <Typography sx={styles?.itemText}>
-                                  {item?.name}
-                                </Typography>
-                                <Tooltip title={item?.email}>
-                                  <Typography
-                                    sx={{
-                                      ...styles?.itemText,
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                      overflow: 'hidden',
-                                      width: '150px',
-                                    }}
-                                  >
-                                    {item?.email}
-                                  </Typography>
-                                </Tooltip>
-                                <Typography sx={styles?.itemText}>
-                                  {item?.phoneNumber}
-                                </Typography>
-                              </Box>
-                              <Box sx={{ cursor: 'pointer' }}>
-                                <Image
-                                  src={CrossCircleImage}
-                                  alt="delIcon"
-                                  onClick={() => {
-                                    setIsModalOpen({
-                                      ...isModalOpen,
-                                      contactsModal: {
-                                        isToggle: true,
-                                        id: item?._id,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </Box>
-                              <Checkbox
-                                defaultChecked
-                                checked={selectedBuyerContactIds === item?._id}
-                                value={item?._id}
-                                onChange={() =>
-                                  handleBuyerContactChange(item?._id)
-                                }
+                              </Tooltip>
+                              <Typography sx={styles?.itemText}>
+                                {item?.phoneNumber === '' ? 'N/A' : item?.email}
+                              </Typography>
+                            </Box>
+                            <Box sx={{ cursor: 'pointer' }}>
+                              <Image
+                                src={CrossCircleImage}
+                                alt="delIcon"
+                                onClick={() => {
+                                  setIsModalOpen({
+                                    ...isModalOpen,
+                                    contactsModal: {
+                                      isToggle: true,
+                                      id: item?._id,
+                                    },
+                                  });
+                                }}
                               />
                             </Box>
-                          );
-                        })}
-                    </Box>
+                            <Checkbox
+                              defaultChecked
+                              checked={selectedBuyerContactIds === item?._id}
+                              value={item?._id}
+                              onChange={() =>
+                                handleBuyerContactChange(item?._id)
+                              }
+                            />
+                          </Box>
+                        );
+                      })}
                   </Box>
-                </>
+                </Box>
               </Box>
+
               <Box sx={styles?.companyInformation}>
                 <Box sx={styles?.contactsCont}>
                   <Box sx={styles?.rowBuyerInfo}>
@@ -208,17 +207,14 @@ const StepBuyerInfo = ({
                                   variant="body1"
                                   sx={{
                                     color: theme?.palette?.custom?.dim_grey,
+                                    textTransform: 'uppercase',
                                   }}
                                 >
-                                  {item?.name?.charAt(1)}
-                                  {item?.name?.charAt(item?.name?.length - 1)}
+                                  {item?.name?.charAt(0)}
                                 </Typography>
                               </Avatar>
                             </Box>
                             <Box flex={1}>
-                              {/* <Typography sx={styles?.itemTitle}>
-                                {item?.domain}
-                              </Typography> */}
                               <Tooltip title={item?.domain}>
                                 <Typography
                                   sx={{
@@ -234,10 +230,14 @@ const StepBuyerInfo = ({
                               </Tooltip>
                               <Box sx={styles?.itemText}> {item?.name}</Box>
                               <Box sx={styles?.itemText}>
-                                {item?.owner?.email}
+                                {item?.owner?.email === ''
+                                  ? 'N/A'
+                                  : item?.owner?.email}
                               </Box>
                               <Box sx={styles?.itemText}>
-                                {item?.owner?.phoneNumber}
+                                {item?.owner?.phoneNumber === ''
+                                  ? 'N/A'
+                                  : item?.owner?.phoneNumber}
                               </Box>
                             </Box>
                             <Box sx={{ cursor: 'pointer' }}>
@@ -270,7 +270,7 @@ const StepBuyerInfo = ({
                   </Box>
                 </Box>
               </Box>
-            </Box>
+            </>
           )}
         </Grid>
         <Grid item xs={12} md={12} lg={7}>

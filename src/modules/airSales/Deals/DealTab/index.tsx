@@ -8,9 +8,7 @@ import {
   ButtonGroup,
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import { styles } from './Deal.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useDealTab from './useDealTab';
@@ -66,8 +64,6 @@ const DealsTab = () => {
     handleExportRecord,
     isDealCustomize,
     handleDealCustomize,
-    setViewColumns,
-    viewColumns,
     deleteDealLoading,
     setSelectedRows,
     searchDeal,
@@ -148,15 +144,6 @@ const DealsTab = () => {
               >
                 Delete
               </Button>
-              {/* <Button
-                variant="outlined"
-                color="inherit"
-                className="small"
-                onClick={handleDeleteModal}
-                sx={{ width: { xs: '100%', sm: '100px' } }}
-              >
-                Delete
-              </Button> */}
             </PermissionsGuard>
           ) : (
             <DealsActions
@@ -254,11 +241,7 @@ const DealsTab = () => {
       {listView === 'listView' ? (
         <TanstackTable {...dealTableData} />
       ) : (
-        <BoardView
-        // handleCheckedGrid={handleCheckedGrid}
-        // checkedGridView={checkedGridView}
-        // search={search}
-        />
+        <BoardView />
       )}
       {isAddTabOpen && (
         <CreateView open={isAddTabOpen} onClose={handleAddTab} />
@@ -272,12 +255,7 @@ const DealsTab = () => {
         />
       )}
       {isDealCustomize && (
-        <DealCustomize
-          open={isDealCustomize}
-          onClose={handleDealCustomize}
-          columns={viewColumns}
-          setColumns={setViewColumns}
-        />
+        <DealCustomize open={isDealCustomize} onClose={handleDealCustomize} />
       )}
       {isShareDine && (
         <ShareMyDine

@@ -1,4 +1,10 @@
-import { Box, Button, ButtonGroup, Toolbar } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  InputAdornment,
+  Toolbar,
+} from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useTextEditor } from './useTextEditor';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
@@ -10,9 +16,12 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { TEXT_FORMATE } from '@/constants/strings';
 import { TextEditorI } from './TextEditor.interface';
+import { RHFTextField } from '@/components/ReactHookForm';
+import { CheckBox } from '@mui/icons-material';
+import { EditInputIcon } from '@/assets/icons';
 
 export const TextEditor = (props: TextEditorI) => {
-  const { fontSize, color, handleCancel } = props;
+  const { fontSize, color, handleCancel, setValue } = props;
   const {
     handleSave,
     applyTextStyle,
@@ -20,6 +29,10 @@ export const TextEditor = (props: TextEditorI) => {
     onFontSizeChange,
     saveDisable,
     textTitle,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
   } = useTextEditor(props);
   return (
     <>
@@ -27,6 +40,35 @@ export const TextEditor = (props: TextEditorI) => {
         title={'Text Configuration'}
         canMovedBack
         moveBack={handleCancel}
+      />
+      <RHFTextField
+        name={'textTitle'}
+        size="small"
+        label="Title"
+        disabled={edit}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
+              {edit ? (
+                <Box
+                  onClick={() => {
+                    setEdit(false), setValue === editValue;
+                  }}
+                >
+                  <EditInputIcon />
+                </Box>
+              ) : (
+                <Box
+                  onClick={() => {
+                    setEdit(true), setEditValue(textTitle);
+                  }}
+                >
+                  <CheckBox />
+                </Box>
+              )}
+            </InputAdornment>
+          ),
+        }}
       />
       <Box
         display="flex"
@@ -36,29 +78,6 @@ export const TextEditor = (props: TextEditorI) => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <ButtonGroup variant="outlined" fullWidth>
-          <Button
-            variant="outlined"
-            onClick={() => applyTextStyle(TEXT_FORMATE?.UPPER_CASE)}
-            color="secondary"
-          >
-            <TextFormatIcon style={{ transform: 'scaleY(-1)' }} />
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => applyTextStyle(TEXT_FORMATE?.LOWER_CASE)}
-            color="secondary"
-          >
-            <TextFormatIcon />
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => applyTextStyle(TEXT_FORMATE?.CAPITAL_CASE)}
-            color="secondary"
-          >
-            <TextFormatIcon style={{ transform: 'scale(0.8)' }} />
-          </Button>
-        </ButtonGroup>
         <Button
           variant="outlined"
           onClick={() => applyTextStyle(TEXT_FORMATE?.BOLD)}
@@ -96,6 +115,29 @@ export const TextEditor = (props: TextEditorI) => {
             <FormatListNumberedIcon />
           </Button>
         </ButtonGroup>
+        <ButtonGroup variant="outlined" fullWidth>
+          <Button
+            variant="outlined"
+            onClick={() => applyTextStyle(TEXT_FORMATE?.UPPER_CASE)}
+            color="secondary"
+          >
+            <TextFormatIcon style={{ transform: 'scaleY(-1)' }} />
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => applyTextStyle(TEXT_FORMATE?.LOWER_CASE)}
+            color="secondary"
+          >
+            <TextFormatIcon />
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => applyTextStyle(TEXT_FORMATE?.CAPITAL_CASE)}
+            color="secondary"
+          >
+            <TextFormatIcon style={{ transform: 'scale(0.8)' }} />
+          </Button>
+        </ButtonGroup>
         <select
           value={fontSize}
           onChange={onFontSizeChange}
@@ -115,9 +157,8 @@ export const TextEditor = (props: TextEditorI) => {
           <input type="color" value={color} onChange={onColorChange} />
         </Box>
       </Box>
-
       <Toolbar
-        sx={{ mt: 47, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
+        sx={{ mt: 32, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
       >
         <Button variant="outlined" onClick={handleCancel} color="secondary">
           Cancel

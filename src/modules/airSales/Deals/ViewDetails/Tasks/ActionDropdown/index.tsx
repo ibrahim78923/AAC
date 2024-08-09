@@ -13,8 +13,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useAppSelector } from '@/redux/store';
+import { ActionDropdownProps } from '../Tasks-interface';
 
-const ActionDropdown = (props: any) => {
+const ActionDropdown = (props: ActionDropdownProps) => {
   const {
     setOpenDrawer,
     selectedCheckboxes,

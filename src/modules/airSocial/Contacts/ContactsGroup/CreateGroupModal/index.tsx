@@ -95,7 +95,7 @@ const CreateGroupModal = ({
                     ? selectedContacts
                     : contactList
                 }
-                loading={loadingTable}
+                isLoading={loadingTable}
               />
             </Grid>
           </Grid>

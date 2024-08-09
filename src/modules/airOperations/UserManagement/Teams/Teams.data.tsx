@@ -1,17 +1,7 @@
 import { Box, Typography } from '@mui/material';
-import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
-import TeamsDetails from './TeamsDetails';
+import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
-export const teamList: any = (
-  selectedTeamList: any,
-  setSelectedTeamList: any,
-  teamListData: any,
-  setIsTeamDrawerOpen: any,
-  setIsEditDrawerOpen: any,
-  setDeleteModal: any,
-  setTeamData: any,
-  router: any,
-) => [
+export const teamList: any = (setIsPortalOpen: any) => [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
@@ -37,18 +27,25 @@ export const teamList: any = (
     header: 'Action',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <TeamsDetails
-          teamId={info?.row?.original?._id}
-          title={'Test'}
-          okText={'Save'}
-        />
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() =>
+            setIsPortalOpen({
+              isOpen: true,
+              isView: true,
+              data: info?.row?.original,
+            })
+          }
+        >
+          <ViewEyeIcon />
+        </Box>
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() => {
-            setIsEditDrawerOpen(true);
-            router?.push({
-              pathname: router.pathname,
-              query: { ...router?.query, teamId: info?.row?.original?._id },
+            setIsPortalOpen({
+              isOpen: true,
+              isUpsert: true,
+              data: info?.row?.original,
             });
           }}
         >
@@ -57,7 +54,11 @@ export const teamList: any = (
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() =>
-            setDeleteModal({ val: true, rowId: info?.row?.original?._id })
+            setIsPortalOpen({
+              isOpen: true,
+              isDelete: true,
+              data: info?.row?.original,
+            })
           }
         >
           <DeleteCrossIcon />

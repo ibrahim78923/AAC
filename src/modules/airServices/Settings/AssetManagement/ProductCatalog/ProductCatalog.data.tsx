@@ -4,8 +4,7 @@ import {
   MODE_OF_PROCUREMENT,
   PRODUCT_CATALOG_STATUS,
 } from '@/constants/strings';
-import { truncateText } from '@/utils/avatarUtils';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export const productAssetTypeOption = [
   ASSET_TYPE?.HARDWARE,
@@ -48,7 +47,9 @@ export const productListsColumnDynamic: any = (router?: any) => {
           sx={{ cursor: 'pointer' }}
           color="custom.bright"
         >
-          {truncateText(info?.getValue())}
+          <Typography variant="body2" textTransform={'capitalize'}>
+            {info?.getValue()?.toLowerCase() ?? '---'}
+          </Typography>
         </Box>
       ),
     },
@@ -57,14 +58,22 @@ export const productListsColumnDynamic: any = (router?: any) => {
       id: 'assetTypeName',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.manufacturer,
       id: 'manufacturer',
       isSortable: true,
       header: 'Manufacturer',
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,

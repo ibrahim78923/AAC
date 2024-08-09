@@ -13,8 +13,13 @@ import { PlusIcon } from '@/assets/icons';
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { AttachmentsProps } from '../Associations-interface';
 
-const Attachments = ({ attachmentsData, isLoading, dealId }: any) => {
+const Attachments = ({
+  attachmentsData,
+  isLoading,
+  dealId,
+}: AttachmentsProps) => {
   const {
     theme,
     isOpenAlert,

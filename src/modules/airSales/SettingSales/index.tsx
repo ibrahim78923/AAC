@@ -17,6 +17,7 @@ import SalesProduct from './TabsData/SalesProduct';
 import Notification from './TabsData/Notification';
 import { SalesSettingProps } from './SettingSales.interface';
 import { styles } from './SettingSales.style';
+import Forecast from './TabsData/Forecast';
 
 function TabPanel(props: SalesSettingProps) {
   const theme = useTheme<Theme>();
@@ -70,6 +71,7 @@ const SettingSales = () => {
             <Tab label="Roles and Rights" />
             <Tab label="User Management" />
             <Tab label="Notifications" />
+            <Tab label="Forecast" />
           </Tabs>
           <TabPanel value={value} index={0}>
             <DealPipelines />
@@ -85,6 +87,9 @@ const SettingSales = () => {
           </TabPanel>
           <TabPanel value={value} index={4}>
             <Notification />
+          </TabPanel>
+          <TabPanel value={value} index={5}>
+            <Forecast />
           </TabPanel>
         </Box>
       </Box>

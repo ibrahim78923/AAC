@@ -1,7 +1,11 @@
 import { AlertModals } from '@/components/AlertModals';
 import useCreateRequester from './useCreateRequester';
+import { IChildModalState } from '../Enquiries.interface';
 
-export default function CreateRequester({ isModalOpen, onClose }: any) {
+export default function CreateRequester({
+  isModalOpen,
+  onClose,
+}: IChildModalState) {
   const { handleCreateRequester, postRequesterStatus } = useCreateRequester({
     isModalOpen,
     onClose,

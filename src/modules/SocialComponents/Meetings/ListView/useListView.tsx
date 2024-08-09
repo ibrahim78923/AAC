@@ -9,16 +9,19 @@ import {
   useLazyGetMeetingsListQuery,
 } from '@/services/commonFeatures/meetings';
 import { PAGINATION } from '@/config';
+import { ApiResponseI, Meeting } from './ListView.interface';
 
 export const useListView = () => {
   const theme = useTheme();
   const router: any = useRouter();
   const meetingsType = router?.query?.type;
-  const [search, setSearch] = useState('');
-  const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
-  const [listData, setListData] = useState<any>([]);
-  const [openForm, setOpenForm] = useState<any>({});
-  const [deleteModal, setDeleteModal] = useState<any>({});
+  const [search, setSearch] = useState<string>('');
+  const [cardValue, setCardValue] = useState<string>(
+    MEETINGS_DETAILS_TYPE?.ALL,
+  );
+  const [listData, setListData] = useState<Meeting[]>([]);
+  const [openForm, setOpenForm] = useState<Record<string, any>>({});
+  const [deleteModal, setDeleteModal] = useState<Record<string, any>>({});
   const [isActiveCard, setIsActiveCard] = useState<any>(
     meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
   );
@@ -28,6 +31,7 @@ export const useListView = () => {
 
   const [getMeetingListTrigger, getMeetingListStatus]: any =
     useLazyGetMeetingsListQuery();
+
   const getMeetingListData = async (pages = page) => {
     const additionalParams = [
       ['page', pages + ''],
@@ -35,22 +39,25 @@ export const useListView = () => {
       ['search', search],
       ['type', cardValue],
     ];
-    const meetingParam: any = buildQueryParams(additionalParams);
+    const meetingParam = buildQueryParams(additionalParams);
 
     const meetingParameter = {
       queryParams: meetingParam,
     };
 
     try {
-      await getMeetingListTrigger(meetingParameter)?.unwrap();
-      setListData([]);
-    } catch (error) {}
+      const response: ApiResponseI = (await getMeetingListTrigger(
+        meetingParameter,
+      )?.unwrap()) as ApiResponseI;
+      setListData(response?.data?.meetings);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   useEffect(() => {
     getMeetingListData();
   }, [search, page, pageLimit, cardValue]);
-  const listViewMeetingData = getMeetingListStatus?.data?.data?.meetings;
 
   const activeCard = (meetingType: string, meetingHeading: string) => {
     setIsActiveCard(meetingHeading);
@@ -72,7 +79,8 @@ export const useListView = () => {
   }, [meetingsType]);
 
   const meetings = meetingCardsDetails(theme, getMeetingListStatus);
-  const [deleteMeetingsTrigger, deleteMeetingsStatus]: any =
+
+  const [deleteMeetingsTrigger, deleteMeetingsStatus] =
     useDeleteMeetingsMutation();
 
   const submitDeleteModal = async () => {
@@ -121,7 +129,6 @@ export const useListView = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    listViewMeetingData,
     openForm,
     setOpenForm,
     meetingActiveType,

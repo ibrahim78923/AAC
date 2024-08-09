@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   horizontalTabsBox: {
     boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
@@ -31,12 +33,12 @@ export const styles = {
     justifyContent: 'space-between',
     marginBottom: '13px',
   },
-  salesTextBox: (theme: any) => {
+  salesTextBox: (theme: Theme) => {
     return {
       color: theme?.palette?.custom?.main,
     };
   },
-  salesHeading: (theme: any) => {
+  salesHeading: (theme: Theme) => {
     return {
       color: theme?.palette?.blue?.dull_blue,
       fontWeight: 600,
@@ -48,7 +50,7 @@ export const styles = {
     gap: 1,
     flexDirection: { xs: 'column', sm: 'row' },
   },
-  salesPriority: (theme: any) => {
+  salesPriority: (theme: Theme) => {
     return {
       background: theme?.palette?.grey[400],
       padding: '2px 4px 2px 6px',

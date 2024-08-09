@@ -5,7 +5,6 @@ import {
   OPERATION,
   organization,
   settingSalesProductCategory,
-  WHATSAPP_MARKETING,
 } from '@/routesConstants/endpoints';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
 import { SMS_MARKETING } from '@/services/airMarketer/SmsMarketing';
@@ -190,11 +189,11 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
     getAllWhatsAppTemplateList: builder.query({
       query: () => ({
-        url: WHATSAPP_MARKETING?.GET_WHATSAAP_TEMPLATE,
+        url: END_POINTS?.WHATSAPP_TEMPLATE,
         method: 'GET',
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.smstemplates;
+        if (response) return response?.data?.whatsapptemplates;
       },
       providesTags: ['CAMPAIGNS_LISTS'],
     }),

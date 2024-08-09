@@ -33,8 +33,9 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { EmailEditorDrawerProps } from '../Emails-interface';
 
-const EmailEditorDrawer = (props: any) => {
+const EmailEditorDrawer = (props: EmailEditorDrawerProps) => {
   const { openDrawer, setOpenDrawer } = props;
   const {
     handleSubmit,

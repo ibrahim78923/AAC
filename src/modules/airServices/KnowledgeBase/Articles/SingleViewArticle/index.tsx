@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { styles } from './SingleViewArticle.style';
@@ -12,20 +12,34 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { truncateText } from '@/utils/avatarUtils';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const SingleViewArticle = () => {
   const {
     theme,
-    openDelete,
+
     articleId,
-    setOpenDelete,
+
     data,
     isLoading,
     isFetching,
     router,
+    isError,
+    refetch,
+    isPortalOpen,
+    setIsPortalOpen,
   } = useSingleViewArticle();
 
   if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError)
+    return (
+      <ApiErrorState>
+        <Button variant="contained" onClick={() => refetch?.()}>
+          Refresh
+        </Button>
+      </ApiErrorState>
+    );
+
   return (
     <>
       <Grid container spacing={1} justifyContent={'space-between'}>
@@ -171,7 +185,9 @@ export const SingleViewArticle = () => {
                 <LoadingButton
                   variant="text"
                   color="error"
-                  onClick={() => setOpenDelete(true)}
+                  onClick={() =>
+                    setIsPortalOpen({ isOpen: true, isDelete: true })
+                  }
                   fullWidth
                 >
                   Delete
@@ -181,12 +197,14 @@ export const SingleViewArticle = () => {
           </Box>
         </Grid>
       </Grid>
-      <DeleteArticles
-        deleteModalOpen={openDelete}
-        setDeleteModalOpen={setOpenDelete}
-        selectedArticlesData={[articleId]}
-        moveBack={true}
-      />
+      {isPortalOpen?.isOpen && (
+        <DeleteArticles
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+          selectedArticlesData={[{ _id: articleId }]}
+          moveBack={true}
+        />
+      )}
     </>
   );
 };

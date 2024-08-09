@@ -32,8 +32,9 @@ import { MircosoftTeamsIcon, ZoomIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { attendeesOptions } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { SwitchBtn } from '@/components/SwitchButton';
+import { MeetingsEditorDrawerProps } from '../Meetings-interface';
 
-const MeetingsEditorDrawer = (props: any) => {
+const MeetingsEditorDrawer = (props: MeetingsEditorDrawerProps) => {
   const theme = useTheme();
   const { openDrawer, setOpenDrawer } = props;
   const { handleSubmit, onSubmit, methodsdealsCalls } =

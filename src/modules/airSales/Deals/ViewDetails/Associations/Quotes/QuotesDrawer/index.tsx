@@ -7,8 +7,9 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { columns } from './QuotesDrawer.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { v4 as uuidv4 } from 'uuid';
+import { QuotesDrawerProps } from '../../Associations-interface';
 
-const QuotesDrawer = (props: any) => {
+const QuotesDrawer = (props: QuotesDrawerProps) => {
   const { openDrawer, setOpenDrawer, quotesDetails, isLoading } = props;
 
   return (

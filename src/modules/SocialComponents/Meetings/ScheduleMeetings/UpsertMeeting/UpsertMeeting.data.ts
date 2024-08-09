@@ -43,9 +43,13 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
     startDate: meetingData?.startDate
       ? new Date(meetingData?.startDate ?? todayDate)
       : null,
-    startTime: timeFormatter(meetingData?.startTime) ?? new Date(),
+    startTime: meetingData?.startTime
+      ? timeFormatter(meetingData?.startTime)
+      : null,
     endDate: meetingData?.startDate ? new Date(meetingData?.endDate) : null,
-    endTime: timeFormatter(meetingData?.endTime) ?? new Date(),
+    endTime: meetingData?.startTime
+      ? timeFormatter(meetingData?.endTime)
+      : null,
     recurring: meetingData?.isRecurring ?? false,
     recurringType: meetingData?.recurring?.type
       ? recurringTypeOption?.find(
@@ -116,7 +120,7 @@ export const upsertMeetingSchema: any = (router: any) =>
     allDay: Yup?.boolean(),
     timeZone: Yup?.mixed()?.required('Required'),
     startDate: Yup?.date()?.required('Required'),
-    startTime: Yup?.date()?.when(schemaTypes?.allDay, {
+    startTime: Yup?.mixed()?.when(schemaTypes?.allDay, {
       is: (allDay: string) => allDay,
       then: (schema: any) => schema?.notRequired(),
       otherwise: (schema: any) => schema?.required('Required'),
@@ -239,44 +243,7 @@ export const upsertMeetingSchema: any = (router: any) =>
       }),
     ),
   });
-export const allDayValues = [
-  {
-    name: 'meetingType',
-    value: { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
-  },
-  {
-    name: 'location',
-    value: null,
-  },
-  {
-    name: 'startTime',
-    value: new Date(),
-  },
-  {
-    name: 'endTime',
-    value: null,
-  },
-  {
-    name: 'recurring',
-    value: false,
-  },
-  {
-    name: 'bufferBefore',
-    value: false,
-  },
-  {
-    name: 'bufferBeforeTime',
-    value: '',
-  },
-  {
-    name: 'bufferAfter',
-    value: false,
-  },
-  {
-    name: 'bufferAfterTime',
-    value: '',
-  },
-];
+
 export const meetingTitle: any = {
   'one-to-one': 'One to One',
   group: 'Group',

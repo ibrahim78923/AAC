@@ -22,7 +22,9 @@ const ContactsGroup = () => {
     methodsCreateGroup,
     handleCreateGroupSubmit,
     loadingCreateGroup,
+    loadingUpdateGroup,
     loadingGetContacts,
+    fetchingGetContacts,
     dataGetContacts,
     selectedUsers,
     setSelectedUsers,
@@ -101,12 +103,12 @@ const ContactsGroup = () => {
         onClose={handleCloseModalCreate}
         methods={methodsCreateGroup}
         onSubmit={handleCreateGroupSubmit}
-        contactList={dataGetContacts?.data?.contacts}
-        loadingTable={loadingGetContacts}
+        contactList={dataGetContacts?.data}
+        loadingTable={loadingGetContacts || fetchingGetContacts}
         selectedUsers={selectedUsers}
         setSelectedUsers={setSelectedUsers}
         setSearchValue={setSearchValue}
-        loadingPost={loadingCreateGroup}
+        loadingPost={loadingCreateGroup || loadingUpdateGroup}
       />
 
       <AlertModals

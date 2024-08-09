@@ -6,8 +6,6 @@ import dayjs from 'dayjs';
 export const restoreTableColumns: any = (
   selectedRow: any,
   setSelectedRow: any,
-  setIsActionsDisabled: (value: boolean) => void,
-  setRowId: any,
 ) => {
   const handleRowClick = (id: any) => {
     const selectedIndex = selectedRow?.indexOf(id);
@@ -26,12 +24,6 @@ export const restoreTableColumns: any = (
       );
     }
     setSelectedRow(newSelected);
-    setIsActionsDisabled(newSelected.length === 0);
-    if (newSelected.length === 1) {
-      setRowId(newSelected[0]);
-    } else {
-      setRowId(null);
-    }
   };
 
   // Select All Row
@@ -42,11 +34,9 @@ export const restoreTableColumns: any = (
     if (event?.target?.checked) {
       const newSelected = rows?.map((n: any) => n?._id);
       setSelectedRow(newSelected);
-      setIsActionsDisabled(false);
       return;
     }
     setSelectedRow([]);
-    setIsActionsDisabled(true);
   };
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
@@ -79,6 +69,7 @@ export const restoreTableColumns: any = (
               selectedRow?.length === info?.table?.options?.data?.length
             }
             onChange={(event) => handleSelectAllClick(event, rows)}
+            disabled={rows?.length === 0}
           />
         );
       },

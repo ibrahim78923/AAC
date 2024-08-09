@@ -63,19 +63,6 @@ export const orgEmployeeValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
   address: Yup.string()?.required('Field is Required'),
-  jobTitle: Yup.string()
-    .nullable() // Allow null or undefined values
-    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
-    .transform((value, originalValue) => {
-      if (
-        originalValue === '' ||
-        originalValue === null ||
-        originalValue === undefined
-      ) {
-        return null; // Convert empty string or null/undefined to null
-      }
-      return value;
-    }),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
@@ -113,19 +100,6 @@ export const superAdminValidationSchema = Yup.object().shape({
     }),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string()?.required('Field is Required'),
-  jobTitle: Yup.string()
-    .nullable()
-    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed')
-    .transform((value, originalValue) => {
-      if (
-        originalValue === '' ||
-        originalValue === null ||
-        originalValue === undefined
-      ) {
-        return null;
-      }
-      return value;
-    }),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });

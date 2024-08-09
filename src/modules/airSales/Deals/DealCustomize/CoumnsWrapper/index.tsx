@@ -1,7 +1,5 @@
 import { Box, Checkbox, useTheme } from '@mui/material';
-
 import { DragIcon } from '@/assets/icons';
-
 import { styles } from '../DealCustomize.style';
 
 const ColumnsWrapper = ({ ...rest }) => {

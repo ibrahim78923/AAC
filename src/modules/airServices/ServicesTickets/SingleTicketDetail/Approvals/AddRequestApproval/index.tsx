@@ -25,6 +25,7 @@ export const AddRequestApproval = (props: any) => {
       submitHandler={() => handleSubmit(onSubmit)()}
       isLoading={postApprovalTicketsStatus?.isLoading}
       isDisabled={postApprovalTicketsStatus?.isLoading}
+      disabledCancelBtn={postApprovalTicketsStatus?.isLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

@@ -21,7 +21,7 @@ export const defaultValues = {
   sharedWith: '',
 };
 
-export const CreateViewData = (dealPipelineId: any) => {
+export const CreateViewData = (dealPipelineId: { _id: string }) => {
   const { pipelineListDropdown } = useDealTab();
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;

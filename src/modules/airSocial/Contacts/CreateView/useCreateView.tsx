@@ -10,20 +10,33 @@ import {
   useLazyGetLifeCycleStagesQuery,
   useLazyGetContactsStatusQuery,
 } from '@/services/common-APIs';
-import { usePostContactsViewMutation } from '@/services/commonFeatures/contacts';
+import {
+  usePostContactsViewMutation,
+  useGetAllUserTeamsQuery,
+} from '@/services/commonFeatures/contacts';
 import {
   createViewDefaultValues,
   createViewValidationSchema,
 } from './CreateView.data';
 
-const useCreateView = (sharedWithvalue: string) => {
-  const { user }: any = useAuth();
-  // const teamId = '6663f6c093824f083240ed0c' || null;
-  const teamId = null;
+const useCreateView = (sharedWithvalue: string, isOpen: boolean) => {
+  const { user, product }: any = useAuth();
+  const productId = product?._id;
+
   const orgId = user?.organization?._id;
   const contactOwnerData = useLazyGetOrganizationUsersQuery();
   const contactStatusData = useLazyGetContactsStatusQuery();
   const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
+
+  const {
+    data: dataGetAllUserTeams,
+    isLoading: loadingAllUserTeams,
+    isFetching: fetchingAllUserTeams,
+  } = useGetAllUserTeamsQuery({ productId }, { skip: !isOpen });
+
+  const teamIds = dataGetAllUserTeams?.data?.map(
+    (product: any) => product?.team?._id,
+  );
 
   const [postContactsView, { isLoading: loadingCreateView }] =
     usePostContactsViewMutation();
@@ -39,7 +52,7 @@ const useCreateView = (sharedWithvalue: string) => {
       sharedWith: sharedWithvalue,
     };
     if (sharedWithvalue === 'MY_TEAM') {
-      payload['teamId'] = teamId;
+      payload['teamIds'] = teamIds;
     }
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -63,7 +76,7 @@ const useCreateView = (sharedWithvalue: string) => {
     try {
       await postContactsView({ body: payload })?.unwrap();
       closeDrawer();
-      enqueueSnackbar('Contact has been Added Successfully', {
+      enqueueSnackbar('Contacts view created successfully', {
         variant: 'success',
       });
     } catch (error: any) {
@@ -86,7 +99,10 @@ const useCreateView = (sharedWithvalue: string) => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
-    teamId,
+    dataGetAllUserTeams,
+    fetchingAllUserTeams,
+    loadingAllUserTeams,
+    teamIds,
   };
 };
 

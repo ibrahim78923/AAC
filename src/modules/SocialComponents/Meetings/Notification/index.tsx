@@ -4,6 +4,7 @@ import { Avatar, Box, Typography } from '@mui/material';
 import { useNotification } from './useNotification';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { MeetingNotificationI } from './Notification.interface';
 
 export const Notification = () => {
   const {
@@ -23,7 +24,7 @@ export const Notification = () => {
   return (
     <Box>
       <PageTitledHeader title={'Notification'} />
-      {meetingsNotificationData?.map((item: any) => (
+      {meetingsNotificationData?.map((item: MeetingNotificationI) => (
         <Box
           key={item?.id}
           border="1px solid"

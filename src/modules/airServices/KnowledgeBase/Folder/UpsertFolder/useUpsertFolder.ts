@@ -1,40 +1,65 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { usePostFolderMutation } from '@/services/airServices/knowledge-base/articles';
+import {
+  usePostFolderMutation,
+  useUpdateFolderForArticlesMutation,
+} from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   upsertFolderFormDefaultValues,
   upsertFolderValidationSchema,
 } from './UpsertFolder.data';
+import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 
-export const useUpsertFolder = (props: any) => {
-  const { setOpenDialog } = props;
+export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
+  const { setIsPortalOpen, isPortalOpen } = props;
+
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertFolderValidationSchema),
-    defaultValues: upsertFolderFormDefaultValues,
+    defaultValues: upsertFolderFormDefaultValues?.(isPortalOpen?.data),
   });
 
   const { handleSubmit, reset } = methods;
+
   const [postFolderTrigger, postFolderStatus] = usePostFolderMutation();
+  const [updateFolderForArticlesTrigger, updateFolderForArticlesStatus] =
+    useUpdateFolderForArticlesMutation();
 
   const onSubmit = async (data: any) => {
     const body = {
       ...data,
       visibility: data?.visibility?._id,
     };
+    const apiDataParameter = { body };
+
+    if (!!isPortalOpen?.data?._id) {
+      submitUpdateFolder(body);
+      return;
+    }
 
     try {
-      await postFolderTrigger(body)?.unwrap();
-      successSnackbar('Create Folder Successfully!');
-      closeUpsetFolderModal?.();
+      await postFolderTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Folder created successfully!');
+      closePortal?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
   };
 
-  const closeUpsetFolderModal = () => {
-    setOpenDialog(false);
+  const submitUpdateFolder = async (body: any) => {
+    const apiDataParameter = { body };
+    try {
+      await updateFolderForArticlesTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Folder updated successfully!');
+      closePortal?.();
+    } catch (error: any) {
+      errorSnackbar?.(error?.data?.message);
+    }
+  };
+
+  const closePortal = () => {
+    setIsPortalOpen({});
     reset();
   };
 
@@ -43,6 +68,7 @@ export const useUpsertFolder = (props: any) => {
     handleSubmit,
     onSubmit,
     postFolderStatus,
-    closeUpsetFolderModal,
+    closePortal,
+    updateFolderForArticlesStatus,
   };
 };

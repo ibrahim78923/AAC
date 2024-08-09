@@ -152,14 +152,22 @@ export const agentsListsColumnsFunction = (
     id: 'email',
     header: 'Email',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.departmentData?.name,
     id: 'name',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.accountsPermissions,

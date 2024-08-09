@@ -1,178 +1,198 @@
-import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const upsertUserValidationSchema: any = Yup?.object()?.shape({
-  firstName: Yup?.string()?.required('Required'),
-  lastName: Yup?.string()?.required('Required'),
-  address: Yup?.string()?.required('Required'),
-  email: Yup?.string()?.required('Required'),
-  phoneNumber: Yup?.string(),
-  jobTitle: Yup?.string(),
-  role: Yup?.mixed()?.nullable(),
-  team: Yup?.mixed()?.nullable(),
+export const userLanguage = [
+  {
+    _id: 'English',
+    label: 'English',
+  },
+];
+
+export const TITLE_FORM_USER = {
+  ADD: 'Add User',
+  EDIT: 'Edit User',
+  VIEW: 'View User',
+};
+
+export const upsertUserValidationSchema = Yup.object().shape({
+  firstName: Yup?.string()?.trim()?.required('First Name is required'),
+  lastName: Yup?.string()?.trim()?.required('Last Name is required'),
+  address: Yup?.string()?.trim()?.required('Address is required'),
+  email: Yup?.string()?.email('Invalid email')?.required('Email is required'),
+  phoneNumber: Yup?.string()?.trim(),
+  jobTitle: Yup?.string()?.trim(),
+  role: Yup?.mixed()?.nullable()?.required('Role is required'),
+  team: Yup?.mixed()?.nullable()?.required('Team is required'),
   language: Yup?.mixed()?.nullable(),
-  facebookUrl: Yup?.string(),
-  linkedinUrl: Yup?.string(),
-  twitterUrl: Yup?.string(),
+  facebookUrl: Yup?.string()?.trim(),
+  linkedInUrl: Yup?.string()?.trim(),
+  twitterUrl: Yup?.string()?.trim(),
 });
 
 export const upsertUserDefaultValues = (data?: any) => {
   return {
     firstName: data?.user?.firstName ?? '',
     lastName: data?.user?.lastName ?? '',
-    address: data?.address?.composite,
+    address: data?.user?.address ?? '',
     email: data?.user?.email ?? '',
     phoneNumber: data?.user?.phoneNumber ?? '',
     jobTitle: data?.user?.jobTitle ?? '',
     role: data?.role ?? null,
     team: data?.team ?? null,
-    language: data?.user?.language ?? null,
+    language:
+      userLanguage?.find((item: any) => item?._id === data?.user?.language) ??
+      null,
     facebookUrl: data?.user?.facebookUrl ?? '',
     linkedInUrl: data?.user?.linkedInUrl ?? '',
     twitterUrl: data?.user?.twitterUrl ?? '',
   };
 };
 
-export const upsertUserArray = (rolesDropdown: any, usersTeamDropdown: any) => [
+export const upsertUserFormFieldsDynamic = (
+  roleApiQuery: any,
+  roleApiQueryParams: any,
+  teamApiQuery: any,
+) => [
   {
     id: 1,
-    subheading: 'Add a new user to this organization.',
     componentProps: {
       name: 'firstName',
-      label: 'First name',
-      placeholder: 'Enter first name',
-      fullWidth: true,
+      label: 'First Name',
+      placeholder: 'Enter First Name',
       required: true,
+      fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 2,
-    componentProps: {
-      name: 'lastName',
-      label: 'Last name',
-      placeholder: 'Enter last name',
-      fullWidth: true,
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
   },
   {
     id: 3,
+
     componentProps: {
-      name: 'address',
-      label: 'Address',
-      placeholder: 'Enter business address',
+      name: 'lastName',
+      label: 'Last Name',
+      placeholder: 'Enter Last Name',
       fullWidth: true,
       required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 4,
+
     componentProps: {
-      name: 'email',
-      label: 'Email',
-      placeholder: 'Enter business email',
+      name: 'address',
+      label: 'Address',
+      placeholder: 'Enter Address',
       fullWidth: true,
       required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 5,
+
     componentProps: {
-      name: 'phoneNumber',
-      label: 'Phone number',
-      placeholder: 'Enter phone number',
+      name: 'email',
+      label: 'Email',
+      placeholder: 'Enter Email',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 6,
+
     componentProps: {
-      name: 'jobTitle',
-      label: 'Job title',
-      placeholder: 'UI UX DESIGNER',
+      name: 'phoneNumber',
+      label: 'Phone Number',
+      placeholder: 'Enter Phone Number',
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 7,
+
     componentProps: {
-      name: 'role',
-      label: 'Assign Department',
-      placeholder: 'Select',
+      name: 'jobTitle',
+      label: 'Job Title',
+      placeholder: 'Enter Job Title',
       fullWidth: true,
-      apiQuery: rolesDropdown,
-      externalParams: { limit: 100 },
     },
-    component: RHFAutocompleteAsync,
-    md: 12,
+    component: RHFTextField,
   },
   {
     id: 8,
     componentProps: {
-      name: 'team',
-      label: 'Select team',
-      placeholder: 'Select',
+      name: 'role',
+      label: 'Assign role',
+      placeholder: 'Select role',
       fullWidth: true,
-      apiQuery: usersTeamDropdown,
-      externalParams: { limit: 100 },
+      apiQuery: roleApiQuery,
+      externalParams: roleApiQueryParams,
+      required: true,
+      getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
     id: 9,
     componentProps: {
-      name: 'language',
-      label: 'Language',
-      type: 'text',
-      size: 'small',
+      name: 'team',
+      label: 'Select team',
+      placeholder: 'Select team',
+      fullWidth: true,
+      apiQuery: teamApiQuery,
+      required: true,
+      getOptionLabel: (option: any) => option?.name,
     },
-    component: RHFTextField,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 10,
     componentProps: {
-      name: 'facebookUrl',
-      label: 'Facebook url',
-      placeholder: 'paste URL',
+      name: 'language',
+      label: 'Language',
+      placeholder: 'Select Language',
       fullWidth: true,
+      options: userLanguage,
+      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFTextField,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
     id: 11,
     componentProps: {
-      name: 'linkedInUrl',
-      label: 'Linkedin url',
-      placeholder: 'paste URL',
+      name: 'facebookUrl',
+      label: 'Facebook Url',
+      placeholder: 'Enter Facebook Url',
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 12,
     componentProps: {
-      name: 'twitterUrl',
-      label: 'Twitter url',
-      placeholder: 'paste URL',
+      name: 'linkedInUrl',
+      label: 'LinkedIn Url',
+      placeholder: 'Enter linkedIn Url',
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
+  },
+  {
+    id: 13,
+    componentProps: {
+      name: 'twitterUrl',
+      label: 'Twitter Url',
+      placeholder: 'Enter Twitter Url',
+      fullWidth: true,
+    },
+    component: RHFTextField,
   },
 ];

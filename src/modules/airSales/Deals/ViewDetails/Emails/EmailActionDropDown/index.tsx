@@ -16,8 +16,9 @@ import { EmailTestingData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { styles } from './EmailActionDropDown.style';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { EmailActionDropDownProps } from '../Emails-interface';
 
-const EmailActionDropDown = (props: any) => {
+const EmailActionDropDown = (props: EmailActionDropDownProps) => {
   const { setOpenDrawer, selectedCheckboxes } = props;
 
   const {

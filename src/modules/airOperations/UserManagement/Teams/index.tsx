@@ -1,82 +1,65 @@
-import { TeamsHeader } from './TeamsHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTeams } from './useTeams';
-import UpsertTeams from './UpsertTeams';
-import { AgentConversionDelete } from '../AgentConversionDelete';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
+import { Box, Button } from '@mui/material';
+import { AddWhiteBgIcon } from '@/assets/icons';
+import Search from '@/components/Search';
 
 export const Teams = () => {
   const {
     teamListColumn,
-    deleteModal,
-    setDeleteModal,
-    metaData,
-    data,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
     setPageLimit,
     setPage,
-    submitDeleteModal,
-    deleteStatus,
-    isEditDrawerOpen,
-    onClose,
-    teamIdData,
     setSearch,
-    isDrawerOpen,
-    setIsDrawerOpen,
+    isPortalOpen,
+    setIsPortalOpen,
+    lazyGetTeamListForOperationStatus,
+    renderPortalComponent,
   } = useTeams();
   return (
     <>
-      <TeamsHeader
-        setSearch={setSearch}
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
-      <PermissionsGuard
-        permissions={[
-          AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
-        ]}
+      <Box
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        gap={2}
+        flexWrap={'wrap'}
       >
-        <TanstackTable
-          data={data?.data?.userTeams}
-          columns={teamListColumn}
-          isPagination={true}
-          isLoading={isLoading}
-          isError={isError}
-          isFetching={isFetching}
-          isSuccess={isSuccess}
-          setPageLimit={setPageLimit}
-          setPage={setPage}
-          count={metaData?.pages}
-          totalRecords={metaData?.total}
-          onPageChange={(page: any) => setPage(page)}
-          currentPage={metaData?.page}
-          pageLimit={metaData?.limit}
-        />
-      </PermissionsGuard>
-      {isEditDrawerOpen && (
-        <UpsertTeams
-          isDrawerOpen={isEditDrawerOpen}
-          setIsDrawerOpen={onClose}
-          teamData={teamIdData}
-          title={'Edit Team'}
-          okText={'Save'}
-        />
-      )}
-      {deleteModal && (
-        <AgentConversionDelete
-          message={'Are you sure you want to delete this Team?'}
-          deleteStatus={deleteStatus}
-          open={deleteModal?.val}
-          handleClose={() => {
-            setDeleteModal(false);
+        <Box>
+          <Search label="Search Here" setSearchBy={setSearch} />
+        </Box>
+        <Button
+          variant="contained"
+          startIcon={<AddWhiteBgIcon />}
+          onClick={() => {
+            setIsPortalOpen?.({
+              isOpen: true,
+              isUpsert: true,
+            });
           }}
-          submitDeleteModal={submitDeleteModal}
-        />
-      )}
+        >
+          Create Team
+        </Button>
+      </Box>
+      <br />
+      <TanstackTable
+        data={lazyGetTeamListForOperationStatus?.data?.data?.userteams ?? []}
+        columns={teamListColumn}
+        isPagination
+        isLoading={lazyGetTeamListForOperationStatus?.isLoading}
+        isError={lazyGetTeamListForOperationStatus?.isError}
+        isFetching={lazyGetTeamListForOperationStatus?.isFetching}
+        isSuccess={lazyGetTeamListForOperationStatus?.isSuccess}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+        count={lazyGetTeamListForOperationStatus?.data?.data?.meta?.pages}
+        totalRecords={
+          lazyGetTeamListForOperationStatus?.data?.data?.meta?.total
+        }
+        onPageChange={(page: any) => setPage(page)}
+        currentPage={lazyGetTeamListForOperationStatus?.data?.data?.meta?.page}
+        pageLimit={lazyGetTeamListForOperationStatus?.data?.data?.meta?.limit}
+      />
+      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };

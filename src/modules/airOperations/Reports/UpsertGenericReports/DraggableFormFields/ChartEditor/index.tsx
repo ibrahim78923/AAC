@@ -191,7 +191,7 @@ export const ChartEditor = (props: ChartEditorI) => {
         />
       </Box>
       <Toolbar
-        sx={{ mt: 19, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
+        sx={{ mt: 15, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
       >
         <Button variant="outlined" onClick={handleCancel} color="secondary">
           Cancel

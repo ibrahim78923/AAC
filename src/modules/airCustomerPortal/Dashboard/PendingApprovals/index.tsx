@@ -1,5 +1,4 @@
 import { CardLayout } from '../CardLayout';
-import { Box } from '@mui/material';
 import { usePendingApprovals } from './usePendingApprovals';
 import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -20,14 +19,16 @@ export const PendingApprovals = () => {
           pathname: AIR_CUSTOMER_PORTAL?.APPROVALS,
         });
       }}
-      maxHeight={260}
+      btnPosition="left"
+      buttonText="View All"
+      maxHeight={'40vh'}
     >
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
         <ApiErrorState height={'100%'} />
       ) : (
-        <Box my="0.75rem">
+        <>
           {!!data?.data?.length ? (
             data?.data?.map((approval: any) => (
               <Fragment key={approval?._id}>
@@ -37,7 +38,7 @@ export const PendingApprovals = () => {
           ) : (
             <NoData height={'100%'} />
           )}
-        </Box>
+        </>
       )}
     </CardLayout>
   );

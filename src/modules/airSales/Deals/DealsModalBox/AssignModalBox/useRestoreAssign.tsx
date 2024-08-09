@@ -9,9 +9,9 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { getSession } from '@/utils';
 
 const useRestoreAssign = (
-  seletedId: any,
-  onClose: any,
-  setSelectedRows: any,
+  seletedId: string[],
+  onClose: () => void,
+  setSelectedRows: (rows: string[]) => void,
 ) => {
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;

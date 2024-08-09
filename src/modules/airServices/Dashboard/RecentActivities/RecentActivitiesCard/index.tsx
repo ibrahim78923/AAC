@@ -39,7 +39,7 @@ export const RecentActivitiesCard = (props: any) => {
               data?.userDetails?.lastName,
             )}
           </Typography>{' '}
-          has {data?.activityType}{' '}
+          has {data?.activityType?.toLowerCase()}{' '}
           <Typography
             component="span"
             color="custom.bright"

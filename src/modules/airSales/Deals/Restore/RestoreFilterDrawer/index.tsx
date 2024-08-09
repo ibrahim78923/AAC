@@ -4,13 +4,14 @@ import { Box } from '@mui/material';
 
 import { FormProvider, RHFDatePicker } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
+import { RestoreFilterDrawerProps } from '../Restore-interface';
 
 const RestoreFilterDrawer = ({
   open,
   onClose,
   setRestoreFilter,
   setIsRestoreFilterDrawer,
-}: any) => {
+}: RestoreFilterDrawerProps) => {
   const methods = useForm({});
   const { handleSubmit } = methods;
 
