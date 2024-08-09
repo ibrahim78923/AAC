@@ -14,8 +14,6 @@ import { enqueueSnackbar } from 'notistack';
 
 const useRestore = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const defaultParams = {
@@ -123,7 +121,6 @@ const useRestore = () => {
       enqueueSnackbar('Contact has been permanently deleted.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -154,7 +151,6 @@ const useRestore = () => {
       enqueueSnackbar('Record has been restored.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -210,10 +206,6 @@ const useRestore = () => {
     handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,

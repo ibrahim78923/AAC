@@ -13,6 +13,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { createViewData } from './CreateView.data';
 import useCreateView from './useCreateView';
 import { sharedWithOptions } from '../ContactsSaleSite.data';
+import Loader from '@/components/Loader';
 
 const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
   const theme = useTheme();
@@ -25,8 +26,10 @@ const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
-    teamId,
-  } = useCreateView(sharedWithvalue);
+    fetchingAllUserTeams,
+    loadingAllUserTeams,
+    teamIds,
+  } = useCreateView(sharedWithvalue, open);
 
   const formFields = createViewData(
     orgId,
@@ -96,7 +99,7 @@ const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
                 value={sharedWithOptions?.myTeam}
                 control={<Radio />}
                 label="My Teams (worked)"
-                disabled={!teamId}
+                disabled={!teamIds || teamIds?.length === 0}
               />
               <FormControlLabel
                 value={sharedWithOptions?.everyone}
@@ -106,6 +109,7 @@ const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
             </RadioGroup>
           </FormControl>
         </Box>
+        <Loader isLoading={fetchingAllUserTeams || loadingAllUserTeams} />
       </CommonDrawer>
     </>
   );

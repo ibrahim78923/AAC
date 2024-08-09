@@ -11,7 +11,15 @@ const ContactTabs = (props: any) => {
   return (
     <TabContext value={tabValue}>
       <Box sx={styles?.container}>
-        <TabList variant="scrollable" onChange={handleTabChange}>
+        <TabList
+          variant="scrollable"
+          onChange={handleTabChange}
+          sx={{
+            '& .MuiTabScrollButton-root.Mui-disabled': {
+              opacity: 0.2,
+            },
+          }}
+        >
           {tabsArray?.map((tab: any) => {
             return (
               <Tab
@@ -20,7 +28,6 @@ const ContactTabs = (props: any) => {
                     color: theme?.palette?.custom?.turquoise_Blue,
                   },
                 }}
-                classes={{ textColorPrimary: 'text-primary-my' }}
                 disableRipple
                 key={tab?._id}
                 value={tab?._id}

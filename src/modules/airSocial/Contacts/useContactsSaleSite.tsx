@@ -15,13 +15,11 @@ import {
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
-import { CONTACTS_CONSTANTS, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   customValidationSchema,
   defaultValues,
 } from './ContactsModalBox/AssignModalBox/AssignModal.data';
-import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import { sharedWithOptions } from './ContactsSaleSite.data';
 import {
   ViewTabsI,
@@ -74,15 +72,6 @@ const useContactsSaleSite = () => {
   } = useGetContactsQuery({
     params: { ...filterParams, ...searchPayLoad, ...paginationParams },
   });
-
-  const router = useRouter();
-  useEffect(() => {
-    if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
-      setFilterParams({ numberType: CONTACTS_CONSTANTS?.WHATSAPP_NUMBER });
-    } else if (router?.pathname === AIR_MARKETER?.SMS_MARKETING) {
-      setFilterParams({ numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER });
-    }
-  }, [router?.pathname]);
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);
@@ -404,10 +393,9 @@ const useContactsSaleSite = () => {
     sharedWithvalue,
     isImportDrawer,
     setIsImportDrawer,
+    // Customize Columns
     isCustomize,
     setIsCustomize,
-
-    // Customize Columns
     columnsData,
     loadingGetColumns,
     selecttedColumns,
