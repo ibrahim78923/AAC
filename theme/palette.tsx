@@ -167,6 +167,9 @@ const CUSTOM_COLORS = {
   primary_blue: '#277EFF',
   greenish_cyan: '#41CCB8',
   shadow_black: '#00000040',
+  light_cream: '#FFF6DB',
+  blush_pink: '#FFBDBD',
+  pale_mint: '#D9F8E1',
 };
 const GRAPH = {
   cyan: 'blue',
