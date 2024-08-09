@@ -2,6 +2,7 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKETS';
+const TAG_TWO = 'CUSTOMER_TICKET_CONVERSATION';
 
 export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -56,6 +57,22 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    postReplyForCustomerTicketConversation: builder?.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CONVERSATION_EMAIL}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: [TAG_TWO],
+    }),
+    getConversationForCustomerSingleTicket: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_CONVERSATION_EMAIL}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -69,4 +86,7 @@ export const {
   useLazyGetSingleDefaultSurveyForCustomerTicketsQuery,
   useGetSingleDefaultSurveyForCustomerTicketsQuery,
   useLazyCheckSingleDefaultSurveySubmittedForRequesterQuery,
+  useLazyGetConversationForCustomerSingleTicketQuery,
+  usePostReplyForCustomerTicketConversationMutation,
+  useGetConversationForCustomerSingleTicketQuery,
 } = ticketsAPI;

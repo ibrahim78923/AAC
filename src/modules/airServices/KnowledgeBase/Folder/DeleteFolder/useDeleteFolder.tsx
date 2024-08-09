@@ -1,20 +1,12 @@
-import { PAGINATION } from '@/config';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
+import { useDeleteFolderForArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 
-export const useDeleteFolder = (props: any) => {
-  const {
-    setPage,
-    totalRecords,
-    page,
-    getFolderListData,
-    setIsPortalOpen,
-    isPortalOpen,
-  } = props;
+export const useDeleteFolder = (props: ArticlesPortalComponentPropsI) => {
+  const { getFolderListData, setIsPortalOpen, isPortalOpen } = props;
 
-  const [deleteSingleServicesFolderTrigger, deleteSingleServicesFolderStatus] =
-    useDeleteDynamicServicesDashboardMutation();
+  const [deleteFolderForArticleTrigger, deleteFolderForArticleStatus] =
+    useDeleteFolderForArticleMutation();
 
   const deleteFolder = async () => {
     const apiDataParameter = {
@@ -23,15 +15,10 @@ export const useDeleteFolder = (props: any) => {
       },
     };
     try {
-      await deleteSingleServicesFolderTrigger(apiDataParameter)?.unwrap();
+      await deleteFolderForArticleTrigger(apiDataParameter)?.unwrap();
       successSnackbar?.('Folder deleted successfully!');
       closeFolderDeleteModal?.();
-      const newPage =
-        totalRecords === SELECTED_ARRAY_LENGTH?.ONE
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getFolderListData?.(newPage);
+      await getFolderListData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -43,7 +30,7 @@ export const useDeleteFolder = (props: any) => {
 
   return {
     deleteFolder,
-    deleteSingleServicesFolderStatus,
+    deleteFolderForArticleStatus,
     closeFolderDeleteModal,
   };
 };

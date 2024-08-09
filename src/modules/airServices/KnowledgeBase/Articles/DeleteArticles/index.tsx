@@ -1,8 +1,9 @@
 import { AlertModals } from '@/components/AlertModals';
 import { useDeleteArticles } from './useDeleteArticles';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const DeleteArticles = (props: any) => {
+export const DeleteArticles = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
   const { deleteArticles, closeArticleDeleteModal, deleteArticleStatus } =
     useDeleteArticles(props);

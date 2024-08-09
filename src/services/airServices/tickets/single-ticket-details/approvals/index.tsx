@@ -60,12 +60,12 @@ export const approvalsTicketsAPI = baseAPI?.injectEndpoints({
     }),
     getUsersDropdownListForTicketsApprovals: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.AGENTS_DROPDOWN}`,
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data;
       },
     }),
   }),

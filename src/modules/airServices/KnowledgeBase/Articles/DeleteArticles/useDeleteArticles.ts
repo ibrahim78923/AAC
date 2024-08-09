@@ -3,8 +3,9 @@ import { AIR_SERVICES } from '@/constants';
 import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const useDeleteArticles = (props: any) => {
+export const useDeleteArticles = (props: ArticlesPortalComponentPropsI) => {
   const {
     setIsPortalOpen,
     selectedArticlesData,
@@ -22,7 +23,11 @@ export const useDeleteArticles = (props: any) => {
 
   const deleteArticles = async () => {
     const deleteParams = new URLSearchParams();
-    selectedArticlesData?.forEach((id: any) => deleteParams?.append('ids', id));
+
+    selectedArticlesData?.forEach(
+      (article: any) => deleteParams?.append('ids', article?._id),
+    );
+
     const deleteArticlesParameter = {
       queryParams: deleteParams,
     };
@@ -30,17 +35,13 @@ export const useDeleteArticles = (props: any) => {
       await deleteArticleTrigger(deleteArticlesParameter)?.unwrap();
       successSnackbar('Article deleted successfully');
       setSelectedArticlesData?.([]);
-      setPage?.(
-        selectedArticlesData?.length === totalRecords
-          ? PAGINATION?.CURRENT_PAGE
-          : page,
-      );
+      closeArticleDeleteModal?.();
       const newPage =
         selectedArticlesData?.length === totalRecords
           ? PAGINATION?.CURRENT_PAGE
           : page;
+      setPage?.(newPage);
       await getValueArticlesListData?.(newPage);
-      closeArticleDeleteModal?.();
       moveBack && moveToArticleList?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

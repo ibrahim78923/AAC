@@ -38,18 +38,18 @@ export const articlesColumnsFunction = (
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!selectedArticlesData?.find(
-              (item: any) => item === info?.getValue(),
+              (item: any) => item?._id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setSelectedArticlesData([
                   ...selectedArticlesData,
-                  info?.getValue(),
+                  info?.row?.original,
                 ])
               : setSelectedArticlesData(
                   selectedArticlesData?.filter(
-                    (item: any) => item !== info?.getValue(),
+                    (item: any) => item?._id !== info?.getValue(),
                   ),
                 );
           }}
@@ -69,7 +69,7 @@ export const articlesColumnsFunction = (
           onChange={(e: any) => {
             e?.target?.checked
               ? setSelectedArticlesData(
-                  articlesList?.map((article: any) => article?._id),
+                  articlesList?.map((article: any) => article),
                 )
               : setSelectedArticlesData([]);
           }}

@@ -12,11 +12,18 @@ import { LoadingButton } from '@mui/lab';
 import { upsertFolderFormFields } from './UpsertFolder.data';
 import CloseIcon from '@mui/icons-material/Close';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 
-export const UpsertFolder = (props: any) => {
+export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
-  const { methods, handleSubmit, onSubmit, postFolderStatus, closePortal } =
-    useUpsertFolder(props);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    postFolderStatus,
+    closePortal,
+    updateFolderForArticlesStatus,
+  } = useUpsertFolder(props);
 
   return (
     <Dialog
@@ -46,8 +53,8 @@ export const UpsertFolder = (props: any) => {
           />
         </Box>
       </DialogTitle>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
+      <DialogContent>
+        <FormProvider methods={methods}>
           {upsertFolderFormFields?.map((item: any) => (
             <item.component
               {...item?.componentProps}
@@ -55,35 +62,35 @@ export const UpsertFolder = (props: any) => {
               size={'small'}
             />
           ))}
-        </DialogContent>
-        <DialogActions>
-          <Box
-            display={'flex'}
-            justifyContent={'flex-end'}
-            marginBottom={'2rem'}
-            gap={'1rem'}
-          >
-            <LoadingButton
-              type="button"
-              variant="outlined"
-              color="secondary"
-              onClick={() => closePortal?.()}
-              disabled={postFolderStatus?.isLoading}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={postFolderStatus?.isLoading}
-            >
-              {isPortalOpen?.data?._id
-                ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-                : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
-            </LoadingButton>
-          </Box>
-        </DialogActions>
-      </FormProvider>
+        </FormProvider>
+      </DialogContent>
+      <DialogActions sx={{ paddingTop: `0rem !important` }}>
+        <LoadingButton
+          type="button"
+          variant="outlined"
+          color="secondary"
+          onClick={() => closePortal?.()}
+          disabled={
+            postFolderStatus?.isLoading ||
+            updateFolderForArticlesStatus?.isLoading
+          }
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+          loading={
+            postFolderStatus?.isLoading ||
+            updateFolderForArticlesStatus?.isLoading
+          }
+        >
+          {isPortalOpen?.data?._id
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
+        </LoadingButton>
+      </DialogActions>
     </Dialog>
   );
 };

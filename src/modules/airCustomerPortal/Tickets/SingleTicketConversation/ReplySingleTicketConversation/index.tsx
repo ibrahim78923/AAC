@@ -3,17 +3,18 @@ import {
   RHFDropZone,
   RHFEditor,
 } from '@/components/ReactHookForm';
-import { useSingleTicketForm } from './useSingleTicketForm';
+import { useReplySingleTicketConversation } from './useReplySingleTicketConversation';
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
-export const SingleTicketForm = (props: any) => {
+export const ReplySingleTicketConversation = (props: any) => {
   const {
     methods,
     handleSubmit,
     onSubmit,
-    postReplyToConversationEmailStatus,
-  } = useSingleTicketForm(props);
+    postReplyForCustomerTicketConversationStatus,
+    closeReply,
+  } = useReplySingleTicketConversation(props);
 
   return (
     <>
@@ -27,11 +28,20 @@ export const SingleTicketForm = (props: any) => {
         <br />
         <RHFDropZone name="attachFile" fullWidth />
         <br />
-        <Box textAlign={'end'}>
+        <Box justifyContent={'flex-end'} display={'flex'} gap={2}>
+          <LoadingButton
+            variant="outlined"
+            color="inherit"
+            type="button"
+            disabled={postReplyForCustomerTicketConversationStatus?.isLoading}
+            onClick={() => closeReply?.()}
+          >
+            Cancel
+          </LoadingButton>
           <LoadingButton
             variant="contained"
             type="submit"
-            loading={postReplyToConversationEmailStatus?.isLoading}
+            loading={postReplyForCustomerTicketConversationStatus?.isLoading}
           >
             Send
           </LoadingButton>

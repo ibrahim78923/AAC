@@ -4,29 +4,21 @@ import {
   filterArticlesFormFieldsDynamic,
 } from './FilterArticles.data';
 import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
-import useAuth from '@/hooks/useAuth';
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
+import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const useFilterArticles = (props: any) => {
-  const {
-    isOpenFilterDrawer,
-    setIsPortalOpen,
-    filterValues,
-    setFilterValues,
-    setPage,
-  } = props;
+export const useFilterArticles = (props: ArticlesPortalComponentPropsI) => {
+  const { setIsPortalOpen, filterValues, setFilterValues, setPage } = props;
 
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
-
-  const methods: any = useForm({
+  const methods = useForm({
     defaultValues: filterArticlesDataDefaultValues?.(filterValues),
   });
+
   const { handleSubmit, reset } = methods;
+
   const submitHandler = (data: any) => {
-    const articleFilter: any = filteredEmptyValues(data);
+    const articleFilter = filteredEmptyValues(data);
 
     if (!Object?.keys(articleFilter || {})?.length) {
       setFilterValues({});
@@ -54,14 +46,11 @@ export const useFilterArticles = (props: any) => {
 
   const apiQueryAuthor = useLazyGetUsersDropdownListForAuthorsQuery();
 
-  const filterArticlesFormFields = filterArticlesFormFieldsDynamic(
-    apiQueryAuthor,
-    productId,
-  );
+  const filterArticlesFormFields =
+    filterArticlesFormFieldsDynamic(apiQueryAuthor);
 
   return {
     submitHandler,
-    isOpenFilterDrawer,
     setIsPortalOpen,
     methods,
     resetArticleFilterForm,

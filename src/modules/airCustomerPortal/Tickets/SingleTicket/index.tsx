@@ -1,10 +1,10 @@
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { SingleTicketDetail } from './SingleTicketDetail';
-import { SingleTicketForm } from './SingleTicketForm';
 import { SingleTicketHeader } from './SingleTicketHeader';
 import { useSingleTicket } from './useSingleTicket';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ShareSingleTicket } from './ShareSingleTicket';
+import { SingleTicketConversation } from '../SingleTicketConversation';
 
 export const SingleTicket = () => {
   const {
@@ -55,8 +55,7 @@ export const SingleTicket = () => {
         }
       />
       <br />
-      <SingleTicketForm singleTicketData={singleTicketData} />
-
+      <SingleTicketConversation singleTicketData={singleTicketData} />
       {openShareModal && (
         <ShareSingleTicket
           id={ticketId}

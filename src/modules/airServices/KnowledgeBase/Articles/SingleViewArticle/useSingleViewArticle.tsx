@@ -3,13 +3,15 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { useGetArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
+import { ArticlesIsPortalOpenI } from '../Articles.interface';
 
 export const useSingleViewArticle = () => {
-  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [isPortalOpen, setIsPortalOpen] = useState<ArticlesIsPortalOpenI>({});
   const theme = useTheme();
   const router = useRouter();
   const { articleId } = router?.query;
   const { KNOWLEDGE_BASE } = AIR_SERVICES;
+
   const handlePageBack = () => {
     router?.push(KNOWLEDGE_BASE);
   };
@@ -19,13 +21,11 @@ export const useSingleViewArticle = () => {
       articleId,
     },
   };
-  const { data, isLoading, isFetching, isError } = useGetArticleByIdQuery(
-    getSingleArticleParameter,
-    {
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetArticleByIdQuery(getSingleArticleParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!articleId,
-    },
-  );
+    });
 
   const handleEditSubmit = () => {
     router?.push({
@@ -38,14 +38,15 @@ export const useSingleViewArticle = () => {
   return {
     handlePageBack,
     theme,
-    openDelete,
+    isPortalOpen,
+    setIsPortalOpen,
     articleId,
-    setOpenDelete,
     handleEditSubmit,
     data,
     isLoading,
     isFetching,
     isError,
     router,
+    refetch,
   };
 };

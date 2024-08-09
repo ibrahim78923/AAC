@@ -1,14 +1,15 @@
 import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { ARRAY_INDEX } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const moveFolderValidationSchema = Yup?.object()?.shape({
-  movingFrom: Yup?.string()?.required('Required'),
-  moveTo: Yup?.mixed()?.nullable()?.required('Folder Name is Required'),
+  movingFrom: Yup?.string()?.trim()?.required('Folder name is required'),
+  moveTo: Yup?.mixed()?.nullable()?.required('Folder name is required'),
 });
 
 export const moveFolderDefaultValues = (data?: any) => {
   return {
-    movingFrom: data?.folder?.name ?? '',
+    movingFrom: data?.[ARRAY_INDEX?.ZERO]?.folder?.name ?? '',
     moveTo: null,
   };
 };
@@ -20,7 +21,6 @@ export const moveFolderFormFieldsDynamic = (apiQueryFolder: any) => [
       name: 'movingFrom',
       label: 'Moving From',
       fullWidth: true,
-      placeholder: 'Training',
       disabled: true,
     },
     component: RHFTextField,
@@ -32,7 +32,9 @@ export const moveFolderFormFieldsDynamic = (apiQueryFolder: any) => [
       name: 'moveTo',
       label: 'Move To',
       fullWidth: true,
+      required: true,
       apiQuery: apiQueryFolder,
+      placeholder: 'Select folder',
     },
     component: RHFAutocompleteAsync,
     md: 12,

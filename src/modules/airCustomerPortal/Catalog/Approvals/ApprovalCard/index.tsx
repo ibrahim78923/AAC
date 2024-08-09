@@ -77,7 +77,7 @@ export const ApprovalCard = (props: any) => {
                 : `${fullName(
                     data?.requesterDetails?.firstName,
                     data?.requesterDetails?.lastName,
-                  )} sent data request`}
+                  )} sent approval request`}
             </Typography>
           </Box>
           <Typography

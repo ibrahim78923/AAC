@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { CardLayout } from '../CardLayout';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -35,7 +34,7 @@ export const Announcements = () => {
         ) : isError ? (
           <ApiErrorState height={'100%'} />
         ) : (
-          <Box my="0.75rem">
+          <>
             {!!data?.annoucements?.length ? (
               data?.annoucements?.map((announcement: any, index: number) => (
                 <Fragment key={announcement?._id}>
@@ -45,7 +44,7 @@ export const Announcements = () => {
             ) : (
               <NoData height={'100%'} />
             )}
-          </Box>
+          </>
         )}
       </CardLayout>
 

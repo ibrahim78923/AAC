@@ -18,8 +18,13 @@ import { DeleteArticles } from './DeleteArticles';
 import { MoveFolder } from './MoveFolder';
 import { UpsertFolder } from '../Folder/UpsertFolder';
 import { DeleteFolder } from '../Folder/DeleteFolder';
+import {
+  ArticlesComponentPropsI,
+  ArticlesFilterValuesI,
+  ArticlesPortalComponentPropsI,
+} from './Articles.interface';
 
-export const useArticles: any = (props: any) => {
+export const useArticles: any = (props: ArticlesComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
   const theme = useTheme();
   const router = useRouter();
@@ -30,11 +35,11 @@ export const useArticles: any = (props: any) => {
     _id: ALL_FOLDER,
   });
 
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
 
-  const [filterValues, setFilterValues] = useState<any>({});
+  const [filterValues, setFilterValues] = useState<ArticlesFilterValuesI>({});
 
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
     useLazyGetArticlesQuery();
@@ -49,7 +54,8 @@ export const useArticles: any = (props: any) => {
         selectedArticlesTab?._id === ALL_FOLDER ? '' : selectedArticlesTab?._id,
       ],
     ];
-    const articlesParam: any = buildQueryParams(additionalParams, filterValues);
+
+    const articlesParam = buildQueryParams(additionalParams, filterValues);
     const getArticlesParameter = {
       queryParams: articlesParam,
     };
@@ -70,6 +76,7 @@ export const useArticles: any = (props: any) => {
     isLoading,
     isFetching,
     isError,
+    refetch,
   }: any = useGetArticlesFoldersForFilterQuery(
     {},
     {
@@ -89,7 +96,7 @@ export const useArticles: any = (props: any) => {
     });
   };
 
-  const setFolder = (folder: any) => {
+  const setFolder = (folder: { [key: string]: any }) => {
     setSelectedArticlesTab(folder);
     setPage(PAGINATION?.CURRENT_PAGE);
   };
@@ -107,7 +114,7 @@ export const useArticles: any = (props: any) => {
     selectedArticlesData,
   );
 
-  const portalComponentProps = {
+  const portalComponentProps: ArticlesPortalComponentPropsI = {
     isPortalOpen: isPortalOpen,
     setIsPortalOpen: setIsPortalOpen,
     selectedArticlesData: selectedArticlesData,
@@ -119,6 +126,7 @@ export const useArticles: any = (props: any) => {
     filterValues: filterValues,
     setFilterValues: setFilterValues,
     selectedArticlesTab,
+    getFolderListData: refetch,
   };
 
   const renderPortalComponent = () => {

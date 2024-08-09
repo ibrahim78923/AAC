@@ -11,7 +11,9 @@ export const upsertFolderFormDefaultValues = (data?: any) => {
   return {
     name: data?.name ?? '',
     description: data?.description ?? '',
-    visibility: null,
+    visibility: !!data?.visibility
+      ? { _id: data?.visibility, label: data?.visibility }
+      : null,
   };
 };
 

@@ -6,51 +6,36 @@ import {
   moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
 import {
-  useGetArticleByIdQuery,
   useLazyGetFoldersDropdownQuery,
   usePatchArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
-import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ArticlesPortalComponentPropsI } from '../Articles.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
 
-export const useMoveFolder = (props: any) => {
+export const useMoveFolder = (props: ArticlesPortalComponentPropsI) => {
   const { selectedArticlesData, setSelectedArticlesData, setIsPortalOpen } =
     props;
 
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
-  const getSingleArticleParameter = {
-    pathParam: {
-      articleId: selectedArticlesData,
-    },
-  };
-  const { data, isLoading, isFetching }: { [key: string]: any } =
-    useGetArticleByIdQuery(getSingleArticleParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!selectedArticlesData,
-    });
 
-  const methodMoveFolderForm = useForm<any>({
+  const methods = useForm<any>({
     resolver: yupResolver(moveFolderValidationSchema),
-    defaultValues: moveFolderDefaultValues?.(),
+    defaultValues: moveFolderDefaultValues?.(selectedArticlesData),
   });
 
-  const { reset, handleSubmit } = methodMoveFolderForm;
-
-  useEffect(() => {
-    reset(() => moveFolderDefaultValues(data?.data));
-  }, [selectedArticlesData, data, reset]);
+  const { reset, handleSubmit } = methods;
 
   const submitMoveFolder = async (data: any) => {
     const upsertArticle = new FormData();
     upsertArticle?.append('folder', data?.moveTo?._id);
-    upsertArticle?.append('id', selectedArticlesData);
+    upsertArticle?.append('id', selectedArticlesData?.[ARRAY_INDEX?.ZERO]?._id);
     const patchArticleParameter = {
       body: upsertArticle,
     };
     try {
       await patchArticleTrigger(patchArticleParameter)?.unwrap();
       successSnackbar('Article moved to a new folder successfully');
-      setSelectedArticlesData?.([]);
       closeMoveFolderModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -58,6 +43,7 @@ export const useMoveFolder = (props: any) => {
   };
 
   const closeMoveFolderModal = () => {
+    reset?.();
     setIsPortalOpen?.({});
     setSelectedArticlesData?.([]);
   };
@@ -66,10 +52,8 @@ export const useMoveFolder = (props: any) => {
   const moveFolderFormFields = moveFolderFormFieldsDynamic(apiQueryFolder);
 
   return {
-    methodMoveFolderForm,
+    methods,
     submitMoveFolder,
-    isLoading,
-    isFetching,
     patchArticleStatus,
     handleSubmit,
     closeMoveFolderModal,

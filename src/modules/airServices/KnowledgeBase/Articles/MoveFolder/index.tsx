@@ -10,16 +10,14 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useMoveFolder } from './useMoveFolder';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import CloseIcon from '@mui/icons-material/Close';
+import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const MoveFolder = (props: any) => {
+export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
   const {
-    methodMoveFolderForm,
+    methods,
     submitMoveFolder,
-    isLoading,
-    isFetching,
     patchArticleStatus,
     handleSubmit,
     closeMoveFolderModal,
@@ -51,42 +49,39 @@ export const MoveFolder = (props: any) => {
           />
         </Box>
       </DialogTitle>
-      <FormProvider
-        methods={methodMoveFolderForm}
-        onSubmit={handleSubmit(submitMoveFolder)}
-      >
-        <DialogContent>
-          {isLoading || isFetching ? (
-            <SkeletonForm />
-          ) : (
-            <Grid container spacing={1}>
-              {moveFolderFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?._id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <LoadingButton
-            variant="outlined"
-            color="secondary"
-            onClick={() => closeMoveFolderModal()}
-            type="button"
-            disabled={patchArticleStatus?.isLoading}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={patchArticleStatus?.isLoading}
-          >
-            Move
-          </LoadingButton>
-        </DialogActions>
-      </FormProvider>
+      <DialogContent>
+        <FormProvider
+          methods={methods}
+          onSubmit={handleSubmit(submitMoveFolder)}
+        >
+          <Grid container spacing={1}>
+            {moveFolderFormFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?._id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </DialogContent>
+      <DialogActions sx={{ paddingTop: `0rem !important` }}>
+        <LoadingButton
+          variant="outlined"
+          color="secondary"
+          onClick={() => closeMoveFolderModal()}
+          type="button"
+          disabled={patchArticleStatus?.isLoading}
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          variant="contained"
+          type="submit"
+          loading={patchArticleStatus?.isLoading}
+          onClick={handleSubmit(submitMoveFolder)}
+        >
+          Move
+        </LoadingButton>
+      </DialogActions>
     </Dialog>
   );
 };

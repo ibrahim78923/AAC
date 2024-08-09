@@ -170,7 +170,7 @@ export const actionsForReportListsDynamic = (
 export const reportListsColumnsDynamic = (
   selectedReportList?: any,
   setSelectedReportList?: any,
-  totalReports: any = [],
+  totalReports = [],
   addReportToFavorite?: any,
   addReportToFavoriteListStatus?: any,
 ) => [

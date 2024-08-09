@@ -20,6 +20,7 @@ export const addRequestApprovalFormFieldsDynamic = (apiQueryApprover: any) => [
       fullWidth: true,
       required: true,
       apiQuery: apiQueryApprover,
+      externalParams: { requester: true },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

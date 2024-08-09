@@ -11,8 +11,9 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { useArticles } from './useArticles';
 import { SingleFolderDetail } from '../Folder/SingleFolderDetail';
 import { ALL_FOLDER } from './Articles.data';
+import { ArticlesComponentPropsI } from './Articles.interface';
 
-export const Articles = (props: any) => {
+export const Articles = (props: ArticlesComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
   const {
     articlesColumns,

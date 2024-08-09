@@ -1,14 +1,12 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteFolder } from './useDeleteFolder';
+import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 
-export const DeleteFolder = (props: any) => {
+export const DeleteFolder = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
-  const {
-    deleteFolder,
-    deleteSingleServicesFolderStatus,
-    closeFolderDeleteModal,
-  } = useDeleteFolder(props);
+  const { deleteFolder, deleteFolderForArticleStatus, closeFolderDeleteModal } =
+    useDeleteFolder(props);
 
   return (
     <>
@@ -18,8 +16,8 @@ export const DeleteFolder = (props: any) => {
         open={isPortalOpen?.isDeleteFolder}
         handleClose={() => closeFolderDeleteModal?.()}
         handleSubmitBtn={() => deleteFolder?.()}
-        loading={deleteSingleServicesFolderStatus?.isLoading}
-        disableCancelBtn={deleteSingleServicesFolderStatus?.isLoading}
+        loading={deleteFolderForArticleStatus?.isLoading}
+        disableCancelBtn={deleteFolderForArticleStatus?.isLoading}
       />
     </>
   );
