@@ -13,10 +13,16 @@ import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import usePermissionsAccordion from './usePermissionsAccordion';
 import { AntSwitch } from '@/components/AntSwitch';
-import { Fragment } from 'react';
+import { ChangeEvent, Fragment } from 'react';
 import { pxToRem } from '@/utils/getFontValue';
+import {
+  IPermissionItem,
+  IPermissionParentModule,
+  IPermissionSubModule,
+  IUsePermissionsAccordionProps,
+} from './PermissionsAccordion.interface';
 
-export const PermissionsAccordion = (props: any) => {
+export const PermissionsAccordion = (props: IUsePermissionsAccordionProps) => {
   const { disabled } = props;
   const {
     isError,
@@ -35,7 +41,7 @@ export const PermissionsAccordion = (props: any) => {
 
   return (
     <>
-      {data?.data?.permissions?.map((parent: any) => (
+      {data?.data?.permissions?.map((parent: IPermissionParentModule) => (
         <Fragment key={parent?.name}>
           {isSettingPermission?.isLoading &&
           isSettingPermission?.name === parent?.name ? (
@@ -75,7 +81,9 @@ export const PermissionsAccordion = (props: any) => {
                   <AntSwitch
                     size="small"
                     checked={checkAllPermissions(parent)}
-                    onChange={(e: any) => switchChangeHandler?.(e, parent)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      switchChangeHandler?.(e, parent)
+                    }
                     isLoading={
                       isSettingPermission?.isLoading &&
                       isSettingPermission?.name === parent?.name
@@ -86,7 +94,7 @@ export const PermissionsAccordion = (props: any) => {
                 <Typography>{parent?.name}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                {parent?.subModules?.map((subModule: any) => (
+                {parent?.subModules?.map((subModule: IPermissionSubModule) => (
                   <Accordion
                     key={subModule?.subModule}
                     disableGutters
@@ -107,15 +115,17 @@ export const PermissionsAccordion = (props: any) => {
 
                     <AccordionDetails>
                       <Grid container spacing={1}>
-                        {subModule?.permissions?.map((item: any) => (
-                          <Grid item xs={12} md={4} key={item?.slug}>
-                            <RHFCheckbox
-                              name={item?.slug}
-                              label={item?.name}
-                              disabled={disabled}
-                            />
-                          </Grid>
-                        ))}
+                        {subModule?.permissions?.map(
+                          (item: IPermissionItem) => (
+                            <Grid item xs={12} md={4} key={item?.slug}>
+                              <RHFCheckbox
+                                name={item?.slug}
+                                label={item?.name}
+                                disabled={disabled}
+                              />
+                            </Grid>
+                          ),
+                        )}
                       </Grid>
                     </AccordionDetails>
                   </Accordion>

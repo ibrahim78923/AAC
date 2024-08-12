@@ -104,7 +104,7 @@ export const RolesAndRight = () => {
           isFetching={lazyGetPermissionsRoleForOperationsStatus?.isFetching}
           isError={lazyGetPermissionsRoleForOperationsStatus?.isError}
           isSuccess={lazyGetPermissionsRoleForOperationsStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
         />
       </Box>

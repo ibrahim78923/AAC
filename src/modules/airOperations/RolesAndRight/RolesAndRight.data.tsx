@@ -10,11 +10,18 @@ import { errorSnackbar } from '@/utils/api';
 import { truncateText } from '@/utils/avatarUtils';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
+import {
+  ICloseMenu,
+  IRole,
+  IRolesAndRightColumns,
+} from './RolesAndRight.interface';
+import { ChangeEvent } from 'react';
+import { NextRouter } from 'next/router';
 
 export const actionButtonDropdownDynamic = (
-  setIsPortalOpen: any,
-  selectedRolesList: any,
-  router: any,
+  setIsPortalOpen: ((isOpen?: boolean) => void) | any,
+  selectedRolesList: Array<IRole> | any,
+  router: NextRouter,
 ) => [
   {
     id: 1,
@@ -22,7 +29,7 @@ export const actionButtonDropdownDynamic = (
     permissionKey: [
       AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS?.EDIT_ROLE,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: ICloseMenu) => {
       if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -44,7 +51,7 @@ export const actionButtonDropdownDynamic = (
     permissionKey: [
       AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS?.VIEW_ROLE,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: ICloseMenu) => {
       if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -66,7 +73,7 @@ export const actionButtonDropdownDynamic = (
     permissionKey: [
       AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS?.DELETE_ROLE,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: ICloseMenu) => {
       if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -79,12 +86,12 @@ export const actionButtonDropdownDynamic = (
 ];
 
 export const operationsRolesAndRightColumnsDynamic = (
-  selectedRoleList?: any,
-  setSelectedRoleList?: any,
-  totalRoles: any = [],
+  selectedRoleList?: Array<IRole> | any,
+  setSelectedRoleList?: ((roles?: Array<IRole>) => void) | any,
+  totalRoles: Array<IRole> | any = [],
 ) => [
   {
-    accessorFn: (row: any) => row?._id,
+    accessorFn: (row: IRolesAndRightColumns) => row?._id,
     id: '_id',
     cell: (info: any) => (
       <Checkbox
@@ -95,7 +102,7 @@ export const operationsRolesAndRightColumnsDynamic = (
             (item: any) => item?._id === info?.getValue(),
           )
         }
-        onChange={(e: any) => {
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           e?.target?.checked
             ? setSelectedRoleList([...selectedRoleList, info?.row?.original])
             : setSelectedRoleList(
@@ -117,7 +124,7 @@ export const operationsRolesAndRightColumnsDynamic = (
             ? selectedRoleList?.length === totalRoles?.length
             : false
         }
-        onChange={(e: any) => {
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           e?.target?.checked
             ? setSelectedRoleList(totalRoles?.map((item: any) => item?._id))
             : setSelectedRoleList([]);
@@ -128,21 +135,21 @@ export const operationsRolesAndRightColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
+    accessorFn: (row: IRolesAndRightColumns) => row?._id,
+    id: 'Role Id',
     isSortable: true,
     header: 'Role ID',
     cell: (info: any) => info?.getValue()?.slice?.(-3) ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: IRolesAndRightColumns) => row?.name,
     id: 'name',
     isSortable: true,
     header: 'Role Name',
     cell: (info: any) => info?.getValue() ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: IRolesAndRightColumns) => row?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Created On',
@@ -150,7 +157,7 @@ export const operationsRolesAndRightColumnsDynamic = (
       dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
   },
   {
-    accessorFn: (info: any) => info?.description,
+    accessorFn: (info: IRolesAndRightColumns) => info?.description,
     id: 'description',
     header: 'Description',
     isSortable: true,

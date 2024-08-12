@@ -1,8 +1,9 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteRoles } from './useDeleteRoles';
+import { IUseDeleteRolesProps } from './DeleteRoles.interface';
 
-export const DeleteRoles = (props: any) => {
+export const DeleteRoles = (props: IUseDeleteRolesProps) => {
   const { isPortalOpen } = props;
   const { deleteRoles, deleteRoleForOperationsStatus, closeDeleteModal } =
     useDeleteRoles(props);

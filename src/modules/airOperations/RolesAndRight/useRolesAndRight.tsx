@@ -10,15 +10,21 @@ import {
   operationsRolesAndRightColumnsDynamic,
 } from './RolesAndRight.data';
 import { useLazyGetPermissionsRoleForOperationsQuery } from '@/services/airOperations/roles-and-right';
+import {
+  IAuth,
+  IIsPortalOpen,
+  ISelectedRolesList,
+} from './RolesAndRight.interface';
 
 export const useRolesAndRight = () => {
   const [search, setSearch] = useState('');
-  const [selectedRolesList, setSelectedRolesList] = useState<any>([]);
+  const [selectedRolesList, setSelectedRolesList] =
+    useState<ISelectedRolesList>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [isPortalOpen, setIsPortalOpen] = useState<IIsPortalOpen>({});
   const router = useRouter();
-  const auth: any = useAuth();
+  const auth: IAuth | any = useAuth();
 
   const { _id: productId } = auth?.product;
   const { _id: organizationCompanyAccountId } =
@@ -28,7 +34,7 @@ export const useRolesAndRight = () => {
   const [
     lazyGetPermissionsRoleForOperationsTrigger,
     lazyGetPermissionsRoleForOperationsStatus,
-  ]: any = useLazyGetPermissionsRoleForOperationsQuery?.();
+  ] = useLazyGetPermissionsRoleForOperationsQuery?.();
 
   const getOperationsRolesList = async (currentPage = page) => {
     const additionalParams = [
@@ -39,7 +45,7 @@ export const useRolesAndRight = () => {
       ['organizationId', organizationId + ''],
       ['productId', productId],
     ];
-    const rolesListParam: any = buildQueryParams(additionalParams);
+    const rolesListParam: string | any = buildQueryParams(additionalParams);
     const apiDataParameter = {
       queryParams: rolesListParam,
     };
@@ -47,7 +53,7 @@ export const useRolesAndRight = () => {
       await lazyGetPermissionsRoleForOperationsTrigger?.(
         apiDataParameter,
       )?.unwrap();
-    } catch (error: any) {}
+    } catch (error) {}
   };
 
   useEffect(() => {
