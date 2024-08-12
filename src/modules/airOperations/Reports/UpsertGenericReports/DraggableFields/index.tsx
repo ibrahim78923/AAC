@@ -306,7 +306,6 @@ export default function DraggableFields(props: DraggableFieldsI) {
               form={form}
               reportId={reportId}
               metricType={metricType}
-              selectedModule={selectedModule}
               data={data}
               handleMoveBack={handleMoveBack}
             />

@@ -124,8 +124,8 @@ export const reportsValidationSchema = (reportValidation: any) =>
 
 export const reportsDefaultValues = (singleReport: any) => {
   return {
-    reportName: singleReport?.genericReports?.name ?? '',
-    sharedWith: singleReport?.genericReports?.accessLevel?.type ?? null,
+    reportName: singleReport?.genericReport?.name ?? '',
+    sharedWith: singleReport?.genericReport?.accessLevel?.type ?? null,
     addToDashboard: null,
     addToExistingCondition: [],
     everyoneCondition:
@@ -135,8 +135,7 @@ export const reportsDefaultValues = (singleReport: any) => {
     addToNewConditionTwo: null,
     newDashboardEveryoneCondition: null,
     newDashboardSpecificUsersConditionOne: [],
-    newDashboardSpecificUsersConditionTwo: null,
-    addFilter: singleReport?.genericReports?.isDateFilter ?? false,
+    addFilter: singleReport?.genericReport?.isDateFilter ?? false,
   };
 };
 

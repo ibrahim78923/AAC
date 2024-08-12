@@ -11,7 +11,8 @@ import {
   CHARTS,
   REPORT_TYPE,
   FIELD_TYPE,
-  GENERIC_REPORT_MODULES,
+  SELECTED_ARRAY_LENGTH,
+  ADD_TO,
 } from '@/constants/strings';
 import {
   SaveReportDrawerI,
@@ -20,34 +21,33 @@ import {
 } from './SaveReportDrawer.interface';
 import {
   useLazyUsersDropdownQuery,
-  useLazyMarketingDashboardDropdownQuery,
-  useLazySalesDashboardDropdownQuery,
-  useLazyServiceDashboardDropdownQuery,
+  useLazyDashboardDropdownQuery,
   usePostGenericReportsMutation,
   usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
-  const {
-    form,
-    setOpen,
-    reportId,
-    metricType,
-    selectedModule,
-    data,
-    handleMoveBack,
-  } = props;
+  const { form, setOpen, reportId, metricType, data, handleMoveBack } = props;
   const [reportValidation, setReportValidation] = useState<any>({
     selectSharedWith: null,
     selectAddToDashboard: null,
     selectAddToNewDashboard: null,
   });
-  const singleReport = (data as any)?.data?.results;
+  const singleReport = (data as any)?.data;
   const saveReportsMethods = useForm({
     resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues(singleReport),
   });
-  const allUsersData = singleReport?.genericReports?.accessLevel?.users;
+  const dashboardDropdown = useLazyDashboardDropdownQuery();
+  const usersDropdown = useLazyUsersDropdownQuery();
+  const [postGenericReportTrigger, postGenericReportStatus] =
+    usePostGenericReportsMutation();
+  const [patchGenericReportTrigger, patchGenericReportStatus] =
+    usePatchGenericReportsMutation();
+  const allDashboardData =
+    singleReport?.dasboardDetails[SELECTED_ARRAY_LENGTH?.ZERO];
+
+  const allUsersData = singleReport?.genericReport?.accessLevel?.users;
   useEffect(() => {
     if (allUsersData) {
       const matchedUsersData = allUsersData?.map((user: any) => ({
@@ -56,22 +56,63 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         lastName: user?.userDetails?.lastName ?? null,
         permission: user?.access,
       }));
-      setValue('specificUsersConditionOne', matchedUsersData ?? []);
+      setValue(ADD_TO?.SPECIFIC_USERS_CONDITION_ONE, matchedUsersData ?? []);
     }
   }, [allUsersData]);
-
+  useEffect(() => {
+    if (
+      allDashboardData?.dashboardDetails?.length === SELECTED_ARRAY_LENGTH?.ZERO
+    ) {
+      setValue(ADD_TO?.ADD_TO_DASHBOARD, REPORT_TYPE?.DO_NOT_ADD);
+    } else {
+      if (
+        allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]?.reports
+          ?.action === REPORT_TYPE?.ADD_TO_NEW
+      ) {
+        setValue(ADD_TO?.ADD_TO_DASHBOARD, REPORT_TYPE?.ADD_TO_NEW);
+        setValue(
+          ADD_TO?.ADD_TO_NEW_CONDITION_ONE,
+          allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]?.name,
+        );
+        setValue(
+          ADD_TO?.ADD_TO_NEW_CONDITION_TWO,
+          allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]
+            ?.access,
+        );
+        setValue(
+          ADD_TO?.NEW_DASHBOARD_EVERYONE_CONDITION,
+          allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]
+            ?.permissions,
+        );
+        const dashboardUsersData = allDashboardData?.dashboardDetails[
+          SELECTED_ARRAY_LENGTH?.ZERO
+        ]?.specialUsers?.map((user: any) => ({
+          _id: user?.userId,
+          firstName: user?.name?.firstName ?? null,
+          lastName: user?.name?.lastName ?? null,
+          permission: user?.permission,
+        }));
+        setValue(
+          ADD_TO?.NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE,
+          dashboardUsersData ?? [],
+        );
+      } else if (
+        allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]?.reports
+          ?.action === REPORT_TYPE?.ADD_TO_EXISTING
+      ) {
+        setValue(ADD_TO?.ADD_TO_DASHBOARD, REPORT_TYPE?.ADD_TO_EXISTING);
+        const existingDashboardData = allDashboardData?.dashboardDetails?.map(
+          (dashboard: any) => ({
+            _id: dashboard?._id,
+            name: dashboard?.name,
+          }),
+        );
+        setValue(ADD_TO?.ADD_TO_EXISTING_CONDITION, existingDashboardData);
+      }
+    }
+  }, [allDashboardData]);
   const { watch, handleSubmit, reset, setValue, control, getValues } =
     saveReportsMethods;
-
-  const ADD_TO = {
-    ADD_TO_NEW_CONDITION_TWO: 'addToNewConditionTwo',
-    ADD_TO_DASHBOARD: 'addToDashboard',
-    SHARED_WITH: 'sharedWith',
-    SPECIFIC_USERS_CONDITION_ONE: 'specificUsersConditionOne',
-    NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE:
-      'newDashboardSpecificUsersConditionOne',
-  };
-
   const selectSharedWith = watch(ADD_TO?.SHARED_WITH);
   const selectAddToDashboard = watch(ADD_TO?.ADD_TO_DASHBOARD);
   const selectAddToNewDashboard = watch(ADD_TO?.ADD_TO_NEW_CONDITION_TWO);
@@ -85,7 +126,6 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const newDashboardSpecificUserWatch = watch(
     REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS,
   );
-
   useEffect(() => {
     setReportValidation({
       selectSharedWith,
@@ -99,44 +139,22 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       setValue(ADD_TO?.ADD_TO_NEW_CONDITION_TWO, null);
     }
   }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
-
-  const serviceDropdown = useLazyServiceDashboardDropdownQuery();
-  const salesDropdown = useLazySalesDashboardDropdownQuery();
-  const marketingDropdown = useLazyMarketingDashboardDropdownQuery();
-
-  const getDashboardDropdown = () => {
-    switch (selectedModule) {
-      case GENERIC_REPORT_MODULES?.SERVICES:
-        return serviceDropdown;
-      case GENERIC_REPORT_MODULES?.SALES:
-        return salesDropdown;
-      case GENERIC_REPORT_MODULES?.MARKETING:
-        return marketingDropdown;
-      default:
-        return [];
-    }
-  };
   const { fields: sharedWithFields } = useFieldArray<any>({
     control,
     name: REPORT_TYPE?.SHARED_WITH_PERMISSIONS,
   });
-
   const { fields: newDashboardFields } = useFieldArray<any>({
     control,
     name: REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS,
   });
-
   const setSharedWithPermissions = () => {
     const permissionUser = getValues(REPORT_TYPE?.SHARED_WITH_PERMISSIONS);
-
     const userMap = new Map(
       sharedWithSpecificUser?.map((item: any) => [item?._id, item]),
     );
-
     const validUserIds = new Set(
       sharedWithSpecificUser?.map((item: any) => item?._id),
     );
-
     const updatedPermissionUser = permissionUser
       ?.filter((item: any) => validUserIds?.has(item?.userId))
       ?.map((item: any) => {
@@ -151,7 +169,6 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         }
         return item;
       });
-
     const newEntries = sharedWithSpecificUser
       ?.filter(
         (item: any) =>
@@ -165,22 +182,17 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         userId: item?._id,
         permission: item?.permission ?? '',
       }));
-
     const finalResult = [...updatedPermissionUser, ...newEntries];
     setValue(REPORT_TYPE?.SHARED_WITH_PERMISSIONS, finalResult);
   };
-
   const setNewDashboardPermissions = () => {
     const permissionUser = getValues(REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS);
-
     const userMap = new Map(
       newDashboardSpecificUser?.map((item: any) => [item?._id, item]),
     );
-
     const validUserIds = new Set(
       newDashboardSpecificUser?.map((item: any) => item?._id),
     );
-
     const updatedPermissionUser = permissionUser
       ?.filter((item: any) => validUserIds?.has(item?.userId))
       ?.map((item: any) => {
@@ -209,31 +221,21 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         userId: item?._id,
         permission: item?.permission ?? '',
       }));
-
     const finalResult = [...updatedPermissionUser, ...newEntries];
     setValue(REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS, finalResult);
   };
-
   useEffect(() => {
     setSharedWithPermissions();
   }, [sharedWithSpecificUser]);
   useEffect(() => {
     setNewDashboardPermissions();
   }, [newDashboardSpecificUser]);
-
-  const dashboardDropdown = getDashboardDropdown();
-  const usersDropdown = useLazyUsersDropdownQuery();
   const reportsArray = reportsDataArray(
     usersDropdown,
     dashboardDropdown,
     newDashboardFields,
     sharedWithFields,
   );
-  const [postGenericReportTrigger, postGenericReportStatus] =
-    usePostGenericReportsMutation();
-  const [patchGenericReportTrigger, patchGenericReportStatus] =
-    usePatchGenericReportsMutation();
-
   const onSubmit = async (data: SaveReportI) => {
     const existingDashboardIds = data?.addToExistingCondition?.map(
       (item: any) => item?._id,
@@ -318,6 +320,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         isDateFilter: data?.addFilter,
         linkDashboard: {
           action: data?.addToDashboard,
+          // productId: '',
           ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
             name: data?.addToNewConditionOne,
           }),

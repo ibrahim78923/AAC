@@ -925,6 +925,18 @@ export const REPORT_TYPE = {
   NEW_DASHBOARD_PERMISSIONS: 'newDashboardPermissions',
 };
 
+export const ADD_TO = {
+  ADD_TO_NEW_CONDITION_ONE: 'addToNewConditionOne',
+  ADD_TO_NEW_CONDITION_TWO: 'addToNewConditionTwo',
+  ADD_TO_DASHBOARD: 'addToDashboard',
+  SHARED_WITH: 'sharedWith',
+  SPECIFIC_USERS_CONDITION_ONE: 'specificUsersConditionOne',
+  NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE:
+    'newDashboardSpecificUsersConditionOne',
+  NEW_DASHBOARD_EVERYONE_CONDITION: 'newDashboardEveryoneCondition',
+  ADD_TO_EXISTING_CONDITION: 'addToExistingCondition',
+};
+
 export const FIELD_TYPE = {
   STATIC: 'STATIC',
   OBJECT_ID: 'OBJECT_ID',

@@ -38,7 +38,7 @@ export default function useUpsertGenericReports() {
       refetchOnMountOrArgChange: true,
       skip: !!!reportId,
     });
-  const singleReport = (data as any)?.data?.results?.genericReports;
+  const singleReport = (data as any)?.data?.genericReport;
 
   const methods: any = useForm({
     defaultValues: defaultValues(),
