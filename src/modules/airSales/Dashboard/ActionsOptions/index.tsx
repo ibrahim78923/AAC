@@ -25,11 +25,7 @@ const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
           className="small"
           variant="outlined"
           color="inherit"
-          sx={{
-            width: '112px',
-
-            marginRight: '10px',
-          }}
+          sx={{ width: '112px' }}
         >
           Actions
           <ArrowDropDown />

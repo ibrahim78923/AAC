@@ -49,7 +49,7 @@ const useSalesEditorDrawer = ({
           name: data?.name,
           sku: data?.sku,
           purchasePrice: data?.purchasePrice,
-          category: data?.category?._id,
+          category: data?.category,
           associate: data?.associate,
           description: data?.description,
           isActive: data?.isActive,

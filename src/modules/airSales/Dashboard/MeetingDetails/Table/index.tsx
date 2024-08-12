@@ -10,7 +10,7 @@ const Table = () => {
     <PermissionsGuard
       permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SALES_DASHBOARD_LIST]}
     >
-      <TanstackTable columns={columns} data={MeetingDetailsTableData} />;
+      <TanstackTable columns={columns} data={MeetingDetailsTableData} />
     </PermissionsGuard>
   );
 };

@@ -1,4 +1,4 @@
-import { Card, Typography, Grid, Box, useTheme } from '@mui/material';
+import { Card, Typography, Grid, Box, useTheme, Stack } from '@mui/material';
 
 import { widgetData } from './Widget.data';
 
@@ -10,7 +10,11 @@ const Widget = () => {
   return (
     <Card style={{ minHeight: '450px' }}>
       <Box p={1.6} sx={{ backgroundColor: theme?.palette?.grey[700] }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Box>
             <Typography variant="h6">Widget</Typography>
             <Typography
@@ -20,15 +24,15 @@ const Widget = () => {
               Date range In last 30 days | compare To : Year before
             </Typography>
           </Box>
-          <Box mt={1.3}>
+          <Box>
             <FilterLargeWidgetIcon />
           </Box>
-        </Box>
+        </Stack>
       </Box>
-      <Grid container>
+      <Grid container spacing={1}>
         {widgetData?.map((widgetData: any) => (
-          <Grid item sm={3.4} key={uuidv4()} pl={3} mt={3}>
-            <Card sx={{ height: '84px', width: '131px' }}>
+          <Grid item xs={12} sm={6} md={4} lg={3.4} key={uuidv4()}>
+            <Card sx={{ maxHeight: '84px', minWidth: '131px', margin: '20px' }}>
               <Typography
                 sx={{
                   fontSize: 14,
