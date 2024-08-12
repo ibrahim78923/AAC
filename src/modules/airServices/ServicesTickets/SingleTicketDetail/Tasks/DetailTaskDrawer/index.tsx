@@ -58,7 +58,7 @@ export const DetailTaskDrawer = (props: TicketsTasksPortalComponentPropsI) => {
             <Typography variant="body2" mb={-2}>
               {isPortalOpen?.data?.assignedUser?.email ?? 'Email not found'}
             </Typography>
-            <Grid xs={10}>
+            <Grid item xs={10}>
               <RHFAutocomplete
                 name="status"
                 sx={styles?.statusFieldStyle}
@@ -77,7 +77,7 @@ export const DetailTaskDrawer = (props: TicketsTasksPortalComponentPropsI) => {
                   item
                   sx={{ display: 'flex', justifyContent: 'space-between' }}
                 >
-                  <Grid xs={6} sx={styles?.detailDrawerGridCenter}>
+                  <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
                     <Typography
                       variant="body2"
                       sx={styles?.detailDrawerTitle(theme)}
@@ -85,7 +85,7 @@ export const DetailTaskDrawer = (props: TicketsTasksPortalComponentPropsI) => {
                       {item?.title}
                     </Typography>
                   </Grid>
-                  <Grid xs={6} sx={styles?.detailDrawerGridCenter}>
+                  <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
                     {item?.profile && (
                       <Avatar
                         style={styles?.detailDrawerImg}

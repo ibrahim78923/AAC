@@ -2,7 +2,7 @@ import { Box, Button, Popover, Typography } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import useFilters from './useFilters';
 
-export const Filters = ({ setFilter }: any) => {
+export const Filters = ({ setFilter }: (() => void) | any) => {
   const { id, handleClick, open, anchorEl, handleClose } = useFilters();
 
   return (

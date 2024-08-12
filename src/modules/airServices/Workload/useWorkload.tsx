@@ -4,35 +4,34 @@ import {
   useLazyGetWorkloadQuery,
 } from '@/services/airServices/workload';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { NextRouter, useRouter } from 'next/router';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { IFilter, IOnClickEvent, ISelected } from './Workload.interface';
 
 export default function useWorkload() {
-  const calendarRef = useRef<any>(null);
-  const router: any = useRouter();
+  const calendarRef: RefObject<any> = useRef<any>(null);
+  const router: NextRouter = useRouter();
 
-  const filterIndex = 0;
-
-  const [filter, setFilter] = useState<any>({
+  const [filter, setFilter] = useState<IFilter>({
     countDayWise: undefined,
     countDayWiseHours: undefined,
     countDayWiseHoursAverage: undefined,
   });
 
-  const [onClickEvent, setOnClickEvent] = useState<any>({
+  const [onClickEvent, setOnClickEvent] = useState<IOnClickEvent>({
     open: null,
     data: null,
   });
-  const [addPlannedEffort, setAddPlannedEffort] = useState<any>({
+  const [addPlannedEffort, setAddPlannedEffort] = useState<IOnClickEvent>({
     open: null,
     data: null,
   });
-  const [dateCalendar, setDateCalendar] = useState<any>(
+  const [dateCalendar, setDateCalendar] = useState<string | any>(
     dayjs()
       ?.startOf('week')
       ?.format(DATE_FORMAT?.API),
   );
-  const [selected, setSelected] = useState<any>(null);
+  const [selected, setSelected] = useState<ISelected | null>(null);
   const [trigger, status] = useLazyGetWorkloadQuery();
   const [triggerFilter, statusFilter] = useLazyGetWorkloadFilterQuery();
 
@@ -57,7 +56,7 @@ export default function useWorkload() {
   const COMPLETED = 'Done';
   const IN_PROGRESS = 'In-Progress';
 
-  const dateChangeHandler = async (date: any) => {
+  const dateChangeHandler = async (date: string | any) => {
     setDateCalendar(date);
     try {
       await trigger({
@@ -75,13 +74,12 @@ export default function useWorkload() {
       })?.unwrap();
 
       calendarRef?.current?.getApi()?.gotoDate(date);
-    } catch (error: any) {}
+    } catch (error) {}
   };
 
   return {
     status,
     statusFilter,
-    filterIndex,
     dateChangeHandler,
     dateCalendar,
     selected,

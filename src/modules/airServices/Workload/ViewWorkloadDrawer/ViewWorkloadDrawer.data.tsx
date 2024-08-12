@@ -1,10 +1,10 @@
-import { Typography } from '@mui/material';
-import * as Yup from 'yup';
-import dayjs from 'dayjs';
-import { styles } from './DetailTaskDrawer.styles';
-import { DATE_TIME_FORMAT } from '@/constants';
 import { TASK_STATUS } from '@/constants/strings';
+import { Typography } from '@mui/material';
+import { styles } from './ViewWorkloadDrawer.styles';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
+import * as Yup from 'yup';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 

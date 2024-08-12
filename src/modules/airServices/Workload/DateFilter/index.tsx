@@ -4,8 +4,9 @@ import { PrimaryCalendarIcon } from '@/assets/icons';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import useDateFilter from './useDateFilter';
+import { IDateFilter } from './DateFilter.interface';
 
-export const DateFilter = ({ setDateCalendar, dateCalendar }: any) => {
+export const DateFilter = ({ setDateCalendar, dateCalendar }: IDateFilter) => {
   const {
     handleOpen,
     formattedWeekSpan,
@@ -77,7 +78,7 @@ export const DateFilter = ({ setDateCalendar, dateCalendar }: any) => {
         }}
       >
         <DateCalendar
-          onChange={(date: any) => {
+          onChange={(date: string | any) => {
             setDateCalendar(date);
           }}
         />
