@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { Box, useTheme, Popover, Typography } from '@mui/material';
+import { Box, useTheme, Popover, Typography, Button } from '@mui/material';
 
 import {
   getActivePermissionsSession,
@@ -22,13 +22,14 @@ import {
 } from '@/services/auth';
 import { getRoutes } from '@/layout/Layout.data';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { generateImage } from '@/utils/avatarUtils';
+import { ORG_ADMIN } from '@/constants';
 
 const role = 'sales';
 const AccountMenu = () => {
   const theme = useTheme();
-  const { setActiveProduct, setPermissions, setAuthLoading } = useAuth();
+  const { setActiveProduct, setPermissions, setAuthLoading, user } = useAuth();
   const router = useRouter();
   const { data: accountsData, isFetching: postAuthAccountSelectFetching } =
     useGetAuthAccountsQuery({});
@@ -103,6 +104,7 @@ const AccountMenu = () => {
       setAuthLoading(false);
     }
   }, [isLoading, postAuthAccountSelectFetching]);
+
   return (
     <div>
       <Box onClick={handleClick}>
@@ -218,6 +220,30 @@ const AccountMenu = () => {
                   </Box>
                 );
               })}
+
+            {user?.role === ROLES?.ORG_ADMIN && (
+              <>
+                {accountsData?.data?.length && (
+                  <Box
+                    sx={{
+                      px: 4,
+                      mt: 3,
+                      pb: 2,
+                      borderTop: `1px solid ${theme?.palette?.grey[400]}`,
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        router.push(ORG_ADMIN?.DASHBOARD);
+                      }}
+                    >
+                      Organization Admin portal
+                    </Button>
+                  </Box>
+                )}
+              </>
+            )}
           </Box>
         </>
       </Popover>

@@ -798,7 +798,9 @@ export const ProfileDropDown = (basePath: any) => {
       key:
         basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
           ? AIR_CUSTOMER_PORTAL?.EDIT_PROFILE
-          : ORG_ADMIN?.EDIT_PROFILE,
+          : basePath === 'org-admin'
+            ? ORG_ADMIN?.DASHBOARD_EDIT_PROFILE
+            : ORG_ADMIN?.EDIT_PROFILE,
     },
     {
       label: PROFILE_DROPDOWNS?.CHANGE_PASSWORD,
