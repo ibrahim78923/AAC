@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 
 export interface TicketActionComponentPropsI {
-  setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
-  isDrawerOpen: boolean;
+  setIsPortalOpen: Dispatch<SetStateAction<any>>;
+  isPortalOpen: any;
   selectedTicketList: any;
   setSelectedTicketList: Dispatch<SetStateAction<any>>;
   singleTicketDetail: any;

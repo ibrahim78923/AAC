@@ -4,8 +4,6 @@ import {
   mergeTicketsFormFieldsDynamic,
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
-import { useRouter } from 'next/router';
-import usePath from '@/hooks/usePath';
 import {
   useLazyGetRequesterDropdownQuery,
   useLazyGetTicketByIdForMergeQuery,
@@ -20,9 +18,7 @@ import { useEffect } from 'react';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const useMergedTickets = (props: TicketActionComponentPropsI) => {
-  const router = useRouter();
-  const { makePath } = usePath();
-  const { setIsDrawerOpen, setSelectedTicketList, selectedTicketList } = props;
+  const { setIsPortalOpen, setSelectedTicketList, selectedTicketList } = props;
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
     usePostMergeTicketsMutation();
   const mergedTicketsFormMethod = useForm({
@@ -70,15 +66,9 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
   };
 
   const closeMergedTicketsModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset();
     setSelectedTicketList?.([]);
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();

@@ -2,16 +2,17 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import React from 'react';
-import { useNewEmailDrawer } from './useNewEmail';
-import { addEmailDataArray } from './NewEmailDrawer.data';
+import { addEmailDataArray } from './EmailTicket.data';
+import { useEmailTicket } from './useEmailTicket';
 
-export const NewEmailDrawer = (props: any) => {
-  const { methods, handleSubmit, onSubmit, isDrawerOpen, onClose, status } =
-    useNewEmailDrawer(props);
+export const EmailTicket = (props: any) => {
+  const { isPortalOpen } = props;
+  const { methods, handleSubmit, onSubmit, onClose, status } =
+    useEmailTicket(props);
 
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
+      isDrawerOpen={isPortalOpen?.isOpen}
       onClose={onClose}
       title={'New Email'}
       isOk

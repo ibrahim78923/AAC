@@ -4,14 +4,13 @@ import { Box, Grid, Typography } from '@mui/material';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { Permissions } from '@/constants/permissions';
 import { LoadingButton } from '@mui/lab';
 import { useEditTicketDetails } from './useEditTicketDetails';
 
-import { TimeEntries } from '../TimeEntries';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+
 export const EditTicketDetails = () => {
   const {
     methods,
@@ -20,11 +19,11 @@ export const EditTicketDetails = () => {
     ticketDetailsFormFields,
     isLoading,
     isFetching,
-    data,
     editTicketsDetailsStatus,
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    isError,
   } = useEditTicketDetails();
 
   return (
@@ -43,7 +42,7 @@ export const EditTicketDetails = () => {
       getDynamicFieldsStatus?.isLoading ||
       getDynamicFieldsStatus?.isFetching ? (
         <SkeletonForm />
-      ) : getDynamicFieldsStatus?.isError ? (
+      ) : getDynamicFieldsStatus?.isError || isError ? (
         <ApiErrorState />
       ) : (
         <Grid item xs={12}>
@@ -70,25 +69,11 @@ export const EditTicketDetails = () => {
                   </Grid>
                 ))}
               </Grid>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={
-                Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TIME_ENTRIES
-              }
-            >
-              <br />
-              <TimeEntries data={data} />
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[
-                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
-              ]}
-            >
               <Box textAlign={'end'} p={2}>
                 <LoadingButton
                   variant={'outlined'}
+                  type="button"
                   color="inherit"
-                  onClick={() => methods?.reset()}
                   disabled={
                     editTicketsDetailsStatus?.isLoading ||
                     postAttachmentStatus?.isLoading

@@ -30,7 +30,7 @@ import {
 } from '@/utils/dynamic-forms';
 
 export const useAddTime = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { setIsDrawerOpen } = props;
 
   const [form, setForm] = useState<any>([]);
 
@@ -166,8 +166,7 @@ export const useAddTime = (props: any) => {
     handleSubmit,
     onSubmit,
     addTimeFormFields,
-    isDrawerOpen,
-    setIsDrawerOpen,
+
     postTicketStatus,
     closeDrawer,
     getDynamicFieldsStatus,

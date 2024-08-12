@@ -12,7 +12,7 @@ import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interf
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const UpsertTicket = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -32,7 +32,7 @@ export const UpsertTicket = (props: TicketActionComponentPropsI) => {
 
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
+      isDrawerOpen={isPortalOpen?.isOpen}
       onClose={() => onClose?.()}
       okText={
         !!ticketId

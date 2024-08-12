@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import {
   addEmailDefaultValues,
   addEmailValidationSchema,
-} from './NewEmailDrawer.data';
+} from './EmailTicket.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 
-export const useNewEmailDrawer = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+export const useEmailTicket = (props: any) => {
+  const { setIsPortalOpen } = props;
 
   const [trigger, status] = usePostNewEmailMutation();
 
@@ -20,8 +20,8 @@ export const useNewEmailDrawer = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const onClose = () => {
-    reset(addEmailDefaultValues);
-    setIsDrawerOpen?.(false);
+    reset();
+    setIsPortalOpen?.({});
   };
 
   const onSubmit = async (data: any) => {
@@ -33,12 +33,9 @@ export const useNewEmailDrawer = (props: any) => {
     try {
       await trigger(emailFormData)?.unwrap();
       successSnackbar('Email Sent Successfully!');
-      reset(addEmailDefaultValues);
-      setIsDrawerOpen?.(false);
+      onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      reset(addEmailDefaultValues);
-      setIsDrawerOpen?.(false);
     }
   };
 
@@ -46,8 +43,6 @@ export const useNewEmailDrawer = (props: any) => {
     methods,
     handleSubmit,
     onSubmit,
-    isDrawerOpen,
-    setIsDrawerOpen,
     onClose,
     status,
   };

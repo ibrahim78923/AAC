@@ -4,8 +4,6 @@ import {
   moveTicketsFormFieldsDynamic,
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
-import { useRouter } from 'next/router';
-import usePath from '@/hooks/usePath';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useLazyGetAgentDropdownQuery,
@@ -16,11 +14,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const useMoveTickets = (props: TicketActionComponentPropsI) => {
-  const router = useRouter();
-  const { makePath } = usePath();
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
   const {
-    setIsDrawerOpen,
+    setIsPortalOpen,
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
@@ -28,6 +23,7 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     getTicketsListData,
     setPage,
   } = props;
+  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
   const moveTicketsFormMethod = useForm<any>({
     defaultValues: moveTicketsDefaultValue,
@@ -68,22 +64,18 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
   };
 
   const closeMoveTicketsModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset();
     setSelectedTicketList([]);
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
+
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const moveTicketsFormFields = moveTicketsFormFieldsDynamic(
     apiQueryDepartment,
     apiQueryAgent,
   );
+
   return {
     moveTicketsFormMethod,
     closeMoveTicketsModal,

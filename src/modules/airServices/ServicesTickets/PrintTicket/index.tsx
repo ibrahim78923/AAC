@@ -2,24 +2,26 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import React from 'react';
 
-import { usePrintDrawer } from './usePrint';
 import { Box, Divider, Grid, Typography } from '@mui/material';
 
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
+import { usePrintTicket } from './usePrintTicket';
 
-export const PrintDrawer = (props: any) => {
-  const { onSubmit, isPrintDrawerOpen, onClose, data, printDataField } =
-    usePrintDrawer(props);
+export const PrintTicket = (props: any) => {
+  const { isPortalOpen } = props;
+
+  const { onSubmit, onClose, data, printDataField } = usePrintTicket(props);
+
   return (
     <CommonDrawer
-      isDrawerOpen={isPrintDrawerOpen}
+      isDrawerOpen={isPortalOpen?.isOpen}
       onClose={onClose}
       title=""
       submitHandler={onSubmit}
-      footer={true}
-      isOk={true}
+      footer
+      isOk
       okText="Print"
     >
       <Box>

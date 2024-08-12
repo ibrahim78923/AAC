@@ -1,9 +1,7 @@
 import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
-
-import { useDetailsCard } from './useDetailCard';
+import { useDetailCard } from './useDetailCard';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import {
   formatFileSize,
   fullName,
@@ -14,11 +12,9 @@ import {
 import { ARRAY_INDEX } from '@/constants/strings';
 
 export const DetailCard = (props: any) => {
-  const { apiStatus, detail } = props;
-  const { attachFile } = useDetailsCard();
+  const { data } = props;
+  const { attachFile } = useDetailCard();
   const theme = useTheme();
-
-  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
 
   return (
     <Box
@@ -54,8 +50,7 @@ export const DetailCard = (props: any) => {
                 sx={{ bgcolor: 'blue.main' }}
                 style={{ width: 28, height: 28 }}
                 src={generateImage(
-                  detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.avatar
-                    ?.url,
+                  data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.avatar?.url,
                 )}
               />
               <Box>
@@ -66,9 +61,8 @@ export const DetailCard = (props: any) => {
                 >
                   {' '}
                   {fullName(
-                    detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails
-                      ?.firstName,
-                    detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.lastName,
+                    data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.firstName,
+                    data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.lastName,
                   )}
                 </Typography>
               </Box>
@@ -91,7 +85,7 @@ export const DetailCard = (props: any) => {
                 sx={{ wordBreak: 'break-all' }}
                 color="slateBlue.main"
               >
-                {detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.email ??
+                {data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.email ??
                   '---'}
               </Typography>
             </Box>
@@ -109,9 +103,9 @@ export const DetailCard = (props: any) => {
                 Created on:
               </Typography>
               <Typography variant="body2" color="slateBlue.main">
-                {!!detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.createdAt
+                {!!data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.createdAt
                   ? dayjs(
-                      detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails
+                      data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails
                         ?.createdAt,
                     )?.format(DATE_FORMAT?.UI)
                   : '---'}
@@ -141,7 +135,7 @@ export const DetailCard = (props: any) => {
               color="slateBlue.main"
               sx={{ wordBreak: 'break-all' }}
               dangerouslySetInnerHTML={{
-                __html: detail?.data[ARRAY_INDEX?.ZERO]?.description ?? '---',
+                __html: data?.data[ARRAY_INDEX?.ZERO]?.description ?? '---',
               }}
             />
           </Box>
@@ -197,9 +191,9 @@ export const DetailCard = (props: any) => {
             <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Status:
             </Typography>
-            {!!detail?.data[ARRAY_INDEX?.ZERO]?.status ? (
+            {!!data?.data[ARRAY_INDEX?.ZERO]?.status ? (
               <Chip
-                label={detail?.data[ARRAY_INDEX?.ZERO]?.status ?? '---'}
+                label={data?.data[ARRAY_INDEX?.ZERO]?.status ?? '---'}
                 variant="outlined"
                 size="small"
                 color="primary"
@@ -218,10 +212,10 @@ export const DetailCard = (props: any) => {
               Due by:
             </Typography>
             <Typography variant="body2" color="slateBlue.main">
-              {!!detail?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate
-                ? dayjs(
-                    detail?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate,
-                  )?.format(DATE_FORMAT?.UI)
+              {!!data?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate
+                ? dayjs(data?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate)?.format(
+                    DATE_FORMAT?.UI,
+                  )
                 : '---'}
             </Typography>
           </Box>
@@ -238,7 +232,7 @@ export const DetailCard = (props: any) => {
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              {detail?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? '---'}
+              {data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? '---'}
             </Typography>
           </Box>
         </Grid>

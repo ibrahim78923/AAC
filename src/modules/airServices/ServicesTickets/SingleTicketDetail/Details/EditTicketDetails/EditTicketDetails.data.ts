@@ -6,7 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
-import { ROLES } from '@/constants/strings';
+import { ROLES, TICKET_TYPE } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -29,6 +29,13 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
   return Yup?.object()?.shape({
     ticketType: Yup?.mixed()?.nullable(),
     category: Yup?.mixed()?.nullable(),
+    serviceId: Yup?.mixed()
+      ?.nullable()
+      ?.when('ticketType', {
+        is: (value: any) => value?._id === TICKET_TYPE?.SR,
+        then: () => Yup?.mixed()?.nullable()?.required('Service is required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
     status: Yup?.mixed()?.nullable()?.required('Status is Required'),
     priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
     department: Yup?.mixed()?.nullable(),
@@ -57,7 +64,9 @@ export const editTicketDetailsDefaultValuesDynamic = (
     department: data?.departmentDetails ?? null,
     source: data?.source ? { _id: data?.source, label: data?.source } : null,
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
-    ticketType: data?.ticketType ?? null,
+    ticketType: data?.ticketType
+      ? { _id: data?.ticketType, label: data?.ticketType }
+      : null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? data?.agentDetails
       : null,
@@ -77,6 +86,9 @@ export const editTicketDetailsFormFieldsDynamic = (
   apiQueryAgent: any,
   apiQueryCategory: any,
   apiQueryDepartment?: any,
+  watchForTicketType?: any,
+  apiQueryServicesCategory?: any,
+  getValues?: any,
 ) => [
   {
     id: 1,
@@ -133,8 +145,9 @@ export const editTicketDetailsFormFieldsDynamic = (
       name: 'ticketType',
       label: 'Type',
       fullWidth: true,
-      placeholder: 'Choose Impact',
+      placeholder: 'Choose ticket type',
       options: ticketTypeOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
 
     component: RHFAutocomplete,
@@ -180,6 +193,24 @@ export const editTicketDetailsFormFieldsDynamic = (
     },
     component: RHFAutocompleteAsync,
   },
+  ...(watchForTicketType?._id === TICKET_TYPE?.SR
+    ? [
+        {
+          id: 7,
+          componentProps: {
+            name: 'serviceId',
+            label: 'Service',
+            fullWidth: true,
+            required: watchForTicketType?._id === TICKET_TYPE?.SR,
+            apiQuery: apiQueryServicesCategory,
+            placeholder: 'Choose Service',
+            externalParams: { categoryId: getValues('category')?._id },
+            getOptionLabel: (option: any) => option?.itemName,
+          },
+          component: RHFAutocompleteAsync,
+        },
+      ]
+    : []),
   {
     id: 8,
     componentProps: {

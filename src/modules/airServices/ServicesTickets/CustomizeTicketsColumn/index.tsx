@@ -6,7 +6,7 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const CustomizeTicketsColumn = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     submit,
     onClose,
@@ -18,7 +18,7 @@ export const CustomizeTicketsColumn = (props: TicketActionComponentPropsI) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isPortalOpen?.isOpen}
         onClose={() => onClose?.()}
         okText={'Update'}
         title={'Customize Column'}

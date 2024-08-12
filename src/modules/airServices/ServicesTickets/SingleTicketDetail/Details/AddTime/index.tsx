@@ -8,12 +8,12 @@ import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 
 export const AddTime = (props: any) => {
+  const { isDrawerOpen } = props;
   const {
     methods,
     handleSubmit,
     onSubmit,
     addTimeFormFields,
-    isDrawerOpen,
     postTicketStatus,
     closeDrawer,
     getDynamicFieldsStatus,

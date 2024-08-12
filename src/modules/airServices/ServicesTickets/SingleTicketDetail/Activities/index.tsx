@@ -5,7 +5,6 @@ import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
-import { PAGINATION } from '@/config';
 import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import NoData from '@/components/NoData';
@@ -33,7 +32,7 @@ export const Activities = () => {
       >
         {!!data?.data?.activitylogs?.length ? (
           data?.data?.activitylogs?.map((activity: any) => (
-            <Box key={activity?._id}>
+            <Box key={activity?._id} mb={2}>
               <Box display={'flex'}>
                 <Box>
                   <IconButton
@@ -59,7 +58,7 @@ export const Activities = () => {
                     marginRight={0.3}
                     component={'span'}
                   >
-                    has {activity?.activityType}
+                    has {activity?.activityType?.toLowerCase()}
                   </Typography>
                   <Typography
                     variant="body2"
@@ -100,7 +99,6 @@ export const Activities = () => {
         totalRecords={data?.data?.meta?.total}
         pageLimit={data?.data?.meta?.limit}
         currentPage={data?.data?.meta?.page}
-        rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
         onPageChange={(page: any) => setPage(page)}
         setPageLimit={setPageLimit}
         setPage={setPage}

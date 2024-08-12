@@ -7,7 +7,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     ticketsBulkUpdateFormFields,
     theme,
@@ -23,7 +23,7 @@ export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isPortalOpen?.isOpen}
         onClose={() => onClose?.()}
         okText={'Update'}
         title={'Bulk Update'}

@@ -1,7 +1,4 @@
-import { useRouter } from 'next/router';
-
 import { useForm } from 'react-hook-form';
-import usePath from '@/hooks/usePath';
 import {
   useLazyGetAgentDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
@@ -17,11 +14,8 @@ import { filteredEmptyValues } from '@/utils/api';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const useFilterTickets = (props: TicketActionComponentPropsI) => {
-  const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists, setPage } =
+  const { setIsPortalOpen, setFilterTicketLists, filterTicketLists, setPage } =
     props;
-  const router = useRouter();
-
-  const { makePath } = usePath();
 
   const methods: any = useForm({
     defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
@@ -47,18 +41,12 @@ export const useFilterTickets = (props: TicketActionComponentPropsI) => {
       setFilterTicketLists({});
     }
     reset();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset?.();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();

@@ -1,7 +1,7 @@
 import { useGetSingleAttachmentQuery } from '@/services/airServices/tickets/attachments';
 import { useRouter } from 'next/router';
 
-export const useDetailsCard = () => {
+export const useDetailCard = () => {
   const router = useRouter();
   const { ticketId } = router?.query;
 

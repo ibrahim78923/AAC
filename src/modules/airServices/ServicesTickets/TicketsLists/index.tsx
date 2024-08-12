@@ -10,7 +10,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const TicketsLists = () => {
   const {
-    hasTicketAction,
+    isPortalOpen,
     router,
     setTicketAction,
     ticketActionComponent,
@@ -91,8 +91,8 @@ export const TicketsLists = () => {
           />
         </PermissionsGuard>
       )}
-      {hasTicketAction &&
-        ticketActionComponent?.[router?.query?.ticketAction as string]}
+      {isPortalOpen?.isOpen &&
+        ticketActionComponent?.[isPortalOpen?.action as string]}
     </>
   );
 };

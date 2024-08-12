@@ -1,14 +1,14 @@
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { printData } from './print.data';
+import { printData } from './PrintTicket.data';
 import { useRouter } from 'next/router';
 
-export const usePrintDrawer = (props: any) => {
-  const { isPrintDrawerOpen, setISPrintDrawerOpen, data } = props;
+export const usePrintTicket = (props: any) => {
+  const { setIsPortalOpen, data } = props;
   const router = useRouter();
 
   const onClose = () => {
-    setISPrintDrawerOpen?.(false);
+    setIsPortalOpen?.(false);
   };
   const onSubmit = () => {
     window.print();
@@ -17,16 +17,15 @@ export const usePrintDrawer = (props: any) => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
 
-      if (setISPrintDrawerOpen) {
-        setISPrintDrawerOpen(false);
+      if (setIsPortalOpen) {
+        setIsPortalOpen(false);
       }
     }, 3000);
   };
   const printDataField = printData(data);
   return {
     onSubmit,
-    isPrintDrawerOpen,
-    setISPrintDrawerOpen,
+    setIsPortalOpen,
     onClose,
     data,
     printDataField,

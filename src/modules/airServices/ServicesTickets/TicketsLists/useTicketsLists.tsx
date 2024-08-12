@@ -21,7 +21,6 @@ import { PAGINATION } from '@/config';
 import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
-  usePutSingleTicketStatusMutation,
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
@@ -32,9 +31,10 @@ import {
   TicketActionComponentI,
   TicketActionComponentPropsI,
 } from './TicketsLists.interface';
+import { UpdateTicketStatus } from '../UpdateTicketStatus';
 
 export const useTicketsLists: any = () => {
-  const [hasTicketAction, setHasTicketAction] = useState<boolean>(false);
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [selectedTicketList, setSelectedTicketList] = useState([]);
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -53,9 +53,6 @@ export const useTicketsLists: any = () => {
 
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
-
-  const [putSingleTicketStatusTrigger, putSingleTicketStatusStatus] =
-    usePutSingleTicketStatusMutation();
 
   const getValueTicketsListData = async (
     currentPage = page,
@@ -147,23 +144,6 @@ export const useTicketsLists: any = () => {
     }
   }, []);
 
-  const updateTicketStatus = async (status: string) => {
-    const updateTicketStatusTicketsParameter = {
-      queryParams: {
-        status,
-        id: selectedTicketList?.[ARRAY_INDEX?.ZERO],
-      },
-    };
-    try {
-      await putSingleTicketStatusTrigger(
-        updateTicketStatusTicketsParameter,
-      )?.unwrap();
-      successSnackbar('Ticket status updated successfully');
-      setSelectedTicketList([]);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     router,
     lazyGetTicketsStatus?.data?.data?.tickets,
@@ -172,8 +152,8 @@ export const useTicketsLists: any = () => {
   );
 
   const ticketActionComponentProps: TicketActionComponentPropsI = {
-    setIsDrawerOpen: setHasTicketAction,
-    isDrawerOpen: hasTicketAction,
+    isPortalOpen,
+    setIsPortalOpen,
     selectedTicketList: selectedTicketList,
     setSelectedTicketList: setSelectedTicketList,
     singleTicketDetail: lazyGetTicketsStatus?.data?.data?.tickets?.find(
@@ -221,30 +201,29 @@ export const useTicketsLists: any = () => {
     [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (
       <TicketsDelete {...ticketActionComponentProps} />
     ),
+    [TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS]: (
+      <UpdateTicketStatus {...ticketActionComponentProps} />
+    ),
   };
 
-  const setTicketAction = (ticketActionQuery: string) => {
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...router?.query,
-        ticketAction: ticketActionQuery,
-      },
+  const setTicketAction = (
+    ticketActionQuery: string,
+    data: { [key: string]: any } = {},
+  ) => {
+    setIsPortalOpen({
+      isOpen: true,
+      action: ticketActionQuery,
+      status: data?.status,
     });
-    setTimeout(() => {
-      setHasTicketAction?.(true);
-    }, 100);
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     setTicketAction,
     selectedTicketList,
-    updateTicketStatus,
-    putSingleTicketStatusStatus,
   );
 
   return {
-    hasTicketAction,
+    isPortalOpen,
     router,
     setTicketAction,
     TICKETS_ACTION_CONSTANTS,

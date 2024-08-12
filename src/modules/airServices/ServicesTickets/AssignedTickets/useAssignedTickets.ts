@@ -1,20 +1,16 @@
-import usePath from '@/hooks/usePath';
 import {
   usePutTicketsMutation,
   useLazyGetAgentDropdownQuery,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
-  const router = useRouter();
-  const { makePath } = usePath();
   const {
-    setIsDrawerOpen,
+    setIsPortalOpen,
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
@@ -68,15 +64,9 @@ export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
   };
 
   const closeTicketsAssignedModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset();
     setSelectedTicketList([]);
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();

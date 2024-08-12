@@ -14,7 +14,7 @@ import { useMoveTickets } from './useMoveTickets';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const MoveTickets = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     moveTicketsFormMethod,
     closeMoveTicketsModal,
@@ -25,7 +25,7 @@ export const MoveTickets = (props: TicketActionComponentPropsI) => {
   } = useMoveTickets(props);
   return (
     <Dialog
-      open={isDrawerOpen}
+      open={isPortalOpen?.isOpen}
       onClose={() => closeMoveTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}

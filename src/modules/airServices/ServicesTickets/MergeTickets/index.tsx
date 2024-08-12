@@ -18,7 +18,7 @@ import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interf
 
 export const MergeTickets = (props: TicketActionComponentPropsI) => {
   const theme = useTheme();
-  const { isDrawerOpen, singleTicketDetail } = props;
+  const { isPortalOpen, singleTicketDetail } = props;
   const {
     mergedTicketsFormMethod,
     closeMergedTicketsModal,
@@ -30,7 +30,7 @@ export const MergeTickets = (props: TicketActionComponentPropsI) => {
 
   return (
     <Dialog
-      open={isDrawerOpen}
+      open={isPortalOpen?.isOpen}
       onClose={() => closeMergedTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}

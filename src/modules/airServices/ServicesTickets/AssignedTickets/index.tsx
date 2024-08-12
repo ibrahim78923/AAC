@@ -14,7 +14,7 @@ import { ROLES } from '@/constants/strings';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const AssignedTickets = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     assignedTicketsMethod,
     handleSubmit,
@@ -26,7 +26,7 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
 
   return (
     <Dialog
-      open={isDrawerOpen}
+      open={isPortalOpen?.isOpen}
       onClose={() => closeTicketsAssignedModal?.()}
       fullWidth
       maxWidth={'sm'}

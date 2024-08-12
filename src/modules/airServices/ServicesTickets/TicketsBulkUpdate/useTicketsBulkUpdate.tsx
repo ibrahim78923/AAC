@@ -1,5 +1,4 @@
 import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
 import {
   ticketsBulkUpdateDefaultFormValues,
   ticketsBulkUpdateFormValidationSchemaFunction,
@@ -10,7 +9,6 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import usePath from '@/hooks/usePath';
 import {
   useLazyGetAgentDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
@@ -22,18 +20,17 @@ import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interf
 
 export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   const {
-    setIsDrawerOpen,
+    setIsPortalOpen,
     setSelectedTicketList,
     selectedTicketList,
     setFilterTicketLists,
     getTicketsListData,
     setPage,
   } = props;
+
   const [isReplyAdded, setIsReplyAdded] = useState(false);
 
-  const router = useRouter();
   const theme: any = useTheme();
-  const { makePath } = usePath();
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
     usePatchBulkUpdateTicketsMutation();
 
@@ -94,7 +91,7 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     try {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
-      setIsDrawerOpen?.(false);
+      setIsPortalOpen?.({});
       getTicketsListData(1, {});
       setFilterTicketLists?.({});
       setPage?.(1);
@@ -109,14 +106,8 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   };
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset?.();
-    setIsDrawerOpen(false);
+    setIsPortalOpen({});
   };
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
@@ -128,15 +119,14 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
 
   return {
     ticketsBulkUpdateFormFields,
-    router,
     theme,
     ticketsBulkUpdateAddReplyFormFieldsData,
     methodsBulkUpdateForm,
     handleSubmit,
-    submitTicketBulkUpdateForm,
     isReplyAdded,
     setIsReplyAdded,
     onClose,
+    submitTicketBulkUpdateForm,
     patchBulkUpdateTicketsStatus,
     postAddReplyToBulkUpdateStatus,
   };

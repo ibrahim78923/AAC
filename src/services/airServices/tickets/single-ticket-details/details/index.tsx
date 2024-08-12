@@ -111,6 +111,16 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_SIX],
     }),
+    getServiceCatalogCategoriesDropdownForEditTicketDetails: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.SERVICES_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -127,4 +137,5 @@ export const {
   useEditTicketsDetailsMutation,
   useLazyGetAgentDropdownForEditTicketDetailsQuery,
   useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
+  useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
 } = ticketsDetailsAPI;

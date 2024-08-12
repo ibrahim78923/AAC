@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import {
   useGetTicketsDetailsByIdQuery,
   useEditTicketsDetailsMutation,
   useLazyGetAgentDropdownForEditTicketDetailsQuery,
   useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
+  useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 
 import { useRouter } from 'next/router';
@@ -16,7 +17,7 @@ import {
   successSnackbar,
 } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import {
   editTicketDetailsDefaultValuesDynamic,
   editTicketDetailsFormFieldsDynamic,
@@ -84,7 +85,13 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, control } = methods;
+
+  const watchForTicketType = useWatch({
+    control,
+    name: 'ticketType',
+    defaultValue: null,
+  });
 
   useEffect(() => {
     reset(() =>
@@ -97,7 +104,6 @@ export const useEditTicketDetails = () => {
 
   const onSubmit = async (formData: any) => {
     const newFormData = filteredEmptyValues(formData);
-
     const { plannedEffort } = getValues();
     if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
       errorSnackbar(
@@ -156,9 +162,17 @@ export const useEditTicketDetails = () => {
         ticketDetailsData?.append('department', newFormData?.department?._id);
       !!newFormData?.source &&
         ticketDetailsData.append('source', newFormData?.source?._id);
-      ticketDetailsData.append('ticketType', newFormData?.ticketType);
+      ticketDetailsData.append('ticketType', newFormData?.ticketType?._id);
       !!newFormData?.impact &&
         ticketDetailsData.append('impact', newFormData?.impact?._id);
+      newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
+        ticketDetailsData.append('serviceId', newFormData?.serviceId?._id);
+      ticketDetailsData.append(
+        'description',
+        newFormData?.ticketType?._id === TICKET_TYPE?.SR
+          ? newFormData?.serviceId?.description
+          : '',
+      );
       !!newFormData?.agent &&
         ticketDetailsData.append('agent', newFormData?.agent?._id);
       !!newFormData?.category &&
@@ -193,9 +207,8 @@ export const useEditTicketDetails = () => {
       };
 
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
-      router?.push(AIR_SERVICES?.TICKETS);
       successSnackbar('Ticket updated successfully');
-      reset();
+      router?.push(AIR_SERVICES?.TICKETS);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -204,25 +217,30 @@ export const useEditTicketDetails = () => {
   const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
   const apiQueryCategory =
     useLazyGetCategoriesDropdownForEditTicketDetailsQuery();
+  const apiQueryServicesCategory =
+    useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery?.();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
 
   const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
     apiQueryAgent,
     apiQueryCategory,
     apiQueryDepartment,
+    watchForTicketType,
+    apiQueryServicesCategory,
+    getValues,
   );
+
   return {
     methods,
     handleSubmit,
     onSubmit,
-    data,
     ticketDetailsFormFields,
     isLoading,
     isFetching,
-    isError,
     editTicketsDetailsStatus,
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    isError,
   };
 };

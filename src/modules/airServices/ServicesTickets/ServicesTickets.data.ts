@@ -78,7 +78,16 @@ export const ticketCategoryOptions: string[] = [
   TICKET_CATEGORY?.OFFICE_APPLICATION,
   TICKET_CATEGORY?.OFFICE_FURNITURE,
 ];
-export const ticketTypeOptions: string[] = [TICKET_TYPE?.INC, TICKET_TYPE?.SR];
+export const ticketTypeOptions: AutocompleteOptionsDropdownI = [
+  {
+    _id: TICKET_TYPE?.INC,
+    label: TICKET_TYPE?.INC,
+  },
+  {
+    _id: TICKET_TYPE?.SR,
+    label: TICKET_TYPE?.SR,
+  },
+];
 export const ticketsSourceOptions: string[] = [
   TICKET_SOURCE?.PHONE,
   TICKET_SOURCE?.EMAIL,
