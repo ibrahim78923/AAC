@@ -44,7 +44,7 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     formData.append('totalRevenue', values?.totalRevenue);
     formData.append('domain', values?.domain);
     formData.append('name', values?.name);
-    formData.append('ownerId', values?.ownerId);
+    formData.append('ownerId', values?.ownerId?._id);
     formData.append('industry', values?.industry);
     if (!isNullOrEmpty(values?.type)) {
       formData.append('type', values?.type ?? '');

@@ -12,7 +12,7 @@ export const createComapnySchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
   totalRevenue: Yup?.number(),
   noOfEmloyee: Yup?.number(),
-  ownerId: Yup?.string()?.required('Field is Required'),
+  ownerId: Yup?.object()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {

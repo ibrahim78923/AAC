@@ -53,6 +53,7 @@ export const DATE_TIME_FORMAT = {
   MMM: 'MMM',
   DD: 'DD',
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
+  GOAL_DATE_FORMAT: 'MMM DD YYYY',
 };
 
 export const VALIDATION_CONSTANT = {

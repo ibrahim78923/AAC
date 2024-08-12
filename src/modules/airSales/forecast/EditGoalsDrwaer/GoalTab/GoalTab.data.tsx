@@ -1,4 +1,4 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const editGoalValidationSchema = Yup.object().shape({
@@ -15,7 +15,7 @@ export const editGoalDefaultValues = {
   dealPipelines: '',
 };
 
-export const editGoalArray = (showMonth: any, dealPipelineOption: any) => {
+export const editGoalArray = (showMonth: any) => {
   const monthFields = [
     { month: 'jan', label: 'Jan' },
     { month: 'feb', label: 'Feb' },
@@ -69,11 +69,9 @@ export const editGoalArray = (showMonth: any, dealPipelineOption: any) => {
         name: 'dealPipelines',
         label: 'Deal Pipelines',
         fullWidth: true,
-        select: true,
         disabled: true,
       },
-      options: dealPipelineOption,
-      component: RHFSelect,
+      component: RHFTextField,
       md: 12,
     },
     ...monthFields

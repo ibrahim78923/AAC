@@ -9,7 +9,6 @@ import {
 } from '@/services/airSales/forecast';
 import { isNullOrEmpty } from '@/utils';
 import { useEffect, useState } from 'react';
-import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -17,6 +16,7 @@ import {
   editGoalValidationSchema,
 } from './GoalTab/GoalTab.data';
 import { enqueueSnackbar } from 'notistack';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const EditGoalsDrwaer = (props: any) => {
   const {
@@ -50,17 +50,6 @@ const EditGoalsDrwaer = (props: any) => {
     setEditNotificationOptions(notificationsData);
   }, [getOneGoal]);
 
-  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
-
-  const processData = (data: any) => {
-    return data?.map((item: any) => ({
-      value: item?.name,
-      label: item?.name,
-    }));
-  };
-
-  const dealPipelineOption = processData(dealPipelineData?.data);
-
   const methods: any = useForm({
     resolver: yupResolver(editGoalValidationSchema),
     defaultValues: editGoalDefaultValues,
@@ -77,8 +66,11 @@ const EditGoalsDrwaer = (props: any) => {
     } else {
       const target = [
         {
-          contributorId: getOneGoal?.data?.targets[0]?.contributorId,
-          pipelines: [getOneGoal?.data?.targets[0]?.pipelines?._id],
+          contributorId:
+            getOneGoal?.data?.targets[ARRAY_INDEX?.ZERO]?.contributorId,
+          pipelines: getOneGoal?.data?.targets[
+            ARRAY_INDEX?.ZERO
+          ]?.pipelines?.map((pipeline: any) => pipeline?._id),
           unit: 'USD',
           year: 2024,
           months: {
@@ -148,7 +140,6 @@ const EditGoalsDrwaer = (props: any) => {
           <GoalTab
             getOneGoal={getOneGoal}
             isLoading={isLoading}
-            dealPipelineOption={dealPipelineOption}
             setValue={setValue}
             submitHandler={handleSubmit(onSubmit)}
             methods={methods}

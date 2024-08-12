@@ -21,7 +21,12 @@ import {
   teamDurationValidationSchema,
 } from './TeamDuration/TeamDuration.data';
 import { enqueueSnackbar } from 'notistack';
-import { DATE_TIME_FORMAT, GOALS_YEARLY_FORMAT } from '@/constants';
+import {
+  DATE_FORMAT,
+  DATE_TIME_FORMAT,
+  GOALS_YEARLY_FORMAT,
+  RADIO_VALUE,
+} from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import dayjs from 'dayjs';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
@@ -273,6 +278,16 @@ export const useCreateGoal = () => {
 
   // this is final step
   const handleFinalSubmit = async () => {
+    const startDate = teamDurationForm?.from
+      ? dayjs(teamDurationForm?.from)?.format(DATE_FORMAT.API)
+      : dayjs()?.format(DATE_FORMAT?.API);
+
+    const endDate = teamDurationForm?.to
+      ? dayjs(teamDurationForm?.to).format(DATE_FORMAT?.API)
+      : dayjs()
+          ?.add(1, 'year')
+          ?.format(DATE_FORMAT?.API);
+
     if (isNullOrEmpty(selectedNotifications)) {
       enqueueSnackbar('Please select a notification', {
         variant: 'error',
@@ -282,19 +297,11 @@ export const useCreateGoal = () => {
         trackingMethod: describeForm?.trackingMethod,
         goalName: describeForm?.goalName,
         duration: teamDurationForm?.duration,
-        ...(teamDurationForm?.userTeam === 'USER'
-          ? {
-              contributors: teamDurationForm?.collaborators?.map(
-                (collaborator: any) => collaborator?._id,
-              ),
-            }
-          : {
-              teams: teamDurationForm?.collaborators?.map(
-                (collaborator: any) => collaborator?._id,
-              ),
-            }),
         targets: performanceData,
         notification: selectedNotifications,
+        isTeam: teamDurationForm?.userTeam === RADIO_VALUE?.USER ? false : true,
+        startDate: startDate,
+        endDate: endDate,
       };
 
       try {

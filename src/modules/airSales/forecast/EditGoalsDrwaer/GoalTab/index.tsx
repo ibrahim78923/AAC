@@ -20,7 +20,6 @@ import { ARRAY_INDEX } from '@/constants/strings';
 const GoalTab = ({
   getOneGoal,
   isLoading,
-  dealPipelineOption,
   submitHandler,
   setValue,
   methods,
@@ -41,7 +40,12 @@ const GoalTab = ({
       setValue('name', goalName);
       setValue('user', teamNames || userFullNames);
       setValue('duration', duration);
-      setValue('dealPipelines', targets[ARRAY_INDEX?.ZERO]?.pipelines?.name);
+      setValue(
+        'dealPipelines',
+        targets[ARRAY_INDEX?.ZERO]?.pipelines
+          ?.map((pipeline: any) => pipeline?.name)
+          .join(', '),
+      );
       if (targets?.length > 0) {
         const targetMonths = targets[ARRAY_INDEX?.ZERO]?.months;
         Object?.keys(targetMonths)?.forEach((monthKey) => {
@@ -55,7 +59,7 @@ const GoalTab = ({
     ? Object.keys(getOneGoal.data.targets[0].months)
     : [];
 
-  const formFields = editGoalArray(showMonth, dealPipelineOption);
+  const formFields = editGoalArray(showMonth);
 
   // Handle modal submit
   const handleModalSubmit = () => {

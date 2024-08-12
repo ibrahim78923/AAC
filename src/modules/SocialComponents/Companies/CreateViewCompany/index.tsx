@@ -16,11 +16,20 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { createViewArr } from './CreateViewCompany.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import Loader from '@/components/Loader';
 
 const CreateViewCompany = (props: any) => {
   const { isCreateView, setIsCreateView } = props;
-  const { methods, theme, handleSubmit, onSubmit, reset } =
-    useCreateViewCompany(setIsCreateView);
+  const {
+    methods,
+    theme,
+    handleSubmit,
+    onSubmit,
+    reset,
+    fetchingAllUserTeams,
+    loadingAllUserTeams,
+    teamIds,
+  } = useCreateViewCompany(setIsCreateView, isCreateView);
 
   return (
     <>
@@ -39,7 +48,7 @@ const CreateViewCompany = (props: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {createViewArr()?.map((item: any) => (
+              {createViewArr(teamIds)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   {item?.componentProps?.heading && (
                     <Typography variant="h5">
@@ -99,6 +108,7 @@ const CreateViewCompany = (props: any) => {
             </Grid>
           </FormProvider>
         </Box>
+        <Loader isLoading={fetchingAllUserTeams || loadingAllUserTeams} />
       </CommonDrawer>
     </>
   );

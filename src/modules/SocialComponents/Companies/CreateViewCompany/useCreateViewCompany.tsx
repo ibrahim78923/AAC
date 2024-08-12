@@ -11,11 +11,26 @@ import dayjs from 'dayjs';
 import { usePostCompaniesViewMutation } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
+import { useGetAllUserTeamsQuery } from '@/services/commonFeatures/contacts';
 
-const useCreateViewCompany = (setIsCreateView: any) => {
+const useCreateViewCompany = (setIsCreateView: any, isCreateView: any) => {
   const theme = useTheme<Theme>();
 
   const [postCompaniesView] = usePostCompaniesViewMutation();
+
+  const ActiveProduct = getActiveProductSession();
+  const productId = ActiveProduct?._id;
+
+  const {
+    data: dataGetAllUserTeams,
+    isLoading: loadingAllUserTeams,
+    isFetching: fetchingAllUserTeams,
+  } = useGetAllUserTeamsQuery({ productId }, { skip: !isCreateView });
+
+  const teamIds = dataGetAllUserTeams?.data?.map(
+    (product: any) => product?.team?._id,
+  );
 
   const methods: any = useForm<any>({
     resolver: yupResolver(createViwValidationSchema),
@@ -33,6 +48,7 @@ const useCreateViewCompany = (setIsCreateView: any) => {
       name: values?.name,
       apiUrl: values?.apiUrl,
       sharedWith: values?.sharedWith,
+      teamIds: teamIds,
     };
 
     try {
@@ -55,6 +71,9 @@ const useCreateViewCompany = (setIsCreateView: any) => {
     handleSubmit,
     onSubmit,
     reset,
+    fetchingAllUserTeams,
+    loadingAllUserTeams,
+    teamIds,
   };
 };
 
