@@ -7,6 +7,8 @@ export interface ReportsTypesI {
   purpose: string;
   link: string;
   permission: string[];
+  hasAccount: boolean;
+  productId: string;
 }
 export interface ReportListsIsPortalOpenI {
   isOpen?: boolean;

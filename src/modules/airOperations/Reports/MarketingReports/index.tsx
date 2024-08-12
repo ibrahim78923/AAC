@@ -6,7 +6,7 @@ import { AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS } from '@/co
 import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const MarketingReports = () => {
-  const { router, marketingReportsListTabs } = useMarketingReports();
+  const { router, marketingReportsListTabs, id } = useMarketingReports();
 
   return (
     <>
@@ -20,7 +20,11 @@ export const MarketingReports = () => {
         handleAction={() =>
           router?.push({
             pathname: AIR_OPERATIONS?.UPSERT_GENERIC_REPORTS,
-            query: { moduleName: GENERIC_REPORT_MODULES?.MARKETING },
+            query: {
+              moduleName: GENERIC_REPORT_MODULES?.MARKETING,
+              id,
+              redirect: router?.pathname,
+            },
           })
         }
         createPermissionKey={[

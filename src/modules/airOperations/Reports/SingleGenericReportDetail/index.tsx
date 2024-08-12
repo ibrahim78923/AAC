@@ -34,7 +34,10 @@ export const SingleGenericReportDetail = () => {
           title={reportWidgets?.name}
           canMovedBack
           moveBack={() =>
-            router?.push({ pathname: router?.query?.redirect as string })
+            router?.push({
+              pathname: router?.query?.redirect as string,
+              query: { id: router?.query?.id },
+            })
           }
         >
           <LoadingButton

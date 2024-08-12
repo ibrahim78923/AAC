@@ -11,8 +11,6 @@ import { DraggableFieldsI } from './DraggableFields.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useDraggableFields } from './useDraggableFields';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { Permissions } from '@/constants/permissions';
 
 export default function DraggableFields(props: DraggableFieldsI) {
   const {
@@ -75,17 +73,13 @@ export default function DraggableFields(props: DraggableFieldsI) {
                     <Typography variant={'h5'} mb={2}>
                       {showTemplate ? 'Form Template' : ' Form Scratch'}
                     </Typography>
-                    <PermissionsGuard
-                      permissions={Permissions?.AIR_OPERATION_CREATE_REPORT}
-                    >
-                      <SingleDropdownButton
-                        dropdownName={metricType}
-                        dropdownOptions={
-                          mainMetrics(setMetricType)[selectedModule]
-                        }
-                        disabled={form?.length}
-                      />
-                    </PermissionsGuard>
+                    <SingleDropdownButton
+                      dropdownName={metricType}
+                      dropdownOptions={
+                        mainMetrics(setMetricType)[selectedModule]
+                      }
+                      disabled={form?.length}
+                    />
                   </Box>
                   <Box height={'60vh'} overflow={'scroll'} p={1}>
                     {showTemplate ? (

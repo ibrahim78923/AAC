@@ -14,15 +14,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ReportsListsComponentPropsI } from '../Reports.interface';
 
 export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen, baseModule } = props;
+  const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    API_QUERY_DASHBOARD,
     apiQueryServicesDashboard,
     addReportsToDashboardStatus,
+    id,
   }: any = useAddToDashboardReport(props);
 
   return (
@@ -61,14 +61,13 @@ export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
             name="dashboard"
             fullWidth
             required
-            apiQuery={
-              API_QUERY_DASHBOARD?.[baseModule] ?? apiQueryServicesDashboard
-            }
+            apiQuery={apiQueryServicesDashboard}
             multiple
             size="small"
             placeholder="Search Here"
             externalParams={{
               limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+              productId: id,
             }}
             getOptionLabel={(option: any) => `${option?.name}`}
           />

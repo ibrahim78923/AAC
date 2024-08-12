@@ -16,6 +16,7 @@ import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const useMarketingReports = () => {
   const router = useRouter();
+  const { id } = router?.query;
   const apiQueryAllReports = useLazyGetAllMarketingReportsListQuery?.();
   const apiQueryFavoriteReports =
     useLazyGetAllFavoritesMarketingReportsListQuery?.();
@@ -82,5 +83,6 @@ export const useMarketingReports = () => {
     editReportPath,
     marketingReportsListTabs,
     tabsArrayData,
+    id,
   };
 };

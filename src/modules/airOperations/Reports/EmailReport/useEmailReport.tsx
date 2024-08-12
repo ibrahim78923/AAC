@@ -17,7 +17,7 @@ export const useNewEmailDrawer = (props: any) => {
 
   const { user }: any = useAuth();
   const router = useRouter();
-
+  const { id } = router?.query;
   const [emailReportsTrigger, emailReportsStatus] = useEmailReportsMutation();
 
   const data = {
@@ -62,6 +62,7 @@ export const useNewEmailDrawer = (props: any) => {
       query: {
         reportId: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
         redirect: router?.pathname,
+        id,
       },
     });
 

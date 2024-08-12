@@ -1,13 +1,7 @@
 import { PAGINATION } from '@/config';
-import {
-  ARRAY_INDEX,
-  GENERIC_REPORT_MODULES,
-  REPORT_TYPE,
-} from '@/constants/strings';
+import { ARRAY_INDEX, REPORT_TYPE } from '@/constants/strings';
 import {
   useAddReportsToDashboardMutation,
-  useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery,
-  useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
 } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -15,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { useRouter } from 'next/router';
 
 export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   const {
@@ -26,6 +21,10 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
     page,
     getReportListData,
   } = props;
+
+  const router = useRouter();
+
+  const { id } = router?.query;
 
   const [addReportsToDashboardTrigger, addReportsToDashboardStatus] =
     useAddReportsToDashboardMutation();
@@ -81,24 +80,14 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
 
   const apiQueryServicesDashboard =
     useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery();
-  const apiQuerySalesDashboard =
-    useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery();
-  const apiQueryMarketingDashboard =
-    useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery();
-
-  const API_QUERY_DASHBOARD = {
-    [GENERIC_REPORT_MODULES?.SERVICES]: apiQueryServicesDashboard,
-    [GENERIC_REPORT_MODULES?.SALES]: apiQuerySalesDashboard,
-    [GENERIC_REPORT_MODULES?.MARKETING]: apiQueryMarketingDashboard,
-  };
 
   return {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    API_QUERY_DASHBOARD,
     apiQueryServicesDashboard,
     addReportsToDashboardStatus,
+    id,
   };
 };

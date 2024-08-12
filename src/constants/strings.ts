@@ -895,10 +895,8 @@ export const TIME_TO_RESTORE_DELETED_RECORD = {
 };
 
 export const REPORT_TYPE = {
-  CHART: 'chart',
   TABLE: 'TABLE',
   TEXT: 'TEXT_FIELD',
-  COUNTER: 'counter',
   EVERYONE: 'EVERYONE',
   PRIVATE: 'PRIVATE',
   SPECIFIC_USERS: 'SPECIFIC_USERS',
@@ -920,9 +918,8 @@ export const REPORT_TYPE = {
   TEMPLATE_TEXT: 'TEMPLATE_TEXT',
   LEADS: 'LEADS',
   CAMPAIGNS: 'CAMPAIGN',
-  addToNew: 'addToNew',
-  SHARED_WITH_PERMISSIONS: 'sharedWithPermissions',
-  NEW_DASHBOARD_PERMISSIONS: 'newDashboardPermissions',
+  CHART: 'chart',
+  COUNTER: 'counter',
 };
 
 export const ADD_TO = {
@@ -935,6 +932,8 @@ export const ADD_TO = {
     'newDashboardSpecificUsersConditionOne',
   NEW_DASHBOARD_EVERYONE_CONDITION: 'newDashboardEveryoneCondition',
   ADD_TO_EXISTING_CONDITION: 'addToExistingCondition',
+  SHARED_WITH_PERMISSIONS: 'sharedWithPermissions',
+  NEW_DASHBOARD_PERMISSIONS: 'newDashboardPermissions',
 };
 
 export const FIELD_TYPE = {

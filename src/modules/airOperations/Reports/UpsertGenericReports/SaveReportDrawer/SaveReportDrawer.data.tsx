@@ -128,8 +128,7 @@ export const reportsDefaultValues = (singleReport: any) => {
     sharedWith: singleReport?.genericReport?.accessLevel?.type ?? null,
     addToDashboard: null,
     addToExistingCondition: [],
-    everyoneCondition:
-      singleReport?.genericReports?.accessLevel?.access ?? null,
+    everyoneCondition: singleReport?.genericReport?.accessLevel?.access ?? null,
     specificUsersConditionOne: [],
     addToNewConditionOne: '',
     addToNewConditionTwo: null,
@@ -144,6 +143,7 @@ export const reportsDataArray = (
   dashboardDropdown: any,
   newDashboardFields: SpecialUsersFieldsI[],
   sharedWithFields: SpecialUsersFieldsI[],
+  productId: any,
 ) => [
   {
     id: 7578,
@@ -259,6 +259,9 @@ export const reportsDataArray = (
         apiQuery={dashboardDropdown}
         getOptionLabel={(option: any) => option?.name}
         placeholder="Select Option"
+        externalParams={{
+          productId: productId,
+        }}
       />
     ),
     conditionalComponentFour: (

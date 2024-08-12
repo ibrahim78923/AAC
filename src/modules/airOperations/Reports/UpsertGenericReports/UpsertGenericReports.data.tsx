@@ -1,4 +1,9 @@
 import {
+  AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS,
+  AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS,
+  AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS,
+} from '@/constants/permission-keys';
+import {
   CHARTS,
   COLLECTION_NAME,
   FIELD_TYPE,
@@ -774,6 +779,10 @@ export const mainMetrics = (setMetricType: any) => {
   return {
     [GENERIC_REPORT_MODULES?.SERVICES]: [
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.INVENTORIES,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.INVENTORIES);
@@ -781,6 +790,10 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.SOFTWARE,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.SOFTWARE);
@@ -788,6 +801,10 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.CONTRACTS,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.CONTRACTS);
@@ -795,6 +812,10 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.TICKETS,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.TICKETS);
@@ -802,6 +823,10 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.PURCHASE_ORDER,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.PURCHASE_ORDER);
@@ -811,6 +836,10 @@ export const mainMetrics = (setMetricType: any) => {
     ],
     [GENERIC_REPORT_MODULES?.SALES]: [
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.DEALS,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.DEALS);
@@ -818,6 +847,10 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.FORECAST,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.FORECAST);
@@ -827,6 +860,10 @@ export const mainMetrics = (setMetricType: any) => {
     ],
     [GENERIC_REPORT_MODULES?.MARKETING]: [
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.CAMPAIGNS,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.CAMPAIGNS);
@@ -834,6 +871,10 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        permissionKey: [
+          AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
+        ],
         title: REPORT_TYPE?.LEADS,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.LEADS);

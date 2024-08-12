@@ -25,9 +25,12 @@ import {
   usePostGenericReportsMutation,
   usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
+import { useRouter } from 'next/router';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const { form, setOpen, reportId, metricType, data, handleMoveBack } = props;
+  const router: any = useRouter();
+  const productId = router?.query?.id;
   const [reportValidation, setReportValidation] = useState<any>({
     selectSharedWith: null,
     selectAddToDashboard: null,
@@ -120,11 +123,9 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const newDashboardSpecificUser = watch(
     ADD_TO?.NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE,
   );
-  const sharedWithSpecificUserWatch = watch(
-    REPORT_TYPE?.SHARED_WITH_PERMISSIONS,
-  );
+  const sharedWithSpecificUserWatch = watch(ADD_TO?.SHARED_WITH_PERMISSIONS);
   const newDashboardSpecificUserWatch = watch(
-    REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS,
+    ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
   );
   useEffect(() => {
     setReportValidation({
@@ -141,14 +142,14 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
   const { fields: sharedWithFields } = useFieldArray<any>({
     control,
-    name: REPORT_TYPE?.SHARED_WITH_PERMISSIONS,
+    name: ADD_TO?.SHARED_WITH_PERMISSIONS,
   });
   const { fields: newDashboardFields } = useFieldArray<any>({
     control,
-    name: REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS,
+    name: ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
   });
   const setSharedWithPermissions = () => {
-    const permissionUser = getValues(REPORT_TYPE?.SHARED_WITH_PERMISSIONS);
+    const permissionUser = getValues(ADD_TO?.SHARED_WITH_PERMISSIONS);
     const userMap = new Map(
       sharedWithSpecificUser?.map((item: any) => [item?._id, item]),
     );
@@ -183,10 +184,10 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         permission: item?.permission ?? '',
       }));
     const finalResult = [...updatedPermissionUser, ...newEntries];
-    setValue(REPORT_TYPE?.SHARED_WITH_PERMISSIONS, finalResult);
+    setValue(ADD_TO?.SHARED_WITH_PERMISSIONS, finalResult);
   };
   const setNewDashboardPermissions = () => {
-    const permissionUser = getValues(REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS);
+    const permissionUser = getValues(ADD_TO?.NEW_DASHBOARD_PERMISSIONS);
     const userMap = new Map(
       newDashboardSpecificUser?.map((item: any) => [item?._id, item]),
     );
@@ -222,7 +223,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         permission: item?.permission ?? '',
       }));
     const finalResult = [...updatedPermissionUser, ...newEntries];
-    setValue(REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS, finalResult);
+    setValue(ADD_TO?.NEW_DASHBOARD_PERMISSIONS, finalResult);
   };
   useEffect(() => {
     setSharedWithPermissions();
@@ -235,6 +236,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     dashboardDropdown,
     newDashboardFields,
     sharedWithFields,
+    productId,
   );
   const onSubmit = async (data: SaveReportI) => {
     const existingDashboardIds = data?.addToExistingCondition?.map(
@@ -320,7 +322,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         isDateFilter: data?.addFilter,
         linkDashboard: {
           action: data?.addToDashboard,
-          // productId: '',
+          productId: productId,
           ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
             name: data?.addToNewConditionOne,
           }),

@@ -157,6 +157,12 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    getAuthAccountsForOperationsReports: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.AUTH_ACCOUNTS}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -181,4 +187,5 @@ export const {
   useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
   useGetSingleGenericReportDetailQuery,
+  useGetAuthAccountsForOperationsReportsQuery,
 } = salesReportsApi;

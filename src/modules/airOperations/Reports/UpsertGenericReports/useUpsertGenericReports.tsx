@@ -5,7 +5,7 @@ import {
   modalInitialState,
   templateList,
 } from './UpsertGenericReports.data';
-import { useTheme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { EditorState } from 'draft-js';
 import {
@@ -25,7 +25,7 @@ import { AIR_OPERATIONS } from '@/constants';
 
 export default function useUpsertGenericReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
-  const theme: any = useTheme();
+  const theme: Theme = useTheme();
   const router: any = useRouter();
   const reportId = router?.query?.reportId;
   const moduleName = router?.query?.moduleName;
