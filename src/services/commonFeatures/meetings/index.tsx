@@ -141,6 +141,13 @@ export const meetingApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getMeetingsEmailTemplates: builder?.query({
+      query: () => ({
+        url: `${END_POINTS?.GET_MEETINGS_EMAIL_TEMPLATES}`,
+        method: 'GET',
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
   }),
 });
 
@@ -160,4 +167,5 @@ export const {
   useLazyGetMeetingsCalenderListQuery,
   useLazyGetUsersDropdownListQuery,
   useLazyGetBookedMeetingsSlotsListQuery,
+  useGetMeetingsEmailTemplatesQuery,
 } = meetingApi;

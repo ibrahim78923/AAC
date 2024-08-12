@@ -15,6 +15,7 @@ import { Recurring } from './Recurring';
 import { Reminder } from './Reminder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { SOCIAL_COMPONENTS } from '@/constants';
+import { AllowAttendee } from './AllowAttendee';
 
 export const meetingTypeOption = [
   { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
@@ -45,6 +46,7 @@ export const meetingFormFields = (props: any) => {
     handleAfterChange,
     meetingId,
     meetingData,
+    meetingType,
   } = props;
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
@@ -194,13 +196,15 @@ export const meetingFormFields = (props: any) => {
       },
       component: RHFAutocompleteAsync,
     },
-    //pending from BA side....
-    // {
-    //   id: 11,
-    //   sx: { display: meetingType === meetingContents?.group && 'none' },
-    //   componentProps: props,
-    //   component: AllowAttendee,
-    // },
+    {
+      id: 11,
+      sx: {
+        display:
+          (meetingType === meetingContents?.group || meetingId) && 'none',
+      },
+      componentProps: props,
+      component: AllowAttendee,
+    },
     {
       id: 12,
       sx: {

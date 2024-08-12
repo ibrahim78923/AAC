@@ -487,6 +487,7 @@ export const END_POINTS = {
   GET_MEETINGS_SLOTS: '/meeting-time-slots/suggested-time-slots',
   GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
   EXPORT_GENERIC_REPORTS: `/generic-reports/export-reports`,
+  GET_MEETINGS_EMAIL_TEMPLATES: '/Meetings/get-meeting-template',
 };
 
 export const LEAD_CAPTURE_FORM = {

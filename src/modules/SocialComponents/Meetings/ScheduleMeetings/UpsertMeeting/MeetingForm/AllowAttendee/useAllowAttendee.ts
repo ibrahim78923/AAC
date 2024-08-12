@@ -1,5 +1,7 @@
+import { TIME_FORMAT } from '@/constants';
 import { TIME_UNITS } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 export const useAllowAttendee = (props: any) => {
@@ -32,15 +34,17 @@ export const useAllowAttendee = (props: any) => {
     }
     setOpenCalender(true);
   };
+
   const handleEvents = (info: any) => {
     if (selectedEvents?.length < 3) {
       setSelectedEvents([...selectedEvents, info]);
-      setValue('selectedSlots', [
-        [...selectedEvents]?.map((item: any) => ({
-          start: item?.start,
-          end: item?.end,
+      setValue(
+        'selectedSlots',
+        [...selectedEvents, info]?.map((item: any) => ({
+          startHour: dayjs(item?.start)?.format(TIME_FORMAT?.TH),
+          endHour: dayjs(item?.end)?.format(TIME_FORMAT?.TH),
         })),
-      ]);
+      );
       return;
     }
     errorSnackbar('Slot limit exceeds');

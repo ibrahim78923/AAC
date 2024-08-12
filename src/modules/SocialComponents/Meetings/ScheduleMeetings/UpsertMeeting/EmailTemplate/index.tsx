@@ -8,19 +8,27 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { templatesCardsArray } from './EmailTemplate.data';
-import Image from 'next/image';
-import { SingleSelection } from '@/components/DynamicFormModals';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { useEmilTemplate } from './useEmailTemplate';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { SOCIAL_COMPONENTS } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const EmailTemplate = () => {
-  const { router, handleMoveCreateEmail, dropdownOptions } = useEmilTemplate();
+  const {
+    router,
+    handleMoveCreateEmail,
+    dropdownOptions,
+    meetingsEmailData,
+    isLoading,
+    isFetching,
+  } = useEmilTemplate();
+  if (isLoading || isFetching) {
+    return <SkeletonForm />;
+  }
   return (
     <Box>
       <PageTitledHeader
@@ -42,40 +50,69 @@ const EmailTemplate = () => {
         spacing={2}
         sx={{ display: 'flex', justifyContent: 'center' }}
       >
-        {templatesCardsArray?.map((item: any) => (
+        {meetingsEmailData?.map((item: any) => (
           <Grid key={item?.id} item lg={4} md={6} xs={12}>
             <Card
               sx={{
                 borderRadius: '12px',
-                border: ' 1px solid grey.700',
+                border: '1px solid grey',
+                overflow: 'hidden',
               }}
             >
-              <Box
+              <CardContent
                 sx={{
+                  padding: '10px 20px',
                   backgroundColor: 'custom.light_gray_bg',
                   display: 'flex',
+                  justifyContent: 'center',
                 }}
               >
-                <Image
-                  src={item?.image}
-                  alt="gaga"
-                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                />
-              </Box>
-              <CardContent sx={{ padding: '20px' }}>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography variant="body3" fontWeight={600}>
-                    {item?.title}
+                <Box
+                  sx={{
+                    padding: '16px',
+                    backgroundColor: 'common.white',
+                    minHeight: '230px',
+                    maxHeight: '300px',
+                    width: '70%',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 8,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
+                    <Box
+                      dangerouslySetInnerHTML={{ __html: item?.paragraph }}
+                    />
                   </Typography>
-                  <SingleSelection />
-                  <SingleDropdownButton
-                    dropdownOptions={dropdownOptions}
-                    dropdownName={<MoreVert />}
-                    hasEndIcon={false}
-                    btnVariant="text"
-                  />
-                </Stack>
+                </Box>
               </CardContent>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                mt={2}
+                px={1}
+              >
+                <Typography variant="body2" fontWeight={600}>
+                  Employee Email
+                </Typography>
+                <SingleDropdownButton
+                  dropdownOptions={dropdownOptions}
+                  dropdownName={<MoreVert />}
+                  hasEndIcon={false}
+                  btnVariant="text"
+                />
+              </Stack>
               <CardActions>
                 <Button
                   className="small"
