@@ -32,11 +32,11 @@ export const ResponsesList = () => {
     router,
     handleActionClick,
     tableColumns,
-    search,
     setSearch,
     responsesList,
     responsesListMetaData,
     lazyGetResponsesListStatus,
+    getResponsesListListData,
   } = useResponsesList();
 
   return (
@@ -66,13 +66,7 @@ export const ResponsesList = () => {
                         AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
                       ]}
                     >
-                      <Search
-                        size="small"
-                        label="Search"
-                        searchBy={search}
-                        setSearchBy={setSearch}
-                        width={500}
-                      />
+                      <Search label="Search Here" setSearchBy={setSearch} />
                     </PermissionsGuard>
                   </Box>
                 </Grid>
@@ -145,6 +139,10 @@ export const ResponsesList = () => {
                 setPage={setPage}
                 setPageLimit={setPageLimit}
                 isPagination
+                errorProps={{
+                  canRefresh: true,
+                  refresh: () => getResponsesListListData?.(page),
+                }}
               />
             </PermissionsGuard>
           </Grid>

@@ -7,17 +7,23 @@ import Search from '@/components/Search';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { useCannedResponses } from './useCannedResponses';
-import { FolderMenu } from './FolderMenu';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { LockedIcon } from '@/assets/icons';
+import { MoreHoriz } from '@mui/icons-material';
+import { getCannedResponseDropdownOptions } from './CannedResponses.data';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const CannedResponses = () => {
   const {
     router,
     convertToHyphenCase,
-    setOpenCreateNewFolderModal,
-    openCreateNewFolderModal,
+    setOpenModal,
+    openModal,
     setSearch,
     cannedResponses,
     lazyGetCannedResponsesStatus,
@@ -26,6 +32,9 @@ export const CannedResponses = () => {
     pageLimit,
     page,
     cannedResponsesMetaData,
+    deleteCannedResponse,
+    isLoading,
+    getCannedResponsesListData,
   } = useCannedResponses();
 
   return (
@@ -67,7 +76,7 @@ export const CannedResponses = () => {
               borderRadius=".5rem"
               sx={{ cursor: 'pointer' }}
               onClick={() =>
-                setOpenCreateNewFolderModal({ open: true, editData: null })
+                setOpenModal({ create: true, delete: false, editData: null })
               }
             >
               <Box
@@ -96,66 +105,93 @@ export const CannedResponses = () => {
             AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS,
           ]}
         >
-          {cannedResponses?.map((response: any) => (
-            <Grid item lg={4} sm={6} xs={12} key={response?._id}>
-              <Box
-                height="12rem"
-                border="0.06rem solid"
-                overflow="hidden"
-                borderColor="grey.700"
-                borderRadius=".5rem"
-                sx={{ cursor: 'pointer' }}
-              >
-                <FolderMenu
-                  response={response}
-                  setOpenCreateNewFolderModal={setOpenCreateNewFolderModal}
-                />
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  p={{ sm: 2, xs: 1 }}
-                  flexDirection="column"
-                  component={Link}
-                  href={`${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
-                    response?.folderName,
-                  )}?id=${response?._id}`}
-                >
-                  <Box>
-                    {!response?.isDeletedAble ? (
-                      <FolderLargePrimaryIcon />
-                    ) : (
-                      <FolderLargeYellowIcon />
-                    )}
-                  </Box>
-                  <Typography fontWeight={700} color="blue.dark" mt={1}>
-                    {response?.folderName}
-                  </Typography>
-                  <Typography
-                    fontWeight={500}
-                    variant="body2"
-                    color="custom.main"
-                    sx={{
-                      textOverflow: 'break-all',
-                      wordBreak: 'break-all',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                    }}
-                  >
-                    {response?.description}
-                  </Typography>
-                </Box>
-              </Box>
+          {lazyGetCannedResponsesStatus?.isError ? (
+            <Grid item xs={12}>
+              <ApiErrorState
+                canRefresh
+                refresh={() => getCannedResponsesListData?.()}
+              />
             </Grid>
-          ))}
-        </PermissionsGuard>
-        {lazyGetCannedResponsesStatus?.isLoading ||
-          (lazyGetCannedResponsesStatus?.isFetching &&
-            Array?.from({ length: 5 })?.map((response: any) => (
-              <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+          ) : lazyGetCannedResponsesStatus?.isLoading ||
+            lazyGetCannedResponsesStatus?.isFetching ? (
+            [1, 2, 3, 4, 5]?.map((item: number) => (
+              <Grid item lg={4} sm={6} xs={12} key={item}>
                 <Skeleton height="12rem" variant="rectangular" />
               </Grid>
-            )))}
+            ))
+          ) : (
+            cannedResponses?.map((response: any) => (
+              <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+                <Box
+                  height="12rem"
+                  border="0.06rem solid"
+                  overflow="hidden"
+                  borderColor="grey.700"
+                  borderRadius=".5rem"
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <Box display="flex" justifyContent="end" p={1}>
+                    {response?.perDefine ? (
+                      <LockedIcon />
+                    ) : (
+                      <SingleDropdownButton
+                        dropdownOptions={getCannedResponseDropdownOptions(
+                          setOpenModal,
+                          response,
+                        )}
+                        dropdownName={
+                          <MoreHoriz
+                            sx={{ color: 'secondary.lighter' }}
+                            fontSize="medium"
+                          />
+                        }
+                        hasEndIcon={false}
+                        btnVariant="text"
+                      />
+                    )}
+                  </Box>
+
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    p={{ sm: 2, xs: 1 }}
+                    flexDirection="column"
+                    component={Link}
+                    href={`${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
+                      response?.folderName,
+                    )}?id=${response?._id}`}
+                  >
+                    <Box>
+                      {!response?.isDeletedAble ? (
+                        <FolderLargePrimaryIcon />
+                      ) : (
+                        <FolderLargeYellowIcon />
+                      )}
+                    </Box>
+                    <Typography fontWeight={700} color="blue.dark" mt={1}>
+                      {response?.folderName}
+                    </Typography>
+                    <Typography
+                      fontWeight={500}
+                      variant="body2"
+                      color="custom.main"
+                      sx={{
+                        textOverflow: 'break-all',
+                        wordBreak: 'break-all',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                      }}
+                    >
+                      {response?.description}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            ))
+          )}
+        </PermissionsGuard>
+
         {cannedResponsesMetaData && cannedResponsesMetaData?.total > 5 && (
           <Grid item xs={12}>
             <CustomPagination
@@ -170,12 +206,28 @@ export const CannedResponses = () => {
           </Grid>
         )}
       </Grid>
-      <CreateNewFolder
-        openCreateNewFolderModal={openCreateNewFolderModal}
-        closeCreateNewFolderModal={() =>
-          setOpenCreateNewFolderModal({ open: false, editData: null })
-        }
-      />
+
+      {openModal?.create && (
+        <CreateNewFolder
+          openCreateNewFolderModal={openModal}
+          closeCreateNewFolderModal={() =>
+            setOpenModal({ open: false, delete: false, editData: null })
+          }
+        />
+      )}
+
+      {openModal?.delete && (
+        <AlertModals
+          message={'Are you sure you want to delete this Folder?'}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={openModal?.delete}
+          loading={isLoading}
+          handleClose={() =>
+            setOpenModal({ open: false, delete: false, editData: null })
+          }
+          handleSubmitBtn={deleteCannedResponse}
+        />
+      )}
     </>
   );
 };

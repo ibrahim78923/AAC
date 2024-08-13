@@ -1,18 +1,27 @@
 import { PAGINATION } from '@/config';
-import { useLazyGetCannedResponsesQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import {
+  useDeleteCannedResponseMutation,
+  useLazyGetCannedResponsesQuery,
+} from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export const useCannedResponses = () => {
   const router = useRouter();
-  const [openCreateNewFolderModal, setOpenCreateNewFolderModal] = useState<any>(
-    { open: false, editData: null },
-  );
+
+  const [openModal, setOpenModal] = useState<any>({
+    create: false,
+    delete: false,
+    editData: null,
+  });
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
+
   const getCannedResponsesParam = new URLSearchParams();
+
   getCannedResponsesParam?.append('page', page + '');
   getCannedResponsesParam?.append('limit', pageLimit + '');
   getCannedResponsesParam?.append('search', search);
@@ -22,10 +31,13 @@ export const useCannedResponses = () => {
 
   const [lazyGetCannedResponsesTrigger, lazyGetCannedResponsesStatus] =
     useLazyGetCannedResponsesQuery();
+
   const cannedResponses =
     lazyGetCannedResponsesStatus?.data?.data?.cannedresponses;
+
   const cannedResponsesMetaData =
     lazyGetCannedResponsesStatus?.data?.data?.meta;
+
   const getCannedResponsesListData = async () => {
     try {
       await lazyGetCannedResponsesTrigger(
@@ -33,20 +45,44 @@ export const useCannedResponses = () => {
       )?.unwrap();
     } catch (error: any) {}
   };
+
   useEffect(() => {
     getCannedResponsesListData();
   }, [search, page, pageLimit]);
+
   const convertToHyphenCase = (str: string): string => {
     return str
       ?.split(' ')
       ?.map((word) => word?.toLowerCase())
       ?.join('-');
   };
+
+  const [deleteCannedResponseTrigger, { isLoading }] =
+    useDeleteCannedResponseMutation();
+
+  const deleteCannedResponse = async () => {
+    const deleteParams = new URLSearchParams();
+    deleteParams?.append('id', openModal?.editData?._id);
+    const deleteCannedResponseParameter = {
+      queryParams: deleteParams,
+    };
+    try {
+      await deleteCannedResponseTrigger(
+        deleteCannedResponseParameter,
+      )?.unwrap();
+      successSnackbar('Folder deleted successfully');
+      setOpenModal({ open: false, delete: false, editData: null });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+      setOpenModal({ open: false, delete: false, editData: null });
+    }
+  };
+
   return {
     router,
     convertToHyphenCase,
-    setOpenCreateNewFolderModal,
-    openCreateNewFolderModal,
+    setOpenModal,
+    openModal,
     search,
     setSearch,
     cannedResponses,
@@ -56,5 +92,8 @@ export const useCannedResponses = () => {
     pageLimit,
     page,
     cannedResponsesMetaData,
+    deleteCannedResponse,
+    isLoading,
+    getCannedResponsesListData,
   };
 };

@@ -28,7 +28,7 @@ export const addResponseValidationSchema = Yup?.object()?.shape({
     ?.required('Title is Required'),
   message: Yup?.string()?.trim()?.required('Message is Required'),
   fileUrl: Yup?.mixed()?.nullable(),
-  availableFor: Yup?.string()?.trim(),
+  availableFor: Yup?.string()?.trim()?.required('Availability is Required'),
 });
 
 export const addResponseDefaultValues: any = (folderName: any, data?: any) => {
@@ -78,6 +78,7 @@ export const addResponseDataArray = (
       fullWidth: true,
       avatarGroup: true,
       options: availableForOptions,
+      required: true,
       onClick: (e: any) => {
         if (e?.target?.value === CANNED_RESPONSES?.SELECT_AGENTS) {
           setOpenSelectAgentsModal(true);

@@ -10,31 +10,32 @@ import { errorSnackbar } from '@/utils/api';
 export const useResponsesList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const [cannedResponseId, setCannedResponseId] = useState<any>('');
   const [selectedData, setSelectedData] = useState([]);
   const [openAddResponseDrawer, setOpenAddResponseDrawer] = useState(false);
   const [openMoveFolderModal, setOpenMoveFolderModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
-
-  const getResponsesListParam = new URLSearchParams();
-
-  getResponsesListParam?.append('page', page + '');
-  getResponsesListParam?.append('limit', pageLimit + '');
-  getResponsesListParam?.append('search', search + '');
-  getResponsesListParam?.append('folderId', cannedResponseId);
-  const getResponsesListParameter = {
-    queryParams: getResponsesListParam,
-  };
 
   const [lazyGetResponsesListTrigger, lazyGetResponsesListStatus] =
     useLazyGetResponsesListQuery();
   const responsesList = lazyGetResponsesListStatus?.data?.data?.responses;
   const responsesListMetaData = lazyGetResponsesListStatus?.data?.data?.meta;
 
-  const getResponsesListListData = async () => {
+  const getResponsesListListData = async (currentPage = page) => {
+    const getResponsesListParam = new URLSearchParams();
+
+    getResponsesListParam?.append('page', currentPage + '');
+    getResponsesListParam?.append('limit', pageLimit + '');
+    getResponsesListParam?.append('search', search + '');
+    getResponsesListParam?.append('folderId', cannedResponseId);
+    const getResponsesListParameter = {
+      queryParams: getResponsesListParam,
+    };
     try {
       await lazyGetResponsesListTrigger(getResponsesListParameter)?.unwrap();
     } catch (error: any) {}
@@ -42,7 +43,7 @@ export const useResponsesList = () => {
 
   useEffect(() => {
     if (cannedResponseId) {
-      getResponsesListListData();
+      getResponsesListListData?.(page);
     }
   }, [search, page, pageLimit, cannedResponseId]);
 
@@ -100,10 +101,10 @@ export const useResponsesList = () => {
     router,
     handleActionClick,
     tableColumns,
-    search,
     setSearch,
     responsesList,
     responsesListMetaData,
     lazyGetResponsesListStatus,
+    getResponsesListListData,
   };
 };

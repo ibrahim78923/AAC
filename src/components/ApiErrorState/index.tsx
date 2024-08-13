@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
 
 const ApiErrorState = (props: any) => {
@@ -7,6 +7,8 @@ const ApiErrorState = (props: any) => {
     textColor = 'slateBlue.main',
     message = 'SOMETHING WENT WRONG!',
     children,
+    refresh,
+    canRefresh = false,
   } = props;
   return (
     <Box
@@ -35,6 +37,11 @@ const ApiErrorState = (props: any) => {
       </Typography>
       <br />
       {children}
+      {canRefresh && (
+        <Button variant="contained" onClick={() => refresh?.()}>
+          Refresh
+        </Button>
+      )}
     </Box>
   );
 };
