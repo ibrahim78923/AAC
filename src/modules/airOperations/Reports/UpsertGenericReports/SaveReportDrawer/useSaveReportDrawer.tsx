@@ -28,19 +28,18 @@ import {
 import { useRouter } from 'next/router';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
-  const { form, setOpen, reportId, metricType, data, handleMoveBack } = props;
+  const { form, reportId, metricType, data, handleMoveBack } = props;
+
   const router: any = useRouter();
-  const productId = router?.query?.id;
+  const { id } = router?.query;
+
   const [reportValidation, setReportValidation] = useState<any>({
     selectSharedWith: null,
     selectAddToDashboard: null,
     selectAddToNewDashboard: null,
   });
+
   const singleReport = (data as any)?.data;
-  const saveReportsMethods = useForm({
-    resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
-    defaultValues: reportsDefaultValues(singleReport),
-  });
   const dashboardDropdown = useLazyDashboardDropdownQuery();
   const usersDropdown = useLazyUsersDropdownQuery();
   const [postGenericReportTrigger, postGenericReportStatus] =
@@ -49,8 +48,51 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     usePatchGenericReportsMutation();
   const allDashboardData =
     singleReport?.dasboardDetails[SELECTED_ARRAY_LENGTH?.ZERO];
-
   const allUsersData = singleReport?.genericReport?.accessLevel?.users;
+
+  const saveReportsMethods = useForm({
+    resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
+    defaultValues: reportsDefaultValues(singleReport),
+  });
+
+  const { watch, handleSubmit, setValue, control, getValues } =
+    saveReportsMethods;
+
+  const { fields: sharedWithFields } = useFieldArray<any>({
+    control,
+    name: ADD_TO?.SHARED_WITH_PERMISSIONS,
+  });
+  const { fields: newDashboardFields } = useFieldArray<any>({
+    control,
+    name: ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
+  });
+
+  const reportsArray = reportsDataArray(
+    usersDropdown,
+    dashboardDropdown,
+    newDashboardFields,
+    sharedWithFields,
+    id,
+  );
+
+  const [
+    selectSharedWith,
+    selectAddToDashboard,
+    selectAddToNewDashboard,
+    sharedWithSpecificUser,
+    newDashboardSpecificUser,
+    sharedWithSpecificUserWatch,
+    newDashboardSpecificUserWatch,
+  ] = watch([
+    ADD_TO?.ADD_TO_DASHBOARD,
+    ADD_TO?.ADD_TO_DASHBOARD,
+    ADD_TO?.ADD_TO_NEW_CONDITION_TWO,
+    ADD_TO?.SPECIFIC_USERS_CONDITION_ONE,
+    ADD_TO?.NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE,
+    ADD_TO?.SHARED_WITH_PERMISSIONS,
+    ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
+  ]);
+
   useEffect(() => {
     if (allUsersData) {
       const matchedUsersData = allUsersData?.map((user: any) => ({
@@ -62,6 +104,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       setValue(ADD_TO?.SPECIFIC_USERS_CONDITION_ONE, matchedUsersData ?? []);
     }
   }, [allUsersData]);
+
   useEffect(() => {
     if (
       allDashboardData?.dashboardDetails?.length === SELECTED_ARRAY_LENGTH?.ZERO
@@ -114,19 +157,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       }
     }
   }, [allDashboardData]);
-  const { watch, handleSubmit, reset, setValue, control, getValues } =
-    saveReportsMethods;
-  const selectSharedWith = watch(ADD_TO?.SHARED_WITH);
-  const selectAddToDashboard = watch(ADD_TO?.ADD_TO_DASHBOARD);
-  const selectAddToNewDashboard = watch(ADD_TO?.ADD_TO_NEW_CONDITION_TWO);
-  const sharedWithSpecificUser = watch(ADD_TO?.SPECIFIC_USERS_CONDITION_ONE);
-  const newDashboardSpecificUser = watch(
-    ADD_TO?.NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE,
-  );
-  const sharedWithSpecificUserWatch = watch(ADD_TO?.SHARED_WITH_PERMISSIONS);
-  const newDashboardSpecificUserWatch = watch(
-    ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
-  );
+
   useEffect(() => {
     setReportValidation({
       selectSharedWith,
@@ -140,15 +171,8 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       setValue(ADD_TO?.ADD_TO_NEW_CONDITION_TWO, null);
     }
   }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
-  const { fields: sharedWithFields } = useFieldArray<any>({
-    control,
-    name: ADD_TO?.SHARED_WITH_PERMISSIONS,
-  });
-  const { fields: newDashboardFields } = useFieldArray<any>({
-    control,
-    name: ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
-  });
-  const setSharedWithPermissions = () => {
+
+  useEffect(() => {
     const permissionUser = getValues(ADD_TO?.SHARED_WITH_PERMISSIONS);
     const userMap = new Map(
       sharedWithSpecificUser?.map((item: any) => [item?._id, item]),
@@ -185,8 +209,9 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       }));
     const finalResult = [...updatedPermissionUser, ...newEntries];
     setValue(ADD_TO?.SHARED_WITH_PERMISSIONS, finalResult);
-  };
-  const setNewDashboardPermissions = () => {
+  }, [sharedWithSpecificUser]);
+
+  useEffect(() => {
     const permissionUser = getValues(ADD_TO?.NEW_DASHBOARD_PERMISSIONS);
     const userMap = new Map(
       newDashboardSpecificUser?.map((item: any) => [item?._id, item]),
@@ -224,20 +249,8 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       }));
     const finalResult = [...updatedPermissionUser, ...newEntries];
     setValue(ADD_TO?.NEW_DASHBOARD_PERMISSIONS, finalResult);
-  };
-  useEffect(() => {
-    setSharedWithPermissions();
-  }, [sharedWithSpecificUser]);
-  useEffect(() => {
-    setNewDashboardPermissions();
   }, [newDashboardSpecificUser]);
-  const reportsArray = reportsDataArray(
-    usersDropdown,
-    dashboardDropdown,
-    newDashboardFields,
-    sharedWithFields,
-    productId,
-  );
+
   const onSubmit = async (data: SaveReportI) => {
     const existingDashboardIds = data?.addToExistingCondition?.map(
       (item: any) => item?._id,
@@ -322,7 +335,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         isDateFilter: data?.addFilter,
         linkDashboard: {
           action: data?.addToDashboard,
-          productId: productId,
+          productId: id,
           ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
             name: data?.addToNewConditionOne,
           }),
@@ -364,16 +377,12 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       }
     }
   };
-  const handleCancel = () => {
-    reset();
-    setOpen(false);
-  };
+
   return {
     saveReportsMethods,
     watch,
     handleSubmit,
     onSubmit,
-    handleCancel,
     selectAddToNewDashboard,
     reportsArray,
     postGenericReportStatus,

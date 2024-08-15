@@ -27,9 +27,7 @@ export default function useUpsertGenericReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
   const theme: Theme = useTheme();
   const router: any = useRouter();
-  const reportId = router?.query?.reportId;
-  const moduleName = router?.query?.moduleName;
-
+  const { id, reportId, moduleName } = router?.query;
   const params = {
     id: reportId,
   };
@@ -279,14 +277,17 @@ export default function useUpsertGenericReports() {
       case GENERIC_REPORT_MODULES?.SERVICES:
         return router?.push({
           pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
+          query: { id },
         });
       case GENERIC_REPORT_MODULES?.SALES:
         return router?.push({
           pathname: AIR_OPERATIONS?.SALES_REPORTS,
+          query: { id },
         });
       case GENERIC_REPORT_MODULES?.MARKETING:
         return router?.push({
           pathname: AIR_OPERATIONS?.MARKETING_REPORTS,
+          query: { id },
         });
       default:
         return [];

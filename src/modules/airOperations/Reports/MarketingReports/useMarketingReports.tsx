@@ -41,10 +41,14 @@ export const useMarketingReports = () => {
     });
   };
 
-  const editReportPath = (id: any) => {
+  const editReportPath = (reportId: any) => {
     router?.push({
       pathname: AIR_OPERATIONS?.UPSERT_GENERIC_REPORTS,
-      query: { reportId: id, moduleName: GENERIC_REPORT_MODULES?.MARKETING },
+      query: {
+        id,
+        reportId: reportId,
+        moduleName: GENERIC_REPORT_MODULES?.MARKETING,
+      },
     });
   };
 

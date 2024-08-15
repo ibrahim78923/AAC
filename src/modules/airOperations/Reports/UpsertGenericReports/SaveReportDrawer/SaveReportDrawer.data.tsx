@@ -143,7 +143,7 @@ export const reportsDataArray = (
   dashboardDropdown: any,
   newDashboardFields: SpecialUsersFieldsI[],
   sharedWithFields: SpecialUsersFieldsI[],
-  productId: any,
+  id: any,
 ) => [
   {
     id: 7578,
@@ -260,7 +260,7 @@ export const reportsDataArray = (
         getOptionLabel={(option: any) => option?.name}
         placeholder="Select Option"
         externalParams={{
-          productId: productId,
+          productId: id,
         }}
       />
     ),
