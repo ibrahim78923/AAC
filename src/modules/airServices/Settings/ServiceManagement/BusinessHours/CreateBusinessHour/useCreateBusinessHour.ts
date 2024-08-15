@@ -177,7 +177,6 @@ export const useCreateBusinessHour = () => {
     page,
     dateRange,
     setDateRange,
-    search,
     setSearch,
     manipulatedHolidaysData,
     openAddHolidayModal,

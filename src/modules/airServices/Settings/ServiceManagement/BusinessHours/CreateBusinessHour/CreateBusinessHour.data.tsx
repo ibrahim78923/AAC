@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import { Typography } from '@mui/material';
 import { DeleteHolidayModal } from './DeleteHolidayModal';
 import dayjs from 'dayjs';
+import { timeZone } from '@/constants/time-zone';
 export const holidaysListsColumn: any = (setHolidaysData: any) => [
   {
     accessorFn: (row: any) => row?.date,
@@ -53,6 +54,7 @@ export const holidaysDropDownData: any = {
 };
 export const importHolidaysDropDown = (setButtonName: any) =>
   Object.keys(holidaysDropDownData)?.map((item: any) => ({
+    id: item,
     title: item,
     handleClick: (close: any) => {
       setButtonName(item);
@@ -105,7 +107,9 @@ const getDefaultTimings = (value: any) => {
 export const businessHourDefaultValues = (data?: any) => ({
   name: data?.name ?? '',
   description: data?.description ?? '',
-  timeZone: data?.timeZone ?? '',
+  timeZone: data?.timeZone
+    ? timeZone?.find((item: any) => item?.label === data?.timeZone)
+    : null,
   serviceHours: data?.serviceHours ?? 'SELECTED',
   importHolidays: '',
   monday: getDefaultTimings(data?.monday),
@@ -160,11 +164,10 @@ export const businessHourValidationSchema: any = yup?.object()?.shape({
   name: yup
     ?.string()
     ?.required('Required')
-    ?.required('Required')
     ?.min(3, 'At least 3 characters Required')
     ?.max(20, 'Must not exceed 20 characters'),
   description: yup?.string(),
-  timeZone: yup?.string()?.required('Required'),
+  timeZone: yup?.mixed()?.required('Required'),
   serviceHours: yup?.string()?.required('Required'),
   importHolidays: yup?.string(),
   monday: dayTimingsValidationSchema,

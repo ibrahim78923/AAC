@@ -17,8 +17,13 @@ export const SingleDropdownButton = (props: any) => {
     menuSxProps,
     ...buttonProps
   } = props;
+
   const { anchorEl, open, theme, handleClick, handleClose } =
     useSingleDropdownButton();
+
+  const buttonPropsWithIcon =
+    Variant === Button ? { endIcon: hasEndIcon && <ArrowDropDownIcon /> } : {};
+
   return (
     <>
       <Variant
@@ -28,10 +33,10 @@ export const SingleDropdownButton = (props: any) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={hasEndIcon && <ArrowDropDownIcon />}
         color="secondary"
         disabled={disabled}
         sx={{ textTransform: 'capitalize' }}
+        {...buttonPropsWithIcon}
         {...buttonProps}
       >
         {dropdownName}

@@ -129,8 +129,15 @@ export const CannedResponses = () => {
                   borderColor="grey.700"
                   borderRadius=".5rem"
                   sx={{ cursor: 'pointer' }}
+                  position={'relative'}
                 >
-                  <Box display="flex" justifyContent="end" p={1}>
+                  <Box
+                    display="flex"
+                    justifyContent="end"
+                    p={1}
+                    position={'absolute'}
+                    right={0}
+                  >
                     {response?.perDefine ? (
                       <LockedIcon />
                     ) : (

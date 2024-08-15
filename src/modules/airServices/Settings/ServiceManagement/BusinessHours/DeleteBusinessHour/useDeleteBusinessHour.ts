@@ -11,6 +11,7 @@ export const useDeleteBusinessHour = (props: any) => {
   };
   const [deleteBusinessHourTrigger, { isLoading }] =
     useDeleteBusinessHourMutation();
+
   const deleteBusinessHour = async () => {
     const deleteParams = new URLSearchParams();
     deleteParams?.append('id', id);
