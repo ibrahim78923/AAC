@@ -1,8 +1,9 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { usePutSingleTicketStatusMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const useUpdateTicketStatus = (props: any) => {
+export const useUpdateTicketStatus = (props: TicketActionComponentPropsI) => {
   const {
     setIsPortalOpen,
     setSelectedTicketList,

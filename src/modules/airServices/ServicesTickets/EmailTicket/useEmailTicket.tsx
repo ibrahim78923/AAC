@@ -6,8 +6,11 @@ import {
 } from './EmailTicket.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
+import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
 
-export const useEmailTicket = (props: any) => {
+export const useEmailTicket = (
+  props: SingleTicketDetailPortalComponentPropsI,
+) => {
   const { setIsPortalOpen } = props;
 
   const [trigger, status] = usePostNewEmailMutation();

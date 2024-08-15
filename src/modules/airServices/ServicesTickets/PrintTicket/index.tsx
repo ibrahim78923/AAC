@@ -8,15 +8,16 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { usePrintTicket } from './usePrintTicket';
+import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
 
-export const PrintTicket = (props: any) => {
+export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
   const { isPortalOpen } = props;
 
   const { onSubmit, onClose, data, printDataField } = usePrintTicket(props);
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isOpen}
+      isDrawerOpen={isPortalOpen?.isOpen as boolean}
       onClose={onClose}
       title=""
       submitHandler={onSubmit}

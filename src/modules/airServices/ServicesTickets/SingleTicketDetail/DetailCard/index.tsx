@@ -11,7 +11,7 @@ import {
 } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 
-export const DetailCard = (props: any) => {
+export const DetailCard = (props: { data: any }) => {
   const { data } = props;
   const { attachFile } = useDetailCard();
   const theme = useTheme();

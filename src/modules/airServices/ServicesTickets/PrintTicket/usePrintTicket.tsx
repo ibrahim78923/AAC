@@ -1,26 +1,20 @@
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { printData } from './PrintTicket.data';
 import { useRouter } from 'next/router';
+import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
 
-export const usePrintTicket = (props: any) => {
+export const usePrintTicket = (
+  props: SingleTicketDetailPortalComponentPropsI,
+) => {
   const { setIsPortalOpen, data } = props;
   const router = useRouter();
 
-  const onClose = () => {
-    setIsPortalOpen?.(false);
-  };
   const onSubmit = () => {
-    window.print();
-    setTimeout(() => {
-      enqueueSnackbar('Print Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+    window?.print();
+    onClose();
+  };
 
-      if (setIsPortalOpen) {
-        setIsPortalOpen(false);
-      }
-    }, 3000);
+  const onClose = () => {
+    setIsPortalOpen?.({});
   };
   const printDataField = printData(data);
   return {

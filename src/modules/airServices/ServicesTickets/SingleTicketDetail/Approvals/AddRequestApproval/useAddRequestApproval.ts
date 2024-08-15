@@ -13,8 +13,9 @@ import {
   addRequestApprovalFormDefaultValues,
 } from './AddRequestApproval.data';
 import useAuth from '@/hooks/useAuth';
+import { AddApprovalsPropsI } from '../Approvals.interface';
 
-export const useAddRequestApproval = (props: any) => {
+export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
   const { setIsDrawerOpen } = props;
   const router = useRouter();
   const { user }: any = useAuth();

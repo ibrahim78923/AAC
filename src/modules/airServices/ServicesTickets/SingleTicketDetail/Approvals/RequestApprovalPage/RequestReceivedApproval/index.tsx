@@ -5,14 +5,15 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useRequestReceivedApprovals } from './useRequestReceivedApproval';
 import { Box } from '@mui/material';
+import { RequestApprovalPagePropsI } from '../../Approvals.interface';
 
-const RequestReceivedApproval = (props: any) => {
+const RequestReceivedApproval = (props: RequestApprovalPagePropsI) => {
   const { setApproval, updateRequestApprovalStatus } = props;
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useRequestReceivedApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <Box maxHeight={'50vh'} overflow={'auto'}>
@@ -21,7 +22,7 @@ const RequestReceivedApproval = (props: any) => {
           <ApprovalCard
             key={item?._id}
             data={item}
-            setApproval={(x: any) => setApproval?.(x)}
+            setApproval={(item: any) => setApproval?.(item)}
             getUpdateStatus={(item: any) => updateRequestApprovalStatus?.(item)}
           />
         ))

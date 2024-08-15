@@ -71,6 +71,7 @@ export const PHONE_NUMBER_TYPE = {
   MASK_NUMBER: 'maskNumber',
 };
 export const TICKET_APPROVALS = {
+  ALL: 'ALL',
   RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
   APPROVE: 'APPROVED',

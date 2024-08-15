@@ -4,8 +4,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { ConfirmModalPropsI } from '../Approvals.interface';
 
-export const useRequestConfirmForm = (props: any) => {
+export const useRequestConfirmForm = (props: ConfirmModalPropsI) => {
   const {
     setIsConfirmModalOpen,
     selectedApproval,

@@ -59,8 +59,8 @@ export const setStatus = (
 
 export const setUserDetails = (
   data: any,
-  authUserId: any,
-  creatorUserId: any,
+  authUserId: string,
+  creatorUserId: string,
 ) => {
   if (creatorUserId === authUserId) {
     const name = fullName(

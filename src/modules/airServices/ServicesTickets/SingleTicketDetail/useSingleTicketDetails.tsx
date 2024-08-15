@@ -11,6 +11,7 @@ import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
 import { PrintTicket } from '../PrintTicket';
 import { EmailTicket } from '../EmailTicket';
 import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
+import { SingleTicketDetailPortalComponentPropsI } from './SingleTicketDetails.interface';
 
 export const useSingleTicketDetails = () => {
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
@@ -45,10 +46,10 @@ export const useSingleTicketDetails = () => {
   const singleTicketDetailDropdownOptions =
     singleTicketDetailDropdownOptionsDynamic(setIsPortalOpen);
 
-  const portalComponentProps = {
+  const portalComponentProps: SingleTicketDetailPortalComponentPropsI = {
     isPortalOpen: isPortalOpen,
     setIsPortalOpen: setIsPortalOpen,
-    selectedTicketList: [ticketId],
+    selectedTicketList: [ticketId as string],
     isMoveBack: true,
     data,
     isTimerPause,
