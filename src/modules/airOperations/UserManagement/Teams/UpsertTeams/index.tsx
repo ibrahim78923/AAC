@@ -5,8 +5,9 @@ import { useUpsertTeams } from './useUpsertTeams';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { TeamPortalComponentPropsI } from '../Teams.interface';
 
-const UpsertTeams = (props: any) => {
+const UpsertTeams = (props: TeamPortalComponentPropsI) => {
   const { isPortalOpen } = props;
 
   const {
@@ -20,11 +21,12 @@ const UpsertTeams = (props: any) => {
     isLoading,
     isFetching,
     isError,
+    refetch,
   } = useUpsertTeams(props);
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isUpsert}
+      isDrawerOpen={isPortalOpen?.isUpsert as boolean}
       onClose={() => handleClose?.()}
       title={`${
         !!isPortalOpen?.data?._id
@@ -55,7 +57,7 @@ const UpsertTeams = (props: any) => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <FormProvider methods={methods}>
           <Grid container spacing={1}>

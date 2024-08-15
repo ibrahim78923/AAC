@@ -11,25 +11,33 @@ import {
   useLazyGetProductUserListForOperationQuery,
   useUpdateProductUserForOperationMutation,
 } from '@/services/airOperations/user-management/user';
+import { DeleteUser } from './DeleteUser';
+import { UserIsPortalOpenI, UserPortalComponentPropsI } from './User.interface';
+import {
+  LazyQueryTrigger,
+  UseLazyQueryLastPromiseInfo,
+} from '@reduxjs/toolkit/dist/query/react/buildHooks';
+import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const useUser = () => {
-  const [search, setSearch] = useState('');
   const [selectedUserList, setSelectedUserList] = useState<any>([]);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [search, setSearch] = useState<string>('');
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [isPortalOpen, setIsPortalOpen] = useState<UserIsPortalOpenI>({});
   const [
     lazyGetProductUserListForOperationTrigger,
     lazyGetProductUserListForOperationStatus,
-  ]: any = useLazyGetProductUserListForOperationQuery?.();
+  ]: [LazyQueryTrigger<any>, any, UseLazyQueryLastPromiseInfo<any>] =
+    useLazyGetProductUserListForOperationQuery?.();
 
-  const [changeSingleUserStatusTrigger, changeSingleUserStatusStatus]: any =
+  const [changeSingleUserStatusTrigger, changeSingleUserStatusStatus] =
     useUpdateProductUserForOperationMutation?.();
 
-  const getOperationUsersList = async () => {
+  const getOperationUsersList = async (currentPage: number = page) => {
     const apiDataParameter = {
       queryParams: {
-        page,
+        page: currentPage,
         limit: pageLimit,
         search,
       },
@@ -45,7 +53,7 @@ export const useUser = () => {
     getOperationUsersList?.();
   }, [page, search, pageLimit]);
 
-  const changeOperationUserStatus = async (e: any, id: any) => {
+  const changeOperationUserStatus = async (e: any, id: string) => {
     const body = {
       status: e?.target?.checked
         ? PRODUCT_USER_STATUS?.ACTIVE
@@ -65,7 +73,8 @@ export const useUser = () => {
       errorSnackbar?.(error?.data?.message);
     }
   };
-  const setSingleUserDetail = (user: any) => {
+
+  const setSingleUserDetail = (user: { [key: string]: any }) => {
     setSelectedUserList?.([user]);
     setIsPortalOpen?.({
       isOpen: true,
@@ -82,23 +91,33 @@ export const useUser = () => {
     changeSingleUserStatusStatus,
     setSingleUserDetail,
   );
+
+  const portalComponentsProps: UserPortalComponentPropsI = {
+    isPortalOpen: isPortalOpen,
+    setIsPortalOpen: setIsPortalOpen,
+    userId: selectedUserList?.[ARRAY_INDEX?.ZERO]?._id,
+    setSelectedUserList,
+    getOperationUsersList,
+    selectedUserList,
+    page,
+    setPage,
+    totalRecords:
+      lazyGetProductUserListForOperationStatus?.data?.data?.usercompanyaccounts
+        ?.length,
+  };
+
   const renderPortalComponent = () => {
     if (isPortalOpen?.isUpsert) {
-      return (
-        <UpsertUser
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          userId={selectedUserList?.[ARRAY_INDEX?.ZERO]?._id}
-          setSelectedUserList={setSelectedUserList}
-        />
-      );
+      return <UpsertUser {...portalComponentsProps} />;
+    }
+    if (isPortalOpen?.isDelete) {
+      return <DeleteUser {...portalComponentsProps} />;
     }
     return <></>;
   };
-  const actionButtonDropdown = actionsForOperationUserDynamic?.(
-    setIsPortalOpen,
-    selectedUserList,
-  );
+
+  const actionButtonDropdown: SingleDropdownOptionI[] =
+    actionsForOperationUserDynamic?.(setIsPortalOpen, selectedUserList);
 
   return {
     userListColumns,

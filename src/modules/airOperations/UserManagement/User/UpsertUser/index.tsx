@@ -5,8 +5,10 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TITLE_FORM_USER } from './UpsertUser.data';
 import { useUpsertUser } from './useUpsertUser';
+import { UserPortalComponentPropsI } from '../User.interface';
+import ApiErrorState from '@/components/ApiErrorState';
 
-export const UpsertUser = (props: any) => {
+export const UpsertUser = (props: UserPortalComponentPropsI) => {
   const { isPortalOpen } = props;
   const {
     upsertUserFormFields,
@@ -17,12 +19,14 @@ export const UpsertUser = (props: any) => {
     submitButtonHandler,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   } = useUpsertUser(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isUpsert}
+        isDrawerOpen={isPortalOpen?.isUpsert as boolean}
         onClose={() => closeOperationUserForm()}
         title={
           isPortalOpen?.isView
@@ -61,6 +65,8 @@ export const UpsertUser = (props: any) => {
       >
         {isLoading || isFetching ? (
           <SkeletonForm />
+        ) : isError ? (
+          <ApiErrorState canRefresh refresh={() => refetch?.()} />
         ) : (
           <>
             {isPortalOpen?.isAdd && (

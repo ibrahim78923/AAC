@@ -3,10 +3,12 @@ import { useTeams } from './useTeams';
 import { Box, Button } from '@mui/material';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import Search from '@/components/Search';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Teams = () => {
   const {
-    teamListColumn,
+    operationsTeamsListColumn,
     setPageLimit,
     setPage,
     setSearch,
@@ -24,26 +26,39 @@ export const Teams = () => {
         gap={2}
         flexWrap={'wrap'}
       >
-        <Box>
-          <Search label="Search Here" setSearchBy={setSearch} />
-        </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddWhiteBgIcon />}
-          onClick={() => {
-            setIsPortalOpen?.({
-              isOpen: true,
-              isUpsert: true,
-            });
-          }}
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.SEARCH_RECORD,
+          ]}
         >
-          Create Team
-        </Button>
+          <Box>
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.CREATE_TEAM,
+          ]}
+        >
+          <Button
+            variant="contained"
+            startIcon={<AddWhiteBgIcon />}
+            onClick={() => {
+              setIsPortalOpen?.({
+                isOpen: true,
+                isUpsert: true,
+              });
+            }}
+          >
+            Create Team
+          </Button>
+        </PermissionsGuard>
       </Box>
       <br />
+
       <TanstackTable
-        data={lazyGetTeamListForOperationStatus?.data?.data?.userteams ?? []}
-        columns={teamListColumn}
+        data={lazyGetTeamListForOperationStatus?.data?.data?.userTeams ?? []}
+        columns={operationsTeamsListColumn}
         isPagination
         isLoading={lazyGetTeamListForOperationStatus?.isLoading}
         isError={lazyGetTeamListForOperationStatus?.isError}
@@ -55,10 +70,11 @@ export const Teams = () => {
         totalRecords={
           lazyGetTeamListForOperationStatus?.data?.data?.meta?.total
         }
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         currentPage={lazyGetTeamListForOperationStatus?.data?.data?.meta?.page}
         pageLimit={lazyGetTeamListForOperationStatus?.data?.data?.meta?.limit}
       />
+
       {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );

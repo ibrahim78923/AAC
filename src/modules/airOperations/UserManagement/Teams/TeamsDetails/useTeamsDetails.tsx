@@ -1,9 +1,10 @@
 import { useGetTeamsByIdForOperationQuery } from '@/services/airOperations/user-management/user';
+import { TeamPortalComponentPropsI } from '../Teams.interface';
 
-export const useTeamsDetails = (props: any) => {
+export const useTeamsDetails = (props: TeamPortalComponentPropsI) => {
   const { setIsPortalOpen, isPortalOpen } = props;
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
       refetchOnMountOrArgChange: true,
       skip: !!!isPortalOpen?.data?._id,
@@ -22,5 +23,6 @@ export const useTeamsDetails = (props: any) => {
     closeDrawer,
     isFetching,
     isError,
+    refetch,
   };
 };

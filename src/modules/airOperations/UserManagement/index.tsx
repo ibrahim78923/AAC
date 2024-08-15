@@ -1,17 +1,13 @@
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Box, Typography } from '@mui/material';
-import { User } from './User';
-import { Teams } from './Teams';
+import { userManagementTabsDataDynamic } from './useUserManagement.data';
+import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UserManagement = () => {
+  const userManagementTabsData = userManagementTabsDataDynamic?.();
   return (
-    <Box>
-      <Typography variant="h3">User Management</Typography>
-      <br />
-      <HorizontalTabs tabsDataArray={['User', 'Teams']} spacing={0.3}>
-        <User />
-        <Teams />
-      </HorizontalTabs>
-    </Box>
+    <>
+      <PageTitledHeader title="User Management" />
+      <PermissionsTabs spacing={0.3} tabsDataArray={userManagementTabsData} />
+    </>
   );
 };

@@ -17,8 +17,10 @@ import {
   useLazyGetTeamDropdownForOperationUserListQuery,
   useUpdateProductUserForOperationMutation,
 } from '@/services/airOperations/user-management/user';
+import { UserPortalComponentPropsI } from '../User.interface';
+import { RoleApiQueryParamsI, UpsertUserFormI } from './UpsertUser.interface';
 
-export const useUpsertUser = (props: any) => {
+export const useUpsertUser = (props: UserPortalComponentPropsI) => {
   const { setIsPortalOpen, isPortalOpen, userId, setSelectedUserList } = props;
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
@@ -41,13 +43,22 @@ export const useUpsertUser = (props: any) => {
       id: userId,
     },
   };
-  const { data, isLoading, isFetching }: any =
-    useGetSingleProductUserDetailForOperationQuery(getSingleUserApiParameter, {
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetSingleProductUserDetailForOperationQuery(
+    getSingleUserApiParameter,
+    {
       refetchOnMountOrArgChange: true,
       skip: !!!userId,
-    });
+    },
+  );
 
-  const roleApiQueryParams = {
+  const roleApiQueryParams: RoleApiQueryParamsI = {
     productId,
     organizationId,
     organizationCompanyAccountId,
@@ -72,7 +83,7 @@ export const useUpsertUser = (props: any) => {
     handleSubmit(submitUpsertUser)();
   };
 
-  const submitUpsertUser = async (formData: any) => {
+  const submitUpsertUser = async (formData: UpsertUserFormI) => {
     if (isPortalOpen?.isView) {
       setIsPortalOpen?.({
         isEdit: true,
@@ -104,7 +115,7 @@ export const useUpsertUser = (props: any) => {
     }
   };
 
-  const submitUpdateUpsertUser = async (formData: any) => {
+  const submitUpdateUpsertUser = async (formData: UpsertUserFormI) => {
     delete formData?.email;
     const apiDataParameter = {
       body: formData,
@@ -151,5 +162,7 @@ export const useUpsertUser = (props: any) => {
     submitButtonHandler,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   };
 };

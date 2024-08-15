@@ -4,8 +4,13 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import {
+  RoleApiQueryParamsI,
+  UpsertUserFormDefaultValuesI,
+} from './UpsertUser.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const userLanguage = [
+export const userLanguage: AutocompleteOptionsI[] = [
   {
     _id: 'English',
     label: 'English',
@@ -33,7 +38,9 @@ export const upsertUserValidationSchema = Yup.object().shape({
   twitterUrl: Yup?.string()?.trim(),
 });
 
-export const upsertUserDefaultValues = (data?: any) => {
+export const upsertUserDefaultValues = (
+  data?: UpsertUserFormDefaultValuesI,
+) => {
   return {
     firstName: data?.user?.firstName ?? '',
     lastName: data?.user?.lastName ?? '',
@@ -44,8 +51,9 @@ export const upsertUserDefaultValues = (data?: any) => {
     role: data?.role ?? null,
     team: data?.team ?? null,
     language:
-      userLanguage?.find((item: any) => item?._id === data?.user?.language) ??
-      null,
+      userLanguage?.find(
+        (item: AutocompleteOptionsI) => item?._id === data?.user?.language,
+      ) ?? null,
     facebookUrl: data?.user?.facebookUrl ?? '',
     linkedInUrl: data?.user?.linkedInUrl ?? '',
     twitterUrl: data?.user?.twitterUrl ?? '',
@@ -54,7 +62,7 @@ export const upsertUserDefaultValues = (data?: any) => {
 
 export const upsertUserFormFieldsDynamic = (
   roleApiQuery: any,
-  roleApiQueryParams: any,
+  roleApiQueryParams: RoleApiQueryParamsI,
   teamApiQuery: any,
 ) => [
   {
@@ -161,7 +169,7 @@ export const upsertUserFormFieldsDynamic = (
       placeholder: 'Select Language',
       fullWidth: true,
       options: userLanguage,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },

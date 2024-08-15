@@ -39,7 +39,7 @@ export const User = () => {
             <Search label="Search Here" setSearchBy={setSearch} />
           </Box>
         </PermissionsGuard>
-        <Box display={'flex'} gap={2} alignItems={'center'}>
+        <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
           <PermissionsGuard
             permissions={[
               AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.DELETE_USER,
@@ -93,7 +93,7 @@ export const User = () => {
         isFetching={lazyGetProductUserListForOperationStatus?.isFetching}
         isError={lazyGetProductUserListForOperationStatus?.isError}
         isSuccess={lazyGetProductUserListForOperationStatus?.isSuccess}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         isPagination
       />
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

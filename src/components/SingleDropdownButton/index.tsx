@@ -5,8 +5,12 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { IconButton, Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  SingleDropdownButtonPropsI,
+  SingleDropdownOptionI,
+} from './SingleDropdownButton.interface';
 
-export const SingleDropdownButton = (props: any) => {
+export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
   const {
     dropdownOptions,
     disabled,
@@ -49,7 +53,7 @@ export const SingleDropdownButton = (props: any) => {
         onClose={handleClose}
         sx={{ padding: 2, ...menuSxProps }}
       >
-        {dropdownOptions?.map((singleOption: any) => (
+        {dropdownOptions?.map((singleOption: SingleDropdownOptionI) => (
           <PermissionsGuard
             permissions={singleOption?.permissionKey}
             key={singleOption?.id}

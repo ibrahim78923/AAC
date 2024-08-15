@@ -6,11 +6,19 @@ import {
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Dispatch, SetStateAction } from 'react';
+import { UserIsPortalOpenI, UserTableRowI } from './User.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const actionsForOperationUserDynamic = (
-  setIsPortalOpen: any,
+  setIsPortalOpen: Dispatch<SetStateAction<UserIsPortalOpenI>>,
   selectedUserList: any,
 ) => [
   {
@@ -19,7 +27,7 @@ export const actionsForOperationUserDynamic = (
     permissionKey: [
       AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.EDIT_USER,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -39,7 +47,7 @@ export const actionsForOperationUserDynamic = (
     permissionKey: [
       AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.VIEW_USER_DETAIL,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -59,12 +67,7 @@ export const actionsForOperationUserDynamic = (
     permissionKey: [
       AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.DELETE_USER,
     ],
-    handleClick: (closeMenu: any) => {
-      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },
@@ -72,15 +75,15 @@ export const actionsForOperationUserDynamic = (
 ];
 
 export const operationUsersColumnsDynamic = (
-  selectedUserList?: any,
-  setSelectedUserList?: any,
-  totalUsers: any = [],
-  changeOperationUserStatus?: any,
-  changeSingleUserStatusStatus?: any,
-  setSingleUserDetail?: any,
+  selectedUserList: any,
+  setSelectedUserList: Dispatch<SetStateAction<any>>,
+  totalUsers = [],
+  changeOperationUserStatus: (e: any, id: string) => Promise<void>,
+  changeSingleUserStatusStatus: any,
+  setSingleUserDetail: (param: any) => void,
 ) => [
   {
-    accessorFn: (row: any) => row?._id,
+    accessorFn: (row: UserTableRowI) => row?._id,
     id: '_id',
     cell: (info: any) => (
       <Checkbox
@@ -124,7 +127,7 @@ export const operationUsersColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.user,
+    accessorFn: (row: UserTableRowI) => row?.user,
     id: 'user',
     isSortable: true,
     header: 'Name',
@@ -153,28 +156,28 @@ export const operationUsersColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.user?.email,
+    accessorFn: (row: UserTableRowI) => row?.user?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.team,
+    accessorFn: (row: UserTableRowI) => row?.team,
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.name ?? '---'),
   },
   {
-    accessorFn: (row: any) => row?.role,
+    accessorFn: (row: UserTableRowI) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.name ?? '---'),
   },
   {
-    accessorFn: (info: any) => info?.status,
+    accessorFn: (row: UserTableRowI) => row?.status,
     id: 'status',
     header: 'Status',
     cell: (info: any) => (

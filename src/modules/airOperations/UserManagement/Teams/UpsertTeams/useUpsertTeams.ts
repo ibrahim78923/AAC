@@ -13,11 +13,13 @@ import {
 } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
+import { TeamPortalComponentPropsI } from '../Teams.interface';
+import { UpsertTeamsFormI } from './UpsertTeams.interface';
 
-export const useUpsertTeams = (props: any) => {
+export const useUpsertTeams = (props: TeamPortalComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
 
-  const methods: any = useForm({
+  const methods = useForm({
     resolver: yupResolver(upsertTeamValidationSchema),
     defaultValues: upsertTeamDefaultValues(),
   });
@@ -26,7 +28,7 @@ export const useUpsertTeams = (props: any) => {
 
   const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
       refetchOnMountOrArgChange: true,
       skip: !!!isPortalOpen?.data?._id,
@@ -38,7 +40,7 @@ export const useUpsertTeams = (props: any) => {
   const [postCreateTeamForOperationTrigger, postCreateTeamForOperationStatus] =
     usePostCreateTeamForOperationMutation();
 
-  const submit = async (data: any) => {
+  const submit = async (data: UpsertTeamsFormI) => {
     const { userAccounts, ...rest } = data;
     const body = {
       ...rest,
@@ -62,7 +64,7 @@ export const useUpsertTeams = (props: any) => {
     }
   };
 
-  const submitTeamUpdate = async (data: any) => {
+  const submitTeamUpdate = async (data: UpsertTeamsFormI) => {
     const apiDataParameter = {
       pathParams: {
         id: isPortalOpen?.data?._id,
@@ -102,5 +104,6 @@ export const useUpsertTeams = (props: any) => {
     isLoading,
     isFetching,
     isError,
+    refetch,
   };
 };
