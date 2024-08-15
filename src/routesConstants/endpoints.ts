@@ -488,6 +488,14 @@ export const END_POINTS = {
   GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
   EXPORT_GENERIC_REPORTS: `/generic-reports/export-reports`,
   GET_MEETINGS_EMAIL_TEMPLATES: '/Meetings/get-meeting-template',
+  DELETE_ARTICLE_FOLDER: `/articles/delete-folders`,
+  UPDATE_ARTICLE_FOLDER: `/articles/update-folder`,
+  UPDATE_SERVICE_DASHBOARD_ANNOUNCEMENT:
+    '/air-services-dashboard/update-dashboard-annoucement',
+  DELETE_SERVICE_DASHBOARD_ANNOUNCEMENT:
+    '/air-services-dashboard/delete-dashboard-annoucement',
+  GET_SINGLE_SERVICE_DASHBOARD_ANNOUNCEMENT:
+    '/air-services-dashboard/get-by-id-dashboard-annoucement',
 };
 
 export const LEAD_CAPTURE_FORM = {

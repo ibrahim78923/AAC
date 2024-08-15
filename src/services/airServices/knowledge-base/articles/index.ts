@@ -54,7 +54,6 @@ export const articlesAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     getFoldersDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -97,17 +96,18 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       },
     }),
     deleteFolderForArticle: builder?.mutation({
-      query: (deleteArticlesParameter: any) => ({
-        url: '',
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.DELETE_ARTICLE_FOLDER,
         method: 'DELETE',
-        params: deleteArticlesParameter?.queryParams,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     updateFolderForArticles: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.UPDATE_ARTICLE_FOLDER,
         method: 'PATCH',
         body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
   }),

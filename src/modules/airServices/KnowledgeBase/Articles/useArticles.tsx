@@ -19,12 +19,12 @@ import { MoveFolder } from './MoveFolder';
 import { UpsertFolder } from '../Folder/UpsertFolder';
 import { DeleteFolder } from '../Folder/DeleteFolder';
 import {
-  ArticlesComponentPropsI,
   ArticlesFilterValuesI,
   ArticlesPortalComponentPropsI,
 } from './Articles.interface';
+import { ChildComponentPropsI } from '../KnowledgeBase.interface';
 
-export const useArticles: any = (props: ArticlesComponentPropsI) => {
+export const useArticles: any = (props: ChildComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
   const theme = useTheme();
   const router = useRouter();
@@ -44,7 +44,7 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
     useLazyGetArticlesQuery();
 
-  const getValueArticlesListData = async (currentPage = page) => {
+  const getArticlesListData = async (currentPage = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
@@ -68,7 +68,7 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
   };
 
   useEffect(() => {
-    getValueArticlesListData();
+    getArticlesListData();
   }, [search, page, pageLimit, filterValues, selectedArticlesTab]);
 
   const {
@@ -121,12 +121,13 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
     setSelectedArticlesData: setSelectedArticlesData,
     setPage: setPage,
     page: page,
-    getValueArticlesListData: getValueArticlesListData,
+    getValueArticlesListData: getArticlesListData,
     totalRecords: lazyGetArticlesStatus?.data?.data?.articles?.length,
     filterValues: filterValues,
     setFilterValues: setFilterValues,
     selectedArticlesTab,
     getFolderListData: refetch,
+    setFolder,
   };
 
   const renderPortalComponent = () => {
@@ -148,24 +149,32 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
     return <></>;
   };
 
+  const folderComponentProps = {
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    foldersList,
+    theme,
+    setFolder,
+    selectedArticlesTab,
+  };
+
   return {
     articlesColumns,
-    selectedArticlesTab,
     dropdownOptions,
-    theme,
     lazyGetArticlesStatus,
     setPage,
     setPageLimit,
     setSearch,
-    foldersList,
     selectedArticlesData,
-    setFolder,
-    isLoading,
-    isFetching,
-    isError,
     isPortalOpen,
     setIsPortalOpen,
     renderPortalComponent,
     portalComponentProps,
+    folderComponentProps,
+    selectedArticlesTab,
+    getArticlesListData,
+    page,
   };
 };

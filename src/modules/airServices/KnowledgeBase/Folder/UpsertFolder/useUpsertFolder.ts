@@ -13,7 +13,7 @@ import {
 import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 
 export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
-  const { setIsPortalOpen, isPortalOpen } = props;
+  const { setIsPortalOpen, isPortalOpen, getFolderListData } = props;
 
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertFolderValidationSchema),
@@ -42,17 +42,24 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
       await postFolderTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Folder created successfully!');
       closePortal?.();
+      await getFolderListData?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
   };
 
   const submitUpdateFolder = async (body: any) => {
-    const apiDataParameter = { body };
+    const queryParams = {
+      id: isPortalOpen?.data?._id,
+    };
+
+    const apiDataParameter = { body, queryParams };
+
     try {
       await updateFolderForArticlesTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Folder updated successfully!');
       closePortal?.();
+      await getFolderListData?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }

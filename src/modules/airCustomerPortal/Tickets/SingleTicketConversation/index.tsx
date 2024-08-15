@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ConversationCard } from './ConversationCard';
 import { Fragment } from 'react';
 import { useSingleTicketConversation } from './useSingleTicketConversation';
@@ -19,14 +19,7 @@ export const SingleTicketConversation = (props: any) => {
   } = useSingleTicketConversation();
 
   if (isFetching || isLoading) return <SkeletonTable />;
-  if (isError)
-    return (
-      <ApiErrorState>
-        <Button variant="contained" onClick={() => refetch?.()}>
-          Refresh
-        </Button>
-      </ApiErrorState>
-    );
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>

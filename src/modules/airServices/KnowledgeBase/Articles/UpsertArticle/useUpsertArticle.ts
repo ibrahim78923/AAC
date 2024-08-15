@@ -18,15 +18,11 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import { ARTICLE_STATUS } from '@/constants/strings';
-import useAuth from '@/hooks/useAuth';
 
 export const useUpsertArticle: any = () => {
   const router = useRouter();
   const theme = useTheme();
   const { articleId } = router?.query;
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
 
   const [postArticleTrigger, postArticleStatus] = usePostArticleMutation();
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
@@ -36,13 +32,12 @@ export const useUpsertArticle: any = () => {
       articleId,
     },
   };
-  const { data, isLoading, isFetching }: any = useGetArticleByIdQuery(
-    getSingleArticleParameter,
-    {
+
+  const { data, isLoading, isFetching, isError, refetch }: any =
+    useGetArticleByIdQuery(getSingleArticleParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!articleId,
-    },
-  );
+    });
   const editArticleMethods = useForm<any>({
     defaultValues: defaultValues(),
     resolver: yupResolver(upsertArticleValidationSchema),
@@ -125,7 +120,6 @@ export const useUpsertArticle: any = () => {
     needApprovals,
     apiQueryFolder,
     apiQueryApprover,
-    productId,
   );
 
   return {
@@ -141,5 +135,7 @@ export const useUpsertArticle: any = () => {
     isLoading,
     isFetching,
     cancelBtnHandler,
+    isError,
+    refetch,
   };
 };

@@ -10,10 +10,9 @@ export const useSingleViewArticle = () => {
   const theme = useTheme();
   const router = useRouter();
   const { articleId } = router?.query;
-  const { KNOWLEDGE_BASE } = AIR_SERVICES;
 
   const handlePageBack = () => {
-    router?.push(KNOWLEDGE_BASE);
+    router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
   };
 
   const getSingleArticleParameter = {

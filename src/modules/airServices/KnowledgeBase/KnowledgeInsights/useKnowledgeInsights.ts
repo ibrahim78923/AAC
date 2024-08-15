@@ -19,7 +19,7 @@ export const useKnowledgeInsights = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess } =
+  const { data, isLoading, isFetching, isError, isSuccess, refetch } =
     useGetKnowledgeInsightsQuery(getKnowledgeInsightsParameters, {
       refetchOnMountOrArgChange: true,
     });
@@ -38,5 +38,6 @@ export const useKnowledgeInsights = () => {
     knowledgeInsightId,
     selectedArticle,
     setSelectedArticle,
+    refetch,
   };
 };

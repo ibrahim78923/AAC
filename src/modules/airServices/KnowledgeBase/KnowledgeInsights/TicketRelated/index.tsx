@@ -10,8 +10,10 @@ import {
 import NoData from '@/components/NoData';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
+import ApiErrorState from '@/components/ApiErrorState';
+import { TicketRelatedPropsI } from './TicketRelated.interface';
 
-export const TicketRelated = (props: any) => {
+export const TicketRelated = (props: TicketRelatedPropsI) => {
   const { selectedArticle, setSelectedArticle } = props;
   const {
     data,
@@ -22,6 +24,7 @@ export const TicketRelated = (props: any) => {
     setPageLimit,
     setPage,
     error,
+    refetch,
   }: any = useTicketRelated(props);
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -33,15 +36,18 @@ export const TicketRelated = (props: any) => {
           moveBack={() => setSelectedArticle?.({})}
           canMovedBack
         />
-        <NoData
+        <ApiErrorState
           message={
             error?.data?.message === NO_DATA_MESSAGE
               ? error?.data?.message
               : 'SOMETHING WENT WRONG'
           }
+          canRefresh={error?.data?.message !== NO_DATA_MESSAGE}
+          refresh={() => refetch?.()}
         />
       </>
     );
+
   return (
     <>
       {data?.data?.articles?.length ? (

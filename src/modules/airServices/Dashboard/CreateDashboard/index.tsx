@@ -49,14 +49,7 @@ export const CreateDashboard = () => {
   } = useCreateDashboard();
 
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError)
-    return (
-      <ApiErrorState>
-        <Button variant="contained" onClick={() => refetch?.()}>
-          Refresh
-        </Button>
-      </ApiErrorState>
-    );
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>

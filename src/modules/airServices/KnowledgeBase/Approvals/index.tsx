@@ -3,8 +3,9 @@ import NoData from '@/components/NoData';
 import ApprovalCard from './ApprovalCard';
 import { useApprovals } from './useApprovals';
 import CustomPagination from '@/components/CustomPagination';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { fullName } from '@/utils/avatarUtils';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Approvals = () => {
   const {
@@ -13,13 +14,23 @@ export const Approvals = () => {
     setPageLimit,
     postApproval,
     postArticleApprovalStatus,
+    getArticlesForApprovalsListData,
+    page,
   } = useApprovals();
 
   if (
     lazyGetUnapprovedArticlesStatus?.isLoading ||
     lazyGetUnapprovedArticlesStatus?.isFetching
   )
-    return <SkeletonForm />;
+    return <SkeletonTable />;
+
+  if (lazyGetUnapprovedArticlesStatus?.isError)
+    return (
+      <ApiErrorState
+        canRefresh
+        refresh={() => getArticlesForApprovalsListData?.(page)}
+      />
+    );
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -46,6 +57,11 @@ export const Approvals = () => {
                 )}
                 sendApproval={() => postApproval?.(approval?._id)}
                 disabled={postArticleApprovalStatus?.isLoading}
+                isLoading={
+                  postArticleApprovalStatus?.isLoading &&
+                  postArticleApprovalStatus?.originalArgs?.pathParams?.id ===
+                    approval?._id
+                }
               />
             ),
           )}

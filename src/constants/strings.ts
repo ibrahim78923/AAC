@@ -852,6 +852,10 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   UPDATE: 'Update',
   APPLY: 'Apply',
   CREATE: 'Create',
+  WRITE: 'Write',
+  SAVE_AS_DRAFT: 'Save as Draft',
+  SEND_FOR_APPROVAL: 'Send For Approval',
+  PUBLISH_NOW: 'Publish Now',
 };
 
 export const TEXT_FORMATE: any = {
@@ -1123,4 +1127,10 @@ export const SETTINGS_CONSTANTS = {
 export const MUI_GRID_LENGTH = {
   TWELVE: 12,
   SIX: 6,
+};
+
+export const ANNOUNCEMENTS_VISIBLITY = {
+  EVERYONE: 'EVERYONE',
+  ALL_AGENT: 'AllAGENT',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
 };

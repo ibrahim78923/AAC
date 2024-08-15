@@ -10,7 +10,10 @@ import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { ARTICLE_STATUS } from '@/constants/strings';
+import {
+  ARTICLE_STATUS,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS,
@@ -18,6 +21,7 @@ import {
 } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import { Attachments } from '@/components/Attachments';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const UpsertArticle = () => {
   const {
@@ -33,29 +37,45 @@ export const UpsertArticle = () => {
     isLoading,
     isFetching,
     cancelBtnHandler,
+    isError,
+    refetch,
   } = useUpsertArticle();
 
   if (isLoading || isFetching) return <SkeletonForm />;
+
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <PermissionsGuard
       permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}
     >
       <FormProvider methods={methods}>
-        <Grid container sx={{ borderRadius: '12px' }}>
+        <Grid container sx={{ borderRadius: '12px' }} spacing={1}>
           <Grid item xs={12} lg={9} pr={{ lg: 2.4 }}>
             <PageTitledHeader
-              title={articleId ? 'Edit article' : 'Write an article'}
+              title={`${
+                articleId
+                  ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+                  : GENERIC_UPSERT_FORM_CONSTANT?.WRITE
+              }
+              an article`}
               canMovedBack
               moveBack={() => {
                 router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
               }}
             />
-            <RHFTextField name="title" label="Title" required fullWidth />
+            <RHFTextField
+              name="title"
+              label="Title"
+              required
+              fullWidth
+              placeholder="Enter the title"
+            />
             <Box pb={1.4}>
               <RHFEditor
                 name="details"
                 label="Description"
+                placeholder="Write the description"
                 style={{ height: 500 }}
                 required
               />
@@ -149,10 +169,10 @@ export const UpsertArticle = () => {
                     }
                   >
                     {needApprovals
-                      ? 'Cancel'
+                      ? GENERIC_UPSERT_FORM_CONSTANT?.CANCEL
                       : articleId
-                        ? 'Save'
-                        : 'Save as Draft'}
+                        ? GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+                        : GENERIC_UPSERT_FORM_CONSTANT?.SAVE_AS_DRAFT}
                   </LoadingButton>
                 </PermissionsGuard>
                 <PermissionsGuard
@@ -179,7 +199,9 @@ export const UpsertArticle = () => {
                     }
                     variant="contained"
                   >
-                    {needApprovals ? 'Send For Approval' : 'Publish Now'}
+                    {needApprovals
+                      ? GENERIC_UPSERT_FORM_CONSTANT?.SEND_FOR_APPROVAL
+                      : GENERIC_UPSERT_FORM_CONSTANT?.PUBLISH_NOW}
                   </LoadingButton>
                 </PermissionsGuard>
               </Box>

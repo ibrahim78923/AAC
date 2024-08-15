@@ -153,51 +153,53 @@ export const actionBtnData = (
   setIsPortalOpen: any,
   router: any,
   selectedArticlesData: any,
-) => [
-  {
-    id: 1,
-    title: 'Edit',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
-    handleClick: (closeMenu: any) => {
-      if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      router?.push({
-        pathname: AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE,
-        query: { articleId: selectedArticlesData?.[ARRAY_INDEX?.ZERO] },
-      });
-      closeMenu();
+) => {
+  return [
+    {
+      id: 1,
+      title: 'Edit',
+      permissionKey: [
+        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+      ],
+      handleClick: (closeMenu: any) => {
+        if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+          errorSnackbar('Please select only one');
+          closeMenu?.();
+          return;
+        }
+        router?.push({
+          pathname: AIR_SERVICES?.UPSERT_ARTICLE,
+          query: { articleId: selectedArticlesData?.[ARRAY_INDEX?.ZERO]?._id },
+        });
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 2,
-    title: 'Delete',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
-    ],
-    handleClick: (closeMenu: any) => {
-      setIsPortalOpen({ isOpen: true, isDelete: true });
-      closeMenu();
+    {
+      id: 2,
+      title: 'Delete',
+      permissionKey: [
+        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
+      ],
+      handleClick: (closeMenu: any) => {
+        setIsPortalOpen({ isOpen: true, isDelete: true });
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 3,
-    title: 'Move Folder',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
-    handleClick: (closeMenu: any) => {
-      if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setIsPortalOpen({ isOpen: true, isMoveFolder: true });
-      closeMenu();
+    {
+      id: 3,
+      title: 'Move Folder',
+      permissionKey: [
+        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+      ],
+      handleClick: (closeMenu: any) => {
+        if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+          errorSnackbar('Please select only one');
+          closeMenu?.();
+          return;
+        }
+        setIsPortalOpen({ isOpen: true, isMoveFolder: true });
+        closeMenu();
+      },
     },
-  },
-];
+  ];
+};

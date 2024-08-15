@@ -16,7 +16,7 @@ export const useApprovals = () => {
   const [postArticleApprovalTrigger, postArticleApprovalStatus] =
     usePostArticleApprovalMutation();
 
-  const getValueArticlesListData = async (currentPage = page) => {
+  const getArticlesForApprovalsListData = async (currentPage = page) => {
     const getUnapprovedArticleParameter = {
       queryParams: {
         page: currentPage,
@@ -31,10 +31,10 @@ export const useApprovals = () => {
   };
 
   useEffect(() => {
-    getValueArticlesListData();
+    getArticlesForApprovalsListData();
   }, [page, pageLimit]);
 
-  const postApproval = async (id: any) => {
+  const postApproval = async (id: string) => {
     const postApprovalParameters = {
       pathParams: {
         id,
@@ -44,16 +44,13 @@ export const useApprovals = () => {
     try {
       await postArticleApprovalTrigger(postApprovalParameters)?.unwrap();
       successSnackbar('Article approved successfully');
-      setPage?.(
-        lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length === 1
-          ? 1
-          : page,
-      );
       const newPage =
-        lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length === 1
-          ? 1
+        lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length ===
+        PAGINATION?.CURRENT_PAGE
+          ? PAGINATION?.CURRENT_PAGE
           : page;
-      await getValueArticlesListData?.(newPage);
+      setPage?.(newPage);
+      await getArticlesForApprovalsListData?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -65,5 +62,7 @@ export const useApprovals = () => {
     lazyGetUnapprovedArticlesStatus,
     postApproval,
     postArticleApprovalStatus,
+    getArticlesForApprovalsListData,
+    page,
   };
 };

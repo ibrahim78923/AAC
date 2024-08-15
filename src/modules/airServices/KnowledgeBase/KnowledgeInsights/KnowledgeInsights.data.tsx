@@ -13,7 +13,7 @@ export const knowledgeInsightsColumnsDynamic = (setSelectedArticle: any) => [
         sx={{ cursor: 'pointer' }}
         onClick={() => setSelectedArticle(info?.row?.original)}
       >
-        {truncateText(info?.getValue())}
+        {truncateText(info?.getValue() ?? '---')}
       </Typography>
     ),
   },

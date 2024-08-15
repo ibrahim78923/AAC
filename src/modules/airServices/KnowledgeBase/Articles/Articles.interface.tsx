@@ -33,6 +33,7 @@ export interface ArticlesPortalComponentPropsI {
   selectedArticlesTab: any;
   moveBack?: boolean;
   getFolderListData: any;
+  setFolder: any;
 }
 
 export interface ArticlesComponentPropsI {

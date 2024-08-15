@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { styles } from './SingleViewArticle.style';
@@ -17,9 +17,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 export const SingleViewArticle = () => {
   const {
     theme,
-
     articleId,
-
     data,
     isLoading,
     isFetching,
@@ -31,14 +29,7 @@ export const SingleViewArticle = () => {
   } = useSingleViewArticle();
 
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError)
-    return (
-      <ApiErrorState>
-        <Button variant="contained" onClick={() => refetch?.()}>
-          Refresh
-        </Button>
-      </ApiErrorState>
-    );
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>
