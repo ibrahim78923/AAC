@@ -1,4 +1,10 @@
+import { SOCIAL_COMPONENTS } from '@/constants';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import * as Yup from 'yup';
+import { MeetingData } from './EmailTemplate.interface';
+import { Dispatch, SetStateAction } from 'react';
+import { NextRouter } from 'next/router';
 
 export const emailTemplateSchema: any = Yup?.object()?.shape({
   emailTemplate: Yup?.string()
@@ -10,25 +16,47 @@ export const emailTemplateSchema: any = Yup?.object()?.shape({
     }),
 });
 
-export const defaultValues = {
-  emailTemplate: '',
-};
+export const defaultValues = (data: any) => ({
+  emailTemplate: data?.data?.paragraph,
+});
 
-export const templateDropdownFunction = () => [
+export const templateDropdownFunction = (
+  item: MeetingData,
+  router: NextRouter,
+  meetingId: any,
+  ticketId: any,
+  setDeleteModal: Dispatch<SetStateAction<Record<string, any>>>,
+) => [
   {
     id: 1,
     title: 'Edit',
-    permissionKey: [],
+    permissionKey: [
+      SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.EDIT_MEETING,
+      SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
+    ],
     handleClick: (close: any) => {
       close?.(false);
+      router?.push({
+        pathname: SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
+        query: {
+          id: item?._id,
+          ...(ticketId && { ticketId: ticketId }),
+          meetingId: meetingId,
+          type: GENERIC_UPSERT_FORM_CONSTANT?.EDIT,
+        },
+      });
     },
   },
   {
     id: 2,
     title: 'Delete',
-    permissionKey: [],
+    permissionKey: [
+      SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.EDIT_MEETING,
+      SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
+    ],
     handleClick: (close: any) => {
       close?.(false);
+      setDeleteModal({ isOpen: true, data: item });
     },
   },
 ];

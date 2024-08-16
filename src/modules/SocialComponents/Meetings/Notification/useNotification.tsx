@@ -16,7 +16,7 @@ export const useNotification = () => {
       accountId,
     },
   };
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetMeetingsSettingsNotificationQuery(apiDataParameter, {
       skip: !accountId,
       refetchOnMountOrArgChange: true,
@@ -58,5 +58,6 @@ export const useNotification = () => {
     isFetching,
     isError,
     data,
+    refetch,
   };
 };

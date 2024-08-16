@@ -488,6 +488,9 @@ export const END_POINTS = {
   GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
   EXPORT_GENERIC_REPORTS: `/generic-reports/export-reports`,
   GET_MEETINGS_EMAIL_TEMPLATES: '/Meetings/get-meeting-template',
+  GET_BY_ID_MEETINGS_EMAIL_TEMPLATE: '/Meetings/get-meeting-template-by-id',
+  UPDATE_MEETINGS_EMAIL_TEMPLATE: '/Meetings/edit-meeting-template',
+  DELETE_MEETINGS_EMAIL_TEMPLATE: '/Meetings/delete-meeting-template',
   DELETE_ARTICLE_FOLDER: `/articles/delete-folders`,
   UPDATE_ARTICLE_FOLDER: `/articles/update-folder`,
   UPDATE_SERVICE_DASHBOARD_ANNOUNCEMENT:

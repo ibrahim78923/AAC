@@ -71,5 +71,7 @@ export const useLocations = () => {
     renderPortalComponent,
     isPortalOpen,
     setIsPortalOpen,
+    getMeetingsLocationListData,
+    page,
   };
 };

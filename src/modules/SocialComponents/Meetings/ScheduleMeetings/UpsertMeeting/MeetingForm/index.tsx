@@ -16,10 +16,11 @@ export const MeetingForm = (props: any) => {
     isFetching,
     isError,
     meetingId,
+    refetch,
   } = props;
   const router = useRouter();
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
   return (
     <>
       <Grid container spacing={2}>

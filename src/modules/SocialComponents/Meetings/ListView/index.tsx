@@ -19,10 +19,12 @@ export const ListView = () => {
     router,
     getMeetingListStatus,
     setPage,
+    page,
     setPageLimit,
     setOpenForm,
     meetingActiveType,
     deleteMeetingsStatus,
+    getMeetingListData,
   } = useListView();
   return (
     <>
@@ -84,6 +86,10 @@ export const ListView = () => {
           isSuccess={getMeetingListStatus?.isSuccess}
           onPageChange={(page: number) => setPage(page)}
           isPagination
+          errorProps={{
+            canRefresh: true,
+            refresh: () => getMeetingListData?.(page),
+          }}
         />
       </Box>
       {deleteModal && (

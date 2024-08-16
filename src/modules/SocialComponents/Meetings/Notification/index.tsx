@@ -15,11 +15,11 @@ export const Notification = () => {
     isFetching,
     isError,
     data,
+    refetch,
   } = useNotification();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <Box>

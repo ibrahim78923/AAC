@@ -49,7 +49,7 @@ export const useUpsertMeeting = () => {
     location: 'In person meeting',
   };
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetByIdMeetingsListQuery(meetingId, {
       refetchOnMountOrArgChange: true,
       skip: !!!meetingId,
@@ -194,9 +194,9 @@ export const useUpsertMeeting = () => {
       successSnackbar(`${meetingType} Meeting ${action} successfully`);
 
       router?.push({
-        pathname: SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
+        pathname: SOCIAL_COMPONENTS?.EMAIL_TEMPLATE,
         query: {
-          ...(moduleId && { ticketId: res?.data?.moduleId }),
+          ...(moduleId && { ticketId: moduleId }),
           meetingId: res?.data?._id,
         },
       });
@@ -266,6 +266,7 @@ export const useUpsertMeeting = () => {
     handleAfterChange,
     meetingId,
     meetingData,
+    refetch,
   };
   return {
     methods,

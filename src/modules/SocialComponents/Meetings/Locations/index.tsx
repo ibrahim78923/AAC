@@ -16,6 +16,8 @@ export const Locations = () => {
     renderPortalComponent,
     isPortalOpen,
     setIsPortalOpen,
+    getMeetingsLocationListData,
+    page,
   } = useLocations();
   return (
     <>
@@ -75,6 +77,10 @@ export const Locations = () => {
           isSuccess={lazyGetCommonMeetingsLocationsListStatus?.isSuccess}
           onPageChange={(page: any) => setPage(page)}
           isPagination
+          errorProps={{
+            canRefresh: true,
+            refresh: () => getMeetingsLocationListData?.(page),
+          }}
         />
       </Box>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}
