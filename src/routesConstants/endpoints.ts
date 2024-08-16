@@ -500,6 +500,7 @@ export const END_POINTS = {
     '/air-services-dashboard/delete-dashboard-annoucement',
   GET_SINGLE_SERVICE_DASHBOARD_ANNOUNCEMENT:
     '/air-services-dashboard/get-by-id-dashboard-annoucement',
+  GET_SINGLE_FOLDER_DETAIL: '/articles/get-byId-folder',
 };
 
 export const LEAD_CAPTURE_FORM = {

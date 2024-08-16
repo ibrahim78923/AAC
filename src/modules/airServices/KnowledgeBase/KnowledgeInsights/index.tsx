@@ -22,7 +22,7 @@ export const KnowledgeInsights = () => {
   } = useKnowledgeInsights();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch()} />;
 
   return (
     <>
@@ -49,7 +49,7 @@ export const KnowledgeInsights = () => {
                 isFetching={isFetching}
                 isError={isError}
                 isSuccess={isSuccess}
-                onPageChange={(page: any) => setPage(page)}
+                onPageChange={(page: number) => setPage(page)}
                 isPagination
               />
             </Box>

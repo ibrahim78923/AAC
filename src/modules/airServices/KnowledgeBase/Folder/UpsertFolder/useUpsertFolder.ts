@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
@@ -11,14 +11,16 @@ import {
   upsertFolderValidationSchema,
 } from './UpsertFolder.data';
 import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
+import { UpsertFolderFormFieldsI } from './UpsertFolder.interface';
 
 export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
   const { setIsPortalOpen, isPortalOpen, getFolderListData } = props;
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(upsertFolderValidationSchema),
-    defaultValues: upsertFolderFormDefaultValues?.(isPortalOpen?.data),
-  });
+  const methods: UseFormReturn<UpsertFolderFormFieldsI> =
+    useForm<UpsertFolderFormFieldsI>({
+      resolver: yupResolver(upsertFolderValidationSchema),
+      defaultValues: upsertFolderFormDefaultValues?.(isPortalOpen?.data),
+    });
 
   const { handleSubmit, reset } = methods;
 
@@ -26,7 +28,7 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
   const [updateFolderForArticlesTrigger, updateFolderForArticlesStatus] =
     useUpdateFolderForArticlesMutation();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UpsertFolderFormFieldsI) => {
     const body = {
       ...data,
       visibility: data?.visibility?._id,
@@ -48,7 +50,7 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
     }
   };
 
-  const submitUpdateFolder = async (body: any) => {
+  const submitUpdateFolder = async (body: UpsertFolderFormFieldsI) => {
     const queryParams = {
       id: isPortalOpen?.data?._id,
     };

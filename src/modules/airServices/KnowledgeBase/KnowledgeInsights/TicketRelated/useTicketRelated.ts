@@ -5,8 +5,8 @@ import { TicketRelatedPropsI } from './TicketRelated.interface';
 
 export const useTicketRelated = (props: TicketRelatedPropsI) => {
   const { selectedArticle } = props;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const getKnowledgeInsightsDetailsParameters = {
     queryParams: {

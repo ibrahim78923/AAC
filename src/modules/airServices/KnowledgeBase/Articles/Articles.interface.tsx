@@ -1,3 +1,4 @@
+import { Theme } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ArticlesIsPortalOpenI {
@@ -39,4 +40,15 @@ export interface ArticlesPortalComponentPropsI {
 export interface ArticlesComponentPropsI {
   isPortalOpen: ArticlesIsPortalOpenI;
   setIsPortalOpen: Dispatch<SetStateAction<ArticlesIsPortalOpenI>>;
+}
+
+export interface FolderComponentPropsI {
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  refetch: () => Promise<void> | any;
+  foldersList: any;
+  theme: Theme;
+  setFolder: (folder: { [key: string]: any }) => void;
+  selectedArticlesTab: any;
 }

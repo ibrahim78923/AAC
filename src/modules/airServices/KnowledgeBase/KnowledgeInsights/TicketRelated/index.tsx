@@ -35,6 +35,7 @@ export const TicketRelated = (props: TicketRelatedPropsI) => {
         <PageTitledHeader
           moveBack={() => setSelectedArticle?.({})}
           canMovedBack
+          title=""
         />
         <ApiErrorState
           message={
@@ -70,7 +71,7 @@ export const TicketRelated = (props: TicketRelatedPropsI) => {
             isFetching={isFetching}
             isError={isError}
             isSuccess={isSuccess}
-            onPageChange={(page: any) => setPage(page)}
+            onPageChange={(page: number) => setPage(page)}
             isPagination
           />
         </Box>

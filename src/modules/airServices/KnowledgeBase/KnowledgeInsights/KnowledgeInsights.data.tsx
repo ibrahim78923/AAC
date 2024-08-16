@@ -1,9 +1,10 @@
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
+import { KnowledgeInsightsTableRowI } from './KnowledgeInsights.interface';
 
 export const knowledgeInsightsColumnsDynamic = (setSelectedArticle: any) => [
   {
-    accessorFn: (row: any) => row?.title,
+    accessorFn: (row: KnowledgeInsightsTableRowI) => row?.title,
     id: 'title',
     header: `Insights`,
     cell: (info: any) => (
@@ -18,7 +19,7 @@ export const knowledgeInsightsColumnsDynamic = (setSelectedArticle: any) => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.views,
+    accessorFn: (row: KnowledgeInsightsTableRowI) => row?.views,
     id: 'views',
     header: 'Mentions',
     cell: (info: any) => info?.getValue() ?? '---',

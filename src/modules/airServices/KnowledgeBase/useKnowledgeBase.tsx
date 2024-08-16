@@ -3,14 +3,19 @@ import {
   createNewKnowledgeBaseDropdownOptionsDynamic,
   knowledgeBaseTabsDataDynamic,
 } from './KnowledgeBase.data';
-import { useRouter } from 'next/router';
-import { ChildComponentPropsI } from './KnowledgeBase.interface';
+import { NextRouter, useRouter } from 'next/router';
+import {
+  ArticlesIsPortalOpenI,
+  ChildComponentPropsI,
+} from './KnowledgeBase.interface';
+import { PermissionTabsArrayI } from '@/components/Tabs/PermissionsTabs/PermissionsTabs.interface';
+import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const useKnowledgeBase = () => {
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-  const router = useRouter();
+  const [isPortalOpen, setIsPortalOpen] = useState<ArticlesIsPortalOpenI>({});
+  const router: NextRouter = useRouter();
 
-  const createNewKnowledgeBaseDropdownOptions =
+  const createNewKnowledgeBaseDropdownOptions: SingleDropdownOptionI[] =
     createNewKnowledgeBaseDropdownOptionsDynamic?.(setIsPortalOpen, router);
 
   const childComponentProps: ChildComponentPropsI = {
@@ -18,7 +23,7 @@ export const useKnowledgeBase = () => {
     setIsPortalOpen,
   };
 
-  const knowledgeBaseTabsData =
+  const knowledgeBaseTabsData: PermissionTabsArrayI[] =
     knowledgeBaseTabsDataDynamic?.(childComponentProps);
 
   return {

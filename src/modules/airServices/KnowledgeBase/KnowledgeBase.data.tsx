@@ -10,6 +10,7 @@ import {
   ChildComponentPropsI,
 } from './KnowledgeBase.interface';
 import { Dispatch, SetStateAction } from 'react';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const createNewKnowledgeBaseDropdownOptionsDynamic = (
   setIsPortalOpen: Dispatch<SetStateAction<ArticlesIsPortalOpenI>>,
@@ -21,7 +22,7 @@ export const createNewKnowledgeBaseDropdownOptionsDynamic = (
     permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       router?.push(AIR_SERVICES?.UPSERT_ARTICLE);
       closeMenu();
     },
@@ -32,7 +33,7 @@ export const createNewKnowledgeBaseDropdownOptionsDynamic = (
     permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_FOLDER,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen({ isOpen: true, isUpsertFolder: true });
       closeMenu();
     },

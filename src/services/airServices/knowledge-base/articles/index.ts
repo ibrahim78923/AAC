@@ -109,6 +109,15 @@ export const articlesAPI = baseAPI?.injectEndpoints({
         body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
+      invalidatesTags: [TAG],
+    }),
+    getSingleFolderById: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_SINGLE_FOLDER_DETAIL,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
     }),
   }),
 });
@@ -128,4 +137,5 @@ export const {
   useLazyGetUsersDropdownListForAuthorsQuery,
   useDeleteFolderForArticleMutation,
   useUpdateFolderForArticlesMutation,
+  useGetSingleFolderByIdQuery,
 } = articlesAPI;

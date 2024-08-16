@@ -6,6 +6,7 @@ import CustomPagination from '@/components/CustomPagination';
 import { fullName } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { Fragment } from 'react';
 
 export const Approvals = () => {
   const {
@@ -47,22 +48,23 @@ export const Approvals = () => {
           </Typography>
           {lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.map(
             (approval: any) => (
-              <ApprovalCard
-                key={approval?._id}
-                title={approval?.title}
-                folder={approval?.folder?.name}
-                author={fullName(
-                  approval?.author?.firstName,
-                  approval?.author?.lastName,
-                )}
-                sendApproval={() => postApproval?.(approval?._id)}
-                disabled={postArticleApprovalStatus?.isLoading}
-                isLoading={
-                  postArticleApprovalStatus?.isLoading &&
-                  postArticleApprovalStatus?.originalArgs?.pathParams?.id ===
-                    approval?._id
-                }
-              />
+              <Fragment key={approval?._id}>
+                <ApprovalCard
+                  title={approval?.title}
+                  folder={approval?.folder?.name}
+                  author={fullName(
+                    approval?.author?.firstName,
+                    approval?.author?.lastName,
+                  )}
+                  sendApproval={() => postApproval?.(approval?._id)}
+                  disabled={postArticleApprovalStatus?.isLoading}
+                  isLoading={
+                    postArticleApprovalStatus?.isLoading &&
+                    postArticleApprovalStatus?.originalArgs?.pathParams?.id ===
+                      approval?._id
+                  }
+                />
+              </Fragment>
             ),
           )}
           <br />
@@ -76,7 +78,7 @@ export const Approvals = () => {
             totalRecords={
               lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.total
             }
-            onPageChange={(page: any) => setPage?.(page)}
+            onPageChange={(page: number) => setPage?.(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}
           />

@@ -7,8 +7,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 
 export const useApprovals = () => {
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const [lazyGetUnapprovedArticlesTrigger, lazyGetUnapprovedArticlesStatus] =
     useLazyGetUnapprovedArticlesQuery();
@@ -16,7 +16,9 @@ export const useApprovals = () => {
   const [postArticleApprovalTrigger, postArticleApprovalStatus] =
     usePostArticleApprovalMutation();
 
-  const getArticlesForApprovalsListData = async (currentPage = page) => {
+  const getArticlesForApprovalsListData = async (
+    currentPage: number = page,
+  ) => {
     const getUnapprovedArticleParameter = {
       queryParams: {
         page: currentPage,

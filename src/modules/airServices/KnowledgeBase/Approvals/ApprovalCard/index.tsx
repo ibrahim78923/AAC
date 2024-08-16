@@ -1,8 +1,16 @@
 import { truncateText } from '@/utils/avatarUtils';
 import { pxToRem } from '@/utils/getFontValue';
-import { Box, Chip, LinearProgress, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Chip,
+  LinearProgress,
+  Theme,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { ApprovalCardI } from './ApprovalCard.interface';
 
-const ApprovalCard = (props: any) => {
+const ApprovalCard = (props: ApprovalCardI) => {
   const {
     title = '---',
     folder = '---',
@@ -11,7 +19,9 @@ const ApprovalCard = (props: any) => {
     disabled,
     isLoading,
   } = props;
-  const theme = useTheme();
+
+  const theme: Theme = useTheme();
+
   return (
     <Box
       sx={{

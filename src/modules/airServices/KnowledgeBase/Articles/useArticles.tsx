@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
+import { NextRouter, useRouter } from 'next/router';
+import { Theme, useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import {
   ALL_FOLDER,
@@ -21,13 +21,15 @@ import { DeleteFolder } from '../Folder/DeleteFolder';
 import {
   ArticlesFilterValuesI,
   ArticlesPortalComponentPropsI,
+  FolderComponentPropsI,
 } from './Articles.interface';
 import { ChildComponentPropsI } from '../KnowledgeBase.interface';
+import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
-export const useArticles: any = (props: ChildComponentPropsI) => {
+export const useArticles = (props: ChildComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
-  const theme = useTheme();
-  const router = useRouter();
+  const theme: Theme = useTheme();
+  const router: NextRouter = useRouter();
   const { push } = router;
 
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
@@ -44,7 +46,7 @@ export const useArticles: any = (props: ChildComponentPropsI) => {
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
     useLazyGetArticlesQuery();
 
-  const getArticlesListData = async (currentPage = page) => {
+  const getArticlesListData = async (currentPage: number = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
@@ -108,7 +110,7 @@ export const useArticles: any = (props: ChildComponentPropsI) => {
     handleSingleArticleNavigation,
   );
 
-  const dropdownOptions = actionBtnData(
+  const dropdownOptions: SingleDropdownOptionI[] = actionBtnData(
     setIsPortalOpen,
     router,
     selectedArticlesData,
@@ -149,7 +151,7 @@ export const useArticles: any = (props: ChildComponentPropsI) => {
     return <></>;
   };
 
-  const folderComponentProps = {
+  const folderComponentProps: FolderComponentPropsI = {
     isLoading,
     isFetching,
     isError,

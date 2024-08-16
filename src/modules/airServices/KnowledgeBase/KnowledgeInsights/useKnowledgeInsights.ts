@@ -1,16 +1,12 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useGetKnowledgeInsightsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
 import { knowledgeInsightsColumnsDynamic } from './KnowledgeInsights.data';
 
 export const useKnowledgeInsights = () => {
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [selectedArticle, setSelectedArticle] = useState<any>({});
-
-  const router = useRouter();
-  const { knowledgeInsightId } = router?.query;
 
   const getKnowledgeInsightsParameters = {
     queryParams: {
@@ -26,6 +22,7 @@ export const useKnowledgeInsights = () => {
 
   const knowledgeInsightsColumns =
     knowledgeInsightsColumnsDynamic?.(setSelectedArticle);
+
   return {
     data,
     isLoading,
@@ -35,7 +32,6 @@ export const useKnowledgeInsights = () => {
     setPageLimit,
     setPage,
     knowledgeInsightsColumns,
-    knowledgeInsightId,
     selectedArticle,
     setSelectedArticle,
     refetch,

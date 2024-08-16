@@ -1,9 +1,11 @@
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Box, Typography } from '@mui/material';
 import { FolderGreyIcon } from '@/assets/icons';
 import ApiErrorState from '@/components/ApiErrorState';
+import { FolderComponentPropsI } from '../Articles/Articles.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-export const Folder = (props: any) => {
+export const Folder = (props: FolderComponentPropsI) => {
   const {
     setFolder,
     selectedArticlesTab,
@@ -15,7 +17,7 @@ export const Folder = (props: any) => {
     theme,
   } = props;
 
-  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isLoading || isFetching) return <SkeletonTable />;
   if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
@@ -25,7 +27,7 @@ export const Folder = (props: any) => {
         overflowY: 'auto',
       }}
     >
-      {foldersList?.map((tab: any) => (
+      {foldersList?.map((tab: AutocompleteAsyncOptionsI) => (
         <Box
           key={tab?._id}
           sx={{
