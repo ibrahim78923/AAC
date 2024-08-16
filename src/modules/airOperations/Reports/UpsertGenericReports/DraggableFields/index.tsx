@@ -78,7 +78,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
                       dropdownOptions={
                         mainMetrics(setMetricType)[selectedModule]
                       }
-                      disabled={form?.length}
+                      disabled={!!form?.length}
                     />
                   </Box>
                   <Box height={'60vh'} overflow={'scroll'} p={1}>

@@ -96,11 +96,11 @@ export const ChartEditor = (props: ChartEditorI) => {
         />
         {(chartType === CHARTS?.BAR_CHART ||
           chartType === CHARTS?.HORIZONTAL_BAR_CHART) && (
-          <Box border={1} borderColor={'grey.700'} borderRadius={2} m={1}>
+          <Box border={1} borderColor={'grey.700'} borderRadius={2}>
             <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
               <Typography variant="h6">{metricType}</Typography>
             </Box>
-            <Box m={1}>
+            <Box px={1}>
               <RHFAutocomplete
                 size="small"
                 label="X Axis"
@@ -112,7 +112,7 @@ export const ChartEditor = (props: ChartEditorI) => {
               />
             </Box>
             {xAxisData?.ref && (
-              <Box mx={2} my={1}>
+              <Box px={2}>
                 <RHFAutocompleteAsync
                   size="small"
                   name="xAxisType"
@@ -133,7 +133,7 @@ export const ChartEditor = (props: ChartEditorI) => {
                 />
               </Box>
             )}
-            <Box m={1}>
+            <Box px={1}>
               <RHFTextField
                 size="small"
                 label="Y Axis"
@@ -147,7 +147,7 @@ export const ChartEditor = (props: ChartEditorI) => {
         {(chartType === CHARTS?.PIE_CHART ||
           chartType === CHARTS?.DONUT_CHART) && (
           <>
-            <Box m={1}>
+            <Box px={1}>
               <RHFAutocomplete
                 size="small"
                 label="Add Metric"
@@ -159,7 +159,7 @@ export const ChartEditor = (props: ChartEditorI) => {
               />
             </Box>
             {xAxisData?.ref && (
-              <Box mx={2} my={1}>
+              <Box px={2}>
                 <RHFAutocompleteAsync
                   size="small"
                   name="xAxisType"

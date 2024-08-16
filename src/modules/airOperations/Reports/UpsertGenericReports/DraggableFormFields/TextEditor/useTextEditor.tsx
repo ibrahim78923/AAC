@@ -2,7 +2,11 @@ import { successSnackbar } from '@/utils/api';
 import { EditorState, RichUtils, Modifier, convertToRaw } from 'draft-js';
 import { useEffect, useState } from 'react';
 import { stateToHTML } from 'draft-js-export-html';
-import { REPORT_TYPE, TEXT_FORMATE } from '@/constants/strings';
+import {
+  MODAL_INITIAL_STATES,
+  REPORT_TYPE,
+  TEXT_FORMATE,
+} from '@/constants/strings';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { TextEditorI } from './TextEditor.interface';
 
@@ -209,12 +213,7 @@ export const useTextEditor = (props: TextEditorI) => {
   const handleSave = () => {
     getTextFromEditorHTML();
     setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-      counter: false,
-    });
+    setModal(MODAL_INITIAL_STATES);
     setValue('textTitle', 'Report Text');
     setEditorState(EditorState.createEmpty());
     setDraggedItemData(null);

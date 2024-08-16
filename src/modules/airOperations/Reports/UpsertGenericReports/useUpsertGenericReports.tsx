@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import {
   defaultValues,
   fieldsList,
-  modalInitialState,
   templateList,
 } from './UpsertGenericReports.data';
 import { Theme, useTheme } from '@mui/material';
@@ -12,6 +11,7 @@ import {
   CHARTS,
   FIELD_TYPE,
   GENERIC_REPORT_MODULES,
+  MODAL_INITIAL_STATES,
   REPORT_TYPE,
 } from '@/constants/strings';
 import { useRouter } from 'next/router';
@@ -45,7 +45,7 @@ export default function useUpsertGenericReports() {
   const { watch, setValue } = methods;
   const chartType = watch('chartType');
   const [form, setForm] = useState<any>([]);
-  const [modal, setModal] = useState<any>(modalInitialState);
+  const [modal, setModal] = useState<any>(MODAL_INITIAL_STATES);
   const [fieldData, setFieldData] = useState<any>(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
@@ -143,7 +143,7 @@ export default function useUpsertGenericReports() {
 
   const handleCancel = () => {
     setFieldData(false);
-    setModal(modalInitialState);
+    setModal(MODAL_INITIAL_STATES);
     setColumnsData([]);
     setValue('tableTitle', 'Report Table');
     setEditorState(EditorState.createEmpty());

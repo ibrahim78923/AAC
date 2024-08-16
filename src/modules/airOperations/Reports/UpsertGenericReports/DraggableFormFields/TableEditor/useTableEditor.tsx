@@ -1,4 +1,4 @@
-import { REPORT_TYPE } from '@/constants/strings';
+import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
@@ -37,12 +37,7 @@ export const useTableEditor = (props: TableEditorI) => {
       },
     ]);
     setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-      counter: false,
-    });
+    setModal(MODAL_INITIAL_STATES);
     setColumnsData([]);
     setValue('tableTitle', 'Report Table');
     setDraggedItemData(null);

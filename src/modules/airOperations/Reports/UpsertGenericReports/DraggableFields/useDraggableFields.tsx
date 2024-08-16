@@ -20,7 +20,7 @@ export const useDraggableFields = (props: DraggableFieldsI) => {
     }
   };
   const defaultModule = getDefaultModule();
-  const [metricType, setMetricType] = useState(defaultModule);
+  const [metricType, setMetricType] = useState<any>(defaultModule);
   useEffect(() => {
     if (singleReportModule) {
       setMetricType(singleReportModule);

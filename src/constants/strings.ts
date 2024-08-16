@@ -973,6 +973,13 @@ export const COLLECTION_NAME = {
   FORECAST: 'Forecast',
 };
 
+export const MODAL_INITIAL_STATES: any = {
+  chart: false,
+  text: false,
+  table: false,
+  counter: false,
+};
+
 export const USER_MANAGEMENT_DRAWER_ACTION = {
   CREATE_TEAM: 'Create Team',
   EDIT_TEAM: 'Edit Team',
