@@ -14,7 +14,6 @@ const Tickets = () => {
     ticketsData,
     limit,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -34,7 +33,6 @@ const Tickets = () => {
       <ListViewHeader
         selectedList={!!!selectedAction?.length}
         setSearch={setSearch}
-        search={search}
         onSubmitListFilter={onSubmitListFilter}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
@@ -65,6 +63,7 @@ const Tickets = () => {
         onPageChange={(page: number) => setPage(page)}
         currentPage={ticketsData?.meta?.page}
         limit={limit}
+        errorProps={{ canRefresh: true, refresh: handleWorkflow }}
       />
     </>
   );

@@ -15,7 +15,6 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
     selectedList,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -35,11 +34,7 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
               AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
             ]}
           >
-            <Search
-              label="Search Here"
-              searchBy={search}
-              setSearchBy={setSearch}
-            />
+            <Search label="Search Here" setSearchBy={setSearch} />
           </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>

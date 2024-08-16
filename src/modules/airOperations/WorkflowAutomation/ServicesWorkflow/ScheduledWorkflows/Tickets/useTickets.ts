@@ -143,7 +143,6 @@ export const useTickets = () => {
     limit,
     setLimit,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,

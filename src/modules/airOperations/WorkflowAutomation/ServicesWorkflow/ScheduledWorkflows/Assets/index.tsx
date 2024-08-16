@@ -14,7 +14,6 @@ const Assets = () => {
     limit,
     setLimit,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -34,7 +33,6 @@ const Assets = () => {
       <ListViewHeader
         selectedList={!!!selectedAction?.length}
         setSearch={setSearch}
-        search={search}
         onSubmitListFilter={onSubmitListFilter}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
@@ -65,6 +63,7 @@ const Assets = () => {
         onPageChange={(page: number) => setPage(page)}
         currentPage={assetsData?.meta?.page}
         pageLimit={limit}
+        errorProps={{ canRefresh: true, refresh: handleWorkflow }}
       />
     </>
   );

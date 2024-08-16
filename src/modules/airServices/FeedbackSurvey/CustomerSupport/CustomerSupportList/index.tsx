@@ -37,6 +37,7 @@ export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
     setOpenModal,
     feedbackDropdownOption,
     handleTitleClick,
+    handleFeedbackList,
   } = useCustomerSupportList(props);
   return (
     <>
@@ -104,6 +105,7 @@ export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
           onPageChange={(page: number) => setPage(page)}
           setPage={setPage}
           setPageLimit={setLimit}
+          errorProps={{ canRefresh: true, refresh: handleFeedbackList }}
         />
       </PermissionsGuard>
       {openModal && (

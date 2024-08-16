@@ -139,7 +139,6 @@ export const useTask = () => {
   return {
     isFilterOpen,
     setIsFilterOpen,
-    search,
     setSearch,
     openDelete,
     setOpenDelete,

@@ -139,7 +139,6 @@ export const useDeal = () => {
   return {
     isFilterOpen,
     setIsFilterOpen,
-    search,
     setSearch,
     openDelete,
     setOpenDelete,

@@ -139,7 +139,6 @@ export const useQuote = () => {
   return {
     isFilterOpen,
     setIsFilterOpen,
-    search,
     setSearch,
     openDelete,
     setOpenDelete,

@@ -42,6 +42,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
     handleDefaultSurvey,
     patchLoading,
     defaultLoading,
+    handleFeedbackList,
   } = useCustomerSatisfactionList(props);
   return (
     <>
@@ -112,6 +113,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
           onPageChange={(page: number) => setPage(page)}
           setPage={setPage}
           setPageLimit={setLimit}
+          errorProps={{ canRefresh: true, refresh: handleFeedbackList }}
         />
       </PermissionsGuard>
       {openModal && (

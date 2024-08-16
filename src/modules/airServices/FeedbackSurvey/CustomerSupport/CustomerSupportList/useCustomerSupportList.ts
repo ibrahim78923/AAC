@@ -159,5 +159,6 @@ export const useCustomerSupportList = (props: { status?: string }) => {
     deleteLoading,
     feedbackDropdownOption,
     handleTitleClick,
+    handleFeedbackList,
   };
 };

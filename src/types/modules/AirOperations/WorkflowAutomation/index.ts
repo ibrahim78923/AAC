@@ -123,7 +123,6 @@ export interface WorkflowI {
 export interface WorkflowListHeaderI {
   selectedList: boolean;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  search: string;
   onSubmitListFilter: (data: any) => Promise<void>;
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
