@@ -27,11 +27,13 @@ export const useChartEditor = (props: ChartEditorI) => {
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
-  const chartTitle = watch('chartTitle');
-  const xAxisData = watch('xAxis');
-  const xAxisType = watch('xAxisType');
-  const subFilter = watch('subFilter');
-  const chartType = watch('chartType');
+  const [chartTitle, subFilter, chartType, xAxisData, xAxisType] = watch([
+    'chartTitle',
+    'subFilter',
+    'chartType',
+    'xAxis',
+    'xAxisType',
+  ]);
   const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
 
   const handleSave = () => {

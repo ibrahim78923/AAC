@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react';
 export const useDraggableFields = (props: DraggableFieldsI) => {
   const { selectedModule, data } = props;
   const theme: Theme = useTheme();
-  const singleReportModule = (data as any)?.data?.results?.genericReports
-    ?.module;
+  const singleReportModule = (data as any)?.data?.genericReport?.module;
   const getDefaultModule = () => {
     switch (selectedModule) {
       case GENERIC_REPORT_MODULES?.SERVICES:

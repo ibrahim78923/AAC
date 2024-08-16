@@ -22,6 +22,10 @@ export const useCounter = (props: CounterI) => {
         ticketCount: draggedItemData?.ticketCount,
         title: draggedItemData?.title,
         templateType: draggedItemData?.type,
+        fieldName: draggedItemData?.fieldName ? draggedItemData?.fieldName : '',
+        fieldValue: draggedItemData?.fieldValue
+          ? draggedItemData?.fieldValue
+          : '',
       },
     ]);
     setFieldData(false);

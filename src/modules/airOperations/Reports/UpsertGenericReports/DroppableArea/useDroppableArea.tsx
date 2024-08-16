@@ -56,6 +56,8 @@ export const useDroppableArea = (props: DroppableAreaI) => {
           templateType: chartToCopy?.templateType,
           reportType: REPORT_TYPE?.COUNTER,
           type: chartToCopy?.type,
+          fieldName: chartToCopy?.fieldName,
+          fieldValue: chartToCopy?.fieldValue,
         },
       ]);
     } else if (chartToCopy?.type === REPORT_TYPE?.TABLE) {

@@ -96,7 +96,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   useEffect(() => {
     if (allUsersData) {
       const matchedUsersData = allUsersData?.map((user: any) => ({
-        _id: user?._id,
+        _id: user?.id,
         firstName: user?.userDetails?.firstName ?? null,
         lastName: user?.userDetails?.lastName ?? null,
         permission: user?.access,
@@ -310,8 +310,10 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
             }),
             ...(item?.reportType === REPORT_TYPE?.COUNTER && {
               templateText: {
-                fieldType: FIELD_TYPE?.STATIC,
-                fieldName: item?.title,
+                fieldType: FIELD_TYPE?.STRING,
+                fieldName: item?.fieldName,
+                status: item?.fieldValue,
+                countFieldName: item?.title,
               },
             }),
             isDateFilter: item?.subFilter ?? false,

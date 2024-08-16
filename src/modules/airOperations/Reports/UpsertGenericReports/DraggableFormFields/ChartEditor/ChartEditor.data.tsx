@@ -7,7 +7,6 @@ export const xAxesDataArray: any = {
       value: 'inventory_assetType',
       ref: COLLECTION_NAME?.ASSET_TYPES,
     },
-    { label: 'Status', value: 'status', ref: null },
     {
       label: 'Inventory Location',
       value: 'inventory_locationId',

@@ -263,6 +263,8 @@ export default function useUpsertGenericReports() {
               ticketCount: index,
               title: item?.title,
               templateType: REPORT_TYPE?.TEMPLATE_TEXT,
+              fieldName: item?.templateText?.fieldName,
+              fieldValue: item?.templateText?.status,
             };
           }
           return null;
