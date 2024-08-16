@@ -141,15 +141,15 @@ export const softwareLicense = {
   licenseKey: '',
 };
 export const upsertContractFormDefaultValuesFunction: any = (
-  software?: any,
   data?: any,
+  softwareFind?: any,
 ) => {
   return {
     contractName: data?.contractName ?? '',
     contractNumber: data?.contractNumber ?? '',
-    type: data?.type ?? {
-      _id: CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      label: 'SOFTWARE_LICENSE',
+    type: data?.contractTypeData ?? {
+      _id: softwareFind?._id,
+      name: softwareFind?.name,
     },
     cost: data?.cost ?? 0,
     status: data?.status ?? {
@@ -170,7 +170,7 @@ export const upsertContractFormDefaultValuesFunction: any = (
     billingCycle: data?.billingCycle ?? softwareLicense?.billingCycle,
     licenseType: data?.licenseType ?? softwareLicense?.licenseType,
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
-    software: software?.[0] ?? softwareLicense?.software,
+    software: data?.[0] ?? softwareLicense?.software,
     attachFile: null,
   };
 };
@@ -253,6 +253,7 @@ export const upsertContractFormFieldsDataFunction = (
   apiQueryVendor: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
+  apiContractType: any,
 ) => [
   {
     id: 1,
@@ -278,16 +279,15 @@ export const upsertContractFormFieldsDataFunction = (
   {
     id: 4,
     componentProps: {
-      fullWidth: true,
       name: 'type',
       label: 'Type',
-      options: contractTypeOptions,
+      apiQuery: apiContractType,
       disabled: true,
-      getOptionLabel: (option: any) => option?.label,
       required: true,
+      externalParams: { meta: false },
     },
     md: 6,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 6,

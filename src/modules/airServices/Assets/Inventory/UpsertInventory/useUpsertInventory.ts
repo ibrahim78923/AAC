@@ -134,6 +134,9 @@ export const useUpsertInventory = () => {
       getDynamicFormData();
       prevAssetTypeWatch.current = assetTypeWatch;
     }
+    if (!assetTypeWatch) {
+      setForm([]);
+    }
   }, [assetTypeWatch]);
 
   useEffect(() => {
