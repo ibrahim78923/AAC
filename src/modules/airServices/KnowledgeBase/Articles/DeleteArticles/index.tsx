@@ -12,7 +12,7 @@ export const DeleteArticles = (props: ArticlesPortalComponentPropsI) => {
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}
       message="Do you want to delete the selected article?"
-      open={isPortalOpen?.isDelete}
+      open={isPortalOpen?.isDelete as boolean}
       handleClose={() => closeArticleDeleteModal?.()}
       handleSubmitBtn={() => deleteArticles?.()}
       loading={deleteArticleStatus?.isLoading}

@@ -25,7 +25,7 @@ export const useDeleteArticles = (props: ArticlesPortalComponentPropsI) => {
     const deleteParams = new URLSearchParams();
 
     selectedArticlesData?.forEach(
-      (article: any) => deleteParams?.append('ids', article?._id),
+      (article: { _id: string }) => deleteParams?.append('ids', article?._id),
     );
 
     const deleteArticlesParameter = {

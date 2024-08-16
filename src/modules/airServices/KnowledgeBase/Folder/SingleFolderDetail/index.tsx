@@ -14,9 +14,13 @@ export const SingleFolderDetail = (props: ArticlesPortalComponentPropsI) => {
   if (isLoading || isFetching) return <Skeleton height="10vh" />;
   if (isError)
     return (
-      <ApiErrorState height="10vh" canRefresh refresh={() => refetch?.()} />
+      <>
+        <Box maxHeight={'40vh'} overflow="auto">
+          <ApiErrorState height="100%" canRefresh refresh={() => refetch?.()} />
+        </Box>
+        <br />
+      </>
     );
-
   return (
     <>
       <Typography
