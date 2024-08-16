@@ -144,6 +144,7 @@ const Notes = ({ contactId }: any) => {
                     variant="contained"
                     sx={{ height: '35px' }}
                     startIcon={<PlusIcon />}
+                    onClick={handleOpenDrawerAddNote}
                   >
                     Add Notes
                   </Button>

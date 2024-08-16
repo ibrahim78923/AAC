@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 import useRestore from './useRestore';
 import ContactsActions from '../ContactsActions';
-import { BackArrIcon, FilterIcon } from '@/assets/icons';
+import { BackArrIcon, FilterIcon, RefreshSharedIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 import { restoreTableColumns } from './RestoreTable.data';
 import RestoreModal from './RestoreModal';
@@ -41,6 +41,7 @@ const Restore = () => {
     handleCloseModalRestore,
     loadingRestore,
     theme,
+    handleRefresh,
   } = useRestore();
 
   const columns = restoreTableColumns(selectedRow, setSelectedRow);
@@ -112,6 +113,16 @@ const Restore = () => {
             openDelete={handleOpenModalDelete}
             openRestoreModal={handleOpenModalRestore}
           />
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              className="small"
+              onClick={handleRefresh}
+              color="inherit"
+              variant="outlined"
+            >
+              <RefreshSharedIcon />
+            </Button>
+          </Tooltip>
           <Button
             className="small"
             startIcon={<FilterIcon />}

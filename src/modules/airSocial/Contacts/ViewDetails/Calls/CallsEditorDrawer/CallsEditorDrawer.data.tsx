@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 export const editCallValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   contactOwnerId: Yup?.string()?.trim()?.required('Field is Required'),
-  // assignee: Yup?.string()?.trim()?.required('Field is Required'),
   note: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
