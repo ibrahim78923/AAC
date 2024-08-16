@@ -22,8 +22,9 @@ import { NoAssociationFoundImage } from '@/assets/images';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
+import { TanstackTablePropsI } from './TanstackTable.interface';
 
-const TanstackTable = (props: any) => {
+const TanstackTable = (props: TanstackTablePropsI) => {
   const {
     columns = [],
     data = [],

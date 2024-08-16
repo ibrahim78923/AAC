@@ -1,12 +1,15 @@
 import { NoAssociationFoundImage } from '@/assets/images';
 import { Typography, Box, Avatar } from '@mui/material';
+import { NoDataPropsI } from './NoData.interface';
 
-const NoData = ({
-  image = NoAssociationFoundImage,
-  message = 'No data found',
-  children,
-  height = '70vh',
-}: any) => {
+const NoData = (props: NoDataPropsI) => {
+  const {
+    image = NoAssociationFoundImage,
+    message = 'No data found',
+    children,
+    height = '70vh',
+  } = props;
+
   return (
     <Box
       height={height}

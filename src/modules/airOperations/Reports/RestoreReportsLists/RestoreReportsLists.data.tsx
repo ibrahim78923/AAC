@@ -8,16 +8,22 @@ import {
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { Dispatch, SetStateAction } from 'react';
+import {
+  RestoreReportListsIsPortalOpenI,
+  RestoreReportListsTableRowI,
+} from './RestoreReportsLists.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const actionsForRestoreReportListsDynamic = (
-  setIsPortalOpen: any,
+  setIsPortalOpen: Dispatch<SetStateAction<RestoreReportListsIsPortalOpenI>>,
   permissions: any,
 ) => [
   {
     id: 1,
     title: 'Restore',
     permissionKey: permissions,
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen?.({
         isRestore: true,
         isOpen: true,
@@ -29,7 +35,7 @@ export const actionsForRestoreReportListsDynamic = (
     id: 2,
     title: 'Delete',
     permissionKey: permissions,
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },
@@ -37,12 +43,12 @@ export const actionsForRestoreReportListsDynamic = (
 ];
 
 export const restoreReportColumnsDynamic = (
-  selectedReportList?: any,
-  setSelectedReportList?: any,
+  selectedReportList: any,
+  setSelectedReportList: Dispatch<SetStateAction<any>>,
   totalReports: any = [],
 ) => [
   {
-    accessorFn: (row: any) => row?._id,
+    accessorFn: (row: RestoreReportListsTableRowI) => row?._id,
     id: '_id',
     cell: (info: any) => (
       <Checkbox
@@ -89,14 +95,14 @@ export const restoreReportColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: RestoreReportListsTableRowI) => row?.name,
     id: 'name',
     isSortable: true,
     header: 'Reports Name',
     cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.deletedBy,
+    accessorFn: (row: RestoreReportListsTableRowI) => row?.deletedBy,
     id: 'user',
     isSortable: true,
     header: 'Deleted By',
@@ -121,7 +127,7 @@ export const restoreReportColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.deletedAt,
+    accessorFn: (row: RestoreReportListsTableRowI) => row?.deletedAt,
     id: 'deletedAt',
     isSortable: true,
     header: 'Time Deleted',

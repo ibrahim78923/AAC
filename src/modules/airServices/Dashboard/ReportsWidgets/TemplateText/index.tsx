@@ -2,8 +2,7 @@ import { Box, Chip, Typography } from '@mui/material';
 import { pxToRem } from '@/utils/getFontValue';
 
 export const TemplateText = (props: any) => {
-  const { totalCount = 0, title = '' } = props;
-
+  const { title = '', data } = props;
   return (
     <Box
       boxShadow={1}
@@ -21,7 +20,7 @@ export const TemplateText = (props: any) => {
       </Typography>
       <Chip
         color="primary"
-        label={totalCount}
+        label={data?.[title] ?? 0}
         sx={{
           fontSize: pxToRem(16),
           fontWeight: 500,

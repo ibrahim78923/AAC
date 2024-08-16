@@ -17,8 +17,10 @@ import { LoadingButton } from '@mui/lab';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { useState } from 'react';
 import { ExportReportIcon } from '@/assets/icons';
+import { errorSnackbar } from '@/utils/api';
+import { ExportModalPropsI } from './ExportModal.interface';
 
-export const ExportModal = (props: any) => {
+export const ExportModal = (props: ExportModalPropsI) => {
   const { open, onSubmit, handleClose } = props;
   const [exportType, setExportType] = useState('');
   return (
@@ -97,6 +99,8 @@ export const ExportModal = (props: any) => {
           <LoadingButton
             variant="contained"
             onClick={() => {
+              if (!!!exportType)
+                return errorSnackbar('Please select a file format to export');
               onSubmit?.(exportType);
               setExportType?.('');
             }}

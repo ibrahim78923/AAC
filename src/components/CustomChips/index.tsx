@@ -1,8 +1,9 @@
 import { Box, Chip, Typography } from '@mui/material';
 import { CustomTooltip } from '../CustomTooltip';
 import { truncateText } from '@/utils/avatarUtils';
+import { CustomChipsPropsI } from './CustomChips.interface';
 
-export const CustomChips = (props: any) => {
+export const CustomChips = (props: CustomChipsPropsI) => {
   const { data = [], truncateTextLength = 10, sliceArray = 2 } = props;
   return (
     <>

@@ -7,7 +7,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRestoreReportsLists } from './useRestoreReportsLists';
 import { TIME_TO_RESTORE_DELETED_RECORD } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { RestoreReportsListsPropsI } from '../Reports.interface';
+import { RestoreReportsListsPropsI } from './RestoreReportsLists.interface';
 
 export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
   const { goBack, permissions } = props;
@@ -108,7 +108,7 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
           isFetching={lazyGetRestoreReportsListStatus?.isFetching}
           isError={lazyGetRestoreReportsListStatus?.isError}
           isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
         />
       </Box>

@@ -1,7 +1,8 @@
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
+import { ApiErrorStatePropsI } from './ApiErrorState.interface';
 
-const ApiErrorState = (props: any) => {
+const ApiErrorState = (props: ApiErrorStatePropsI) => {
   const {
     height = '50vh',
     textColor = 'slateBlue.main',
