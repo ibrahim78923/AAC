@@ -1,11 +1,11 @@
 import { Box, Button } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useAssociatedAssets } from './useAssociatedAssets';
 import { AddAsset } from './AddAsset';
 import { Fragment } from 'react';
+import { PlusSharedColorIcon } from '@/assets/icons';
 
 export const AssociatedAssets = () => {
   const {
@@ -25,8 +25,9 @@ export const AssociatedAssets = () => {
     <Fragment>
       <Box textAlign={'end'} mb={2}>
         <Button
-          startIcon={<AddCircleIcon />}
-          color={'secondary'}
+          startIcon={<PlusSharedColorIcon />}
+          color={'primary'}
+          variant={'contained'}
           onClick={() => setAddModalOpen?.(true)}
         >
           Add Asset

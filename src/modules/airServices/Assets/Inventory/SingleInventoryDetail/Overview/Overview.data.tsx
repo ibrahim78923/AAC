@@ -5,7 +5,10 @@ import dayjs from 'dayjs';
 export const overviewDataArray = (inventoryData: any) => {
   const predefinedFields = {
     'Asset Type': inventoryData?.assetTypeDetails?.name ?? '---',
-    Department: inventoryData?.departmentDetails?.name ?? '---',
+    Department: inventoryData?.departmentDetails?.name
+      ? inventoryData.departmentDetails.name.charAt(0).toUpperCase() +
+        inventoryData.departmentDetails.name.slice(1)
+      : '---',
     'End of Life':
       dayjs(inventoryData?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ?? '---',
     Impact: inventoryData?.impact ?? '---',

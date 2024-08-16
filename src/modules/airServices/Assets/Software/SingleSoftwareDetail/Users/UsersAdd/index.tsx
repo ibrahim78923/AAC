@@ -6,11 +6,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import useUsersAdd from './useUsersAdd';
 import { LoadingButton } from '@mui/lab';
+import { PlusSharedColorIcon } from '@/assets/icons';
 
 export const UsersAdd = () => {
   const {
@@ -30,8 +30,9 @@ export const UsersAdd = () => {
           <Grid item xs={12}>
             <Button
               onClick={openModal}
-              startIcon={<AddCircleIcon />}
-              color="secondary"
+              startIcon={<PlusSharedColorIcon />}
+              color="primary"
+              variant="contained"
             >
               Add User
             </Button>

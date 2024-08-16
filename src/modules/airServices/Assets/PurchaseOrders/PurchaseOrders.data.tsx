@@ -69,6 +69,8 @@ export const purchaseOrderColumnsFunction = (
       cell: (info: any) => (
         <Typography
           component="span"
+          variant="body2"
+          textTransform={'capitalize'}
           onClick={() =>
             router?.push({
               pathname: AIR_SERVICES?.ASSETS_PURCHASE_ORDER_DETAIL,
@@ -80,7 +82,7 @@ export const purchaseOrderColumnsFunction = (
           color="custom.bright"
           sx={{ cursor: 'pointer' }}
         >
-          {info?.getValue()}
+          {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),
     },
@@ -89,7 +91,11 @@ export const purchaseOrderColumnsFunction = (
       id: 'orderName',
       header: 'Order Name',
       isSortable: true,
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.vendors,

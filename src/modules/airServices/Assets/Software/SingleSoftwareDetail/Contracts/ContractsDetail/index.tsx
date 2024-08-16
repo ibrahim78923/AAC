@@ -1,7 +1,7 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
-import { AddCircleBlackIcon } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { contractsTableColumns } from './ContractsDetail.data';
 import { useContractDetail } from './useContractDetail';
@@ -41,8 +41,9 @@ export const ContractsDetails = () => {
           setSearchBy={setSearchBy}
         />
         <Button
-          startIcon={<AddCircleBlackIcon />}
-          color="secondary"
+          startIcon={<PlusSharedColorIcon />}
+          color="primary"
+          variant="contained"
           size="large"
           onClick={() =>
             router?.push({
