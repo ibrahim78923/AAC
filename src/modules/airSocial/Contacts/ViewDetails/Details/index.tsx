@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import {
   Box,
   Typography,
@@ -18,6 +19,7 @@ import Loader from '@/components/Loader';
 import { generateImage } from '@/utils/avatarUtils';
 import { useRouter } from 'next/router';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import { AlertModals } from '@/components/AlertModals';
 
 const Details = () => {
   const router = useRouter();
@@ -36,7 +38,13 @@ const Details = () => {
     fetchingContactById,
     contactData,
     orgId,
+    handleChangeUploadPhoto,
+    isOpenRemoveImageDialog,
+    handleOpenRemoveImageDialog,
+    handleCloseRemoveImageDialog,
+    handleRemoveAvatar,
   } = useDetails();
+  // console.log('contactData', contactData);
 
   const detailsFormFields = detailsDataArray(
     orgId,
@@ -106,8 +114,28 @@ const Details = () => {
               horizontal: 'left',
             }}
           >
-            <MenuItem onClick={handleClose}>Upload Image</MenuItem>
-            <MenuItem onClick={handleClose}>Remove Image</MenuItem>
+            <MenuItem
+              disabled={contactData?.profilePicture}
+              component="label"
+              htmlFor="upload-photo"
+            >
+              Upload Image
+              <input
+                type="file"
+                id="upload-photo"
+                style={{ display: 'none' }}
+                accept="image/png, image/gif, image/jpeg, image/webp"
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeUploadPhoto(e)
+                }
+              />
+            </MenuItem>
+            <MenuItem
+              disabled={!contactData?.profilePicture}
+              onClick={handleOpenRemoveImageDialog}
+            >
+              Remove Image
+            </MenuItem>
           </Menu>
         </Box>
         <Box sx={styles.horizontalTabsInnnerBox}>
@@ -184,7 +212,19 @@ const Details = () => {
           </Grid>
         </Box>
       </Box>
-      <Loader isLoading={loadingContactById || fetchingContactById} />
+      <AlertModals
+        message={`Are you sure you want to remove it?`}
+        type="delete"
+        open={isOpenRemoveImageDialog}
+        handleClose={handleCloseRemoveImageDialog}
+        handleSubmitBtn={handleRemoveAvatar}
+        // loading={loading}
+      />
+      <Loader
+        isLoading={
+          loadingContactById || fetchingContactById || loadingUpdateDetail
+        }
+      />
     </>
   );
 };

@@ -392,6 +392,7 @@ export const END_POINTS = {
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
   LEAD_CAPTURE_CTA: '/lead-capture-cta',
+  CTA_ADD_VIEW_CLICK_COUNT: '/lead-capture-cta/addViewOrClickCount',
   DELETE_LEAD_CAPTURE_CTA: '/lead-capture-cta/multiple',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,

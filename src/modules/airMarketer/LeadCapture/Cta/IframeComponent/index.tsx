@@ -1,6 +1,9 @@
 import React from 'react';
+import { BASE_URL } from '@/config';
+import { END_POINTS } from '@/routesConstants/endpoints';
 
 const IframeComponent = ({
+  ctaId,
   buttonUrl,
   styles,
   buttonContent,
@@ -9,7 +12,8 @@ const IframeComponent = ({
   imgWidth,
   imgHeight,
 }: any) => {
-  const ctaHtml = `<a class="cta-link" target="_blank" href="${buttonUrl}">
+  const endPoint = `${BASE_URL}${END_POINTS?.CTA_ADD_VIEW_CLICK_COUNT}`;
+  const ctaHtml = `<button id="ctaButton" class="ctaButton">
     ${
       buttonContent instanceof File
         ? `<img
@@ -20,7 +24,7 @@ const IframeComponent = ({
       />`
         : buttonContent
     }
-    </a>
+    </button>
   `;
 
   const htmlDocument = `
@@ -36,11 +40,50 @@ const IframeComponent = ({
             padding: 0;
             background-color: transparent;
           }
-          .cta-link ${styles}
+          .ctaButton ${styles}
         </style>
     </head>
     <body>
       ${ctaHtml}
+
+      <script>
+        const ctaBtn = document.getElementById('ctaButton');
+        const reqUrl = '${endPoint}/${ctaId}';
+        
+        const requestUpdateClickCount = (actionType) => {
+          const payload = {
+            actionType: actionType,
+          };
+
+          fetch(reqUrl, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          })
+          .then(response => {
+            if (response.ok) {
+                console.log('Resource updated successfully!');
+            } else {
+                console.error('Error updating resource:', response.status);
+            }
+          })
+          .catch(error => {
+              console.error('Fetch error:', error);
+          });
+        }
+
+        ctaBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          requestUpdateClickCount('clickCount');
+          window.open('${buttonUrl}', '_blank');
+        });
+
+        // Add view count on page load
+        requestUpdateClickCount('viewCount');
+        
+      </script>
     </body>
   </html>`;
 

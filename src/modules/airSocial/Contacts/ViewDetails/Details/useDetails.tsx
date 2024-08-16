@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -44,14 +44,14 @@ const useDetails = () => {
   // Update Contact Details
   const [updateDetails, { isLoading: loadingUpdateDetail }] =
     useUpdateContactMutation();
-  const methodsDetails = useForm({
+  const methodsDetails = useForm<any>({
     resolver: yupResolver(detailsValidationSchema),
     defaultValues: detailsDefaultValues,
   });
 
   const { handleSubmit, setValue } = methodsDetails;
 
-  const contactData: any = dataGetContactById?.data;
+  const contactData = dataGetContactById?.data;
   const contactName = () => {
     let name = '';
     if (dataGetContactById && contactData) {
@@ -70,7 +70,6 @@ const useDetails = () => {
 
   useEffect(() => {
     if (contactData) {
-      // setValue('profilePicture', contactData?.profilePicture?.url);
       setValue('firstName', contactData?.firstName);
       setValue('lastName', contactData?.lastName);
       setValue('email', contactData?.email);
@@ -133,6 +132,55 @@ const useDetails = () => {
     onSubmitUpdateContactDetail,
   );
 
+  const handleChangeUploadPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
+    handleClose();
+    if (e?.target?.files?.length) {
+      const formData = new FormData();
+      formData?.append('profilePicture', e?.target?.files[0]);
+      try {
+        await updateDetails({
+          id: router?.query?.contactId,
+          body: formData,
+        })?.unwrap();
+        enqueueSnackbar('Profile photo uploaded successfully', {
+          variant: 'success',
+        });
+      } catch (error: unknown) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
+  };
+
+  const [isOpenRemoveImageDialog, setIsOpenRemoveImageDialog] = useState(false);
+  const handleOpenRemoveImageDialog = () => {
+    handleClose();
+    setIsOpenRemoveImageDialog(true);
+  };
+  const handleCloseRemoveImageDialog = () => {
+    setIsOpenRemoveImageDialog(false);
+  };
+
+  const handleRemoveAvatar = async () => {
+    const formData = new FormData();
+    formData.append('removeAvatar', 'true');
+    try {
+      await updateDetails({
+        id: router?.query?.contactId,
+        body: formData,
+      })?.unwrap();
+      enqueueSnackbar('Profile photo removed successfully', {
+        variant: 'success',
+      });
+      handleCloseRemoveImageDialog();
+    } catch (error: unknown) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     theme,
     methodsDetails,
@@ -151,6 +199,11 @@ const useDetails = () => {
     fetchingContactById,
     contactData,
     orgId,
+    handleChangeUploadPhoto,
+    isOpenRemoveImageDialog,
+    handleOpenRemoveImageDialog,
+    handleCloseRemoveImageDialog,
+    handleRemoveAvatar,
   };
 };
 
