@@ -139,8 +139,9 @@ const AccountMenu = () => {
         sx={{
           marginTop: '20px',
           '& .MuiPopover-paper': {
-            height: '93vh',
+            height: 'auto',
             width: '450px',
+            pb: 4,
           },
         }}
       >
@@ -162,6 +163,30 @@ const AccountMenu = () => {
             </Typography>
           </Box>
           <Box>
+            {user?.role === ROLES?.ORG_ADMIN && (
+              <>
+                {accountsData?.data?.length && (
+                  <Box
+                    sx={{
+                      px: 4,
+                      mt: 3,
+                      pb: 2,
+                      borderTop: `1px solid ${theme?.palette?.grey[400]}`,
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        router.push(ORG_ADMIN?.DASHBOARD);
+                      }}
+                    >
+                      Organization Admin portal
+                    </Button>
+                  </Box>
+                )}
+              </>
+            )}
+
             {!isNullOrEmpty(accountsData) &&
               accountsData?.data?.map((item) => {
                 return (
@@ -228,30 +253,6 @@ const AccountMenu = () => {
                   </Box>
                 );
               })}
-
-            {user?.role === ROLES?.ORG_ADMIN && (
-              <>
-                {accountsData?.data?.length && (
-                  <Box
-                    sx={{
-                      px: 4,
-                      mt: 3,
-                      pb: 2,
-                      borderTop: `1px solid ${theme?.palette?.grey[400]}`,
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        router.push(ORG_ADMIN?.DASHBOARD);
-                      }}
-                    >
-                      Organization Admin portal
-                    </Button>
-                  </Box>
-                )}
-              </>
-            )}
           </Box>
         </>
       </Popover>
