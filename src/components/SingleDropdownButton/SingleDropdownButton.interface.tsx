@@ -1,7 +1,7 @@
 export interface SingleDropdownButtonPropsI {
   dropdownOptions: any[];
   disabled?: boolean;
-  dropdownName?: string;
+  dropdownName?: string | JSX.Element;
   hasEndIcon?: boolean;
   btnVariant?: string;
   Variant?: any;

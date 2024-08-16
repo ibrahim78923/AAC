@@ -18,8 +18,9 @@ import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { IDepartmentsProps } from '../Departments.interface';
 
-export const UpsertDepartment = (props: any) => {
+export const UpsertDepartment = (props: IDepartmentsProps) => {
   const { openUpsertModal, selectedDepartment } = props;
   const {
     handleClose,
@@ -36,7 +37,7 @@ export const UpsertDepartment = (props: any) => {
 
   return (
     <Dialog
-      open={openUpsertModal}
+      open={openUpsertModal as boolean}
       onClose={handleClose}
       maxWidth={'sm'}
       fullWidth

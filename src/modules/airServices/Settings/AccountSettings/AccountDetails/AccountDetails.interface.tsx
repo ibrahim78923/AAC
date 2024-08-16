@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IProfileDetail {
   _id?: string;
   firstName?: string;
@@ -71,5 +73,19 @@ export interface IPropsAccountDetails {
 export interface IErrorResponse {
   data?: {
     message?: string;
+  };
+}
+
+export interface IComponentProps {
+  name?: string;
+  label?: string;
+  size?: 'small' | 'medium';
+  required?: boolean;
+  type?: 'text' | 'password';
+  disabled?: boolean;
+  options?: any[];
+  getOptionLabel?: (option: any) => string;
+  InputProps?: {
+    endAdornment?: ReactNode;
   };
 }

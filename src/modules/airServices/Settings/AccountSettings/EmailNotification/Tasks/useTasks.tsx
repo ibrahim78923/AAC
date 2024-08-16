@@ -5,11 +5,11 @@ import {
 } from '@/services/airServices/settings/account-settings/email-notification';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
-import { IAuth } from '../EmailNotification.interface';
+import { IAuth, ISwitchLoadingState } from '../EmailNotification.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 
 export default function useTasks() {
-  const [switchLoading, setSwitchLoading] = useState<any>({});
+  const [switchLoading, setSwitchLoading] = useState<ISwitchLoadingState>({});
 
   const auth: IAuth = useAuth();
   const { _id: accountId } = auth?.product?.accounts?.[ARRAY_INDEX?.ZERO];

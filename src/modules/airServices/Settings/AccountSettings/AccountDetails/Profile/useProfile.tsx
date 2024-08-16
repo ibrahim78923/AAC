@@ -6,7 +6,11 @@ import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
-import { IAuth, IPropsAccountDetails } from '../AccountDetails.interface';
+import {
+  IAuth,
+  IErrorResponse,
+  IPropsAccountDetails,
+} from '../AccountDetails.interface';
 
 export const useProfile = (props: IPropsAccountDetails) => {
   const { profileDetail } = props;
@@ -40,11 +44,12 @@ export const useProfile = (props: IPropsAccountDetails) => {
       },
     };
     try {
-      const res: any = await patchProfileDetailTrigger(payload)?.unwrap();
+      const res = await patchProfileDetailTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Account Details Update Successfully');
       reset(profileDefaultValues(null));
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   const handleMoveBack = () => {

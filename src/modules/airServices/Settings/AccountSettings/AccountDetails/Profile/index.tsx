@@ -4,6 +4,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useProfile } from './useProfile';
 import { LoadingButton } from '@mui/lab';
 import { IPropsAccountDetails } from '../AccountDetails.interface';
+import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
 
 export const Profile = (props: IPropsAccountDetails) => {
   const { isLoading, profileMethods, handleSubmitProfile, handleCancel } =
@@ -15,7 +16,7 @@ export const Profile = (props: IPropsAccountDetails) => {
         Work Information
       </Typography>
       <Grid container spacing={2}>
-        {profileWorkDataArray?.map((item: any) => (
+        {profileWorkDataArray?.map((item: IProfileWorkData) => (
           <Grid item xs={12} md={item?.gridLength} key={item?._id}>
             <item.component {...item?.componentProps} />
           </Grid>
@@ -26,7 +27,7 @@ export const Profile = (props: IPropsAccountDetails) => {
         Other Information
       </Typography>
       <Grid container spacing={2}>
-        {profileOtherDataArray?.map((item: any) => (
+        {profileOtherDataArray?.map((item: IProfileOtherData) => (
           <Grid item xs={12} md={item?.gridLength} key={item?._id}>
             <item.component {...item?.componentProps} />
           </Grid>

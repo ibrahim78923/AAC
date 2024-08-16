@@ -2,6 +2,7 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
+import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
 
 export const profileValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
@@ -62,7 +63,7 @@ export const profileDefaultValues = (profileDetail: any) => {
   };
 };
 
-export const profileWorkDataArray = [
+export const profileWorkDataArray: IProfileWorkData[] = [
   {
     _id: 2786,
     gridLength: 6,
@@ -134,7 +135,7 @@ export const profileWorkDataArray = [
   },
 ];
 
-export const profileOtherDataArray = [
+export const profileOtherDataArray: IProfileOtherData[] = [
   {
     _id: 7867,
     gridLength: 6,

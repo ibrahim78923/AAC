@@ -16,9 +16,10 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { IDepartmentsProps } from '../Departments.interface';
 
-export const DepartmentCard = (props: any) => {
-  const { handleAddMember, item, departmentActionDropdown }: any = props;
+export const DepartmentCard = (props: IDepartmentsProps) => {
+  const { handleAddMember, item, departmentActionDropdown } = props;
   const theme = useTheme();
   return (
     <>

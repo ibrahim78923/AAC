@@ -17,3 +17,7 @@ interface IAuthProduct {
 export interface IAuth {
   product?: IAuthProduct | any;
 }
+
+export interface ISwitchLoadingState {
+  [key: string]: boolean;
+}

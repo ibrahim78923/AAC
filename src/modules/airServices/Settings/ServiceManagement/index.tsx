@@ -4,6 +4,7 @@ import { serviceManagement } from './ServiceManagement.data';
 import { useGetClosureRulesQuery } from '@/services/airServices/settings/service-management/closureRule';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ISettingsCards } from '../Settings.interface';
 
 export const ServiceManagement = () => {
   const theme = useTheme();
@@ -15,7 +16,7 @@ export const ServiceManagement = () => {
       <Typography variant="h3">Service Management</Typography>
       <br />
       <Grid container spacing={3}>
-        {serviceManagement?.map((item: any) => (
+        {serviceManagement?.map((item: ISettingsCards) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
             <Grid item md={6} lg={4} xs={12}>
               <Box

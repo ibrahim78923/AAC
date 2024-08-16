@@ -5,6 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import * as Yup from 'yup';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { IFieldConfig } from './ChangePassword.interface';
 
 export const changePasswordValidationSchema = Yup?.object()?.shape({
   currentPassword: Yup?.string()
@@ -32,7 +33,7 @@ export const changePasswordDefaultValues = {
 export const changePasswordDataArray = (
   showPassword: boolean[],
   togglePasswordVisibility: (index: number) => void,
-) => [
+): IFieldConfig[] => [
   {
     _id: 2786,
     gridLength: 6,
