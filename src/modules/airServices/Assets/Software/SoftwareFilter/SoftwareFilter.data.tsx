@@ -5,8 +5,11 @@ import {
   softwareStatusOptions,
   softwareTypeOptions,
 } from '../Software.data';
+import { SoftwareFilterValues } from './SoftwareFilter.interface';
 
-export const softwareFilterDefaultValues = (filterValues: any) => {
+export const softwareFilterDefaultValues = (
+  filterValues: SoftwareFilterValues,
+) => {
   return {
     type: filterValues?.type ?? null,
     status: filterValues?.status ?? null,

@@ -1,6 +1,14 @@
 import { AlertModals } from '@/components/AlertModals';
 
-export const DeleteExpense = ({ deleteExpenseProps }: any) => {
+export const DeleteExpense = ({
+  deleteExpenseProps,
+}: {
+  deleteExpenseProps: {
+    isDeleteExpenseModalOpen: boolean;
+    setIsDeleteExpenseModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    handleDelete: () => void;
+  };
+}) => {
   const {
     isDeleteExpenseModalOpen,
     setIsDeleteExpenseModalOpen,

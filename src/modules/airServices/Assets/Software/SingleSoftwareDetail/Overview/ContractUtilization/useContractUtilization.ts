@@ -2,10 +2,12 @@ import { useGetAssetsSoftwareContractUtilizationQuery } from '@/services/airServ
 import { useTheme } from '@mui/material';
 import { useDrawingArea } from '@mui/x-charts';
 import { useSearchParams } from 'next/navigation';
+import { ContractUtilizationI } from './ContractUtilization.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
 
-export const useContractUtilization = (props: any) => {
+export const useContractUtilization = (props: ContractUtilizationI) => {
   const { contractUtilizationData, contractUtilizationLabel } = props;
-  const theme: any = useTheme();
+  const theme = useTheme();
   const { width, height, left, top } = useDrawingArea();
   const searchParams = useSearchParams();
   const softwareId = searchParams?.get('softwareId');
@@ -16,24 +18,41 @@ export const useContractUtilization = (props: any) => {
     });
 
   const transformDataIfAllZero = (contractUtilizationData: any) => {
-    const inActiveUsers = data?.data?.[0]?.inActiveUsers;
-    const inActiveContracts = data?.data?.[0]?.inActiveContracts;
+    const inActiveUsers = data?.data?.[ARRAY_INDEX?.ZERO]?.inActiveUsers;
+    const inActiveContracts =
+      data?.data?.[ARRAY_INDEX?.ZERO]?.inActiveContracts;
     const transformableData = {
       inActiveContracts: inActiveContracts,
       inActiveUsers: inActiveUsers,
     };
-    const allZero = Object.values(transformableData).every(
+    const allZero = Object?.values(transformableData)?.every(
       (value) => value === 0,
     );
     return allZero
-      ? contractUtilizationData?.map((item: any, index: any) => ({
-          ...item,
-          value: index === 0 ? 1e-10 : 1e-10,
-        }))
-      : contractUtilizationData?.map((item: any, index: any) => ({
-          ...item,
-          value: index === 0 ? inActiveUsers : inActiveContracts,
-        }));
+      ? contractUtilizationData?.map(
+          (
+            item: {
+              textLabel: string;
+              heading: string;
+            },
+            index: number,
+          ) => ({
+            ...item,
+            value: index === 0 ? 1e-10 : 1e-10,
+          }),
+        )
+      : contractUtilizationData?.map(
+          (
+            item: {
+              textLabel: string;
+              heading: string;
+            },
+            index: number,
+          ) => ({
+            ...item,
+            value: index === 0 ? inActiveUsers : inActiveContracts,
+          }),
+        );
   };
   return {
     contractUtilizationData,

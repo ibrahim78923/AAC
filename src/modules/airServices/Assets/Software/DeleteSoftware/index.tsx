@@ -1,7 +1,10 @@
 import { AlertModals } from '@/components/AlertModals';
 import { useDeleteSoftware } from './useDeleteSoftware';
 
-export const DeleteSoftware = (props: any) => {
+export const DeleteSoftware: React.FC<{
+  deleteModalOpen: boolean;
+  setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (props) => {
   const { deleteModalOpen, setDeleteModalOpen } = props;
   const { deleteSoftwareStatus, deleteSoftware } = useDeleteSoftware(props);
   return (

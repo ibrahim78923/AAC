@@ -10,8 +10,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useSoftwareAssignCategory } from './useSoftwareAssignCategory';
 import { LoadingButton } from '@mui/lab';
+import { SoftwareAssignCategoryI } from './SoftwareAssignCategory.interface';
 
-export const SoftwareAssignCategory = (params: any) => {
+export const SoftwareAssignCategory: React.FC<SoftwareAssignCategoryI> = (
+  params,
+) => {
   const { openAssignModal, setOpenAssignModal } = params;
   const {
     onSubmit,

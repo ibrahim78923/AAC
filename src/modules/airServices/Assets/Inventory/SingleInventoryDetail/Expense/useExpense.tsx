@@ -17,9 +17,13 @@ import {
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { ExpenseI } from './Expense.interface';
 
 export const useExpense = () => {
-  const [selectedExpenseList, setSelectedExpenseList] = useState([]);
+  const [selectedExpenseList, setSelectedExpenseList] = useState<ExpenseI[]>(
+    [],
+  );
   const [addExpenseModalTitle, setAddExpenseModalTitle] =
     useState('Add New Expense');
 
@@ -53,7 +57,7 @@ export const useExpense = () => {
     reset(addExpenseDefaultValues(selectedExpenseList));
   }, [selectedExpenseList, reset]);
 
-  const expenseId = selectedExpenseList?.map((expense: any) => expense?._id);
+  const expenseId = selectedExpenseList?.map((expense) => expense?._id);
   const handleAddExpenseModal = (isOpen?: boolean) => {
     if (isOpen) {
       setAddExpenseModalTitle('Add New Expense');
@@ -108,8 +112,8 @@ export const useExpense = () => {
       errorSnackbar(`Can't update multiple records`);
       return;
     }
-    Object?.entries(selectedExpenseList?.[0])?.map(
-      ([key, value]: any) =>
+    Object?.entries(selectedExpenseList?.[ARRAY_INDEX?.ZERO])?.map(
+      ([key, value]) =>
         addExpenseMethods?.setValue(
           key,
           key === 'date'
@@ -139,7 +143,6 @@ export const useExpense = () => {
     selectedExpenseList,
     setSelectedExpenseList,
   );
-
   const dropdownOptions = expenseActionsDropdownFunction(handleActionClick);
 
   const addExpenseProps = {

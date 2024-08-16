@@ -31,7 +31,6 @@ export const useContractDetail = () => {
     setPage,
     limit,
     setLimit,
-    searchBy,
     setSearchBy,
     router,
     isLoading,

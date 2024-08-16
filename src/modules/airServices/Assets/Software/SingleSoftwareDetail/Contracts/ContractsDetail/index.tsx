@@ -14,7 +14,6 @@ export const ContractsDetails = () => {
     setPage,
     limit,
     setLimit,
-    searchBy,
     setSearchBy,
     router,
     isLoading,
@@ -35,11 +34,7 @@ export const ContractsDetails = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search
-          label="Search Here"
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
-        />
+        <Search label="Search Here" setSearchBy={setSearchBy} />
         <Button
           startIcon={<PlusSharedColorIcon />}
           color="primary"
@@ -70,7 +65,7 @@ export const ContractsDetails = () => {
         totalRecords={softwareContractMeta?.total}
         pageLimit={limit}
         currentPage={page}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setLimit}
       />

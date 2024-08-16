@@ -76,7 +76,7 @@ export const Activity = () => {
         pageLimit={activityData?.data?.meta?.limit}
         currentPage={activityData?.data?.meta?.page}
         rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPageLimit={setPageLimit}
         setPage={setPage}
       />

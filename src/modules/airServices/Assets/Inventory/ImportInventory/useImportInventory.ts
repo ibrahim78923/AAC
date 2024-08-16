@@ -11,7 +11,10 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { CRM_COLUMNS_INVENTORY } from './ImportInventory.data';
 
-export const useImportInventory = (props: any) => {
+export const useImportInventory = (props: {
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { setIsDrawerOpen } = props;
   const router = useRouter();
   const { makePath } = usePath();
@@ -21,7 +24,7 @@ export const useImportInventory = (props: any) => {
 
   const filterMandatoryFields = () => {
     return CRM_COLUMNS_INVENTORY?.filter(
-      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+      (column) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
     );
   };
 

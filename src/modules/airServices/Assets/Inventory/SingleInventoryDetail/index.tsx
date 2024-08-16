@@ -12,7 +12,7 @@ export const SingleInventoryDetail = () => {
     isFetching,
     isLoading,
     inventoryId,
-  }: any = useSingleInventoryDetail();
+  } = useSingleInventoryDetail();
 
   return (
     <>
@@ -30,7 +30,7 @@ export const SingleInventoryDetail = () => {
         <DeleteInventory
           deleteModalOpen={isDeleteModalOpen}
           setDeleteModalOpen={setIsDeleteModalOpen}
-          selectedInventoryLists={[inventoryId]}
+          selectedInventoryLists={[inventoryId] as string[]}
           isMoveBack
         />
       )}

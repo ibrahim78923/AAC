@@ -15,7 +15,10 @@ import CustomPagination from '@/components/CustomPagination';
 import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const ExistingIncident = (props: any) => {
+export const ExistingIncident: React.FC<{
+  openDrawer: boolean;
+  setIsOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (props) => {
   const { openDrawer } = props;
   const {
     handleSubmit,
@@ -105,7 +108,7 @@ export const ExistingIncident = (props: any) => {
             count={metaData?.pages}
             pageLimit={metaData?.limit}
             totalRecords={metaData?.total}
-            onPageChange={(page: any) => setPage(page)}
+            onPageChange={(page: number) => setPage(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}
           />

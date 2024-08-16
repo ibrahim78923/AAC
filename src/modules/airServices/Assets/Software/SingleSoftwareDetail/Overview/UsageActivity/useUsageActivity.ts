@@ -2,10 +2,11 @@ import { useGetAssetsSoftwareOverviewQuery } from '@/services/airServices/assets
 import { useTheme } from '@mui/material';
 import { useDrawingArea } from '@mui/x-charts';
 import { useSearchParams } from 'next/navigation';
+import { UsageActivityI } from './UsageActivity.interface';
 
-export const useUsageActivity = (props: any) => {
+export const useUsageActivity = (props: UsageActivityI) => {
   const { usageActivityLabel, usageActivityData } = props;
-  const theme: any = useTheme();
+  const theme = useTheme();
   const { width, height, left, top } = useDrawingArea();
   const searchParams = useSearchParams();
   const softwareId = searchParams?.get('softwareId');

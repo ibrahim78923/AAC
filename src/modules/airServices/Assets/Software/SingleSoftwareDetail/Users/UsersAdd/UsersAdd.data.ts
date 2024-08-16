@@ -1,6 +1,6 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const addUserValidationSchema = Yup?.object()?.shape({
+export const addUserValidationSchema: any = Yup?.object()?.shape({
   user: Yup?.mixed()?.nullable()?.required('Required'),
   contract: Yup?.mixed()?.nullable(),
 });

@@ -9,6 +9,7 @@ import {
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { EXPENSE_TYPE } from '@/constants/strings';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { ExpenseI } from './Expense.interface';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
@@ -20,7 +21,7 @@ export const addExpenseValidationSchema: any = yup?.object()?.shape({
   cost: yup?.string()?.required('Required field!'),
 });
 
-export const addExpenseDefaultValues = (selectedExpenseList: any) => {
+export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {
   const expenseUpdateData = selectedExpenseList[0];
 
   return {
@@ -70,9 +71,9 @@ export const addExpenseFormData = [
 ];
 
 export const addExpenseColumnsFunction = (
-  expenseData: any,
-  selectedExpenseList: any,
-  setSelectedExpenseList: any,
+  expenseData: ExpenseI[],
+  selectedExpenseList: ExpenseI[],
+  setSelectedExpenseList: React.Dispatch<React.SetStateAction<ExpenseI[]>>,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -86,19 +87,21 @@ export const addExpenseColumnsFunction = (
             (item: any) => item?._id === info?.getValue(),
           )
         }
-        onChange={(e: any) => {
-          e?.target.checked
-            ? setSelectedExpenseList([
-                ...selectedExpenseList,
-                expenseData?.find(
-                  (item: any) => item?._id === info?.getValue(),
-                ),
-              ])
-            : setSelectedExpenseList(
-                selectedExpenseList?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
+        onChange={(e) => {
+          if (e?.target?.checked) {
+            const foundItem = expenseData?.find(
+              (item) => item?._id === info?.getValue(),
+            );
+            if (foundItem) {
+              setSelectedExpenseList([...selectedExpenseList, foundItem]);
+            }
+          } else {
+            setSelectedExpenseList(
+              selectedExpenseList?.filter(
+                (item) => item?._id !== info?.getValue(),
+              ),
+            );
+          }
         }}
         color="primary"
         name={info?.getValue()}
@@ -150,23 +153,25 @@ export const addExpenseColumnsFunction = (
   },
 ];
 
-export const expenseActionsDropdownFunction = (handleActionClick: any) => [
+export const expenseActionsDropdownFunction = (
+  handleActionClick: (value: string) => void,
+) => [
   {
     id: 1,
     title: 'Edit',
     permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EDIT_EXPENSE],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       handleActionClick('edit');
-      close?.(false);
+      close?.();
     },
   },
   {
     id: 2,
     title: 'Delete',
     permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_EXPENSE],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       handleActionClick?.('delete');
-      close?.(false);
+      close?.();
     },
   },
 ];

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CALENDAR_FORMAT } from '@/constants';
 
-export const installationTableColumns: any = (
+export const installationTableColumns = (
   installationData: any,
   activeCheck: any,
   setActiveCheck: any,

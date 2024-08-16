@@ -26,6 +26,7 @@ export const userDefaultValues = (data: any) => {
 
 export const userDataArray = (apiQueryDepartment: any) => [
   {
+    id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -33,6 +34,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     component: RHFTextField,
   },
   {
+    id: 2,
     componentProps: {
       name: 'department',
       label: 'Department',
@@ -41,6 +43,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     component: RHFAutocompleteAsync,
   },
   {
+    id: 3,
     componentProps: {
       name: 'assignedDate',
       label: 'Assigned Date',
@@ -50,6 +53,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
   },
 
   {
+    id: 4,
     componentProps: {
       name: 'firstSeen',
       label: 'First Seen',
@@ -58,6 +62,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     component: RHFAutocomplete,
   },
   {
+    id: 5,
     componentProps: {
       name: 'lastSeen',
       label: 'Last Seen',

@@ -18,10 +18,10 @@ export function useHeader() {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const searchParams = useSearchParams();
-  const softwareId: any = searchParams.get('softwareId');
+  const softwareId = searchParams.get('softwareId');
 
   const { data, isLoading, isFetching } = useGetSoftwareByIdQuery(
-    { id: softwareId },
+    { id: softwareId as string },
     {
       refetchOnMountOrArgChange: true,
       skip: !!!softwareId,

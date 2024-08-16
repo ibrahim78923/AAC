@@ -18,7 +18,6 @@ export const InstallationDetails = () => {
     isFetching,
     isSuccess,
     metaData,
-    searchBy,
     setSearchBy,
     installationData,
     getInstallationListDataExport,
@@ -30,7 +29,6 @@ export const InstallationDetails = () => {
       <InstallationHeader
         activeCheck={activeCheck}
         setActiveCheck={setActiveCheck}
-        searchBy={searchBy}
         setSearchBy={setSearchBy}
         getInstallationListDataExport={getInstallationListDataExport}
       />

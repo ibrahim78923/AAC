@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
+import { DeleteInventoryI } from './DeleteInventory.interface';
 
-export const useDeleteInventory = (props: any) => {
+export const useDeleteInventory = (props: DeleteInventoryI) => {
   const {
     setDeleteModalOpen,
     selectedInventoryLists,
@@ -27,9 +28,8 @@ export const useDeleteInventory = (props: any) => {
     const deleteParams = new URLSearchParams();
 
     selectedInventoryLists?.forEach(
-      (inventoryId: any) => deleteParams?.append('ids', inventoryId),
+      (inventoryId: string) => deleteParams?.append('ids', inventoryId),
     );
-
     const deleteInventoryParameter = {
       queryParams: deleteParams,
     };

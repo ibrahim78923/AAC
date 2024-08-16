@@ -7,6 +7,8 @@ import {
   SOFTWARE_TYPE,
   TIME_PERIODS,
 } from '@/constants/strings';
+import { SoftwareDataI } from './Software.interface';
+import { NextRouter } from 'next/router';
 
 export const softwareStatusOptions = [
   SOFTWARE_STATUS?.RESTRICTED,
@@ -32,11 +34,11 @@ export const softwareDateOptions = [
 ];
 
 export const columns = (
-  softwareData: any,
-  setSoftwareData: any,
-  data: any = [],
-  router: any,
-): any => [
+  softwareData: string[],
+  setSoftwareData: React.Dispatch<React.SetStateAction<string[]>>,
+  data: SoftwareDataI[] = [],
+  router: NextRouter,
+) => [
   {
     accessorFn: (row: any) => row?._id,
     id: '_id',
@@ -44,12 +46,12 @@ export const columns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={!!softwareData?.find((item: any) => item === info?.getValue())}
-        onChange={(e: any) => {
+        checked={!!softwareData?.find((item) => item === info?.getValue())}
+        onChange={(e) => {
           e?.target?.checked
             ? setSoftwareData([...softwareData, info?.getValue()])
             : setSoftwareData(
-                softwareData?.filter((item: any) => item !== info?.getValue()),
+                softwareData?.filter((item) => item !== info?.getValue()),
               );
         }}
         color="primary"
@@ -61,9 +63,9 @@ export const columns = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={data?.length ? softwareData?.length === data?.length : false}
-        onChange={(e: any) => {
+        onChange={(e) => {
           e?.target?.checked
-            ? setSoftwareData(data?.map((list: any) => list?._id))
+            ? setSoftwareData(data?.map((list) => list?._id))
             : setSoftwareData([]);
         }}
         color="primary"

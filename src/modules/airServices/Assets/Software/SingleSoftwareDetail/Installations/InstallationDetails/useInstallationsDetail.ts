@@ -10,15 +10,15 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useInstallationDetail = () => {
-  const [activeCheck, setActiveCheck] = useState<string[]>([]);
-  const [searchBy, setSearchBy] = useState<any>('');
+  const [activeCheck, setActiveCheck] = useState<any[]>([]);
+  const [searchBy, setSearchBy] = useState<string>('');
   const searchParams = useSearchParams();
   const deviceId = searchParams?.get?.('softwareId');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [lazyGetExportInstallationTrigger] =
     useLazyGetExportInstallationQuery();
-  const getInstallationListDataExport = async (type: any) => {
+  const getInstallationListDataExport = async (type: string) => {
     const getInstallationParam = new URLSearchParams();
     getInstallationParam?.append('page', page + '');
     getInstallationParam?.append('limit', pageLimit + '');
@@ -45,9 +45,9 @@ export const useInstallationDetail = () => {
   const [
     lazyGetInstallationTrigger,
     { data: installationsData, isLoading, isError, isFetching, isSuccess },
-  ] = useLazyGetInstallationByIdQuery<any>();
+  ] = useLazyGetInstallationByIdQuery();
   const installationData = installationsData?.data?.inventories;
-  const metaData: any = installationsData?.data?.meta;
+  const metaData = installationsData?.data?.meta;
   const getInstallationListData = async () => {
     const getInstallationParam = new URLSearchParams();
     getInstallationParam?.append('page', page + '');
@@ -71,7 +71,6 @@ export const useInstallationDetail = () => {
     metaData,
     page,
     pageLimit,
-    searchBy,
     setSearchBy,
     installationData,
     getInstallationListDataExport,

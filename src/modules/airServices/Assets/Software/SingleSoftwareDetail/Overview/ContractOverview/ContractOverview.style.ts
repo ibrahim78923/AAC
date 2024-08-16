@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
-  mainBox: (theme: any) => ({
+  mainBox: (theme: Theme) => ({
     border: '.1rem solid',
     borderColor: theme?.palette?.grey?.[700],
     maxWidth: '33.7rem',
@@ -24,7 +26,7 @@ export const styles = {
     marginTop: '1.2rem',
   },
 
-  contentBoxData: (theme: any) => ({
+  contentBoxData: (theme: Theme) => ({
     marginBottom: '.7rem',
     paddingRight: '1.2rem',
     paddingLeft: '1.2rem',

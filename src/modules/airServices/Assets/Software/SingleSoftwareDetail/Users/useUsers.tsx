@@ -19,16 +19,17 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { AllocateSubmitI, SoftwareUserDataI } from './Users.interface';
 
 const useUsers = () => {
-  const [usersData, setUsersData] = useState<any[]>([]);
+  const [usersData, setUsersData] = useState<SoftwareUserDataI[]>([]);
   const [actionModalOpen, setActionModalOpen] = useState(false);
-  const [selectedActionTitle, setSelectedActionTitle] = useState(null);
+  const [selectedActionTitle, setSelectedActionTitle] = useState('');
   const [search, setSearch] = useState('');
   const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const getUserArray = usersData?.find((item: any) => item);
+  const getUserArray = usersData?.find((item) => item);
   const methods = useForm({
     resolver: yupResolver<any>(
       Yup?.object()?.shape({
@@ -75,7 +76,7 @@ const useUsers = () => {
   const [userRemove, { isLoading: removeLoading }] =
     useRemoveContractMutation();
 
-  const userActionClickHandler = (title: any) => {
+  const userActionClickHandler = (title: string) => {
     setSelectedActionTitle(title);
     if (
       (title === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE ||
@@ -99,7 +100,7 @@ const useUsers = () => {
     setActionModalOpen(false);
   };
 
-  const getUserListDataExport = async (type: any) => {
+  const getUserListDataExport = async (type: string) => {
     const getUserParam = new URLSearchParams();
     getUserParam?.append('page', page + '');
     getUserParam?.append('limit', limit + '');
@@ -120,8 +121,8 @@ const useUsers = () => {
     contractId: getUserArray?.contractId,
   };
   const deleteParams = new URLSearchParams();
-  usersData?.forEach((user: any) => deleteParams?.append('ids', user?._id));
-  const actionClickHandler = async (selectedActionTitle: any) => {
+  usersData?.forEach((user) => deleteParams?.append('ids', user?._id));
+  const actionClickHandler = async (selectedActionTitle: string) => {
     try {
       switch (selectedActionTitle) {
         case SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE:
@@ -169,7 +170,7 @@ const useUsers = () => {
       }
     } catch (error) {}
   };
-  const allocateSubmit = async (formData: any) => {
+  const allocateSubmit = async (formData: AllocateSubmitI) => {
     const allocateParams = {
       id: getUserArray?._id,
       contractId: formData?.contract?._id,
@@ -215,6 +216,7 @@ const useUsers = () => {
     allocateLoading,
     removeLoading,
     setFilterValues,
+    filterValues,
   };
 };
 

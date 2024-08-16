@@ -60,7 +60,9 @@ const AddDevice = () => {
               label="Device"
               required
               apiQuery={devicesQuery}
-              getOptionLabel={(option: any) => option?.displayName}
+              getOptionLabel={(option: { _id: string; displayName: string }) =>
+                option?.displayName
+              }
             />
             <Divider sx={{ my: 2 }} />
             <Box

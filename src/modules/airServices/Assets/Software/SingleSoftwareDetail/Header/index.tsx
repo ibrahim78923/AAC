@@ -4,6 +4,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useHeader } from './useHeader';
 import { UpsertSoftware } from '../../UpsertSoftware';
 import { DeleteSoftware } from '../../DeleteSoftware';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export default function Header() {
   const {
@@ -35,7 +36,7 @@ export default function Header() {
         <PageTitledHeader
           canMovedBack
           moveBack={moveBackArrow}
-          title={data?.data?.[0]?.name}
+          title={data?.data?.[ARRAY_INDEX?.ZERO]?.name}
         />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
@@ -83,7 +84,7 @@ export default function Header() {
         <UpsertSoftware
           isAddDrawerOpen={isDrawerOpen}
           setIsAddDrawerOpen={setIsDrawerOpen}
-          data={data?.data?.[0]}
+          data={data?.data?.[ARRAY_INDEX?.ZERO]}
           isLoading={isLoading}
           isFetching={isFetching}
         />

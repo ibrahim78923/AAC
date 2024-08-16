@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled, Theme } from '@mui/material';
 
 export const StyledText = styled('text')(({ theme }) => ({
   fill: theme?.palette?.text?.primary,
@@ -63,7 +63,7 @@ export const styles = {
     gap: '.6rem',
   },
 
-  footerTypographyBox: (theme: any) => ({
+  footerTypographyBox: (theme: Theme) => ({
     textAlign: 'center',
     width: '1.5rem',
     height: '1.5rem',

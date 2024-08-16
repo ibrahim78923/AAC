@@ -1,7 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { softwareFilterDefaultValues } from './SoftwareFilter.data';
+import {
+  SoftwareFilterI,
+  SoftwareFilterValues,
+} from './SoftwareFilter.interface';
 
-export const useSoftwareFilter = (props: any) => {
+export const useSoftwareFilter = (props: SoftwareFilterI) => {
   const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
     props;
 
@@ -10,13 +14,12 @@ export const useSoftwareFilter = (props: any) => {
   });
 
   const { handleSubmit, reset } = methods;
-
-  const onSubmit = async (data: any) => {
-    const softwareFiltered: any = Object?.entries(data || {})
+  const onSubmit = async (data: SoftwareFilterValues) => {
+    const softwareFiltered = Object?.entries(data || {})
       ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
+        ([, value]) => value !== undefined && value != '' && value != null,
       )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+      ?.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
     if (!Object?.keys(softwareFiltered || {})?.length) {
       setFilterValues?.(softwareFiltered);
@@ -30,7 +33,7 @@ export const useSoftwareFilter = (props: any) => {
 
   const clearFilter = () => {
     reset?.();
-    setFilterValues?.(null);
+    setFilterValues?.({});
     setIsOpenFilterDrawer?.(false);
   };
 

@@ -89,7 +89,6 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'createdAt',
       label: 'Created Date',
       placeholder: 'Select a time period',
-      select: true,
       options: dateOptions,
       getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },

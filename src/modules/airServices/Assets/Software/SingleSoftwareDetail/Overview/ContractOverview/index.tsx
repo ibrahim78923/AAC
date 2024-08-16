@@ -4,7 +4,13 @@ import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useContractOverview } from './useContractOverview';
 
-function ContractOverview(props: any) {
+function ContractOverview(props: {
+  contractOverviewLabel: {
+    heading: string;
+    subHeading1: string;
+    subHeading2: string;
+  };
+}) {
   const {
     data,
     isLoading,

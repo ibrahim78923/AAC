@@ -26,8 +26,12 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import {
+  UpsertSoftwareFormI,
+  UpsertSoftwareI,
+} from './UpsertSoftware.interface';
 
-export const useUpsertSoftware = (props: any) => {
+export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;
   const router = useRouter();
   const { softwareId } = router?.query;
@@ -145,7 +149,7 @@ export const useUpsertSoftware = (props: any) => {
     }
   };
 
-  const updateSoftware = async (formData: any) => {
+  const updateSoftware = async (formData: UpsertSoftwareFormI) => {
     const editSoftwareParams = {
       id: softwareId,
       body: formData,

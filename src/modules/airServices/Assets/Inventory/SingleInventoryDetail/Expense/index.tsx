@@ -44,7 +44,7 @@ export const Expense = () => {
           setPage={setPage}
           count={metaData?.pages}
           totalRecords={metaData?.total}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           currentPage={metaData?.page}
           pageLimit={pageLimit}
         />

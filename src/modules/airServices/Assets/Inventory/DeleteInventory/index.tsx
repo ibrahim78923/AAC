@@ -1,12 +1,12 @@
 import { AlertModals } from '@/components/AlertModals';
 import { useDeleteInventory } from './useDeleteInventory';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { DeleteInventoryI } from './DeleteInventory.interface';
 
-export const DeleteInventory = (props: any) => {
+export const DeleteInventory: React.FC<DeleteInventoryI> = (props) => {
   const { deleteModalOpen } = props;
   const { deleteInventory, deleteInventoryStatus, closeInventoryDeleteModal } =
     useDeleteInventory(props);
-
   return (
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}

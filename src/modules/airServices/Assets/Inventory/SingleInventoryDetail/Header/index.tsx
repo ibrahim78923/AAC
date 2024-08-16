@@ -1,12 +1,12 @@
 import { Typography, Box, Skeleton } from '@mui/material';
-
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRouter } from 'next/router';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-export const Header = (props: any) => {
+import { HeaderI } from './HeaderI';
+export const Header: React.FC<HeaderI> = (props) => {
   const { dropdownOptions, inventoryData, isFetching, isLoading } = props;
   const router = useRouter();
   if (isLoading || isFetching) return <Skeleton />;

@@ -3,8 +3,9 @@ import { userDataArray, userDefaultValues } from './UsersFilter.data';
 import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useState } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
+import { UsersFilterDataI, UsersFilterI } from './UsersFilter.interface';
 
-export const useUsersFilter = (props: any) => {
+export const useUsersFilter = (props: UsersFilterI) => {
   const { filterValues, setFilterValues } = props;
   const methods: any = useForm({
     defaultValues: userDefaultValues(filterValues),
@@ -25,7 +26,7 @@ export const useUsersFilter = (props: any) => {
   };
 
   const { handleSubmit } = methods;
-  const submitFilter = (data: any) => {
+  const submitFilter = (data: UsersFilterDataI) => {
     const filterData = filteredEmptyValues(data);
     setFilterValues(filterData);
     closeFilterDrawer();

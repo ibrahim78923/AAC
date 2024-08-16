@@ -14,6 +14,7 @@ import {
   useLazyGetUsersDropdownListQuery,
 } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useSearchParams } from 'next/navigation';
+import { UsersAddFormDataI } from './UsersAdd.interface';
 const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const params = useSearchParams();
@@ -37,7 +38,7 @@ const useUsersAdd = () => {
   };
 
   const { handleSubmit, reset } = methods;
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UsersAddFormDataI) => {
     const params = {
       softwareId: softwareId,
       contractId: data?.contract?._id,
