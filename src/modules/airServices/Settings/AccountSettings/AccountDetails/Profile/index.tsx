@@ -3,8 +3,9 @@ import { profileWorkDataArray, profileOtherDataArray } from './Profile.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useProfile } from './useProfile';
 import { LoadingButton } from '@mui/lab';
+import { IPropsAccountDetails } from '../AccountDetails.interface';
 
-export const Profile = (props: any) => {
+export const Profile = (props: IPropsAccountDetails) => {
   const { isLoading, profileMethods, handleSubmitProfile, handleCancel } =
     useProfile(props);
 

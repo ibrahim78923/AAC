@@ -14,8 +14,9 @@ import Chip from '@mui/material/Chip';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { generateImage } from '@/utils/avatarUtils';
+import { IPropsAccountDetails } from '../AccountDetails.interface';
 
-export const Header = (props: any) => {
+export const Header = (props: IPropsAccountDetails) => {
   const theme = useTheme();
   const { profileDetail } = props;
   const {

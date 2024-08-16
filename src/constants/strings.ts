@@ -833,6 +833,8 @@ export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
 
 export const ARRAY_INDEX = {
   ZERO: 0,
+  ONE: 1,
+  TWO: 2,
 };
 
 export const PRODUCT_USER_STATUS = {

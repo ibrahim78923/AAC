@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { profileValidationSchema, profileDefaultValues } from './Profile.data';
 import { usePatchProfileDetailMutation } from '@/services/airServices/settings/account-settings/account-details';
@@ -6,13 +6,14 @@ import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { IAuth, IPropsAccountDetails } from '../AccountDetails.interface';
 
-export const useProfile = (props: any) => {
+export const useProfile = (props: IPropsAccountDetails) => {
   const { profileDetail } = props;
   const router = useRouter();
-  const user: any = useAuth();
+  const user: IAuth | any = useAuth();
 
-  const profileMethods = useForm<any>({
+  const profileMethods: UseFormReturn = useForm({
     resolver: yupResolver(profileValidationSchema),
     defaultValues: profileDefaultValues(profileDetail),
   });

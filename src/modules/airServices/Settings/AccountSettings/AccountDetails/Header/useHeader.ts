@@ -3,10 +3,11 @@ import { usePatchProfileAvatarMutation } from '@/services/airServices/settings/a
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
+import { IAuth } from '../AccountDetails.interface';
 
 export const useHeader = () => {
   const router = useRouter();
-  const user: any = useAuth();
+  const user: IAuth | any = useAuth();
   const [isHovered, setIsHovered] = useState(false);
   const fullScreenPosition = { top: 0, left: 0, right: 0, bottom: 0 };
 
@@ -18,7 +19,7 @@ export const useHeader = () => {
   const [patchProfileAvatarTrigger, patchProfileAvatarStatus] =
     usePatchProfileAvatarMutation();
   const isSubmit = async (file: any) => {
-    const reportAnIssueData: any = new FormData();
+    const reportAnIssueData = new FormData();
     reportAnIssueData?.append('avatar', file);
 
     const payload = {
@@ -27,7 +28,7 @@ export const useHeader = () => {
       body: reportAnIssueData,
     };
     try {
-      const res: any = await patchProfileAvatarTrigger(payload)?.unwrap();
+      const res = await patchProfileAvatarTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Profile Update Successfully');
     } catch (error) {
       errorSnackbar();
