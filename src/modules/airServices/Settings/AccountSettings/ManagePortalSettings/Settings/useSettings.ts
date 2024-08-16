@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -8,13 +8,16 @@ import {
 } from './Settings.data';
 import { useGetCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
 import { useEffect } from 'react';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { IAuth, ISettingsDefaultValues } from './Settings.interface';
 
 export const useSettings = () => {
   const domain = window.location.hostname;
 
-  const auth: any = useAuth();
+  const auth: IAuth = useAuth();
 
-  const { _id: companyId } = auth?.product?.accounts?.[0]?.company;
+  const { _id: companyId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
 
   const encryptedValue = btoa(companyId);
 
@@ -26,16 +29,17 @@ export const useSettings = () => {
   );
   const apiKeyData = data?.data?.apiKey;
 
-  const settingsMethods = useForm({
-    resolver: yupResolver(settingsValidationSchema),
-    defaultValues: settingsDefaultValues({
-      domain,
-      encryptedValue,
-      apiKeyData,
-    }),
-  });
+  const settingsMethods: UseFormReturn<ISettingsDefaultValues> | any =
+    useForm<ISettingsDefaultValues>({
+      resolver: yupResolver(settingsValidationSchema),
+      defaultValues: settingsDefaultValues({
+        domain,
+        encryptedValue,
+        apiKeyData,
+      }),
+    });
 
-  const { getValues, reset }: any = settingsMethods;
+  const { getValues, reset } = settingsMethods;
 
   useEffect(() => {
     reset(

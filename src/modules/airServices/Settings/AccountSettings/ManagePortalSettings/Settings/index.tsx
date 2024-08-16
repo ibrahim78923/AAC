@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { useSettings } from './useSettings';
 import { FormProvider } from '@/components/ReactHookForm';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ISettingsDataItem } from './Settings.interface';
 
 export const Settings = () => {
   const { settingsMethods, settingsDataArray, isLoading, isFetching } =
@@ -17,7 +18,7 @@ export const Settings = () => {
           <Box bgcolor={'grey.100'} borderRadius={3} p={2} mt={1}>
             <FormProvider methods={settingsMethods}>
               <Grid container spacing={2}>
-                {settingsDataArray?.map((item: any) => (
+                {settingsDataArray?.map((item: ISettingsDataItem) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
                     <item.component
                       {...item?.componentProps}
