@@ -1,4 +1,6 @@
-export const purchaseOrdersData = [
+import { IItemData } from '../EmailNotification.interface';
+
+export const purchaseOrdersData: IItemData[] = [
   {
     _id: 1,
     heading: 'Requester Notification',

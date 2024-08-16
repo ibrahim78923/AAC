@@ -5,6 +5,7 @@ import { ticketDataArray } from './Tickets.data';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import useTickets from './useTickets';
+import { IItemData, IItemDetail } from '../EmailNotification.interface';
 
 export const Tickets = () => {
   const {
@@ -22,7 +23,7 @@ export const Tickets = () => {
 
   return (
     <>
-      {ticketDataArray?.map((head: any) => (
+      {ticketDataArray?.map((head: IItemData) => (
         <Fragment key={head?._id}>
           <Typography variant={'h5'} color={'blue.main'}>
             {head?.heading}
@@ -30,7 +31,7 @@ export const Tickets = () => {
 
           <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
 
-          {head?.details?.map((item: any) => (
+          {head?.details?.map((item: IItemDetail) => (
             <Box
               key={item?._id}
               p={2}
@@ -41,7 +42,6 @@ export const Tickets = () => {
               justifyContent={'space-between'}
               alignItems={'center'}
             >
-              {item.value}
               <Typography
                 color={'custom.dim_blue'}
                 variant={'body1'}

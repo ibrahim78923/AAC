@@ -5,6 +5,7 @@ import { AntSwitch } from '@/components/AntSwitch';
 import useAssets from './useAssets';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { IItemData, IItemDetail } from '../EmailNotification.interface';
 
 export const Assets = () => {
   const {
@@ -22,7 +23,7 @@ export const Assets = () => {
 
   return (
     <>
-      {assetsData?.map((head: any) => (
+      {assetsData?.map((head: IItemData) => (
         <Fragment key={head?._id}>
           <Typography variant={'h5'} color={'blue.main'}>
             {head?.heading}
@@ -30,7 +31,7 @@ export const Assets = () => {
 
           <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
 
-          {head?.details?.map((item: any) => (
+          {head?.details?.map((item: IItemDetail) => (
             <Box
               key={item?._id}
               p={2}
@@ -40,7 +41,6 @@ export const Assets = () => {
               display={'flex'}
               justifyContent={'space-between'}
             >
-              {item.value}
               <Typography
                 color={'custom.dim_blue'}
                 variant={'body1'}

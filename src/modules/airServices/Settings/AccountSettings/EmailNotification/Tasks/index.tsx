@@ -5,6 +5,7 @@ import { AntSwitch } from '@/components/AntSwitch';
 import useTasks from './useTasks';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { IItemData, IItemDetail } from '../EmailNotification.interface';
 
 export const Tasks = () => {
   const {
@@ -22,7 +23,7 @@ export const Tasks = () => {
 
   return (
     <>
-      {taskData?.map((head: any) => (
+      {taskData?.map((head: IItemData) => (
         <Fragment key={head?._id}>
           <Typography variant={'h5'} color={'blue.main'}>
             {head?.heading}
@@ -30,7 +31,7 @@ export const Tasks = () => {
 
           <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
 
-          {head?.details?.map((item: any) => (
+          {head?.details?.map((item: IItemDetail) => (
             <Box
               key={item?._id}
               p={2}
@@ -40,7 +41,6 @@ export const Tasks = () => {
               display={'flex'}
               justifyContent={'space-between'}
             >
-              {item.value}
               <Typography
                 color={'custom.dim_blue'}
                 variant={'body1'}

@@ -1,4 +1,6 @@
-export const taskData = [
+import { IItemData } from '../EmailNotification.interface';
+
+export const taskData: IItemData[] = [
   {
     _id: 1,
     heading: 'Requester Notification',

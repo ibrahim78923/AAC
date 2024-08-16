@@ -1,4 +1,6 @@
-export const assetsData = [
+import { IItemData } from '../EmailNotification.interface';
+
+export const assetsData: IItemData[] = [
   {
     _id: 1,
     heading: 'Asset Notification',

@@ -1,4 +1,6 @@
-export const contractsData = [
+import { IItemData } from '../EmailNotification.interface';
+
+export const contractsData: IItemData[] = [
   {
     _id: 1,
     heading: 'Requester Notification',
