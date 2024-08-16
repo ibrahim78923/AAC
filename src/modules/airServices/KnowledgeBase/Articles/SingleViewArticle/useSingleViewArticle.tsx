@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
+import { NextRouter, useRouter } from 'next/router';
+import { Theme, useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { useGetArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
 import { ArticlesIsPortalOpenI } from '../Articles.interface';
 
 export const useSingleViewArticle = () => {
   const [isPortalOpen, setIsPortalOpen] = useState<ArticlesIsPortalOpenI>({});
-  const theme = useTheme();
-  const router = useRouter();
+  const theme: Theme = useTheme();
+  const router: NextRouter = useRouter();
   const { articleId } = router?.query;
 
   const handlePageBack = () => {
@@ -20,11 +20,19 @@ export const useSingleViewArticle = () => {
       articleId,
     },
   };
-  const { data, isLoading, isFetching, isError, refetch } =
-    useGetArticleByIdQuery(getSingleArticleParameter, {
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetArticleByIdQuery(
+    getSingleArticleParameter,
+    {
       refetchOnMountOrArgChange: true,
       skip: !!!articleId,
-    });
+    },
+  );
 
   const handleEditSubmit = () => {
     router?.push({
@@ -34,6 +42,7 @@ export const useSingleViewArticle = () => {
       },
     });
   };
+
   return {
     handlePageBack,
     theme,

@@ -5,7 +5,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const useDeleteArticles = (props: ArticlesPortalComponentPropsI) => {
+export const useDeleteArticles = (
+  props: ArticlesPortalComponentPropsI | any,
+) => {
   const {
     setIsPortalOpen,
     selectedArticlesData,

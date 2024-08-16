@@ -5,8 +5,12 @@ import {
   RHFSwitch,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const defaultValues = (articleData?: any) => {
+export const defaultValues = (
+  articleData?: UpsertArticlesFormDefaultValuesI,
+) => {
   return {
     folder: articleData?.folder ?? null,
     title: articleData?.title ?? '',
@@ -50,7 +54,7 @@ export const upsertArticleValidationSchema = Yup?.object()?.shape({
 });
 
 export const editArticleFieldsFunction = (
-  needApprovals: any,
+  needApprovals: boolean,
   apiQueryFolder: any,
   apiQueryApprover: any,
 ) => {
@@ -66,7 +70,7 @@ export const editArticleFieldsFunction = (
         sx: { pb: 1.2 },
         externalParams: { admin: true },
         apiQuery: apiQueryApprover,
-        getOptionLabel: (option: any) =>
+        getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
           `${option?.firstName} ${option?.lastName}`,
       },
       gridLength: 12,

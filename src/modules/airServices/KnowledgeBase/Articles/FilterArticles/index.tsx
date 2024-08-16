@@ -3,6 +3,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterArticles } from './useFilterArticle';
 import { ArticlesPortalComponentPropsI } from '../Articles.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 const FilterArticles = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -34,7 +35,7 @@ const FilterArticles = (props: ArticlesPortalComponentPropsI) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {filterArticlesFormFields?.map((item: any) => (
+            {filterArticlesFormFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

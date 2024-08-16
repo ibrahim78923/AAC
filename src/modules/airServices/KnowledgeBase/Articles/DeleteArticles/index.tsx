@@ -3,7 +3,7 @@ import { useDeleteArticles } from './useDeleteArticles';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const DeleteArticles = (props: ArticlesPortalComponentPropsI) => {
+export const DeleteArticles = (props: ArticlesPortalComponentPropsI | any) => {
   const { isPortalOpen } = props;
   const { deleteArticles, closeArticleDeleteModal, deleteArticleStatus } =
     useDeleteArticles(props);

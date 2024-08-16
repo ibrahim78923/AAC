@@ -5,6 +5,8 @@ import { errorSnackbar } from '@/utils/api';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
+import { Dispatch, SetStateAction } from 'react';
+import { ArticlesTableRowI } from './Articles.interface';
 
 export const ALL_FOLDER = 'all';
 
@@ -17,7 +19,7 @@ const color: any = {
   draft: 'slateBlue.main',
 };
 
-export const styleFunction: any = (value: any) => ({
+export const styleFunction: any = (value: string) => ({
   bgColor: bgColor?.[value?.toLowerCase()],
   color: color?.[value?.toLowerCase()],
 });
@@ -25,12 +27,12 @@ export const styleFunction: any = (value: any) => ({
 export const articlesColumnsFunction = (
   articlesList: any = [],
   selectedArticlesData: any,
-  setSelectedArticlesData: any,
-  handleSingleArticleNavigation: any,
+  setSelectedArticlesData: Dispatch<SetStateAction<any>>,
+  handleSingleArticleNavigation: (id: string) => void,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: ArticlesTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
@@ -79,7 +81,7 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.title,
+      accessorFn: (row: ArticlesTableRowI) => row?.title,
       id: 'name',
       isSortable: false,
       header: 'Article',
@@ -98,7 +100,7 @@ export const articlesColumnsFunction = (
       },
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: ArticlesTableRowI) => row?.status,
       id: 'status',
       header: 'Status',
       isSortable: true,
@@ -121,14 +123,14 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.insertedTicket,
+      accessorFn: (row: ArticlesTableRowI) => row?.insertedTicket,
       id: 'insertedTickets',
       isSortable: true,
       header: `Inserted Tickets`,
       cell: (info: any) => info?.getValue()?.[0] ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.author,
+      accessorFn: (row: ArticlesTableRowI) => row?.author,
       id: 'author',
       isSortable: true,
       header: 'Author',
@@ -136,7 +138,7 @@ export const articlesColumnsFunction = (
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.folder,
+      accessorFn: (row: ArticlesTableRowI) => row?.folder,
       id: 'folder',
       isSortable: true,
       header: 'Folder',
@@ -194,6 +196,11 @@ export const actionBtnData = (
       handleClick: (closeMenu: any) => {
         if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
           errorSnackbar('Please select only one');
+          closeMenu?.();
+          return;
+        }
+        if (!!!selectedArticlesData?.[ARRAY_INDEX?.ZERO]?.folder?.name) {
+          errorSnackbar('This articles does not have a primary folder');
           closeMenu?.();
           return;
         }

@@ -1,3 +1,7 @@
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 import { Theme } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -10,14 +14,10 @@ export interface ArticlesIsPortalOpenI {
   isMoveFolder?: boolean;
   data?: any;
 }
-export interface DropdownOptionsI {
-  _id: string;
-  label: string;
-}
 
 export interface ArticlesFilterValuesI {
-  status?: DropdownOptionsI | string;
-  authorId?: any;
+  status?: AutocompleteOptionsI | null;
+  authorId?: AutocompleteAsyncOptionsI | null;
 }
 
 export interface ArticlesPortalComponentPropsI {
@@ -49,6 +49,14 @@ export interface FolderComponentPropsI {
   refetch: () => Promise<void> | any;
   foldersList: any;
   theme: Theme;
-  setFolder: (folder: { [key: string]: any }) => void;
+  setFolder: (folder: AutocompleteAsyncOptionsI) => void;
   selectedArticlesTab: any;
+}
+export interface ArticlesTableRowI {
+  _id: string;
+  title?: string;
+  status?: string;
+  insertedTicket: any;
+  author: AutocompleteAsyncOptionsI;
+  folder: AutocompleteAsyncOptionsI;
 }

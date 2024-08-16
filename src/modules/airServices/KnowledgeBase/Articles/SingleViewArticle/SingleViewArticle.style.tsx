@@ -1,8 +1,10 @@
+import { Theme } from '@mui/material';
+
 const PUBLISHED = 'Published';
 const TRAINING = 'Training';
 
 export const styles = {
-  desStyle: (des: any, theme: any) => ({
+  desStyle: (des: string | undefined, theme: Theme) => ({
     bgcolor: des === PUBLISHED ? theme?.palette?.blue?.main : null,
     color:
       des === PUBLISHED
@@ -13,17 +15,17 @@ export const styles = {
     p: '4px 12px',
     borderRadius: des === PUBLISHED ? 6 : null,
   }),
-  keywordStyle: (theme: any) => ({
+  keywordStyle: (theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     gap: 0.5,
     color: theme?.palette?.custom?.main,
-    bgcolor: theme?.palette?.grey?.[0],
+    bgcolor: 'grey.0',
     p: '4px 12px',
     borderRadius: 4,
     width: 'fit-content',
   }),
-  sideStyle: (theme: any) => ({
+  sideStyle: (theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

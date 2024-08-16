@@ -12,6 +12,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useMoveFolder } from './useMoveFolder';
 import CloseIcon from '@mui/icons-material/Close';
 import { ArticlesPortalComponentPropsI } from '../Articles.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -55,7 +56,7 @@ export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
           onSubmit={handleSubmit(submitMoveFolder)}
         >
           <Grid container spacing={1}>
-            {moveFolderFormFields?.map((item: any) => (
+            {moveFolderFormFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={item?.md} key={item?._id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

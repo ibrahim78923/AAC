@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
+import { useForm, UseFormReturn } from 'react-hook-form';
+import { NextRouter, useRouter } from 'next/router';
+import { Theme, useTheme } from '@mui/material';
 import {
   useGetArticleByIdQuery,
   useLazyGetFoldersDropdownQuery,
@@ -18,10 +18,11 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import { ARTICLE_STATUS } from '@/constants/strings';
+import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 
 export const useUpsertArticle: any = () => {
-  const router = useRouter();
-  const theme = useTheme();
+  const router: NextRouter = useRouter();
+  const theme: Theme = useTheme();
   const { articleId } = router?.query;
 
   const [postArticleTrigger, postArticleStatus] = usePostArticleMutation();
@@ -38,7 +39,10 @@ export const useUpsertArticle: any = () => {
       refetchOnMountOrArgChange: true,
       skip: !!!articleId,
     });
-  const editArticleMethods = useForm<any>({
+
+  const editArticleMethods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
+    UpsertArticlesFormFieldsI | any
+  >({
     defaultValues: defaultValues(),
     resolver: yupResolver(upsertArticleValidationSchema),
   });
@@ -51,7 +55,7 @@ export const useUpsertArticle: any = () => {
 
   const needApprovals = editArticleMethods?.watch('needsApproval');
 
-  const cancelBtnHandler = (type: any) => {
+  const cancelBtnHandler = (type: string) => {
     if (type === '') {
       router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
       return;
@@ -62,7 +66,10 @@ export const useUpsertArticle: any = () => {
     }
   };
 
-  const upsertArticleSubmit = async (data: any, status?: any) => {
+  const upsertArticleSubmit = async (
+    data: UpsertArticlesFormFieldsI,
+    status?: string | any,
+  ) => {
     const upsertArticle = new FormData();
     !!data?.title && upsertArticle?.append('title', data?.title);
     !!data?.details && upsertArticle?.append('details', data?.details);

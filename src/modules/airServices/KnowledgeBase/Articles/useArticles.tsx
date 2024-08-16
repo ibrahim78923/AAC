@@ -25,6 +25,8 @@ import {
 } from './Articles.interface';
 import { ChildComponentPropsI } from '../KnowledgeBase.interface';
 import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { TanstackTableColumnsI } from '@/components/Table/TanstackTable/TanstackTable.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const useArticles = (props: ChildComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
@@ -98,12 +100,12 @@ export const useArticles = (props: ChildComponentPropsI) => {
     });
   };
 
-  const setFolder = (folder: { [key: string]: any }) => {
+  const setFolder = (folder: AutocompleteAsyncOptionsI) => {
     setSelectedArticlesTab(folder);
     setPage(PAGINATION?.CURRENT_PAGE);
   };
 
-  const articlesColumns = articlesColumnsFunction(
+  const articlesColumns: TanstackTableColumnsI[] = articlesColumnsFunction(
     lazyGetArticlesStatus?.data?.data?.articles,
     selectedArticlesData,
     setSelectedArticlesData,

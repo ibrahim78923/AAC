@@ -57,6 +57,7 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
           existingDashboards: formData?.dashboard?.map(
             (dashboard: AutocompleteAsyncOptionsI) => dashboard?._id,
           ),
+          productId: id,
         },
       },
     };

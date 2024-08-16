@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   filterArticlesDataDefaultValues,
   filterArticlesFormFieldsDynamic,
@@ -7,17 +7,19 @@ import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServic
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
 import { ArticlesPortalComponentPropsI } from '../Articles.interface';
+import { FilterArticlesFormFieldsI } from './FilterArticles.interface';
 
 export const useFilterArticles = (props: ArticlesPortalComponentPropsI) => {
   const { setIsPortalOpen, filterValues, setFilterValues, setPage } = props;
 
-  const methods = useForm({
-    defaultValues: filterArticlesDataDefaultValues?.(filterValues),
-  });
+  const methods: UseFormReturn<FilterArticlesFormFieldsI> =
+    useForm<FilterArticlesFormFieldsI>({
+      defaultValues: filterArticlesDataDefaultValues?.(filterValues),
+    });
 
   const { handleSubmit, reset } = methods;
 
-  const submitHandler = (data: any) => {
+  const submitHandler = (data: FilterArticlesFormFieldsI) => {
     const articleFilter = filteredEmptyValues(data);
 
     if (!Object?.keys(articleFilter || {})?.length) {

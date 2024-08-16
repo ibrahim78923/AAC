@@ -116,7 +116,7 @@ export const Articles = (props: ChildComponentPropsI) => {
               isFetching={lazyGetArticlesStatus?.isFetching}
               isError={lazyGetArticlesStatus?.isError}
               isSuccess={lazyGetArticlesStatus?.isSuccess}
-              onPageChange={(page: any) => setPage(page)}
+              onPageChange={(page: number) => setPage(page)}
               isPagination
               errorProps={{
                 canRefresh: true,
