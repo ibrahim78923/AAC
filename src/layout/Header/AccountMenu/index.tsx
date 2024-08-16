@@ -64,20 +64,28 @@ const AccountMenu = () => {
   };
 
   const permissionsFromLocalStorage = getActivePermissionsSession();
+
   const permissionsHandler = () => {
+    if (!selectedProduct || !permissionsFromLocalStorage) {
+      return;
+    }
     for (const modulePermission of selectedProduct) {
-      const componentPermissionsDictionary: any = {};
-      modulePermission?.permissions?.forEach((value: any) => {
+      if (!modulePermission?.permissions) {
+        continue;
+      }
+      const componentPermissionsDictionary: Record<string, boolean> = {};
+      modulePermission?.permissions?.forEach((value: string) => {
         componentPermissionsDictionary[value] = true;
       });
       for (const permission of permissionsFromLocalStorage) {
         if (componentPermissionsDictionary[permission]) {
-          return router?.push(modulePermission?.key);
-          // Return the module permission path
+          router?.push(modulePermission?.key);
+          return;
         }
       }
     }
   };
+
   if (!stringArraysEqual(permissionsFromLocalStorage, activePermissions)) {
     permissionsHandler();
     setActivePermissions(permissionsFromLocalStorage);
