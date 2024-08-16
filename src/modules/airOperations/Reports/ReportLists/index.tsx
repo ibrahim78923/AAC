@@ -5,7 +5,7 @@ import { FilterIcon, RestoreIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useReportLists } from './useReportLists';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { ReportsListsPropsI } from '../Reports.interface';
+import { ReportsListsPropsI } from './ReportLists.interface';
 
 export const ReportLists = (props: ReportsListsPropsI) => {
   const { onRestoreClick, permission } = props;
@@ -21,7 +21,7 @@ export const ReportLists = (props: ReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
-  }: any = useReportLists(props);
+  } = useReportLists(props);
 
   return (
     <>
@@ -98,7 +98,7 @@ export const ReportLists = (props: ReportsListsPropsI) => {
         isFetching={lazyGetReportsListStatus?.isFetching}
         isError={lazyGetReportsListStatus?.isError}
         isSuccess={lazyGetReportsListStatus?.isSuccess}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         isPagination
       />
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

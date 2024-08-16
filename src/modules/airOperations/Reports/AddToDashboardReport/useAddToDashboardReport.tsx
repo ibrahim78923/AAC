@@ -6,10 +6,12 @@ import {
 } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { UseFormReturn, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
 import { useRouter } from 'next/router';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { AddToDashboardFormFieldsI } from './AddToDashboard.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   const {
@@ -29,7 +31,7 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   const [addReportsToDashboardTrigger, addReportsToDashboardStatus] =
     useAddReportsToDashboardMutation();
 
-  const methods = useForm<any>({
+  const methods: UseFormReturn<AddToDashboardFormFieldsI> = useForm({
     defaultValues: {
       dashboard: [],
     },
@@ -42,7 +44,9 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
 
   const { handleSubmit, reset } = methods;
 
-  const submitAddToDashboardForm = async (formData: any) => {
+  const submitAddToDashboardForm = async (
+    formData: AddToDashboardFormFieldsI,
+  ) => {
     const apiDataParameter = {
       queryParams: {
         id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
@@ -51,7 +55,7 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
         linkDashboard: {
           action: REPORT_TYPE?.ADD_TO_EXISTING,
           existingDashboards: formData?.dashboard?.map(
-            (dashboard: any) => dashboard?._id,
+            (dashboard: AutocompleteAsyncOptionsI) => dashboard?._id,
           ),
         },
       },

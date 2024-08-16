@@ -33,7 +33,7 @@ export const marketingReportsListTabsDynamic = (
         permission: AIR_OPERATION_REPORTS_MARKETING_ALL_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           marketingReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           marketingReportsListTabsParams?.editReportPath?.(id),
       },
     },
@@ -57,7 +57,7 @@ export const marketingReportsListTabsDynamic = (
         filter: [['isFavorite', true + '']],
         onRestoreClick: () =>
           marketingReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           marketingReportsListTabsParams?.editReportPath?.(id),
       },
     },
@@ -76,7 +76,7 @@ export const marketingReportsListTabsDynamic = (
         baseModule: GENERIC_REPORT_MODULES?.MARKETING,
         onRestoreClick: () =>
           marketingReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           marketingReportsListTabsParams?.editReportPath?.(id),
         apiQuery: marketingReportsListTabsParams?.apiQueryDashboardReports,
         exportApiQuery:
@@ -105,11 +105,11 @@ export const marketingReportsListTabsDynamic = (
         baseModule: GENERIC_REPORT_MODULES?.MARKETING,
         apiQuery: marketingReportsListTabsParams?.apiQueryCustomReports,
         exportApiQuery:
-          marketingReportsListTabsParams?.exportApiQueryAllReports,
+          marketingReportsListTabsParams?.exportApiQueryCustomReports,
         permission: AIR_OPERATION_REPORTS_MARKETING_CUSTOM_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           marketingReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           marketingReportsListTabsParams?.editReportPath?.(id),
         filter: [['type', DYNAMIC_REPORTS_TYPES?.CUSTOM]],
       },

@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useDeleteReportTemporaryMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 
 export const useDeleteReport = (props: ReportsListsComponentPropsI) => {
   const {
@@ -18,10 +18,10 @@ export const useDeleteReport = (props: ReportsListsComponentPropsI) => {
     useDeleteReportTemporaryMutation();
 
   const deleteReport = async () => {
-    const deleteParams = new URLSearchParams();
+    const deleteParams: URLSearchParams = new URLSearchParams();
 
     selectedReportLists?.forEach(
-      (reportId: any) => deleteParams?.append('ids', reportId?._id),
+      (reportId: { _id: string }) => deleteParams?.append('ids', reportId?._id),
     );
 
     const apiDataParameter = {

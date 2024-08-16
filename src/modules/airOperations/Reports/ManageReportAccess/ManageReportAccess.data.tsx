@@ -3,6 +3,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import {
@@ -179,7 +180,7 @@ export const manageReportAccessFromFieldsDynamic = (
                 multiple
                 size="small"
                 placeholder="Select users"
-                getOptionLabel={(option: any) =>
+                getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
                   `${option?.firstName} ${option?.lastName}`
                 }
               />

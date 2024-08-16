@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { useRenameReport } from './useRenameReport';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 
 export const RenameReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;

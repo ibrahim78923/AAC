@@ -5,9 +5,10 @@ import {
 } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import * as Yup from 'yup';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { ChangeReportOwnerFormFieldsI } from './ChangeReportOwner.interface';
 
 export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
   const {
@@ -21,20 +22,21 @@ export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
   const [changeReportOwnerTrigger, changeReportOwnerStatus] =
     useChangeReportOwnerMutation();
 
-  const methods = useForm<any>({
-    defaultValues: {
-      owner: null,
-    },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        owner: Yup?.mixed()?.nullable()?.required('Owner name is Required'),
-      }),
-    ),
-  });
+  const methods: UseFormReturn<ChangeReportOwnerFormFieldsI | any> =
+    useForm<any>({
+      defaultValues: {
+        owner: null,
+      },
+      resolver: yupResolver(
+        Yup?.object()?.shape({
+          owner: Yup?.mixed()?.nullable()?.required('Owner name is Required'),
+        }),
+      ),
+    });
 
   const { handleSubmit, reset } = methods;
 
-  const submitChangeOwner = async (formData: any) => {
+  const submitChangeOwner = async (formData: ChangeReportOwnerFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
         id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,

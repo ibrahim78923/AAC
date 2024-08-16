@@ -4,7 +4,12 @@ import {
   successSnackbar,
 } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import {
+  useFieldArray,
+  useForm,
+  UseFormReturn,
+  useWatch,
+} from 'react-hook-form';
 import {
   MANAGE_REPORT_ACCESS_TYPES,
   manageReportAccessDefaultValues,
@@ -17,7 +22,9 @@ import {
   useManageReportAccessMutation,
 } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ManageAccessReportFormFieldsI } from './ManageReportAccess.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
   const {
@@ -31,7 +38,7 @@ export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
   const [manageReportAccessTrigger, manageReportAccessStatus] =
     useManageReportAccessMutation();
 
-  const methods = useForm<any>({
+  const methods: UseFormReturn<ManageAccessReportFormFieldsI> = useForm<any>({
     defaultValues: manageReportAccessDefaultValues?.(),
     resolver: yupResolver(manageReportAccessValidationSchema),
   });
@@ -168,10 +175,8 @@ export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
   const apiQueryUsers =
     useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery();
 
-  const manageReportAccessFromFields = manageReportAccessFromFieldsDynamic?.(
-    apiQueryUsers,
-    fields,
-  );
+  const manageReportAccessFromFields: ReactHookFormFieldsI[] =
+    manageReportAccessFromFieldsDynamic?.(apiQueryUsers, fields);
 
   return {
     methods,

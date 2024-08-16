@@ -18,9 +18,6 @@ export const salesReportsListTabsDynamic = (
       _id: 1,
       name: 'All Reports',
       id: 'allReports',
-      apiQuery: salesReportsListTabsParams?.getReportsApiQuery,
-      exportApiQuery: salesReportsListTabsParams?.exportApiQueryAllReports,
-      permissions: AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS ?? {},
       ),
@@ -35,7 +32,7 @@ export const salesReportsListTabsDynamic = (
         permission: AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           salesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           salesReportsListTabsParams?.editReportPath?.(id),
       },
     },
@@ -43,9 +40,6 @@ export const salesReportsListTabsDynamic = (
       _id: 2,
       name: 'Favorite',
       id: 'favorite',
-      apiQuery: salesReportsListTabsParams?.getReportsApiQuery,
-      exportApiQuery: salesReportsListTabsParams?.exportApiQueryFavoriteReports,
-      permissions: AIR_OPERATION_REPORTS_SALES_FAVOURITES_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SALES_FAVOURITES_PERMISSIONS ?? {},
       ),
@@ -59,7 +53,7 @@ export const salesReportsListTabsDynamic = (
         filter: [['isFavorite', true + '']],
         onRestoreClick: () =>
           salesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           salesReportsListTabsParams?.editReportPath?.(id),
         exportApiQuery:
           salesReportsListTabsParams?.exportApiQueryFavoriteReports,
@@ -70,10 +64,6 @@ export const salesReportsListTabsDynamic = (
       _id: 3,
       name: 'Dashboard Reports',
       id: 'dashboardReports',
-      apiQuery: salesReportsListTabsParams?.getReportsApiQuery,
-      exportApiQuery:
-        salesReportsListTabsParams?.exportApiQueryDashboardReports,
-      permissions: AIR_OPERATION_REPORTS_SALES_DASHBOARD_REPORTS_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SALES_DASHBOARD_REPORTS_PERMISSIONS ?? {},
       ),
@@ -89,7 +79,7 @@ export const salesReportsListTabsDynamic = (
         permission: AIR_OPERATION_REPORTS_SALES_DASHBOARD_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           salesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           salesReportsListTabsParams?.editReportPath?.(id),
         filter: [['type', DYNAMIC_REPORTS_TYPES?.DASHBOARD]],
       },
@@ -98,10 +88,6 @@ export const salesReportsListTabsDynamic = (
       _id: 4,
       name: 'Custom Reports',
       id: 'customReports',
-      apiQuery: salesReportsListTabsParams?.apiQueryAllReports,
-      exportApiQuery:
-        salesReportsListTabsParams?.exportApiQueryDashboardReports,
-      permissions: AIR_OPERATION_REPORTS_SALES_CUSTOM_REPORTS_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SALES_CUSTOM_REPORTS_PERMISSIONS ?? {},
       ),
@@ -112,11 +98,11 @@ export const salesReportsListTabsDynamic = (
         id: 'customReports',
         baseModule: GENERIC_REPORT_MODULES?.SALES,
         apiQuery: salesReportsListTabsParams?.apiQueryCustomReports,
-        exportApiQuery: salesReportsListTabsParams?.exportApiQueryAllReports,
+        exportApiQuery: salesReportsListTabsParams?.exportApiQueryCustomReports,
         permission: AIR_OPERATION_REPORTS_SALES_CUSTOM_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           salesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           salesReportsListTabsParams?.editReportPath?.(id),
         filter: [['type', DYNAMIC_REPORTS_TYPES?.CUSTOM]],
       },

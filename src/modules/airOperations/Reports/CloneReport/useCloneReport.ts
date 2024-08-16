@@ -1,7 +1,7 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useCloneReportsMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 
 export const useCloneReport = (props: ReportsListsComponentPropsI) => {
   const {

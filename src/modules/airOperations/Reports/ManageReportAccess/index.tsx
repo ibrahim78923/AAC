@@ -11,7 +11,8 @@ import {
 } from '@mui/material';
 import { useManageReportAccess } from './useManageReportAccess';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -56,7 +57,7 @@ export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
         <DialogContent>
           <br />
           <Grid container spacing={2}>
-            {manageReportAccessFromFields?.map((item: any) => (
+            {manageReportAccessFromFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

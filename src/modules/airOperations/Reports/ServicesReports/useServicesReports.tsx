@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { servicesReportsListTabsDynamic } from './ServicesReports.data';
 import { useLazyGetAllGenericReportsListQuery } from '@/services/airOperations/reports';
 import { GENERIC_REPORT_MODULES } from '@/constants/strings';
+import { PermissionTabsArrayI } from '@/components/Tabs/PermissionsTabs/PermissionsTabs.interface';
 
 export const useServicesReports = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ export const useServicesReports = () => {
     });
   };
 
-  const editReportPath = (reportId: any) => {
+  const editReportPath = (reportId: string) => {
     router?.push({
       pathname: AIR_OPERATIONS?.UPSERT_GENERIC_REPORTS,
       query: {
@@ -57,31 +58,18 @@ export const useServicesReports = () => {
     exportApiQueryDashboardReports,
     exportApiQueryFavoriteReports,
     exportApiQueryAllReports,
+    exportApiQueryCustomReports,
     getReportsApiQuery,
     restoreReportsPath,
     editReportPath,
   };
 
-  const servicesReportsListTabs = servicesReportsListTabsDynamic(
-    servicesReportsListTabsParams,
-  );
-
-  const tabsArrayData = servicesReportsListTabs?.map((tabs: any) => tabs?.name);
+  const servicesReportsListTabs: PermissionTabsArrayI[] =
+    servicesReportsListTabsDynamic(servicesReportsListTabsParams);
 
   return {
-    servicesReportsListTabs,
-    tabsArrayData,
     router,
-    apiQueryAllReports,
-    apiQueryFavoriteReports,
-    apiQueryDashboardReports,
-    apiQueryCustomReports,
-    exportApiQueryCustomReports,
-    exportApiQueryAllReports,
-    exportApiQueryFavoriteReports,
-    exportApiQueryDashboardReports,
-    restoreReportsPath,
-    editReportPath,
+    servicesReportsListTabs,
     id,
   };
 };

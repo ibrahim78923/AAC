@@ -2,7 +2,8 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useRestoreReportsFilter } from './useRestoreReportsFilter';
-import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
+import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const RestoreReportsFilter = (
   props: RestoreReportsListsComponentPropsI,
@@ -37,11 +38,13 @@ export const RestoreReportsFilter = (
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              {restoreReportFilterFormFields?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
+              {restoreReportFilterFormFields?.map(
+                (item: ReactHookFormFieldsI) => (
+                  <Grid item xs={12} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </Box>

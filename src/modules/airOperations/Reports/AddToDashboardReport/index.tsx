@@ -11,7 +11,8 @@ import {
 import { PAGINATION } from '@/config';
 import { useAddToDashboardReport } from './useAddToDashboardReport';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -69,7 +70,9 @@ export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
               limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
               productId: id,
             }}
-            getOptionLabel={(option: any) => `${option?.name}`}
+            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
+              `${option?.name}`
+            }
           />
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>

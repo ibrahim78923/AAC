@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { RestoreReportIcon } from '@/assets/icons';
 import { useRestoreReport } from './useRestoreReport';
-import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
+import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 
 export const RestoreReport = (props: RestoreReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -14,7 +14,7 @@ export const RestoreReport = (props: RestoreReportsListsComponentPropsI) => {
       typeImage={<RestoreReportIcon />}
       type={`${ALERT_MODALS_TYPE?.RESTORE} Report`}
       message="You are about to restore a record"
-      open={isPortalOpen?.isRestore}
+      open={isPortalOpen?.isRestore as boolean}
       handleClose={() => closeModal?.()}
       handleSubmitBtn={() => restoreReport?.()}
       loading={restoreDeletedReportStatus?.isLoading}

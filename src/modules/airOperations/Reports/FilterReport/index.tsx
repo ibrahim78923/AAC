@@ -2,7 +2,8 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useFilterReport } from './useFilterReport';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const FilterReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -35,7 +36,7 @@ export const FilterReport = (props: ReportsListsComponentPropsI) => {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              {reportFilterFormFields?.map((item: any) => (
+              {reportFilterFormFields?.map((item: ReactHookFormFieldsI) => (
                 <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

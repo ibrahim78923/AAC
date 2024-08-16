@@ -1,26 +1,24 @@
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import {
   reportFilterFormFieldsDynamic,
   reportFiltersDefaultValues,
 } from './FilterReport.data';
 import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
-import useAuth from '@/hooks/useAuth';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { FilterReportFormFieldsI } from './FilterReport.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const useFilterReport = (props: ReportsListsComponentPropsI) => {
   const { setIsPortalOpen, reportFilters, setReportFilter } = props;
-  const auth: any = useAuth();
 
-  const { _id: productId } = auth?.product;
-
-  const methods: any = useForm({
+  const methods: UseFormReturn<FilterReportFormFieldsI> = useForm({
     defaultValues: reportFiltersDefaultValues?.(reportFilters),
   });
 
   const { handleSubmit, reset } = methods;
 
-  const submit = async (formData: any) => {
+  const submit = async (formData: FilterReportFormFieldsI) => {
     const startDate = formData?.createdDate?.startDate
       ? makeDateTime(formData?.createdDate?.startDate, new Date())
       : undefined;
@@ -54,10 +52,8 @@ export const useFilterReport = (props: ReportsListsComponentPropsI) => {
   const reportOwnerApiQuery =
     useLazyGetReportsOwnersDropdownListForReportsQuery?.();
 
-  const reportFilterFormFields = reportFilterFormFieldsDynamic?.(
-    reportOwnerApiQuery,
-    productId,
-  );
+  const reportFilterFormFields: ReactHookFormFieldsI[] =
+    reportFilterFormFieldsDynamic?.(reportOwnerApiQuery);
 
   return {
     methods,
