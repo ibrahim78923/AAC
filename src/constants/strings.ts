@@ -949,8 +949,8 @@ export const FIELD_TYPE = {
 
 export const COLLECTION_NAME = {
   ASSET_TYPES: 'assettypes',
-  LOCATION: 'location',
-  DEPARTMENT: 'department',
+  LOCATION: 'locations',
+  DEPARTMENT: 'departments',
   VENDORS: 'vendors',
   USERS: 'users',
   SERVICE_CATEGORIES: 'servicecategories',

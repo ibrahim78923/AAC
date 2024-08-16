@@ -8,7 +8,7 @@ import NoData from '@/components/NoData';
 export const Announcement = (props: any) => {
   const { data, isPreviewMode } = props;
   const { renderPortalComponent, isPortalOpen, setIsPortalOpen } =
-    useAnnouncement();
+    useAnnouncement(props);
 
   return (
     <>

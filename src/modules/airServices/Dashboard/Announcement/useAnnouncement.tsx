@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import AddAnnouncement from './AddAnnouncement';
+import { UpsertAnnouncement } from './UpsertAnnouncement';
 import { AnnouncementList } from './AnnouncementList';
 import { dropdownAnnouncementsOptionsDynamic } from './Announcement.data';
 import { DeleteAnnouncement } from './DeleteAnnouncement';
 import { useLazyGetCustomerAnnouncementQuery } from '@/services/airServices/dashboard';
 import { PAGINATION } from '@/config';
 
-export const useAnnouncement = () => {
+export const useAnnouncement = (props: any) => {
+  const { data } = props;
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -31,8 +32,8 @@ export const useAnnouncement = () => {
     } catch (error: any) {}
   };
 
-  const dropdownAnnouncementsOptions = (data: any) =>
-    dropdownAnnouncementsOptionsDynamic?.(setIsPortalOpen, data);
+  const dropdownAnnouncementsOptions = (dropdownData: any) =>
+    dropdownAnnouncementsOptionsDynamic?.(setIsPortalOpen, dropdownData);
 
   const portalComponentProps = {
     isPortalOpen: isPortalOpen,
@@ -44,11 +45,12 @@ export const useAnnouncement = () => {
     pageLimit,
     setPageLimit,
     getCustomerAnnouncementData,
+    data,
   };
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isUpsert) {
-      return <AddAnnouncement {...portalComponentProps} />;
+      return <UpsertAnnouncement {...portalComponentProps} />;
     }
     if (isPortalOpen?.isView) {
       return <AnnouncementList {...portalComponentProps} />;

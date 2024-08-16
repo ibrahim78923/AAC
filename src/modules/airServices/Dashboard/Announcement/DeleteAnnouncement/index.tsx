@@ -6,7 +6,7 @@ export const DeleteAnnouncement = (props: any) => {
   const { isPortalOpen } = props;
   const {
     deleteAnnouncement,
-    deleteSingleServicesAnnouncementStatus,
+    deleteServicesAnnouncementOnDashboardStatus,
     closeAnnouncementDeleteModal,
   } = useDeleteAnnouncement(props);
 
@@ -18,8 +18,10 @@ export const DeleteAnnouncement = (props: any) => {
         open={isPortalOpen?.isDelete}
         handleClose={() => closeAnnouncementDeleteModal?.()}
         handleSubmitBtn={() => deleteAnnouncement?.()}
-        loading={deleteSingleServicesAnnouncementStatus?.isLoading}
-        disableCancelBtn={deleteSingleServicesAnnouncementStatus?.isLoading}
+        loading={deleteServicesAnnouncementOnDashboardStatus?.isLoading}
+        disableCancelBtn={
+          deleteServicesAnnouncementOnDashboardStatus?.isLoading
+        }
       />
     </>
   );

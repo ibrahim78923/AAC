@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
+import { useDeleteServicesAnnouncementOnDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteAnnouncement = (props: any) => {
@@ -13,18 +13,20 @@ export const useDeleteAnnouncement = (props: any) => {
     isPortalOpen,
   } = props;
   const [
-    deleteSingleServicesAnnouncementTrigger,
-    deleteSingleServicesAnnouncementStatus,
-  ] = useDeleteDynamicServicesDashboardMutation();
+    deleteServicesAnnouncementOnDashboardTrigger,
+    deleteServicesAnnouncementOnDashboardStatus,
+  ] = useDeleteServicesAnnouncementOnDashboardMutation();
 
   const deleteAnnouncement = async () => {
     const apiDataParameter = {
       queryParams: {
-        ids: isPortalOpen?.data?._id,
+        Ids: isPortalOpen?.data?._id,
       },
     };
     try {
-      await deleteSingleServicesAnnouncementTrigger(apiDataParameter)?.unwrap();
+      await deleteServicesAnnouncementOnDashboardTrigger(
+        apiDataParameter,
+      )?.unwrap();
       successSnackbar?.('Announcement deleted successfully!');
       closeAnnouncementDeleteModal?.();
       const newPage =
@@ -44,7 +46,7 @@ export const useDeleteAnnouncement = (props: any) => {
 
   return {
     deleteAnnouncement,
-    deleteSingleServicesAnnouncementStatus,
+    deleteServicesAnnouncementOnDashboardStatus,
     closeAnnouncementDeleteModal,
   };
 };

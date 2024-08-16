@@ -12,9 +12,12 @@ export const AnnouncementList = (props: any) => {
   const {
     isPortalOpen,
     dropdownAnnouncementsOptions,
-    lazyGetCustomerAnnouncementStatus,
     setPageLimit,
     setPage,
+    data,
+    isLoading = false,
+    isFetching = false,
+    isError = false,
   } = props;
 
   const { onClose } = useAnnouncementList?.(props);
@@ -27,16 +30,15 @@ export const AnnouncementList = (props: any) => {
       isOk
       okText=""
     >
-      {lazyGetCustomerAnnouncementStatus?.isLoading ||
-      lazyGetCustomerAnnouncementStatus?.isFetching ? (
+      {isLoading || isFetching ? (
         <SkeletonForm />
-      ) : lazyGetCustomerAnnouncementStatus?.isError ? (
+      ) : isError ? (
         <ApiErrorState />
       ) : (
         <Box my="0.75rem">
-          {!!lazyGetCustomerAnnouncementStatus?.data?.annoucements?.length ? (
+          {!!data?.announcements?.annoucements?.length ? (
             <>
-              {lazyGetCustomerAnnouncementStatus?.data?.annoucements?.map(
+              {data?.announcements?.annoucements?.map(
                 (announcement: any, index: number) => (
                   <Fragment key={announcement?._id}>
                     <AnnouncementCard
@@ -50,19 +52,17 @@ export const AnnouncementList = (props: any) => {
                 ),
               )}
               <br />
-              <CustomPagination
-                count={lazyGetCustomerAnnouncementStatus?.data?.meta?.pages}
-                pageLimit={lazyGetCustomerAnnouncementStatus?.data?.meta?.limit}
-                currentPage={
-                  lazyGetCustomerAnnouncementStatus?.data?.meta?.page
-                }
-                totalRecords={
-                  lazyGetCustomerAnnouncementStatus?.data?.meta?.total
-                }
-                onPageChange={(page: any) => setPage?.(page)}
-                setPage={setPage}
-                setPageLimit={setPageLimit}
-              />
+              {!!data?.announcements?.annoucements?.meta?.pages && (
+                <CustomPagination
+                  count={data?.announcements?.annoucements?.meta?.pages}
+                  pageLimit={data?.announcements?.annoucements?.meta?.limit}
+                  currentPage={data?.announcements?.annoucements?.meta?.page}
+                  totalRecords={data?.announcements?.annoucements?.meta?.total}
+                  onPageChange={(page: any) => setPage?.(page)}
+                  setPage={setPage}
+                  setPageLimit={setPageLimit}
+                />
+              )}
             </>
           ) : (
             <NoData />

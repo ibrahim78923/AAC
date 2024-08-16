@@ -207,6 +207,29 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         body: apiDataParameter?.body,
       }),
     }),
+    deleteServicesAnnouncementOnDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DELETE_SERVICE_DASHBOARD_ANNOUNCEMENT}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    updateServicesAnnouncementOnDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_SERVICE_DASHBOARD_ANNOUNCEMENT}`,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getSingleAnnouncementOnDashboard: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_SERVICE_DASHBOARD_ANNOUNCEMENT}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -237,4 +260,7 @@ export const {
   useSendServiceDashboardViaEmailMutation,
   useSendServiceDashboardViaEmailOnceMutation,
   useLazyGetCustomerAnnouncementQuery,
+  useDeleteServicesAnnouncementOnDashboardMutation,
+  useUpdateServicesAnnouncementOnDashboardMutation,
+  useGetSingleAnnouncementOnDashboardQuery,
 } = dashboardAPI;

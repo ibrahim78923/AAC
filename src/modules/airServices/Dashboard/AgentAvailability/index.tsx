@@ -56,7 +56,7 @@ export const AgentAvailability = (props: any) => {
           gap={1}
           flexWrap={'wrap'}
         >
-          {pieChartHeader(theme, data?.agentAvailabilty?.data)?.map(
+          {pieChartHeader(theme, data?.agentAvailability?.data)?.map(
             (department) => (
               <Box key={department?.title}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -76,7 +76,7 @@ export const AgentAvailability = (props: any) => {
       <Box sx={{ marginTop: 2 }}>
         {
           <>
-            {pieChartHeader(theme, data?.agentAvailabilty?.data).every(
+            {pieChartHeader(theme, data?.agentAvailability?.data).every(
               (department) => department?.titleNumber === 0,
             ) ? (
               <NoData
