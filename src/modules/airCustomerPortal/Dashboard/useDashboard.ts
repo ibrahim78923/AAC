@@ -1,36 +1,29 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { dashboardWidgetsFunction } from './Dashboard.data';
+import useAuth from '@/hooks/useAuth';
+import {
+  dashboardWidgetsDynamic,
+  newTicketsDropdownDynamic,
+} from './Dashboard.data';
 
 export const useDashboard = () => {
-  const { push } = useRouter();
-
-  const dashboardWidgets = dashboardWidgetsFunction();
+  const router = useRouter();
+  const { user }: any = useAuth();
   const [openReportAnIssueModal, setOpenReportAnIssueModal] =
     useState<boolean>(false);
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<any>(null);
 
-  const handleButtonClick = (event: any) => {
-    setAnchorEl(event?.currentTarget);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpen(false);
-  };
+  const newTicketsDropdown = newTicketsDropdownDynamic?.(
+    setOpenReportAnIssueModal,
+    router,
+  );
+  const dashboardWidgets = dashboardWidgetsDynamic?.();
 
   return {
-    dashboardWidgets,
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
-    open,
-    setOpen,
-    anchorEl,
-    setAnchorEl,
-    handleButtonClick,
-    handleClose,
-    push,
+    router,
+    user,
+    newTicketsDropdown,
+    dashboardWidgets,
   };
 };

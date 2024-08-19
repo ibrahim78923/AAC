@@ -4,11 +4,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useAnnouncements = () => {
-  const [openDrawer, setDrawerOpen] = useState(false);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [openDrawer, setDrawerOpen] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const router = useRouter();
+
   const getCustomerAnnouncementApiParameter = {
     queryParams: {
       page: page,
@@ -16,7 +17,7 @@ export const useAnnouncements = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetCustomerDashboardAnnouncementsQuery(
       getCustomerAnnouncementApiParameter,
       {
@@ -42,5 +43,6 @@ export const useAnnouncements = () => {
     page,
     setPage,
     onClose,
+    refetch,
   };
 };

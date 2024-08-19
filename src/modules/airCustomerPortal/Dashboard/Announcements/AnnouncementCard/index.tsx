@@ -6,8 +6,9 @@ import {
 } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
 import { Avatar, Box, Typography } from '@mui/material';
+import { AnnouncementCardPropsI } from '../Announcements.interface';
 
-export const AnnouncementCard = (props: any) => {
+export const AnnouncementCard = (props: AnnouncementCardPropsI) => {
   const { data, index } = props;
   return (
     <Box

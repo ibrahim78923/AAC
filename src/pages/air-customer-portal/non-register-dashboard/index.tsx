@@ -8,5 +8,5 @@ export default NonRegisterAirCustomerPortalDashboard;
 NonRegisterAirCustomerPortalDashboard.getLayout = function getLayout(
   page: any,
 ) {
-  return <Layout>{page}</Layout>;
+  return <Layout variant="public">{page}</Layout>;
 };

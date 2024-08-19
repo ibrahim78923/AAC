@@ -4,12 +4,10 @@ import { useRouter } from 'next/router';
 export const useRecentTickets = () => {
   const router = useRouter();
 
-  const { data, isLoading, isFetching, isError } = useGetRecentTicketsQuery(
-    null,
-    {
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetRecentTicketsQuery(null, {
       refetchOnMountOrArgChange: true,
-    },
-  );
+    });
 
   return {
     data,
@@ -17,5 +15,6 @@ export const useRecentTickets = () => {
     isFetching,
     isError,
     router,
+    refetch,
   };
 };

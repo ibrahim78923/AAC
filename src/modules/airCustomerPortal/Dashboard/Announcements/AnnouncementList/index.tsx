@@ -6,8 +6,9 @@ import { Fragment } from 'react';
 import { AnnouncementCard } from '../AnnouncementCard';
 import NoData from '@/components/NoData';
 import CustomPagination from '@/components/CustomPagination';
+import { AnnouncementsListPropsI } from '../Announcements.interface';
 
-export const AnnouncementList = (props: any) => {
+export const AnnouncementList = (props: AnnouncementsListPropsI) => {
   const {
     isLoading,
     isFetching,
@@ -17,7 +18,9 @@ export const AnnouncementList = (props: any) => {
     onClose,
     setPage,
     setPageLimit,
+    refetch,
   } = props;
+
   return (
     <CommonDrawer
       title="Announcements"
@@ -29,7 +32,7 @@ export const AnnouncementList = (props: any) => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <Box my="0.75rem">
           {!!data?.annoucements?.length ? (
@@ -45,7 +48,7 @@ export const AnnouncementList = (props: any) => {
                 pageLimit={data?.meta?.limit}
                 currentPage={data?.meta?.page}
                 totalRecords={data?.meta?.total}
-                onPageChange={(page: any) => setPage?.(page)}
+                onPageChange={(page: number) => setPage?.(page)}
                 setPage={setPage}
                 setPageLimit={setPageLimit}
               />

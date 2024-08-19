@@ -18,6 +18,7 @@ export const Announcements = () => {
     setPageLimit,
     setPage,
     onClose,
+    refetch,
   } = useAnnouncements();
 
   return (
@@ -32,7 +33,11 @@ export const Announcements = () => {
         {isLoading || isFetching ? (
           <SkeletonForm />
         ) : isError ? (
-          <ApiErrorState height={'100%'} />
+          <ApiErrorState
+            height={'100%'}
+            canRefresh
+            refresh={() => refetch?.()}
+          />
         ) : (
           <>
             {!!data?.annoucements?.length ? (
@@ -58,6 +63,7 @@ export const Announcements = () => {
           isError={isError}
           setPage={setPage}
           setPageLimit={setPageLimit}
+          refetch={refetch}
         />
       )}
     </>
