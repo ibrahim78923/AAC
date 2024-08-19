@@ -19,7 +19,7 @@ export const useDeleteTask = (props: TicketsTasksPortalComponentPropsI) => {
     const deleteParams = new URLSearchParams();
 
     selectedTasksList?.forEach(
-      (taskId: any) => deleteParams?.append('ids', taskId?._id),
+      (taskId: { _id: string }) => deleteParams?.append('ids', taskId?._id),
     );
 
     const deleteTaskParameter = {

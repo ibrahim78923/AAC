@@ -74,7 +74,7 @@ export const useEditTicketDetails = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
@@ -166,11 +166,11 @@ export const useEditTicketDetails = () => {
       !!newFormData?.impact &&
         ticketDetailsData.append('impact', newFormData?.impact?._id);
       newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
-        ticketDetailsData.append('serviceId', newFormData?.serviceId?._id);
+        ticketDetailsData.append('serviceId', newFormData?.service?._id);
       ticketDetailsData.append(
         'description',
         newFormData?.ticketType?._id === TICKET_TYPE?.SR
-          ? newFormData?.serviceId?.description
+          ? newFormData?.service?.description
           : '',
       );
       !!newFormData?.agent &&
@@ -242,5 +242,7 @@ export const useEditTicketDetails = () => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     isError,
+    getDynamicFormData,
+    refetch,
   };
 };

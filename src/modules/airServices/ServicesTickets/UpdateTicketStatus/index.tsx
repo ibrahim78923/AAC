@@ -16,7 +16,7 @@ export const UpdateTicketStatus = (
       typeImage={<CloneReportIcon />}
       type={ALERT_MODALS_TYPE?.INFO}
       message="Do you want to update the ticket status?"
-      open={isPortalOpen?.isOpen}
+      open={isPortalOpen?.isOpen as boolean}
       handleClose={() => closeModal?.()}
       handleSubmitBtn={() => updateTicketStatus?.()}
       loading={putSingleTicketStatusStatus?.isLoading}

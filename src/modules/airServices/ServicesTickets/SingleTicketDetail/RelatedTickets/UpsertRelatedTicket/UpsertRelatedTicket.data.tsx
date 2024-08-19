@@ -1,11 +1,10 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
@@ -19,13 +18,24 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
 import { ROLES } from '@/constants/strings';
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+import { NextRouter } from 'next/router';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { pxToRem } from '@/utils/getFontValue';
+import { PAGINATION } from '@/config';
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Requester is Required'),
   subject: Yup?.string()?.trim()?.required('Subject is Required'),
-  description: Yup?.string()?.trim()?.required('Description is Required'),
+  description: Yup?.string()
+    ?.trim()
+    ?.required('Description is Required')
+    ?.test('is-not-empty', 'Description is Required', (value: string) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
   category: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Status is Required'),
   priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
@@ -62,19 +72,12 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? data?.agentDetails
       : null,
-    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
-    plannedStartTime:
-      typeof data?.plannedStartDate === 'string'
-        ? new Date(data?.plannedStartDate)
-        : new Date(),
-    plannedEndDate:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
-    plannedEndTime:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
+    plannedStartDate: !!data?.plannedStartDate
+      ? new Date(data?.plannedStartDate)
+      : null,
+    plannedEndDate: !!data?.plannedEndDate
+      ? new Date(data?.plannedEndDate)
+      : null,
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
       ? data?.associateAssetsDetails
@@ -88,7 +91,7 @@ export const upsertTicketFormFieldsDynamic = (
   apiQueryAgent?: any,
   apiQueryCategory?: any,
   apiQueryAssociateAsset?: any,
-  router?: any,
+  router?: NextRouter,
 ) => [
   {
     id: 1,
@@ -100,7 +103,7 @@ export const upsertTicketFormFieldsDynamic = (
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
       externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
         router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
@@ -126,7 +129,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Description',
       fullWidth: true,
       required: true,
-      style: { height: '250px' },
+      style: { height: pxToRem(250) },
     },
     component: RHFEditor,
   },
@@ -138,7 +141,8 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryCategory,
       placeholder: 'Choose Category',
-      getOptionLabel: (option: any) => option?.categoryName,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+        option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },
@@ -151,7 +155,7 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -164,7 +168,7 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -187,7 +191,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -199,7 +203,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -211,8 +215,11 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
-      getOptionLabel: (option: any) =>
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
+      },
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -224,20 +231,10 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Planned Start Date',
       fullWidth: true,
       disabled: true,
+      ampm: false,
     },
-    component: RHFDatePicker,
-    md: 7.5,
-  },
-  {
-    id: 12,
-    componentProps: {
-      name: 'plannedStartTime',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-      disabled: true,
-    },
-    component: RHFTimePicker,
-    md: 4.5,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 13,
@@ -246,21 +243,11 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Planned End Date',
       fullWidth: true,
       disablePast: true,
+      ampm: false,
       textFieldProps: { readOnly: true },
     },
-    component: RHFDatePicker,
-    md: 7.5,
-  },
-  {
-    id: 14,
-    componentProps: {
-      name: 'plannedEndTime',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-      textFieldProps: { readOnly: true },
-    },
-    component: RHFTimePicker,
-    md: 4.5,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 15,
@@ -281,8 +268,9 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       multiple: true,
       apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.displayName,
+      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+        option?.displayName,
       renderOption: (option: any) => (
         <Box
           display={'flex'}

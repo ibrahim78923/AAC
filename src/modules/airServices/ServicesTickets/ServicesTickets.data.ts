@@ -1,3 +1,4 @@
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import {
   TICKET_CATEGORY,
   TICKET_IMPACT,
@@ -7,9 +8,8 @@ import {
   TICKET_TYPE,
   TICKET_TYPES,
 } from '@/constants/strings';
-import { AutocompleteOptionsDropdownI } from './ServicesTickets.interface';
 
-export const ticketStatusOptions: AutocompleteOptionsDropdownI = [
+export const ticketStatusOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_STATUS?.OPEN,
     label: TICKET_STATUS?.OPEN,
@@ -38,7 +38,7 @@ export const ticketDetailsStatusOptions: string[] = [
   TICKET_STATUS?.RESOLVED,
   TICKET_STATUS?.SPAM,
 ];
-export const ticketPriorityOptions: AutocompleteOptionsDropdownI = [
+export const ticketPriorityOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_PRIORITY?.LOW,
     label: TICKET_PRIORITY?.LOW,
@@ -57,7 +57,7 @@ export const ticketPriorityOptions: AutocompleteOptionsDropdownI = [
   },
 ];
 
-export const ticketImpactOptions: AutocompleteOptionsDropdownI = [
+export const ticketImpactOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_IMPACT?.LOW,
     label: TICKET_IMPACT?.LOW,
@@ -78,7 +78,7 @@ export const ticketCategoryOptions: string[] = [
   TICKET_CATEGORY?.OFFICE_APPLICATION,
   TICKET_CATEGORY?.OFFICE_FURNITURE,
 ];
-export const ticketTypeOptions: AutocompleteOptionsDropdownI = [
+export const ticketTypeOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_TYPE?.INC,
     label: TICKET_TYPE?.INC,
@@ -100,7 +100,7 @@ export const ticketImpact: string[] = [
   TICKET_IMPACT?.HIGH,
 ];
 
-export const ticketSourceOptions: AutocompleteOptionsDropdownI = [
+export const ticketSourceOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_SOURCE?.PHONE,
     label: TICKET_SOURCE?.PHONE,
@@ -119,7 +119,7 @@ export const ticketSourceOptions: AutocompleteOptionsDropdownI = [
   },
 ];
 
-export const ticketsTypeOptions: AutocompleteOptionsDropdownI = [
+export const ticketsTypeOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_TYPE?.INC,
     label: TICKET_TYPES?.INCIDENTS,

@@ -13,7 +13,9 @@ import { UpsertRelatedTicket } from './UpsertRelatedTicket';
 import {
   RelatedTicketsIsPortalOpenI,
   RelatedTicketsPortalComponentPropsI,
+  RelatedTicketsTableRowI,
 } from './RelatedTickets.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const renderPortalComponent = (
   isPortalOpen: RelatedTicketsIsPortalOpenI,
@@ -45,7 +47,8 @@ export const columnsFunction: any = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.childTicketDetails?._id,
+      accessorFn: (row: RelatedTicketsTableRowI) =>
+        row?.childTicketDetails?._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
@@ -93,7 +96,8 @@ export const columnsFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.childTicketDetails?.ticketIdNumber,
+      accessorFn: (row: RelatedTicketsTableRowI) =>
+        row?.childTicketDetails?.ticketIdNumber,
       id: 'ticketIdNumber',
       header: 'Tickets ID',
       isSortable: true,
@@ -123,14 +127,16 @@ export const columnsFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.childTicketDetails?.subject,
+      accessorFn: (row: RelatedTicketsTableRowI) =>
+        row?.childTicketDetails?.subject,
       id: 'subject',
       isSortable: true,
       header: 'Name',
       cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.childTicketDetails?.plannedEndDate,
+      accessorFn: (row: RelatedTicketsTableRowI) =>
+        row?.childTicketDetails?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Due Date',
@@ -140,7 +146,8 @@ export const columnsFunction: any = (
           : '---',
     },
     {
-      accessorFn: (row: any) => row?.childTicketDetails?.agentDetails,
+      accessorFn: (row: RelatedTicketsTableRowI) =>
+        row?.childTicketDetails?.agentDetails,
       id: 'assignedto',
       isSortable: true,
       header: 'Assigned To',
@@ -148,7 +155,8 @@ export const columnsFunction: any = (
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.childTicketDetails?.status,
+      accessorFn: (row: RelatedTicketsTableRowI) =>
+        row?.childTicketDetails?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -165,14 +173,14 @@ export const columnsFunction: any = (
 };
 
 export const relatedTicketsActionDropdownFunction = (
-  setIsPortalOpen: any,
+  setIsPortalOpen: Dispatch<SetStateAction<RelatedTicketsIsPortalOpenI>>,
   selectedChildTickets: any,
 ) => [
   {
     id: 1,
     permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_CHILD_TICKETS],
     title: 'Edit',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedChildTickets?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -189,7 +197,7 @@ export const relatedTicketsActionDropdownFunction = (
     id: 2,
     permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_CHILD_TICKETS],
     title: 'Delete',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen?.({
         isOpen: true,
         isDelete: true,

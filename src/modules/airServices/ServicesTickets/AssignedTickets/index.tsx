@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -12,6 +11,9 @@ import {
 import { useAssignedTickets } from './useAssignedTickets';
 import { ROLES } from '@/constants/strings';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { PAGINATION } from '@/config';
+import CloseIcon from '@mui/icons-material/Close';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const AssignedTickets = (props: TicketActionComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -26,7 +28,7 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
 
   return (
     <Dialog
-      open={isPortalOpen?.isOpen}
+      open={isPortalOpen?.isOpen as boolean}
       onClose={() => closeTicketsAssignedModal?.()}
       fullWidth
       maxWidth={'sm'}
@@ -42,27 +44,18 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
+            mb={1.5}
           >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3" textTransform={'capitalize'}>
-                Assign To
-              </Typography>
-            </Box>
-            <Box
-              sx={{ cursor: 'pointer' }}
+            <Typography variant="h4" color="slateBlue.main">
+              Assign To
+            </Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
               onClick={() => closeTicketsAssignedModal?.()}
-            >
-              <AlertModalCloseIcon />
-            </Box>
+            />
           </Box>
         </DialogTitle>
         <DialogContent>
-          <br />
           <RHFAutocompleteAsync
             label="Select user"
             name="user"
@@ -71,15 +64,16 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
             apiQuery={apiQueryAgent}
             size="small"
             placeholder="Choose Agent"
-            externalParams={{ limit: 50, role: ROLES?.ORG_EMPLOYEE }}
-            getOptionLabel={(option: any) =>
+            externalParams={{
+              limit: PAGINATION?.CURRENT_PAGE,
+              role: ROLES?.ORG_EMPLOYEE,
+            }}
+            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
               `${option?.firstName} ${option?.lastName}`
             }
           />
         </DialogContent>
-        <DialogActions
-          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
-        >
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"

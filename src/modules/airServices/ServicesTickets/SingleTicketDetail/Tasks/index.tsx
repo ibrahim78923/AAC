@@ -17,6 +17,8 @@ export const Tasks = () => {
     selectedTasksList,
     renderPortalComponent,
     actionsForTicketTasksLists,
+    getTaskListData,
+    page,
   } = useTasks();
   return (
     <>
@@ -65,8 +67,12 @@ export const Tasks = () => {
           isFetching={lazyGetTicketsTasksStatus?.isFetching}
           isError={lazyGetTicketsTasksStatus?.isError}
           isSuccess={lazyGetTicketsTasksStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
+          errorProps={{
+            canRefresh: true,
+            refresh: () => getTaskListData?.(page),
+          }}
         />
       </PermissionsGuard>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

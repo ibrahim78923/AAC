@@ -4,6 +4,10 @@ import {
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import { ROLES, TICKET_TYPE } from '@/constants/strings';
@@ -29,7 +33,7 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
   return Yup?.object()?.shape({
     ticketType: Yup?.mixed()?.nullable(),
     category: Yup?.mixed()?.nullable(),
-    serviceId: Yup?.mixed()
+    service: Yup?.mixed()
       ?.nullable()
       ?.when('ticketType', {
         is: (value: any) => value?._id === TICKET_TYPE?.SR,
@@ -57,6 +61,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
 
   return {
     category: data?.categoryDetails ?? null,
+    service: data?.serviceDetails ?? null,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
     priority: data?.pirority
       ? { _id: data?.pirority, label: data?.pirority }
@@ -99,7 +104,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -112,7 +117,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -135,7 +140,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -147,7 +152,8 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose ticket type',
       options: ticketTypeOptions,
-      getOptionLabel: (option: any) => option?.label,
+      disabled: watchForTicketType?._id === TICKET_TYPE?.EQ,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
 
     component: RHFAutocomplete,
@@ -160,7 +166,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -176,7 +182,7 @@ export const editTicketDetailsFormFieldsDynamic = (
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
         role: ROLES?.ORG_EMPLOYEE,
       },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -189,7 +195,8 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryCategory,
       placeholder: 'Choose Category',
-      getOptionLabel: (option: any) => option?.categoryName,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+        option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },
@@ -198,14 +205,15 @@ export const editTicketDetailsFormFieldsDynamic = (
         {
           id: 7,
           componentProps: {
-            name: 'serviceId',
+            name: 'service',
             label: 'Service',
             fullWidth: true,
             required: watchForTicketType?._id === TICKET_TYPE?.SR,
             apiQuery: apiQueryServicesCategory,
             placeholder: 'Choose Service',
             externalParams: { categoryId: getValues('category')?._id },
-            getOptionLabel: (option: any) => option?.itemName,
+            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+              option?.itemName,
           },
           component: RHFAutocompleteAsync,
         },

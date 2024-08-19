@@ -13,6 +13,10 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 const statusOptions = [TO_DO, IN_PROGRESS, DONE];
@@ -125,7 +129,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Select',
       apiQuery: apiQueryUser,
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -152,7 +156,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       placeholder: 'Select',
       fullWidth: true,
       options: notifyBeforeOption,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,

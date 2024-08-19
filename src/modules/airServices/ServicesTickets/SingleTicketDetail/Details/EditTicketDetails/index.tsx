@@ -10,6 +10,7 @@ import { useEditTicketDetails } from './useEditTicketDetails';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const EditTicketDetails = () => {
   const {
@@ -24,6 +25,8 @@ export const EditTicketDetails = () => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     isError,
+    getDynamicFormData,
+    refetch,
   } = useEditTicketDetails();
 
   return (
@@ -43,7 +46,13 @@ export const EditTicketDetails = () => {
       getDynamicFieldsStatus?.isFetching ? (
         <SkeletonForm />
       ) : getDynamicFieldsStatus?.isError || isError ? (
-        <ApiErrorState />
+        <ApiErrorState
+          canRefresh
+          refresh={() => {
+            refetch?.();
+            getDynamicFormData?.();
+          }}
+        />
       ) : (
         <Grid item xs={12}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -53,12 +62,12 @@ export const EditTicketDetails = () => {
               ]}
             >
               <Grid container spacing={4}>
-                {ticketDetailsFormFields?.map((item: any) => (
+                {ticketDetailsFormFields?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} md={4} key={item?.id}>
                     <item.component {...item?.componentProps} size={'small'} />
                   </Grid>
                 ))}
-                {form?.map((item: any) => (
+                {form?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} md={4} key={item?.id}>
                     {componentMap[item?.component] &&
                       createElement(componentMap[item?.component], {

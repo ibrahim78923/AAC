@@ -4,9 +4,11 @@ import {
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import * as Yup from 'yup';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { PAGINATION } from '@/config';
 
 export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
   const {
@@ -21,7 +23,7 @@ export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
 
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
-  const assignedTicketsMethod = useForm<any>({
+  const assignedTicketsMethod: UseFormReturn<any> = useForm<any>({
     defaultValues: {
       user: null,
     },
@@ -33,7 +35,10 @@ export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
   });
 
   const { handleSubmit, reset } = assignedTicketsMethod;
-  const submitAssignedTicketsForm = async (formData: any) => {
+
+  const submitAssignedTicketsForm = async (formData: {
+    user: AutocompleteAsyncOptionsI;
+  }) => {
     const assignTicketFormData = new FormData();
     assignTicketFormData?.append(
       'isChildTicket',
@@ -45,32 +50,26 @@ export const useAssignedTickets = (props: TicketActionComponentPropsI) => {
     assignTicketFormData?.append('status', singleTicketDetail?.status);
     assignTicketFormData?.append('id', selectedTicketList?.[0]);
     assignTicketFormData?.append('agent', formData?.user?._id);
-
     const putTicketParameter = {
       body: assignTicketFormData,
     };
-
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket assigned Successfully');
-      reset();
-      getTicketsListData(1, {});
-      setFilterTicketLists?.({});
-      setPage?.(1);
       closeTicketsAssignedModal?.();
+      setFilterTicketLists?.({});
+      setPage?.(PAGINATION?.CURRENT_PAGE);
+      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
-
   const closeTicketsAssignedModal = () => {
     reset();
     setSelectedTicketList([]);
     setIsPortalOpen?.({});
   };
-
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
-
   return {
     assignedTicketsMethod,
     handleSubmit,

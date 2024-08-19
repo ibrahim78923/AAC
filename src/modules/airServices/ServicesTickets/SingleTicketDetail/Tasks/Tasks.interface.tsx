@@ -18,5 +18,16 @@ export interface TicketsTasksPortalComponentPropsI {
   setPage: Dispatch<SetStateAction<number>>;
   totalRecords: number;
   page: number;
-  getTaskListData: any;
+  getTaskListData: (currentPage?: number) => Promise<void>;
+}
+export interface TicketTasksTableRowI {
+  _id: string;
+  assignedUser: {
+    firstName: string;
+    lastName: string;
+  };
+  title: string;
+  status: string;
+  startDate: string;
+  endDate: string;
 }

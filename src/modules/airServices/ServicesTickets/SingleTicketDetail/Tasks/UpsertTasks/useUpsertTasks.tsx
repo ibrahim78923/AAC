@@ -213,5 +213,6 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
     getDynamicFieldsStatus,
     form,
     postAttachmentStatus,
+    getDynamicFormData,
   };
 };
