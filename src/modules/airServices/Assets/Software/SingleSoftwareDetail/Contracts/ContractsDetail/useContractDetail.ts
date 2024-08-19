@@ -18,10 +18,10 @@ export const useContractDetail = () => {
     getSoftwareContractTrigger,
     { data, isLoading, isFetching, isSuccess, isError },
   ] = useLazyGetSoftwareContractsQuery();
+  const handleSoftwareContract = async () => {
+    await getSoftwareContractTrigger(contractParams);
+  };
   useEffect(() => {
-    const handleSoftwareContract = async () => {
-      await getSoftwareContractTrigger(contractParams);
-    };
     handleSoftwareContract();
   }, [getSoftwareContractTrigger, contractParams?.toString()]);
   const softwareContractData = data?.data?.contracts;
@@ -39,5 +39,6 @@ export const useContractDetail = () => {
     isError,
     softwareContractData,
     softwareContractMeta,
+    handleSoftwareContract,
   };
 };

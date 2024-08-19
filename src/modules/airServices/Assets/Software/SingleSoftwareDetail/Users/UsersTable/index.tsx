@@ -16,6 +16,7 @@ const UsersTable = ({ setUsersData, usersData }: UserTableI) => {
     metaData,
     isError,
     isSuccess,
+    handleGetUser,
   } = useUsers();
   const userDetails = getSoftwareUsers?.data?.softwareusers;
   return (
@@ -35,6 +36,7 @@ const UsersTable = ({ setUsersData, usersData }: UserTableI) => {
         setPage={setPage}
         setPageLimit={setLimit}
         onPageChange={(page: number) => setPage(page)}
+        errorProps={{ canRefresh: true, refresh: handleGetUser }}
       />
     </div>
   );

@@ -21,6 +21,7 @@ export const InstallationDetails = () => {
     setSearchBy,
     installationData,
     getInstallationListDataExport,
+    getInstallationListData,
   } = useInstallationDetail();
   return (
     <PermissionsGuard
@@ -52,6 +53,7 @@ export const InstallationDetails = () => {
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
+        errorProps={{ canRefresh: true, refresh: getInstallationListData }}
       />
     </PermissionsGuard>
   );

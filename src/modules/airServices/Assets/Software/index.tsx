@@ -34,6 +34,7 @@ const Software = () => {
     setIsOpenFilterDrawer,
     filterValues,
     theme,
+    refetch,
   } = useSoftware();
 
   return (
@@ -126,6 +127,7 @@ const Software = () => {
             onPageChange={(page: number) => setPage(page)}
             setPageLimit={setPageLimit}
             setPage={setPage}
+            errorProps={{ canRefresh: true, refresh: refetch }}
           />
         </PermissionsGuard>
       </Box>

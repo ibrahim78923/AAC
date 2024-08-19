@@ -22,6 +22,7 @@ export const ContractsDetails = () => {
     isError,
     softwareContractData,
     softwareContractMeta,
+    handleSoftwareContract,
   } = useContractDetail();
   return (
     <PermissionsGuard
@@ -68,6 +69,7 @@ export const ContractsDetails = () => {
         onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setLimit}
+        errorProps={{ canRefresh: true, refresh: handleSoftwareContract }}
       />
     </PermissionsGuard>
   );

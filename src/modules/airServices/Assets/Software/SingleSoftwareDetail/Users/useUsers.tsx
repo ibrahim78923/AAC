@@ -3,6 +3,7 @@ import {
   NOTISTACK_VARIANTS,
   SOFTWARE_USER_ACTIONS_TYPES,
   EXPORT_FILE_TYPE,
+  MODULE_TYPE,
 } from '@/constants/strings';
 import {
   useDeallocateContractMutation,
@@ -44,7 +45,7 @@ const useUsers = () => {
     getUserListTrigger,
     { data: getSoftwareUsers, isLoading, isFetching, isSuccess, isError },
   ] = useLazyGetSoftwareUsersDetailsQuery();
-  useEffect(() => {
+  const handleGetUser = async () => {
     const getUserListParam = new URLSearchParams();
     getUserListParam?.append('page', page?.toString());
     getUserListParam?.append('limit', limit?.toString());
@@ -53,16 +54,16 @@ const useUsers = () => {
     Object?.entries(filterValues)?.forEach(([key, value]: any) => {
       getUserListParam?.append(
         key,
-        key === 'department' && value
+        key === MODULE_TYPE?.DEPARTMENT?.toLowerCase() && value
           ? value?.name
           : value
             ? value?.toString()
             : '',
       );
     });
-    const handleGetUser = async () => {
-      await getUserListTrigger(getUserListParam);
-    };
+    await getUserListTrigger(getUserListParam);
+  };
+  useEffect(() => {
     handleGetUser();
   }, [softwareId, page, limit, search, filterValues, getUserListTrigger]);
   const metaData = getSoftwareUsers?.data?.meta;
@@ -217,6 +218,7 @@ const useUsers = () => {
     removeLoading,
     setFilterValues,
     filterValues,
+    handleGetUser,
   };
 };
 

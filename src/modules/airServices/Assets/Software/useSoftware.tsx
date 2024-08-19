@@ -24,7 +24,7 @@ export const useSoftware = () => {
     search: searchValue,
   };
 
-  const { data, isLoading, isError, isSuccess, isFetching } =
+  const { data, isLoading, isError, isSuccess, isFetching, refetch } =
     useGetAssetsSoftwareQuery(apiDataParameter, {
       refetchOnMountOrArgChange: true,
     });
@@ -55,5 +55,6 @@ export const useSoftware = () => {
     setIsOpenFilterDrawer,
     filterValues,
     theme,
+    refetch,
   };
 };

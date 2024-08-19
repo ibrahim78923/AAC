@@ -74,5 +74,6 @@ export const useInstallationDetail = () => {
     setSearchBy,
     installationData,
     getInstallationListDataExport,
+    getInstallationListData,
   };
 };
