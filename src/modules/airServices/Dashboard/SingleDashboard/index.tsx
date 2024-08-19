@@ -5,7 +5,7 @@ import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys'
 import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import { REPORT_TYPES } from '@/constants/strings';
+import { REPORT_TYPES, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { createElement } from 'react';
 import { useSingleDashboard } from './useSingleDashboard';
 import { ticketDashboardCardsData } from '../TicketDashboardCards/TicketDashboardCards.data';
@@ -26,6 +26,9 @@ export const SingleDashboard = (props: any) => {
     departmentId,
     setDepartmentId,
     router,
+    getSingleDashboardData,
+    isError,
+    refetch,
   } = useSingleDashboard(props);
 
   if (
@@ -47,7 +50,10 @@ export const SingleDashboard = (props: any) => {
         <br />
         {isLoading || isFetching ? (
           <Skeleton variant="text" height="100%" />
-        ) : ticketDashboardCardsData(cardData)?.length > 0 ? (
+        ) : isError ? (
+          <ApiErrorState canRefresh refresh={() => refetch?.()} />
+        ) : ticketDashboardCardsData(cardData)?.length >
+          SELECTED_ARRAY_LENGTH?.ZERO ? (
           <Grid container spacing={3}>
             {ticketDashboardCardsData(cardData)?.map((item: any) => (
               <Grid key={item?.id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
@@ -72,6 +78,11 @@ export const SingleDashboard = (props: any) => {
                 ? 'No default dashboard found!'
                 : 'Something went wrong'
             }
+            canRefresh={
+              lazyGetSingleServicesDashboardStatus?.error?.data?.message !==
+              NO_DEFAULT_DASHBOARD
+            }
+            refresh={() => getSingleDashboardData?.()}
           >
             {lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
               NO_DEFAULT_DASHBOARD && (
@@ -95,7 +106,7 @@ export const SingleDashboard = (props: any) => {
         ) : (
           <Grid container spacing={3}>
             {lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports?.map(
-              (item: any, index: any) =>
+              (item: any, index: number) =>
                 item?.type === REPORT_TYPES?.STATIC ? (
                   <Grid item xs={12} lg={6} key={item?.name}>
                     {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
@@ -109,6 +120,7 @@ export const SingleDashboard = (props: any) => {
                           departmentId,
                           setDepartmentId,
                           isPreviewMode: isPreviewMode,
+                          getSingleDashboardData,
                         },
                       )}
                   </Grid>

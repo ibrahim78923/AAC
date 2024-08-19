@@ -12,8 +12,9 @@ import { MoreVert } from '@mui/icons-material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { AnnouncementCardProps } from './AnnouncementCard.interface';
 
-export const AnnouncementCard = (props: any) => {
+export const AnnouncementCard = (props: AnnouncementCardProps) => {
   const { data, index, dropdownAnnouncementsOptions } = props;
 
   return (

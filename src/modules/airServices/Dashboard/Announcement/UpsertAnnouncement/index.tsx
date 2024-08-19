@@ -5,8 +5,11 @@ import { useUpsertAnnouncement } from './useUpsertAnnouncement';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
-export const UpsertAnnouncement = (props: any) => {
+export const UpsertAnnouncement = (
+  props: AnnouncementPortalComponentsPropsI,
+) => {
   const { isPortalOpen } = props;
   const {
     upsertAnnouncementFormFields,
@@ -25,7 +28,7 @@ export const UpsertAnnouncement = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isUpsert}
+        isDrawerOpen={isPortalOpen?.isUpsert as boolean}
         onClose={handleClose}
         title={`${
           !!isPortalOpen?.data?._id

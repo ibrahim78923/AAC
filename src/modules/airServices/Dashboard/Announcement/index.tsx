@@ -4,8 +4,9 @@ import { useAnnouncement } from './useAnnouncement';
 import { Fragment } from 'react';
 import { AnnouncementCard } from './AnnouncementCard';
 import NoData from '@/components/NoData';
+import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
 
-export const Announcement = (props: any) => {
+export const Announcement = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
   const { renderPortalComponent, isPortalOpen, setIsPortalOpen } =
     useAnnouncement(props);

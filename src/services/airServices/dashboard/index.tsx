@@ -41,7 +41,6 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: postAnnouncementParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     postEmailDashboard: builder?.mutation({
       query: (postEmailParameter: any) => ({
@@ -221,7 +220,6 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         params: apiDataParameter?.queryParams,
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     getSingleAnnouncementOnDashboard: builder?.query({
       query: (apiDataParameter: any) => ({

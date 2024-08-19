@@ -7,14 +7,15 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { ANNOUNCEMENTS_VISIBLITY_MAPPED } from '@/constants/api-mapped';
-import {
-  ANNOUNCEMENTS_VISIBLITY,
-  SELECTED_ARRAY_LENGTH,
-} from '@/constants/strings';
+import { ANNOUNCEMENTS_VISIBLITY } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const announcementsVisibilityOptions = [
   {
@@ -36,27 +37,14 @@ export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Title is required'),
   description: Yup?.string()?.trim(),
   notifyMembers: Yup?.string()?.trim(),
-  managedById: Yup?.mixed()?.nullable()?.required('Managed by is required'),
   visibility: Yup?.mixed()?.nullable()?.required('visibility is required'),
-  additionalEmail: Yup?.array()?.when('visibility', {
-    is: (value: any) => value?._id === ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS,
-    then: () =>
-      Yup?.array()
-        ?.of(Yup?.string())
-        ?.test(
-          'is-emails-valid',
-          'Enter valid email formats',
-          function (value) {
-            if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
-              return false;
-            }
-            return value?.every(
-              (email) => Yup?.string()?.email()?.isValidSync(email),
-            );
-          },
-        ),
-    otherwise: () => Yup?.array(),
-  }),
+  additionalEmail: Yup?.array()
+    ?.of(Yup?.string())
+    ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
+      return value?.every(
+        (email) => Yup?.string()?.email()?.isValidSync(email),
+      );
+    }),
   addMember: Yup?.array()?.when('visibility', {
     is: (value: any) => value?._id === ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS,
     then: () => Yup?.array()?.min(1, 'Member is required'),
@@ -75,7 +63,6 @@ export const upsertAnnouncementDefaultValues = (data?: any) => {
     notifyMembers: data?.notifyMembers ?? '',
     additionalEmail: data?.additionalEmail ?? [],
     addMember: data?.addMember ?? [],
-    managedById: data?.managedBy ?? null,
     visibility: data?.visibility
       ? { _id: data?.visibility, label: data?.visibility }
       : null,
@@ -85,7 +72,7 @@ export const upsertAnnouncementDefaultValues = (data?: any) => {
 export const upsertAnnouncementFormFieldsDynamic = (
   apiQueryUsers: any,
   startDateWatch: any,
-  visibiltyWatch: any,
+  visibilityWatch: any,
 ) => [
   {
     id: 1,
@@ -143,22 +130,6 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 6,
-    componentProps: {
-      name: 'managedById',
-      label: 'Managed By',
-      placeholder: 'Select',
-      fullWidth: true,
-      apiQuery: apiQueryUsers,
-      required: true,
-      externalParams: { requester: true, admin: true },
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
-    md: 12,
-  },
-  {
     id: 7,
     componentProps: {
       name: 'visibility',
@@ -167,7 +138,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
       fullWidth: true,
       options: announcementsVisibilityOptions,
       required: true,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,
@@ -187,23 +158,22 @@ export const upsertAnnouncementFormFieldsDynamic = (
     },
     md: 12,
   },
-  ...(visibiltyWatch?._id === ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS
+  {
+    id: 9,
+    componentProps: {
+      name: 'additionalEmail',
+      label: 'Additional Email recipients',
+      fullWidth: true,
+      placeholder: 'write email and press Enter',
+      freeSolo: true,
+      options: [],
+      multiple: true,
+      isOptionEqualToValue: () => {},
+    },
+    component: RHFAutocomplete,
+  },
+  ...(visibilityWatch?._id === ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS
     ? [
-        {
-          id: 9,
-          componentProps: {
-            name: 'additionalEmail',
-            label: 'Additional Email recipients',
-            fullWidth: true,
-            placeholder: 'Enter Value',
-            required: true,
-            freeSolo: true,
-            options: [],
-            multiple: true,
-            isOptionEqualToValue: () => {},
-          },
-          component: RHFAutocomplete,
-        },
         {
           id: 10,
           componentProps: {
@@ -215,7 +185,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
             required: true,
             multiple: true,
             externalParams: { requester: true, admin: true },
-            getOptionLabel: (option: any) =>
+            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
               `${option?.firstName} ${option?.lastName}`,
           },
           component: RHFAutocompleteAsync,

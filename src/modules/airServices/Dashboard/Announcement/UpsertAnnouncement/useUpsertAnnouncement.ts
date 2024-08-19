@@ -4,7 +4,11 @@ import {
   usePostAnnouncementMutation,
   useUpdateServicesAnnouncementOnDashboardMutation,
 } from '@/services/airServices/dashboard';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, useWatch } from 'react-hook-form';
 
@@ -15,9 +19,13 @@ import {
   upsertAnnouncementValidationSchema,
 } from './UpsertAnnouncement.data';
 import { useEffect } from 'react';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
-export const useUpsertAnnouncement = (props: any) => {
-  const { setIsPortalOpen, isPortalOpen } = props;
+export const useUpsertAnnouncement = (
+  props: AnnouncementPortalComponentsPropsI,
+) => {
+  const { setIsPortalOpen, isPortalOpen, getSingleDashboardData } = props;
 
   const methods: any = useForm({
     resolver: yupResolver(upsertAnnouncementValidationSchema),
@@ -55,18 +63,21 @@ export const useUpsertAnnouncement = (props: any) => {
       if (dateDifference < DATE_DIFFERENCE?.ZERO)
         return errorSnackbar('End Date should be greater than Start Date');
     }
-    const notifyMembers = !!data?.notifyMembers;
+
+    const filterEmptyValues = filteredEmptyValues?.(data);
+
     const payload = {
-      title: data?.title,
-      description: data?.description,
-      managedById: data?.managedById?._id,
-      vibilityId: data?.visibility?._id,
-      notifyMembers: notifyMembers,
-      additionalEmail: data?.additionalEmail,
-      addMembers: data?.addMembers,
+      ...filterEmptyValues,
+      visibility: filterEmptyValues?.visibility?._id,
+      notifyMembers: !!filterEmptyValues?.notifyMembers,
+      additionalEmail: filterEmptyValues?.additionalEmail,
+      addMember: filterEmptyValues?.addMember?.map(
+        (item: AutocompleteAsyncOptionsI) => item?._id,
+      ),
       startDate: new Date(data?.startDate)?.toISOString(),
       endDate: new Date(data?.endDate)?.toISOString(),
     };
+
     if (isPortalOpen?.data?._id) {
       updateAnnouncementSubmit?.(payload);
       return;
@@ -80,6 +91,7 @@ export const useUpsertAnnouncement = (props: any) => {
       await postAnnouncementTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Announcements added successfully.');
       handleClose?.();
+      await getSingleDashboardData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -103,6 +115,7 @@ export const useUpsertAnnouncement = (props: any) => {
       )?.unwrap();
       successSnackbar('Announcements updated successfully.');
       handleClose?.();
+      await getSingleDashboardData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -113,7 +126,7 @@ export const useUpsertAnnouncement = (props: any) => {
     reset?.();
   };
 
-  const visibiltyWatch = useWatch({
+  const visibilityWatch = useWatch({
     control,
     name: 'visibility',
     defaultValue: null,
@@ -127,7 +140,7 @@ export const useUpsertAnnouncement = (props: any) => {
   const upsertAnnouncementFormFields = upsertAnnouncementFormFieldsDynamic(
     apiQueryUsers,
     startDateWatch,
-    visibiltyWatch,
+    visibilityWatch,
   );
 
   return {

@@ -1,17 +1,11 @@
-import { PAGINATION } from '@/config';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteServicesAnnouncementOnDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
-export const useDeleteAnnouncement = (props: any) => {
-  const {
-    setPage,
-    totalRecords,
-    page,
-    getAnnouncementListData,
-    setIsPortalOpen,
-    isPortalOpen,
-  } = props;
+export const useDeleteAnnouncement = (
+  props: AnnouncementPortalComponentsPropsI,
+) => {
+  const { setIsPortalOpen, isPortalOpen, getSingleDashboardData } = props;
   const [
     deleteServicesAnnouncementOnDashboardTrigger,
     deleteServicesAnnouncementOnDashboardStatus,
@@ -29,12 +23,7 @@ export const useDeleteAnnouncement = (props: any) => {
       )?.unwrap();
       successSnackbar?.('Announcement deleted successfully!');
       closeAnnouncementDeleteModal?.();
-      const newPage =
-        totalRecords === SELECTED_ARRAY_LENGTH?.ONE
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getAnnouncementListData?.(newPage);
+      await getSingleDashboardData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
