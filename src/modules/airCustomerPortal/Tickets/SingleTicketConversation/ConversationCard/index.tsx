@@ -13,8 +13,9 @@ import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import { CONVERSATION_TYPE_MODIFY } from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Conversations/Conversations.data';
 import { ReplySingleTicketConversation } from '../ReplySingleTicketConversation';
 import { CustomTooltip } from '@/components/CustomTooltip';
+import { ConversationCardPropsI } from '../useSingleTicketConversation.interface';
 
-export const ConversationCard = (props: any) => {
+export const ConversationCard = (props: ConversationCardPropsI) => {
   const { data, isReplyOpen, setIsReplyOpen, singleTicketData } = props;
 
   return (

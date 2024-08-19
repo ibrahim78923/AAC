@@ -7,16 +7,15 @@ import {
   useLazyCheckSingleDefaultSurveySubmittedForRequesterQuery,
   useLazyGetSingleDefaultSurveyForCustomerTicketsQuery,
 } from '@/services/airCustomerPortal/Tickets';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export const useSingleTicket = () => {
-  const [status] = useState(false);
-  const [openShareModal, setOpenShareModal] = useState(false);
-  const router = useRouter();
+  const [openShareModal, setOpenShareModal] = useState<boolean>(false);
+  const router: NextRouter = useRouter();
   const ticketId: string | undefined | string[] = router?.query?.id;
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetCustomerPortalTicketsByIdQuery(ticketId, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
@@ -81,7 +80,6 @@ export const useSingleTicket = () => {
   }, [singleTicketData?.status]);
 
   return {
-    status,
     openShareModal,
     setOpenShareModal,
     ticketId,
@@ -92,5 +90,6 @@ export const useSingleTicket = () => {
     lazyGetSingleDefaultSurveyForCustomerTicketsStatus,
     getSingleDefaultSurveyForCustomerTickets,
     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
+    refetch,
   };
 };

@@ -1,9 +1,11 @@
 import { useGetConversationForCustomerSingleTicketQuery } from '@/services/airCustomerPortal/Tickets';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useSingleTicketConversationIsReplyOpenI } from './useSingleTicketConversation.interface';
 
 export const useSingleTicketConversation = () => {
-  const [isReplyOpen, setIsReplyOpen] = useState({});
+  const [isReplyOpen, setIsReplyOpen] =
+    useState<useSingleTicketConversationIsReplyOpenI>({});
   const router = useRouter();
   const { id } = router?.query;
 

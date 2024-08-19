@@ -18,10 +18,11 @@ export const SingleTicket = () => {
     lazyGetSingleDefaultSurveyForCustomerTicketsStatus,
     getSingleDefaultSurveyForCustomerTickets,
     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
+    refetch,
   } = useSingleTicket();
 
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>

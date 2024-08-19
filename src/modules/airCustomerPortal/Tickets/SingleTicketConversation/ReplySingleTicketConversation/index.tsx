@@ -6,8 +6,12 @@ import {
 import { useReplySingleTicketConversation } from './useReplySingleTicketConversation';
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
+import { pxToRem } from '@/utils/getFontValue';
 
-export const ReplySingleTicketConversation = (props: any) => {
+export const ReplySingleTicketConversation = (
+  props: ReplySingleTicketConversationPropsI,
+) => {
   const {
     methods,
     handleSubmit,
@@ -22,7 +26,7 @@ export const ReplySingleTicketConversation = (props: any) => {
         <RHFEditor
           name="yourReply"
           label="Your Reply"
-          style={{ height: 150 }}
+          style={{ height: pxToRem(150) }}
           required
         />
         <br />

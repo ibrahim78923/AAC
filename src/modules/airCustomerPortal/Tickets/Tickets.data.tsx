@@ -1,7 +1,14 @@
-import { AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import {
+  AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS,
+  AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS,
+} from '@/constants/permission-keys';
 import { TICKET_STATUS } from '@/constants/strings';
+import { NextRouter } from 'next/router';
+import { Dispatch, SetStateAction } from 'react';
 
-export const ticketStatuses = [
+export const ticketStatuses: string[] = [
   TICKET_STATUS?.CLOSED,
   TICKET_STATUS?.OPEN,
   TICKET_STATUS?.PENDING,
@@ -14,55 +21,72 @@ export const CHECK_SURVEY_SUBMISSION_STATUS = {
   NOT_SUBMITTED: 'Survey not submitted.',
 };
 
-export const allTicketsDropdownFunction = (setTicketStatus: any) => [
+export const allTicketsDropdownFunction = (
+  setTicketStatus: Dispatch<SetStateAction<string>>,
+) => [
   {
-    id: 2342,
+    id: 1,
     permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'All tickets',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.('All tickets');
       closeMenu?.();
     },
   },
   {
-    id: 4367,
+    id: 2,
     permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'Open',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.(TICKET_STATUS?.OPEN);
       closeMenu?.();
     },
   },
   {
-    id: 5479,
+    id: 3,
     permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'Closed',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
   },
   {
-    id: 9086,
+    id: 4,
     permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'Resolved',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.(TICKET_STATUS?.RESOLVED);
       closeMenu?.();
     },
   },
 ];
 
-export const newTicketsDropdownFunction = [
+export const newTicketsDropdownDynamic = (
+  setOpenReportAnIssueModal: Dispatch<SetStateAction<boolean>>,
+  router: NextRouter,
+) => [
   {
+    id: 1,
     title: 'Report an issue',
-    handleClick: (closeMenu: any) => {
+    permissionKey: [
+      AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.REPORT_AN_ISSUES,
+    ],
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+      setOpenReportAnIssueModal?.(true);
       closeMenu?.();
     },
   },
   {
-    title: 'request a Service',
-    handleClick: (closeMenu: any) => {
+    id: 2,
+    title: 'Request a service',
+    permissionKey: [
+      AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.SENT_SERVICES_REQUEST,
+    ],
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+      router?.push({
+        pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+      });
       closeMenu?.();
     },
   },

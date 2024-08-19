@@ -1,14 +1,17 @@
-import { useForm } from 'react-hook-form';
+import { UseFormReturn, useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { usePostReplyForCustomerTicketConversationMutation } from '@/services/airCustomerPortal/Tickets';
 import { ARRAY_INDEX, TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
+import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
 
-export const useReplySingleTicketConversation = (props: any) => {
+export const useReplySingleTicketConversation = (
+  props: ReplySingleTicketConversationPropsI,
+) => {
   const { singleTicketData, setIsReplyOpen, isReplyOpen } = props;
 
-  const methods: any = useForm({
+  const methods: UseFormReturn<any> = useForm({
     defaultValues: { yourReply: '', attachFile: null },
     resolver: yupResolver(
       Yup?.object()?.shape({
@@ -30,7 +33,7 @@ export const useReplySingleTicketConversation = (props: any) => {
   ] = usePostReplyForCustomerTicketConversationMutation();
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: { attachFile: any; yourReply: string }) => {
     const emailFormData = new FormData();
     emailFormData?.append(
       'recipients',

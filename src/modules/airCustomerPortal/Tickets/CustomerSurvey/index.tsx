@@ -1,11 +1,11 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { UpsertSurveyResponse } from '@/modules/airServices/FeedbackSurvey/UpsertSurveyResponse';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 export const CustomerSurvey = () => {
-  const { user } = useAuth();
-  const router = useRouter();
+  const { user }: any = useAuth();
+  const router: NextRouter = useRouter();
   return (
     <>
       <UpsertSurveyResponse

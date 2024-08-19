@@ -1,28 +1,29 @@
 import { Box, Typography, Chip, Avatar } from '@mui/material';
 import dayjs from 'dayjs';
 import { AIR_CUSTOMER_PORTAL, DATE_TIME_FORMAT } from '@/constants';
-import { useRouter } from 'next/router';
-import { generateImage } from '@/utils/avatarUtils';
-import { TICKET_SOURCE, TICKET_TYPE } from '@/constants/strings';
+import { NextRouter, useRouter } from 'next/router';
+import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { TICKET_TYPE } from '@/constants/strings';
+import { TicketCardPropsI } from './TicketCard.interface';
 
-export const TicketsCard = (props: any) => {
+export const TicketsCard = (props: TicketCardPropsI) => {
   const { ticket } = props;
 
-  const router = useRouter();
+  const router: NextRouter = useRouter();
 
   return (
     <Box
       key={ticket?._id}
+      borderRadius={3}
+      display={'flex'}
+      alignItems={'center'}
+      flexWrap={'wrap'}
+      gap={1}
+      mb={1}
+      justifyContent={'space-between'}
+      bgcolor={'grey.100'}
+      p={1}
       sx={{
-        p: 1,
-        backgroundColor: 'grey.100',
-        borderRadius: 3,
-        mb: 1,
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: 1,
-        justifyContent: 'space-between',
         cursor: 'pointer',
       }}
       onClick={() => {
@@ -39,18 +40,23 @@ export const TicketsCard = (props: any) => {
           {ticket?.subject}
         </Typography>
         <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: 1,
-            my: 0.5,
-          }}
+          display={'flex'}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          gap={1}
+          my={0.5}
         >
           <Avatar
             src={generateImage(ticket?.requesterDetails?.avatar?.url)}
             sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
-          />
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                ticket?.requesterDetails?.firstName,
+                ticket?.requesterDetails?.lastName,
+              )}
+            </Typography>
+          </Avatar>
           <Typography variant="body2" color={'blue.main'} fontWeight={500}>{` ${
             ticket?.ticketType === TICKET_TYPE?.INC
               ? ''
@@ -67,7 +73,7 @@ export const TicketsCard = (props: any) => {
             variant="body2"
             color="primary.main"
           >
-            {!!ticket?.moduleType ? `- Via ${TICKET_SOURCE?.PORTAL}` : ''}
+            - Via Portal
           </Typography>
         </Typography>
       </Box>

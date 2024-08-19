@@ -42,9 +42,8 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
               variant="body2"
               color="primary.main"
             >
-              {!!singleTicketData?.source
-                ? `- Via ${singleTicketData?.source}`
-                : ''}
+              {' '}
+              - Via Portal
             </Typography>
           </Typography>
           <br />

@@ -30,13 +30,7 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
           {'>'} &ensp; {ticketNumber}
         </Typography>
       </Box>
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        gap={1}
-        flexWrap={'wrap'}
-      >
+      <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
         {singleTicketData?.status !== TICKET_STATUS?.CLOSED && (
           <LoadingButton
             variant="contained"
