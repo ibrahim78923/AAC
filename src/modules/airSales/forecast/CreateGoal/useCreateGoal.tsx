@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Describe from './Describe';
 import TeamDuration from './TeamDuration';
 import Performance from './Performance';
@@ -33,6 +33,12 @@ import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { usePostGoalMutation } from '@/services/airSales/forecast';
 import { isNullOrEmpty } from '@/utils';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+} from '@/utils/dynamic-forms';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -95,16 +101,74 @@ export const useCreateGoal = () => {
     (state) => state?.forecastForm?.teamDurationForm,
   );
 
+  const [form, setForm] = useState<any>([]);
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SALES,
+      moduleType: DYNAMIC_FIELDS?.MT_GOAL,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
   // this is describe step
   const describeScratchMethods: any = useForm({
-    resolver: yupResolver(goalDetailsValidationSchema),
-    defaultValues: goalDetailsDefaultValues,
+    resolver: yupResolver(goalDetailsValidationSchema?.(form)),
+    defaultValues: goalDetailsDefaultValues?.(),
   });
 
   const { handleSubmit: describeScratchHandleSubmit } = describeScratchMethods;
 
   const onSubmitDescribeScratch = async (values: any) => {
-    dispatch(setDescribeFormData(values));
+    const filteredEmptyData = filteredEmptyValues(values);
+
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
+
+    dispatch(setDescribeFormData(body));
     setActiveStep((prev: any) => prev + 1);
   };
 
@@ -274,6 +338,7 @@ export const useCreateGoal = () => {
   const describeForm: any = useAppSelector(
     (state) => state?.forecastForm?.describeForm,
   );
+
   const [postCreateInvoice, { isLoading }] = usePostGoalMutation();
 
   // this is final step
@@ -296,6 +361,7 @@ export const useCreateGoal = () => {
       const payload = {
         trackingMethod: describeForm?.trackingMethod,
         goalName: describeForm?.goalName,
+        customFields: describeForm?.customFields,
         duration: teamDurationForm?.duration,
         targets: performanceData,
         notification: selectedNotifications,
@@ -348,6 +414,8 @@ export const useCreateGoal = () => {
           <Describe
             methods={describeScratchMethods}
             handleSubmit={handleDescribeForm}
+            form={form}
+            getDynamicFieldsStatus={getDynamicFieldsStatus}
           />
         </>
       ),

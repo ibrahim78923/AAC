@@ -7,6 +7,10 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { createFolderFormFields } from './EmailFolder.data';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 const EmailFolder = () => {
   const {
@@ -22,6 +26,8 @@ const EmailFolder = () => {
     setSearchValue,
     isLoading,
     isLoadingPost,
+    form,
+    getDynamicFieldsStatus,
   } = useEmailFolder();
   return (
     <>
@@ -64,23 +70,45 @@ const EmailFolder = () => {
         isLoading={isLoadingPost}
       >
         <>
-          <FormProvider methods={methodsCreateFolder}>
-            <Grid container spacing={4}>
-              {createFolderFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
+          {getDynamicFieldsStatus?.isLoading ||
+          getDynamicFieldsStatus?.isFetching ? (
+            <SkeletonForm />
+          ) : getDynamicFieldsStatus?.isError ? (
+            <ApiErrorState />
+          ) : (
+            <FormProvider methods={methodsCreateFolder}>
+              <Grid container spacing={4}>
+                {createFolderFormFields?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ))}
+                {form?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    key={item?.id}
+                    sx={{ paddingTop: '10px !important' }}
+                  >
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          )}
         </>
       </CommonModal>
     </>

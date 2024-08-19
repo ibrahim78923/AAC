@@ -6,28 +6,41 @@ import {
 
 import * as Yup from 'yup';
 import { getSession, isNullOrEmpty } from '@/utils';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
+export const createComapnySchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const createComapnySchema = Yup?.object()?.shape({
-  domain: Yup?.string()?.required('Field is Required'),
-  name: Yup?.string()?.required('Field is Required'),
-  totalRevenue: Yup?.number(),
-  noOfEmloyee: Yup?.number(),
-  ownerId: Yup?.object()?.required('Field is Required'),
-});
+  return Yup?.object()?.shape({
+    domain: Yup?.string()?.required('Field is Required'),
+    name: Yup?.string()?.required('Field is Required'),
+    totalRevenue: Yup?.number(),
+    noOfEmloyee: Yup?.number(),
+    ownerId: Yup?.object()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
 
-export const defaultCreateCompanyValues = {
-  domain: '',
-  name: '',
-  ownerId: null,
-  industry: '',
-  type: '',
-  noOfEmloyee: 0,
-  totalRevenue: 0,
-  city: '',
-  postalCode: '',
-  address: '',
-  description: '',
-  linkedInUrl: '',
+export const defaultCreateCompanyValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
+  return {
+    domain: '',
+    name: '',
+    ownerId: null,
+    industry: '',
+    type: '',
+    noOfEmloyee: 0,
+    totalRevenue: 0,
+    city: '',
+    postalCode: '',
+    address: '',
+    description: '',
+    linkedInUrl: '',
+    ...initialValues,
+  };
 };
 
 export const dataArray = (getCompanyContactsList: any) => {

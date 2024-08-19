@@ -3,29 +3,35 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
 import * as Yup from 'yup';
 
-export const detailsValidationSchema = Yup?.object()?.shape({
-  CompanyName: Yup?.string()?.trim()?.required('Field is Required'),
-  DomainName: Yup?.string(),
-  crn: Yup?.string(),
-  CompanyOwner: Yup?.string(),
-  PhoneNumber: Yup?.string(),
-  Industry: Yup?.string(),
-  CompanyType: Yup?.string(),
-  NumberOfEmployees: Yup?.string(),
-  AnnualRevenue: Yup?.string(),
-  City: Yup?.string(),
-  PostalCode: Yup?.string(),
-  LifeCycleStage: Yup?.string(),
-  LastActivityDate: Yup?.string(),
-  CreatedDate: Yup?.string(),
-  time: Yup?.string(),
-  LinkedInCompanyPage: Yup?.string(),
-  Address: Yup?.string(),
-  description: Yup?.string(),
-});
+export const detailsValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+
+  return Yup?.object()?.shape({
+    CompanyName: Yup?.string()?.trim()?.required('Field is Required'),
+    DomainName: Yup?.string(),
+    crn: Yup?.string(),
+    CompanyOwner: Yup?.string(),
+    PhoneNumber: Yup?.string(),
+    Industry: Yup?.string(),
+    CompanyType: Yup?.string(),
+    NumberOfEmployees: Yup?.string(),
+    AnnualRevenue: Yup?.string(),
+    City: Yup?.string(),
+    PostalCode: Yup?.string(),
+    LifeCycleStage: Yup?.string(),
+    LastActivityDate: Yup?.string(),
+    CreatedDate: Yup?.string(),
+    time: Yup?.string(),
+    LinkedInCompanyPage: Yup?.string(),
+    Address: Yup?.string(),
+    description: Yup?.string(),
+    ...formSchema,
+  });
+};
 
 export const detailsDefaultValues = {
   CompanyName: '',

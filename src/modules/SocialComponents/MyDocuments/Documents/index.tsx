@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createElement } from 'react';
 
 import Image from 'next/image';
 
@@ -47,6 +47,9 @@ import { useRouter } from 'next/router';
 import { SOCIAL_FEATURES } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS } from '@/constants/permission-keys';
+import { componentMap } from '@/utils/dynamic-forms';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 const Documents = () => {
   const navigate = useRouter();
@@ -70,7 +73,6 @@ const Documents = () => {
     handleClick,
     handleClose,
     FolderAdd,
-    onSubmit,
     documentData,
     handleCheckboxChange,
     allSelectedFoldersIds,
@@ -80,6 +82,9 @@ const Documents = () => {
     selectedItemId,
     handleBoxClick,
     MoveToFolder,
+    form,
+    getDynamicFieldsStatus,
+    handleCreateFolderSubmit,
   } = useDocuments();
 
   return (
@@ -535,25 +540,47 @@ const Documents = () => {
           setActionType('');
           setModalHeading('');
         }}
-        handleSubmit={() => onSubmit()}
+        handleSubmit={handleCreateFolderSubmit}
         title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
         footerFill={false}
         footer={true}
       >
-        <FormProvider methods={FolderAdd}>
-          <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                ></item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
+        {getDynamicFieldsStatus?.isLoading ||
+        getDynamicFieldsStatus?.isFetching ? (
+          <SkeletonForm />
+        ) : getDynamicFieldsStatus?.isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider methods={FolderAdd}>
+            <Grid container spacing={4}>
+              {dataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                  ></item.component>
+                </Grid>
+              ))}
+              {form?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  key={item?.id}
+                  sx={{ paddingTop: '10px !important' }}
+                >
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                    })}
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        )}
       </CommonModal>
       <AlertModals
         message={'Are you sure you want to delete this folder?'}

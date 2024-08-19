@@ -13,9 +13,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { editGoalArray } from './GoalTab.data';
 import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from '@/assets/icons';
 import CommonModal from '@/components/CommonModal';
-import { useEffect, useState } from 'react';
+import { createElement, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { componentMap, dynamicFormInitialValue } from '@/utils/dynamic-forms';
 
 const GoalTab = ({
   getOneGoal,
@@ -23,12 +24,22 @@ const GoalTab = ({
   submitHandler,
   setValue,
   methods,
+  form,
+  getDynamicFieldsStatus,
 }: any) => {
   const [isAddTargetModal, setIsAddTargetModal] = useState(false);
   const [targetValue, setTargetValue] = useState('');
   const theme = useTheme();
 
   useEffect(() => {
+    const initialValues: any = dynamicFormInitialValue(getOneGoal?.data, form);
+
+    if (initialValues) {
+      Object.keys(initialValues).forEach((name) => {
+        const value = initialValues[name];
+        setValue(name, value);
+      });
+    }
     if (getOneGoal?.data) {
       const { goalName, teamDetails, contributorDetails, duration, targets } =
         getOneGoal?.data;
@@ -72,7 +83,9 @@ const GoalTab = ({
 
   return (
     <>
-      {isLoading ? (
+      {isLoading ||
+      getDynamicFieldsStatus?.isLoading ||
+      getDynamicFieldsStatus?.isFetching ? (
         <Box
           display={'flex'}
           alignItems={'center'}
@@ -153,6 +166,16 @@ const GoalTab = ({
                     </Box>
                   </Box>
                 )}
+              </Grid>
+            ))}
+            {form?.map((item: any) => (
+              <Grid item xs={12} key={item?.id}>
+                {componentMap[item?.component] &&
+                  createElement(componentMap[item?.component], {
+                    ...item?.componentProps,
+                    name: item?.componentProps?.label,
+                    size: 'small',
+                  })}
               </Grid>
             ))}
           </Grid>

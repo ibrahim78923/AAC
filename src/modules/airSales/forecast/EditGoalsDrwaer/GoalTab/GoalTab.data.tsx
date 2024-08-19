@@ -1,18 +1,33 @@
 import { RHFTextField } from '@/components/ReactHookForm';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const editGoalValidationSchema = Yup.object().shape({
-  name: Yup.string(),
-  user: Yup.string(),
-  duration: Yup.string(),
-  dealPipelines: Yup.string(),
-});
+export const editGoalValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const editGoalDefaultValues = {
-  name: '',
-  user: '',
-  duration: '',
-  dealPipelines: '',
+  return Yup?.object()?.shape({
+    name: Yup.string(),
+    user: Yup.string(),
+    duration: Yup.string(),
+    dealPipelines: Yup.string(),
+    ...formSchema,
+  });
+};
+
+export const editGoalDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
+  return {
+    name: '',
+    user: '',
+    duration: '',
+    dealPipelines: '',
+    // name: data?.name ?? '',
+    ...initialValues,
+  };
 };
 
 export const editGoalArray = (showMonth: any) => {

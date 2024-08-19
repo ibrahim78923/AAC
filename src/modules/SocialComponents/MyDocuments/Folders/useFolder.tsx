@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 import {
@@ -21,14 +21,19 @@ import {
   validationSchema,
 } from './Folder.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { PAGINATION } from '@/config';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar, filteredEmptyValues } from '@/utils/api';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import { FolderI } from './Folder.interface';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicFormInitialValue,
+} from '@/utils/dynamic-forms';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 
 const useFolder: any = () => {
   const router = useRouter();
@@ -150,26 +155,85 @@ const useFolder: any = () => {
     }
   };
 
-  const FolderAdd: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: async () => {
-      if (isEditOpenModal) {
-        if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
-          return {
-            name: watch('name'),
-          };
-        }
-      }
-      return validationSchema;
-    },
+  const [form, setForm] = useState<any>([]);
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_COMMON,
+      moduleType: DYNAMIC_FIELDS?.MT_DOCUMENT,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
+  useEffect(() => {
+    const initialValues: any = dynamicFormInitialValue(selectedFolder, form);
+
+    if (initialValues) {
+      Object.keys(initialValues).forEach((name) => {
+        const value = initialValues[name];
+        setValue(name, value);
+      });
+    }
+  }, [selectedFolder]);
+
+  const FolderAdd: any = useForm<any>({
+    resolver: yupResolver(validationSchema?.(form)),
+    defaultValues: defaultValuesFolder?.(),
   });
 
-  const { handleSubmit, watch, reset } = FolderAdd;
+  const { handleSubmit, reset, setValue } = FolderAdd;
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: any) => {
+    const filteredEmptyData = filteredEmptyValues(values);
+
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
+
     const documentData = {
       parentFolderId: parentFolderId,
-      name: watch('name'),
+      ...body,
     };
     try {
       if (
@@ -254,6 +318,10 @@ const useFolder: any = () => {
   const handleCloseSide = () => {
     setAnchorElSide(null);
   };
+
+  const { handleSubmit: handleMethodCreateFolder } = FolderAdd;
+
+  const handleCreateFolderSubmit = handleMethodCreateFolder(onSubmit);
 
   const getRowValues = columns(
     setSelectedTableRows,
@@ -340,6 +408,9 @@ const useFolder: any = () => {
     documentParentsData,
     setSelectedFolderId,
     selectedFolderId,
+    form,
+    getDynamicFieldsStatus,
+    handleCreateFolderSubmit,
   };
 };
 

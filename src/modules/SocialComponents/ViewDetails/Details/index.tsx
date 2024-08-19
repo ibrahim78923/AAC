@@ -19,6 +19,9 @@ import { styles } from '../ViewDetails.style';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
+import { LoadingButton } from '@mui/lab';
 
 const Details = ({ data, isLoading }: any) => {
   const {
@@ -28,6 +31,9 @@ const Details = ({ data, isLoading }: any) => {
     handleSubmit,
     lifeCycleStagesData,
     UserListData,
+    form,
+    getDynamicFieldsStatus,
+    updateIsLoading,
   } = useDetails(data);
   return (
     <PermissionsGuard
@@ -37,7 +43,10 @@ const Details = ({ data, isLoading }: any) => {
     >
       <Box sx={styles?.horizontalTabsBox}>
         <Typography variant="h4">Details</Typography>
-        {data || !isLoading ? (
+        {data ||
+        !isLoading ||
+        getDynamicFieldsStatus?.isLoading ||
+        getDynamicFieldsStatus?.isFetching ? (
           <Box sx={styles?.horizontalTabsInnnerBox}>
             <FormProvider
               methods={methodsDetails}
@@ -65,6 +74,21 @@ const Details = ({ data, isLoading }: any) => {
                     </Grid>
                   ),
                 )}
+                {form?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={4}
+                    key={item?.id}
+                    sx={{ paddingTop: '10px !important' }}
+                  >
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))}
                 <Grid item xs={12}>
                   <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
                 </Grid>
@@ -80,9 +104,13 @@ const Details = ({ data, isLoading }: any) => {
                       <Button sx={{ height: '35px' }}>Cancel</Button>
                     </ButtonGroup>
                     <ButtonGroup variant="contained" color="primary">
-                      <Button sx={{ height: '35px' }} type="submit">
+                      <LoadingButton
+                        sx={{ height: '35px' }}
+                        type="submit"
+                        loading={updateIsLoading}
+                      >
                         Update
-                      </Button>
+                      </LoadingButton>
                     </ButtonGroup>
                   </Box>
                 </Grid>

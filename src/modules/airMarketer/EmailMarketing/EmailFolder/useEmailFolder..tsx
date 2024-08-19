@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -10,6 +10,12 @@ import {
   useGetEmailFolderQuery,
   usePostEmailFolderMutation,
 } from '@/services/airMarketer/emailFolder';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+} from '@/utils/dynamic-forms';
+import { filteredEmptyValues } from '@/utils/api';
 
 const useEmailFolder = () => {
   const [allSelectedFoldersIds, setAllSelectedFoldersIds] = useState<string[]>(
@@ -19,11 +25,36 @@ const useEmailFolder = () => {
   const { data: allFolder, isLoading } = useGetEmailFolderQuery({
     ...(searchValue && { search: searchValue }),
   });
+  const [form, setForm] = useState<any>([]);
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_MARKETING,
+      moduleType: DYNAMIC_FIELDS?.MT_EMAIL_FOLDER,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
 
   // Create Folder
   const methodsCreateFolder = useForm({
-    resolver: yupResolver(createFolderValidationSchema),
-    defaultValues: createFolderDefaultValues,
+    resolver: yupResolver(createFolderValidationSchema?.(form)),
+    defaultValues: createFolderDefaultValues?.(),
   });
   const {
     handleSubmit: handleMethodCreateFolder,
@@ -40,8 +71,40 @@ const useEmailFolder = () => {
     usePostEmailFolderMutation();
 
   const onSubmitCreateFolder = async (values: any) => {
+    const filteredEmptyData = filteredEmptyValues(values);
+
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
+
     try {
-      await postEmailFolder({ body: values })?.unwrap();
+      await postEmailFolder({ body })?.unwrap();
       handleCloseModalCreateFolder();
       resetCreateFolderForm();
       enqueueSnackbar('Created new folder successfully', {
@@ -69,6 +132,8 @@ const useEmailFolder = () => {
     setSearchValue,
     isLoading,
     isLoadingPost,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 export default useEmailFolder;
