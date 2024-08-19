@@ -15,6 +15,13 @@ import {
   contactsDefaultValues,
   contactsValidationSchema,
 } from './CreateContactsdata';
+import { useEffect, useState } from 'react';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+} from '@/utils/dynamic-forms';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import { filteredEmptyValues } from '@/utils/api';
 
 const useCreateContacts = (handleRefresh: any) => {
   const { user }: any = useAuth();
@@ -23,10 +30,34 @@ const useCreateContacts = (handleRefresh: any) => {
   const contactStatusData = useLazyGetContactsStatusQuery();
   const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
 
+  // custom fields ++
+  const [form, setForm] = useState<any>([]);
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_COMMON_MODULE,
+      moduleType: DYNAMIC_FIELDS?.MT_CONTACT,
+    };
+    const getDynamicFieldsParameters = { params };
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+  // custom fields --
+
   const [postContacts, { isLoading: loadingCreateContact }] =
     usePostContactsMutation();
   const methodscontacts = useForm({
-    resolver: yupResolver(contactsValidationSchema),
+    resolver: yupResolver(contactsValidationSchema(form)),
     defaultValues: async () => {
       return contactsDefaultValues;
     },
@@ -36,8 +67,44 @@ const useCreateContacts = (handleRefresh: any) => {
 
   const onSubmit = async (values: any, closeDrawer: any) => {
     const formData = new FormData();
+    const filteredEmptyData = filteredEmptyValues(values);
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+      formData?.append('customFields', JSON?.stringify(body?.customFields));
+    }
+
     Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== '' &&
+        !customFieldKeys.has(key)
+      ) {
         switch (key) {
           case 'dateOfBirth':
           case 'dateOfJoining':
@@ -86,6 +153,8 @@ const useCreateContacts = (handleRefresh: any) => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 

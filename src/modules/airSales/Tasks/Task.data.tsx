@@ -16,6 +16,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
 export const filterDefaultValues = {
   assignTo: null,
@@ -28,7 +29,6 @@ export const filterValidationSchema = Yup?.object()?.shape({
   assignTo: Yup?.mixed()?.nullable(),
   status: Yup?.string(),
   priority: Yup?.string(),
-  // dueDate: Yup.date(),
 });
 
 export const filterData = ({ usersData }: any) => {
@@ -147,11 +147,16 @@ export const matchColumnsData = [
   },
 ];
 
-export const createTaskValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required')?.trim(),
-  type: Yup?.string()?.trim()?.required('Field is Required'),
-  priority: Yup?.string()?.trim()?.required('Field is Required'),
-});
+export const createTaskValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+
+  return Yup?.object()?.shape({
+    name: Yup?.string()?.required('Field is Required')?.trim(),
+    type: Yup?.string()?.trim()?.required('Field is Required'),
+    priority: Yup?.string()?.trim()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
 
 export const createTaskDefaultValues = ({ data }: any) => {
   const inputDate = new Date(data?.dueDate);

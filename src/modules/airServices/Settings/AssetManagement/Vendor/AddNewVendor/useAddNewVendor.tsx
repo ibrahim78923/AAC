@@ -59,7 +59,6 @@ export const useAddNewVendor = (props: any) => {
       setForm([]);
     }
   };
-
   useEffect(() => {
     getDynamicFormData();
   }, []);

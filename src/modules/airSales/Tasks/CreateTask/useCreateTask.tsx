@@ -14,16 +14,24 @@ import {
   createTaskDefaultValues,
   createTaskValidationSchema,
 } from '../Task.data';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+// import dayjs from 'dayjs';
+// import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   setCompaniesSelectedIds,
   setContactsSelectedIds,
   setDealsSelectedIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicFormInitialValue,
+} from '@/utils/dynamic-forms';
+import { filteredEmptyValues } from '@/utils/api';
+import { TASK_TYPE } from '@/constants';
 
 const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
   const theme = useTheme();
@@ -33,6 +41,30 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     usePostCreateTaskMutation();
   const [patchCreateTask, { isLoading: patchTaskLoading }] =
     usePatchCreateTaskMutation();
+
+  // custom fields ++
+  const [form, setForm] = useState<any>([]);
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SALES,
+      moduleType: DYNAMIC_FIELDS?.MT_TASK,
+    };
+    const getDynamicFieldsParameters = { params };
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+  // custom fields --
 
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
@@ -58,9 +90,14 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
   const companiesSelectedIds = useAppSelector(
     (state: any) => state?.task?.companiesSelectedIds,
   );
+
+  const initialValues: any = dynamicFormInitialValue(taskData?.data, form);
   const methodsFilter: any = useForm({
-    resolver: yupResolver(createTaskValidationSchema),
-    defaultValues: createTaskDefaultValues({ data: taskData?.data }),
+    resolver: yupResolver(createTaskValidationSchema?.(form)),
+    defaultValues: createTaskDefaultValues({
+      data: taskData?.data,
+      initialValues,
+    }),
   });
 
   useEffect(() => {
@@ -106,27 +143,51 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     }
   }, [taskData?.data]);
 
-  const { handleSubmit: handleMethodFilter, reset } = methodsFilter;
+  const { handleSubmit: handleMethodFilter, reset, setValue } = methodsFilter;
 
   const onSubmitHandler = async (values: any) => {
+    const filteredEmptyData = filteredEmptyValues(values);
+
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
+
     const payload = {
-      name: values?.name,
-      type: values?.type,
-      priority: values?.priority,
-      ...(values?.status && { status: values?.status }),
-      ...(values?.reminder && { reminder: values?.reminder }),
-      ...(values?.assignTo && { assignTo: values?.assignTo?._id }),
-      ...(values?.dueDate && {
-        dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
-      }),
-      note: values?.note,
-      time: values?.time ?? '00:00',
+      ...body,
       companiesIds: companiesSelectedIds?.map((ele: any) => ele?.id),
       dealsIds: dealsSelectedIds?.map((ele: any) => ele?.id),
       ticketsIds: ticketsSelectedIds?.map((ele: any) => ele?.id),
       contactsIds: contactsSelectedIds?.map((ele: any) => ele?.id),
+      ...(values?.assignTo && { assignTo: values?.assignTo?._id }),
     };
-    if (creationMode === 'create') {
+
+    if (creationMode === TASK_TYPE?.CREATE_TASK) {
       try {
         await postCreateTask({
           body: payload,
@@ -161,6 +222,14 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
 
   const getCreateTaskData = createTaskData({ data: taskData?.data, usersData });
 
+  useEffect(() => {
+    if (initialValues) {
+      Object.keys(initialValues).forEach((key) => {
+        setValue(key, initialValues[key]);
+      });
+    }
+  }, [initialValues]);
+
   return {
     theme,
     handleFiltersSubmit,
@@ -171,6 +240,8 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     reset,
     postTaskLoading,
     patchTaskLoading,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 

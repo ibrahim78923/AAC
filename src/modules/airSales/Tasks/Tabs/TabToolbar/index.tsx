@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  CircularProgress,
   MenuItem,
   Popover,
   Tooltip,
@@ -208,12 +207,7 @@ const TabToolbar = () => {
                     onClick={menuFunctionsToRender[item?.name]}
                     key={item?.item}
                   >
-                    <>
-                      {item?.item}{' '}
-                      {item?.name === 'edit'
-                        ? isLoading && <CircularProgress size={15} />
-                        : ''}
-                    </>
+                    <>{item?.item}</>
                   </MenuItem>
                 );
               })}

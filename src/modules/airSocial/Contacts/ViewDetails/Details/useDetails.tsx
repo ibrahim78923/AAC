@@ -17,6 +17,13 @@ import {
   useLazyGetContactsStatusQuery,
 } from '@/services/common-APIs';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicFormInitialValue,
+} from '@/utils/dynamic-forms';
+import { filteredEmptyValues } from '@/utils/api';
 
 const useDetails = () => {
   const router = useRouter();
@@ -41,11 +48,35 @@ const useDetails = () => {
     setAnchorEl(null);
   };
 
+  // custom fields ++
+  const [form, setForm] = useState<any>([]);
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_COMMON_MODULE,
+      moduleType: DYNAMIC_FIELDS?.MT_CONTACT,
+    };
+    const getDynamicFieldsParameters = { params };
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+  // custom fields --
+
   // Update Contact Details
   const [updateDetails, { isLoading: loadingUpdateDetail }] =
     useUpdateContactMutation();
   const methodsDetails = useForm<any>({
-    resolver: yupResolver(detailsValidationSchema),
+    resolver: yupResolver(detailsValidationSchema(form)),
     defaultValues: detailsDefaultValues,
   });
 
@@ -67,6 +98,8 @@ const useDetails = () => {
     }
     return name;
   };
+
+  const initialValues: any = dynamicFormInitialValue(contactData, form);
 
   useEffect(() => {
     if (contactData) {
@@ -90,13 +123,52 @@ const useDetails = () => {
           ? new Date(contactData?.dateOfJoining)
           : null,
       );
+      for (const key in initialValues) {
+        setValue(key, initialValues[key]);
+      }
     }
-  }, [contactData]);
+  }, [contactData, initialValues]);
 
   const onSubmitUpdateContactDetail = async (values: any) => {
     const formData = new FormData();
+    const filteredEmptyData = filteredEmptyValues(values);
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+      formData?.append('customFields', JSON?.stringify(body?.customFields));
+    }
+
     Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null) {
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== '' &&
+        !customFieldKeys.has(key)
+      ) {
         switch (key) {
           case 'dateOfBirth':
           case 'dateOfJoining':
@@ -113,6 +185,7 @@ const useDetails = () => {
         }
       }
     });
+
     try {
       await updateDetails({
         id: router?.query?.contactId,
@@ -204,6 +277,8 @@ const useDetails = () => {
     handleOpenRemoveImageDialog,
     handleCloseRemoveImageDialog,
     handleRemoveAvatar,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 

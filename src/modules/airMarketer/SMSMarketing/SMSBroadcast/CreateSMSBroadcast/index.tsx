@@ -31,6 +31,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { styles } from './CreateSMSBroadcast.style';
 import dayjs from 'dayjs';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
+import { API_STATUS } from '@/constants';
 
 const CreateSMSBroadcast = () => {
   const {
@@ -57,6 +60,8 @@ const CreateSMSBroadcast = () => {
     methods,
     theme,
     type,
+    form,
+    getDynamicFieldsStatus,
   } = useCreateSMSBroadcast();
 
   return (
@@ -229,6 +234,36 @@ const CreateSMSBroadcast = () => {
                   </Grid>
                 );
               })}
+
+              {getDynamicFieldsStatus?.status === API_STATUS?.PENDING ? (
+                <>
+                  <Grid item xs={12}>
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ width: '100%', height: '45px' }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ width: '100%', height: '45px' }}
+                    />
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  {form?.map((item: any) => (
+                    <Grid item xs={12} key={item?.id}>
+                      {componentMap[item?.component] &&
+                        createElement(componentMap[item?.component], {
+                          ...item?.componentProps,
+                          name: item?.componentProps?.label,
+                          size: 'small',
+                        })}
+                    </Grid>
+                  ))}
+                </>
+              )}
             </Grid>
           </Grid>
 

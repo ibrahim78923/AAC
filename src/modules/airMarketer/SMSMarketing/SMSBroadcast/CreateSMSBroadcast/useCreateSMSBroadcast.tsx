@@ -18,6 +18,13 @@ import {
 import useSMSMarketing from '../../useSMSMarketing';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { indexNumbers, productSuiteName } from '@/constants';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicFormInitialValue,
+} from '@/utils/dynamic-forms';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import { filteredEmptyValues } from '@/utils/api';
 
 const useCreateSMSBroadcast = () => {
   const navigate = useRouter();
@@ -30,6 +37,31 @@ const useCreateSMSBroadcast = () => {
   const [isSchedule, setIsSchedule] = useState(false);
   const { getIsPhoneConnected } = useSMSMarketing();
 
+  // Dynamic form
+  const [form, setForm] = useState<any>([]);
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_MARKETING,
+      moduleType: DYNAMIC_FIELDS?.MT_SMS_BROADCAST,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
   const { data: getSmsBroadcatsById, isLoading: smsBroadcastLoading } =
     useGetSmsBroadcatsByIdQuery(selectedBroadCast, {
       skip: !selectedBroadCast,
@@ -41,7 +73,7 @@ const useCreateSMSBroadcast = () => {
     useUpdateSmsBroadcastMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver<any>(validationSchema(isSchedule)),
+    resolver: yupResolver<any>(validationSchema(isSchedule, form)),
     defaultValues: defaultValues(getIsPhoneConnected),
   });
 
@@ -55,10 +87,16 @@ const useCreateSMSBroadcast = () => {
     setValue('detail', templateData?.detail);
   }, [templateData?.detail]);
 
+  const initialValues: any = dynamicFormInitialValue(
+    getSmsBroadcatsById?.data,
+    form,
+  );
+
   useEffect(() => {
     if (type === DRAWER_TYPES?.EDIT) {
       const data = getSmsBroadcatsById?.data;
       const fieldsToSet: any = {
+        ...initialValues,
         name: data?.name,
         campaignId: data?.campaign,
         templateId: data?.template,
@@ -92,12 +130,38 @@ const useCreateSMSBroadcast = () => {
     if (isSchedule) {
       values.schedualDate = values.schedualDate;
     }
-
+    const filteredEmptyData = filteredEmptyValues(values);
+    const customFields: any = {};
+    const body: any = {};
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
+    const payload = {
+      ...body,
+      detail: cleanedDetailsText,
+    };
     try {
-      const payload = {
-        ...values,
-        detail: cleanedDetailsText,
-      };
       if (type === DRAWER_TYPES?.EDIT) {
         await updateSmsBroadcast({
           id: selectedBroadCast,
@@ -163,6 +227,8 @@ const useCreateSMSBroadcast = () => {
     methods,
     theme,
     type,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 

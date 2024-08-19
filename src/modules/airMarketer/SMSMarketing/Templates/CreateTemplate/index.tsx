@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createElement } from 'react';
 import { ArrowBackIcon } from '@/assets/icons';
 import {
   Box,
@@ -11,8 +11,9 @@ import {
 import { createTemplateDataArray } from './CreateTemplate.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import useCreateTemplate from './useCreateTemplate';
-import { TASK_TYPE } from '@/constants';
+import { API_STATUS, TASK_TYPE } from '@/constants';
 import { LoadingButton } from '@mui/lab';
+import { componentMap } from '@/utils/dynamic-forms';
 
 const CreateTemplate = () => {
   const {
@@ -28,6 +29,8 @@ const CreateTemplate = () => {
     type,
     theme,
     handleCancelBtn,
+    form,
+    getDynamicFieldsStatus,
   } = useCreateTemplate();
 
   return (
@@ -68,6 +71,36 @@ const CreateTemplate = () => {
                   </item.component>
                 </Grid>
               ))}
+
+              {getDynamicFieldsStatus?.status === API_STATUS?.PENDING ? (
+                <>
+                  <Grid item xs={12}>
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ width: '100%', height: '45px' }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ width: '100%', height: '45px' }}
+                    />
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  {form?.map((item: any) => (
+                    <Grid item xs={12} key={item?.id}>
+                      {componentMap[item?.component] &&
+                        createElement(componentMap[item?.component], {
+                          ...item?.componentProps,
+                          name: item?.componentProps?.label,
+                          size: 'small',
+                        })}
+                    </Grid>
+                  ))}
+                </>
+              )}
             </Grid>
           </Grid>
           <Grid item container xs={5}>

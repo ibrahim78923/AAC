@@ -3,29 +3,34 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
 const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 
-export const detailsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
-  firstName: Yup.string().nullable(),
-  lastName: Yup.string().nullable(),
-  address: Yup.string().nullable(),
-  dateOfBirth: Yup.date().nullable(),
-  contactOwnerId: Yup.mixed().nullable()?.required('Field is Required'),
-  phoneNumber: Yup.string()
-    .nullable()
-    .matches(phoneRegex, 'Phone number is not valid'),
-  whatsAppNumber: Yup.string()
-    .nullable()
-    .matches(phoneRegex, 'WhatsApp number is not valid'),
-  lifeCycleStageId: Yup.mixed().nullable(),
-  jobTitle: Yup.string().nullable(),
-  statusId: Yup.mixed().nullable(),
-  dateOfJoining: Yup.date().nullable(),
-  profilePicture: Yup.string().nullable(),
-});
+export const detailsValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
+    firstName: Yup.string().nullable(),
+    lastName: Yup.string().nullable(),
+    address: Yup.string().nullable(),
+    dateOfBirth: Yup.date().nullable(),
+    contactOwnerId: Yup.mixed().nullable()?.required('Field is Required'),
+    phoneNumber: Yup.string()
+      .nullable()
+      .matches(phoneRegex, 'Phone number is not valid'),
+    whatsAppNumber: Yup.string()
+      .nullable()
+      .matches(phoneRegex, 'WhatsApp number is not valid'),
+    lifeCycleStageId: Yup.mixed().nullable(),
+    jobTitle: Yup.string().nullable(),
+    statusId: Yup.mixed().nullable(),
+    dateOfJoining: Yup.date().nullable(),
+    profilePicture: Yup.string().nullable(),
+    ...formSchema,
+  });
+};
 
 export const detailsDefaultValues = {
   email: '',
