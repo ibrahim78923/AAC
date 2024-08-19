@@ -1,23 +1,27 @@
-import { useForm } from 'react-hook-form';
 import { useGetServiceCatalogCategoriesDetailsQuery } from '@/services/airCustomerPortal/catalog';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';
+import { Theme, useTheme } from '@mui/material';
 
 const useCatalogService = () => {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const method = useForm({});
+  const [open, setOpen] = useState<boolean>(false);
+  const router: NextRouter = useRouter();
+  const theme: Theme = useTheme();
   const { serviceId, categoryId } = router?.query;
+
   const getServiceCatalogCategoriesDetailsParameter = {
     queryParam: {
       id: serviceId,
       categoryId,
     },
   };
+
   const {
     data: servicesDetails,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   } = useGetServiceCatalogCategoriesDetailsQuery(
     getServiceCatalogCategoriesDetailsParameter,
     {
@@ -25,26 +29,17 @@ const useCatalogService = () => {
     },
   );
 
-  const { handleSubmit } = method;
-  const onSubmit = handleSubmit(() => {});
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
   return {
-    method,
-    handleSubmit,
-    onSubmit,
-    handleClickOpen,
-    handleClose,
     open,
     setOpen,
     servicesDetails,
     isLoading,
     isFetching,
+    isError,
+    refetch,
+    router,
+    theme,
   };
 };
+
 export default useCatalogService;

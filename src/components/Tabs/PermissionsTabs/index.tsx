@@ -45,8 +45,10 @@ export const PermissionsTabs = (props: PermissionTabsPropsI) => {
     );
   };
 
+  const { currentPermissions } = useAuth();
+
   const filteredTabs = tabsDataArray?.filter((tab: any) => {
-    const { currentPermissions } = useAuth();
+    if (tab?.hasNoPermissions) return tab;
     return checkPermissions(currentPermissions, tab?.tabPermissions);
   });
 

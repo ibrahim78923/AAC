@@ -8,8 +8,9 @@ import {
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 import { formatTimeDifference } from '@/utils/dateTime';
+import { ApprovalCardPropsI } from '../AllApprovals/AllApprovals.interface';
 
-export const ApprovalCard = (props: any) => {
+export const ApprovalCard = (props: ApprovalCardPropsI) => {
   const {
     data,
     showStatus = false,
@@ -17,6 +18,7 @@ export const ApprovalCard = (props: any) => {
     setApproval,
     openApprovalDetail,
   } = props;
+
   return (
     <Box
       padding={1}
@@ -90,9 +92,7 @@ export const ApprovalCard = (props: any) => {
             {formatTimeDifference(data?.createdAt)}
           </Typography>
           <Typography color={'grey.900'} fontSize={'0.75rem'}>
-            {!!data?.ticketDetails?.source
-              ? `Via ${' '}  ${data?.ticketDetails?.source}`
-              : ''}
+            Via Portal
           </Typography>
         </Box>
       </Box>

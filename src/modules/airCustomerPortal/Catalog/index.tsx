@@ -1,22 +1,22 @@
-import { Avatar, Box, Grid, Skeleton, Typography } from '@mui/material';
-
+import { Box, Grid, Skeleton } from '@mui/material';
 import useCatalog from './useCatalog';
-import { FolderIcon } from '@/assets/icons';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-
 import { Permissions } from '@/constants/permissions';
 import { AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { generateImage } from '@/utils/avatarUtils';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { CATALOG_SERVICE_TYPES, DATA_TYPES } from '@/constants/strings';
+import { CategoryCard } from './CategoryCard';
+import { ServiceCard } from './ServiceCard';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
+import { CategoryI, ServiceI } from './Catalog.interface';
 
 export const Catalog = () => {
   const {
     handleClickService,
     serviceCatalogCategories,
-    handlePageChange,
     setPageLimit,
     setPage,
     isLoading,
@@ -24,146 +24,59 @@ export const Catalog = () => {
     router,
     services,
     categoryId,
+    allCategories,
+    isError,
+    refetch,
   } = useCatalog();
 
   return (
     <>
       <PermissionsGuard permissions={Permissions?.AIR_CUSTOMER_PORTAL_CATALOG}>
-        <Typography variant="h3">All Services</Typography>
+        <PageTitledHeader title="All Services" />
         <PermissionsGuard
           permissions={[
             AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS?.VIEW_ALL_CATALOG_SERVICES,
           ]}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={3}>
-              <Box
-                onClick={() => {
-                  router?.push({
-                    pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
-                    query: {
-                      categoryName: CATALOG_SERVICE_TYPES?.ALL,
-                    },
-                  });
-                }}
-                borderRadius={2}
-                border={'2px solid'}
-                borderColor={
-                  categoryId === DATA_TYPES?.UNDEFINED
-                    ? 'primary.main'
-                    : 'primary.lighter'
-                }
-                bgcolor={
-                  categoryId === DATA_TYPES?.UNDEFINED ? 'primary.lighter' : ''
-                }
-                textAlign="center"
-                mt={2}
-                minHeight={'15rem'}
-                p={2}
-                sx={{ cursor: 'pointer' }}
-              >
-                <Box
-                  alignItems={'center'}
-                  display={'flex'}
-                  justifyContent={'center'}
-                  mt={2}
-                >
-                  <FolderIcon />
-                </Box>
-                <Typography variant="h5" mt={2}>
-                  All Services
-                </Typography>
-                <Box
-                  alignItems={'center'}
-                  display={'flex'}
-                  justifyContent={'center'}
-                >
-                  <Typography
-                    variant="body2"
-                    align="center"
-                    gutterBottom
-                    mt={1}
-                    mb={2}
-                    ml={2}
-                    mr={2}
-                  >
-                    Browse the list of all services offered and raise a request.
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
             {serviceCatalogCategories?.isLoading ||
             serviceCatalogCategories?.isFetching ? (
               <SkeletonForm />
+            ) : serviceCatalogCategories?.isError ? (
+              <Box width="100%">
+                <ApiErrorState
+                  canRefresh
+                  refresh={() => serviceCatalogCategories?.refetch?.()}
+                />
+              </Box>
             ) : (
-              !!serviceCatalogCategories?.data?.data?.servicecategories
-                ?.length &&
-              serviceCatalogCategories?.data?.data?.servicecategories?.map(
-                (service: any) => (
-                  <Grid item xs={12} md={6} lg={3} key={service?._id}>
-                    <Box
-                      onClick={() => {
-                        router?.push({
-                          pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
-                          query: {
-                            categoryId: service?._id,
-                            categoryName: service?.categoryName,
-                          },
-                        });
-                      }}
-                      borderRadius={2}
-                      border={'2px solid'}
-                      borderColor={
-                        service?._id === categoryId
-                          ? 'primary.main'
-                          : 'primary.lighter'
-                      }
-                      bgcolor={
-                        service?._id === categoryId ? 'primary.lighter' : ''
-                      }
-                      textAlign="center"
-                      mt={2}
-                      minHeight={'15rem'}
-                      p={2}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <Box
-                        alignItems={'center'}
-                        display={'flex'}
-                        justifyContent={'center'}
-                        mt={2}
-                      >
-                        <FolderIcon />
-                      </Box>
-                      <Typography variant="h5" mt={2}>
-                        {service?.categoryName ?? '-'}
-                      </Typography>
-                      <Box
-                        alignItems={'center'}
-                        display={'flex'}
-                        justifyContent={'center'}
-                      >
-                        <Typography
-                          variant="body2"
-                          align="center"
-                          gutterBottom
-                          mt={1}
-                          mb={2}
-                          ml={2}
-                          mr={2}
-                        >
-                          {service?.description ?? '-'}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-                ),
-              )
+              !!allCategories?.length &&
+              allCategories?.map((category: CategoryI) => (
+                <Grid item xs={12} md={6} lg={3} key={category?._id}>
+                  <CategoryCard
+                    category={category}
+                    onCardClick={() => {
+                      router?.push({
+                        pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                        query: {
+                          ...(!!category?._id
+                            ? { categoryId: category?._id }
+                            : {}),
+                          categoryName: category?.categoryName,
+                        },
+                      });
+                    }}
+                    categoryId={categoryId}
+                  />
+                </Grid>
+              ))
             )}
           </Grid>
           {serviceCatalogCategories?.isLoading ||
           serviceCatalogCategories?.isFetching ? (
             <Skeleton />
+          ) : serviceCatalogCategories?.isError ? (
+            <></>
           ) : (
             <>
               <br />
@@ -172,7 +85,7 @@ export const Catalog = () => {
                 pageLimit={serviceCatalogCategories?.data?.data?.meta?.limit}
                 currentPage={serviceCatalogCategories?.data?.data?.meta?.page}
                 totalRecords={serviceCatalogCategories?.data?.data?.meta?.total}
-                onPageChange={handlePageChange}
+                onPageChange={(page: number) => setPage(page)}
                 setPage={setPage}
                 setPageLimit={setPageLimit}
               />
@@ -184,66 +97,29 @@ export const Catalog = () => {
             AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS?.VIEW_CATALOG_SERVICES_DIFFERENT_TYPES,
           ]}
         >
-          <Grid container>
+          <Grid container spacing={1}>
             {isLoading || isFetching ? (
               <SkeletonForm />
-            ) : (
-              services?.data?.map((allService: any) => (
-                <Grid item xs={12} md={6} lg={4} key={allService?._id}>
-                  <Box
-                    key={allService?._id}
-                    onClick={() =>
+            ) : isError ? (
+              <Box width="100%">
+                <ApiErrorState canRefresh refresh={() => refetch?.()} />
+              </Box>
+            ) : !!services?.data?.length ? (
+              services?.data?.map((service: ServiceI) => (
+                <Grid item xs={12} md={6} lg={4} key={service?._id}>
+                  <ServiceCard
+                    service={service}
+                    onCardClick={() =>
                       handleClickService?.(
-                        allService?._id,
-                        allService?.serviceCategory,
+                        service?._id,
+                        service?.serviceCategory,
                       )
                     }
-                    borderRadius={2}
-                    border={'0.3rem solid'}
-                    borderColor={'primary.lighter'}
-                    display={'flex'}
-                    flexDirection={'row'}
-                    mt={4}
-                    mr={3}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <Box
-                      alignItems={'center'}
-                      display={'flex'}
-                      justifyContent={'flex-start'}
-                      p={2}
-                    >
-                      <Avatar
-                        sx={{ height: '4rem', width: '4rem' }}
-                        src={generateImage(
-                          allService?.attachmentDetails?.fileUrl,
-                        )}
-                      />
-                    </Box>
-                    <Box
-                      alignItems={'flex-start'}
-                      display={'flex'}
-                      justifyContent={'flex-start'}
-                      flexDirection={'column'}
-                      maxHeight={'100px'}
-                      minHeight={'100px'}
-                      overflow={'scroll'}
-                      mt={2}
-                    >
-                      <Typography variant="h5">
-                        {allService?.itemName ?? '---'}
-                      </Typography>
-
-                      <Typography variant="body2" component={'span'}>
-                        {allService?.description ?? '---'}
-                      </Typography>
-                      <Typography variant="body2" component={'span'}>
-                        {allService?.cost ?? '---'}
-                      </Typography>
-                    </Box>
-                  </Box>
+                  />
                 </Grid>
               ))
+            ) : (
+              <NoData message="No service found" />
             )}
           </Grid>
         </PermissionsGuard>
