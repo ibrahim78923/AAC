@@ -18,7 +18,7 @@ export const FilterTickets = (props: TicketActionComponentPropsI) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isOpen}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={() => onClose?.()}
         okText={'Apply'}
         title={'Filter'}

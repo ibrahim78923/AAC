@@ -5,14 +5,14 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { pxToRem } from '@/utils/getFontValue';
-import { Box } from '@mui/material';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const addEmailValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.array()
     ?.of(Yup?.string())
     ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
-      if (!value || value.length === 0) {
-        return false; // 'To is Required' error message will be triggered
+      if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
+        return false;
       }
       return value.every((email) => Yup?.string().email().isValidSync(email));
     }),
@@ -38,7 +38,6 @@ export const addEmailDataArray = [
       options: [],
       multiple: true,
       isOptionEqualToValue: () => {},
-      endAdornment: <Box color={'grey.900'}>From CC BCC</Box>,
     },
     component: RHFAutocomplete,
   },

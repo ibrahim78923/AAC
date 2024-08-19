@@ -27,6 +27,8 @@ export const TicketsLists = () => {
     setTicketsListsActiveColumn,
     setSelectedTicketList,
     filterTicketLists,
+    getTicketsListData,
+    page,
   } = useTicketsLists();
 
   return (
@@ -88,6 +90,8 @@ export const TicketsLists = () => {
             metaData={lazyGetTicketsStatus}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            getTicketsListData={getTicketsListData}
+            page={page}
           />
         </PermissionsGuard>
       )}

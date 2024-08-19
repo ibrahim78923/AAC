@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   addEmailDefaultValues,
   addEmailValidationSchema,
@@ -7,6 +7,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
+import { EmailTicketFormFieldsI } from './EmailTicket.interface';
 
 export const useEmailTicket = (
   props: SingleTicketDetailPortalComponentPropsI,
@@ -15,7 +16,9 @@ export const useEmailTicket = (
 
   const [trigger, status] = usePostNewEmailMutation();
 
-  const methods: any = useForm({
+  const methods: UseFormReturn<EmailTicketFormFieldsI> = useForm<
+    EmailTicketFormFieldsI | any
+  >({
     resolver: yupResolver(addEmailValidationSchema),
     defaultValues: addEmailDefaultValues,
   });
@@ -27,7 +30,7 @@ export const useEmailTicket = (
     setIsPortalOpen?.({});
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: EmailTicketFormFieldsI) => {
     const emailFormData = new FormData();
     emailFormData?.append('recipients', data?.recipients);
     emailFormData?.append('subject', data?.subject);

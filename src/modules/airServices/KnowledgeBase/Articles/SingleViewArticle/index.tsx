@@ -9,10 +9,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { Attachments } from '@/components/Attachments';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import {
-  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS,
-  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS,
-} from '@/constants/permission-keys';
+import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { truncateText } from '@/utils/avatarUtils';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -76,9 +73,7 @@ export const SingleViewArticle = () => {
                 <Attachments
                   recordId={articleId as string}
                   size={{ width: '100%', height: '100%' }}
-                  permissionKey={[
-                    AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
-                  ]}
+                  permissionKey={[]}
                 />
               </Box>
             </>

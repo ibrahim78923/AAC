@@ -41,11 +41,12 @@ export const SingleTicketDetail = () => {
     setIsPortalOpen,
     childComponentProps,
     singleTicketDetailTabs,
+    refetch,
   } = useSingleTicketDetails?.();
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>

@@ -8,25 +8,31 @@ export const TicketsTableView = (props: TicketTableViewPropsI) => {
     metaData,
     setPage,
     setPageLimit,
+    getTicketsListData,
+    page,
   } = props;
 
   return (
     <>
       <TanstackTable
         columns={ticketsListsColumn}
-        data={ticketListsData}
+        data={ticketListsData ?? []}
         isLoading={metaData?.isLoading}
         isFetching={metaData?.isFetching}
         isError={metaData?.isError}
-        isSuccess={metaData?.isSuccess || true}
+        isSuccess={metaData?.isSuccess}
         currentPage={metaData?.data?.data?.meta?.page}
         count={metaData?.data?.data?.meta?.pages}
         pageLimit={metaData?.data?.data?.meta?.limit}
         totalRecords={metaData?.data?.data?.meta?.total}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
         isPagination
+        errorProps={{
+          canRefresh: true,
+          refresh: () => getTicketsListData?.(page),
+        }}
       />
     </>
   );

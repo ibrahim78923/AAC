@@ -1,6 +1,6 @@
 import Search from '@/components/Search';
-import { Box, Button, ButtonGroup, useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Box, Button, ButtonGroup } from '@mui/material';
+import { NextRouter, useRouter } from 'next/router';
 import { CutomizeIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
 import AutoRenewIcon from '@mui/icons-material/Autorenew';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
@@ -23,8 +23,7 @@ export const TicketsListSubHeader = (props: any) => {
     setTicketsListsActiveColumn,
   } = props;
 
-  const theme: any = useTheme();
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { makePath } = usePath();
 
   return (
@@ -131,7 +130,7 @@ export const TicketsListSubHeader = (props: any) => {
                   sx={{
                     backgroundColor:
                       router?.query?.viewType !== VIEW_TYPES?.BOARD
-                        ? theme?.palette?.grey?.['0']
+                        ? 'grey.0'
                         : '',
                   }}
                   color="secondary"
@@ -148,7 +147,7 @@ export const TicketsListSubHeader = (props: any) => {
                   sx={{
                     backgroundColor:
                       router?.query?.viewType === VIEW_TYPES?.BOARD
-                        ? theme?.palette?.grey?.['0']
+                        ? 'grey.0'
                         : '',
                   }}
                   onClick={() => {

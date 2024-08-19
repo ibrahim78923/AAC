@@ -13,7 +13,7 @@ export const TicketsDelete = (props: TicketActionComponentPropsI | any) => {
       type="delete Ticket"
       typeImage={<AlertModalDeleteIcon />}
       message="Are you sure you want to delete the selected ticket ?"
-      open={isPortalOpen?.isOpen}
+      open={isPortalOpen?.isOpen as boolean}
       handleClose={() => closeTicketsDeleteModal?.()}
       handleSubmitBtn={() => deleteTicket?.()}
       loading={deleteTicketsStatus?.isLoading}

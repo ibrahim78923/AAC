@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   useLazyGetAgentDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
@@ -12,18 +12,20 @@ import {
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { TicketsFilterFormFieldsI } from './FilterTickets.interface';
 
 export const useFilterTickets = (props: TicketActionComponentPropsI) => {
   const { setIsPortalOpen, setFilterTicketLists, filterTicketLists, setPage } =
     props;
 
-  const methods: any = useForm({
-    defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
-  });
+  const methods: UseFormReturn<TicketsFilterFormFieldsI> =
+    useForm<TicketsFilterFormFieldsI>({
+      defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
+    });
 
   const { handleSubmit, reset } = methods;
 
-  const submitTicketFilterForm = async (data: any) => {
+  const submitTicketFilterForm = async (data: TicketsFilterFormFieldsI) => {
     const ticketsFiltered: any = filteredEmptyValues?.(data);
 
     if (!Object?.keys(ticketsFiltered || {})?.length) {

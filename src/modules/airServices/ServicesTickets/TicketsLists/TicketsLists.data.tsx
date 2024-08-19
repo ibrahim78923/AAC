@@ -16,6 +16,8 @@ import {
 import { errorSnackbar } from '@/utils/api';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { TicketTableRowI } from './TicketsLists.interface';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -34,7 +36,12 @@ export const TICKETS_ACTION_CONSTANTS = {
 };
 
 export const ticketsActionDropdownFunction = (
-  setTicketAction: any,
+  setTicketAction: (
+    ticketActionQuery: string,
+    data?: {
+      [key: string]: any;
+    },
+  ) => void,
   selectedTicketList: any,
 ) => [
   {
@@ -43,7 +50,7 @@ export const ticketsActionDropdownFunction = (
       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
     ],
     title: 'Edit',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -57,7 +64,7 @@ export const ticketsActionDropdownFunction = (
     id: 2,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Assign To',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -71,7 +78,7 @@ export const ticketsActionDropdownFunction = (
     id: 3,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Bulk Update',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
       closeMenu?.();
     },
@@ -80,7 +87,7 @@ export const ticketsActionDropdownFunction = (
     id: 4,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Merge',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -94,7 +101,7 @@ export const ticketsActionDropdownFunction = (
     id: 5,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Move',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -108,7 +115,7 @@ export const ticketsActionDropdownFunction = (
     id: 6,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Close',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -124,7 +131,7 @@ export const ticketsActionDropdownFunction = (
     id: 7,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Spam',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one ticket');
         closeMenu?.();
@@ -140,7 +147,7 @@ export const ticketsActionDropdownFunction = (
     id: 8,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Delete',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
       closeMenu?.();
     },
@@ -166,7 +173,7 @@ export const ticketsListsColumnFunction: any = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: TicketTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
@@ -211,7 +218,7 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.ticketIdNumber,
+      accessorFn: (row: TicketTableRowI) => row?.ticketIdNumber,
       id: 'ticketIdNumber',
       cell: (info: any) => {
         return (
@@ -258,14 +265,14 @@ export const ticketsListsColumnFunction: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.subject,
+      accessorFn: (row: TicketTableRowI) => row?.subject,
       id: 'subject',
       isSortable: true,
       header: 'Subject',
       cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.requesterDetails,
+      accessorFn: (row: TicketTableRowI) => row?.requesterDetails,
       id: 'requesterDetails',
       isSortable: true,
       header: 'Requester',
@@ -291,7 +298,7 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.agentDetails,
+      accessorFn: (row: TicketTableRowI) => row?.agentDetails,
       id: 'agentDetails',
       isSortable: true,
       header: 'Assigned to',
@@ -302,7 +309,7 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.state,
+      accessorFn: (row: TicketTableRowI) => row?.state,
       id: 'state',
       isSortable: true,
       header: 'State',
@@ -313,7 +320,7 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: TicketTableRowI) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -324,7 +331,7 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.pirority,
+      accessorFn: (row: TicketTableRowI) => row?.pirority,
       id: 'pirority',
       isSortable: true,
       header: 'Priority',
@@ -335,21 +342,21 @@ export const ticketsListsColumnFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.departmentsDetails,
+      accessorFn: (row: TicketTableRowI) => row?.departmentsDetails,
       id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
       cell: (info: any) => info?.getValue()?.name ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
+      accessorFn: (row: TicketTableRowI) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
       cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.dueDate,
+      accessorFn: (row: TicketTableRowI) => row?.dueDate,
       id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
@@ -357,28 +364,28 @@ export const ticketsListsColumnFunction: any = (
         dayjs(info?.row?.original?.plannedEndDate)?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.impact,
+      accessorFn: (row: TicketTableRowI) => row?.impact,
       id: 'impact',
       isSortable: true,
       header: 'Impact',
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.plannedStartDate,
+      accessorFn: (row: TicketTableRowI) => row?.plannedStartDate,
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
       cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.plannedEndDate,
+      accessorFn: (row: TicketTableRowI) => row?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Planned End Date',
       cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.plannedEffort,
+      accessorFn: (row: TicketTableRowI) => row?.plannedEffort,
       id: 'plannedEffort',
       isSortable: true,
       header: 'Planned Effort',

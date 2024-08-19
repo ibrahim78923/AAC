@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -15,6 +14,8 @@ import { useMergedTickets } from './useMergeTickets';
 import { fullName } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import CloseIcon from '@mui/icons-material/Close';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const MergeTickets = (props: TicketActionComponentPropsI) => {
   const theme = useTheme();
@@ -30,7 +31,7 @@ export const MergeTickets = (props: TicketActionComponentPropsI) => {
 
   return (
     <Dialog
-      open={isPortalOpen?.isOpen}
+      open={isPortalOpen?.isOpen as boolean}
       onClose={() => closeMergedTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}
@@ -42,18 +43,15 @@ export const MergeTickets = (props: TicketActionComponentPropsI) => {
           justifyContent={'space-between'}
           gap={1}
           flexWrap={'wrap'}
+          mb={1.5}
         >
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <Typography variant="h3" textTransform={'capitalize'}>
-              Merge
-            </Typography>
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
+          <Typography variant="h4" color="slateBlue.main">
+            Merge
+          </Typography>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
             onClick={() => closeMergedTicketsModal?.()}
-          >
-            <AlertModalCloseIcon />
-          </Box>
+          />
         </Box>
       </DialogTitle>
       <DialogContent>
@@ -63,7 +61,7 @@ export const MergeTickets = (props: TicketActionComponentPropsI) => {
         >
           <br />
           <Grid container spacing={1}>
-            {mergeTicketsFormFields?.map((item: any) => (
+            {mergeTicketsFormFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.heading ? item?.heading : null}

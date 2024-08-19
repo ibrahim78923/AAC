@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
 import {
   singleTicketDetailDropdownOptionsDynamic,
@@ -11,22 +11,28 @@ import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
 import { PrintTicket } from '../PrintTicket';
 import { EmailTicket } from '../EmailTicket';
 import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
-import { SingleTicketDetailPortalComponentPropsI } from './SingleTicketDetails.interface';
+import {
+  SingleTicketDetailChildComponentPropsI,
+  SingleTicketDetailIsPortalOpenI,
+  SingleTicketDetailPortalComponentPropsI,
+  TimeI,
+} from './SingleTicketDetails.interface';
 
 export const useSingleTicketDetails = () => {
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-  const [isTimerPause, setIsTimerPause] = useState(true);
+  const [isPortalOpen, setIsPortalOpen] =
+    useState<SingleTicketDetailIsPortalOpenI>({});
+  const [isTimerPause, setIsTimerPause] = useState<boolean>(true);
 
   const startTimerId = useRef();
   const intervalRef = useRef<number | null>(null);
 
-  const [time, setTime] = useState({
+  const [time, setTime] = useState<TimeI>({
     hours: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_HOUR,
     minutes: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_MINUTE,
     seconds: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_SECOND,
   });
 
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { ticketId } = router?.query;
 
   const getSingleTicketParameter = {
@@ -35,13 +41,11 @@ export const useSingleTicketDetails = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
-    getSingleTicketParameter,
-    {
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetTicketsByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
-    },
-  );
+    });
 
   const singleTicketDetailDropdownOptions =
     singleTicketDetailDropdownOptionsDynamic(setIsPortalOpen);
@@ -56,7 +60,7 @@ export const useSingleTicketDetails = () => {
     setIsTimerPause,
   };
 
-  const childComponentProps = {
+  const childComponentProps: SingleTicketDetailChildComponentPropsI = {
     isTimerPause,
     setIsTimerPause,
     data,
@@ -95,8 +99,8 @@ export const useSingleTicketDetails = () => {
     renderPortalComponent,
     isPortalOpen,
     setIsPortalOpen,
-    portalComponentProps,
     childComponentProps,
     singleTicketDetailTabs,
+    refetch,
   };
 };

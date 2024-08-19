@@ -14,8 +14,16 @@ import { Approvals } from './Approvals';
 import { Meeting } from './Meeting';
 import { Activities } from './Activities';
 import { Conversations } from './Conversations';
+import { Dispatch, SetStateAction } from 'react';
+import {
+  SingleTicketDetailChildComponentPropsI,
+  SingleTicketDetailIsPortalOpenI,
+} from './SingleTicketDetails.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
-export const singleTicketDetailTabsDynamic = (props: any) => {
+export const singleTicketDetailTabsDynamic = (
+  props: SingleTicketDetailChildComponentPropsI,
+) => {
   const { data } = props;
   return [
     {
@@ -100,13 +108,13 @@ export const singleTicketDetailTabsDynamic = (props: any) => {
 };
 
 export const singleTicketDetailDropdownOptionsDynamic = (
-  setIsPortalOpen: any,
+  setIsPortalOpen: Dispatch<SetStateAction<SingleTicketDetailIsPortalOpenI>>,
 ) => [
   {
     id: 1,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     title: 'Print',
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen?.({
         isOpen: true,
         action: TICKETS_ACTION_CONSTANTS?.PRINT_TICKET,
@@ -118,7 +126,7 @@ export const singleTicketDetailDropdownOptionsDynamic = (
     id: 2,
     title: 'Delete',
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen?.({
         isOpen: true,
         action: TICKETS_ACTION_CONSTANTS?.DELETE_TICKET,
@@ -130,7 +138,7 @@ export const singleTicketDetailDropdownOptionsDynamic = (
     id: 3,
     title: 'Close',
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen?.({
         isOpen: true,
         action: TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS,

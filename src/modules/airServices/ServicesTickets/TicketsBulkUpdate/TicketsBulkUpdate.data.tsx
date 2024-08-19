@@ -13,6 +13,12 @@ import {
   ticketStatusOptions,
 } from '../ServicesTickets.data';
 import { ROLES } from '@/constants/strings';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { PAGINATION } from '@/config';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const dropdownDummy = [
   {
@@ -29,13 +35,13 @@ export const isReplyAddedNeglect = ['to', 'description', 'file'];
 
 export const ticketsBulkUpdateToFormSchema: any = {
   to: Yup?.array()?.of(Yup?.string()),
-  description: Yup?.mixed(),
+  description: Yup?.string(),
   file: Yup?.mixed()?.nullable(),
 };
 
 export const ticketsBulkUpdateAddReplyFormFieldsData = [
   {
-    id: 12,
+    id: 11,
     componentProps: {
       name: 'to',
       label: 'To',
@@ -49,18 +55,17 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
     component: RHFAutocomplete,
   },
   {
-    id: 920,
+    id: 13,
     componentProps: {
       fullWidth: true,
       name: 'description',
       label: 'Description',
-      required: true,
-      style: { height: '250px' },
+      style: { height: pxToRem(250) },
     },
     component: RHFEditor,
   },
   {
-    id: 150,
+    id: 15,
     componentProps: {
       fullWidth: true,
       name: 'file',
@@ -123,7 +128,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
       name: 'pirority',
       label: 'Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -134,55 +139,59 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
       name: 'status',
       label: 'Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
   {
-    id: 82,
+    id: 3,
     component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
   },
   {
-    id: 200,
+    id: 4,
     componentProps: {
       fullWidth: true,
       name: 'agent',
       label: 'Agent',
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
-      getOptionLabel: (option: any) =>
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
+      },
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
   {
-    id: 2,
+    id: 5,
     component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'source',
       label: 'Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
   },
   {
-    id: 9200,
+    id: 6,
     componentProps: {
       fullWidth: true,
       name: 'category',
       label: 'Category',
       apiQuery: apiQueryCategories,
       placeholder: 'Choose Category',
-      getOptionLabel: (option: any) => option?.categoryName,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+        option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },

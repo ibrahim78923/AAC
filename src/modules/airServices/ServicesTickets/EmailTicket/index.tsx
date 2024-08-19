@@ -5,6 +5,7 @@ import React from 'react';
 import { addEmailDataArray } from './EmailTicket.data';
 import { useEmailTicket } from './useEmailTicket';
 import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const EmailTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -26,7 +27,7 @@ export const EmailTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {addEmailDataArray?.map((item: any) => (
+          {addEmailDataArray?.map((item: ReactHookFormFieldsI) => (
             <Grid item xs={12} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>

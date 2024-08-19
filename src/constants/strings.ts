@@ -691,6 +691,8 @@ export const VOUCHERS_STATUS = {
 export const DATA_TYPES = {
   NULL: null,
   UNDEFINED: undefined,
+  OBJECT: 'object',
+  STRING: 'string',
 };
 
 export const LOYALTY_TIERS_REWARD_TYPE = {

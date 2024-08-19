@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CommonDrawer from '@/components/CommonDrawer';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -23,7 +24,7 @@ export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isOpen}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={() => onClose?.()}
         okText={'Update'}
         title={'Bulk Update'}
@@ -67,23 +68,25 @@ export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
                   </Box>
                 </Box>
                 <Grid container spacing={1.5}>
-                  {ticketsBulkUpdateAddReplyFormFieldsData?.map((form: any) => {
-                    return (
-                      <Grid item xs={12} key={form?.id}>
-                        <form.component
-                          {...form?.componentProps}
-                          size="small"
-                        />
-                      </Grid>
-                    );
-                  })}
+                  {ticketsBulkUpdateAddReplyFormFieldsData?.map(
+                    (form: ReactHookFormFieldsI) => {
+                      return (
+                        <Grid item xs={12} key={form?.id}>
+                          <form.component
+                            {...form?.componentProps}
+                            size="small"
+                          />
+                        </Grid>
+                      );
+                    },
+                  )}
                 </Grid>
               </Box>
             </>
           )}
           <br />
           <Grid container spacing={1.5}>
-            {ticketsBulkUpdateFormFields?.map((form: any) => {
+            {ticketsBulkUpdateFormFields?.map((form: ReactHookFormFieldsI) => {
               return (
                 <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />

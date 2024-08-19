@@ -12,12 +12,19 @@ import NoData from '@/components/NoData';
 export const Activities = () => {
   const theme = useTheme();
 
-  const { isLoading, isError, setPageLimit, setPage, isFetching, data } =
-    useActivities();
+  const {
+    isLoading,
+    isError,
+    setPageLimit,
+    setPage,
+    isFetching,
+    data,
+    refetch,
+  } = useActivities();
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>
@@ -99,7 +106,7 @@ export const Activities = () => {
         totalRecords={data?.data?.meta?.total}
         pageLimit={data?.data?.meta?.limit}
         currentPage={data?.data?.meta?.page}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPageLimit={setPageLimit}
         setPage={setPage}
       />

@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface IsPortalOpenI {
+export interface SingleTicketDetailIsPortalOpenI {
   isOpen?: boolean;
   action?: string;
+  status?: string;
 }
 
 export interface TimeI {
@@ -12,8 +13,8 @@ export interface TimeI {
 }
 
 export interface SingleTicketDetailPortalComponentPropsI {
-  isPortalOpen: IsPortalOpenI;
-  setIsPortalOpen: Dispatch<SetStateAction<IsPortalOpenI>>;
+  isPortalOpen: SingleTicketDetailIsPortalOpenI;
+  setIsPortalOpen: Dispatch<SetStateAction<SingleTicketDetailIsPortalOpenI>>;
   selectedTicketList: string[];
   isMoveBack: boolean;
   data: any;

@@ -13,6 +13,11 @@ export interface AutocompleteAsyncOptionsI {
     firstName?: string;
     lastName?: string;
   };
+  categoryName?: string;
+  ticketIdNumber?: string;
+  subject?: string;
+  itemName?: string;
+  displayName?: string;
 }
 
 export interface ReactHookFormFieldsI {

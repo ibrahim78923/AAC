@@ -17,6 +17,7 @@ import {
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { PAGINATION } from '@/config';
 
 export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   const {
@@ -45,7 +46,7 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   const [postAddReplyToBulkUpdateTrigger, postAddReplyToBulkUpdateStatus] =
     usePostAddReplyToBulkUpdateMutation();
 
-  const submitReply = async (formData: any) => {
+  const submitReply = async (formData: { [key: string]: any }) => {
     const emailFormData = new FormData();
     emailFormData?.append('recipients', formData?.to);
     emailFormData?.append('html', formData?.description);
@@ -92,9 +93,9 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
       setIsPortalOpen?.({});
-      getTicketsListData(1, {});
       setFilterTicketLists?.({});
-      setPage?.(1);
+      setPage?.(PAGINATION?.CURRENT_PAGE);
+      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       if (!!data?.to?.length && !!data?.description) {
         submitReply?.(data);
       }

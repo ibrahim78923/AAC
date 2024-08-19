@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -12,6 +11,8 @@ import {
 } from '@mui/material';
 import { useMoveTickets } from './useMoveTickets';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import CloseIcon from '@mui/icons-material/Close';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const MoveTickets = (props: TicketActionComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -23,9 +24,10 @@ export const MoveTickets = (props: TicketActionComponentPropsI) => {
     moveTicketsFormFields,
     putTicketStatus,
   } = useMoveTickets(props);
+
   return (
     <Dialog
-      open={isPortalOpen?.isOpen}
+      open={isPortalOpen?.isOpen as boolean}
       onClose={() => closeMoveTicketsModal?.()}
       fullWidth
       maxWidth={'sm'}
@@ -41,38 +43,28 @@ export const MoveTickets = (props: TicketActionComponentPropsI) => {
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
+            mb={1.5}
           >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3" textTransform={'capitalize'}>
-                Move
-              </Typography>
-            </Box>
-            <Box
-              sx={{ cursor: 'pointer' }}
+            <Typography variant="h4" color="slateBlue.main">
+              Move
+            </Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
               onClick={() => closeMoveTicketsModal?.()}
-            >
-              <AlertModalCloseIcon />
-            </Box>
+            />
           </Box>
         </DialogTitle>
         <DialogContent>
           <br />
           <Grid container spacing={4}>
-            {moveTicketsFormFields?.map((item: any) => (
+            {moveTicketsFormFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>
         </DialogContent>
-        <DialogActions
-          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
-        >
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"

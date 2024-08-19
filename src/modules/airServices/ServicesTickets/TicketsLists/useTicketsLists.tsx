@@ -6,7 +6,7 @@ import {
   ticketsListsColumnFunction,
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
@@ -28,13 +28,17 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 import {
+  FilterTicketListsI,
   TicketActionComponentI,
   TicketActionComponentPropsI,
+  TicketListsIsPortalOpenI,
 } from './TicketsLists.interface';
 import { UpdateTicketStatus } from '../UpdateTicketStatus';
 
-export const useTicketsLists: any = () => {
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+export const useTicketsLists = () => {
+  const [isPortalOpen, setIsPortalOpen] = useState<TicketListsIsPortalOpenI>(
+    {},
+  );
   const [selectedTicketList, setSelectedTicketList] = useState([]);
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -42,10 +46,11 @@ export const useTicketsLists: any = () => {
   const [ticketsListsActiveColumn, setTicketsListsActiveColumn] = useState<
     string[]
   >(ticketsListInitialColumns);
-  const [filterTicketLists, setFilterTicketLists] = useState<any>({});
+  const [filterTicketLists, setFilterTicketLists] =
+    useState<FilterTicketListsI>({});
 
   const overallPermissions = getActivePermissionsSession();
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { makePath } = usePath();
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
@@ -54,8 +59,8 @@ export const useTicketsLists: any = () => {
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
 
-  const getValueTicketsListData = async (
-    currentPage = page,
+  const getTicketsListData = async (
+    currentPage: number = page,
     filtered = filterTicketLists,
   ) => {
     const additionalParams = [
@@ -111,7 +116,7 @@ export const useTicketsLists: any = () => {
   };
 
   useEffect(() => {
-    getValueTicketsListData();
+    getTicketsListData();
   }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
@@ -160,7 +165,7 @@ export const useTicketsLists: any = () => {
       (singleTicket: any) =>
         singleTicket?._id === selectedTicketList?.[ARRAY_INDEX?.ZERO],
     ),
-    getTicketsListData: getValueTicketsListData,
+    getTicketsListData: getTicketsListData,
     setFilterTicketLists: setFilterTicketLists,
     filterTicketLists: filterTicketLists,
     setPage: setPage,
@@ -176,7 +181,6 @@ export const useTicketsLists: any = () => {
     [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn {...ticketActionComponentProps} />
     ),
-
     [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: (
       <FilterTickets {...ticketActionComponentProps} />
     ),
@@ -242,7 +246,7 @@ export const useTicketsLists: any = () => {
     pageLimit,
     setPageLimit,
     setTicketsListsActiveColumn,
-    getValueTicketsListData,
+    getTicketsListData,
     setSelectedTicketList,
     filterTicketLists,
   };

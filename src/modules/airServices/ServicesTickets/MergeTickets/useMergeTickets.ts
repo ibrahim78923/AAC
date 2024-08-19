@@ -12,7 +12,7 @@ import {
   usePostMergeTicketsMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
@@ -52,7 +52,10 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
     data?.ticketSelection?._id === TICKET_SELECTION_TYPE?.ID &&
       postMergeTicketsParams?.append('searchTicket', data?.searchTicketId?._id);
     postMergeTicketsParams?.append('findTicketBy', data?.ticketSelection?._id);
-    postMergeTicketsParams?.append('ticketId', selectedTicketList?.[0]);
+    postMergeTicketsParams?.append(
+      'ticketId',
+      selectedTicketList?.[ARRAY_INDEX?.ZERO],
+    );
     const postMergeTicketsParameter = {
       queryParams: postMergeTicketsParams,
     };

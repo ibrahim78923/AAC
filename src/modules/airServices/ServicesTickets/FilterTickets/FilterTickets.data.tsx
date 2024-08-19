@@ -2,7 +2,6 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
-  // RHFTimePicker,
 } from '@/components/ReactHookForm';
 
 import {
@@ -12,9 +11,15 @@ import {
   ticketStatusOptions,
   ticketsTypeOptions,
 } from '../ServicesTickets.data';
-import { ROLES } from '@/constants/strings';
+import { DATA_TYPES, ROLES } from '@/constants/strings';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { PAGINATION } from '@/config';
+import { TicketsFilterDataDefaultValuesI } from './FilterTickets.interface';
 
-export const sendIdOptions = [
+export const sendIdOptions: string[] = [
   'ticketType',
   'department',
   'requester',
@@ -23,18 +28,23 @@ export const sendIdOptions = [
   'category',
   'department',
 ];
-export const neglectKeysInLoop = [
+
+export const neglectKeysInLoop: string[] = [
   'plannedEndDate',
   'plannedEndTime',
   'plannedStartDate',
   'plannedStartTime',
 ];
 
-export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
+export const ticketsFilterFormFieldsDefaultValues = (
+  data?: TicketsFilterDataDefaultValuesI,
+) => {
   return {
     ticketType: data?.ticketType ?? null,
     createdOn:
-      typeof data?.createdOn === 'object' ? new Date(data?.createdOn) : null,
+      typeof data?.createdOn === DATA_TYPES?.OBJECT
+        ? new Date(data?.createdOn)
+        : null,
     status: data?.status ?? null,
     agent: data?.agent ?? null,
     requester: data?.requester ?? null,
@@ -44,21 +54,13 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
     department: data?.department ?? null,
     typeSource: data?.typeSource ?? null,
     plannedStartDate:
-      typeof data?.plannedStartDate === 'object'
+      typeof data?.plannedStartDate === DATA_TYPES?.OBJECT
         ? new Date(data?.plannedStartDate)
         : null,
-    // plannedStartTime:
-    //   typeof data?.plannedStartTime === 'object'
-    //     ? new Date(data?.plannedStartTime)
-    //     : null,
     plannedEndDate:
-      typeof data?.plannedEndDate === 'object'
+      typeof data?.plannedEndDate === DATA_TYPES?.OBJECT
         ? new Date(data?.plannedEndDate)
         : null,
-    // plannedEndTime:
-    //   typeof data?.plannedEndTime === 'object'
-    //     ? new Date(data?.plannedEndTime)
-    //     : null,
   };
 };
 export const ticketsFilterFormFieldsDataFunction = (
@@ -75,7 +77,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Ticket type',
       placeholder: 'All Tickets',
       options: ticketsTypeOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -96,7 +98,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Status',
       placeholder: 'Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -108,8 +110,11 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Agent',
       placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
-      getOptionLabel: (option: any) =>
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
+      },
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -122,8 +127,11 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       placeholder: 'Choose Requester',
       apiQuery: apiQueryRequester,
-      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
-      getOptionLabel: (option: any) =>
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_REQUESTER,
+      },
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -147,7 +155,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Priority',
       placeholder: 'Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -159,7 +167,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Impact',
       placeholder: 'Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -171,7 +179,8 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Category',
       placeholder: 'Choose Category',
       apiQuery: apiQueryCategory,
-      getOptionLabel: (option: any) => option?.categoryName,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+        option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },
@@ -183,7 +192,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Source',
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -197,16 +206,6 @@ export const ticketsFilterFormFieldsDataFunction = (
     gridLength: 12,
     component: RHFDatePicker,
   },
-  // {
-  //   id: 11,
-  //   componentProps: {
-  //     name: 'plannedStartTime',
-  //     label: '\u00a0\u00a0',
-  //     fullWidth: true,
-  //   },
-  //   gridLength: 4.5,
-  //   component: RHFTimePicker,
-  // },
   {
     id: 12,
     componentProps: {
@@ -217,14 +216,4 @@ export const ticketsFilterFormFieldsDataFunction = (
     gridLength: 12,
     component: RHFDatePicker,
   },
-  // {
-  //   id: 13,
-  //   componentProps: {
-  //     name: 'plannedEndTime',
-  //     label: '\u00a0\u00a0',
-  //     fullWidth: true,
-  //   },
-  //   gridLength: 4.5,
-  //   component: RHFTimePicker,
-  // },
 ];

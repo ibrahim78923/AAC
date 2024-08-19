@@ -12,6 +12,8 @@ import {
 } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const useMoveTickets = (props: TicketActionComponentPropsI) => {
   const {
@@ -42,7 +44,7 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     moveTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
     moveTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
     moveTicketFormData?.append('status', singleTicketDetail?.status);
-    moveTicketFormData?.append('id', selectedTicketList?.[0]);
+    moveTicketFormData?.append('id', selectedTicketList?.[ARRAY_INDEX?.ZERO]);
     moveTicketFormData?.append('department', data?.department?._id);
     moveTicketFormData?.append('agent', data?.agent?._id);
 
@@ -53,11 +55,10 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
-      getTicketsListData(1, {});
-      setFilterTicketLists?.({});
-      setPage?.(1);
       closeMoveTicketsModal?.();
-      reset();
+      setFilterTicketLists?.({});
+      setPage?.(PAGINATION?.CURRENT_PAGE);
+      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

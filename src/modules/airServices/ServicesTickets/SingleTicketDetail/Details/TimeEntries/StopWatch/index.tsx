@@ -65,7 +65,7 @@ const StopWatch = (props: any) => {
           )}
         </LoadingButton>
       </PermissionsGuard>
-      <Typography variant="h4" color="slateBlue.main">
+      <Typography variant="h5" fontWeight={500} color="slateBlue.main">
         <span>{time?.hours}</span>:<span>{time?.minutes}</span>:
         <span>{time?.seconds}</span>
       </Typography>
