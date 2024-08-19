@@ -529,3 +529,4 @@ export { default as InfoIconBlueBg } from './modules/airSales/Quotes/info-icon';
 export { default as TicketFieldsIcon } from './modules/airServices/Settings/ticket-fields-icon';
 export { default as TimeEntryFieldsIcon } from './modules/airServices/Settings/time-entry-fields-icon';
 export { default as CodeTagIcon } from './shared/code-tag-icon';
+export { default as ProductTriangleIcon } from './modules/orgAdmin/properties/product-triangle-icon';

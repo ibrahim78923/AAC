@@ -207,6 +207,8 @@ export const ORG_ADMIN: any = {
   DASHBOARD: '/org-admin/dashboard',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
+  PROPERTIES: '/org-admin/properties',
+  MODULE_FORMS: '/org-admin/properties/module-forms',
 };
 
 export const AIR_OPERATIONS = {

@@ -93,7 +93,7 @@ const DashboardLayout = ({ children, window }: any) => {
     }));
   };
 
-  const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(pathname);
+  const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(router?.pathname);
   const { logout } = useAuth();
 
   const drawer = (
