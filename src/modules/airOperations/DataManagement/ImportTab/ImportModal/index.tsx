@@ -1,5 +1,6 @@
 import { ImportIcon } from '@/assets/icons';
 import {
+  AppBar,
   Box,
   Button,
   Chip,
@@ -74,86 +75,100 @@ const ImportModal = () => {
         Import
       </Button>
       {isDrawerOpen && (
-        <Drawer anchor="right" open={isDrawerOpen} onClose={handleClose}>
+        <Drawer open={isDrawerOpen} onClose={handleClose} anchor="right">
           <Box
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
             width={
               modalStep === 3
                 ? { md: '45rem', xs: '100vw' }
                 : { sm: '35rem', xs: '100vw' }
             }
           >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              p={2}
+            <AppBar
+              sx={{
+                backgroundColor: theme?.palette?.common?.white,
+                color: theme?.palette?.common?.black,
+                boxShadow: 'none',
+              }}
+              position="static"
             >
-              <Typography variant="h3" textTransform="capitalize">
-                Import Data
-              </Typography>
-              <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
-                <CloseIcon />
-              </Box>
-            </Box>
-            <Container>
-              <Chip label={`Step ${modalStep} of 3`} color="secondary" />
-              {modalStep === 3 && (
-                <Typography fontWeight={600} color="custom.main" mt={1.5}>
-                  Map Columns from your file to the right CRM fields.
-                </Typography>
-              )}
-              <Box
-                height={modalStep === 3 ? '47rem' : '49rem'}
-                overflow={'scroll'}
-                mt={1}
+              <Toolbar
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  pt: 1,
+                }}
               >
+                <Typography variant="subtitle1" textTransform="capitalize">
+                  Import Data
+                </Typography>
+                <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
+                  <CloseIcon />
+                </Box>
+              </Toolbar>
+            </AppBar>
+            <Box flex="1" overflow="scroll">
+              <Container>
+                <Chip label={`Step ${modalStep} of 3`} color="secondary" />
+                {modalStep === 3 && (
+                  <Typography fontWeight={600} color="custom.main">
+                    Map Columns from your file to the right CRM fields.
+                  </Typography>
+                )}
                 <FormProvider methods={methodsImportModalForm}>
                   {steps[modalStep]}
                 </FormProvider>
-              </Box>
+              </Container>
+            </Box>
+            <Box position="static">
               <Toolbar
                 sx={{
-                  borderTop: 1,
-                  borderColor: theme?.palette?.custom?.dark,
-                  mt: 1,
                   display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'flex-end',
                   gap: 1,
+                  padding: 1.5,
+                  borderTop: 1,
+                  borderColor: theme?.palette?.custom?.dark,
                 }}
               >
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={resetImportModalForm}
-                  disabled={
-                    lazyGetSignedUrlForImportStatus?.isLoading ||
-                    uploadFileTos3UsingSignedUrlStatus?.isLoading ||
-                    importFileStatus?.isLoading ||
-                    newImportFileForServicesStatus?.isLoading
-                  }
-                >
-                  {modalStep === 1 ? 'Cancel' : 'Back'}
-                </Button>
-                <LoadingButton
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSubmit(submitImportModalForm)}
-                  disabled={
-                    !!!importLog ||
-                    product === null ||
-                    (modalStep === 2 && importDeals === null)
-                  }
-                  loading={
-                    uploadFileTos3UsingSignedUrlStatus?.isLoading ||
-                    lazyGetSignedUrlForImportStatus?.isLoading ||
-                    importFileStatus?.isLoading ||
-                    newImportFileForServicesStatus?.isLoading
-                  }
-                >
-                  {modalStep === 3 ? 'Import' : 'Next'}
-                </LoadingButton>
+                <Box display={'flex'} gap={1}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={resetImportModalForm}
+                    disabled={
+                      lazyGetSignedUrlForImportStatus?.isLoading ||
+                      uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                      importFileStatus?.isLoading ||
+                      newImportFileForServicesStatus?.isLoading
+                    }
+                  >
+                    {modalStep === 1 ? 'Cancel' : 'Back'}
+                  </Button>
+                  <LoadingButton
+                    variant="contained"
+                    loading={
+                      uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                      lazyGetSignedUrlForImportStatus?.isLoading ||
+                      importFileStatus?.isLoading ||
+                      newImportFileForServicesStatus?.isLoading
+                    }
+                    onClick={handleSubmit(submitImportModalForm)}
+                    disabled={
+                      !!!importLog ||
+                      product === null ||
+                      (modalStep === 2 && importDeals === null)
+                    }
+                  >
+                    {modalStep === 3 ? 'Import' : 'Next'}
+                  </LoadingButton>
+                </Box>
               </Toolbar>
-            </Container>
+            </Box>
           </Box>
         </Drawer>
       )}
