@@ -31,6 +31,7 @@ export const getBusinessHoursOptions = (
     handleClick: (closeMenu: any) => {
       if (businessHour?.perDefine) {
         errorSnackbar("You can't delete default business hour");
+        return;
       }
       setOpenModal({
         delete: true,

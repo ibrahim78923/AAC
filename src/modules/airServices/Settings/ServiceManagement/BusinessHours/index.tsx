@@ -164,8 +164,9 @@ export const BusinessHours = () => {
         <AlertModals
           message={'Are you sure you want to delete this Business Hour?'}
           type={ALERT_MODALS_TYPE?.DELETE}
-          open={openModal?.delete}
+          open={openModal?.delete as boolean}
           loading={deleteBusinessHourStatus?.isLoading}
+          disableCancelBtn={deleteBusinessHourStatus?.isLoading}
           handleClose={() => setOpenModal({ delete: false, id: null })}
           handleSubmitBtn={deleteBusinessHour}
         />

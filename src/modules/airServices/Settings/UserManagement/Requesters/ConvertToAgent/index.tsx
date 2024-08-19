@@ -1,10 +1,11 @@
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { ALERT_MODALS_TYPE, ARRAY_INDEX } from '@/constants/strings';
 import { useConvertToAgent } from './useConvertToAgent';
 import ErrorIcon from '@mui/icons-material/Error';
 import { fullName } from '@/utils/avatarUtils';
+import { IRequestersProps } from '../Requesters.interface';
 
-export const ConvertToAgent = (props: any) => {
+export const ConvertToAgent = (props: IRequestersProps) => {
   const { isAgentConvert, selectedRequesterList } = props;
   const {
     ConvertToAgentRequester,
@@ -16,10 +17,10 @@ export const ConvertToAgent = (props: any) => {
     <AlertModals
       type={ALERT_MODALS_TYPE?.WARNING}
       message={`${fullName(
-        selectedRequesterList?.[0]?.firstName,
-        selectedRequesterList?.[0]?.lastName,
+        selectedRequesterList?.[ARRAY_INDEX?.ZERO]?.firstName,
+        selectedRequesterList?.[ARRAY_INDEX?.ZERO]?.lastName,
       )} will be converted to agent.Are you sure you want to proceed?`}
-      open={isAgentConvert}
+      open={isAgentConvert as boolean}
       typeImage={<ErrorIcon sx={{ color: 'warning.main' }} />}
       handleClose={() => closeRequesterConvertToAgentModal?.()}
       handleSubmitBtn={() => ConvertToAgentRequester?.()}

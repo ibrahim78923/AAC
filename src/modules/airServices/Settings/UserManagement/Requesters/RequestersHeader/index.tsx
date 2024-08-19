@@ -5,8 +5,9 @@ import { CirclePlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { IRequestersProps } from '../Requesters.interface';
 
-export const RequestersHeader = (props: any) => {
+export const RequestersHeader = (props: IRequestersProps) => {
   const {
     selectedRequestersList,
     setIsDrawerOpen,

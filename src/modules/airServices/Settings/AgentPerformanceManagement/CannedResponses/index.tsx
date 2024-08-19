@@ -229,6 +229,7 @@ export const CannedResponses = () => {
           type={ALERT_MODALS_TYPE?.DELETE}
           open={openModal?.delete}
           loading={isLoading}
+          disableCancelBtn={isLoading}
           handleClose={() =>
             setOpenModal({ open: false, delete: false, editData: null })
           }

@@ -11,7 +11,6 @@ import {
   upsertRequestersDefaultValues,
   upsertRequestersValidationSchema,
 } from './UpsertRequesters.data';
-
 import { useRouter } from 'next/router';
 import {
   usePatchRequesterMutation,
@@ -27,8 +26,9 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { useEffect, useState } from 'react';
+import { IRequestersProps } from '../Requesters.interface';
 
-export const useUpsertRequester = (props: any) => {
+export const useUpsertRequester = (props: IRequestersProps) => {
   const { setIsDrawerOpen, singleRequesterDetails } = props;
   const router = useRouter();
   const [form, setForm] = useState<any>([]);

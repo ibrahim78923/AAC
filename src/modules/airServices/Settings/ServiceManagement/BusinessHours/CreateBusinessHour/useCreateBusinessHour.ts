@@ -88,6 +88,7 @@ export const useCreateBusinessHour = () => {
     } = data;
     const body = {
       ...rest,
+      timeZone: data?.timeZone?.label,
       monday: monday?.timings,
       tuesday: tuesday?.timings,
       wednesday: wednesday?.timings,

@@ -35,7 +35,7 @@ export const useRequesters = () => {
     try {
       await lazyGetRequestersTrigger(getRequestersListParameter)?.unwrap();
       setSelectedRequestersList([]);
-    } catch (error: any) {
+    } catch (error) {
       setSelectedRequestersList([]);
     }
   };

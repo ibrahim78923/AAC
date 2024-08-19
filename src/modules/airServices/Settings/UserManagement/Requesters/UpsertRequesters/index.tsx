@@ -6,8 +6,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { IRequestersProps } from '../Requesters.interface';
 
-const UpsertRequesters = (props: any) => {
+const UpsertRequesters = (props: IRequestersProps) => {
   const { isDrawerOpen } = props;
   const {
     handleClose,
@@ -25,7 +26,7 @@ const UpsertRequesters = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isDrawerOpen as boolean}
         onClose={handleClose}
         title={!!_id ? 'Edit Requestor' : 'Add Requestor'}
         submitHandler={() => handleSubmit(submitUpsertRequester)()}

@@ -1,7 +1,8 @@
 import { useConvertToAgentMutation } from '@/services/airServices/settings/user-management/requesters';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IRequestersProps } from '../Requesters.interface';
 
-export const useConvertToAgent = (props: any) => {
+export const useConvertToAgent = (props: IRequestersProps) => {
   const {
     selectedRequesterList,
     setSelectedRequesterList,
