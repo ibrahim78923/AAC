@@ -25,9 +25,20 @@ export const KnowledgeBaseDetail = () => {
     folderName,
     isFetching,
     isError,
+    refetch,
   } = useKnowledgeBaseDetail();
 
-  if (isError) return <ApiErrorState />;
+  if (isError)
+    return (
+      <>
+        <PageTitledHeader
+          title={'Knowledge Base'}
+          canMovedBack
+          moveBack={handleKnowledgeBase}
+        />
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
+      </>
+    );
 
   return (
     <PermissionsGuard
@@ -82,7 +93,7 @@ export const KnowledgeBaseDetail = () => {
               totalRecords={articlesMetaData?.total}
               pageLimit={articlesMetaData?.limit}
               currentPage={articlesMetaData?.page}
-              onPageChange={(page: any) => setPage(page)}
+              onPageChange={(page: number) => setPage(page)}
               setPageLimit={setPageLimit}
               setPage={setPage}
             />
