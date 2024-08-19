@@ -30,15 +30,16 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { IAgentsProps } from '../Agents.interface';
 
-export const useUpsertAgent = (props: any) => {
+export const useUpsertAgent = (props: IAgentsProps) => {
   const auth: any = useAuth();
   const [form, setForm] = useState<any>([]);
   const router = useRouter();
 
   const { _id: productId } = auth?.product;
   const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[0]?.company;
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
   const { _id: organizationId } = auth?.user?.organization;
 
   const roleApiQueryParams = {

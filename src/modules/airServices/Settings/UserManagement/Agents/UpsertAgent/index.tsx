@@ -16,8 +16,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { IAgentsProps } from '../Agents.interface';
 
-export const UpsertAgent = (props: any) => {
+export const UpsertAgent = (props: IAgentsProps) => {
   const { isAgentModalOpen, selectedAgentList } = props;
   const {
     method,
@@ -34,7 +35,7 @@ export const UpsertAgent = (props: any) => {
 
   return (
     <Dialog
-      open={isAgentModalOpen}
+      open={isAgentModalOpen as boolean}
       onClose={() => handleClose?.()}
       fullWidth
       maxWidth={'sm'}

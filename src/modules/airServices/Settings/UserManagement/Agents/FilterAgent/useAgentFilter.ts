@@ -9,8 +9,9 @@ import {
   useLazyGetPermissionsRoleForUpsertAgentQuery,
 } from '@/services/airServices/settings/user-management/agents';
 import useAuth from '@/hooks/useAuth';
+import { IAgentsProps } from '../Agents.interface';
 
-export const useAgentFilter = (props: any) => {
+export const useAgentFilter = (props: IAgentsProps) => {
   const {
     setAgentFilterDrawerOpen,
     setFilterAgentData,
