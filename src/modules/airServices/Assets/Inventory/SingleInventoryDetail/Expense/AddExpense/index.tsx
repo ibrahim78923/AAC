@@ -70,7 +70,7 @@ export const AddExpense = ({
                 pb: 2.4,
               }}
             >
-              <Typography variant="h4" color="primary?.main">
+              <Typography variant="pageTitle" color="primary?.main">
                 {addExpenseModalTitle}
               </Typography>
               <Box

@@ -19,11 +19,12 @@ export const Activity = () => {
     setPage,
     isFetching,
     data: activityData,
+    refetch,
   } = useActivity();
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <>

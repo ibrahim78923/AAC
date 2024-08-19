@@ -7,12 +7,14 @@ export const DeleteExpense = ({
     isDeleteExpenseModalOpen: boolean;
     setIsDeleteExpenseModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleDelete: () => void;
+    deleteLoading: boolean;
   };
 }) => {
   const {
     isDeleteExpenseModalOpen,
     setIsDeleteExpenseModalOpen,
     handleDelete,
+    deleteLoading,
   } = deleteExpenseProps;
 
   return (
@@ -22,6 +24,8 @@ export const DeleteExpense = ({
       handleClose={() => setIsDeleteExpenseModalOpen?.(false)}
       handleSubmitBtn={handleDelete}
       message="Are you sure want to delete this record?"
+      loading={deleteLoading}
+      disableCancelBtn={deleteLoading}
     />
   );
 };

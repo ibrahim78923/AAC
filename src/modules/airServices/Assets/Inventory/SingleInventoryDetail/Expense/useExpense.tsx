@@ -43,7 +43,7 @@ export const useExpense = () => {
   const EXPENSE_DELETE = 'delete';
   const UPDATE_EXPENSE = 'Add New Expense';
 
-  const { data, isLoading, isSuccess, isFetching } =
+  const { data, isLoading, isSuccess, isFetching, isError, refetch } =
     useGetInventoryExpenseQuery(params);
   const expenseData = data?.data?.expenses;
   const metaData = data?.data?.meta;
@@ -126,7 +126,8 @@ export const useExpense = () => {
     setAddExpenseModalTitle('Update Expense');
     setIsAddExpenseModalOpen(true);
   };
-  const [deleteExpense] = useDeleteInventoryExpenseMutation();
+  const [deleteExpense, { isLoading: deleteLoading }] =
+    useDeleteInventoryExpenseMutation();
   const handleDelete = async () => {
     try {
       await deleteExpense({ ids: expenseId });
@@ -160,6 +161,7 @@ export const useExpense = () => {
       isDeleteExpenseModalOpen,
       setIsDeleteExpenseModalOpen,
       handleDelete,
+      deleteLoading,
     },
     updateExpenseProps: {
       isDisabled: selectedExpenseList?.length <= 0,
@@ -190,5 +192,7 @@ export const useExpense = () => {
     setPage,
     pageLimit,
     metaData,
+    isError,
+    refetch,
   };
 };

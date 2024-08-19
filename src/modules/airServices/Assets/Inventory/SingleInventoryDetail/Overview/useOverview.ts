@@ -7,7 +7,7 @@ export const useOverview = () => {
   const searchParams = useSearchParams();
   const inventoryId = searchParams?.get('inventoryId');
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleInventoryOverviewQuery(inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
@@ -21,5 +21,6 @@ export const useOverview = () => {
     isFetching,
     isError,
     overviewData,
+    refetch,
   };
 };

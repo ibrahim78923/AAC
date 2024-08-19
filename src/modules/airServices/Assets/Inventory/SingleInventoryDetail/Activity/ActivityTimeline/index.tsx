@@ -34,7 +34,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
           color="primary"
           sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
         ></IconButton>
-        <Typography variant="body2" sx={{ flex: 0.8, ml: 1 }}>
+        <Box sx={{ flex: 0.8, ml: 1 }}>
           <Typography
             variant="body2"
             color="primary"
@@ -43,7 +43,9 @@ export const ActivityTimeline = ({ activityData }: any) => {
           >
             {activityData?.performedByName}
           </Typography>{' '}
-          has {activityData?.activityType}{' '}
+          <Typography variant="body2" component={'span'}>
+            has {activityData?.activityType}{' '}
+          </Typography>
           <Typography
             variant="body2"
             color="primary"
@@ -52,7 +54,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
           >
             {' '}
             {activityData?.moduleName}
-          </Typography>{' '}
+          </Typography>
           <Box>
             <Typography
               variant="body2"
@@ -66,7 +68,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
               {dayjs(activityData?.createdAt)?.format(TIME_FORMAT?.UI)}
             </Typography>
           </Box>
-        </Typography>
+        </Box>
       </Box>
       <Box
         display={'flex'}

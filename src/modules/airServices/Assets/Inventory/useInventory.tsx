@@ -32,7 +32,7 @@ export const useInventory = () => {
     inventoryListsInitialColumns,
   );
   const [inventoryFilterLists, setInventoryFilterLists] = useState({});
-  const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
+  const [page, setPage] = useState<number>(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
   const router = useRouter();

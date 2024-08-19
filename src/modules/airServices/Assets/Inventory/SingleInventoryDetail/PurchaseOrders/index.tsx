@@ -20,9 +20,10 @@ export const PurchaseOrder = () => {
     setDelateRecord,
     data,
     deleteIsLoading,
+    refetch,
   } = usePurchaseOrders();
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
   return (
     <PermissionsGuard
       permissions={[

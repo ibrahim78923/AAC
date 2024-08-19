@@ -12,17 +12,18 @@ export const useActivity = () => {
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const { data, isLoading, isError, isFetching } = useGetActivityLogQuery(
-    {
-      page,
-      limit: pageLimit,
-      moduleId: inventoryId,
-      module: MODULE_TYPE?.INVENTORIES,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const { data, isLoading, isError, isFetching, refetch } =
+    useGetActivityLogQuery(
+      {
+        page,
+        limit: pageLimit,
+        moduleId: inventoryId,
+        module: MODULE_TYPE?.INVENTORIES,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   return {
     isLoading,
@@ -31,5 +32,6 @@ export const useActivity = () => {
     setPage,
     isFetching,
     data,
+    refetch,
   };
 };

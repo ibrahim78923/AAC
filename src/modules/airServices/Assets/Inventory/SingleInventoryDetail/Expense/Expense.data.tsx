@@ -39,7 +39,6 @@ export const addExpenseFormData = [
       name: 'type',
       label: 'Expense Type',
       placeholder: 'Expense Type',
-      select: true,
       options: expenseTypeDropdown,
       required: true,
     },
@@ -118,7 +117,7 @@ export const addExpenseColumnsFunction = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedExpenseList([...expenseData])
+            ? setSelectedExpenseList(expenseData)
             : setSelectedExpenseList([]);
         }}
         color="primary"

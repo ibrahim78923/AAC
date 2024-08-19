@@ -4,7 +4,7 @@ export interface DeleteInventoryI {
   page?: number;
   setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedInventoryLists?: string[];
-  setPage?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setPage?: React.Dispatch<React.SetStateAction<number>>;
   totalRecords?: number;
   setSelectedInventoryLists?: React.Dispatch<React.SetStateAction<string[]>>;
   isMoveBack?: boolean;

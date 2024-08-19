@@ -8,6 +8,7 @@ export interface HeaderI {
         React.SetStateAction<boolean>
       >;
       handleDelete: () => void;
+      deleteLoading: boolean;
     };
     updateExpenseProps: {
       isDisabled: boolean;

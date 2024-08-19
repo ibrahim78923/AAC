@@ -12,7 +12,7 @@ export const usePurchaseOrders = () => {
   const theme = useTheme();
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetInventoryPurchaseOrderQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
@@ -45,5 +45,6 @@ export const usePurchaseOrders = () => {
     setDelateRecord,
     deleteRecord,
     deleteIsLoading,
+    refetch,
   };
 };

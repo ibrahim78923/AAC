@@ -11,10 +11,11 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
 export const Overview = () => {
-  const { isLoading, isFetching, isError, overviewData } = useOverview();
+  const { isLoading, isFetching, isError, overviewData, refetch } =
+    useOverview();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <PermissionsGuard
