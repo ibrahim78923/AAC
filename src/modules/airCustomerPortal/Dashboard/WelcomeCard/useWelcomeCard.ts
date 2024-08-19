@@ -2,7 +2,7 @@ import { useGetCustomerDashboardDataQuery } from '@/services/airCustomerPortal';
 import { ticketsCountsDataDynamic } from './WelcomeCard.data';
 
 export const useWelcomeCard = () => {
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetCustomerDashboardDataQuery(null, {
       refetchOnMountOrArgChange: true,
     });
@@ -15,5 +15,6 @@ export const useWelcomeCard = () => {
     isFetching,
     isError,
     ticketsCountsData,
+    refetch,
   };
 };

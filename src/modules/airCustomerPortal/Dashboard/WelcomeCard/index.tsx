@@ -10,7 +10,7 @@ import { TICKET_TYPE } from './WelcomeCard.data';
 export const WelcomeCard = (props: any) => {
   const { isRegister = true } = props;
   const { mainWrapper, ticketCardWrapper } = styles;
-  const { data, isLoading, isFetching, isError, ticketsCountsData } =
+  const { data, isLoading, isFetching, isError, ticketsCountsData, refetch } =
     useWelcomeCard();
   return (
     <>
@@ -39,7 +39,12 @@ export const WelcomeCard = (props: any) => {
               />
             ) : isError ? (
               <Box width="100%" borderRadius={3}>
-                <ApiErrorState height="" textColor="common.white" />
+                <ApiErrorState
+                  height=""
+                  textColor="common.white"
+                  canRefresh
+                  refresh={() => refetch?.()}
+                />
               </Box>
             ) : (
               <Box sx={ticketCardWrapper}>

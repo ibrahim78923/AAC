@@ -6,6 +6,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { TicketsCard } from '../../Tickets/TicketCard';
 import { Fragment } from 'react';
+import { TicketCardDataI } from '../../Tickets/TicketCard/TicketCard.interface';
 
 export const RecentTickets = () => {
   const { data, isLoading, isFetching, isError, router, refetch } =
@@ -30,7 +31,7 @@ export const RecentTickets = () => {
       ) : (
         <>
           {!!data?.data?.length ? (
-            data?.data?.map((ticket: { _id: string }) => (
+            data?.data?.map((ticket: TicketCardDataI) => (
               <Fragment key={ticket?._id}>
                 <TicketsCard ticket={ticket} />
               </Fragment>

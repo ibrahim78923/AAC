@@ -14,6 +14,7 @@ import {
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ReportAnIssueModal from '../Dashboard/ReportAnIssueModal';
+import { TicketCardDataI } from './TicketCard/TicketCard.interface';
 
 export const Tickets = () => {
   const {
@@ -65,7 +66,7 @@ export const Tickets = () => {
       ) : !!!ticketData?.length ? (
         <NoData message="No ticket found" />
       ) : (
-        ticketData?.map((option: any) => (
+        ticketData?.map((option: TicketCardDataI) => (
           <Fragment key={option?._id}>
             <TicketsCard ticket={option} />
           </Fragment>

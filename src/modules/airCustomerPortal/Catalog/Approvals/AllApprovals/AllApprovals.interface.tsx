@@ -35,8 +35,8 @@ export interface ApprovalsDataI {
 
 export interface ApprovalCardPropsI {
   data: ApprovalsDataI;
-  showStatus: boolean;
-  showButton: boolean;
-  setApproval: (arg: any) => void;
+  showStatus?: boolean;
+  showButton?: boolean;
+  setApproval?: (arg: any) => void;
   openApprovalDetail?: (arg: any) => void;
 }

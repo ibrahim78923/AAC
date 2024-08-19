@@ -6,6 +6,7 @@ import { ApprovalCard } from '../../Catalog/Approvals/ApprovalCard';
 import { Fragment } from 'react';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { ApprovalsDataI } from '../../Catalog/Approvals/AllApprovals/AllApprovals.interface';
 
 export const PendingApprovals = () => {
   const { data, isLoading, isFetching, isError, router, refetch } =
@@ -30,7 +31,7 @@ export const PendingApprovals = () => {
       ) : (
         <>
           {!!data?.data?.length ? (
-            data?.data?.map((approval: { _id: string }) => (
+            data?.data?.map((approval: ApprovalsDataI) => (
               <Fragment key={approval?._id}>
                 <ApprovalCard data={approval} />
               </Fragment>

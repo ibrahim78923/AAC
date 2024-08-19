@@ -3,13 +3,10 @@ import { SingleTicketDetail } from './SingleTicketDetail';
 import { SingleTicketHeader } from './SingleTicketHeader';
 import { useSingleTicket } from './useSingleTicket';
 import ApiErrorState from '@/components/ApiErrorState';
-import { ShareSingleTicket } from './ShareSingleTicket';
 import { SingleTicketConversation } from '../SingleTicketConversation';
 
 export const SingleTicket = () => {
   const {
-    openShareModal,
-    setOpenShareModal,
     ticketId,
     singleTicketData,
     isLoading,
@@ -29,7 +26,6 @@ export const SingleTicket = () => {
       <SingleTicketHeader
         id={ticketId}
         ticketNumber={singleTicketData?.ticketIdNumber}
-        setOpenShareModal={setOpenShareModal}
         getSingleDefaultSurveyForCustomerTickets={
           getSingleDefaultSurveyForCustomerTickets
         }
@@ -57,13 +53,6 @@ export const SingleTicket = () => {
       />
       <br />
       <SingleTicketConversation singleTicketData={singleTicketData} />
-      {openShareModal && (
-        <ShareSingleTicket
-          id={ticketId}
-          openShareModal={openShareModal}
-          setOpenShareModal={setOpenShareModal}
-        />
-      )}
     </>
   );
 };

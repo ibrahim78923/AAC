@@ -8,10 +8,9 @@ import {
   useLazyGetSingleDefaultSurveyForCustomerTicketsQuery,
 } from '@/services/airCustomerPortal/Tickets';
 import { NextRouter, useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export const useSingleTicket = () => {
-  const [openShareModal, setOpenShareModal] = useState<boolean>(false);
   const router: NextRouter = useRouter();
   const ticketId: string | undefined | string[] = router?.query?.id;
 
@@ -80,8 +79,6 @@ export const useSingleTicket = () => {
   }, [singleTicketData?.status]);
 
   return {
-    openShareModal,
-    setOpenShareModal,
     ticketId,
     singleTicketData,
     isLoading,
