@@ -109,11 +109,11 @@ const useOrganizationCard = () => {
           body: formData,
         })?.unwrap();
         enqueueSnackbar('Image updated successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
       } catch (error: any) {
         enqueueSnackbar(error?.data?.message, {
-          variant: 'error',
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     }

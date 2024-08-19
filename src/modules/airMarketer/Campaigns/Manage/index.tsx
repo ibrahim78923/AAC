@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import useCustomize from '../EditColumns/useCustomize';
 import useManage from './useManage';
 
-const Manage = () => {
+const Manage = ({ selectedRows, setSelectedRows }: any) => {
   const {
     setActionsModalDetails,
     saveViewCampaignsData,
@@ -32,11 +32,9 @@ const Manage = () => {
     handleOpenFilter,
     setIsOpenFilter,
     searchCampaigns,
-    setSelectedRows,
     handleSaveView,
     campaignsData,
     filterLoading,
-    selectedRows,
     setPageLimit,
     isOpenFilter,
     setFilters,

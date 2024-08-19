@@ -9,9 +9,11 @@ import {
   usePostCampaignTaskMutation,
   useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { indexNumbers } from '@/constants';
 import dayjs from 'dayjs';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 
 const useEditTask = ({
   initialValueProps,
@@ -21,6 +23,7 @@ const useEditTask = ({
 }: any) => {
   const theme = useTheme();
   const CAMPAIGN_ID = 'campaignId';
+  const [form, setForm] = useState<any>([]);
 
   const [postCampaignTask, { isLoading: postTaskLoading }] =
     usePostCampaignTaskMutation();
@@ -34,6 +37,33 @@ const useEditTask = ({
         !Array?.isArray(selectedRec) ||
         selectedRec?.length === indexNumbers?.ZERO,
     });
+
+  // dynamic fields starts here
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_MARKETING,
+      moduleType: DYNAMIC_FIELDS?.MT_TASK,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
+  // dynamic fields ends here
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -89,6 +119,7 @@ const useEditTask = ({
   };
 
   return {
+    getDynamicFieldsStatus,
     loadingCampaignTasks,
     updateTaskLoading,
     postTaskLoading,
@@ -97,6 +128,7 @@ const useEditTask = ({
     onSubmit,
     methods,
     theme,
+    form,
   };
 };
 export default useEditTask;

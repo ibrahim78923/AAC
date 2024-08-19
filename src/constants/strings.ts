@@ -598,6 +598,7 @@ export const DRAWER_TYPES = {
   EDIT: 'edit',
   ADD: 'add',
   VIEW: 'view',
+  CREATE: 'create',
   UPDATE: 'update',
 };
 

@@ -1,10 +1,11 @@
-import React from 'react';
-import { Box, Grid, Skeleton } from '@mui/material';
+import React, { createElement } from 'react';
+import { Box, CircularProgress, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { dataArray } from './SalesEditorDrawer.data';
 import useSalesEditorDrawer from './useSalesEditorDrawer';
 import { SalesEditorDrawerProps } from '../Salesproduct.interface';
+import { componentMap } from '@/utils/dynamic-forms';
 
 const SalesEditorDrawer = ({
   isDraweropen,
@@ -21,12 +22,15 @@ const SalesEditorDrawer = ({
     productLoading,
     updateProductLoading,
     productsDataLoading,
+    form,
+    isLoading,
   } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
     setIsDraweropen,
     setSelectedCheckboxes,
   });
+
   return (
     <>
       <CommonDrawer
@@ -40,7 +44,7 @@ const SalesEditorDrawer = ({
         isLoading={isEditMode ? updateProductLoading : productLoading}
       >
         <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={salesProduct}>
+          <FormProvider FormProvider methods={salesProduct}>
             <Grid container spacing={1}>
               {dataArray()?.map((item: any) => (
                 <Grid
@@ -67,6 +71,22 @@ const SalesEditorDrawer = ({
                   )}
                 </Grid>
               ))}
+              {isLoading ? (
+                <Box display="flex" justifyContent="center" mt={3} width="100%">
+                  <CircularProgress />
+                </Box>
+              ) : (
+                form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))
+              )}
             </Grid>
           </FormProvider>
         </Box>

@@ -4,7 +4,7 @@ export interface AlertModalsPropsI {
   open: boolean;
   handleClose: () => void;
   handleSubmitBtn: () => void;
-  disableCancelBtn: boolean;
+  disableCancelBtn?: boolean;
   handleCancelBtn?: () => void;
   loading: boolean;
   cancelBtnText?: string;

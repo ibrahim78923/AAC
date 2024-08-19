@@ -81,7 +81,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: ActionButtonI) => {
             <MenuItem
               key={uuidv4()}
               onClick={() => {
-                handleSelectedOptionValue(option);
+                handleSelectedOptionValue(option, selectedRows);
               }}
             >
               {option}
@@ -157,17 +157,17 @@ const ActionButton = ({ selectedRows, setSelectedRows }: ActionButtonI) => {
         </PermissionsGuard>
       )}
 
-      {actionsModalDetails?.isEditCompaign && (
+      {actionsModalDetails?.isCreateCampaign && (
         <PermissionsGuard
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_CAMPAIGNS]}
         >
           <EditCompaign
-            isOpenDrawer={actionsModalDetails?.isEditCompaign}
+            isOpenDrawer={actionsModalDetails?.isCreateCampaign}
             selectedRows={selectedRows}
             onClose={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,
-                isEditCompaign: false,
+                isCreateCampaign: { isToggle: false, type: '' },
               })
             }
           />

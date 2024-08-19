@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { capitalizeFirstLetters } from '@/utils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns = (
   selectedRows: string[],
@@ -114,15 +115,31 @@ export const columns = (
         </Tooltip>
       );
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignbudget) {
-      return `₤${info?.row?.original?.campaignBudget}` ?? 'N/A';
+      return info?.row?.original?.campaignBudget
+        ? `₤${info?.row?.original?.campaignBudget}`
+        : 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignGoal) {
-      return info?.row?.original?.campaignGoal ?? 'N/A';
+      return info?.row?.original?.campaignGoal
+        ? info?.row?.original?.campaignGoal
+        : 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignAudience) {
-      return info?.row?.original?.campaignAudience ?? 'N/A';
+      return info?.row?.original?.campaignAudience
+        ? info?.row?.original?.campaignAudience
+        : 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignStatus) {
-      return info?.row?.original?.campaignStatus ?? 'N/A';
+      return info?.row?.original?.campaignStatus
+        ? capitalizeFirstLetter(info?.row?.original?.campaignStatus)
+        : 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.description) {
-      return info?.row?.original?.deal?.description ?? 'N/A';
+      return (
+        <Box
+          dangerouslySetInnerHTML={{
+            __html: info?.row?.original?.description
+              ? info?.row?.original?.description
+              : 'N/A',
+          }}
+        />
+      );
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.startDate) {
       return (
         dayjs(info?.row?.original?.startDate)?.format(
