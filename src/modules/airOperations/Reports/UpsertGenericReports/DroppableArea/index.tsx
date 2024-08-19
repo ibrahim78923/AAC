@@ -47,6 +47,7 @@ export default function DroppableArea(props: DroppableAreaI) {
     isFetching,
     isError,
     watch,
+    refetch,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -62,7 +63,7 @@ export default function DroppableArea(props: DroppableAreaI) {
         >
           {isLoading || isFetching || isError ? (
             isError ? (
-              <ApiErrorState />
+              <ApiErrorState canRefresh refresh={() => refetch?.()} />
             ) : (
               <SkeletonTable />
             )

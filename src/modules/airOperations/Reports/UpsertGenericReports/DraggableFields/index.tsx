@@ -47,6 +47,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
     isLoading,
     isFetching,
     isError,
+    refetch,
   } = props;
 
   const { theme, metricType, setMetricType } = useDraggableFields(props);
@@ -58,7 +59,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
             <>
               {isLoading || isFetching || isError ? (
                 isError ? (
-                  <ApiErrorState />
+                  <ApiErrorState canRefresh refresh={() => refetch?.()} />
                 ) : (
                   <SkeletonTable />
                 )

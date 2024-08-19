@@ -31,7 +31,7 @@ export default function useUpsertGenericReports() {
   const params = {
     id: reportId,
   };
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleGenericReportsQuery(params, {
       refetchOnMountOrArgChange: true,
       skip: !!!reportId,
@@ -334,5 +334,6 @@ export default function useUpsertGenericReports() {
     handleMoveBack,
     watch,
     isError,
+    refetch,
   };
 }

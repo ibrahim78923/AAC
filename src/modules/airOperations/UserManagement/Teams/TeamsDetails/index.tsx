@@ -120,7 +120,9 @@ const TeamsDetails = (props: TeamPortalComponentPropsI) => {
                             component={'div'}
                             color="slateBlue.main"
                           >
-                            {item?.user?.address}
+                            {item?.user?.address?.composite
+                              ? item?.user?.address?.composite
+                              : item?.user?.address}
                           </Typography>
                         </Box>
                       </Box>
