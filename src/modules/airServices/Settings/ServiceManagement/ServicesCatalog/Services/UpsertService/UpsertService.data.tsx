@@ -297,7 +297,7 @@ export const categoriesOfServices = (
       required: true,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      externalParams: { requester: true, admin: true },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
@@ -356,7 +356,7 @@ export const categoriesOfServices = (
       required: true,
       apiQuery: apiRequestorQuery,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      externalParams: { requester: true, admin: true },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
