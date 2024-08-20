@@ -2,8 +2,9 @@ import { Import } from '@/components/Import';
 import { OBJECT_URL_IMPORT } from '@/constants/strings';
 import { CRM_COLUMNS_LOCATION } from './ImportLocation.data';
 import { useImportLocation } from './useImportLocation';
+import { ILocationProps } from '../Location.interface';
 
-export const ImportLocation = (props: any) => {
+export const ImportLocation = (props: ILocationProps) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const {
     setDrawerDefaultState,

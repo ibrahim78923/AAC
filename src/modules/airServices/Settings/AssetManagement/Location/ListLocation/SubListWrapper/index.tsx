@@ -3,8 +3,9 @@ import React from 'react';
 import { AddBox } from '@mui/icons-material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { ILocationProps } from '../../Location.interface';
 
-export const SubListWrapper = (props: any) => {
+export const SubListWrapper = (props: ILocationProps) => {
   const { children, onAddClick } = props;
 
   return (

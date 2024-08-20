@@ -19,6 +19,7 @@ import {
   successSnackbar,
 } from '@/utils/api';
 import { useEffect } from 'react';
+import { IErrorResponse } from '../Location.interface';
 
 export const useUpsertLocation = () => {
   const router = useRouter();
@@ -76,8 +77,9 @@ export const useUpsertLocation = () => {
       await postLocationTrigger(parentLocationApiData)?.unwrap();
       successSnackbar('Location Added Successfully');
       handleCancel();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
@@ -96,8 +98,9 @@ export const useUpsertLocation = () => {
       await postChildLocationTrigger(postChildLocationParameter)?.unwrap();
       successSnackbar('Child Location Added Successfully');
       handleCancel();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
@@ -111,8 +114,9 @@ export const useUpsertLocation = () => {
       await putLocationTrigger(putLocationParameter)?.unwrap();
       successSnackbar('Location Updated Successfully');
       handleCancel();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
