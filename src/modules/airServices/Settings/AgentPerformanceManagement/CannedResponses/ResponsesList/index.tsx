@@ -135,7 +135,7 @@ export const ResponsesList = () => {
                 count={responsesListMetaData?.pages}
                 pageLimit={pageLimit}
                 totalRecords={responsesListMetaData?.total}
-                onPageChange={(page: any) => setPage(page)}
+                onPageChange={(page: number) => setPage(page)}
                 setPage={setPage}
                 setPageLimit={setPageLimit}
                 isPagination

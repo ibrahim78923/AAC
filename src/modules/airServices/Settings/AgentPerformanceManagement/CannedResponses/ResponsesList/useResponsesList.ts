@@ -38,7 +38,7 @@ export const useResponsesList = () => {
     };
     try {
       await lazyGetResponsesListTrigger(getResponsesListParameter)?.unwrap();
-    } catch (error: any) {}
+    } catch (error) {}
   };
 
   useEffect(() => {

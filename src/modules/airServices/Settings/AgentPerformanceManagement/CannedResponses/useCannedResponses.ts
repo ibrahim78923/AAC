@@ -6,6 +6,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IErrorResponse } from './CannedResponses.interface';
 
 export const useCannedResponses = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ export const useCannedResponses = () => {
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState<any>('');
+  const [search, setSearch] = useState<string>('');
 
   const getCannedResponsesParam = new URLSearchParams();
 
@@ -43,7 +44,7 @@ export const useCannedResponses = () => {
       await lazyGetCannedResponsesTrigger(
         getCannedResponsesParameter,
       )?.unwrap();
-    } catch (error: any) {}
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -72,8 +73,9 @@ export const useCannedResponses = () => {
       )?.unwrap();
       successSnackbar('Folder deleted successfully');
       setOpenModal({ open: false, delete: false, editData: null });
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       setOpenModal({ open: false, delete: false, editData: null });
     }
   };

@@ -13,8 +13,9 @@ import { createNewFolderArray } from './CreateNewFolder.data';
 import { LoadingButton } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ICannedResponsesProps } from '../CannedResponses.interface';
 
-export const CreateNewFolder = (props: any) => {
+export const CreateNewFolder = (props: ICannedResponsesProps) => {
   const {
     method,
     onSubmit,

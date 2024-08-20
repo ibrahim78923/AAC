@@ -206,7 +206,7 @@ export const CannedResponses = () => {
               count={cannedResponsesMetaData?.pages}
               pageLimit={pageLimit}
               totalRecords={cannedResponsesMetaData?.total}
-              onPageChange={(page: any) => setPage(page)}
+              onPageChange={(page: number) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
             />

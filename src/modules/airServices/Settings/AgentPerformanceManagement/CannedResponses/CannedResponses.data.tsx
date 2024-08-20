@@ -10,7 +10,7 @@ export const getCannedResponseDropdownOptions = (
     permissionKey: [
       AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       setOpenModal({
         create: true,
         delete: false,
@@ -25,7 +25,7 @@ export const getCannedResponseDropdownOptions = (
     permissionKey: [
       AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       setOpenModal({
         create: false,
         delete: true,

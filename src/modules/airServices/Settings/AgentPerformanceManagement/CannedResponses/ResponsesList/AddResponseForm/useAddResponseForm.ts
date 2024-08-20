@@ -13,6 +13,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '../../CannedResponses.interface';
 
 export const useAddResponseForm = (props: any) => {
   const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
@@ -75,8 +76,9 @@ export const useAddResponseForm = (props: any) => {
       await postResponseTrigger(responseParameter)?.unwrap();
       successSnackbar('Response Added Successfully');
       closeDrawer();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   const submitUpdateResponse = async (data: any) => {
@@ -87,8 +89,9 @@ export const useAddResponseForm = (props: any) => {
       await patchResponseTrigger(responseParameter)?.unwrap();
       successSnackbar('Response Updated Successfully!');
       closeDrawer();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   useEffect(() => {

@@ -11,7 +11,7 @@ export const responsesTableColumns = (
   responsesMainData: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?._id,
+    accessorFn: (row: { _id: string }) => row?._id,
     id: '_id',
     cell: (info: any) => (
       <Checkbox
@@ -59,14 +59,14 @@ export const responsesTableColumns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.title,
+    accessorFn: (row: { title: string }) => row?.title,
     id: 'title',
     cell: (info: any) => info?.getValue(),
     header: 'Title',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: { createdAt: string }) => row?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
@@ -120,7 +120,7 @@ export const actionsOptions = (handleOptionsClick: any) => [
     permissionKey: [
       AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       handleOptionsClick(CANNED_RESPONSES?.EDIT);
       close();
     },
@@ -131,7 +131,7 @@ export const actionsOptions = (handleOptionsClick: any) => [
     permissionKey: [
       AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       handleOptionsClick(CANNED_RESPONSES?.DELETE);
       close();
     },
@@ -142,7 +142,7 @@ export const actionsOptions = (handleOptionsClick: any) => [
     permissionKey: [
       AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       handleOptionsClick(CANNED_RESPONSES?.MOVE);
       close();
     },
