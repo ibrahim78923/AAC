@@ -118,7 +118,7 @@ export const operationUsersColumnsDynamic = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList(totalUsers?.map((item: any) => item?._id))
+            ? setSelectedUserList(totalUsers?.map((item: any) => item))
             : setSelectedUserList([]);
         }}
         color="primary"

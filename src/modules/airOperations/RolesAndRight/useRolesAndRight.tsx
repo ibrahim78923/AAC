@@ -65,7 +65,7 @@ export const useRolesAndRight = () => {
       selectedRolesList,
       setSelectedRolesList,
       lazyGetPermissionsRoleForOperationsStatus?.data?.data
-        ?.usercompanyaccounts,
+        ?.companyaccountroles,
     );
 
   const renderPortalComponent = () => {
