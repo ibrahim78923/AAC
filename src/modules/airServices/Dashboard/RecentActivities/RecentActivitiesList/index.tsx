@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { RecentActivitiesCard } from '../RecentActivitiesCard';
-import Divider from '@mui/material/Divider';
 import NoData from '@/components/NoData';
 import { Fragment } from 'react';
 
@@ -33,17 +32,6 @@ const RecentActivitiesList = (props: any) => {
                         <RecentActivitiesCard data={item} index={index} />
                       </Fragment>
                     </Box>
-                    {data?.data?.length - 1 !== index && (
-                      <Divider
-                        orientation="vertical"
-                        sx={{
-                          borderRadius: '1rem',
-                          borderBottomWidth: '45px',
-                          marginLeft: '2.1rem',
-                          width: '6px',
-                        }}
-                      />
-                    )}
                   </>
                 ))}
               </>

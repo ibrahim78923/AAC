@@ -5,6 +5,10 @@ import {
 import { PAGINATION } from '@/config';
 import { ManageDashboardFilterFormDefaultValuesDynamicI } from './ManageDashboardFilter.interface';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../../CreateDashboard/CreateDashboard.data';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 
 const accessRightsOptions = [
   {
@@ -50,7 +54,7 @@ export const manageDashboardsFilterFormFieldsDynamic = (
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
         page: PAGINATION?.CURRENT_PAGE,
       },
-      getOptionLabel: (option: any) => option?.name,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) => option?.name,
     },
   },
   {
@@ -62,7 +66,7 @@ export const manageDashboardsFilterFormFieldsDynamic = (
       placeholder: 'Select Owner',
       apiQuery: apiQueryOwner,
       externalParams: { productId },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     gridLength: 12,
@@ -76,7 +80,7 @@ export const manageDashboardsFilterFormFieldsDynamic = (
       label: 'Access Rights',
       placeholder: 'Select Access Rights',
       options: accessRightsOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     gridLength: 12,
     component: RHFAutocomplete,

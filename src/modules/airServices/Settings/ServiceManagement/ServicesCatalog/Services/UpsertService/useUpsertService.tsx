@@ -13,14 +13,13 @@ import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import {
   useLazyGetCategoriesAgentDropdownQuery,
-  useLazyGetCategoriesRequesterDropdownQuery,
   usePostAddServiceCatalogMutation,
   useLazyGetServiceCategoriesDropdownQuery,
   useLazyGetAgentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
   useLazyGetAssetTypeForServicesDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
@@ -28,9 +27,11 @@ const useUpsertService = () => {
   const router = useRouter();
   const { categoryId } = router?.query;
   const apiQueryAgent = useLazyGetCategoriesAgentDropdownQuery();
-  const apiRequestorQuery = useLazyGetCategoriesRequesterDropdownQuery();
+  const apiRequestorQuery =
+    useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery();
   const apiServiceCategoryQuery = useLazyGetServiceCategoriesDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery();
   const apiServiceCategoryAgentQuery = useLazyGetAgentDropdownQuery();
   const apiQueryAssetType = useLazyGetAssetTypeForServicesDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();

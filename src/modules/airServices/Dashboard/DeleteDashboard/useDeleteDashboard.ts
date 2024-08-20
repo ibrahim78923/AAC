@@ -2,10 +2,12 @@ import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { PortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
+import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 import { DELETE_DASHBOARD_SUCCESS } from '../Dashboard.data';
 
-export const useDeleteDashboard = (props: PortalComponentPropsI) => {
+export const useDeleteDashboard = (
+  props: ManageDashboardPortalComponentPropsI,
+) => {
   const {
     setPage,
     totalRecords,
