@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { validationSchema } from './EditTask.data';
+import { defaultValues, validationSchema } from './EditTask.data';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetCampaignsTaskByIdQuery,
@@ -11,12 +11,19 @@ import {
 } from '@/services/airMarketer/campaigns';
 import { useEffect, useState } from 'react';
 import { indexNumbers } from '@/constants';
-import dayjs from 'dayjs';
-import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
-import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostDynamicFormAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
+import { errorSnackbar, filteredEmptyValues } from '@/utils/api';
 
 const useEditTask = ({
-  initialValueProps,
+  // initialValueProps,
   setIsOpenEditTaskDrawer,
   selectedRec,
   isType,
@@ -38,7 +45,7 @@ const useEditTask = ({
         selectedRec?.length === indexNumbers?.ZERO,
     });
 
-  // dynamic fields starts here
+  // Dynamic fields starts here
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
 
@@ -63,64 +70,106 @@ const useEditTask = ({
     getDynamicFormData();
   }, []);
 
-  // dynamic fields ends here
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostDynamicFormAttachmentsMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
+    resolver: yupResolver(validationSchema(form)),
+    defaultValues: defaultValues?.(),
   });
 
-  const { handleSubmit, reset, setValue } = methods;
+  const { handleSubmit, reset } = methods;
 
   useEffect(() => {
-    const data = getCampaignsTaskById?.data[0];
-    const fieldsToSet: any = {
-      taskName: data?.taskName,
-      taskType: data?.taskType,
-      campaignId: data?.campaignDetails[0],
-      assignedTo: data?.assignedTo[0],
-      dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
-      time: data?.time ? dayjs(data?.time) : null,
-      note: data?.note,
-    };
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
-    }
-  }, [getCampaignsTaskById]);
+    reset(() => defaultValues(getCampaignsTaskById?.data[0], form));
+  }, [getCampaignsTaskById?.data, reset, form]);
 
-  const onSubmit = async (values: any) => {
-    values.assignedTo = values.assignedTo?._id;
-    values.campaignId = values.campaignId?._id;
+  const onSubmit = async (data: any) => {
+    data.assignedTo = data?.assignedTo?._id;
+    data.campaignId = data?.campaignId?._id;
+    const filteredEmptyData = filteredEmptyValues(data);
+
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
+
     try {
-      if (isType === DRAWER_TYPES?.EDIT) {
-        delete values?.campaignId;
-        await updateCampaignTasks({
-          id: selectedRec,
-          body: values,
-        })?.unwrap();
-        enqueueSnackbar('Task Updated Successfully', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
-      } else {
-        await postCampaignTask({ body: values })?.unwrap();
-        enqueueSnackbar('Task Added Successfully', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
-      }
-    } catch (error: any) {
-      const errMsg = error?.message;
-      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
       });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      if (isType === DRAWER_TYPES?.EDIT) {
+        submitUpdateCampaignsTask(body);
+        return;
+      }
+
+      await postCampaignTask({ body: body })?.unwrap();
+      enqueueSnackbar('Task Added Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      reset();
+      setIsOpenEditTaskDrawer(false);
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
-    reset();
-    setIsOpenEditTaskDrawer(false);
   };
+
+  const submitUpdateCampaignsTask = async (data: any) => {
+    delete data?.campaignId;
+    try {
+      await updateCampaignTasks({
+        id: selectedRec,
+        body: data,
+      })?.unwrap();
+      enqueueSnackbar('Task Updated Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      reset();
+      setIsOpenEditTaskDrawer(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  // Dynamic fields ends here
 
   return {
     getDynamicFieldsStatus,
     loadingCampaignTasks,
+    postAttachmentStatus,
     updateTaskLoading,
     postTaskLoading,
     handleSubmit,

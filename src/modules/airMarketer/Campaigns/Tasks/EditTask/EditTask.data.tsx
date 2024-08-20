@@ -13,29 +13,40 @@ import {
 } from '@/services/common-APIs';
 import { ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const validationSchema = Yup?.object().shape({
-  taskName: Yup?.string()?.required('Field is Required'),
-  dueDate: Yup?.date()
-    ?.min(today, 'You cannot select a past date')
-    ?.required('Date is required'),
-  taskType: Yup?.string()?.required('Field is Required'),
-  campaignId: Yup?.object()?.required('Field is Required'),
-  assignedTo: Yup?.object()?.required('Field is Required'),
-  note: Yup?.string()?.required('Field is Required'),
-});
-
-export const defaultValues = {
-  taskName: '',
-  taskType: '',
-  campaignId: null,
-  assignedTo: null,
-  dueDate: '',
-  time: '',
-  note: '',
+export const validationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object().shape({
+    taskName: Yup?.string()?.required('Field is Required'),
+    dueDate: Yup?.date()
+      ?.min(today, 'You cannot select a past date')
+      ?.required('Date is required'),
+    taskType: Yup?.string()?.required('Field is Required'),
+    campaignId: Yup?.object()?.required('Field is Required'),
+    assignedTo: Yup?.object()?.required('Field is Required'),
+    note: Yup?.string()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
+export const defaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+  return {
+    taskName: data?.taskName ?? '',
+    taskType: data?.taskType ?? '',
+    campaignId: data?.campaignDetails[0] ?? null,
+    assignedTo: data?.assignedTo[0] ?? null,
+    dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
+    time: data?.time ? new Date(data?.time) : null,
+    note: data?.note ?? '',
+    ...initialValues,
+  };
 };
 
 export const dataArray = () => {

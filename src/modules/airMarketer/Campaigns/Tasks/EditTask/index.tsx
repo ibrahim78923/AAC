@@ -1,4 +1,10 @@
-import { Grid, Box, Typography, Skeleton } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  Skeleton,
+  CircularProgress,
+} from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray, defaultValues } from './EditTask.data';
@@ -8,6 +14,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Controller } from 'react-hook-form';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export default function EditTask({
   onClose,
@@ -18,6 +26,7 @@ export default function EditTask({
   selectedRec,
 }: any) {
   const {
+    getDynamicFieldsStatus,
     loadingCampaignTasks,
     updateTaskLoading,
     postTaskLoading,
@@ -25,6 +34,7 @@ export default function EditTask({
     CAMPAIGN_ID,
     onSubmit,
     methods,
+    form,
   } = useEditTask({
     initialValueProps,
     setIsOpenEditTaskDrawer,
@@ -106,6 +116,23 @@ export default function EditTask({
                   )}
               </Grid>
             ))}
+            {getDynamicFieldsStatus?.isLoading ||
+            getDynamicFieldsStatus?.isFetching ? (
+              <Grid item xs={12} textAlign={'center'}>
+                <CircularProgress />
+              </Grid>
+            ) : (
+              form?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                    })}
+                </Grid>
+              ))
+            )}
           </Grid>
         </FormProvider>
       </Box>
