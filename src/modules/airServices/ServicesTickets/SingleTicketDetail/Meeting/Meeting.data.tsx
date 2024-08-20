@@ -1,6 +1,8 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { TimeFormatDuration } from '@/utils/api';
 import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
@@ -83,32 +85,40 @@ export const listViewDetails = (
     header: 'Action',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() =>
-            setOpenForm(() => {
-              router?.push({
-                pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
-                query: {
-                  type: meetingActiveType(info?.row?.original?.category),
-                  id: info?.row?.original?._id,
-                  moduleType: 'TICKET',
-                  ticketId: info?.row?.original?.moduleId,
-                },
-              });
-            })
-          }
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.EDIT_MEETING]}
         >
-          <EditPenIcon />
-        </Box>
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() =>
-            setDeleteModal({ isOpen: true, data: info?.row?.original })
-          }
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setOpenForm(() => {
+                router?.push({
+                  pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                  query: {
+                    type: meetingActiveType(info?.row?.original?.category),
+                    id: info?.row?.original?._id,
+                    moduleType: 'TICKET',
+                    ticketId: info?.row?.original?.moduleId,
+                  },
+                });
+              })
+            }
+          >
+            <EditPenIcon />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.DELETE_MEETING]}
         >
-          <DeleteCrossIcon />
-        </Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setDeleteModal({ isOpen: true, data: info?.row?.original })
+            }
+          >
+            <DeleteCrossIcon />
+          </Box>
+        </PermissionsGuard>
       </Box>
     ),
   },

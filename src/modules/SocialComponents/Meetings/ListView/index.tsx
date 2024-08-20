@@ -7,6 +7,8 @@ import { listViewDetails } from './ListView.data';
 import CalenderViewIcon from '@/assets/icons/modules/SocialComponents/CalenderView/calender-view-icon';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { AgentConversionDelete } from './AgentConversionDelete';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const ListView = () => {
   const {
@@ -29,17 +31,23 @@ export const ListView = () => {
   return (
     <>
       <Grid container spacing={2}>
-        {meetings?.map((meeting: any) => (
-          <MeetingCards
-            key={meeting?.id}
-            meetingHeading={meeting?.meetingHeading}
-            meetingType={meeting?.meetingType}
-            meetingCount={meeting?.meetingCount}
-            color={meeting?.color}
-            isActive={router?.query?.type === meeting?.meetingType}
-            router={router}
-          />
-        ))}
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SHOW_COUNT_WIDGETS,
+          ]}
+        >
+          {meetings?.map((meeting: any) => (
+            <MeetingCards
+              key={meeting?.id}
+              meetingHeading={meeting?.meetingHeading}
+              meetingType={meeting?.meetingType}
+              meetingCount={meeting?.meetingCount}
+              color={meeting?.color}
+              isActive={router?.query?.type === meeting?.meetingType}
+              router={router}
+            />
+          ))}
+        </PermissionsGuard>
       </Grid>
       <Box
         p={2}
@@ -52,45 +60,61 @@ export const ListView = () => {
           flexWrap={'wrap'}
           gap={1}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
-          <IconButton
-            sx={{
-              height: '44px',
-              width: '66px',
-              borderRadius: 1,
-              border: 1,
-            }}
-            onClick={() => router?.push(SOCIAL_COMPONENTS?.CALENDER_VIEW)}
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SEARCH_RECORD,
+            ]}
           >
-            <CalenderViewIcon theme={theme} />
-          </IconButton>
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CALENDAR_VIEW,
+            ]}
+          >
+            <IconButton
+              sx={{
+                height: '44px',
+                width: '66px',
+                borderRadius: 1,
+                border: 1,
+              }}
+              onClick={() => router?.push(SOCIAL_COMPONENTS?.CALENDER_VIEW)}
+            >
+              <CalenderViewIcon theme={theme} />
+            </IconButton>
+          </PermissionsGuard>
         </Box>
         <br />
-        <TanstackTable
-          columns={listViewDetails(
-            setDeleteModal,
-            setOpenForm,
-            router,
-            meetingActiveType,
-          )}
-          data={getMeetingListStatus?.data?.data?.meetings}
-          isLoading={getMeetingListStatus?.isLoading}
-          currentPage={getMeetingListStatus?.data?.data?.meta?.page}
-          count={getMeetingListStatus?.data?.data?.meta?.pages}
-          pageLimit={getMeetingListStatus?.data?.data?.meta?.limit}
-          totalRecords={getMeetingListStatus?.data?.data?.meta?.total}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          isFetching={getMeetingListStatus?.isFetching}
-          isError={getMeetingListStatus?.isError}
-          isSuccess={getMeetingListStatus?.isSuccess}
-          onPageChange={(page: number) => setPage(page)}
-          isPagination
-          errorProps={{
-            canRefresh: true,
-            refresh: () => getMeetingListData?.(page),
-          }}
-        />
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.LIST_VIEW]}
+        >
+          <TanstackTable
+            columns={listViewDetails(
+              setDeleteModal,
+              setOpenForm,
+              router,
+              meetingActiveType,
+            )}
+            data={getMeetingListStatus?.data?.data?.meetings}
+            isLoading={getMeetingListStatus?.isLoading}
+            currentPage={getMeetingListStatus?.data?.data?.meta?.page}
+            count={getMeetingListStatus?.data?.data?.meta?.pages}
+            pageLimit={getMeetingListStatus?.data?.data?.meta?.limit}
+            totalRecords={getMeetingListStatus?.data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={getMeetingListStatus?.isFetching}
+            isError={getMeetingListStatus?.isError}
+            isSuccess={getMeetingListStatus?.isSuccess}
+            onPageChange={(page: number) => setPage(page)}
+            isPagination
+            errorProps={{
+              canRefresh: true,
+              refresh: () => getMeetingListData?.(page),
+            }}
+          />
+        </PermissionsGuard>
       </Box>
       {deleteModal && (
         <AgentConversionDelete

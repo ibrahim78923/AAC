@@ -8,6 +8,8 @@ import { SOCIAL_COMPONENTS } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { PlusIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Meeting = () => {
   const {
@@ -31,20 +33,26 @@ export const Meeting = () => {
   } = useMeeting();
   return (
     <Box p={1}>
-      <Grid container spacing={2}>
-        {meetings?.map((meeting: any) => (
-          <MeetingCards
-            key={meeting?.id}
-            meetingHeading={meeting?.meetingHeading}
-            meetingType={meeting?.meetingType}
-            meetingCount={meeting?.meetingCount}
-            color={meeting?.color}
-            setCardValue={setCardValue}
-            isActive={isActiveCard === meeting?.meetingType}
-            onClick={activeCard}
-          />
-        ))}
-      </Grid>
+      <PermissionsGuard
+        permissions={[
+          SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SHOW_COUNT_WIDGETS,
+        ]}
+      >
+        <Grid container spacing={2}>
+          {meetings?.map((meeting: any) => (
+            <MeetingCards
+              key={meeting?.id}
+              meetingHeading={meeting?.meetingHeading}
+              meetingType={meeting?.meetingType}
+              meetingCount={meeting?.meetingCount}
+              color={meeting?.color}
+              setCardValue={setCardValue}
+              isActive={isActiveCard === meeting?.meetingType}
+              onClick={activeCard}
+            />
+          ))}
+        </Grid>
+      </PermissionsGuard>
       <Box
         p={2}
         border={`.1rem solid ${theme?.palette?.custom?.dark}`}
@@ -56,47 +64,62 @@ export const Meeting = () => {
           flexWrap={'wrap'}
           gap={1}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
-
-          <Button
-            startIcon={<PlusIcon />}
-            variant="contained"
-            sx={{ cursor: 'pointer' }}
-            onClick={() =>
-              router?.push({
-                pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
-                query: {
-                  ticketId: ticketId,
-                  moduleType: 'TICKET',
-                },
-              })
-            }
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SEARCH_RECORD,
+            ]}
           >
-            Schedule Meeting
-          </Button>
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
+            ]}
+          >
+            <Button
+              startIcon={<PlusIcon />}
+              variant="contained"
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                router?.push({
+                  pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
+                  query: {
+                    ticketId: ticketId,
+                    moduleType: 'TICKET',
+                  },
+                })
+              }
+            >
+              Schedule Meeting
+            </Button>
+          </PermissionsGuard>
         </Box>
         <br />
-        <TanstackTable
-          columns={listViewDetails(
-            setDeleteModal,
-            setOpenForm,
-            router,
-            meetingActiveType,
-          )}
-          data={getMeetingListStatus?.data?.data?.meetings}
-          isLoading={getMeetingListStatus?.isLoading}
-          currentPage={getMeetingListStatus?.data?.data?.meta?.page}
-          count={getMeetingListStatus?.data?.data?.meta?.pages}
-          pageLimit={getMeetingListStatus?.data?.data?.meta?.limit}
-          totalRecords={getMeetingListStatus?.data?.data?.meta?.total}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          isFetching={getMeetingListStatus?.isFetching}
-          isError={getMeetingListStatus?.isError}
-          isSuccess={getMeetingListStatus?.isSuccess}
-          onPageChange={(page: number) => setPage(page)}
-          isPagination
-        />
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.LIST_VIEW]}
+        >
+          <TanstackTable
+            columns={listViewDetails(
+              setDeleteModal,
+              setOpenForm,
+              router,
+              meetingActiveType,
+            )}
+            data={getMeetingListStatus?.data?.data?.meetings}
+            isLoading={getMeetingListStatus?.isLoading}
+            currentPage={getMeetingListStatus?.data?.data?.meta?.page}
+            count={getMeetingListStatus?.data?.data?.meta?.pages}
+            pageLimit={getMeetingListStatus?.data?.data?.meta?.limit}
+            totalRecords={getMeetingListStatus?.data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={getMeetingListStatus?.isFetching}
+            isError={getMeetingListStatus?.isError}
+            isSuccess={getMeetingListStatus?.isSuccess}
+            onPageChange={(page: number) => setPage(page)}
+            isPagination
+          />
+        </PermissionsGuard>
       </Box>
       {deleteModal && (
         <AlertModals
