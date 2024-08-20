@@ -2,13 +2,13 @@ import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { styles } from './Invoices.style';
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import { AvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import {
   useGetOrganizationsQuery,
   useGetPlanTypeQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/billing-invoices';
+import { IMG_URL } from '@/config';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -35,7 +35,7 @@ export const columns = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: '',
       isSortable: false,
     },
     {
@@ -43,22 +43,31 @@ export const columns = (
         `${row?.usersOrg?.firstName}  ${row?.usersOrg?.lastName}`;
       },
       id: 'ClientName',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ display: 'flex', gap: '5px' }}>
-            <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="subtitle2">
-                {' '}
-                {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
-              </Typography>
-              <Typography variant="body3">
-                {info?.row?.original?.organizations?.name}
-              </Typography>
+      cell: (info: any) => {
+        const avatarUrl = info?.row?.original?.organizations?.avatar?.url;
+        const firstName = info?.row?.original?.usersOrg?.firstName;
+
+        return (
+          <>
+            <Box sx={{ display: 'flex', gap: '5px' }}>
+              <Avatar
+                alt={`${firstName?.charAt(0)}`}
+                src={`${IMG_URL}${avatarUrl}`}
+                sx={{ color: 'black' }}
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="subtitle2">
+                  {' '}
+                  {`${firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
+                </Typography>
+                <Typography variant="body3">
+                  {info?.row?.original?.organizations?.name}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-        </>
-      ),
+          </>
+        );
+      },
       header: 'Client Name',
       isSortable: true,
     },
@@ -193,7 +202,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     {
       componentProps: {
         name: 'status',
-        label: 'status',
+        label: 'Status',
         select: true,
       },
       options: [

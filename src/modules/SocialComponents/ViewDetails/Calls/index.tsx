@@ -13,8 +13,6 @@ import { callsStatusColor, columns } from './Calls.data';
 import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Calls = ({ companyId }: any) => {
   const {
@@ -75,19 +73,19 @@ const Calls = ({ companyId }: any) => {
                   openAlertModal={openAlertModal}
                   setOpenAlertModal={setOpenAlertModal}
                 />
-                <PermissionsGuard
+                {/* Remove permissions guard for common components */}
+                {/* <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS,
                   ]}
+                > </PermissionsGuard> */}
+                <Button
+                  variant="contained"
+                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                  onClick={() => setOpenDrawer('Add')}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                    onClick={() => setOpenDrawer('Add')}
-                  >
-                    <PlusIcon /> Add Calls
-                  </Button>
-                </PermissionsGuard>
+                  <PlusIcon /> Add Calls
+                </Button>
               </Box>
             )}
           </Box>
@@ -114,20 +112,20 @@ const Calls = ({ companyId }: any) => {
         )}
         {!isNullOrEmpty(TasksTableData) && !isError && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <PermissionsGuard
+            {/* Remove permissions guard for common components */}
+            {/* <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.VIEW_CALLS,
               ]}
-            >
-              <TanstackTable
-                columns={getColumns}
-                data={CompanyCalls?.data?.schedulecalls}
-                isLoading={isLoading}
-                setPage={setPage}
-                setPageLimit={setPageLimit}
-                isPagination
-              />
-            </PermissionsGuard>
+            > </PermissionsGuard> */}
+            <TanstackTable
+              columns={getColumns}
+              data={CompanyCalls?.data?.schedulecalls}
+              isLoading={isLoading}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              isPagination
+            />
           </Grid>
         )}
       </Grid>

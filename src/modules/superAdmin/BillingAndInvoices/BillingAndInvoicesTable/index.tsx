@@ -208,6 +208,7 @@ const BillingAndInvoicesTable = () => {
           isPagination
           isLoading={isLoading}
           currentPage={assignPlanTableData?.data?.meta?.page}
+          pageLimit={assignPlanTableData?.data?.meta?.limit}
         />
       </Grid>
       {isOpenDrawer && (

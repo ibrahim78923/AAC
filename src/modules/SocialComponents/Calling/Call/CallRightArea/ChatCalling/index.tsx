@@ -11,8 +11,6 @@ import { SendLiftedIcon } from '@/assets/icons';
 import { styles } from './ChatCalling.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 
 const ChatCalling = ({
   activeMessageData,
@@ -78,14 +76,14 @@ const ChatCalling = ({
           ))}
       </Box>
       <Box sx={styles?.chatFooter}>
-        <PermissionsGuard
+        {/* <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.SEND_MESSAGE]}
         >
-          <Box sx={styles?.chatFooterInset}>
-            <TextField placeholder="Write message" sx={styles?.chatTextarea} />
-            <SendLiftedIcon />
-          </Box>
-        </PermissionsGuard>
+        </PermissionsGuard> */}
+        <Box sx={styles?.chatFooterInset}>
+          <TextField placeholder="Write message" sx={styles?.chatTextarea} />
+          <SendLiftedIcon />
+        </Box>
       </Box>
     </Box>
   );

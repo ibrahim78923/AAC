@@ -74,7 +74,7 @@ const Invoices = () => {
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
                 £ {!allInvoicesTableData?.data?.widget && 0}
-                {allInvoicesTableData?.data?.widget?.totalAmountDue}
+                {allInvoicesTableData?.data?.widget?.totalAmountDue?.toFixed(2)}
               </Box>
             </Grid>
           </Grid>
@@ -139,7 +139,7 @@ const Invoices = () => {
 
               <Button
                 sx={{
-                  border: `1px solid  ${theme?.palette?.grey[100]}`,
+                  border: `1px solid  ${theme?.palette?.grey[0]}`,
                   marginLeft: '10px',
                   height: '36px',
                 }}
@@ -171,6 +171,7 @@ const Invoices = () => {
           isPagination
           isLoading={isLoading}
           currentPage={allInvoicesTableData?.data?.meta?.page}
+          pageLimit={allInvoicesTableData?.data?.meta?.limit}
         />
       </Box>
 

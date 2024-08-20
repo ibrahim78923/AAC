@@ -32,6 +32,13 @@ export default function Layout({
     case 'public':
       layout = <DashboardLayout>{children}</DashboardLayout>;
       break;
+    case 'common':
+      layout = (
+        <AuthGuard>
+          <DashboardLayout>{children}</DashboardLayout>
+        </AuthGuard>
+      );
+      break;
     default:
       layout = children;
       break;

@@ -48,8 +48,6 @@ import PreviewPdf from './PreviewPdf';
 import { useRouter } from 'next/router';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
 import { Quick_Links_Routes } from '@/constants';
 import { componentMap } from '@/utils/dynamic-forms';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -376,22 +374,23 @@ const Folders = () => {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <PermissionsGuard
+                  {/* Remove permissions guard for common components */}
+                  {/* <PermissionsGuard
                     permissions={[
                       SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
                     ]}
+                  ></PermissionsGuard> */}
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenModal(true);
+                      setActionType('create-sub-folder');
+                      FolderAdd?.setValue('name', '');
+                    }}
                   >
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorElSide(null);
-                        setIsOpenModal(true);
-                        setActionType('create-sub-folder');
-                        FolderAdd?.setValue('name', '');
-                      }}
-                    >
-                      Create Sub Folder
-                    </MenuItem>
-                  </PermissionsGuard>
+                    Create Sub Folder
+                  </MenuItem>
+
                   <MenuItem
                     onClick={() => {
                       setAnchorElSide(null);
@@ -539,38 +538,38 @@ const Folders = () => {
                 xs={12}
                 sx={styles?.actionButtonBox}
               >
-                <PermissionsGuard
+                {/* Remove permissions guard for common components */}
+                {/* <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
                   ]}
+                ></PermissionsGuard> */}
+                <Button
+                  variant="outlined"
+                  className="small"
+                  onClick={() => {
+                    setIsOpenModal(true);
+                  }}
+                  sx={styles?.createFolderButton(theme)}
                 >
-                  <Button
-                    variant="outlined"
-                    className="small"
-                    onClick={() => {
-                      setIsOpenModal(true);
-                    }}
-                    sx={styles?.createFolderButton(theme)}
-                  >
-                    <AddCircle /> Create Folder
-                  </Button>
-                </PermissionsGuard>
-                <PermissionsGuard
+                  <AddCircle /> Create Folder
+                </Button>
+                {/* Remove permissions guard for common components */}
+                {/* <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.UPLOAD_DOCUMENT,
                   ]}
+                > </PermissionsGuard> */}
+                <Button
+                  variant="contained"
+                  className="small"
+                  onClick={() => {
+                    setIsImage(true);
+                  }}
+                  sx={styles?.uploadDocumentsButton(theme)}
                 >
-                  <Button
-                    variant="contained"
-                    className="small"
-                    onClick={() => {
-                      setIsImage(true);
-                    }}
-                    sx={styles?.uploadDocumentsButton(theme)}
-                  >
-                    Upload Documents
-                  </Button>
-                </PermissionsGuard>
+                  Upload Documents
+                </Button>
               </Grid>
               <Grid
                 item

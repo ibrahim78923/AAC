@@ -1,11 +1,12 @@
 import Layout from '@/layout';
 import ContactViewDetails from '@/modules/airSocial/Contacts/ViewDetails';
 import React from 'react';
-import { Permissions } from '@/constants/permissions';
 
 const ViewDetailsPage = () => {
   return (
-    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}>
+    // Remove permissions guard for common components
+    // permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}
+    <Layout guardRoute variant="common">
       <ContactViewDetails />
     </Layout>
   );

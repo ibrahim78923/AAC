@@ -18,8 +18,6 @@ import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import ScheduleCalls from './ScheduleCalls';
 import ScheduleEditorDrawer from './ScheduleCallDrawer';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 
 const CallsTabsData = ['Schedule Calls', 'Call logs'];
 
@@ -70,22 +68,23 @@ const CallingMain = ({ setAddaNumber }: any) => {
           >
             {callingData?.length > 0 ? (
               <>
-                <PermissionsGuard
+                {/* Remove permissions guard for common components */}
+                {/* <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.MAKE_A_CALL,
                   ]}
+                > </PermissionsGuard> */}
+                <Button
+                  variant="text"
+                  sx={{ background: theme?.palette?.primary?.light }}
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={handleClickCallNow}
                 >
-                  <Button
-                    variant="text"
-                    sx={{ background: theme?.palette?.primary?.light }}
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={handleClickCallNow}
-                  >
-                    <MobileIcon /> &nbsp; Make a call now &nbsp;{' '}
-                    <DownIcon color={'#38CAB5'} />
-                  </Button>
-                </PermissionsGuard>
+                  <MobileIcon /> &nbsp; Make a call now &nbsp;{' '}
+                  <DownIcon color={'#38CAB5'} />
+                </Button>
+
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorElCallNow}
@@ -98,21 +97,23 @@ const CallingMain = ({ setAddaNumber }: any) => {
                   </Link>
                   <MenuItem>For Mobile</MenuItem>
                 </Menu>
-                <PermissionsGuard
+
+                {/* Remove permissions guard for common components */}
+                {/* <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.SCHEDULE_CALL,
                   ]}
+                ></PermissionsGuard> */}
+                <Button
+                  variant="contained"
+                  aria-controls="schedule-a-call"
+                  aria-haspopup="true"
+                  onClick={handleClickScheduleCall}
                 >
-                  <Button
-                    variant="contained"
-                    aria-controls="schedule-a-call"
-                    aria-haspopup="true"
-                    onClick={handleClickScheduleCall}
-                  >
-                    Schedule a call &nbsp;
-                    <PlusIcon />
-                  </Button>
-                </PermissionsGuard>
+                  Schedule a call &nbsp;
+                  <PlusIcon />
+                </Button>
+
                 <Menu
                   id="schedule-a-call"
                   anchorEl={anchorElScheduleCall}

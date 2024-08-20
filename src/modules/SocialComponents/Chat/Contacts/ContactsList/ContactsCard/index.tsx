@@ -25,8 +25,6 @@ import dayjs from 'dayjs';
 import { CHAT_TYPES, TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { useUpdateChatMutation } from '@/services/chat';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 import { PAGINATION } from '@/config';
 import { ContactsCardPropsI } from './contactsCard.interface';
 
@@ -235,50 +233,50 @@ const ContactsCard = ({
               }}
             >
               {isCardHover && (
-                <PermissionsGuard
-                  permissions={
-                    chatMode === 'groupChat'
-                      ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
-                      : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
-                  }
+                // Remove permissions guard for common components
+                // <PermissionsGuard
+                //   permissions={
+                //     chatMode === 'groupChat'
+                //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
+                //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
+                //   }
+                // ></PermissionsGuard>
+                <Box
+                  onClick={() => setIsDeleteModal(true)}
+                  sx={{ cursor: 'pointer' }}
                 >
-                  <Box
-                    onClick={() => setIsDeleteModal(true)}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <DeleteIcon />
-                  </Box>
-                </PermissionsGuard>
+                  <DeleteIcon />
+                </Box>
               )}
               {cardData?.item?.isPinned ? (
-                <PermissionsGuard
-                  permissions={
-                    chatMode === 'groupChat'
-                      ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
-                      : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
-                  }
+                // Remove permissions guard for common components
+                // <PermissionsGuard
+                //   permissions={
+                //     chatMode === 'groupChat'
+                //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
+                //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
+                //   }
+                // ></PermissionsGuard>
+                <Box
+                  onClick={() => updateChatHandler('isPinned')}
+                  sx={{ cursor: 'pointer' }}
                 >
-                  <Box
-                    onClick={() => updateChatHandler('isPinned')}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <PinIcon color={theme?.palette?.warning?.main} />
-                  </Box>
-                </PermissionsGuard>
+                  <PinIcon color={theme?.palette?.warning?.main} />
+                </Box>
               ) : (
                 <>
                   {isCardHover && (
-                    <PermissionsGuard
-                      permissions={
-                        chatMode === 'groupChat'
-                          ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
-                          : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
-                      }
-                    >
-                      <Box onClick={() => updateChatHandler('isPinned')}>
-                        <PinIcon color={theme?.palette?.custom?.main} />
-                      </Box>
-                    </PermissionsGuard>
+                    // Remove permissions guard for common components
+                    // <PermissionsGuard
+                    //   permissions={
+                    //     chatMode === 'groupChat'
+                    //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
+                    //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
+                    //   }
+                    // >  </PermissionsGuard>
+                    <Box onClick={() => updateChatHandler('isPinned')}>
+                      <PinIcon color={theme?.palette?.custom?.main} />
+                    </Box>
                   )}
                 </>
               )}

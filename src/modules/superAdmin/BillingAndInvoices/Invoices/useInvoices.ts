@@ -82,7 +82,6 @@ const useInvoices = () => {
 
     setFilterValues(filterPayloadValues);
     setIsOpenFilter(false);
-    reset();
   };
 
   const handleRefresh = async () => {

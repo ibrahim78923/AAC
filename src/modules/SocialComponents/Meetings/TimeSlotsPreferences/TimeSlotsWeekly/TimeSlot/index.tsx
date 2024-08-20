@@ -4,8 +4,6 @@ import { Delete } from '@mui/icons-material';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Permissions } from '@/constants/permissions';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CopyIconButton } from '@/assets/icons';
 import { timeSlotsWeeklyDropdown } from '../TimeSlotWeekly.data';
 
@@ -74,23 +72,23 @@ export const TimeSlot = ({
                     <IconButton onClick={() => remove(index)}>
                       <Delete />
                     </IconButton>
-                    <PermissionsGuard
+                    {/* Remove permissions guard for common components */}
+                    {/* <PermissionsGuard
                       permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
-                    >
-                      <SingleDropdownButton
-                        dropdownOptions={timeSlotsWeeklyDropdown({
-                          startHour,
-                          endHour,
-                          setValue,
-                          daySlotsState,
-                          setDaySlotsState,
-                          index,
-                        })}
-                        dropdownName={<CopyIconButton />}
-                        hasEndIcon={false}
-                        btnVariant="text"
-                      />
-                    </PermissionsGuard>
+                    ></PermissionsGuard> */}
+                    <SingleDropdownButton
+                      dropdownOptions={timeSlotsWeeklyDropdown({
+                        startHour,
+                        endHour,
+                        setValue,
+                        daySlotsState,
+                        setDaySlotsState,
+                        index,
+                      })}
+                      dropdownName={<CopyIconButton />}
+                      hasEndIcon={false}
+                      btnVariant="text"
+                    />
                   </Grid>
                 </Grid>
               );

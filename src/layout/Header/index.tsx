@@ -32,7 +32,6 @@ import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 
@@ -122,28 +121,29 @@ const Header = (props: any) => {
             <Box sx={styles?.quickLinkBox(theme, innerBoxesRendered)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData?.map((image) => (
-                  <PermissionsGuard
+                  // Remove permissions guard for common components
+                  // <PermissionsGuard
+                  //   key={uuidv4()}
+                  //   permissions={image?.permissions}
+                  // ></PermissionsGuard>
+                  <Box
                     key={uuidv4()}
-                    permissions={image?.permissions}
+                    sx={styles?.innerQuickLinkBox(theme)}
+                    onLoad={() => {
+                      if (!innerBoxesRendered) {
+                        setInnerBoxesRendered(true);
+                      }
+                    }}
                   >
-                    <Box
-                      sx={styles?.innerQuickLinkBox(theme)}
-                      onLoad={() => {
-                        if (!innerBoxesRendered) {
-                          setInnerBoxesRendered(true);
-                        }
-                      }}
-                    >
-                      <Link href={image?.path}>
-                        <Image
-                          src={image?.icon}
-                          alt="logo"
-                          width={18}
-                          height={18}
-                        />
-                      </Link>
-                    </Box>
-                  </PermissionsGuard>
+                    <Link href={image?.path}>
+                      <Image
+                        src={image?.icon}
+                        alt="logo"
+                        width={18}
+                        height={18}
+                      />
+                    </Link>
+                  </Box>
                 ))}
             </Box>
           )}

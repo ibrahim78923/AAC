@@ -38,6 +38,7 @@ const PlanDetails = ({
           totalRecords={tableRowData?.data?.meta?.total}
           onPageChange={(page: number) => setPage(page)}
           currentPage={tableRowData?.data?.meta?.page}
+          pageLimit={tableRowData?.data?.meta?.limit}
         />
       </PermissionsGuard>
     </div>

@@ -13,8 +13,6 @@ import useCallingMain from '../useCallingMain';
 import ScheduleEditorDrawer from '../ScheduleCallDrawer';
 import { AlertModals } from '@/components/AlertModals';
 import useScheduleCalls from './useScheduleCalls';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 
 const ScheduleCalls = () => {
   const {
@@ -54,15 +52,16 @@ const ScheduleCalls = () => {
           pb: '10px',
         }}
       >
-        <PermissionsGuard
+        {/* Remove permissions guard for common components */}
+        {/* <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.SEARCH_RECORD]}
-        >
-          <Search
-            label={'Search here'}
-            searchBy={callingSearch}
-            setSearchBy={setCallingSearch}
-          />
-        </PermissionsGuard>
+        >   </PermissionsGuard> */}
+        <Search
+          label={'Search here'}
+          searchBy={callingSearch}
+          setSearchBy={setCallingSearch}
+        />
+
         <Button
           id="basic-button"
           aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
@@ -89,43 +88,44 @@ const ScheduleCalls = () => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <PermissionsGuard
+          {/* Remove permissions guard for common components */}
+          {/* <PermissionsGuard
             permissions={[SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.EDIT_CALL]}
+          ></PermissionsGuard> */}
+          <MenuItem
+            onClick={() => {
+              setOpenDrawer('Edit'), handleCloseAction;
+            }}
+            disabled={selectedCheckboxes?.length > 1}
           >
-            <MenuItem
-              onClick={() => {
-                setOpenDrawer('Edit'), handleCloseAction;
-              }}
-              disabled={selectedCheckboxes?.length > 1}
-            >
-              Edit
-            </MenuItem>
-          </PermissionsGuard>
-          <PermissionsGuard
+            Edit
+          </MenuItem>
+
+          {/* Remove permissions guard for common components */}
+          {/* <PermissionsGuard
             permissions={[
               SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.RESCHEDULE_CALL,
             ]}
+          >  </PermissionsGuard> */}
+          <MenuItem
+            onClick={() => {
+              setOpenDrawer('Reschedule'), handleCloseAction;
+            }}
+            disabled={selectedCheckboxes?.length > 1}
           >
-            <MenuItem
-              onClick={() => {
-                setOpenDrawer('Reschedule'), handleCloseAction;
-              }}
-              disabled={selectedCheckboxes?.length > 1}
-            >
-              Reschedule
-            </MenuItem>
-          </PermissionsGuard>
-          <PermissionsGuard
+            Reschedule
+          </MenuItem>
+          {/* Remove permissions guard for common components */}
+          {/* <PermissionsGuard
             permissions={[SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.DELETE_CALL]}
+          ></PermissionsGuard> */}
+          <MenuItem
+            onClick={() => {
+              setIsDeleteModalOpen(true), handleCloseAction;
+            }}
           >
-            <MenuItem
-              onClick={() => {
-                setIsDeleteModalOpen(true), handleCloseAction;
-              }}
-            >
-              Delete
-            </MenuItem>
-          </PermissionsGuard>
+            Delete
+          </MenuItem>
         </Menu>
       </Box>
 

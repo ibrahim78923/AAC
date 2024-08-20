@@ -4,8 +4,6 @@ import useContactsHeader from './useContactsHeader';
 import CreateContacts from '../CreateContacts';
 import { styles } from './ContractsHeader.style';
 import { ImportIcon } from '@/assets/icons';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 import useContactsSaleSite from '../useContactsSaleSite';
 import ImportContactDrawer from '../ImportContactDrawer';
 
@@ -21,35 +19,35 @@ const ContactsHeader = ({ handleRefresh }: any) => {
         </Typography>
       </Box>
       <Box sx={styles?.HeaderChildStyle}>
-        <PermissionsGuard
+        {/* Remove permissions guard for common components */}
+        {/* <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.IMPORT_CONTACT]}
+        ></PermissionsGuard> */}
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={() => setIsImportDrawer(true)}
+          startIcon={<ImportIcon />}
+          sx={{ height: '35px' }}
         >
-          <Button
-            variant="outlined"
-            color="inherit"
-            onClick={() => setIsImportDrawer(true)}
-            startIcon={<ImportIcon />}
-            sx={{ height: '35px' }}
-          >
-            Import
-          </Button>
-        </PermissionsGuard>
+          Import
+        </Button>
 
         <Box>
-          <PermissionsGuard
+          {/* Remove permissions guard for common components */}
+          {/* <PermissionsGuard
             permissions={[
               SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CREATE_CONTACT,
             ]}
+          ></PermissionsGuard> */}
+          <Button
+            variant="contained"
+            onClick={handleCreateDealOpen}
+            startIcon={<AddCircle />}
+            sx={{ height: '35px' }}
           >
-            <Button
-              variant="contained"
-              onClick={handleCreateDealOpen}
-              startIcon={<AddCircle />}
-              sx={{ height: '35px' }}
-            >
-              Create Contact
-            </Button>
-          </PermissionsGuard>
+            Create Contact
+          </Button>
         </Box>
       </Box>
 

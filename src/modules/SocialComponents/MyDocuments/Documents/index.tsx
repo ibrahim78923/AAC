@@ -45,8 +45,6 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { SOCIAL_FEATURES } from '@/routesConstants/paths';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS } from '@/constants/permission-keys';
 import { componentMap } from '@/utils/dynamic-forms';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -277,24 +275,24 @@ const Documents = () => {
           </Typography>
         </Grid>
         <Grid item lg={6} md={6} sm={6} xs={12} sx={styles?.actionButtonBox}>
-          <PermissionsGuard
+          {/* Remove permissions guard for common components */}
+          {/* <PermissionsGuard
             permissions={[
               SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.CREATE_FOLDER,
             ]}
+          > </PermissionsGuard> */}
+          <Button
+            variant="outlined"
+            className="small"
+            onClick={() => {
+              setIsOpenModal(true);
+              setActionType('create-sub-folder');
+              FolderAdd?.setValue('name', '');
+            }}
+            sx={styles?.createFolderButton(theme)}
           >
-            <Button
-              variant="outlined"
-              className="small"
-              onClick={() => {
-                setIsOpenModal(true);
-                setActionType('create-sub-folder');
-                FolderAdd?.setValue('name', '');
-              }}
-              sx={styles?.createFolderButton(theme)}
-            >
-              <AddCircle /> Create Folder
-            </Button>
-          </PermissionsGuard>
+            <AddCircle /> Create Folder
+          </Button>
         </Grid>
         <Grid
           item
@@ -338,200 +336,199 @@ const Documents = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <PermissionsGuard
+              {/* Remove permissions guard for common components */}
+              {/* <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.DOWNLOAD_LIST,
                 ]}
-              >
-                <MenuItem onClick={handleClose}>Download</MenuItem>
-              </PermissionsGuard>
-              <PermissionsGuard
+              > </PermissionsGuard> */}
+              <MenuItem onClick={handleClose}>Download</MenuItem>
+              {/* Remove permissions guard for common components */}
+              {/* <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.LIST_MOVE_TO_FOLDER,
                 ]}
+              ></PermissionsGuard> */}
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpenFolderDrawer(true);
+                }}
               >
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    setIsOpenFolderDrawer(true);
-                  }}
-                >
-                  Move To Folder
-                </MenuItem>
-              </PermissionsGuard>
-              <PermissionsGuard
+                Move To Folder
+              </MenuItem>
+              {/* Remove permissions guard for common components */}
+              {/* <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.RENAME_FOLDER,
                 ]}
+              ></PermissionsGuard> */}
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setModalHeading('Edit Name');
+                  setIsOpenModal(true);
+                  setActionType('move-folder');
+                  FolderAdd?.setValue('name', selectedFolder?.name);
+                }}
+                disabled={allSelectedFoldersIds?.length > 1}
               >
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    setModalHeading('Edit Name');
-                    setIsOpenModal(true);
-                    setActionType('move-folder');
-                    FolderAdd?.setValue('name', selectedFolder?.name);
-                  }}
-                  disabled={allSelectedFoldersIds?.length > 1}
-                >
-                  Rename
-                </MenuItem>
-              </PermissionsGuard>
-              <PermissionsGuard
+                Rename
+              </MenuItem>
+              {/* Remove permissions guard for common components */}
+              {/* <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.DELETE_FOLDER,
                 ]}
+              > </PermissionsGuard> */}
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpenDelete(true);
+                }}
               >
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    setIsOpenDelete(true);
-                  }}
-                >
-                  Delete
-                </MenuItem>
-              </PermissionsGuard>
+                Delete
+              </MenuItem>
             </Menu>
-
-            <PermissionsGuard
+            {/* Remove permissions guard for common components */}
+            {/* <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.APPLY_FILTER,
               ]}
+            ></PermissionsGuard> */}
+            <Box>
+              <Tooltip title={'Refresh Filter'}>
+                <Button variant="outlined" color="inherit" className="small">
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
+            </Box>
+            <Button
+              onClick={() => {
+                setIsOpenDrawer(true);
+              }}
+              variant="outlined"
+              sx={styles?.fiterButton(theme)}
+              className="small"
             >
-              <Box>
-                <Tooltip title={'Refresh Filter'}>
-                  <Button variant="outlined" color="inherit" className="small">
-                    <RefreshTasksIcon />
-                  </Button>
-                </Tooltip>
-              </Box>
-              <Button
-                onClick={() => {
-                  setIsOpenDrawer(true);
-                }}
-                variant="outlined"
-                sx={styles?.fiterButton(theme)}
-                className="small"
-              >
-                <FilterrIcon /> Filter
-              </Button>
-            </PermissionsGuard>
+              <FilterrIcon /> Filter
+            </Button>
           </Box>
         </Grid>
-
-        <PermissionsGuard
+        {/* Remove permissions guard for common components */}
+        {/* <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.VIEW_FOLDERS]}
-        >
-          {documentData?.map((item: any) => {
-            return (
-              <>
-                <Grid item lg={3} md={3} sm={6} xs={12}>
+          >
+          </PermissionsGuard> */}
+        {documentData?.map((item: any) => {
+          return (
+            <>
+              <Grid item lg={3} md={3} sm={6} xs={12}>
+                <Box
+                  sx={{
+                    border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
+                    borderRadius: '11.56px',
+                    padding: '0.6rem',
+                    '&:hover': {
+                      boxShadow: ' 0px 0px 5px 3px #A0E5DB40',
+                      border: 'unset',
+                    },
+                  }}
+                  key={uuidv4()}
+                >
                   <Box
                     sx={{
-                      border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
-                      borderRadius: '11.56px',
-                      padding: '0.6rem',
-                      '&:hover': {
-                        boxShadow: ' 0px 0px 5px 3px #A0E5DB40',
-                        border: 'unset',
-                      },
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      mb: '10px',
                     }}
-                    key={uuidv4()}
                   >
+                    <Box sx={styles?.folderBackground(theme)}>
+                      <FolderIcon />
+                    </Box>
+                    <Box sx={{ zIndex: 999, cursor: 'unset' }}>
+                      <Checkbox
+                        checked={allSelectedFoldersIds?.includes(item?._id)}
+                        onChange={() => {
+                          handleCheckboxChange(item?._id);
+                          setSelectedFolder(item);
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                  <Grid item lg={12} md={12} sm={12} xs={12}>
                     <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        mb: '10px',
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        navigate.push({
+                          pathname: SOCIAL_FEATURES?.FOLDER_DETAILS,
+                          query: {
+                            folder: item?._id,
+                            name: item?.name,
+                          },
+                        });
                       }}
                     >
-                      <Box sx={styles?.folderBackground(theme)}>
-                        <FolderIcon />
-                      </Box>
-                      <Box sx={{ zIndex: 999, cursor: 'unset' }}>
-                        <Checkbox
-                          checked={allSelectedFoldersIds?.includes(item?._id)}
-                          onChange={() => {
-                            handleCheckboxChange(item?._id);
-                            setSelectedFolder(item);
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                    <Grid item lg={12} md={12} sm={12} xs={12}>
-                      <Box
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          navigate.push({
-                            pathname: SOCIAL_FEATURES?.FOLDER_DETAILS,
-                            query: {
-                              folder: item?._id,
-                              name: item?.name,
-                            },
-                          });
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: 500,
+                          color: `${theme?.palette?.grey[600]}`,
                         }}
                       >
+                        {item?.name}
+                      </Typography>
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: `${theme?.palette?.grey[900]}`,
+                          fontWeight: 400,
+                        }}
+                      >
+                        Created By:
                         <Typography
-                          variant="h6"
+                          variant="subtitle2"
                           sx={{
+                            color: `${theme?.palette?.custom?.main}`,
                             fontWeight: 500,
-                            color: `${theme?.palette?.grey[600]}`,
                           }}
                         >
-                          {item?.name}
+                          {item?.createdBy?.firstName}
+                          {item?.createdBy?.lastName}
                         </Typography>
+                      </Typography>
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: `${theme?.palette?.grey[900]}`,
+                          fontWeight: 400,
+                        }}
+                      >
+                        Created Date:
                         <Typography
-                          variant="body3"
+                          variant="subtitle2"
                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '5px',
-                            color: `${theme?.palette?.grey[900]}`,
-                            fontWeight: 400,
+                            color: `${theme?.palette?.custom?.main}`,
+                            fontWeight: 500,
                           }}
                         >
-                          Created By:
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.main}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.createdBy?.firstName}
-                            {item?.createdBy?.lastName}
-                          </Typography>
+                          {dayjs(item?.createdAt).format(DATE_FORMAT.API)}
                         </Typography>
-                        <Typography
-                          variant="body3"
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '5px',
-                            color: `${theme?.palette?.grey[900]}`,
-                            fontWeight: 400,
-                          }}
-                        >
-                          Created Date:
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.main}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {dayjs(item?.createdAt).format(DATE_FORMAT.API)}
-                          </Typography>
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Box>
-                </Grid>
-              </>
-            );
-          })}
-        </PermissionsGuard>
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </>
+          );
+        })}
       </Grid>
       <CommonModal
         open={isOpenModal}
