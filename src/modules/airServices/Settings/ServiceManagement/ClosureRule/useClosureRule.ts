@@ -14,6 +14,7 @@ import {
   useGetClosureRulesQuery,
   usePostClosureRuleMutation,
 } from '@/services/airServices/settings/service-management/closureRule';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useClosureRule = () => {
   const router = useRouter();
@@ -99,8 +100,9 @@ export const useClosureRule = () => {
       successSnackbar(res?.message ?? 'Saved Successfully');
       handleBack();
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

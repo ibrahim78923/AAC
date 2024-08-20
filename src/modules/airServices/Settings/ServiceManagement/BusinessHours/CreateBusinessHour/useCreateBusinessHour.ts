@@ -18,6 +18,7 @@ import { PAGINATION } from '@/config';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -59,8 +60,9 @@ export const useCreateBusinessHour = () => {
     try {
       await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
       successSnackbar('Holidays Retrieved successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
@@ -110,8 +112,9 @@ export const useCreateBusinessHour = () => {
       successSnackbar('Business Hour Created Successfully');
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   });
   const submitUpdateBusinessHour = async (data: any) => {
@@ -123,8 +126,9 @@ export const useCreateBusinessHour = () => {
       successSnackbar('Business Hour Updated Successfully!');
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   useEffect(() => {

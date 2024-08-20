@@ -1,8 +1,9 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { ClosureRulesConditions } from '../ClosureRulesConditions';
 import { useTheme } from '@mui/material';
+import { IClosureRuleProps } from '../ClosureRule.interface';
 
-export const IncidentServicesClosureRule = (props: any) => {
+export const IncidentServicesClosureRule = (props: IClosureRuleProps) => {
   const {
     closeIncidentData,
     resolveIncidentData,
@@ -10,6 +11,7 @@ export const IncidentServicesClosureRule = (props: any) => {
     serviceResolveData,
   } = props;
   const theme = useTheme();
+
   return (
     <>
       <Box>

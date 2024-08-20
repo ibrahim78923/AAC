@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material';
+import { IClosureRuleProps } from '../ClosureRule.interface';
 
-export const ClosureRulesConditions = (props: any) => {
+export const ClosureRulesConditions = (props: IClosureRuleProps) => {
   const {
     resolveIncident,
     closeIncident,

@@ -2,6 +2,7 @@ import { useDeleteHolidayMutation } from '@/services/airServices/settings/servic
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export default function useDeleteHolidayModal({ id, setHolidaysData }: any) {
   const searchParams = useSearchParams();
@@ -28,8 +29,9 @@ export default function useDeleteHolidayModal({ id, setHolidaysData }: any) {
       await deleteHolidayTrigger(deleteHolidayParameter)?.unwrap();
       successSnackbar('Holiday deleted successfully');
       setOpenDeleteModal(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       setOpenDeleteModal(false);
     }
   };

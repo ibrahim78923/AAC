@@ -315,7 +315,7 @@ export const CreateBusinessHour = () => {
               count={Math.ceil(manipulatedHolidaysData?.length / pageLimit)}
               pageLimit={pageLimit}
               totalRecords={manipulatedHolidaysData?.length}
-              onPageChange={(page: any) => setPage(page)}
+              onPageChange={(page: number) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
               isPagination

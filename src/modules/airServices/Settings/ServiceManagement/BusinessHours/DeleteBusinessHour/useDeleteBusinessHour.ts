@@ -1,4 +1,5 @@
 import { useDeleteBusinessHourMutation } from '@/services/airServices/settings/service-management/business-hours';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 
@@ -22,8 +23,9 @@ export const useDeleteBusinessHour = (props: any) => {
       await deleteBusinessHourTrigger(deleteBusinessHourParameter)?.unwrap();
       successSnackbar('Business Hour deleted successfully');
       closeBusinessHourDeleteModal?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       closeBusinessHourDeleteModal?.();
     }
   };

@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { timeZone } from '@/constants/time-zone';
 export const holidaysListsColumn: any = (setHolidaysData: any) => [
   {
-    accessorFn: (row: any) => row?.date,
+    accessorFn: (row: { date: string }) => row?.date,
     id: 'date',
     header: '',
     cell: (info: any) => (
@@ -15,7 +15,7 @@ export const holidaysListsColumn: any = (setHolidaysData: any) => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: { name: string }) => row?.name,
     id: 'name',
     header: '',
     cell: (info: any) => (
@@ -25,7 +25,7 @@ export const holidaysListsColumn: any = (setHolidaysData: any) => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.uuid,
+    accessorFn: (row: { uuid: string }) => row?.uuid,
     id: 'uuid',
     header: '',
     cell: (info: any) => (
@@ -56,7 +56,7 @@ export const importHolidaysDropDown = (setButtonName: any) =>
   Object.keys(holidaysDropDownData)?.map((item: any) => ({
     id: item,
     title: item,
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       setButtonName(item);
       close();
     },

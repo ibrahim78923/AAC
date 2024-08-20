@@ -28,7 +28,7 @@ export const getBusinessHoursOptions = (
     permissionKey: [
       AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_BUSINESS_HOUR,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       if (businessHour?.perDefine) {
         errorSnackbar("You can't delete default business hour");
         return;

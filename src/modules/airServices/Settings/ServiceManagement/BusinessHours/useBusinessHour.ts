@@ -2,6 +2,7 @@ import {
   useDeleteBusinessHourMutation,
   useGetBusinessHourQuery,
 } from '@/services/airServices/settings/service-management/business-hours';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -36,8 +37,9 @@ export const useBusinessHour = () => {
         delete: false,
         editData: null,
       });
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       setOpenModal({
         delete: false,
         editData: null,
