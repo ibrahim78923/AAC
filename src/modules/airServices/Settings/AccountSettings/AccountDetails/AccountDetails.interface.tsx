@@ -70,12 +70,6 @@ export interface IPropsAccountDetails {
   profileDetail?: IProfileDetail;
 }
 
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}
-
 export interface IComponentProps {
   name?: string;
   label?: string;

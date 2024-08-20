@@ -10,10 +10,8 @@ import { useNewImportFileForServicesMutation } from '@/services/airServices/glob
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { CRM_COLUMNS } from './ImportProductCatalog.data';
-import {
-  IErrorResponse,
-  IProductCatalogProps,
-} from '../ProductCatalog.interface';
+import { IProductCatalogProps } from '../ProductCatalog.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useImportProductCatalog = (props: IProductCatalogProps) => {
   const { setIsDrawerOpen } = props;

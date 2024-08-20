@@ -9,8 +9,8 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostChangePasswordMutation } from '@/services/airServices/settings/account-settings/account-details';
-import { IErrorResponse } from '../AccountDetails.interface';
 import { IChangePasswordData } from './ChangePassword.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useChangePassword = () => {
   const theme = useTheme();

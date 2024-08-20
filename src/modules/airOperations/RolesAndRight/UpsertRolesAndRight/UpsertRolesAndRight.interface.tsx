@@ -40,12 +40,6 @@ export interface IPermissionItem {
   slug?: string;
 }
 
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}
-
 export interface IFormUser {
   [key: string]: string;
 }

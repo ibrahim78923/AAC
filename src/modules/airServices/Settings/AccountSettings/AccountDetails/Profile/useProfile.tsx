@@ -6,11 +6,8 @@ import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
-import {
-  IAuth,
-  IErrorResponse,
-  IPropsAccountDetails,
-} from '../AccountDetails.interface';
+import { IAuth, IPropsAccountDetails } from '../AccountDetails.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useProfile = (props: IPropsAccountDetails) => {
   const { profileDetail } = props;

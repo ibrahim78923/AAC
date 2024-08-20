@@ -10,9 +10,3 @@ export interface ILocationProps {
   children?: ReactNode;
   onAddClick?: ((value?: boolean) => void) | any;
 }
-
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}

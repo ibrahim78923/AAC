@@ -1,6 +1,7 @@
 import { useDeleteEnquiriesMutation } from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IChildModalState, IErrorResponse } from '../Enquiries.interface';
+import { IChildModalState } from '../Enquiries.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export default function useDeleteEnquiry({
   isModalOpen,

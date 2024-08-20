@@ -3,7 +3,8 @@ import {
   useDeleteParentLocationMutation,
 } from '@/services/airServices/settings/asset-management/location';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IErrorResponse, ILocationProps } from '../Location.interface';
+import { ILocationProps } from '../Location.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useDeleteLocation = (props: ILocationProps) => {
   const { setDeleteModalOpen, selectedLocation, setSelectedLocation } = props;

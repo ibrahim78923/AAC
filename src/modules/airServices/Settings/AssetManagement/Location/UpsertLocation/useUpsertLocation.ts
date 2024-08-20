@@ -19,7 +19,7 @@ import {
   successSnackbar,
 } from '@/utils/api';
 import { useEffect } from 'react';
-import { IErrorResponse } from '../Location.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useUpsertLocation = () => {
   const router = useRouter();

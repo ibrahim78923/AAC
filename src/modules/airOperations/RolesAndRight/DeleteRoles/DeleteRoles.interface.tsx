@@ -18,9 +18,3 @@ export interface IUseDeleteRolesProps {
   getRolesListData?: (page?: number) => Promise<void>;
   isPortalOpen?: boolean | any;
 }
-
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}

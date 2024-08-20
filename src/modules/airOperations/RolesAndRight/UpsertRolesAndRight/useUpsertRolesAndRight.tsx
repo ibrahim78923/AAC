@@ -21,9 +21,9 @@ import {
   IPermissionParent,
   IPermissionSubModule,
   IPermissionItem,
-  IErrorResponse,
   IUpsertRolesAndRightFormData,
 } from './UpsertRolesAndRight.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useUpsertRolesAndRight = () => {
   const router = useRouter();

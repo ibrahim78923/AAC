@@ -14,9 +14,3 @@ export interface IDepartmentsProps {
   setOpenUpsertModal?: (() => void) | any;
   openUpsertModal?: boolean;
 }
-
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}

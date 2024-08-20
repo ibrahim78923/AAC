@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IChildModalState, IErrorResponse } from '../Enquiries.interface';
+import { IChildModalState } from '../Enquiries.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export default function useViewEnquiry({
   isModalOpen,

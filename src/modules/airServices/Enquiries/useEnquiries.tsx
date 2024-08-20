@@ -10,13 +10,9 @@ import {
 } from './Enquiries.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import useAuth from '@/hooks/useAuth';
-import {
-  IEnquiry,
-  IErrorResponse,
-  IInfo,
-  IModalState,
-} from './Enquiries.interface';
+import { IEnquiry, IInfo, IModalState } from './Enquiries.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export default function useEnquiries() {
   const [enquiriesSelected, setEnquiriesSelected] = useState<IEnquiry[]>([]);

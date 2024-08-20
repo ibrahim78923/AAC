@@ -1,6 +1,7 @@
 import { useDeleteDepartmentMutation } from '@/services/airServices/settings/user-management/departments';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IDepartmentsProps, IErrorResponse } from '../Departments.interface';
+import { IDepartmentsProps } from '../Departments.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useDeleteDepartment = (props: IDepartmentsProps) => {
   const {

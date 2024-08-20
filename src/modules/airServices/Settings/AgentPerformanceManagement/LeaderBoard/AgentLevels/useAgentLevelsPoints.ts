@@ -11,6 +11,7 @@ import {
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useAgentLevelsPoints = () => {
   const router = useRouter();
@@ -30,8 +31,9 @@ export const useAgentLevelsPoints = () => {
     try {
       await addAgentLevelsPointsTrigger(values)?.unwrap();
       successSnackbar('Agent levels points added successfully!');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

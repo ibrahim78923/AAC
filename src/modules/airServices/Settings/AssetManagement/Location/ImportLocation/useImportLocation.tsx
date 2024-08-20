@@ -2,7 +2,8 @@ import { FIELD_TYPES, IMPORT_ACTION_TYPE } from '@/constants/strings';
 import { useImportFileMutation } from '@/services/airServices/global/import';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { CRM_COLUMNS_LOCATION } from './ImportLocation.data';
-import { IErrorResponse, ILocationProps } from '../Location.interface';
+import { ILocationProps } from '../Location.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useImportLocation = (props: ILocationProps) => {
   const { setIsDrawerOpen } = props;

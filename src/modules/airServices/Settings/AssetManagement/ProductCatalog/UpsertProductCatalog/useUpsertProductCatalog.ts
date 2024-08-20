@@ -20,7 +20,7 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import { IErrorResponse } from '../ProductCatalog.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useUpsertProductCatalog = () => {
   const router = useRouter();

@@ -3,9 +3,9 @@ import { useDeleteRoleForOperationsMutation } from '@/services/airOperations/rol
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   IDeleteRolesParameter,
-  IErrorResponse,
   IUseDeleteRolesProps,
 } from './DeleteRoles.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useDeleteRoles = (props: IUseDeleteRolesProps) => {
   const {
