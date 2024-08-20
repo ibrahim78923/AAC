@@ -17,6 +17,7 @@ import ThirdStep from './ThirdStep';
 import { stepsData } from './ImportModal.data';
 import { LoadingButton } from '@mui/lab';
 import CloseIcon from '@/assets/icons/shared/close-icon';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 const ImportModal = () => {
   const {
     isDrawerOpen,
@@ -147,7 +148,9 @@ const ImportModal = () => {
                       newImportFileForServicesStatus?.isLoading
                     }
                   >
-                    {modalStep === 1 ? 'Cancel' : 'Back'}
+                    {modalStep === 1
+                      ? GENERIC_UPSERT_FORM_CONSTANT?.CANCEL
+                      : GENERIC_UPSERT_FORM_CONSTANT?.BACK}
                   </Button>
                   <LoadingButton
                     variant="contained"
@@ -164,7 +167,9 @@ const ImportModal = () => {
                       (modalStep === 2 && importDeals === null)
                     }
                   >
-                    {modalStep === 3 ? 'Import' : 'Next'}
+                    {modalStep === 3
+                      ? GENERIC_UPSERT_FORM_CONSTANT?.IMPORT
+                      : GENERIC_UPSERT_FORM_CONSTANT?.NEXT}
                   </LoadingButton>
                 </Box>
               </Toolbar>

@@ -2,13 +2,11 @@ import { PAGINATION } from '@/config';
 import { useGetImportListQuery } from '@/services/airOperations/data-management/import';
 import { useState } from 'react';
 import { importTabColumnsFunction } from './ImportTab.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { saveAs } from 'file-saver';
-import { parse } from 'json2csv';
-import * as XLSX from 'xlsx';
+import { errorSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { ImportTabI } from './ImportTab.interface';
+import jsPDF from 'jspdf';
 
 export const useImportTab: () => ImportTabI = () => {
   const [selectedTabList, setSelectedTabList] = useState([]);
@@ -43,35 +41,14 @@ export const useImportTab: () => ImportTabI = () => {
     setSelectedTabList,
   );
 
-  const listDataExport = async (type: any) => {
-    if (!selectedTabList?.length) {
-      errorSnackbar('Please select record to download.');
-      return;
-    }
-    try {
-      if (type === 'CSV') {
-        const csv = parse(selectedTabList);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'Import List.csv');
-      } else if (type === 'XLS') {
-        const worksheet = XLSX?.utils?.json_to_sheet(selectedTabList);
-        const workbook = XLSX?.utils?.book_new();
-        XLSX?.utils?.book_append_sheet(workbook, worksheet, 'Data');
-        const excelBuffer = XLSX?.write(workbook, {
-          bookType: 'xlsx',
-          type: 'array',
-        });
-        const blob = new Blob([excelBuffer], {
-          type: 'application/octet-stream',
-        });
-        saveAs(blob, 'Import List.xlsx');
-      } else {
-        errorSnackbar('Invalid download type.');
-        return;
-      }
-      successSnackbar('File downloaded successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.message || 'An error occurred during file download');
+  const handleDownload = () => {
+    if (!data?.data?.datamanagements?.length) {
+      errorSnackbar('No data to download');
+    } else {
+      const importTable: any = new jsPDF('portrait', 'px', 'a1');
+      importTable.html(document.getElementById('importTable')).then(() => {
+        importTable.save('Import Table.pdf');
+      });
     }
   };
 
@@ -90,7 +67,7 @@ export const useImportTab: () => ImportTabI = () => {
     isOpenFilterDrawer,
     setFilterValues,
     filterValues,
-    listDataExport,
     importTabColumns,
+    handleDownload,
   };
 };

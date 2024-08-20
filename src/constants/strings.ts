@@ -863,6 +863,8 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   SAVE_AS_DRAFT: 'Save as Draft',
   SEND_FOR_APPROVAL: 'Send For Approval',
   PUBLISH_NOW: 'Publish Now',
+  IMPORT: 'Import',
+  NEXT: 'Next',
 };
 
 export const TEXT_FORMATE: any = {
