@@ -7,8 +7,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { IVendorProps } from '../Vendor.interface';
 
-const AddNewVendor = (props: any) => {
+const AddNewVendor = (props: IVendorProps) => {
   const { isADrawerOpen, update } = props;
 
   const {
@@ -27,7 +28,7 @@ const AddNewVendor = (props: any) => {
   return (
     <CommonDrawer
       footer={true}
-      isDrawerOpen={isADrawerOpen}
+      isDrawerOpen={isADrawerOpen as boolean}
       onClose={handleClose}
       title={update ? 'Edit Vendor' : 'New Vendor'}
       okText="Save"
