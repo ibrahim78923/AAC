@@ -6,6 +6,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const AddTime = (props: any) => {
   const { isDrawerOpen } = props;
@@ -47,12 +48,12 @@ export const AddTime = (props: any) => {
         ) : (
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {addTimeFormFields?.map((item: any) => (
+              {addTimeFormFields?.map((item: ReactHookFormFieldsI) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
-              {form?.map((item: any) => (
+              {form?.map((item: ReactHookFormFieldsI) => (
                 <Grid item xs={12} key={item?.id}>
                   {componentMap[item?.component] &&
                     createElement(componentMap[item?.component], {

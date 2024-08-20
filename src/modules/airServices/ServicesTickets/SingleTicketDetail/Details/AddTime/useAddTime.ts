@@ -166,7 +166,6 @@ export const useAddTime = (props: any) => {
     handleSubmit,
     onSubmit,
     addTimeFormFields,
-
     postTicketStatus,
     closeDrawer,
     getDynamicFieldsStatus,

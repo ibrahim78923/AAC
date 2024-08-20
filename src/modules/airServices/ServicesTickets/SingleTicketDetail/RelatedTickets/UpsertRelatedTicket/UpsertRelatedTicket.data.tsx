@@ -102,7 +102,7 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      externalParams: { requester: true, admin: true },
       getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {

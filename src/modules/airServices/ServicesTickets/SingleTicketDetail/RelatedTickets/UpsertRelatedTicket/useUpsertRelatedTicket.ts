@@ -12,10 +12,10 @@ import { useEffect } from 'react';
 import {
   useGetTicketsByIdQuery,
   useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetAssociateAssetsDropdownForTicketsQuery,
   useLazyGetCategoriesDropdownForTicketsQuery,
   useLazyGetDepartmentDropdownForTicketsQuery,
-  useLazyGetRequesterDropdownForTicketsQuery,
 } from '@/services/airServices/tickets';
 
 import {
@@ -145,7 +145,8 @@ export const useUpsertRelatedTicket = (
   };
 
   const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownForTicketsQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
   const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForTicketsQuery();

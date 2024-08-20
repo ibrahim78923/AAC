@@ -1,27 +1,19 @@
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { ERROR_TIME } from '@/constants/api-mapped';
 import { fullName, generateImage } from '@/utils/avatarUtils';
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useViewTimeEntries } from './useViewTimeEntries';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const ViewTimeEntries = () => {
   const { isLoading, isError, timeEntryData, isFetching, refetch } =
     useViewTimeEntries();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError)
-    return (
-      <ApiErrorState>
-        {' '}
-        <Button variant="contained" onClick={() => refetch?.()}>
-          Refresh
-        </Button>
-      </ApiErrorState>
-    );
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>

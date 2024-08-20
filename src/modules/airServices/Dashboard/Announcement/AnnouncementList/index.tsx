@@ -15,7 +15,7 @@ export const AnnouncementList = (props: any) => {
     getCustomerAnnouncementData,
   } = props;
 
-  const { onClose } = useAnnouncementList?.(props);
+  const { onClose, user } = useAnnouncementList?.(props);
 
   return (
     <CommonDrawer
@@ -46,6 +46,11 @@ export const AnnouncementList = (props: any) => {
                       )}
                       data={announcement}
                       index={index}
+                      isLoggedInUser={user?._id === announcement?.createdBy}
+                      userDetails={{
+                        userAvatar: announcement?.userAvatar,
+                        userName: announcement?.userName,
+                      }}
                     />
                   </Fragment>
                 ),

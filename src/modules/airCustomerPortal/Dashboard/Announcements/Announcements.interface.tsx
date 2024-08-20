@@ -1,19 +1,13 @@
-import { Dispatch, SetStateAction } from 'react';
-
 export interface AnnouncementDataI {
-  userAvatar: string;
-  userName: string;
-  createdAt: string;
-  title: string;
-  _id?: string;
-  annoucements?: any;
-  announcements?: any;
-  meta: {
-    pages: number;
-    limit: number;
-    page: number;
-    total: number;
-  };
+  data: {
+    userAvatar: string;
+    userName: string;
+    createdAt: string;
+    title: string;
+    _id?: string;
+    annoucements?: any;
+    announcements?: any;
+  }[];
 }
 
 export interface AnnouncementsListPropsI {
@@ -23,8 +17,6 @@ export interface AnnouncementsListPropsI {
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
-  setPage: Dispatch<SetStateAction<number>>;
-  setPageLimit: Dispatch<SetStateAction<number>>;
   refetch: any;
 }
 

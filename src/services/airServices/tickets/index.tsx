@@ -248,6 +248,16 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_SIX],
     }),
+    getAirServicesAllUsersAsRequestersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 export const {
@@ -277,4 +287,5 @@ export const {
   useLazyGetCategoriesDropdownForTicketsQuery,
   useLazyGetDepartmentDropdownForTicketsQuery,
   useLazyGetRequesterDropdownForTicketsQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
 } = ticketsAPI;

@@ -16,7 +16,6 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import { AIR_SERVICES } from '@/constants';
 import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import {
   editTicketDetailsDefaultValuesDynamic,
@@ -33,8 +32,12 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { SingleTicketDetailChildComponentPropsI } from '../../SingleTicketDetails.interface';
 
-export const useEditTicketDetails = () => {
+export const useEditTicketDetails = (
+  props: SingleTicketDetailChildComponentPropsI,
+) => {
+  const { refetch: refetchTicket } = props;
   const router = useRouter();
   const [form, setForm] = useState<any>([]);
 
@@ -85,13 +88,25 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control } = methods;
+  const { handleSubmit, reset, getValues, control, setValue } = methods;
 
   const watchForTicketType = useWatch({
     control,
     name: 'ticketType',
     defaultValue: null,
   });
+
+  const watchForCategory = useWatch({
+    control,
+    name: 'category',
+    defaultValue: null,
+  });
+
+  useEffect(() => {
+    if (getValues('ticketType')?._id === TICKET_TYPE?.SR) {
+      setValue('service', null);
+    }
+  }, [watchForCategory]);
 
   useEffect(() => {
     reset(() =>
@@ -208,7 +223,7 @@ export const useEditTicketDetails = () => {
 
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       successSnackbar('Ticket updated successfully');
-      router?.push(AIR_SERVICES?.TICKETS);
+      refetchTicket?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

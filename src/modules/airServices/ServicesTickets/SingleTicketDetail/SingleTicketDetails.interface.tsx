@@ -30,4 +30,5 @@ export interface SingleTicketDetailChildComponentPropsI {
   setTime: Dispatch<SetStateAction<TimeI>>;
   startTimerId: any;
   intervalRef: any;
+  refetch: any;
 }

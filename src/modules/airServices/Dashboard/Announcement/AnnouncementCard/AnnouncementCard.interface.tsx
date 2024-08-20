@@ -4,4 +4,9 @@ export interface AnnouncementCardProps {
   data: any;
   index: number;
   dropdownAnnouncementsOptions?: SingleDropdownOptionI[];
+  isLoggedInUser?: boolean;
+  userDetails: {
+    userAvatar: string;
+    userName: string;
+  };
 }

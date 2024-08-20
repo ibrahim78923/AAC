@@ -68,6 +68,7 @@ export const useSingleTicketDetails = () => {
     setTime,
     startTimerId,
     intervalRef,
+    refetch,
   };
 
   const renderPortalComponent = {

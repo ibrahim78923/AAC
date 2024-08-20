@@ -18,6 +18,7 @@ export interface AutocompleteAsyncOptionsI {
   subject?: string;
   itemName?: string;
   displayName?: string;
+  title?: string;
 }
 
 export interface ReactHookFormFieldsI {

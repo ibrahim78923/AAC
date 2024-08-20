@@ -5,8 +5,9 @@ import { useViewTimeEntries } from './useTimeEntries';
 import StopWatch from './StopWatch';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ViewTimeEntries } from './ViewTimeEntries';
+import { SingleTicketDetailChildComponentPropsI } from '../../SingleTicketDetails.interface';
 
-export const TimeEntries = (props: any) => {
+export const TimeEntries = (props: SingleTicketDetailChildComponentPropsI) => {
   const { data } = props;
   const { isDrawerOpen, setIsDrawerOpen, isTimerPause } = useViewTimeEntries();
 

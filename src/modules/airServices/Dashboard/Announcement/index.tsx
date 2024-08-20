@@ -45,7 +45,14 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
             {data?.announcements?.annoucements?.map(
               (announcement: any, index: number) => (
                 <Fragment key={announcement?._id}>
-                  <AnnouncementCard data={announcement} index={index} />
+                  <AnnouncementCard
+                    data={announcement}
+                    index={index}
+                    userDetails={{
+                      userAvatar: announcement?.userAvatar,
+                      userName: announcement?.userName,
+                    }}
+                  />
                 </Fragment>
               ),
             )}

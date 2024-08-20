@@ -2,8 +2,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { EditTicketDetails } from './EditTicketDetails';
 import { TimeEntries } from './TimeEntries';
+import { SingleTicketDetailChildComponentPropsI } from '../SingleTicketDetails.interface';
 
-export const Details = (props: any) => {
+export const Details = (props: SingleTicketDetailChildComponentPropsI) => {
   return (
     <PermissionsGuard
       permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TAB}
