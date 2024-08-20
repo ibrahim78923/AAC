@@ -30,7 +30,7 @@ export const PRODUCT_LISTS_ACTION_CONSTANTS = {
 export const productListsColumnDynamic: any = (router?: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: { name: string }) => row?.name,
       id: 'name',
       isSortable: true,
       header: 'Name',
@@ -54,7 +54,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.assetTypeName,
+      accessorFn: (row: { assetTypeName: string }) => row?.assetTypeName,
       id: 'assetTypeName',
       isSortable: true,
       header: 'Type',
@@ -65,7 +65,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.manufacturer,
+      accessorFn: (row: { manufacturer: string }) => row?.manufacturer,
       id: 'manufacturer',
       isSortable: true,
       header: 'Manufacturer',
@@ -76,7 +76,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: { status: string }) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',

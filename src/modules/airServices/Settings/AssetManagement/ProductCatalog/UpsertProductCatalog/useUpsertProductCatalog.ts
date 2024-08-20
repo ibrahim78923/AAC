@@ -20,6 +20,7 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
+import { IErrorResponse } from '../ProductCatalog.interface';
 
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
@@ -91,8 +92,9 @@ export const useUpsertProductCatalog = () => {
       successSnackbar('Product catalog updated successfully!');
       moveBack?.();
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
