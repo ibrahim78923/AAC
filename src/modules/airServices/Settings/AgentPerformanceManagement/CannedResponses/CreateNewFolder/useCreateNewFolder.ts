@@ -11,10 +11,8 @@ import {
   usePostCannedResponsesMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  ICannedResponsesProps,
-  IErrorResponse,
-} from '../CannedResponses.interface';
+import { ICannedResponsesProps } from '../CannedResponses.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useCreateNewFolder = (props: ICannedResponsesProps) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;

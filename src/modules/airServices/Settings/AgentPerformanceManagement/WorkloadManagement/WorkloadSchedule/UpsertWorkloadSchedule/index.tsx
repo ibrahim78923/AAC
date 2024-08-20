@@ -17,7 +17,7 @@ export const UpsertWorkloadSchedule = () => {
     patchWorkloadScheduleStatus,
     postWorkloadScheduleStatus,
     moveBack,
-  }: any = useUpsertWorkloadSchedule();
+  } = useUpsertWorkloadSchedule();
 
   if (isLoading || isFetching) return <SkeletonForm />;
 

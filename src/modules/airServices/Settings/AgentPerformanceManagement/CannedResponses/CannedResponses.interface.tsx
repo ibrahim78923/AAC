@@ -6,9 +6,3 @@ export interface ICannedResponsesProps {
   postCannedResponseStatus?: any;
   patchCannedResponseStatus?: any;
 }
-
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}

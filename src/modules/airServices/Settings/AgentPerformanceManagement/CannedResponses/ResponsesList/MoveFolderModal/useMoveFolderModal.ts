@@ -7,7 +7,7 @@ import {
 import { useLazyGetFoldersQuery } from '@/services/dropdowns';
 import { useMoveResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IErrorResponse } from '../../CannedResponses.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useMoveFolderModal = (props: any) => {
   const {

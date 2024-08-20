@@ -1,4 +1,5 @@
 import { useDeleteWorkloadScheduleMutation } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useWorkloadScheduleDelete = (props: any) => {
@@ -24,8 +25,9 @@ export const useWorkloadScheduleDelete = (props: any) => {
       setPage?.(1);
       setSelectWorkloadSchedule?.('');
       closeWorkloadScheduleDeleteModal?.();
-    } catch (error: any) {
-      errorSnackbar?.();
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       setSelectWorkloadSchedule?.('');
       closeWorkloadScheduleDeleteModal?.();
     }

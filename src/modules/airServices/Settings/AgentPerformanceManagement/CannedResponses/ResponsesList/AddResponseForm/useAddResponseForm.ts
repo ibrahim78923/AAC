@@ -13,7 +13,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IErrorResponse } from '../../CannedResponses.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useAddResponseForm = (props: any) => {
   const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =

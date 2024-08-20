@@ -22,7 +22,7 @@ export const useWorkloadSchedule = () => {
     },
   );
 
-  const setWorkloadScheduleForDelete = (id: any) => {
+  const setWorkloadScheduleForDelete = (id: string) => {
     setSelectWorkloadSchedule?.(id);
     setOpenDeleteModal?.(true);
   };
