@@ -138,7 +138,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
   {
     key: '/org-admin/subscription-and-invoices',
     icon: BillingInvoiceImage,
-    label: 'Subsciption & Invoices',
+    label: 'Subscription & Invoices',
     role: 'org-admin',
     permissions: Permissions?.ORG_ADMIN_SUBSCRIPTION_AND_INVOICE,
   },

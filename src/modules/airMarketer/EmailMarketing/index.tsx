@@ -183,7 +183,10 @@ const EmailMarketing = () => {
               width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
             }}
           >
-            <ActionButton selectedRecords={selectedRecords} />
+            <ActionButton
+              selectedRecords={selectedRecords}
+              setSelectedRecords={setSelectedRecords}
+            />
             <Tooltip title={'Refresh Filter'}>
               <Button
                 className="small"

@@ -523,7 +523,9 @@ export const LEAD_CAPTURE_FORM = {
 
 export const EMAILS_MARKETING = {
   EMAIL_MARKETING: '/emails-marketing/get-all-marketingEmails',
+  EMAIL_MARKETING_BY_ID: '/emails-marketing/get-one-marketingEmails',
   CREATE_EMAIL: '/emails-marketing/create-email',
+  UPDATE_EMAIL: '/emails-marketing/update-email',
   DELETE_EMAIL: '/emails-marketing/delete-email',
 };
 

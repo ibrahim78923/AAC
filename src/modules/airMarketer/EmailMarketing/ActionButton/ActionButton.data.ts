@@ -20,7 +20,7 @@ export const actionsOptions = ({ selectedRecords }: any) => {
     },
     {
       label: 'Archived',
-      isDisabled: false,
+      isDisabled: isDisabled,
     },
     {
       label: 'Duplicate',

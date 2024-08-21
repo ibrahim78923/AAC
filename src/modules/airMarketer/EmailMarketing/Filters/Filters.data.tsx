@@ -29,10 +29,8 @@ export const dataArray = [
     ],
 
     component: RHFSelect,
-
     md: 12,
   },
-
   {
     componentProps: {
       name: 'createdDate',

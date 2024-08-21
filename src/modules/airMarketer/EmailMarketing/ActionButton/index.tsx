@@ -16,9 +16,13 @@ import ManageAccess from '../ManageAccess';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { enqueueSnackbar } from 'notistack';
-import { useDeleteEmailTemplateMutation } from '@/services/airMarketer/emailMarketing';
+import {
+  useDeleteEmailTemplateMutation,
+  useUpdateEmailTemplatesMutation,
+} from '@/services/airMarketer/emailMarketing';
+import { EMAIL_ENUMS, indexNumbers } from '@/constants';
 
-const ActionButton = ({ selectedRecords }: any) => {
+const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
   const {
     selectedValue,
     handleClick,
@@ -29,6 +33,8 @@ const ActionButton = ({ selectedRecords }: any) => {
 
   const [deleteEmailTemplate, { isLoading: loadingEmailTemplate }] =
     useDeleteEmailTemplateMutation();
+  const [updateEmailTemplate, { isLoading: loadingUpdateEmailTemplate }] =
+    useUpdateEmailTemplatesMutation();
 
   const handelDeleteRecords = async () => {
     const selectedIds = selectedRecords?.map((record: any) => record?._id);
@@ -39,9 +45,31 @@ const ActionButton = ({ selectedRecords }: any) => {
       enqueueSnackbar('Mail permanently deleted', {
         variant: 'success',
       });
+      setSelectedRecords([]);
       setActionsModalDetails({
         ...actionsModalDetails,
         isDelete: false,
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+  const handleArchive = async () => {
+    const selectedIds = selectedRecords[indexNumbers?.ZERO];
+    try {
+      await updateEmailTemplate({
+        id: selectedIds?._id,
+        body: {
+          status: EMAIL_ENUMS?.ARCHIVED,
+        },
+      })?.unwrap();
+      enqueueSnackbar('Request Successful', {
+        variant: 'success',
+      });
+      setSelectedRecords([]);
+      setActionsModalDetails({
+        ...actionsModalDetails,
+        isArchive: false,
       });
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -129,7 +157,7 @@ const ActionButton = ({ selectedRecords }: any) => {
                 isDuplicate: false,
               })
             }
-            handleSubmit={() =>
+            handleSubmitBtn={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,
                 isDuplicate: false,
@@ -149,18 +177,14 @@ const ActionButton = ({ selectedRecords }: any) => {
             type="Information"
             typeImage={<InfoBlueIcon />}
             open={actionsModalDetails?.isArchive}
+            loading={loadingUpdateEmailTemplate}
             handleClose={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,
                 isArchive: false,
               })
             }
-            handleSubmit={() =>
-              setActionsModalDetails({
-                ...actionsModalDetails,
-                isArchive: false,
-              })
-            }
+            handleSubmitBtn={handleArchive}
           />
         </PermissionsGuard>
       )}
@@ -190,6 +214,7 @@ const ActionButton = ({ selectedRecords }: any) => {
               isViewDetails: false,
             })
           }
+          selectedRecords={selectedRecords[indexNumbers?.ZERO]}
         />
       )}
       {actionsModalDetails?.isSaveAsTemplate && (

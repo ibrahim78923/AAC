@@ -11,12 +11,30 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getEmailMarketingById: builder.query({
+      query: ({ params }: any) => ({
+        url: `${EMAILS_MARKETING?.EMAIL_MARKETING_BY_ID}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
 
     postEmailTemplates: builder.mutation({
       query: ({ body }: any) => {
         return {
           url: `${EMAILS_MARKETING?.CREATE_EMAIL}`,
           method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    updateEmailTemplates: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${EMAILS_MARKETING?.UPDATE_EMAIL}?id=${id}`,
+          method: 'PATCH',
           body: body,
         };
       },
@@ -38,4 +56,6 @@ export const {
   useGetEmailMarketingListQuery,
   usePostEmailTemplatesMutation,
   useDeleteEmailTemplateMutation,
+  useUpdateEmailTemplatesMutation,
+  useGetEmailMarketingByIdQuery,
 } = emailTemplatesApi;
