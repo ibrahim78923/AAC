@@ -4,11 +4,12 @@ import {
   changeStatusDefaultValues,
   changeStatusValidationSchema,
 } from './ChangeStatus.data';
-
 import { usePatchServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { IServicesProps } from '../Services.interface';
 
-const useChangeStatus = (prop: any) => {
+const useChangeStatus = (prop: IServicesProps) => {
   const { openStatus, setOpenStatus, id } = prop;
 
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
@@ -31,11 +32,11 @@ const useChangeStatus = (prop: any) => {
       await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
       successSnackbar('Service Status Updated ');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
-
-    setOpenStatus(false);
+    setOpenStatus?.(false);
   };
 
   return {

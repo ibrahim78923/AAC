@@ -10,8 +10,9 @@ import { Grid, Typography } from '@mui/material';
 import { addServiceCatalogData } from './AddServiceCatalog.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
+import { IServicesProps } from '../Services.interface';
 
-export const AddServiceCatalog = (prop: any) => {
+export const AddServiceCatalog = (prop: IServicesProps) => {
   const {
     methodAdd,
     handleSubmit,
@@ -26,7 +27,7 @@ export const AddServiceCatalog = (prop: any) => {
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={open as boolean}
         fullWidth
       >
         <DialogTitle

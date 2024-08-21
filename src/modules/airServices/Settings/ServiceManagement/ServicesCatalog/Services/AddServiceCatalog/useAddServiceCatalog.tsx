@@ -4,11 +4,12 @@ import {
   addServiceCatalogDefaultValues,
   addServiceCatalogValidationSchema,
 } from './AddServiceCatalog.data';
-
 import { usePostServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IServicesProps } from '../Services.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-const useAddServiceCatalog = (prop: any) => {
+const useAddServiceCatalog = (prop: IServicesProps) => {
   const { open, setOpen } = prop;
 
   const [postServiceCatalogTrigger, postServiceCatalogTriggerStatus] =
@@ -28,15 +29,16 @@ const useAddServiceCatalog = (prop: any) => {
       })?.unwrap();
       successSnackbar('Service Add Successfully');
       handleClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
-    setOpen(false);
+    setOpen?.(false);
   };
 
   const handleClose = () => {
     reset();
-    setOpen(false);
+    setOpen?.(false);
   };
 
   return {

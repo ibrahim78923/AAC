@@ -8,8 +8,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import { Box, Checkbox, Skeleton, Typography } from '@mui/material';
 import useVisibilityAction from './useVisibilityAction';
 import { LoadingButton } from '@mui/lab';
+import { IServicesProps } from '../../Services.interface';
 
-export const VisibilityAction = (props: any) => {
+export const VisibilityAction = (props: IServicesProps) => {
   const { openVisibilityE1, handleCloseVisibility, anchorEl } = props;
 
   const {
@@ -27,7 +28,7 @@ export const VisibilityAction = (props: any) => {
     <Menu
       id="basic-menu"
       anchorEl={anchorEl}
-      open={openVisibilityE1}
+      open={openVisibilityE1 as boolean}
       onClose={handleCloseVisibility}
       MenuListProps={{
         'aria-labelledby': 'basic-button',

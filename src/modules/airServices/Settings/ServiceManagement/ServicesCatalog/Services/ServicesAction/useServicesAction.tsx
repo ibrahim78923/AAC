@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useDeleteServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { IServicesProps } from '../Services.interface';
 
-export const useServicesAction = (props: any) => {
+export const useServicesAction = (props: IServicesProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [openStatus, setOpenStatus] = useState(false);
@@ -12,20 +14,18 @@ export const useServicesAction = (props: any) => {
 
   const [deleteServiceCatalog, deleteServiceCatalogStatus] =
     useDeleteServiceCatalogMutation({});
-  const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickMenu = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const { selectedCheckboxes, setSelectedCheckboxes, isDisabled } = props;
 
-  const handleClickVisibility = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleClickVisibility = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleDeleteBtn = async () => {
     const deleteParams = new URLSearchParams();
     selectedCheckboxes?.forEach(
-      (categoryId: any) => deleteParams?.append('ids', categoryId),
+      (categoryId: string) => deleteParams?.append('ids', categoryId),
     );
     const updatedData = {
       queryParams: deleteParams,
@@ -36,8 +36,9 @@ export const useServicesAction = (props: any) => {
       setSelectedCheckboxes?.([]);
       setDeleteModalOpen?.(false);
       successSnackbar('Service Deleted Successfully!');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       setSelectedCheckboxes?.([]);
       setDeleteModalOpen?.(false);
     }

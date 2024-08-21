@@ -9,8 +9,9 @@ import { Typography } from '@mui/material';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import useMoveToCategory from './useMoveToCategory';
+import { IServicesProps } from '../Services.interface';
 
-export const MoveToCategory = (prop: any) => {
+export const MoveToCategory = (prop: IServicesProps) => {
   const {
     methodAdd,
     handleSubmit,
@@ -22,14 +23,14 @@ export const MoveToCategory = (prop: any) => {
   } = useMoveToCategory(prop);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen?.(false);
   };
   return (
     <Fragment>
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={open as boolean}
         fullWidth
       >
         <DialogTitle

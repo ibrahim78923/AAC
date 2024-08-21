@@ -9,6 +9,7 @@ import { AIR_SERVICES } from '@/constants';
 import { ASSET_TYPE, ROLES } from '@/constants/strings';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
+import { NextRouter } from 'next/router';
 import * as Yup from 'yup';
 export const upsertServiceValidationSchema = Yup?.object()?.shape({
   itemName: Yup?.string()
@@ -231,7 +232,7 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
 export const categoriesOfServices = (
   apiQueryAgent: any,
   apiRequestorQuery: any,
-  router: any,
+  router: NextRouter,
   apiServiceCategoryAgentQuery: any,
   apiQueryRequester: any,
   apiQueryAssetType: any,

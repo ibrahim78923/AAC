@@ -4,17 +4,15 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-
 import CloseIcon from '@mui/icons-material/Close';
-
 import { Divider, Grid, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { changeStatusData } from './ChangeStatus.data';
 import useChangeStatus from './useChangeStatus';
+import { IServicesProps } from '../Services.interface';
 
-export const ChangeStatus = (prop: any) => {
+export const ChangeStatus = (prop: IServicesProps) => {
   const {
     methodChangeStatus,
     handleSubmit,
@@ -25,14 +23,15 @@ export const ChangeStatus = (prop: any) => {
   } = useChangeStatus(prop);
 
   const handleClose = () => {
-    setOpenStatus(false);
+    setOpenStatus?.(false);
   };
+
   return (
     <Fragment>
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={openStatus}
+        open={openStatus as boolean}
         fullWidth
       >
         <DialogTitle
