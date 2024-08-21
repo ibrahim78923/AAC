@@ -8,13 +8,18 @@ import {
 import { DATE_FORMAT, dealStatus } from '@/constants';
 import * as Yup from 'yup';
 import useCreateQuote from './useCreateQuote';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
-export const dealValidationSchema = Yup?.object()?.shape({
-  dealId: Yup?.string()?.required('Field is Required'),
-  template: Yup?.string()?.required('Field is Required'),
-  name: Yup?.string()?.required('Field is Required'),
-  expiryDate: Yup?.date()?.required('Field is Required'),
-});
+export const dealValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    dealId: Yup?.string()?.required('Field is Required'),
+    template: Yup?.string()?.required('Field is Required'),
+    name: Yup?.string()?.required('Field is Required'),
+    expiryDate: Yup?.date()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
 
 export const dealInitValues = {
   dealId: '',

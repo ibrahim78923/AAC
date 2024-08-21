@@ -31,8 +31,10 @@ import { useChangePasswordMutation } from '@/services/auth';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { LoadingButton } from '@mui/lab';
+import { useRouter } from 'next/router';
 
 const Security = () => {
+  const router = useRouter();
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
   const [changePassword, { isLoading: changePasswordLoading }] =
@@ -116,6 +118,7 @@ const Security = () => {
                   color: '#6B7280',
                   borderRadius: '4px',
                 }}
+                onClick={() => router?.back()}
               >
                 Cancel
               </Button>

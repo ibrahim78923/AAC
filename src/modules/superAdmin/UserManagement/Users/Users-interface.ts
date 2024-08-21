@@ -86,4 +86,5 @@ export interface UseAddUserReturn {
   userDetailLoading: boolean;
   updateUserLoading: boolean;
   checkedEmailError: boolean;
+  postEmployeeLoading: boolean;
 }

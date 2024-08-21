@@ -91,7 +91,7 @@ const UserManagement = () => {
               ? 'Add Company Owner'
               : tabVal === tabOne
                 ? 'Add Super Admin '
-                : 'Add Role'}
+                : 'Add Super Admin Role'}
           </Button>
         </PermissionsGuard>
       </Box>

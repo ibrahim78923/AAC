@@ -37,6 +37,7 @@ export const columnsUser = (
           onChange={({ target }) => {
             handleSelectCompaniesById(target.checked, original?._id);
           }}
+          disabled={original?.user === user?._id}
         />
       ),
       header: (

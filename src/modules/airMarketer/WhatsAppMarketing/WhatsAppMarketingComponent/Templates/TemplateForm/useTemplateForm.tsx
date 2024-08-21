@@ -3,42 +3,79 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
-  createTemplateDefaultValues,
   createTemplateValidationSchema,
+  newCreateTemplateDefaultValues,
 } from './TemplateForm.data';
 import {
   usePostWhatsappTemplateMutation,
   useUpdateWhatsappTemplateMutation,
 } from '@/services/airMarketer/whatsappMarketing/templates';
-import { enqueueSnackbar } from 'notistack';
-import { useEffect } from 'react';
-import { indexNumbers, TASK_TYPE } from '@/constants';
+import { useEffect, useState } from 'react';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostDynamicFormAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
+import { indexNumbers } from '@/constants';
 
 const useTemplateForm = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { type, editData }: any = router?.query;
+  const { editData }: any = router?.query;
+  const [form, setForm] = useState<any>([]);
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_MARKETING,
+      moduleType: DYNAMIC_FIELDS?.MT_WHATSAPP_TEMPLATE,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
 
   let editRecordData = [];
   if (editData) {
     editRecordData = JSON?.parse(editData);
   }
 
-  const methodsNewsAndEventsFilters = useForm({
-    resolver: yupResolver(createTemplateValidationSchema),
-    defaultValues: createTemplateDefaultValues,
+  const templateMethods = useForm({
+    resolver: yupResolver(createTemplateValidationSchema?.(form)),
+    defaultValues: newCreateTemplateDefaultValues?.(),
   });
 
-  const { handleSubmit, watch, setValue } = methodsNewsAndEventsFilters;
+  const { handleSubmit, watch, reset } = templateMethods;
+
+  useEffect(() => {
+    reset(() => newCreateTemplateDefaultValues(editRecordData, form));
+  }, [editRecordData?._id, reset, form]);
+
   const TemplateName = watch('name');
   const Category = watch('category');
   const Details = watch('detail');
-
-  useEffect(() => {
-    setValue('name', editRecordData?.name);
-    setValue('category', editRecordData?.category);
-    setValue('detail', editRecordData?.detail);
-  }, [editData]);
 
   const [postWhatsappTemplate, { isLoading: postTemplateLoading }] =
     usePostWhatsappTemplateMutation();
@@ -46,57 +83,100 @@ const useTemplateForm = () => {
   const [updateWhatsappTemplate, { isLoading: updateTemplateLoading }] =
     useUpdateWhatsappTemplateMutation();
 
-  //functon to extract variables from details
-  const extractCurlyBraces = (input: any) => {
-    // Use a regular expression to match words within curly braces
-    const regex = /\{\{(.*?)\}\}/g;
-    const matches = [];
-    let match;
+  const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
 
-    // Find all matches and store them in the array
-    while ((match = regex?.exec(input)) !== null) {
-      matches?.push(match[indexNumbers?.ONE]);
+  const onSubmit = async (data: any) => {
+    const filteredEmptyData = filteredEmptyValues(data);
+
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
+
+    try {
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > indexNumbers?.ZERO) {
+        body.customFields = customFields;
+      }
+
+      if (!!editRecordData?._id) {
+        submitUpdateTemplate(body);
+        return;
+      }
+
+      const formData = new FormData();
+      if (body?.customFields) {
+        formData?.append('customFields', JSON?.stringify(body?.customFields));
+      }
+      delete body?.customFields;
+      Object.keys(body).forEach((key) => {
+        formData.append(key, data[key]);
+      });
+
+      await postWhatsappTemplate({ body: formData })?.unwrap();
+      successSnackbar('Template Added Successfully');
+      router?.back();
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
-
-    // Join the matches with a comma and return the result
-    return matches?.join(',');
   };
 
-  const extractVariablesFromDetails = extractCurlyBraces(Details);
-
-  const onSubmit = async (values: any) => {
-    if (type === TASK_TYPE?.EDIT_TASK) {
-      delete values?.attachment;
-    }
-    const formData: any = new FormData();
-    formData?.append('variables', extractVariablesFromDetails);
-    Object?.keys(values)?.forEach((key: any) => {
-      formData?.append(key, values[key]);
+  const submitUpdateTemplate = async (data: any) => {
+    const formData = new FormData();
+    formData.append('language', 'English');
+    Object.keys(data).forEach((key) => {
+      formData.append(key, JSON?.stringify(data[key]));
     });
+
+    const updateWhatsappTemplateParameter = {
+      id: editRecordData?._id,
+      body: formData,
+    };
+
     try {
-      if (type === TASK_TYPE?.EDIT_TASK) {
-        await updateWhatsappTemplate({
-          id: editRecordData?._id,
-          body: formData,
-        })?.unwrap();
-        enqueueSnackbar('Template updated successfully', {
-          variant: 'success',
-        });
-        router?.back();
-      } else {
-        await postWhatsappTemplate({ body: formData })?.unwrap();
-        enqueueSnackbar('Template added successfully', { variant: 'success' });
-        router?.back();
-      }
-    } catch (err: any) {
-      enqueueSnackbar(err?.data?.message, { variant: 'error' });
+      await updateWhatsappTemplate(updateWhatsappTemplateParameter)?.unwrap();
+      successSnackbar('Template Updated Successfully!');
+      router?.back();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
   return {
     router,
     theme,
-    methodsNewsAndEventsFilters,
+    templateMethods,
     handleSubmit,
     onSubmit,
     TemplateName,
@@ -104,6 +184,8 @@ const useTemplateForm = () => {
     updateTemplateLoading,
     Category,
     Details,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 

@@ -49,6 +49,7 @@ const AddUser = ({
     userDetailLoading,
     updateUserLoading,
     checkedEmailError,
+    postEmployeeLoading,
   } = useAddUser(useActionParams);
 
   return (
@@ -70,7 +71,7 @@ const AddUser = ({
       isDisabled={checkedEmailError}
       isOk={isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW ? false : true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postUserLoading || updateUserLoading}
+      isLoading={postUserLoading || updateUserLoading || postEmployeeLoading}
       footer
     >
       <FormProvider methods={methods}>

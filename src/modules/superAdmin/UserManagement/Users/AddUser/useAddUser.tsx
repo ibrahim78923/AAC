@@ -43,7 +43,8 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
   const [updateUsers, { isLoading: updateUserLoading }] =
     useUpdateUsersMutation();
 
-  const [postUserEmployee] = usePostUserEmployeeMutation();
+  const [postUserEmployee, { isLoading: postEmployeeLoading }] =
+    usePostUserEmployeeMutation();
   const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
     useUserDetailsList();
   const updateUserId = isOpenAddUserDrawer?.recordId;
@@ -56,7 +57,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
 
   const { isError: checkedEmailError } = useGetEmailExistQuery(
     { email: email },
-    { skip: !email },
+    { skip: !email || isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT },
   );
 
   useEffect(() => {
@@ -310,6 +311,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     userDetailLoading,
     updateUserLoading,
     checkedEmailError,
+    postEmployeeLoading,
   };
 };
 

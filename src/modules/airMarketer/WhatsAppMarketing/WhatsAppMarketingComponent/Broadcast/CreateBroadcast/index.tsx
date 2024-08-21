@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createElement } from 'react';
 import {
   Typography,
   Avatar,
@@ -7,11 +7,12 @@ import {
   Grid,
   Stack,
   AvatarGroup,
+  CircularProgress,
 } from '@mui/material';
 import { ArrowBackIcon } from '@/assets/icons';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import { contactsColumns } from './CreateBroadcast.data';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateBroadcast from './useCreateBroadcast';
 import { styles } from './CreateBroadcast.style';
@@ -27,10 +28,12 @@ import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { componentMap } from '@/utils/dynamic-forms';
 
 const CreateBroadcast = () => {
   const {
     handleCloseContactsDrawer,
+    templateDetailsVariables,
     setSelectedContactsData,
     broadcastDetailsLoading,
     isAddContactDrawerOpen,
@@ -53,6 +56,8 @@ const CreateBroadcast = () => {
     router,
     theme,
     type,
+    form,
+    getDynamicFieldsStatus,
   } = useCreateBroadcast();
 
   return (
@@ -136,9 +141,44 @@ const CreateBroadcast = () => {
                           </AvatarGroup>
                         </Box>
                       )}
+                      {item?.componentProps?.name === 'detail' && (
+                        <Grid container spacing={2} mt={2}>
+                          {templateDetailsVariables?.map((variable: any) => (
+                            <Grid item xs={6} key={variable}>
+                              <RHFTextField
+                                name={variable}
+                                placeholder={`Enter ${variable}`}
+                                size="small"
+                                fullWidth
+                              />
+                            </Grid>
+                          ))}
+                        </Grid>
+                      )}
                     </Grid>
                   );
                 })}
+                {getDynamicFieldsStatus.isLoading ? (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    mt={3}
+                    width="100%"
+                  >
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  form?.map((item: any) => (
+                    <Grid item xs={12} key={item?.id}>
+                      {componentMap[item?.component] &&
+                        createElement(componentMap[item?.component], {
+                          ...item?.componentProps,
+                          name: item?.componentProps?.label,
+                          size: 'small',
+                        })}
+                    </Grid>
+                  ))
+                )}
               </Grid>
             </Grid>
             <Grid item md={5} xs={12}>
@@ -181,7 +221,6 @@ const CreateBroadcast = () => {
                   <Box sx={styles?.previewContacts}>
                     <TanstackTable
                       columns={contactsColumns}
-                      // data={contactDetails}
                       data={flattenContactsData(selectedContactsData)}
                     />
                   </Box>

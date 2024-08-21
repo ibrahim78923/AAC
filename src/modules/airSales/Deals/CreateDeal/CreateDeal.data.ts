@@ -12,12 +12,17 @@ import * as Yup from 'yup';
 import { getSession } from '@/utils';
 import { PRODUCT_USER_STATUS, ROLES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
-export const validationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  dealPipelineId: Yup?.object()?.required('Field is Required'),
-  dealStageId: Yup?.string()?.required('Field is Required'),
-});
+export const validationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    name: Yup?.string()?.required('Field is Required'),
+    dealPipelineId: Yup?.object()?.required('Field is Required'),
+    dealStageId: Yup?.string()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
 
 export const defaultValues = {
   name: '',

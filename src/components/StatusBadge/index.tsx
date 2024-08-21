@@ -7,7 +7,13 @@ import { styles } from './StatusBadge.style';
 import { v4 as uuidv4 } from 'uuid';
 
 const StatusBadge = (props: BadgeStatusI) => {
-  const { options = undefined, onChange, value, defaultValue } = props;
+  const {
+    options = undefined,
+    onChange,
+    value,
+    defaultValue,
+    disabled,
+  } = props;
   const theme = useTheme();
 
   const switchColor = (val: string = theme?.palette?.custom?.bluish_gray) => {
@@ -80,6 +86,7 @@ const StatusBadge = (props: BadgeStatusI) => {
       value={value}
       onChange={onChange}
       defaultValue={defaultValue}
+      disabled={disabled}
     >
       {options?.map((item: any) => {
         return (

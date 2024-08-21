@@ -26,8 +26,10 @@ import SkeletonComponent from '@/components/CardSkeletons';
 import { UsersSidebarProps } from './UserSidebar-interface';
 import { indexNumbers } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { getSession } from '@/utils';
 
 const UsersSidebar = (props: UsersSidebarProps) => {
+  const { user }: any = getSession();
   const {
     setEmployeeDataById,
     setSearchAccount,
@@ -198,6 +200,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
                         >
                           <StatusBadge
                             value={item?.status}
+                            disabled={item?._id === user?._id}
                             onChange={(e: any) =>
                               handleUserSwitchChange(e, item?._id)
                             }

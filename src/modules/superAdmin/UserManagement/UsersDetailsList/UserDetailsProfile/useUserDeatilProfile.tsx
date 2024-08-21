@@ -3,14 +3,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { profileValidationSchema } from './UserDetailsProfile.data';
-import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
 import { UserProfileParams } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
+import { useUpdateUsersMutation } from '@/services/superAdmin/user-management/users';
 
 const useUserDeatilProfile = (userprofileParams: UserProfileParams) => {
   const { isToggled, userDetails, setTabVal } = userprofileParams;
-  const { updateUsers }: any = useUserManagement();
   const id = userDetails?._id;
   const initialTab = 0;
+  const [updateUsers, { isLoading: updateUserLoading }] =
+    useUpdateUsersMutation();
 
   const profileDefaultValues: any = {
     firstName: '',
@@ -137,6 +138,7 @@ const useUserDeatilProfile = (userprofileParams: UserProfileParams) => {
     onSubmit,
     initialTab,
     addressVal: formValues?.compositeAddress,
+    updateUserLoading,
   };
 };
 
