@@ -65,7 +65,7 @@ export const Articles = (props: ChildComponentPropsI) => {
                   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
                 ]}
               >
-                <Search placeholder="Search Here" setSearchBy={setSearch} />
+                <Search label="Search Here" setSearchBy={setSearch} />
               </PermissionsGuard>
               <Box
                 display={'flex'}

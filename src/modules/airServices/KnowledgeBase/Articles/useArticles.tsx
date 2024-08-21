@@ -101,6 +101,8 @@ export const useArticles = (props: ChildComponentPropsI) => {
   };
 
   const setFolder = (folder: AutocompleteAsyncOptionsI) => {
+    if (lazyGetArticlesStatus?.isLoading || lazyGetArticlesStatus?.isFetching)
+      return;
     setSelectedArticlesTab(folder);
     setPage(PAGINATION?.CURRENT_PAGE);
   };

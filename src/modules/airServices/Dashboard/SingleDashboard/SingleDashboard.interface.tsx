@@ -7,5 +7,5 @@ export interface SingleDashboardComponentPropsI {
   departmentId?: any;
   setDepartmentId?: Dispatch<SetStateAction<any>>;
   isPreviewMode?: boolean;
-  getSingleDashboardData?: () => void;
+  getSingleDashboardData?: () => Promise<void>;
 }

@@ -1,3 +1,4 @@
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 
@@ -40,7 +41,7 @@ export const addConversationDropdownButtonDynamic = (
     permissionKey: [
       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_NOTE,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setSelectedConversationType({
         conversationType: TICKET_CONVERSATIONS_TYPE?.NOTE,
         isOpen: true,
@@ -54,7 +55,7 @@ export const addConversationDropdownButtonDynamic = (
     permissionKey: [
       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_REPLY,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setSelectedConversationType({
         conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
         isOpen: true,
@@ -68,7 +69,7 @@ export const addConversationDropdownButtonDynamic = (
     permissionKey: [
       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_FARWARD,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setSelectedConversationType({
         conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
         isOpen: true,
@@ -82,7 +83,7 @@ export const addConversationDropdownButtonDynamic = (
     permissionKey: [
       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_DISCUSSIONS,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setSelectedConversationType({
         conversationType: TICKET_CONVERSATIONS_TYPE?.DISCUSS,
         isOpen: true,

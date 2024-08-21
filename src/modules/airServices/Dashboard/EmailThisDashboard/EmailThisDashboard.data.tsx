@@ -107,7 +107,7 @@ export const createEmailThisDashboardValidationSchema: any =
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
-  isRecurring: '',
+  isRecurring: EMAIL_SEND_TYPE?.ONCE,
   email: null,
   emailSubject: '',
   message: '',
@@ -123,31 +123,11 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
 ) => {
   return [
     {
-      id: 1,
-      componentProps: {
-        color: 'slateBlue.main',
-        variant: 'h5',
-      },
-      md: 12,
-      heading: 'Is this a recurring email ?',
-      component: Typography,
-    },
-    {
-      id: 2,
-      componentProps: {
-        name: 'isRecurring',
-        row: false,
-        options: isRecurringOptions,
-      },
-      component: RHFRadioGroup,
-      md: 12,
-    },
-    {
       id: 3,
       componentProps: {
         name: 'email',
-        label: 'internalRecipients',
-        placeholder: 'Enter Recipients and press enter',
+        label: 'Internal recipients',
+        placeholder: 'Enter recipients and press enter',
         required: true,
         freeSolo: true,
         options: [],
@@ -163,7 +143,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
         label: 'Email subject',
         fullWidth: true,
         required: true,
-        placeholder: 'Email Subject',
+        placeholder: 'Write email subject',
       },
       component: RHFTextField,
       md: 12,
@@ -183,6 +163,26 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     },
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.RECURRING
       ? [
+          {
+            id: 1,
+            componentProps: {
+              color: 'slateBlue.main',
+              variant: 'h5',
+            },
+            md: 12,
+            heading: 'Is this a recurring email ?',
+            component: Typography,
+          },
+          {
+            id: 2,
+            componentProps: {
+              name: 'isRecurring',
+              row: false,
+              options: isRecurringOptions,
+            },
+            component: RHFRadioGroup,
+            md: 12,
+          },
           {
             id: 6,
             componentProps: {
@@ -224,28 +224,23 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
           },
         ]
       : []),
-
-    ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
-      ? [
-          {
-            id: 9,
-            componentProps: {
-              name: 'attachments',
-              label: 'Attach Report',
-              fullWidth: true,
-              required: true,
-              fileName: 'Attach the report',
-              fileType: `PDF and PNG only (max ${
-                FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
-              } MB)`,
-              accept: {
-                'application/pdf': ['.pdf'],
-                'image/png': ['.png', '.PNG'],
-              },
-            },
-            component: RHFDropZone,
-          },
-        ]
-      : []),
+    {
+      id: 9,
+      componentProps: {
+        name: 'attachments',
+        label: 'Attach dashboard',
+        fullWidth: true,
+        required: true,
+        fileName: 'Attach the dashboard',
+        fileType: `PDF and PNG only (max ${
+          FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
+        } MB)`,
+        accept: {
+          'application/pdf': ['.pdf'],
+          'image/png': ['.png', '.PNG'],
+        },
+      },
+      component: RHFDropZone,
+    },
   ];
 };

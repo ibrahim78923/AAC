@@ -21,6 +21,8 @@ import {
 import { useEffect } from 'react';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const useUpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
@@ -74,8 +76,8 @@ export const useUpsertAnnouncement = (
       addMember: filterEmptyValues?.addMember?.map(
         (item: AutocompleteAsyncOptionsI) => item?._id,
       ),
-      startDate: new Date(data?.startDate)?.toISOString(),
-      endDate: new Date(data?.endDate)?.toISOString(),
+      startDate: dayjs(new Date(data?.startDate))?.format(DATE_FORMAT?.API),
+      endDate: dayjs(new Date(data?.endDate))?.format(DATE_FORMAT?.API),
     };
 
     if (isPortalOpen?.data?._id) {

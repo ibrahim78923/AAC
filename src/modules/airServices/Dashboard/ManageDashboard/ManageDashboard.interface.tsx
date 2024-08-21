@@ -18,7 +18,7 @@ export interface ManageDashboardPortalComponentPropsI {
   setPage?: Dispatch<SetStateAction<number>>;
   page: number;
   totalRecords?: number | undefined;
-  getDashboardListData: (currentPage: number) => void;
+  getDashboardListData: (currentPage: number) => Promise<void>;
 }
 
 export interface ManageDashboardTableRowI {

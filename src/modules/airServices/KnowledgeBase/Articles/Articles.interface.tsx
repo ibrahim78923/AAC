@@ -56,7 +56,7 @@ export interface ArticlesTableRowI {
   _id: string;
   title?: string;
   status?: string;
-  insertedTicket: any;
+  insertedTicketsDetails: any;
   author: AutocompleteAsyncOptionsI;
   folder: AutocompleteAsyncOptionsI;
 }

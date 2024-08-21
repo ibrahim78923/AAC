@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import {
   Box,
@@ -15,6 +14,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import CustomPagination from '@/components/CustomPagination';
 import { AIR_SERVICES } from '@/constants';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const CannedResponsesList = (props: any) => {
   const { isModalOpen, setCannedResponse } = props;
@@ -28,6 +28,7 @@ export const CannedResponsesList = (props: any) => {
     setPageLimit,
     setSearch,
     closeModal,
+    refetch,
   } = useCannedResponsesList(props);
 
   return (
@@ -44,15 +45,15 @@ export const CannedResponsesList = (props: any) => {
           justifyContent={'space-between'}
           gap={1}
           flexWrap={'wrap'}
+          mb={1.5}
         >
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <Typography variant="h3" textTransform={'capitalize'}>
-              Canned Response
-            </Typography>
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => closeModal?.()}>
-            <AlertModalCloseIcon />
-          </Box>
+          <Typography variant="h4" color="slateBlue.main">
+            Canned Response
+          </Typography>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={() => closeModal?.()}
+          />
         </Box>
       </DialogTitle>
       <DialogContent>
@@ -65,7 +66,7 @@ export const CannedResponsesList = (props: any) => {
           color="inherit"
           startIcon={<AddCircleIcon color="primary" />}
           onClick={() =>
-            router?.push({ pathname: AIR_SERVICES?.UPSERT_ARTICLE })
+            router?.push({ pathname: AIR_SERVICES?.CANNED_RESPONSE_SETTINGS })
           }
           size="small"
           className="small"
@@ -75,10 +76,10 @@ export const CannedResponsesList = (props: any) => {
         {isLoading || isFetching ? (
           <SkeletonTable />
         ) : isError ? (
-          <ApiErrorState />
-        ) : !!data?.data?.cannedresponses?.length ? (
+          <ApiErrorState canRefresh refresh={() => refetch?.()} />
+        ) : !!data?.data?.responses?.length ? (
           <>
-            {data?.data?.cannedresponses?.map((cannedresponse: any) => (
+            {data?.data?.responses?.map((cannedresponse: any) => (
               <Box
                 border={'1px solid'}
                 borderColor={'custom.off_white_three'}
@@ -89,7 +90,7 @@ export const CannedResponsesList = (props: any) => {
                 key={cannedresponse?._id}
               >
                 <Typography variant="body2" color="slateBlue.main">
-                  {cannedresponse?.description}
+                  {cannedresponse?.title ?? '---'}
                 </Typography>
                 <Box mt={1}>
                   <Button
@@ -109,13 +110,13 @@ export const CannedResponsesList = (props: any) => {
               count={data?.data?.meta?.pages}
               pageLimit={data?.data?.meta?.limit}
               totalRecords={data?.data?.meta?.total}
-              onPageChange={(page: any) => setPage?.(page)}
+              onPageChange={(page: number) => setPage?.(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
             />
           </>
         ) : (
-          <NoData />
+          <NoData message="No canned response found" />
         )}
       </DialogContent>
     </Dialog>

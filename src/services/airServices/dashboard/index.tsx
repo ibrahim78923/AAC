@@ -261,4 +261,5 @@ export const {
   useDeleteServicesAnnouncementOnDashboardMutation,
   useUpdateServicesAnnouncementOnDashboardMutation,
   useGetSingleAnnouncementOnDashboardQuery,
+  useLazyGetSingleAnnouncementOnDashboardQuery,
 } = dashboardAPI;

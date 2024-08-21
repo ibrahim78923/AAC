@@ -1,12 +1,13 @@
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { errorSnackbar } from '@/utils/api';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { Dispatch, SetStateAction } from 'react';
 import { ArticlesTableRowI } from './Articles.interface';
+import { CustomChips } from '@/components/CustomChips';
 
 export const ALL_FOLDER = 'all';
 
@@ -82,7 +83,7 @@ export const articlesColumnsFunction = (
     },
     {
       accessorFn: (row: ArticlesTableRowI) => row?.title,
-      id: 'name',
+      id: 'title',
       isSortable: false,
       header: 'Article',
       cell: (info: any) => {
@@ -94,7 +95,7 @@ export const articlesColumnsFunction = (
             }
             style={{ cursor: 'pointer', fontWeight: 600 }}
           >
-            {info?.getValue()?.slice?.(0, 50)}
+            {truncateText(info?.getValue())}
           </Typography>
         );
       },
@@ -123,11 +124,27 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: ArticlesTableRowI) => row?.insertedTicket,
-      id: 'insertedTickets',
+      accessorFn: (row: ArticlesTableRowI) => row?.insertedTicketsDetails,
+      id: 'insertedTicketsDetails',
       isSortable: true,
       header: `Inserted Tickets`,
-      cell: (info: any) => info?.getValue()?.[0] ?? '---',
+      cell: (info: any) =>
+        !!info?.getValue()?.length ? (
+          <CustomChips
+            data={info?.getValue()?.map((item: any) => ({
+              label: item?.subject,
+              _id: item?._id,
+            }))}
+          />
+        ) : (
+          <Chip
+            size="small"
+            label="---"
+            variant="filled"
+            color={'primary'}
+            sx={{ mx: 0.5, my: 0.5 }}
+          />
+        ),
     },
     {
       accessorFn: (row: ArticlesTableRowI) => row?.author,
@@ -144,7 +161,7 @@ export const articlesColumnsFunction = (
       header: 'Folder',
       cell: (info: any) => (
         <Typography variant={'body2'} textTransform={'capitalize'}>
-          {info?.getValue()?.name ?? '---'}
+          {truncateText(info?.getValue()?.name ?? '---')}
         </Typography>
       ),
     },

@@ -509,6 +509,13 @@ export const AirOperationsRoutes: any = [
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
+    key: AIR_OPERATION?.REPORTS,
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_OPERATION_REPORTS,
+  },
+  {
     key: AIR_OPERATION?.ROLE_AND_RIGHT,
     icon: ForecastImage,
     label: 'Roles and Right',
@@ -521,13 +528,6 @@ export const AirOperationsRoutes: any = [
     label: 'User Management',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
-  },
-  {
-    key: AIR_OPERATION?.REPORTS,
-    icon: ReportsImage,
-    label: 'Reports',
-    role: 'AIR_OPERATIONS',
-    permissions: Permissions?.AIR_OPERATION_REPORTS,
   },
 ];
 
