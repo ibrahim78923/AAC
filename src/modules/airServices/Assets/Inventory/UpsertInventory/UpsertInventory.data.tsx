@@ -52,15 +52,11 @@ export const upsertInventoryFieldsDefaultValuesFunction = (
     displayName: data?.displayName ?? '',
     assetType: data?.assetTypeDetails ?? null,
     impact: data?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry:
-      typeof data?.assetLifeExpiry === 'string'
-        ? new Date(data?.assetLifeExpiry ?? todayDate)
-        : new Date(),
+    assetLifeExpiry: new Date(data?.assetLifeExpiry ?? todayDate),
     description: data?.description ?? '',
     location: data?.locationDetails ?? null,
     department: data?.departmentDetails ?? null,
-    assignedOn:
-      typeof data?.assignedOn === 'string' ? new Date(data?.assignedOn) : null,
+    assignedOn: new Date(data?.assignedOn ?? todayDate),
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
     ...initialValues,

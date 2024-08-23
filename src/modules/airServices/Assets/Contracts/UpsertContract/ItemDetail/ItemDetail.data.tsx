@@ -32,6 +32,9 @@ export const itemDetailFormFieldsFunction = (
         name={`${name}.${index}.priceModel`}
         size="small"
         options={priceModelOptions}
+        isOptionEqualToValue={(option: any, newValue: any) =>
+          option === newValue
+        }
         fullWidth={true}
         sx={{ minWidth: '12rem' }}
         placeholder="Select Price Model"
