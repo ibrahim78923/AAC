@@ -113,11 +113,13 @@ export const Users = () => {
               onClick={userActionDropdownCloseHandler}
               variant="outlined"
               color="secondary"
+              disabled={deAllocateLoading || allocateLoading || removeLoading}
             >
               No
             </LoadingButton>
             <LoadingButton
               variant="contained"
+              disabled={deAllocateLoading || allocateLoading || removeLoading}
               loading={deAllocateLoading || allocateLoading || removeLoading}
               onClick={
                 selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE

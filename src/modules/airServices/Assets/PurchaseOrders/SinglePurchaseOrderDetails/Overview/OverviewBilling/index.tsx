@@ -9,7 +9,7 @@ const OverviewBilling = ({
   const purchaseOrderDetail = purchaseOrderDetailData?.[0];
   const subTotal = purchaseOrderData?.subTotal || 0;
   const discount = purchaseOrderData?.discount || 0;
-  const taxRate = purchaseOrderDetail?.taxRate || 0;
+  const taxRate = purchaseOrderData?.taxRate || 0;
   const shipping = purchaseOrderData?.shipping || 0;
   const total =
     subTotal -

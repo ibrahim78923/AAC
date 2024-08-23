@@ -116,10 +116,6 @@ export const useUpsertInventory = () => {
     description: filledFormValues?.description ?? '',
     locationDetails: filledFormValues?.location ?? null,
     departmentDetails: filledFormValues?.department ?? null,
-    assignedOn:
-      typeof filledFormValues?.assignedOn === 'string'
-        ? new Date(filledFormValues?.assignedOn)
-        : null,
     usedByDetails: filledFormValues?.usedBy ?? null,
     fileUrl: null,
   };

@@ -66,6 +66,7 @@ export const itemDetailFormFieldsFunction = (
           required
           control={control}
           size="small"
+          placeholder="Enter Received"
         />
       ),
     },

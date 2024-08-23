@@ -26,6 +26,7 @@ export const AddExpense = ({
     onAddExpenseSubmit: (data: any) => Promise<void>;
     handleAddExpenseModal: (isOpen?: boolean) => void;
     isLoadingExpense: boolean;
+    patchExpenseProgress: any;
   };
 }) => {
   const {
@@ -35,6 +36,7 @@ export const AddExpense = ({
     isAddExpenseModalOpen,
     handleAddExpenseModal,
     isLoadingExpense,
+    patchExpenseProgress,
   } = addExpenseProps;
 
   return (
@@ -102,14 +104,15 @@ export const AddExpense = ({
                   onClick={() => handleAddExpenseModal?.()}
                   variant="outlined"
                   color="secondary"
-                  disabled={isLoadingExpense}
+                  disabled={isLoadingExpense || patchExpenseProgress?.isLoading}
                 >
                   Cancel
                 </LoadingButton>
                 <LoadingButton
                   type="submit"
                   variant="contained"
-                  disabled={isLoadingExpense}
+                  disabled={isLoadingExpense || patchExpenseProgress?.isLoading}
+                  loading={isLoadingExpense || patchExpenseProgress?.isLoading}
                 >
                   save
                 </LoadingButton>

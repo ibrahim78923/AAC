@@ -85,6 +85,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
     componentProps: {
       name: 'displayName',
       label: 'Display name',
+      placeholder: 'Enter Display Name',
       required: true,
     },
     component: RHFTextField,
@@ -119,6 +120,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter Description',
       style: { height: pxToRem(200) },
     },
     component: RHFEditor,
@@ -156,6 +158,7 @@ export const upsertInventoryFormFieldsSecond = (
     componentProps: {
       name: 'location',
       label: 'Location',
+      placeholder: 'Select Location',
       apiQuery: apiQueryLocationType,
       getOptionLabel: (option: any) => option?.locationName,
     },
@@ -167,6 +170,7 @@ export const upsertInventoryFormFieldsSecond = (
     componentProps: {
       name: 'department',
       label: 'Department',
+      placeholder: 'Select Department',
       apiQuery: apiQueryDepartmentType,
     },
     component: RHFAutocompleteAsync,

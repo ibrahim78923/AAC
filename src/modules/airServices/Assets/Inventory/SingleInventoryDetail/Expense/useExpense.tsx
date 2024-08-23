@@ -68,7 +68,8 @@ export const useExpense = () => {
   };
   const [postExpenseTrigger, postExpenseProgress] =
     usePostInventoryExpenseMutation();
-  const [patchExpenseTrigger] = usePatchInventoryExpenseMutation();
+  const [patchExpenseTrigger, patchExpenseProgress] =
+    usePatchInventoryExpenseMutation();
   const isLoadingExpense = postExpenseProgress?.isLoading;
   const onAddExpenseSubmit = async (data: any) => {
     if (addExpenseModalTitle === UPDATE_EXPENSE) {
@@ -154,6 +155,7 @@ export const useExpense = () => {
     onAddExpenseSubmit,
     handleAddExpenseModal,
     isLoadingExpense,
+    patchExpenseProgress,
   };
 
   const actionProps = {

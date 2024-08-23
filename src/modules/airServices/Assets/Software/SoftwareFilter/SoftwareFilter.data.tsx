@@ -49,6 +49,7 @@ export const softwareFilterDataArray = [
     componentProps: {
       name: 'category',
       label: 'Category',
+      placeholder: 'Enter Category',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -59,6 +60,7 @@ export const softwareFilterDataArray = [
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
+      placeholder: 'Enter Publisher',
       fullWidth: true,
     },
     component: RHFTextField,

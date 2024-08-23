@@ -42,6 +42,7 @@ export const AssociationsDrawer = (props: any) => {
         isLoading={postRemoveAssociateTicketsStatus?.isLoading}
         okText="Associate"
         isDisabled={!selectedTicketList?.length}
+        disabledCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
       >
         <>
           <Search

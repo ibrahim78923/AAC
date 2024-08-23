@@ -51,6 +51,7 @@ export const SoftwareAssignCategory: React.FC<SoftwareAssignCategoryI> = (
           <RHFTextField
             name="category"
             size="small"
+            placeholder="Enter Category"
             required
             fullWidth
             label="Category"

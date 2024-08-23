@@ -65,6 +65,7 @@ export const UsersAdd = () => {
             onClick={closeModal}
             color="secondary"
             variant={'outlined'}
+            disabled={isLoading}
           >
             Cancel
           </LoadingButton>
@@ -73,6 +74,7 @@ export const UsersAdd = () => {
             color="primary"
             variant={'contained'}
             loading={isLoading}
+            disabled={isLoading}
           >
             Add
           </LoadingButton>

@@ -30,6 +30,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     componentProps: {
       name: 'name',
       label: 'Name',
+      placeholder: 'Enter Name',
     },
     component: RHFTextField,
   },
@@ -38,6 +39,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     componentProps: {
       name: 'department',
       label: 'Department',
+      placeholder: 'Select Department',
       apiQuery: apiQueryDepartment,
     },
     component: RHFAutocompleteAsync,
@@ -47,6 +49,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     componentProps: {
       name: 'assignedDate',
       label: 'Assigned Date',
+      placeholder: 'Select Date',
       options: dropdownOptions,
     },
     component: RHFAutocomplete,
@@ -57,6 +60,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     componentProps: {
       name: 'firstSeen',
       label: 'First Seen',
+      placeholder: 'Select Date',
       options: dropdownOptions,
     },
     component: RHFAutocomplete,
@@ -66,6 +70,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
     componentProps: {
       name: 'lastSeen',
       label: 'Last Seen',
+      placeholder: 'Select Date',
       options: dropdownOptions,
     },
     component: RHFAutocomplete,

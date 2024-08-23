@@ -18,6 +18,7 @@ export const addUserData = (userDropdown: any, contractDropdown: any) => [
       name: 'user',
       label: 'User',
       fullWidth: true,
+      placeholder: 'Select User',
       apiQuery: userDropdown,
       required: true,
       getOptionLabel: (option: any) =>
@@ -32,6 +33,7 @@ export const addUserData = (userDropdown: any, contractDropdown: any) => [
     componentProps: {
       name: 'contract',
       label: 'Contract',
+      placeholder: 'Select Contract',
       fullWidth: true,
       apiQuery: contractDropdown,
       getOptionLabel: (option: any) => option?.name,

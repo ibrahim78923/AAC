@@ -45,6 +45,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
     componentProps: {
       name: 'name',
       label: 'Name',
+      placeholder: 'Enter Name',
       fullWidth: true,
       required: true,
     },
@@ -69,6 +70,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
     componentProps: {
       name: 'status',
       label: 'Status',
+      placeholder: 'Select Status',
       fullWidth: true,
       required: true,
       options: softwareStatusOptions,
@@ -81,6 +83,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
     componentProps: {
       name: 'type',
       label: 'Type',
+      placeholder: 'Select Type',
       fullWidth: true,
       required: true,
       options: softwareTypeOptions,
@@ -93,6 +96,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
+      placeholder: 'Enter Publisher',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -103,6 +107,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
     componentProps: {
       name: 'category',
       label: 'Category',
+      placeholder: 'Enter Category',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -113,6 +118,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
     componentProps: {
       name: 'managedBy',
       label: 'Managed By',
+      placeholder: 'Select User',
       fullWidth: true,
       apiQuery: userQuery,
       getOptionLabel: (option: any) =>

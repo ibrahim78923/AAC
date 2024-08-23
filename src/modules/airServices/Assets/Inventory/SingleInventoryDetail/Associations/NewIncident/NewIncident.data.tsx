@@ -126,6 +126,7 @@ export const newIncidentFormFieldsDynamic = (
     componentProps: {
       name: 'subject',
       label: 'Subject',
+      placeholder: 'Enter Subject',
       fullWidth: true,
       required: true,
     },
@@ -136,6 +137,7 @@ export const newIncidentFormFieldsDynamic = (
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter Description',
       fullWidth: true,
       required: true,
       style: { height: '250px' },
