@@ -1,4 +1,4 @@
-import { EMAILS_MARKETING } from '@/routesConstants/endpoints';
+import { EMAILS_MARKETING, END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['EMAIL_TEMPLATES'];
 export const emailTemplatesApi = baseAPI.injectEndpoints({
@@ -40,7 +40,16 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
-    deleteEmailTemplate: builder.mutation({
+    duplicateEmail: builder.mutation({
+      query: ({ id }: any) => {
+        return {
+          url: `${EMAILS_MARKETING?.DUPLICATE_EMAIL}?id=${id}`,
+          method: 'PATCH',
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    deleteEmailMarketing: builder.mutation({
       query: ({ ids }: any) => {
         return {
           url: `${EMAILS_MARKETING?.DELETE_EMAIL}?ids=${ids}`,
@@ -49,13 +58,38 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+
+    getEmailFolders: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${EMAILS_MARKETING?.GET_ALL_FOLDERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.emailfolders;
+      },
+    }),
+
+    getUsers: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.PRODUCT_ALL_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
 export const {
   useGetEmailMarketingListQuery,
   usePostEmailTemplatesMutation,
-  useDeleteEmailTemplateMutation,
   useUpdateEmailTemplatesMutation,
   useGetEmailMarketingByIdQuery,
+  useLazyGetEmailFoldersQuery,
+  useDuplicateEmailMutation,
+  useDeleteEmailMarketingMutation,
+  useLazyGetUsersQuery,
 } = emailTemplatesApi;

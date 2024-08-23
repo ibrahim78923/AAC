@@ -6,7 +6,6 @@ import { deviceTypes } from './PreviewTemplate.data';
 import { TEMPLATE_VIEW_TYPES } from '@/constants';
 import { PreviewTemplatePropsI } from './previewTemplate.interface';
 import { styles } from './PreviewTemplates.styles';
-import { generateHTML } from '@/utils/emailTemplate';
 
 const PreviewTemplate = ({
   setOpenModal,
@@ -18,11 +17,6 @@ const PreviewTemplate = ({
   const handleChange = (newValue: string) => {
     setValue(newValue);
   };
-
-  const generatedHTML = generateHTML(
-    fields,
-    value === TEMPLATE_VIEW_TYPES?.MOBILE,
-  );
 
   return (
     <Box>
@@ -82,10 +76,7 @@ const PreviewTemplate = ({
         }
       >
         {fields?.length > 0 ? (
-          <Box
-            sx={{ mt: 2 }}
-            dangerouslySetInnerHTML={{ __html: generatedHTML }}
-          />
+          <Box sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: fields }} />
         ) : (
           <Box sx={{ margin: '0 auto', mt: 2, textAlign: 'center' }}>
             No Preview Available{' '}

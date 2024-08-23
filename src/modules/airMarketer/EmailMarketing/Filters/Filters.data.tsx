@@ -1,45 +1,48 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+} from '@/components/ReactHookForm';
+import { getActiveProductSession } from '@/utils';
 
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  users: Yup?.string()?.required('Field is Required'),
-  createdDate: Yup?.string()?.trim()?.required('Field is Required'),
+  users: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = {
-  users: '',
+  users: null,
   createdDate: null,
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'users',
-      label: 'Users',
-      fullWidth: true,
-      select: true,
+export const dataArray = (apiQueryUsers: any) => {
+  const ActiveProduct = getActiveProductSession();
+
+  return [
+    {
+      id: 51,
+      componentProps: {
+        fullWidth: true,
+        name: 'users',
+        label: 'Users',
+        placeholder: 'Select',
+        externalParams: { product: ActiveProduct?._id, meta: false },
+        getOptionLabel: (option: any) =>
+          `${option?.userData?.firstName} ${option?.userData?.lastName} `,
+        renderOption: (option: any) =>
+          `${option?.userData?.firstName} ${option?.userData?.lastName}`,
+        apiQuery: apiQueryUsers,
+      },
+      component: RHFAutocompleteAsync,
     },
-
-    options: [
-      { value: 'admin', label: 'Admin' },
-      { value: 'albertPaul', label: 'Albert Paul' },
-      { value: 'nickJames', label: 'Nick James' },
-      { value: 'robertFox', label: 'Robert Fox' },
-    ],
-
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Created Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'createdDate',
+        label: 'Created Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-
-    component: RHFDatePicker,
-
-    md: 12,
-  },
-];
+  ];
+};

@@ -1,5 +1,3 @@
-import { Field } from '../FormBuilder/interface';
-
 export interface PreviewDataItemI {
   _id?: string;
   type?: string;
@@ -16,6 +14,6 @@ export interface PreviewDataItemI {
 
 export interface PreviewTemplatePropsI {
   setOpenModal?: (open: boolean) => void;
-  fields: Field[];
+  fields: string;
   minifyPreview?: boolean;
 }

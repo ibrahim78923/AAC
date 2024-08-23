@@ -527,6 +527,8 @@ export const EMAILS_MARKETING = {
   CREATE_EMAIL: '/emails-marketing/create-email',
   UPDATE_EMAIL: '/emails-marketing/update-email',
   DELETE_EMAIL: '/emails-marketing/delete-email',
+  GET_ALL_FOLDERS: '/emails-marketing/get-all-folders',
+  DUPLICATE_EMAIL: '/emails-marketing/duplicate-email',
 };
 
 export const superAdminBillingInvoices = {

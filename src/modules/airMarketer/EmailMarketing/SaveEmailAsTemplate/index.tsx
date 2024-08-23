@@ -16,8 +16,12 @@ import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
 import { styles } from '../ManageAccess/ManageAccess.style';
 import { FeaturedIcon } from '@/assets/icons';
+import { usePostEmailMarketingTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import { LoadingButton } from '@mui/lab';
 
 const SaveEmailAsTemplate = ({
+  handleReset,
+  selectedRecords,
   openSaveEmailAsTemplateModal,
   handleCloseSaveEmailAsTemplateModal,
 }: any) => {
@@ -28,11 +32,26 @@ const SaveEmailAsTemplate = ({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    handleCloseSaveEmailAsTemplateModal();
-    enqueueSnackbar('Move To Folder Added Successfully', {
-      variant: 'success',
-    });
+  const [postEmailTemplate, { isLoading: loadingPostTemplate }] =
+    usePostEmailMarketingTemplatesMutation();
+
+  const onSubmit = async (values: any) => {
+    const payload = {
+      name: values?.templateTitle,
+      html: selectedRecords?.message,
+    };
+    try {
+      await postEmailTemplate({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Template added successful ', {
+        variant: 'success',
+      });
+      handleReset();
+      handleCloseSaveEmailAsTemplateModal();
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
   };
 
   return (
@@ -42,6 +61,7 @@ const SaveEmailAsTemplate = ({
         handleClose={handleCloseSaveEmailAsTemplateModal}
         handleCancel={handleCloseSaveEmailAsTemplateModal}
         handleSubmit={handleCloseSaveEmailAsTemplateModal}
+        isLoading={loadingPostTemplate}
         title={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'inline-flex' }} component={'span'}>
@@ -83,9 +103,14 @@ const SaveEmailAsTemplate = ({
               >
                 Cancel
               </Button>
-              <Button variant="contained" type="submit" onClick={handleSubmit}>
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                onClick={handleSubmit}
+                loading={loadingPostTemplate}
+              >
                 Save
-              </Button>
+              </LoadingButton>
             </Box>
           </FormProvider>
         </Box>

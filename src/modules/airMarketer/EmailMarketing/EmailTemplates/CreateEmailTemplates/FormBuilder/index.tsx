@@ -1,7 +1,4 @@
-import { useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import FormField from './FormField';
-import FormControls from './FormControls';
 import {
   Autocomplete,
   Box,
@@ -13,15 +10,12 @@ import {
   useTheme,
 } from '@mui/material';
 import { styles } from './styles';
-import { isNullOrEmpty } from '@/utils';
 import { BackArrowIcon } from '@/assets/icons';
-import { Field } from './interface';
-import { fieldTypes, ItemTypes } from '@/constants/form-builder';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
 import CustomLabel from '@/components/CustomLabel';
 import {
-  usePostEmailTemplatesMutation,
+  usePostEmailMarketingTemplatesMutation,
   usePostEmailWithTemplatesMutation,
   useUpdateEmailTemplatesMutation,
 } from '@/services/airMarketer/emailTemplates';
@@ -30,16 +24,21 @@ import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { emailTemplateSendValidationSchema } from './FormFields.data';
-import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
+import {
+  emailTemplateSendValidationSchema,
+  emailTemplateValidationSchema,
+} from './FormFields.data';
+import {
+  RHFCheckbox,
+  RHFImageEditor,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as yup from 'yup';
 import { FormProvider } from '@/components/ReactHookForm';
-import { generateHTML } from '@/utils/emailTemplate';
 import { LoadingButton } from '@mui/lab';
+import { EMAIL_ENUMS } from '@/constants';
 
 const FormBuilder = ({
-  fields,
-  setFields,
   titleValue,
   setTitleValue,
   setOpenModal,
@@ -47,6 +46,7 @@ const FormBuilder = ({
   templateId,
   isSend,
   data,
+  setEditorValueGet,
 }: any) => {
   const theme = useTheme();
 
@@ -55,134 +55,46 @@ const FormBuilder = ({
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
 
-  const handleDrop = (item: any) => {
-    if (!item?.type) return;
-
-    const newField: Field = {
-      _id: uuidv4(),
-      type: item?.type,
-      name: `field-${fields?.length + 1}`,
-      label: `Label ${item?.type}`,
-      value:
-        item.type === fieldTypes?.text || item.type === fieldTypes?.textarea
-          ? ''
-          : undefined,
-      values:
-        item?.type === fieldTypes?.select
-          ? [
-              { label: 'Option 1', value: 'option-1', selected: false },
-              { label: 'Option 2', value: 'option-2', selected: false },
-            ]
-          : undefined,
-      required: false,
-      space: item?.type === fieldTypes?.space ? 20 : undefined,
-      dividerWidth: item?.type === fieldTypes?.divider ? 1 : undefined,
-      dividerColor:
-        item?.type === fieldTypes?.divider
-          ? theme?.palette?.custom?.light_lavender_gray
-          : undefined,
-      buttonType: item?.type === fieldTypes?.button ? 'submit' : undefined,
-      buttonText: item?.type === fieldTypes?.button ? 'Submit' : undefined,
-    };
-    setFields([...fields, newField]);
-  };
-
   const [isTitleModal, setIsTitleModal] = useState(false);
 
-  const [, drop] = useDrop({
-    accept: ItemTypes.FIELD,
-    drop: (item: any, monitor) => {
-      const didDropInside = monitor.didDrop();
-      if (!didDropInside && item.source === 'control') {
-        handleDrop(item);
-      }
-    },
+  const createTemplateMethods: any = useForm({
+    resolver: yupResolver(emailTemplateValidationSchema),
+    defaultValues: {},
   });
+  const {
+    handleSubmit: createTemplateSubmit,
+    watch: watchCreateEmail,
+    setValue,
+  } = createTemplateMethods;
+  const watchEditor = watchCreateEmail(['emailTemplate']);
 
-  const moveField = (dragIndex: number, hoverIndex: number) => {
-    const draggedField = fields[dragIndex];
-    const updatedFields = [...fields];
-    updatedFields.splice(dragIndex, 1);
-    updatedFields.splice(hoverIndex, 0, draggedField);
-    setFields(updatedFields);
-  };
-
-  const handleRemove = (id?: string) => {
-    setFields(fields.filter((field: any) => field?._id !== id));
-  };
-
-  const handleFieldChange = (
-    id: string,
-    updatedField: Partial<Field>,
-    deleteOption?: string,
-  ) => {
-    setFields((prevFields: Field[]) =>
-      prevFields.map((field: Field) => {
-        if (field?._id === id) {
-          if (deleteOption) {
-            return {
-              ...field,
-              values: field?.values?.filter(
-                (opt) => opt.value !== deleteOption,
-              ),
-            };
-          } else {
-            return { ...field, ...updatedField };
-          }
-        }
-        return field;
-      }),
-    );
-  };
-
-  const addOption = (id: string) => {
-    setFields((prevFields: Field[]) =>
-      prevFields.map((field: any) => {
-        if (field._id === id) {
-          return {
-            ...field,
-            values: [
-              ...field?.values,
-              {
-                label: `Option ${field?.values?.length + 1}`,
-                value: `option-${field?.values?.length + 1}`,
-                selected: false,
-              },
-            ],
-          };
-        }
-        return field;
-      }),
-    );
-  };
+  const editorValue = watchEditor[0];
 
   const handelPostTemplateProcess = () => {
-    if (fields.length > 0) {
+    if (editorValue && editorValue?.length) {
       if (isSend) {
         handelSubmitEmail();
       } else {
         setIsTitleModal(true);
       }
     } else {
-      enqueueSnackbar('Nothing to post!', {
+      enqueueSnackbar('Email template must not be empty', {
         variant: 'error',
       });
     }
   };
 
-  const [postEmailTemplate, { isLoading: loadingPostTemplate }] =
-    usePostEmailTemplatesMutation();
+  const [postEmailMarketingTemplate, { isLoading: loadingPostTemplate }] =
+    usePostEmailMarketingTemplatesMutation();
   const [postEmailWithTemplates, { isLoading: loadingPostEmailTemplate }] =
     usePostEmailWithTemplatesMutation();
   const [updateEmailTemplate, { isLoading: loadingUpdateTemplate }] =
     useUpdateEmailTemplatesMutation();
 
-  const generatedHTML = generateHTML(fields, false);
-
   const handelPostTemplate = async (values: any) => {
     const payload = {
       name: titleValue,
-      data: fields,
+      html: editorValue,
     };
 
     if (isSend) {
@@ -192,7 +104,9 @@ const FormBuilder = ({
         autocompleteValues ? autocompleteValues.join(',') : '',
       );
       formDataSend.append('subject', values?.subject);
-      formDataSend.append('content', generatedHTML?.toString() || ' ');
+      formDataSend.append('content', editorValue);
+      formDataSend.append('from', values?.from);
+      formDataSend.append('status', EMAIL_ENUMS?.SENT);
 
       if (values?.cc?.length) {
         formDataSend.append('cc', values?.cc);
@@ -233,7 +147,7 @@ const FormBuilder = ({
 
     if (!isEditMode) {
       try {
-        await postEmailTemplate({
+        await postEmailMarketingTemplate({
           body: payload,
         })?.unwrap();
         enqueueSnackbar('Template created successfully', {
@@ -266,6 +180,7 @@ const FormBuilder = ({
     }
   };
   const isValidEmails = checkEmails(autocompleteValues);
+
   const methods: any = useForm({
     resolver: yupResolver(emailTemplateSendValidationSchema),
     defaultValues: {},
@@ -277,10 +192,17 @@ const FormBuilder = ({
   const onSubmit = (values: any) => {
     handelPostTemplate(values);
   };
-
   const handelSubmitEmail = () => {
     handleSubmit(onSubmit);
   };
+
+  useEffect(() => {
+    setValue('emailTemplate', data?.html);
+  }, [data]);
+
+  useEffect(() => {
+    setEditorValueGet(editorValue);
+  }, [editorValue]);
 
   return (
     <Box sx={styles?.wrapper}>
@@ -473,46 +395,21 @@ const FormBuilder = ({
               </FormProvider>
             )}
 
-            <Box sx={styles?.contentPaper}>
-              <Box ref={drop} sx={styles?.dropZone}>
-                {isNullOrEmpty(fields) && (
-                  <Box
-                    sx={{
-                      border: `1px dashed ${theme?.palette?.grey[900]}`,
-                      borderRadius: '8px',
-                      height: '180px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      Drag and Drop the content to build your own custom Form
-                    </Typography>
-                  </Box>
-                )}
-                {fields.map((field: Field, index: number) => {
-                  return (
-                    <FormField
-                      id={field?._id}
-                      key={field?._id}
-                      index={index}
-                      field={field}
-                      onRemove={handleRemove}
-                      onChange={handleFieldChange}
-                      addOption={addOption}
-                      moveField={moveField}
-                      source="form"
-                    />
-                  );
-                })}
-              </Box>
+            <Box>
+              <FormProvider
+                methods={createTemplateMethods}
+                onSubmit={createTemplateSubmit(onSubmit)}
+              >
+                <Box pb={1.4}>
+                  <RHFImageEditor
+                    name="emailTemplate"
+                    style={{ height: 600 }}
+                    placeholder="Enter Email Text"
+                    disabled={false}
+                  />
+                </Box>
+              </FormProvider>
             </Box>
-          </Box>
-        </Grid>
-        <Grid item lg={4}>
-          <Box sx={styles?.sideBar}>
-            <FormControls />
           </Box>
         </Grid>
       </Grid>

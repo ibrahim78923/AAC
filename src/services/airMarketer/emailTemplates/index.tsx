@@ -21,7 +21,7 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
-    postEmailTemplates: builder.mutation({
+    postEmailMarketingTemplates: builder.mutation({
       query: ({ body }: any) => {
         return {
           url: `${EMAIL_TEMPLATES?.POST_TEMPLATES}`,
@@ -65,7 +65,7 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
 
 export const {
   useGetEmailTemplatesQuery,
-  usePostEmailTemplatesMutation,
+  usePostEmailMarketingTemplatesMutation,
   useGetEmailTemplatesByIDQuery,
   useUpdateEmailTemplatesMutation,
   useDeleteEmailTemplatesMutation,

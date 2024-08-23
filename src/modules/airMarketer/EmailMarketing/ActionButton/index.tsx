@@ -16,13 +16,15 @@ import ManageAccess from '../ManageAccess';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { enqueueSnackbar } from 'notistack';
-import {
-  useDeleteEmailTemplateMutation,
-  useUpdateEmailTemplatesMutation,
-} from '@/services/airMarketer/emailMarketing';
-import { EMAIL_ENUMS, indexNumbers } from '@/constants';
 
-const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
+import { EMAIL_ENUMS, indexNumbers } from '@/constants';
+import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import {
+  useDeleteEmailMarketingMutation,
+  useDuplicateEmailMutation,
+} from '@/services/airMarketer/emailMarketing';
+
+const ActionButton = ({ selectedRecords, handleReset }: any) => {
   const {
     selectedValue,
     handleClick,
@@ -32,9 +34,11 @@ const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
   } = useEmailMarketing();
 
   const [deleteEmailTemplate, { isLoading: loadingEmailTemplate }] =
-    useDeleteEmailTemplateMutation();
+    useDeleteEmailMarketingMutation();
   const [updateEmailTemplate, { isLoading: loadingUpdateEmailTemplate }] =
     useUpdateEmailTemplatesMutation();
+  const [duplicateEmail, { isLoading: loadingDuplicateEmail }] =
+    useDuplicateEmailMutation();
 
   const handelDeleteRecords = async () => {
     const selectedIds = selectedRecords?.map((record: any) => record?._id);
@@ -45,7 +49,7 @@ const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
       enqueueSnackbar('Mail permanently deleted', {
         variant: 'success',
       });
-      setSelectedRecords([]);
+      handleReset();
       setActionsModalDetails({
         ...actionsModalDetails,
         isDelete: false,
@@ -66,10 +70,28 @@ const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
       enqueueSnackbar('Request Successful', {
         variant: 'success',
       });
-      setSelectedRecords([]);
+      handleReset();
       setActionsModalDetails({
         ...actionsModalDetails,
         isArchive: false,
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+  const handleDuplicate = async () => {
+    const selectedIds = selectedRecords[indexNumbers?.ZERO];
+    try {
+      await duplicateEmail({
+        id: selectedIds?._id,
+      })?.unwrap();
+      enqueueSnackbar('Request Successful', {
+        variant: 'success',
+      });
+      handleReset();
+      setActionsModalDetails({
+        ...actionsModalDetails,
+        isDuplicate: false,
       });
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -151,18 +173,14 @@ const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
             type="Information"
             typeImage={<InfoBlueIcon />}
             open={actionsModalDetails?.isDuplicate}
+            loading={loadingDuplicateEmail}
             handleClose={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,
                 isDuplicate: false,
               })
             }
-            handleSubmitBtn={() =>
-              setActionsModalDetails({
-                ...actionsModalDetails,
-                isDuplicate: false,
-              })
-            }
+            handleSubmitBtn={handleDuplicate}
           />
         </PermissionsGuard>
       )}
@@ -196,6 +214,8 @@ const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
         >
           <MoveToFolder
             openMoveToFolderModal={actionsModalDetails?.isMoveToFolder}
+            selectedRecords={selectedRecords[indexNumbers?.ZERO]}
+            handleReset={handleReset}
             handleCloseMoveToFolderModal={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,
@@ -224,6 +244,8 @@ const ActionButton = ({ selectedRecords, setSelectedRecords }: any) => {
           ]}
         >
           <SaveEmailAsTemplate
+            handleReset={handleReset}
+            selectedRecords={selectedRecords[indexNumbers?.ZERO]}
             openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
             handleCloseSaveEmailAsTemplateModal={() =>
               setActionsModalDetails({

@@ -1,31 +1,28 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaMoveToFolder = Yup?.object()?.shape({
-  chooseFolder: Yup?.string()?.trim()?.required('Field is Required'),
+  chooseFolder: Yup?.mixed()?.nullable()?.required('Requester is required'),
 });
 
 export const defaultValuesMoveToFolder = {
-  chooseFolder: '',
+  chooseFolder: null,
 };
 
-export const dataArrayMoveToFolder = [
-  {
-    componentProps: {
-      name: 'chooseFolder',
-      label: 'Folder',
-      fullWidth: true,
-      isCheckBox: true,
-      options: [
-        { value: 'myPersonalEmails', label: 'My Personal Emails' },
-        { value: 'salesTeam', label: 'Sales Team' },
-        { value: 'consultantEra', label: 'Consultant Era' },
-        { value: 'managementHub', label: 'Management Hub' },
-      ],
+export const dataArrayMoveToFolder = (apiQueryFolders?: any) => {
+  return [
+    {
+      id: 51,
+      componentProps: {
+        fullWidth: true,
+        name: 'chooseFolder',
+        label: 'Folder',
+        placeholder: 'Choose folder',
+        getOptionLabel: (option: any) => `${option?.name} `,
+        renderOption: (option: any) => `${option?.name}`,
+        apiQuery: apiQueryFolders,
+      },
+      component: RHFAutocompleteAsync,
     },
-
-    component: RHFSelect,
-
-    md: 12,
-  },
-];
+  ];
+};

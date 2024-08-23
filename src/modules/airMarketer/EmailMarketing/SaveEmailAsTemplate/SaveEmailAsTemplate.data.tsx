@@ -1,29 +1,23 @@
-import { RHFSearchableSelect } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaSaveEmailAsTemplate = Yup?.object()?.shape({
-  chooseTemplate: Yup?.string()?.trim()?.required('Field is Required'),
+  templateTitle: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValuesSaveEmailAsTemplate = {
-  chooseTemplate: '',
+  templateTitle: '',
 };
 
 export const dataArraySaveEmailAsTemplate = [
   {
     componentProps: {
-      name: 'chooseTemplate',
-      label: 'Template  ',
+      name: 'templateTitle',
+      label: 'Template Title  ',
       fullWidth: true,
       isCheckBox: true,
-      options: [
-        { value: 'busniessConsultant', label: 'Busniess Consultant' },
-        { value: 'salesTeam', label: 'Sales Team' },
-        { value: 'consultantEra', label: 'Consultant Era' },
-        { value: 'managementHub', label: 'Management Hub' },
-      ],
     },
-    component: RHFSearchableSelect,
+    component: RHFTextField,
     md: 12,
   },
 ];

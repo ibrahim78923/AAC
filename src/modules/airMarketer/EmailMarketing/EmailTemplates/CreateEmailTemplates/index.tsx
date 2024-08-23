@@ -66,10 +66,9 @@ const CreateTemplatesForm = () => {
     send = router?.query?.send;
   }
 
+  const [editorValueGet, setEditorValueGet] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSend, setIsSend] = useState(false);
-
-  const [fields, setFields] = useState<any>([]);
   const [titleValue, setTitleValue] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
@@ -84,7 +83,6 @@ const CreateTemplatesForm = () => {
 
   useEffect(() => {
     if (data?.data) {
-      setFields(data?.data?.data);
       setTitleValue(data?.data?.name);
     }
   }, [data?.data]);
@@ -156,8 +154,6 @@ const CreateTemplatesForm = () => {
           <Box sx={{ pt: 2 }}>
             <DndProvider backend={HTML5Backend}>
               <FormBuilder
-                fields={fields}
-                setFields={setFields}
                 titleValue={titleValue}
                 setTitleValue={setTitleValue}
                 setOpenModal={setOpenModal}
@@ -165,6 +161,7 @@ const CreateTemplatesForm = () => {
                 templateId={templateId}
                 isSend={isSend}
                 data={data?.data}
+                setEditorValueGet={setEditorValueGet}
               />
             </DndProvider>
           </Box>
@@ -463,7 +460,10 @@ const CreateTemplatesForm = () => {
         }}
       >
         <Box sx={styles?.parentBox(theme)}>
-          <PreviewTemplate setOpenModal={setOpenModal} fields={fields ?? []} />
+          <PreviewTemplate
+            setOpenModal={setOpenModal}
+            fields={editorValueGet}
+          />
         </Box>
       </Modal>
     </>
