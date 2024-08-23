@@ -118,6 +118,17 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    contractTypeDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CONTRACT_TYPE_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -134,4 +145,5 @@ export const {
   useGetSingleGenericReportsQuery,
   useLazySalesDropdownQuery,
   useLazyDashboardDropdownQuery,
+  useLazyContractTypeDropdownQuery,
 } = UpsertGenericReportApi;

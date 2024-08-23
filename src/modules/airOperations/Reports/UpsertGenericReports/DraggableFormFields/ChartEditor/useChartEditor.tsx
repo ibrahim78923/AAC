@@ -11,12 +11,15 @@ import {
   useLazyDealsDropdownQuery,
   useLazyUsersDropdownQuery,
   useLazySalesDropdownQuery,
+  useLazyContractTypeDropdownQuery,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 import { ChartEditorI } from './ChartEditor.interface';
+import { useDispatch } from 'react-redux';
+import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
+import { useAppSelector } from '@/redux/store';
 
 export const useChartEditor = (props: ChartEditorI) => {
   const {
-    setFieldData,
     setModal,
     setValue,
     form,
@@ -25,8 +28,14 @@ export const useChartEditor = (props: ChartEditorI) => {
     draggedItemData,
     watch,
   } = props;
+
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
+  const disableTemplate = useAppSelector(
+    (state) => state?.genericReport?.disableTemplate,
+  );
+  const dispatch = useDispatch();
+
   const [chartTitle, subFilter, chartType, xAxisData, xAxisType] = watch([
     'chartTitle',
     'subFilter',
@@ -51,7 +60,7 @@ export const useChartEditor = (props: ChartEditorI) => {
         subFilter: subFilter,
       },
     ]);
-    setFieldData(false);
+    dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
     setValue('chartType', '');
     setValue('chartTitle', 'Report Chart');
@@ -68,6 +77,7 @@ export const useChartEditor = (props: ChartEditorI) => {
   const vendorsDropdown = useLazyVendorsDropdownQuery();
   const dealsDropdown = useLazyDealsDropdownQuery();
   const salesDropdown = useLazySalesDropdownQuery();
+  const contractTypeDropdown = useLazyContractTypeDropdownQuery();
 
   const xAxesFields = {
     ASSET_TYPE: 'inventory_assetType',
@@ -86,6 +96,7 @@ export const useChartEditor = (props: ChartEditorI) => {
     CAMPAIGN_OWNER: 'campaign_campaignOwner',
     SALES_PIPELINES_ID: 'sales_pipelinesId',
     USERS: 'usersId',
+    CONTRACT_TYPE: 'contractType',
   };
 
   const getSingleFieldDropdown = () => {
@@ -122,6 +133,8 @@ export const useChartEditor = (props: ChartEditorI) => {
         return salesDropdown;
       case xAxesFields?.USERS:
         return usersDropdown;
+      case xAxesFields?.CONTRACT_TYPE:
+        return contractTypeDropdown;
       default:
         return [];
     }
@@ -139,5 +152,6 @@ export const useChartEditor = (props: ChartEditorI) => {
     xAxisData,
     xAxisType,
     chartType,
+    disableTemplate,
   };
 };

@@ -22,23 +22,15 @@ import { Counter } from '../DraggableFormFields/Counter';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { DroppableAreaI } from './DroppableArea.interface';
 import ApiErrorState from '@/components/ApiErrorState';
+import { setShowTemplate } from '@/redux/slices/genericReport/genericReportSlice';
 
 export default function DroppableArea(props: DroppableAreaI) {
   const {
-    fieldData,
     modal,
-    editorState,
-    setEditorState,
-    fontSize,
-    color,
     form,
-    columnsData,
     allChartComponents,
-    setShowTemplate,
-    showTemplate,
     draggedItemData,
     setModal,
-    setFieldData,
     setForm,
     setDraggedItemData,
     handleCancel,
@@ -50,8 +42,16 @@ export default function DroppableArea(props: DroppableAreaI) {
     refetch,
   } = props;
 
-  const { handleDelete, handleCopy, theme, setCalendarFilter } =
-    useDroppableArea(props);
+  const {
+    handleDelete,
+    handleCopy,
+    theme,
+    setCalendarFilter,
+    fieldData,
+    showTemplate,
+    dispatch,
+  } = useDroppableArea(props);
+
   return (
     <Droppable droppableId={'droppable'}>
       {(provided: any) => (
@@ -125,7 +125,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                           onClick={
                             showTemplate
                               ? () => handleChooseTemplate()
-                              : () => setShowTemplate(true)
+                              : () => dispatch(setShowTemplate(true))
                           }
                         >
                           {showTemplate ? 'Create Report' : 'Choose Template'}
@@ -373,22 +373,12 @@ export default function DroppableArea(props: DroppableAreaI) {
                       watch={watch}
                     />
                   )}
-                  {modal?.text && (
-                    <Text
-                      editorState={editorState}
-                      setEditorState={setEditorState}
-                      fontSize={fontSize}
-                      color={color}
-                    />
-                  )}
-                  {modal?.table && (
-                    <Table watch={watch} columnsData={columnsData} />
-                  )}
+                  {modal?.text && <Text />}
+                  {modal?.table && <Table watch={watch} />}
                   {modal?.counter && (
                     <Counter
                       draggedItemData={draggedItemData}
                       setModal={setModal}
-                      setFieldData={setFieldData}
                       setForm={setForm}
                       setDraggedItemData={setDraggedItemData}
                       form={form}

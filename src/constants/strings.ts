@@ -964,6 +964,7 @@ export const COLLECTION_NAME = {
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
   SALES_PIPELINES: 'salespipeline',
+  CONTRACT_TYPE: 'contracttypes',
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',
   ADD_TO_EXISTING: 'addToExisting',

@@ -22,7 +22,7 @@ import { CheckBox } from '@mui/icons-material';
 import { EditInputIcon } from '@/assets/icons';
 
 export const TextEditor = (props: TextEditorI) => {
-  const { fontSize, color, handleCancel, setValue } = props;
+  const { handleCancel, setValue } = props;
   const {
     handleSave,
     applyTextStyle,
@@ -34,6 +34,8 @@ export const TextEditor = (props: TextEditorI) => {
     editValue,
     setEdit,
     edit,
+    color,
+    fontSize,
   } = useTextEditor(props);
   return (
     <Box minHeight="79vh" display="flex" flexDirection="column">

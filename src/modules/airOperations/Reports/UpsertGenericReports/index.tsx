@@ -1,9 +1,5 @@
 import { Button, Grid } from '@mui/material';
-import {
-  fieldsList,
-  mainMetrics,
-  templateList,
-} from './UpsertGenericReports.data';
+import { fieldsList, mainMetrics } from './UpsertGenericReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import useUpsertGenericReports from './useUpsertGenericReports';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -11,38 +7,25 @@ import { REPORTS_HEADER_TITLE } from '@/constants';
 import { FormProvider } from '@/components/ReactHookForm';
 import DroppableArea from './DroppableArea';
 import DraggableFields from './DraggableFields';
+import { setShowTemplate } from '@/redux/slices/genericReport/genericReportSlice';
 
 export const UpsertGenericReports = () => {
   const {
     handleDragEnd,
     modal,
     theme,
-    fieldData,
     methods,
-    setEditorState,
-    editorState,
-    setColor,
-    color,
-    setFontSize,
-    fontSize,
-    setFieldData,
     setModal,
     setValue,
-    columnsData,
-    setColumnsData,
-    setOpenDrawer,
-    openDrawer,
     form,
     setForm,
     allChartComponents,
     showTemplate,
-    setShowTemplate,
     handleTemplateDragEnd,
     handleCancel,
     reportId,
     setDraggedItemData,
     draggedItemData,
-    disableTemplate,
     handleChooseTemplate,
     moduleName,
     isLoading,
@@ -52,6 +35,7 @@ export const UpsertGenericReports = () => {
     watch,
     isError,
     refetch,
+    dispatch,
   } = useUpsertGenericReports();
   const { text, table, chart, counter } = modal || {};
 
@@ -96,7 +80,7 @@ export const UpsertGenericReports = () => {
                   onClick={
                     showTemplate
                       ? () => handleChooseTemplate()
-                      : () => setShowTemplate(true)
+                      : () => dispatch(setShowTemplate(true))
                   }
                 >
                   {showTemplate ? 'Create Report' : 'Choose Template'}
@@ -104,21 +88,12 @@ export const UpsertGenericReports = () => {
               )}
             </PageTitledHeader>
             <DroppableArea
-              fieldData={fieldData}
               modal={modal}
-              editorState={editorState}
-              setEditorState={setEditorState}
-              fontSize={fontSize}
-              color={color}
               form={form}
               setForm={setForm}
-              columnsData={columnsData}
               allChartComponents={allChartComponents}
-              setShowTemplate={setShowTemplate}
-              showTemplate={showTemplate}
               draggedItemData={draggedItemData}
               setModal={setModal}
-              setFieldData={setFieldData}
               setDraggedItemData={setDraggedItemData}
               handleCancel={handleCancel}
               handleChooseTemplate={handleChooseTemplate}
@@ -140,30 +115,15 @@ export const UpsertGenericReports = () => {
           >
             <DraggableFields
               fieldsList={fieldsList}
-              fieldData={fieldData}
               modal={modal}
-              setEditorState={setEditorState}
-              editorState={editorState}
-              fontSize={fontSize}
-              color={color}
-              setFontSize={setFontSize}
-              setColor={setColor}
               setModal={setModal}
-              setFieldData={setFieldData}
               setValue={setValue}
-              setColumnsData={setColumnsData}
-              setOpenDrawer={setOpenDrawer}
-              openDrawer={openDrawer}
               form={form}
               setForm={setForm}
-              columnsData={columnsData}
-              showTemplate={showTemplate}
               handleCancel={handleCancel}
               reportId={reportId}
               setDraggedItemData={setDraggedItemData}
               draggedItemData={draggedItemData}
-              disableTemplate={disableTemplate}
-              templateList={templateList}
               mainMetrics={mainMetrics}
               selectedModule={moduleName}
               data={data}

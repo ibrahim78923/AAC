@@ -19,14 +19,7 @@ import { tableEditorData } from './TableEditor.data';
 import { useTableEditor } from './useTableEditor';
 import { TableEditorI, tableFieldsI } from './TableEditor.interface';
 export const TableEditor = (props: TableEditorI) => {
-  const {
-    setValue,
-    setColumnsData,
-    columnsData,
-    handleCancel,
-    disableTemplate,
-    metricType,
-  } = props;
+  const { setValue, handleCancel, metricType } = props;
   const {
     editValue,
     setEditValue,
@@ -35,6 +28,9 @@ export const TableEditor = (props: TableEditorI) => {
     handleSave,
     setColumnObject,
     tableTitle,
+    columnsData,
+    setColumnField,
+    disableTemplate,
   } = useTableEditor(props);
   return (
     <Box minHeight="79vh" display="flex" flexDirection="column">
@@ -92,7 +88,7 @@ export const TableEditor = (props: TableEditorI) => {
                 <Typography variant="body2">{item?.fieldName}</Typography>
                 <Checkbox
                   onClick={() => {
-                    setColumnsData((prev: any) =>
+                    setColumnField((prev: any) =>
                       !prev?.includes(item?.fieldName)
                         ? [...prev, item?.fieldName]
                         : prev?.filter((i: any) => i !== item?.fieldName),

@@ -11,7 +11,6 @@ export interface CounterI {
       counter: boolean;
     }>
   >;
-  setFieldData: Dispatch<SetStateAction<boolean>>;
   form: any[];
   setForm: Dispatch<SetStateAction<any[]>>;
   setDraggedItemData: Dispatch<SetStateAction<any>>;

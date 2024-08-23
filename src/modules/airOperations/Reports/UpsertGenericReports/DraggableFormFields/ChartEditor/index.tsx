@@ -29,7 +29,7 @@ import {
 } from './ChartEditor.interface';
 
 export const ChartEditor = (props: ChartEditorI) => {
-  const { metricType, setValue, handleCancel, disableTemplate } = props;
+  const { metricType, setValue, handleCancel } = props;
 
   const {
     handleSave,
@@ -42,6 +42,7 @@ export const ChartEditor = (props: ChartEditorI) => {
     xAxisData,
     xAxisType,
     chartType,
+    disableTemplate,
   } = useChartEditor(props);
 
   return (

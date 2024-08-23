@@ -11,34 +11,20 @@ import { DraggableFieldsI } from './DraggableFields.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useDraggableFields } from './useDraggableFields';
+import { templateList } from '../UpsertGenericReports.data';
 
 export default function DraggableFields(props: DraggableFieldsI) {
   const {
     setModal,
-    setFieldData,
     form,
     setForm,
     setValue,
-    setEditorState,
     fieldsList,
-    fieldData,
     modal,
-    editorState,
-    fontSize,
-    setFontSize,
-    color,
-    setColor,
-    setColumnsData,
-    setOpenDrawer,
-    openDrawer,
-    columnsData,
-    showTemplate,
     handleCancel,
     reportId,
     setDraggedItemData,
-    disableTemplate,
     draggedItemData,
-    templateList,
     mainMetrics,
     selectedModule,
     data,
@@ -50,7 +36,16 @@ export default function DraggableFields(props: DraggableFieldsI) {
     refetch,
   } = props;
 
-  const { theme, metricType, setMetricType } = useDraggableFields(props);
+  const {
+    theme,
+    metricType,
+    setMetricType,
+    fieldData,
+    openDrawer,
+    setOpenDrawer,
+    showTemplate,
+  } = useDraggableFields(props);
+
   return (
     <Droppable droppableId={'draggable'}>
       {(provided: any) => (
@@ -244,14 +239,12 @@ export default function DraggableFields(props: DraggableFieldsI) {
               {modal?.chart && (
                 <ChartEditor
                   setModal={setModal}
-                  setFieldData={setFieldData}
                   metricType={metricType}
                   setValue={setValue}
                   form={form}
                   setForm={setForm}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
-                  disableTemplate={disableTemplate}
                   draggedItemData={draggedItemData}
                   watch={watch}
                 />
@@ -259,14 +252,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
 
               {modal?.text && (
                 <TextEditor
-                  setEditorState={setEditorState}
-                  editorState={editorState}
-                  fontSize={fontSize}
-                  color={color}
-                  setFontSize={setFontSize}
-                  setColor={setColor}
                   setModal={setModal}
-                  setFieldData={setFieldData}
                   form={form}
                   setForm={setForm}
                   handleCancel={handleCancel}
@@ -278,15 +264,11 @@ export default function DraggableFields(props: DraggableFieldsI) {
               {modal?.table && (
                 <TableEditor
                   setValue={setValue}
-                  setColumnsData={setColumnsData}
                   setModal={setModal}
                   form={form}
                   setForm={setForm}
-                  setFieldData={setFieldData}
-                  columnsData={columnsData}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
-                  disableTemplate={disableTemplate}
                   metricType={metricType}
                   draggedItemData={draggedItemData}
                   watch={watch}

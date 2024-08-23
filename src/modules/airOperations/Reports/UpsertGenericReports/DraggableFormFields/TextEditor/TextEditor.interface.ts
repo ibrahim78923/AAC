@@ -1,12 +1,8 @@
-import { EditorState } from 'draft-js';
 import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 export interface TextEditorI {
-  fontSize: string;
-  color: string;
   handleCancel: () => void;
-  setFieldData: Dispatch<SetStateAction<boolean>>;
   setModal: Dispatch<
     SetStateAction<{
       chart: boolean;
@@ -15,10 +11,6 @@ export interface TextEditorI {
       counter: boolean;
     }>
   >;
-  setFontSize: Dispatch<SetStateAction<string>>;
-  setColor: Dispatch<SetStateAction<string>>;
-  editorState: EditorState;
-  setEditorState: Dispatch<SetStateAction<EditorState>>;
   form: any[];
   setForm: Dispatch<SetStateAction<any[]>>;
   setValue: UseFormReturn<FieldValues>['setValue'];

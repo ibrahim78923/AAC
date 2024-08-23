@@ -895,6 +895,7 @@ export const mainMetrics = (setMetricType: any) => {
   return {
     [GENERIC_REPORT_MODULES?.SERVICES]: [
       {
+        id: 9707,
         permissionKey: [
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -906,6 +907,7 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        id: 4768,
         permissionKey: [
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -917,6 +919,7 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        id: 5758,
         permissionKey: [
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -928,6 +931,7 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        id: 9875,
         permissionKey: [
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -939,6 +943,7 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        id: 8569,
         permissionKey: [
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -952,6 +957,7 @@ export const mainMetrics = (setMetricType: any) => {
     ],
     [GENERIC_REPORT_MODULES?.SALES]: [
       {
+        id: 1535,
         permissionKey: [
           AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -963,6 +969,7 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        id: 9765,
         permissionKey: [
           AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -976,6 +983,7 @@ export const mainMetrics = (setMetricType: any) => {
     ],
     [GENERIC_REPORT_MODULES?.MARKETING]: [
       {
+        id: 3575,
         permissionKey: [
           AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
@@ -987,6 +995,7 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
+        id: 9855,
         permissionKey: [
           AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,

@@ -34,8 +34,9 @@ export const tableEditorData: any = {
   ],
   CONTRACT: [
     {
-      fieldType: FIELD_TYPE?.STRING,
+      fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'type',
+      collectionName: COLLECTION_NAME?.CONTRACT_TYPE,
     },
     {
       fieldType: FIELD_TYPE?.STRING,

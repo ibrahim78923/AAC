@@ -22,15 +22,29 @@ import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useGetSingleGenericReportsQuery } from '@/services/airOperations/reports/upsert-generic-reports';
 import { AIR_OPERATIONS } from '@/constants';
+import { useDispatch } from 'react-redux';
+import {
+  setColumnsData,
+  setDisableTemplate,
+  setEditorState,
+  setFieldData,
+  setShowTemplate,
+} from '@/redux/slices/genericReport/genericReportSlice';
+import { useAppSelector } from '@/redux/store';
 
 export default function useUpsertGenericReports() {
-  const [draggedItemData, setDraggedItemData] = useState<any>(null);
+  const dispatch = useDispatch();
   const theme: Theme = useTheme();
   const router: any = useRouter();
+
+  const showTemplate = useAppSelector(
+    (state) => state?.genericReport?.showTemplate,
+  );
   const { id, reportId, moduleName } = router?.query;
   const params = {
     id: reportId,
   };
+
   const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleGenericReportsQuery(params, {
       refetchOnMountOrArgChange: true,
@@ -46,14 +60,7 @@ export default function useUpsertGenericReports() {
   const chartType = watch('chartType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(MODAL_INITIAL_STATES);
-  const [fieldData, setFieldData] = useState<any>(false);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState?.createEmpty());
-  const [fontSize, setFontSize] = useState('16px');
-  const [color, setColor] = useState('black');
-  const [columnsData, setColumnsData] = useState([]);
-  const [showTemplate, setShowTemplate] = useState(false);
-  const [disableTemplate, setDisableTemplate] = useState(false);
+  const [draggedItemData, setDraggedItemData] = useState<any>(null);
 
   useEffect(() => {
     setValue('chartType', draggedItemData?.chartType ?? '');
@@ -62,8 +69,9 @@ export default function useUpsertGenericReports() {
     setValue('chartTitle', draggedItemData?.title ?? 'Report Chart');
     setValue('textTitle', draggedItemData?.title ?? 'Report Text');
     setValue('tableTitle', draggedItemData?.title ?? 'Report Table');
-    setColumnsData(draggedItemData?.tableColumns ?? []);
+    dispatch(setColumnsData(draggedItemData?.tableColumns ?? []));
   }, [draggedItemData]);
+
   useEffect(() => {
     if (!draggedItemData) {
       setValue('xAxis', null);
@@ -101,7 +109,7 @@ export default function useUpsertGenericReports() {
 
   const getTemplateModalState = (draggedItem: any) => {
     setDraggedItemData(draggedItem);
-    setDisableTemplate(true);
+    dispatch(setDisableTemplate(true));
     const newModal: any = {
       chart: false,
       text: false,
@@ -131,7 +139,7 @@ export default function useUpsertGenericReports() {
 
   useEffect(() => {
     (modal?.chart || modal?.table || modal?.text || modal?.counter) &&
-      setFieldData(true);
+      dispatch(setFieldData(true));
   }, [modal?.text, modal?.chart, modal?.table, modal?.counter]);
 
   const allChartComponents = {
@@ -142,20 +150,21 @@ export default function useUpsertGenericReports() {
   };
 
   const handleCancel = () => {
-    setFieldData(false);
+    dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
-    setColumnsData([]);
+    dispatch(setColumnsData([]));
     setValue('tableTitle', 'Report Table');
-    setEditorState(EditorState.createEmpty());
+    dispatch(setEditorState(EditorState.createEmpty()));
     setValue('textTitle', 'Report Text');
     setValue('chartType', '');
     setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
     setDraggedItemData(null);
   };
+
   const handleChooseTemplate = () => {
-    setDisableTemplate(false);
-    setShowTemplate(false);
+    dispatch(setDisableTemplate(false));
+    dispatch(setShowTemplate(false));
   };
 
   useEffect(() => {
@@ -303,29 +312,15 @@ export default function useUpsertGenericReports() {
     modal,
     setModal,
     theme,
-    setFieldData,
-    fieldData,
     methods,
-    setEditorState,
-    editorState,
-    setColor,
-    color,
-    setFontSize,
-    fontSize,
     setValue,
-    columnsData,
-    setColumnsData,
-    setOpenDrawer,
-    openDrawer,
     allChartComponents,
     showTemplate,
-    setShowTemplate,
     handleTemplateDragEnd,
     handleCancel,
     reportId,
     setDraggedItemData,
     draggedItemData,
-    disableTemplate,
     handleChooseTemplate,
     moduleName,
     isLoading,
@@ -335,5 +330,6 @@ export default function useUpsertGenericReports() {
     watch,
     isError,
     refetch,
+    dispatch,
   };
 }
