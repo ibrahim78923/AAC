@@ -6,7 +6,7 @@ import { ReportsTypesI } from './Reports.interface';
 export const useReports = () => {
   const router = useRouter();
 
-  const { data, isLoading, isError, isFetching } =
+  const { data, isLoading, isError, isFetching, refetch } =
     useGetAuthAccountsForOperationsReportsQuery?.(
       {},
       {
@@ -21,5 +21,6 @@ export const useReports = () => {
     isFetching,
     reportsTypes,
     router,
+    refetch,
   };
 };

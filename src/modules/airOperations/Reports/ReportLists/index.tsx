@@ -21,6 +21,8 @@ export const ReportLists = (props: ReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    page,
+    getReportsList,
   } = useReportLists(props);
 
   return (
@@ -87,7 +89,7 @@ export const ReportLists = (props: ReportsListsPropsI) => {
       <br />
       <TanstackTable
         columns={reportListsColumns}
-        data={lazyGetReportsListStatus?.data?.data?.genericReports}
+        data={lazyGetReportsListStatus?.data?.data?.genericReports ?? []}
         isLoading={lazyGetReportsListStatus?.isLoading}
         currentPage={lazyGetReportsListStatus?.data?.data?.meta?.page}
         count={lazyGetReportsListStatus?.data?.data?.meta?.pages}
@@ -100,6 +102,10 @@ export const ReportLists = (props: ReportsListsPropsI) => {
         isSuccess={lazyGetReportsListStatus?.isSuccess}
         onPageChange={(page: number) => setPage(page)}
         isPagination
+        errorProps={{
+          canRefresh: true,
+          refresh: () => getReportsList?.(page),
+        }}
       />
       {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>

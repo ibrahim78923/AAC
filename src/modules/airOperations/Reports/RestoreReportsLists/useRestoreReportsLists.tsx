@@ -113,5 +113,7 @@ export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    page,
+    getRestoreReportsList,
   };
 };

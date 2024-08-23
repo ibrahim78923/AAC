@@ -6,7 +6,7 @@ import { workflowAutomationTypesDynamic } from './WorkflowAutomation.data';
 export const useWorkflowAutomation = () => {
   const router = useRouter();
 
-  const { data, isLoading, isError, isFetching } =
+  const { data, isLoading, isError, isFetching, refetch } =
     useGetAuthAccountsForOperationsReportsQuery?.(
       {},
       {
@@ -22,5 +22,6 @@ export const useWorkflowAutomation = () => {
     isFetching,
     workflowAutomationTypes,
     router,
+    refetch,
   };
 };

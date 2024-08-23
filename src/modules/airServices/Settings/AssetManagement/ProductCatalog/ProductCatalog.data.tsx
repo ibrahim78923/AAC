@@ -4,6 +4,7 @@ import {
   MODE_OF_PROCUREMENT,
   PRODUCT_CATALOG_STATUS,
 } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
 
 export const productAssetTypeOption = [
@@ -48,7 +49,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
           color="custom.bright"
         >
           <Typography variant="body2" textTransform={'capitalize'}>
-            {info?.getValue()?.toLowerCase() ?? '---'}
+            {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
           </Typography>
         </Box>
       ),
@@ -60,7 +61,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
       header: 'Type',
       cell: (info: any) => (
         <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
+          {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
         </Typography>
       ),
     },
@@ -71,7 +72,7 @@ export const productListsColumnDynamic: any = (router?: any) => {
       header: 'Manufacturer',
       cell: (info: any) => (
         <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
+          {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
         </Typography>
       ),
     },
@@ -80,7 +81,11 @@ export const productListsColumnDynamic: any = (router?: any) => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue()?.replaceAll('_', ' '),
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.replaceAll('_', ' ')?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
   ];
 };

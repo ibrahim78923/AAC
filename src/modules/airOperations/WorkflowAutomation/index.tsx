@@ -5,11 +5,17 @@ import { useWorkflowAutomation } from './useWorkflowAutomation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const WorkflowAutomation = () => {
-  const { isLoading, isError, isFetching, workflowAutomationTypes, router } =
-    useWorkflowAutomation();
+  const {
+    isLoading,
+    isError,
+    isFetching,
+    workflowAutomationTypes,
+    router,
+    refetch,
+  } = useWorkflowAutomation();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>
@@ -21,48 +27,50 @@ export const WorkflowAutomation = () => {
             permissions={workflow?.permission}
             key={workflow?.id}
           >
-            {workflow?.hasAccount && (
-              <Grid
-                key={workflow?.id}
-                item
-                md={5}
-                lg={4}
-                xs={12}
-                onClick={() => {
-                  router?.push({
-                    pathname: workflow?.link,
-                  });
-                }}
-                sx={{ cursor: 'pointer' }}
+            <Grid
+              key={workflow?.id}
+              item
+              md={5}
+              lg={4}
+              xs={12}
+              onClick={() => {
+                if (!workflow?.hasAccount) return;
+                router?.push({
+                  pathname: workflow?.link,
+                });
+              }}
+              sx={{
+                cursor: !workflow?.hasAccount ? 'not-allowed' : 'pointer',
+              }}
+            >
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                flexWrap={'wrap'}
+                border={`1px solid `}
+                borderColor={'grey.700'}
+                borderRadius={2}
+                gap={2}
+                padding={1}
+                height={'100%'}
+                bgcolor={!workflow?.hasAccount ? 'grey.200' : 'common.white'}
               >
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  flexWrap={'wrap'}
-                  border={`1px solid `}
-                  borderColor={'grey.700'}
-                  borderRadius={2}
-                  gap={2}
-                  padding={1}
-                  height={'100%'}
+                <Avatar
+                  variant="rounded"
+                  sx={{ backgroundColor: 'primary.light' }}
                 >
-                  <Avatar
-                    variant="rounded"
-                    sx={{ backgroundColor: 'primary.light' }}
-                  >
-                    {workflow?.avatar}
-                  </Avatar>
-                  <Box flex={1}>
-                    <Typography variant="h5" whiteSpace={'nowrap'}>
-                      {workflow?.type}
-                    </Typography>
-                    <Typography variant="body3" color={'grey.900'}>
-                      {workflow?.purpose}
-                    </Typography>
-                  </Box>
+                  {workflow?.avatar}
+                </Avatar>
+                <Box flex={1}>
+                  <Typography variant="h5" whiteSpace={'nowrap'}>
+                    {workflow?.type}
+                  </Typography>
+                  <Typography variant="body3" color={'grey.900'}>
+                    {workflow?.purpose}
+                  </Typography>
                 </Box>
-              </Grid>
-            )}
+              </Box>
+            </Grid>
           </PermissionsGuard>
         ))}
       </Grid>

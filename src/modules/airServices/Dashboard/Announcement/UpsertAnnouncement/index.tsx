@@ -23,6 +23,7 @@ export const UpsertAnnouncement = (
     isFetching,
     isError,
     refetch,
+    sendServiceDashboardViaEmailOnceStatus,
   } = useUpsertAnnouncement(props);
 
   return (
@@ -41,15 +42,18 @@ export const UpsertAnnouncement = (
         okText={'Announce'}
         isLoading={
           postAnnouncementStatus?.isLoading ||
-          updateServicesAnnouncementOnDashboardStatus?.isLoading
+          updateServicesAnnouncementOnDashboardStatus?.isLoading ||
+          sendServiceDashboardViaEmailOnceStatus?.isLoading
         }
         isDisabled={
           postAnnouncementStatus?.isLoading ||
-          updateServicesAnnouncementOnDashboardStatus?.isLoading
+          updateServicesAnnouncementOnDashboardStatus?.isLoading ||
+          sendServiceDashboardViaEmailOnceStatus?.isLoading
         }
         disabledCancelBtn={
           postAnnouncementStatus?.isLoading ||
-          updateServicesAnnouncementOnDashboardStatus?.isLoading
+          updateServicesAnnouncementOnDashboardStatus?.isLoading ||
+          sendServiceDashboardViaEmailOnceStatus?.isLoading
         }
       >
         <Box mt={1}>

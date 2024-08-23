@@ -44,7 +44,9 @@ export const upsertUserDefaultValues = (
   return {
     firstName: data?.user?.firstName ?? '',
     lastName: data?.user?.lastName ?? '',
-    address: data?.user?.address ?? '',
+    address: data?.user?.address?.composite
+      ? data?.user?.address?.composite
+      : data?.user?.address ?? '',
     email: data?.user?.email ?? '',
     phoneNumber: data?.user?.phoneNumber ?? '',
     jobTitle: data?.user?.jobTitle ?? '',

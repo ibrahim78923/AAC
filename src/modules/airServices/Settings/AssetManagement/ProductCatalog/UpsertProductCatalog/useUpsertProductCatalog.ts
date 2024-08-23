@@ -63,7 +63,7 @@ export const useUpsertProductCatalog = () => {
     };
 
     if (!!productCatalogId) {
-      submitUpdateProductCatalog(newFormData);
+      submitUpdateProductCatalog(body);
       return;
     }
     const postProductCatalogParameter = {

@@ -2,6 +2,7 @@ import {
   useGetSingleAnnouncementOnDashboardQuery,
   useLazyGetUsersDropdownListForDashboardQuery,
   usePostAnnouncementMutation,
+  useSendServiceDashboardViaEmailOnceMutation,
   useUpdateServicesAnnouncementOnDashboardMutation,
 } from '@/services/airServices/dashboard';
 import {
@@ -23,6 +24,7 @@ import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookF
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useUpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
@@ -42,6 +44,33 @@ export const useUpsertAnnouncement = (
     updateServicesAnnouncementOnDashboardTrigger,
     updateServicesAnnouncementOnDashboardStatus,
   ] = useUpdateServicesAnnouncementOnDashboardMutation();
+
+  const [
+    sendServiceDashboardViaEmailOnceTrigger,
+    sendServiceDashboardViaEmailOnceStatus,
+  ] = useSendServiceDashboardViaEmailOnceMutation();
+
+  const sendEmailOnce = async (formData: any) => {
+    const emailFormData = new FormData();
+    emailFormData?.append('recipients', formData?.additionalEmail);
+    emailFormData?.append('subject', 'New Announcement');
+    emailFormData?.append(
+      'html',
+      `${formData?.title} <br/> ${formData?.description}`,
+    );
+
+    const apiDataParameter = {
+      body: emailFormData,
+    };
+
+    try {
+      await sendServiceDashboardViaEmailOnceTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Email sent successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
   const apiDataParameter = {
     queryParams: {
       id: isPortalOpen?.data?._id,
@@ -91,6 +120,9 @@ export const useUpsertAnnouncement = (
 
     try {
       await postAnnouncementTrigger(apiDataParameter)?.unwrap();
+      if (!!filterEmptyValues?.additionalEmail?.length) {
+        await sendEmailOnce?.(filterEmptyValues);
+      }
       successSnackbar('Announcements added successfully.');
       handleClose?.();
       await getSingleDashboardData?.();
@@ -115,6 +147,10 @@ export const useUpsertAnnouncement = (
       await updateServicesAnnouncementOnDashboardTrigger(
         apiDataParameter,
       )?.unwrap();
+
+      if (!!formData?.additionalEmail?.length) {
+        await sendEmailOnce?.(formData);
+      }
       successSnackbar('Announcements updated successfully.');
       handleClose?.();
       await getSingleDashboardData?.();
@@ -135,7 +171,9 @@ export const useUpsertAnnouncement = (
   });
 
   useEffect(() => {
-    reset(() => upsertAnnouncementDefaultValues(data?.data));
+    reset(() =>
+      upsertAnnouncementDefaultValues(data?.data?.[ARRAY_INDEX?.ZERO]),
+    );
   }, [data, reset]);
 
   const apiQueryUsers = useLazyGetUsersDropdownListForDashboardQuery();
@@ -157,5 +195,6 @@ export const useUpsertAnnouncement = (
     isFetching,
     isError,
     refetch,
+    sendServiceDashboardViaEmailOnceStatus,
   };
 };

@@ -23,6 +23,8 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    getRestoreReportsList,
+    page,
   }: any = useRestoreReportsLists(props);
 
   return (
@@ -95,7 +97,9 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
         <br />
         <TanstackTable
           columns={restoreReportColumns}
-          data={lazyGetRestoreReportsListStatus?.data?.data?.genericReports}
+          data={
+            lazyGetRestoreReportsListStatus?.data?.data?.genericReports ?? []
+          }
           isLoading={lazyGetRestoreReportsListStatus?.isLoading}
           currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
           count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
@@ -110,6 +114,10 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
           isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
           onPageChange={(page: number) => setPage(page)}
           isPagination
+          errorProps={{
+            canRefresh: true,
+            refresh: () => getRestoreReportsList?.(page),
+          }}
         />
       </Box>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

@@ -6,6 +6,7 @@ import { Fragment } from 'react';
 import { AnnouncementCard } from '../AnnouncementCard';
 import NoData from '@/components/NoData';
 import { useAnnouncementList } from './useAnnouncementList';
+import { fullName } from '@/utils/avatarUtils';
 
 export const AnnouncementList = (props: any) => {
   const {
@@ -46,10 +47,15 @@ export const AnnouncementList = (props: any) => {
                       )}
                       data={announcement}
                       index={index}
-                      isLoggedInUser={user?._id === announcement?.createdBy}
+                      isLoggedInUser={
+                        user?._id === announcement?.createdBy?._id
+                      }
                       userDetails={{
-                        userAvatar: announcement?.userAvatar,
-                        userName: announcement?.userName,
+                        userAvatar: announcement?.createdBy?.avatar?.url,
+                        userName: fullName(
+                          announcement?.createdBy?.firstName,
+                          announcement?.createdBy?.lastName,
+                        ),
                       }}
                     />
                   </Fragment>

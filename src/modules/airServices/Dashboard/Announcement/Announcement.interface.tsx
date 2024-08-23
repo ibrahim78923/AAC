@@ -16,5 +16,5 @@ export interface AnnouncementPortalComponentsPropsI {
   lazyGetCustomerAnnouncementStatus: any;
   getCustomerAnnouncementData: () => void;
   data: any;
-  getSingleDashboardData?: () => void;
+  getSingleDashboardData?: () => Promise<void>;
 }

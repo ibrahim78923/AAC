@@ -6,8 +6,8 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { ANNOUNCEMENTS_VISIBLITY_MAPPED } from '@/constants/api-mapped';
-import { ANNOUNCEMENTS_VISIBLITY } from '@/constants/strings';
+import { ANNOUNCEMENTS_VISIBILITY_MAPPED } from '@/constants/api-mapped';
+import { ANNOUNCEMENTS_VISIBILITY } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -19,17 +19,21 @@ import {
 
 export const announcementsVisibilityOptions = [
   {
-    _id: ANNOUNCEMENTS_VISIBLITY?.EVERYONE,
-    label: ANNOUNCEMENTS_VISIBLITY_MAPPED?.[ANNOUNCEMENTS_VISIBLITY?.EVERYONE],
-  },
-  {
-    _id: ANNOUNCEMENTS_VISIBLITY?.ALL_AGENT,
-    label: ANNOUNCEMENTS_VISIBLITY_MAPPED?.[ANNOUNCEMENTS_VISIBLITY?.ALL_AGENT],
-  },
-  {
-    _id: ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS,
+    _id: ANNOUNCEMENTS_VISIBILITY?.EVERYONE,
     label:
-      ANNOUNCEMENTS_VISIBLITY_MAPPED?.[ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS],
+      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ANNOUNCEMENTS_VISIBILITY?.EVERYONE],
+  },
+  {
+    _id: ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT,
+    label:
+      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT],
+  },
+  {
+    _id: ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS,
+    label:
+      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[
+        ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
+      ],
   },
 ];
 
@@ -37,7 +41,7 @@ export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Title is required'),
   description: Yup?.string()?.trim(),
   notifyMembers: Yup?.string()?.trim(),
-  visibility: Yup?.mixed()?.nullable()?.required('visibility is required'),
+  visibility: Yup?.mixed()?.nullable()?.required('Visibility is required'),
   additionalEmail: Yup?.array()
     ?.of(Yup?.string())
     ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
@@ -46,7 +50,7 @@ export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
       );
     }),
   addMember: Yup?.array()?.when('visibility', {
-    is: (value: any) => value?._id === ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS,
+    is: (value: any) => value?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS,
     then: () => Yup?.array()?.min(1, 'Member is required'),
     otherwise: () => Yup?.array(),
   }),
@@ -158,21 +162,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     },
     md: 12,
   },
-  {
-    id: 9,
-    componentProps: {
-      name: 'additionalEmail',
-      label: 'Additional Email recipients',
-      fullWidth: true,
-      placeholder: 'write email and press Enter',
-      freeSolo: true,
-      options: [],
-      multiple: true,
-      isOptionEqualToValue: () => {},
-    },
-    component: RHFAutocomplete,
-  },
-  ...(visibilityWatch?._id === ANNOUNCEMENTS_VISIBLITY?.SPECIFIC_USERS
+  ...(visibilityWatch?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
     ? [
         {
           id: 10,
@@ -193,6 +183,20 @@ export const upsertAnnouncementFormFieldsDynamic = (
         },
       ]
     : []),
+  {
+    id: 9,
+    componentProps: {
+      name: 'additionalEmail',
+      label: 'Additional email recipients',
+      fullWidth: true,
+      placeholder: 'Write email and press enter',
+      freeSolo: true,
+      options: [],
+      multiple: true,
+      isOptionEqualToValue: () => {},
+    },
+    component: RHFAutocomplete,
+  },
 ];
 
 export const DATE_DIFFERENCE = {

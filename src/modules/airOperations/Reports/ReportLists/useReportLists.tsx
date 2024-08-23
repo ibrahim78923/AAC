@@ -216,5 +216,7 @@ export const useReportLists = (props: ReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    page,
+    getReportsList,
   };
 };

@@ -36,6 +36,9 @@ export const useServicesReports = () => {
   const restoreReportsPath = () => {
     router?.push({
       pathname: AIR_OPERATIONS?.SERVICES_REPORTS_RESTORE,
+      query: {
+        id,
+      },
     });
   };
 

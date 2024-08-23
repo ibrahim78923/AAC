@@ -11,11 +11,8 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { SingleTicketDetailChildComponentPropsI } from '../../SingleTicketDetails.interface';
 
-export const EditTicketDetails = (
-  props: SingleTicketDetailChildComponentPropsI,
-) => {
+export const EditTicketDetails = () => {
   const {
     methods,
     handleSubmit,
@@ -30,7 +27,7 @@ export const EditTicketDetails = (
     isError,
     getDynamicFormData,
     refetch,
-  } = useEditTicketDetails(props);
+  } = useEditTicketDetails();
 
   return (
     <Grid

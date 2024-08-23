@@ -15,6 +15,7 @@ export const DetailCard = (props: { data: any }) => {
   const { data } = props;
   const { attachFile } = useDetailCard();
   const theme = useTheme();
+  const ticketDetail = data?.data?.[ARRAY_INDEX?.ZERO];
 
   return (
     <Box
@@ -49,9 +50,7 @@ export const DetailCard = (props: { data: any }) => {
               <Avatar
                 sx={{ bgcolor: 'blue.main' }}
                 style={{ width: 28, height: 28 }}
-                src={generateImage(
-                  data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.avatar?.url,
-                )}
+                src={generateImage(ticketDetail?.requesterDetails?.avatar?.url)}
               />
               <Box>
                 <Typography
@@ -61,8 +60,8 @@ export const DetailCard = (props: { data: any }) => {
                 >
                   {' '}
                   {fullName(
-                    data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.firstName,
-                    data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.lastName,
+                    ticketDetail?.requesterDetails?.firstName,
+                    ticketDetail?.requesterDetails?.lastName,
                   )}
                 </Typography>
               </Box>
@@ -85,8 +84,9 @@ export const DetailCard = (props: { data: any }) => {
                 sx={{ wordBreak: 'break-all' }}
                 color="slateBlue.main"
               >
-                {data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.email ??
-                  '---'}
+                {!!ticketDetail?.requesterEmail
+                  ? ticketDetail?.requesterEmail
+                  : ticketDetail?.requesterDetails?.email ?? '---'}
               </Typography>
             </Box>
             <Box
@@ -103,11 +103,10 @@ export const DetailCard = (props: { data: any }) => {
                 Created on:
               </Typography>
               <Typography variant="body2" color="slateBlue.main">
-                {!!data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.createdAt
-                  ? dayjs(
-                      data?.data[ARRAY_INDEX?.ZERO]?.requesterDetails
-                        ?.createdAt,
-                    )?.format(DATE_FORMAT?.UI)
+                {!!ticketDetail?.requesterDetails?.createdAt
+                  ? dayjs(ticketDetail?.requesterDetails?.createdAt)?.format(
+                      DATE_FORMAT?.UI,
+                    )
                   : '---'}
               </Typography>
             </Box>
@@ -135,7 +134,7 @@ export const DetailCard = (props: { data: any }) => {
               color="slateBlue.main"
               sx={{ wordBreak: 'break-all' }}
               dangerouslySetInnerHTML={{
-                __html: data?.data[ARRAY_INDEX?.ZERO]?.description ?? '---',
+                __html: ticketDetail?.description ?? '---',
               }}
             />
           </Box>
@@ -191,9 +190,9 @@ export const DetailCard = (props: { data: any }) => {
             <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Status:
             </Typography>
-            {!!data?.data[ARRAY_INDEX?.ZERO]?.status ? (
+            {!!ticketDetail?.status ? (
               <Chip
-                label={data?.data[ARRAY_INDEX?.ZERO]?.status ?? '---'}
+                label={ticketDetail?.status ?? '---'}
                 variant="outlined"
                 size="small"
                 color="primary"
@@ -212,10 +211,8 @@ export const DetailCard = (props: { data: any }) => {
               Due by:
             </Typography>
             <Typography variant="body2" color="slateBlue.main">
-              {!!data?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate
-                ? dayjs(data?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate)?.format(
-                    DATE_FORMAT?.UI,
-                  )
+              {!!ticketDetail?.plannedEndDate
+                ? dayjs(ticketDetail?.plannedEndDate)?.format(DATE_FORMAT?.UI)
                 : '---'}
             </Typography>
           </Box>
@@ -232,7 +229,7 @@ export const DetailCard = (props: { data: any }) => {
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              {data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? '---'}
+              {ticketDetail?.moduleType ?? '---'}
             </Typography>
           </Box>
         </Grid>

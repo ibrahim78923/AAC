@@ -32,12 +32,9 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { SingleTicketDetailChildComponentPropsI } from '../../SingleTicketDetails.interface';
+import { AIR_SERVICES } from '@/constants';
 
-export const useEditTicketDetails = (
-  props: SingleTicketDetailChildComponentPropsI,
-) => {
-  const { refetch: refetchTicket } = props;
+export const useEditTicketDetails = () => {
   const router = useRouter();
   const [form, setForm] = useState<any>([]);
 
@@ -165,7 +162,6 @@ export const useEditTicketDetails = (
       if (Object?.keys(customFields)?.length > 0) {
         body.customFields = customFields;
       }
-
       const ticketDetailsData = new FormData();
       ticketDetailsData?.append(
         'requester',
@@ -182,11 +178,13 @@ export const useEditTicketDetails = (
         ticketDetailsData.append('impact', newFormData?.impact?._id);
       newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
         ticketDetailsData.append('serviceId', newFormData?.service?._id);
+      newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
+        ticketDetailsData.append('subject', newFormData?.service?.itemName);
       ticketDetailsData.append(
         'description',
         newFormData?.ticketType?._id === TICKET_TYPE?.SR
           ? newFormData?.service?.description
-          : '',
+          : data?.data?.[ARRAY_INDEX?.ZERO]?.description,
       );
       !!newFormData?.agent &&
         ticketDetailsData.append('agent', newFormData?.agent?._id);
@@ -223,7 +221,7 @@ export const useEditTicketDetails = (
 
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       successSnackbar('Ticket updated successfully');
-      refetchTicket?.();
+      router?.push(AIR_SERVICES?.TICKETS);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

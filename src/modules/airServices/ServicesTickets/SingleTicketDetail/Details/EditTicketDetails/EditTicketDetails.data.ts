@@ -58,8 +58,8 @@ export const editTicketDetailsDefaultValuesDynamic = (
   form?: any,
 ) => {
   const initialValues: any = dynamicFormInitialValue(data, form);
-
   return {
+    ...initialValues,
     category: data?.categoryDetails ?? null,
     service: data?.serviceDetails ?? null,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
@@ -83,7 +83,6 @@ export const editTicketDetailsDefaultValuesDynamic = (
         : null,
 
     plannedEffort: data?.plannedEffort ?? '',
-    ...initialValues,
   };
 };
 

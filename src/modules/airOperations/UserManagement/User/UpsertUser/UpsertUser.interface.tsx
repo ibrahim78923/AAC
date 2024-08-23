@@ -2,7 +2,7 @@ export interface UpsertUserFormDefaultValuesI {
   user?: {
     firstName: string;
     lastName: string;
-    address: string;
+    address: { [key: string]: any };
     email?: string;
     phoneNumber: string;
     jobTitle: string;

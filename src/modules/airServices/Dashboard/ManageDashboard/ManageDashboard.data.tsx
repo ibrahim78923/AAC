@@ -28,7 +28,7 @@ export const checkDashboardEditPermission = (data: any) => {
     data?.dashboardData?.access ===
     MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER
   )
-    return true;
+    return data?.loggedInUser?._id === data?.dashboardData?.ownerDetails?._id;
   if (data?.dashboardData?.access === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE)
     return (
       data?.dashboardData?.permissions ===
@@ -196,7 +196,7 @@ export const manageDashboardsDataColumnsDynamic = (
         <PermissionsGuard
           permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
         >
-          {user?._id === info?.row?.original?.createdBy && (
+          {user?._id === info?.row?.original?.ownerDetails?._id && (
             <CancelRoundedIcon
               color="error"
               sx={{ fontSize: '24px', cursor: 'pointer' }}
