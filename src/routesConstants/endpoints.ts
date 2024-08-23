@@ -659,11 +659,11 @@ export const WHATSAPP_MARKETING = {
     '/whatsapp-marketing/broadcast/{whatsappBroadcastId}',
 };
 export const SALES_DASHBOARD = {
-  DEALS_CREATED_VS_CLOSE_DATES:
-    '/sales-dashboard/deals-created-vs-closed-deals',
-  WIDGET:
-    '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
-  SALES_DASHBOARD: '/sales-dashboard',
+  SALES_DASHBOARD_LIST: '/dynamic-dashboard',
+  CREATE_SALES_DASHBOARD: '/dynamic-dashboard/create-dynamic-dashboard',
+  DEALS_CREATED_VS_CLOSE_DATES:'/sales-dashboard/deals-created-vs-closed-deals',
+  WIDGET:'/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
+  DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
 };
 
 export const AIR_MARKETER_EMAIL_FOLDER = {

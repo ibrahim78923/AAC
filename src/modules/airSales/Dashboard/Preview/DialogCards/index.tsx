@@ -1,21 +1,48 @@
 import React from 'react';
-
-import { Box, Dialog, DialogContent, Grid } from '@mui/material';
-
+import { Box, Dialog, DialogContent, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
-
 import { styles } from './DialogCards.style';
 import DealsGraph from '../../DealsGraph';
 import MeetingDetails from '../../MeetingDetails';
 import TeamActivity from '../../TeamActivity';
 import Widget from '../../Widget';
-
-import { isNullOrEmpty } from '@/utils';
-
 import { CloseModalIcon } from '@/assets/icons';
 import { NotSelectedItemImage } from '@/assets/images';
+import { AIR_SALES_DASHBOARD_REPORTS_TYPES } from '@/constants';
 
-const DialogCards = ({ open, setOpen, selectedDashoardWidget }: any) => {
+const DialogCards = ({ open, setOpen, selectedReports }: any) => {
+
+  const displayDashboardWidgets = (selectedWidget: any) => {
+    if (selectedWidget?.length > 0) {
+      return selectedWidget.map((report: any) => {
+        switch (report) {
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEALS_CREATED_VS_CLOSED_DEALS:
+            return <DealsGraph />;
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.MEETING_DETAILS:
+            return <MeetingDetails />;
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE:
+            return <TeamActivity />;
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
+            return <Widget />;
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEAL_REPORTS:
+            return <Typography variant='h6'>Under construction.....</Typography>;
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_PIPELINE_REPORT:
+            return <Typography variant='h6'>Under construction.....</Typography>;
+          case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_CATEGORY_REPORTS:
+            return <Typography variant='h6'>Under construction.....</Typography>;
+          default: return
+        }
+      });
+    }
+
+    else {
+      return <Box sx={styles?.defaultSelectedImage}>
+        <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
+      </Box>;
+    }
+
+  }
+
   const onClose = () => {
     setOpen(false);
   };
@@ -29,46 +56,25 @@ const DialogCards = ({ open, setOpen, selectedDashoardWidget }: any) => {
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: '8px',
-        },
-      }}
-    >
-      <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box sx={styles.topBar}>
+        }
+      }}>
+      <DialogContent sx={{ p: '0px 24px 24px' }}>
+        <Stack direction='row' justifyContent='space-between' alignItems='center'
+          sx={{
+            position: 'sticky',
+            top: 0,
+            backgroundColor: 'white',
+            zIndex: 1,
+            padding: '20px 24px',
+          }}>
+          <Typography variant='h4'>Preview Dashboard</Typography>
           <Box sx={styles.modalClose} onClick={onClose}>
             <CloseModalIcon />
           </Box>
-        </Box>
-        <Grid container p={2}>
-          {!isNullOrEmpty(selectedDashoardWidget) ? (
-            <>
-              {' '}
-              {selectedDashoardWidget?.closedAndCreatedDeals && (
-                <Grid item sm={12} mt={3}>
-                  <DealsGraph />
-                </Grid>
-              )}
-              {selectedDashoardWidget?.mettingDetails && (
-                <Grid item sm={12} mt={3}>
-                  <MeetingDetails />
-                </Grid>
-              )}
-              {selectedDashoardWidget?.teamActivities && (
-                <Grid item sm={12} mt={3}>
-                  <TeamActivity />
-                </Grid>
-              )}
-              {selectedDashoardWidget?.totalDeals && (
-                <Grid item sm={12} mt={3}>
-                  <Widget />
-                </Grid>
-              )}
-            </>
-          ) : (
-            <Grid item sm={12} sx={styles?.defaultSelectedImage} mt={3}>
-              <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
-            </Grid>
-          )}
-        </Grid>
+        </Stack>
+        <Stack direction='column' gap={2} p={2}>
+          {displayDashboardWidgets(selectedReports)}
+        </Stack>
       </DialogContent>
     </Dialog>
   );

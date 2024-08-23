@@ -21,7 +21,7 @@ const TeamActivity = () => {
           alignItems="center"
         >
           <Box>
-            <Typography variant="h6">Team Activity</Typography>
+            <Typography variant="h5">Team Activity</Typography>
             <Typography variant="body3" sx={{ color: theme.palette.grey[900] }}>
               Date range in last 30 days
             </Typography>

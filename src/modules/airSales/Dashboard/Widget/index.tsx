@@ -1,7 +1,5 @@
 import { Card, Typography, Grid, Box, useTheme, Stack } from '@mui/material';
-
 import { widgetData } from './Widget.data';
-
 import { v4 as uuidv4 } from 'uuid';
 import { FilterLargeWidgetIcon } from '@/assets/icons';
 
@@ -13,10 +11,9 @@ const Widget = () => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <Box>
-            <Typography variant="h6">Widget</Typography>
+            <Typography variant="h5">Widget</Typography>
             <Typography
               variant="body3"
               sx={{ color: theme?.palette?.grey[900] }}

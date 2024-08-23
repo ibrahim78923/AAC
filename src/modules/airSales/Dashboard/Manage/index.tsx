@@ -1,105 +1,138 @@
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-
+import { Box, Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
 import Search from '@/components/Search';
-
-import useManage from './useManage';
-import Table from './Table';
-
-import { ArrowLeft, FilterSharedIcon, PlusIcon } from '@/assets/icons';
-import Filters from './Filters';
+import { ArrowLeft, FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
+import Filters from './Filters';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { columns } from './Manage.data';
+import useManage from './useManage';
+import { AlertModals } from '@/components/AlertModals';
 
 const Manage = () => {
-  const router = useRouter();
-  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
+  const {
+    handleCloseDeleteModal,
+    setIsDeleteModalOpen,
+    dashboardListArray,
+    isDeleteModalOpen,
+    setIsFilterDrawer,
+    setFilterValues,
+    isFilterDrawer,
+    handelNavigate,
+    handleDelete,
+    filterValues,
+    setPageLimit,
+    resetFilters,
+    isLoading,
+    setPage,
+    router,
+    theme,
 
-  const [searchByName, setSearchByName] = useState('');
+  } = useManage();
 
-  const theme: any = useTheme();
-
-  const handelNavigate = () => {
-    router?.push({
-      pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-      query: { id: '' },
-    });
+  const columnsProps = {
+    setIsDeleteModalOpen: setIsDeleteModalOpen,
+    theme: theme
   };
 
+  const columnParams = columns(columnsProps);
+
   return (
-    <Grid container style={{ paddingLeft: '20px' }}>
-      <Grid item xs={6} sm={6} style={{ paddingLeft: '0px' }}>
-        <Box sx={{ display: 'flex' }}>
-          <Box
-            mt={0.7}
-            onClick={() =>
-              router?.push({
-                pathname: `${AIR_SALES?.SALES_DASHBOARD}`,
-              })
-            }
-            sx={{ cursor: 'pointer' }}
-          >
-            <ArrowLeft />
-          </Box>
-          <Typography
-            variant="h4"
-            sx={{ marginLeft: '15px', marginTop: '4px' }}
-          >
-            Manage Dashboards
-          </Typography>
-        </Box>
-      </Grid>
-      <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
-        <PermissionsGuard
-          permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}
-        >
-          <Button
-            startIcon={<PlusIcon />}
-            variant="contained"
-            className="medium"
-            onClick={handelNavigate}
-          >
-            Create Dashboard
-          </Button>
-        </PermissionsGuard>
-      </Grid>
-      <Grid container mt={2}>
-        <Grid item xs={10} sm={10} mb={3}>
-          <Search
-            searchBy={searchByName}
-            setSearchBy={setSearchByName}
-            label="Search By Name"
-            size="medium"
+    <>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Stack direction={{ sm: "row" }} gap={2} justifyContent='space-between'>
+            <Stack direction="row" gap={1}>
+              <Box
+                mt={0.7}
+                onClick={() => router?.push({ pathname: `${AIR_SALES?.SALES_DASHBOARD}` })}
+                sx={{ cursor: 'pointer' }}>
+                <ArrowLeft />
+              </Box>
+              <Typography variant="h3">
+                Manage Dashboards
+              </Typography>
+            </Stack>
+            <PermissionsGuard permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}>
+              <Button
+                startIcon={<PlusIcon />}
+                variant="contained"
+                className="small"
+                onClick={handelNavigate}>
+                Create Dashboard
+              </Button>
+            </PermissionsGuard>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Stack direction={{ sm: "row" }} gap={2} justifyContent='space-between'>
+            <Search
+              label={'Search here'}
+              searchBy={filterValues?.search}
+              setSearchBy={(value: string) => setFilterValues({ ...filterValues, search: value })}
+              size="small"
+            />
+            <Stack direction={{ sm: 'row' }} gap={1}>
+              <Tooltip title={'Refresh Filter'}>
+                <Button
+                  sx={{ width: { xs: '100%', sm: '50px' } }}
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  onClick={resetFilters}>
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
+              <Button
+                className="small"
+                color='inherit'
+                variant='outlined'
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsFilterDrawer(true)}>
+                Filter
+              </Button>
+            </Stack>
+
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <TanstackTable
+            columns={columnParams}
+            data={dashboardListArray?.dynamicdashboards}
+            totalRecords={dashboardListArray?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
+            count={dashboardListArray?.meta?.pages}
+            pageLimit={dashboardListArray?.meta?.limit}
+            currentPage={dashboardListArray?.meta?.page}
+            setPageLimit={setPageLimit}
+            isLoading={isLoading}
+            setPage={setPage}
+            isPagination
           />
         </Grid>
+      </Grid>
 
-        <Grid item xs={2} sm={2} sx={{ textAlign: 'end' }}>
-          <Button
-            onClick={() => setIsOpenFilterDrawer(true)}
-            startIcon={<FilterSharedIcon />}
-            sx={{
-              border: `1px solid ${theme?.palette?.grey[0]}`,
-              color: theme?.palette?.custom?.main,
-              height: '36px',
-              width: '100px',
-            }}
-          >
-            Filter
-          </Button>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} sm={12}>
-        <Table searchByName={searchByName} />
-      </Grid>
-      {isOpenFilterDrawer && (
+      {isFilterDrawer &&
         <Filters
-          isOpenDrawer={isOpenFilterDrawer}
-          onClose={() => setIsOpenFilterDrawer(false)}
+          isOpenDrawer={isFilterDrawer}
+          onClose={setIsFilterDrawer}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
         />
-      )}
-    </Grid>
+      }
+
+      {isDeleteModalOpen?.isToggle &&
+        <AlertModals
+          message="Are you sure you want to delete dashboard"
+          type="delete"
+          open={isDeleteModalOpen?.isToggle}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={() => handleDelete(isDeleteModalOpen?.id)}
+        />}
+
+    </>
+
   );
 };
 export default Manage;

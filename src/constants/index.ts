@@ -574,14 +574,14 @@ export const PLAN_STATUS = {
 };
 
 export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
-  DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
-  DEAL_REPORTS: 'Deal Reports',
-  MEETING_DETAILS: 'Meeting Details',
-  FORECAST_CATEGORY_REPORTS: 'Forecast Category Reports',
-  FORECAST_PIPELINE_REPORT: 'Forecast Pipeline Report',
-  TEAM_ACTIVITIES_BY_DATE: 'Team Activities by Activity Date',
-  TOTAL_DEALS_OPEN_DEALS:
-    'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
+  DEALS_CREATED_VS_CLOSED_DEALS: 'Deals_created_vs_Closed_Deals',
+  MEETING_DETAILS: 'Meeting_Details',
+  TEAM_ACTIVITIES_BY_ACTIVITY_DATE: 'Team_Activities_by_Activity_Date',
+  TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
+    'Total_Deals_Open_Deals_Team_Goals_Closed_Won_Published_Quotes',
+  DEAL_REPORTS: 'Deal_Reports',
+  FORECAST_PIPELINE_REPORT: 'Forecast_Pipeline_Report',
+  FORECAST_CATEGORY_REPORTS: 'Forecast_Category_Reports',
 };
 
 export const PRODUCT_LABELS = {

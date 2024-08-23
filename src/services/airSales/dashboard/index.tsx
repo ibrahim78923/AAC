@@ -4,6 +4,7 @@ const TAG = ['SALES_DASHBOARD'];
 
 export const salesDashboardApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
+
     getDealsCreated: builder.query({
       query: ({ params }: any) => ({
         url: `${SALES_DASHBOARD?.DEALS_CREATED_VS_CLOSE_DATES}`,
@@ -12,9 +13,10 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
     getSalesDashboards: builder.query({
       query: ({ params }: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD}`,
+        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}`,
         method: 'GET',
         params: params,
       }),
@@ -23,9 +25,17 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
 
     postSalesDashboard: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD}`,
+        url: `${SALES_DASHBOARD?.CREATE_SALES_DASHBOARD}`,
         method: 'POST',
         body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    deleteSalesDashboard: builder.mutation({
+      query: (ids: any) => ({
+        url: `${SALES_DASHBOARD?.DELETE_SALES_DASHBOARD}?ids=${ids}`,
+        method: 'DELETE',
       }),
       invalidatesTags: TAG,
     }),
@@ -47,6 +57,6 @@ export const {
   useGetDealsCreatedQuery,
   useGetSalesDashboardsQuery,
   usePostSalesDashboardMutation,
-
+  useDeleteSalesDashboardMutation,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
 } = salesDashboardApi;

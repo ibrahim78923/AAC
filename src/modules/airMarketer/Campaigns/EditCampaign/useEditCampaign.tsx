@@ -60,7 +60,7 @@ const useEditCampaigns = (
   const getDynamicFormData = async () => {
     const params = {
       productType: DYNAMIC_FIELDS?.PT_MARKETING,
-      moduleType: DYNAMIC_FIELDS?.MT_CAMPAIGNS,
+      moduleType: DYNAMIC_FIELDS?.MT_CAMPAIGN_CREATE,
     };
     const getDynamicFieldsParameters = { params };
 

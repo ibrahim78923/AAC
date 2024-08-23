@@ -5,15 +5,17 @@ import TeamActivity from './TeamActivity';
 import Widget from './Widget';
 import CreateDashboardOptions from './CreateDashboardOptions';
 import DealsGraph from './DealsGraph';
+import useDashboard from './useDashboard';
 
 const Dashboard = () => {
+  const {setIsShowEditDashboard}= useDashboard();
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Stack direction={{ sm: 'row' }} justifyContent="space-between" gap={1}>
           <Typography variant="h3">Sales Dashboard</Typography>
           <Stack direction={{ sm: 'row' }} gap={1}>
-            <Actions />
+            <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
             <CreateDashboardOptions />
           </Stack>
         </Stack>

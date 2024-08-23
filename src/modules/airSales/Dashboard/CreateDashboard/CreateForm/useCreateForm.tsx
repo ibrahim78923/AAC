@@ -1,21 +1,21 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 const useCreateForm = () => {
+  const router = useRouter();
   const [isOpenPreview, setIsOpenPreview] = useState(false);
-  const [selectedDashoardWidget, setSelectedDashboardWidgets] = useState<any>();
   const [accessValue, setAccessValue] = useState('');
   const handleChangeAccessValue = (event: any) => {
     setAccessValue(event?.target?.value);
   };
 
   return {
-    isOpenPreview,
-    setIsOpenPreview,
-    selectedDashoardWidget,
-    setSelectedDashboardWidgets,
     handleChangeAccessValue,
-    accessValue,
+    setIsOpenPreview,
     setAccessValue,
+    isOpenPreview,
+    accessValue,
+    router
   };
 };
 export default useCreateForm;
