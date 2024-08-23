@@ -31,6 +31,8 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { IAgentsProps } from '../Agents.interface';
+import { useAuthCompanyVerificationMutation } from '@/services/auth';
+import { UpsertAgentResponseI } from './UpsertAgent.interface';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
   const auth: any = useAuth();
@@ -54,6 +56,8 @@ export const useUpsertAgent = (props: IAgentsProps) => {
 
   const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
   const [patchAgentTrigger, patchAgentStatus] = usePatchAgentMutation();
+  const [igVerificationTrigger, igVerificationStatus] =
+    useAuthCompanyVerificationMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -160,8 +164,13 @@ export const useUpsertAgent = (props: IAgentsProps) => {
         updateAgent?.(payload);
         return;
       }
-
-      await postAgentTrigger(apiDataParameter)?.unwrap();
+      const response = (await postAgentTrigger(
+        apiDataParameter,
+      )?.unwrap()) as UpsertAgentResponseI;
+      const email = {
+        email: response?.email,
+      };
+      await igVerificationTrigger({ email })?.unwrap();
       successSnackbar('Invite Agent Successfully!');
       handleClose?.();
     } catch (e: any) {
@@ -228,5 +237,6 @@ export const useUpsertAgent = (props: IAgentsProps) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    igVerificationStatus,
   };
 };

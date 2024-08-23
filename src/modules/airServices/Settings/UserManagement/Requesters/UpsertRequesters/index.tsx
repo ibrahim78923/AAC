@@ -22,6 +22,7 @@ const UpsertRequesters = (props: IRequestersProps) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    igVerificationStatus,
   }: any = useUpsertRequester(props);
   return (
     <>
@@ -36,17 +37,20 @@ const UpsertRequesters = (props: IRequestersProps) => {
         isLoading={
           addRequesterStatus?.isLoading ||
           patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
+          postAttachmentStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         isDisabled={
           addRequesterStatus?.isLoading ||
           patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
+          postAttachmentStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         disabledCancelBtn={
           addRequesterStatus?.isLoading ||
           patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
+          postAttachmentStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
       >
         <Box mt={1}>

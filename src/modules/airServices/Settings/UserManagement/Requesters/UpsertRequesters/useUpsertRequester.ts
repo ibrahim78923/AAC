@@ -27,6 +27,8 @@ import {
 } from '@/utils/dynamic-forms';
 import { useEffect, useState } from 'react';
 import { IRequestersProps } from '../Requesters.interface';
+import { useAuthCompanyVerificationMutation } from '@/services/auth';
+import { UpsertRequestersResponseI } from './UpsertRequesters.interface';
 
 export const useUpsertRequester = (props: IRequestersProps) => {
   const { setIsDrawerOpen, singleRequesterDetails } = props;
@@ -44,7 +46,8 @@ export const useUpsertRequester = (props: IRequestersProps) => {
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
     usePostDynamicFormAttachmentsMutation();
-
+  const [igVerificationTrigger, igVerificationStatus] =
+    useAuthCompanyVerificationMutation();
   const getDynamicFormData = async () => {
     const params = {
       productType: DYNAMIC_FIELDS?.PT_SERVICES,
@@ -141,7 +144,13 @@ export const useUpsertRequester = (props: IRequestersProps) => {
         return;
       }
 
-      await addRequesterTrigger(payload)?.unwrap();
+      const response = (await addRequesterTrigger(
+        payload,
+      )?.unwrap()) as UpsertRequestersResponseI;
+      const email = {
+        email: response?.email,
+      };
+      await igVerificationTrigger({ email })?.unwrap();
       handleClose?.();
       successSnackbar('Requesters Added Successfully');
     } catch (e: any) {
@@ -189,5 +198,6 @@ export const useUpsertRequester = (props: IRequestersProps) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    igVerificationStatus,
   };
 };

@@ -31,6 +31,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    igVerificationStatus,
   } = useUpsertAgent(props);
 
   return (
@@ -96,7 +97,8 @@ export const UpsertAgent = (props: IAgentsProps) => {
               disabled={
                 patchAgentStatus?.isLoading ||
                 postAgentStatus?.isLoading ||
-                postAttachmentStatus?.isLoading
+                postAttachmentStatus?.isLoading ||
+                igVerificationStatus?.isLoading
               }
             >
               Cancel
@@ -112,7 +114,8 @@ export const UpsertAgent = (props: IAgentsProps) => {
               loading={
                 patchAgentStatus?.isLoading ||
                 postAgentStatus?.isLoading ||
-                postAttachmentStatus?.isLoading
+                postAttachmentStatus?.isLoading ||
+                igVerificationStatus?.isLoading
               }
             >
               {!!selectedAgentList?.length ? 'Update' : 'Save'}

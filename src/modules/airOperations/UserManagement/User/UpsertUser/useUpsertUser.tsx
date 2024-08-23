@@ -18,7 +18,12 @@ import {
   useUpdateProductUserForOperationMutation,
 } from '@/services/airOperations/user-management/user';
 import { UserPortalComponentPropsI } from '../User.interface';
-import { RoleApiQueryParamsI, UpsertUserFormI } from './UpsertUser.interface';
+import {
+  RoleApiQueryParamsI,
+  UpsertUserFormI,
+  UserManagementResponseI,
+} from './UpsertUser.interface';
+import { useAuthCompanyVerificationMutation } from '@/services/auth';
 
 export const useUpsertUser = (props: UserPortalComponentPropsI) => {
   const { setIsPortalOpen, isPortalOpen, userId, setSelectedUserList } = props;
@@ -37,7 +42,8 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
     addProductUserForOperationTrigger,
     addProductUserForOperationStatus,
   ]: any = useAddProductUserForOperationMutation?.();
-
+  const [igVerificationTrigger, igVerificationStatus] =
+    useAuthCompanyVerificationMutation();
   const getSingleUserApiParameter = {
     pathParams: {
       id: userId,
@@ -107,7 +113,13 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
     }
 
     try {
-      await addProductUserForOperationTrigger?.(apiDataParameter)?.unwrap();
+      const response = (await addProductUserForOperationTrigger?.(
+        apiDataParameter,
+      )?.unwrap()) as UserManagementResponseI;
+      const email = {
+        email: response?.data?.data?.user?.email,
+      };
+      await igVerificationTrigger({ email })?.unwrap();
       successSnackbar('User added successfully');
       closeOperationUserForm?.();
     } catch (error: any) {
@@ -139,6 +151,7 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
     roleApiQuery,
     roleApiQueryParams,
     teamApiQuery,
+    isPortalOpen,
   );
 
   const closeOperationUserForm = () => {
@@ -164,5 +177,6 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
     isFetching,
     isError,
     refetch,
+    igVerificationStatus,
   };
 };

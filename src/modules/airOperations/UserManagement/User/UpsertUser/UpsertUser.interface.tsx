@@ -36,3 +36,32 @@ export interface RoleApiQueryParamsI {
   organizationCompanyAccountId: string;
   limit: number;
 }
+
+export interface UserManagementResponseI {
+  statusCode: number;
+  message: string;
+  data: {
+    statusCode: number;
+    message: string;
+    data: {
+      _id: string;
+      user: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+      };
+      role: {
+        _id: string;
+        name: string;
+      };
+      team: {
+        _id: string;
+        name: string;
+      };
+      status: string;
+    } | null;
+    error: any;
+  } | null;
+  error: any;
+}

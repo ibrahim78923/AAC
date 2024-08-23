@@ -64,6 +64,7 @@ export const upsertUserFormFieldsDynamic = (
   roleApiQuery: any,
   roleApiQueryParams: RoleApiQueryParamsI,
   teamApiQuery: any,
+  isPortalOpen: any,
 ) => [
   {
     id: 1,
@@ -109,6 +110,7 @@ export const upsertUserFormFieldsDynamic = (
       placeholder: 'Enter Email',
       fullWidth: true,
       required: true,
+      disabled: isPortalOpen?.isEdit,
     },
     component: RHFTextField,
   },

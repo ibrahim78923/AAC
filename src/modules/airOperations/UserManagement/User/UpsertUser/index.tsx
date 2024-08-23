@@ -21,6 +21,7 @@ export const UpsertUser = (props: UserPortalComponentPropsI) => {
     isFetching,
     isError,
     refetch,
+    igVerificationStatus,
   } = useUpsertUser(props);
 
   return (
@@ -52,15 +53,18 @@ export const UpsertUser = (props: UserPortalComponentPropsI) => {
         }
         isLoading={
           addProductUserForOperationStatus?.isLoading ||
-          updateProductUserForOperationStatus?.isLoading
+          updateProductUserForOperationStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         isDisabled={
           addProductUserForOperationStatus?.isLoading ||
-          updateProductUserForOperationStatus?.isLoading
+          updateProductUserForOperationStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         disabledCancelBtn={
           addProductUserForOperationStatus?.isLoading ||
-          updateProductUserForOperationStatus?.isLoading
+          updateProductUserForOperationStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
       >
         {isLoading || isFetching ? (
@@ -82,7 +86,9 @@ export const UpsertUser = (props: UserPortalComponentPropsI) => {
                       <item.component
                         {...item?.componentProps}
                         size={'small'}
-                        disabled={isPortalOpen?.isView}
+                        disabled={
+                          item?.componentProps?.disabled || isPortalOpen?.isView
+                        }
                       />
                     </Grid>
                   ))}
