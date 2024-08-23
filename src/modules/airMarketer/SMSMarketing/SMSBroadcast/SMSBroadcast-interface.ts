@@ -51,6 +51,6 @@ export interface SMSBroadcastHeaderProps {
   resetFilters: () => void;
   datePickerVal: any;
   setDatePickerVal: (value: any) => void;
-  startedDate: string;
-  endedDate: string;
+  startedDate: number;
+  endedDate: number;
 }

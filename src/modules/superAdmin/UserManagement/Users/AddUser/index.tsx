@@ -48,6 +48,7 @@ const AddUser = ({
     postUserLoading,
     userDetailLoading,
     updateUserLoading,
+    authCompanyLoading,
     checkedEmailError,
     postEmployeeLoading,
   } = useAddUser(useActionParams);
@@ -71,7 +72,12 @@ const AddUser = ({
       isDisabled={checkedEmailError}
       isOk={isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW ? false : true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postUserLoading || updateUserLoading || postEmployeeLoading}
+      isLoading={
+        postUserLoading ||
+        updateUserLoading ||
+        postEmployeeLoading ||
+        authCompanyLoading
+      }
       footer
     >
       <FormProvider methods={methods}>

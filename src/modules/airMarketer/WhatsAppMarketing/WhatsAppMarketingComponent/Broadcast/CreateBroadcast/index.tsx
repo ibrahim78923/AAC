@@ -9,10 +9,13 @@ import {
   AvatarGroup,
   CircularProgress,
 } from '@mui/material';
-import { ArrowBackIcon } from '@/assets/icons';
-import DateRangeIcon from '@mui/icons-material/DateRange';
+import { ArrowBackIcon, TimeClockIcon } from '@/assets/icons';
 import { contactsColumns } from './CreateBroadcast.data';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFDateTimePicker,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateBroadcast from './useCreateBroadcast';
 import { styles } from './CreateBroadcast.style';
@@ -21,11 +24,11 @@ import AddContactDrawer from './AddContactDrawer/index';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { AvatarImage } from '@/assets/images';
 import { LoadingButton } from '@mui/lab';
-import { DRAWER_TYPES, SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
-import { DATE_TIME_FORMAT } from '@/constants';
+import {
+  DRAWER_TYPES,
+  SMS_BROADCAST_CONSTANTS,
+  STATUS_CONTANTS,
+} from '@/constants/strings';
 import dayjs from 'dayjs';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { componentMap } from '@/utils/dynamic-forms';
@@ -41,11 +44,11 @@ const CreateBroadcast = () => {
     postBroadcastLoading,
     selectedContactsData,
     flattenContactsData,
-    setSelectedDateVal,
     previewAttachment,
     setSelectedRec,
     setIsSchedule,
-    previewDetail,
+    createStatus,
+    setCreateStatus,
     handleSubmit,
     selectedRec,
     previewName,
@@ -57,25 +60,55 @@ const CreateBroadcast = () => {
     theme,
     type,
     form,
+    detailsMsg,
     getDynamicFieldsStatus,
+    handleSaveAsDraft,
   } = useCreateBroadcast();
 
   return (
     <>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
-        <Box
-          onClick={() =>
-            router?.push({ pathname: AIR_MARKETER?.WHATSAPP_MARKETING })
-          }
-          sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
-        >
-          <ArrowBackIcon />
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        flexWrap="wrap"
+        gap={1}
+        mb={3}
+      >
+        <Box display="flex" gap={0.5} alignItems="center">
+          <Box
+            onClick={() =>
+              router?.push({ pathname: AIR_MARKETER?.WHATSAPP_MARKETING })
+            }
+            sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
+          >
+            <ArrowBackIcon />
+          </Box>
+          <Typography sx={styles?.heading} variant="h3">
+            {type === DRAWER_TYPES?.EDIT
+              ? ' Update Broadcast'
+              : 'Create Broadcast'}
+          </Typography>
         </Box>
-        <Typography sx={styles?.heading} variant="h3">
-          {type === DRAWER_TYPES?.EDIT
-            ? ' Update Broadcast'
-            : 'Create Broadcast'}
-        </Typography>
+        <Box
+          onMouseOver={() => {
+            setCreateStatus(STATUS_CONTANTS?.DRAFT);
+          }}
+        >
+          {type === DRAWER_TYPES?.ADD && (
+            <LoadingButton
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleSaveAsDraft}
+              loading={
+                createStatus === STATUS_CONTANTS?.DRAFT && postBroadcastLoading
+              }
+            >
+              Save as Draft
+            </LoadingButton>
+          )}
+        </Box>
       </Box>
 
       <FormProvider methods={methods}>
@@ -155,6 +188,21 @@ const CreateBroadcast = () => {
                           ))}
                         </Grid>
                       )}
+                      {item?.componentProps?.name ===
+                        SMS_BROADCAST_CONSTANTS?.DETAILS &&
+                        isSchedule && (
+                          <Box sx={{ mt: 2 }}>
+                            <RHFDateTimePicker
+                              name="schedualDate"
+                              label="Select Date and Time"
+                              fullWidth
+                              size="small"
+                              disablePast
+                              required
+                              minDateTime={dayjs()}
+                            />
+                          </Box>
+                        )}
                     </Grid>
                   );
                 })}
@@ -213,7 +261,7 @@ const CreateBroadcast = () => {
                 <Grid item xs={12}>
                   <Box sx={styles?.previewLabel}>Details</Box>
                   <Box sx={styles?.previewDetails}>
-                    <Box dangerouslySetInnerHTML={{ __html: previewDetail }} />
+                    <Box dangerouslySetInnerHTML={{ __html: detailsMsg }} />
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
@@ -231,46 +279,26 @@ const CreateBroadcast = () => {
               item
               md={12}
               sx={{ display: 'flex', justifyContent: 'right', gap: '10px' }}
+              onMouseOver={() => {
+                setCreateStatus(STATUS_CONTANTS?.COMPLETED);
+              }}
             >
-              <Box sx={styles?.buttonPicker}>
-                <Button
-                  variant="outlined"
-                  color="inherit"
-                  className="small"
-                  onClick={() => {
-                    setIsSchedule(!isSchedule);
-                  }}
-                  startIcon={<DateRangeIcon />}
-                >
-                  Schedule
-                </Button>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  {isSchedule && (
-                    <Box sx={styles?.datePickerWrapper}>
-                      <StaticDateTimePicker
-                        defaultValue={dayjs()}
-                        onAccept={(date: any) => {
-                          setIsSchedule(false);
-                          setSelectedDateVal(
-                            dayjs(date)?.format(DATE_TIME_FORMAT?.YYMMDD),
-                          );
-                        }}
-                        onClose={() => {
-                          setIsSchedule(false);
-                        }}
-                      />
-                    </Box>
-                  )}
-                </LocalizationProvider>
-              </Box>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={() => {
+                  setIsSchedule(!isSchedule);
+                }}
+                startIcon={<TimeClockIcon />}
+              >
+                {isSchedule ? 'Send Now' : 'Send Later'}
+              </Button>
               <LoadingButton
                 variant="contained"
                 className="small"
                 onClick={handleSubmit(onSubmit)}
-                loading={
-                  // createStatus === STATUS_CONTANTS?.COMPLETED &&
-                  postBroadcastLoading || updateBroadcastLoading
-                }
+                loading={postBroadcastLoading || updateBroadcastLoading}
               >
                 Send Now
               </LoadingButton>

@@ -384,6 +384,7 @@ export const CONTRACT_ACTION = {
 
 export const SMS_BROADCAST_CONSTANTS = {
   RECIPIENTS: 'recipients',
+  DETAILS: 'detail',
 };
 
 export enum ROLES {

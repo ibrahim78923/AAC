@@ -22,6 +22,7 @@ const AddUsers = (props: AddUsersProps) => {
     postUserLoading,
     updateUserLoading,
     productUserByIdLoading,
+    authCompanyVerificationLoading,
   } = useAddUser(isAddUserDrawer, setIsAddUserDrawer);
 
   return (
@@ -45,7 +46,9 @@ const AddUsers = (props: AddUsersProps) => {
       footer={isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postUserLoading || updateUserLoading}
+      isLoading={
+        postUserLoading || updateUserLoading || authCompanyVerificationLoading
+      }
     >
       <Typography
         sx={{

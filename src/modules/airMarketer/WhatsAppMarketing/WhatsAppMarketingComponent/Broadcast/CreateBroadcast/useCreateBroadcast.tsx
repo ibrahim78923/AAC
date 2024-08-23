@@ -7,7 +7,7 @@ import {
   broadCastValidationSchema,
   createBroadcastFields,
 } from './CreateBroadcast.data';
-import { SMS_MARKETING_CONSTANTS } from '@/constants/strings';
+import { SMS_MARKETING_CONSTANTS, STATUS_CONTANTS } from '@/constants/strings';
 import {
   useGetWhatsappBroadcatsByIdQuery,
   usePostWhatsappBroadcastMutation,
@@ -41,6 +41,7 @@ const useCreateBroadcast = () => {
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [selectedDateVal, setSelectedDateVal] = useState<any>(null);
   const [isSchedule, setIsSchedule] = useState(false);
+  const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
   const [form, setForm] = useState<any>([]);
 
   const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =
@@ -71,7 +72,7 @@ const useCreateBroadcast = () => {
   }, []);
 
   const methods: any = useForm({
-    resolver: yupResolver(broadCastValidationSchema(form)),
+    resolver: yupResolver(broadCastValidationSchema(isSchedule, form)),
     defaultValues: broadcastDefaultValues?.(),
   });
 
@@ -85,17 +86,15 @@ const useCreateBroadcast = () => {
   };
 
   const { handleSubmit, reset, watch, setValue } = methods;
-  const detailsText = watch('detail');
   const previewName = watch(SMS_MARKETING_CONSTANTS?.NAME);
-  const previewDetail = watch(SMS_MARKETING_CONSTANTS?.DETAIL);
   const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
   const templateData = watch('templateId');
+  const [detailsMsg, setDetailMsg] = useState(templateData?.detail);
 
   const processString = (input: any) => {
     const regex = /\[(.*?)\]/g;
     const matches = [];
     let match;
-    // Collect all matches and store them in an array
     while ((match = regex.exec(input)) !== null) {
       matches.push(match[1]);
     }
@@ -108,18 +107,17 @@ const useCreateBroadcast = () => {
   );
 
   useEffect(() => {
-    let detailsText = templateData?.detail;
+    let detailsTextMsg = templateData?.detail;
     templateDetailsVariables?.forEach((variable, index) => {
       const variableValue = variableValues[index];
-
       if (variableValue) {
         const regex = new RegExp(`\\[${variable}\\]`, 'g');
-        detailsText = detailsText?.replace(regex, `[${variableValue}]`);
+        detailsTextMsg = detailsTextMsg?.replace(regex, variableValue);
+        setDetailMsg(detailsTextMsg);
       }
     });
-    setValue('detail', detailsText);
+    setValue('detail', templateData?.detail);
   }, [JSON?.stringify(variableValues), setValue, templateData?.detail]);
-
   const formFields = createBroadcastFields(handleOpenContactsDrawer);
 
   const [postWhatsappBroadcast, { isLoading: postBroadcastLoading }] =
@@ -127,71 +125,6 @@ const useCreateBroadcast = () => {
 
   const [updateWhatsappBroadcast, { isLoading: updateBroadcastLoading }] =
     useUpdateWhatsappBroadcastMutation();
-
-  // useEffect(() => {
-  //   if (type === DRAWER_TYPES?.EDIT) {
-  //     const data = getWhatsappBroadcatsById?.data;
-
-  //     const fieldsToSet: any = {
-  //       name: data?.name,
-  //       campaignId: data?.campaign[0],
-  //       templateId: data?.template[0],
-  //       detail: data?.detail,
-  //       attachment: data?.attachment?.url,
-  //       recipients:
-  //         data?.recipients?.map(
-  //           (item: any) => `${item?.firstName} ${item?.lastName}`,
-  //         ) ?? [],
-  //     };
-  //     for (const key in fieldsToSet) {
-  //       setValue(key, fieldsToSet[key]);
-  //     }
-  //     setSelectedContactsData(data?.recipients ?? []);
-  //     setSelectedRec(data?.recipients);
-  //   }
-  // }, [getWhatsappBroadcatsById?.data]);
-
-  // const onSubmit = async (values: any) => {
-  //   const broadcastFormData = new FormData();
-  //   const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
-  //   const cleanedDetailsText = removeHtmlTags(detailsText);
-  //   broadcastFormData?.append('senderId', user?._id);
-  //   broadcastFormData?.append('name', values?.name);
-  //   broadcastFormData?.append('campaignId', values?.campaignId?._id);
-  //   broadcastFormData?.append('templateId', values?.templateId?._id);
-  //   broadcastFormData?.append('attachment', values?.attachment);
-  //   broadcastFormData?.append(
-  //     'recipients',
-  //     selectedContactsData?.map((item: any) => item?._id),
-  //   );
-  //   broadcastFormData?.append('detail', cleanedDetailsText);
-  //   try {
-  //     if (type === DRAWER_TYPES?.EDIT) {
-  //       await updateWhatsappBroadcast({
-  //         id: selectedBroadCast,
-  //         body: broadcastFormData,
-  //       })?.unwrap();
-  //       enqueueSnackbar(`Broadcast updated Successfully`, {
-  //         variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //       });
-  //       return;
-  //     }
-  //     await postWhatsappBroadcast({ body: broadcastFormData })?.unwrap();
-  //     enqueueSnackbar(`Broadcast created Successfully`, {
-  //       variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //     });
-  //   } catch (error: any) {
-  //     const errMsg = error?.data?.message;
-  //     const errMessage = Array?.isArray(errMsg)
-  //       ? errMsg[ARRAY_INDEX?.ZERO]
-  //       : errMsg;
-  //     enqueueSnackbar(errMessage ?? 'Error occurred', {
-  //       variant: NOTISTACK_VARIANTS?.ERROR,
-  //     });
-  //   }
-  //   navigate?.push(AIR_MARKETER?.WHATSAPP_MERKETING);
-  //   reset();
-  // };
 
   useEffect(() => {
     const editBradcastData = {
@@ -203,25 +136,32 @@ const useCreateBroadcast = () => {
       ),
     };
     reset(() => broadcastDefaultValues(editBradcastData, form));
+    setSelectedContactsData(getWhatsappBroadcatsById?.data?.recipients ?? []);
+    setSelectedRec(getWhatsappBroadcatsById?.data?.recipients ?? []);
+    setIsSchedule(getWhatsappBroadcatsById?.data?.schedualDate ? true : false);
   }, [getWhatsappBroadcatsById?.data, reset, form]);
 
   const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
 
   const onSubmit = async (data: any) => {
-    data.senderId = user?._id;
-    data.recipients = selectedContactsData?.map((item: any) => item?._id);
-    data.campaignId = data?.campaignId?._id;
-    data.templateId = data?.templateId?._id;
-    data.templateSid = templateData?.sid;
-
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
-    const cleanedDetailsText = removeHtmlTags(detailsText);
-    data.detail = cleanedDetailsText;
-    data.variables = templateDetailsVariables;
-    templateDetailsVariables?.forEach((variable) => {
-      delete data[variable];
-    });
-    const filteredEmptyData = filteredEmptyValues(data);
+    const cleanedDetailsText = removeHtmlTags(detailsMsg);
+
+    const payloadData: any = {
+      name: data.broadcastName,
+      senderId: user?._id,
+      recipients: selectedContactsData?.map((item: any) => item?._id),
+      campaignId: data?.campaignId?._id,
+      templateId: data?.templateId?._id,
+      templateSid: templateData?.sid,
+      status: createStatus,
+      detail: cleanedDetailsText,
+      variables: templateDetailsVariables,
+    };
+    if (isSchedule) {
+      payloadData.schedualDate = data?.schedualDate;
+    }
+    const filteredEmptyData = filteredEmptyValues(payloadData);
 
     const customFields: any = {};
     const body: any = {};
@@ -273,7 +213,6 @@ const useCreateBroadcast = () => {
       const formData = new FormData();
       if (body?.customFields) {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
-        formData?.append('detail', cleanedDetailsText);
       }
       delete body?.customFields;
       delete body?.detail;
@@ -289,9 +228,12 @@ const useCreateBroadcast = () => {
     }
   };
 
+  const handleSaveAsDraft = () => {
+    methods?.handleSubmit(onSubmit)();
+  };
+
   const submitUpdateTemplate = async (data: any) => {
     const formData = new FormData();
-    formData.append('language', 'English');
     Object.keys(data).forEach((key) => {
       formData.append(key, JSON?.stringify(data[key]));
     });
@@ -336,7 +278,6 @@ const useCreateBroadcast = () => {
     selectedDateVal,
     setSelectedRec,
     setIsSchedule,
-    previewDetail,
     handleSubmit,
     previewName,
     selectedRec,
@@ -346,9 +287,13 @@ const useCreateBroadcast = () => {
     methods,
     router,
     theme,
+    handleSaveAsDraft,
     type,
     getDynamicFieldsStatus,
     form,
+    detailsMsg,
+    createStatus,
+    setCreateStatus,
   };
 };
 

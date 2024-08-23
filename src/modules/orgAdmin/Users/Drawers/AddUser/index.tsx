@@ -28,6 +28,7 @@ const AddUser = ({
     setIsToggled,
     addressVal,
     postUserLoading,
+    authVerificaionLoading,
   } = useAddUser(useActionParams);
 
   return (
@@ -39,7 +40,7 @@ const AddUser = ({
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
       footer
-      isLoading={postUserLoading}
+      isLoading={postUserLoading || authVerificaionLoading}
     >
       <Typography variant="body2">
         Add a new user to this organization

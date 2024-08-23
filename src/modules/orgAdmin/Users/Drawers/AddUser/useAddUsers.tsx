@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import useToggle from '@/hooks/useToggle';
 import { EQuickLinksType } from '@/constants';
+import { useAuthCompanyVerificationMutation } from '@/services/auth';
 
 const useAddUser = (useActionParams?: any) => {
   const { organizationId, setIsOpenAdduserDrawer } = useActionParams;
@@ -14,6 +15,9 @@ const useAddUser = (useActionParams?: any) => {
 
   const [postUserEmployee, { isLoading: postUserLoading }] =
     usePostUserEmployeeMutation();
+
+  const [authCompanyVerification, { isLoading: authVerificaionLoading }] =
+    useAuthCompanyVerificationMutation();
 
   // form methods
   const methods: any = useForm({
@@ -73,12 +77,20 @@ const useAddUser = (useActionParams?: any) => {
     }
 
     try {
-      await postUserEmployee({ id: organizationId, body: bodyVals })?.unwrap();
-      setIsOpenAdduserDrawer(false);
-      enqueueSnackbar('User Added Successfully', {
-        variant: 'success',
-      });
-      reset();
+      const response = await postUserEmployee({
+        id: organizationId,
+        body: bodyVals,
+      })?.unwrap();
+      if (response?.data?.email) {
+        await authCompanyVerification({
+          email: { email: response?.data?.email },
+        })?.unwrap();
+        setIsOpenAdduserDrawer(false);
+        enqueueSnackbar('User Added Successfully', {
+          variant: 'success',
+        });
+        reset();
+      }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -94,6 +106,7 @@ const useAddUser = (useActionParams?: any) => {
     isToggled,
     setIsToggled,
     postUserLoading,
+    authVerificaionLoading,
     addressVal: formValues.compositeAddress,
   };
 };

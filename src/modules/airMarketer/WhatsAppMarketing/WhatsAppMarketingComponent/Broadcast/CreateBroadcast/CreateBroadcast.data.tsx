@@ -16,13 +16,20 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 
-export const broadCastValidationSchema = (form: any) => {
+export const broadCastValidationSchema = (isSchedule: any, form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
   return Yup?.object()?.shape({
-    name: Yup?.string()?.required('Field is Required'),
+    broadcastName: Yup?.string()?.required('Field is Required'),
     campaignId: Yup?.object()?.required('Field is Required'),
     templateId: Yup?.object()?.required('Field is Required'),
     detail: Yup?.string()?.required('Field is Required'),
+    schedualDate: Yup?.date()
+      ?.nullable()
+      ?.when([], () =>
+        isSchedule
+          ? Yup?.date()?.required('Field is Required')
+          : Yup?.date()?.nullable(),
+      ),
     ...formSchema,
   });
 };
@@ -30,12 +37,13 @@ export const broadCastValidationSchema = (form: any) => {
 export const broadcastDefaultValues = (data?: any, form?: any) => {
   const initialValues: any = dynamicFormInitialValue(data, form);
   return {
-    name: data?.name ?? '',
+    broadcastName: data?.name ?? '',
     campaignId: data?.campaignId ?? null,
     templateId: data?.templateId ?? null,
     recipients: data?.recipients ?? '',
     detail: data?.detail ?? '',
     attachment: data?.attachment ?? '',
+    schedualDate: null,
     ...initialValues,
   };
 };
@@ -48,7 +56,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       id: '01',
       componentProps: {
         label: 'Broadcast Name',
-        name: 'name',
+        name: 'broadcastName',
         fullWidth: true,
         placeholder: 'Enter Name',
         required: true,

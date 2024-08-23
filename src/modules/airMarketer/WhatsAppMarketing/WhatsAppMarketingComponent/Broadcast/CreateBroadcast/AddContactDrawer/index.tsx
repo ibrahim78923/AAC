@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import AllContacts from './AllContacts';
 import GroupContacts from './GroupContacts';
 import useAddContactDrawer from './useAddContactsDrawer';
-import { useEffect } from 'react';
 import { SMS_MARKETING_CONSTANTS } from '@/constants/strings';
 
 const AddContactDrawer = (props: any) => {
@@ -20,10 +19,6 @@ const AddContactDrawer = (props: any) => {
 
   const { onSubmit, handleSubmit, radioVal, methods, allContactsData } =
     useAddContactDrawer(onClose, setSelectedContactsData, selectedRec);
-
-  useEffect(() => {
-    setSelectedRec([]);
-  }, [radioVal]);
 
   return (
     <CommonDrawer

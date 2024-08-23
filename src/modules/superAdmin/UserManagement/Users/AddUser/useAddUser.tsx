@@ -13,10 +13,12 @@ import {
 } from './AddUser.data';
 import { useEffect, useState } from 'react';
 import { debouncedSearch } from '@/utils';
-import { useGetAuthCompaniesQuery } from '@/services/auth';
+import {
+  useAuthCompanyVerificationMutation,
+  useGetAuthCompaniesQuery,
+} from '@/services/auth';
 import { EQuickLinksType, SUPER_ADMIN } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
-import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 import useToggle from '@/hooks/useToggle';
 import { ACTIONS_TYPES } from '@/constants/strings';
 import {
@@ -45,8 +47,8 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
 
   const [postUserEmployee, { isLoading: postEmployeeLoading }] =
     usePostUserEmployeeMutation();
-  const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
-    useUserDetailsList();
+  const [authCompanyVerification, { isLoading: authCompanyLoading }] =
+    useAuthCompanyVerificationMutation();
   const updateUserId = isOpenAddUserDrawer?.recordId;
 
   const { data: userDetailData, isLoading: userDetailLoading } =
@@ -264,29 +266,35 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     }
 
     try {
-      isOpenAddUserDrawer?.type === ACTIONS_TYPES?.ADD
-        ? (await postUsers({ body: values })?.unwrap(),
-          reset(),
-          setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
-        : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
-      setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
-      enqueueSnackbar(
-        `User ${
-          isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
-            ? 'updated'
-            : 'added'
-        } Successfully`,
-        {
-          variant: 'success',
-        },
-      );
-      setIsAddEmployyeDrawer(false);
+      if (isOpenAddUserDrawer?.type === ACTIONS_TYPES?.ADD) {
+        const response = await postUsers({ body: values })?.unwrap();
+        if (response) {
+          await authCompanyVerification({
+            email: { email: response?.email },
+          })?.unwrap();
+          reset();
+          setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
+          enqueueSnackbar('User Added Successfully', { variant: 'success' });
+        }
+      } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
+        const response = await postUserEmployee({
+          id: organizationId,
+          body: values,
+        })?.unwrap();
+        if (response?.data?.email) {
+          await authCompanyVerification({
+            email: { email: response?.data?.email },
+          })?.unwrap();
+          enqueueSnackbar('Org Employee Added Successfully', {
+            variant: 'success',
+          });
+          setIsOpenAdduserDrawer(false);
+        }
+      } else {
+        await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
+        enqueueSnackbar('User Updated Successfully', { variant: 'success' });
+      }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -310,6 +318,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     postUserLoading,
     userDetailLoading,
     updateUserLoading,
+    authCompanyLoading,
     checkedEmailError,
     postEmployeeLoading,
   };
