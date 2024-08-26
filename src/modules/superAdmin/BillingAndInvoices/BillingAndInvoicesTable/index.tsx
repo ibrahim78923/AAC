@@ -13,13 +13,12 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon, RefreshTasksIcon } from '@/assets/icons';
 import { dataArray } from './BillingAndInvoices.data';
-import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import { usePatchUnassignPlanMutation } from '@/services/superAdmin/billing-invoices';
-import { DataItemI, DataItemOptionI } from './billingandinvoices.interface';
+import { DataItemOptionI } from './billingandinvoices.interface';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -43,6 +42,7 @@ const BillingAndInvoicesTable = () => {
     isEditModal,
     assignPlanTableData,
     isLoading,
+    isFetching,
     setIsGetRowValues,
     isGetRowValues,
     handleSubmit,
@@ -101,10 +101,11 @@ const BillingAndInvoicesTable = () => {
                   onClick={() => {
                     setIsOpenDrawer(true);
                     setIsEditModal(false);
+                    setIsGetRowValues([]);
+                    setIsChecked(false);
                   }}
                   variant="contained"
                   className="small"
-                  disabled={isChecked}
                   sx={{ width: { xs: '100%', sm: 'auto' } }}
                 >
                   Assign Plan
@@ -206,7 +207,7 @@ const BillingAndInvoicesTable = () => {
           setPageLimit={setPageLimit}
           count={assignPlanTableData?.data?.meta?.pages}
           isPagination
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           currentPage={assignPlanTableData?.data?.meta?.page}
           pageLimit={assignPlanTableData?.data?.meta?.limit}
         />
@@ -231,16 +232,17 @@ const BillingAndInvoicesTable = () => {
         cancelText={'Cancel'}
         footer
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={isLoading || isFetching}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {dataArray()?.map((item: DataItemI, index: number) => (
+              {dataArray()?.map((item: any, index: number) => (
                 <Grid
                   item
                   xs={12}
                   md={item?.md}
-                  key={uuidv4()}
+                  key={item?.componentProps?.name}
                   sx={{
                     paddingTop:
                       index === 0 ? '40px !important' : '17px !important',
@@ -267,7 +269,7 @@ const BillingAndInvoicesTable = () => {
         open={isUnassignPlan}
         handleClose={handleCloseModalDelete}
         handleSubmitBtn={handleDeleteSubmit}
-        isLoading={loadingUpdateAssignPlan}
+        loading={loadingUpdateAssignPlan}
       />
     </Grid>
   );

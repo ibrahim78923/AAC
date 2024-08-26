@@ -1,14 +1,18 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { styles } from './Invoices.style';
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+  RHFSelect,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  useGetOrganizationsQuery,
   useGetPlanTypeQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/billing-invoices';
 import { IMG_URL } from '@/config';
+import { useLazyGetOrganizationsListQuery } from '@/services/common-APIs';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -135,7 +139,7 @@ export const columns = (
 };
 
 export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
-  organizationId: Yup?.string()?.trim()?.optional(),
+  organizationId: Yup?.mixed(),
   productId: Yup?.string()?.trim()?.optional(),
   planTypeId: Yup?.string()?.trim()?.optional(),
   status: Yup?.string()?.trim()?.optional(),
@@ -144,6 +148,7 @@ export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
 });
 
 export const FilterInvoiceFiltersDataArray = () => {
+  const organizations = useLazyGetOrganizationsListQuery();
   const { data: productData } = useGetProductsQuery<any>({});
 
   const productSuite = productData?.data?.map((product: any) => ({
@@ -158,25 +163,17 @@ export const FilterInvoiceFiltersDataArray = () => {
     label: planType?.name,
   }));
 
-  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({});
-
-  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
-    value: Organizations?._id,
-    label: Organizations?.name,
-  }));
   return [
     {
       componentProps: {
         name: 'organizationId',
         label: 'Client & Organization',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select organization',
+        apiQuery: organizations,
+        getOptionLabel: (option: any) => option?.name,
       },
-
-      options: Organizations,
-
-      component: RHFSelect,
-
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

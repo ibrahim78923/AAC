@@ -5,7 +5,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { assignPlanData } from './EditForm.data';
 
-import { v4 as uuidv4 } from 'uuid';
 import useEditForm from './useEditForm';
 import { productSuiteName } from '@/constants';
 import {
@@ -34,6 +33,7 @@ export default function EditForm({
     isStoragePrice,
     isUserPrice,
     isLoading,
+    isLoadingUpdate,
   } = useEditForm({
     isEditModal,
     isGetRowValues,
@@ -56,7 +56,8 @@ export default function EditForm({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      isDisabled={isExistingPlan || isLoading}
+      isDisabled={isExistingPlan}
+      isLoading={isLoading || isLoadingUpdate}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
@@ -72,7 +73,7 @@ export default function EditForm({
                 item
                 xs={12}
                 md={item?.md}
-                key={uuidv4()}
+                key={item?.componentProps?.name}
                 sx={{
                   paddingTop:
                     index === 0 ? '40px !important' : '17px !important',

@@ -201,7 +201,7 @@ const Invoices = () => {
                     item
                     xs={12}
                     md={item?.md}
-                    key={uuidv4()}
+                    key={item?.componentProps?.name}
                     sx={{
                       paddingTop:
                         index === 0 ? '40px !important' : '17px !important',

@@ -35,10 +35,11 @@ const useEditForm = ({
   const [isStoragePrice, setIsStoragePrice] = useState(true);
 
   const [addAssignPlan, { isLoading }] = usePostBilingInvoicesMutation();
-  const [updateAssignPlan] = usePatchBilingInvoicesMutation();
+  const [updateAssignPlan, { isLoading: isLoadingUpdate }] =
+    usePatchBilingInvoicesMutation();
 
   const rowApiValues = {
-    clientName: isGetRowValues?.cell?.row?.original?.organizationId,
+    clientName: isGetRowValues?.cell?.row?.original?.organizations,
     product:
       isGetRowValues?.cell?.row?.original?.planProducts?.length > 1
         ? isGetRowValues?.cell?.row?.original?.plans?._id
@@ -56,39 +57,7 @@ const useEditForm = ({
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: async () => {
-      // if action is view or update
-
-      if (!isNullOrEmpty(rowApiValues?.product)) {
-        const {
-          clientName,
-          product,
-          planType,
-          additionalUser,
-          planPrice,
-          defaultUser,
-          defaultStorage,
-          additionalStorage,
-          discount,
-          billingCycle,
-          date,
-        } = rowApiValues;
-        return {
-          clientName,
-          product,
-          planType,
-          additionalUser,
-          planPrice,
-          defaultUser,
-          defaultStorage,
-          additionalStorage,
-          discount,
-          billingCycle,
-          date,
-        };
-      }
-      return defaultValues;
-    },
+    defaultValues: defaultValues,
   });
 
   const { data: getCRM } = useGetCrmQuery({});
@@ -118,7 +87,7 @@ const useEditForm = ({
   )?.name;
 
   const queryParameters = {
-    ...(organizationId && { organizationId: organizationId }),
+    ...(organizationId && { organizationId: organizationId?._id }),
     planTypeId: planTypeId,
     productId:
       selectProductSuite === productSuiteName?.crm ? undefined : productId,
@@ -217,6 +186,12 @@ const useEditForm = ({
     }
   }, [selectProductSuite, ExistingplanData, planData]);
 
+  useEffect(() => {
+    if (isEditModal) {
+      reset(rowApiValues);
+    }
+  }, []);
+
   const onSubmit = async (values: SubmitValuesI) => {
     const originalDate = values?.date;
     const date = new Date(originalDate ?? '');
@@ -227,7 +202,7 @@ const useEditForm = ({
     const formattedDate = `${year}-${month}-${day}`;
 
     const assignPlanPayload = {
-      organizationId: values?.clientName,
+      organizationId: values?.clientName?._id,
       planId:
         selectProductSuite === 'CRM'
           ? ExistingplanData?.data?.plans?._id
@@ -273,7 +248,7 @@ const useEditForm = ({
           { variant: 'error' },
         );
       } else {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        enqueueSnackbar(`${error?.data?.message}`, { variant: 'error' });
       }
     }
   };
@@ -346,6 +321,7 @@ const useEditForm = ({
     isStoragePrice,
     isUserPrice,
     isLoading,
+    isLoadingUpdate,
   };
 };
 

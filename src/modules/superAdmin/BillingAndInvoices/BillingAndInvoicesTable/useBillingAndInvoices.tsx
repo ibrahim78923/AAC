@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Columns, validationSchema } from './BillingAndInvoices.data';
+import {
+  assignPlanFilterDefaultValues,
+  Columns,
+} from './BillingAndInvoices.data';
 import useMenuOptions from './MenuOptions/useMenuOptions';
 import { useTheme } from '@mui/material';
 import { useGetBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import { PAGINATION } from '@/config';
@@ -29,30 +30,34 @@ const useBillingAndInvoices = () => {
 
   const searchObject = { search: searchByClientName };
 
-  const { data: assignPlanTableData, isLoading } =
-    useGetBilingInvoicesQuery<any>({
-      params: {
-        ...filterValues,
-        ...searchObject,
-        page: page,
-        limit: pageLimit,
-      },
-    });
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: {},
+  const {
+    data: assignPlanTableData,
+    isLoading,
+    isFetching,
+  } = useGetBilingInvoicesQuery<any>({
+    params: {
+      ...filterValues,
+      ...searchObject,
+      page: page,
+      limit: pageLimit,
+    },
   });
 
-  const { handleSubmit } = methods;
+  const methods: any = useForm({
+    defaultValues: assignPlanFilterDefaultValues,
+  });
+
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: BillingDetailsFiltersI) => {
+    values.organizationId = values?.organizationId?._id;
     setFilterValues(values);
     setIsOpenFilter(false);
   };
 
   const handleRefresh = async () => {
     setFilterValues('');
+    reset();
   };
 
   const getRowValues = Columns(
@@ -86,6 +91,7 @@ const useBillingAndInvoices = () => {
     isEditModal,
     assignPlanTableData,
     isLoading,
+    isFetching,
     handleSubmit,
     onSubmit,
     methods,

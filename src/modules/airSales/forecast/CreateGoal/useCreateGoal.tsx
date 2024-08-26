@@ -66,7 +66,10 @@ export const useCreateGoal = () => {
     }));
   };
 
-  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
+  const { data: dealPipelineData } = useGetDealPipeLineQuery(
+    { meta: false },
+    { skip: activeStep < 2 },
+  );
   const [selectedValues, setSelectedValues] = useState({});
 
   const processData = (data: any) => {

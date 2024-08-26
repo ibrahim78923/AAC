@@ -158,6 +158,7 @@ const Modules = ({
                     backgroundColor: theme?.palette?.blue?.main,
                     color: theme.palette.common.white,
                     borderRadius: '8px',
+                    marginBottom: '5px',
                   },
                 }}
               >
@@ -261,6 +262,7 @@ const Modules = ({
                       backgroundColor: theme?.palette?.blue?.main,
                       color: theme.palette.common.white,
                       borderRadius: '8px',
+                      marginBottom: '5px',
                     },
                   }}
                 >

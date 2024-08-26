@@ -702,5 +702,6 @@ export const useAddPlan = () => {
     ifCrmExist,
     updatePlanLoading,
     GetsinglePlanLoading,
+    parsedRowData,
   };
 };

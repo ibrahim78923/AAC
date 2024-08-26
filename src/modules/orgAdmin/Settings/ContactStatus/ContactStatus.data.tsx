@@ -2,8 +2,6 @@ import { Box } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 import * as Yup from 'yup';
@@ -57,10 +55,10 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (_row: any, index: number) => index + 1,
       id: 'Id',
-      cell: () => <DragIndicatorIcon />,
-      header: <></>,
+      cell: (info: any) => info.getValue(),
+      header: 'Sr No',
       isSortable: false,
     },
     {
