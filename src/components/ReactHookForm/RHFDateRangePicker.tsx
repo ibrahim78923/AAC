@@ -6,16 +6,17 @@ import 'react-date-range/dist/theme/default.css';
 import {
   Box,
   Button,
-  IconButton,
   InputAdornment,
   Popover,
   TextField,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { ClearIcon, DateRangePickerIcon } from '@/assets/icons';
+import { DateRangePickerIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import CloseIcon from '@mui/icons-material/Close';
+import { pxToRem } from '@/utils/getFontValue';
 
 const RHFDateRangePicker = (props: any) => {
   const {
@@ -96,9 +97,14 @@ const RHFDateRangePicker = (props: any) => {
                 endAdornment: (
                   <InputAdornment position="end">
                     {displayValue && (
-                      <IconButton onClick={handleClear} size="small">
-                        <ClearIcon />
-                      </IconButton>
+                      <CloseIcon
+                        sx={{
+                          color: 'custom.darker',
+                          cursor: 'pointer',
+                          fontSize: pxToRem(20),
+                        }}
+                        onClick={() => handleClear?.()}
+                      />
                     )}
                     <Box
                       sx={{ cursor: 'pointer' }}
@@ -138,7 +144,7 @@ const RHFDateRangePicker = (props: any) => {
                 <Box textAlign={'right'} mb={2} px={2}>
                   <Button
                     variant="contained"
-                    onClick={() => onSubmitBtnClick?.()}
+                    onClick={() => onSubmitBtnClick?.(setAnchorElDate)}
                   >
                     Submit
                   </Button>

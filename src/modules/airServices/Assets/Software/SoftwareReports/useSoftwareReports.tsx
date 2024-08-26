@@ -6,8 +6,9 @@ import {
   softwareReportsCardsDataDynamic,
   softwareReportsChartsDataDynamic,
   softwareReportsTableColumnsDynamic,
+  softwareStatusReportsOptions,
 } from './SoftwareReports.data';
-import { MODULE_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { htmlToPdfConvert } from '@/utils/file';
 
@@ -15,11 +16,16 @@ export const useSoftwareReports = () => {
   const router: NextRouter = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState(false);
+  const [filterDate, setFilterDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
   const downloadRef = useRef(null);
 
   const methods: any = useForm({
     defaultValues: {
-      status: null,
+      status: softwareStatusReportsOptions?.[ARRAY_INDEX?.ZERO],
       createdDate: {
         startDate: null,
         endDate: null,
@@ -35,22 +41,13 @@ export const useSoftwareReports = () => {
   const apiDataParameter = {
     queryParams: {
       moduleType: MODULE_TYPE?.SOFTWARE,
-      ...(hasDate && !!getValues?.('createdDate')?.startDate
-        ? {
-            startDate: makeDateTime(
-              new Date(getValues?.('createdDate')?.startDate),
-              new Date(),
-            )?.toISOString(),
-          }
+      ...(hasDate && filterDate?.startDate
+        ? { startDate: filterDate?.startDate }
         : {}),
-      ...(hasDate && !!getValues?.('createdDate')?.endDate
-        ? {
-            endDate: makeDateTime(
-              new Date(getValues?.('createdDate')?.endDate),
-              new Date(),
-            )?.toISOString(),
-          }
+      ...(hasDate && filterDate?.endDate
+        ? { endDate: filterDate?.endDate }
         : {}),
+
       ...(!!getValues?.('status')?._id
         ? { requestedKey: getValues?.('status')?._id }
         : {}),
@@ -70,7 +67,19 @@ export const useSoftwareReports = () => {
     },
   );
 
-  const onFilterSubmit = () => {};
+  const onDateFilterSubmit = (setAnchorElDate: any) => {
+    const startDate = makeDateTime(
+      new Date(getValues?.('createdDate')?.startDate),
+      new Date(),
+    )?.toISOString();
+    const endDate = makeDateTime(
+      new Date(getValues?.('createdDate')?.endDate),
+      new Date(),
+    )?.toISOString();
+    setFilterDate({ startDate, endDate });
+    setHasDate?.(true);
+    setAnchorElDate?.(null);
+  };
 
   const handleDownload = async () => {
     if (isLoading || isFetching || isError) return;
@@ -104,7 +113,6 @@ export const useSoftwareReports = () => {
     softwareReportsChartsData,
     methods,
     handleSubmit,
-    onFilterSubmit,
     data,
     isLoading,
     isFetching,
@@ -114,5 +122,7 @@ export const useSoftwareReports = () => {
     downloadRef,
     setHasDate,
     shouldDateSet,
+    onDateFilterSubmit,
+    getValues,
   };
 };

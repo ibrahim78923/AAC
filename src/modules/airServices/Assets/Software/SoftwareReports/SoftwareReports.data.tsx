@@ -43,6 +43,10 @@ export const softwareReportsChartsDataDynamic = (data: any) => {
 };
 export const softwareStatusReportsOptions = [
   {
+    label: 'All Software',
+    _id: SOFTWARE_STATUS_COUNT?.TOTAL_SOFTWARE,
+  },
+  {
     label: SOFTWARE_STATUS?.RESTRICTED,
     _id: SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.RESTRICTED],
   },
@@ -96,24 +100,10 @@ export const softwareReportsTableColumnsDynamic = () => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.status,
-    id: 'status',
-    header: 'Status',
+    accessorFn: (row: any) => row?.type,
+    id: 'type',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.details,
-    id: 'category',
-    isSortable: true,
-    header: 'Category',
-    cell: (info: any) => truncateText(info?.getValue()?.category) || '---',
-  },
-  {
-    accessorFn: (row: any) => row?.contractValue,
-    id: 'contractValue',
-    isSortable: true,
-    header: 'Contract Value',
+    header: 'Type',
     cell: (info: any) => info?.getValue(),
   },
   {
@@ -128,31 +118,10 @@ export const softwareReportsTableColumnsDynamic = () => [
       ),
   },
   {
-    accessorFn: (row: any) => row?.users,
-    id: 'users',
-    isSortable: true,
-    header: 'Users',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.installs,
-    id: 'installs',
-    isSortable: true,
-    header: 'Installs',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.type,
-    id: 'type',
-    isSortable: true,
-    header: 'Type',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
     accessorFn: (row: any) => row?.details,
-    id: 'publisher',
+    id: 'category',
     isSortable: true,
-    header: 'Publisher',
-    cell: (info: any) => truncateText(info?.getValue()?.publisher) || '---',
+    header: 'Category',
+    cell: (info: any) => truncateText(info?.getValue()?.category) || '---',
   },
 ];

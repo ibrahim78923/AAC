@@ -150,6 +150,7 @@ export const SOFTWARE_STATUS = {
   MANAGED: 'Managed',
   DISABLED: 'Disabled',
   IN_REVIEW: 'InReview',
+  ALL_SOFTWARE: 'All Software',
 };
 
 export const expande_status = {
