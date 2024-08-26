@@ -1,94 +1,113 @@
-import { DownloadLargeIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
-import ReportsCards from './ReportsCards';
+import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
+import { DownloadLargeIcon } from '@/assets/icons';
+import {
+  FormProvider,
+  RHFAutocomplete,
+  RHFDateRangePicker,
+} from '@/components/ReactHookForm';
 import { CustomChart } from '@/components/Chart';
-import usePurchaseOrdersReports from './usePurchaseOrdersReports';
-import ReportCalendarFilter from '@/components/ReportCalendarFilter';
-import { purchaseOrdersColumns } from './PurchaseOrdersReports.data';
-import { AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
+import { usePurchaseOrderReports } from './usePurchaseOrdersReports';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { LoadingButton } from '@mui/lab';
+import { pxToRem } from '@/utils/getFontValue';
+import { purchaseOrderTableFilterOptions } from './PurchaseOrdersReports.data';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import NoData from '@/components/NoData';
+import ReportsCards from './ReportsCards';
+import { AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 
 export const PurchaseOrdersReports = () => {
   const {
     router,
     handleDownload,
     loading,
-    cardsData,
-    methodsTable,
-    methodsHeader,
-  } = usePurchaseOrdersReports();
+    methods,
+    onDateFilterSubmit,
+    purchaseOrderReportsTableColumns,
+    downloadRef,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    setHasDate,
+    shouldDateSet,
+    purchaseOrderReportsChartsData,
+    purchaseOrderReportsCardsData,
+    purchaseOrderData,
+  } = usePurchaseOrderReports();
 
   return (
     <>
       <PageTitledHeader
-        title={'Purchase Order'}
+        title={'Purchase Order Reports'}
         canMovedBack
-        moveBack={() => {
-          router?.push(AIR_SERVICES?.REPORTS);
-        }}
+        moveBack={() =>
+          router?.push({
+            pathname: AIR_SERVICES?.REPORTS,
+          })
+        }
       >
         <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
+          permissions={[
+            AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS?.FILTER,
+          ]}
         >
-          <ReportCalendarFilter setCalendarFilter={{}} />
-        </PermissionsGuard>
-
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
-        >
-          <FormProvider methods={methodsHeader}>
-            <Box mt={1}>
-              <RHFAutocomplete
-                name={'assets'}
-                placeholder={'All'}
-                options={['BE']}
-                size={'small'}
-              />
-            </Box>
+          <FormProvider methods={methods}>
+            <RHFDateRangePicker
+              name={'createdDate'}
+              placeholder={'Date'}
+              size="small"
+              disabled={loading}
+              hasButton
+              onSubmitBtnClick={(setAnchorElDate: any) =>
+                onDateFilterSubmit?.(setAnchorElDate)
+              }
+              cancelBtnEffect={() => setHasDate?.(false)}
+              closePopOver={() => shouldDateSet?.()}
+            />
           </FormProvider>
-
-          <IconButton
-            aria-label={'download'}
-            size={'small'}
-            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS?.DOWNLOAD,
+          ]}
+        >
+          <LoadingButton
+            sx={{
+              cursor: 'pointer',
+              p: 0,
+              minWidth: pxToRem(40),
+              height: pxToRem(40),
+              marginTop: pxToRem(-10),
+            }}
+            variant="outlined"
+            color="inherit"
+            size="small"
             onClick={handleDownload}
+            disabled={loading}
+            loading={loading}
           >
             <DownloadLargeIcon />
-          </IconButton>
+          </LoadingButton>
         </PermissionsGuard>
       </PageTitledHeader>
-
-      <Divider />
-
-      {loading ? (
-        <Box
-          height={'70vh'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <CircularProgress />
-        </Box>
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
+          permissions={[AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS?.VIEW]}
         >
-          <Box id={'inventory-reports'}>
-            <ReportsCards cardsData={cardsData} />
-
+          <Box ref={downloadRef}>
+            <ReportsCards cardsData={purchaseOrderReportsCardsData} />
             <Grid container spacing={2}>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} lg={4}>
                 <Box
                   height={'100%'}
                   boxShadow={1}
@@ -99,18 +118,27 @@ export const PurchaseOrdersReports = () => {
                   py={3}
                 >
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
-                    Purchase Order Distribution
+                    Purchase Orders Distribution
                   </Typography>
-                  <CustomChart
-                    type={'pie'}
-                    series={[44, 55, 13, 43]}
-                    options={{
-                      labels: [],
-                    }}
-                  />
+                  {!!Object?.keys(purchaseOrderReportsChartsData ?? {})
+                    ?.length ? (
+                    <CustomChart
+                      type={'pie'}
+                      series={Object?.values(
+                        purchaseOrderReportsChartsData ?? {},
+                      )}
+                      options={{
+                        labels: Object?.keys(
+                          purchaseOrderReportsChartsData ?? {},
+                        ),
+                      }}
+                    />
+                  ) : (
+                    <NoData height="100%" />
+                  )}
                 </Box>
               </Grid>
-              <Grid item xs={12} md={8}>
+              <Grid item xs={12} lg={8}>
                 <Box
                   boxShadow={1}
                   border={'1px solid'}
@@ -120,18 +148,26 @@ export const PurchaseOrdersReports = () => {
                   py={3}
                   height={'100%'}
                 >
-                  <FormProvider methods={methodsTable}>
+                  <FormProvider methods={methods}>
                     <Grid container mb={1}>
-                      <Grid item xs={4}>
+                      <Grid item xs={12} md={4}>
                         <RHFAutocomplete
-                          name={'assets'}
-                          placeholder={'All Purchase Orders'}
-                          options={['BE']}
+                          name={'status'}
+                          placeholder={'Select Option'}
+                          size="small"
+                          options={purchaseOrderTableFilterOptions}
+                          disabled={loading}
+                          getOptionLabel={(option: AutocompleteOptionsI) =>
+                            option?.label
+                          }
                         />
                       </Grid>
                     </Grid>
                   </FormProvider>
-                  <TanstackTable data={[]} columns={purchaseOrdersColumns} />
+                  <TanstackTable
+                    data={purchaseOrderData}
+                    columns={purchaseOrderReportsTableColumns}
+                  />
                 </Box>
               </Grid>
             </Grid>

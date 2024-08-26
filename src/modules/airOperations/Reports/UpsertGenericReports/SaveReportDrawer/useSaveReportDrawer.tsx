@@ -367,7 +367,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         successSnackbar('Report Customize Successfully');
         handleMoveBack();
       } catch (err: any) {
-        errorSnackbar(err?.message ?? 'Error in customize report');
+        errorSnackbar(err?.data?.message ?? 'Error in customize report');
       }
     } else {
       try {
@@ -375,7 +375,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         successSnackbar('Report Created Successfully');
         handleMoveBack();
       } catch (err: any) {
-        errorSnackbar(err?.message ?? 'Error in creating report');
+        errorSnackbar(err?.data?.message ?? 'Error in creating report');
       }
     }
   };

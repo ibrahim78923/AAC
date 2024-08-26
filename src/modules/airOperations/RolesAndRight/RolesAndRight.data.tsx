@@ -139,14 +139,14 @@ export const operationsRolesAndRightColumnsDynamic = (
     id: 'Role Id',
     isSortable: true,
     header: 'Role ID',
-    cell: (info: any) => info?.getValue()?.slice?.(-3) ?? '--',
+    cell: (info: any) => info?.getValue()?.slice?.(-3) ?? '---',
   },
   {
     accessorFn: (row: IRolesAndRightColumns) => row?.name,
     id: 'name',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: IRolesAndRightColumns) => row?.createdAt,
@@ -154,13 +154,16 @@ export const operationsRolesAndRightColumnsDynamic = (
     isSortable: true,
     header: 'Created On',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
   },
   {
     accessorFn: (info: IRolesAndRightColumns) => info?.description,
     id: 'description',
     header: 'Description',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => {
+      const description = truncateText(info?.getValue());
+      return description !== '' ? description : '---';
+    },
   },
 ];
