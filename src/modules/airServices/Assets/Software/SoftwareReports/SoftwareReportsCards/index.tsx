@@ -1,6 +1,7 @@
 import { Box, Chip, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { pxToRem } from '@/utils/getFontValue';
+import { camelCaseToTitleCase } from '@/utils/api';
 
 export const SoftwareReportsCards = ({ softwareReportsCardsData }: any) => {
   return (
@@ -19,7 +20,7 @@ export const SoftwareReportsCards = ({ softwareReportsCardsData }: any) => {
             alignItems={'center'}
           >
             <Typography variant="h6" color={'slateBlue.main'}>
-              {key}
+              {camelCaseToTitleCase?.(key)}
             </Typography>
             <Chip
               label={value}

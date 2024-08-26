@@ -1,26 +1,28 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { SoftwareReportsCards } from './SoftwareReportsCards';
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
-import {
-  softwareReportsTabelCoulmns,
-  softwareReportsTableData,
-} from './SoftwareReprts.data';
+import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import { DownloadLargeIcon } from '@/assets/icons';
-import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFAutocomplete,
+  RHFDateRangePicker,
+} from '@/components/ReactHookForm';
 import { CustomChart } from '@/components/Chart';
-import useSoftwareReports from './useSoftwareReports';
+import { useSoftwareReports } from './useSoftwareReports';
 import { AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { LoadingButton } from '@mui/lab';
+import { pxToRem } from '@/utils/getFontValue';
+import {
+  softwareStatusReportsOptions,
+  softwareTypeReportsOptions,
+} from './SoftwareReports.data';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import NoData from '@/components/NoData';
 
 export const SoftwareReports = () => {
   const {
@@ -31,6 +33,15 @@ export const SoftwareReports = () => {
     methods,
     handleSubmit,
     onFilterSubmit,
+    softwareReportsTableColumns,
+    softwareReportsChartsData,
+    downloadRef,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    setHasDate,
+    shouldDateSet,
   } = useSoftwareReports();
 
   return (
@@ -47,56 +58,81 @@ export const SoftwareReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
         >
-          <ReportCalendarFilter setCalendarFilter={{}} />
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
-        >
           <FormProvider
             methods={methods}
             onSubmit={handleSubmit(onFilterSubmit)}
           >
-            <Box mt={1} width={'10rem'}>
-              <RHFAutocomplete
-                name={'All'}
-                placeholder={'All'}
-                size={'small'}
-                options={['Mobile', 'Desktop', 'Saas']}
-              />
+            <Box
+              display={'flex'}
+              gap={2}
+              flexWrap={'wrap'}
+              flexDirection={{ xs: 'column', sm: 'row' }}
+            >
+              <Box flex={{ xs: 1, sm: 0.5 }}>
+                <RHFDateRangePicker
+                  name={'createdDate'}
+                  placeholder={'Date'}
+                  size="small"
+                  disabled={loading}
+                  hasButton
+                  onSubmitBtnClick={() => setHasDate?.(true)}
+                  cancelBtnEffect={() => setHasDate?.(false)}
+                  closePopOver={() => shouldDateSet?.()}
+                />
+              </Box>
+              <Box flex={{ xs: 1, sm: 0.5 }}>
+                <RHFAutocomplete
+                  name={'type'}
+                  placeholder={'Select option'}
+                  size={'small'}
+                  fullWidth
+                  options={softwareTypeReportsOptions}
+                  disabled={loading}
+                  getOptionLabel={(option: AutocompleteOptionsI) =>
+                    option?.label
+                  }
+                />
+              </Box>
             </Box>
           </FormProvider>
-          <IconButton
-            aria-label={'download'}
-            size={'small'}
-            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
+        >
+          <LoadingButton
+            sx={{
+              cursor: 'pointer',
+              p: 0,
+              minWidth: pxToRem(40),
+              height: pxToRem(40),
+              marginTop: pxToRem(-10),
+            }}
+            variant="outlined"
+            color="inherit"
+            size="small"
             onClick={handleDownload}
+            disabled={loading}
+            loading={loading}
           >
             <DownloadLargeIcon />
-          </IconButton>
+          </LoadingButton>
         </PermissionsGuard>
       </PageTitledHeader>
-
-      <Divider />
-
-      {loading ? (
-        <Box
-          height={'70vh'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <CircularProgress />
-        </Box>
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
         >
-          <Box id={'software-reports'}>
+          <Box ref={downloadRef}>
             <SoftwareReportsCards
               softwareReportsCardsData={softwareReportsCardsData}
             />
             <Grid container spacing={2}>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} lg={4}>
                 <Box
                   height={'100%'}
                   boxShadow={1}
@@ -109,22 +145,20 @@ export const SoftwareReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Software Distribution
                   </Typography>
-                  <CustomChart
-                    type={'pie'}
-                    series={[54, 14, 6, 16, 24]}
-                    options={{
-                      labels: [
-                        'Managed',
-                        'InReview',
-                        'Disabled',
-                        'Ignored',
-                        'Restricted',
-                      ],
-                    }}
-                  />
+                  {!!Object?.keys(softwareReportsChartsData ?? {})?.length ? (
+                    <CustomChart
+                      type={'pie'}
+                      series={Object?.values(softwareReportsChartsData ?? {})}
+                      options={{
+                        labels: Object?.keys(softwareReportsChartsData ?? {}),
+                      }}
+                    />
+                  ) : (
+                    <NoData height="100%" />
+                  )}
                 </Box>
               </Grid>
-              <Grid item xs={12} md={8}>
+              <Grid item xs={12} lg={8}>
                 <Box
                   boxShadow={1}
                   border={'1px solid'}
@@ -139,25 +173,23 @@ export const SoftwareReports = () => {
                     onSubmit={handleSubmit(onFilterSubmit)}
                   >
                     <Grid container mb={1}>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={4}>
                         <RHFAutocomplete
-                          name={'Software'}
-                          placeholder={'All Software'}
-                          options={[
-                            'TotalSoftware',
-                            'Restricted',
-                            'Ignored',
-                            'Managed',
-                            'Disabled',
-                            'InReview',
-                          ]}
+                          name={'status'}
+                          placeholder={'Select option'}
+                          size="small"
+                          options={softwareStatusReportsOptions}
+                          disabled={loading}
+                          getOptionLabel={(option: AutocompleteOptionsI) =>
+                            option?.label
+                          }
                         />
                       </Grid>
                     </Grid>
                   </FormProvider>
                   <TanstackTable
-                    data={softwareReportsTableData}
-                    columns={softwareReportsTabelCoulmns}
+                    data={[]}
+                    columns={softwareReportsTableColumns}
                   />
                 </Box>
               </Grid>

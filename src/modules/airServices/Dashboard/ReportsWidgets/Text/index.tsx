@@ -8,10 +8,12 @@ export const Text = (props: any) => {
       <Typography variant="h3" fontWeight={600} color="slateBlue.main" my={2}>
         {truncateText(title, 40)}
       </Typography>
-      <Box
-        sx={{ wordBreak: 'break-all' }}
-        dangerouslySetInnerHTML={{ __html: description }}
-      ></Box>
+      <Box maxHeight={'20vh'} overflow={'auto'}>
+        <Box
+          sx={{ wordBreak: 'break-all' }}
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
+      </Box>
     </>
   );
 };

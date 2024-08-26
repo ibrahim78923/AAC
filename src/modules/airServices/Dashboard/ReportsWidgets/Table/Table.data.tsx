@@ -1,15 +1,58 @@
-import { FIELD_TYPE } from '@/constants/strings';
+import { CustomChips } from '@/components/CustomChips';
+import { COLLECTION_NAME, FIELD_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
-const tableCell = (info: any) =>
-  !!info?.getValue() ? (
-    <Typography variant="body2" fontWeight={600} textTransform={'capitalize'}>
-      {info?.getValue()?.replace?.('_', ' ')?.toLowerCase()}
+export const TABLE_CELL_DATA_MAP: any = (item: any) => {
+  return {
+    [COLLECTION_NAME?.ASSET_TYPES]: fullName(item?.name),
+    [COLLECTION_NAME?.LOCATION]: fullName(item?.locationName),
+    [COLLECTION_NAME?.DEPARTMENT]: fullName(item?.name),
+    [COLLECTION_NAME?.VENDORS]: fullName(item?.name),
+    [COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
+    [COLLECTION_NAME?.SERVICE_CATEGORIES]: fullName(item?.categoryName),
+    [COLLECTION_NAME?.DEAL_PIPELINES]: fullName(item?.name),
+    [COLLECTION_NAME?.SALES_PIPELINES]: fullName(item?.name),
+    [COLLECTION_NAME?.CONTRACT_TYPE]: fullName(item?.name),
+    [COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
+  };
+};
+
+const tableCell = (item: any, column?: any) => {
+  const value =
+    column?.fieldType === FIELD_TYPE?.OBJECT_ID
+      ? TABLE_CELL_DATA_MAP?.(item)?.[column?.collectionName] ?? '---'
+      : item;
+  if (Array?.isArray(item)) {
+    const arrayData = !!item?.length ? (
+      <CustomChips
+        data={item?.map((item: any, index: number) => {
+          return {
+            label:
+              TABLE_CELL_DATA_MAP?.(item)?.[column?.collectionName] ?? item,
+            _id: index + 1,
+          };
+        })}
+      />
+    ) : (
+      '---'
+    );
+    return arrayData;
+  }
+  return !!item ? (
+    <Typography variant="body2" textTransform={'capitalize'}>
+      {value?.replace?.('_', ' ')?.toLowerCase()}
     </Typography>
   ) : (
     '---'
   );
+};
+
+const tableCellData = (info: any, column: any) => {
+  if (column?.fieldType === FIELD_TYPE?.OBJECT_ID)
+    return tableCell?.(info?.getValue(), column) ?? '---';
+  return tableCell?.(info?.getValue());
+};
 
 const header = (column: any) => (
   <Typography variant="body2" fontWeight={600} textTransform={'capitalize'}>
@@ -17,93 +60,13 @@ const header = (column: any) => (
   </Typography>
 );
 
-export const TABLE_DATA_MAP: any = {
-  assetType: {
-    header: 'Asset Type',
-    id: 'assetType',
-    value: (info: any) => fullName(info?.getValue()?.name),
-  },
-  locationId: {
-    header: 'Location',
-    id: 'locationId',
-    value: (info: any) => fullName(info?.getValue()?.locationName),
-  },
-  departmentId: {
-    header: 'Department',
-    id: 'departmentId',
-    value: (info: any) => fullName(info?.getValue()?.name),
-  },
-  vendorId: {
-    header: 'Vendor',
-    id: 'vendorId',
-    value: (info: any) =>
-      fullName(info?.getValue()?.name, info?.getValue()?.lastName),
-  },
-  department: {
-    header: 'Department',
-    id: 'department',
-    value: (info: any) => fullName(info?.getValue()?.name),
-  },
-  requester: {
-    header: 'Requester',
-    id: 'requester',
-    value: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
-  },
-  agent: {
-    header: 'Agent',
-    id: 'agent',
-    value: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
-  },
-  category: {
-    header: 'Category',
-    id: 'category',
-    value: (info: any) => fullName(info?.getValue()?.categoryName),
-  },
-  vendor: {
-    header: 'Vendor',
-    id: 'vendor',
-    value: (info: any) => fullName(info?.getValue()?.name),
-  },
-  approver: {
-    header: 'Approver',
-    id: 'approver',
-    value: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
-  },
-  dealPipelineId: {
-    header: 'Deal Pipeline',
-    id: 'dealPipelineId',
-    value: (info: any) => fullName(info?.getValue()?.name),
-  },
-  campaignOwner: {
-    header: 'Campaign Owner',
-    id: 'campaignOwner',
-    value: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
-  },
-};
-
 export const makeDynamicColumn = (tableColumns: any) => {
   return tableColumns?.length
     ? tableColumns?.map((column: any) => ({
-        accessorFn: (row: any) =>
-          column?.fieldType === FIELD_TYPE?.OBJECT_ID
-            ? row?.[TABLE_DATA_MAP?.[column?.fieldName]?.id] ?? '---'
-            : row?.[column?.fieldName],
-        id:
-          column?.fieldType === FIELD_TYPE?.OBJECT_ID
-            ? TABLE_DATA_MAP?.[column?.fieldName]?.id ?? '---'
-            : column?.fieldName,
-        header:
-          column?.fieldType === FIELD_TYPE?.OBJECT_ID
-            ? TABLE_DATA_MAP?.[column?.fieldName]?.header ?? '---'
-            : header?.(column),
-        cell:
-          column?.fieldType === FIELD_TYPE?.OBJECT_ID
-            ? TABLE_DATA_MAP?.[column?.fieldName]?.value ?? '---'
-            : tableCell,
+        accessorFn: (row: any) => row?.[column?.fieldName],
+        id: column?.fieldName,
+        header: header?.(column),
+        cell: (info: any) => tableCellData?.(info, column),
       }))
     : [];
 };

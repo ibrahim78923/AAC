@@ -5,6 +5,7 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import {
   Box,
+  Button,
   IconButton,
   InputAdornment,
   Popover,
@@ -17,6 +18,17 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
 const RHFDateRangePicker = (props: any) => {
+  const {
+    name,
+    label,
+    required,
+    hasButton = false,
+    onSubmitBtnClick,
+    cancelBtnEffect,
+    closePopOver,
+    ...other
+  } = props;
+
   const [anchorElDate, setAnchorElDate] = useState<HTMLButtonElement | null>(
     null,
   );
@@ -25,17 +37,24 @@ const RHFDateRangePicker = (props: any) => {
   };
 
   const handleCloseDate = () => {
+    if (hasButton) {
+      closePopOver?.();
+    }
     setAnchorElDate(null);
   };
 
   const openDate = Boolean(anchorElDate);
   const idDate = openDate ? 'simple-popover' : undefined;
 
-  const { name, label, required, ...other } = props;
   const { control, setValue } = useFormContext();
 
   const handleClear = () => {
-    setValue(name, null);
+    setValue(name, {
+      startDate: null,
+      endDate: null,
+      key: 'selection',
+    });
+    cancelBtnEffect?.();
   };
 
   return (
@@ -115,6 +134,16 @@ const RHFDateRangePicker = (props: any) => {
                 ranges={[field?.value]}
                 onChange={(item: any) => setValue(name, item?.selection)}
               />
+              {hasButton && (
+                <Box textAlign={'right'} mb={2} px={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => onSubmitBtnClick?.()}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              )}
             </Popover>
           </>
         );

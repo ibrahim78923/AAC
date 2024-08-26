@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Box,
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, Grid } from '@mui/material';
 import { TicketsReportCard } from './TicketsReportCard';
 import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
@@ -14,19 +6,32 @@ import { TicketsReportChart } from './TicketsReportChart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { DownloadLargeIcon } from '@/assets/icons';
-import ReportCalendarFilter from '@/components/ReportCalendarFilter';
-import { FormProvider } from 'react-hook-form';
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFAutocompleteAsync,
+  RHFDateRangePicker,
+} from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
+import { pxToRem } from '@/utils/getFontValue';
+import { LoadingButton } from '@mui/lab';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const TicketsReports = () => {
   const {
-    agentFilterMethod,
-    setCalendarFilter,
-    handlePrint,
     router,
+    handleDownload,
     loading,
+    methods,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    downloadRef,
+    setHasDate,
+    shouldDateSet,
     apiQueryAgents,
   } = useTicketsReport();
 
@@ -42,62 +47,77 @@ export const TicketsReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.FILTER]}
         >
-          <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
+          <FormProvider methods={methods}>
+            <Box
+              display={'flex'}
+              gap={2}
+              flexWrap={'wrap'}
+              flexDirection={{ xs: 'column', sm: 'row' }}
+              mt={1}
+            >
+              <Box flex={{ xs: 1, sm: 0.5 }}>
+                <RHFDateRangePicker
+                  name={'createdDate'}
+                  placeholder={'Date'}
+                  size={'small'}
+                  disabled={loading || isLoading || isFetching || isError}
+                  hasButton
+                  onSubmitBtnClick={() => setHasDate?.(true)}
+                  cancelBtnEffect={() => setHasDate?.(false)}
+                  closePopOver={() => shouldDateSet?.()}
+                />
+              </Box>
+
+              <Box flex={{ xs: 1, sm: 0.5 }}>
+                <RHFAutocompleteAsync
+                  name={'agentId'}
+                  size={'small'}
+                  placeholder={'Agent'}
+                  apiQuery={apiQueryAgents}
+                  disabled={loading || isLoading || isFetching || isError}
+                  getOptionLabel={(option: any) =>
+                    `${option?.firstName} ${option?.lastName}`
+                  }
+                />
+              </Box>
+            </Box>
+          </FormProvider>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.DOWNLOAD]}
         >
-          <FormProvider {...agentFilterMethod}>
-            <Box width={'10rem'} mt={1}>
-              <RHFAutocompleteAsync
-                name="agent"
-                size="small"
-                placeholder="Agent"
-                apiQuery={apiQueryAgents}
-                getOptionLabel={(option: any) => option?.name}
-                renderOption={(option: any) => (
-                  <Box display={'flex'} alignItems={'center'} gap={1}>
-                    <Avatar />
-                    <Typography
-                      variant={'body2'}
-                      color={'grey.600'}
-                      fontWeight={500}
-                    >
-                      {option?.name}
-                    </Typography>
-                  </Box>
-                )}
-              />
-            </Box>
-          </FormProvider>
-
-          <IconButton
-            aria-label={'download'}
+          <LoadingButton
+            sx={{
+              cursor: 'pointer',
+              p: 0,
+              minWidth: pxToRem(40),
+              height: pxToRem(40),
+            }}
+            variant={'outlined'}
+            color={'inherit'}
             size={'small'}
-            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
-            onClick={handlePrint}
+            onClick={handleDownload}
+            disabled={loading || isLoading || isFetching || isError}
+            loading={loading}
           >
             <DownloadLargeIcon />
-          </IconButton>
+          </LoadingButton>
         </PermissionsGuard>
       </PageTitledHeader>
+
       <Divider />
-      {loading ? (
-        <Box
-          height={'70vh'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <CircularProgress />
-        </Box>
+
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.VIEW]}
         >
-          <Box id="main-content">
+          <Box ref={downloadRef}>
             <Grid container spacing={2} my={2}>
-              {cardOptions?.map((item: any) => (
+              {cardOptions?.(data?.data)?.map((item: any) => (
                 <Grid item xs={12} md={6} lg={3} key={item?.id}>
                   <TicketsReportCard
                     label={item.label}
@@ -106,7 +126,7 @@ export const TicketsReports = () => {
                 </Grid>
               ))}
             </Grid>
-            <TicketsReportChart />
+            <TicketsReportChart chartData={data?.data?.ticketMonthlyCount} />
           </Box>
         </PermissionsGuard>
       )}

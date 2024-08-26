@@ -1,11 +1,12 @@
 import { useTheme } from '@mui/material';
 import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
-import { MONTH_NAMES } from '@/constants/strings';
+import { ARRAY_INDEX, MONTH_NAMES } from '@/constants/strings';
 
 export const useBarChart = (props: any) => {
-  const { data = { counts: [], items: [] }, barChart } = props;
+  const { data = { counts: [], items: [] }, barChart, title } = props;
   const theme = useTheme();
-  const { items = [], counts = [] } = data;
+
+  const { items = [], counts = [] } = data?.[title]?.[ARRAY_INDEX?.ZERO];
 
   const dataItems =
     barChart?.xAxis?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID

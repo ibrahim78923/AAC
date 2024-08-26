@@ -7,11 +7,7 @@ export const Table = (props: any) => {
   const { tableColumns, title, data = [] } = props;
   const tableColumn = makeDynamicColumn(tableColumns);
 
-  const tableData = Array.isArray(data)
-    ? data?.slice?.(-10)
-    : !!!data
-      ? []
-      : [data];
+  const tableData = data?.[title];
 
   return (
     <Box
@@ -23,7 +19,7 @@ export const Table = (props: any) => {
     >
       <PageTitledHeader title={title} />
       <Box>
-        <TanstackTable data={tableData} columns={tableColumn} />
+        <TanstackTable data={tableData?.slice(-10)} columns={tableColumn} />
       </Box>
     </Box>
   );

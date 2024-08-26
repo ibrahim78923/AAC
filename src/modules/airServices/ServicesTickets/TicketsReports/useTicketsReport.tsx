@@ -1,78 +1,106 @@
-import { useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { pxToRem } from '@/utils/getFontValue';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { makeDateTime } from '@/utils/api';
 import { useLazyGetAgentsDropdownQuery } from '@/services/airServices/assets/contracts';
+import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
+import { MODULE_TYPE } from '@/constants/strings';
+import { htmlToPdfConvert } from '@/utils/file';
 
 export const useTicketsReport = () => {
-  const [calendarFilter, setCalendarFilter] = useState();
   const [loading, setLoading] = useState<boolean>(false);
-  const apiQueryAgents = useLazyGetAgentsDropdownQuery();
+  const [hasDate, setHasDate] = useState(false);
+
+  const downloadRef = useRef(null);
+
   const router = useRouter();
-  const agentFilterMethod = useForm();
-  const { control } = agentFilterMethod;
-  const watchForAgentFilter = useWatch({
-    control,
-    name: 'agent',
-    defaultValue: null,
+
+  const apiQueryAgents = useLazyGetAgentsDropdownQuery();
+
+  const methods: any = useForm({
+    defaultValues: {
+      agentId: null,
+      createdDate: {
+        startDate: null,
+        endDate: null,
+        key: 'selection',
+      },
+    },
   });
 
-  const handlePrint = async () => {
+  const { getValues, watch, setValue } = methods;
+
+  watch?.();
+
+  const apiDataParameter = {
+    queryParams: {
+      moduleType: MODULE_TYPE?.TICKETS,
+      ...(hasDate && !!getValues?.('createdDate')?.startDate
+        ? {
+            startDate: makeDateTime(
+              new Date(getValues?.('createdDate')?.startDate),
+              new Date(),
+            )?.toISOString(),
+          }
+        : {}),
+      ...(hasDate && !!getValues?.('createdDate')?.endDate
+        ? {
+            endDate: makeDateTime(
+              new Date(getValues?.('createdDate')?.endDate),
+              new Date(),
+            )?.toISOString(),
+          }
+        : {}),
+      ...(!!getValues?.('agentId')?._id
+        ? { agentId: getValues?.('agentId')?._id }
+        : {}),
+    },
+  };
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const handleDownload = async () => {
+    if (isLoading || isFetching || isError) return;
     setLoading(true);
-    const content = document?.getElementById('main-content');
+    try {
+      await htmlToPdfConvert?.(downloadRef, 'Ticket_Report');
+    } catch (error) {}
+    setLoading(false);
+  };
 
-    if (content) {
-      const textElements = content?.querySelectorAll(
-        'h6, h5, th > div, .MuiChip-root > span',
-      );
-      textElements?.forEach((textElement: any) => {
-        textElement!.style!.marginTop = pxToRem(-15);
-        textElement!.style!.overflow = 'visible';
-      });
-
-      try {
-        const canvas = await html2canvas(content, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-        });
-
-        const imageDataURL = canvas?.toDataURL('image/png');
-
-        const pdf = new jsPDF({
-          orientation: 'landscape',
-          unit: 'px',
-          format: [canvas?.width, canvas?.height],
-        });
-        pdf?.addImage(imageDataURL, 'PNG', 0, 0, canvas?.width, canvas?.height);
-        pdf?.save('Tickets Report.pdf');
-        successSnackbar('Report Downloaded Successfully!');
-      } catch (error) {
-        errorSnackbar();
-      } finally {
-        const textElements = content?.querySelectorAll(
-          'h6, h5, th > div, .MuiChip-root > span',
-        );
-        textElements?.forEach((textElement: any) => {
-          textElement!.style!.marginTop = '';
-          textElement!.style!.overflow = '';
-        });
-        setLoading(false);
-      }
-    }
+  const shouldDateSet = () => {
+    if (hasDate) return;
+    setValue('createdDate', {
+      startDate: null,
+      endDate: null,
+      key: 'selection',
+    });
   };
 
   return {
     router,
-    agentFilterMethod,
-    setCalendarFilter,
-    calendarFilter,
-    watchForAgentFilter,
-    handlePrint,
+    handleDownload,
     loading,
+    methods,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    downloadRef,
+    setHasDate,
+    shouldDateSet,
     apiQueryAgents,
   };
 };

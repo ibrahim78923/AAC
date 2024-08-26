@@ -1,4 +1,4 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 
@@ -152,3 +152,12 @@ export const monthFormatter = (monthString: any) => {
   const monthIndex = monthMap[monthString?.toLowerCase()];
   return new Date(2000, monthIndex, 1);
 };
+
+export const camelCaseToTitleCase = (camelStr: string) =>
+  camelStr
+    ?.split(/(?=[A-Z])/)
+    ?.map(
+      (word: string) =>
+        word?.charAt(ARRAY_INDEX?.ZERO)?.toUpperCase() + word?.slice?.(1),
+    )
+    ?.join(' ');
