@@ -80,6 +80,16 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getAllEmailsAsync: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${EMAILS_MARKETING?.EMAIL_MARKETING}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.emailsmarketings;
+      },
+    }),
   }),
 });
 
@@ -92,4 +102,5 @@ export const {
   useDuplicateEmailMutation,
   useDeleteEmailMarketingMutation,
   useLazyGetUsersQuery,
+  useLazyGetAllEmailsAsyncQuery,
 } = emailTemplatesApi;

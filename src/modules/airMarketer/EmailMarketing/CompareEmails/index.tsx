@@ -1,9 +1,5 @@
 import { AddAlertPopupIcon, BackArrIcon } from '@/assets/icons';
-import {
-  FormProvider,
-  RHFAutocompleteAsync,
-  RHFSelect,
-} from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import Search from '@/components/Search';
 import {
   Box,
@@ -12,6 +8,7 @@ import {
   CircularProgress,
   Grid,
   LinearProgress,
+  Skeleton,
   Stack,
   Typography,
   useTheme,
@@ -22,22 +19,72 @@ import { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { useLazyGetDashboardUserAccessListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
 import { EmailViewPropsI } from './compareEmail.interface';
-import { AlertModals } from '@/components/AlertModals';
-import { personalEmail } from './CompareEmails.data';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  addEmailDefaultValues,
+  addEmailValidationSchema,
+  defaultEmailsCompareFields,
+} from './CompareEmails.data';
+import {
+  useGetEmailMarketingByIdQuery,
+  useLazyGetAllEmailsAsyncQuery,
+} from '@/services/airMarketer/emailMarketing';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { calculatePercentage } from '@/utils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
+import CommonModal from '@/components/CommonModal';
 
 const CompareEmails = () => {
   const router = useRouter();
   const [searchByCompareEmails, setSearchByCompareEmails] = useState();
   const [datePickerVal, setDatePickerVal] = useState(new Date());
   const [IsAddEmail, setIsAddEmail] = useState(false);
+  const theme = useTheme();
 
-  const apiQueryUsers =
-    useLazyGetDashboardUserAccessListDropdownListForDashboardQuery?.();
+  const apiQueryUsers = useLazyGetAllEmailsAsyncQuery?.();
+  const methods: any = useForm({});
+  const { watch, setValue } = methods;
 
-  const CampaignTask: any = useForm({});
+  const [emailsToCompareSlots, setEmailsToCompareSlots] = useState(
+    defaultEmailsCompareFields,
+  );
+
+  const emailCompareValues = emailsToCompareSlots?.map((slot) => {
+    return {
+      value: watch(`emailCompare${slot.uniqueName}`)?._id,
+      name: slot?.uniqueName,
+    };
+  });
+
+  const methodsAddEmail: any = useForm({
+    resolver: yupResolver(addEmailValidationSchema),
+    defaultValues: addEmailDefaultValues,
+  });
+  const { handleSubmit: handleSubmitAddEmail, reset: resetAddEmail } =
+    methodsAddEmail;
+  const onSubmitAddEmail = (values: any) => {
+    const newSlot = {
+      uniqueName: `slot_${emailsToCompareSlots?.length + 1}`,
+    };
+    setEmailsToCompareSlots((prevSlots) => [...prevSlots, newSlot]);
+    handelSetCurrentFieldValue(newSlot, values?.email);
+    setIsAddEmail(false);
+    resetAddEmail();
+  };
+
+  const handelSetCurrentFieldValue = (newSlot: any, id: any) => {
+    if (newSlot) {
+      setValue(`emailCompare${newSlot?.uniqueName}`, id);
+    }
+  };
+
+  const removeEmailSlot = (uniqueName: string) => {
+    setEmailsToCompareSlots(
+      (prevSlots) =>
+        prevSlots?.filter((slot) => slot?.uniqueName !== uniqueName),
+    );
+  };
 
   return (
     <Box>
@@ -83,164 +130,258 @@ const CompareEmails = () => {
             Choose the emails you want to compare below. You can add up to 10
             emails to compare
           </Typography>
-          <FormProvider methods={CampaignTask}>
+          <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6} lg={4}>
-                <RHFAutocompleteAsync
-                  label="Email"
-                  name="emailCompare_one"
-                  fullWidth
-                  apiQuery={apiQueryUsers}
-                  multiple
-                  size="small"
-                  placeholder="Select email"
-                  getOptionLabel={(option: any) =>
-                    `${option?.firstName} ${option?.lastName}`
-                  }
-                />
-                <Box>
-                  <EmailView
-                    fromName={''}
-                    subject={''}
-                    sendDate={''}
-                    openRate={60}
-                    clickThroughRate={70}
-                    clickRate={30}
-                    blocked={40}
-                    numberOfLinksClicked={30}
-                    read={55}
-                    skimmed={46}
-                    glanced={88}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6} lg={4}>
-                <RHFAutocompleteAsync
-                  label="Email"
-                  name="emailCompare_one"
-                  fullWidth
-                  apiQuery={apiQueryUsers}
-                  multiple
-                  size="small"
-                  placeholder="Select email"
-                  getOptionLabel={(option: any) =>
-                    `${option?.firstName} ${option?.lastName}`
-                  }
-                />
-                <Box>
-                  <EmailView
-                    fromName="berlin.fur@gmail.com "
-                    subject="Testing Mail Users"
-                    sendDate="May 30. 2023"
-                    openRate={20}
-                    clickThroughRate={10}
-                    clickRate={10}
-                    blocked={10}
-                    numberOfLinksClicked={30}
-                    read={55}
-                    skimmed={46}
-                    glanced={88}
-                  />
-                </Box>
-              </Grid>
+              {/* eslint-disable */}
+              {emailsToCompareSlots?.map((slot, index) => {
+                const filteredValues: any = emailCompareValues?.filter(
+                  (item) => item?.name === slot?.uniqueName,
+                );
+                return (
+                  <Grid item xs={12} md={6} lg={4}>
+                    <RHFAutocompleteAsync
+                      label={
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          Email
+                          {index > 1 && (
+                            <Box
+                              onClick={() => removeEmailSlot(slot?.uniqueName)}
+                            >
+                              <Typography
+                                sx={{
+                                  color: theme?.palette?.error?.main,
+                                  fontSize: '14px',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Remove
+                              </Typography>
+                            </Box>
+                          )}
+                        </Box>
+                      }
+                      name={`emailCompare${slot?.uniqueName}`}
+                      fullWidth
+                      apiQuery={apiQueryUsers}
+                      size="small"
+                      placeholder="Select email"
+                      getOptionLabel={(option: any) => option?.subject}
+                    />
+                    <Box>
+                      <EmailView
+                        id={filteredValues[indexNumbers?.ZERO]?.value}
+                      />
+                    </Box>
+                  </Grid>
+                );
+              })}
             </Grid>
-
-            {IsAddEmail && (
-              <AlertModals
-                message={
-                  <>
-                    <RHFSelect name="addEmail" label="Email" size="small">
-                      {personalEmail?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                    </RHFSelect>
-                  </>
-                }
-                type="Add Email"
-                typeImage={<AddAlertPopupIcon />}
-                open={IsAddEmail}
-                handleClose={() => setIsAddEmail(false)}
-                handleSubmit={() => setIsAddEmail(false)}
-                submitBtnText="Add"
-                cancelBtnText="Cancel"
-              />
-            )}
           </FormProvider>
+
+          <CommonModal
+            open={IsAddEmail}
+            handleClose={() => setIsAddEmail(false)}
+            handleCancel={() => setIsAddEmail(false)}
+            handleSubmit={handleSubmitAddEmail(onSubmitAddEmail)}
+            title={
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <AddAlertPopupIcon /> Add Email
+              </Box>
+            }
+            okText="Add"
+            cancelText="Cancel"
+            footer
+          >
+            <FormProvider methods={methodsAddEmail}>
+              <Grid item xs={12}>
+                <RHFAutocompleteAsync
+                  label="Email"
+                  name={'email'}
+                  fullWidth
+                  apiQuery={apiQueryUsers}
+                  size="small"
+                  placeholder="Select email"
+                  getOptionLabel={(option: any) => option?.subject}
+                />
+              </Grid>
+            </FormProvider>
+          </CommonModal>
         </Grid>
       </Grid>
     </Box>
   );
 };
 
-const EmailView = ({
-  fromName,
-  subject,
-  sendDate,
-  openRate,
-  clickThroughRate,
-  clickRate,
-  blocked,
-  numberOfLinksClicked,
-  read,
-  skimmed,
-  glanced,
-}: EmailViewPropsI) => {
+const EmailView = ({ id }: EmailViewPropsI) => {
   const theme = useTheme();
+
+  const { data, status } = useGetEmailMarketingByIdQuery(
+    {
+      params: {
+        id: id,
+      },
+    },
+    { skip: id ? false : true },
+  );
+
   return (
-    <Box>
-      <Card sx={{ mt: 2 }}>
-        <Box
-          sx={{
-            width: '100%',
-            height: '250px',
-            backgroundColor: theme?.palette?.grey[400],
-          }}
-        ></Box>
-        <Box
-          sx={{
-            padding: '20px 20px 10px 20px',
-          }}
-        >
-          <EmailCardTitles title={'From name'} value={fromName} />
-          <EmailCardTitles title={'Subject'} value={subject} />
-          <EmailCardTitles title={'Send Date'} value={sendDate} />
-          <Box
-            sx={{
-              borderTop: `1px solid ${theme?.palette?.grey[400]}`,
-              mt: 2,
-              pt: 2,
-            }}
-          >
-            <EmailCardProgress title={'Open Rate'} value={openRate} />
-            <EmailCardProgress
-              title={'Click -Through Rate'}
-              value={clickThroughRate}
+    <>
+      {status === 'pending' ? (
+        <>
+          <Box sx={{ mt: 2 }}>
+            <Skeleton
+              variant="rounded"
+              sx={{ width: '100%', height: '200px' }}
             />
-            <EmailCardProgress title={'Click Rate'} value={clickRate} />
-            <EmailCardProgress title={'Blocked'} value={blocked} />
-            <EmailCardProgress
-              title={'Number of links clicked'}
-              value={numberOfLinksClicked}
-            />
+            <Box
+              sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}
+            >
+              <Skeleton
+                variant="rounded"
+                sx={{ width: '20%', height: '20px' }}
+              />
+              <Skeleton
+                variant="rounded"
+                sx={{ width: '20%', height: '20px' }}
+              />
+            </Box>
+            <Box
+              sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}
+            >
+              <Skeleton
+                variant="rounded"
+                sx={{ width: '30%', height: '20px' }}
+              />
+              <Skeleton
+                variant="rounded"
+                sx={{ width: '20%', height: '20px' }}
+              />
+            </Box>
           </Box>
-        </Box>
-      </Card>
-      <Box sx={{ mt: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item md={6}>
-            <ReadabilityCards title={'Read'} value={read} />
-          </Grid>
-          <Grid item md={6}>
-            <ReadabilityCards title={'Skimmed'} value={skimmed} />
-          </Grid>
-          <Grid item md={6}>
-            <ReadabilityCards title={'Glanced'} value={glanced} />
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
+        </>
+      ) : (
+        <>
+          {data && (
+            <Box>
+              <Card sx={{ mt: 2 }}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '250px',
+                    p: 1,
+                    backgroundColor: theme?.palette?.grey[400],
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: '80%',
+                      height: '100%',
+                      background: theme?.palette?.common?.white,
+                      margin: '0 auto',
+                      padding: '10px 20px',
+                      borderRadius: '8px',
+                      pointerEvents: 'none',
+                      fontSize: '10px',
+                      overflow: 'auto',
+                      userSelect: 'none',
+                    }}
+                  >
+                    <Box
+                      dangerouslySetInnerHTML={{ __html: data?.data?.message }}
+                    />
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    padding: '20px 20px 10px 20px',
+                  }}
+                >
+                  <EmailCardTitles
+                    title={'From name'}
+                    value={data?.data?.from}
+                  />
+                  <EmailCardTitles
+                    title={'Subject'}
+                    value={data?.data?.subject}
+                  />
+                  <EmailCardTitles
+                    title={'Send Date'}
+                    value={
+                      data?.data?.createdAt
+                        ? dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.API)
+                        : ''
+                    }
+                  />
+                  <Box
+                    sx={{
+                      borderTop: `1px solid ${theme?.palette?.grey[400]}`,
+                      mt: 2,
+                      pt: 2,
+                    }}
+                  >
+                    <EmailCardProgress
+                      title={'Open Rate'}
+                      value={calculatePercentage(
+                        data?.data?.open,
+                        data?.data?.total,
+                      )}
+                    />
+                    <EmailCardProgress
+                      title={'Click -Through Rate'}
+                      value={calculatePercentage(
+                        data?.data?.bounce,
+                        data?.data?.total,
+                      )}
+                    />
+                    <EmailCardProgress
+                      title={'Click Rate'}
+                      value={calculatePercentage(
+                        data?.data?.click,
+                        data?.data?.total,
+                      )}
+                    />
+                    <EmailCardProgress
+                      title={'Blocked'}
+                      value={calculatePercentage(
+                        data?.data?.rejected?.length,
+                        data?.data?.total,
+                      )}
+                    />
+                    <EmailCardProgress
+                      title={'Number of links clicked'}
+                      value={calculatePercentage(
+                        data?.data?.click,
+                        data?.data?.total,
+                      )}
+                    />
+                  </Box>
+                </Box>
+              </Card>
+              <Box sx={{ mt: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item md={6}>
+                    <ReadabilityCards title={'Read'} value={0} />
+                  </Grid>
+                  <Grid item md={6}>
+                    <ReadabilityCards title={'Skimmed'} value={0} />
+                  </Grid>
+                  <Grid item md={6}>
+                    <ReadabilityCards title={'Glanced'} value={0} />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          )}
+        </>
+      )}
+    </>
   );
 };
 
