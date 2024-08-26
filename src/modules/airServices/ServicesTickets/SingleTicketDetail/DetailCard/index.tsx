@@ -134,7 +134,9 @@ export const DetailCard = (props: { data: any }) => {
               color="slateBlue.main"
               sx={{ wordBreak: 'break-all' }}
               dangerouslySetInnerHTML={{
-                __html: ticketDetail?.description ?? '---',
+                __html: !!ticketDetail?.description
+                  ? ticketDetail?.description
+                  : '---',
               }}
             />
           </Box>

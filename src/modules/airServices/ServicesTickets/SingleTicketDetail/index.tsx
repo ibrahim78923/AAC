@@ -25,11 +25,10 @@ import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
-import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
+import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 
 export const SingleTicketDetail = () => {
   const {
-    data,
     isLoading,
     isFetching,
     isError,
@@ -42,6 +41,7 @@ export const SingleTicketDetail = () => {
     childComponentProps,
     singleTicketDetailTabs,
     refetch,
+    ticketDetail,
   } = useSingleTicketDetails?.();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -56,10 +56,12 @@ export const SingleTicketDetail = () => {
         title={
           <Box display={'flex'} alignItems={'center'} gap={2}>
             <Typography variant="h6" color="primary.main">
-              {data?.data?.[ARRAY_INDEX?.ZERO]?.ticketIdNumber ?? '---'}
+              {ticketDetail?.ticketIdNumber ?? '---'}
             </Typography>
             <Typography variant="h6" component="span">
-              {truncateText(data?.data?.[ARRAY_INDEX?.ZERO]?.subject)}
+              {ticketDetail?.ticketType === TICKET_TYPE?.SR
+                ? `Request For: ${truncateText(ticketDetail?.subject)}`
+                : truncateText(ticketDetail?.subject)}
             </Typography>
           </Box>
         }

@@ -9,7 +9,7 @@ export const Details = (props: SingleTicketDetailChildComponentPropsI) => {
     <PermissionsGuard
       permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TAB}
     >
-      <EditTicketDetails {...props} />
+      <EditTicketDetails />
       <PermissionsGuard
         permissions={
           Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TIME_ENTRIES

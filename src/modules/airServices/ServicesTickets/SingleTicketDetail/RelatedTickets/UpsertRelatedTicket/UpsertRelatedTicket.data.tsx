@@ -43,10 +43,8 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date(),
-  plannedStartTime: Yup?.date()?.nullable(),
+  plannedStartDate: Yup?.date()?.nullable(),
   plannedEndDate: Yup?.date()?.nullable(),
-  plannedEndTime: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
   associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
@@ -54,9 +52,7 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
 
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
-    requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
-      ? data?.requesterDetails
-      : null,
+    requester: data?.requesterDetails ?? null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.categoryDetails ?? null,
@@ -64,17 +60,13 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     priority: data?.pirority
       ? { _id: data?.pirority, label: data?.pirority }
       : null,
-    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
-      ? data?.departmentDetails
-      : null,
+    department: data?.departmentDetails ?? null,
     source: data?.source ? { _id: data?.source, label: data?.source } : null,
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
-    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
-      ? data?.agentDetails
-      : null,
+    agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
       ? new Date(data?.plannedStartDate)
-      : null,
+      : new Date(),
     plannedEndDate: !!data?.plannedEndDate
       ? new Date(data?.plannedEndDate)
       : null,

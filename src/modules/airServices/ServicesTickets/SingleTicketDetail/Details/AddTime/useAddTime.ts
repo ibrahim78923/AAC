@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import {
-  useLazyGetAgentDropdownQuery,
+  useLazyGetAgentDropdownForEditTicketDetailsQuery,
   useLazyGetTaskByIdDropDownQuery,
   usePostTicketsTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
@@ -152,7 +152,7 @@ export const useAddTime = (props: any) => {
     reset();
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
   const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
 
   const addTimeFormFields = addTimeFormFieldsDynamic(

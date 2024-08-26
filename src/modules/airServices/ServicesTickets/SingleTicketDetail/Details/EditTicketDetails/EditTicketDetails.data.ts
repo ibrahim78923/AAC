@@ -10,13 +10,14 @@ import {
 } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
+import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import { ROLES, TICKET_TYPE } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
-  ticketTypeOptions,
+  ticketTypeOptionsDynamic,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import {
   dynamicFormInitialValue,
@@ -70,7 +71,10 @@ export const editTicketDetailsDefaultValuesDynamic = (
     source: data?.source ? { _id: data?.source, label: data?.source } : null,
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     ticketType: data?.ticketType
-      ? { _id: data?.ticketType, label: data?.ticketType }
+      ? {
+          _id: data?.ticketType,
+          label: TICKET_TYPE_MAPPED?.[data?.ticketType] ?? data?.ticketType,
+        }
       : null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? data?.agentDetails
@@ -93,6 +97,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   watchForTicketType?: any,
   apiQueryServicesCategory?: any,
   getValues?: any,
+  data?: any,
 ) => [
   {
     id: 1,
@@ -150,8 +155,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       label: 'Type',
       fullWidth: true,
       placeholder: 'Choose ticket type',
-      options: ticketTypeOptions,
-      disabled: watchForTicketType?._id === TICKET_TYPE?.EQ,
+      options: ticketTypeOptionsDynamic?.(data?.ticketType),
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
 
@@ -202,7 +206,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === TICKET_TYPE?.SR
     ? [
         {
-          id: 7,
+          id: 17,
           componentProps: {
             name: 'service',
             label: 'Service',

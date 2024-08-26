@@ -501,6 +501,7 @@ export const END_POINTS = {
   GET_SINGLE_SERVICE_DASHBOARD_ANNOUNCEMENT:
     '/air-services-dashboard/get-by-id-dashboard-annoucement',
   GET_SINGLE_FOLDER_DETAIL: '/articles/get-byId-folder',
+  GET_SERVICES_SYSTEMATIC_REPORTS: `/systematic-reports/get-systematic-report`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -661,8 +662,10 @@ export const WHATSAPP_MARKETING = {
 export const SALES_DASHBOARD = {
   SALES_DASHBOARD_LIST: '/dynamic-dashboard',
   CREATE_SALES_DASHBOARD: '/dynamic-dashboard/create-dynamic-dashboard',
-  DEALS_CREATED_VS_CLOSE_DATES:'/sales-dashboard/deals-created-vs-closed-deals',
-  WIDGET:'/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
+  DEALS_CREATED_VS_CLOSE_DATES:
+    '/sales-dashboard/deals-created-vs-closed-deals',
+  WIDGET:
+    '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
 };
 

@@ -10,7 +10,7 @@ import { UpdateTicketStatus } from '../UpdateTicketStatus';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
 import { PrintTicket } from '../PrintTicket';
 import { EmailTicket } from '../EmailTicket';
-import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
+import { ARRAY_INDEX, TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
 import {
   SingleTicketDetailChildComponentPropsI,
   SingleTicketDetailIsPortalOpenI,
@@ -46,7 +46,7 @@ export const useSingleTicketDetails = () => {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
     });
-
+  const ticketDetail = data?.data?.[ARRAY_INDEX?.ZERO];
   const singleTicketDetailDropdownOptions =
     singleTicketDetailDropdownOptionsDynamic(setIsPortalOpen);
 
@@ -103,5 +103,6 @@ export const useSingleTicketDetails = () => {
     childComponentProps,
     singleTicketDetailTabs,
     refetch,
+    ticketDetail,
   };
 };

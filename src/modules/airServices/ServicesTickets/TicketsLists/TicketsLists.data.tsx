@@ -1,6 +1,10 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
+import {
+  SELECTED_ARRAY_LENGTH,
+  TICKET_STATUS,
+  TICKET_TYPE,
+} from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
@@ -269,7 +273,13 @@ export const ticketsListsColumnFunction: any = (
       id: 'subject',
       isSortable: true,
       header: 'Subject',
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => (
+        <>
+          {info?.row?.original?.ticketType === TICKET_TYPE?.SR
+            ? `Request For: ${truncateText(info?.getValue())}`
+            : truncateText(info?.getValue())}
+        </>
+      ),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.requesterDetails,

@@ -11,6 +11,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AIR_SERVICES } from '@/constants';
 
 export const EditTicketDetails = () => {
   const {
@@ -27,6 +28,7 @@ export const EditTicketDetails = () => {
     isError,
     getDynamicFormData,
     refetch,
+    router,
   } = useEditTicketDetails();
 
   return (
@@ -87,6 +89,7 @@ export const EditTicketDetails = () => {
                     editTicketsDetailsStatus?.isLoading ||
                     postAttachmentStatus?.isLoading
                   }
+                  onClick={() => router?.push(AIR_SERVICES?.TICKETS)}
                 >
                   Cancel
                 </LoadingButton>

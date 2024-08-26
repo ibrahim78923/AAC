@@ -2,11 +2,10 @@ import { Box, Typography } from '@mui/material';
 import { CustomChart } from '@/components/Chart';
 import { pieChartDataOptions, pieChartHeader } from './AgentAvailability.data';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { useAgentAvailability } from './useAgentAvailability';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const AgentAvailability = (props: any) => {
   const { data, isPreviewMode } = props;
@@ -25,80 +24,74 @@ export const AgentAvailability = (props: any) => {
         <Box
           display={'flex'}
           justifyContent={'space-between'}
-          marginBottom={1.5}
           gap={1}
           flexWrap={'wrap'}
+          alignItems={'center'}
         >
-          <Typography variant="h5">Agent Availability</Typography>
-          <PermissionsGuard
-            permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
-          >
-            <FormProvider methods={methods}>
-              <RHFAutocompleteAsync
-                disabled={isPreviewMode}
-                name="departmentId"
-                size="small"
-                sx={{
-                  minWidth: 200,
-                  '& .MuiInputBase-input': {
-                    p: '0 0 0 8px !important',
-                  },
-                }}
-                placeholder="All Departments"
-                apiQuery={departmentDropdown}
-              />
-            </FormProvider>
-          </PermissionsGuard>
+          <Typography variant="h5" color={'slateBlue.main'}>
+            Agent Availability
+          </Typography>
+          <FormProvider methods={methods}>
+            <RHFAutocompleteAsync
+              disabled={isPreviewMode}
+              name="departmentId"
+              size="small"
+              sx={{
+                minWidth: pxToRem(200),
+                '.MuiInputBase-input': {
+                  padding: `${pxToRem(2)} !important`,
+                },
+                '.MuiFormHelperText-root': {
+                  display: 'none',
+                },
+              }}
+              placeholder="All Departments"
+              apiQuery={departmentDropdown}
+            />
+          </FormProvider>
         </Box>
         <Box
           display={'flex'}
           justifyContent={'space-between'}
           gap={1}
           flexWrap={'wrap'}
+          my={2}
         >
           {pieChartHeader(theme, data?.agentAvailability?.data)?.map(
             (department) => (
               <Box key={department?.title}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {department?.icon}
-                  <Typography variant="body3">{department?.title}</Typography>
-                </Box>
-                <Box sx={{ mt: 1 }}>
-                  <Typography variant="h5">
-                    {department?.titleNumber}
+                  <Typography variant="body3" color={'slateBlue.main'}>
+                    {department?.title}
                   </Typography>
                 </Box>
+                <Typography variant="h4" color={'slateBlue.main'}>
+                  {department?.titleNumber}
+                </Typography>
               </Box>
             ),
           )}
         </Box>
       </>
-      <Box sx={{ marginTop: 2 }}>
-        {
-          <>
-            {pieChartHeader(theme, data?.agentAvailability?.data).every(
-              (department) => department?.titleNumber === 0,
-            ) ? (
-              <NoData
-                image={NoAssociationFoundImage}
-                message={'No data is available'}
-                height={'100%'}
-              />
-            ) : (
-              pieChartSeries?.length > 0 && (
-                <CustomChart
-                  options={{
-                    ...pieChartDataOptions(theme),
-                    labels: ['Available', 'Not Available'],
-                  }}
-                  series={pieChartSeries}
-                  type="pie"
-                  height={212}
-                />
-              )
-            )}
-          </>
-        }
+      <Box>
+        {pieChartHeader(theme, data?.agentAvailability?.data)?.every(
+          (department) => department?.titleNumber === 0,
+        ) ? (
+          <NoData message={'No data is available'} height={'100%'} />
+        ) : (
+          pieChartSeries?.length > SELECTED_ARRAY_LENGTH?.ZERO && (
+            <CustomChart
+              options={{
+                ...pieChartDataOptions(theme),
+                labels: ['Available', 'Not Available'],
+              }}
+              series={pieChartSeries}
+              type="pie"
+              height={212}
+            />
+          )
+        )}
       </Box>
     </Box>
   );

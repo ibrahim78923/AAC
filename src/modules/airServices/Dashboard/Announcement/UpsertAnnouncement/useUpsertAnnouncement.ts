@@ -25,11 +25,14 @@ import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { ARRAY_INDEX } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
 ) => {
   const { setIsPortalOpen, isPortalOpen, getSingleDashboardData } = props;
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
 
   const methods: any = useForm({
     resolver: yupResolver(upsertAnnouncementValidationSchema),
@@ -107,6 +110,7 @@ export const useUpsertAnnouncement = (
       ),
       startDate: dayjs(new Date(data?.startDate))?.format(DATE_FORMAT?.API),
       endDate: dayjs(new Date(data?.endDate))?.format(DATE_FORMAT?.API),
+      productId,
     };
 
     if (isPortalOpen?.data?._id) {

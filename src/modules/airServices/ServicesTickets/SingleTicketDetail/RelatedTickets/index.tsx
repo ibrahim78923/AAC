@@ -89,7 +89,6 @@ export const RelatedTickets = () => {
                 ? data?.data?.tickets
                 : []
           }
-          activeCheck={selectedChildTickets}
           columns={relatedTicketsColumns}
           isFetching={isFetching}
           isError={isError}

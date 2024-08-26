@@ -85,25 +85,13 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control, setValue } = methods;
+  const { handleSubmit, reset, getValues, control } = methods;
 
   const watchForTicketType = useWatch({
     control,
     name: 'ticketType',
     defaultValue: null,
   });
-
-  const watchForCategory = useWatch({
-    control,
-    name: 'category',
-    defaultValue: null,
-  });
-
-  useEffect(() => {
-    if (getValues('ticketType')?._id === TICKET_TYPE?.SR) {
-      setValue('service', null);
-    }
-  }, [watchForCategory]);
 
   useEffect(() => {
     reset(() =>
@@ -115,7 +103,16 @@ export const useEditTicketDetails = () => {
   }, [data, reset, form]);
 
   const onSubmit = async (formData: any) => {
+    if (
+      formData?.ticketType?._id === TICKET_TYPE?.SR &&
+      formData?.category !== null &&
+      formData?.category?._id !== formData?.service?.serviceCategory
+    ) {
+      errorSnackbar('Service does not belong to selected category');
+      return;
+    }
     const newFormData = filteredEmptyValues(formData);
+
     const { plannedEffort } = getValues();
     if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
       errorSnackbar(
@@ -163,10 +160,6 @@ export const useEditTicketDetails = () => {
         body.customFields = customFields;
       }
       const ticketDetailsData = new FormData();
-      ticketDetailsData?.append(
-        'requester',
-        data?.data?.[ARRAY_INDEX?.ZERO]?.requester,
-      );
       ticketDetailsData.append('status', newFormData?.status?._id);
       ticketDetailsData.append('pirority', newFormData?.priority?._id);
       !!newFormData?.department?._id &&
@@ -180,12 +173,11 @@ export const useEditTicketDetails = () => {
         ticketDetailsData.append('serviceId', newFormData?.service?._id);
       newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
         ticketDetailsData.append('subject', newFormData?.service?.itemName);
-      ticketDetailsData.append(
-        'description',
-        newFormData?.ticketType?._id === TICKET_TYPE?.SR
-          ? newFormData?.service?.description
-          : data?.data?.[ARRAY_INDEX?.ZERO]?.description,
-      );
+      newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
+        ticketDetailsData.append(
+          'description',
+          newFormData?.service?.description,
+        );
       !!newFormData?.agent &&
         ticketDetailsData.append('agent', newFormData?.agent?._id);
       !!newFormData?.category &&
@@ -241,6 +233,7 @@ export const useEditTicketDetails = () => {
     watchForTicketType,
     apiQueryServicesCategory,
     getValues,
+    data?.data?.[ARRAY_INDEX?.ZERO],
   );
 
   return {
@@ -257,5 +250,6 @@ export const useEditTicketDetails = () => {
     isError,
     getDynamicFormData,
     refetch,
+    router,
   };
 };

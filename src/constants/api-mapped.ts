@@ -11,6 +11,7 @@ import {
   OPERATORS,
   RULES_AUDIENCE_TYPE,
   RULES_TIME_SPAN,
+  TICKET_TYPE,
 } from './strings';
 
 export const ERROR_TIME = {
@@ -91,4 +92,10 @@ export const ANNOUNCEMENTS_VISIBILITY_MAPPED = {
   [ANNOUNCEMENTS_VISIBILITY?.EVERYONE]: 'Everyone',
   [ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT]: 'All Agent',
   [ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS]: 'Specific users',
+};
+
+export const TICKET_TYPE_MAPPED = {
+  [TICKET_TYPE?.SR]: 'Service Request',
+  [TICKET_TYPE?.INC]: 'Incident',
+  [TICKET_TYPE?.EQ]: 'Enquiry',
 };

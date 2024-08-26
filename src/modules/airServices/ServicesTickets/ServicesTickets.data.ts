@@ -1,4 +1,5 @@
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import {
   TICKET_CATEGORY,
   TICKET_IMPACT,
@@ -6,7 +7,6 @@ import {
   TICKET_SOURCE,
   TICKET_STATUS,
   TICKET_TYPE,
-  TICKET_TYPES,
 } from '@/constants/strings';
 
 export const ticketStatusOptions: AutocompleteOptionsI[] = [
@@ -78,16 +78,29 @@ export const ticketCategoryOptions: string[] = [
   TICKET_CATEGORY?.OFFICE_APPLICATION,
   TICKET_CATEGORY?.OFFICE_FURNITURE,
 ];
-export const ticketTypeOptions: AutocompleteOptionsI[] = [
+export const ticketTypeOptionsDynamic = (
+  ticketType: any,
+): AutocompleteOptionsI[] => [
   {
     _id: TICKET_TYPE?.INC,
-    label: TICKET_TYPE?.INC,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.INC],
   },
   {
     _id: TICKET_TYPE?.SR,
-    label: TICKET_TYPE?.SR,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.SR],
   },
+  ...(ticketType === TICKET_TYPE?.EQ
+    ? [
+        {
+          _id: TICKET_TYPE?.EQ,
+          label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.EQ],
+        },
+      ]
+    : []),
 ];
+
+export const ticketTypeOptions = ticketTypeOptionsDynamic?.({});
+
 export const ticketsSourceOptions: string[] = [
   TICKET_SOURCE?.PHONE,
   TICKET_SOURCE?.EMAIL,
@@ -122,10 +135,14 @@ export const ticketSourceOptions: AutocompleteOptionsI[] = [
 export const ticketsTypeOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_TYPE?.INC,
-    label: TICKET_TYPES?.INCIDENTS,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.INC],
   },
   {
     _id: TICKET_TYPE?.SR,
-    label: TICKET_TYPES?.SERVICE_REQUEST,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.SR],
+  },
+  {
+    _id: TICKET_TYPE?.EQ,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.EQ],
   },
 ];

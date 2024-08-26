@@ -2,7 +2,11 @@ import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
+import {
+  SELECTED_ARRAY_LENGTH,
+  TICKET_STATUS,
+  TICKET_TYPE,
+} from '@/constants/strings';
 import { fullName, truncateText } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
@@ -132,7 +136,13 @@ export const columnsFunction: any = (
       id: 'subject',
       isSortable: true,
       header: 'Name',
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => (
+        <>
+          {info?.row?.original?.ticketType === TICKET_TYPE?.SR
+            ? `Request For: ${truncateText(info?.getValue())}`
+            : truncateText(info?.getValue())}
+        </>
+      ),
     },
     {
       accessorFn: (row: RelatedTicketsTableRowI) =>
