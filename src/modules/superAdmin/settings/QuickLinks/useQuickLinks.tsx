@@ -36,6 +36,7 @@ const useQuickLinks = () => {
   const { data: dataGetQuickLinks, isLoading: loagingGetQuickLinks } =
     useGetQuickLinksQuery({
       params: {
+        isActive: 'TRUE',
         ...filterParams,
         ...searchPayLoad,
         ...paginationParams,

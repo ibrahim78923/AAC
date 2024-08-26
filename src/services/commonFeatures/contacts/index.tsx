@@ -93,6 +93,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['ContactsStatus'],
     }),
+
     getContactsStatusUpdated: builder.query({
       query: () => ({
         url: `${END_POINTS?.CONTACT_STATUS}?page=1&limit=10&status=inactive`,
@@ -140,32 +141,32 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
-    getContactTasks: builder.query({
+    getTasks: builder.query({
       query: ({ params }: any) => ({
-        url: END_POINTS?.CONTACT_TASKS,
+        url: END_POINTS?.TASK_MANAGEMENT,
         method: 'GET',
         params: params,
       }),
-      providesTags: TAG,
+      providesTags: ['TASKS'],
     }),
 
     // Re-assign
-    updateContactTask: builder.mutation({
+    patchContactTask: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.TASK}/${id}`,
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: TAG,
+      invalidatesTags: ['TASKS'],
     }),
 
     // Delete Tasks
     deleteTasks: builder.mutation({
-      query: (id: any) => ({
-        url: `${END_POINTS?.TASK}/${id}`,
+      query: (ids: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: TAG,
+      invalidatesTags: ['TASKS'],
     }),
 
     getCustomizeColumns: builder.query({
@@ -194,6 +195,18 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    getContactDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+      providesTags: ['CONTACTS'],
+    }),
   }),
 });
 
@@ -209,8 +222,8 @@ export const {
   useGetDeletedContactsQuery,
   useRestoreContactMutation,
   useDeleteContactPermanentMutation,
-  useGetContactTasksQuery,
-  useUpdateContactTaskMutation,
+  useGetTasksQuery,
+  usePatchContactTaskMutation,
   useDeleteTasksMutation,
   useGetLifeCycleQuery,
   useGetAllUserTeamsQuery,
@@ -220,4 +233,5 @@ export const {
   usePutCustomizedColumnsMutation,
   useLazyGetUpdatedLifeCycleQuery,
   useLazyGetContactsStatusUpdatedQuery,
+  useLazyGetContactDropdownListQuery,
 } = contactsAPI;
