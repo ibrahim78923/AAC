@@ -85,8 +85,7 @@ export const useUpsertEventBasedWorkflow = () => {
         : yupResolver(eventBasedSaveWorkflowSchema),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control } =
-    eventMethod;
+  const { reset, watch, handleSubmit, setValue, control } = eventMethod;
 
   const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
@@ -235,7 +234,6 @@ export const useUpsertEventBasedWorkflow = () => {
   return {
     eventMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,

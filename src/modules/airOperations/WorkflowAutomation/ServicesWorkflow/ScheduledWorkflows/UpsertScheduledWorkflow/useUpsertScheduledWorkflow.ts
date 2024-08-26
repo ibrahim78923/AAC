@@ -87,7 +87,7 @@ export const useUpsertScheduledWorkflow = () => {
         ? yupResolver(scheduledWorkflowSchema)
         : yupResolver(scheduledSaveWorkflowSchema),
   });
-  const { reset, watch, register, handleSubmit, setValue, control } =
+  const { reset, watch, handleSubmit, setValue, control } =
     scheduledWorkflowMethod;
 
   const mapField = (field: any) => {
@@ -283,7 +283,6 @@ export const useUpsertScheduledWorkflow = () => {
   return {
     scheduledWorkflowMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,

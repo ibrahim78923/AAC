@@ -39,7 +39,7 @@ export const WorkflowConditionData = (
 
   return [
     {
-      _id: 453,
+      id: 453,
       icon: icon,
       color: color,
       heading: heading,

@@ -43,68 +43,66 @@ export const TestWorkflowDrawer = (props: any) => {
             ))}
           </Grid>
         ))}
-        {WorkflowConditionData(testWorkflowResponse, watch)?.map(
-          (item: any): any => (
-            <Grid
-              item
-              xs={12}
-              key={item?.id}
-              border={`1px solid ${palette?.grey?.[700]}`}
-              borderRadius={2}
+        {WorkflowConditionData(testWorkflowResponse, watch)?.map((item) => (
+          <Grid
+            item
+            xs={12}
+            key={item?.id}
+            border={`1px solid ${palette?.grey?.[700]}`}
+            borderRadius={2}
+          >
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              gap={2}
+              p={1}
+              borderBottom={`1px solid ${palette?.grey?.[700]}`}
             >
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                gap={2}
-                p={1}
-                borderBottom={`1px solid ${palette?.grey?.[700]}`}
-              >
-                <item.icon sx={{ color: item?.color }} />
-                <Typography variant="h4" color={item?.color}>
-                  {item?.heading}
-                </Typography>
-              </Box>
-              {item?.detail?.map((val: any) => (
-                <Box key={val?._id}>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    p={1}
-                  >
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Box
-                        p="10px 18px"
-                        borderRadius={1.5}
-                        color={palette?.common?.white}
-                        bgcolor={val?.boxColor}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        {val?.conditionNum}
-                      </Box>
-                      <Typography
-                        color={val?.boxColor}
-                        variant="body1"
-                        fontWeight={600}
-                      >
-                        {val?.conditionDetail}
-                      </Typography>
+              <item.icon sx={{ color: item?.color }} />
+              <Typography variant="h4" color={item?.color}>
+                {item?.heading}
+              </Typography>
+            </Box>
+            {item?.detail?.map((val: any) => (
+              <Box key={val?._id}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  p={1}
+                >
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <Box
+                      p="10px 18px"
+                      borderRadius={1.5}
+                      color={palette?.common?.white}
+                      bgcolor={val?.boxColor}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      {val?.conditionNum}
                     </Box>
                     <Typography
-                      variant="body2"
-                      fontWeight={500}
-                      color={val?.statusColor}
+                      color={val?.boxColor}
+                      variant="body1"
+                      fontWeight={600}
                     >
-                      {val?.conditionStatus}
+                      {val?.conditionDetail}
                     </Typography>
                   </Box>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    color={val?.statusColor}
+                  >
+                    {val?.conditionStatus}
+                  </Typography>
                 </Box>
-              ))}
-            </Grid>
-          ),
-        )}
+              </Box>
+            ))}
+          </Grid>
+        ))}
       </Grid>
     </CommonDrawer>
   );

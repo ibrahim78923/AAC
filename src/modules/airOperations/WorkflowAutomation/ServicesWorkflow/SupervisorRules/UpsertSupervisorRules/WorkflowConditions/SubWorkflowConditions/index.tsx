@@ -6,7 +6,7 @@ import { subWorkflowData } from './SubWorkflowConditions.data';
 import { LOGICS } from '@/constants/strings';
 
 export const SubWorkflowConditions = (props: any) => {
-  const { index, conditionType, watch, setValue } = props;
+  const { index, conditionType, watch } = props;
   const {
     append,
     fields,
@@ -18,9 +18,9 @@ export const SubWorkflowConditions = (props: any) => {
   } = useSubWorkflowConditions(props);
   return (
     <>
-      {fields?.map((item: any, subIndex: any) => {
+      {fields?.map((item, subIndex) => {
         return (
-          <Box key={item?._id}>
+          <Box key={item?.id}>
             {subIndex !== 0 && (
               <Divider
                 sx={{
@@ -45,12 +45,11 @@ export const SubWorkflowConditions = (props: any) => {
                     index,
                     subIndex,
                     watch,
-                    setValue,
                     agentApiQuery,
                     departmentApiQuery,
                     requestersApiQuery,
                     apiQueryLocations,
-                  })?.map((item: any) => (
+                  })?.map((item) => (
                     <Grid item xs={12} md={item?.gridLength} key={item?._id}>
                       <item.component {...item?.componentProps} />
                     </Grid>

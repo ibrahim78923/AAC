@@ -32,7 +32,7 @@ export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
         </Typography>
         <Grid item lg={8} p={1.5}>
           <RHFRadioGroup
-            label={<Typography variant="h5">Module</Typography>}
+            label={<Typography variant="formTopHeading">Module</Typography>}
             sx={{
               display: 'flex',
               justifyContent: 'space-between',

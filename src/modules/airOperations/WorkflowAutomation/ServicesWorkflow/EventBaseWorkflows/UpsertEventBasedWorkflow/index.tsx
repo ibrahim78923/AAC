@@ -12,7 +12,6 @@ export const UpsertEventBasedWorkflow = () => {
   const {
     eventMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,
@@ -60,11 +59,7 @@ export const UpsertEventBasedWorkflow = () => {
           ))}
         </Grid>
         <Grid container>
-          <WorkflowRunAndTrigger
-            palette={palette}
-            register={register}
-            watch={watch}
-          />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}

@@ -38,7 +38,7 @@ export const WorkflowActionExecuted = (props: any) => {
         </Typography>
       </Box>
       {fields?.map((item: any, index: number) => (
-        <Box key={item?._id} display={'flex'} p={2}>
+        <Box key={item?.id} display={'flex'} p={2}>
           <Grid container spacing={1}>
             {actionsData({
               index,

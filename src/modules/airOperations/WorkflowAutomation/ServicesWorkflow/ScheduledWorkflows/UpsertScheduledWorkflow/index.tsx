@@ -13,7 +13,6 @@ export const UpsertScheduledWorkflow = () => {
   const {
     scheduledWorkflowMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,
@@ -65,18 +64,10 @@ export const UpsertScheduledWorkflow = () => {
           ))}
         </Grid>
         <Grid container>
-          <WorkflowSchedule
-            register={register}
-            watch={watch}
-            setValue={setValue}
-          />
+          <WorkflowSchedule watch={watch} setValue={setValue} />
         </Grid>
         <Grid container>
-          <WorkflowRunAndTrigger
-            palette={palette}
-            register={register}
-            watch={watch}
-          />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}

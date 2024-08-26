@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Palette, Typography } from '@mui/material';
 import { RHFAutocomplete, RHFRadioGroup } from '@/components/ReactHookForm';
 import {
   andRunOptions,
@@ -6,8 +6,7 @@ import {
   moduleOptions,
 } from '../UpsertEventBasedWorkflow.data';
 
-export const WorkflowRunAndTrigger = (props: any) => {
-  const { register, palette } = props;
+export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
   return (
     <>
       <Grid
@@ -33,7 +32,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
           </Typography>
         </Box>
         <Box>
-          <Grid lg={8} p={1.5}>
+          <Grid item lg={8} p={1.5}>
             <RHFRadioGroup
               sx={{
                 display: 'flex',
@@ -41,7 +40,6 @@ export const WorkflowRunAndTrigger = (props: any) => {
               }}
               name="module"
               options={moduleOptions}
-              inputRef={register}
             />
           </Grid>
         </Box>

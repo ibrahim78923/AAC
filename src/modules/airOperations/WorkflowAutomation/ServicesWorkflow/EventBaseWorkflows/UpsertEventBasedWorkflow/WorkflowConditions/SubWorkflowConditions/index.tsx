@@ -22,7 +22,7 @@ export const SubWorkflowConditions = (props: any) => {
     <>
       {fields?.map((item: any, subIndex: any) => {
         return (
-          <Box key={item?._id}>
+          <Box key={item?.id}>
             {subIndex !== 0 && (
               <Divider
                 sx={{
@@ -54,7 +54,7 @@ export const SubWorkflowConditions = (props: any) => {
                     apiQueryLocations,
                     apiAssetType,
                     apiUsersListDropdown,
-                  })?.map((item: any) => (
+                  })?.map((item) => (
                     <Grid item xs={12} md={item?.gridLength} key={item?._id}>
                       <item.component {...item?.componentProps} />
                     </Grid>

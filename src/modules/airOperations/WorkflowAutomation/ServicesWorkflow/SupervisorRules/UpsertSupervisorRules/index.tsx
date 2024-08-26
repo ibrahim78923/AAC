@@ -12,7 +12,6 @@ export const UpsertSupervisorRules = () => {
   const {
     rulesMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,
@@ -60,17 +59,12 @@ export const UpsertSupervisorRules = () => {
           ))}
         </Grid>
         <Grid container>
-          <WorkflowRunAndTrigger
-            palette={palette}
-            register={register}
-            watch={watch}
-          />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}
           moduleType={moduleType}
           watch={watch}
-          setValue={setValue}
         />
         <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
