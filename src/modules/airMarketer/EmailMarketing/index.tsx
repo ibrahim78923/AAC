@@ -80,7 +80,7 @@ const EmailMarketing = () => {
       params: {
         page: page,
         limit: pageLimit,
-        ...(searchEmailMarketing.length && { search: searchEmailMarketing }),
+        ...(searchEmailMarketing?.length && { search: searchEmailMarketing }),
         ...(value !== EMAIL_ENUMS?.ALL && { status: value }),
         ...(filtersData?.users?.user?.length > 0 && {
           createdBy: filtersData?.users?.user,
