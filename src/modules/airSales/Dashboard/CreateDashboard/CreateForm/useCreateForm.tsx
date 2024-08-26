@@ -15,7 +15,7 @@ const useCreateForm = () => {
     setAccessValue,
     isOpenPreview,
     accessValue,
-    router
+    router,
   };
 };
 export default useCreateForm;

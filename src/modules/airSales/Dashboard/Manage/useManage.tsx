@@ -1,8 +1,10 @@
 import { PAGINATION } from '@/config';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { useDeleteSalesDashboardMutation, useGetSalesDashboardsQuery } from '@/services/airSales/dashboard';
+import {
+  useDeleteSalesDashboardMutation,
+  useGetSalesDashboardsQuery,
+} from '@/services/airSales/dashboard';
 import { useTheme } from '@mui/material';
-import { id } from 'date-fns/locale';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -10,7 +12,10 @@ const useManage = () => {
   const router = useRouter();
   const theme: any = useTheme();
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState({ isToggle: false, id: '' });
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState({
+    isToggle: false,
+    id: '',
+  });
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -31,7 +36,6 @@ const useManage = () => {
     setIsDeleteModalOpen({ isToggle: false, id: '' });
   };
 
-
   const {
     data: dashboardListArray,
     isLoading,
@@ -42,7 +46,9 @@ const useManage = () => {
       limit: pageLimit,
       search: filterValues?.search ?? undefined,
       owner: filterValues?.owner ? filterValues?.owner : undefined,
-      accessRights: filterValues?.accessRights ? filterValues?.accessRights : undefined,
+      accessRights: filterValues?.accessRights
+        ? filterValues?.accessRights
+        : undefined,
     },
   });
 
@@ -55,8 +61,7 @@ const useManage = () => {
 
   const resetFilters = () => {
     setFilterValues({ search: '', owner: null, accessRights: null });
-  }
-
+  };
 
   return {
     handleCloseDeleteModal,
@@ -77,7 +82,6 @@ const useManage = () => {
     router,
     theme,
     page,
-
   };
 };
 export default useManage;

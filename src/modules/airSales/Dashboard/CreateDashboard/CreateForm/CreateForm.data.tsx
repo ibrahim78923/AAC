@@ -82,7 +82,8 @@ export const dashboardReportsData = [
   },
   {
     label: 'Total Deals, Open Deals, Team Goals, Closed, Won, Published Quotes',
-    value: AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES,
+    value:
+      AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES,
   },
   {
     label: 'Deal reports',

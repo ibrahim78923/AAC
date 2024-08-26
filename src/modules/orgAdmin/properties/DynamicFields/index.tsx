@@ -13,9 +13,8 @@ import {
   Text,
   Upload,
 } from '@/components/DynamicFormModals';
-import useVendorFields from './useVendorFields';
-import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
-import { predefinedVendorDataArray } from './VendorFields.data';
+import useDynamicFields from './useDynamicFields';
+
 // import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 // import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -35,7 +34,11 @@ export default function DynamicForm() {
     getBackendData,
     handleDragStart,
     overlay,
-  } = useVendorFields();
+    productType,
+    moduleType,
+    companyId,
+    getPredefinedFields,
+  } = useDynamicFields();
 
   return (
     <DragDropContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
@@ -58,12 +61,10 @@ export default function DynamicForm() {
             }}
           >
             <PageTitledHeader
-              title={'Module Title'}
+              title={router?.query?.title}
               canMovedBack
               moveBack={() => {
-                router?.push({
-                  pathname: ORG_ADMIN?.PROPERTIES,
-                });
+                router.back();
               }}
             />
           </Box>
@@ -84,9 +85,10 @@ export default function DynamicForm() {
               isError={isError}
               getBackendData={getBackendData}
               overlay={overlay}
-              predefinedDataArray={predefinedVendorDataArray}
-              moduleType={DYNAMIC_FIELDS?.MT_VENDOR}
-              productType={DYNAMIC_FIELDS?.PT_SERVICES}
+              predefinedDataArray={getPredefinedFields(moduleType)}
+              moduleType={moduleType}
+              productType={productType}
+              companyId={companyId}
               successPath={ORG_ADMIN?.PROPERTIES}
               cancelPath={ORG_ADMIN?.PROPERTIES}
             />

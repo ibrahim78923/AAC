@@ -5,7 +5,7 @@ import ModuleForms from '@/modules/orgAdmin/properties/ModuleForms';
 
 const ModuleFormsPage = () => {
   return (
-    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}>
+    <Layout guardRoute permissions={Permissions?.ORG_ADMIN_PROPERTIES}>
       <ModuleForms />
     </Layout>
   );

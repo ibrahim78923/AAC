@@ -44,7 +44,6 @@ import { pxToRem } from '@/utils/getFontValue';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { is } from 'immutable';
 
 export const specificUsersAccessColumns = [
   { _id: 'name', label: 'Name' },
@@ -56,45 +55,45 @@ export const specificUsersAccessFormFieldsDynamic = (
   name: string,
   index: number,
 ) => [
-    {
-      id: 1,
-      data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
-    },
-    {
-      id: 2,
-      align: 'center',
-      data: (
-        <RHFRadioGroup
-          name={`${name}.${index}.permission`}
-          size="small"
-          fullWidth
-          options={[
-            {
-              value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
-            },
-          ]}
-        />
-      ),
-    },
-    {
-      id: 3,
-      align: 'center',
-      data: (
-        <RHFRadioGroup
-          name={`${name}.${index}.permission`}
-          size="small"
-          fullWidth
-          options={[
-            {
-              value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
-            },
-          ]}
-        />
-      ),
-    },
-  ];
+  {
+    id: 1,
+    data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
+  },
+  {
+    id: 2,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        fullWidth
+        options={[
+          {
+            value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    id: 3,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        fullWidth
+        options={[
+          {
+            value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
+          },
+        ]}
+      />
+    ),
+  },
+];
 
-const CreateForm = ({ }: any) => {
+const CreateForm = ({}: any) => {
   const { isOpenPreview, setIsOpenPreview, router } = useCreateForm();
 
   const theme = useTheme();
@@ -119,9 +118,10 @@ const CreateForm = ({ }: any) => {
       default:
         return 'VIEW_AND_EDIT';
     }
-  }
+  };
 
-  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] = usePostSalesDashboardMutation();
+  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
+    usePostSalesDashboardMutation();
 
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
@@ -149,8 +149,8 @@ const CreateForm = ({ }: any) => {
       name: values?.dashboardName,
       reports: values?.reportType?.map((item: any) => ({
         visibility: true,
-        type: "static",
-        name: item
+        type: 'static',
+        name: item,
       })),
       access: values?.access,
       permissions: dashboardPermissions(values?.access),
@@ -158,10 +158,10 @@ const CreateForm = ({ }: any) => {
         return {
           userId: user?.userId,
           permission: user?.permission,
-        }
+        };
       }),
       isDefault: values?.isDefault,
-    }
+    };
 
     try {
       await postSalesDashboard({
@@ -173,7 +173,9 @@ const CreateForm = ({ }: any) => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: NOTISTACK_VARIANTS?.ERROR });
+      enqueueSnackbar('Something went wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -182,14 +184,11 @@ const CreateForm = ({ }: any) => {
     name: 'permissionsUsers',
   });
 
-  const apiQueryUsers = useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery?.();
-
-
-
+  const apiQueryUsers =
+    useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery?.();
 
   return (
     <>
-
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={6}>
@@ -205,7 +204,7 @@ const CreateForm = ({ }: any) => {
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs={12} md={9}>
-                  <Typography variant='body1' fontWeight={600} >
+                  <Typography variant="body1" fontWeight={600}>
                     Who can access this dashboard?
                   </Typography>
                   <RHFRadioGroup
@@ -213,8 +212,7 @@ const CreateForm = ({ }: any) => {
                     row={false}
                     options={[
                       {
-                        value:
-                          MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
+                        value: MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
                         label: 'Private to owner (me)',
                       },
                       {
@@ -289,25 +287,23 @@ const CreateForm = ({ }: any) => {
                                   </TableHead>
 
                                   <TableBody>
-                                    {fields?.map(
-                                      (item: any, index: number) => {
-                                        return (
-                                          <TableRow key={item?.id}>
-                                            {specificUsersAccessFormFieldsDynamic?.(
-                                              'permissionsUsers',
-                                              index,
-                                            )?.map((singleField: any) => (
-                                              <TableCell
-                                                key={singleField?.id}
-                                                align={singleField?.align}
-                                              >
-                                                {singleField?.data}
-                                              </TableCell>
-                                            ))}
-                                          </TableRow>
-                                        );
-                                      },
-                                    )}
+                                    {fields?.map((item: any, index: number) => {
+                                      return (
+                                        <TableRow key={item?.id}>
+                                          {specificUsersAccessFormFieldsDynamic?.(
+                                            'permissionsUsers',
+                                            index,
+                                          )?.map((singleField: any) => (
+                                            <TableCell
+                                              key={singleField?.id}
+                                              align={singleField?.align}
+                                            >
+                                              {singleField?.data}
+                                            </TableCell>
+                                          ))}
+                                        </TableRow>
+                                      );
+                                    })}
                                   </TableBody>
                                 </Table>
                               </TableContainer>
@@ -330,13 +326,11 @@ const CreateForm = ({ }: any) => {
 
             <Grid item xs={12} key={uuidv4()}>
               <RHFMultiCheckbox
-                name='reportType'
-                options={
-                  dashboardReportsData?.map((item: any) => ({
-                    value: item?.value,
-                    label: item?.label,
-                  }))
-                }
+                name="reportType"
+                options={dashboardReportsData?.map((item: any) => ({
+                  value: item?.value,
+                  label: item?.label,
+                }))}
                 isCheckBox={true}
                 GridView={12}
               />
@@ -355,9 +349,7 @@ const CreateForm = ({ }: any) => {
           </Grid>
 
           <Grid item xs={12} lg={6}>
-            <DetailsView
-              selectedReports={selectedReports}
-            />
+            <DetailsView selectedReports={selectedReports} />
           </Grid>
 
           <Grid item xs={12} style={{ textAlign: 'end' }}>

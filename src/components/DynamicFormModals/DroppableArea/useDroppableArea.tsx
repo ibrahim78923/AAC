@@ -20,6 +20,7 @@ export default function useDroppableArea({
   successPath,
   section,
   sectionType,
+  companyId,
 }: any) {
   const router: any = useRouter();
   const methods: any = useForm({});
@@ -33,6 +34,7 @@ export default function useDroppableArea({
     usePutDynamicFieldsMutation();
 
   const params = {
+    companyId,
     productType,
     moduleType,
     section,

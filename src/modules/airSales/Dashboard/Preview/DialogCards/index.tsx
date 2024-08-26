@@ -11,7 +11,6 @@ import { NotSelectedItemImage } from '@/assets/images';
 import { AIR_SALES_DASHBOARD_REPORTS_TYPES } from '@/constants';
 
 const DialogCards = ({ open, setOpen, selectedReports }: any) => {
-
   const displayDashboardWidgets = (selectedWidget: any) => {
     if (selectedWidget?.length > 0) {
       return selectedWidget.map((report: any) => {
@@ -25,23 +24,29 @@ const DialogCards = ({ open, setOpen, selectedReports }: any) => {
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
             return <Widget />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEAL_REPORTS:
-            return <Typography variant='h6'>Under construction.....</Typography>;
+            return (
+              <Typography variant="h6">Under construction.....</Typography>
+            );
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_PIPELINE_REPORT:
-            return <Typography variant='h6'>Under construction.....</Typography>;
+            return (
+              <Typography variant="h6">Under construction.....</Typography>
+            );
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_CATEGORY_REPORTS:
-            return <Typography variant='h6'>Under construction.....</Typography>;
-          default: return
+            return (
+              <Typography variant="h6">Under construction.....</Typography>
+            );
+          default:
+            return;
         }
       });
+    } else {
+      return (
+        <Box sx={styles?.defaultSelectedImage}>
+          <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
+        </Box>
+      );
     }
-
-    else {
-      return <Box sx={styles?.defaultSelectedImage}>
-        <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
-      </Box>;
-    }
-
-  }
+  };
 
   const onClose = () => {
     setOpen(false);
@@ -56,23 +61,28 @@ const DialogCards = ({ open, setOpen, selectedReports }: any) => {
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: '8px',
-        }
-      }}>
+        },
+      }}
+    >
       <DialogContent sx={{ p: '0px 24px 24px' }}>
-        <Stack direction='row' justifyContent='space-between' alignItems='center'
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
           sx={{
             position: 'sticky',
             top: 0,
             backgroundColor: 'white',
             zIndex: 1,
             padding: '20px 24px',
-          }}>
-          <Typography variant='h4'>Preview Dashboard</Typography>
+          }}
+        >
+          <Typography variant="h4">Preview Dashboard</Typography>
           <Box sx={styles.modalClose} onClick={onClose}>
             <CloseModalIcon />
           </Box>
         </Stack>
-        <Stack direction='column' gap={2} p={2}>
+        <Stack direction="column" gap={2} p={2}>
           {displayDashboardWidgets(selectedReports)}
         </Stack>
       </DialogContent>

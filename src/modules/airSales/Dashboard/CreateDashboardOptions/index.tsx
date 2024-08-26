@@ -1,4 +1,12 @@
-import { Button, Menu, MenuItem, Fade, useTheme, Typography, Stack, Box } from '@mui/material';
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Fade,
+  useTheme,
+  Typography,
+  Stack,
+} from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
 import useCreateDashboardOptions from './useCreateDashboardOptions';
@@ -46,24 +54,32 @@ const CreateDashboardOptions = () => {
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
-        <PermissionsGuard permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SET_DEFAULT]}>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SET_DEFAULT]}
+        >
           <MenuItem>
-            <Stack direction='row' justifyContent='space-between' alignItems='center' width={"100%"}>
-              <Typography variant='body2'>
-                Sales_1
-              </Typography>
-              <Stack direction='row' justifyContent='space-between' gap={1}
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              width={'100%'}
+            >
+              <Typography variant="body2">Sales_1</Typography>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                gap={1}
                 sx={{
                   background: theme?.palette?.custom?.success_light,
                   color: theme?.palette?.success?.main,
                   borderRadius: '50px',
                   px: 1,
-                }}>
-                <Typography variant='body3'>Default</Typography>
+                }}
+              >
+                <Typography variant="body3">Default</Typography>
                 <CheckMarkIcon />
               </Stack>
             </Stack>
-
           </MenuItem>
           <MenuItem>Sales_2</MenuItem>
           <MenuItem>Sales_3</MenuItem>

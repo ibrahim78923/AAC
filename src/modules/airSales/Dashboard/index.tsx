@@ -8,7 +8,7 @@ import DealsGraph from './DealsGraph';
 import useDashboard from './useDashboard';
 
 const Dashboard = () => {
-  const {setIsShowEditDashboard}= useDashboard();
+  const { setIsShowEditDashboard } = useDashboard();
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

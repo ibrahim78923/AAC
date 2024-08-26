@@ -1,4 +1,4 @@
-import { Avatar, Box, Stack, Switch, Typography } from '@mui/material';
+import { Avatar, Box, Stack, Typography } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -31,8 +31,8 @@ export const columns: any = (columnsProps: any) => {
       id: 'owner',
       isSortable: true,
       header: 'Owner',
-      cell: (info: any) =>
-        <Stack direction='row' gap={1} alignItems='center'>
+      cell: (info: any) => (
+        <Stack direction="row" gap={1} alignItems="center">
           <Avatar
             alt="Remy Sharp"
             sx={{
@@ -54,7 +54,8 @@ export const columns: any = (columnsProps: any) => {
               {info?.getValue()?.email ?? 'N/A'}
             </Typography>
           </Box>
-        </Stack>,
+        </Stack>
+      ),
     },
 
     {
@@ -70,7 +71,8 @@ export const columns: any = (columnsProps: any) => {
       id: 'lastViewed',
       isSortable: true,
       header: 'Last Viewed',
-      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
 
     {
@@ -78,7 +80,8 @@ export const columns: any = (columnsProps: any) => {
       id: 'updatedAt',
       isSortable: true,
       header: 'Last Updated',
-      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
 
     {
@@ -86,8 +89,10 @@ export const columns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'Actions',
       cell: (info: any) => (
-        <Stack direction='row' gap={1}>
-          <PermissionsGuard permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}>
+        <Stack direction="row" gap={1}>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+          >
             <Box sx={{ cursor: 'pointer' }}>
               <ViewEyeIcon />
             </Box>
@@ -95,10 +100,18 @@ export const columns: any = (columnsProps: any) => {
           <Box sx={{ cursor: 'pointer' }}>
             <EditPenIcon />
           </Box>
-          <PermissionsGuard permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
+          >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => { setIsDeleteModalOpen({ isToggle: true, id: info?.row?.original?._id }) }}>
+              onClick={() => {
+                setIsDeleteModalOpen({
+                  isToggle: true,
+                  id: info?.row?.original?._id,
+                });
+              }}
+            >
               <DeleteCrossIcon />
             </Box>
           </PermissionsGuard>

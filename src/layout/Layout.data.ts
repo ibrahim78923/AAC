@@ -937,5 +937,5 @@ export const zeroPaddingRoutes = [
   '/air-services/settings/service-management/field-manager/ticket-fields',
   '/air-services/settings/asset-management/asset-type/create-fields',
   '/air-services/settings/asset-management/contract-types/create-fields',
-  '/org-admin/properties/module-forms/[formId]',
+  '/org-admin/properties/dynamic-fields',
 ];

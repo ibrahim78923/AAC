@@ -9,7 +9,6 @@ import Widget from '../../Widget';
 import { AIR_SALES_DASHBOARD_REPORTS_TYPES } from '@/constants';
 
 const DetailsView = ({ selectedReports }: any) => {
-
   const displayDashboardWidgets = (selectedWidget: any) => {
     if (selectedWidget?.length > 0) {
       return selectedWidget.map((report: any) => {
@@ -23,30 +22,36 @@ const DetailsView = ({ selectedReports }: any) => {
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
             return <Widget />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEAL_REPORTS:
-            return <Typography variant='h6'>Under construction.....</Typography>;
+            return (
+              <Typography variant="h6">Under construction.....</Typography>
+            );
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_PIPELINE_REPORT:
-            return <Typography variant='h6'>Under construction.....</Typography>;
+            return (
+              <Typography variant="h6">Under construction.....</Typography>
+            );
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_CATEGORY_REPORTS:
-            return <Typography variant='h6'>Under construction.....</Typography>;
-          default: return
+            return (
+              <Typography variant="h6">Under construction.....</Typography>
+            );
+          default:
+            return;
         }
       });
+    } else {
+      return (
+        <Box sx={styles?.defaultSelectedImage}>
+          <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
+        </Box>
+      );
     }
-
-    else {
-      return <Box sx={styles?.defaultSelectedImage}>
-        <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
-      </Box>;
-    }
-
-  }
+  };
 
   return (
     <Card sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography variant="h4" mt={2} sx={{ textAlign: 'center' }} gutterBottom>
         Details View
       </Typography>
-      <Stack direction='column' gap={2} p={2}>
+      <Stack direction="column" gap={2} p={2}>
         {displayDashboardWidgets(selectedReports)}
       </Stack>
     </Card>

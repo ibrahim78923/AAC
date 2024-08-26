@@ -12,6 +12,7 @@ export const styles = {
       width: '56px',
       borderRadius: '8px',
       backgroundColor: theme?.palette?.primary?.light,
+      color: theme?.palette?.primary?.main,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

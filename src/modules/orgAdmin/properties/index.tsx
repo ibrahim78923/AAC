@@ -1,50 +1,77 @@
-import { Box, Card, Grid, Typography, useTheme } from '@mui/material';
-import { propertiesFields } from './Properties.data';
+import { Box, Card, Grid, Skeleton, Typography, useTheme } from '@mui/material';
+import { selectCompanyField } from './Properties.data';
 import { styles } from './Properties.style';
 import useProperties from './useProperties';
 import SkeletonComponent from '@/components/CardSkeletons';
+import NoData from '@/components/NoData';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
-import { ProductTriangleIcon } from '@/assets/icons';
 import ModuleCard from './ModuleCard';
-import { moduleCards } from './Properties.data';
+import { moduleTypeData } from './Properties.data';
 import { useRouter } from 'next/router';
-import { ORG_ADMIN } from '@/constants';
+import { v4 as uuidv4 } from 'uuid';
 
 const Properties = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { productList, isLoading, activeProduct, setActiveProduct } =
-    useProperties();
-  const methods = useForm({});
+  const {
+    allProductList,
+    isLoading,
+    activeProduct,
+    // setActiveProduct,
+    handleOnClickProduct,
+    methodsSelectCompany,
+    companyAccounts,
+    getProductIcon,
+  } = useProperties();
+
+  const filteredModules = moduleTypeData?.find(
+    (module: any) => module.productType === activeProduct?.productType,
+  );
 
   return (
     <Box>
-      <Typography variant="h3" color={theme?.palette?.grey[800]}>
+      <Typography variant="h3" mb={3} color={theme?.palette?.grey[800]}>
         Properties
       </Typography>
       {isLoading ? (
-        <SkeletonComponent numberOfSkeletons={2} />
+        <>
+          <Box sx={styles?.productsList}>
+            {Array(7)
+              .fill(null)
+              .map(() => (
+                <Skeleton
+                  key={uuidv4()}
+                  animation="wave"
+                  variant="rectangular"
+                  width={'100%'}
+                  height={82}
+                  sx={styles?.skeleton}
+                />
+              ))}
+          </Box>
+          <SkeletonComponent numberOfSkeletons={1} />
+        </>
       ) : (
-        <Box sx={styles?.productsList}>
-          {productList?.data?.map((product: any) => {
-            const kebabCaseName = product?.name
-              ?.toLowerCase()
-              .replace(/\s/g, '-');
-            return (
-              <Grid item xs={12} md={2} key={product?._id}>
+        <>
+          <Box sx={styles?.productsList}>
+            {allProductList?.map((product: any) => {
+              const kebabCaseName = product?.name
+                ?.toLowerCase()
+                .replace(/\s/g, '-');
+              return (
                 <Card
-                  onClick={() => setActiveProduct(product?._id)}
+                  key={product?._id}
+                  onClick={() => handleOnClickProduct(product)}
                   className={`${
-                    activeProduct === product?._id &&
+                    activeProduct?._id === product?._id &&
                     PRODUCT_USER_STATUS?.active
                   } ${kebabCaseName}`}
                   sx={styles?.productCard}
                 >
                   <Box display="flex" gap={1} alignItems="center">
                     <Box className="product-icon">
-                      <ProductTriangleIcon />
+                      {getProductIcon(product?.name)}
                     </Box>
                     <Typography
                       variant="body2"
@@ -56,42 +83,58 @@ const Properties = () => {
                     </Typography>
                   </Box>
                 </Card>
+              );
+            })}
+          </Box>
+
+          <Box sx={styles?.selectCompanyAccount}>
+            <FormProvider methods={methodsSelectCompany}>
+              <Grid container spacing={3}>
+                {selectCompanyField(activeProduct, companyAccounts)?.map(
+                  (item: any) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={item.md}
+                      key={item.componentProps.name}
+                    >
+                      <item.component size="small" {...item?.componentProps} />
+                    </Grid>
+                  ),
+                )}
               </Grid>
-            );
-          })}
-        </Box>
+            </FormProvider>
+          </Box>
+        </>
       )}
 
-      <Box sx={styles?.selectCompanyAccount}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={3}>
-            {propertiesFields(activeProduct)?.map((item: any) => (
-              <Grid item xs={12} md={item.md} key={item.componentProps.name}>
-                <item.component size="small" {...item?.componentProps} />
+      {activeProduct?.companyId && (
+        <Box sx={styles?.moduleCardsWrapper}>
+          {!filteredModules && <NoData height="300px" />}
+          <Grid container spacing={'32px'}>
+            {filteredModules?.modules?.map((item: any) => (
+              <Grid item xs={12} md={4} key={item?.moduleType}>
+                <ModuleCard
+                  icon={item?.icon}
+                  title={item?.title}
+                  description={item?.description}
+                  onClick={() =>
+                    router.push({
+                      pathname: item?.route,
+                      query: {
+                        productType: activeProduct?.productType,
+                        moduleType: item?.moduleType,
+                        companyId: activeProduct?.companyId,
+                        title: item?.title,
+                      },
+                    })
+                  }
+                />
               </Grid>
             ))}
           </Grid>
-        </FormProvider>
-      </Box>
-
-      <Box sx={styles?.moduleCardsWrapper}>
-        <Grid container spacing={'32px'}>
-          {moduleCards?.map((item: any) => (
-            <Grid item xs={12} md={4} key={item?._id}>
-              <ModuleCard
-                icon={'icon'}
-                title={'Services Catelog'}
-                description={
-                  'Create and manage fields to capture information about projects'
-                }
-                onClick={() =>
-                  router.push({ pathname: `${ORG_ADMIN?.MODULE_FORMS}` })
-                }
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 };

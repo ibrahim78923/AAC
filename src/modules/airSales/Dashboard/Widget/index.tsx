@@ -11,7 +11,8 @@ const Widget = () => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center">
+          alignItems="center"
+        >
           <Box>
             <Typography variant="h5">Widget</Typography>
             <Typography

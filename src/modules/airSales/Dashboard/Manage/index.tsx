@@ -1,6 +1,11 @@
 import { Box, Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
 import Search from '@/components/Search';
-import { ArrowLeft, FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
+import {
+  ArrowLeft,
+  FilterSharedIcon,
+  PlusIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SALES } from '@/routesConstants/paths';
@@ -28,12 +33,11 @@ const Manage = () => {
     setPage,
     router,
     theme,
-
   } = useManage();
 
   const columnsProps = {
     setIsDeleteModalOpen: setIsDeleteModalOpen,
-    theme: theme
+    theme: theme,
   };
 
   const columnParams = columns(columnsProps);
@@ -42,35 +46,49 @@ const Manage = () => {
     <>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Stack direction={{ sm: "row" }} gap={2} justifyContent='space-between'>
+          <Stack
+            direction={{ sm: 'row' }}
+            gap={2}
+            justifyContent="space-between"
+          >
             <Stack direction="row" gap={1}>
               <Box
                 mt={0.7}
-                onClick={() => router?.push({ pathname: `${AIR_SALES?.SALES_DASHBOARD}` })}
-                sx={{ cursor: 'pointer' }}>
+                onClick={() =>
+                  router?.push({ pathname: `${AIR_SALES?.SALES_DASHBOARD}` })
+                }
+                sx={{ cursor: 'pointer' }}
+              >
                 <ArrowLeft />
               </Box>
-              <Typography variant="h3">
-                Manage Dashboards
-              </Typography>
+              <Typography variant="h3">Manage Dashboards</Typography>
             </Stack>
-            <PermissionsGuard permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}>
+            <PermissionsGuard
+              permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}
+            >
               <Button
                 startIcon={<PlusIcon />}
                 variant="contained"
                 className="small"
-                onClick={handelNavigate}>
+                onClick={handelNavigate}
+              >
                 Create Dashboard
               </Button>
             </PermissionsGuard>
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <Stack direction={{ sm: "row" }} gap={2} justifyContent='space-between'>
+          <Stack
+            direction={{ sm: 'row' }}
+            gap={2}
+            justifyContent="space-between"
+          >
             <Search
               label={'Search here'}
               searchBy={filterValues?.search}
-              setSearchBy={(value: string) => setFilterValues({ ...filterValues, search: value })}
+              setSearchBy={(value: string) =>
+                setFilterValues({ ...filterValues, search: value })
+              }
               size="small"
             />
             <Stack direction={{ sm: 'row' }} gap={1}>
@@ -80,20 +98,21 @@ const Manage = () => {
                   variant="outlined"
                   color="inherit"
                   className="small"
-                  onClick={resetFilters}>
+                  onClick={resetFilters}
+                >
                   <RefreshTasksIcon />
                 </Button>
               </Tooltip>
               <Button
                 className="small"
-                color='inherit'
-                variant='outlined'
+                color="inherit"
+                variant="outlined"
                 startIcon={<FilterSharedIcon />}
-                onClick={() => setIsFilterDrawer(true)}>
+                onClick={() => setIsFilterDrawer(true)}
+              >
                 Filter
               </Button>
             </Stack>
-
           </Stack>
         </Grid>
         <Grid item xs={12}>
@@ -113,26 +132,25 @@ const Manage = () => {
         </Grid>
       </Grid>
 
-      {isFilterDrawer &&
+      {isFilterDrawer && (
         <Filters
           isOpenDrawer={isFilterDrawer}
           onClose={setIsFilterDrawer}
           filterValues={filterValues}
           setFilterValues={setFilterValues}
         />
-      }
+      )}
 
-      {isDeleteModalOpen?.isToggle &&
+      {isDeleteModalOpen?.isToggle && (
         <AlertModals
           message="Are you sure you want to delete dashboard"
           type="delete"
           open={isDeleteModalOpen?.isToggle}
           handleClose={handleCloseDeleteModal}
           handleSubmitBtn={() => handleDelete(isDeleteModalOpen?.id)}
-        />}
-
+        />
+      )}
     </>
-
   );
 };
 export default Manage;

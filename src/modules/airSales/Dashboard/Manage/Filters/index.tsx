@@ -5,14 +5,12 @@ import { dataArray } from './Filters.data';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 
-
 export default function Filters({
   isOpenDrawer,
   onClose,
   filterValues,
   setFilterValues,
 }: any) {
-
   const methods: any = useForm({
     defaultValues: filterValues,
   });
@@ -42,7 +40,7 @@ export default function Filters({
           <Grid container spacing={1}>
             {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
-                <item.component {...item?.componentProps} size={'small'}/>
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>

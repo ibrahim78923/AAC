@@ -209,6 +209,7 @@ export const ORG_ADMIN: any = {
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
   PROPERTIES: '/org-admin/properties',
   MODULE_FORMS: '/org-admin/properties/module-forms',
+  DYNAMIC_FIELDS: '/org-admin/properties/dynamic-fields',
 };
 
 export const AIR_OPERATIONS = {
@@ -593,6 +594,7 @@ export const PRODUCT_LABELS = {
   CALL_CENTER: 'Call Center',
   CUSTOMER_PORTAL: 'Customer Portal',
   ORG_ADMIN: 'Org Admin',
+  COMMON_FEATURES: 'Common Features',
 };
 
 export const AIR_SALES_GOAL_NOTIFICATION = {

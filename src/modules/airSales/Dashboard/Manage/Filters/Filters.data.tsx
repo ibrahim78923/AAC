@@ -1,4 +1,7 @@
-import { RHFAutocomplete, RHFAutocompleteAsync, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 import { PRODUCT_USER_STATUS, ROLES } from '@/constants/strings';
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import { getSession } from '@/utils';
@@ -40,5 +43,5 @@ export const dataArray = () => {
       component: RHFAutocomplete,
       md: 12,
     },
-  ]
-}
+  ];
+};

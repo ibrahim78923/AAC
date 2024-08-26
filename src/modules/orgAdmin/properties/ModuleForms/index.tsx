@@ -1,24 +1,44 @@
 import { Box, Grid, Typography } from '@mui/material';
-import { formsData } from './ModuleForms.data';
 import useModuleForms from './useModuleForms';
-import { ORG_ADMIN } from '@/constants';
 import { styles } from './ModuleForms.style';
+import { moduleTypeData } from '../Properties.data';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { ORG_ADMIN } from '@/constants';
 
 const ModuleForms = () => {
   const { router } = useModuleForms();
+  const { productType, moduleType, companyId, title } = router?.query;
+
+  const findModules = moduleTypeData
+    ?.find((product: any) => product.productType === productType)
+    ?.modules?.find((module: any) => module.moduleType === moduleType);
 
   return (
     <>
-      <Typography variant="h3">Services Catelog</Typography>
-      <br />
+      <PageTitledHeader
+        title={title}
+        canMovedBack
+        moveBack={() => {
+          router?.push({
+            pathname: ORG_ADMIN?.PROPERTIES,
+          });
+        }}
+      />
+
       <Grid container spacing={3}>
-        {formsData?.map((item: any) => (
+        {findModules?.subModule?.map((item: any) => (
           <Grid item md={6} lg={4} xs={12} key={item?._id}>
             <Box
               sx={styles?.moduleBox}
               onClick={() => {
                 router?.push({
-                  pathname: `${ORG_ADMIN?.MODULE_FORMS}/${item?._id}`,
+                  pathname: item?.route,
+                  query: {
+                    productType: productType,
+                    moduleType: item?.moduleType,
+                    companyId: companyId,
+                    title: item?.title,
+                  },
                 });
               }}
             >

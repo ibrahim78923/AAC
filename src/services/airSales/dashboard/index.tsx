@@ -4,7 +4,6 @@ const TAG = ['SALES_DASHBOARD'];
 
 export const salesDashboardApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-
     getDealsCreated: builder.query({
       query: ({ params }: any) => ({
         url: `${SALES_DASHBOARD?.DEALS_CREATED_VS_CLOSE_DATES}`,
