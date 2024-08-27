@@ -79,7 +79,7 @@ export const CannedResponsesList = (props: any) => {
           <ApiErrorState canRefresh refresh={() => refetch?.()} />
         ) : !!data?.data?.responses?.length ? (
           <>
-            {data?.data?.responses?.map((cannedresponse: any) => (
+            {data?.data?.responses?.map((response: any) => (
               <Box
                 border={'1px solid'}
                 borderColor={'custom.off_white_three'}
@@ -87,16 +87,16 @@ export const CannedResponsesList = (props: any) => {
                 bgcolor={'grey.100'}
                 borderRadius={2}
                 my={1}
-                key={cannedresponse?._id}
+                key={response?._id}
               >
                 <Typography variant="body2" color="slateBlue.main">
-                  {cannedresponse?.title ?? '---'}
+                  {response?.title ?? '---'}
                 </Typography>
                 <Box mt={1}>
                   <Button
                     disableElevation
                     variant="outlined"
-                    onClick={() => setCannedResponse(cannedresponse)}
+                    onClick={() => setCannedResponse(response)}
                     size="small"
                     className="small"
                   >

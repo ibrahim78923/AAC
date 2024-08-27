@@ -24,7 +24,7 @@ import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookF
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ANNOUNCEMENTS_VISIBILITY, ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 
 export const useUpsertAnnouncement = (
@@ -55,7 +55,7 @@ export const useUpsertAnnouncement = (
 
   const sendEmailOnce = async (formData: any) => {
     const emailFormData = new FormData();
-    emailFormData?.append('recipients', formData?.additionalEmail);
+    emailFormData?.append('recipients', formData?.recipients);
     emailFormData?.append('subject', 'New Announcement');
     emailFormData?.append(
       'html',
@@ -90,6 +90,23 @@ export const useUpsertAnnouncement = (
     name: 'startDate',
     defaultValue: null,
   });
+  const emailsRecipients = (emailRecipientsData: any) => {
+    const addMembersEmail =
+      emailRecipientsData?.visibility?._id ===
+        ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS &&
+      !!emailRecipientsData?.notifyMembers
+        ? emailRecipientsData?.addMember?.map(
+            (member: AutocompleteAsyncOptionsI) => member?.email,
+          )
+        : [];
+    const additionalEmailMembers = emailRecipientsData?.additionalEmail ?? [];
+    const additionalEmails = [...additionalEmailMembers, ...addMembersEmail];
+    const emailFormData = {
+      ...emailRecipientsData,
+      recipients: additionalEmails,
+    };
+    return emailFormData;
+  };
 
   const submit = async (data: any) => {
     if (!!data?.endDate) {
@@ -114,7 +131,7 @@ export const useUpsertAnnouncement = (
     };
 
     if (isPortalOpen?.data?._id) {
-      updateAnnouncementSubmit?.(payload);
+      updateAnnouncementSubmit?.(payload, filterEmptyValues);
       return;
     }
 
@@ -124,9 +141,9 @@ export const useUpsertAnnouncement = (
 
     try {
       await postAnnouncementTrigger(apiDataParameter)?.unwrap();
-      if (!!filterEmptyValues?.additionalEmail?.length) {
-        await sendEmailOnce?.(filterEmptyValues);
-      }
+      const emailFormData = emailsRecipients?.(filterEmptyValues);
+      if (!!emailFormData?.recipients?.length)
+        await sendEmailOnce?.(emailFormData);
       successSnackbar('Announcements added successfully.');
       handleClose?.();
       await getSingleDashboardData?.();
@@ -135,7 +152,10 @@ export const useUpsertAnnouncement = (
     }
   };
 
-  const updateAnnouncementSubmit = async (formData: any) => {
+  const updateAnnouncementSubmit = async (
+    formData: any,
+    filterEmptyValues: any,
+  ) => {
     const payload = {
       ...formData,
     };
@@ -151,10 +171,9 @@ export const useUpsertAnnouncement = (
       await updateServicesAnnouncementOnDashboardTrigger(
         apiDataParameter,
       )?.unwrap();
-
-      if (!!formData?.additionalEmail?.length) {
-        await sendEmailOnce?.(formData);
-      }
+      const emailFormData = emailsRecipients?.(filterEmptyValues);
+      if (!!emailFormData?.recipients?.length)
+        await sendEmailOnce?.(emailFormData);
       successSnackbar('Announcements updated successfully.');
       handleClose?.();
       await getSingleDashboardData?.();

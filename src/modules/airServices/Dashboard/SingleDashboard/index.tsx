@@ -71,35 +71,43 @@ export const SingleDashboard = (props: any) => {
 
         <br />
         {lazyGetSingleServicesDashboardStatus?.isError ? (
-          <ApiErrorState
-            message={
-              lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
-              NO_DEFAULT_DASHBOARD
-                ? 'No default dashboard found!'
-                : 'Something went wrong'
-            }
-            canRefresh={
-              lazyGetSingleServicesDashboardStatus?.error?.data?.message !==
-              NO_DEFAULT_DASHBOARD
-            }
-            refresh={() => getSingleDashboardData?.()}
-          >
-            {lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
-              NO_DEFAULT_DASHBOARD && (
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD,
-                ]}
+          <>
+            {isPreviewMode ? (
+              <ApiErrorState canRefresh refresh={refetch} />
+            ) : (
+              <ApiErrorState
+                message={
+                  lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
+                  NO_DEFAULT_DASHBOARD
+                    ? 'No default dashboard found!'
+                    : 'Something went wrong'
+                }
+                canRefresh={
+                  lazyGetSingleServicesDashboardStatus?.error?.data?.message !==
+                  NO_DEFAULT_DASHBOARD
+                }
+                refresh={() => getSingleDashboardData?.()}
               >
-                <Button
-                  variant="contained"
-                  onClick={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
-                >
-                  Create Dashboard
-                </Button>
-              </PermissionsGuard>
+                {lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
+                  NO_DEFAULT_DASHBOARD && (
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD,
+                    ]}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() =>
+                        router?.push(AIR_SERVICES?.CREATE_DASHBOARD)
+                      }
+                    >
+                      Create Dashboard
+                    </Button>
+                  </PermissionsGuard>
+                )}
+              </ApiErrorState>
             )}
-          </ApiErrorState>
+          </>
         ) : !!!lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard
             ?.reports?.length ? (
           <NoData />

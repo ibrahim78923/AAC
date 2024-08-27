@@ -40,7 +40,7 @@ export const announcementsVisibilityOptions = [
 export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Title is required'),
   description: Yup?.string()?.trim(),
-  notifyMembers: Yup?.string()?.trim(),
+  notifyMembers: Yup?.boolean(),
   visibility: Yup?.mixed()?.nullable()?.required('Visibility is required'),
   additionalEmail: Yup?.array()
     ?.of(Yup?.string())
@@ -64,7 +64,7 @@ export const upsertAnnouncementDefaultValues = (data?: any) => {
     description: data?.description ?? '',
     startDate: data?.startDate ? new Date(data?.startDate) : null,
     endDate: data?.endDate ? new Date(data?.endDate) : null,
-    notifyMembers: data?.notifyMembers ?? '',
+    notifyMembers: data?.notifyMembers ?? false,
     additionalEmail: data?.additionalEmail ?? [],
     addMember: data?.addMember ?? [],
     visibility: data?.visibility
@@ -134,7 +134,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 7,
+    id: 6,
     componentProps: {
       name: 'visibility',
       label: 'Visibility',
@@ -148,7 +148,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 12,
   },
   {
-    id: 8,
+    id: 7,
     componentProps: {
       name: 'notifyMembers',
       label: 'Notify members via email',
@@ -165,7 +165,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
   ...(visibilityWatch?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
     ? [
         {
-          id: 10,
+          id: 8,
           componentProps: {
             name: 'addMember',
             label: 'Add Member',

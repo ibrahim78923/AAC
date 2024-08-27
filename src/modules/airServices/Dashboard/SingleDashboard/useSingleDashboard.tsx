@@ -16,7 +16,7 @@ export const useSingleDashboard = (props: any) => {
   const [
     lazyGetSingleServicesDashboardTrigger,
     lazyGetSingleServicesDashboardStatus,
-  ] = useLazyGetSingleServicesDashboardQuery();
+  ]: any = useLazyGetSingleServicesDashboardQuery();
 
   const theme: Theme = useTheme();
   const {

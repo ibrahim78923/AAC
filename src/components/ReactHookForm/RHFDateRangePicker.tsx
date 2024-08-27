@@ -22,6 +22,7 @@ const RHFDateRangePicker = (props: any) => {
   const {
     name,
     label,
+    labelProps,
     required,
     hasButton = false,
     onSubmitBtnClick,
@@ -74,7 +75,9 @@ const RHFDateRangePicker = (props: any) => {
 
         return (
           <>
-            {label && <CustomLabel label={label} required={required} />}
+            {label && (
+              <CustomLabel label={label} required={required} {...labelProps} />
+            )}
             <TextField
               fullWidth
               helperText={

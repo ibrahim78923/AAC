@@ -1,4 +1,15 @@
 export interface AnnouncementDataI {
+  _id?: string;
+  title?: string;
+  createdBy?: {
+    avatar?: {
+      url?: string;
+    };
+    firstName?: string;
+    lastName?: string;
+  };
+  createdAt: string;
+  announcements: any;
   data: {
     userAvatar: string;
     userName: string;

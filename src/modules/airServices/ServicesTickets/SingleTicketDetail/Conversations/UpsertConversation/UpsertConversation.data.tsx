@@ -5,6 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import {
+  ARRAY_INDEX,
   TICKET_CONVERSATIONS_RESPONSE_TYPE,
   TICKET_CONVERSATIONS_TYPE,
 } from '@/constants/strings';
@@ -25,7 +26,7 @@ export const upsertConversationFormDefaultValues = (data?: any) => {
     recipients:
       data?.isEdit ||
       data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
-        ? data?.recipients?.[0]
+        ? data?.recipients?.[ARRAY_INDEX?.ZERO]
         : '',
     html:
       data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
@@ -43,7 +44,13 @@ export const upsertConversationFormValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.string()
     ?.email('Invalid email format')
     ?.required('Recipient is required'),
-  html: Yup?.string()?.trim()?.required('Description is required'),
+  html: Yup?.string()
+    ?.trim()
+    ?.required('Description is Required')
+    ?.test('is-not-empty', 'Description is Required', (value) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
 });
 
 export const conversationTypesOptions = [

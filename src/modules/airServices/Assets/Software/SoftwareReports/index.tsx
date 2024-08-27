@@ -15,10 +15,7 @@ import { AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS } from '@/constants/permissio
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { LoadingButton } from '@mui/lab';
 import { pxToRem } from '@/utils/getFontValue';
-import {
-  softwareStatusReportsOptions,
-  softwareTypeReportsOptions,
-} from './SoftwareReports.data';
+import { softwareStatusReportsOptions } from './SoftwareReports.data';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
@@ -44,6 +41,7 @@ export const SoftwareReports = () => {
     onDateFilterSubmit,
     getValues,
   } = useSoftwareReports();
+
   if (isLoading || isFetching) return <SkeletonTable />;
   if (isError)
     return (
@@ -76,43 +74,22 @@ export const SoftwareReports = () => {
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
         >
           <FormProvider methods={methods}>
-            <Box
-              display={'flex'}
-              gap={2}
-              flexWrap={'wrap'}
-              flexDirection={{ xs: 'column', sm: 'row' }}
-            >
-              <Box flex={{ xs: 1, sm: 0.5 }}>
-                <RHFDateRangePicker
-                  name={'createdDate'}
-                  placeholder={'Date'}
-                  size="small"
-                  disabled={loading}
-                  hasButton
-                  onSubmitBtnClick={(setAnchorElDate: any) =>
-                    onDateFilterSubmit?.(setAnchorElDate)
-                  }
-                  cancelBtnEffect={() => setHasDate?.(false)}
-                  closePopOver={() => shouldDateSet?.()}
-                />
-              </Box>
-              <Box flex={{ xs: 1, sm: 0.5 }}>
-                <RHFAutocomplete
-                  name={'type'}
-                  placeholder={'Select option'}
-                  size={'small'}
-                  fullWidth
-                  options={softwareTypeReportsOptions}
-                  disabled={loading}
-                  getOptionLabel={(option: AutocompleteOptionsI) =>
-                    option?.label
-                  }
-                />
-              </Box>
-            </Box>
+            <RHFDateRangePicker
+              name={'createdDate'}
+              placeholder={'Date'}
+              size="small"
+              disabled={loading}
+              label={`\u00a0\u00a0`}
+              hasButton
+              onSubmitBtnClick={(setAnchorElDate: any) =>
+                onDateFilterSubmit?.(setAnchorElDate)
+              }
+              labelProps={{ marginBottom: 0 }}
+              cancelBtnEffect={() => setHasDate?.(false)}
+              closePopOver={() => shouldDateSet?.()}
+            />
           </FormProvider>
         </PermissionsGuard>
-
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
         >
@@ -122,7 +99,7 @@ export const SoftwareReports = () => {
               p: 0,
               minWidth: pxToRem(40),
               height: pxToRem(40),
-              marginTop: pxToRem(-10),
+              marginTop: pxToRem(10),
             }}
             variant="outlined"
             color="inherit"
@@ -143,8 +120,9 @@ export const SoftwareReports = () => {
           <SoftwareReportsCards
             softwareReportsCardsData={softwareReportsCardsData}
           />
+          <br />
           <Grid container spacing={2}>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} lg={5}>
               <Box
                 height={'100%'}
                 boxShadow={1}
@@ -163,6 +141,9 @@ export const SoftwareReports = () => {
                     series={Object?.values(softwareReportsChartsData ?? {})}
                     options={{
                       labels: Object?.keys(softwareReportsChartsData ?? {}),
+                      dataLabels: {
+                        enabled: true,
+                      },
                     }}
                   />
                 ) : (
@@ -170,7 +151,7 @@ export const SoftwareReports = () => {
                 )}
               </Box>
             </Grid>
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12} lg={7}>
               <Box
                 boxShadow={1}
                 border={'1px solid'}
@@ -199,7 +180,9 @@ export const SoftwareReports = () => {
                 </FormProvider>
                 <TanstackTable
                   data={
-                    data?.data?.[`${getValues?.('status')?._id}Details`] ?? []
+                    data?.data?.[`${getValues?.('status')?._id}Details`]?.slice(
+                      -5,
+                    ) ?? []
                   }
                   columns={softwareReportsTableColumns}
                 />

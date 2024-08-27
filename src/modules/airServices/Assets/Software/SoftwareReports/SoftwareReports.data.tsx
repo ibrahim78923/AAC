@@ -87,8 +87,8 @@ export const softwareReportsTableColumnsDynamic = () => [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
-    isSortable: true,
-    header: 'Software',
+    isSortable: false,
+    header: 'Name',
     cell: (info: any) => (
       <Typography
         component="span"
@@ -102,26 +102,23 @@ export const softwareReportsTableColumnsDynamic = () => [
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
-    isSortable: true,
+    isSortable: false,
     header: 'Type',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.managedByDetails,
+    accessorFn: (row: any) => row?.softwareManagedByDetails,
     id: 'managedByDetails',
-    isSortable: true,
-    header: 'Managed By',
+    isSortable: false,
+    header: 'Managed by',
     cell: (info: any) =>
-      fullName(
-        info?.row?.original?.managedByDetails?.firstName,
-        info?.row?.original?.managedByDetails?.lastName,
-      ),
+      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
   },
   {
     accessorFn: (row: any) => row?.details,
     id: 'category',
-    isSortable: true,
+    isSortable: false,
     header: 'Category',
-    cell: (info: any) => truncateText(info?.getValue()?.category) || '---',
+    cell: (info: any) => truncateText(info?.getValue()?.category),
   },
 ];
