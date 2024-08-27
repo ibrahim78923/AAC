@@ -263,6 +263,7 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
           ]}
         >
           <ManageAccess
+            selectedRecords={selectedRecords[indexNumbers?.ZERO]}
             isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
             handleCloseManageAccessModal={() =>
               setActionsModalDetails({

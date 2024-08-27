@@ -2,25 +2,31 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
-import { createDashboardDefaultValue, validationSchema } from './CreateForm.data';
+import {
+  createDashboardDefaultValue,
+  validationSchema,
+} from './CreateForm.data';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
-import { useGetSalesDashboardByIdQuery, useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery, usePostSalesDashboardMutation } from '@/services/airSales/dashboard';
+import {
+  useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
+  usePostSalesDashboardMutation,
+} from '@/services/airSales/dashboard';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useCreateForm = () => {
   const router = useRouter();
-  const selectedDashboardId = router?.query?.id;
+  // const selectedDashboardId = router?.query?.id;
 
-  // States 
+  // States
   const [isOpenPreview, setIsOpenPreview] = useState(false);
   const [accessValue, setAccessValue] = useState('');
 
-  const { data: getSalesDashboardById } = useGetSalesDashboardByIdQuery(selectedDashboardId,
-    { skip: !selectedDashboardId });
+  // const { data: getSalesDashboardById } = useGetSalesDashboardByIdQuery(selectedDashboardId,
+  //   { skip: !selectedDashboardId });
 
-  // Functions 
+  // Functions
 
   const methods = useForm({
     resolver: yupResolver(validationSchema),
@@ -42,9 +48,10 @@ const useCreateForm = () => {
       default:
         return 'VIEW_AND_EDIT';
     }
-  }
+  };
 
-  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] = usePostSalesDashboardMutation();
+  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
+    usePostSalesDashboardMutation();
 
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
@@ -72,8 +79,8 @@ const useCreateForm = () => {
       name: values?.dashboardName,
       reports: values?.reportType?.map((item: any) => ({
         visibility: true,
-        type: "static",
-        name: item
+        type: 'static',
+        name: item,
       })),
       access: values?.access,
       permissions: dashboardPermissions(values?.access),
@@ -81,10 +88,10 @@ const useCreateForm = () => {
         return {
           userId: user?.userId,
           permission: user?.permission,
-        }
+        };
       }),
       isDefault: values?.isDefault,
-    }
+    };
 
     try {
       await postSalesDashboard({
@@ -96,7 +103,9 @@ const useCreateForm = () => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: NOTISTACK_VARIANTS?.ERROR });
+      enqueueSnackbar('Something went wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -105,11 +114,8 @@ const useCreateForm = () => {
     name: 'permissionsUsers',
   });
 
-  const apiQueryUsers = useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery?.();
-
-
-
-
+  const apiQueryUsers =
+    useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery?.();
 
   const handleChangeAccessValue = (event: any) => {
     setAccessValue(event?.target?.value);
@@ -135,7 +141,7 @@ const useCreateForm = () => {
     productId,
     apiQueryUsers,
     specificUserWatch,
-    fields
+    fields,
   };
 };
 export default useCreateForm;

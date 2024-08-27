@@ -530,6 +530,8 @@ export const EMAILS_MARKETING = {
   DELETE_EMAIL: '/emails-marketing/delete-email',
   GET_ALL_FOLDERS: '/emails-marketing/get-all-folders',
   DUPLICATE_EMAIL: '/emails-marketing/duplicate-email',
+  MARKETING_USERS: '/quote/all/user',
+  MARKETING_TEAMS: '/teams',
 };
 
 export const superAdminBillingInvoices = {
@@ -662,8 +664,10 @@ export const WHATSAPP_MARKETING = {
 export const SALES_DASHBOARD = {
   SALES_DASHBOARD_LIST: '/dynamic-dashboard',
   CREATE_SALES_DASHBOARD: '/dynamic-dashboard/create-dynamic-dashboard',
-  DEALS_CREATED_VS_CLOSE_DATES:'/sales-dashboard/deals-created-vs-closed-deals',
-  WIDGET:'/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
+  DEALS_CREATED_VS_CLOSE_DATES:
+    '/sales-dashboard/deals-created-vs-closed-deals',
+  WIDGET:
+    '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
 };
 

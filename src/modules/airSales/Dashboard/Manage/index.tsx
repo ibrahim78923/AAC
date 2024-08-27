@@ -39,7 +39,7 @@ const Manage = () => {
   const columnsProps = {
     setIsDeleteModalOpen: setIsDeleteModalOpen,
     theme: theme,
-    router:router
+    router: router,
   };
 
   const columnParams = columns(columnsProps);
@@ -86,7 +86,7 @@ const Manage = () => {
             justifyContent="space-between"
           >
             <Search
-              label='Search by name'
+              label="Search by name"
               searchBy={filterValues?.search}
               setSearchBy={(value: string) =>
                 setFilterValues({ ...filterValues, search: value })
@@ -143,7 +143,7 @@ const Manage = () => {
         />
       )}
 
-      {isDeleteModalOpen?.isToggle && 
+      {isDeleteModalOpen?.isToggle && (
         <AlertModals
           message="Are you sure you want to delete dashboard"
           type="delete"
@@ -151,8 +151,8 @@ const Manage = () => {
           handleClose={handleCloseDeleteModal}
           handleSubmitBtn={() => handleDelete(isDeleteModalOpen?.id)}
           loading={loadingDeleteDashboard}
-        />}
-
+        />
+      )}
     </>
   );
 };

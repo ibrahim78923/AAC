@@ -27,7 +27,8 @@ const useManage = () => {
     accessRights: null,
   });
 
-  const [deleteSalesDashboard, { isLoading: loadingDeleteDashboard }] = useDeleteSalesDashboardMutation();
+  const [deleteSalesDashboard, { isLoading: loadingDeleteDashboard }] =
+    useDeleteSalesDashboardMutation();
 
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen({ isToggle: false, id: '' });

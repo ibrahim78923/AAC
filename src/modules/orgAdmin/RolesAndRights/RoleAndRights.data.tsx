@@ -1,9 +1,5 @@
 import { Checkbox } from '@mui/material';
-import {
-  RHFAutocompleteAsync,
-  RHFSwitch,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 
 import { SwitchBtn } from '@/components/SwitchButton';
 

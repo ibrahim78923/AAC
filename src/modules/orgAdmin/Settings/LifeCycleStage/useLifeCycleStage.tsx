@@ -43,7 +43,7 @@ const useLifeCycleStage = () => {
   };
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetSettingLifeCycleStageQuery({ params });
-  const [updateSettingLifeCycleStage, {isLoading:lifeCycleStageLoading}] =
+  const [updateSettingLifeCycleStage, { isLoading: lifeCycleStageLoading }] =
     useUpdateSettingLifeCycleStageMutation();
   const theme = useTheme<Theme>();
 

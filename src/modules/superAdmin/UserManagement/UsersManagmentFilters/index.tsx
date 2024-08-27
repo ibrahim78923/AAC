@@ -15,7 +15,6 @@ import { UsersManagementFiltersProps } from '@/modules/superAdmin/UserManagement
 
 const UsersManagementFilters = (props: UsersManagementFiltersProps) => {
   const { isOpen, setIsOpen, tabVal, setFilterValues, filterValues } = props;
-console.log(filterValues,'filterValues');
   const tabsFilter: any = {
     0: {
       array: usersFilterArray(),

@@ -617,3 +617,9 @@ export const PROFILE_DROPDOWNS = {
   CHANGE_PASSWORD: 'Change Password',
   DELEGATE: 'Delegate',
 };
+
+export const MANAGE_ACCESS_VISIBLE = {
+  EVERYONE: 'EVERYONE',
+  TEAMS: 'TEAMS',
+  USERS: 'USERS',
+};

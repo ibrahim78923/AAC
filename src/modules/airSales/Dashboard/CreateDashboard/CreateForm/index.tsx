@@ -94,7 +94,6 @@ const CreateForm = () => {
     fields,
   } = useCreateForm();
 
-
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -133,11 +132,13 @@ const CreateForm = () => {
                               row={false}
                               options={[
                                 {
-                                  value: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW,
+                                  value:
+                                    MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW,
                                   label: 'Everyone can edit and view',
                                 },
                                 {
-                                  value: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_ONLY_VIEW,
+                                  value:
+                                    MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_ONLY_VIEW,
                                   label: 'Everyone can view',
                                 },
                               ]}
@@ -146,7 +147,8 @@ const CreateForm = () => {
                         ),
                       },
                       {
-                        value: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+                        value:
+                          MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
                         label: 'Only Specific users',
                         filter: (
                           <>
@@ -258,19 +260,21 @@ const CreateForm = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Stack direction='row' justifyContent='end' gap={1}>
+            <Stack direction="row" justifyContent="end" gap={1}>
               <Button
                 className="small"
                 variant="outlined"
                 onClick={() => router.back()}
-                color='inherit'>
+                color="inherit"
+              >
                 Cancel
               </Button>
               <LoadingButton
                 variant="contained"
                 className="small"
                 type="submit"
-                loading={postSalesDashboardLoading}>
+                loading={postSalesDashboardLoading}
+              >
                 Save
               </LoadingButton>
             </Stack>

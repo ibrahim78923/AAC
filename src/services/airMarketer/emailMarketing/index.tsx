@@ -90,6 +90,26 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
         if (response) return response?.data?.emailsmarketings;
       },
     }),
+    getAllMarketingUsers: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${EMAILS_MARKETING?.MARKETING_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.usercompanyaccounts;
+      },
+    }),
+    getAllMarketingTeams: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${EMAILS_MARKETING?.MARKETING_TEAMS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.userTeams;
+      },
+    }),
   }),
 });
 
@@ -103,4 +123,6 @@ export const {
   useDeleteEmailMarketingMutation,
   useLazyGetUsersQuery,
   useLazyGetAllEmailsAsyncQuery,
+  useLazyGetAllMarketingUsersQuery,
+  useLazyGetAllMarketingTeamsQuery,
 } = emailTemplatesApi;

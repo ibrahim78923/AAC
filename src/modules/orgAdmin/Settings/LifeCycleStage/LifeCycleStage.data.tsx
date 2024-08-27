@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
