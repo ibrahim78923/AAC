@@ -1,82 +1,123 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ContractReportsCardData } from './ContractReportsCard.data';
-import { pxToRem } from '@/utils/getFontValue';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import {
+  ContractReportsCardData,
+  ContractReportsChartData,
+  contractsTypeOptions,
+} from './ContractReportsCard.data';
+import { filteredEmptyValues, makeDateTime } from '@/utils/api';
+import { htmlToPdfConvert } from '@/utils/file';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
+import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 
 export const useContractReports = () => {
   const router = useRouter();
-  const methods: any = useForm({
-    defaultValues: { assets: '' },
-  });
   const [loading, setLoading] = useState<boolean>(false);
-  const { handleSubmit } = methods;
-  const handleDownload = async () => {
-    setLoading(true);
-    const content = document?.getElementById('contract-reports');
-    if (content) {
-      const textElements = content?.querySelectorAll(
-        'h6, h5, th > div, .MuiChip-root > span',
-      );
-      textElements?.forEach((textElement: any) => {
-        textElement!.style!.marginTop = pxToRem(-15);
-        textElement!.style!.overflow = 'visible';
-      });
+  const [hasDate, setHasDate] = useState(false);
+  const [filterDate, setFilterDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const downloadRef = useRef(null);
 
-      const inputElement = content?.querySelectorAll(
-        'input, .MuiAutocomplete-input',
-      );
-      inputElement?.forEach((textElement: any) => {
-        textElement!.style!.marginTop = pxToRem(-15);
-        textElement!.style!.overflow = 'visible';
-        textElement!.style!.height = pxToRem(25);
-      });
+  const methods: any = useForm({
+    defaultValues: {
+      contracts: contractsTypeOptions?.[ARRAY_INDEX?.ZERO],
+      createdDate: {
+        startDate: null,
+        endDate: null,
+        key: 'selection',
+      },
+    },
+  });
+  const { handleSubmit, getValues, watch, setValue } = methods;
 
-      try {
-        const canvas = await html2canvas(content, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-        });
+  watch?.();
 
-        const imageDataURL = canvas?.toDataURL('image/png');
-
-        const pdf = new jsPDF({
-          orientation: 'landscape',
-          unit: 'px',
-          format: [canvas?.width, canvas?.height],
-        });
-        pdf?.addImage(imageDataURL, 'PNG', 0, 0, canvas?.width, canvas?.height);
-        pdf?.save('Contract Report.pdf');
-        successSnackbar('Report Downloaded Successfully!');
-      } catch (error) {
-        errorSnackbar();
-      } finally {
-        const textElements = content?.querySelectorAll(
-          'h6, h5, th > div, .MuiChip-root > span, input, .MuiAutocomplete-input',
-        );
-        textElements?.forEach((textElement: any) => {
-          textElement!.style!.marginTop = '';
-          textElement!.style!.overflow = '';
-          textElement!.style!.height = '';
-        });
-        setLoading(false);
-      }
-    }
+  const apiDataParameter = {
+    queryParams: {
+      moduleType: MODULE_TYPE?.CONTRACT,
+      ...(hasDate && filterDate?.startDate
+        ? { startDate: filterDate?.startDate }
+        : {}),
+      ...(hasDate && filterDate?.endDate
+        ? { endDate: filterDate?.endDate }
+        : {}),
+      ...(!!getValues?.('contracts')?._id
+        ? { requestedKey: getValues?.('contracts')?._id }
+        : {}),
+    },
   };
-  const contractReportsCardData = ContractReportsCardData();
-  const onFilterSubmit = () => {};
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    isSuccess,
+  }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const handleDownload = async () => {
+    if (isLoading || isFetching || isError) return;
+    setLoading(true);
+    try {
+      await htmlToPdfConvert?.(downloadRef, 'Contract_Report');
+    } catch (error) {}
+    setLoading(false);
+  };
+
+  const contractReportsCardData = ContractReportsCardData(data?.data);
+  const contractReportsChartData = filteredEmptyValues(
+    ContractReportsChartData(data?.data),
+  );
+
+  const onDateFilterSubmit = (setAnchorElDate: any) => {
+    const startDate = makeDateTime(
+      new Date(getValues?.('createdDate')?.startDate),
+      new Date(),
+    )?.toISOString();
+    const endDate = makeDateTime(
+      new Date(getValues?.('createdDate')?.endDate),
+      new Date(),
+    )?.toISOString();
+    setFilterDate({ startDate, endDate });
+    setHasDate?.(true);
+    setAnchorElDate?.(null);
+  };
+
+  const shouldDateSet = () => {
+    if (hasDate) return;
+    setValue('createdDate', {
+      startDate: null,
+      endDate: null,
+      key: 'selection',
+    });
+  };
 
   return {
     router,
     methods,
     handleSubmit,
-    onFilterSubmit,
+    onDateFilterSubmit,
     handleDownload,
     contractReportsCardData,
     loading,
+    refetch,
+    setHasDate,
+    shouldDateSet,
+    contractReportsChartData,
+    downloadRef,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    data,
   };
 };

@@ -4,7 +4,7 @@ import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useWorkflowHeader } from './useWorkflowHeader';
 import { Cancel } from '@mui/icons-material';
-import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
+import { TestWorkflowDrawer } from '../../../TestWorkflowDrawer';
 
 export const WorkflowHeader = ({
   setValidation,
@@ -13,9 +13,7 @@ export const WorkflowHeader = ({
   handleTestWorkflow,
   isWorkflowDrawer,
   setIsWorkflowDrawer,
-  testWorkflowProgress,
   updatedWorkflowProcess,
-  testWorkflowResponse,
   watch,
   movePage,
 }: any) => {
@@ -28,7 +26,6 @@ export const WorkflowHeader = ({
     create: 'Create',
   };
   const isLoadingButton =
-    testWorkflowProgress?.isLoading ||
     saveWorkflowProgress?.isLoading ||
     postWorkflowProgress?.isLoading ||
     updatedWorkflowProcess?.isLoading;
@@ -63,7 +60,6 @@ export const WorkflowHeader = ({
             variant="outlined"
             color="secondary"
             type="submit"
-            loading={testWorkflowProgress?.isLoading}
             onClick={() => {
               setValidation('test');
               handleTestWorkflow();
@@ -103,7 +99,6 @@ export const WorkflowHeader = ({
       <TestWorkflowDrawer
         isWorkflowDrawer={isWorkflowDrawer}
         setIsWorkflowDrawer={setIsWorkflowDrawer}
-        testWorkflowResponse={testWorkflowResponse}
         watch={watch}
       />
     </Box>

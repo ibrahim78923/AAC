@@ -3,6 +3,7 @@ import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 
 const TAG = 'WORKFLOWS';
+const TEST_TAG = 'TEST_WORKFLOWS';
 const TAG_ONE = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_CATEGORIES';
 const TAG_THREE = 'LOCATION_DROPDOWN';
@@ -29,7 +30,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: [TAG],
+      invalidatesTags: [TEST_TAG],
     }),
     getByIdWorkflow: builder?.query({
       query: (id: any) => ({

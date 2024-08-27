@@ -9,7 +9,6 @@ import { useTheme } from '@mui/material';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
-  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
@@ -19,12 +18,14 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
+import { useDispatch } from 'react-redux';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
-  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
+  const dispatch = useDispatch();
 
   const typeData = {
     string: 'string',
@@ -177,7 +178,6 @@ export const useUpsertScheduledWorkflow = () => {
   const [updateWorkflowTrigger, updatedWorkflowProcess] =
     useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
-  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
   const handleTestWorkflow = async () => {
     setTestWorkflow(true);
@@ -187,10 +187,8 @@ export const useUpsertScheduledWorkflow = () => {
     try {
       let successMessage = '';
       if (testWorkflow && validation === buttonData?.test) {
-        const response = await postTestTrigger(body).unwrap();
+        dispatch(setTestServicesWorkflowBody(body));
         setIsWorkflowDrawer(true);
-        setTestWorkflowResponse(response);
-        successMessage = 'Test Workflow Executed Successfully';
       } else {
         if (
           pageActionType === EDIT_WORKFLOW &&
@@ -206,8 +204,9 @@ export const useUpsertScheduledWorkflow = () => {
           successMessage = 'Workflow Create Successfully';
         }
       }
-
-      successSnackbar(successMessage);
+      if (successMessage) {
+        successSnackbar(successMessage);
+      }
       if (validation !== buttonData?.test) {
         reset();
         movePage();
@@ -297,9 +296,7 @@ export const useUpsertScheduledWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     handleTestWorkflow,
-    testWorkflowProgress,
     updatedWorkflowProcess,
-    testWorkflowResponse,
     movePage,
   };
 };

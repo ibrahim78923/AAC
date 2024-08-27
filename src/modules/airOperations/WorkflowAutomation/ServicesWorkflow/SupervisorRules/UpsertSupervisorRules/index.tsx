@@ -25,10 +25,8 @@ export const UpsertSupervisorRules = () => {
     saveWorkflowProgress,
     isWorkflowDrawer,
     setIsWorkflowDrawer,
-    testWorkflowProgress,
     updatedWorkflowProcess,
     handleTestWorkflow,
-    testWorkflowResponse,
     movePage,
   } = useRulesWorkflow();
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -45,9 +43,7 @@ export const UpsertSupervisorRules = () => {
           postWorkflowProgress={postWorkflowProgress}
           saveWorkflowProgress={saveWorkflowProgress}
           handleTestWorkflow={handleTestWorkflow}
-          testWorkflowProgress={testWorkflowProgress}
           updatedWorkflowProcess={updatedWorkflowProcess}
-          testWorkflowResponse={testWorkflowResponse}
           watch={watch}
           movePage={movePage}
         />

@@ -10,19 +10,20 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
-  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
+import { useDispatch } from 'react-redux';
 
 export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
-  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
-  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const typeData = {
     string: 'string',
     number: 'number',
@@ -174,7 +175,6 @@ export const useUpsertEventBasedWorkflow = () => {
   const [updateWorkflowTrigger, updatedWorkflowProcess] =
     useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
-  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
   const handleTestWorkflow = async () => {
     setTestWorkflow(true);
@@ -184,10 +184,8 @@ export const useUpsertEventBasedWorkflow = () => {
     try {
       let successMessage = '';
       if (testWorkflow && validation === buttonData?.test) {
-        const response = await postTestTrigger(body).unwrap();
+        dispatch(setTestServicesWorkflowBody(body));
         setIsWorkflowDrawer(true);
-        setTestWorkflowResponse(response);
-        successMessage = 'Test Workflow Executed Successfully';
       } else {
         if (
           pageActionType === EDIT_WORKFLOW &&
@@ -204,7 +202,9 @@ export const useUpsertEventBasedWorkflow = () => {
         }
       }
 
-      successSnackbar(successMessage);
+      if (successMessage) {
+        successSnackbar(successMessage);
+      }
       if (validation !== buttonData?.test) {
         reset();
         movePage();
@@ -247,11 +247,9 @@ export const useUpsertEventBasedWorkflow = () => {
     postWorkflowProgress,
     saveWorkflowProgress,
     handleTestWorkflow,
-    testWorkflowResponse,
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     updatedWorkflowProcess,
-    testWorkflowProgress,
     movePage,
   };
 };

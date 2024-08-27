@@ -27,8 +27,6 @@ export const UpsertEventBasedWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     updatedWorkflowProcess,
-    testWorkflowProgress,
-    testWorkflowResponse,
     movePage,
   } = useUpsertEventBasedWorkflow();
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -45,9 +43,7 @@ export const UpsertEventBasedWorkflow = () => {
           postWorkflowProgress={postWorkflowProgress}
           saveWorkflowProgress={saveWorkflowProgress}
           handleTestWorkflow={handleTestWorkflow}
-          testWorkflowProgress={testWorkflowProgress}
           updatedWorkflowProcess={updatedWorkflowProcess}
-          testWorkflowResponse={testWorkflowResponse}
           watch={watch}
           movePage={movePage}
         />

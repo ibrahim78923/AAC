@@ -14,6 +14,7 @@ import subscriptionAndInvoicesSlice from './slices/orgAdmin/SubscriptionAndInvoi
 import forecastSlice from './slices/forecast/forecastSlice';
 import genericReportSlice from './slices/genericReport/genericReportSlice';
 import salesWorkflowSlice from './slices/salesWorkflow';
+import servicesWorkflowSlice from './slices/servicesWorkflow';
 
 const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ const store = configureStore({
     forecastForm: forecastSlice,
     genericReport: genericReportSlice,
     salesWorkflow: salesWorkflowSlice,
+    servicesWorkflow: servicesWorkflowSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

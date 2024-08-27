@@ -161,3 +161,11 @@ export const camelCaseToTitleCase = (camelStr: string) =>
         word?.charAt(ARRAY_INDEX?.ZERO)?.toUpperCase() + word?.slice?.(1),
     )
     ?.join(' ');
+
+export const splitCapitalizedWords = (str: string) => {
+  return str
+    ?.split('_')
+    ?.map((word: string) => word?.toLowerCase())
+    ?.map((word: string) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+    ?.join(' ');
+};

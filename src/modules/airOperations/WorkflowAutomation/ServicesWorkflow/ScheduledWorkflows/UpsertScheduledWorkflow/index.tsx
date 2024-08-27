@@ -27,9 +27,7 @@ export const UpsertScheduledWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     handleTestWorkflow,
-    testWorkflowProgress,
     updatedWorkflowProcess,
-    testWorkflowResponse,
     movePage,
   } = useUpsertScheduledWorkflow();
 
@@ -49,9 +47,7 @@ export const UpsertScheduledWorkflow = () => {
             postWorkflowProgress={postWorkflowProgress}
             saveWorkflowProgress={saveWorkflowProgress}
             handleTestWorkflow={handleTestWorkflow}
-            testWorkflowProgress={testWorkflowProgress}
             updatedWorkflowProcess={updatedWorkflowProcess}
-            testWorkflowResponse={testWorkflowResponse}
             watch={watch}
             movePage={movePage}
           />
