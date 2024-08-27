@@ -144,14 +144,5 @@ export const addUsersArrayData = (productsData: any) => {
       component: RHFTextField,
       md: 5,
     },
-    {
-      componentProps: {
-        label: 'Default User',
-        name: 'status',
-        fullWidth: true,
-      },
-      component: RHFSwitch,
-      md: 5,
-    },
   ];
 };

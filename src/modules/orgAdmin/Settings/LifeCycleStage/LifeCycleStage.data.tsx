@@ -66,13 +66,6 @@ export const columns = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
-      cell: () => <DragIndicatorIcon />,
-      header: <></>,
-      isSortable: false,
-    },
-    {
       accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => capitalizeFirstLetter(info.getValue()),

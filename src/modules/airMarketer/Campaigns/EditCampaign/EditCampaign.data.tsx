@@ -5,6 +5,7 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { indexNumbers } from '@/constants';
 import { ROLES } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
@@ -113,7 +114,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
     {
       componentProps: {
         name: 'campaignBudget',
-        label: 'Campaign Budget',
+        label: 'Campaign Budget (₤)',
         placeholder: 'Enter Budget',
         fullWidth: true,
       },
@@ -127,6 +128,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         fullWidth: true,
         placeholder: 'Select Status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
+        getOptionLabel: (option: any) => option?.charAt(indexNumbers?.ZERO)?.toUpperCase() + option?.slice(indexNumbers?.ONE),
       },
       component: RHFAutocomplete,
       md: 12,

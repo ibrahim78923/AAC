@@ -4,7 +4,7 @@ import CreateForm from './CreateForm';
 const CreateDashboard = () => {
   return (
     <>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         <Grid item xs={12} lg={12}>
           <Typography variant="h3">Create Dashboard</Typography>
         </Grid>

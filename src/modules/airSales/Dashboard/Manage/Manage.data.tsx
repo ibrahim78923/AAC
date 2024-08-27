@@ -6,9 +6,10 @@ import { capitalizeFirstLetters } from '@/utils';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { SwitchBtn } from '@/components/SwitchButton';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 export const columns: any = (columnsProps: any) => {
-  const { setIsDeleteModalOpen, theme } = columnsProps;
+  const { setIsDeleteModalOpen, theme, router } = columnsProps;
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -89,15 +90,25 @@ export const columns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'Actions',
       cell: (info: any) => (
-        <Stack direction="row" gap={1}>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
-          >
-            <Box sx={{ cursor: 'pointer' }}>
+        <Stack direction='row' gap={1}>
+          <PermissionsGuard permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}>
+            <Box sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                router?.push({
+                  pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                  query: { id: info?.row?.original?._id },
+                });
+              }}>
               <ViewEyeIcon />
             </Box>
           </PermissionsGuard>
-          <Box sx={{ cursor: 'pointer' }}>
+          <Box sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              router?.push({
+                pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                query: { id: info?.row?.original?._id },
+              });
+            }}>
             <EditPenIcon />
           </Box>
           <PermissionsGuard

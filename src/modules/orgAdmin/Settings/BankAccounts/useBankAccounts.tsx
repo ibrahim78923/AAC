@@ -21,10 +21,6 @@ const useBankAccounts = () => {
 
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [searchBy, setSearchBy] = useState();
-  const [filterValues, setFilterValues] = useState({
-    search: '',
-  });
-
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
@@ -37,7 +33,7 @@ const useBankAccounts = () => {
   const receiversParams = {
     page: page,
     limit: pageLimit,
-    search: filterValues?.search ?? undefined,
+    search: searchBy ?? undefined,
   };
 
   const {
@@ -89,8 +85,6 @@ const useBankAccounts = () => {
     receiversData,
     checkedRows,
     setCheckedRows,
-    filterValues,
-    setFilterValues,
     isLoading,
     isSuccess,
     setPageLimit,

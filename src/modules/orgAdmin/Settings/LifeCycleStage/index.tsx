@@ -47,6 +47,7 @@ const LifeCycleStage = () => {
     loadingDelete,
     form,
     getDynamicFieldsStatus,
+    lifeCycleStageLoading,
   } = useLifeCycleStage();
 
   return (
@@ -60,7 +61,7 @@ const LifeCycleStage = () => {
           footer={isModalHeading === 'View' ? false : true}
           isOk={true}
           submitHandler={handleSubmit(onSubmit)}
-          isLoading={postLifeCyleStageLoading}
+          isLoading={postLifeCyleStageLoading || lifeCycleStageLoading}
         >
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={LifeCycleStage}>

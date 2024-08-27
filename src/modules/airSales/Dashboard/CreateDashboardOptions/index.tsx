@@ -26,7 +26,6 @@ const CreateDashboardOptions = () => {
   const handelNavigate = () => {
     router?.push({
       pathname: `${AIR_SALES?.MANAGE_DASHBOARD}`,
-      query: { id: 'sdas78d78as6d78asd6' },
     });
   };
 

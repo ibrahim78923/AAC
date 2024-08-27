@@ -646,6 +646,7 @@ export const DRAWER_TITLES = {
 export const DRAWER_ACTIONS_TITLES = {
   EDIT: 'Edit',
   ADD: 'ADD',
+  VIEW: 'View'
 };
 
 export const LOYALTY_SHOP_TYPE = {

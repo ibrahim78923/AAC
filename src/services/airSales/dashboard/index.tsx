@@ -22,6 +22,14 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
+    getSalesDashboardById: builder.query({
+      query: (id: any) => ({
+        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+
     postSalesDashboard: builder.mutation({
       query: ({ body }: any) => ({
         url: `${SALES_DASHBOARD?.CREATE_SALES_DASHBOARD}`,
@@ -56,6 +64,7 @@ export const {
   useGetDealsCreatedQuery,
   useGetSalesDashboardsQuery,
   usePostSalesDashboardMutation,
+  useGetSalesDashboardByIdQuery,
   useDeleteSalesDashboardMutation,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
 } = salesDashboardApi;

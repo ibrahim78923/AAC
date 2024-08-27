@@ -14,9 +14,9 @@ export interface IUsersProps {
   filterValues?: IFilterValues;
   searchVal: string;
   page: number;
-  setPage: (page: number) => void;
+  setPage: (page: any) => void;
   pageLimit: number;
-  setPageLimit: (limit: number) => void;
+  setPageLimit: (limit: any) => void;
   date?: string;
 }
 

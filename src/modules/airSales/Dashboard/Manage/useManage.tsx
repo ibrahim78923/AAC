@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SALES } from '@/routesConstants/paths';
 import {
   useDeleteSalesDashboardMutation,
@@ -6,6 +7,7 @@ import {
 } from '@/services/airSales/dashboard';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
+import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useManage = () => {
@@ -25,15 +27,26 @@ const useManage = () => {
     accessRights: null,
   });
 
-  const [deleteSalesDashboard] = useDeleteSalesDashboardMutation();
+  const [deleteSalesDashboard, { isLoading: loadingDeleteDashboard }] = useDeleteSalesDashboardMutation();
 
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen({ isToggle: false, id: '' });
   };
 
-  const handleDelete = (deleteId: any) => {
-    deleteSalesDashboard(deleteId)?.unwrap();
-    setIsDeleteModalOpen({ isToggle: false, id: '' });
+  const handleDelete = async (deleteId: any) => {
+    try {
+      await deleteSalesDashboard(deleteId)?.unwrap();
+      setIsDeleteModalOpen({ isToggle: false, id: '' });
+      enqueueSnackbar('Dashboard deleted successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const {
@@ -55,7 +68,7 @@ const useManage = () => {
   const handelNavigate = () => {
     router?.push({
       pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-      query: { id: '' },
+      // query: { id: '' },
     });
   };
 
@@ -64,6 +77,7 @@ const useManage = () => {
   };
 
   return {
+    loadingDeleteDashboard,
     handleCloseDeleteModal,
     setIsDeleteModalOpen,
     dashboardListArray,

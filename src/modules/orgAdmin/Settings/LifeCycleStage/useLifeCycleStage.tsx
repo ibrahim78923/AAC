@@ -43,7 +43,7 @@ const useLifeCycleStage = () => {
   };
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetSettingLifeCycleStageQuery({ params });
-  const [updateSettingLifeCycleStage] =
+  const [updateSettingLifeCycleStage, {isLoading:lifeCycleStageLoading}] =
     useUpdateSettingLifeCycleStageMutation();
   const theme = useTheme<Theme>();
 
@@ -214,6 +214,7 @@ const useLifeCycleStage = () => {
     postLifeCyleStageLoading,
     form,
     getDynamicFieldsStatus,
+    lifeCycleStageLoading,
   };
 };
 

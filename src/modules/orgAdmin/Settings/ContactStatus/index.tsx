@@ -19,6 +19,7 @@ import { styles } from './ContactStatus.style';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS } from '@/constants/permission-keys';
+import { DRAWER_ACTIONS_TITLES } from '@/constants/strings';
 
 const ContactStatus = () => {
   const {
@@ -51,9 +52,9 @@ const ContactStatus = () => {
         <CommonDrawer
           isDrawerOpen={isDraweropen}
           onClose={handleCloseDrawer}
-          title={`${isModalHeading} Status Name`}
-          okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
-          footer={isModalHeading === 'View' ? false : true}
+          title={isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Edit Contact Status' : 'Create Contact Status'}
+          okText={isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Update' : 'Add'}
+          footer={isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW ? false : true}
           isOk={true}
           submitHandler={handleSubmit(onSubmit)}
           isLoading={loadingUpdateContactStatus || loadingAddStatus}
@@ -64,6 +65,7 @@ const ContactStatus = () => {
                 {dataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component
+                      disabled={isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW ? true : false}
                       {...item.componentProps}
                       size={'small'}
                     ></item.component>
