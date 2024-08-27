@@ -1,12 +1,23 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
-import { WorkflowConditionData, testingData } from './TestWorkflowDrawer.data';
+import { Box, Grid, Typography } from '@mui/material';
+import { workflowColumns } from './TestWorkflowDrawer.data';
 import { TestWorkflowDrawerProps } from './TestWorkflowDrawer.interface';
+import TanstackTable from '@/components/Table/TanstackTable';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { useTestWorkflowDrawer } from './useTestWorkflowDrawer';
 
 export const TestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
-  const { isWorkflowDrawer, setIsWorkflowDrawer, testWorkflowResponse, watch } =
-    props;
-  const { palette } = useTheme();
+  const {
+    setPage,
+    setLimit,
+    palette,
+    titleData,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    testWorkflowStatus,
+    handleTestWorkflow,
+    watch,
+  } = useTestWorkflowDrawer(props);
   return (
     <CommonDrawer
       isDrawerOpen={isWorkflowDrawer}
@@ -17,11 +28,12 @@ export const TestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
       cancelText="Close"
       isOk={false}
     >
-      <Grid container gap={2}>
-        {testingData?.map((item) => (
+      {testWorkflowStatus?.isLoading ? (
+        <SkeletonForm />
+      ) : (
+        <Grid container gap={2}>
           <Grid
             item
-            key={item?.id}
             border={`1px solid ${palette?.grey?.[700]}`}
             p={1}
             borderRadius={2}
@@ -33,69 +45,31 @@ export const TestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
               alignItems={'center'}
             >
               <Typography variant="h4" color="secondary.main">
-                {item?.heading}
+                Testing
               </Typography>
             </Box>
-            {item?.description?.map((list) => (
-              <Typography key={list} component="li" variant="body2">
-                {list}
-              </Typography>
-            ))}
+            <Typography component="li" variant="body2">
+              Since this is a test, no actions will be executed
+            </Typography>
           </Grid>
-        ))}
-        {WorkflowConditionData(testWorkflowResponse, watch)?.map((item) => (
-          <Grid
-            item
-            xs={12}
-            key={item?.id}
-            border={`1px solid ${palette?.grey?.[700]}`}
-            borderRadius={2}
-          >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={2}
-              p={1}
-              borderBottom={`1px solid ${palette?.grey?.[700]}`}
-            >
-              <item.icon sx={{ color: item?.color }} />
-              <Typography variant="h4" color={item?.color}>
-                {item?.heading}
-              </Typography>
-            </Box>
-            {item?.detail?.map((val) => (
-              <Box key={val?._id}>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  p={1}
-                >
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <Avatar variant="rounded" sx={{ bgcolor: val?.boxColor }}>
-                      {val?.conditionNum}
-                    </Avatar>
-                    <Typography
-                      color={val?.boxColor}
-                      variant="body1"
-                      fontWeight={600}
-                    >
-                      {val?.conditionDetail}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    color={val?.statusColor}
-                  >
-                    {val?.conditionStatus}
-                  </Typography>
-                </Box>
-              </Box>
-            ))}
-          </Grid>
-        ))}
-      </Grid>
+          <TanstackTable
+            columns={workflowColumns(watch)}
+            data={testWorkflowStatus?.data?.data?.[titleData]}
+            errorProps={{ canRefresh: true, refresh: handleTestWorkflow }}
+            totalRecords={testWorkflowStatus?.data?.data?.meta?.total}
+            currentPage={testWorkflowStatus?.data?.data?.meta?.page}
+            pageLimit={testWorkflowStatus?.data?.data?.meta?.limit}
+            count={testWorkflowStatus?.data?.data?.meta?.pages}
+            onPageChange={(page: number) => setPage(page)}
+            isSuccess={testWorkflowStatus?.isSuccess}
+            isError={testWorkflowStatus?.isError}
+            setPageLimit={setLimit}
+            setPage={setPage}
+            noDataTableText="No action will execute since conditions are not met"
+            isPagination
+          />
+        </Grid>
+      )}
     </CommonDrawer>
   );
 };

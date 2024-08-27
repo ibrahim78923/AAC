@@ -47,10 +47,11 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     postTestSalesWorkflow: builder?.mutation({
-      query: (body: any) => ({
+      query: ({ body, params }: any) => ({
         url: `${OPERATION?.TEST_WORKFLOW}`,
         method: 'POST',
         body,
+        params,
       }),
       invalidatesTags: [TAG],
     }),

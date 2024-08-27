@@ -13,6 +13,7 @@ import dealsTaskSlice from './slices/airSales/Deals/ViewDetails/Tasks/taskSlice'
 import subscriptionAndInvoicesSlice from './slices/orgAdmin/SubscriptionAndInvoices';
 import forecastSlice from './slices/forecast/forecastSlice';
 import genericReportSlice from './slices/genericReport/genericReportSlice';
+import salesWorkflowSlice from './slices/salesWorkflow';
 
 const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ const store = configureStore({
     planManagementForms: planManagementSlice,
     forecastForm: forecastSlice,
     genericReport: genericReportSlice,
+    salesWorkflow: salesWorkflowSlice,
   },
 
   middleware: (getDefaultMiddleware) =>
