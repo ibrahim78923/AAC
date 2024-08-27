@@ -215,7 +215,7 @@ const AccountMenu = () => {
                     </Box>
 
                     <Box>
-                      {item?.accounts?.map((subitem) => {
+                      {item?.accounts?.map((subitem: any) => {
                         return (
                           <Box
                             sx={{

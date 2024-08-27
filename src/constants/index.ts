@@ -623,3 +623,15 @@ export const MANAGE_ACCESS_VISIBLE = {
   TEAMS: 'TEAMS',
   USERS: 'USERS',
 };
+
+export const PRODUCT_EXTERNAl_LINKS = {
+  AIR_SALES: 'https://airapplecart.co.uk/product/air-sales',
+  AIR_SERVICES: 'https://airapplecart.co.uk/product/air-service',
+  AIR_MARKETER: 'https://airapplecart.co.uk/product/air-marketer',
+  AIR_OPERATIONS: 'https://airapplecart.co.uk/product/air-operation',
+  LOYALTY_PROGRAM: 'https://airapplecart.co.uk/product/air-loyalty-program',
+  CALL_CENTER: 'https://airapplecart.co.uk/product/air-call-center',
+  CUSTOMER_PORTAL: '',
+  ORG_ADMIN: '',
+  COMMON_FEATURES: '',
+};

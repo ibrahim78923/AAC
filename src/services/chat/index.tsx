@@ -89,6 +89,14 @@ export const chatApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getChatUsersForCompanyAccounts: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST_FOR_COMPANY_ACCOUNTS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
     deleteChatIds: builder.mutation({
       query: ({ ids }: any) => ({
         url: `${SOCIAL_FEATURES_CHAT?.CHAT}${ids}`,
@@ -108,4 +116,5 @@ export const {
   useGetUserChatsInfoQuery,
   useGetChatUsersQuery,
   useDeleteChatIdsMutation,
+  useGetChatUsersForCompanyAccountsQuery,
 } = chatApi;

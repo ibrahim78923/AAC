@@ -16,6 +16,7 @@ import { getSession } from '@/utils';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { useGetOrganizationProductsQuery } from '@/services/orgAdmin/organization';
 import { AccountsDataProductI, ProductI } from './dashboard.interface';
+import { PRODUCT_EXTERNAl_LINKS, PRODUCT_LABELS } from '@/constants';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -32,6 +33,25 @@ const Dashboard = () => {
   const { data: orgProductsData } = useGetOrganizationProductsQuery({
     id: user?.organization?._id,
   });
+
+  const generateExternalLink = (link: string) => {
+    switch (link) {
+      case PRODUCT_LABELS?.LOYALTY_PROGRAM:
+        return PRODUCT_EXTERNAl_LINKS?.LOYALTY_PROGRAM;
+      case PRODUCT_LABELS?.AIR_SERVICES:
+        return PRODUCT_EXTERNAl_LINKS?.AIR_SERVICES;
+      case PRODUCT_LABELS?.CALL_CENTER:
+        return PRODUCT_EXTERNAl_LINKS?.CALL_CENTER;
+      case PRODUCT_LABELS?.AIR_MARKETER:
+        return PRODUCT_EXTERNAl_LINKS?.AIR_MARKETER;
+      case PRODUCT_LABELS?.AIR_SALES:
+        return PRODUCT_EXTERNAl_LINKS?.AIR_SALES;
+      case PRODUCT_LABELS?.AIR_OPERATIONS:
+        return PRODUCT_EXTERNAl_LINKS?.AIR_OPERATIONS;
+      default:
+        return '';
+    }
+  };
 
   return (
     <>
@@ -199,45 +219,54 @@ const Dashboard = () => {
             {productsData?.data?.map((item: ProductI) => {
               return (
                 <>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyItems: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <Link href={generateExternalLink(item?.name)} target="_blank">
                     <Box
                       sx={{
-                        backgroundColor: theme?.palette?.primary?.light,
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
                         display: 'flex',
+                        flexDirection: 'column',
+                        justifyItems: 'center',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        filter: orgProductsData?.data?.some(
-                          (userProduct: ProductI) =>
-                            userProduct?._id === item?._id,
-                        )
-                          ? 'none'
-                          : 'grayscale(1) brightness(1.0) opacity(0.8)',
+                        transition: '0.3s',
+                        transform: 'translate(0px, 0px)',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          color: theme?.palette?.primary?.main,
+                          transform: 'translate(0px, 10px)',
+                        },
                       }}
                     >
-                      {getProductIcon(item?.name)}
+                      <Box
+                        sx={{
+                          backgroundColor: theme?.palette?.primary?.light,
+                          width: '60px',
+                          height: '60px',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          filter: orgProductsData?.data?.some(
+                            (userProduct: ProductI) =>
+                              userProduct?._id === item?._id,
+                          )
+                            ? 'none'
+                            : 'grayscale(1) brightness(1.0) opacity(0.8)',
+                        }}
+                      >
+                        {getProductIcon(item?.name)}
+                      </Box>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: `${item?.color}`,
+                          fontWeight: 600,
+                          lineHeight: '20px',
+                          paddingTop: '10px',
+                        }}
+                      >
+                        {item?.name}
+                      </Typography>
                     </Box>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: `${item?.color}`,
-                        fontWeight: 600,
-                        lineHeight: '20px',
-                        paddingTop: '10px',
-                      }}
-                    >
-                      {item?.name}
-                    </Typography>
-                  </Box>
+                  </Link>
                 </>
               );
             })}
