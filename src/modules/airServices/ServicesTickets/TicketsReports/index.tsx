@@ -6,23 +6,18 @@ import { TicketsReportChart } from './TicketsReportChart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { DownloadLargeIcon } from '@/assets/icons';
-import {
-  FormProvider,
-  RHFAutocompleteAsync,
-  RHFDateRangePicker,
-} from '@/components/ReactHookForm';
+import { FormProvider, RHFDateRangePicker } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
 import { pxToRem } from '@/utils/getFontValue';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { htmlToPdfConvert } from '@/utils/file';
 
 export const TicketsReports = () => {
   const {
     router,
-    handleDownload,
-    loading,
     methods,
     data,
     isLoading,
@@ -32,7 +27,7 @@ export const TicketsReports = () => {
     downloadRef,
     setHasDate,
     shouldDateSet,
-    apiQueryAgents,
+    onDateFilterSubmit,
   } = useTicketsReport();
 
   return (
@@ -48,39 +43,18 @@ export const TicketsReports = () => {
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.FILTER]}
         >
           <FormProvider methods={methods}>
-            <Box
-              display={'flex'}
-              gap={2}
-              flexWrap={'wrap'}
-              flexDirection={{ xs: 'column', sm: 'row' }}
-              mt={1}
-            >
-              <Box flex={{ xs: 1, sm: 0.5 }}>
-                <RHFDateRangePicker
-                  name={'createdDate'}
-                  placeholder={'Date'}
-                  size={'small'}
-                  disabled={loading || isLoading || isFetching || isError}
-                  hasButton
-                  onSubmitBtnClick={() => setHasDate?.(true)}
-                  cancelBtnEffect={() => setHasDate?.(false)}
-                  closePopOver={() => shouldDateSet?.()}
-                />
-              </Box>
-
-              <Box flex={{ xs: 1, sm: 0.5 }}>
-                <RHFAutocompleteAsync
-                  name={'agentId'}
-                  size={'small'}
-                  placeholder={'Agent'}
-                  apiQuery={apiQueryAgents}
-                  disabled={loading || isLoading || isFetching || isError}
-                  getOptionLabel={(option: any) =>
-                    `${option?.firstName} ${option?.lastName}`
-                  }
-                />
-              </Box>
-            </Box>
+            <RHFDateRangePicker
+              name={'createdDate'}
+              placeholder={'Date'}
+              size={'small'}
+              disabled={isLoading || isFetching || isError}
+              hasButton
+              onSubmitBtnClick={(setAnchorElDate: any) =>
+                onDateFilterSubmit?.(setAnchorElDate)
+              }
+              cancelBtnEffect={() => setHasDate?.(false)}
+              closePopOver={() => shouldDateSet?.()}
+            />
           </FormProvider>
         </PermissionsGuard>
         <PermissionsGuard
@@ -92,13 +66,13 @@ export const TicketsReports = () => {
               p: 0,
               minWidth: pxToRem(40),
               height: pxToRem(40),
+              marginTop: pxToRem(-10),
             }}
             variant={'outlined'}
             color={'inherit'}
             size={'small'}
-            onClick={handleDownload}
-            disabled={loading || isLoading || isFetching || isError}
-            loading={loading}
+            onClick={() => htmlToPdfConvert?.(downloadRef, 'Ticket_Report')}
+            disabled={isLoading || isFetching || isError}
           >
             <DownloadLargeIcon />
           </LoadingButton>
