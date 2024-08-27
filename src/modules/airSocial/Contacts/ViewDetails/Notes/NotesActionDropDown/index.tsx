@@ -1,6 +1,8 @@
 import { Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTheme } from '@mui/material';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const NotesActionDropdown = (props: any) => {
   const theme = useTheme();
@@ -42,31 +44,33 @@ const NotesActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
+        <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.VIEW_NOTES]}
-        > </PermissionsGuard> */}
-        <MenuItem
-          disabled={selectedCheckboxes?.length > 1}
-          onClick={() => openViewDrawer(selectedCheckboxes[0])}
         >
-          View
-        </MenuItem>
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
+          <MenuItem
+            disabled={selectedCheckboxes?.length > 1}
+            onClick={() => openViewDrawer(selectedCheckboxes[0])}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+
+        <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.EDIT_NOTE]}
-        > </PermissionsGuard> */}
-        <MenuItem
-          disabled={selectedCheckboxes?.length > 1}
-          onClick={() => openEditDrawer(selectedCheckboxes[0])}
         >
-          Edit
-        </MenuItem>
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
+          <MenuItem
+            disabled={selectedCheckboxes?.length > 1}
+            onClick={() => openEditDrawer(selectedCheckboxes[0])}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+
+        <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.DELETE_NOTES]}
-        > </PermissionsGuard> */}
-        <MenuItem onClick={openDeleteAlert}>Delete</MenuItem>
+        >
+          <MenuItem onClick={openDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
     </div>
   );

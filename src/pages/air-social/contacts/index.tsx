@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import Contacts from '@/modules/airSocial/Contacts';
 
@@ -7,8 +8,7 @@ const ContactPage = () => {
 export default ContactPage;
 ContactPage.getLayout = function getLayout(page: any) {
   return (
-    // permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}
-    <Layout guardRoute variant="common">
+    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}>
       {page}
     </Layout>
   );

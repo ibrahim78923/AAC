@@ -6,6 +6,8 @@ import { styles } from './ContractsHeader.style';
 import { ImportIcon } from '@/assets/icons';
 import useContactsSaleSite from '../useContactsSaleSite';
 import ImportContactDrawer from '../ImportContactDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactsHeader = ({ handleRefresh }: any) => {
   const { isCreateDeal, handleCreateDealOpen } = useContactsHeader();
@@ -19,35 +21,35 @@ const ContactsHeader = ({ handleRefresh }: any) => {
         </Typography>
       </Box>
       <Box sx={styles?.HeaderChildStyle}>
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
+        <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.IMPORT_CONTACT]}
-        ></PermissionsGuard> */}
-        <Button
-          variant="outlined"
-          color="inherit"
-          onClick={() => setIsImportDrawer(true)}
-          startIcon={<ImportIcon />}
-          sx={{ height: '35px' }}
         >
-          Import
-        </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => setIsImportDrawer(true)}
+            startIcon={<ImportIcon />}
+            sx={{ height: '35px' }}
+          >
+            Import
+          </Button>
+        </PermissionsGuard>
 
         <Box>
-          {/* Remove permissions guard for common components */}
-          {/* <PermissionsGuard
+          <PermissionsGuard
             permissions={[
               SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CREATE_CONTACT,
             ]}
-          ></PermissionsGuard> */}
-          <Button
-            variant="contained"
-            onClick={handleCreateDealOpen}
-            startIcon={<AddCircle />}
-            sx={{ height: '35px' }}
           >
-            Create Contact
-          </Button>
+            <Button
+              variant="contained"
+              onClick={handleCreateDealOpen}
+              startIcon={<AddCircle />}
+              sx={{ height: '35px' }}
+            >
+              Create Contact
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
 

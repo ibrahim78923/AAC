@@ -35,6 +35,8 @@ import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { ContactListPropsI } from './contactsList.interface';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   const theme = useTheme();
@@ -211,8 +213,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
               }
             />
             <Box sx={{ width: '100%', display: 'flex' }}>
-              {/* Remove permissions guard for common components */}
-              {/* <PermissionsGuard
+              <PermissionsGuard
                 permissions={
                   chatMode === 'personalChat'
                     ? [
@@ -220,51 +221,52 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
                       ]
                     : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.SEARCH_RECORD_GROUP]
                 }
-              ></PermissionsGuard> */}
-              <Search
-                label={'Search by name'}
-                searchBy={searchContacts}
-                setSearchBy={setSearchContacts}
-                width="100%"
-                size="small"
-              />
+              >
+                <Search
+                  label={'Search by name'}
+                  searchBy={searchContacts}
+                  setSearchBy={setSearchContacts}
+                  width="100%"
+                  size="small"
+                />
+              </PermissionsGuard>
             </Box>
           </Box>
 
           {chatsTypeToShow?.length > 0 &&
           chatsTypeToShow?.length === selectedValues?.length ? (
-            // Remove permissions guard for common components
-            // <PermissionsGuard
-            //   permissions={
-            //     chatMode === 'groupChat'
-            //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
-            //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
-            //   }
-            // > </PermissionsGuard>
-            <Box
-              sx={{ marginLeft: '10px' }}
-              onClick={() => setIsDeleteAllModal(true)}
+            <PermissionsGuard
+              permissions={
+                chatMode === 'groupChat'
+                  ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
+                  : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
+              }
             >
-              <DeleteIcon color={theme?.palette?.error?.main} />
-            </Box>
+              <Box
+                sx={{ marginLeft: '10px' }}
+                onClick={() => setIsDeleteAllModal(true)}
+              >
+                <DeleteIcon color={theme?.palette?.error?.main} />
+              </Box>
+            </PermissionsGuard>
           ) : (
-            // Remove permissions guard for common components
-            // <PermissionsGuard
-            //   permissions={
-            //     chatMode === 'groupChat'
-            //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.FILTER_RECORD_GROUP]
-            //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.FILTER_RECORD_PERSONAL]
-            //   }
-            // > </PermissionsGuard>
-            <Button
-              sx={styles?.filterButton}
-              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
+            <PermissionsGuard
+              permissions={
+                chatMode === 'groupChat'
+                  ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.FILTER_RECORD_GROUP]
+                  : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.FILTER_RECORD_PERSONAL]
+              }
             >
-              <FilterSharedIcon />
-            </Button>
+              <Button
+                sx={styles?.filterButton}
+                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={actionMenuOpen ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                <FilterSharedIcon />
+              </Button>
+            </PermissionsGuard>
           )}
 
           <ChatDropdown

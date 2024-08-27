@@ -35,6 +35,8 @@ import { columns } from '../Companies.data';
 import { v4 as uuidv4 } from 'uuid';
 import Search from '@/components/Search';
 import useCompanies from '../useCompanies';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS } from '@/constants/permission-keys';
 
 const CompanyTabs = () => {
   const {
@@ -102,39 +104,40 @@ const CompanyTabs = () => {
                 gap={1}
                 flexDirection={{ sm: 'row', xs: 'column' }}
               >
-                {/* Remove permissions guard for common components */}
-                {/* <PermissionsGuard
+                <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.IMPORT_ALL_COMPANIES,
                   ]}
-                ></PermissionsGuard> */}
-                <Button
-                  className="small"
-                  color="inherit"
-                  variant="outlined"
-                  startIcon={<ImportCompaniesIcon />}
-                  onClick={() => {
-                    setIsDrawerOpen(true);
-                  }}
                 >
-                  Import
-                </Button>
-                {/* Remove permissions guard for common components */}
-                {/* <PermissionsGuard
+                  <Button
+                    className="small"
+                    color="inherit"
+                    variant="outlined"
+                    startIcon={<ImportCompaniesIcon />}
+                    onClick={() => {
+                      setIsDrawerOpen(true);
+                    }}
+                  >
+                    Import
+                  </Button>
+                </PermissionsGuard>
+
+                <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.CREATE_COMPANY_ALL_COMPANIES,
                   ]}
-                > </PermissionsGuard> */}
-                <Button
-                  className="small"
-                  variant="contained"
-                  startIcon={<AddCircle />}
-                  onClick={() => {
-                    setIsOpen({ ...isOpen, createCompanyDrawer: true });
-                  }}
                 >
-                  Create Company
-                </Button>
+                  <Button
+                    className="small"
+                    variant="contained"
+                    startIcon={<AddCircle />}
+                    onClick={() => {
+                      setIsOpen({ ...isOpen, createCompanyDrawer: true });
+                    }}
+                  >
+                    Create Company
+                  </Button>
+                </PermissionsGuard>
               </Box>
             </Stack>
             {/* tabs section starts here  */}
@@ -173,22 +176,23 @@ const CompanyTabs = () => {
                   />
                 ))}
               </Tabs>
-              {/* Remove permissions guard for common components */}
-              {/* <PermissionsGuard
+
+              <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.ADD_VIEW_ALL_COMPANIES,
                 ]}
-              > </PermissionsGuard> */}
-              <Box sx={{ ml: '50px' }}>
-                <AddCircleIcon
-                  onClick={handleAddTab}
-                  sx={{
-                    float: 'right',
-                    cursor: 'pointer',
-                    color: theme?.palette?.grey[900],
-                  }}
-                />
-              </Box>
+              >
+                <Box sx={{ ml: '50px' }}>
+                  <AddCircleIcon
+                    onClick={handleAddTab}
+                    sx={{
+                      float: 'right',
+                      cursor: 'pointer',
+                      color: theme?.palette?.grey[900],
+                    }}
+                  />
+                </Box>
+              </PermissionsGuard>
             </Box>
             {/* tabs section ends here  */}
 
@@ -203,18 +207,17 @@ const CompanyTabs = () => {
                 gap: '15px',
               }}
             >
-              {/* Remove permissions guard for common components */}
-              {/* <PermissionsGuard
+              <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.SEARCH_AND_FILTER_ALL_COMPANIES,
                 ]}
-              > </PermissionsGuard> */}
-              <Search
-                size="small"
-                setSearchBy={handleSearch}
-                placeholder="Search Here"
-              />
-
+              >
+                <Search
+                  size="small"
+                  setSearchBy={handleSearch}
+                  placeholder="Search Here"
+                />
+              </PermissionsGuard>
               <Box gap={1} sx={{ display: { xs: 'flex' }, flexWrap: 'wrap' }}>
                 <ActionButton
                   checkedRows={checkedRows}
@@ -222,74 +225,78 @@ const CompanyTabs = () => {
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
                 />
-                {/* Remove permissions guard for common components */}
-                {/* <PermissionsGuard
+
+                <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.RESTORE_ALL_COMPANIES,
                   ]}
-                ></PermissionsGuard> */}
-                <Button
-                  variant="outlined"
-                  className="small"
-                  color="inherit"
-                  sx={{ width: { xs: '100%', sm: '113px' } }}
-                  startIcon={<RestoreIcon />}
-                  onClick={() => setIstoggle(true)}
                 >
-                  Restore
-                </Button>
-                {/* Remove permissions guard for common components */}
-                {/* <PermissionsGuard
-                  permissions={[
-                    SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.CUSTOMIZE_LIST_ALL_COMPANIES,
-                  ]}
-                ></PermissionsGuard> */}
-                <Button
-                  variant="outlined"
-                  className="small"
-                  color="inherit"
-                  sx={{ width: { xs: '100%', sm: '132px' } }}
-                  startIcon={<CustomizeIcon />}
-                  onClick={() =>
-                    setIsOpen({ ...isOpen, customizeDrawer: true })
-                  }
-                >
-                  Customize
-                </Button>
-                {/* Remove permissions guard for common components */}
-                {/* <PermissionsGuard
-                  permissions={[
-                    SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.SEARCH_AND_FILTER_ALL_COMPANIES,
-                  ]}
-                > </PermissionsGuard> */}
-                <Tooltip title={'Refresh Filter'}>
                   <Button
                     variant="outlined"
                     className="small"
                     color="inherit"
-                    onClick={handleResetFilters}
+                    sx={{ width: { xs: '100%', sm: '113px' } }}
+                    startIcon={<RestoreIcon />}
+                    onClick={() => setIstoggle(true)}
                   >
-                    <RefreshTasksIcon />
+                    Restore
                   </Button>
-                </Tooltip>
-                {/* Remove permissions guard for common components */}
-                {/* <PermissionsGuard
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.CUSTOMIZE_LIST_ALL_COMPANIES,
+                  ]}
+                >
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    color="inherit"
+                    sx={{ width: { xs: '100%', sm: '132px' } }}
+                    startIcon={<CustomizeIcon />}
+                    onClick={() =>
+                      setIsOpen({ ...isOpen, customizeDrawer: true })
+                    }
+                  >
+                    Customize
+                  </Button>
+                </PermissionsGuard>
+
+                <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.SEARCH_AND_FILTER_ALL_COMPANIES,
                   ]}
-                >  </PermissionsGuard> */}
-                <Button
-                  variant="outlined"
-                  className="small"
-                  color="inherit"
-                  startIcon={<FilterIcon />}
-                  onClick={() => {
-                    setIsOpen({ ...isOpen, filtersDrawer: true });
-                    handleApplyFilter;
-                  }}
                 >
-                  Filter
-                </Button>
+                  <Tooltip title={'Refresh Filter'}>
+                    <Button
+                      variant="outlined"
+                      className="small"
+                      color="inherit"
+                      onClick={handleResetFilters}
+                    >
+                      <RefreshTasksIcon />
+                    </Button>
+                  </Tooltip>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.SEARCH_AND_FILTER_ALL_COMPANIES,
+                  ]}
+                >
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    color="inherit"
+                    startIcon={<FilterIcon />}
+                    onClick={() => {
+                      setIsOpen({ ...isOpen, filtersDrawer: true });
+                      handleApplyFilter;
+                    }}
+                  >
+                    Filter
+                  </Button>
+                </PermissionsGuard>
               </Box>
             </Box>
             {/* headers buttons ends here  */}

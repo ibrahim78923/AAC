@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import Call from '@/modules/SocialComponents/Calling/Call';
 
@@ -7,8 +8,7 @@ const CallPage = () => {
 export default CallPage;
 CallPage.getLayout = function getLayout(page: any) {
   return (
-    // permissions={Permissions?.SOCIAL_COMPONENTS_CALLING}
-    <Layout guardRoute variant="common">
+    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_CALLING}>
       {page}
     </Layout>
   );

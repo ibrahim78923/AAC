@@ -4,6 +4,8 @@ import { DeleteIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import useCompanies from '../useCompanies';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS } from '@/constants/permission-keys';
 
 const ActionButton = (props?: any) => {
   const { checkedRows, setCheckedRows, isOpen, setIsOpen } = props;
@@ -13,27 +15,27 @@ const ActionButton = (props?: any) => {
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       {checkedRows?.length > 1 ? (
-        //  Remove permissions guard for common components
-        // <PermissionsGuard
-        //   permissions={[
-        //     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.DELETE_ALL_COMPANIES,
-        //   ]}
-        // ></PermissionsGuard>
-        <Button
-          className="small"
-          variant="outlined"
-          color="inherit"
-          startIcon={<DeleteIcon />}
-          onClick={() => {
-            deleteCompanies({ ids: checkedRows });
-            setCheckedRows([]);
-            enqueueSnackbar(`Companies deleted successfully`, {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-          }}
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.DELETE_ALL_COMPANIES,
+          ]}
         >
-          Delete
-        </Button>
+          <Button
+            className="small"
+            variant="outlined"
+            color="inherit"
+            startIcon={<DeleteIcon />}
+            onClick={() => {
+              deleteCompanies({ ids: checkedRows });
+              setCheckedRows([]);
+              enqueueSnackbar(`Companies deleted successfully`, {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              });
+            }}
+          >
+            Delete
+          </Button>
+        </PermissionsGuard>
       ) : (
         <>
           <Button
@@ -58,78 +60,80 @@ const ActionButton = (props?: any) => {
             open={Boolean(selectedValue)}
             onClose={handleClose}
           >
-            {/* Remove permissions guard for common components */}
-            {/* <PermissionsGuard
+            <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.PREVIEW_ALL_COMPANIES,
               ]}
-            > </PermissionsGuard> */}
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setIsOpen({ ...isOpen, previewDrawer: true });
-              }}
             >
-              Preview
-            </MenuItem>
-            {/* Remove permissions guard for common components */}
-            {/* <PermissionsGuard
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpen({ ...isOpen, previewDrawer: true });
+                }}
+              >
+                Preview
+              </MenuItem>
+            </PermissionsGuard>
+
+            <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.REASSIGN_ALL_COMPANIES,
               ]}
-            > </PermissionsGuard> */}
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setIsOpen({ ...isOpen, reassignModal: true });
-              }}
             >
-              Re-assign
-            </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpen({ ...isOpen, reassignModal: true });
+                }}
+              >
+                Re-assign
+              </MenuItem>
+            </PermissionsGuard>
 
-            {/* Remove permissions guard for common components */}
-            {/* <PermissionsGuard
+            <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.EXPORT_ALL_COMPANIES,
               ]}
-            ></PermissionsGuard> */}
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setIsOpen({ ...isOpen, exportModal: true });
-              }}
             >
-              Export
-            </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpen({ ...isOpen, exportModal: true });
+                }}
+              >
+                Export
+              </MenuItem>
+            </PermissionsGuard>
 
-            {/* Remove permissions guard for common components */}
-            {/* <PermissionsGuard
+            <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.DELETE_ALL_COMPANIES,
               ]}
-            ></PermissionsGuard> */}
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setIsOpen({ ...isOpen, deleteModal: true });
-              }}
             >
-              Delete
-            </MenuItem>
-            {/* Remove permissions guard for common components */}
-            {/* <PermissionsGuard
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpen({ ...isOpen, deleteModal: true });
+                }}
+              >
+                Delete
+              </MenuItem>
+            </PermissionsGuard>
+
+            <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.MERGE_ALL_COMPANIES,
               ]}
-            ></PermissionsGuard> */}
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                setIsOpen({ ...isOpen, mergeModal: true });
-              }}
             >
-              Merge
-            </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setIsOpen({ ...isOpen, mergeModal: true });
+                }}
+              >
+                Merge
+              </MenuItem>
+            </PermissionsGuard>
           </Menu>
         </>
       )}

@@ -12,6 +12,8 @@ import {
   RestoreIcon,
 } from '@/assets/icons';
 import { useRouter } from 'next/router';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ActionsBar = (props: any) => {
   const router = useRouter();
@@ -85,82 +87,84 @@ const ActionsBar = (props: any) => {
           </Menu>
         </Box>
         <Link href={AIR_SOCIAL?.CONTACTS_RESTORE}>
-          {/* Remove permissions guard for common components */}
-          {/* <PermissionsGuard
+          <PermissionsGuard
             permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.RESTORE]}
-          > </PermissionsGuard> */}
-          <Button
-            variant="outlined"
-            className="small"
-            color="inherit"
-            sx={{ color: theme?.palette?.custom['main'] }}
-            startIcon={<RestoreIcon />}
           >
-            Restore
-          </Button>
+            <Button
+              variant="outlined"
+              className="small"
+              color="inherit"
+              sx={{ color: theme?.palette?.custom['main'] }}
+              startIcon={<RestoreIcon />}
+            >
+              Restore
+            </Button>
+          </PermissionsGuard>
         </Link>
         <>
-          {/* Remove permissions guard for common components */}
-          {/* <PermissionsGuard
+          <PermissionsGuard
             permissions={[
               SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CUSTOMIZE_COLUMNS,
             ]}
-          > </PermissionsGuard> */}
+          >
+            <Button
+              onClick={handleOpenCustomize}
+              variant="outlined"
+              className="small"
+              color="inherit"
+              sx={{ color: theme?.palette?.custom['main'] }}
+            >
+              <CutomizeIcon /> &nbsp; Customize
+            </Button>
+          </PermissionsGuard>
+        </>
+
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
+        >
           <Button
-            onClick={handleOpenCustomize}
             variant="outlined"
             className="small"
             color="inherit"
             sx={{ color: theme?.palette?.custom['main'] }}
+            onClick={handleOpenFilters}
           >
-            <CutomizeIcon /> &nbsp; Customize
+            <FilterIcon />
+            &nbsp; Filter
           </Button>
-        </>
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
-          permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
-        ></PermissionsGuard> */}
-        <Button
-          variant="outlined"
-          className="small"
-          color="inherit"
-          sx={{ color: theme?.palette?.custom['main'] }}
-          onClick={handleOpenFilters}
-        >
-          <FilterIcon />
-          &nbsp; Filter
-        </Button>
+        </PermissionsGuard>
 
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
+        <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
-        > </PermissionsGuard> */}
-        <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshTasksIcon />
-          </Button>
-        </Tooltip>
-        {/* Remove permissions guard for common components */}
-        {/* <PermissionsGuard
+        >
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+        </PermissionsGuard>
+
+        <PermissionsGuard
           permissions={[
             SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.EXPORT_CONTACTS,
           ]}
-        > </PermissionsGuard> */}
-        <Button
-          variant="outlined"
-          className="small"
-          color="inherit"
-          sx={{ color: theme?.palette?.custom['main'] }}
-          onClick={handleOpenModalExport}
         >
-          <ExportCloudIcon />
-          &nbsp; Export
-        </Button>
+          <Button
+            variant="outlined"
+            className="small"
+            color="inherit"
+            sx={{ color: theme?.palette?.custom['main'] }}
+            onClick={handleOpenModalExport}
+          >
+            <ExportCloudIcon />
+            &nbsp; Export
+          </Button>
+        </PermissionsGuard>
       </Box>
     </Box>
   );

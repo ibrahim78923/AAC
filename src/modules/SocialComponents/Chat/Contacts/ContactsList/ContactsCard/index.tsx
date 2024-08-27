@@ -27,6 +27,8 @@ import { enqueueSnackbar } from 'notistack';
 import { useUpdateChatMutation } from '@/services/chat';
 import { PAGINATION } from '@/config';
 import { ContactsCardPropsI } from './contactsCard.interface';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactsCard = ({
   cardData,
@@ -233,50 +235,50 @@ const ContactsCard = ({
               }}
             >
               {isCardHover && (
-                // Remove permissions guard for common components
-                // <PermissionsGuard
-                //   permissions={
-                //     chatMode === 'groupChat'
-                //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
-                //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
-                //   }
-                // ></PermissionsGuard>
-                <Box
-                  onClick={() => setIsDeleteModal(true)}
-                  sx={{ cursor: 'pointer' }}
+                <PermissionsGuard
+                  permissions={
+                    chatMode === 'groupChat'
+                      ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
+                      : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
+                  }
                 >
-                  <DeleteIcon />
-                </Box>
+                  <Box
+                    onClick={() => setIsDeleteModal(true)}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <DeleteIcon />
+                  </Box>
+                </PermissionsGuard>
               )}
               {cardData?.item?.isPinned ? (
-                // Remove permissions guard for common components
-                // <PermissionsGuard
-                //   permissions={
-                //     chatMode === 'groupChat'
-                //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
-                //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
-                //   }
-                // ></PermissionsGuard>
-                <Box
-                  onClick={() => updateChatHandler('isPinned')}
-                  sx={{ cursor: 'pointer' }}
+                <PermissionsGuard
+                  permissions={
+                    chatMode === 'groupChat'
+                      ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
+                      : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
+                  }
                 >
-                  <PinIcon color={theme?.palette?.warning?.main} />
-                </Box>
+                  <Box
+                    onClick={() => updateChatHandler('isPinned')}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <PinIcon color={theme?.palette?.warning?.main} />
+                  </Box>
+                </PermissionsGuard>
               ) : (
                 <>
                   {isCardHover && (
-                    // Remove permissions guard for common components
-                    // <PermissionsGuard
-                    //   permissions={
-                    //     chatMode === 'groupChat'
-                    //       ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
-                    //       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
-                    //   }
-                    // >  </PermissionsGuard>
-                    <Box onClick={() => updateChatHandler('isPinned')}>
-                      <PinIcon color={theme?.palette?.custom?.main} />
-                    </Box>
+                    <PermissionsGuard
+                      permissions={
+                        chatMode === 'groupChat'
+                          ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_GROUP]
+                          : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.PIN_CHAT]
+                      }
+                    >
+                      <Box onClick={() => updateChatHandler('isPinned')}>
+                        <PinIcon color={theme?.palette?.custom?.main} />
+                      </Box>
+                    </PermissionsGuard>
                   )}
                 </>
               )}

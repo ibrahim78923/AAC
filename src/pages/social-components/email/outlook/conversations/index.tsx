@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import EmailChat from '@/modules/SocialComponents/emails/OutlookMail/Chat';
 function EmailConversations() {
@@ -6,8 +7,7 @@ function EmailConversations() {
 export default EmailConversations;
 EmailConversations.getLayout = function getLayout(page: any) {
   return (
-    // permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
-    <Layout guardRoute variant="common">
+    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}>
       {page}
     </Layout>
   );
