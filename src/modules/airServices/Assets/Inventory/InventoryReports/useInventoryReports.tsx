@@ -1,87 +1,125 @@
-import { useRouter } from 'next/router';
-import { CardsData } from './InventoryReports.data';
+import { NextRouter, useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { pxToRem } from '@/utils/getFontValue';
-import { useState } from 'react';
+import { filteredEmptyValues, makeDateTime } from '@/utils/api';
+import { useRef, useState } from 'react';
+import {
+  inventoryReportsCardsDataDynamic,
+  inventoryReportsChartDataDynamic,
+  inventoryTableFilterOptions,
+} from './InventoryReports.data';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
+import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
+import { htmlToPdfConvert } from '@/utils/file';
 
-export default function useInventoryReports() {
-  const router: any = useRouter();
-  const cardsData = CardsData();
+export const useInventoryReports = () => {
+  const router: NextRouter = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasDate, setHasDate] = useState(false);
+  const [filterDate, setFilterDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const downloadRef = useRef(null);
 
   const methods: any = useForm({
-    defaultValues: { assets: '' },
+    defaultValues: {
+      status: inventoryTableFilterOptions?.[ARRAY_INDEX?.ZERO],
+      createdDate: {
+        startDate: null,
+        endDate: null,
+        key: 'selection',
+      },
+    },
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, getValues, setValue, watch } = methods;
+  watch?.();
 
-  const onFilterSubmit = () => {};
+  const apiDataParameter = {
+    queryParams: {
+      moduleType: MODULE_TYPE?.INVENTORY,
+      ...(hasDate && filterDate?.startDate
+        ? { startDate: filterDate?.startDate }
+        : {}),
+      ...(hasDate && filterDate?.endDate
+        ? { endDate: filterDate?.endDate }
+        : {}),
+      ...(!!getValues?.('status')?._id
+        ? { requestedKey: getValues?.('status')?.value }
+        : {}),
+    },
+  };
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const onDateFilterSubmit = (setAnchorElDate: any) => {
+    const startDate = makeDateTime(
+      new Date(getValues?.('createdDate')?.startDate),
+      new Date(),
+    )?.toISOString();
+    const endDate = makeDateTime(
+      new Date(getValues?.('createdDate')?.endDate),
+      new Date(),
+    )?.toISOString();
+    setFilterDate({ startDate, endDate });
+    setHasDate?.(true);
+    setAnchorElDate?.(null);
+  };
 
   const handleDownload = async () => {
+    if (isLoading || isFetching || isError) return;
     setLoading(true);
-    const content = document?.getElementById('inventory-reports');
+    try {
+      await htmlToPdfConvert?.(downloadRef, 'Inventory_Report', 2);
+    } catch (error) {}
+    setLoading(false);
+  };
 
-    if (content) {
-      const textElements = content?.querySelectorAll(
-        'h6, h5, th > div, .MuiChip-root > span',
-      );
-      textElements?.forEach((textElement: any) => {
-        textElement!.style!.marginTop = pxToRem(-15);
-        textElement!.style!.overflow = 'visible';
-      });
+  const inventoryData = data?.data?.allAssestDetails;
+  const inventoryReportsCardsData = inventoryReportsCardsDataDynamic(
+    data?.data,
+  );
+  const inventoryReportsChartsData = filteredEmptyValues(
+    inventoryReportsChartDataDynamic(data?.data),
+  );
 
-      const inputElement = content?.querySelectorAll(
-        'input, .MuiAutocomplete-input',
-      );
-      inputElement?.forEach((textElement: any) => {
-        textElement!.style!.marginTop = pxToRem(-15);
-        textElement!.style!.overflow = 'visible';
-        textElement!.style!.height = pxToRem(25);
-      });
-
-      try {
-        const canvas = await html2canvas(content, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-        });
-
-        const imageDataURL = canvas?.toDataURL('image/png');
-
-        const pdf = new jsPDF({
-          orientation: 'landscape',
-          unit: 'px',
-          format: [canvas?.width, canvas?.height],
-        });
-        pdf?.addImage(imageDataURL, 'PNG', 0, 0, canvas?.width, canvas?.height);
-        pdf?.save('Inventory Report.pdf');
-        successSnackbar('Report Downloaded Successfully!');
-      } catch (error) {
-        errorSnackbar();
-      } finally {
-        const textElements = content?.querySelectorAll(
-          'h6, h5, th > div, .MuiChip-root > span, input, .MuiAutocomplete-input',
-        );
-        textElements?.forEach((textElement: any) => {
-          textElement!.style!.marginTop = '';
-          textElement!.style!.overflow = '';
-          textElement!.style!.height = '';
-        });
-        setLoading(false);
-      }
-    }
+  const shouldDateSet = () => {
+    if (hasDate) return;
+    setValue('createdDate', {
+      startDate: null,
+      endDate: null,
+      key: 'selection',
+    });
   };
 
   return {
     router,
     handleDownload,
     loading,
-    cardsData,
+    inventoryReportsChartsData,
+    inventoryReportsCardsData,
     methods,
     handleSubmit,
-    onFilterSubmit,
+    onDateFilterSubmit,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    downloadRef,
+    setHasDate,
+    shouldDateSet,
+    inventoryData,
   };
-}
+};

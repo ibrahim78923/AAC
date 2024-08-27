@@ -446,6 +446,7 @@ export const MODULE_TYPE = {
   CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
   SOFTWARE: 'SOFTWARE',
   PURCHASE_ORDER: 'PURCHASE_ORDER',
+  INVENTORY: 'INVENTORY',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -1163,4 +1164,11 @@ export const PURCHASE_ORDER_REPORT_STATUS: any = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
   PENDING: 'Pending',
+};
+export const INVENTORY_REPORT_STATUS = {
+  ALL: 'All Assets',
+  HARDWARE: 'Hardware',
+  CONTRACTS: 'Contracts',
+  SOFTWARE: 'Backup Software',
+  PURCHASE_ORDER: 'Purchase Orders',
 };
