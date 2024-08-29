@@ -35,7 +35,7 @@ export const tableEditorData: any = {
   CONTRACT: [
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'type',
+      fieldName: 'contractType',
       collectionName: COLLECTION_NAME?.CONTRACT_TYPE,
     },
     {

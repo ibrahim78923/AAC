@@ -1,12 +1,11 @@
 import { PAGINATION } from '@/config';
 import { useGetImportListQuery } from '@/services/airOperations/data-management/import';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { importTabColumnsFunction } from './ImportTab.data';
-import { errorSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { ImportTabI } from './ImportTab.interface';
-import jsPDF from 'jspdf';
+import { htmlToPdfConvert } from '@/utils/file';
 
 export const useImportTab: () => ImportTabI = () => {
   const [selectedTabList, setSelectedTabList] = useState([]);
@@ -15,6 +14,8 @@ export const useImportTab: () => ImportTabI = () => {
   const [search, setSearch] = useState<any>('');
   const [filterValues, setFilterValues] = useState<any>({});
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const downloadRef = useRef(null);
 
   const filterBody = {
     product: filterValues?.product,
@@ -41,15 +42,13 @@ export const useImportTab: () => ImportTabI = () => {
     setSelectedTabList,
   );
 
-  const handleDownload = () => {
-    if (!data?.data?.datamanagements?.length) {
-      errorSnackbar('No data to download');
-    } else {
-      const importTable: any = new jsPDF('portrait', 'px', 'a1');
-      importTable.html(document.getElementById('importTable')).then(() => {
-        importTable.save('Import Table.pdf');
-      });
-    }
+  const handleDownload = async () => {
+    if (isLoading || isFetching || isError) return;
+    setLoading(true);
+    try {
+      await htmlToPdfConvert?.(downloadRef, 'Import_List', 10);
+    } catch (error) {}
+    setLoading(false);
   };
 
   return {
@@ -69,5 +68,7 @@ export const useImportTab: () => ImportTabI = () => {
     filterValues,
     importTabColumns,
     handleDownload,
+    downloadRef,
+    loading,
   };
 };

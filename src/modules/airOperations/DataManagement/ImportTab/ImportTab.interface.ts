@@ -40,6 +40,8 @@ export interface ImportTabI {
   filterValues: Record<string, any>;
   importTabColumns: any[];
   handleDownload: any;
+  downloadRef: any;
+  loading: boolean;
 }
 
 export interface ImportDataRow {

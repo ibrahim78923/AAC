@@ -81,12 +81,12 @@ export const useInventoryReports = () => {
     if (isLoading || isFetching || isError) return;
     setLoading(true);
     try {
-      await htmlToPdfConvert?.(downloadRef, 'Inventory_Report', 2);
+      await htmlToPdfConvert?.(downloadRef, 'Inventory_Report');
     } catch (error) {}
     setLoading(false);
   };
 
-  const inventoryData = data?.data?.allAssestDetails;
+  const inventoryData = data?.data;
   const inventoryReportsCardsData = inventoryReportsCardsDataDynamic(
     data?.data,
   );
@@ -121,5 +121,6 @@ export const useInventoryReports = () => {
     setHasDate,
     shouldDateSet,
     inventoryData,
+    getValues,
   };
 };

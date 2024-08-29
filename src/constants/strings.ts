@@ -533,6 +533,8 @@ export const IMPORT_ACTION_TYPE = {
   DEALS: 'DEALS',
   TASKS: 'TASKS',
   PRODUCT: 'product',
+  Sales: 'Sales',
+  Services: 'Services',
 };
 
 export const OBJECT_URL_IMPORT = {

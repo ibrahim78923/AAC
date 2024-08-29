@@ -1,7 +1,7 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { SoftwareReportsCards } from './SoftwareReportsCards';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -112,6 +112,8 @@ export const SoftwareReports = () => {
           </LoadingButton>
         </PermissionsGuard>
       </PageTitledHeader>
+
+      <Divider sx={{ mb: 2 }} />
 
       <PermissionsGuard
         permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}

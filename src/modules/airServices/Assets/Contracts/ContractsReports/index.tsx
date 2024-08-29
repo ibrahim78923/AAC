@@ -40,14 +40,32 @@ export const ContractsReports = () => {
     isFetching,
     isError,
     refetch,
-    isSuccess,
     data,
+    getValues,
   } = useContractReports();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError)
+    return (
+      <>
+        <PageTitledHeader
+          title={'Contract Reports'}
+          canMovedBack
+          moveBack={() =>
+            router?.push({
+              pathname: AIR_SERVICES?.REPORTS,
+            })
+          }
+        />
+        <ApiErrorState canRefresh refresh={refetch} />;
+      </>
+    );
+
   return (
     <>
       <FormProvider methods={methods}>
         <PageTitledHeader
-          title={'Contract'}
+          title={'Contract Reports'}
           canMovedBack
           moveBack={() => router?.push({ pathname: AIR_SERVICES?.REPORTS })}
         >
@@ -100,93 +118,81 @@ export const ContractsReports = () => {
             </PermissionsGuard>
           </Box>
         </PageTitledHeader>
-        <Divider />
-        <Box ref={downloadRef}>
-          {isLoading || isFetching ? (
-            <SkeletonTable />
-          ) : isError ? (
-            <ApiErrorState canRefresh refresh={() => refetch?.()} />
-          ) : (
-            <PermissionsGuard
-              permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
-            >
-              <Box id={'contract-reports'}>
-                <ContractReportsCard
-                  contractReportsCardData={contractReportsCardData}
-                />
 
-                <Grid container spacing={2} mt={2}>
-                  <Grid item xs={12} md={4}>
-                    <Box
-                      height={'45vh'}
-                      boxShadow={1}
-                      border={'1px solid'}
-                      borderColor={'custom.off_white_one'}
-                      borderRadius={2}
-                      px={2}
-                      py={3}
-                    >
-                      <Typography
-                        mb={2}
-                        variant={'h5'}
-                        color={'slateBlue.main'}
-                      >
-                        Contracts Distribution
-                      </Typography>
-                      {!!Object?.keys(contractReportsChartData ?? {})
-                        ?.length ? (
-                        <CustomChart
-                          type={'pie'}
-                          series={Object?.values(
-                            contractReportsChartData ?? {},
-                          )}
-                          options={{
-                            labels: Object?.keys(
-                              contractReportsChartData ?? {},
-                            ),
-                          }}
-                        />
-                      ) : (
-                        <NoData height="100%" />
-                      )}
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={8}>
-                    <Box
-                      boxShadow={1}
-                      border={'1px solid'}
-                      borderColor={'custom.off_white_one'}
-                      borderRadius={2}
-                      px={2}
-                      py={3}
-                      height={'100%'}
-                    >
-                      <Grid container mb={1}>
-                        <Grid item xs={3}>
-                          <RHFAutocomplete
-                            name={'contracts'}
-                            placeholder={'All Contracts'}
-                            disabled={loading}
-                            options={contractsTypeOptions}
-                            getOptionLabel={(option: any) => option?.label}
-                          />
-                        </Grid>
-                      </Grid>
-                      <TanstackTable
-                        data={data?.data?.allContractDetails?.slice(0, 10)}
-                        columns={contractReportsTabelCoulmns}
-                        isLoading={isLoading}
-                        isError={isError}
-                        isFetching={isFetching}
-                        isSuccess={isSuccess}
+        <Divider sx={{ mb: 2 }} />
+
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
+        >
+          <Box ref={downloadRef}>
+            <ContractReportsCard
+              contractReportsCardData={contractReportsCardData}
+            />
+
+            <Grid container spacing={2} mt={2}>
+              <Grid item xs={12} md={4}>
+                <Box
+                  height={'45vh'}
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                >
+                  <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
+                    Contracts Distribution
+                  </Typography>
+                  {!!Object?.keys(contractReportsChartData ?? {})?.length ? (
+                    <CustomChart
+                      type={'pie'}
+                      series={Object?.values(contractReportsChartData ?? {})}
+                      options={{
+                        labels: Object?.keys(contractReportsChartData ?? {}),
+                        dataLabels: {
+                          enabled: true,
+                        },
+                      }}
+                    />
+                  ) : (
+                    <NoData height="100%" />
+                  )}
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Box
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                  height={'100%'}
+                >
+                  <Grid container mb={1}>
+                    <Grid item xs={3}>
+                      <RHFAutocomplete
+                        name={'contracts'}
+                        placeholder={'All Contracts'}
+                        disabled={loading}
+                        options={contractsTypeOptions}
+                        getOptionLabel={(option: any) => option?.label}
                       />
-                    </Box>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Box>
-            </PermissionsGuard>
-          )}
-        </Box>
+                  <TanstackTable
+                    data={
+                      data?.data?.[
+                        `${getValues?.('contracts')?._id}Details`
+                      ]?.slice(-5) ?? []
+                    }
+                    columns={contractReportsTabelCoulmns}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </PermissionsGuard>
       </FormProvider>
     </>
   );

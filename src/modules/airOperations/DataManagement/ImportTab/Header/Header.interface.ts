@@ -6,4 +6,5 @@ export interface HeaderI {
   filterValues: Record<string, any>;
   setPage: (page: number) => void;
   handleDownload: any;
+  loading: boolean;
 }

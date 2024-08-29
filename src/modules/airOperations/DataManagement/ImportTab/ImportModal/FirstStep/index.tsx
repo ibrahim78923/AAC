@@ -4,7 +4,7 @@ import { importDataField, productData } from '../ImportModal.data';
 import { FirstStepI } from './FirstStep.interface';
 
 const FirstStep = (props: FirstStepI) => {
-  const { handleSelect, importLog, product } = props;
+  const { handleSelect, importLog, product, productOptions } = props;
 
   return (
     <>
@@ -13,7 +13,7 @@ const FirstStep = (props: FirstStepI) => {
       </Typography>
       <Box my={2.4}>
         <Grid container>
-          {importDataField?.map(
+          {importDataField(productOptions)?.map(
             (item: any) =>
               item?.tag === 'product' && (
                 <Grid item xs={12} key={item?.id}>

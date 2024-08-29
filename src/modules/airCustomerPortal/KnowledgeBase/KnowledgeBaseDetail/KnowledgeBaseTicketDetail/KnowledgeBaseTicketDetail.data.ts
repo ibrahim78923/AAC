@@ -2,9 +2,9 @@ import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const feedbackValidationSchema = Yup?.object()?.shape({
-  feedback: Yup.array()
-    .required('Field is Required')
-    .min(1, 'At least one field is required'),
+  feedback: Yup?.array()
+    ?.required('Field is Required')
+    ?.min(1, 'At least one field is required'),
   comment: Yup?.string(),
 });
 export const feedbackDefaultValues = {

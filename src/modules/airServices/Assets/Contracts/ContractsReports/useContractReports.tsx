@@ -56,7 +56,6 @@ export const useContractReports = () => {
     isFetching,
     isError,
     refetch,
-    isSuccess,
   }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
     apiDataParameter,
     {
@@ -117,7 +116,7 @@ export const useContractReports = () => {
     isLoading,
     isFetching,
     isError,
-    isSuccess,
     data,
+    getValues,
   };
 };

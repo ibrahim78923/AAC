@@ -3,6 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import {
   importDefaultValues,
   importValidationSchema,
+  productOptionsFunction,
 } from './ImportModal.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,8 +19,10 @@ import {
   IMPORT_OBJECT_TYPE,
   IMPORT_PRODUCTS_NAME,
   OBJECT_URL_IMPORT,
+  PRODUCTS_LISTS,
 } from '@/constants/strings';
 import { Theme, useTheme } from '@mui/material';
+import { useGetAuthAccountsForOperationsReportsQuery } from '@/services/airOperations/reports';
 
 export const useImportModal = () => {
   const [csvFileData, setCsvFileData] = useState<any[]>([]);
@@ -29,11 +32,28 @@ export const useImportModal = () => {
   const [importLog, setImportLog] = useState('');
   const [fileResponse, setFileResponse] = useState<any>(null);
   const theme: Theme = useTheme();
+
   const methodsImportModalForm = useForm<any>({
     resolver: yupResolver(importValidationSchema(modalStep)),
     defaultValues: importDefaultValues,
   });
 
+  const { data, isLoading, isFetching } =
+    useGetAuthAccountsForOperationsReportsQuery?.(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
+
+  const hasAccounts = data?.data?.map(
+    (account: any) =>
+      (account?.name === PRODUCTS_LISTS?.AIR_SALES ||
+        account?.name === PRODUCTS_LISTS?.AIR_SERVICES) &&
+      account?.name,
+  );
+
+  const productOptions = productOptionsFunction(hasAccounts);
   const product = methodsImportModalForm?.watch()?.product;
   const importDeals = methodsImportModalForm?.watch()?.importDeals;
 
@@ -288,5 +308,8 @@ export const useImportModal = () => {
     importFileStatus,
     newImportFileForServicesStatus,
     theme,
+    productOptions,
+    isLoading,
+    isFetching,
   };
 };

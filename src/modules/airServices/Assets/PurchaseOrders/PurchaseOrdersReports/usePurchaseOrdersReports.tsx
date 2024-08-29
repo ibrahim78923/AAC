@@ -5,7 +5,6 @@ import { useRef, useState } from 'react';
 import {
   purchaseOrderReportsCardsDataDynamic,
   purchaseOrderReportsChartDataDynamic,
-  purchaseOrderReportsTableColumnsDynamic,
   purchaseOrderTableFilterOptions,
 } from './PurchaseOrdersReports.data';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
@@ -87,9 +86,7 @@ export const usePurchaseOrderReports = () => {
     setLoading(false);
   };
 
-  const purchaseOrderData = data?.data?.allPurchaseOrderDetails;
-  const purchaseOrderReportsTableColumns =
-    purchaseOrderReportsTableColumnsDynamic?.();
+  const purchaseOrderData = data?.data;
   const purchaseOrderReportsCardsData = purchaseOrderReportsCardsDataDynamic(
     data?.data,
   );
@@ -110,7 +107,6 @@ export const usePurchaseOrderReports = () => {
     router,
     handleDownload,
     loading,
-    purchaseOrderReportsTableColumns,
     purchaseOrderReportsChartsData,
     purchaseOrderReportsCardsData,
     methods,
@@ -125,5 +121,6 @@ export const usePurchaseOrderReports = () => {
     setHasDate,
     shouldDateSet,
     purchaseOrderData,
+    getValues,
   };
 };

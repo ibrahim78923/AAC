@@ -3,7 +3,7 @@ import { Box, Chip, Grid, Typography } from '@mui/material';
 
 export default function ReportsCards({ cardsData }: any) {
   return (
-    <Grid container spacing={2} my={2}>
+    <Grid container spacing={2} mb={2}>
       {Object?.entries(cardsData)?.map(([key, value]: any) => (
         <Grid item xs={12} md={6} lg={3} key={key}>
           <Box

@@ -6,6 +6,7 @@ import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { HeaderI } from './Header.interface';
+import { LoadingButton } from '@mui/lab';
 
 export const Header = (props: HeaderI) => {
   const {
@@ -16,6 +17,7 @@ export const Header = (props: HeaderI) => {
     setPage,
     filterValues,
     handleDownload,
+    loading,
   } = props;
   return (
     <Box
@@ -41,14 +43,16 @@ export const Header = (props: HeaderI) => {
             AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
           ]}
         >
-          <Button
+          <LoadingButton
             variant="outlined"
             startIcon={<DownloadIcon />}
             color="secondary"
             onClick={handleDownload}
+            disabled={loading}
+            loading={loading}
           >
             Download
-          </Button>
+          </LoadingButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[

@@ -20,6 +20,8 @@ export const ImportTab = () => {
     filterValues,
     importTabColumns,
     handleDownload,
+    downloadRef,
+    loading,
   }: ImportTabI = useImportTab();
 
   return (
@@ -32,8 +34,9 @@ export const ImportTab = () => {
         setPage={setPage}
         filterValues={filterValues}
         handleDownload={handleDownload}
+        loading={loading}
       />
-      <Box id="importTable">
+      <Box ref={downloadRef}>
         <TanstackTable
           columns={importTabColumns}
           data={data?.data?.datamanagements}

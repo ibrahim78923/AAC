@@ -62,7 +62,7 @@ export const filterFields = (userList: any) => [
       placeholder: 'User',
       apiQuery: userList,
       getOptionLabel: (option: UsersDropdownOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
+        option?.firstName + ' ' + option?.lastName,
     },
     gridLength: 12,
     component: RHFAutocompleteAsync,

@@ -60,7 +60,6 @@ export const KnowledgeBaseDetail = () => {
           canMovedBack
           moveBack={handleKnowledgeBase}
         />
-        <br />
         <Box>
           <Search label="Search Here" setSearchBy={SetSearchValue} />
         </Box>
@@ -69,7 +68,7 @@ export const KnowledgeBaseDetail = () => {
           <SkeletonTable />
         ) : (
           <>
-            <Box height={'34rem'} overflow={'scroll'}>
+            <Box height={'28rem'} overflow={'scroll'}>
               {!!articlesData?.length ? (
                 articlesData?.map((item: any) => (
                   <KnowledgeBaseTicket

@@ -60,7 +60,7 @@ export const htmlToPdfConvert = async (
     const pdf = new jsPDF('p', 'pt', [clientWidth, clientHeight]);
     const pdfWidth = pdf?.internal?.pageSize?.getWidth();
 
-    const dataUrl = await toPng(elementRef?.current, { cacheBust: false });
+    const dataUrl = await toPng(elementRef?.current, { cacheBust: true });
 
     let imgHeight =
       (contentHeight * pdfWidth) / elementRef?.current?.clientWidth;
@@ -101,7 +101,7 @@ export const htmlToPngConvert = async (
 
     document?.body?.appendChild?.(wrapper);
 
-    const dataUrl = await toPng(wrapper, { cacheBust: false });
+    const dataUrl = await toPng(wrapper, { cacheBust: true });
 
     const link = document?.createElement?.('a');
     link.download = `${name}.png`;

@@ -1,11 +1,11 @@
-import { PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX, PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
 
 export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
   [PURCHASE_ORDER_REPORT_STATUS?.ALL]: 'allPurchaseOrder',
-  [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]: 'approved',
-  [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]: 'rejected',
-  [PURCHASE_ORDER_REPORT_STATUS?.PENDING]: 'pendings',
-  [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]: 'recieved',
+  [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]: 'purchaseApproved',
+  [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]: 'purchaseRejected',
+  [PURCHASE_ORDER_REPORT_STATUS?.PENDING]: 'purchasePending',
+  [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]: 'purchaseReceived',
 };
 
 export const purchaseOrderReportsCardsDataDynamic = (data: any) => {
@@ -72,33 +72,46 @@ export const purchaseOrderReportsChartDataDynamic = (data: any) => {
 
 export const purchaseOrderTableFilterOptions = [
   {
-    _id: PURCHASE_ORDER_REPORT_STATUS?.ALL,
+    _id: 6756,
     label: PURCHASE_ORDER_REPORT_STATUS?.ALL,
-    value: 'allPurchaseOrder',
+    value:
+      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[PURCHASE_ORDER_REPORT_STATUS?.ALL],
   },
   {
-    _id: PURCHASE_ORDER_REPORT_STATUS?.APPROVED,
+    _id: 5465,
     label: PURCHASE_ORDER_REPORT_STATUS?.APPROVED,
-    value: 'purchaseApproved',
+    value:
+      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
+        PURCHASE_ORDER_REPORT_STATUS?.APPROVED
+      ],
   },
   {
-    _id: PURCHASE_ORDER_REPORT_STATUS?.REJECTED,
+    _id: 5367,
     label: PURCHASE_ORDER_REPORT_STATUS?.REJECTED,
-    value: 'purchaseRejected',
+    value:
+      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
+        PURCHASE_ORDER_REPORT_STATUS?.REJECTED
+      ],
   },
   {
-    _id: PURCHASE_ORDER_REPORT_STATUS?.PENDING,
+    _id: 3536,
     label: PURCHASE_ORDER_REPORT_STATUS?.PENDING,
-    value: 'purchasePending',
+    value:
+      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
+        PURCHASE_ORDER_REPORT_STATUS?.PENDING
+      ],
   },
   {
-    _id: PURCHASE_ORDER_REPORT_STATUS?.RECEIVED,
+    _id: 3563,
     label: PURCHASE_ORDER_REPORT_STATUS?.RECEIVED,
-    value: 'purchaseReceived',
+    value:
+      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
+        PURCHASE_ORDER_REPORT_STATUS?.RECEIVED
+      ],
   },
 ];
 
-export const purchaseOrderReportsTableColumnsDynamic = () => [
+export const purchaseOrderReportsTableColumns = [
   {
     accessorFn: (row: any) => row?.orderName,
     id: 'orderName',
@@ -106,7 +119,7 @@ export const purchaseOrderReportsTableColumnsDynamic = () => [
     cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.vendor,
+    accessorFn: (row: any) => row?.vendorDetails?.name,
     id: 'vendor',
     header: 'Vendor',
     cell: (info: any) => info?.getValue() ?? '---',
@@ -118,12 +131,10 @@ export const purchaseOrderReportsTableColumnsDynamic = () => [
     cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.totalCost,
+    accessorFn: (row: any) => row?.purchaseDetails[ARRAY_INDEX?.ZERO]?.total,
     id: 'totalCost',
     header: 'Total Cost (£)',
-    cell: (info: any) => {
-      const totalCost = info?.row?.original?.purchaseDetails[0]?.total;
-      return totalCost !== undefined ? totalCost : '---';
-    },
+    cell: (info: any) =>
+      info?.getValue() !== undefined ? info?.getValue() : '---',
   },
 ];

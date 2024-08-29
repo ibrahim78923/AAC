@@ -79,7 +79,7 @@ export const TicketsReports = () => {
         </PermissionsGuard>
       </PageTitledHeader>
 
-      <Divider />
+      <Divider sx={{ mb: 2 }} />
 
       {isLoading || isFetching ? (
         <SkeletonTable />
@@ -90,7 +90,7 @@ export const TicketsReports = () => {
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <Grid container spacing={2} my={2}>
+            <Grid container spacing={2} mb={2}>
               {cardOptions?.(data?.data)?.map((item: any) => (
                 <Grid item xs={12} md={6} lg={3} key={item?.id}>
                   <TicketsReportCard
