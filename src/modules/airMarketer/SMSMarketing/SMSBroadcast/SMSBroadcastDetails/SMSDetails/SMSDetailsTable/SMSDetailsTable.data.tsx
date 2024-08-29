@@ -4,11 +4,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export const smsDetailsColumns: any = (setOpenModalDelete: any) => {
   return [
     {
-      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
+      accessorFn: (row: any) => row,
       id: 'name',
       isSortable: false,
       header: 'Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) =>
+        `${info?.row?.original?.firstName} ${info?.row?.original?.lastName}`,
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,

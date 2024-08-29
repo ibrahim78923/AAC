@@ -181,7 +181,7 @@ const CreateBroadcast = () => {
                           {templateDetailsVariables?.map((variable: any) => (
                             <Grid item xs={6} key={variable}>
                               <RHFTextField
-                                name={variable}
+                                name={`field_${variable}`}
                                 placeholder={`Enter ${variable}`}
                                 size="small"
                                 fullWidth

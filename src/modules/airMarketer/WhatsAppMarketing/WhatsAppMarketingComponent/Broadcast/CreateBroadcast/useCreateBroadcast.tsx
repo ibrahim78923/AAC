@@ -108,7 +108,7 @@ const useCreateBroadcast = () => {
 
   const templateDetailsVariables = processString(templateData?.detail);
   const variableValues = templateDetailsVariables?.map((variable) =>
-    watch(variable),
+    watch(`field_${variable}`),
   );
 
   useEffect(() => {
@@ -166,17 +166,21 @@ const useCreateBroadcast = () => {
   const onSubmit = async (data: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
     const cleanedDetailsText = removeHtmlTags(detailsMsg);
+    templateDetailsVariables?.forEach((item) => {
+      delete data[`field_${item}`];
+    });
 
     const payloadData: any = {
-      name: data.broadcastName,
+      ...data,
       senderId: user?._id,
       campaignId: data?.campaignId?._id,
       templateId: data?.templateId?._id,
       templateSid: templateData?.sid,
       status: createStatus,
       detail: cleanedDetailsText,
-      variables: templateDetailsVariables,
+      variables: variableValues,
     };
+
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
       payloadData.contactGroupId = [];
       payloadData.recipients = selectedContactsData?.map(
@@ -249,14 +253,13 @@ const useCreateBroadcast = () => {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
       }
       delete body?.customFields;
-      delete body?.detail;
       Object.keys(body).forEach((key) => {
         formData.append(key, JSON.stringify(body[key]));
       });
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();
       successSnackbar('Broadcast Created Successfully');
-      router?.back();
+      // router?.back();
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
