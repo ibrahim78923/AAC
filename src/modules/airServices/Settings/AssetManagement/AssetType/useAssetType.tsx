@@ -25,8 +25,10 @@ export default function useAssetType() {
     meta: false,
   };
 
-  const { data, isLoading, isFetching, isError } =
-    useGetAssetTypeFieldsQuery(params);
+  const { data, isLoading, isFetching, isError } = useGetAssetTypeFieldsQuery(
+    params,
+    { refetchOnMountOrArgChange: true },
+  );
 
   return {
     theme,
