@@ -29,7 +29,7 @@ export const dataArray = [
     componentProps: {
       name: 'name',
       label: 'Status Name',
-      placeholder:'Enter status name',
+      placeholder: 'Enter status name',
       fullWidth: true,
       disable: true,
       required: true,
@@ -41,7 +41,7 @@ export const dataArray = [
     componentProps: {
       name: 'description',
       label: 'Description',
-      placeholder:'Enter description...',
+      placeholder: 'Enter description...',
       fullWidth: true,
       required: true,
     },

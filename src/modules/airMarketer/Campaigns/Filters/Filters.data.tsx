@@ -33,7 +33,9 @@ export const dataArray = (userListData: any, organizationId: any) => {
         fullWidth: true,
         placeholder: 'Select Status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
-        getOptionLabel: (option:any) => option?.charAt(indexNumbers?.ZERO)?.toUpperCase() + option?.slice(indexNumbers?.ONE),
+        getOptionLabel: (option: any) =>
+          option?.charAt(indexNumbers?.ZERO)?.toUpperCase() +
+          option?.slice(indexNumbers?.ONE),
       },
       component: RHFAutocomplete,
       md: 12,
