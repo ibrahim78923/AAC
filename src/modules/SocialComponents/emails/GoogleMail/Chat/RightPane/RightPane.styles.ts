@@ -19,7 +19,8 @@ export const styles = {
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     gap: '14px',
-    mb: '24px',
+    mb: '12px',
+    width: '100%',
   },
   content: {
     p: '14px',

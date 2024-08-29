@@ -48,7 +48,7 @@ const useCreateViewCompany = (setIsCreateView: any, isCreateView: any) => {
       name: values?.name,
       apiUrl: values?.apiUrl,
       sharedWith: values?.sharedWith,
-      teamIds: teamIds,
+      ...(values?.sharedWith === 'MY_TEAM' && { teamIds: teamIds }),
     };
 
     try {

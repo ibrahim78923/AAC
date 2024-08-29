@@ -48,7 +48,7 @@ export default function RHFMultiCheckbox({
           );
 
           setValue(name, updatedValues, { shouldValidate: true });
-        }, [options, name, setValue, getValues]);
+        }, [options?.isChecked]);
 
         return (
           <>
