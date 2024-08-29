@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import CreateForm from './CreateForm';
 
-const CreateDashboard = () => {
+const CreateSalesDashboard = () => {
   return (
     <>
       <Grid container spacing={2}>
@@ -15,4 +15,4 @@ const CreateDashboard = () => {
     </>
   );
 };
-export default CreateDashboard;
+export default CreateSalesDashboard;

@@ -1,9 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import CreateDashboard from '@/modules/airSales/Dashboard/CreateDashboard';
+import CreateSalesDashboard from '@/modules/airSales/Dashboard/CreateSalesDashboard';
 
 const CreateDashboardPage = () => {
-  return <CreateDashboard />;
+  return <CreateSalesDashboard />;
 };
 export default CreateDashboardPage;
 CreateDashboardPage.getLayout = function getLayout(page: any) {
