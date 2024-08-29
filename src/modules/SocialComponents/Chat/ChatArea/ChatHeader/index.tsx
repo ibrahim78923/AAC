@@ -63,7 +63,6 @@ const ChatHeader = ({ chatMode }: any) => {
       enqueueSnackbar('successfully', {
         variant: 'success',
       });
-
       dispatch(
         setActiveConversation({
           ...activeConversation,
@@ -74,6 +73,7 @@ const ChatHeader = ({ chatMode }: any) => {
         }),
       ),
         handleClose();
+      setIsDeleteModal(false);
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
@@ -199,8 +199,7 @@ const ChatHeader = ({ chatMode }: any) => {
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => {
-          setIsDeleteModal(false);
+        handleSubmitBtn={() => {
           updateChatHandler('isDeleted');
         }}
       />

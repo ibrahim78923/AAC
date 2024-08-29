@@ -419,14 +419,33 @@ const ChatBox = ({
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={() => handelReply(item?._id)}>
+                  <MenuItem
+                    onClick={() => {
+                      handelReply(item?._id);
+                      handleClose();
+                    }}
+                  >
                     Reply
                   </MenuItem>
 
                   {role === CHAT_TYPES?.SENDER && (
-                    <MenuItem onClick={handelDelete}>Delete</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handelDelete();
+                        handleClose();
+                      }}
+                    >
+                      Delete
+                    </MenuItem>
                   )}
-                  <MenuItem onClick={handleCopyClick}>Copy</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleCopyClick();
+                      handleClose();
+                    }}
+                  >
+                    Copy
+                  </MenuItem>
                 </Menu>
               )}
             </Box>

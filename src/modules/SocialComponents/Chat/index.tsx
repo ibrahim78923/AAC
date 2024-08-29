@@ -24,11 +24,9 @@ import {
   setChatMessages,
   setChatMessagesLoading,
   setChatMetaInfo,
+  setNewOrFetchedChatMessages,
 } from '@/redux/slices/chat/slice';
-import {
-  useGetChatUsersForCompanyAccountsQuery,
-  useGetUserChatsQuery,
-} from '@/services/chat';
+import { useGetChatUsersQuery, useGetUserChatsQuery } from '@/services/chat';
 import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
@@ -89,11 +87,12 @@ const Chat = () => {
   const { user }: { user: any } = getSession();
   const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
   const { data: chatsUsersData, status: chatUsersStatus } =
-    useGetChatUsersForCompanyAccountsQuery({
+    useGetChatUsersQuery({
       params: {
-        allEmployees: true,
+        organization: user?.organization?._id,
         page: currentPage,
         limit: PAGINATION?.PAGE_LIMIT,
+        role: user?.role,
         search: searchTerm,
       },
     });
@@ -111,7 +110,9 @@ const Chat = () => {
   useEffect(() => {
     if (chatsData?.data?.messages?.length > 0) {
       dispatch(
-        setChatMessages(chatsData?.data?.messages?.map((item: any) => item)),
+        setNewOrFetchedChatMessages(
+          chatsData?.data?.messages?.map((item: any) => item),
+        ),
       );
     }
   }, [chatsData]);

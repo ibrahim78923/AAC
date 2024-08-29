@@ -135,6 +135,10 @@ export const AIR_MARKETER = {
     '/email-marketing/email-templates/create-template',
   ),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
+  EMAIL_FOLDER_EMAILS: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/email-folder/emails',
+  ),
   EMAIL_REPORTS: path(AIR_MARKETING_PAGE, '/email-marketing/email-reports'),
   SOCIAL_MARKETING: path(AIR_MARKETING_PAGE, '/social-marketing'),
   SOCIAL_INBOX: path(AIR_MARKETING_PAGE, '/social-marketing/social-inbox'),
@@ -163,7 +167,15 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/email-marketing/create-new-email',
   ),
-  COMPARE_EMAIL: path(AIR_MARKETING_PAGE, '/email-marketing/compare-email'),
+  FOLDER_CREATE_NEW_EMAIL: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/email-folder/create-new-email',
+  ),
+  COMPARE_EMAILS: path(AIR_MARKETING_PAGE, '/email-marketing/compare-email'),
+  FOLDER_COMPARE_EMAIL: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/email-folder/compare-email',
+  ),
 
   SOCIAL_INBOX_SETTINGS: path(
     AIR_MARKETING_PAGE,

@@ -1,4 +1,3 @@
-import { PAGINATION } from '@/config';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { SOCIAL_FEATURES_CHAT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
@@ -7,9 +6,7 @@ export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
       query: ({ activeChatId, params, limit, page, isGroup }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=${
-          page ?? PAGINATION?.CURRENT_PAGE
-        }&limit=${limit ?? 10}&isGroup=${isGroup}`,
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=${page}&limit=${limit}&isGroup=${isGroup}`,
         method: 'GET',
         params: params,
         headers: {

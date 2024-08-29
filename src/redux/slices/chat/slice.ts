@@ -75,6 +75,12 @@ const chatSlice = createSlice({
       }
     },
 
+    setNewOrFetchedChatMessages(state, action) {
+      if (Array.isArray(action?.payload)) {
+        state.chatMessages = [...state.chatMessages, ...action.payload];
+      }
+    },
+
     setChatContacts(state, action) {
       if (Array.isArray(action?.payload)) {
         state.chatContacts = action?.payload;
@@ -169,6 +175,7 @@ export const {
   setChatModes,
   setAddMessage,
   setChatMessages,
+  setNewOrFetchedChatMessages,
   setChatContacts,
   setUpdateChatContacts,
   setActiveChatId,
