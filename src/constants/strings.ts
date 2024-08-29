@@ -638,6 +638,7 @@ export const STATICTICS_STATUS = {
 
 export const SMS_MARKETING_CONSTANTS = {
   ALL: 'all',
+  GROUP: 'groups',
   DETAIL: 'detail',
   NAME: 'name',
   ATTACHMENT: 'attachment',

@@ -83,7 +83,6 @@ const Tasks = (props: any) => {
           <TanstackTable
             columns={columns({ data: taskData?.data?.taskmanagements })}
             data={taskData?.data?.taskmanagements}
-            // isLoading={true}
             isLoading={status === 'pending'}
             isPagination
             count={taskData?.data?.meta?.pages}

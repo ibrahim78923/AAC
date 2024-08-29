@@ -53,7 +53,7 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('View'), setSelectedProduct(info?.row?.original);
+                setOpenDrawer('view'), setSelectedProduct(info?.row?.original);
               }}
             >
               <ViewEyeIcon />

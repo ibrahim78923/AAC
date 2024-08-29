@@ -15,6 +15,7 @@ const useAddContactDrawer = (
   onClose?: any,
   setSelectedContactsData?: any,
   selectedRec?: any,
+  recipientType?: any,
 ) => {
   const theme = useTheme<Theme>();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -43,7 +44,7 @@ const useAddContactDrawer = (
 
   const methods: any = useForm({
     resolver: yupResolver(contactsValidationSchema),
-    defaultValues: contactsDefaultValues,
+    defaultValues: contactsDefaultValues(recipientType),
   });
 
   const { handleSubmit, watch } = methods;

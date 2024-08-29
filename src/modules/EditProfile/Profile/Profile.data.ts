@@ -6,7 +6,7 @@ export const editProfileValidationSchema = Yup.object().shape({
   firstName: Yup.string().trim().required('Field is Required'),
   lastName: Yup.string().trim().required('Field is Required'),
   email: Yup.string(),
-  WorkPhoneNumber: Yup.string(),
+  mobileNumber: Yup.string(),
   phoneNumber: Yup.string(),
   companyName: Yup.string(),
   jobTitle: Yup.string().min(2, 'Job title must be at least 2 characters long'),
@@ -48,7 +48,7 @@ export const editProfileDataArray = [
   },
   {
     componentProps: {
-      name: 'WorkPhoneNumber',
+      name: 'mobileNumber',
       label: 'Work Phone Number',
       placeholder: 'Enter Phone Number',
     },

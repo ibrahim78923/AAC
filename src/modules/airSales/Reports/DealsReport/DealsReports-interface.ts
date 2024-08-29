@@ -8,8 +8,8 @@ export interface DealsOverviewProps {
       page: number;
     };
   };
-  setLimit: (limit: number) => void;
+  setLimit: (limit: any) => void;
   searchBy: string;
   setSearchBy: (value: string) => void;
-  setPage: (page: number) => void;
+  setPage: (page: any) => void;
 }

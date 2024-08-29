@@ -97,36 +97,37 @@ const AddUser = ({
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === fieldName?.ADDRESS && (
-                    <Box position="relative">
-                      <InputAdornment
-                        sx={{
-                          position: 'absolute',
-                          top: 53,
-                          right: 20,
-                          zIndex: 9999,
-                        }}
-                        position="end"
-                      >
-                        {addressVal?.length > indexNumbers?.ZERO ? (
-                          <BorderColorIcon
-                            sx={{
-                              cursor: 'not-allowed',
-                              fontSize: '20px',
-                              color: 'lightgrey',
-                            }}
-                          />
-                        ) : (
-                          <BorderColorIcon
-                            onClick={() => {
-                              setIsToggled(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          />
-                        )}
-                      </InputAdornment>
-                    </Box>
-                  )}
+                  {item?.componentProps?.name === fieldName?.ADDRESS &&
+                    !userDetailLoading && (
+                      <Box position="relative">
+                        <InputAdornment
+                          sx={{
+                            position: 'absolute',
+                            top: 53,
+                            right: 20,
+                            zIndex: 9999,
+                          }}
+                          position="end"
+                        >
+                          {addressVal?.length > indexNumbers?.ZERO ? (
+                            <BorderColorIcon
+                              sx={{
+                                cursor: 'not-allowed',
+                                fontSize: '20px',
+                                color: 'lightgrey',
+                              }}
+                            />
+                          ) : (
+                            <BorderColorIcon
+                              onClick={() => {
+                                setIsToggled(true);
+                              }}
+                              sx={{ cursor: 'pointer', fontSize: '20px' }}
+                            />
+                          )}
+                        </InputAdornment>
+                      </Box>
+                    )}
                   {userDetailLoading ? (
                     <Skeleton variant="rectangular" height={40} />
                   ) : (

@@ -23,7 +23,7 @@ const Profile = () => {
     firstName: getUserData?.data?.firstName,
     lastName: getUserData?.data?.lastName,
     email: getUserData?.data?.email,
-    WorkPhoneNumber: getUserData?.data?.phoneNumber,
+    mobileNumber: getUserData?.data?.mobileNumber,
     phoneNumber: getUserData?.data?.phoneNumber,
     jobTitle: getUserData?.data?.jobTitle,
     companyName: getUserData?.data?.organization?.name,

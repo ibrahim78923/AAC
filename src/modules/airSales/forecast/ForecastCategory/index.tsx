@@ -87,7 +87,7 @@ const ForecastCategory = () => {
         <Grid item xs={12} sm={6} md={3.5}>
           <Card sx={{ width: '100%' }}>
             <Typography variant="h4" fontWeight={600} pt={2.4} px={2.4}>
-              Sales Pipelin
+              Sales Pipeline
             </Typography>
             <Grid container p={2.4} justifyContent="space-between">
               {manageAccountData?.map((item: any) => (

@@ -75,7 +75,7 @@ const Contacts = ({
                 variant="contained"
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
-                onClick={() => setOpenDrawer(true)}
+                onClick={() => setOpenDrawer({ isToggle: true, type: 'Add' })}
               >
                 <PlusIcon /> Add Contacts
               </Button>
@@ -93,7 +93,7 @@ const Contacts = ({
           />
         </Grid>
       </Grid>
-      {openDrawer && (
+      {openDrawer?.isToggle && (
         <ContactsEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}

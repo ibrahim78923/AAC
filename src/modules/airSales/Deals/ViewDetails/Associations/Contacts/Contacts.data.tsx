@@ -11,7 +11,7 @@ export const columns: any = ({
   setIsOpenAlert,
   setContactRecord,
 }: {
-  setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
+  setOpenDrawer: any;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setContactRecord: any;
 }) => {
@@ -80,7 +80,8 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('View'), setContactRecord(info?.row?.original);
+                setOpenDrawer({ isToggle: true, type: 'view' }),
+                  setContactRecord(info?.row?.original);
               }}
             >
               <ViewEyeIcon />

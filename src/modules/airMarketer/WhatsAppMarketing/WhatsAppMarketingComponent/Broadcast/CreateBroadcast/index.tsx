@@ -48,6 +48,8 @@ const CreateBroadcast = () => {
     setSelectedRec,
     setIsSchedule,
     createStatus,
+    recipientType,
+    setRecipientType,
     setCreateStatus,
     handleSubmit,
     selectedRec,
@@ -314,6 +316,9 @@ const CreateBroadcast = () => {
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
           setSelectedContactsData={setSelectedContactsData}
+          selectedContactsData={selectedContactsData}
+          setRecipientType={setRecipientType}
+          recipientType={recipientType}
         />
       )}
     </>

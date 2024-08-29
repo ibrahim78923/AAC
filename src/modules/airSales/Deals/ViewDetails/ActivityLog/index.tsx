@@ -9,9 +9,9 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
-const ActivityLog = () => {
+const ActivityLog = ({ selectedRecId }: any) => {
   const { theme } = useNameWithStyledWords();
-  const { activitylogData, isLoading } = useActivitylog();
+  const { activitylogData, isLoading } = useActivitylog(selectedRecId);
 
   return (
     <Box sx={styles?.horizontalTabsBox}>

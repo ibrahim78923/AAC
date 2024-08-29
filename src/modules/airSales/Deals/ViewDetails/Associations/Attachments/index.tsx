@@ -1,25 +1,17 @@
 import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
-
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
-
 import useAttachments from './useAttachments';
-
 import { columns } from './Attachments.data';
 import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { AttachmentsProps } from '../Associations-interface';
 
-const Attachments = ({
-  attachmentsData,
-  isLoading,
-  dealId,
-}: AttachmentsProps) => {
+const Attachments = ({ dealId }: AttachmentsProps) => {
   const {
     theme,
     isOpenAlert,
@@ -29,10 +21,10 @@ const Attachments = ({
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-    attachmentRecord,
-    setAttachmentRecord,
     loadingDelete,
     deleteAttachmentHandler,
+    attachmentsData,
+    isLoading,
   } = useAttachments(dealId);
 
   return (
@@ -82,7 +74,9 @@ const Attachments = ({
                 variant="contained"
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
+                onClick={() =>
+                  setOpenDrawer({ isToggle: true, type: 'Add', recData: {} })
+                }
               >
                 <PlusIcon /> Add Attachments
               </Button>
@@ -94,17 +88,15 @@ const Attachments = ({
             columns={columns({
               setOpenDrawer,
               setIsOpenAlert,
-              setAttachmentRecord,
             })}
             data={attachmentsData}
           />
         </Grid>
       </Grid>
-      {openDrawer && (
+      {openDrawer?.isToggle && (
         <AttachmentsEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
-          attachmentRecord={attachmentRecord}
           dealId={dealId}
         />
       )}

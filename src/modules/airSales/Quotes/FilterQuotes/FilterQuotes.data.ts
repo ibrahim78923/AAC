@@ -19,7 +19,7 @@ export const dataArray = (productsAllUsers: any) => {
         label: 'Quote Status',
         placeholder: 'Select Quote Status',
         fullWidth: true,
-        options: ['All', 'DRAFT', 'PUBLISHED'],
+        options: ['DRAFT', 'PUBLISHED'],
       },
     },
     {

@@ -259,7 +259,10 @@ export const usersFilterDefaultValues = (data: any) => {
     products: data?.products?.name ? data?.products : null,
     organization: data?.organization?.name ? data?.organization : null,
     role: '',
-    createdDate: null,
+    createdDate:
+      typeof data?.createdDate === 'object'
+        ? new Date(data?.createdDate)
+        : null,
   };
 };
 

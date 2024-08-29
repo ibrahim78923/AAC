@@ -48,6 +48,7 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
     ssr: false,
   });
   const isWeeks = isWeeklyData(invoicesReportsGraph);
+
   return (
     <Box sx={styles?.productWiseGraph}>
       <Box display="flex" justifyContent="space-between">

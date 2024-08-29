@@ -247,7 +247,7 @@ const ViewDetails = () => {
               <PermissionsGuard
                 permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
               >
-                <ActivityLog />
+                <ActivityLog selectedRecId={selecetdDealId} />
               </PermissionsGuard>
 
               <Associations selected={selecetdDealId} viewDeal={viewDeal} />

@@ -9,11 +9,9 @@ import { capitalizeFirstLetter } from '@/utils/api';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
-  setAttachmentRecord,
 }: {
-  setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
+  setOpenDrawer: any;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
-  setAttachmentRecord: any;
 }) => {
   return [
     {
@@ -45,7 +43,11 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('View'), setAttachmentRecord(info?.row?.original);
+                setOpenDrawer({
+                  isToggle: true,
+                  type: 'View',
+                  recData: info?.row?.original,
+                });
               }}
             >
               <ViewEyeIcon />
@@ -57,7 +59,11 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('Edit'), setAttachmentRecord(info?.row?.original);
+                setOpenDrawer({
+                  isToggle: true,
+                  type: 'Edit',
+                  recData: info?.row?.original,
+                });
               }}
             >
               <EditPenIcon />
@@ -69,7 +75,12 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setIsOpenAlert(true), setAttachmentRecord(info?.row?.original);
+                setIsOpenAlert(true);
+                setOpenDrawer({
+                  isToggle: false,
+                  type: '',
+                  recData: info?.row?.original,
+                });
               }}
             >
               <DeleteCrossIcon />

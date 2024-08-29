@@ -14,6 +14,7 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import { NotesEditorDrawerProps } from '../Notes-interface';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
   const {
@@ -44,14 +45,14 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
         isDrawerOpen={openDrawer}
         onClose={onCloseDrawer}
         title={
-          openDrawer === DRAWER_TYPES?.ADD
+          openDrawer === GENERIC_UPSERT_FORM_CONSTANT?.ADD
             ? drawerTitle?.Add
-            : openDrawer === DRAWER_TYPES?.EDIT
+            : openDrawer === GENERIC_UPSERT_FORM_CONSTANT?.EDIT
               ? drawerTitle?.Edit
               : drawerTitle?.View
         }
         okText={
-          openDrawer === DRAWER_TYPES?.ADD
+          openDrawer === GENERIC_UPSERT_FORM_CONSTANT?.ADD
             ? drawerButtonTitle?.Add
             : drawerButtonTitle?.Edit
         }

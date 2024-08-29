@@ -32,11 +32,11 @@ const useCompaniesEditorDrawer = ({
   };
   const { data: getAllCompanies } = useGetAllCompaniesQuery(companyParams);
 
-  const overAllCompaniesData = getAllCompanies?.data;
+  const overAllCompaniesData = getAllCompanies?.companies;
 
   const companyOptions = overAllCompaniesData?.map((item: any) => ({
     value: item?._id,
-    label: `${item?.name}`,
+    label: item?.name ? `${item?.name}` : 'N/A',
   }));
 
   const [postCompanies, { isLoading: postCompanyLoading }] =

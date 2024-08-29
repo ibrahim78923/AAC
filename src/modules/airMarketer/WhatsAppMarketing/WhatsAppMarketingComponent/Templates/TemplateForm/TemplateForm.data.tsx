@@ -13,7 +13,10 @@ export const createTemplateValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    name: Yup?.string()?.trim()?.required('Field is Required'),
+    name: Yup?.string()
+      ?.trim()
+      ?.matches(/^[a-z]+$/, 'Name must not contain uppercase letters or spaces')
+      ?.required('Field is Required'),
     category: Yup?.string()?.trim()?.required('Field is Required'),
     detail: Yup?.string()?.trim()?.required('Field is Required'),
     ...formSchema,

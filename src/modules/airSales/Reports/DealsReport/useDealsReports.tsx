@@ -3,7 +3,12 @@ import { PAGINATION } from '@/config';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import { useGetDealsReortsQuery } from '@/services/airSales/reports';
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
-import { DATE_FORMAT, DATE_RANGE, EQuickLinksType } from '@/constants';
+import {
+  DATE_FORMAT,
+  DATE_RANGE,
+  EQuickLinksType,
+  indexNumbers,
+} from '@/constants';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 
@@ -42,8 +47,12 @@ const useDealsReports = () => {
     page: page,
     limit: limit,
     search: searchBy ? searchBy : undefined,
-    ownerIds: filter.owners ? filter.owners : undefined,
-    dealPipelineIds: filter.pipelines ? filter.pipelines : undefined,
+    ownerIds:
+      filter.owners?.length > indexNumbers?.ZERO ? filter.owners : undefined,
+    dealPipelineIds:
+      filter.pipelines?.length > indexNumbers?.ZERO
+        ? filter.pipelines
+        : undefined,
     dateStart: filter?.date
       ? dayjs(filter?.date[DATE_RANGE?.START_DATE]).format(DATE_FORMAT?.API)
       : undefined,
