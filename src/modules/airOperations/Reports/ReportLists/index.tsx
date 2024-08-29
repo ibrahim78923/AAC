@@ -5,7 +5,7 @@ import { FilterIcon, RestoreIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useReportLists } from './useReportLists';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { ReportsListsPropsI } from '../Reports.interface';
+import { ReportsListsPropsI } from './ReportLists.interface';
 
 export const ReportLists = (props: ReportsListsPropsI) => {
   const { onRestoreClick, permission } = props;
@@ -21,7 +21,9 @@ export const ReportLists = (props: ReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
-  }: any = useReportLists(props);
+    page,
+    getReportsList,
+  } = useReportLists(props);
 
   return (
     <>
@@ -87,7 +89,7 @@ export const ReportLists = (props: ReportsListsPropsI) => {
       <br />
       <TanstackTable
         columns={reportListsColumns}
-        data={lazyGetReportsListStatus?.data?.data?.genericReports}
+        data={lazyGetReportsListStatus?.data?.data?.genericReports ?? []}
         isLoading={lazyGetReportsListStatus?.isLoading}
         currentPage={lazyGetReportsListStatus?.data?.data?.meta?.page}
         count={lazyGetReportsListStatus?.data?.data?.meta?.pages}
@@ -98,8 +100,12 @@ export const ReportLists = (props: ReportsListsPropsI) => {
         isFetching={lazyGetReportsListStatus?.isFetching}
         isError={lazyGetReportsListStatus?.isError}
         isSuccess={lazyGetReportsListStatus?.isSuccess}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         isPagination
+        errorProps={{
+          canRefresh: true,
+          refresh: () => getReportsList?.(page),
+        }}
       />
       {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>

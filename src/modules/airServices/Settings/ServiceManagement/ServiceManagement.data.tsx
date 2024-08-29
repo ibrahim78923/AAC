@@ -4,8 +4,9 @@ import { ClosureRuleIcon, ServicesCatalogIcon } from '@/assets/icons';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { ISettingsCards } from '../Settings.interface';
 
-export const serviceManagement = [
+export const serviceManagement: ISettingsCards[] = [
   {
     id: 1,
     avatar: ServicesCatalogIcon,

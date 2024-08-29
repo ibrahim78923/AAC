@@ -9,6 +9,7 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import CustomLabel from '../CustomLabel';
+import { useEffect } from 'react';
 
 export default function RHFMultiCheckbox({
   GridView,
@@ -18,7 +19,7 @@ export default function RHFMultiCheckbox({
   options,
   ...other
 }: any) {
-  const { control } = useFormContext();
+  const { control, setValue, getValues } = useFormContext();
 
   return (
     <Controller
@@ -35,6 +36,19 @@ export default function RHFMultiCheckbox({
             return [...selectedValues, option?.value];
           }
         };
+
+        useEffect(() => {
+          const currentValues = getValues(name) || [];
+          const initialSelected = options
+            ?.filter((option: any) => option?.checked)
+            ?.map((option: any) => option?.value);
+
+          const updatedValues = Array?.from(
+            new Set([...currentValues, ...initialSelected]),
+          );
+
+          setValue(name, updatedValues, { shouldValidate: true });
+        }, [options?.isChecked]);
 
         return (
           <>

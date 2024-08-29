@@ -3,19 +3,35 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const createTemplateValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  category: Yup?.string()?.trim()?.required('Field is Required'),
-  detail: Yup?.string()?.trim()?.required('Field is Required'),
-});
+export const createTemplateValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const createTemplateDefaultValues = {
-  name: '',
-  category: '',
-  detail: '',
-  attachment: '',
+  return Yup?.object()?.shape({
+    name: Yup?.string()
+      ?.trim()
+      ?.matches(/^[a-z]+$/, 'Name must not contain uppercase letters or spaces')
+      ?.required('Field is Required'),
+    category: Yup?.string()?.trim()?.required('Field is Required'),
+    detail: Yup?.string()?.trim()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
+
+export const newCreateTemplateDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+  return {
+    name: data?.name ?? '',
+    category: data?.category ?? '',
+    detail: data?.detail ?? '',
+    attachment: data?.attachment ?? '',
+    ...initialValues,
+  };
 };
 
 export const createTemplateFiltersDataArray = () => {

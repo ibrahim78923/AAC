@@ -22,7 +22,7 @@ export const ProductCatalog = () => {
     setPage,
     setPageLimit,
     theme,
-  }: any = useProductCatalog();
+  } = useProductCatalog();
 
   return (
     <>
@@ -92,7 +92,7 @@ export const ProductCatalog = () => {
             isPagination
             setPage={setPage}
             setPageLimit={setPageLimit}
-            onPageChange={(page: any) => setPage(page)}
+            onPageChange={(page: number) => setPage(page)}
           />
         </PermissionsGuard>
       </Box>

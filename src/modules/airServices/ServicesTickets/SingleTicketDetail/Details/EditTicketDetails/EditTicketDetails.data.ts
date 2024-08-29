@@ -4,15 +4,20 @@ import {
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
-import { ROLES } from '@/constants/strings';
+import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
+import { ROLES, TICKET_TYPE } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
-  ticketTypeOptions,
+  ticketTypeOptionsDynamic,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import {
   dynamicFormInitialValue,
@@ -29,6 +34,13 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
   return Yup?.object()?.shape({
     ticketType: Yup?.mixed()?.nullable(),
     category: Yup?.mixed()?.nullable(),
+    service: Yup?.mixed()
+      ?.nullable()
+      ?.when('ticketType', {
+        is: (value: any) => value?._id === TICKET_TYPE?.SR,
+        then: () => Yup?.mixed()?.nullable()?.required('Service is required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
     status: Yup?.mixed()?.nullable()?.required('Status is Required'),
     priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
     department: Yup?.mixed()?.nullable(),
@@ -47,9 +59,10 @@ export const editTicketDetailsDefaultValuesDynamic = (
   form?: any,
 ) => {
   const initialValues: any = dynamicFormInitialValue(data, form);
-
   return {
+    ...initialValues,
     category: data?.categoryDetails ?? null,
+    service: data?.serviceDetails ?? null,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
     priority: data?.pirority
       ? { _id: data?.pirority, label: data?.pirority }
@@ -57,7 +70,12 @@ export const editTicketDetailsDefaultValuesDynamic = (
     department: data?.departmentDetails ?? null,
     source: data?.source ? { _id: data?.source, label: data?.source } : null,
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
-    ticketType: data?.ticketType ?? null,
+    ticketType: data?.ticketType
+      ? {
+          _id: data?.ticketType,
+          label: TICKET_TYPE_MAPPED?.[data?.ticketType] ?? data?.ticketType,
+        }
+      : null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? data?.agentDetails
       : null,
@@ -69,7 +87,6 @@ export const editTicketDetailsDefaultValuesDynamic = (
         : null,
 
     plannedEffort: data?.plannedEffort ?? '',
-    ...initialValues,
   };
 };
 
@@ -77,6 +94,10 @@ export const editTicketDetailsFormFieldsDynamic = (
   apiQueryAgent: any,
   apiQueryCategory: any,
   apiQueryDepartment?: any,
+  watchForTicketType?: any,
+  apiQueryServicesCategory?: any,
+  getValues?: any,
+  data?: any,
 ) => [
   {
     id: 1,
@@ -87,7 +108,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -100,7 +121,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -123,7 +144,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -133,8 +154,9 @@ export const editTicketDetailsFormFieldsDynamic = (
       name: 'ticketType',
       label: 'Type',
       fullWidth: true,
-      placeholder: 'Choose Impact',
-      options: ticketTypeOptions,
+      placeholder: 'Choose ticket type',
+      options: ticketTypeOptionsDynamic?.(data?.ticketType),
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
 
     component: RHFAutocomplete,
@@ -147,7 +169,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -163,7 +185,7 @@ export const editTicketDetailsFormFieldsDynamic = (
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
         role: ROLES?.ORG_EMPLOYEE,
       },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -176,10 +198,30 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryCategory,
       placeholder: 'Choose Category',
-      getOptionLabel: (option: any) => option?.categoryName,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+        option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },
+  ...(watchForTicketType?._id === TICKET_TYPE?.SR
+    ? [
+        {
+          id: 17,
+          componentProps: {
+            name: 'service',
+            label: 'Service',
+            fullWidth: true,
+            required: watchForTicketType?._id === TICKET_TYPE?.SR,
+            apiQuery: apiQueryServicesCategory,
+            placeholder: 'Choose Service',
+            externalParams: { categoryId: getValues('category')?._id },
+            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+              option?.itemName,
+          },
+          component: RHFAutocompleteAsync,
+        },
+      ]
+    : []),
   {
     id: 8,
     componentProps: {

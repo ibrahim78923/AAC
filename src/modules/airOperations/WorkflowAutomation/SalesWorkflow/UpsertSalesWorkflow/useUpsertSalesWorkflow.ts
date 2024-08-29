@@ -13,18 +13,19 @@ import {
   useGetByIdSalesWorkflowQuery,
   usePostSalesWorkflowMutation,
   usePostSaveDraftWorkflowMutation,
-  usePostTestSalesWorkflowMutation,
   useUpdateSalesWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { useAppDispatch } from '@/redux/store';
+import { setTestWorkflowBody } from '@/redux/slices/salesWorkflow';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState('');
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
-  const [testWorkflowResponse, setTestWorkflowResponse] = useState(null);
   const { back, query } = useRouter();
+  const dispatch = useAppDispatch();
   const salesMethod = useForm({
     defaultValues: salesValues(null),
     resolver:
@@ -57,8 +58,6 @@ export const useUpsertSalesWorkflow = () => {
     usePostSalesWorkflowMutation();
   const [saveDraftTrigger, { isLoading: saveLoading }] =
     usePostSaveDraftWorkflowMutation();
-  const [testWorkflowTrigger, { isLoading: testLoading }] =
-    usePostTestSalesWorkflowMutation();
   const fieldTypeValues = (action: any) => {
     return action?.fieldValue instanceof Date
       ? workflowFields?.date
@@ -169,8 +168,7 @@ export const useUpsertSalesWorkflow = () => {
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
     } else if (validation === workflowFields?.test) {
-      response = await testWorkflowTrigger(body);
-      setTestWorkflowResponse(response);
+      dispatch(setTestWorkflowBody(body));
       setIsWorkflowDrawer(true);
     }
   };
@@ -211,8 +209,6 @@ export const useUpsertSalesWorkflow = () => {
     byIdLoading,
     isFetching,
     updateLoading,
-    testWorkflowResponse,
-    testLoading,
     isWorkflowDrawer,
     setIsWorkflowDrawer,
   };

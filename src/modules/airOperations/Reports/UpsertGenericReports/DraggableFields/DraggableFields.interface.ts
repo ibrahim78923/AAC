@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { EditorState } from 'draft-js';
 import { UseFormReturn, FieldValues } from 'react-hook-form';
 
 export interface DraggableFieldsI {
@@ -11,35 +10,20 @@ export interface DraggableFieldsI {
       counter: boolean;
     }>
   >;
-  setFieldData: Dispatch<SetStateAction<boolean>>;
   form: any[];
   setForm: Dispatch<SetStateAction<any[]>>;
   setValue: UseFormReturn<FieldValues>['setValue'];
-  setEditorState: Dispatch<SetStateAction<EditorState>>;
   fieldsList: any[];
-  fieldData: boolean;
   modal: {
     chart: boolean;
     text: boolean;
     table: boolean;
     counter: boolean;
   };
-  editorState: EditorState;
-  fontSize: string;
-  setFontSize: Dispatch<SetStateAction<string>>;
-  color: string;
-  setColor: Dispatch<SetStateAction<string>>;
-  setColumnsData: any;
-  setOpenDrawer: Dispatch<SetStateAction<boolean>>;
-  openDrawer: boolean;
-  columnsData: any[];
-  showTemplate: boolean;
   handleCancel: () => void;
   reportId: string;
   setDraggedItemData: Dispatch<SetStateAction<any>>;
-  disableTemplate: boolean;
   draggedItemData: any;
-  templateList: any[];
   mainMetrics: any;
   selectedModule: string;
   data: any;
@@ -48,4 +32,5 @@ export interface DraggableFieldsI {
   isFetching: boolean;
   isError: boolean;
   watch: UseFormReturn<FieldValues>['watch'];
+  refetch: () => void;
 }

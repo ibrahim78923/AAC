@@ -29,7 +29,7 @@ export const Header = (props: any) => {
             });
           }}
         />
-        <Typography variant="h5">
+        <Typography variant={'h5'} textTransform={'capitalize'}>
           {truncateText(singleVendorName, 35)}
         </Typography>
       </Box>

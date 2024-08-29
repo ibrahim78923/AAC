@@ -15,8 +15,6 @@ export interface ChartEditorI {
   metricType: any;
   setValue: UseFormReturn<FieldValues>['setValue'];
   handleCancel: () => void;
-  disableTemplate: boolean;
-  setFieldData: Dispatch<SetStateAction<boolean>>;
   setModal: Dispatch<
     SetStateAction<{
       chart: boolean;

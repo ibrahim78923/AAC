@@ -6,6 +6,8 @@ import { Deal } from './SalesListView/Deal';
 import { Quote } from './SalesListView/Quote';
 import { Task } from './SalesListView/Task';
 import { tabsData } from './SalesWorkflow.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
 
 export const SalesWorkflow = () => {
   const { handleBack, handleCreateWorkflow } = useSalesWorkflow();
@@ -22,11 +24,17 @@ export const SalesWorkflow = () => {
         ]}
       />
       <br />
-      <HorizontalTabs tabsDataArray={tabsData}>
-        <Deal />
-        <Quote />
-        <Task />
-      </HorizontalTabs>
+      <PermissionsGuard
+        permissions={
+          Permissions?.AIR_OPERATIONS_WORKFLOWS_LIST_VIEW_SALES_WORKFLOW
+        }
+      >
+        <HorizontalTabs tabsDataArray={tabsData}>
+          <Deal />
+          <Quote />
+          <Task />
+        </HorizontalTabs>
+      </PermissionsGuard>
     </>
   );
 };

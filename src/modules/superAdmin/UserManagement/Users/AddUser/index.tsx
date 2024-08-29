@@ -48,7 +48,9 @@ const AddUser = ({
     postUserLoading,
     userDetailLoading,
     updateUserLoading,
+    authCompanyLoading,
     checkedEmailError,
+    postEmployeeLoading,
   } = useAddUser(useActionParams);
 
   return (
@@ -70,7 +72,12 @@ const AddUser = ({
       isDisabled={checkedEmailError}
       isOk={isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW ? false : true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postUserLoading || updateUserLoading}
+      isLoading={
+        postUserLoading ||
+        updateUserLoading ||
+        postEmployeeLoading ||
+        authCompanyLoading
+      }
       footer
     >
       <FormProvider methods={methods}>
@@ -90,36 +97,37 @@ const AddUser = ({
                       {item?.componentProps?.heading}
                     </Typography>
                   )}
-                  {item?.componentProps?.name === fieldName?.ADDRESS && (
-                    <Box position="relative">
-                      <InputAdornment
-                        sx={{
-                          position: 'absolute',
-                          top: 53,
-                          right: 20,
-                          zIndex: 9999,
-                        }}
-                        position="end"
-                      >
-                        {addressVal?.length > indexNumbers?.ZERO ? (
-                          <BorderColorIcon
-                            sx={{
-                              cursor: 'not-allowed',
-                              fontSize: '20px',
-                              color: 'lightgrey',
-                            }}
-                          />
-                        ) : (
-                          <BorderColorIcon
-                            onClick={() => {
-                              setIsToggled(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          />
-                        )}
-                      </InputAdornment>
-                    </Box>
-                  )}
+                  {item?.componentProps?.name === fieldName?.ADDRESS &&
+                    !userDetailLoading && (
+                      <Box position="relative">
+                        <InputAdornment
+                          sx={{
+                            position: 'absolute',
+                            top: 53,
+                            right: 20,
+                            zIndex: 9999,
+                          }}
+                          position="end"
+                        >
+                          {addressVal?.length > indexNumbers?.ZERO ? (
+                            <BorderColorIcon
+                              sx={{
+                                cursor: 'not-allowed',
+                                fontSize: '20px',
+                                color: 'lightgrey',
+                              }}
+                            />
+                          ) : (
+                            <BorderColorIcon
+                              onClick={() => {
+                                setIsToggled(true);
+                              }}
+                              sx={{ cursor: 'pointer', fontSize: '20px' }}
+                            />
+                          )}
+                        </InputAdornment>
+                      </Box>
+                    )}
                   {userDetailLoading ? (
                     <Skeleton variant="rectangular" height={40} />
                   ) : (

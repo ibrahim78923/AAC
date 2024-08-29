@@ -2,11 +2,12 @@ import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
+import { UserTableDataI } from './UsersTable.interface';
 
 export const usersTableColumns = (
-  usersData: any,
-  setUsersData: any,
-  tableData: any,
+  usersData: UserTableDataI[],
+  setUsersData: React.Dispatch<React.SetStateAction<UserTableDataI[]>>,
+  tableData: UserTableDataI[],
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -18,17 +19,19 @@ export const usersTableColumns = (
         checked={
           !!usersData?.find((item: any) => item?._id === info?.getValue())
         }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setUsersData([
-                ...usersData,
-                tableData?.find((item: any) => item?._id === info?.getValue()),
-              ])
-            : setUsersData(
-                usersData?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
+        onChange={(e) => {
+          if (e?.target?.checked) {
+            const foundItem = tableData?.find(
+              (item) => item?._id === info?.getValue(),
+            );
+            if (foundItem) {
+              setUsersData([...usersData, foundItem]);
+            }
+          } else {
+            setUsersData(
+              usersData?.filter((item) => item?._id !== info?.getValue()),
+            );
+          }
         }}
         color="primary"
         name={info?.getValue()}
@@ -86,7 +89,7 @@ export const usersTableColumns = (
   },
   {
     accessorFn: (row: any) => row?.data?.createdAt,
-    id: 'createdAt',
+    id: 'assignedDate',
     isSortable: true,
     header: 'Assigned Date',
     cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),

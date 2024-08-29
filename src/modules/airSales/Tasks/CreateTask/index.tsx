@@ -1,16 +1,18 @@
-import { Grid } from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import useCreateTask from './useCreateTask';
 
 import CommonDrawer from '@/components/CommonDrawer';
-import { TASK_TYPE } from '@/constants';
+import { API_STATUS, TASK_TYPE } from '@/constants';
 import { useAppDispatch } from '@/redux/store';
 import {
   setCompaniesSelectedIds,
   setContactsSelectedIds,
   setDealsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 const CreateTask = ({
   isCreateTaskDrawerOpen,
@@ -25,6 +27,8 @@ const CreateTask = ({
     methodsFilter,
     onSubmitHandler,
     reset,
+    form,
+    getDynamicFieldsStatus,
   } = useCreateTask({ creationMode, setIsCreateTaskDrawerOpen });
 
   const dispatch: any = useAppDispatch();
@@ -64,11 +68,7 @@ const CreateTask = ({
           {/* eslint-disable */}
           {getCreateTaskData?.map((item: any, index) => (
             <Grid item xs={12} md={item?.md} key={index}>
-              <item.component
-                {...item.componentProps}
-                size={'small'}
-                // options={item?.options}
-              >
+              <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>
@@ -80,6 +80,35 @@ const CreateTask = ({
             </Grid>
           ))}
           {/* eslint-enable */}
+          {getDynamicFieldsStatus?.status === API_STATUS?.PENDING ? (
+            <>
+              <Grid item xs={12}>
+                <Skeleton
+                  variant="rounded"
+                  sx={{ width: '100%', height: '45px' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Skeleton
+                  variant="rounded"
+                  sx={{ width: '100%', height: '45px' }}
+                />
+              </Grid>
+            </>
+          ) : (
+            <>
+              {form?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                    })}
+                </Grid>
+              ))}
+            </>
+          )}
         </Grid>
       </FormProvider>
     </CommonDrawer>

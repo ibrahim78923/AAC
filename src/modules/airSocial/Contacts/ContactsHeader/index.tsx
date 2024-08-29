@@ -4,10 +4,10 @@ import useContactsHeader from './useContactsHeader';
 import CreateContacts from '../CreateContacts';
 import { styles } from './ContractsHeader.style';
 import { ImportIcon } from '@/assets/icons';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 import useContactsSaleSite from '../useContactsSaleSite';
 import ImportContactDrawer from '../ImportContactDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactsHeader = ({ handleRefresh }: any) => {
   const { isCreateDeal, handleCreateDealOpen } = useContactsHeader();

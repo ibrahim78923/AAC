@@ -157,6 +157,16 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
+    getAirServicesAllUsersAsRequestersForServicesDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -179,4 +189,5 @@ export const {
   useLazyGetAssetTypeForServicesDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery,
 } = serviceCatalogAPI;

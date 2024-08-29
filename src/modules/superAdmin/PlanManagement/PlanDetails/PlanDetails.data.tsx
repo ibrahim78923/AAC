@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { PlanProduct, TableColumn, TableRow } from './planDetails.interface';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { isNullOrEmpty } from '@/utils';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -63,10 +64,14 @@ export const PlanDetailsDataColumnFunction = (
                 <Tooltip title={tooltipTitle}>
                   <Typography variant="body2" sx={{ cursor: 'pointer' }}>
                     {' '}
-                    {capitalizeFirstLetter(info?.row?.original?.name)}
+                    {isNullOrEmpty(info?.row?.original?.name)
+                      ? 'N/A'
+                      : capitalizeFirstLetter(info?.row?.original?.name)}
                   </Typography>
                 </Tooltip>
               </>
+            ) : isNullOrEmpty(info?.row?.original?.planProducts) ? (
+              <Typography variant="body3">N/A</Typography>
             ) : (
               info?.row?.original?.planProducts?.map((data: PlanProduct) => (
                 <Typography variant="body3" key={uuidv4()}>
@@ -143,7 +148,7 @@ export const PlanDetailsDataColumnFunction = (
       accessorFn: (row: TableRow) => row?.planPrice,
       id: 'planPrice',
       isSortable: true,
-      header: 'Plan Price',
+      header: 'Plan Price (£)',
       cell: (info: any) => {
         return `£ ${info?.getValue()}`;
       },
@@ -153,7 +158,9 @@ export const PlanDetailsDataColumnFunction = (
       id: 'defaultStorage',
       isSortable: true,
       header: 'Default Storage',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return `${info?.getValue()} GB`;
+      },
     },
   ];
 };

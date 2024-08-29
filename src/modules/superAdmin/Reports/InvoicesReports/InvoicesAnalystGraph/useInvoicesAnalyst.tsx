@@ -1,4 +1,4 @@
-import { useGetOrganizationsQuery } from '@/services/common-APIs';
+import { useGetOrganizationsQuery } from '@/services/dropdowns';
 import { useState } from 'react';
 
 const useInvoicesAnalyst = () => {
@@ -30,10 +30,15 @@ const useInvoicesAnalyst = () => {
     setClientsFilter(null);
   };
 
-  const { data: organizationsList } = useGetOrganizationsQuery({});
+  const organizationParams = {
+    search: searchCompany ? searchCompany : undefined,
+  };
+  const { data: organizationsList } = useGetOrganizationsQuery({
+    params: organizationParams,
+  });
 
   const customizeData = (organizations: any) => {
-    return organizations?.data?.map((item: any) => ({
+    return organizations?.map((item: any) => ({
       label: item?.name,
       value: item?._id,
     }));

@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { permissionValidation, permissionValue } from './Permissions.data';
 
@@ -9,10 +8,13 @@ export const usePermissions = () => {
     defaultValues: permissionValue,
   });
 
-  const { palette } = useTheme();
+  const { handleSubmit } = permissionsMethod;
+
+  const onSubmit = async () => {};
 
   return {
     permissionsMethod,
-    palette,
+    handleSubmit,
+    onSubmit,
   };
 };

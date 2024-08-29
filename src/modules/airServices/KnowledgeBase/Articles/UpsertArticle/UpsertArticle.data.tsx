@@ -4,13 +4,13 @@ import {
   RHFDatePicker,
   RHFSwitch,
 } from '@/components/ReactHookForm';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
-
-export const defaultValues = (articleData?: any) => {
+export const defaultValues = (
+  articleData?: UpsertArticlesFormDefaultValuesI,
+) => {
   return {
     folder: articleData?.folder ?? null,
     title: articleData?.title ?? '',
@@ -19,35 +19,44 @@ export const defaultValues = (articleData?: any) => {
     keywords: articleData?.keywords ?? [],
     needsApproval: articleData?.isApproval ?? false,
     approver: articleData?.approver ?? null,
-    reviewDate: new Date(articleData?.reviewDate ?? todayDate),
+    reviewDate: !!articleData?.reviewDate
+      ? new Date(articleData?.reviewDate)
+      : null,
     attachments: articleData?.attachments ?? null,
   };
 };
 
 export const upsertArticleValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
-  details: Yup?.string()?.required('Required'),
-  folder: Yup?.mixed()?.nullable()?.required('Required'),
+  title: Yup?.string()?.trim()?.required('Title is required'),
+  details: Yup?.string()
+    ?.trim()
+    ?.required('Description is Required')
+    ?.test('is-not-empty', 'Description is Required', (value) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
+  folder: Yup?.mixed()?.nullable()?.required('Folder name is required'),
   needsApproval: Yup?.boolean(),
-  reviewDate: Yup?.date()?.when('needsApproval', {
-    is: (approval: any) => approval,
-    then: (schema: any) => schema?.required('Required'),
-    otherwise: (schema: any) => schema?.notRequired(),
-  }),
+  reviewDate: Yup?.mixed()
+    ?.nullable()
+    ?.when('needsApproval', {
+      is: (approval: any) => approval,
+      then: (schema: any) => schema?.required('Review date is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
   approver: Yup?.mixed()
     ?.nullable()
     ?.when('needsApproval', {
       is: (approval: any) => approval,
-      then: (schema: any) => schema?.required('Required'),
+      then: (schema: any) => schema?.required('Approver is required'),
       otherwise: (schema: any) => schema?.notRequired(),
     }),
 });
 
 export const editArticleFieldsFunction = (
-  needApprovals: any,
+  needApprovals: boolean,
   apiQueryFolder: any,
   apiQueryApprover: any,
-  productId: any,
 ) => {
   const conditionalFields = [
     {
@@ -57,11 +66,11 @@ export const editArticleFieldsFunction = (
         name: 'approver',
         label: 'Approver',
         required: needApprovals,
-        placeholder: 'Select',
+        placeholder: 'Select an approver',
         sx: { pb: 1.2 },
-        externalParams: { productId, admin: true },
+        externalParams: { admin: true },
         apiQuery: apiQueryApprover,
-        getOptionLabel: (option: any) =>
+        getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
           `${option?.firstName} ${option?.lastName}`,
       },
       gridLength: 12,
@@ -90,7 +99,7 @@ export const editArticleFieldsFunction = (
         required: true,
         name: 'folder',
         label: 'Folder',
-        placeholder: 'Select',
+        placeholder: 'Select a folder',
         apiQuery: apiQueryFolder,
         sx: { pb: 1.2 },
       },
@@ -101,6 +110,7 @@ export const editArticleFieldsFunction = (
         fullWidth: true,
         name: 'tags',
         label: 'Tags',
+        placeholder: 'Write tags and press enter',
         sx: { pb: 1.2 },
         freeSolo: true,
         options: [],
@@ -116,6 +126,7 @@ export const editArticleFieldsFunction = (
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
+        placeholder: 'Write keywords and press enter',
         freeSolo: true,
         options: [],
         multiple: true,
@@ -129,7 +140,6 @@ export const editArticleFieldsFunction = (
       component: RHFSwitch,
       gridLength: 12,
       componentProps: {
-        fullWidth: true,
         name: 'needsApproval',
         label: 'Need Approvals',
         sx: { pb: 1.8, pl: 1 },

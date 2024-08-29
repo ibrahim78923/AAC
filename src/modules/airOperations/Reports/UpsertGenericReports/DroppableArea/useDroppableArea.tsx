@@ -4,12 +4,20 @@ import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useTheme, Theme } from '@mui/material';
 import { useState } from 'react';
 import { DroppableAreaI } from './DroppableArea.interface';
+import { useAppSelector } from '@/redux/store';
+import { useDispatch } from 'react-redux';
 
 export const useDroppableArea = (props: DroppableAreaI) => {
   const { setForm, form } = props;
   const theme: Theme = useTheme();
+  const dispatch = useDispatch();
 
+  const fieldData = useAppSelector((state) => state?.genericReport?.fieldData);
+  const showTemplate = useAppSelector(
+    (state) => state?.genericReport?.showTemplate,
+  );
   const [calendarFilter, setCalendarFilter] = useState();
+
   const handleDelete = (id: string) => {
     setForm(form?.filter((item: any) => item?.id !== id));
     const deletedRecord = form?.find((item: any) => item?.id === id);
@@ -19,7 +27,6 @@ export const useDroppableArea = (props: DroppableAreaI) => {
   const handleCopy = (id: string) => {
     const chartToCopy = form?.find((item: any) => item?.id === id);
     const uniqueId = generateUniqueId();
-
     if (chartToCopy?.reportType === REPORT_TYPE?.CHART) {
       setForm([
         ...form,
@@ -56,6 +63,8 @@ export const useDroppableArea = (props: DroppableAreaI) => {
           templateType: chartToCopy?.templateType,
           reportType: REPORT_TYPE?.COUNTER,
           type: chartToCopy?.type,
+          fieldName: chartToCopy?.fieldName,
+          fieldValue: chartToCopy?.fieldValue,
         },
       ]);
     } else if (chartToCopy?.type === REPORT_TYPE?.TABLE) {
@@ -80,5 +89,8 @@ export const useDroppableArea = (props: DroppableAreaI) => {
     theme,
     setCalendarFilter,
     calendarFilter,
+    fieldData,
+    showTemplate,
+    dispatch,
   };
 };

@@ -27,7 +27,6 @@ export const Users = () => {
     userActionDropdownCloseHandler,
     selectedActionTitle,
     setSearch,
-    search,
     setUsersData,
     methods,
     allocateSubmit,
@@ -35,6 +34,7 @@ export const Users = () => {
     allocateLoading,
     removeLoading,
     setFilterValues,
+    filterValues,
   } = useUsers();
 
   return (
@@ -49,11 +49,7 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search
-            label="Search Here"
-            setSearchBy={setSearch}
-            searchBy={search}
-          />
+          <Search label="Search Here" setSearchBy={setSearch} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
@@ -69,7 +65,10 @@ export const Users = () => {
             handleCsvExport={() => getUserListDataExport(EXPORT_TYPE?.CSV)}
             handleExcelExport={() => getUserListDataExport(EXPORT_TYPE?.XLS)}
           />
-          <UsersFilter setFilterValues={setFilterValues} />
+          <UsersFilter
+            setFilterValues={setFilterValues}
+            filterValues={filterValues}
+          />
         </Box>
       </Box>
       {actionModalOpen && (
@@ -114,11 +113,13 @@ export const Users = () => {
               onClick={userActionDropdownCloseHandler}
               variant="outlined"
               color="secondary"
+              disabled={deAllocateLoading || allocateLoading || removeLoading}
             >
               No
             </LoadingButton>
             <LoadingButton
               variant="contained"
+              disabled={deAllocateLoading || allocateLoading || removeLoading}
               loading={deAllocateLoading || allocateLoading || removeLoading}
               onClick={
                 selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE

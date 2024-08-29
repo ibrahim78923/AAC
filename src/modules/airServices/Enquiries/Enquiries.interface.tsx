@@ -4,12 +4,6 @@ export interface IInfo {
   _id?: string;
 }
 
-export interface IErrorResponse {
-  data?: {
-    message?: string;
-  };
-}
-
 export interface IModalState {
   filterOpen: boolean;
   viewOpen: boolean;

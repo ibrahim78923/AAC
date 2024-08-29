@@ -1,16 +1,22 @@
 import { useGetPermissionsByProductQuery } from '@/services/airServices/settings/user-management/roles';
 import { getActiveAccountSession } from '@/utils';
 import { useTheme } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
+import {
+  IIsSettingPermissionState,
+  IPermissionItem,
+  IPermissionParentModule,
+  IPermissionSubModule,
+  IUsePermissionsAccordionProps,
+} from './PermissionsAccordion.interface';
 
-const usePermissionsAccordion = (props: any) => {
+const usePermissionsAccordion = (props: IUsePermissionsAccordionProps) => {
   const { reset, methods } = props;
-  const theme: any = useTheme();
-  const [isSettingPermission, setIsSettingPermission] = useState<{
-    [key: string]: any;
-  }>({});
+  const theme = useTheme();
+  const [isSettingPermission, setIsSettingPermission] =
+    useState<IIsSettingPermissionState>({});
 
-  const { role }: any = getActiveAccountSession();
+  const { role } = getActiveAccountSession();
 
   const { data, isLoading, isFetching, isError } =
     useGetPermissionsByProductQuery(
@@ -22,24 +28,32 @@ const usePermissionsAccordion = (props: any) => {
   const slugs = useMemo(() => {
     return (
       data?.data?.permissions?.flatMap(
-        (parent: any) =>
+        (parent: IPermissionParentModule) =>
           parent?.subModules?.flatMap(
-            (subModule: any) =>
-              subModule?.permissions?.map((item: any) => item?.slug),
+            (subModule: IPermissionSubModule) =>
+              subModule?.permissions?.map(
+                (item: IPermissionItem) => item?.slug,
+              ),
           ) || [],
       ) || []
     );
   }, [data]);
-  const switchChangeHandler = (e: any, data: any) => {
+  const switchChangeHandler = (
+    e: ChangeEvent<HTMLInputElement>,
+    data: IPermissionParentModule,
+  ) => {
     setIsSettingPermission?.({ isLoading: true, name: data?.name });
     const slugs = data?.subModules?.flatMap(
-      (subModule: any) =>
-        subModule?.permissions?.map((item: any) => item?.slug),
+      (subModule: IPermissionSubModule) =>
+        subModule?.permissions?.map((item: IPermissionItem) => item?.slug),
     );
-    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
-      acc[slug] = e?.target?.checked;
-      return acc;
-    }, {});
+    const slugsObject = slugs?.reduce(
+      (acc: Record<string, boolean>, slug: string | any) => {
+        acc[slug] = e?.target?.checked;
+        return acc;
+      },
+      {},
+    );
     reset((prev: any) => ({
       ...prev,
       ...slugsObject,
@@ -47,12 +61,12 @@ const usePermissionsAccordion = (props: any) => {
     setTimeout(() => setIsSettingPermission?.({}), 1000);
   };
 
-  const checkAllPermissions = (data: any) => {
+  const checkAllPermissions = (data: IPermissionParentModule) => {
     const slugs = data?.subModules?.flatMap(
-      (subModule: any) =>
-        subModule?.permissions?.map((item: any) => item?.slug),
+      (subModule: IPermissionSubModule) =>
+        subModule?.permissions?.map((item: IPermissionItem) => item?.slug),
     );
-    return slugs?.every((slug: any) => methods?.getValues()?.[slug]);
+    return slugs?.every((slug: string | any) => methods?.getValues()?.[slug]);
   };
 
   methods?.watch(slugs);

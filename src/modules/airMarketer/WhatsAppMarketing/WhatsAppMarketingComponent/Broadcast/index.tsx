@@ -31,6 +31,7 @@ const Broadcast = () => {
     data: broadcastsData,
     theme,
   };
+
   return (
     <>
       <BroadcastHeader

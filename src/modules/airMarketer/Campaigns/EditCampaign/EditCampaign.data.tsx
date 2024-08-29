@@ -1,34 +1,50 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { indexNumbers } from '@/constants';
+import { ROLES } from '@/constants/strings';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  title: Yup?.string()?.required('Field is Required'),
-});
-
-export const defaultValues = {
-  title: '',
-  compaignOwner: '',
-  startDate: null,
-  endDate: null,
-  compaignGoal: '',
-  compaignAudience: '',
-  compaignBudget: '',
-  compaignStatus: '',
+export const validationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    title: Yup?.string()?.required('Field is Required'),
+    ...formSchema,
+  });
 };
 
-export const dataArray = (UserListData: any) => {
+export const defaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+  return {
+    title: data?.title ?? '',
+    campaignOwner: data?.campaignOwnerDetails[0] ?? null,
+    startDate: data?.startDate ? new Date(data?.startDate) : null,
+    endDate: data?.endDate ? new Date(data?.endDate) : null,
+    campaignGoal: data?.campaignGoal ?? '',
+    campaignStatus: data?.campaignStatus ?? '',
+    description: data?.description ?? '',
+    campaignAudience: data?.campaignAudience ?? '',
+    campaignBudget: data?.campaignBudget ?? null,
+    ...initialValues,
+  };
+};
+
+export const dataArray = (userListData: any, organizationId: any) => {
   return [
     {
       componentProps: {
         name: 'title',
         label: 'Title',
-        placeholder: 'John Allen',
+        placeholder: 'Enter Title',
         required: true,
         fullWidth: true,
       },
@@ -40,22 +56,24 @@ export const dataArray = (UserListData: any) => {
         name: 'campaignOwner',
         label: 'Campaign Owner',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: userListData,
+        getOptionLabel: (item: any) =>
+          item ? `${item?.firstName} ${item?.lastName}` : '',
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
+        queryKey: 'role',
       },
-
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-
-      component: RHFSelect,
-
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
       componentProps: {
         name: 'startDate',
         label: 'Start Date',
+        minDate: new Date(),
         fullWidth: true,
       },
 
@@ -67,6 +85,7 @@ export const dataArray = (UserListData: any) => {
       componentProps: {
         name: 'endDate',
         label: 'End Date',
+        minDate: new Date(),
         fullWidth: true,
       },
 
@@ -78,7 +97,7 @@ export const dataArray = (UserListData: any) => {
       componentProps: {
         name: 'campaignGoal',
         label: 'Campaign Goal',
-        placeholder: 'Get 5k likes on instagram',
+        placeholder: 'Enter Goal',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -88,7 +107,7 @@ export const dataArray = (UserListData: any) => {
       componentProps: {
         name: 'campaignAudience',
         label: 'Campaign Audience',
-        placeholder: 'Instagram influencers',
+        placeholder: 'Enter Audience',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -97,8 +116,8 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignBudget',
-        label: 'Campaign Budget',
-        placeholder: '£20.105.00',
+        label: 'Campaign Budget (₤)',
+        placeholder: 'Enter Budget',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -107,20 +126,15 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignStatus',
-        label: 'campaign Status',
+        label: 'Campaign Status',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select Status',
+        options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
+        getOptionLabel: (option: any) =>
+          option?.charAt(indexNumbers?.ZERO)?.toUpperCase() +
+          option?.slice(indexNumbers?.ONE),
       },
-      options: [
-        { value: 'scheduled', label: 'Scheduled' },
-        { value: 'inprogress', label: 'In Progress' },
-        { value: 'active', label: 'Active' },
-        { value: 'paused', label: 'Paused' },
-        { value: 'completed', label: 'Completed' },
-      ],
-
-      component: RHFSelect,
-
+      component: RHFAutocomplete,
       md: 12,
     },
     {

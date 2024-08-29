@@ -2,9 +2,11 @@ import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { agentPerformanceManagement } from './AgentPerformanceManagement';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ISettingsCards } from '../Settings.interface';
 export const AgentPerformanceManagement = () => {
   const theme = useTheme();
   const router = useRouter();
+
   return (
     <>
       <Typography variant="h3">
@@ -12,7 +14,7 @@ export const AgentPerformanceManagement = () => {
       </Typography>
       <br />
       <Grid container spacing={3}>
-        {agentPerformanceManagement?.map((item: any) => (
+        {agentPerformanceManagement?.map((item: ISettingsCards) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
             <Grid item md={6} lg={4} xs={12}>
               <Box

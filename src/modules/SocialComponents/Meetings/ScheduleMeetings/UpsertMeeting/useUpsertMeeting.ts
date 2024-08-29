@@ -49,7 +49,7 @@ export const useUpsertMeeting = () => {
     location: 'In person meeting',
   };
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetByIdMeetingsListQuery(meetingId, {
       refetchOnMountOrArgChange: true,
       skip: !!!meetingId,
@@ -81,6 +81,7 @@ export const useUpsertMeeting = () => {
     useUpdateMeetingMutation();
 
   const watchMeetingType = watch('meetingType');
+  const selectedSlots = watch('selectedSlots');
   const onSubmit = async (formData: any) => {
     const isRecurringDailyOnTheDay =
       formData?.recurringType?.label === recurringConstant?.daily &&
@@ -120,11 +121,11 @@ export const useUpsertMeeting = () => {
       startDate: formData?.startDate,
       endDate: formData?.endDate,
       startTime:
-        formData?.allDay === false
+        formData?.allDay === false && formData?.allowAttendee === false
           ? dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH)
           : '',
       endTime:
-        formData?.allDay === false
+        formData?.allDay === false && formData?.allowAttendee === false
           ? dayjs(formData?.endTime)?.format(TIME_FORMAT?.TH)
           : '',
       type: formData?.meetingType?.value,
@@ -165,6 +166,8 @@ export const useUpsertMeeting = () => {
         before: formData?.bufferBeforeTime?.value,
         after: formData?.bufferAfterTime?.value,
       },
+      ...(!!!meetingId && { isAllowAttendee: formData?.allowAttendee }),
+      ...(!!!meetingId && { AllowAttendeeTimeRange: selectedSlots }),
       reminders: formData?.reminder?.map((reminder: any) => ({
         type: reminder?.type?.value,
         interval: reminder?.counter,
@@ -191,9 +194,9 @@ export const useUpsertMeeting = () => {
       successSnackbar(`${meetingType} Meeting ${action} successfully`);
 
       router?.push({
-        pathname: SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
+        pathname: SOCIAL_COMPONENTS?.EMAIL_TEMPLATE,
         query: {
-          ...(moduleId && { ticketId: res?.data?.moduleId }),
+          ...(moduleId && { ticketId: moduleId }),
           meetingId: res?.data?._id,
         },
       });
@@ -263,6 +266,7 @@ export const useUpsertMeeting = () => {
     handleAfterChange,
     meetingId,
     meetingData,
+    refetch,
   };
   return {
     methods,

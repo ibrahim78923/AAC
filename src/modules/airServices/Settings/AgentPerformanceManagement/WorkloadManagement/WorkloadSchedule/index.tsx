@@ -37,6 +37,7 @@ export const WorkloadSchedule = () => {
         ]}
         hasStartIcon={false}
         addTitle={'Create new'}
+        title={''}
         handleAction={() =>
           router?.push({
             pathname: AIR_SERVICES?.UPSERT_WORKFLOW_MANAGEMENT,

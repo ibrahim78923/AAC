@@ -31,10 +31,17 @@ import { useChangePasswordMutation } from '@/services/auth';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { LoadingButton } from '@mui/lab';
+import { useRouter } from 'next/router';
 
 const Security = () => {
+  const router = useRouter();
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
+  const [isPassword, setIsPassword] = useState<any>({
+    currentPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
   const [changePassword, { isLoading: changePasswordLoading }] =
     useChangePasswordMutation();
 
@@ -42,6 +49,21 @@ const Security = () => {
 
   const SwitchhandleChange = (e: any) => {
     setIsChecked(e.target.checked);
+  };
+
+  const handleClickShowPassword = (
+    field: 'currentPassword' | 'newPassword' | 'confirmPassword',
+  ) => {
+    setIsPassword((prevState: any) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
   };
 
   const profileSecurityForm = useForm({
@@ -90,7 +112,11 @@ const Security = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={2}>
-              {profileSecurityDataArray?.map((item: any) => (
+              {profileSecurityDataArray(
+                handleClickShowPassword,
+                handleMouseDownPassword,
+                isPassword,
+              )?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -116,6 +142,7 @@ const Security = () => {
                   color: '#6B7280',
                   borderRadius: '4px',
                 }}
+                onClick={() => router?.back()}
               >
                 Cancel
               </Button>

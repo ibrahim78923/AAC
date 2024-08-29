@@ -53,12 +53,17 @@ const ChatField = ({ isError }: any) => {
         if (isChatMessagesLoading) {
           null;
         } else {
-          dispatch(
-            setChatMetaInfo({
-              ...chatMetaInfo,
-              limit: chatMetaInfo?.limit + 10,
-            }),
-          );
+          if (chatMetaInfo?.pages === chatMetaInfo?.page) {
+            null;
+          } else {
+            dispatch(
+              setChatMetaInfo({
+                ...chatMetaInfo,
+                // limit: chatMetaInfo?.limit + 10,
+                page: chatMetaInfo?.page + 1,
+              }),
+            );
+          }
         }
       }
     };
@@ -79,7 +84,7 @@ const ChatField = ({ isError }: any) => {
     if (chatDataToShow?.length < 11) {
       handleScrollToBottom();
     }
-  }, [chatDataToShow]);
+  }, []);
 
   return (
     <>
@@ -170,7 +175,7 @@ const ChatField = ({ isError }: any) => {
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleSubmitBtn={() => setIsDeleteModal(false)}
       />
     </>
   );

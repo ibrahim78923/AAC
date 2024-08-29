@@ -58,7 +58,6 @@ const UserDetailCard = ({ image, name, phone, handelCall, isMessage }: any) => {
               <CallsDullIcon />
             </Box>
           </PermissionsGuard>
-
           {isMessage && <MessageDullIcon />}
         </Box>
       </Box>

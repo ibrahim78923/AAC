@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { createElement, useEffect } from 'react';
 
 import Image from 'next/image';
 
@@ -48,9 +48,12 @@ import PreviewPdf from './PreviewPdf';
 import { useRouter } from 'next/router';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
+import { Quick_Links_Routes } from '@/constants';
+import { componentMap } from '@/utils/dynamic-forms';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
-import { Quick_Links_Routes } from '@/constants';
 
 const Folders = () => {
   const navigate = useRouter();
@@ -90,7 +93,6 @@ const Folders = () => {
     parentFolderId,
     modalHeading,
     setModalHeading,
-    onSubmit,
     FolderAdd,
     cardBox,
     setCardBox,
@@ -118,6 +120,9 @@ const Folders = () => {
     setMoveChildFolder,
     moveChildFolder,
     documentParentsData,
+    form,
+    getDynamicFieldsStatus,
+    handleCreateFolderSubmit,
   } = useFolder();
 
   useEffect(() => {
@@ -356,6 +361,7 @@ const Folders = () => {
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClickSide}
+                  className="small"
                 >
                   Action
                   <ArrowDropDownIcon
@@ -549,6 +555,7 @@ const Folders = () => {
                     <AddCircle /> Create Folder
                   </Button>
                 </PermissionsGuard>
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.UPLOAD_DOCUMENT,
@@ -577,6 +584,7 @@ const Folders = () => {
                 <Search
                   label="Search here"
                   width="260px"
+                  size="small"
                   searchBy={searchValue}
                   setSearchBy={(e: string) => {
                     setSearchValue(e);
@@ -679,7 +687,7 @@ const Folders = () => {
               <Grid item lg={12} md={12} sm={12} xs={12}>
                 <TanstackTable
                   columns={getRowValues}
-                  data={filesData?.data?.files}
+                  data={filesData?.data?.files ?? []}
                   currentPage={filesData?.data?.meta?.page}
                   count={filesData?.data?.meta?.pages}
                   pageLimit={filesData?.data?.meta?.limit}
@@ -701,25 +709,47 @@ const Folders = () => {
           setActionType('');
           setModalHeading('');
         }}
-        handleSubmit={() => onSubmit()}
+        handleSubmit={handleCreateFolderSubmit}
         title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
         footerFill={false}
         footer={true}
       >
-        <FormProvider methods={FolderAdd}>
-          <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                ></item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
+        {getDynamicFieldsStatus?.isLoading ||
+        getDynamicFieldsStatus?.isFetching ? (
+          <SkeletonForm />
+        ) : getDynamicFieldsStatus?.isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider methods={FolderAdd}>
+            <Grid container spacing={4}>
+              {dataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                  ></item.component>
+                </Grid>
+              ))}
+              {form?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  key={item?.id}
+                  sx={{ paddingTop: '10px !important' }}
+                >
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                    })}
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        )}
       </CommonModal>
       <CommonModal
         open={isLinkOpen}

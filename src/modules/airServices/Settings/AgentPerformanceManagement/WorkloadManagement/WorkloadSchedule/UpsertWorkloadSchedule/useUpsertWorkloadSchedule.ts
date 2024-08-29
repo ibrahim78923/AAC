@@ -16,6 +16,8 @@ import {
   upsertWorkloadScheduleValidationSchema,
 } from './UpsertWorkloadSchedule.data';
 import { AIR_SERVICES } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useUpsertWorkloadSchedule = () => {
   const router = useRouter();
@@ -45,7 +47,9 @@ export const useUpsertWorkloadSchedule = () => {
   const { reset, handleSubmit, getValues } = method;
 
   useEffect(() => {
-    reset(() => upsertWorkloadScheduleDefaultValues(data?.data?.[0]));
+    reset(() =>
+      upsertWorkloadScheduleDefaultValues(data?.data?.[ARRAY_INDEX?.ZERO]),
+    );
   }, [data, reset]);
 
   const submitWorkloadSchedule = async (data: any) => {
@@ -71,10 +75,11 @@ export const useUpsertWorkloadSchedule = () => {
       moveBack?.();
       reset();
     } catch (error) {
-      errorSnackbar();
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
-  const submitUpdateWorkloadSchedule: any = async (data: any) => {
+  const submitUpdateWorkloadSchedule = async (data: any) => {
     const patchWorkloadScheduleParameter = {
       body: {
         ...data,

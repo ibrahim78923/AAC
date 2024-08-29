@@ -2,13 +2,14 @@ import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteTeamUsersMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { TeamPortalComponentPropsI } from '../Teams.interface';
 
-export const useDeleteTeam = (props: any) => {
+export const useDeleteTeam = (props: TeamPortalComponentPropsI) => {
   const {
     setPage,
     totalRecords,
     page,
-    getTeamListData,
+    getOperationsTeamsLists,
     setIsPortalOpen,
     isPortalOpen,
   } = props;
@@ -31,7 +32,7 @@ export const useDeleteTeam = (props: any) => {
           ? PAGINATION?.CURRENT_PAGE
           : page;
       setPage?.(newPage);
-      await getTeamListData?.(newPage);
+      await getOperationsTeamsLists?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message ?? error?.message);
     }

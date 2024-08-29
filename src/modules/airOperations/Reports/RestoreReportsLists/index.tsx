@@ -7,7 +7,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRestoreReportsLists } from './useRestoreReportsLists';
 import { TIME_TO_RESTORE_DELETED_RECORD } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { RestoreReportsListsPropsI } from '../Reports.interface';
+import { RestoreReportsListsPropsI } from './RestoreReportsLists.interface';
 
 export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
   const { goBack, permissions } = props;
@@ -23,6 +23,8 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    getRestoreReportsList,
+    page,
   }: any = useRestoreReportsLists(props);
 
   return (
@@ -95,7 +97,9 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
         <br />
         <TanstackTable
           columns={restoreReportColumns}
-          data={lazyGetRestoreReportsListStatus?.data?.data?.genericReports}
+          data={
+            lazyGetRestoreReportsListStatus?.data?.data?.genericReports ?? []
+          }
           isLoading={lazyGetRestoreReportsListStatus?.isLoading}
           currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
           count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
@@ -108,8 +112,12 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
           isFetching={lazyGetRestoreReportsListStatus?.isFetching}
           isError={lazyGetRestoreReportsListStatus?.isError}
           isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           isPagination
+          errorProps={{
+            canRefresh: true,
+            refresh: () => getRestoreReportsList?.(page),
+          }}
         />
       </Box>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

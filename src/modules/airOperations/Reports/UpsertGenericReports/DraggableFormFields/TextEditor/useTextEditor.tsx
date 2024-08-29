@@ -2,28 +2,36 @@ import { successSnackbar } from '@/utils/api';
 import { EditorState, RichUtils, Modifier, convertToRaw } from 'draft-js';
 import { useEffect, useState } from 'react';
 import { stateToHTML } from 'draft-js-export-html';
-import { REPORT_TYPE, TEXT_FORMATE } from '@/constants/strings';
+import {
+  MODAL_INITIAL_STATES,
+  REPORT_TYPE,
+  TEXT_FORMATE,
+} from '@/constants/strings';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { TextEditorI } from './TextEditor.interface';
+import { useDispatch } from 'react-redux';
+import {
+  setColor,
+  setEditorState,
+  setFieldData,
+  setFontSize,
+} from '@/redux/slices/genericReport/genericReportSlice';
+import { useAppSelector } from '@/redux/store';
 
 export const useTextEditor = (props: TextEditorI) => {
-  const {
-    setFieldData,
-    setModal,
-    setFontSize,
-    setColor,
-    editorState,
-    setEditorState,
-    form,
-    setForm,
-    setValue,
-    setDraggedItemData,
-    watch,
-  } = props;
+  const { setModal, form, setForm, setValue, setDraggedItemData, watch } =
+    props;
+  const dispatch = useDispatch();
+  const color = useAppSelector((state) => state?.genericReport?.color);
+  const fontSize = useAppSelector((state) => state?.genericReport?.fontSize);
+  const editorState = useAppSelector(
+    (state) => state?.genericReport?.editorState,
+  );
   const [saveDisable, setSaveDisable] = useState(true);
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
   const textTitle = watch('textTitle');
+
   useEffect(() => {
     const rawContentState = convertToRaw(editorState?.getCurrentContent());
     const blocks = rawContentState?.blocks;
@@ -35,7 +43,7 @@ export const useTextEditor = (props: TextEditorI) => {
   }, [editorState]);
 
   const applyStyle = (style: string) => {
-    setEditorState(RichUtils?.toggleInlineStyle(editorState, style));
+    dispatch(setEditorState(RichUtils?.toggleInlineStyle(editorState, style)));
   };
 
   const applyTextStyle = (formate: any) => {
@@ -54,17 +62,21 @@ export const useTextEditor = (props: TextEditorI) => {
         (text: any) => text?.replace(/\b\w/g, (l: any) => l?.toUpperCase()),
       );
     } else if (formate === TEXT_FORMATE?.UNORDERED_LIST) {
-      setEditorState(
-        RichUtils?.toggleBlockType(
-          editorState,
-          TEXT_FORMATE?.UNORDERED_LIST_ITEM,
+      dispatch(
+        setEditorState(
+          RichUtils?.toggleBlockType(
+            editorState,
+            TEXT_FORMATE?.UNORDERED_LIST_ITEM,
+          ),
         ),
       );
     } else if (formate === TEXT_FORMATE?.ORDERED_LIST) {
-      setEditorState(
-        RichUtils?.toggleBlockType(
-          editorState,
-          TEXT_FORMATE?.ORDERED_LIST_ITEM,
+      dispatch(
+        setEditorState(
+          RichUtils?.toggleBlockType(
+            editorState,
+            TEXT_FORMATE?.ORDERED_LIST_ITEM,
+          ),
         ),
       );
     }
@@ -83,11 +95,13 @@ export const useTextEditor = (props: TextEditorI) => {
       selection,
       transformedText,
     );
-    setEditorState(
-      EditorState?.push(
-        editorState,
-        newContent,
-        TEXT_FORMATE?.CHANGE_INLINE_STYLE,
+    dispatch(
+      setEditorState(
+        EditorState?.push(
+          editorState,
+          newContent,
+          TEXT_FORMATE?.CHANGE_INLINE_STYLE,
+        ),
       ),
     );
   };
@@ -126,7 +140,7 @@ export const useTextEditor = (props: TextEditorI) => {
 
   const onFontSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newFontSize = event?.target?.value;
-    setFontSize(newFontSize);
+    dispatch(setFontSize(newFontSize));
     let newEditorState = editorState;
     const currentStyles = editorState?.getCurrentInlineStyle();
     currentStyles?.forEach((style: any) => {
@@ -138,12 +152,13 @@ export const useTextEditor = (props: TextEditorI) => {
       newEditorState,
       `FONT_SIZE_${newFontSize}`,
     );
-    setEditorState(newEditorState);
+    dispatch(setEditorState(newEditorState));
   };
 
   const onColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = event?.target?.value;
-    setColor(newColor);
+    dispatch(setColor(newColor));
+
     let newEditorState = editorState;
     const currentStyles = editorState?.getCurrentInlineStyle();
     currentStyles?.forEach((style: any) => {
@@ -152,7 +167,7 @@ export const useTextEditor = (props: TextEditorI) => {
       }
     });
     newEditorState = applyInlineStyle(newEditorState, `COLOR_${newColor}`);
-    setEditorState(newEditorState);
+    dispatch(setEditorState(newEditorState));
   };
 
   const getTextFromEditorHTML = () => {
@@ -208,15 +223,10 @@ export const useTextEditor = (props: TextEditorI) => {
 
   const handleSave = () => {
     getTextFromEditorHTML();
-    setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-      counter: false,
-    });
+    dispatch(setFieldData(false));
+    setModal(MODAL_INITIAL_STATES);
     setValue('textTitle', 'Report Text');
-    setEditorState(EditorState.createEmpty());
+    dispatch(setEditorState(EditorState.createEmpty()));
     setDraggedItemData(null);
     successSnackbar('Text Added');
   };
@@ -232,5 +242,7 @@ export const useTextEditor = (props: TextEditorI) => {
     editValue,
     setEdit,
     edit,
+    color,
+    fontSize,
   };
 };

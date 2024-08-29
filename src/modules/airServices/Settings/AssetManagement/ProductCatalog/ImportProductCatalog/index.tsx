@@ -2,8 +2,9 @@ import { Import } from '@/components/Import';
 import { useImportProductCatalog } from './useImportProductCatalog';
 import { CRM_COLUMNS } from './ImportProductCatalog.data';
 import { OBJECT_URL_IMPORT } from '@/constants/strings';
+import { IProductCatalogProps } from '../ProductCatalog.interface';
 
-export const ImportProductCatalog = (props: any) => {
+export const ImportProductCatalog = (props: IProductCatalogProps) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const {
     setDrawerDefaultState,
@@ -14,7 +15,7 @@ export const ImportProductCatalog = (props: any) => {
 
   return (
     <Import
-      isDrawerOpen={isDrawerOpen}
+      isDrawerOpen={isDrawerOpen as boolean}
       setIsDrawerOpen={setIsDrawerOpen}
       setDrawerDefaultState={setDrawerDefaultState}
       title="Import Assets"

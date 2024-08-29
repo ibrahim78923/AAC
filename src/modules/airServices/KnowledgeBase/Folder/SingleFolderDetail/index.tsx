@@ -1,9 +1,26 @@
 import { EditGreyIcon } from '@/assets/icons';
+import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Skeleton, Typography } from '@mui/material';
+import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
+import { useSingleFolderDetail } from './useSingleFolderDetail';
+import ApiErrorState from '@/components/ApiErrorState';
 
-export const SingleFolderDetail = (props: any) => {
-  const { setIsPortalOpen, selectedArticlesTab } = props;
+export const SingleFolderDetail = (props: ArticlesPortalComponentPropsI) => {
+  const { setIsPortalOpen } = props;
+  const { data, isLoading, isFetching, isError, refetch } =
+    useSingleFolderDetail(props);
+
+  if (isLoading || isFetching) return <Skeleton height="10vh" />;
+  if (isError)
+    return (
+      <>
+        <Box maxHeight={'40vh'} overflow="auto">
+          <ApiErrorState height="100%" canRefresh refresh={() => refetch?.()} />
+        </Box>
+        <br />
+      </>
+    );
   return (
     <>
       <Typography
@@ -11,7 +28,7 @@ export const SingleFolderDetail = (props: any) => {
         color="slateBlue.main"
         textTransform={'capitalize'}
       >
-        {selectedArticlesTab?.name}
+        {data?.data?.name}
       </Typography>
       <Box
         display={'flex'}
@@ -20,8 +37,8 @@ export const SingleFolderDetail = (props: any) => {
         flexWrap={'wrap'}
         mb={1}
       >
-        <Typography variant="h4" color="grey.900">
-          {selectedArticlesTab?.description || '---'}
+        <Typography variant="body2" my={0.5} color="grey.900">
+          {truncateText(data?.data?.description || '---', 150)}
         </Typography>
         <Box display={'flex'} gap={2} alignItems={'center'}>
           <Box
@@ -30,7 +47,7 @@ export const SingleFolderDetail = (props: any) => {
               setIsPortalOpen?.({
                 isOpen: true,
                 isUpsertFolder: true,
-                data: selectedArticlesTab,
+                data: data?.data,
               })
             }
           >
@@ -43,7 +60,7 @@ export const SingleFolderDetail = (props: any) => {
                 setIsPortalOpen?.({
                   isOpen: true,
                   isDeleteFolder: true,
-                  data: selectedArticlesTab,
+                  data: data?.data,
                 })
               }
             />

@@ -9,14 +9,13 @@ import {
 } from './UpsertTicket.data';
 
 import { useEffect, useState } from 'react';
-import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
   useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetAssociateAssetsDropdownForTicketsQuery,
   useLazyGetCategoriesDropdownForTicketsQuery,
   useLazyGetDepartmentDropdownForTicketsQuery,
-  useLazyGetRequesterDropdownForTicketsQuery,
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
@@ -40,7 +39,7 @@ import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interf
 
 export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
   const {
-    setIsDrawerOpen,
+    setIsPortalOpen,
     ticketId,
     setSelectedTicketList,
     setFilterTicketLists,
@@ -50,7 +49,6 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
 
   const router = useRouter();
   const theme: any = useTheme();
-  const { makePath } = usePath();
 
   const [form, setForm] = useState<any>([]);
 
@@ -229,7 +227,7 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
       getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       setFilterTicketLists?.({});
       setPage?.(PAGINATION?.CURRENT_PAGE);
-      setIsDrawerOpen?.(false);
+      setIsPortalOpen?.({});
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
@@ -254,26 +252,21 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
       getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       setFilterTicketLists?.({});
       setPage?.(PAGINATION?.CURRENT_PAGE);
-      setIsDrawerOpen?.(false);
+      setIsPortalOpen?.({});
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     setSelectedTicketList([]);
     reset?.();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownForTicketsQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
   const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForTicketsQuery();

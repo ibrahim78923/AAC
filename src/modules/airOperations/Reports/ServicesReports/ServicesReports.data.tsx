@@ -18,9 +18,6 @@ export const servicesReportsListTabsDynamic = (
       _id: 1,
       name: 'All Reports',
       id: 'allReports',
-      apiQuery: servicesReportsListTabsParams?.getReportsApiQuery,
-      exportApiQuery: servicesReportsListTabsParams?.exportApiQueryAllReports,
-      permissions: AIR_OPERATION_REPORTS_SERVICES_ALL_REPORTS_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SERVICES_ALL_REPORTS_PERMISSIONS ?? {},
       ),
@@ -35,7 +32,7 @@ export const servicesReportsListTabsDynamic = (
         permission: AIR_OPERATION_REPORTS_SERVICES_ALL_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           servicesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           servicesReportsListTabsParams?.editReportPath?.(id),
       },
     },
@@ -43,10 +40,6 @@ export const servicesReportsListTabsDynamic = (
       _id: 2,
       name: 'Favorite',
       id: 'favorite',
-      apiQuery: servicesReportsListTabsParams?.getReportsApiQuery,
-      exportApiQuery:
-        servicesReportsListTabsParams?.exportApiQueryFavoriteReports,
-      permissions: AIR_OPERATION_REPORTS_SERVICES_FAVOURITES_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SERVICES_FAVOURITES_PERMISSIONS ?? {},
       ),
@@ -62,7 +55,7 @@ export const servicesReportsListTabsDynamic = (
         permission: AIR_OPERATION_REPORTS_SERVICES_FAVOURITES_PERMISSIONS,
         onRestoreClick: () =>
           servicesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           servicesReportsListTabsParams?.editReportPath?.(id),
       },
     },
@@ -70,10 +63,6 @@ export const servicesReportsListTabsDynamic = (
       _id: 3,
       name: 'Dashboard Reports',
       id: 'dashboardReports',
-      apiQuery: servicesReportsListTabsParams?.getReportsApiQuery,
-      exportApiQuery:
-        servicesReportsListTabsParams?.exportApiQueryDashboardReports,
-      permissions: AIR_OPERATION_REPORTS_SERVICES_DASHBOARD_REPORTS_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SERVICES_DASHBOARD_REPORTS_PERMISSIONS ?? {},
       ),
@@ -89,7 +78,7 @@ export const servicesReportsListTabsDynamic = (
           AIR_OPERATION_REPORTS_SERVICES_DASHBOARD_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           servicesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           servicesReportsListTabsParams?.editReportPath?.(id),
         filter: [['type', DYNAMIC_REPORTS_TYPES?.DASHBOARD]],
       },
@@ -98,10 +87,6 @@ export const servicesReportsListTabsDynamic = (
       _id: 4,
       name: 'Custom Reports',
       id: 'customReports',
-      apiQuery: servicesReportsListTabsParams?.apiQueryAllReports,
-      exportApiQuery:
-        servicesReportsListTabsParams?.exportApiQueryDashboardReports,
-      permissions: AIR_OPERATION_REPORTS_SERVICES_CUSTOM_REPORTS_PERMISSIONS,
       tabPermissions: Object?.values(
         AIR_OPERATION_REPORTS_SERVICES_CUSTOM_REPORTS_PERMISSIONS ?? {},
       ),
@@ -112,11 +97,12 @@ export const servicesReportsListTabsDynamic = (
         id: 'customReports',
         baseModule: GENERIC_REPORT_MODULES?.SERVICES,
         apiQuery: servicesReportsListTabsParams?.apiQueryCustomReports,
-        exportApiQuery: servicesReportsListTabsParams?.exportApiQueryAllReports,
+        exportApiQuery:
+          servicesReportsListTabsParams?.exportApiQueryCustomReports,
         permission: AIR_OPERATION_REPORTS_SERVICES_CUSTOM_REPORTS_PERMISSIONS,
         onRestoreClick: () =>
           servicesReportsListTabsParams?.restoreReportsPath?.(),
-        editReportPath: (id: any) =>
+        editReportPath: (id: string) =>
           servicesReportsListTabsParams?.editReportPath?.(id),
         filter: [['type', DYNAMIC_REPORTS_TYPES?.CUSTOM]],
       },

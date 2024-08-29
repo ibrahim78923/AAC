@@ -7,7 +7,6 @@ export const permissionValidation = Yup?.object()?.shape({
   autoSuggest: Yup?.boolean(),
   allowLoggedIn: Yup?.string(),
   allowRequester: Yup?.string(),
-  whoCanLogIn: Yup?.string(),
 });
 
 export const permissionValue = {
@@ -17,7 +16,6 @@ export const permissionValue = {
   autoSuggest: true,
   allowLoggedIn: 'yes',
   allowRequester: 'yes',
-  whoCanLogIn: 'userFromAnyDomain',
 };
 
 const headingProp = {
@@ -48,7 +46,7 @@ export const permissionData = [
   },
   {
     id: 2,
-    heading: 'Who can submit a new ticket on portal',
+    heading: 'Who can submit a new ticket on portal?',
     headingProp: headingProp,
     componentProps: {
       name: 'whoCanSubmit',
@@ -63,7 +61,7 @@ export const permissionData = [
   },
   {
     id: 3,
-    heading: 'Who can view solutions',
+    heading: 'Who can view Knowledge Base?',
     headingProp: headingProp,
     componentProps: {
       name: 'whoCanView',
@@ -74,10 +72,10 @@ export const permissionData = [
     },
     checkboxProps: {
       name: 'autoSuggest',
-      label: 'Auto Suggest Solutions while creating a new ticket',
+      label: 'Auto suggest articles while creating a new ticket',
     },
     tooltipProps: {
-      title: 'This also applies to the search features inside feedback widget',
+      title: 'This also applies to the search features inside article widget',
     },
   },
   {
@@ -102,27 +100,6 @@ export const permissionData = [
       options: [
         { value: 'yes', label: 'Yes' },
         { value: 'no', label: 'No' },
-      ],
-    },
-  },
-  {
-    id: 6,
-    mainHeading: 'Email Domain Restriction',
-    heading: 'Who can log in  (or)  Sign up  (or) create tickets?',
-    mainHeadingProp: {
-      variant: 'h5',
-      pb: 1,
-      color: 'secondary.main',
-    },
-    headingProp: headingProp,
-    componentProps: {
-      name: 'whoCanLogIn',
-      options: [
-        { value: 'userFromAnyDomain', label: 'User from any domain' },
-        {
-          value: 'UserFromSpecifiedDomain',
-          label: 'User from specified domain (including existing contacts)',
-        },
       ],
     },
   },

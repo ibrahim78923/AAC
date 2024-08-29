@@ -2,8 +2,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useAgentFilter } from './useAgentFilter';
+import { IAgentsProps } from '../Agents.interface';
 
-const AgentFilter = (props: any) => {
+const AgentFilter = (props: IAgentsProps) => {
   const { isAgentFilterDrawerOpen } = props;
 
   const {
@@ -19,7 +20,7 @@ const AgentFilter = (props: any) => {
     <>
       <CommonDrawer
         footer
-        isDrawerOpen={isAgentFilterDrawerOpen}
+        isDrawerOpen={isAgentFilterDrawerOpen as boolean}
         onClose={handleCloseDrawer}
         title="Filters"
         okText="Apply"

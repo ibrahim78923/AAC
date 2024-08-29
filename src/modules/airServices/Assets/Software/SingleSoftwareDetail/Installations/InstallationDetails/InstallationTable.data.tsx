@@ -1,9 +1,9 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CALENDAR_FORMAT } from '@/constants';
 
-export const installationTableColumns: any = (
+export const installationTableColumns = (
   installationData: any,
   activeCheck: any,
   setActiveCheck: any,
@@ -59,14 +59,22 @@ export const installationTableColumns: any = (
     {
       accessorFn: (row: any) => row?.displayName,
       id: 'displayName',
-      cell: (info: any) => info?.getValue(),
       header: 'Installation Machine',
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.version,
       id: 'version',
       header: 'Version',
-      cell: (info: any) => info?.getValue() ?? '__',
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.userDetail,
@@ -81,7 +89,11 @@ export const installationTableColumns: any = (
       accessorFn: (row: any) => row?.departmentDetail?.name,
       id: 'departmentDetail',
       header: 'Department',
-      cell: (info: any) => info?.getValue() ?? '__',
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.installationDate,

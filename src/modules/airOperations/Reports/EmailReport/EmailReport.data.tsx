@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 import { pxToRem } from '@/utils/getFontValue';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { FILE_MAX_SIZE } from '@/config';
+import { EmailReportDataDefaultValuesI } from './EmailReport.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const emailReportValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.array()
@@ -25,7 +27,9 @@ export const emailReportValidationSchema = Yup?.object()?.shape({
   attachments: Yup?.mixed()?.nullable()?.required('Attachment is required'),
 });
 
-export const emailReportDefaultValues = (data?: any) => {
+export const emailReportDefaultValues = (
+  data?: EmailReportDataDefaultValuesI,
+) => {
   return {
     recipients: !!data?.recipients?.length ? data?.recipients : [],
     subject: data?.subject ?? '',
@@ -35,7 +39,7 @@ export const emailReportDefaultValues = (data?: any) => {
   };
 };
 
-export const emailReportFormFields = [
+export const emailReportFormFields: ReactHookFormFieldsI[] = [
   {
     id: 1,
     componentProps: {

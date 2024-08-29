@@ -6,11 +6,7 @@ import { Theme, useTheme } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import {
-  columns,
-  LifeCycleStageDefaultValues,
-  LifeCycleStagevalidationSchema,
-} from './LifeCycleStage.data';
+import { columns, LifeCycleStagevalidationSchema } from './LifeCycleStage.data';
 import {
   useDeleteSettingLifeCycleStageMutation,
   useGetSettingLifeCycleStageQuery,
@@ -18,9 +14,15 @@ import {
   useUpdateSettingLifeCycleStageMutation,
 } from '@/services/orgAdmin/settings/life-cycle-stage';
 import { enqueueSnackbar } from 'notistack';
-import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicFormInitialValue,
+} from '@/utils/dynamic-forms';
+import { filteredEmptyValues } from '@/utils/api';
 
 const useLifeCycleStage = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -41,16 +43,38 @@ const useLifeCycleStage = () => {
   };
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetSettingLifeCycleStageQuery({ params });
-  const [updateSettingLifeCycleStage] =
+  const [updateSettingLifeCycleStage, { isLoading: lifeCycleStageLoading }] =
     useUpdateSettingLifeCycleStageMutation();
   const theme = useTheme<Theme>();
+
+  // Dynamic form
+  const [form, setForm] = useState<any>([]);
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_ORG_ADMIN,
+      moduleType: DYNAMIC_FIELDS?.MT_LIFE_CYCLE_STAGE,
+    };
+    const getDynamicFieldsParameters = { params };
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
 
   const handleEditClick = (id: any) => {
     setIsModalHeading('Edit');
     setIsDraweropen(true);
     setEditData(id);
   };
-
   const handleDeleteRecord = (id: string) => {
     setRowId(id);
     setIsOpenAlert(true);
@@ -72,43 +96,49 @@ const useLifeCycleStage = () => {
   };
 
   const handleCloseDrawer = () => {
-    reset(LifeCycleStagevalidationSchema);
+    reset();
     setEditData({});
     setIsDraweropen(false);
   };
 
   const LifeCycleStage: any = useForm({
-    resolver: yupResolver(LifeCycleStagevalidationSchema),
-    defaultValues: async () => {
-      if (editData) {
-        const { name, description } = editData;
-        if (!isNullOrEmpty(Object.keys(editData))) {
-          return {
-            name,
-            description,
-          };
-        }
-      }
-      return LifeCycleStageDefaultValues;
-    },
+    resolver: yupResolver<any>(LifeCycleStagevalidationSchema(form)),
+    defaultValues: {},
   });
-  useEffect(() => {
-    if (editData) {
-      const { name, description } = editData;
-      LifeCycleStage.setValue('name', name);
-      LifeCycleStage.setValue('description', description);
-    }
-  }, [editData, LifeCycleStage]);
-  const { handleSubmit, reset } = LifeCycleStage;
+
+  const { handleSubmit, reset, setValue } = LifeCycleStage;
   const onSubmit = async (data: any) => {
-    const settingLifeCycleStage = {
-      name: data?.name,
-      description: data?.description,
-    };
+    const filteredEmptyData = filteredEmptyValues(data);
+    const customFields: any = {};
+    const body: any = {};
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
     try {
       if (Object?.keys(editData)[0]) {
         await updateSettingLifeCycleStage({
-          body: settingLifeCycleStage,
+          body: body,
           id: editData?._id,
         }).unwrap();
         setIsDraweropen(false);
@@ -118,7 +148,7 @@ const useLifeCycleStage = () => {
         handleCloseDrawer();
       } else {
         await postSettingLifeCycleStage({
-          body: settingLifeCycleStage,
+          body: body,
         })?.unwrap();
         enqueueSnackbar('Satge Added Successfully', {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -132,6 +162,18 @@ const useLifeCycleStage = () => {
       });
     }
   };
+
+  const initialValues: any = dynamicFormInitialValue(editData, form);
+  useEffect(() => {
+    if (editData) {
+      const { name, description } = editData;
+      setValue('name', name);
+      setValue('description', description);
+      for (const key in initialValues) {
+        setValue(key, initialValues[key]);
+      }
+    }
+  }, [editData, initialValues]);
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -170,6 +212,9 @@ const useLifeCycleStage = () => {
     setPageLimit,
     loadingDelete,
     postLifeCyleStageLoading,
+    form,
+    getDynamicFieldsStatus,
+    lifeCycleStageLoading,
   };
 };
 

@@ -2,6 +2,7 @@ import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import { ColumnsI } from './Tasks.interface';
+import { capitalizeFirstLetters } from '@/utils';
 
 export const columns = (columnsProps: ColumnsI) => {
   const { selectedRec, setSelectedRec, compaignsTasksData, setStatusVariant } =
@@ -59,9 +60,9 @@ export const columns = (columnsProps: ColumnsI) => {
     {
       accessorFn: (row: any) => row?.taskName,
       id: 'taskName',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Task Name',
       isSortable: false,
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -82,7 +83,7 @@ export const columns = (columnsProps: ColumnsI) => {
       id: 'campaignName',
       isSortable: true,
       header: 'Campaign Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.taskType,

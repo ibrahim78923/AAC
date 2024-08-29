@@ -1,63 +1,34 @@
-import { Cancel, CheckCircle } from '@mui/icons-material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { UseFormWatch } from 'react-hook-form';
 import { WorkflowModuleTitleI } from './TestWorkflowDrawer.interface';
 
-export const testingData = [
-  {
-    id: 93,
-    heading: 'Testing',
-    description: ['Since this is a test, no actions will be executed'],
-  },
-];
 const moduleTitle: WorkflowModuleTitleI = {
   DEALS: 'Deals',
   QUOTES: 'Quotes',
   SALES_TASKS: 'Tasks',
 };
+export const workflowModule: WorkflowModuleTitleI = {
+  DEALS: 'deals',
+  QUOTES: 'quotes',
+  SALES_TASKS: 'taskmanagements',
+};
 type ModuleKey = keyof typeof moduleTitle;
-export const WorkflowConditionData = (
-  testWorkflowResponse: any,
-  watch: UseFormWatch<any>,
-) => {
-  const total = testWorkflowResponse?.data?.data?.meta?.total;
+export const workflowColumns = (watch: UseFormWatch<any>) => {
   const moduleSelectedOption: ModuleKey = watch('module');
   const titleData = moduleTitle[moduleSelectedOption];
-  let icon;
-  let heading;
-  let color;
-  if (!total) {
-    icon = Cancel;
-    heading = `The matching record is ${total ?? 0}`;
-    color = 'error.main';
-  } else {
-    icon = CheckCircleIcon;
-    heading = `The matching condition is ${total ?? 0}`;
-    color = 'success.main';
-  }
-
   return [
     {
-      id: 453,
-      icon: icon,
-      color: color,
-      heading: heading,
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      isSortable: true,
+      header: `${titleData} Name`,
+      cell: (info: any) => info?.getValue(),
     },
     {
-      id: 879,
-      icon: CheckCircle,
-      color: 'secondary.main',
-      heading: 'No actions will execute since conditions are not met',
-      detail: [
-        {
-          _id: 358,
-          boxColor: 'custom.steel_blue_alpha',
-          conditionNum: total,
-          conditionDetail: titleData,
-          statusColor: 'custom.steel_blue',
-          conditionStatus: 'Will Execute',
-        },
-      ],
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Action',
+      cell: () => 'Will Execute',
     },
   ];
 };

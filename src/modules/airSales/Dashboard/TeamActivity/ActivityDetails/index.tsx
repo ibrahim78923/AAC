@@ -1,53 +1,56 @@
-import Image from 'next/image';
-
-import { Grid, Typography, useTheme } from '@mui/material';
-
-import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivity';
-
+import { Avatar, Grid, Typography, useTheme } from '@mui/material';
+// import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivity';
 import { v4 as uuidv4 } from 'uuid';
+import { generateImage } from '@/utils/avatarUtils';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
-const ActivityDetails = () => {
+const ActivityDetails = ({ data }: any) => {
   const theme = useTheme();
   return (
     <>
-      {teamActivityData?.map((teamData: any) => {
+      {data?.map((teamData: any) => {
         return (
           <Grid container key={uuidv4()} p={1}>
             <Grid item sm={1}>
-              <Image
-                alt="userImage"
-                src={teamData?.userImage}
-                style={{ marginTop: '6px' }}
-              ></Image>
+              <Avatar
+                src={generateImage(teamData?.userDetails?.profileImg?.url)}
+                sx={{ color: theme?.palette?.grey[900], fontSize: '15px' }}
+              >
+                {`${teamData?.userDetails?.firstName?.charAt(0)?.toUpperCase()}
+                ${teamData?.userDetails?.lastName?.charAt(0)?.toUpperCase()}`}
+              </Avatar>
             </Grid>
             <Grid item sm={11}>
               <Typography
                 sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
                 variant="body4"
               >
-                {' '}
-                {teamData?.userName}{' '}
-              </Typography>{' '}
+                {teamData?.userDetails?.firstName}{' '}
+                {teamData?.userDetails?.lastName}
+              </Typography>
               <Typography variant="body4">
-                {' '}
-                {teamData?.userActivity}{' '}
-              </Typography>{' '}
+                {` ${teamData?.activityType} `}
+              </Typography>
+
               <Typography
                 variant="body4"
                 sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
               >
-                {' '}
-                {teamData?.userEmail}{' '}
-              </Typography>{' '}
-              <Typography variant="body4"> {teamData?.date} </Typography> <br />
-              <Typography
+                {`${teamData?.moduleName} `}
+              </Typography>
+              <Typography variant="body4">
+                at {dayjs(teamData?.updatedAt)?.format(DATE_FORMAT?.UI)}{' '}
+              </Typography>
+              {/* commented for future use */}
+              {/* <Typography
                 variant="body4"
                 sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
               >
-                {' '}
-                {teamData?.visitWebsiteName}{' '}
-              </Typography>{' '}
-              <Typography variant="body3"> {teamData?.visitUrl} </Typography>
+
+                {teamData?.visitWebsiteName}
+              </Typography>
+              <Typography variant="body3"> {teamData?.visitUrl} </Typography> */}
             </Grid>
           </Grid>
         );

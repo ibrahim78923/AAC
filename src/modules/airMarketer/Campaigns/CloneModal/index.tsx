@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import useCampaigns from '../useCampaigns';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, indexNumbers } from '@/constants';
+import { indexNumbers } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -24,8 +24,12 @@ const CloneModal = ({
   setSelectedRows,
   selectedRows,
 }: any) => {
-  const { createCampaignsLoading, UserListData, postCampaigns }: any =
-    useCampaigns();
+  const {
+    createCampaignsLoading,
+    userListData,
+    postCampaignsClone,
+    organizationId,
+  }: any = useCampaigns();
 
   const { data: compaignsDataById, isLoading: campaignByIdLoading } =
     useGetCampaignsByIdQuery(selectedRows, {
@@ -37,8 +41,7 @@ const CloneModal = ({
   useEffect(() => {
     const data = compaignsDataById?.data[indexNumbers?.ZERO];
     const fieldsToSet: any = {
-      // title: data?.title,
-      campaignOwner: data?.campaignOwner,
+      campaignOwner: data?.campaignOwnerDetails[0],
       startDate: dayjs(data?.startDate)?.isValid()
         ? dayjs(data?.startDate)?.toDate()
         : null,
@@ -63,28 +66,31 @@ const CloneModal = ({
   const { handleSubmit, reset, setValue } = methods;
 
   const onSubmit = async (values: any) => {
-    const campaignBudget = values.campaignBudget
-      ? parseFloat(values.campaignBudget)
-      : null;
-    values.campaignOwner = values?.campaignOwner?._id;
-    const obj = {
-      ...values,
-      startDate: values?.startDate
-        ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
-        : undefined,
-      endDate: values?.endDate
-        ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
-        : undefined,
-      campaignBudget,
-    };
+    // commented for future use
+    // values.name = values?.title
+    // delete values.title
+    // const campaignBudget = values.campaignBudget
+    //   ? parseFloat(values.campaignBudget)
+    //   : null;
+    // values.campaignOwner = values?.campaignOwner?._id;
+    // const obj = {
+    //   ...values,
+    //   startDate: values?.startDate
+    //     ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
+    //     : undefined,
+    //   endDate: values?.endDate
+    //     ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
+    //     : undefined,
+    //   campaignBudget,
+    // };
     try {
-      await postCampaigns({ body: obj })?.unwrap();
-      enqueueSnackbar('Campaigns created successfully', {
+      await postCampaignsClone(values.title)?.unwrap();
+      enqueueSnackbar('Campaign cloned successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       handleCloseFeaturesModal();
     } catch (error) {
-      enqueueSnackbar('Error while creating campaigns', {
+      enqueueSnackbar('Error while cloning campaigns', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -92,25 +98,25 @@ const CloneModal = ({
     setSelectedRows([]);
   };
   return (
-    <div>
-      <CommonDrawer
-        isDrawerOpen={openCloneModal}
-        onClose={() => handleCloseFeaturesModal()}
-        title={'Clone Campaign'}
-        okText={'Clone'}
-        isOk
-        cancelText={'Cancel'}
-        footer
-        submitHandler={handleSubmit(onSubmit)}
-        isLoading={createCampaignsLoading}
-      >
-        {campaignByIdLoading ? (
-          <SkeletonTable />
-        ) : (
-          <Box mt={1}>
-            <FormProvider methods={methods}>
-              <Grid container spacing={2}>
-                {dataArrayFeatures(UserListData)?.map((item: any) => (
+    <CommonDrawer
+      isDrawerOpen={openCloneModal}
+      onClose={() => handleCloseFeaturesModal()}
+      title={'Clone Campaign'}
+      okText={'Clone'}
+      isOk
+      cancelText={'Cancel'}
+      footer
+      submitHandler={handleSubmit(onSubmit)}
+      isLoading={createCampaignsLoading}
+    >
+      {campaignByIdLoading ? (
+        <SkeletonTable />
+      ) : (
+        <Box mt={1}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={2}>
+              {dataArrayFeatures(userListData, organizationId)?.map(
+                (item: any) => (
                   <Grid
                     item
                     xs={12}
@@ -126,13 +132,13 @@ const CloneModal = ({
                         ))}
                     </item.component>
                   </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          </Box>
-        )}
-      </CommonDrawer>
-    </div>
+                ),
+              )}
+            </Grid>
+          </FormProvider>
+        </Box>
+      )}
+    </CommonDrawer>
   );
 };
 export default CloneModal;

@@ -10,7 +10,7 @@ export const usePendingApprovals = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetPendingForApprovalsTicketsQuery(
       getPendingForApprovalsTicketsParameter,
       {
@@ -24,5 +24,6 @@ export const usePendingApprovals = () => {
     isFetching,
     isError,
     router,
+    refetch,
   };
 };

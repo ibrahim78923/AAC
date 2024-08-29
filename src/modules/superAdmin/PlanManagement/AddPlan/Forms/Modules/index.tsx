@@ -40,9 +40,20 @@ const Modules = ({
   selectedSubModule,
   updatePlanLoading,
   isLoading,
+  commonModulesPermissions,
+  setCommonModulesPermissions,
 }: ModulesProps) => {
   const { theme } = useModules();
   let prevProductId: string | null = null;
+  const CommonComponent = [
+    'Chats',
+    'Companies',
+    'Email',
+    'Documents',
+    'Meetings',
+    'Contacts',
+    'Calling',
+  ];
 
   const planManagement: any = useAppSelector(
     (state: any) => state?.planManagementForms,
@@ -111,6 +122,65 @@ const Modules = ({
       });
     });
   });
+
+  const processedModules = new Set();
+
+  modulesPermissionsArray?.map((modulesPermissions: any) => {
+    return modulesPermissions?.data.forEach((item: Module) => {
+      if (
+        isNullOrEmpty(commonModulesPermissions) &&
+        CommonComponent?.includes(item?.name) &&
+        !processedModules?.has(item?.name)
+      ) {
+        processedModules?.add(item?.name);
+
+        // Create a Set to collect unique slugs from the permissions of subModules
+        const slugsSet = new Set(
+          item?.subModules?.flatMap(
+            (subModule) =>
+              subModule?.permissions?.map(
+                (permission: any) => `${permission?.slug}`,
+              ),
+          ),
+        );
+
+        // Update the state with a Set to avoid duplicates
+        setCommonModulesPermissions((prevState: any) => {
+          const uniqueSlugs = new Set([...prevState, ...slugsSet]);
+          return Array.from(uniqueSlugs);
+        });
+      }
+    });
+  });
+
+  [productPermissionsData]?.map((modulesPermissions: any) => {
+    return modulesPermissions?.data.forEach((item: Module) => {
+      if (
+        isNullOrEmpty(commonModulesPermissions) &&
+        CommonComponent?.includes(item?.name) &&
+        !processedModules?.has(item?.name)
+      ) {
+        processedModules?.add(item?.name);
+
+        // Create a Set to collect unique slugs from the permissions of subModules
+        const slugsSet = new Set(
+          item?.subModules?.flatMap(
+            (subModule) =>
+              subModule?.permissions?.map(
+                (permission: any) => `${permission?.slug}`,
+              ),
+          ),
+        );
+
+        // Update the state with a Set to avoid duplicates
+        setCommonModulesPermissions((prevState: any) => {
+          const uniqueSlugs = new Set([...prevState, ...slugsSet]);
+          return Array.from(uniqueSlugs);
+        });
+      }
+    });
+  });
+
   const { data: productList } = useGetProductsQuery({});
 
   const productsOptions = productList?.data?.map((product: any) => ({
@@ -135,6 +205,18 @@ const Modules = ({
         </Box>
       ) : (
         <>
+          <Typography
+            variant="h6"
+            fontWeight={500}
+            mb={2}
+            p={1}
+            bgcolor={theme?.palette?.primary?.main}
+            color={'white'}
+            sx={{ width: 'fit-content', borderRadius: '8px' }}
+          >
+            You cannot edit the default permissions of common modules while
+            creating a new plan.
+          </Typography>
           {isNullOrEmpty(planManagement?.addPlanForm?.suite) &&
             productPermissionsData?.data?.map((item: Module) => (
               <Accordion
@@ -144,6 +226,7 @@ const Modules = ({
                   selectedModule ===
                   `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`
                 }
+                disabled={CommonComponent?.includes(item?.name)}
                 sx={{
                   '&.MuiAccordion': {
                     '&.Mui-expanded': {
@@ -158,6 +241,7 @@ const Modules = ({
                     backgroundColor: theme?.palette?.blue?.main,
                     color: theme.palette.common.white,
                     borderRadius: '8px',
+                    marginBottom: '5px',
                   },
                 }}
               >
@@ -175,12 +259,14 @@ const Modules = ({
                     <FormControlLabel
                       control={
                         <SwitchBtn
-                          checked={getModulePermissions(
-                            item?.subModules,
-                          )?.every(
-                            (permission: any) =>
-                              selectedPermission?.includes(permission),
-                          )}
+                          checked={
+                            CommonComponent?.includes(item?.name) ||
+                            getModulePermissions(item?.subModules)?.every(
+                              (permission: any) =>
+                                selectedPermission?.includes(permission),
+                            )
+                          }
+                          disabled={CommonComponent?.includes(item?.name)}
                           onClick={(
                             event: React.MouseEvent<HTMLButtonElement>,
                           ) => {
@@ -247,6 +333,7 @@ const Modules = ({
                     selectedModule ===
                     `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`
                   }
+                  disabled={CommonComponent?.includes(item?.name)}
                   sx={{
                     '&.MuiAccordion': {
                       '&.Mui-expanded': {
@@ -261,6 +348,7 @@ const Modules = ({
                       backgroundColor: theme?.palette?.blue?.main,
                       color: theme.palette.common.white,
                       borderRadius: '8px',
+                      marginBottom: '5px',
                     },
                   }}
                 >
@@ -278,12 +366,14 @@ const Modules = ({
                       <FormControlLabel
                         control={
                           <SwitchBtn
-                            checked={getModulePermissions(
-                              item?.subModules,
-                            )?.every(
-                              (permission: any) =>
-                                selectedPermission?.includes(permission),
-                            )}
+                            checked={
+                              CommonComponent?.includes(item?.name) ||
+                              getModulePermissions(item?.subModules)?.every(
+                                (permission: any) =>
+                                  selectedPermission?.includes(permission),
+                              )
+                            }
+                            disabled={CommonComponent?.includes(item?.name)}
                             onClick={(
                               event: React.MouseEvent<HTMLButtonElement>,
                             ) => {

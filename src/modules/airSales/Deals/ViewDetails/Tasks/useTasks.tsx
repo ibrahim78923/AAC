@@ -19,7 +19,7 @@ const useTasks = (selectedRecId: any) => {
   };
 
   const { data: taskData, status } = useGetDealsTasksManagementQuery({
-    query: tasksParams,
+    params: tasksParams,
   });
 
   const handleCheckboxChange = (

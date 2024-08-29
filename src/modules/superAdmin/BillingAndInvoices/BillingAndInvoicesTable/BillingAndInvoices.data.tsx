@@ -6,9 +6,8 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFSelect } from '@/components/ReactHookForm';
 import {
-  useGetOrganizationsQuery,
   useGetPlanTypeQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/billing-invoices';
@@ -18,11 +17,11 @@ import { IMG_URL } from '@/config';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import {
   CellInfoI,
-  OrganizationI,
   PlanProductI,
   PlanTypeI,
   RowDataI,
 } from './billingandinvoices.interface';
+import { useLazyGetOrganizationsListQuery } from '@/services/common-APIs';
 
 export const Columns = (
   setIsGetRowValues: (value: any) => void,
@@ -156,7 +155,7 @@ export const Columns = (
       accessorFn: (row: RowDataI) => row?.plans?.planPrice,
       id: 'planPrice',
       isSortable: true,
-      header: 'Plan Price',
+      header: 'Plan Price (£)',
       cell: (info: CellInfoI) => {
         return `£ ${info?.getValue()}`;
       },
@@ -189,15 +188,19 @@ export const Columns = (
       accessorFn: (row: RowDataI) => row?.plans?.defaultStorage,
       id: 'DefaultStorage',
       isSortable: true,
-      header: 'Default storage',
-      cell: (info: CellInfoI) => info?.getValue(),
+      header: 'Default storage (GB)',
+      cell: (info: CellInfoI) => {
+        return `${info?.getValue()} GB `;
+      },
     },
     {
       accessorFn: (row: RowDataI) => row?.additionalStorage,
       id: 'additionalStorage',
       isSortable: true,
-      header: 'Additional storage',
-      cell: (info: CellInfoI) => info?.getValue(),
+      header: 'Additional storage (GB)',
+      cell: (info: CellInfoI) => {
+        return `${info?.getValue()} GB `;
+      },
     },
     {
       accessorFn: (row: RowDataI) => row?.billingDate?.substring(0, 10),
@@ -209,13 +212,19 @@ export const Columns = (
   ];
 };
 
+export const assignPlanFilterDefaultValues = {
+  organizationId: null,
+};
+
 export const validationSchema = Yup?.object()?.shape({
-  organizationId: Yup?.string(),
+  organizationId: Yup?.mixed(),
   productId: Yup?.string()?.trim(),
   planTypeId: Yup?.string()?.trim(),
 });
 
 export const dataArray = () => {
+  const organizations = useLazyGetOrganizationsListQuery();
+
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -236,31 +245,17 @@ export const dataArray = () => {
     label: planType?.name,
   }));
 
-  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
-    refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
-  });
-
-  const Organizations = OrganizationsData?.data?.map(
-    (Organizations: OrganizationI) => ({
-      value: Organizations?._id,
-      label: Organizations?.name,
-    }),
-  );
-
   return [
     {
       componentProps: {
         name: 'organizationId',
         label: 'Client & Organization',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select organization',
+        apiQuery: organizations,
+        getOptionLabel: (option: any) => option?.name,
       },
-
-      options: Organizations,
-
-      component: RHFSelect,
-
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

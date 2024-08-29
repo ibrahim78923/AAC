@@ -5,7 +5,7 @@ import { useFilterTickets } from './useFilterTickets';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const FilterTickets = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     ticketsFilterFormFieldsData,
     methods,
@@ -18,7 +18,7 @@ export const FilterTickets = (props: TicketActionComponentPropsI) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={() => onClose?.()}
         okText={'Apply'}
         title={'Filter'}

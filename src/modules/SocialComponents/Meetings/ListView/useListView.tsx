@@ -133,5 +133,6 @@ export const useListView = () => {
     setOpenForm,
     meetingActiveType,
     deleteMeetingsStatus,
+    getMeetingListData,
   };
 };

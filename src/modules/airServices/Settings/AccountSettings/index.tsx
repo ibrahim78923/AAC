@@ -2,6 +2,7 @@ import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { accountSettings } from './AccountSettings.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ISettingsCards } from '../Settings.interface';
 
 export const AccountSettings = () => {
   const theme = useTheme();
@@ -11,7 +12,7 @@ export const AccountSettings = () => {
       <Typography variant="h3">Account Settings</Typography>
       <br />
       <Grid container spacing={3}>
-        {accountSettings?.map((item: any) => (
+        {accountSettings?.map((item: ISettingsCards) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
             <Grid item md={6} lg={4} xs={12}>
               <Box

@@ -1,4 +1,7 @@
+import { useTheme } from '@mui/material';
+
 const CharmTick = ({ isRead }: any) => {
+  const theme = useTheme();
   return (
     <>
       {isRead ? (
@@ -11,7 +14,7 @@ const CharmTick = ({ isRead }: any) => {
         >
           <path
             d="M1.75 10.3906L4.25 12.8906M7.75 8.89062L10.25 6.39062M5.75 10.3906L8.25 12.8906L14.25 6.39062"
-            stroke="white"
+            stroke={theme?.palette?.secondary?.main}
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"

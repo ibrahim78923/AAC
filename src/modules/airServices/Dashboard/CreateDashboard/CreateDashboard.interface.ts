@@ -23,7 +23,7 @@ export interface UpsertServicesDashboardDefaultValueI {
   specialUsers: any[] | undefined;
   permissionsUsers: any[] | undefined;
   access: string;
-  permissions: 'view' | 'view_and_edit';
+  permissions: string;
 }
 
 export interface UsersDropdownOptionI {

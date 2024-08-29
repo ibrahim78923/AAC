@@ -19,6 +19,7 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
           name={`purchaseDetails.${index}.itemName`}
           size="small"
           fullWidth={true}
+          placeholder="Select Item"
           sx={{ minWidth: '12rem' }}
           getOptionLabel={(option: any) =>
             option?.vendorproductcatalogsDetails?.name
@@ -44,6 +45,7 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
         <RHFTextField
           name={`purchaseDetails.${index}.description`}
           size="small"
+          placeholder="Enter Description"
           fullWidth={true}
           sx={{ minWidth: '12rem' }}
         />

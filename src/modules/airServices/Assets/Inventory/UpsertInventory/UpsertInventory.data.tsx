@@ -52,15 +52,11 @@ export const upsertInventoryFieldsDefaultValuesFunction = (
     displayName: data?.displayName ?? '',
     assetType: data?.assetTypeDetails ?? null,
     impact: data?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry:
-      typeof data?.assetLifeExpiry === 'string'
-        ? new Date(data?.assetLifeExpiry ?? todayDate)
-        : new Date(),
+    assetLifeExpiry: new Date(data?.assetLifeExpiry ?? todayDate),
     description: data?.description ?? '',
     location: data?.locationDetails ?? null,
     department: data?.departmentDetails ?? null,
-    assignedOn:
-      typeof data?.assignedOn === 'string' ? new Date(data?.assignedOn) : null,
+    assignedOn: new Date(data?.assignedOn ?? todayDate),
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
     ...initialValues,
@@ -85,6 +81,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
     componentProps: {
       name: 'displayName',
       label: 'Display name',
+      placeholder: 'Enter Display Name',
       required: true,
     },
     component: RHFTextField,
@@ -119,6 +116,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter Description',
       style: { height: pxToRem(200) },
     },
     component: RHFEditor,
@@ -156,6 +154,7 @@ export const upsertInventoryFormFieldsSecond = (
     componentProps: {
       name: 'location',
       label: 'Location',
+      placeholder: 'Select Location',
       apiQuery: apiQueryLocationType,
       getOptionLabel: (option: any) => option?.locationName,
     },
@@ -167,6 +166,7 @@ export const upsertInventoryFormFieldsSecond = (
     componentProps: {
       name: 'department',
       label: 'Department',
+      placeholder: 'Select Department',
       apiQuery: apiQueryDepartmentType,
     },
     component: RHFAutocompleteAsync,

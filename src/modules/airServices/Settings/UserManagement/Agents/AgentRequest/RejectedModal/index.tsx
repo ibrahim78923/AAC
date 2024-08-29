@@ -13,8 +13,9 @@ import {
 import { rejectedModalField } from './RejectedModal.data';
 import { useRejectedModal } from './useRejectedModal';
 import { LoadingButton } from '@mui/lab';
+import { IAgentsProps } from '../../Agents.interface';
 
-const RejectedModal = (props: any) => {
+const RejectedModal = (props: IAgentsProps) => {
   const { openRejectedModal } = props;
   const {
     handleCloseModal,
@@ -26,7 +27,7 @@ const RejectedModal = (props: any) => {
     <>
       <Dialog
         fullWidth
-        open={openRejectedModal}
+        open={openRejectedModal as boolean}
         onClose={handleCloseModal}
         maxWidth={'sm'}
       >

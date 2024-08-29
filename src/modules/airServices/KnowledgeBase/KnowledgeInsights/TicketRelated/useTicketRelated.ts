@@ -1,11 +1,12 @@
 import { PAGINATION } from '@/config';
 import { useGetKnowledgeInsightsDetailsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
 import { useState } from 'react';
+import { TicketRelatedPropsI } from './TicketRelated.interface';
 
-export const useTicketRelated = (props: any) => {
+export const useTicketRelated = (props: TicketRelatedPropsI) => {
   const { selectedArticle } = props;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const getKnowledgeInsightsDetailsParameters = {
     queryParams: {
@@ -15,7 +16,7 @@ export const useTicketRelated = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess, error } =
+  const { data, isLoading, isFetching, isError, isSuccess, error, refetch } =
     useGetKnowledgeInsightsDetailsQuery(getKnowledgeInsightsDetailsParameters, {
       refetchOnMountOrArgChange: true,
       skip: !!!selectedArticle?._id,
@@ -30,5 +31,6 @@ export const useTicketRelated = (props: any) => {
     setPageLimit,
     setPage,
     error,
+    refetch,
   };
 };

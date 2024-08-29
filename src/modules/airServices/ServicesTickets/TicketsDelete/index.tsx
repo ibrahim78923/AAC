@@ -3,8 +3,8 @@ import { useTicketDelete } from './useTicketsDelete';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const TicketsDelete = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+export const TicketsDelete = (props: TicketActionComponentPropsI | any) => {
+  const { isPortalOpen } = props;
   const { deleteTicket, closeTicketsDeleteModal, deleteTicketsStatus } =
     useTicketDelete(props);
 
@@ -13,7 +13,7 @@ export const TicketsDelete = (props: TicketActionComponentPropsI) => {
       type="delete Ticket"
       typeImage={<AlertModalDeleteIcon />}
       message="Are you sure you want to delete the selected ticket ?"
-      open={isDrawerOpen}
+      open={isPortalOpen?.isOpen as boolean}
       handleClose={() => closeTicketsDeleteModal?.()}
       handleSubmitBtn={() => deleteTicket?.()}
       loading={deleteTicketsStatus?.isLoading}

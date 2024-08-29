@@ -17,7 +17,13 @@ export const itemDetailFormFieldsFunction = (
 ) => [
   {
     id: 1,
-    data: <RHFTextField name={`${name}.${index}.serviceName`} size="small" />, //TODO: exceptional case for RHF FieldArray
+    data: (
+      <RHFTextField
+        name={`${name}.${index}.serviceName`}
+        size="small"
+        placeholder="Enter Service Name"
+      />
+    ), //TODO: exceptional case for RHF FieldArray
   },
   {
     id: 2,
@@ -26,22 +32,44 @@ export const itemDetailFormFieldsFunction = (
         name={`${name}.${index}.priceModel`}
         size="small"
         options={priceModelOptions}
+        isOptionEqualToValue={(option: any, newValue: any) =>
+          option === newValue
+        }
         fullWidth={true}
         sx={{ minWidth: '12rem' }}
+        placeholder="Select Price Model"
       />
     ),
   },
   {
     id: 3,
-    data: <RHFTextField name={`${name}.${index}.cost`} size="small" />,
+    data: (
+      <RHFTextField
+        name={`${name}.${index}.cost`}
+        size="small"
+        placeholder="Enter Cost"
+      />
+    ),
   },
   {
     id: 4,
-    data: <RHFTextField name={`${name}.${index}.count`} size="small" />,
+    data: (
+      <RHFTextField
+        name={`${name}.${index}.count`}
+        size="small"
+        placeholder="Enter Count"
+      />
+    ),
   },
   {
     id: 5,
-    data: <RHFTextField name={`${name}.${index}.comments`} size="small" />,
+    data: (
+      <RHFTextField
+        name={`${name}.${index}.comments`}
+        size="small"
+        placeholder="Comments..."
+      />
+    ),
   },
   {
     id: 6,

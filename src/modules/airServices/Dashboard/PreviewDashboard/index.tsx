@@ -12,14 +12,17 @@ import NoData from '@/components/NoData';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
 import { createElement } from 'react';
+import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 
-export const PreviewDashboard = (props: any) => {
+export const PreviewDashboard = (
+  props: ManageDashboardPortalComponentPropsI | any,
+) => {
   const { isPortalOpen, setIsPortalOpen } = props;
 
   return (
     <>
       <Dialog
-        open={isPortalOpen?.isView}
+        open={isPortalOpen?.isView as boolean}
         onClose={() => setIsPortalOpen?.({})}
         fullWidth
         maxWidth={'md'}
@@ -40,7 +43,7 @@ export const PreviewDashboard = (props: any) => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => setIsPortalOpen?.()}
+              onClick={() => setIsPortalOpen?.({})}
             />
           </Box>
         </DialogTitle>

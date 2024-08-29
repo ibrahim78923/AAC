@@ -3,6 +3,11 @@ import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 import * as Yup from 'yup';
 import { IconButton, InputAdornment } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {
+  ISettingsDataItem,
+  ISettingsDefaultValues,
+  ISettingsDefaultValuesProps,
+} from './Settings.interface';
 
 export const settingsValidationSchema = Yup?.object()?.shape({
   portalName: Yup?.string(),
@@ -16,7 +21,7 @@ export const settingsDefaultValues = ({
   domain,
   encryptedValue,
   apiKeyData,
-}: any) => {
+}: ISettingsDefaultValuesProps): ISettingsDefaultValues => {
   return {
     portalName: 'Air Customer Portal',
     portalURL: `${domain}/air-customer-portal/sign-up?companyId=${encryptedValue}`,
@@ -28,9 +33,9 @@ export const settingsDefaultValues = ({
 };
 
 export const getSettingsDataArray = (
-  handleTextFieldClick: any,
-  handleApiKeyClick: any,
-) => [
+  handleTextFieldClick?: () => void,
+  handleApiKeyClick?: () => void,
+): ISettingsDataItem[] => [
   {
     id: 1,
     componentProps: {

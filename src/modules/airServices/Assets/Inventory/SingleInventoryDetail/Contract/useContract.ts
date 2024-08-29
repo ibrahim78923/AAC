@@ -9,10 +9,10 @@ import { useState } from 'react';
 
 export const useContract = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const theme: any = useTheme();
+  const theme = useTheme();
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetInventoryContractsQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
@@ -45,5 +45,6 @@ export const useContract = () => {
     setDelateRecord,
     deleteRecord,
     deleteIsLoading,
+    refetch,
   };
 };

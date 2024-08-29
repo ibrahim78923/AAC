@@ -4,28 +4,33 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
 const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 
 // Define your Yup validation schema
-export const contactsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
-  phoneNumber: Yup.string()
-    .nullable()
-    .test(
-      'isValidPhoneNumber',
-      'Phone number is not valid',
-      (value) => !value || phoneRegex.test(value),
-    ),
-  whatsAppNumber: Yup.string()
-    .nullable()
-    .test(
-      'isValidWhatsAppNumber',
-      'WhatsApp number is not valid',
-      (value) => !value || phoneRegex.test(value),
-    ),
-});
+export const contactsValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
+    phoneNumber: Yup.string()
+      .nullable()
+      .test(
+        'isValidPhoneNumber',
+        'Phone number is not valid',
+        (value) => !value || phoneRegex.test(value),
+      ),
+    whatsAppNumber: Yup.string()
+      .nullable()
+      .test(
+        'isValidWhatsAppNumber',
+        'WhatsApp number is not valid',
+        (value) => !value || phoneRegex.test(value),
+      ),
+    ...formSchema,
+  });
+};
 
 // Define your default values
 export const contactsDefaultValues = {

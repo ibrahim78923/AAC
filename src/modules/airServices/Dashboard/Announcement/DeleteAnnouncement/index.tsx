@@ -1,12 +1,15 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteAnnouncement } from './useDeleteAnnouncement';
+import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
-export const DeleteAnnouncement = (props: any) => {
+export const DeleteAnnouncement = (
+  props: AnnouncementPortalComponentsPropsI,
+) => {
   const { isPortalOpen } = props;
   const {
     deleteAnnouncement,
-    deleteSingleServicesAnnouncementStatus,
+    deleteServicesAnnouncementOnDashboardStatus,
     closeAnnouncementDeleteModal,
   } = useDeleteAnnouncement(props);
 
@@ -15,11 +18,13 @@ export const DeleteAnnouncement = (props: any) => {
       <AlertModals
         message={'Are you sure you want to delete announcement ?'}
         type={ALERT_MODALS_TYPE?.DELETE}
-        open={isPortalOpen?.isDelete}
+        open={isPortalOpen?.isDelete as boolean}
         handleClose={() => closeAnnouncementDeleteModal?.()}
         handleSubmitBtn={() => deleteAnnouncement?.()}
-        loading={deleteSingleServicesAnnouncementStatus?.isLoading}
-        disableCancelBtn={deleteSingleServicesAnnouncementStatus?.isLoading}
+        loading={deleteServicesAnnouncementOnDashboardStatus?.isLoading}
+        disableCancelBtn={
+          deleteServicesAnnouncementOnDashboardStatus?.isLoading
+        }
       />
     </>
   );

@@ -2,8 +2,6 @@ import { Box } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 import * as Yup from 'yup';
@@ -31,6 +29,7 @@ export const dataArray = [
     componentProps: {
       name: 'name',
       label: 'Status Name',
+      placeholder: 'Enter status name',
       fullWidth: true,
       disable: true,
       required: true,
@@ -42,6 +41,7 @@ export const dataArray = [
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter description...',
       fullWidth: true,
       required: true,
     },
@@ -56,13 +56,6 @@ export const columns = (
   handleEditClick: (id: string) => void,
 ) => {
   return [
-    {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
-      cell: () => <DragIndicatorIcon />,
-      header: <></>,
-      isSortable: false,
-    },
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
@@ -102,7 +95,7 @@ export const columns = (
               sx={{ cursor: 'pointer' }}
               onClick={() => {
                 handleEditClick(info?.row?.original);
-                setIsModalHeading(DRAWER_ACTIONS_TITLES?.EDIT);
+                setIsModalHeading(DRAWER_ACTIONS_TITLES?.VIEW);
               }}
             >
               <ViewEyeIcon />
@@ -111,6 +104,7 @@ export const columns = (
               sx={{ cursor: 'pointer' }}
               onClick={() => {
                 handleEditClick(info?.row?.original);
+                setIsModalHeading(DRAWER_ACTIONS_TITLES?.EDIT);
               }}
             >
               <EditPenIcon />

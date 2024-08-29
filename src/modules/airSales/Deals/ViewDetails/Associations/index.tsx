@@ -70,11 +70,7 @@ const Associations = (props: AssociationsProps) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Attachments
-              attachmentsData={assocaitionData?.attachments}
-              isLoading={isLoading}
-              dealId={selected}
-            />
+            <Attachments dealId={selected} />
           </Grid>
         </Grid>
       </Box>

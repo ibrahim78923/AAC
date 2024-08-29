@@ -1,3 +1,4 @@
+import { ChangeEvent, createElement } from 'react';
 import {
   Box,
   Typography,
@@ -7,6 +8,7 @@ import {
   Menu,
   MenuItem,
   Avatar,
+  Skeleton,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import useDetails from './useDetails';
@@ -18,6 +20,9 @@ import Loader from '@/components/Loader';
 import { generateImage } from '@/utils/avatarUtils';
 import { useRouter } from 'next/router';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import { AlertModals } from '@/components/AlertModals';
+import { componentMap } from '@/utils/dynamic-forms';
+import { API_STATUS } from '@/constants';
 
 const Details = () => {
   const router = useRouter();
@@ -36,7 +41,15 @@ const Details = () => {
     fetchingContactById,
     contactData,
     orgId,
+    handleChangeUploadPhoto,
+    isOpenRemoveImageDialog,
+    handleOpenRemoveImageDialog,
+    handleCloseRemoveImageDialog,
+    handleRemoveAvatar,
+    form,
+    getDynamicFieldsStatus,
   } = useDetails();
+  // console.log('contactData', contactData);
 
   const detailsFormFields = detailsDataArray(
     orgId,
@@ -106,8 +119,28 @@ const Details = () => {
               horizontal: 'left',
             }}
           >
-            <MenuItem onClick={handleClose}>Upload Image</MenuItem>
-            <MenuItem onClick={handleClose}>Remove Image</MenuItem>
+            <MenuItem
+              disabled={contactData?.profilePicture}
+              component="label"
+              htmlFor="upload-photo"
+            >
+              Upload Image
+              <input
+                type="file"
+                id="upload-photo"
+                style={{ display: 'none' }}
+                accept="image/png, image/gif, image/jpeg, image/webp"
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeUploadPhoto(e)
+                }
+              />
+            </MenuItem>
+            <MenuItem
+              disabled={!contactData?.profilePicture}
+              onClick={handleOpenRemoveImageDialog}
+            >
+              Remove Image
+            </MenuItem>
           </Menu>
         </Box>
         <Box sx={styles.horizontalTabsInnnerBox}>
@@ -129,30 +162,37 @@ const Details = () => {
                   </item.component>
                 </Grid>
               ))}
+              {getDynamicFieldsStatus?.status === API_STATUS?.PENDING ? (
+                <>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ width: '100%', height: '45px' }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4} lg={4}>
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ width: '100%', height: '45px' }}
+                    />
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  {form?.map((item: any) => (
+                    <Grid item xs={12} sm={12} md={4} lg={4} key={item?.id}>
+                      {componentMap[item?.component] &&
+                        createElement(componentMap[item?.component], {
+                          ...item?.componentProps,
+                          name: item?.componentProps?.label,
+                          size: 'small',
+                        })}
+                    </Grid>
+                  ))}
+                </>
+              )}
             </Grid>
           </FormProvider>
-          {/* <Typography sx={{ mt: '24px', mb: '24px' }} variant="h4">
-              System Information
-            </Typography>
-            <Grid container spacing={4}>
-              {systemInformationDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <Typography>{item?.label}</Typography>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.placeholder}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
-              <Grid item xs={12}>
-                <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
-              </Grid>
-            </Grid> */}
 
           <Grid item xs={12}>
             <Box
@@ -184,7 +224,19 @@ const Details = () => {
           </Grid>
         </Box>
       </Box>
-      <Loader isLoading={loadingContactById || fetchingContactById} />
+      <AlertModals
+        message={`Are you sure you want to remove it?`}
+        type="delete"
+        open={isOpenRemoveImageDialog}
+        handleClose={handleCloseRemoveImageDialog}
+        handleSubmitBtn={handleRemoveAvatar}
+        // loading={loading}
+      />
+      <Loader
+        isLoading={
+          loadingContactById || fetchingContactById || loadingUpdateDetail
+        }
+      />
     </>
   );
 };

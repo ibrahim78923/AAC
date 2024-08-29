@@ -5,6 +5,6 @@ export interface HeaderI {
   setFilterValues: (values: Record<string, any>) => void;
   filterValues: Record<string, any>;
   setPage: (page: number) => void;
-  handleCsvExport: () => void;
-  handleExcelExport: () => void;
+  handleDownload: any;
+  loading: boolean;
 }

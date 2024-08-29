@@ -727,7 +727,7 @@ export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
 
 export const AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS = {
   TICKET_LIST: 'service-customer-ticket-list',
-  FILTERS: 'service-customer-filters',
+  FILTERS: 'service-customer-filtters',
 };
 
 export const AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS = {
@@ -1051,7 +1051,7 @@ export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS = {
   VIEW_LIST: 'marketer-email-marketing-email-list-view-emails',
   SEARCH_FILTER: 'marketer-email-marketing-email-list-search-and-filter',
   VIEW_DETAILS: 'marketer-email-marketing-email-list-view-detail',
-  COMPAIR_EMAILS: 'marketer-email-marketing-email-list-compare-emails',
+  COMPARE_EMAILS: 'marketer-email-marketing-email-list-compare-emails',
   EXPORT_EMAILS: 'marketer-email-marketing-email-list-export-emails',
   SAVE_AS_TEMPLATE: 'marketer-email-marketing-email-list-save-as-template',
   MOVE_TO_FOLDERS: 'marketer-email-marketing-email-list-move-to-folders',

@@ -1,38 +1,29 @@
-import { PAGINATION } from '@/config';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
+import { useDeleteServicesAnnouncementOnDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
-export const useDeleteAnnouncement = (props: any) => {
-  const {
-    setPage,
-    totalRecords,
-    page,
-    getAnnouncementListData,
-    setIsPortalOpen,
-    isPortalOpen,
-  } = props;
+export const useDeleteAnnouncement = (
+  props: AnnouncementPortalComponentsPropsI,
+) => {
+  const { setIsPortalOpen, isPortalOpen, getSingleDashboardData } = props;
   const [
-    deleteSingleServicesAnnouncementTrigger,
-    deleteSingleServicesAnnouncementStatus,
-  ] = useDeleteDynamicServicesDashboardMutation();
+    deleteServicesAnnouncementOnDashboardTrigger,
+    deleteServicesAnnouncementOnDashboardStatus,
+  ] = useDeleteServicesAnnouncementOnDashboardMutation();
 
   const deleteAnnouncement = async () => {
     const apiDataParameter = {
       queryParams: {
-        ids: isPortalOpen?.data?._id,
+        Ids: isPortalOpen?.data?._id,
       },
     };
     try {
-      await deleteSingleServicesAnnouncementTrigger(apiDataParameter)?.unwrap();
+      await deleteServicesAnnouncementOnDashboardTrigger(
+        apiDataParameter,
+      )?.unwrap();
       successSnackbar?.('Announcement deleted successfully!');
       closeAnnouncementDeleteModal?.();
-      const newPage =
-        totalRecords === SELECTED_ARRAY_LENGTH?.ONE
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getAnnouncementListData?.(newPage);
+      await getSingleDashboardData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -44,7 +35,7 @@ export const useDeleteAnnouncement = (props: any) => {
 
   return {
     deleteAnnouncement,
-    deleteSingleServicesAnnouncementStatus,
+    deleteServicesAnnouncementOnDashboardStatus,
     closeAnnouncementDeleteModal,
   };
 };

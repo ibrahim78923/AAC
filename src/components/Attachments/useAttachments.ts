@@ -4,8 +4,9 @@ import {
 } from '@/services/airServices/tickets/attachments';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
+import { AttachmentsPropsI } from './Attachments.interface';
 
-export const useAttachments = (props: any) => {
+export const useAttachments = (props: AttachmentsPropsI) => {
   const { recordId, hasAttachments } = props;
   const [deleteModal, setDeleteModal] = useState({ open: false, id: '' });
 

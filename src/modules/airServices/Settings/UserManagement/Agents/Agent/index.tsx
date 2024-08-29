@@ -112,7 +112,7 @@ const Agent = () => {
           setPage={setPage}
           count={lazyGetAgentsStatus?.data?.data?.meta?.pages}
           totalRecords={lazyGetAgentsStatus?.data?.data?.meta?.total}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           currentPage={lazyGetAgentsStatus?.data?.data?.meta?.page}
           pageLimit={pageLimit}
         />

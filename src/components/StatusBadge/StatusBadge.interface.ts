@@ -5,4 +5,5 @@ export interface BadgeStatusI {
   options?: { label: string; value: string; color?: string }[] | undefined;
   value?: string;
   defaultValue?: string;
+  disabled?: boolean;
 }

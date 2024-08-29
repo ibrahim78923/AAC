@@ -16,7 +16,7 @@ export const useListLocation = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const setDeleteRecord = (id: any) => {
+  const setDeleteRecord = (id: string) => {
     setSelectedLocation?.(id);
     setDeleteModalOpen?.(true);
   };

@@ -179,7 +179,7 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
         params: param,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.userteams;
+        if (response) return response?.data?.userTeams;
       },
     }),
     getTeamListForOperation: builder?.query({
@@ -215,6 +215,13 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteProductUsersForOperation: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -247,4 +254,5 @@ export const {
   useGetTeamsByIdForOperationQuery,
   usePostCreateTeamForOperationMutation,
   usePatchTeamUsersForOperationMutation,
+  useDeleteProductUsersForOperationMutation,
 } = userManagementAPI;

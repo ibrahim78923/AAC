@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-
 import { ASSET_TYPE } from '@/constants/strings';
 import {
   categoriesOfServices,
@@ -8,29 +7,30 @@ import {
   upsertServiceDefaultValues,
   upsertServiceValidationSchema,
 } from './UpsertService.data';
-
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import {
   useLazyGetCategoriesAgentDropdownQuery,
-  useLazyGetCategoriesRequesterDropdownQuery,
   usePostAddServiceCatalogMutation,
   useLazyGetServiceCategoriesDropdownQuery,
   useLazyGetAgentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
   useLazyGetAssetTypeForServicesDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 const useUpsertService = () => {
   const router = useRouter();
   const { categoryId } = router?.query;
   const apiQueryAgent = useLazyGetCategoriesAgentDropdownQuery();
-  const apiRequestorQuery = useLazyGetCategoriesRequesterDropdownQuery();
+  const apiRequestorQuery =
+    useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery();
   const apiServiceCategoryQuery = useLazyGetServiceCategoriesDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery();
   const apiServiceCategoryAgentQuery = useLazyGetAgentDropdownQuery();
   const apiQueryAssetType = useLazyGetAssetTypeForServicesDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
@@ -118,8 +118,9 @@ const useUpsertService = () => {
       })?.unwrap();
       successSnackbar('Service Add Successfully');
       handleCancelBtn?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

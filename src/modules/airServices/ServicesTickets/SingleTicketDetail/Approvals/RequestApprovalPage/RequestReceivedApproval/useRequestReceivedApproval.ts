@@ -1,3 +1,4 @@
+import { TICKET_APPROVALS } from '@/constants/strings';
 import { useGetApprovalsTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { useRouter } from 'next/router';
 
@@ -8,20 +9,29 @@ export const useRequestReceivedApprovals = () => {
   const getApprovalsTicketsParameter = {
     queryParams: {
       id: ticketId,
-      approvalStatus: 'RECIEVED',
+      approvalStatus: TICKET_APPROVALS?.RECEIVED,
     },
   };
-  const { data, isLoading, isFetching, isError } = useGetApprovalsTicketsQuery(
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetApprovalsTicketsQuery(
     getApprovalsTicketsParameter,
     {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
     },
   );
+
   return {
     data,
     isLoading,
     isFetching,
     isError,
+    refetch,
   };
 };

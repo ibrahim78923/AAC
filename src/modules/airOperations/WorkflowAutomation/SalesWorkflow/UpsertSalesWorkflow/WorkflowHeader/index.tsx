@@ -16,8 +16,6 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
     saveLoading,
     setValidation,
     watch,
-    testWorkflowResponse,
-    testLoading,
     isWorkflowDrawer,
     setIsWorkflowDrawer,
   } = props;
@@ -41,7 +39,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
-            disabled={saveLoading || isLoading || testLoading}
+            disabled={saveLoading || isLoading}
             onClick={handleMoveBack}
           >
             Cancel
@@ -52,7 +50,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
               variant="outlined"
               color="secondary"
               loading={saveLoading}
-              disabled={saveLoading || isLoading || testLoading}
+              disabled={saveLoading || isLoading}
               onClick={() => setValidation('save')}
               type="submit"
             >
@@ -68,8 +66,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
               startIcon={<CopyIcon />}
               variant={'outlined'}
               color={'secondary'}
-              loading={testLoading}
-              disabled={saveLoading || isLoading || testLoading}
+              disabled={saveLoading || isLoading}
               onClick={() => setValidation('test')}
               type="submit"
             >
@@ -86,7 +83,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
               variant="contained"
               type="submit"
               loading={isLoading}
-              disabled={saveLoading || isLoading || testLoading}
+              disabled={saveLoading || isLoading}
               onClick={() => setValidation('upsert')}
             >
               {workflowId ? 'Update' : 'Create'}
@@ -112,7 +109,6 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
         isWorkflowDrawer={isWorkflowDrawer}
         setIsWorkflowDrawer={setIsWorkflowDrawer}
         watch={watch}
-        testWorkflowResponse={testWorkflowResponse}
       />
     </Box>
   );

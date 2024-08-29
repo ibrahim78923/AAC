@@ -28,8 +28,9 @@ import {
   PlanManagementState,
   Product,
 } from './PlanFeatures.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
 
-const PlanFeatures = ({ methods, handleSubmit }: any) => {
+const PlanFeatures = ({ methods, handleSubmit, editPlan }: any) => {
   const {
     theme,
     openFeaturesModal,
@@ -57,10 +58,11 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
       setExpandedAccordion(isExpanded ? accordionId : '');
     };
 
-  const { data, isSuccess, isLoading } = useGetProductsFeaturesQuery(
-    { id: accordianId },
-    { skip: isNullOrEmpty(accordianId) },
-  );
+  const { data, isSuccess, isLoading, isFetching } =
+    useGetProductsFeaturesQuery(
+      { id: accordianId },
+      { skip: isNullOrEmpty(accordianId) },
+    );
   let productFeatures: { data?: { productfeatures: Feature[] } } | undefined;
   if (isSuccess) {
     productFeatures = data;
@@ -76,6 +78,12 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
 
   const router = useRouter();
   const { type } = router.query;
+
+  const selectedFeatureIds = new Set(
+    editPlan?.planProductFeatures?.flatMap(
+      (feature: any) => feature?.featureId || [],
+    ),
+  );
 
   return (
     <div>
@@ -119,6 +127,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
               <Grid container>
                 {!isNullOrEmpty(productFeatures?.data?.productfeatures) ? (
                   productFeatures?.data?.productfeatures?.map((item: any) => {
+                    const isChecked = selectedFeatureIds?.has(item._id);
                     return (
                       <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
                         <Box sx={{ width: 'max-content', display: 'flex' }}>
@@ -133,6 +142,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                                 {
                                   label: item?.name,
                                   value: item?._id,
+                                  checked: isChecked,
                                 },
                               ]}
                             />
@@ -151,7 +161,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                       </Grid>
                     );
                   })
-                ) : isLoading ? (
+                ) : isLoading || isFetching ? (
                   <Skeleton variant="rectangular" width="100%" height={150} />
                 ) : (
                   'No Data'
@@ -201,6 +211,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
               <Grid container>
                 {!isNullOrEmpty(productFeatures?.data?.productfeatures) ? (
                   productFeatures?.data?.productfeatures?.map((item: any) => {
+                    const isChecked = selectedFeatureIds?.has(item._id);
                     return (
                       <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
                         <Box sx={{ width: 'max-content', display: 'flex' }}>
@@ -215,6 +226,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                                 {
                                   label: item?.name,
                                   value: item?._id,
+                                  checked: isChecked,
                                 },
                               ]}
                             />
@@ -287,7 +299,8 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                 type === 'edit' &&
                 productsOptions?.find(
                   (obj: any) =>
-                    obj?.value === planManagement?.addPlanForm?.productId[0],
+                    obj?.value ===
+                    planManagement?.addPlanForm?.productId[ARRAY_INDEX?.ZERO],
                 )?.label}
             </Typography>
           </AccordionSummary>
@@ -296,6 +309,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
               {!isNullOrEmpty(productFeatures?.data?.productfeatures) ||
               isNullOrEmpty(accordianId) ? (
                 productFeatures?.data?.productfeatures?.map((item: any) => {
+                  const isChecked = selectedFeatureIds?.has(item._id);
                   return (
                     <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
                       <Box sx={{ width: 'max-content', display: 'flex' }}>
@@ -307,6 +321,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                               {
                                 label: item?.name,
                                 value: item?._id,
+                                checked: isChecked,
                               },
                             ]}
                           />

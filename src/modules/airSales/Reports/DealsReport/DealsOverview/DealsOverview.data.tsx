@@ -16,7 +16,7 @@ export const columns: any = [
     id: 'owner',
     isSortable: true,
     header: 'Owner',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row?.dealPipeline,

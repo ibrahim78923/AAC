@@ -1,10 +1,11 @@
 import { Box, Chip, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { pxToRem } from '@/utils/getFontValue';
+import { camelCaseToTitleCase } from '@/utils/api';
 
 export const SoftwareReportsCards = ({ softwareReportsCardsData }: any) => {
   return (
-    <Grid container my={2} spacing={2}>
+    <Grid container spacing={2}>
       {Object?.entries(softwareReportsCardsData)?.map(([key, value]: any) => (
         <Grid item lg={3} md={6} xs={12} key={key}>
           <Box
@@ -17,9 +18,11 @@ export const SoftwareReportsCards = ({ softwareReportsCardsData }: any) => {
             display={'flex'}
             justifyContent={'space-between'}
             alignItems={'center'}
+            flexWrap={'wrap'}
+            gap={0.5}
           >
             <Typography variant="h6" color={'slateBlue.main'}>
-              {key}
+              {camelCaseToTitleCase?.(key)}
             </Typography>
             <Chip
               label={value}

@@ -3,6 +3,7 @@ import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 
 const TAG = 'WORKFLOWS';
+const TEST_TAG = 'TEST_WORKFLOWS';
 const TAG_ONE = 'DROPDOWNS';
 export const salesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -47,12 +48,13 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     postTestSalesWorkflow: builder?.mutation({
-      query: (body: any) => ({
+      query: ({ body, params }: any) => ({
         url: `${OPERATION?.TEST_WORKFLOW}`,
         method: 'POST',
         body,
+        params,
       }),
-      invalidatesTags: [TAG],
+      invalidatesTags: [TEST_TAG],
     }),
     updateSalesWorkflow: builder?.mutation({
       query: (body: any) => ({

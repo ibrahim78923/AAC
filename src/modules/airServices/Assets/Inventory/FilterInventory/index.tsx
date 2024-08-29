@@ -2,8 +2,9 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterInventory } from './useFilterInventory';
 import CommonDrawer from '@/components/CommonDrawer';
+import { FilterInventoryI } from './FilterInventory.interface';
 
-export const FilterInventory = (props: any) => {
+export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
   const { isDrawerOpen } = props;
   const {
     inventoryFilterFormFieldsData,
@@ -13,7 +14,6 @@ export const FilterInventory = (props: any) => {
     closeInventoryFilterForm,
     resetInventoryFilterForm,
   } = useFilterInventory(props);
-
   return (
     <>
       <CommonDrawer

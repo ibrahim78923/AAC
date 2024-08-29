@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   contactsDefaultValues,
   contactsValidationSchema,
@@ -11,7 +9,7 @@ import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import {
@@ -38,7 +36,7 @@ const useContactsEditorDrawer = ({
   const methodscontacts = useForm({
     resolver: yupResolver(contactsValidationSchema),
     defaultValues: async () => {
-      if (openDrawer !== 'Add' && contactRecord) {
+      if (openDrawer?.type === DRAWER_TYPES?.VIEW && contactRecord) {
         const {
           firstName,
           lastName,
@@ -60,23 +58,24 @@ const useContactsEditorDrawer = ({
           address,
           phoneNumber,
           whatsAppNumber,
-          dateOfBirth: new Date(dateOfBirth),
+          dateOfBirth: new Date(dateOfBirth) ?? null,
           contactOwnerId,
           lifeCycleStageId,
           jobTitle,
           statusId,
-          dateOfJoining: new Date(dateOfJoining),
+          dateOfJoining: new Date(dateOfJoining) ?? null,
         };
+      } else {
+        return contactsDefaultValues;
       }
-      return contactsDefaultValues;
     },
   });
 
   const onSubmit = async (values: any) => {
     const recordType = 'deals';
-
     const dateOfBirth = 'dateOfBirth';
     const dateOfJoining = 'dateOfJoining';
+    values.contactOwnerId = values.contactOwnerId?._id;
     const formData = new FormData();
     formData.append('recordType', recordType);
     formData.append('recordId', dealId);
@@ -124,7 +123,7 @@ const useContactsEditorDrawer = ({
   };
 
   const onCloseHandler = () => {
-    setOpenDrawer(false);
+    setOpenDrawer({ isToggle: false, type: '' });
     reset();
   };
   const { handleSubmit, reset } = methodscontacts;

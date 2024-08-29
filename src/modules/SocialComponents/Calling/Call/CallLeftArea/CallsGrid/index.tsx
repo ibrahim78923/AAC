@@ -11,8 +11,8 @@ import { callsContactsData } from '@/mock/modules/SocialComponents/Calling';
 import { styles } from './CallsGrid.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 
 const CallsGrid = ({
   setActiveCallsSelectedData,

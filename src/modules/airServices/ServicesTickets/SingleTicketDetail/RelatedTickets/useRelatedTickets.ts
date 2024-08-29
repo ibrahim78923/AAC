@@ -5,7 +5,7 @@ import {
   relatedTicketsActionDropdownFunction,
 } from './RelatedTickets.data';
 import { PAGINATION } from '@/config';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { buildQueryParams } from '@/utils/api';
 import { getActivePermissionsSession } from '@/utils';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
@@ -15,7 +15,7 @@ import {
 } from './RelatedTickets.interface';
 
 export const useRelatedTickets = () => {
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const ticketId = router?.query?.ticketId;
   const [isPortalOpen, setIsPortalOpen] = useState<RelatedTicketsIsPortalOpenI>(
     {},
@@ -102,5 +102,7 @@ export const useRelatedTickets = () => {
     setIsPortalOpen,
     isPortalOpen,
     portalComponentProps,
+    getChildTicketsListData,
+    page,
   };
 };

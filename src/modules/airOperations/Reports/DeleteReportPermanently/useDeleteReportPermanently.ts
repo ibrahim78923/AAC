@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useDeleteRestoreReportPermanentlyMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
+import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 
 export const useDeleteReportPermanently = (
   props: RestoreReportsListsComponentPropsI,
@@ -25,7 +25,7 @@ export const useDeleteReportPermanently = (
     const deleteParams = new URLSearchParams();
 
     selectedReportLists?.forEach(
-      (reportId: any) => deleteParams?.append('ids', reportId?._id),
+      (reportId: { _id: string }) => deleteParams?.append('ids', reportId?._id),
     );
 
     const apiDataParameter = {

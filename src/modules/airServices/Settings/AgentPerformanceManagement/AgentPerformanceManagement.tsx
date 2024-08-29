@@ -5,7 +5,9 @@ import {
   WorkloadManagementIcon,
 } from '@/assets/icons';
 import { Permissions } from '@/constants/permissions';
-export const agentPerformanceManagement = [
+import { ISettingsCards } from '../Settings.interface';
+
+export const agentPerformanceManagement: ISettingsCards[] = [
   {
     id: 1,
     avatar: CannedResponseIcon,

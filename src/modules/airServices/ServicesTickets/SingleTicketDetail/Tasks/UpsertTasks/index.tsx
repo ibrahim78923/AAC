@@ -8,6 +8,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const UpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -23,6 +24,7 @@ export const UpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
     getDynamicFieldsStatus,
     form,
     postAttachmentStatus,
+    getDynamicFormData,
   } = useUpsertTasks?.(props);
 
   return (
@@ -56,16 +58,21 @@ export const UpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
           getDynamicFieldsStatus?.isFetching ? (
             <SkeletonForm />
           ) : getDynamicFieldsStatus?.isError ? (
-            <ApiErrorState />
+            <ApiErrorState canRefresh refresh={() => getDynamicFormData?.()} />
           ) : (
             <FormProvider methods={methods}>
               <Grid container spacing={1}>
-                {upsertTicketTaskFormFormFields?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
-                    <item.component {...item?.componentProps} size={'small'} />
-                  </Grid>
-                ))}
-                {form?.map((item: any) => (
+                {upsertTicketTaskFormFormFields?.map(
+                  (item: ReactHookFormFieldsI) => (
+                    <Grid item xs={12} md={item?.md} key={item?.id}>
+                      <item.component
+                        {...item?.componentProps}
+                        size={'small'}
+                      />
+                    </Grid>
+                  ),
+                )}
+                {form?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} key={item?.id}>
                     {componentMap[item?.component] &&
                       createElement(componentMap[item?.component], {

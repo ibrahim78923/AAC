@@ -8,6 +8,7 @@ import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-
 import useUserDeatilProfile from './useUserDeatilProfile';
 import { v4 as uuidv4 } from 'uuid';
 import { UserProfileParams } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
+import { LoadingButton } from '@mui/lab';
 
 const UserDetailsProfile = (props: UserProfileParams) => {
   const { userDetails, setTabVal } = props;
@@ -17,8 +18,14 @@ const UserDetailsProfile = (props: UserProfileParams) => {
     userDetails,
     setTabVal,
   };
-  const { methods, handleSubmit, onSubmit, initialTab, addressVal } =
-    useUserDeatilProfile(userProfileParams);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    initialTab,
+    addressVal,
+    updateUserLoading,
+  } = useUserDeatilProfile(userProfileParams);
 
   return (
     <FormProvider methods={methods}>
@@ -142,9 +149,13 @@ const UserDetailsProfile = (props: UserProfileParams) => {
               SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.UPDATE_SUB_USER_PROFILE,
             ]}
           >
-            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+            <LoadingButton
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+              loading={updateUserLoading}
+            >
               Update
-            </Button>
+            </LoadingButton>
           </PermissionsGuard>
         </Grid>
       </Box>

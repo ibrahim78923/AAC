@@ -1,9 +1,6 @@
 import { Box, Grid } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import useContactsEditorDrawer from './useContactsEditorDrawer';
 import {
   contactsDataArray,
@@ -11,6 +8,7 @@ import {
   drawerTitle,
 } from './ContactsEditorDrawer.data';
 import { ContactsEditorDrawerProps } from '../../Associations-interface';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const ContactsEditorDrawer = (props: ContactsEditorDrawerProps) => {
   const { openDrawer, setOpenDrawer, contactRecord, dealId } = props;
@@ -35,13 +33,13 @@ const ContactsEditorDrawer = (props: ContactsEditorDrawerProps) => {
   return (
     <div>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
+        isDrawerOpen={openDrawer?.isToggle}
         onClose={onCloseHandler}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        title={drawerTitle[openDrawer?.type]}
+        okText={drawerButtonTitle[openDrawer?.type]}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
-        footer={openDrawer === 'View' ? false : true}
+        footer={openDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}
         isLoading={postContactLoading}
       >
         <Box sx={{ pt: 2 }}>

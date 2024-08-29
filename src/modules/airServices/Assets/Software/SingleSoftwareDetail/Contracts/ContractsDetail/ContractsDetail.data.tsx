@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 
-export const contractsTableColumns: any = [
+export const contractsTableColumns = [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',

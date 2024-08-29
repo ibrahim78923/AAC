@@ -13,8 +13,11 @@ import {
 import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
 import { inventoryListsInitialColumns } from '../Inventory.data';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { CustomizeInventoryColumnI } from './CustomizeInventoryColumn.interface';
 
-export const CustomizeInventoryColumn = (props: any) => {
+export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
+  props,
+) => {
   const { isCustomizeModalOpen, inventoryListsColumnsPersist } = props;
   const {
     submit,

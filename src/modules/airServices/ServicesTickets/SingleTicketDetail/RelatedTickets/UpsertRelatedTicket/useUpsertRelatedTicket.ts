@@ -1,5 +1,5 @@
-import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Theme, useTheme } from '@mui/material';
+import { NextRouter, useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -12,10 +12,10 @@ import { useEffect } from 'react';
 import {
   useGetTicketsByIdQuery,
   useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetAssociateAssetsDropdownForTicketsQuery,
   useLazyGetCategoriesDropdownForTicketsQuery,
   useLazyGetDepartmentDropdownForTicketsQuery,
-  useLazyGetRequesterDropdownForTicketsQuery,
 } from '@/services/airServices/tickets';
 
 import {
@@ -24,15 +24,16 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
+import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 
 export const useUpsertRelatedTicket = (
   props: RelatedTicketsPortalComponentPropsI,
 ) => {
   const { setIsPortalOpen, childTicketId, setSelectedChildTickets } = props;
 
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { ticketId } = router?.query;
-  const theme: any = useTheme();
+  const theme: Theme = useTheme();
   const [postChildTicketTrigger, postChildTicketStatus] =
     useAddChildTicketsMutation();
   const [putChildTicketTrigger, putChildTicketStatus] =
@@ -44,13 +45,11 @@ export const useUpsertRelatedTicket = (
     },
   };
 
-  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
-    getSingleTicketParameter,
-    {
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetTicketsByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!childTicketId,
-    },
-  );
+    });
 
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertTicketValidationSchema),
@@ -82,10 +81,10 @@ export const useUpsertRelatedTicket = (
     !!data?.source && upsertTicketFormData?.append('source', data?.source?._id);
     !!data?.impact && upsertTicketFormData?.append('impact', data?.impact?._id);
     !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
-    (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
+    !!data?.plannedEndDate &&
       upsertTicketFormData?.append(
         'plannedEndDate',
-        makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
+        makeDateTime(data?.plannedEndDate, new Date())?.toISOString(),
       );
     !!data?.plannedEffort &&
       upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
@@ -97,8 +96,8 @@ export const useUpsertRelatedTicket = (
         'associateAssets',
         data?.associatesAssets?.map((asset: any) => asset?._id),
       );
-    upsertTicketFormData?.append('moduleType', 'TICKETS');
-    upsertTicketFormData?.append('ticketType', 'INC');
+    upsertTicketFormData?.append('moduleType', MODULE_TYPE?.TICKETS);
+    upsertTicketFormData?.append('ticketType', TICKET_TYPE?.INC);
     if (!!childTicketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
@@ -146,7 +145,8 @@ export const useUpsertRelatedTicket = (
   };
 
   const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownForTicketsQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
   const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForTicketsQuery();
@@ -176,5 +176,6 @@ export const useUpsertRelatedTicket = (
     upsertTicketFormFields,
     isError,
     childTicketId,
+    refetch,
   };
 };

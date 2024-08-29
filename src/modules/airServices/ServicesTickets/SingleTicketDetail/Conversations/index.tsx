@@ -11,6 +11,7 @@ import { Fragment } from 'react';
 import { DeleteConversation } from './DeleteConversation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Conversations = () => {
   const {
@@ -22,6 +23,7 @@ export const Conversations = () => {
     selectedConversationType,
     setSelectedConversationType,
     refetch,
+    isError,
   }: any = useConversations();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -45,6 +47,8 @@ export const Conversations = () => {
             />
           </PermissionsGuard>
         </NoData>
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <>
           <Box

@@ -1,6 +1,5 @@
-import { useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import {
   useChangeDefaultServicesDashboardMutation,
@@ -12,16 +11,22 @@ import { PreviewDashboard } from '../PreviewDashboard';
 import { DeleteDashboard } from '../DeleteDashboard';
 import { manageDashboardsDataColumnsDynamic } from './ManageDashboard.data';
 import { getActivePermissionsSession } from '@/utils';
+import {
+  ManageDashboardIsPortalOpenI,
+  ManageDashboardPortalComponentPropsI,
+} from './ManageDashboard.interface';
+import useAuth from '@/hooks/useAuth';
 
 export const useManageDashboard = () => {
-  const matches = useMediaQuery('(max-width:590px)');
-  const router = useRouter();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const router: NextRouter = useRouter();
   const [dashboardFilterLists, setDashboardFilterLists] = useState({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
+  const [isPortalOpen, setIsPortalOpen] =
+    useState<ManageDashboardIsPortalOpenI>({});
+
+  const { user } = useAuth();
 
   const overallPermissions = getActivePermissionsSession();
 
@@ -39,7 +44,7 @@ export const useManageDashboard = () => {
       ['limit', pageLimit + ''],
       ['search', search],
     ];
-    const getDashboardParam: any = buildQueryParams(
+    const getDashboardParam: URLSearchParams = buildQueryParams(
       additionalParams,
       dashboardFilterLists,
     );
@@ -72,7 +77,7 @@ export const useManageDashboard = () => {
     }
   };
 
-  const portalComponentProps = {
+  const portalComponentProps: ManageDashboardPortalComponentPropsI = {
     isPortalOpen: isPortalOpen,
     setIsPortalOpen: setIsPortalOpen,
     dashboardFilterLists: dashboardFilterLists,
@@ -100,11 +105,9 @@ export const useManageDashboard = () => {
     changeDefaultDashboard,
     changeDefaultServicesDashboardStatus,
     overallPermissions,
+    user,
   );
   return {
-    matches,
-    isDrawerOpen,
-    setIsDrawerOpen,
     router,
     setPage,
     setPageLimit,

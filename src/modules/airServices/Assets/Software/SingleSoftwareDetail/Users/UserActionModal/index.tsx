@@ -6,7 +6,12 @@ const UserActionModal = ({
   handleClose,
   children,
   selectedItem,
-}: any) => {
+}: {
+  open: boolean;
+  handleClose: () => void;
+  children: React.ReactNode;
+  selectedItem: string;
+}) => {
   return (
     <Dialog
       open={open}

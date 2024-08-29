@@ -3,8 +3,9 @@ import NoData from '@/components/NoData';
 import RecentActivitiesList from './RecentActivitiesList';
 import { RecentActivitiesCard } from './RecentActivitiesCard';
 import { Fragment, useState } from 'react';
+import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
 
-export const RecentActivities = (props: any) => {
+export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -25,9 +26,9 @@ export const RecentActivities = (props: any) => {
       </Box>
       {data?.recentActivities?.length ? (
         <Box height={'45vh'} overflow={'scroll'}>
-          {data?.recentActivities?.map((item: any, index: any) => (
+          {data?.recentActivities?.map((item: any) => (
             <Fragment key={item?._id}>
-              <RecentActivitiesCard data={item} index={index} />
+              <RecentActivitiesCard data={item} />
             </Fragment>
           ))}
         </Box>

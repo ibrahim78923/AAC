@@ -1,12 +1,9 @@
-import { useRouter } from 'next/router';
-
-import { useForm } from 'react-hook-form';
-import usePath from '@/hooks/usePath';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   useLazyGetAgentDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
 } from '@/services/airServices/tickets';
 import {
   ticketsFilterFormFieldsDataFunction,
@@ -15,21 +12,20 @@ import {
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { TicketsFilterFormFieldsI } from './FilterTickets.interface';
 
 export const useFilterTickets = (props: TicketActionComponentPropsI) => {
-  const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists, setPage } =
+  const { setIsPortalOpen, setFilterTicketLists, filterTicketLists, setPage } =
     props;
-  const router = useRouter();
 
-  const { makePath } = usePath();
-
-  const methods: any = useForm({
-    defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
-  });
+  const methods: UseFormReturn<TicketsFilterFormFieldsI> =
+    useForm<TicketsFilterFormFieldsI>({
+      defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
+    });
 
   const { handleSubmit, reset } = methods;
 
-  const submitTicketFilterForm = async (data: any) => {
+  const submitTicketFilterForm = async (data: TicketsFilterFormFieldsI) => {
     const ticketsFiltered: any = filteredEmptyValues?.(data);
 
     if (!Object?.keys(ticketsFiltered || {})?.length) {
@@ -47,24 +43,19 @@ export const useFilterTickets = (props: TicketActionComponentPropsI) => {
       setFilterTicketLists({});
     }
     reset();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset?.();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
 
   const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
     apiQueryRequester,

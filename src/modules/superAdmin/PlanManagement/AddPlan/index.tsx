@@ -22,6 +22,7 @@ const AddPlan = () => {
     ifCrmExist,
     updatePlanLoading,
     GetsinglePlanLoading,
+    parsedRowData,
   } = useAddPlan();
 
   return (
@@ -35,7 +36,9 @@ const AddPlan = () => {
       >
         <ArrowLeft />
 
-        <Typography variant="h4">Add Plan</Typography>
+        <Typography variant="h4">
+          {parsedRowData ? 'Edit' : 'Add'} Plan
+        </Typography>
       </Box>
 
       {GetsinglePlanLoading ? (

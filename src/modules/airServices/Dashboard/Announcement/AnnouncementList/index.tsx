@@ -5,19 +5,18 @@ import { Box } from '@mui/material';
 import { Fragment } from 'react';
 import { AnnouncementCard } from '../AnnouncementCard';
 import NoData from '@/components/NoData';
-import CustomPagination from '@/components/CustomPagination';
 import { useAnnouncementList } from './useAnnouncementList';
+import { fullName } from '@/utils/avatarUtils';
 
 export const AnnouncementList = (props: any) => {
   const {
     isPortalOpen,
     dropdownAnnouncementsOptions,
     lazyGetCustomerAnnouncementStatus,
-    setPageLimit,
-    setPage,
+    getCustomerAnnouncementData,
   } = props;
 
-  const { onClose } = useAnnouncementList?.(props);
+  const { onClose, user } = useAnnouncementList?.(props);
 
   return (
     <CommonDrawer
@@ -31,12 +30,15 @@ export const AnnouncementList = (props: any) => {
       lazyGetCustomerAnnouncementStatus?.isFetching ? (
         <SkeletonForm />
       ) : lazyGetCustomerAnnouncementStatus?.isError ? (
-        <ApiErrorState />
+        <ApiErrorState
+          canRefresh
+          refresh={() => getCustomerAnnouncementData?.()}
+        />
       ) : (
         <Box my="0.75rem">
-          {!!lazyGetCustomerAnnouncementStatus?.data?.annoucements?.length ? (
+          {!!lazyGetCustomerAnnouncementStatus?.data?.data?.length ? (
             <>
-              {lazyGetCustomerAnnouncementStatus?.data?.annoucements?.map(
+              {lazyGetCustomerAnnouncementStatus?.data?.data?.map(
                 (announcement: any, index: number) => (
                   <Fragment key={announcement?._id}>
                     <AnnouncementCard
@@ -45,24 +47,20 @@ export const AnnouncementList = (props: any) => {
                       )}
                       data={announcement}
                       index={index}
+                      isLoggedInUser={
+                        user?._id === announcement?.createdBy?._id
+                      }
+                      userDetails={{
+                        userAvatar: announcement?.createdBy?.avatar?.url,
+                        userName: fullName(
+                          announcement?.createdBy?.firstName,
+                          announcement?.createdBy?.lastName,
+                        ),
+                      }}
                     />
                   </Fragment>
                 ),
               )}
-              <br />
-              <CustomPagination
-                count={lazyGetCustomerAnnouncementStatus?.data?.meta?.pages}
-                pageLimit={lazyGetCustomerAnnouncementStatus?.data?.meta?.limit}
-                currentPage={
-                  lazyGetCustomerAnnouncementStatus?.data?.meta?.page
-                }
-                totalRecords={
-                  lazyGetCustomerAnnouncementStatus?.data?.meta?.total
-                }
-                onPageChange={(page: any) => setPage?.(page)}
-                setPage={setPage}
-                setPageLimit={setPageLimit}
-              />
             </>
           ) : (
             <NoData />

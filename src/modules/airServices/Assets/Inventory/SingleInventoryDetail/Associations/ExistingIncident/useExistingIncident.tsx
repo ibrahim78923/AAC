@@ -7,7 +7,10 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
 
-export const useExistingIncident = (props: any) => {
+export const useExistingIncident = (props: {
+  openDrawer: boolean;
+  setIsOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { setIsOpenDrawer } = props;
   const theme: any = useTheme();
   const router = useRouter();

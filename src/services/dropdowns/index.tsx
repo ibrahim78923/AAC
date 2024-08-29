@@ -72,6 +72,7 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
+  useGetOrganizationsQuery,
   useLazyGetOrganizationsQuery,
   useLazyGetProductsQuery,
   useLazyGetFoldersQuery,

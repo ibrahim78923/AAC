@@ -8,6 +8,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePostHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
+
 export const useAddHoliday = (props: any) => {
   const {
     setHolidaysData,
@@ -53,8 +55,9 @@ export const useAddHoliday = (props: any) => {
       await postHolidayTrigger(postHolidayParameter)?.unwrap();
       successSnackbar('Holiday Added Successfully');
       closeHolidayModal();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   });
   return {

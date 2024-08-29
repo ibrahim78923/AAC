@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { createElement } from 'react';
 
-import { Box, Typography, Button, Grid } from '@mui/material';
+import { Box, Typography, Button, Grid, Skeleton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { FormProvider } from '@/components/ReactHookForm';
@@ -18,6 +18,8 @@ import { styles } from './LifeCycleStage.style';
 import { v4 as uuidv4 } from 'uuid';
 import { ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { componentMap } from '@/utils/dynamic-forms';
+import { API_STATUS } from '@/constants';
 
 const LifeCycleStage = () => {
   const {
@@ -43,6 +45,9 @@ const LifeCycleStage = () => {
     isSuccess,
     isLoading,
     loadingDelete,
+    form,
+    getDynamicFieldsStatus,
+    lifeCycleStageLoading,
   } = useLifeCycleStage();
 
   return (
@@ -56,11 +61,11 @@ const LifeCycleStage = () => {
           footer={isModalHeading === 'View' ? false : true}
           isOk={true}
           submitHandler={handleSubmit(onSubmit)}
-          isLoading={postLifeCyleStageLoading}
+          isLoading={postLifeCyleStageLoading || lifeCycleStageLoading}
         >
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={LifeCycleStage}>
-              <Grid container spacing={4}>
+              <Grid container spacing={2}>
                 {dataArray(isModalHeading)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component
@@ -69,6 +74,36 @@ const LifeCycleStage = () => {
                     ></item.component>
                   </Grid>
                 ))}
+
+                {getDynamicFieldsStatus?.status === API_STATUS?.PENDING ? (
+                  <>
+                    <Grid item xs={12}>
+                      <Skeleton
+                        variant="rounded"
+                        sx={{ width: '100%', height: '45px' }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Skeleton
+                        variant="rounded"
+                        sx={{ width: '100%', height: '45px' }}
+                      />
+                    </Grid>
+                  </>
+                ) : (
+                  <>
+                    {form?.map((item: any) => (
+                      <Grid item xs={12} key={item?.id}>
+                        {componentMap[item?.component] &&
+                          createElement(componentMap[item?.component], {
+                            ...item?.componentProps,
+                            name: item?.componentProps?.label,
+                            size: 'small',
+                          })}
+                      </Grid>
+                    ))}
+                  </>
+                )}
               </Grid>
             </FormProvider>
           </Box>

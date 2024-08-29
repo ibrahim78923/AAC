@@ -1,8 +1,11 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { contactsDataArray } from './CreateContactsdata';
 import useCreateContacts from './useCreateContacts';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
+import { API_STATUS } from '@/constants';
 
 const CreateContacts = ({ open, onClose, handleRefresh }: any) => {
   const {
@@ -14,6 +17,8 @@ const CreateContacts = ({ open, onClose, handleRefresh }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
+    form,
+    getDynamicFieldsStatus,
   } = useCreateContacts(handleRefresh);
 
   const handelClose = () => {
@@ -54,6 +59,35 @@ const CreateContacts = ({ open, onClose, handleRefresh }: any) => {
               </Grid>
             ))}
           </Grid>
+          {getDynamicFieldsStatus?.status === API_STATUS?.PENDING ? (
+            <>
+              <Grid item xs={12}>
+                <Skeleton
+                  variant="rounded"
+                  sx={{ width: '100%', height: '45px' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Skeleton
+                  variant="rounded"
+                  sx={{ width: '100%', height: '45px' }}
+                />
+              </Grid>
+            </>
+          ) : (
+            <>
+              {form?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                    })}
+                </Grid>
+              ))}
+            </>
+          )}
         </FormProvider>
       </Box>
     </CommonDrawer>

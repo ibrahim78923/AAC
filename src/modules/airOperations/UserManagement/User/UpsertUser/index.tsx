@@ -5,8 +5,10 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TITLE_FORM_USER } from './UpsertUser.data';
 import { useUpsertUser } from './useUpsertUser';
+import { UserPortalComponentPropsI } from '../User.interface';
+import ApiErrorState from '@/components/ApiErrorState';
 
-export const UpsertUser = (props: any) => {
+export const UpsertUser = (props: UserPortalComponentPropsI) => {
   const { isPortalOpen } = props;
   const {
     upsertUserFormFields,
@@ -17,12 +19,15 @@ export const UpsertUser = (props: any) => {
     submitButtonHandler,
     isLoading,
     isFetching,
+    isError,
+    refetch,
+    igVerificationStatus,
   } = useUpsertUser(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isUpsert}
+        isDrawerOpen={isPortalOpen?.isUpsert as boolean}
         onClose={() => closeOperationUserForm()}
         title={
           isPortalOpen?.isView
@@ -48,19 +53,24 @@ export const UpsertUser = (props: any) => {
         }
         isLoading={
           addProductUserForOperationStatus?.isLoading ||
-          updateProductUserForOperationStatus?.isLoading
+          updateProductUserForOperationStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         isDisabled={
           addProductUserForOperationStatus?.isLoading ||
-          updateProductUserForOperationStatus?.isLoading
+          updateProductUserForOperationStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         disabledCancelBtn={
           addProductUserForOperationStatus?.isLoading ||
-          updateProductUserForOperationStatus?.isLoading
+          updateProductUserForOperationStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
       >
         {isLoading || isFetching ? (
           <SkeletonForm />
+        ) : isError ? (
+          <ApiErrorState canRefresh refresh={() => refetch?.()} />
         ) : (
           <>
             {isPortalOpen?.isAdd && (
@@ -76,7 +86,9 @@ export const UpsertUser = (props: any) => {
                       <item.component
                         {...item?.componentProps}
                         size={'small'}
-                        disabled={isPortalOpen?.isView}
+                        disabled={
+                          item?.componentProps?.disabled || isPortalOpen?.isView
+                        }
                       />
                     </Grid>
                   ))}

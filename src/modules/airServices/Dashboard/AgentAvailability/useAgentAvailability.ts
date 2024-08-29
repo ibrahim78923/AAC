@@ -40,8 +40,8 @@ export const useAgentAvailability = (props: any) => {
   }, [watchDepartment?._id]);
 
   const pieChartSeries = [
-    data?.agentAvailabilty?.data?.availableAgents || 0,
-    data?.agentAvailabilty?.data?.unAvailableAgents || 0,
+    data?.agentAvailability?.data?.availableAgents || 0,
+    data?.agentAvailability?.data?.unAvailableAgents || 0,
   ];
 
   return {

@@ -5,6 +5,10 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 import { PAGINATION } from '@/config';
 import { ROLES } from '@/constants/strings';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
@@ -12,6 +16,7 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 
 export const addTimeFormValidationSchema = (form: any) => {
@@ -60,7 +65,7 @@ export const addTimeFormFieldsDynamic = (
         meta: 'false',
         ticketId: ticketId,
       },
-      getOptionLabel: (option: any) => `${option?.title}`,
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) => `${option?.title}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -78,7 +83,7 @@ export const addTimeFormFieldsDynamic = (
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
         role: ROLES?.ORG_EMPLOYEE,
       },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -104,7 +109,7 @@ export const addTimeFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,
@@ -127,7 +132,7 @@ export const addTimeFormFieldsDynamic = (
       name: 'note',
       label: 'Note',
       fullWidth: true,
-      style: { height: '200px' },
+      style: { height: pxToRem(200) },
     },
     component: RHFEditor,
     md: 12,

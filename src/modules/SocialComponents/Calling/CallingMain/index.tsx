@@ -86,6 +86,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
                     <DownIcon color={'#38CAB5'} />
                   </Button>
                 </PermissionsGuard>
+
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorElCallNow}
@@ -98,6 +99,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
                   </Link>
                   <MenuItem>For Mobile</MenuItem>
                 </Menu>
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.SCHEDULE_CALL,
@@ -113,6 +115,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
                     <PlusIcon />
                   </Button>
                 </PermissionsGuard>
+
                 <Menu
                   id="schedule-a-call"
                   anchorEl={anchorElScheduleCall}

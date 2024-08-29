@@ -8,7 +8,7 @@ export const useSoftware = () => {
   const router = useRouter();
   const theme = useTheme();
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
-  const [softwareData, setSoftwareData] = useState([]);
+  const [softwareData, setSoftwareData] = useState<string[]>([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [filterValues, setFilterValues] = useState({});
@@ -24,7 +24,7 @@ export const useSoftware = () => {
     search: searchValue,
   };
 
-  const { data, isLoading, isError, isSuccess, isFetching } =
+  const { data, isLoading, isError, isSuccess, isFetching, refetch } =
     useGetAssetsSoftwareQuery(apiDataParameter, {
       refetchOnMountOrArgChange: true,
     });
@@ -55,5 +55,6 @@ export const useSoftware = () => {
     setIsOpenFilterDrawer,
     filterValues,
     theme,
+    refetch,
   };
 };

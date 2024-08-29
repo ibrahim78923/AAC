@@ -11,21 +11,41 @@ import {
   useLazyGetAllCampaignsListQuery,
   useLazyGetAllWhatsAppTemplateListQuery,
 } from '@/services/common-APIs';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
-export const validationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  campaignId: Yup?.object()?.required('Field is Required'),
-  templateId: Yup?.object()?.required('Field is Required'),
-  detail: Yup?.string()?.required('Field is Required'),
-});
+export const broadCastValidationSchema = (isSchedule: any, form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    broadcastName: Yup?.string()?.required('Field is Required'),
+    campaignId: Yup?.object()?.required('Field is Required'),
+    templateId: Yup?.object()?.required('Field is Required'),
+    detail: Yup?.string()?.required('Field is Required'),
+    schedualDate: Yup?.date()
+      ?.nullable()
+      ?.when([], () =>
+        isSchedule
+          ? Yup?.date()?.required('Field is Required')
+          : Yup?.date()?.nullable(),
+      ),
+    ...formSchema,
+  });
+};
 
-export const defaultValues = {
-  name: '',
-  campaignId: null,
-  templateId: null,
-  recipients: '',
-  detail: '',
-  attachment: '',
+export const broadcastDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+  return {
+    broadcastName: data?.name ?? '',
+    campaignId: data?.campaignId ?? null,
+    templateId: data?.templateId ?? null,
+    recipients: data?.recipients ?? '',
+    detail: data?.detail ?? '',
+    attachment: data?.attachment ?? '',
+    schedualDate: null,
+    ...initialValues,
+  };
 };
 
 export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
@@ -36,7 +56,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       id: '01',
       componentProps: {
         label: 'Broadcast Name',
-        name: 'name',
+        name: 'broadcastName',
         fullWidth: true,
         placeholder: 'Enter Name',
         required: true,
@@ -100,6 +120,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
         label: 'Details',
         fullWidth: true,
         required: true,
+        disabled: true,
       },
     },
     {

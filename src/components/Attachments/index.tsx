@@ -7,8 +7,9 @@ import ApiErrorState from '../ApiErrorState';
 import NoData from '../NoData';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { AddCircleIcon } from '@/assets/icons';
+import { AttachmentsPropsI } from './Attachments.interface';
 
-export const Attachments = (props: any) => {
+export const Attachments = (props: AttachmentsPropsI) => {
   const {
     permissionKey,
     size,

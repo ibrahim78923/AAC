@@ -1,11 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import { useText } from './useText';
 import { Editor } from 'draft-js';
-import { TextI } from './Text.interface';
+import { setEditorState } from '@/redux/slices/genericReport/genericReportSlice';
 
-export const Text = (props: TextI) => {
-  const { editorState, setEditorState } = props;
-  const { handleKeyCommand, styleMap } = useText(props);
+export const Text = () => {
+  const { handleKeyCommand, styleMap, editorState, dispatch } = useText();
 
   return (
     <>
@@ -20,7 +19,9 @@ export const Text = (props: TextI) => {
           <Editor
             editorState={editorState}
             handleKeyCommand={handleKeyCommand}
-            onChange={setEditorState}
+            onChange={(newEditorState) =>
+              dispatch(setEditorState(newEditorState))
+            }
             customStyleMap={styleMap}
           />
         </Box>

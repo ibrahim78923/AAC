@@ -7,9 +7,10 @@ import { useWelcomeCard } from './useWelcomeCard';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TICKET_TYPE } from './WelcomeCard.data';
 
-export const WelcomeCard = () => {
+export const WelcomeCard = (props: any) => {
+  const { isRegister = true } = props;
   const { mainWrapper, ticketCardWrapper } = styles;
-  const { data, isLoading, isFetching, isError, ticketsCountsData } =
+  const { data, isLoading, isFetching, isError, ticketsCountsData, refetch } =
     useWelcomeCard();
   return (
     <>
@@ -27,27 +28,36 @@ export const WelcomeCard = () => {
             We are here to help you, Please let us know what you need.
           </Typography>
         </Box>
-        {isLoading || isFetching ? (
-          <Skeleton
-            variant="rounded"
-            width={'100%'}
-            height={50}
-            sx={{ bgcolor: 'grey.900', borderRadius: 3 }}
-          />
-        ) : isError ? (
-          <Box width="100%" borderRadius={3}>
-            <ApiErrorState height="" textColor="common.white" />
-          </Box>
-        ) : (
-          <Box sx={ticketCardWrapper}>
-            {ticketsCountsData?.map((singleData: any) => (
-              <TicketCard
-                key={singleData?._id}
-                data={singleData}
-                totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
+        {isRegister && (
+          <>
+            {isLoading || isFetching ? (
+              <Skeleton
+                variant="rounded"
+                width={'100%'}
+                height={50}
+                sx={{ bgcolor: 'grey.900', borderRadius: 3 }}
               />
-            ))}
-          </Box>
+            ) : isError ? (
+              <Box width="100%" borderRadius={3}>
+                <ApiErrorState
+                  height=""
+                  textColor="common.white"
+                  canRefresh
+                  refresh={() => refetch?.()}
+                />
+              </Box>
+            ) : (
+              <Box sx={ticketCardWrapper}>
+                {ticketsCountsData?.map((singleData: any) => (
+                  <TicketCard
+                    key={singleData?._id}
+                    data={singleData}
+                    totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
+                  />
+                ))}
+              </Box>
+            )}
+          </>
         )}
       </Box>
     </>

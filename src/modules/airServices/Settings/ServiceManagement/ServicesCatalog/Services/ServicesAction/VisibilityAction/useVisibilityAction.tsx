@@ -4,18 +4,23 @@ import {
   useGetCategoriesRequesterDropdownQuery,
   usePatchServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-
 import { useState } from 'react';
-const useVisibilityAction = (props: any) => {
+import { IServicesProps } from '../../Services.interface';
+
+const useVisibilityAction = (props: IServicesProps) => {
   const { handleCloseVisibility, setAnchorEl, id } = props;
+
   const [selectedAgentCheckboxes, setSelectedAgentCheckboxes] = useState<any>(
     [],
   );
   const [selectedRequestorCheckboxes, setSelectedRequestorCheckboxes] =
     useState<any>([]);
+
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchServiceCatalogMutation();
+
   const handleSubmit = async () => {
     const moveToCategoryData: any = {};
 
@@ -38,18 +43,22 @@ const useVisibilityAction = (props: any) => {
       await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
       successSnackbar('Service Visibility Updated ');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
     onClose?.();
   };
+
   const onClose = () => {
     handleCloseVisibility?.();
     setAnchorEl?.(false);
   };
+
   const apiQueryRequester = useGetCategoriesRequesterDropdownQuery({
     params: { limit: 50, role: ROLES?.ORG_REQUESTER },
   });
+
   const apiQueryAgent = useGetCategoriesAgentDropdownQuery({
     params: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
   });

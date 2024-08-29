@@ -1,5 +1,3 @@
-import usePath from '@/hooks/usePath';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
@@ -8,16 +6,15 @@ export const useCustomizeTicketColumn = (
 ) => {
   const {
     ticketsListsColumnPersist,
-    setIsDrawerOpen,
+    setIsPortalOpen,
     setTicketsListsActiveColumn,
     ticketsListsActiveColumn,
   } = props;
 
-  const router = useRouter();
-  const { makePath } = usePath();
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
     ticketsListsActiveColumn,
   );
+
   const checkboxHandler = (e: any, col: any) => {
     e?.target?.checked
       ? setCustomizeColumn([...customizeColumn, col?.id])
@@ -32,13 +29,7 @@ export const useCustomizeTicketColumn = (
   };
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   return {

@@ -6,8 +6,6 @@ export interface WorkflowHeaderI {
   saveLoading: boolean;
   setValidation: Dispatch<SetStateAction<string>>;
   watch: UseFormWatch<any>;
-  testWorkflowResponse: any;
-  testLoading: boolean;
   isWorkflowDrawer: boolean;
   setIsWorkflowDrawer: Dispatch<SetStateAction<boolean>>;
 }

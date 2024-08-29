@@ -5,9 +5,9 @@ import { useState } from 'react';
 
 export const useCannedResponsesList = (props: any) => {
   const { setIsModalOpen } = props;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState<any>('');
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
 
   const router = useRouter();
   const getCannedResponsesForConversationParameter = {
@@ -18,16 +18,18 @@ export const useCannedResponsesList = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetCannedResponsesForConversationQuery(
       getCannedResponsesForConversationParameter,
       {
         refetchOnMountOrArgChange: true,
       },
     );
+
   const closeModal = () => {
     setIsModalOpen?.('');
   };
+
   return {
     data,
     isLoading,
@@ -38,5 +40,6 @@ export const useCannedResponsesList = (props: any) => {
     setPageLimit,
     setSearch,
     closeModal,
+    refetch,
   };
 };

@@ -77,7 +77,7 @@ const UpdateQuote = () => {
               <Button
                 onClick={handleStepBack}
                 variant="outlined"
-                sx={{ ...styles?.btnBack, width: { xs: '100%', sm: 'auto' } }}
+                color="inherit"
               >
                 Back
               </Button>
@@ -93,10 +93,7 @@ const UpdateQuote = () => {
                   <Button
                     onClick={handleStepperCancel}
                     variant="outlined"
-                    sx={{
-                      ...styles?.btnBack,
-                      width: { xs: '100%', sm: 'auto' },
-                    }}
+                    color="inherit"
                   >
                     Cancel
                   </Button>
@@ -106,7 +103,6 @@ const UpdateQuote = () => {
                       variant="contained"
                       onClick={handleUpdateDetails}
                       disabled={!disabledSaveAndContinueBtn}
-                      sx={{ width: { xs: '100%', sm: 'auto' } }}
                       loading={updateBuyerInfoLoading}
                     >
                       Save & Continue

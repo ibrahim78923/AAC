@@ -10,8 +10,9 @@ import {
   SoftwareFieldsIcon,
 } from '@/assets/icons';
 import { Permissions } from '@/constants/permissions';
+import { ISettingsCards } from '../Settings.interface';
 
-export const assetManagement = [
+export const assetManagement: ISettingsCards[] = [
   {
     id: 1,
     avatar: AssetTypeIcon,

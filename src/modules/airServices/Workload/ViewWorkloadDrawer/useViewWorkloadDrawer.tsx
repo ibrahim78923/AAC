@@ -1,0 +1,53 @@
+import { useTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { usePatchTaskMutation } from '@/services/airServices/workload';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  defaultValues,
+  overviewDataArray,
+  validationSchema,
+} from './ViewWorkloadDrawer.data';
+
+export default function useViewWorkloadDrawer({ onClose, dataGet }: any) {
+  const theme = useTheme();
+
+  const methods = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues(dataGet?.extendedProps?.data),
+  });
+
+  const { handleSubmit } = methods;
+
+  const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
+
+  const overviewData = overviewDataArray(dataGet?.extendedProps?.data);
+
+  const onSubmit = async (formData: any) => {
+    delete formData?.ticketId;
+    const queryParams = {
+      ...formData,
+      id: dataGet?.extendedProps?.data?._id,
+    };
+    const apiDataParameter = {
+      queryParams,
+    };
+
+    try {
+      await patchTaskTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Task updated successfully');
+      onClose?.(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  return {
+    theme,
+    handleSubmit,
+    onSubmit,
+    methods,
+    patchTaskStatus,
+    overviewData,
+  };
+}

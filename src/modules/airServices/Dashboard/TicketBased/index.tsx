@@ -10,6 +10,14 @@ import { dropDownMenus } from './TicketBased.data';
 export const TicketBased = (props: any) => {
   const { data, ticketType, setTicketType, isPreviewMode } = props;
   const dropDownOptions = dropDownMenus(setTicketType);
+
+  const ticketBasedChart = {
+    [TICKET_GRAPH_TYPES?.STATUS]: <BarChart chartData={data?.tickets} />,
+    [TICKET_GRAPH_TYPES?.PRIORITY]: (
+      <RadialBarChart chartData={data?.tickets} />
+    ),
+  };
+
   return (
     <Box
       borderRadius={3}
@@ -41,13 +49,7 @@ export const TicketBased = (props: any) => {
           />
         </PermissionsGuard>
       </Box>
-      <Box sx={{ marginTop: 2 }}>
-        {ticketType === TICKET_GRAPH_TYPES?.STATUS ? (
-          <BarChart chartData={data?.tickets} />
-        ) : (
-          <RadialBarChart chartData={data?.tickets} />
-        )}
-      </Box>
+      <Box sx={{ marginTop: 2 }}>{ticketBasedChart?.[ticketType]}</Box>
     </Box>
   );
 };

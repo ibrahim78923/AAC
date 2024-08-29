@@ -10,8 +10,10 @@ import { useNewImportFileForServicesMutation } from '@/services/airServices/glob
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { CRM_COLUMNS } from './ImportProductCatalog.data';
+import { IProductCatalogProps } from '../ProductCatalog.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export const useImportProductCatalog = (props: any) => {
+export const useImportProductCatalog = (props: IProductCatalogProps) => {
   const { setIsDrawerOpen } = props;
   const router = useRouter();
   const { makePath } = usePath();
@@ -53,8 +55,9 @@ export const useImportProductCatalog = (props: any) => {
       successSnackbar(response?.message);
       apiData?.onClose?.();
       apiData?.setShowItemsList(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

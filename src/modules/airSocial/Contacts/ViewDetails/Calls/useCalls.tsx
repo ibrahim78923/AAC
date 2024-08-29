@@ -16,6 +16,7 @@ import { getSession } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addCallValidationSchema } from './AddCalls/AddCalls.data';
 import { parseISO } from 'date-fns';
+import { makeDateTime } from '@/utils/api';
 
 const useCalls = (contactId: any = '') => {
   const theme = useTheme();
@@ -85,13 +86,32 @@ const useCalls = (contactId: any = '') => {
   };
 
   const onSubmitAddCall = async (values: any) => {
-    const payload = {
+    const payload: any = {
       recordType: 'contacts',
       contactId: contactId,
       recordId: contactId,
     };
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (!value) return;
+
+      switch (key) {
+        case 'startTime':
+        case 'endTime':
+          return;
+
+        case 'startDate':
+          payload[key] = makeDateTime(value, values.startTime).toISOString();
+          break;
+        case 'endDate':
+          payload[key] = makeDateTime(value, values.endTime).toISOString();
+          break;
+
+        default:
+          payload[key] = value;
+      }
+    });
     try {
-      await postAddCall({ body: { ...values, ...payload } })?.unwrap();
+      await postAddCall({ body: payload })?.unwrap();
       handleCloseDrawerAddCall();
       enqueueSnackbar('Call has been added successfully', {
         variant: 'success',

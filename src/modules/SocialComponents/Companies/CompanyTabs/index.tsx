@@ -121,6 +121,7 @@ const CompanyTabs = () => {
                     Import
                   </Button>
                 </PermissionsGuard>
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.CREATE_COMPANY_ALL_COMPANIES,
@@ -175,6 +176,7 @@ const CompanyTabs = () => {
                   />
                 ))}
               </Tabs>
+
               <PermissionsGuard
                 permissions={[
                   SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.ADD_VIEW_ALL_COMPANIES,
@@ -216,7 +218,6 @@ const CompanyTabs = () => {
                   placeholder="Search Here"
                 />
               </PermissionsGuard>
-
               <Box gap={1} sx={{ display: { xs: 'flex' }, flexWrap: 'wrap' }}>
                 <ActionButton
                   checkedRows={checkedRows}
@@ -224,6 +225,7 @@ const CompanyTabs = () => {
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
                 />
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.RESTORE_ALL_COMPANIES,
@@ -240,6 +242,7 @@ const CompanyTabs = () => {
                     Restore
                   </Button>
                 </PermissionsGuard>
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.CUSTOMIZE_LIST_ALL_COMPANIES,
@@ -258,6 +261,7 @@ const CompanyTabs = () => {
                     Customize
                   </Button>
                 </PermissionsGuard>
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.SEARCH_AND_FILTER_ALL_COMPANIES,
@@ -274,6 +278,7 @@ const CompanyTabs = () => {
                     </Button>
                   </Tooltip>
                 </PermissionsGuard>
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.SEARCH_AND_FILTER_ALL_COMPANIES,

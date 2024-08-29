@@ -30,15 +30,18 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { IAgentsProps } from '../Agents.interface';
+import { useAuthCompanyVerificationMutation } from '@/services/auth';
+import { UpsertAgentResponseI } from './UpsertAgent.interface';
 
-export const useUpsertAgent = (props: any) => {
+export const useUpsertAgent = (props: IAgentsProps) => {
   const auth: any = useAuth();
   const [form, setForm] = useState<any>([]);
   const router = useRouter();
 
   const { _id: productId } = auth?.product;
   const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[0]?.company;
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
   const { _id: organizationId } = auth?.user?.organization;
 
   const roleApiQueryParams = {
@@ -53,6 +56,8 @@ export const useUpsertAgent = (props: any) => {
 
   const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
   const [patchAgentTrigger, patchAgentStatus] = usePatchAgentMutation();
+  const [igVerificationTrigger, igVerificationStatus] =
+    useAuthCompanyVerificationMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -159,8 +164,13 @@ export const useUpsertAgent = (props: any) => {
         updateAgent?.(payload);
         return;
       }
-
-      await postAgentTrigger(apiDataParameter)?.unwrap();
+      const response = (await postAgentTrigger(
+        apiDataParameter,
+      )?.unwrap()) as UpsertAgentResponseI;
+      const email = {
+        email: response?.email,
+      };
+      await igVerificationTrigger({ email })?.unwrap();
       successSnackbar('Invite Agent Successfully!');
       handleClose?.();
     } catch (e: any) {
@@ -227,5 +237,6 @@ export const useUpsertAgent = (props: any) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    igVerificationStatus,
   };
 };

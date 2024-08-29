@@ -13,8 +13,22 @@ import { CloseModalIcon, PlusSharedColorIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addExpenseFormData } from '../Expense.data';
 import { LoadingButton } from '@mui/lab';
+import { UseFormReturn } from 'react-hook-form';
 
-export const AddExpense = ({ addExpenseProps }: any) => {
+export const AddExpense = ({
+  addExpenseProps,
+}: {
+  addExpenseProps: {
+    addExpenseModalTitle: string;
+    isAddExpenseModalOpen: boolean;
+    setIsAddExpenseModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    methods: UseFormReturn<any>;
+    onAddExpenseSubmit: (data: any) => Promise<void>;
+    handleAddExpenseModal: (isOpen?: boolean) => void;
+    isLoadingExpense: boolean;
+    patchExpenseProgress: any;
+  };
+}) => {
   const {
     addExpenseModalTitle,
     methods,
@@ -22,6 +36,7 @@ export const AddExpense = ({ addExpenseProps }: any) => {
     isAddExpenseModalOpen,
     handleAddExpenseModal,
     isLoadingExpense,
+    patchExpenseProgress,
   } = addExpenseProps;
 
   return (
@@ -57,7 +72,7 @@ export const AddExpense = ({ addExpenseProps }: any) => {
                 pb: 2.4,
               }}
             >
-              <Typography variant="h4" color="primary?.main">
+              <Typography variant="pageTitle" color="primary?.main">
                 {addExpenseModalTitle}
               </Typography>
               <Box
@@ -69,7 +84,7 @@ export const AddExpense = ({ addExpenseProps }: any) => {
             </DialogTitle>
             <DialogContent>
               <Grid container gap={2.4}>
-                {addExpenseFormData?.map((form: any) => (
+                {addExpenseFormData?.map((form) => (
                   <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                     <form.component {...form?.componentProps} size="small" />
                   </Grid>
@@ -89,14 +104,15 @@ export const AddExpense = ({ addExpenseProps }: any) => {
                   onClick={() => handleAddExpenseModal?.()}
                   variant="outlined"
                   color="secondary"
-                  disabled={isLoadingExpense}
+                  disabled={isLoadingExpense || patchExpenseProgress?.isLoading}
                 >
                   Cancel
                 </LoadingButton>
                 <LoadingButton
                   type="submit"
                   variant="contained"
-                  disabled={isLoadingExpense}
+                  disabled={isLoadingExpense || patchExpenseProgress?.isLoading}
+                  loading={isLoadingExpense || patchExpenseProgress?.isLoading}
                 >
                   save
                 </LoadingButton>

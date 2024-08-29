@@ -8,8 +8,9 @@ import {
 import { useNewImportFileForServicesMutation } from '@/services/airServices/global/import';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { CRM_COLUMNS_VENDOR } from './ImportVendor.data';
+import { IVendorProps } from '../Vendor.interface';
 
-export const useImportVendor = (props: any) => {
+export const useImportVendor = (props: IVendorProps) => {
   const { setIsDrawerOpen } = props;
 
   const [newImportFileForServicesTrigger, newImportFileForServicesStatus] =

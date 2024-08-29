@@ -1,26 +1,35 @@
 import { useEffect, useState } from 'react';
-import { teamList } from './Teams.data';
+import { operationsTeamsListColumnDynamic } from './Teams.data';
 import { PAGINATION } from '@/config';
 import { useLazyGetTeamListForOperationQuery } from '@/services/airOperations/user-management/user';
 import UpsertTeams from './UpsertTeams';
 import TeamsDetails from './TeamsDetails';
 import { DeleteTeam } from './DeleteTeam';
+import {
+  TeamIsPortalOpenI,
+  TeamPortalComponentPropsI,
+} from './Teams.interface';
+import {
+  LazyQueryTrigger,
+  UseLazyQueryLastPromiseInfo,
+} from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
 export const useTeams = () => {
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
+  const [isPortalOpen, setIsPortalOpen] = useState<TeamIsPortalOpenI>({});
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
 
   const [
     lazyGetTeamListForOperationTrigger,
     lazyGetTeamListForOperationStatus,
-  ]: any = useLazyGetTeamListForOperationQuery?.();
+  ]: [LazyQueryTrigger<any>, any, UseLazyQueryLastPromiseInfo<any>] =
+    useLazyGetTeamListForOperationQuery();
 
-  const getOperationUsersList = async () => {
+  const getOperationsTeamsLists = async (currentPage: number = page) => {
     const apiDataParameter = {
       queryParams: {
-        page,
+        page: currentPage,
         limit: pageLimit,
         search,
       },
@@ -31,19 +40,21 @@ export const useTeams = () => {
   };
 
   useEffect(() => {
-    getOperationUsersList?.();
+    getOperationsTeamsLists?.();
   }, [page, search, pageLimit]);
 
-  const teamListColumn = teamList(setIsPortalOpen);
+  const operationsTeamsListColumn =
+    operationsTeamsListColumnDynamic(setIsPortalOpen);
 
-  const portalComponentProps = {
+  const portalComponentProps: TeamPortalComponentPropsI = {
     isPortalOpen,
     setIsPortalOpen,
     page,
     setPage,
     pageLimit,
     setPageLimit,
-    getOperationUsersList,
+    getOperationsTeamsLists,
+    totalRecords: lazyGetTeamListForOperationStatus?.data?.data?.userTeams,
   };
 
   const renderPortalComponent = () => {
@@ -60,7 +71,7 @@ export const useTeams = () => {
   };
 
   return {
-    teamListColumn,
+    operationsTeamsListColumn,
     setPageLimit,
     setPage,
     setSearch,

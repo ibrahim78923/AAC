@@ -7,7 +7,6 @@ export const xAxesDataArray: any = {
       value: 'inventory_assetType',
       ref: COLLECTION_NAME?.ASSET_TYPES,
     },
-    { label: 'Status', value: 'status', ref: null },
     {
       label: 'Inventory Location',
       value: 'inventory_locationId',
@@ -25,7 +24,11 @@ export const xAxesDataArray: any = {
     { label: 'Type', value: 'type', ref: null },
   ],
   CONTRACT: [
-    { label: 'Contract Type', value: 'contractType', ref: null },
+    {
+      label: 'Contract Type',
+      value: 'contractType',
+      ref: COLLECTION_NAME?.CONTRACT_TYPE,
+    },
     { label: 'Status', value: 'status', ref: null },
     {
       label: 'Contract Vendor',

@@ -2,8 +2,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useAddRequestApproval } from './useAddRequestApproval';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
+import { AddApprovalsPropsI } from '../Approvals.interface';
 
-export const AddRequestApproval = (props: any) => {
+export const AddRequestApproval = (props: AddApprovalsPropsI) => {
   const { isDrawerOpen } = props;
   const {
     methods,

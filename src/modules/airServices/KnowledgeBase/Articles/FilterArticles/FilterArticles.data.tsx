@@ -3,15 +3,19 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import { ARTICLE_STATUS } from '@/constants/strings';
-import { ArticlesFilterValuesI } from '../Articles.interface';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { FilterArticlesFormDefaultValuesI } from './FilterArticles.interface';
 
-const statusOption = [
+const statusOption: AutocompleteOptionsI[] = [
   { _id: ARTICLE_STATUS?.DRAFT, label: ARTICLE_STATUS?.DRAFT },
   { _id: ARTICLE_STATUS?.PUBLISHED, label: ARTICLE_STATUS?.PUBLISHED },
 ];
 
 export const filterArticlesDataDefaultValues = (
-  data?: ArticlesFilterValuesI,
+  data?: FilterArticlesFormDefaultValuesI,
 ) => {
   return {
     status: data?.status ?? null,
@@ -28,7 +32,7 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
       placeholder: 'Select',
       fullWidth: true,
       options: statusOption,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -40,7 +44,7 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
       placeholder: 'Select Author',
       fullWidth: true,
       apiQuery: apiQueryAuthor,
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,

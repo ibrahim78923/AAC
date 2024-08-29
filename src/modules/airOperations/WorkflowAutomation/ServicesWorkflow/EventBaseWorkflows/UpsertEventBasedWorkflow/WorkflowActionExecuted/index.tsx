@@ -36,8 +36,8 @@ export const WorkflowActionExecuted = (props: any) => {
           Actions
         </Typography>
       </Box>
-      {fields?.map((item: any, index: number) => (
-        <Box key={item?._id} display={'flex'} p={2}>
+      {fields?.map((item, index) => (
+        <Box key={item?.id} display={'flex'} alignItems="center" p={2}>
           <Grid container spacing={1}>
             {actionsData({
               index,
@@ -48,7 +48,7 @@ export const WorkflowActionExecuted = (props: any) => {
               apiQueryCategories,
               apiQueryLocations,
               apiUsersListDropdown,
-            })?.map((actionItem: any) => (
+            })?.map((actionItem) => (
               <Grid
                 item
                 xs={12}
@@ -60,7 +60,7 @@ export const WorkflowActionExecuted = (props: any) => {
             ))}
           </Grid>
           <DeleteIcon
-            sx={{ color: 'error.main', cursor: 'pointer' }}
+            sx={{ color: 'error.main', cursor: 'pointer', ml: 1 }}
             onClick={() => handleDelete(index)}
           />
         </Box>

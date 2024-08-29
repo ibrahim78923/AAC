@@ -53,10 +53,11 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
-    serviceDashboardDropdown: builder?.query({
-      query: () => ({
+    dashboardDropdown: builder?.query({
+      query: ({ params }: any) => ({
         url: `${END_POINTS?.SERVICE_DASHBOARD_DROPDOWN}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.dynamicdashboards;
@@ -71,16 +72,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
-      },
-      providesTags: [TAG],
-    }),
-    salesDashboardDropdown: builder?.query({
-      query: () => ({
-        url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
-        method: 'GET',
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.salesDashboards;
       },
       providesTags: [TAG],
     }),
@@ -99,16 +90,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
-      },
-      providesTags: [TAG],
-    }),
-    marketingDashboardDropdown: builder?.query({
-      query: () => ({
-        url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
-        method: 'GET',
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.salesDashboards;
       },
       providesTags: [TAG],
     }),
@@ -137,6 +118,17 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    contractTypeDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CONTRACT_TYPE_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -147,12 +139,11 @@ export const {
   useLazyDepartmentDropdownQuery,
   useLazyCategoriesDropdownQuery,
   useLazyVendorsDropdownQuery,
-  useLazyServiceDashboardDropdownQuery,
   useLazyDealsDropdownQuery,
-  useLazySalesDashboardDropdownQuery,
   useLazyUsersDropdownQuery,
-  useLazyMarketingDashboardDropdownQuery,
   usePatchGenericReportsMutation,
   useGetSingleGenericReportsQuery,
   useLazySalesDropdownQuery,
+  useLazyDashboardDropdownQuery,
+  useLazyContractTypeDropdownQuery,
 } = UpsertGenericReportApi;

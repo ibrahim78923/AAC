@@ -48,7 +48,7 @@ export default function RHFRadioGroup({
                       value={option?.value}
                       control={<Radio />}
                       label={option?.label}
-                      disabled={disabled}
+                      disabled={option?.disabled || disabled}
                       sx={other?.optionSx}
                     />
                     {option?.value === field?.value ? option?.filter : ''}

@@ -7,8 +7,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { UpsertSoftwareI } from './UpsertSoftware.interface';
 
-export const UpsertSoftware = (props: any) => {
+export const UpsertSoftware = (props: UpsertSoftwareI) => {
   const { isAddDrawerOpen } = props;
   const {
     onClose,

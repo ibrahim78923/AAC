@@ -1,5 +1,5 @@
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
-import { goalsStatus } from '@/constants';
+import { DATE_TIME_FORMAT, goalsStatus } from '@/constants';
 import {
   Box,
   Checkbox,
@@ -121,7 +121,6 @@ export const manageTableColumns: any = (
       header: 'Duration',
       isSortable: true,
       cell: (info: any) => {
-        const currentYear = dayjs().year();
         return (
           <Stack direction="row" gap={2} alignItems="center">
             <Box>
@@ -129,7 +128,13 @@ export const manageTableColumns: any = (
                 {info?.getValue()}
               </Typography>
               <Typography fontSize="12px">
-                Jan 01 {currentYear} - DEC 31 {currentYear}
+                {dayjs(info?.row?.original?.startDate).format(
+                  DATE_TIME_FORMAT?.GOAL_DATE_FORMAT,
+                )}{' '}
+                -{' '}
+                {dayjs(info?.row?.original?.endDate).format(
+                  DATE_TIME_FORMAT?.GOAL_DATE_FORMAT,
+                )}
               </Typography>
             </Box>
           </Stack>

@@ -9,7 +9,7 @@ import {
   useLazyGetRequesterDropdownQuery,
   usePostTicketsMutation,
 } from '@/services/airCustomerPortal/catalog';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   CATALOG_SERVICE_TYPES,
@@ -23,16 +23,13 @@ import { CatalogRequestI } from './CatalogRequest.interface';
 
 const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;
-  const router = useRouter();
-
+  const router: NextRouter = useRouter();
   const { serviceId } = router?.query;
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const CategoryType =
-    servicesDetails?.data?.categoryDetails?.categoryName ||
-    servicesDetails?.data?.itemName;
+  const categoryType = servicesDetails?.data?.serviceType;
 
-  const searchStringLowerCase = CategoryType?.toLowerCase();
+  const searchStringLowerCase = categoryType?.toLowerCase();
 
   const methodRequest = useForm<any>({
     resolver: yupResolver(
@@ -41,20 +38,18 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     defaultValues: placeRequestDefaultValues,
   });
 
-  const { handleSubmit, getValues, control, reset, setValue } = methodRequest;
+  const { handleSubmit, getValues, control, reset, setValue, clearErrors } =
+    methodRequest;
 
   const onSubmitRequest = async (data: any) => {
     const addItemToDescription =
-      CategoryType?.toLowerCase() ===
+      categoryType?.toLowerCase() ===
       CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
         ? `${servicesDetails?.data?.description} No of item ${data?.noOfItem}`
         : servicesDetails?.data?.description;
 
     const placeRequestData = new FormData();
-    placeRequestData?.append(
-      'requester',
-      data?.requestor?._id || data?.requestorFor?._id,
-    );
+    placeRequestData?.append('requester', data?.requestor?._id);
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
     placeRequestData?.append('subject', servicesDetails?.data?.itemName);
     placeRequestData?.append('serviceId', serviceId as string);
@@ -89,14 +84,13 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   });
 
   useEffect(() => {
-    if (requestForSomeOne) {
-      setValue('requestor', null);
-    }
+    setValue('requestor', null);
+    clearErrors('requestor');
   }, [requestForSomeOne]);
 
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
 
-  const CatalogRequestFormField = placeRequest(
+  const catalogRequestFormField = placeRequest(
     apiQueryRequester,
     searchStringLowerCase,
     requestForSomeOne,
@@ -108,7 +102,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     onSubmitRequest,
     getValues,
     control,
-    CatalogRequestFormField,
+    catalogRequestFormField,
     requestForSomeOne,
     handleClose,
     searchStringLowerCase,

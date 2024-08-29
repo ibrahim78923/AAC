@@ -170,6 +170,7 @@ const CUSTOM_COLORS = {
   light_cream: '#FFF6DB',
   blush_pink: '#FFBDBD',
   pale_mint: '#D9F8E1',
+  success_light: '#ECFFF1',
 };
 const GRAPH = {
   cyan: 'blue',

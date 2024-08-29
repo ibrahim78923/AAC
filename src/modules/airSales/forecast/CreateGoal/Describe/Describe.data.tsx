@@ -1,14 +1,27 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const goalDetailsValidationSchema = Yup.object().shape({
-  goalName: Yup.string().required('field is required'),
-  trackingMethod: Yup.string().required('field is required'),
-});
+export const goalDetailsValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const goalDetailsDefaultValues = {
-  goalName: '',
-  trackingMethod: '',
+  return Yup?.object()?.shape({
+    goalName: Yup.string().required('field is required'),
+    trackingMethod: Yup.string().required('field is required'),
+    ...formSchema,
+  });
+};
+
+export const goalDetailsDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+  return {
+    goalName: '',
+    trackingMethod: '',
+    ...initialValues,
+  };
 };
 
 export const goalDetailsTemplateArray = [

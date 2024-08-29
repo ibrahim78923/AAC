@@ -60,7 +60,7 @@ const StepBuyerInfo = ({
                     }}
                     severity="error"
                   >
-                    Please select Company and Contact to continue
+                    Please select Company and Contact to continue.
                   </Alert>
                 )}
                 <Box sx={styles?.rowBuyerInfo}>
@@ -92,7 +92,7 @@ const StepBuyerInfo = ({
                           <Box
                             component="li"
                             sx={styles?.listItem}
-                            key={item?.id}
+                            key={item?._id}
                           >
                             <Avatar
                               alt="user"
@@ -151,8 +151,8 @@ const StepBuyerInfo = ({
                                 }}
                               />
                             </Box>
+
                             <Checkbox
-                              defaultChecked
                               checked={selectedBuyerContactIds === item?._id}
                               value={item?._id}
                               onChange={() =>
@@ -189,7 +189,7 @@ const StepBuyerInfo = ({
                           <Box
                             component="li"
                             sx={styles?.listItem}
-                            key={item?.id}
+                            key={item?._id}
                           >
                             <Box>
                               <Avatar
@@ -257,9 +257,9 @@ const StepBuyerInfo = ({
                             </Box>
                             <Box>
                               <Checkbox
-                                defaultChecked={
-                                  selectedCompanyIds === item?._id
-                                }
+                                // defaultChecked={
+                                //   selectedCompanyIds === item?._id
+                                // }
                                 checked={selectedCompanyIds === item?._id}
                                 onChange={() => handleCompanyChange(item._id)}
                               />

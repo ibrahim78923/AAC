@@ -8,7 +8,10 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useContacts = (dealId: any) => {
   const theme = useTheme();
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState({
+    isToggle: false,
+    type: '',
+  });
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [contactRecord, setContactRecord] = useState<any>({});
   const [searchName, setSearchName] = useState('');

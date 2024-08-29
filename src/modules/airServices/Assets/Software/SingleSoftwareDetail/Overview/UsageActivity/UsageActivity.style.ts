@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled, Theme } from '@mui/material';
 
 export const StyledText = styled('text')(({ theme }) => ({
   fill: theme?.palette?.text?.primary,
@@ -10,7 +10,7 @@ export const StyledText = styled('text')(({ theme }) => ({
 }));
 
 export const styles = {
-  mainBox: (theme: any) => ({
+  mainBox: (theme: Theme) => ({
     border: '.1rem solid',
     borderColor: theme?.palette?.grey?.[700],
     maxWidth: '25rem',
@@ -64,7 +64,7 @@ export const styles = {
     gap: '.6rem',
   },
 
-  footerTypographyBox: (theme: any) => ({
+  footerTypographyBox: (theme: Theme) => ({
     textAlign: 'center',
     width: '1.5rem',
     height: '1.5rem',

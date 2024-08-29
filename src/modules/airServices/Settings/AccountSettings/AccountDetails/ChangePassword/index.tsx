@@ -6,6 +6,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { useChangePassword } from './useChangePassword';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
+import { IFieldConfig } from './ChangePassword.interface';
 
 export const ChangePassword = () => {
   const {
@@ -40,7 +41,7 @@ export const ChangePassword = () => {
               display={'flex'}
               flexDirection={'column'}
             >
-              {changePasswordFields?.map((item: any) => (
+              {changePasswordFields?.map((item: IFieldConfig) => (
                 <Grid item xs={12} sm={item?.gridLength} key={item?._id}>
                   <item.component {...item?.componentProps} />
                 </Grid>

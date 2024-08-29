@@ -3,6 +3,7 @@ import {
   RHFAutocompleteAsync,
   RHFDatePicker,
 } from '@/components/ReactHookForm';
+import { indexNumbers } from '@/constants';
 import { DATA_TYPE, ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
@@ -32,6 +33,9 @@ export const dataArray = (userListData: any, organizationId: any) => {
         fullWidth: true,
         placeholder: 'Select Status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
+        getOptionLabel: (option: any) =>
+          option?.charAt(indexNumbers?.ZERO)?.toUpperCase() +
+          option?.slice(indexNumbers?.ONE),
       },
       component: RHFAutocomplete,
       md: 12,

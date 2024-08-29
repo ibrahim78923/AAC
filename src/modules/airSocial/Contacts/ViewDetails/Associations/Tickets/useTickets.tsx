@@ -133,7 +133,9 @@ const useTickets = (contactId: string) => {
 
         case 'associateAssets':
           const assets = value?.map((asset: any) => asset?._id);
-          formData.append(key, JSON.stringify(assets));
+          if (assets.length !== 0) {
+            formData.append(key, assets);
+          }
           break;
 
         case 'plannedEndDate':

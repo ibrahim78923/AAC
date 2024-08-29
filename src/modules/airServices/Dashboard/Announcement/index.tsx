@@ -4,11 +4,12 @@ import { useAnnouncement } from './useAnnouncement';
 import { Fragment } from 'react';
 import { AnnouncementCard } from './AnnouncementCard';
 import NoData from '@/components/NoData';
+import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
 
-export const Announcement = (props: any) => {
+export const Announcement = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
   const { renderPortalComponent, isPortalOpen, setIsPortalOpen } =
-    useAnnouncement();
+    useAnnouncement(props);
 
   return (
     <>
@@ -44,7 +45,14 @@ export const Announcement = (props: any) => {
             {data?.announcements?.annoucements?.map(
               (announcement: any, index: number) => (
                 <Fragment key={announcement?._id}>
-                  <AnnouncementCard data={announcement} index={index} />
+                  <AnnouncementCard
+                    data={announcement}
+                    index={index}
+                    userDetails={{
+                      userAvatar: announcement?.userAvatar,
+                      userName: announcement?.userName,
+                    }}
+                  />
                 </Fragment>
               ),
             )}

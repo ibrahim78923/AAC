@@ -252,6 +252,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
 };
 export const scheduledWorkflowDataArray = [
   {
+    id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -264,6 +265,7 @@ export const scheduledWorkflowDataArray = [
     md: 6,
   },
   {
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',

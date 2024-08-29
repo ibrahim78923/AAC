@@ -74,6 +74,7 @@ const ActionButton = (props?: any) => {
                 Preview
               </MenuItem>
             </PermissionsGuard>
+
             <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.REASSIGN_ALL_COMPANIES,
@@ -118,6 +119,7 @@ const ActionButton = (props?: any) => {
                 Delete
               </MenuItem>
             </PermissionsGuard>
+
             <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.MERGE_ALL_COMPANIES,

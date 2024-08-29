@@ -20,7 +20,7 @@ export const createViewDefaultValues = {
   createdDate: null,
 };
 
-export const createViewArr = () => {
+export const createViewArr = (teamIds: any) => {
   const theme = useTheme();
   const { getCompanyContacts } = useCreateCompany();
   return [
@@ -94,7 +94,11 @@ export const createViewArr = () => {
         row: false,
         options: [
           { value: 'PRIVATE', label: 'Private' },
-          { value: 'TEAM', label: 'My Team (test)' },
+          {
+            value: 'MY_TEAM',
+            label: 'My Team (test)',
+            disabled: !teamIds || teamIds?.length === 0,
+          },
           { value: 'EVERYONE', label: 'Everyone' },
         ],
       },

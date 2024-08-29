@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useRemoveInstallationMutation } from '@/services/airServices/assets/software/single-software-detail/installations';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { InstallationHeaderI } from './InstallationHeader.interface';
 
-export const useInstallationHeader = (props: any) => {
+export const useInstallationHeader = (props: InstallationHeaderI) => {
   const { activeCheck, setActiveCheck } = props;
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [removeDeviceTrigger, { isLoading }] = useRemoveInstallationMutation();
@@ -13,7 +14,7 @@ export const useInstallationHeader = (props: any) => {
     try {
       const deleteRes: any = await removeDeviceTrigger({
         body: {
-          softwareId: activeCheck?.map((item: any) => item?._id),
+          softwareId: activeCheck?.map((item) => item?._id),
           id: softwareId,
         },
       });

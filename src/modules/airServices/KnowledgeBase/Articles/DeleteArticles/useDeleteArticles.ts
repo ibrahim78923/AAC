@@ -5,7 +5,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 
-export const useDeleteArticles = (props: ArticlesPortalComponentPropsI) => {
+export const useDeleteArticles = (
+  props: ArticlesPortalComponentPropsI | any,
+) => {
   const {
     setIsPortalOpen,
     selectedArticlesData,
@@ -25,7 +27,7 @@ export const useDeleteArticles = (props: ArticlesPortalComponentPropsI) => {
     const deleteParams = new URLSearchParams();
 
     selectedArticlesData?.forEach(
-      (article: any) => deleteParams?.append('ids', article?._id),
+      (article: { _id: string }) => deleteParams?.append('ids', article?._id),
     );
 
     const deleteArticlesParameter = {

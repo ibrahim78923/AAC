@@ -69,13 +69,13 @@ const InvoicesReports = () => {
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setLimit}
-            count={invoicesReportsData?.data?.meta?.pages}
-            pageLimit={invoicesReportsData?.data?.meta?.limit}
-            totalRecords={invoicesReportsData?.data?.meta?.total}
+            count={invoicesReportsData?.data?.list?.meta?.pages}
+            pageLimit={invoicesReportsData?.data?.list?.meta?.limit}
+            totalRecords={invoicesReportsData?.data?.list?.meta?.total}
             isLoading={isLoading}
             isSuccess={isSuccess}
             isFetching={isFetching}
-            currentPage={invoicesReportsData?.data?.meta?.page}
+            currentPage={invoicesReportsData?.data?.list?.meta?.page}
           />
         </Box>
       </Card>

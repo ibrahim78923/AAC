@@ -1,7 +1,9 @@
 import { useDeleteDepartmentMutation } from '@/services/airServices/settings/user-management/departments';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IDepartmentsProps } from '../Departments.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export const useDeleteDepartment = (props: any) => {
+export const useDeleteDepartment = (props: IDepartmentsProps) => {
   const {
     setOpenDeleteModal,
     setSelectedDepartment,
@@ -25,8 +27,9 @@ export const useDeleteDepartment = (props: any) => {
       setPage?.(newPage);
       await getDepartmentListData?.(newPage);
       handleClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

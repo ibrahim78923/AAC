@@ -3,7 +3,7 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ExportButton } from '@/components/ExportButton';
 import { HeaderI } from './Header.interface';
 
@@ -28,7 +28,7 @@ export const Header = (props: HeaderI) => {
     >
       <PermissionsGuard
         permissions={[
-          AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
+          AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
         ]}
       >
         <Box mb={1}>
@@ -38,7 +38,7 @@ export const Header = (props: HeaderI) => {
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
         <PermissionsGuard
           permissions={[
-            AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
+            AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
           ]}
         >
           <ExportButton
@@ -52,7 +52,7 @@ export const Header = (props: HeaderI) => {
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[
-            AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.FILTER_RECORD,
+            AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.FILTER_RECORD,
           ]}
         >
           <Button

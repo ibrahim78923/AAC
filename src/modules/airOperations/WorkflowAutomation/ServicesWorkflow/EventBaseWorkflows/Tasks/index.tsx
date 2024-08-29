@@ -15,7 +15,6 @@ const Tasks = () => {
     limit,
     setLimit,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -34,7 +33,6 @@ const Tasks = () => {
       <ListViewHeader
         selectedList={!!!selectedAction?.length}
         setSearch={setSearch}
-        search={search}
         onSubmitListFilter={onSubmitListFilter}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
@@ -65,6 +63,7 @@ const Tasks = () => {
         onPageChange={(page: number) => setPage(page)}
         currentPage={taskData?.meta?.page}
         limit={limit}
+        errorProps={{ canRefresh: true, refresh: handleWorkflow }}
       />
     </>
   );

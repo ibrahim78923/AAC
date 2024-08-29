@@ -9,9 +9,11 @@ import {
   useLazyGetDashboardOwnersDropdownListForDashboardQuery,
 } from '@/services/airServices/dashboard';
 import useAuth from '@/hooks/useAuth';
-import { PortalComponentPropsI } from '../ManageDashboard.interface';
+import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard.interface';
 
-export const useManageDashboardFilter = (props: PortalComponentPropsI) => {
+export const useManageDashboardFilter = (
+  props: ManageDashboardPortalComponentPropsI,
+) => {
   const {
     setIsPortalOpen,
     setDashboardFilterLists,
@@ -21,7 +23,7 @@ export const useManageDashboardFilter = (props: PortalComponentPropsI) => {
 
   const auth = useAuth();
 
-  const { _id: productId } = auth?.product;
+  const { _id: productId }: any = auth?.product;
 
   const methods = useForm({
     defaultValues:
@@ -54,7 +56,7 @@ export const useManageDashboardFilter = (props: PortalComponentPropsI) => {
 
   const closeDashboardFilterForm = () => {
     reset();
-    setIsPortalOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const resetDashboardFilterForm = async () => {
@@ -62,7 +64,7 @@ export const useManageDashboardFilter = (props: PortalComponentPropsI) => {
       setDashboardFilterLists?.({});
     }
     reset();
-    setIsPortalOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
   const apiQueryOwner =

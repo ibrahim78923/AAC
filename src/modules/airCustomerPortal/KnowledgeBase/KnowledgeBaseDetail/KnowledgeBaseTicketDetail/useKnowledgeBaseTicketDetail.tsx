@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -20,7 +20,6 @@ export const useKnowledgeBaseTicketDetail = () => {
   const theme = useTheme();
   const [showFeedbackField, setShowFeedbackField] = useState(false);
   const [showOkFeedback, setShowOkFeedback] = useState(false);
-
   const route = useRouter();
 
   const folderId = route?.query?.folderId;
@@ -86,6 +85,7 @@ export const useKnowledgeBaseTicketDetail = () => {
       feedback: JSON.stringify(data?.feedback),
       comment: data?.comment,
     };
+
     try {
       const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Feedback Added Successfully');
@@ -110,6 +110,10 @@ export const useKnowledgeBaseTicketDetail = () => {
       errorSnackbar(error?.data?.message);
     }
   };
+
+  useEffect(() => {
+    setShowOkFeedback(false);
+  }, [singleArticleId]);
 
   const feedbackSubmit = handleSubmit(onSubmit);
   return {

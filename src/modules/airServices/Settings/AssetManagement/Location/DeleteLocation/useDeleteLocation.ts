@@ -3,8 +3,10 @@ import {
   useDeleteParentLocationMutation,
 } from '@/services/airServices/settings/asset-management/location';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ILocationProps } from '../Location.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export const useDeleteLocation = (props: any) => {
+export const useDeleteLocation = (props: ILocationProps) => {
   const { setDeleteModalOpen, selectedLocation, setSelectedLocation } = props;
   const [deleteParentLocationTrigger, deleteParentLocationStatus] =
     useDeleteParentLocationMutation();
@@ -26,8 +28,9 @@ export const useDeleteLocation = (props: any) => {
       await deleteParentLocationTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Location delete successfully');
       closeDeleteModal?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
@@ -42,8 +45,9 @@ export const useDeleteLocation = (props: any) => {
       await deleteChildLocationTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Child location delete successfully');
       closeDeleteModal?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

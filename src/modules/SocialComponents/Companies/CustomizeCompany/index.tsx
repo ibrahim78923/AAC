@@ -20,6 +20,7 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
     selected,
     order,
     theme,
+    isLoading,
   } = useCustomizeCompany({ setIsCustomize, isCustomize });
 
   return (
@@ -34,6 +35,7 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
         submitHandler={handleUpdateColumns}
         isOk
         footer
+        isLoading={isLoading}
       >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable

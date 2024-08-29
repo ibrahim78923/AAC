@@ -7,26 +7,14 @@ import {
 } from './AttachmentsEditorDrawer.data';
 import {
   useCreateAssociationMutation,
-  useLazyGetAttachmentsByIdQuery,
   usePostAttachmentsMutation,
 } from '@/services/airSales/deals/view-details/association';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useEffect } from 'react';
 
-const useAttachmentsEditorDrawer = ({
-  setOpenDrawer,
-  dealId,
-  attachmentRecord,
-  openDrawer,
-}: any) => {
-  // attachmentRecord, openDrawer, commented for future
-
+const useAttachmentsEditorDrawer = ({ setOpenDrawer, dealId }: any) => {
   const [postAttachments, { isLoading: loadingPostAttachment }] =
     usePostAttachmentsMutation();
-
-  const [getAttachmentsById, { isLoading: loadingAttachment }] =
-    useLazyGetAttachmentsByIdQuery();
 
   const [createAssociation] = useCreateAssociationMutation();
 
@@ -34,12 +22,6 @@ const useAttachmentsEditorDrawer = ({
     resolver: yupResolver(attachmentsValidationSchema),
     defaultValues: attachmentsDefaultValues,
   });
-
-  useEffect(() => {
-    if (openDrawer === 'View') {
-      getAttachmentsById({ id: attachmentRecord?._id }).unwrap();
-    }
-  }, []);
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
@@ -76,7 +58,6 @@ const useAttachmentsEditorDrawer = ({
     onSubmit,
     methodsAttachments,
     loadingPostAttachment,
-    loadingAttachment,
   };
 };
 

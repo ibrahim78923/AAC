@@ -5,7 +5,7 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Delete } from '@mui/icons-material';
-import { IMPORT_ACTION_TYPE } from '@/constants/strings';
+import { IMPORT_ACTION_TYPE, PRODUCTS_LISTS } from '@/constants/strings';
 
 export const productData = [
   {
@@ -98,7 +98,17 @@ export const stepsData: any = {
 };
 
 export const importTableHeader = ['File Column', 'Crm Fields', 'Action'];
-export const productOptions = ['Sales', 'Services'];
+
+export const productOptionsFunction = (hasAccounts: any) => {
+  const options = [];
+  if (hasAccounts?.includes(PRODUCTS_LISTS?.AIR_SALES)) {
+    options?.push(IMPORT_ACTION_TYPE?.Sales);
+  }
+  if (hasAccounts?.includes(PRODUCTS_LISTS?.AIR_SERVICES)) {
+    options?.push(IMPORT_ACTION_TYPE?.Services);
+  }
+  return options;
+};
 
 export const importValidationSchema = (modalStep: any) => {
   let schema;
@@ -124,7 +134,7 @@ export const importDefaultValues = {
     },
   ],
 };
-export const importDataField = [
+export const importDataField = (productOptions: any) => [
   {
     id: 6457,
     tag: 'product',

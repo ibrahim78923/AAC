@@ -14,7 +14,6 @@ import {
 } from './WorkflowSchedule.data';
 
 export const WorkflowSchedule = (props: any) => {
-  const { register } = props;
   const { selectedSchedule, selectedScheduleWeek, theme } =
     useWorkflowSchedule(props);
 
@@ -50,7 +49,6 @@ export const WorkflowSchedule = (props: any) => {
               size="small"
               placeholder="Select"
               options={scheduleOptions}
-              inputRef={register}
               fullWidth
             />
           </Grid>
@@ -72,7 +70,7 @@ export const WorkflowSchedule = (props: any) => {
                 label="Day of month"
                 size="small"
                 options={numberDaysOptions}
-                getOptionLabel={(option: any) => option}
+                getOptionLabel={(option: any) => option?.toString()}
                 fullWidth
               />
             )}
@@ -83,7 +81,6 @@ export const WorkflowSchedule = (props: any) => {
                 name="scheduleDay"
                 size="small"
                 label="Day of week"
-                inputRef={register}
                 options={weekOptions}
                 fullWidth
               />

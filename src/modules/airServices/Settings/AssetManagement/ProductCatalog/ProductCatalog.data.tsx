@@ -4,6 +4,7 @@ import {
   MODE_OF_PROCUREMENT,
   PRODUCT_CATALOG_STATUS,
 } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
 
 export const productAssetTypeOption = [
@@ -30,7 +31,7 @@ export const PRODUCT_LISTS_ACTION_CONSTANTS = {
 export const productListsColumnDynamic: any = (router?: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: { name: string }) => row?.name,
       id: 'name',
       isSortable: true,
       header: 'Name',
@@ -48,39 +49,43 @@ export const productListsColumnDynamic: any = (router?: any) => {
           color="custom.bright"
         >
           <Typography variant="body2" textTransform={'capitalize'}>
-            {info?.getValue()?.toLowerCase() ?? '---'}
+            {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
           </Typography>
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.assetTypeName,
+      accessorFn: (row: { assetTypeName: string }) => row?.assetTypeName,
       id: 'assetTypeName',
       isSortable: true,
       header: 'Type',
       cell: (info: any) => (
         <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
+          {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
         </Typography>
       ),
     },
     {
-      accessorFn: (row: any) => row?.manufacturer,
+      accessorFn: (row: { manufacturer: string }) => row?.manufacturer,
       id: 'manufacturer',
       isSortable: true,
       header: 'Manufacturer',
       cell: (info: any) => (
         <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
+          {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
         </Typography>
       ),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: { status: string }) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue()?.replaceAll('_', ' '),
+      cell: (info: any) => (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {info?.getValue()?.replaceAll('_', ' ')?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
   ];
 };

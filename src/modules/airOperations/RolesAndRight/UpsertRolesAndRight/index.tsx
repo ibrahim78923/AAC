@@ -38,7 +38,6 @@ export const UpsertRolesAndRight = () => {
     <>
       <PageTitledHeader
         title={TITLE_FORM_USER?.[action as string]}
-        addTitle="Add new Role"
         canMovedBack
         moveBack={() => {
           router?.push({

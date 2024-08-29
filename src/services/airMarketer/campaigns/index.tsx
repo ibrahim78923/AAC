@@ -96,9 +96,9 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
       invalidatesTags: ['CAMPAIGNS_TASKS'],
     }),
     postCampaignsClone: builder.mutation({
-      query: (values: any) => {
+      query: (name: any) => {
         return {
-          url: `${AIR_MARKETER?.CAMPAIGNS_CLONE}/${values?.name}`,
+          url: `${AIR_MARKETER?.CAMPAIGNS_CLONE}/${name}`,
           method: 'POST',
         };
       },

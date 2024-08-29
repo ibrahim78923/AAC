@@ -8,19 +8,40 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { templatesCardsArray } from './EmailTemplate.data';
-import Image from 'next/image';
-import { SingleSelection } from '@/components/DynamicFormModals';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { useEmilTemplate } from './useEmailTemplate';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { SOCIAL_COMPONENTS } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import NoData from '@/components/NoData';
+import ApiErrorState from '@/components/ApiErrorState';
+import { templateDropdownFunction } from './EmailTemplate.data';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { TemplateDeleteModal } from './TemplateDeleteModal';
+import { MeetingData } from './EmailTemplate.interface';
 
 const EmailTemplate = () => {
-  const { router, handleMoveCreateEmail, dropdownOptions } = useEmilTemplate();
+  const {
+    router,
+    handleMoveCreateEmail,
+    meetingsEmailData,
+    isLoading,
+    isFetching,
+    setSearch,
+    isError,
+    refetch,
+    meetingId,
+    ticketId,
+    submitDeleteModal,
+    setDeleteModal,
+    deleteModal,
+    deleteMeetingsTrigger,
+    theme,
+  } = useEmilTemplate();
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
   return (
     <Box>
       <PageTitledHeader
@@ -28,7 +49,7 @@ const EmailTemplate = () => {
         canMovedBack
         moveBack={() => router?.basePath}
       >
-        <Search label="Search Here" setSearchBy={() => {}} />
+        <Search label="Search Here" setSearchBy={setSearch} />
         <Button
           variant="contained"
           startIcon={<AddWhiteBgIcon />}
@@ -37,65 +58,126 @@ const EmailTemplate = () => {
           Create New Template
         </Button>
       </PageTitledHeader>
-      <Grid
-        container
-        spacing={2}
-        sx={{ display: 'flex', justifyContent: 'center' }}
-      >
-        {templatesCardsArray?.map((item: any) => (
-          <Grid key={item?.id} item lg={4} md={6} xs={12}>
-            <Card
-              sx={{
-                borderRadius: '12px',
-                border: ' 1px solid grey.700',
-              }}
-            >
-              <Box
-                sx={{
-                  backgroundColor: 'custom.light_gray_bg',
-                  display: 'flex',
-                }}
-              >
-                <Image
-                  src={item?.image}
-                  alt="gaga"
-                  style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                />
-              </Box>
-              <CardContent sx={{ padding: '20px' }}>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography variant="body3" fontWeight={600}>
-                    {item?.title}
-                  </Typography>
-                  <SingleSelection />
-                  <SingleDropdownButton
-                    dropdownOptions={dropdownOptions}
-                    dropdownName={<MoreVert />}
-                    hasEndIcon={false}
-                    btnVariant="text"
-                  />
-                </Stack>
-              </CardContent>
-              <CardActions>
-                <Button
-                  className="small"
-                  fullWidth
-                  variant="contained"
-                  onClick={() =>
-                    router?.push(
-                      `${SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE}`,
-                    )
-                  }
-                >
-                  <Typography variant="body3" fontWeight={400}>
-                    Use this Template
-                  </Typography>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading || isFetching ? (
+        <SkeletonForm />
+      ) : (
+        <Grid container spacing={2} sx={{ display: 'flex' }}>
+          {meetingsEmailData?.length ? (
+            <>
+              {meetingsEmailData?.map((item: MeetingData) => (
+                <Grid key={item?._id} item lg={4} md={6} xs={12}>
+                  <Card
+                    sx={{
+                      borderRadius: '12px',
+                      border: `1px solid ${theme?.palette?.grey[800]}`,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <CardContent
+                      sx={{
+                        padding: '10px 20px',
+                        backgroundColor: 'custom.light_gray_bg',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          padding: '16px',
+                          backgroundColor: 'common.white',
+                          minHeight: '230px',
+                          maxHeight: '230px',
+                          width: '70%',
+                          borderRadius: '10px',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                        }}
+                      >
+                        <Typography
+                          variant="body3"
+                          sx={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 8,
+                            WebkitBoxOrient: 'vertical',
+                          }}
+                        >
+                          <Box
+                            dangerouslySetInnerHTML={{
+                              __html: item?.paragraph,
+                            }}
+                          />
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      mt={2}
+                      px={1}
+                    >
+                      <Typography variant="body2" fontWeight={600}>
+                        Employee Email
+                      </Typography>
+                      <SingleDropdownButton
+                        dropdownOptions={templateDropdownFunction(
+                          item,
+                          router,
+                          meetingId,
+                          ticketId,
+                          setDeleteModal,
+                        )}
+                        dropdownName={<MoreVert />}
+                        hasEndIcon={false}
+                        btnVariant="text"
+                      />
+                    </Stack>
+                    <CardActions sx={{ pb: 2 }}>
+                      <Button
+                        className="small"
+                        fullWidth
+                        variant="contained"
+                        onClick={() =>
+                          router?.push({
+                            pathname:
+                              SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
+                            query: {
+                              id: item?._id,
+                              ...(ticketId && { ticketId: ticketId }),
+                              meetingId: meetingId,
+                              type: GENERIC_UPSERT_FORM_CONSTANT?.USE,
+                            },
+                          })
+                        }
+                      >
+                        <Typography variant="body3" fontWeight={400}>
+                          Use this Template
+                        </Typography>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </>
+          ) : (
+            <NoData message="No email template found" />
+          )}
+        </Grid>
+      )}
+      {deleteModal && (
+        <TemplateDeleteModal
+          message={'Are you sure you want to delete this entry?'}
+          open={deleteModal?.isOpen ?? false}
+          handleClose={() => {
+            setDeleteModal({});
+          }}
+          submitDeleteModal={submitDeleteModal}
+          deleteMeetingsStatus={deleteMeetingsTrigger}
+        />
+      )}
     </Box>
   );
 };

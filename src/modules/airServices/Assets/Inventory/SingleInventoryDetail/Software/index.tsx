@@ -6,6 +6,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import ApiErrorState from '@/components/ApiErrorState';
+import { Box } from '@mui/material';
 
 export const Software = () => {
   const {
@@ -18,9 +19,10 @@ export const Software = () => {
     setDelateRecord,
     data,
     deleteIsLoading,
+    refetch,
   } = useSoftware();
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
   return (
     <PermissionsGuard
       permissions={[
@@ -29,7 +31,7 @@ export const Software = () => {
     >
       {!!data?.data?.inventories?.length ? (
         data?.data?.inventories?.map((singleSoftware: any) => (
-          <div key={singleSoftware?.inventorySoftwares?._id}>
+          <Box key={singleSoftware?.inventorySoftwares?._id}>
             <InventoryCard
               openDeleteModal={openDeleteModal}
               setOpenDeleteModal={setOpenDeleteModal}
@@ -41,7 +43,7 @@ export const Software = () => {
               key={singleSoftware?.inventorySoftwares?._id}
               deleteIsLoading={deleteIsLoading?.isLoading}
             />
-          </div>
+          </Box>
         ))
       ) : (
         <NoData image={ExpenseImage} message={'No Software found'} />

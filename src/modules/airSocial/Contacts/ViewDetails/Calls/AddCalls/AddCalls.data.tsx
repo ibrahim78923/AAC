@@ -40,9 +40,9 @@ export const addCallFormData = (contactOwners: any) => {
       md: 6,
     },
     {
-      id: 'starttime',
+      id: 'startTime',
       componentProps: {
-        name: 'starttime',
+        name: 'startTime',
         label: 'Start Time',
         fullWidth: true,
       },

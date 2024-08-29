@@ -1,10 +1,6 @@
 import { Checkbox } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
-import {
-  RHFAutocomplete,
-  RHFSwitch,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { ExpandMore } from '@mui/icons-material';
 import { SwitchBtn } from '@/components/SwitchButton';
 import * as Yup from 'yup';
@@ -88,11 +84,17 @@ export const columns = (columnsProps: any) => {
 
 // Filters data starts here
 
-export const rolesDefaultValues = {
-  status: '',
-  startDate: null,
-  endDate: null,
-};
+export const rolesDefaultValues = (filterValues: any) => ({
+  status: filterValues?.status ?? null,
+  startDate:
+    typeof filterValues?.startDate === 'object'
+      ? new Date(filterValues?.startDate)
+      : null,
+  endDate:
+    typeof filterValues?.endDate === 'object'
+      ? new Date(filterValues?.endDate)
+      : null,
+});
 
 export const rolesFiltersArray = [
   {
@@ -159,15 +161,6 @@ export const addUsersArrayData = [
       rows: 5,
     },
     component: RHFTextField,
-    md: 6,
-  },
-  {
-    componentProps: {
-      label: 'Default User',
-      name: 'status',
-      fullWidth: true,
-    },
-    component: RHFSwitch,
     md: 6,
   },
 ];

@@ -25,9 +25,9 @@ export interface ImportTabResponseData {
 
 export interface ImportTabI {
   page: number;
-  setPage: (page: number) => void;
+  setPage: (page: any) => void;
   pageLimit: number;
-  setPageLimit: (limit: number) => void;
+  setPageLimit: (limit: any) => void;
   setSearch: (search: string) => void;
   data: ImportTabResponseData | undefined;
   isFetching: boolean;
@@ -38,8 +38,10 @@ export interface ImportTabI {
   isOpenFilterDrawer: boolean;
   setFilterValues: (values: Record<string, any>) => void;
   filterValues: Record<string, any>;
-  listDataExport: any;
   importTabColumns: any[];
+  handleDownload: any;
+  downloadRef: any;
+  loading: boolean;
 }
 
 export interface ImportDataRow {

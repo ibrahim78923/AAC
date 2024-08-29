@@ -19,7 +19,11 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 import CustomLabel from '@/components/CustomLabel';
-import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFDateTimePicker,
+  RHFEditor,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { EMAIL_ENUMS, indexNumbers } from '@/constants';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -31,6 +35,7 @@ import { useEffect, useState } from 'react';
 import { usePostEmailTemplatesMutation } from '@/services/airMarketer/emailMarketing';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import dayjs from 'dayjs';
 
 const CreateNewEmail = () => {
   const {
@@ -113,6 +118,21 @@ const CreateNewEmail = () => {
 
   const [toStateDep, setToStateDep] = useState(1);
   const isToExists = watchEmailsForm[indexNumbers?.TWO];
+
+  const [isSendLater, setIsSendLater] = useState(false);
+  const [dateAndTimeModal, setDateAndTimeModal] = useState(true);
+
+  const [sendLaterDate, setSendLaterDate] = useState<string | null>(null);
+  const [submitedDateVal, setSubmitedDateVal] = useState<string | null>(null);
+
+  const dateObject = watchEmailsForm[3] && new Date(watchEmailsForm[3]);
+  const isoString = dateObject?.toISOString();
+  useEffect(() => {
+    if (isoString) {
+      setSendLaterDate(isoString);
+    }
+  }, [isoString]);
+
   useEffect(() => {
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
       null;
@@ -124,7 +144,7 @@ const CreateNewEmail = () => {
   const [postEmailTemplate, { isLoading: loadingpostEmailTemplate }] =
     usePostEmailTemplatesMutation();
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: any, status: any): Promise<void> => {
     setToStateDep(toStateDep + 1);
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
       setisToValid(true);
@@ -134,13 +154,15 @@ const CreateNewEmail = () => {
       formDataSend.append('subject', values?.subject);
       formDataSend.append('content', values?.description ?? ' ');
       formDataSend.append('from', values?.from ?? ' ');
-      formDataSend.append('status', EMAIL_ENUMS?.SENT);
-
+      formDataSend.append('status', status);
       if (values?.cc && values?.cc?.length > 0) {
         formDataSend.append('cc', values?.cc);
       }
       if (values?.bcc && values?.bcc?.length > 0) {
         formDataSend.append('bcc', values?.bcc);
+      }
+      if (sendLaterDate) {
+        formDataSend.append('sentOn', sendLaterDate);
       }
 
       try {
@@ -159,6 +181,21 @@ const CreateNewEmail = () => {
           variant: 'error',
         });
       }
+    }
+  };
+
+  useEffect(() => {
+    if (submitedDateVal) {
+      handleSubmit(onSubmit)();
+    }
+  }, [submitedDateVal]);
+
+  const handelSchedule = () => {
+    if (submitedDateVal) {
+      handleSubmit(onSubmit)(EMAIL_ENUMS?.SCHEDULED);
+    } else {
+      setIsSendLater(true);
+      setDateAndTimeModal(true);
     }
   };
 
@@ -255,6 +292,25 @@ const CreateNewEmail = () => {
             <Grid item xs={12}>
               <RHFEditor name="description" label={'Message'} />
             </Grid>
+            {isSendLater && (
+              <Grid item xs={12}>
+                <RHFDateTimePicker
+                  name="sentDate"
+                  fullWidth
+                  label="Select Date and Time"
+                  size="small"
+                  disablePast
+                  minDateTime={dayjs()}
+                  clearable={true}
+                  onAccept={() => {
+                    setSubmitedDateVal(sendLaterDate);
+                    setDateAndTimeModal(false);
+                  }}
+                  okText="Schedule"
+                  open={dateAndTimeModal}
+                />
+              </Grid>
+            )}
           </Grid>
         </FormProvider>
 
@@ -268,6 +324,9 @@ const CreateNewEmail = () => {
             classes={{ outlined: 'outlined_btn' }}
             type="button"
           >
+            {loadingpostEmailTemplate && isSendLater && (
+              <CircularProgress size={15} />
+            )}{' '}
             Send
           </Button>
           <Menu
@@ -281,13 +340,34 @@ const CreateNewEmail = () => {
             }}
           >
             <MenuItem
-              onClick={handleSubmit(onSubmit)}
+              onClick={() => {
+                handleSubmit(onSubmit)(EMAIL_ENUMS?.SENT);
+              }}
               sx={{ display: 'flex', gap: '5px' }}
             >
-              {loadingpostEmailTemplate && <CircularProgress size={15} />} Send
+              {loadingpostEmailTemplate && !isSendLater && (
+                <CircularProgress size={15} />
+              )}{' '}
+              Send
             </MenuItem>
-            <MenuItem>Schedule</MenuItem>
-            <MenuItem>Save as Draft</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handelSchedule();
+              }}
+            >
+              {' '}
+              {loadingpostEmailTemplate && isSendLater && (
+                <CircularProgress size={15} />
+              )}
+              Schedule
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleSubmit(onSubmit)(EMAIL_ENUMS?.DRAFT);
+              }}
+            >
+              Save as Draft
+            </MenuItem>
           </Menu>
           {openCalendar && (
             <SwitchableDatepicker

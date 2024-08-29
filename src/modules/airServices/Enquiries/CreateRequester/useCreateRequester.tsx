@@ -1,7 +1,8 @@
 import { usePostRequesterMutation } from '@/services/airServices/enquiries';
-import { ROLE } from '@/constants/strings';
+import { ARRAY_INDEX, ROLE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IChildModalState, IErrorResponse } from '../Enquiries.interface';
+import { IChildModalState } from '../Enquiries.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export default function useCreateRequester({
   isModalOpen,
@@ -10,7 +11,7 @@ export default function useCreateRequester({
   const [postRequesterTrigger, postRequesterStatus] =
     usePostRequesterMutation();
 
-  const data = isModalOpen?.data?.[0];
+  const data = isModalOpen?.data?.[ARRAY_INDEX?.ZERO];
 
   const handleCreateRequester = async () => {
     const updatedData = {

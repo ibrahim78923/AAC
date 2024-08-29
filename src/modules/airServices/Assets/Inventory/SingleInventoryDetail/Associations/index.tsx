@@ -147,6 +147,7 @@ export const Associations = () => {
           handleClose={handleCloseDeleteModal}
           handleSubmitBtn={handleConfirmDelete}
           loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
         />
       )}
       {openNewIncident && (

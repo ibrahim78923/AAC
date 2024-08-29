@@ -1,4 +1,6 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { PAGINATION } from '@/config';
 import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
@@ -37,8 +39,11 @@ export const moveTicketsFormFieldsDynamic = (
       apiQuery: apiQueryAgent,
       required: true,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
-      getOptionLabel: (option: any) =>
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
+      },
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,

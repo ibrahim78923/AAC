@@ -12,7 +12,6 @@ export const UpsertSupervisorRules = () => {
   const {
     rulesMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,
@@ -26,10 +25,8 @@ export const UpsertSupervisorRules = () => {
     saveWorkflowProgress,
     isWorkflowDrawer,
     setIsWorkflowDrawer,
-    testWorkflowProgress,
     updatedWorkflowProcess,
     handleTestWorkflow,
-    testWorkflowResponse,
     movePage,
   } = useRulesWorkflow();
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -46,9 +43,7 @@ export const UpsertSupervisorRules = () => {
           postWorkflowProgress={postWorkflowProgress}
           saveWorkflowProgress={saveWorkflowProgress}
           handleTestWorkflow={handleTestWorkflow}
-          testWorkflowProgress={testWorkflowProgress}
           updatedWorkflowProcess={updatedWorkflowProcess}
-          testWorkflowResponse={testWorkflowResponse}
           watch={watch}
           movePage={movePage}
         />
@@ -60,17 +55,12 @@ export const UpsertSupervisorRules = () => {
           ))}
         </Grid>
         <Grid container>
-          <WorkflowRunAndTrigger
-            palette={palette}
-            register={register}
-            watch={watch}
-          />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}
           moduleType={moduleType}
           watch={watch}
-          setValue={setValue}
         />
         <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>

@@ -8,6 +8,7 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import ApiErrorState from '@/components/ApiErrorState';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const UpsertRelatedTicket = (
   props: RelatedTicketsPortalComponentPropsI,
@@ -24,6 +25,7 @@ export const UpsertRelatedTicket = (
     postChildTicketStatus,
     putChildTicketStatus,
     isError,
+    refetch,
   } = useUpsertRelatedTicket(props);
 
   return (
@@ -57,7 +59,7 @@ export const UpsertRelatedTicket = (
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <>
           <Box mt={1}>
@@ -66,7 +68,7 @@ export const UpsertRelatedTicket = (
               onSubmit={handleSubmit(submitUpsertTicket)}
             >
               <Grid container spacing={2}>
-                {upsertTicketFormFields?.map((item: any) => (
+                {upsertTicketFormFields?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
                     <item.component
                       {...item?.componentProps}

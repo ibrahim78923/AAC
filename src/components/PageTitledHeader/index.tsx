@@ -3,26 +3,28 @@ import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { PageTitledHeaderPropsI } from './PageTitledHeader.interface';
 
-export const PageTitledHeader = ({
-  title,
-  hasImport = false,
-  hasExport = false,
-  addTitle,
-  handleAction = () => {},
-  handleExcelExport,
-  handleCsvExport,
-  moveBack,
-  canMovedBack,
-  handleImport,
-  hasStartIcon = true,
-  hasEndIcon = false,
-  createPermissionKey,
-  exportPermissionKey,
-  importPermissionKey,
-  children,
-  disableAddButton,
-}: any) => {
+export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
+  const {
+    title,
+    hasImport = false,
+    hasExport = false,
+    addTitle,
+    handleAction = () => {},
+    handleExcelExport,
+    handleCsvExport,
+    moveBack,
+    canMovedBack,
+    handleImport,
+    hasStartIcon = true,
+    hasEndIcon = false,
+    createPermissionKey,
+    exportPermissionKey,
+    importPermissionKey,
+    children,
+    disableAddButton,
+  } = props;
   return (
     <>
       <Box

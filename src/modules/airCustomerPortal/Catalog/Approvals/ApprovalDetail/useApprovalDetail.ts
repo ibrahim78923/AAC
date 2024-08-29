@@ -8,20 +8,22 @@ import { useState } from 'react';
 
 export const useApprovalDetail = () => {
   const router = useRouter();
-  const { approvalId, ticketId }: any = router?.query;
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const { approvalId, ticketId } = router?.query;
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
+
   const setApproval = (approval: any) => {
     setSelectedApproval(approval);
     setIsConfirmModalOpen(true);
   };
+
   const getSingleTicketApprovalParameter = {
     queryParams: {
       id: approvalId,
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetTicketApprovalDetailsByIdQuery(getSingleTicketApprovalParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!approvalId,
@@ -37,6 +39,7 @@ export const useApprovalDetail = () => {
     refetchOnMountOrArgChange: true,
     skip: !!!ticketId,
   });
+
   const openTicketDetail = (data: any) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
@@ -45,6 +48,7 @@ export const useApprovalDetail = () => {
       },
     });
   };
+
   return {
     router,
     isConfirmModalOpen,
@@ -58,5 +62,6 @@ export const useApprovalDetail = () => {
     data,
     openTicketDetail,
     ticketDetails,
+    refetch,
   };
 };

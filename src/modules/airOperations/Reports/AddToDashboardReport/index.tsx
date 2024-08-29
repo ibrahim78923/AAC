@@ -11,18 +11,19 @@ import {
 import { PAGINATION } from '@/config';
 import { useAddToDashboardReport } from './useAddToDashboardReport';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen, baseModule } = props;
+  const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    API_QUERY_DASHBOARD,
     apiQueryServicesDashboard,
     addReportsToDashboardStatus,
+    id,
   }: any = useAddToDashboardReport(props);
 
   return (
@@ -61,16 +62,17 @@ export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
             name="dashboard"
             fullWidth
             required
-            apiQuery={
-              API_QUERY_DASHBOARD?.[baseModule] ?? apiQueryServicesDashboard
-            }
+            apiQuery={apiQueryServicesDashboard}
             multiple
             size="small"
             placeholder="Search Here"
             externalParams={{
               limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+              productId: id,
             }}
-            getOptionLabel={(option: any) => `${option?.name}`}
+            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
+              `${option?.name}`
+            }
           />
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>

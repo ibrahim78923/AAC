@@ -1,11 +1,17 @@
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
+import { IDateFilter } from './DateFilter.interface';
 
-export default function useDateFilter({ setDateCalendar, dateCalendar }: any) {
-  const [anchorEl, setAnchorEl] = useState(null);
+export default function useDateFilter({
+  setDateCalendar,
+  dateCalendar,
+}: IDateFilter) {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null | any>(
+    null,
+  );
   const open = Boolean(anchorEl);
 
-  const handleOpen = (event: any) => {
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement> | any) => {
     setAnchorEl(event?.currentTarget);
   };
 

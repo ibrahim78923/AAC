@@ -1,122 +1,46 @@
-import { useEffect } from 'react';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, CircularProgress } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { dataArray, validationSchema } from './EditCampaign.data';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
-import dayjs from 'dayjs';
-import useCampaigns from '../useCampaigns';
-import { indexNumbers } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { dataArray } from './EditCampaign.data';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
+import useEditCampaigns from './useEditCampaign';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export default function EditCampaign({
   isOpenDrawer,
   onClose,
-  initialValueProps,
   selectedRows,
+  setSelectedRows,
 }: any) {
-  const { UserListData, updateCampaigns, updateCampaignLoading } =
-    useCampaigns();
-
-  const { data: compaignsDataById, isLoading: campaignByIdLoading } =
-    useGetCampaignsByIdQuery(selectedRows, {
-      skip:
-        !Array?.isArray(selectedRows) ||
-        selectedRows?.length === indexNumbers?.ZERO,
-    });
-
-  const methods = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit, setValue, reset } = methods;
-
-  const onSubmit = async (values: any) => {
-    const campaignBudget = values?.campaignBudget
-      ? parseFloat(values?.campaignBudget)
-      : null;
-
-    const filteredValues: { [key: string]: any } = Object.keys(values).reduce(
-      (acc: { [key: string]: any }, key: string) => {
-        if (
-          values[key] !== undefined &&
-          values[key] !== null &&
-          values[key] !== ''
-        ) {
-          acc[key] = values[key];
-        }
-        return acc;
-      },
-      {},
-    );
-
-    if (campaignBudget !== null) {
-      filteredValues.campaignBudget = campaignBudget;
-    }
-    if (values.campaignStatus && values.campaignStatus !== '') {
-      filteredValues.campaignStatus = values.campaignStatus;
-    }
-
-    try {
-      const updatedValues = {
-        body: filteredValues,
-        id: compaignsDataById?.data[0]?._id,
-      };
-
-      await updateCampaigns(updatedValues)?.unwrap();
-      enqueueSnackbar('Campaign Updated Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      reset();
-      onClose();
-    } catch (error: any) {
-      const errMsg = error?.data?.message;
-      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
-  };
-
-  useEffect(() => {
-    const data = compaignsDataById?.data[indexNumbers?.ZERO];
-    const fieldsToSet: any = {
-      title: data?.title,
-      campaignOwner: data?.campaignOwner,
-      startDate: dayjs(data?.startDate)?.isValid()
-        ? dayjs(data?.startDate).toDate()
-        : null,
-      endDate: dayjs(data?.endDate)?.isValid()
-        ? dayjs(data?.endDate)?.toDate()
-        : null,
-      campaignGoal: data?.campaignGoal,
-      campaignAudience: data?.campaignAudience,
-      campaignBudget: data?.campaignBudget,
-      campaignStatus: data?.campaignStatus,
-      description: data?.description,
-    };
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
-    }
-  }, [compaignsDataById]);
-
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    updateCampaignLoading,
+    campaignByIdLoading,
+    createCampaignsLoading,
+    userListData,
+    organizationId,
+    getDynamicFieldsStatus,
+    form,
+  } = useEditCampaigns(selectedRows, onClose, isOpenDrawer, setSelectedRows);
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenDrawer}
+      isDrawerOpen={isOpenDrawer?.isToggle}
       onClose={() => onClose(false)}
-      title={'Edit Campaign'}
-      okText={'Update'}
+      title={
+        isOpenDrawer?.type !== DRAWER_TYPES?.CREATE
+          ? 'Edit Campaign'
+          : 'Create Campaign'
+      }
+      okText={isOpenDrawer?.type !== DRAWER_TYPES?.CREATE ? 'Update' : 'Create'}
       isOk
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={updateCampaignLoading}
+      isLoading={updateCampaignLoading || createCampaignsLoading}
     >
       {campaignByIdLoading ? (
         <SkeletonTable />
@@ -124,18 +48,40 @@ export default function EditCampaign({
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              {dataArray(UserListData)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {dataArray(userListData, organizationId)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
+                        <option key={option?.value} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
                   </item.component>
                 </Grid>
               ))}
+              {getDynamicFieldsStatus?.isLoading ||
+              getDynamicFieldsStatus?.isFetching ? (
+                <Grid item xs={12} textAlign={'center'}>
+                  <CircularProgress />
+                </Grid>
+              ) : (
+                form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))
+              )}
             </Grid>
           </FormProvider>
         </Box>

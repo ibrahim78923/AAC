@@ -11,6 +11,11 @@ import { AntSwitch } from '@/components/AntSwitch';
 import dayjs from 'dayjs';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../CreateDashboard/CreateDashboard.data';
+import {
+  ManageDashboardIsPortalOpenI,
+  ManageDashboardTableRowI,
+} from './ManageDashboard.interface';
+import { Dispatch, SetStateAction } from 'react';
 
 export const MANAGE_ACCESS_TYPES_API_MAPPED = {
   [MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER]: 'Private to owner',
@@ -18,26 +23,49 @@ export const MANAGE_ACCESS_TYPES_API_MAPPED = {
   [MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS]: 'Specific user',
 };
 
+export const checkDashboardEditPermission = (data: any) => {
+  if (
+    data?.dashboardData?.access ===
+    MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER
+  )
+    return data?.loggedInUser?._id === data?.dashboardData?.ownerDetails?._id;
+  if (data?.dashboardData?.access === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE)
+    return (
+      data?.dashboardData?.permissions ===
+      MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW
+    );
+  if (
+    data?.dashboardData?.access ===
+    MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS
+  )
+    return (
+      data?.dashboardData?.specialUsers?.find(
+        (user: any) => user?.userId === data?.loggedInUser?._id,
+      )?.permission === MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW
+    );
+  return false;
+};
+
 export const manageDashboardsDataColumnsDynamic = (
-  setIsPortalOpen: any,
-  changeDefaultDashboard: any,
+  setIsPortalOpen: Dispatch<SetStateAction<ManageDashboardIsPortalOpenI>>,
+  changeDefaultDashboard: (e: any, id: any) => void,
   changeDefaultServicesDashboardStatus: any,
   overallPermissions: any,
+  user: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: ManageDashboardTableRowI) => row?.name,
     id: 'name',
     cell: (info: any) => info?.getValue(),
     header: 'Dashboard Name',
     isSortable: true,
   },
-
   ...(overallPermissions?.includes(
     AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
   )
     ? [
         {
-          accessorFn: (row: any) => row?.isDefault,
+          accessorFn: (row: ManageDashboardTableRowI) => row?.isDefault,
           id: 'isDefault',
           isSortable: true,
           header: 'Default',
@@ -65,7 +93,7 @@ export const manageDashboardsDataColumnsDynamic = (
       ]
     : []),
   {
-    accessorFn: (row: any) => row?.ownerDetails,
+    accessorFn: (row: ManageDashboardTableRowI) => row?.ownerDetails,
     id: 'ownerDetails',
     header: 'Owner',
     isSortable: true,
@@ -91,7 +119,7 @@ export const manageDashboardsDataColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.access,
+    accessorFn: (row: ManageDashboardTableRowI) => row?.access,
     id: 'access',
     isSortable: true,
     header: 'Access Rights',
@@ -106,7 +134,7 @@ export const manageDashboardsDataColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.lastView,
+    accessorFn: (row: ManageDashboardTableRowI) => row?.lastView,
     id: 'lastView',
     isSortable: true,
     header: 'Last Viewed',
@@ -116,7 +144,7 @@ export const manageDashboardsDataColumnsDynamic = (
         : '---',
   },
   {
-    accessorFn: (row: any) => row?.updatedAt,
+    accessorFn: (row: ManageDashboardTableRowI) => row?.updatedAt,
     id: 'updatedAt',
     isSortable: true,
     header: 'Last Updated',
@@ -126,7 +154,7 @@ export const manageDashboardsDataColumnsDynamic = (
         : '---',
   },
   {
-    accessorFn: (row: any) => row?.actions,
+    accessorFn: (row: ManageDashboardTableRowI) => row?.actions,
     id: 'actions',
     isSortable: true,
     header: 'Actions',
@@ -153,27 +181,34 @@ export const manageDashboardsDataColumnsDynamic = (
         <PermissionsGuard
           permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.EDIT_DASHBOARD]}
         >
-          <Link
-            href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${DASHBOARD?.EDIT}&dashboardId=${info?.row?.original?._id}`}
-          >
-            <EditYellowBGPenIcon />
-          </Link>
+          {checkDashboardEditPermission?.({
+            dashboardData: info?.row?.original,
+            loggedInUser: user,
+          }) && (
+            <Link
+              href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${DASHBOARD?.EDIT}&dashboardId=${info?.row?.original?._id}`}
+            >
+              <EditYellowBGPenIcon />
+            </Link>
+          )}
         </PermissionsGuard>
 
         <PermissionsGuard
           permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
         >
-          <CancelRoundedIcon
-            color="error"
-            sx={{ fontSize: '24px', cursor: 'pointer' }}
-            onClick={() =>
-              setIsPortalOpen({
-                isOpen: true,
-                isDelete: true,
-                data: info?.row?.original,
-              })
-            }
-          />
+          {user?._id === info?.row?.original?.ownerDetails?._id && (
+            <CancelRoundedIcon
+              color="error"
+              sx={{ fontSize: '24px', cursor: 'pointer' }}
+              onClick={() =>
+                setIsPortalOpen({
+                  isOpen: true,
+                  isDelete: true,
+                  data: info?.row?.original,
+                })
+              }
+            />
+          )}
         </PermissionsGuard>
       </Box>
     ),

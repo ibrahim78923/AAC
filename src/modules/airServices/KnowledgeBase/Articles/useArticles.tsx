@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
+import { NextRouter, useRouter } from 'next/router';
+import { Theme, useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import {
   ALL_FOLDER,
@@ -19,15 +19,19 @@ import { MoveFolder } from './MoveFolder';
 import { UpsertFolder } from '../Folder/UpsertFolder';
 import { DeleteFolder } from '../Folder/DeleteFolder';
 import {
-  ArticlesComponentPropsI,
   ArticlesFilterValuesI,
   ArticlesPortalComponentPropsI,
+  FolderComponentPropsI,
 } from './Articles.interface';
+import { ChildComponentPropsI } from '../KnowledgeBase.interface';
+import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { TanstackTableColumnsI } from '@/components/Table/TanstackTable/TanstackTable.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const useArticles: any = (props: ArticlesComponentPropsI) => {
+export const useArticles = (props: ChildComponentPropsI) => {
   const { isPortalOpen, setIsPortalOpen } = props;
-  const theme = useTheme();
-  const router = useRouter();
+  const theme: Theme = useTheme();
+  const router: NextRouter = useRouter();
   const { push } = router;
 
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
@@ -44,7 +48,7 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
     useLazyGetArticlesQuery();
 
-  const getValueArticlesListData = async (currentPage = page) => {
+  const getArticlesListData = async (currentPage: number = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
@@ -68,7 +72,7 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
   };
 
   useEffect(() => {
-    getValueArticlesListData();
+    getArticlesListData();
   }, [search, page, pageLimit, filterValues, selectedArticlesTab]);
 
   const {
@@ -96,19 +100,21 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
     });
   };
 
-  const setFolder = (folder: { [key: string]: any }) => {
+  const setFolder = (folder: AutocompleteAsyncOptionsI) => {
+    if (lazyGetArticlesStatus?.isLoading || lazyGetArticlesStatus?.isFetching)
+      return;
     setSelectedArticlesTab(folder);
     setPage(PAGINATION?.CURRENT_PAGE);
   };
 
-  const articlesColumns = articlesColumnsFunction(
+  const articlesColumns: TanstackTableColumnsI[] = articlesColumnsFunction(
     lazyGetArticlesStatus?.data?.data?.articles,
     selectedArticlesData,
     setSelectedArticlesData,
     handleSingleArticleNavigation,
   );
 
-  const dropdownOptions = actionBtnData(
+  const dropdownOptions: SingleDropdownOptionI[] = actionBtnData(
     setIsPortalOpen,
     router,
     selectedArticlesData,
@@ -121,12 +127,13 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
     setSelectedArticlesData: setSelectedArticlesData,
     setPage: setPage,
     page: page,
-    getValueArticlesListData: getValueArticlesListData,
+    getValueArticlesListData: getArticlesListData,
     totalRecords: lazyGetArticlesStatus?.data?.data?.articles?.length,
     filterValues: filterValues,
     setFilterValues: setFilterValues,
     selectedArticlesTab,
     getFolderListData: refetch,
+    setFolder,
   };
 
   const renderPortalComponent = () => {
@@ -148,24 +155,32 @@ export const useArticles: any = (props: ArticlesComponentPropsI) => {
     return <></>;
   };
 
+  const folderComponentProps: FolderComponentPropsI = {
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    foldersList,
+    theme,
+    setFolder,
+    selectedArticlesTab,
+  };
+
   return {
     articlesColumns,
-    selectedArticlesTab,
     dropdownOptions,
-    theme,
     lazyGetArticlesStatus,
     setPage,
     setPageLimit,
     setSearch,
-    foldersList,
     selectedArticlesData,
-    setFolder,
-    isLoading,
-    isFetching,
-    isError,
     isPortalOpen,
     setIsPortalOpen,
     renderPortalComponent,
     portalComponentProps,
+    folderComponentProps,
+    selectedArticlesTab,
+    getArticlesListData,
+    page,
   };
 };

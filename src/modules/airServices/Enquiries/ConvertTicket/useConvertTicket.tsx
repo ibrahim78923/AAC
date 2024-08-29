@@ -4,7 +4,8 @@ import {
   usePostTicketMutation,
 } from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IErrorResponse, IChildModalState } from '../Enquiries.interface';
+import { IChildModalState } from '../Enquiries.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export default function useConvertTicket({
   isModalOpen,

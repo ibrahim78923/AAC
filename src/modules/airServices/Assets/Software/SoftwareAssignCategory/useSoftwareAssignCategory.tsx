@@ -3,14 +3,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { usePutSoftwareAssignCategoryMutation } from '@/services/airServices/assets/software';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
+import { SoftwareAssignCategoryI } from './SoftwareAssignCategory.interface';
 
-export const useSoftwareAssignCategory = (params: any) => {
+export const useSoftwareAssignCategory = (params: SoftwareAssignCategoryI) => {
   const { setOpenAssignModal, selectedSoftware, setSoftwareData } = params;
 
-  const methods: any = useForm<any>({
+  const methods = useForm({
     resolver: yupResolver(
       Yup?.object()?.shape({
-        category: Yup?.mixed()?.required(' Category is required'),
+        category: Yup?.string()?.required(' Category is required'),
       }),
     ),
     defaultValues: { category: '' },
@@ -21,7 +22,7 @@ export const useSoftwareAssignCategory = (params: any) => {
   const [putSoftwareAssignCategoryTrigger, putSoftwareAssignCategoryStatus] =
     usePutSoftwareAssignCategoryMutation();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: { category: string }) => {
     const putAssignCategoryApiParameter = {
       body: {
         softwareIds: selectedSoftware,

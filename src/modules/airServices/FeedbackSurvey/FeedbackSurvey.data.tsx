@@ -13,6 +13,7 @@ export const feedbackCards = [
       'Start from scratch and build your own bespoke survey to gain insights into your customers experience.',
     avatar: CustomerSupportIcon,
     query: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SUPPORT,
+    permissions: Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY,
   },
   {
     id: 2,
@@ -21,6 +22,8 @@ export const feedbackCards = [
       'Use a CES (Customer Effort Score) survey  to discover how easy it is for your customers to find help when they need it.',
     avatar: CustomerSatisfactionIcon,
     query: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SATISFACTION,
+    permissions:
+      Permissions?.AIR_SERVICES_CUSTOMER_SATISFACTION_FEEDBACK_SURVEY,
   },
 ];
 export const feedbackComponent = {

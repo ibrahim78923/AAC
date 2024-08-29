@@ -1,8 +1,10 @@
+import { ARRAY_INDEX } from '@/constants/strings';
 import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
 
 export const usePieChart = (props: any) => {
-  const { data = { counts: [], items: [] }, pieChart } = props;
-  const { items = [], counts = [] } = data;
+  const { data = { counts: [], items: [] }, pieChart, title } = props;
+  const { items = [], counts = [] } =
+    data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const dataItems =
     pieChart?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID

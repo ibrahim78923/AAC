@@ -1,16 +1,16 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { FormProvider } from 'react-hook-form';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import useUsersAdd from './useUsersAdd';
 import { LoadingButton } from '@mui/lab';
+import { FormProvider } from '@/components/ReactHookForm';
+import { PlusSharedColorIcon } from '@/assets/icons';
 
 export const UsersAdd = () => {
   const {
@@ -24,14 +24,15 @@ export const UsersAdd = () => {
     isLoading,
   } = useUsersAdd();
   return (
-    <FormProvider {...methods} onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Button
               onClick={openModal}
-              startIcon={<AddCircleIcon />}
-              color="secondary"
+              startIcon={<PlusSharedColorIcon />}
+              color="primary"
+              variant="contained"
             >
               Add User
             </Button>
@@ -46,13 +47,13 @@ export const UsersAdd = () => {
             alignItems={'center'}
             justifyContent={'space-between'}
           >
-            <Typography variant={'h4'}>Add User</Typography>
+            <Typography variant={'pageTitle'}>Add User</Typography>
             <CloseIcon onClick={closeModal} sx={{ cursor: 'pointer' }} />
           </DialogTitle>
         </Box>
         <DialogContent>
           <Grid container spacing={2}>
-            {addUserDataFormFieldsAddUser?.map((item: any) => (
+            {addUserDataFormFieldsAddUser?.map((item) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
@@ -64,6 +65,7 @@ export const UsersAdd = () => {
             onClick={closeModal}
             color="secondary"
             variant={'outlined'}
+            disabled={isLoading}
           >
             Cancel
           </LoadingButton>
@@ -72,6 +74,7 @@ export const UsersAdd = () => {
             color="primary"
             variant={'contained'}
             loading={isLoading}
+            disabled={isLoading}
           >
             Add
           </LoadingButton>

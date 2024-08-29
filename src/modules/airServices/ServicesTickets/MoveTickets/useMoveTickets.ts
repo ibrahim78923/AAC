@@ -4,8 +4,6 @@ import {
   moveTicketsFormFieldsDynamic,
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
-import { useRouter } from 'next/router';
-import usePath from '@/hooks/usePath';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useLazyGetAgentDropdownQuery,
@@ -14,13 +12,12 @@ import {
 } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const useMoveTickets = (props: TicketActionComponentPropsI) => {
-  const router = useRouter();
-  const { makePath } = usePath();
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
   const {
-    setIsDrawerOpen,
+    setIsPortalOpen,
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
@@ -28,6 +25,7 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     getTicketsListData,
     setPage,
   } = props;
+  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
   const moveTicketsFormMethod = useForm<any>({
     defaultValues: moveTicketsDefaultValue,
@@ -46,7 +44,7 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     moveTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
     moveTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
     moveTicketFormData?.append('status', singleTicketDetail?.status);
-    moveTicketFormData?.append('id', selectedTicketList?.[0]);
+    moveTicketFormData?.append('id', selectedTicketList?.[ARRAY_INDEX?.ZERO]);
     moveTicketFormData?.append('department', data?.department?._id);
     moveTicketFormData?.append('agent', data?.agent?._id);
 
@@ -57,33 +55,28 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
-      getTicketsListData(1, {});
-      setFilterTicketLists?.({});
-      setPage?.(1);
       closeMoveTicketsModal?.();
-      reset();
+      setFilterTicketLists?.({});
+      setPage?.(PAGINATION?.CURRENT_PAGE);
+      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeMoveTicketsModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset();
     setSelectedTicketList([]);
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
+
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const moveTicketsFormFields = moveTicketsFormFieldsDynamic(
     apiQueryDepartment,
     apiQueryAgent,
   );
+
   return {
     moveTicketsFormMethod,
     closeMoveTicketsModal,

@@ -23,8 +23,6 @@ export const UpsertSalesWorkflow = () => {
     byIdLoading,
     isFetching,
     updateLoading,
-    testWorkflowResponse,
-    testLoading,
     isWorkflowDrawer,
     setIsWorkflowDrawer,
   } = useUpsertSalesWorkflow();
@@ -40,8 +38,6 @@ export const UpsertSalesWorkflow = () => {
           isLoading={isLoading || updateLoading}
           saveLoading={saveLoading}
           setValidation={setValidation}
-          testWorkflowResponse={testWorkflowResponse}
-          testLoading={testLoading}
           isWorkflowDrawer={isWorkflowDrawer}
           setIsWorkflowDrawer={setIsWorkflowDrawer}
         />

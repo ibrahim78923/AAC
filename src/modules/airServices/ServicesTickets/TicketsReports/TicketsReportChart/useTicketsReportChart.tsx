@@ -1,58 +1,40 @@
 import { useTheme } from '@mui/material';
-import { chartData } from '../TicketsReport.data';
+import {
+  standardMonthAbbreviations,
+  statuses,
+  statusNames,
+} from '../TicketsReport.data';
 
-export const useTicketsReportChart = () => {
+export const useTicketsReportChart = ({ chartData }: any) => {
   const theme = useTheme();
 
-  const groupedData = chartData?.reduce((acc: any, curr: any) => {
-    const { month, status, count } = curr;
-    acc[month] = acc[month] || {
-      New_Tickets: 0,
-      Resolved_Tickets: 0,
-      OverDue_Tickets: 0,
-      Pending_Tickets: 0,
-      Close_Tickets: 0,
-      unassigned_Tickets: 0,
-    };
-    acc[month][status] = count;
-    return acc;
-  }, {});
+  const monthLabelsFromBackend = chartData?.monthLabels || [];
 
-  const monthAbbreviations = [
-    'JAN',
-    'FEB',
-    'MAR',
-    'APR',
-    'MAY',
-    'JUN',
-    'JUL',
-    'AUG',
-    'SEP',
-    'OCT',
-    'NOV',
-    'DEC',
-  ];
-
-  const months = Object?.keys(groupedData || {})?.sort(
-    (a: any, b: any) => a - b,
+  const monthIndexMap = monthLabelsFromBackend.reduce(
+    (acc: any, label: string, index: number) => {
+      acc[label.toUpperCase()] = index;
+      return acc;
+    },
+    {},
   );
-  const seriesData = [
-    'New Tickets',
-    'Resolved Tickets',
-    'OverDue Tickets',
-    'Pending Tickets',
-    'Close Tickets',
-    'Unassigned Tickets',
-  ]?.map((status) => ({
-    name: status,
-    data: months?.map((month: any) => groupedData[month]?.[status] || 0),
+
+  const reorderedData = statuses.map((statusKey) => {
+    return standardMonthAbbreviations.map((month) => {
+      const backendIndex = monthIndexMap[month];
+      return backendIndex !== undefined
+        ? chartData[statusKey][backendIndex]
+        : 0;
+    });
+  });
+
+  const seriesData = statusNames.map((name, index) => ({
+    name,
+    data: reorderedData[index],
   }));
 
   const options = {
     xaxis: {
-      categories: months?.map(
-        (month: any) => monthAbbreviations[parseInt(month) - 1],
-      ),
+      categories: standardMonthAbbreviations,
     },
     colors: [
       theme?.palette?.primary?.main,

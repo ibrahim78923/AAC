@@ -2,10 +2,12 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useManageDashboardFilter } from './useManageDashboardFilter';
-import { PortalComponentPropsI } from '../ManageDashboard.interface';
-import { ManageDashboardsFilterFormFieldsDynamicI } from './ManageDashboardFilter.interface';
+import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const ManageDashboardFilter = (props: PortalComponentPropsI) => {
+export const ManageDashboardFilter = (
+  props: ManageDashboardPortalComponentPropsI,
+) => {
   const { isPortalOpen, setIsPortalOpen } = props;
   const {
     methods,
@@ -18,7 +20,7 @@ export const ManageDashboardFilter = (props: PortalComponentPropsI) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isFilter}
+        isDrawerOpen={isPortalOpen?.isFilter as boolean}
         onClose={() => setIsPortalOpen?.({})}
         okText={'apply'}
         title={'Filters'}
@@ -30,13 +32,11 @@ export const ManageDashboardFilter = (props: PortalComponentPropsI) => {
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {dashboardFilterFormFields?.map(
-              (item: ManageDashboardsFilterFormFieldsDynamicI) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ),
-            )}
+            {dashboardFilterFormFields?.map((item: ReactHookFormFieldsI) => (
+              <Grid item xs={12} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
           </Grid>
         </FormProvider>
       </CommonDrawer>

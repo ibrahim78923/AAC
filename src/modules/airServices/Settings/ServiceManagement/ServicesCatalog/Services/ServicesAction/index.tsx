@@ -13,7 +13,9 @@ import { VisibilityAction } from './VisibilityAction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
-export const ServicesAction = (props: any) => {
+import { IServicesProps } from '../Services.interface';
+
+export const ServicesAction = (props: IServicesProps) => {
   const {
     deleteModalOpen,
     setDeleteModalOpen,

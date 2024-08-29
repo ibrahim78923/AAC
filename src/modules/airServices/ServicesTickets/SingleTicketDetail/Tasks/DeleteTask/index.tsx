@@ -12,7 +12,7 @@ export const DeleteTask = (props: TicketsTasksPortalComponentPropsI) => {
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}
       message="Are you sure you want to delete this task?"
-      open={isPortalOpen?.isDelete}
+      open={isPortalOpen?.isDelete as boolean}
       handleClose={() => closeDeleteModal?.()}
       handleSubmitBtn={() => deleteTask?.()}
       cancelBtnText="Cancel"

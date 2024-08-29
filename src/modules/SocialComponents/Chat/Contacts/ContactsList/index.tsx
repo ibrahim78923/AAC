@@ -32,11 +32,11 @@ import {
   setChatMessages,
 } from '@/redux/slices/chat/slice';
 import { isNullOrEmpty } from '@/utils';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { ContactListPropsI } from './contactsList.interface';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   const theme = useTheme();

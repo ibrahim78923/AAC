@@ -31,7 +31,8 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
     setOrder(items);
   };
 
-  const [putCustomizedColumns] = usePutCustomizedColumnsMutation();
+  const [putCustomizedColumns, { isLoading }] =
+    usePutCustomizedColumnsMutation();
 
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
@@ -94,6 +95,7 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
     theme,
     order,
     onDragEnd,
+    isLoading,
   };
 };
 

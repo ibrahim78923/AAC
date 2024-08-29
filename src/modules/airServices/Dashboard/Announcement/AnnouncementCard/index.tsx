@@ -12,9 +12,16 @@ import { MoreVert } from '@mui/icons-material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { AnnouncementCardProps } from './AnnouncementCard.interface';
 
-export const AnnouncementCard = (props: any) => {
-  const { data, index, dropdownAnnouncementsOptions } = props;
+export const AnnouncementCard = (props: AnnouncementCardProps) => {
+  const {
+    data,
+    index,
+    dropdownAnnouncementsOptions,
+    isLoggedInUser,
+    userDetails,
+  } = props;
 
   return (
     <Box
@@ -39,7 +46,7 @@ export const AnnouncementCard = (props: any) => {
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            src={generateImage(data?.userAvatar)}
+            src={generateImage(userDetails?.userAvatar)}
             alt=""
             sx={{
               width: 28,
@@ -48,7 +55,7 @@ export const AnnouncementCard = (props: any) => {
             }}
           >
             <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(data?.userName)}
+              {fullNameInitial(userDetails?.userName)}
             </Typography>
           </Avatar>
           <Box
@@ -59,9 +66,9 @@ export const AnnouncementCard = (props: any) => {
             gap={1}
           >
             <Typography variant="body3" color={'blue.main'} fontWeight={500}>
-              {fullName(data?.userName)}
+              {fullName(userDetails?.userName)}
             </Typography>
-            {!!dropdownAnnouncementsOptions?.length && (
+            {isLoggedInUser && !!dropdownAnnouncementsOptions?.length && (
               <PermissionsGuard
                 permissions={[
                   AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,

@@ -10,13 +10,11 @@ export const useSoftware = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading, isFetching, isError } = useGetInventorySoftwareQuery(
-    router?.query?.inventoryId,
-    {
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetInventorySoftwareQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
-    },
-  );
+    });
   const [deleteInventorySoftware, deleteIsLoading] =
     useDeleteInventorySoftwareMutation();
   const handleDelete = async () => {
@@ -44,5 +42,6 @@ export const useSoftware = () => {
     isFetching,
     isError,
     deleteIsLoading,
+    refetch,
   };
 };

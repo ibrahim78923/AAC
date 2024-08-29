@@ -53,6 +53,7 @@ export const DATE_TIME_FORMAT = {
   MMM: 'MMM',
   DD: 'DD',
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
+  GOAL_DATE_FORMAT: 'MMM DD YYYY',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -206,6 +207,9 @@ export const ORG_ADMIN: any = {
   DASHBOARD: '/org-admin/dashboard',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
+  PROPERTIES: '/org-admin/properties',
+  MODULE_FORMS: '/org-admin/properties/module-forms',
+  DYNAMIC_FIELDS: '/org-admin/properties/dynamic-fields',
 };
 
 export const AIR_OPERATIONS = {
@@ -571,14 +575,14 @@ export const PLAN_STATUS = {
 };
 
 export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
-  DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
-  DEAL_REPORTS: 'Deal Reports',
-  MEETING_DETAILS: 'Meeting Details',
-  FORECAST_CATEGORY_REPORTS: 'Forecast Category Reports',
-  FORECAST_PIPELINE_REPORT: 'Forecast Pipeline Report',
-  TEAM_ACTIVITIES_BY_DATE: 'Team Activities by Activity Date',
-  TOTAL_DEALS_OPEN_DEALS:
-    'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
+  DEALS_CREATED_VS_CLOSED_DEALS: 'Deals_created_vs_Closed_Deals',
+  MEETING_DETAILS: 'Meeting_Details',
+  TEAM_ACTIVITIES_BY_ACTIVITY_DATE: 'Team_Activities_by_Activity_Date',
+  TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
+    'Total_Deals_Open_Deals_Team_Goals_Closed_Won_Published_Quotes',
+  DEAL_REPORTS: 'Deal_Reports',
+  FORECAST_PIPELINE_REPORT: 'Forecast_Pipeline_Report',
+  FORECAST_CATEGORY_REPORTS: 'Forecast_Category_Reports',
 };
 
 export const PRODUCT_LABELS = {
@@ -589,6 +593,8 @@ export const PRODUCT_LABELS = {
   LOYALTY_PROGRAM: 'Loyalty Program',
   CALL_CENTER: 'Call Center',
   CUSTOMER_PORTAL: 'Customer Portal',
+  ORG_ADMIN: 'Org Admin',
+  COMMON_FEATURES: 'Common Features',
 };
 
 export const AIR_SALES_GOAL_NOTIFICATION = {
@@ -610,4 +616,22 @@ export const PROFILE_DROPDOWNS = {
   AIR_CUSTOMER_PORTAL: 'air-customer-portal',
   CHANGE_PASSWORD: 'Change Password',
   DELEGATE: 'Delegate',
+};
+
+export const MANAGE_ACCESS_VISIBLE = {
+  EVERYONE: 'EVERYONE',
+  TEAMS: 'TEAMS',
+  USERS: 'USERS',
+};
+
+export const PRODUCT_EXTERNAl_LINKS = {
+  AIR_SALES: 'https://airapplecart.co.uk/product/air-sales',
+  AIR_SERVICES: 'https://airapplecart.co.uk/product/air-service',
+  AIR_MARKETER: 'https://airapplecart.co.uk/product/air-marketer',
+  AIR_OPERATIONS: 'https://airapplecart.co.uk/product/air-operation',
+  LOYALTY_PROGRAM: 'https://airapplecart.co.uk/product/air-loyalty-program',
+  CALL_CENTER: 'https://airapplecart.co.uk/product/air-call-center',
+  CUSTOMER_PORTAL: '',
+  ORG_ADMIN: '',
+  COMMON_FEATURES: '',
 };

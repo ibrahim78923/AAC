@@ -5,10 +5,14 @@ import { useRouter } from 'next/router';
 export const useMarketingReportsRestore = () => {
   const router = useRouter();
   const apiQueryAllReports = useLazyRestoreGenericReportsListQuery?.();
+  const { id } = router?.query;
 
   const reportsPath = () => {
     router?.push({
       pathname: AIR_OPERATIONS?.MARKETING_REPORTS,
+      query: {
+        id,
+      },
     });
   };
 

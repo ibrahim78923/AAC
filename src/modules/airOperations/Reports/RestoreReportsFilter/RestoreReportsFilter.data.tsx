@@ -1,6 +1,9 @@
 import { RHFDatePicker } from '@/components/ReactHookForm';
+import { RestoreReportsFilterDataDefaultValuesI } from './RestoreReportsFilter.interface';
 
-export const restoreReportFiltersDefaultValues: any = (filterValue: any) => {
+export const restoreReportFiltersDefaultValues: any = (
+  filterValue: RestoreReportsFilterDataDefaultValuesI,
+) => {
   return {
     startDate: filterValue?.startDate ?? null,
     endDate: filterValue?.endDate ?? null,

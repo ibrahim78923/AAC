@@ -1,10 +1,13 @@
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { errorSnackbar } from '@/utils/api';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
+import { Dispatch, SetStateAction } from 'react';
+import { ArticlesTableRowI } from './Articles.interface';
+import { CustomChips } from '@/components/CustomChips';
 
 export const ALL_FOLDER = 'all';
 
@@ -17,7 +20,7 @@ const color: any = {
   draft: 'slateBlue.main',
 };
 
-export const styleFunction: any = (value: any) => ({
+export const styleFunction: any = (value: string) => ({
   bgColor: bgColor?.[value?.toLowerCase()],
   color: color?.[value?.toLowerCase()],
 });
@@ -25,12 +28,12 @@ export const styleFunction: any = (value: any) => ({
 export const articlesColumnsFunction = (
   articlesList: any = [],
   selectedArticlesData: any,
-  setSelectedArticlesData: any,
-  handleSingleArticleNavigation: any,
+  setSelectedArticlesData: Dispatch<SetStateAction<any>>,
+  handleSingleArticleNavigation: (id: string) => void,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: ArticlesTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
@@ -79,8 +82,8 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.title,
-      id: 'name',
+      accessorFn: (row: ArticlesTableRowI) => row?.title,
+      id: 'title',
       isSortable: false,
       header: 'Article',
       cell: (info: any) => {
@@ -92,13 +95,13 @@ export const articlesColumnsFunction = (
             }
             style={{ cursor: 'pointer', fontWeight: 600 }}
           >
-            {info?.getValue()?.slice?.(0, 50)}
+            {truncateText(info?.getValue())}
           </Typography>
         );
       },
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: ArticlesTableRowI) => row?.status,
       id: 'status',
       header: 'Status',
       isSortable: true,
@@ -121,14 +124,30 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.insertedTicket,
-      id: 'insertedTickets',
+      accessorFn: (row: ArticlesTableRowI) => row?.insertedTicketsDetails,
+      id: 'insertedTicketsDetails',
       isSortable: true,
       header: `Inserted Tickets`,
-      cell: (info: any) => info?.getValue()?.[0] ?? '---',
+      cell: (info: any) =>
+        !!info?.getValue()?.length ? (
+          <CustomChips
+            data={info?.getValue()?.map((item: any) => ({
+              label: item?.subject,
+              _id: item?._id,
+            }))}
+          />
+        ) : (
+          <Chip
+            size="small"
+            label="---"
+            variant="filled"
+            color={'primary'}
+            sx={{ mx: 0.5, my: 0.5 }}
+          />
+        ),
     },
     {
-      accessorFn: (row: any) => row?.author,
+      accessorFn: (row: ArticlesTableRowI) => row?.author,
       id: 'author',
       isSortable: true,
       header: 'Author',
@@ -136,13 +155,13 @@ export const articlesColumnsFunction = (
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.folder,
+      accessorFn: (row: ArticlesTableRowI) => row?.folder,
       id: 'folder',
       isSortable: true,
       header: 'Folder',
       cell: (info: any) => (
         <Typography variant={'body2'} textTransform={'capitalize'}>
-          {info?.getValue()?.name ?? '---'}
+          {truncateText(info?.getValue()?.name ?? '---')}
         </Typography>
       ),
     },
@@ -153,51 +172,58 @@ export const actionBtnData = (
   setIsPortalOpen: any,
   router: any,
   selectedArticlesData: any,
-) => [
-  {
-    id: 1,
-    title: 'Edit',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
-    handleClick: (closeMenu: any) => {
-      if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      router?.push({
-        pathname: AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE,
-        query: { articleId: selectedArticlesData?.[ARRAY_INDEX?.ZERO] },
-      });
-      closeMenu();
+) => {
+  return [
+    {
+      id: 1,
+      title: 'Edit',
+      permissionKey: [
+        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+      ],
+      handleClick: (closeMenu: any) => {
+        if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+          errorSnackbar('Please select only one');
+          closeMenu?.();
+          return;
+        }
+        router?.push({
+          pathname: AIR_SERVICES?.UPSERT_ARTICLE,
+          query: { articleId: selectedArticlesData?.[ARRAY_INDEX?.ZERO]?._id },
+        });
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 2,
-    title: 'Delete',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
-    ],
-    handleClick: (closeMenu: any) => {
-      setIsPortalOpen({ isOpen: true, isDelete: true });
-      closeMenu();
+    {
+      id: 2,
+      title: 'Delete',
+      permissionKey: [
+        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
+      ],
+      handleClick: (closeMenu: any) => {
+        setIsPortalOpen({ isOpen: true, isDelete: true });
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 3,
-    title: 'Move Folder',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
-    handleClick: (closeMenu: any) => {
-      if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setIsPortalOpen({ isOpen: true, isMoveFolder: true });
-      closeMenu();
+    {
+      id: 3,
+      title: 'Move Folder',
+      permissionKey: [
+        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+      ],
+      handleClick: (closeMenu: any) => {
+        if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+          errorSnackbar('Please select only one');
+          closeMenu?.();
+          return;
+        }
+        if (!!!selectedArticlesData?.[ARRAY_INDEX?.ZERO]?.folder?.name) {
+          errorSnackbar('This articles does not have a primary folder');
+          closeMenu?.();
+          return;
+        }
+        setIsPortalOpen({ isOpen: true, isMoveFolder: true });
+        closeMenu();
+      },
     },
-  },
-];
+  ];
+};

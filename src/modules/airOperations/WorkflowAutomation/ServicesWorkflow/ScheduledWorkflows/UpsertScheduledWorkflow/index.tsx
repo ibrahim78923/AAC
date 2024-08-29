@@ -13,7 +13,6 @@ export const UpsertScheduledWorkflow = () => {
   const {
     scheduledWorkflowMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,
@@ -28,9 +27,7 @@ export const UpsertScheduledWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     handleTestWorkflow,
-    testWorkflowProgress,
     updatedWorkflowProcess,
-    testWorkflowResponse,
     movePage,
   } = useUpsertScheduledWorkflow();
 
@@ -50,9 +47,7 @@ export const UpsertScheduledWorkflow = () => {
             postWorkflowProgress={postWorkflowProgress}
             saveWorkflowProgress={saveWorkflowProgress}
             handleTestWorkflow={handleTestWorkflow}
-            testWorkflowProgress={testWorkflowProgress}
             updatedWorkflowProcess={updatedWorkflowProcess}
-            testWorkflowResponse={testWorkflowResponse}
             watch={watch}
             movePage={movePage}
           />
@@ -65,18 +60,10 @@ export const UpsertScheduledWorkflow = () => {
           ))}
         </Grid>
         <Grid container>
-          <WorkflowSchedule
-            register={register}
-            watch={watch}
-            setValue={setValue}
-          />
+          <WorkflowSchedule watch={watch} setValue={setValue} />
         </Grid>
         <Grid container>
-          <WorkflowRunAndTrigger
-            palette={palette}
-            register={register}
-            watch={watch}
-          />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}

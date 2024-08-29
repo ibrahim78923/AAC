@@ -11,36 +11,20 @@ import { DraggableFieldsI } from './DraggableFields.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useDraggableFields } from './useDraggableFields';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { Permissions } from '@/constants/permissions';
+import { templateList } from '../UpsertGenericReports.data';
 
 export default function DraggableFields(props: DraggableFieldsI) {
   const {
     setModal,
-    setFieldData,
     form,
     setForm,
     setValue,
-    setEditorState,
     fieldsList,
-    fieldData,
     modal,
-    editorState,
-    fontSize,
-    setFontSize,
-    color,
-    setColor,
-    setColumnsData,
-    setOpenDrawer,
-    openDrawer,
-    columnsData,
-    showTemplate,
     handleCancel,
     reportId,
     setDraggedItemData,
-    disableTemplate,
     draggedItemData,
-    templateList,
     mainMetrics,
     selectedModule,
     data,
@@ -49,9 +33,19 @@ export default function DraggableFields(props: DraggableFieldsI) {
     isLoading,
     isFetching,
     isError,
+    refetch,
   } = props;
 
-  const { theme, metricType, setMetricType } = useDraggableFields(props);
+  const {
+    theme,
+    metricType,
+    setMetricType,
+    fieldData,
+    openDrawer,
+    setOpenDrawer,
+    showTemplate,
+  } = useDraggableFields(props);
+
   return (
     <Droppable droppableId={'draggable'}>
       {(provided: any) => (
@@ -60,7 +54,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
             <>
               {isLoading || isFetching || isError ? (
                 isError ? (
-                  <ApiErrorState />
+                  <ApiErrorState canRefresh refresh={() => refetch?.()} />
                 ) : (
                   <SkeletonTable />
                 )
@@ -75,17 +69,13 @@ export default function DraggableFields(props: DraggableFieldsI) {
                     <Typography variant={'h5'} mb={2}>
                       {showTemplate ? 'Form Template' : ' Form Scratch'}
                     </Typography>
-                    <PermissionsGuard
-                      permissions={Permissions?.AIR_OPERATION_CREATE_REPORT}
-                    >
-                      <SingleDropdownButton
-                        dropdownName={metricType}
-                        dropdownOptions={
-                          mainMetrics(setMetricType)[selectedModule]
-                        }
-                        disabled={form?.length}
-                      />
-                    </PermissionsGuard>
+                    <SingleDropdownButton
+                      dropdownName={metricType}
+                      dropdownOptions={
+                        mainMetrics(setMetricType)[selectedModule]
+                      }
+                      disabled={!!form?.length}
+                    />
                   </Box>
                   <Box height={'60vh'} overflow={'scroll'} p={1}>
                     {showTemplate ? (
@@ -249,14 +239,12 @@ export default function DraggableFields(props: DraggableFieldsI) {
               {modal?.chart && (
                 <ChartEditor
                   setModal={setModal}
-                  setFieldData={setFieldData}
                   metricType={metricType}
                   setValue={setValue}
                   form={form}
                   setForm={setForm}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
-                  disableTemplate={disableTemplate}
                   draggedItemData={draggedItemData}
                   watch={watch}
                 />
@@ -264,14 +252,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
 
               {modal?.text && (
                 <TextEditor
-                  setEditorState={setEditorState}
-                  editorState={editorState}
-                  fontSize={fontSize}
-                  color={color}
-                  setFontSize={setFontSize}
-                  setColor={setColor}
                   setModal={setModal}
-                  setFieldData={setFieldData}
                   form={form}
                   setForm={setForm}
                   handleCancel={handleCancel}
@@ -283,15 +264,11 @@ export default function DraggableFields(props: DraggableFieldsI) {
               {modal?.table && (
                 <TableEditor
                   setValue={setValue}
-                  setColumnsData={setColumnsData}
                   setModal={setModal}
                   form={form}
                   setForm={setForm}
-                  setFieldData={setFieldData}
-                  columnsData={columnsData}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
-                  disableTemplate={disableTemplate}
                   metricType={metricType}
                   draggedItemData={draggedItemData}
                   watch={watch}
@@ -306,7 +283,6 @@ export default function DraggableFields(props: DraggableFieldsI) {
               form={form}
               reportId={reportId}
               metricType={metricType}
-              selectedModule={selectedModule}
               data={data}
               handleMoveBack={handleMoveBack}
             />

@@ -1,8 +1,27 @@
-import { Box, Chip, Typography, useTheme } from '@mui/material';
+import { truncateText } from '@/utils/avatarUtils';
+import { pxToRem } from '@/utils/getFontValue';
+import {
+  Box,
+  Chip,
+  LinearProgress,
+  Theme,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import { ApprovalCardI } from './ApprovalCard.interface';
 
-const ApprovalCard = (props: any) => {
-  const { title, folder, author, sendApproval, disabled } = props;
-  const theme = useTheme();
+const ApprovalCard = (props: ApprovalCardI) => {
+  const {
+    title = '---',
+    folder = '---',
+    author,
+    sendApproval,
+    disabled,
+    isLoading,
+  } = props;
+
+  const theme: Theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -19,7 +38,7 @@ const ApprovalCard = (props: any) => {
     >
       <Box>
         <Typography color={'primary.main'} fontWeight={500} variant="h5">
-          {title?.length > 20 ? `${title?.slice?.(0, 20)} ...` : title}
+          {truncateText(title)}
         </Typography>
         <Typography
           variant="body3"
@@ -35,7 +54,7 @@ const ApprovalCard = (props: any) => {
           color="slateBlue.main"
           component={'span'}
         >
-          {folder?.length > 20 ? `${folder?.slice?.(0, 20)} ...` : folder}
+          {truncateText(folder)}
         </Typography>
       </Box>
       <Box>
@@ -52,7 +71,9 @@ const ApprovalCard = (props: any) => {
         </Typography>
       </Box>
       <Chip
-        label={'Approve'}
+        label={
+          isLoading ? <LinearProgress sx={{ width: pxToRem(70) }} /> : 'Approve'
+        }
         sx={{
           backgroundColor: 'blue.main',
           color: 'common.white',

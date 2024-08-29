@@ -1,12 +1,27 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const templateValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is required'),
-  category: Yup?.string()?.required('Field is required'),
-  language: Yup?.string()?.required('Field is required'),
-  detail: Yup?.string()?.required('Field is required'),
-});
+export const templateValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+
+  return Yup?.object()?.shape({
+    name: Yup?.string()?.required('Field is required'),
+    category: Yup?.string()?.required('Field is required'),
+    language: Yup?.string()?.required('Field is required'),
+    detail: Yup?.string()?.required('Field is required'),
+    ...formSchema,
+  });
+};
+
+export const templateDefaultValues = ({ editData }: any) => {
+  return {
+    name: editData?.name,
+    category: editData?.category,
+    language: editData?.language,
+    detail: editData?.detail,
+  };
+};
 
 export const createTemplateDataArray = [
   {

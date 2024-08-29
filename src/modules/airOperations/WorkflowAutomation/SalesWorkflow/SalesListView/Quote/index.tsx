@@ -7,7 +7,6 @@ export const Quote = () => {
   const {
     isFilterOpen,
     setIsFilterOpen,
-    search,
     setSearch,
     openDelete,
     setOpenDelete,
@@ -33,7 +32,6 @@ export const Quote = () => {
     <>
       <SalesWorkflowSubHeader
         disabledActionButton={!!!activeCheck?.length}
-        search={search}
         setSearch={setSearch}
         salesWorkflowActionDropdown={actionDropdown}
         isFilterOpen={isFilterOpen}
@@ -58,6 +56,7 @@ export const Quote = () => {
         onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setLimit}
+        errorProps={{ canRefresh: true, refresh: handleWorkflow }}
       />
       <DeleteSalesWorkflow
         deleteWorkflow={openDelete}

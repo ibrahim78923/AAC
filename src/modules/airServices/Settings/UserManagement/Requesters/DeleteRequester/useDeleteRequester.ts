@@ -1,7 +1,8 @@
 import { useDeleteRequesterMutation } from '@/services/airServices/settings/user-management/requesters';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IRequestersProps } from '../Requesters.interface';
 
-export const useDeleteRequester = (props: any) => {
+export const useDeleteRequester = (props: IRequestersProps) => {
   const {
     selectedRequesterList,
     setSelectedRequesterList,

@@ -7,7 +7,6 @@ export interface SalesWorkflowSubHeaderI {
     permissionKey: string[];
     handleClick: (closeMenu: () => void) => void;
   }[];
-  search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   disabledActionButton: boolean;
   onSubmit: (data: { status: string; createdBy: any; type: string }) => void;

@@ -137,14 +137,14 @@ const useCta = () => {
   const [okText, setOkText] = useState('Next');
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Create');
+  const [loadingCreateCTA, setLoadingCreateCTA] = useState(false);
   const [drawerFormValues, setDrawerFormValues] = useState<any>({});
   const [ctaButtonData, setCtaButtonData] = useState<any>({});
   const validationSchema =
     activeStep === 0 ? step1ValidationSchema : step2ValidationSchema;
   const buttonType = toggleButtonType ? 'customized' : 'image';
 
-  const [createCTA, { isLoading: loadingCreateCTA }] =
-    usePostLeadCaptureCTAMutation();
+  const [createCTA] = usePostLeadCaptureCTAMutation();
   const [updateCTA, { isLoading: loadingUpdateCTA }] =
     useUpdateLeadCaptureCTAMutation();
 
@@ -208,7 +208,7 @@ const useCta = () => {
       if (isImage) {
         methodsEditCTA.setValue('imageWidth', data?.imageWidth || null);
         methodsEditCTA.setValue('imageHeight', data?.imageHeight || null);
-        methodsEditCTA.setValue('altText', data?.imageAlt || null);
+        methodsEditCTA.setValue('altText', data?.imageAltText || null);
       }
       methodsEditCTA.setValue('buttonContent', data?.buttonContent || null);
       methodsEditCTA.setValue('ctaInternalName', data?.ctaInternalName);
@@ -283,7 +283,7 @@ const useCta = () => {
         };
       });
     } else if (activeStep === 2) {
-      const buttonUrl = drawerFormValues?.url;
+      // const buttonUrl = drawerFormValues?.url;
       const altText = drawerFormValues?.altText || '';
       const imgWidth = drawerFormValues?.imageWidth
         ? drawerFormValues?.imageWidth
@@ -295,6 +295,8 @@ const useCta = () => {
       const margin = getMarPad(drawerFormValues?.buttonMargin);
 
       const styles = `{
+        background-color: ${theme?.palette?.common?.white};
+        width: 100%;
         display: block;
         text-align: center;
         border: 1px solid ${theme?.palette?.primary?.main};
@@ -302,28 +304,15 @@ const useCta = () => {
         margin: ${margin};
       }`;
 
-      const ButtonHtmlComponent = () => (
-        <IframeComponent
-          buttonContent={drawerFormValues?.buttonContent}
-          buttonUrl={buttonUrl}
-          styles={styles}
-          buttonImageUrl="buttonImageUrl"
-          altText={altText}
-          imgWidth={imgWidth}
-          imgHeight={imgHeight}
-        />
-      );
-
-      // Render the ButtonHtml component to a string
-      const buttonHtmlString = ReactDOMServer.renderToString(
-        <ButtonHtmlComponent />,
-      );
-
       if (buttonType === 'image') {
-        formData.append('buttonImage', drawerFormValues.buttonContent);
+        formData.append('buttonImage', drawerFormValues?.buttonContent);
+        formData.append('imageWidth', drawerFormValues?.imageWidth);
+        formData.append('imageHeight', drawerFormValues?.imageHeight);
+        formData.append('imageAltText', drawerFormValues?.altText);
       }
       formData.append('buttonType', buttonType);
-      formData.append('buttonHtml', buttonHtmlString);
+      formData.append('buttonContent', drawerFormValues?.buttonContent);
+      formData.append('buttonHtml', '<div>empty</div>');
       formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
       formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
       formData.append('url', drawerFormValues?.url);
@@ -331,12 +320,44 @@ const useCta = () => {
 
       if (drawerTitle === 'Create') {
         try {
-          await createCTA({ body: formData })?.unwrap();
-          await handleDrawerClose();
-          enqueueSnackbar('CTA created successfully', {
-            variant: 'success',
-          });
+          setLoadingCreateCTA(true);
+          const response = await createCTA({ body: formData })?.unwrap();
+
+          if (!response?.data) throw new Error('No data in response');
+          try {
+            const ButtonHtmlComponent = () => (
+              <IframeComponent
+                ctaId={response?.data?._id}
+                buttonContent={response?.data?.buttonContent}
+                buttonUrl={response?.data?.url}
+                styles={response?.data?.styles}
+                buttonImageUrl="buttonImageUrl"
+                altText={altText}
+                imgWidth={imgWidth}
+                imgHeight={imgHeight}
+              />
+            );
+
+            // Render the ButtonHtml component to a string
+            const buttonHtmlString = ReactDOMServer.renderToString(
+              <ButtonHtmlComponent />,
+            );
+            const formData = new FormData();
+            formData.append('buttonHtml', buttonHtmlString);
+            await updateCTA({
+              id: response?.data?._id,
+              body: formData,
+            })?.unwrap();
+
+            handleDrawerClose();
+            enqueueSnackbar('CTA created successfully', { variant: 'success' });
+          } catch {
+            enqueueSnackbar('Error while creating CTA', { variant: 'error' });
+          } finally {
+            setLoadingCreateCTA(false);
+          }
         } catch (error: any) {
+          setLoadingCreateCTA(false);
           enqueueSnackbar('An error occured', {
             variant: 'error',
           });

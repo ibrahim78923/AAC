@@ -9,6 +9,8 @@ import {
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useAwardPoints = () => {
   const router = useRouter();
@@ -37,13 +39,14 @@ export const useAwardPoints = () => {
     try {
       await addAwardPointsTrigger(values)?.unwrap();
       successSnackbar('Award points added successfully!');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
   useEffect(() => {
-    reset(() => awardFormDefaultValue(data?.data?.[0]));
+    reset(() => awardFormDefaultValue(data?.data?.[ARRAY_INDEX?.ZERO]));
   }, [data, reset]);
 
   return {

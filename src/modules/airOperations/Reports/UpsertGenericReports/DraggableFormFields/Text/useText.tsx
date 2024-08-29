@@ -1,13 +1,20 @@
 import { EditorState, RichUtils } from 'draft-js';
 import { useMemo } from 'react';
-import { TextI } from './Text.interface';
+import { useAppSelector } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { setEditorState } from '@/redux/slices/genericReport/genericReportSlice';
 
-export const useText = (props: TextI) => {
-  const { setEditorState, fontSize, color } = props;
+export const useText = () => {
+  const dispatch = useDispatch();
+  const color = useAppSelector((state) => state?.genericReport?.color);
+  const fontSize = useAppSelector((state) => state?.genericReport?.fontSize);
+  const editorState = useAppSelector(
+    (state) => state?.genericReport?.editorState,
+  );
   const handleKeyCommand = (command: string, editorState: EditorState) => {
     const newState = RichUtils?.handleKeyCommand(editorState, command);
     if (newState) {
-      setEditorState(newState);
+      dispatch(setEditorState(newState));
       return 'handled';
     }
     return 'not-handled';
@@ -27,5 +34,7 @@ export const useText = (props: TextI) => {
   return {
     handleKeyCommand,
     styleMap,
+    editorState,
+    dispatch,
   };
 };

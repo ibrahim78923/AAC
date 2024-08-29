@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Theme, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import { styles } from './DetailTaskDrawer.styles';
@@ -10,7 +10,7 @@ const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 
 export const statusOptions = [TO_DO, IN_PROGRESS, DONE];
 
-export const drawerDetail: any = (taskDetail: any, theme: any) => [
+export const drawerDetail: any = (taskDetail: any, theme: Theme) => [
   {
     id: 1,
     title: 'Workspace',
@@ -32,7 +32,8 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
       const statusValue = taskDetail?.status;
       return (
         <Typography
-          variant="body2"
+          variant={'body2'}
+          component={'span'}
           sx={styles?.tableStatusStyle(statusValue, theme)}
         >
           {taskDetail?.status}

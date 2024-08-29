@@ -12,8 +12,10 @@ import useEditProfile from '@/modules/EditProfile/useEditProfile';
 import { useUpdateUsersMutation } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
+import { useRouter } from 'next/router';
 
 const Profile = () => {
+  const router = useRouter();
   const { getUserData } = useEditProfile();
   const [updateUsers, { isLoading }] = useUpdateUsersMutation();
 
@@ -21,7 +23,7 @@ const Profile = () => {
     firstName: getUserData?.data?.firstName,
     lastName: getUserData?.data?.lastName,
     email: getUserData?.data?.email,
-    WorkPhoneNumber: getUserData?.data?.phoneNumber,
+    mobileNumber: getUserData?.data?.mobileNumber,
     phoneNumber: getUserData?.data?.phoneNumber,
     jobTitle: getUserData?.data?.jobTitle,
     companyName: getUserData?.data?.organization?.name,
@@ -96,6 +98,7 @@ const Profile = () => {
               color: '#6B7280',
               borderRadius: '4px',
             }}
+            onClick={() => router?.back()}
           >
             Cancel
           </Button>

@@ -141,6 +141,38 @@ export const meetingApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getMeetingsEmailTemplates: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_MEETINGS_EMAIL_TEMPLATES}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
+    getByIdMeetingsEmailTemplates: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_BY_ID_MEETINGS_EMAIL_TEMPLATE}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
+    updateMeetingTemplates: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.UPDATE_MEETINGS_EMAIL_TEMPLATE}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [MEETINGS_TAG],
+    }),
+    deleteMeetingsTemplate: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.DELETE_MEETINGS_EMAIL_TEMPLATE}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [MEETINGS_TAG],
+    }),
   }),
 });
 
@@ -160,4 +192,8 @@ export const {
   useLazyGetMeetingsCalenderListQuery,
   useLazyGetUsersDropdownListQuery,
   useLazyGetBookedMeetingsSlotsListQuery,
+  useGetMeetingsEmailTemplatesQuery,
+  useGetByIdMeetingsEmailTemplatesQuery,
+  useUpdateMeetingTemplatesMutation,
+  useDeleteMeetingsTemplateMutation,
 } = meetingApi;

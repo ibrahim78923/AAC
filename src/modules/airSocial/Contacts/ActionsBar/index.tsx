@@ -118,6 +118,7 @@ const ActionsBar = (props: any) => {
             </Button>
           </PermissionsGuard>
         </>
+
         <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
         >
@@ -147,6 +148,7 @@ const ActionsBar = (props: any) => {
             </Button>
           </Tooltip>
         </PermissionsGuard>
+
         <PermissionsGuard
           permissions={[
             SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.EXPORT_CONTACTS,

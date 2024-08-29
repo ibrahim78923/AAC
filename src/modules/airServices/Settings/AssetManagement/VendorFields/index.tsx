@@ -46,7 +46,14 @@ export default function VendorFields() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
-            <Box borderRadius={2} bgcolor={'common.white'} p={2} mb={2}>
+            <Box
+              borderRadius={2}
+              bgcolor={'common.white'}
+              display={'flex'}
+              alignItems={'center'}
+              p={2}
+              mb={2}
+            >
               <PageTitledHeader
                 title={'Vendor Fields'}
                 canMovedBack

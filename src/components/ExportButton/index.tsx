@@ -1,14 +1,16 @@
 import { Typography, Button, Menu, MenuItem } from '@mui/material';
 import { ExportIcon } from '@/assets/icons';
 import { useExportButton } from './useExportButton';
+import { ExportButtonPropsI } from './ExportButton.interface';
 
-export const ExportButton = (props: any) => {
+export const ExportButton = (props: ExportButtonPropsI) => {
   const {
     handleCsvExport,
     handleExcelExport,
     btnVariant = 'outlined',
     btnText = 'Export',
   } = props;
+
   const { anchorEl, open, theme, handleClick, handleClose } = useExportButton();
 
   return (

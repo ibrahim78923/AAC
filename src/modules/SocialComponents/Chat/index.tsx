@@ -24,6 +24,7 @@ import {
   setChatMessages,
   setChatMessagesLoading,
   setChatMetaInfo,
+  setNewOrFetchedChatMessages,
 } from '@/redux/slices/chat/slice';
 import { useGetChatUsersQuery, useGetUserChatsQuery } from '@/services/chat';
 import { getSession, isNullOrEmpty } from '@/utils';
@@ -85,15 +86,16 @@ const Chat = () => {
 
   const { user }: { user: any } = getSession();
   const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const { data: chatsUsers, status: chatUsersStatus } = useGetChatUsersQuery({
-    params: {
-      organization: user?.organization?._id,
-      page: currentPage,
-      limit: PAGINATION?.PAGE_LIMIT,
-      role: user?.role,
-      search: searchTerm,
-    },
-  });
+  const { data: chatsUsersData, status: chatUsersStatus } =
+    useGetChatUsersQuery({
+      params: {
+        organization: user?.organization?._id,
+        page: currentPage,
+        limit: PAGINATION?.PAGE_LIMIT,
+        role: user?.role,
+        search: searchTerm,
+      },
+    });
   const handleManualRefetch = () => {
     if (activeChatId) {
       dispatch(setChatMessages([]));
@@ -105,11 +107,12 @@ const Chat = () => {
       dispatch(setChatMetaInfo(chatsData?.data?.meta));
     }
   }, [chatsData]);
-
   useEffect(() => {
     if (chatsData?.data?.messages?.length > 0) {
       dispatch(
-        setChatMessages(chatsData?.data?.messages?.map((item: any) => item)),
+        setNewOrFetchedChatMessages(
+          chatsData?.data?.messages?.map((item: any) => item),
+        ),
       );
     }
   }, [chatsData]);
@@ -121,7 +124,7 @@ const Chat = () => {
     }
   }, [status]);
 
-  const transformedData = chatsUsers?.data?.users?.map((item: UserI) => ({
+  const transformedData = chatsUsersData?.data?.users?.map((item: UserI) => ({
     id: item?._id,
     firstName: item?.firstName,
     lastName: item?.lastName,
@@ -312,10 +315,10 @@ const Chat = () => {
             </>
           )}
 
-          {chatsUsers?.data?.meta?.pages > 1 && (
+          {chatsUsersData?.data?.meta?.pages > 1 && (
             <Pagination
-              count={chatsUsers?.data?.meta?.pages}
-              page={chatsUsers?.data?.meta?.page}
+              count={chatsUsersData?.data?.meta?.pages}
+              page={chatsUsersData?.data?.meta?.page}
               siblingCount={0}
               onChange={handlePageChange}
             />

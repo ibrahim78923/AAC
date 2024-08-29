@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 import { useLazyGetTaskByIdQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { PAGINATION } from '@/config';
 import {
@@ -7,7 +7,7 @@ import {
   ticketsTasksListsColumnsDynamic,
 } from './Tasks.data';
 import { buildQueryParams } from '@/utils/api';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { DetailTaskDrawer } from './DetailTaskDrawer';
 import { DeleteTask } from './DeleteTask';
 import { UpsertTasks } from './UpsertTasks';
@@ -17,8 +17,8 @@ import {
 } from './Tasks.interface';
 
 export const useTasks = () => {
-  const theme = useTheme();
-  const router = useRouter();
+  const theme: Theme = useTheme();
+  const router: NextRouter = useRouter();
   const { ticketId } = router?.query;
   const [isPortalOpen, setIsPortalOpen] = useState<TicketsTasksIsPortalOpenI>(
     {},
@@ -100,5 +100,7 @@ export const useTasks = () => {
     selectedTasksList,
     renderPortalComponent,
     actionsForTicketTasksLists,
+    getTaskListData,
+    page,
   };
 };

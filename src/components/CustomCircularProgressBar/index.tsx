@@ -4,14 +4,11 @@ import {
   Typography,
   circularProgressClasses,
 } from '@mui/material';
+import { CustomCircularProgressBarPropsI } from './CustomCircularProgressBar.interface';
 
-export const CustomCircularProgressBar: React.FC<{
-  size?: number;
-  thickness?: number;
-  progressColor?: string | undefined;
-  value?: number | undefined;
-  percentage?: number;
-}> = (props: any) => {
+export const CustomCircularProgressBar = (
+  props: CustomCircularProgressBarPropsI,
+) => {
   const {
     size = 50,
     thickness = 3,
@@ -19,6 +16,7 @@ export const CustomCircularProgressBar: React.FC<{
     value = 50,
     percentage = 50,
   } = props;
+
   return (
     <Box>
       <Box sx={{ position: 'relative' }}>

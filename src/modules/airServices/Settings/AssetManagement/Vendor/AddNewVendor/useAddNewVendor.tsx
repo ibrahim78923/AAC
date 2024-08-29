@@ -25,8 +25,9 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { IVendorProps } from '../Vendor.interface';
 
-export const useAddNewVendor = (props: any) => {
+export const useAddNewVendor = (props: IVendorProps) => {
   const router = useRouter();
   const { vendorId } = router?.query;
   const { setIsADrawerOpen } = props;
@@ -55,11 +56,10 @@ export const useAddNewVendor = (props: any) => {
         getDynamicFieldsParameters,
       )?.unwrap();
       setForm(res);
-    } catch (error: any) {
+    } catch (error) {
       setForm([]);
     }
   };
-
   useEffect(() => {
     getDynamicFormData();
   }, []);

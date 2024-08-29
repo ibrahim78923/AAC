@@ -23,8 +23,14 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { NextRouter } from 'next/router';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { pxToRem } from '@/utils/getFontValue';
 
-export const upsertTicketValidationSchema = (ticketId?: any, form?: any) => {
+export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
@@ -104,8 +110,8 @@ export const upsertTicketFormFieldsDynamic = (
   apiQueryAgent?: any,
   apiQueryCategory?: any,
   apiQueryAssociateAsset?: any,
-  router?: any,
-  ticketId?: any,
+  router?: NextRouter,
+  ticketId?: string,
 ) => [
   {
     id: 1,
@@ -117,10 +123,10 @@ export const upsertTicketFormFieldsDynamic = (
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
       externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_REQUESTER,
+        requester: true,
+        admin: true,
       },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
         router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
@@ -146,7 +152,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Description',
       fullWidth: true,
       required: true,
-      style: { height: '250px' },
+      style: { height: pxToRem(250) },
     },
     component: RHFEditor,
   },
@@ -161,7 +167,8 @@ export const upsertTicketFormFieldsDynamic = (
             fullWidth: true,
             apiQuery: apiQueryCategory,
             placeholder: 'Choose Category',
-            getOptionLabel: (option: any) => option?.categoryName,
+            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+              option?.categoryName,
           },
           component: RHFAutocompleteAsync,
         },
@@ -174,7 +181,7 @@ export const upsertTicketFormFieldsDynamic = (
             required: true,
             placeholder: 'Choose Status',
             options: ticketStatusOptions,
-            getOptionLabel: (option: any) => option?.label,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
           },
           component: RHFAutocomplete,
         },
@@ -187,7 +194,7 @@ export const upsertTicketFormFieldsDynamic = (
             required: true,
             placeholder: 'Choose Priority',
             options: ticketPriorityOptions,
-            getOptionLabel: (option: any) => option?.label,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
           },
           component: RHFAutocomplete,
         },
@@ -210,7 +217,7 @@ export const upsertTicketFormFieldsDynamic = (
             fullWidth: true,
             placeholder: 'Choose Source',
             options: ticketSourceOptions,
-            getOptionLabel: (option: any) => option?.label,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
           },
           component: RHFAutocomplete,
         },
@@ -222,7 +229,7 @@ export const upsertTicketFormFieldsDynamic = (
             fullWidth: true,
             placeholder: 'Choose Impact',
             options: ticketImpactOptions,
-            getOptionLabel: (option: any) => option?.label,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
           },
           component: RHFAutocomplete,
         },
@@ -238,7 +245,7 @@ export const upsertTicketFormFieldsDynamic = (
               limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
               role: ROLES?.ORG_EMPLOYEE,
             },
-            getOptionLabel: (option: any) =>
+            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
               `${option?.firstName} ${option?.lastName}`,
           },
           component: RHFAutocompleteAsync,
@@ -288,7 +295,8 @@ export const upsertTicketFormFieldsDynamic = (
             multiple: true,
             apiQuery: apiQueryAssociateAsset,
             externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
-            getOptionLabel: (option: any) => option?.displayName,
+            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
+              option?.displayName,
             renderOption: (option: any) => (
               <Box
                 display={'flex'}

@@ -6,7 +6,7 @@ import { fullName } from '@/utils/avatarUtils';
 import { ClipboardTickImage } from '@/assets/images';
 
 export const RecentActivitiesCard = (props: any) => {
-  const { data, index } = props;
+  const { data } = props;
   return (
     <Box
       sx={{
@@ -15,7 +15,7 @@ export const RecentActivitiesCard = (props: any) => {
         flex: 1,
         gap: 2,
         background: 'common.white',
-        borderBottom: data?.data?.length - 1 !== index ? `1px solid` : 'none',
+        borderBottom: `1px solid`,
         borderColor: 'grey.700',
       }}
       py={2}

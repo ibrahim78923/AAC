@@ -6,8 +6,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { IRequestersProps } from '../Requesters.interface';
 
-const UpsertRequesters = (props: any) => {
+const UpsertRequesters = (props: IRequestersProps) => {
   const { isDrawerOpen } = props;
   const {
     handleClose,
@@ -21,11 +22,12 @@ const UpsertRequesters = (props: any) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    igVerificationStatus,
   }: any = useUpsertRequester(props);
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isDrawerOpen as boolean}
         onClose={handleClose}
         title={!!_id ? 'Edit Requestor' : 'Add Requestor'}
         submitHandler={() => handleSubmit(submitUpsertRequester)()}
@@ -35,17 +37,20 @@ const UpsertRequesters = (props: any) => {
         isLoading={
           addRequesterStatus?.isLoading ||
           patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
+          postAttachmentStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         isDisabled={
           addRequesterStatus?.isLoading ||
           patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
+          postAttachmentStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
         disabledCancelBtn={
           addRequesterStatus?.isLoading ||
           patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
+          postAttachmentStatus?.isLoading ||
+          igVerificationStatus?.isLoading
         }
       >
         <Box mt={1}>

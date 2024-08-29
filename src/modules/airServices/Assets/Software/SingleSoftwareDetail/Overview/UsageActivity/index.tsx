@@ -3,8 +3,9 @@ import { StyledText, styles } from './UsageActivity.style';
 import { Box, Skeleton, Typography } from '@mui/material';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useUsageActivity } from './useUsageActivity';
+import { UsageActivityI } from './UsageActivity.interface';
 
-function UsageActivity(props: any) {
+function UsageActivity(props: UsageActivityI) {
   const {
     theme,
     usageActivityLabel,
@@ -35,7 +36,7 @@ function UsageActivity(props: any) {
           <PieChart
             series={[
               {
-                data: usageActivityData?.map((item: any) => ({
+                data: usageActivityData?.map((item) => ({
                   ...item,
                   value:
                     data?.data?.usageActivity === 0

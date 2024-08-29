@@ -22,7 +22,7 @@ export const useApprovals = () => {
   const getApprovalsTicketsParameter = {
     queryParams: {
       id: ticketId,
-      approvalStatus: 'ALL',
+      approvalStatus: TICKET_APPROVALS?.ALL,
     },
   };
   const { data, isLoading, isFetching } = useGetAllApprovalsTicketsQuery(

@@ -1,14 +1,11 @@
 import { PAGINATION } from '@/config';
 import { useGetImportListQuery } from '@/services/airOperations/data-management/import';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { importTabColumnsFunction } from './ImportTab.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { saveAs } from 'file-saver';
-import { parse } from 'json2csv';
-import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { ImportTabI } from './ImportTab.interface';
+import { htmlToPdfConvert } from '@/utils/file';
 
 export const useImportTab: () => ImportTabI = () => {
   const [selectedTabList, setSelectedTabList] = useState([]);
@@ -17,6 +14,8 @@ export const useImportTab: () => ImportTabI = () => {
   const [search, setSearch] = useState<any>('');
   const [filterValues, setFilterValues] = useState<any>({});
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const downloadRef = useRef(null);
 
   const filterBody = {
     product: filterValues?.product,
@@ -43,36 +42,13 @@ export const useImportTab: () => ImportTabI = () => {
     setSelectedTabList,
   );
 
-  const listDataExport = async (type: any) => {
-    if (!selectedTabList?.length) {
-      errorSnackbar('Please select record to download.');
-      return;
-    }
+  const handleDownload = async () => {
+    if (isLoading || isFetching || isError) return;
+    setLoading(true);
     try {
-      if (type === 'CSV') {
-        const csv = parse(selectedTabList);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'Import List.csv');
-      } else if (type === 'XLS') {
-        const worksheet = XLSX?.utils?.json_to_sheet(selectedTabList);
-        const workbook = XLSX?.utils?.book_new();
-        XLSX?.utils?.book_append_sheet(workbook, worksheet, 'Data');
-        const excelBuffer = XLSX?.write(workbook, {
-          bookType: 'xlsx',
-          type: 'array',
-        });
-        const blob = new Blob([excelBuffer], {
-          type: 'application/octet-stream',
-        });
-        saveAs(blob, 'Import List.xlsx');
-      } else {
-        errorSnackbar('Invalid download type.');
-        return;
-      }
-      successSnackbar('File downloaded successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.message || 'An error occurred during file download');
-    }
+      await htmlToPdfConvert?.(downloadRef, 'Import_List', 10);
+    } catch (error) {}
+    setLoading(false);
   };
 
   return {
@@ -90,7 +66,9 @@ export const useImportTab: () => ImportTabI = () => {
     isOpenFilterDrawer,
     setFilterValues,
     filterValues,
-    listDataExport,
     importTabColumns,
+    handleDownload,
+    downloadRef,
+    loading,
   };
 };

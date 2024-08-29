@@ -75,6 +75,7 @@ const Calls = ({ companyId }: any) => {
                   openAlertModal={openAlertModal}
                   setOpenAlertModal={setOpenAlertModal}
                 />
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS,

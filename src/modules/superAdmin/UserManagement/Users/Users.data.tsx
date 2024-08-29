@@ -21,6 +21,7 @@ import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { ColumnsProps, RowInterface } from './Users-interface';
 import { convertIdToShortNumber } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const columns: any = (columnsProps: ColumnsProps) => {
   const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
@@ -60,6 +61,7 @@ export const columns: any = (columnsProps: ColumnsProps) => {
         <Box sx={{ display: 'flex', gap: '10px' }}>
           <Avatar
             alt="Remy Sharp"
+            src={generateImage(info?.row?.original?.avatar?.url)}
             sx={{
               color: theme?.palette?.grey[600],
               fontSize: '12px',
@@ -196,6 +198,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
               fontSize: '12px',
               fontWeight: 500,
             }}
+            src={generateImage(info?.row?.original?.avatar?.url)}
           >
             {capitalizeFirstLetter(info?.row?.original?.firstName?.charAt(0))}
             {capitalizeFirstLetter(info?.row?.original?.lastName?.charAt(0))}
@@ -256,7 +259,10 @@ export const usersFilterDefaultValues = (data: any) => {
     products: data?.products?.name ? data?.products : null,
     organization: data?.organization?.name ? data?.organization : null,
     role: '',
-    createdDate: null,
+    createdDate:
+      typeof data?.createdDate === 'object'
+        ? new Date(data?.createdDate)
+        : null,
   };
 };
 

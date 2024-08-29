@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteDealsPipelineMutation,
@@ -8,9 +8,20 @@ import {
 } from '@/services/airSales/deals/settings/deals-pipeline';
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostDynamicFormAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
+import { filteredEmptyValues } from '@/utils/api';
 
 const useDealPipelines = () => {
   const theme = useTheme<Theme>();
+  const [form, setForm] = useState<any>([]);
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
     type: DRAWER_TYPES?.ADD,
@@ -31,41 +42,85 @@ const useDealPipelines = () => {
   const [updateDealsPipeline, { isLoading: updateDealPipelineLoading }] =
     useUpdateDealsPipelineMutation();
 
-  const paramsObj: any = {};
-  if (productSearch) paramsObj['search'] = productSearch;
-  const query = '&' + new URLSearchParams(paramsObj)?.toString();
+  // Dynamic forms start here
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
 
-  const { data, isLoading } = useGetDealsPipelineQuery({
-    query,
-    meta: false,
-  });
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostDynamicFormAttachmentsMutation();
 
-  const defaultPipeline = data?.data?.find(
-    (pipeline: any) => pipeline?.isDefault,
-  );
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleCloseDrawer = () => {
-    setIsDraweropen({ isToggle: false, type: '' });
-  };
-
-  const onSubmit = async (values: any) => {
-    const payload = {
-      name: values?.pipelineName,
-      isDefault: values?.defaultPipeline,
-      dealStages: values?.dealStages,
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SALES,
+      moduleType: DYNAMIC_FIELDS?.MT_DEAL_PIPELINE,
     };
+    const getDynamicFieldsParameters = { params };
 
     try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
+  const onSubmit = async (values: any) => {
+    const filteredEmptyData = filteredEmptyValues(values);
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
+
+    try {
+      dynamicAttachmentsPost({
+        form,
+        data: values,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const payload = {
+        name: body?.pipelineName,
+        isDefault: body?.defaultPipeline ? true : false,
+        dealStages: body?.dealStages,
+        customFields: body?.customFields,
+      };
+
       if (isDraweropen?.type === DRAWER_TYPES?.ADD) {
         const res = await postDealsPipeline({ body: payload })?.unwrap();
         if (res?.data?.isDefault) {
@@ -102,6 +157,34 @@ const useDealPipelines = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+  };
+
+  // Dynamic forms end here
+  const paramsObj: any = {};
+  if (productSearch) paramsObj['search'] = productSearch;
+  const query = '&' + new URLSearchParams(paramsObj)?.toString();
+
+  const { data, isLoading } = useGetDealsPipelineQuery({
+    query,
+    meta: false,
+  });
+
+  const defaultPipeline = data?.data?.find(
+    (pipeline: any) => pipeline?.isDefault,
+  );
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event?.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDraweropen({ isToggle: false, type: '' });
   };
 
   const handleIsDefaultPipeline = async (id: any, val: any) => {
@@ -150,6 +233,7 @@ const useDealPipelines = () => {
     1: true,
     2: true,
   };
+
   const hasDefaultPipeline = (
     pipelines: any[],
     checkedDeal: string | any[],
@@ -164,18 +248,22 @@ const useDealPipelines = () => {
   return {
     dealPipelinesData: data?.data,
     updateDealPipelineLoading,
+    getDynamicFieldsStatus,
     handleIsDefaultPipeline,
     defaultPipeline,
+    postAttachmentStatus,
     handleCloseDeleteModal,
     handleSelectDealsById,
     setDeleteModalOpen,
     isDeleteModalOpen,
     handleCloseDrawer,
     deleteDealLoading,
+    isDefaultPipeline,
     setproductSearch,
     setIsDraweropen,
     setDisableButton,
     postDealLoading,
+    setdefaultValue,
     setCheckedDeal,
     isDisableButton,
     isDraweropen,
@@ -188,14 +276,13 @@ const useDealPipelines = () => {
     isEditMode,
     handleClick,
     setAnchorEl,
-    setdefaultValue,
     onSubmit,
     isLoading,
     disabled,
     anchorEl,
     theme,
     open,
-    isDefaultPipeline,
+    form,
   };
 };
 

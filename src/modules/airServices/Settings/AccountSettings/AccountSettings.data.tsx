@@ -3,7 +3,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
 import { AIR_SERVICES } from '@/constants';
 import { Permissions } from '@/constants/permissions';
-export const accountSettings = [
+import { ISettingsCards } from '../Settings.interface';
+
+export const accountSettings: ISettingsCards[] = [
   {
     id: 1,
     avatar: AccountCircleIcon,

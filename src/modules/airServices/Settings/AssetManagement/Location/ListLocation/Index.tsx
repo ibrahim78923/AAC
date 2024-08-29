@@ -33,13 +33,13 @@ export const ListLocation = () => {
       {!!locationList?.length ? (
         <Box bgcolor={'grey.400'} p={2} borderRadius={2}>
           <>
-            {locationList?.map((item: any, index: any) => (
+            {locationList?.map((item: any, index: number) => (
               <Box key={item?._id}>
                 <LocationCard
                   parentId={item?._id}
                   continents={item?.locationName}
                   handleCollapse={() => handleCollapse(index)}
-                  setDeleteRecord={(id: any) => setDeleteRecord?.(id)}
+                  setDeleteRecord={(id: string) => setDeleteRecord?.(id)}
                   onAddClick={() =>
                     router?.push({
                       pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
@@ -77,7 +77,9 @@ export const ListLocation = () => {
                           parentId={item?._id}
                           childId={subItem?._id}
                           continents={subItem?.locationName}
-                          setDeleteRecord={(id: any) => setDeleteRecord?.(id)}
+                          setDeleteRecord={(id: string) =>
+                            setDeleteRecord?.(id)
+                          }
                           onAddClick={() =>
                             router?.push({
                               pathname: AIR_SERVICES?.ADD_NEW_LOCATION,

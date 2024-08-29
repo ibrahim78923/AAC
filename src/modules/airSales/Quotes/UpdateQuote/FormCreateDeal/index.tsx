@@ -10,8 +10,9 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
+import { CustomizeColumnsI } from '../../Quotes.interface';
 
-const FormCreateDeal = ({ open, onClose }: any) => {
+const FormCreateDeal = ({ open, onClose }: CustomizeColumnsI) => {
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initValues,

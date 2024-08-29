@@ -7,8 +7,9 @@ import {
   getImageByType,
   truncateText,
 } from '@/utils/avatarUtils';
+import { AttachFileCardPropsI } from './AttachFileCard.interface';
 
-export const AttachFileCard = (props: any) => {
+export const AttachFileCard = (props: AttachFileCardPropsI) => {
   const { data, onDelete, permissionKey, size } = props;
   const { theme, cross, setCross } = useAttachFileCard();
   return (

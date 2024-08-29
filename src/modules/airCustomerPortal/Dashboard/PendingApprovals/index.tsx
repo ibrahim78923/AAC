@@ -1,14 +1,15 @@
 import { CardLayout } from '../CardLayout';
 import { usePendingApprovals } from './usePendingApprovals';
 import NoData from '@/components/NoData';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ApprovalCard } from '../../Catalog/Approvals/ApprovalCard';
 import { Fragment } from 'react';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { ApprovalsDataI } from '../../Catalog/Approvals/AllApprovals/AllApprovals.interface';
 
 export const PendingApprovals = () => {
-  const { data, isLoading, isFetching, isError, router } =
+  const { data, isLoading, isFetching, isError, router, refetch } =
     usePendingApprovals();
 
   return (
@@ -24,13 +25,13 @@ export const PendingApprovals = () => {
       maxHeight={'40vh'}
     >
       {isLoading || isFetching ? (
-        <SkeletonForm />
+        <SkeletonTable />
       ) : isError ? (
-        <ApiErrorState height={'100%'} />
+        <ApiErrorState height={'100%'} canRefresh refresh={() => refetch?.()} />
       ) : (
         <>
           {!!data?.data?.length ? (
-            data?.data?.map((approval: any) => (
+            data?.data?.map((approval: ApprovalsDataI) => (
               <Fragment key={approval?._id}>
                 <ApprovalCard data={approval} />
               </Fragment>

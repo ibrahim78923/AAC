@@ -128,12 +128,12 @@ const TableToolbar: FC<TableToolbarI> = ({
           </Menu>
         </Box>
 
-        <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-          <PermissionsGuard
-            permissions={[
-              AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.REFRESH_FILTERS,
-            ]}
-          >
+        <PermissionsGuard
+          permissions={[
+            AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.REFRESH_FILTERS,
+          ]}
+        >
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
             <Button
               variant="outlined"
               color="inherit"
@@ -146,8 +146,8 @@ const TableToolbar: FC<TableToolbarI> = ({
             >
               <RefreshSharedIcon />
             </Button>
-          </PermissionsGuard>
-        </Tooltip>
+          </Tooltip>
+        </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.CUSTOMIZE]}
         >

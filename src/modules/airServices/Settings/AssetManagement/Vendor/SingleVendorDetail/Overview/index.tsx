@@ -30,6 +30,7 @@ export const Overview = () => {
             p={2}
             color={'grey.900'}
             fontWeight={500}
+            textTransform={'capitalize'}
           >
             {isValidElement(value) ? (
               value

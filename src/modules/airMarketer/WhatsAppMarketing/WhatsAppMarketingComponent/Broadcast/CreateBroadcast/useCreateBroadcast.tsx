@@ -3,16 +3,14 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  broadcastDefaultValues,
+  broadCastValidationSchema,
   createBroadcastFields,
-  defaultValues,
-  validationSchema,
 } from './CreateBroadcast.data';
-import { enqueueSnackbar } from 'notistack';
 import {
-  ARRAY_INDEX,
   DRAWER_TYPES,
-  NOTISTACK_VARIANTS,
   SMS_MARKETING_CONSTANTS,
+  STATUS_CONTANTS,
 } from '@/constants/strings';
 import {
   useGetWhatsappBroadcatsByIdQuery,
@@ -20,23 +18,67 @@ import {
   useUpdateWhatsappBroadcastMutation,
 } from '@/services/airMarketer/whatsapp-marketing';
 import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
+import { indexNumbers } from '@/constants';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostDynamicFormAttachmentsMutation,
+} from '@/services/dynamic-fields';
 import { getSession } from '@/utils';
 
 const useCreateBroadcast = () => {
+  const { user }: any = getSession();
   const router = useRouter();
   const theme = useTheme<Theme>();
-  const { user }: any = getSession();
   const navigate = useRouter();
   const { type, id: selectedBroadCast } = navigate?.query;
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
+  const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedDateVal, setSelectedDateVal] = useState<any>(null);
   const [isSchedule, setIsSchedule] = useState(false);
+  const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
+  const [form, setForm] = useState<any>([]);
+
+  const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =
+    useGetWhatsappBroadcatsByIdQuery(selectedBroadCast);
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_MARKETING,
+      moduleType: DYNAMIC_FIELDS?.MT_WHATSAPP_BROADCAST,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
 
   const methods: any = useForm({
-    resolver: yupResolver<any>(validationSchema),
-    defaultValues: defaultValues,
+    resolver: yupResolver(broadCastValidationSchema(isSchedule, form)),
+    defaultValues: broadcastDefaultValues?.(),
   });
 
   // Contacts Drawer
@@ -49,20 +91,39 @@ const useCreateBroadcast = () => {
   };
 
   const { handleSubmit, reset, watch, setValue } = methods;
-  const detailsText = watch('detail');
   const previewName = watch(SMS_MARKETING_CONSTANTS?.NAME);
-  const previewDetail = watch(SMS_MARKETING_CONSTANTS?.DETAIL);
   const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
   const templateData = watch('templateId');
+  const [detailsMsg, setDetailMsg] = useState(templateData?.detail);
+
+  const processString = (input: any) => {
+    const regex = /\[(.*?)\]/g;
+    const matches = [];
+    let match;
+    while ((match = regex.exec(input)) !== null) {
+      matches.push(match[1]);
+    }
+    return matches;
+  };
+
+  const templateDetailsVariables = processString(templateData?.detail);
+  const variableValues = templateDetailsVariables?.map((variable) =>
+    watch(variable),
+  );
 
   useEffect(() => {
+    let detailsTextMsg = templateData?.detail;
+    templateDetailsVariables?.forEach((variable, index) => {
+      const variableValue = variableValues[index];
+      if (variableValue) {
+        const regex = new RegExp(`\\[${variable}\\]`, 'g');
+        detailsTextMsg = detailsTextMsg?.replace(regex, variableValue);
+        setDetailMsg(detailsTextMsg);
+      }
+    });
     setValue('detail', templateData?.detail);
-  }, [templateData?.detail]);
-
+  }, [JSON?.stringify(variableValues), setValue, templateData?.detail]);
   const formFields = createBroadcastFields(handleOpenContactsDrawer);
-
-  const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =
-    useGetWhatsappBroadcatsByIdQuery(selectedBroadCast);
 
   const [postWhatsappBroadcast, { isLoading: postBroadcastLoading }] =
     usePostWhatsappBroadcastMutation();
@@ -72,67 +133,156 @@ const useCreateBroadcast = () => {
 
   useEffect(() => {
     if (type === DRAWER_TYPES?.EDIT) {
-      const data = getWhatsappBroadcatsById?.data;
-
-      const fieldsToSet: any = {
-        name: data?.name,
-        campaignId: data?.campaign[0],
-        templateId: data?.template[0],
-        detail: data?.detail,
-        attachment: data?.attachment?.url,
-        recipients:
-          data?.recipients?.map(
-            (item: any) => `${item?.firstName} ${item?.lastName}`,
-          ) ?? [],
+      const editBradcastData = {
+        ...getWhatsappBroadcatsById?.data,
+        campaignId: getWhatsappBroadcatsById?.data?.campaign[0],
+        templateId: getWhatsappBroadcatsById?.data?.template[0],
+        recipients: getWhatsappBroadcatsById?.data?.recipients?.map(
+          (item: any) => `${item?.firstName} ${item?.lastName}`,
+        ),
       };
-      for (const key in fieldsToSet) {
-        setValue(key, fieldsToSet[key]);
-      }
-      setSelectedContactsData(data?.recipients ?? []);
-      setSelectedRec(data?.recipients);
+      reset(() => broadcastDefaultValues(editBradcastData, form));
+      setSelectedContactsData(getWhatsappBroadcatsById?.data?.recipients ?? []);
+      setIsSchedule(
+        getWhatsappBroadcatsById?.data?.schedualDate ? true : false,
+      );
+      setRecipientType(
+        getWhatsappBroadcatsById?.data?.groupDetails?.length > 0
+          ? SMS_MARKETING_CONSTANTS?.GROUP
+          : SMS_MARKETING_CONSTANTS?.ALL,
+      );
+      const selectedContactsData =
+        getWhatsappBroadcatsById?.data?.groupDetails?.length === 0
+          ? getWhatsappBroadcatsById?.data?.recipients
+          : getWhatsappBroadcatsById?.data?.groupDetails;
+      setSelectedRec(
+        Array.isArray(selectedContactsData) ? selectedContactsData : [],
+      );
     }
-  }, [getWhatsappBroadcatsById?.data]);
+  }, [getWhatsappBroadcatsById?.data, reset, form, type]);
 
-  const onSubmit = async (values: any) => {
-    const broadcastFormData = new FormData();
+  const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
+
+  const onSubmit = async (data: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
-    const cleanedDetailsText = removeHtmlTags(detailsText);
-    broadcastFormData?.append('senderId', user?._id);
-    broadcastFormData?.append('name', values?.name);
-    broadcastFormData?.append('campaignId', values?.campaignId?._id);
-    broadcastFormData?.append('templateId', values?.templateId?._id);
-    broadcastFormData?.append('attachment', values?.attachment);
-    broadcastFormData?.append(
-      'recipients',
-      selectedContactsData?.map((item: any) => item?._id),
-    );
-    broadcastFormData?.append('detail', cleanedDetailsText);
+    const cleanedDetailsText = removeHtmlTags(detailsMsg);
+
+    const payloadData: any = {
+      name: data.broadcastName,
+      senderId: user?._id,
+      campaignId: data?.campaignId?._id,
+      templateId: data?.templateId?._id,
+      templateSid: templateData?.sid,
+      status: createStatus,
+      detail: cleanedDetailsText,
+      variables: templateDetailsVariables,
+    };
+    if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
+      payloadData.contactGroupId = [];
+      payloadData.recipients = selectedContactsData?.map(
+        (item: any) => item?._id,
+      );
+    } else {
+      payloadData.recipients = selectedContactsData
+        ?.map(
+          (item: any) => item?.contacts?.map((contact: any) => contact?._id),
+        )
+        .flat();
+      payloadData.contactGroupId = selectedContactsData?.map(
+        (item: any) => item?._id,
+      );
+    }
+    if (isSchedule) {
+      payloadData.schedualDate = data?.schedualDate;
+    }
+    const filteredEmptyData = filteredEmptyValues(payloadData);
+
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
+
     try {
-      if (type === DRAWER_TYPES?.EDIT) {
-        await updateWhatsappBroadcast({
-          id: selectedBroadCast,
-          body: broadcastFormData,
-        })?.unwrap();
-        enqueueSnackbar(`Broadcast updated Successfully`, {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > indexNumbers?.ZERO) {
+        body.customFields = customFields;
+      }
+
+      if (!!selectedBroadCast) {
+        submitUpdateTemplate(body);
         return;
       }
-      await postWhatsappBroadcast({ body: broadcastFormData })?.unwrap();
-      enqueueSnackbar(`Broadcast created Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
+
+      const formData = new FormData();
+      if (body?.customFields) {
+        formData?.append('customFields', JSON?.stringify(body?.customFields));
+      }
+      delete body?.customFields;
+      delete body?.detail;
+      Object.keys(body).forEach((key) => {
+        formData.append(key, JSON.stringify(body[key]));
       });
-    } catch (error: any) {
-      const errMsg = error?.data?.message;
-      const errMessage = Array?.isArray(errMsg)
-        ? errMsg[ARRAY_INDEX?.ZERO]
-        : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+
+      await postWhatsappBroadcast({ body: formData })?.unwrap();
+      successSnackbar('Broadcast Created Successfully');
+      router?.back();
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
-    navigate?.push(AIR_MARKETER?.WHATSAPP_MERKETING);
-    reset();
+  };
+  const handleSaveAsDraft = () => {
+    methods?.handleSubmit(onSubmit)();
+  };
+
+  const submitUpdateTemplate = async (data: any) => {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      formData.append(key, JSON?.stringify(data[key]));
+    });
+
+    const updateWhatsappBroadcastParameter = {
+      id: selectedBroadCast,
+      body: formData,
+    };
+
+    try {
+      await updateWhatsappBroadcast(updateWhatsappBroadcastParameter)?.unwrap();
+      successSnackbar('Broadcast Updated Successfully!');
+      router?.back();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   const flattenContactsData = (data: any[]) => {
@@ -147,6 +297,7 @@ const useCreateBroadcast = () => {
 
   return {
     handleCloseContactsDrawer,
+    templateDetailsVariables,
     handleOpenContactsDrawer,
     broadcastDetailsLoading,
     setSelectedContactsData,
@@ -160,7 +311,8 @@ const useCreateBroadcast = () => {
     selectedDateVal,
     setSelectedRec,
     setIsSchedule,
-    previewDetail,
+    recipientType,
+    setRecipientType,
     handleSubmit,
     previewName,
     selectedRec,
@@ -170,7 +322,13 @@ const useCreateBroadcast = () => {
     methods,
     router,
     theme,
+    handleSaveAsDraft,
     type,
+    getDynamicFieldsStatus,
+    form,
+    detailsMsg,
+    createStatus,
+    setCreateStatus,
   };
 };
 

@@ -1,5 +1,4 @@
 import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
 import {
   ticketsBulkUpdateDefaultFormValues,
   ticketsBulkUpdateFormValidationSchemaFunction,
@@ -10,7 +9,6 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import usePath from '@/hooks/usePath';
 import {
   useLazyGetAgentDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
@@ -19,21 +17,21 @@ import {
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { PAGINATION } from '@/config';
 
 export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   const {
-    setIsDrawerOpen,
+    setIsPortalOpen,
     setSelectedTicketList,
     selectedTicketList,
     setFilterTicketLists,
     getTicketsListData,
     setPage,
   } = props;
+
   const [isReplyAdded, setIsReplyAdded] = useState(false);
 
-  const router = useRouter();
   const theme: any = useTheme();
-  const { makePath } = usePath();
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
     usePatchBulkUpdateTicketsMutation();
 
@@ -48,7 +46,7 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   const [postAddReplyToBulkUpdateTrigger, postAddReplyToBulkUpdateStatus] =
     usePostAddReplyToBulkUpdateMutation();
 
-  const submitReply = async (formData: any) => {
+  const submitReply = async (formData: { [key: string]: any }) => {
     const emailFormData = new FormData();
     emailFormData?.append('recipients', formData?.to);
     emailFormData?.append('html', formData?.description);
@@ -94,10 +92,10 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     try {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
-      setIsDrawerOpen?.(false);
-      getTicketsListData(1, {});
+      setIsPortalOpen?.({});
       setFilterTicketLists?.({});
-      setPage?.(1);
+      setPage?.(PAGINATION?.CURRENT_PAGE);
+      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       if (!!data?.to?.length && !!data?.description) {
         submitReply?.(data);
       }
@@ -109,14 +107,8 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
   };
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset?.();
-    setIsDrawerOpen(false);
+    setIsPortalOpen({});
   };
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
@@ -128,15 +120,14 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
 
   return {
     ticketsBulkUpdateFormFields,
-    router,
     theme,
     ticketsBulkUpdateAddReplyFormFieldsData,
     methodsBulkUpdateForm,
     handleSubmit,
-    submitTicketBulkUpdateForm,
     isReplyAdded,
     setIsReplyAdded,
     onClose,
+    submitTicketBulkUpdateForm,
     patchBulkUpdateTicketsStatus,
     postAddReplyToBulkUpdateStatus,
   };

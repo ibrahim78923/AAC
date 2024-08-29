@@ -25,7 +25,7 @@ export const conversationAPI: any = baseAPI?.injectEndpoints({
     }),
     getCannedResponsesForConversation: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_CANNED_RESPONSES}`,
+        url: `${END_POINTS?.GET_RESPONSES_LIST}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),

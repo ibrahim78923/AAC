@@ -28,9 +28,9 @@ import ViewNote from './ViewNote';
 import EditNote from './EditNote';
 import { AlertModals } from '@/components/AlertModals';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
-import { v4 as uuidv4 } from 'uuid';
 
 const Notes = ({ contactId }: any) => {
   const {
@@ -97,6 +97,7 @@ const Notes = ({ contactId }: any) => {
                       openEditDrawer={handleOpenDrawerEditNote}
                       openDeleteAlert={handleOpenModalDelete}
                     />
+
                     <PermissionsGuard
                       permissions={[
                         SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.ADD_NOTE,
@@ -144,6 +145,7 @@ const Notes = ({ contactId }: any) => {
                     variant="contained"
                     sx={{ height: '35px' }}
                     startIcon={<PlusIcon />}
+                    onClick={handleOpenDrawerAddNote}
                   >
                     Add Notes
                   </Button>

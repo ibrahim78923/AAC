@@ -6,13 +6,12 @@ import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { SaveReportDrawerI } from './SaveReportDrawer.interface';
 
 export const SaveReportDrawer = (props: SaveReportDrawerI) => {
-  const { open, reportId } = props;
+  const { open, reportId, setOpen } = props;
   const {
     saveReportsMethods,
     watch,
     handleSubmit,
     onSubmit,
-    handleCancel,
     selectAddToNewDashboard,
     reportsArray,
     postGenericReportStatus,
@@ -22,9 +21,9 @@ export const SaveReportDrawer = (props: SaveReportDrawerI) => {
   return (
     <CommonDrawer
       isDrawerOpen={open}
-      onClose={handleCancel}
+      onClose={() => setOpen(false)}
       submitHandler={() => handleSubmit(onSubmit)()}
-      cancelBtnHandler={handleCancel}
+      cancelBtnHandler={() => setOpen(false)}
       title="Save Reports"
       okText="Apply"
       isOk={true}

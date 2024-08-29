@@ -66,6 +66,7 @@ const ProductSuite = () => {
       setLoading(true);
       const response = await PostAuthAccountSelect(payload)?.unwrap();
       const routes = getRoutes(product);
+
       if (response?.data && routes) {
         setPermissions();
         setSelectedProduct(routes);
@@ -80,10 +81,12 @@ const ProductSuite = () => {
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+    } finally {
       setLoading(false);
     }
     return false;
   };
+
   const permissions = getActivePermissionsSession();
 
   useEffect(() => {

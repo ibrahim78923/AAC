@@ -1,4 +1,4 @@
-import { DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
 import { quoteStatus } from '@/routesConstants/paths';
 import { capitalizeFirstLetters } from '@/utils';
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
@@ -6,40 +6,42 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 
 export const quotesColumns = (
-  selectedRow: any,
-  setSelectedRow: any,
+  selectedRow: string[],
+  setSelectedRow: (value: string[]) => void,
   setIsActionsDisabled: (value: boolean) => void,
-  setRowId: any,
-  activeColumns: any,
+  setRowId: (value: string) => void,
+  activeColumns: string[],
 ) => {
   const router = useRouter();
   const theme = useTheme();
 
-  const handleRowClick = (id: any, status: any) => {
+  const handleRowClick = (id: string, status: string) => {
     const selectedIndex = selectedRow?.indexOf(id);
     let newSelected: any = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected?.concat(selectedRow, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected?.concat(selectedRow?.slice(1));
-    } else if (selectedIndex === selectedRow?.length - 1) {
-      newSelected = newSelected?.concat(selectedRow?.slice(0, -1));
-    } else if (selectedIndex > 0) {
+    } else if (selectedIndex === indexNumbers?.ZERO) {
+      newSelected = newSelected?.concat(selectedRow?.slice(indexNumbers?.ONE));
+    } else if (selectedIndex === selectedRow?.length - indexNumbers?.ONE) {
       newSelected = newSelected?.concat(
-        selectedRow?.slice(0, selectedIndex),
-        selectedRow?.slice(selectedIndex + 1),
+        selectedRow?.slice(indexNumbers?.ZERO, -1),
+      );
+    } else if (selectedIndex > indexNumbers?.ZERO) {
+      newSelected = newSelected?.concat(
+        selectedRow?.slice(indexNumbers?.ZERO, selectedIndex),
+        selectedRow?.slice(selectedIndex + indexNumbers?.ONE),
       );
     }
     setSelectedRow(newSelected);
-    setIsActionsDisabled(newSelected?.length === 0);
-    if (newSelected?.length === 1) {
-      setRowId(newSelected[0]);
+    setIsActionsDisabled(newSelected?.length === indexNumbers?.ZERO);
+    if (newSelected?.length === indexNumbers?.ONE) {
+      setRowId(newSelected[indexNumbers?.ZERO]);
     } else {
-      setRowId(null);
+      setRowId('');
     }
     router.push({
-      ...(newSelected?.length > 0 && {
+      ...(newSelected?.length > indexNumbers?.ZERO && {
         query: { status: status },
       }),
     });
@@ -72,7 +74,7 @@ export const quotesColumns = (
     DEAL_EXPIRY: 'expiryDate',
   };
 
-  const activeColumnsData = (attribute: any, info: any) => {
+  const activeColumnsData = (attribute: string, info: any) => {
     if (attribute === DEAL_ATTRIBUTES?.DEAL_NAME) {
       return (
         <Box
@@ -87,7 +89,9 @@ export const quotesColumns = (
         </Box>
       );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_AMOUNT) {
-      return `£${info?.row?.original?.deal?.amount}` ?? 'N/A';
+      return info?.row?.original?.deal?.amount
+        ? `£${info?.row?.original?.deal?.amount}`
+        : 'N/A';
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_STATUS) {
       return (
         <Typography
@@ -149,10 +153,11 @@ export const quotesColumns = (
         <Checkbox
           color="primary"
           indeterminate={
-            selectedRow?.length > 0 && selectedRow?.length < rows?.length
+            selectedRow?.length > indexNumbers?.ZERO &&
+            selectedRow?.length < rows?.length
           }
           checked={
-            rows?.length > 0 &&
+            rows?.length > indexNumbers?.ZERO &&
             selectedRow?.length === info?.table?.options?.data?.length
           }
           onChange={(event) => handleSelectAllClick(event, rows)}

@@ -37,7 +37,6 @@ const SMSBroadcast = () => {
     <>
       <SMSBroadcastHeader
         checkedRows={checkedRows}
-        setCheckedRows={setCheckedRows}
         filterValues={filterValues}
         setFilterValues={setFilterValues}
         resetFilters={resetFilters}

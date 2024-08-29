@@ -6,26 +6,54 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsCreated: builder.query({
       query: ({ params }: any) => ({
-        url: `${SALES_DASHBOARD?.DEALS_CREATED_VS_CLOSE_DATES}`,
-        method: 'GET',
-        params: params,
-      }),
-      providesTags: TAG,
-    }),
-    getSalesDashboards: builder.query({
-      query: ({ params }: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD}`,
+        url: SALES_DASHBOARD?.DEALS_CREATED_VS_CLOSE_DATES,
         method: 'GET',
         params: params,
       }),
       providesTags: TAG,
     }),
 
+    getSalesDashboards: builder.query({
+      query: ({ params }: any) => ({
+        url: SALES_DASHBOARD?.SALES_DASHBOARD_LIST,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    getSalesDashboardById: builder.query({
+      query: (id: any) => ({
+        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+
     postSalesDashboard: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD}`,
+        url: SALES_DASHBOARD?.CREATE_SALES_DASHBOARD,
         method: 'POST',
         body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    updateSalesDashboard: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: SALES_DASHBOARD?.UPDATE_SALES_DASHBOARD,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    deleteSalesDashboard: builder.mutation({
+      query: (ids: any) => ({
+        url: `${SALES_DASHBOARD?.DELETE_SALES_DASHBOARD}?ids=${ids}`,
+        method: 'DELETE',
       }),
       invalidatesTags: TAG,
     }),
@@ -40,6 +68,15 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+
+    getAllSalesDashboards: builder.query({
+      query: ({ params }: any) => ({
+        url: `${SALES_DASHBOARD?.ALL_SALES_DASHBOARDS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -47,6 +84,9 @@ export const {
   useGetDealsCreatedQuery,
   useGetSalesDashboardsQuery,
   usePostSalesDashboardMutation,
-
+  useGetSalesDashboardByIdQuery,
+  useDeleteSalesDashboardMutation,
+  useUpdateSalesDashboardMutation,
+  useGetAllSalesDashboardsQuery,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
 } = salesDashboardApi;

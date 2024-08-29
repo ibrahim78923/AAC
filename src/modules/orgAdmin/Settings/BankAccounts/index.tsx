@@ -14,8 +14,8 @@ const BankAccounts = () => {
     deleteAccountLoading,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
-    filterValues,
-    setFilterValues,
+    searchBy,
+    setSearchBy,
     receiversData,
     checkedRows,
     setCheckedRows,
@@ -39,10 +39,9 @@ const BankAccounts = () => {
       <Stack direction="column" gap={2} mt={3}>
         <Stack direction={{ md: 'row' }} justifyContent="space-between" gap={1}>
           <Search
-            onChange={(e: any) => {
-              setFilterValues({ ...filterValues, search: e?.target?.value });
-            }}
-            placeholder="Search Here"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+            label="Search Here"
             size="small"
           />
           <Stack direction={{ sm: 'row' }} gap={1}>

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Grid,
   Skeleton,
   TextareaAutosize,
@@ -12,12 +13,14 @@ import { LoadingButton } from '@mui/lab';
 import useTemplateForm from './useTemplateForm';
 import { createTemplateFiltersDataArray } from './TemplateForm.data';
 import { Info } from '@mui/icons-material';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 const TemplateForm = ({ templateType }: any) => {
   const {
     router,
     theme,
-    methodsNewsAndEventsFilters,
+    templateMethods,
     handleSubmit,
     onSubmit,
     TemplateName,
@@ -25,6 +28,8 @@ const TemplateForm = ({ templateType }: any) => {
     updateTemplateLoading,
     Category,
     Details,
+    form,
+    getDynamicFieldsStatus,
   } = useTemplateForm();
 
   return (
@@ -43,10 +48,7 @@ const TemplateForm = ({ templateType }: any) => {
         </Button>
         <Typography variant="h3">{templateType} Template</Typography>
       </Box>
-      <FormProvider
-        methods={methodsNewsAndEventsFilters}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <FormProvider methods={templateMethods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid item xs={6}>
             <Grid container spacing={1}>
@@ -61,15 +63,48 @@ const TemplateForm = ({ templateType }: any) => {
                   {item?.componentProps?.name === 'detail' && (
                     <Box display="flex" gap={1}>
                       <Info sx={{ color: theme?.palette?.grey[500] }} />
-                      <Typography color={theme?.palette?.grey[500]}>
-                        Please note that the maximum character limit for a
-                        template is 1024 characters. If you exceed this limit,
-                        the message will not be sent.
-                      </Typography>
+                      <Box>
+                        <Typography color={theme?.palette?.grey[500]}>
+                          Get [50]% off on our IT-focused CRM solutions in our
+                          End of Summer Sale! Use promo code [Promo Code AB 123]
+                          at checkout. Hurry—limited time only!
+                        </Typography>
+                        <Typography color={theme?.palette?.grey[500]} mt={1}>
+                          <span
+                            style={{
+                              fontWeight: 600,
+                              color: theme?.palette?.grey[600],
+                            }}
+                          >
+                            Note:
+                          </span>
+                          Use brackets for variables (e.g., [Name], [50], [Promo
+                          Code AB 123]). For number variables like [50], enter
+                          only numbers when sending. For [Promo Code AB 123],
+                          you can use alphanumeric values. For [Name], use only
+                          alphabetic characters.
+                        </Typography>
+                      </Box>
                     </Box>
                   )}
                 </Grid>
               ))}
+              {getDynamicFieldsStatus.isLoading ? (
+                <Box display="flex" justifyContent="center" mt={3} width="100%">
+                  <CircularProgress />
+                </Box>
+              ) : (
+                form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))
+              )}
             </Grid>
           </Grid>
           <Grid item container xs={5}>

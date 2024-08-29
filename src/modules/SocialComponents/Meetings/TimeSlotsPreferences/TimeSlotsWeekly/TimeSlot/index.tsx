@@ -4,10 +4,10 @@ import { Delete } from '@mui/icons-material';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Permissions } from '@/constants/permissions';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CopyIconButton } from '@/assets/icons';
 import { timeSlotsWeeklyDropdown } from '../TimeSlotWeekly.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
 
 export const TimeSlot = ({
   parentIndex,
@@ -74,6 +74,7 @@ export const TimeSlot = ({
                     <IconButton onClick={() => remove(index)}>
                       <Delete />
                     </IconButton>
+
                     <PermissionsGuard
                       permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
                     >

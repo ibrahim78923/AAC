@@ -13,6 +13,7 @@ import {
   usePostContractMutation,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
+  useLazyGetContractTypeListQuery,
 } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetSingleSoftwareByIdQuery } from '@/services/airServices/assets/software/single-software-detail/contracts';
@@ -21,7 +22,7 @@ import { useEffect } from 'react';
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { softwareId } = router?.query;
+  const { softwareId }: any = router?.query;
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
   const upsertContractFormMethods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
@@ -56,9 +57,24 @@ export const useUpsertContract = () => {
     });
   };
 
+  const [triggerContractSoftware, contractSoftwareStatus]: any =
+    useLazyGetContractTypeListQuery();
+
   useEffect(() => {
-    reset(upsertContractFormDefaultValuesFunction(data?.data));
-  }, [data, reset]);
+    const params = new URLSearchParams();
+    params.append('search', 'software licences');
+    params.append('meta', 'false');
+    triggerContractSoftware({ params });
+  }, []);
+
+  const softwareFind = contractSoftwareStatus?.data?.find(
+    (item: any) => item?.name === 'software licences',
+  );
+
+  useEffect(() => {
+    reset(upsertContractFormDefaultValuesFunction(data?.data, softwareFind));
+  }, [data, reset, softwareFind]);
+
   const submitUpsertContractForm = async (data: any) => {
     const postContractForm = new FormData();
     postContractForm?.append('name', data?.contractName);
@@ -79,11 +95,8 @@ export const useUpsertContract = () => {
     postContractForm?.append('billingCycle', data?.billingCycle?._id);
     postContractForm?.append('licenseType', data?.licenseType?._id);
     postContractForm?.append('licenseKey', data?.licenseKey);
-
     data?.approver !== null &&
       postContractForm?.append('approver', data?.approver?._id);
-    data?.associateAssets !== null &&
-      postContractForm.append('associatedAsset', data?.associateAssets?._id);
     data?.attachFile !== null &&
       typeof data?.attachFile !== 'string' &&
       postContractForm?.append('attachments', data?.attachFile);
@@ -101,12 +114,14 @@ export const useUpsertContract = () => {
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
   const apiQueryApprover = useLazyGetAgentsDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
+  const apiContractType = useLazyGetContractTypeListQuery();
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     apiQueryVendor,
     apiQueryApprover,
     apiQuerySoftware,
+    apiContractType,
   );
   return {
     upsertContractFormMethods,

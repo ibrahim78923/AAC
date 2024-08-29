@@ -1,7 +1,9 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
-import { TimeFormatDuration } from '@/utils/api';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { splitCapitalizedWords, TimeFormatDuration } from '@/utils/api';
 import { Box, Theme, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { NextRouter } from 'next/router';
@@ -57,7 +59,9 @@ export const listViewDetails = (
     header: 'Organizer',
     cell: (info: any) => {
       const { firstName, lastName } = info?.row?.original?.userDetails || {};
-      return <Typography>{`${firstName} ${lastName}`}</Typography>;
+      return (
+        <Typography variant="body2">{`${firstName} ${lastName}`}</Typography>
+      );
     },
   },
   {
@@ -65,7 +69,7 @@ export const listViewDetails = (
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => splitCapitalizedWords(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.duration,
@@ -93,30 +97,38 @@ export const listViewDetails = (
     header: 'Action',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() =>
-            setOpenForm(() => {
-              router?.push({
-                pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
-                query: {
-                  type: meetingActiveType(info?.row?.original?.category),
-                  id: info?.row?.original?._id,
-                },
-              });
-            })
-          }
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.EDIT_MEETING]}
         >
-          <EditPenIcon />
-        </Box>
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() =>
-            setDeleteModal({ isOpen: true, data: info?.row?.original })
-          }
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setOpenForm(() => {
+                router?.push({
+                  pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                  query: {
+                    type: meetingActiveType(info?.row?.original?.category),
+                    id: info?.row?.original?._id,
+                  },
+                });
+              })
+            }
+          >
+            <EditPenIcon />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.DELETE_MEETING]}
         >
-          <DeleteCrossIcon />
-        </Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setDeleteModal({ isOpen: true, data: info?.row?.original })
+            }
+          >
+            <DeleteCrossIcon />
+          </Box>
+        </PermissionsGuard>
       </Box>
     ),
   },

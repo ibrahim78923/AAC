@@ -4,14 +4,15 @@ import { Box, Grid, Typography } from '@mui/material';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { Permissions } from '@/constants/permissions';
 import { LoadingButton } from '@mui/lab';
 import { useEditTicketDetails } from './useEditTicketDetails';
 
-import { TimeEntries } from '../TimeEntries';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AIR_SERVICES } from '@/constants';
+
 export const EditTicketDetails = () => {
   const {
     methods,
@@ -20,11 +21,14 @@ export const EditTicketDetails = () => {
     ticketDetailsFormFields,
     isLoading,
     isFetching,
-    data,
     editTicketsDetailsStatus,
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    isError,
+    getDynamicFormData,
+    refetch,
+    router,
   } = useEditTicketDetails();
 
   return (
@@ -43,8 +47,14 @@ export const EditTicketDetails = () => {
       getDynamicFieldsStatus?.isLoading ||
       getDynamicFieldsStatus?.isFetching ? (
         <SkeletonForm />
-      ) : getDynamicFieldsStatus?.isError ? (
-        <ApiErrorState />
+      ) : getDynamicFieldsStatus?.isError || isError ? (
+        <ApiErrorState
+          canRefresh
+          refresh={() => {
+            refetch?.();
+            getDynamicFormData?.();
+          }}
+        />
       ) : (
         <Grid item xs={12}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -54,12 +64,12 @@ export const EditTicketDetails = () => {
               ]}
             >
               <Grid container spacing={4}>
-                {ticketDetailsFormFields?.map((item: any) => (
+                {ticketDetailsFormFields?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} md={4} key={item?.id}>
                     <item.component {...item?.componentProps} size={'small'} />
                   </Grid>
                 ))}
-                {form?.map((item: any) => (
+                {form?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} md={4} key={item?.id}>
                     {componentMap[item?.component] &&
                       createElement(componentMap[item?.component], {
@@ -70,29 +80,16 @@ export const EditTicketDetails = () => {
                   </Grid>
                 ))}
               </Grid>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={
-                Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TIME_ENTRIES
-              }
-            >
-              <br />
-              <TimeEntries data={data} />
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[
-                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
-              ]}
-            >
               <Box textAlign={'end'} p={2}>
                 <LoadingButton
                   variant={'outlined'}
+                  type="button"
                   color="inherit"
-                  onClick={() => methods?.reset()}
                   disabled={
                     editTicketsDetailsStatus?.isLoading ||
                     postAttachmentStatus?.isLoading
                   }
+                  onClick={() => router?.push(AIR_SERVICES?.TICKETS)}
                 >
                   Cancel
                 </LoadingButton>

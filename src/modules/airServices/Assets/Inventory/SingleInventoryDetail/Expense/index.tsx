@@ -18,6 +18,8 @@ export const Expense = () => {
     setPage,
     pageLimit,
     metaData,
+    isError,
+    refetch,
   } = useExpense();
 
   return (
@@ -40,13 +42,18 @@ export const Expense = () => {
           isFetching={isFetching}
           isSuccess={isSuccess}
           isLoading={isLoading}
+          isError={isError}
           setPageLimit={setPageLimit}
           setPage={setPage}
           count={metaData?.pages}
           totalRecords={metaData?.total}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           currentPage={metaData?.page}
           pageLimit={pageLimit}
+          errorProps={{
+            canRefresh: true,
+            refresh: refetch,
+          }}
         />
       </PermissionsGuard>
     </>

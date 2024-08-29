@@ -22,7 +22,7 @@ export const agentActionsDropdown = (
     permissionKey: [
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       if (selectedAgentList?.length > 1) {
         errorSnackbar(`Can't update multiple records`);
         return;
@@ -37,7 +37,7 @@ export const agentActionsDropdown = (
     permissionKey: [
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
-    handleClick: (close: any) => {
+    handleClick: (close: () => void) => {
       setOpenDeleteModal?.(true);
       close?.();
     },
@@ -51,7 +51,7 @@ export const agentsListsColumnsFunction = (
   router: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?._id,
+    accessorFn: (row: { _id: string }) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
@@ -101,7 +101,7 @@ export const agentsListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.fullName,
+    accessorFn: (row: { fullName: string }) => row?.fullName,
     id: 'fullName',
     isSortable: true,
     header: 'Name',
@@ -148,7 +148,7 @@ export const agentsListsColumnsFunction = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.email,
+    accessorFn: (row: { email: string }) => row?.email,
     id: 'email',
     header: 'Email',
     isSortable: true,
@@ -159,7 +159,7 @@ export const agentsListsColumnsFunction = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.departmentData?.name,
+    accessorFn: (row: { departmentData: any }) => row?.departmentData?.name,
     id: 'name',
     isSortable: true,
     header: 'Department',
@@ -170,7 +170,7 @@ export const agentsListsColumnsFunction = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.accountsPermissions,
+    accessorFn: (row: { accountsPermissions: any }) => row?.accountsPermissions,
     id: 'permissionsList',
     isSortable: true,
     header: 'Role',

@@ -7,6 +7,7 @@ import { useAccountDetails } from './useAccountDetails';
 export const AccountDetails = () => {
   const { theme, data, isLoading, isFetching } = useAccountDetails();
   if (isFetching || isLoading) return <SkeletonTable />;
+
   return (
     <>
       <Header profileDetail={data?.data} />

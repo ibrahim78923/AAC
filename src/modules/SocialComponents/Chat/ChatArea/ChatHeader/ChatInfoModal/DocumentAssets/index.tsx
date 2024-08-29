@@ -1,8 +1,10 @@
 import { DocumentIcon, FileJpgIcon } from '@/assets/icons';
+import { IMG_URL } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import React from 'react';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const groupDocumentsByDate = (data: any) => {
@@ -28,7 +30,11 @@ const groupDocumentsByDate = (data: any) => {
   return result;
 };
 
-const DocumentAssets = ({ data, status }: any) => {
+const DocumentAssets = ({ data, status, handelRefetch }: any) => {
+  useEffect(() => {
+    handelRefetch();
+  }, []);
+
   const groupedDocuments = groupDocumentsByDate(data);
   return (
     <>
@@ -82,7 +88,12 @@ const DocumentAssets = ({ data, status }: any) => {
                       <Typography variant="body3" sx={{ fontWeight: '500' }}>
                         {(document?.size / 1024)?.toFixed(2)} KB
                       </Typography>
-                      <DocumentIcon />
+                      <Link
+                        href={`${IMG_URL}${document?.url}`}
+                        target={'_blank'}
+                      >
+                        <DocumentIcon />
+                      </Link>
                     </Box>
                   </Box>
                 ))}

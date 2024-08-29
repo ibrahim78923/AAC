@@ -5,12 +5,12 @@ import { ExportButton } from '@/components/ExportButton';
 import AddDevice from '../../AddDevice';
 import { useInstallationHeader } from './useInstallationHeader';
 import { ALERT_MODALS_TYPE, EXPORT_TYPE } from '@/constants/strings';
+import { InstallationHeaderI } from './InstallationHeader.interface';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete selected Device?';
 
-export const InstallationHeader = (props: any) => {
-  const { activeCheck, searchBy, setSearchBy, getInstallationListDataExport } =
-    props;
+export const InstallationHeader: React.FC<InstallationHeaderI> = (props) => {
+  const { activeCheck, setSearchBy, getInstallationListDataExport } = props;
   const {
     deleteModal,
     setDeleteModal,
@@ -28,11 +28,7 @@ export const InstallationHeader = (props: any) => {
         gap={2}
       >
         <Box>
-          <Search
-            label="Search Here"
-            searchBy={searchBy}
-            setSearchBy={setSearchBy}
-          />
+          <Search label="Search Here" setSearchBy={setSearchBy} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button

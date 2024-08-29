@@ -25,10 +25,10 @@ import dayjs from 'dayjs';
 import { CHAT_TYPES, TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { useUpdateChatMutation } from '@/services/chat';
+import { IMG_URL, PAGINATION } from '@/config';
+import { ContactsCardPropsI } from './contactsCard.interface';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
-import { PAGINATION } from '@/config';
-import { ContactsCardPropsI } from './contactsCard.interface';
 
 const ContactsCard = ({
   cardData,
@@ -125,6 +125,7 @@ const ContactsCard = ({
           liveStatus: constIsModeGroup
             ? ''
             : filteredParticipants[0]?.liveStatus,
+          avatar: constIsModeGroup ? '' : filteredParticipants[0]?.avatar?.url,
         }),
       );
   };
@@ -195,7 +196,12 @@ const ContactsCard = ({
               <Image
                 width={isCardHover ? 32 : 24}
                 height={isCardHover ? 32 : 24}
-                src={UserDefault}
+                src={
+                  filteredParticipants[0]?.avatar?.url
+                    ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
+                    : UserDefault
+                }
+                style={{ borderRadius: '50%' }}
                 alt="avatar"
               />
               <Box sx={{ maxWidth: '220px' }}>

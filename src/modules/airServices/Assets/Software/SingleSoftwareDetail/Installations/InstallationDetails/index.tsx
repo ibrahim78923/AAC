@@ -18,10 +18,10 @@ export const InstallationDetails = () => {
     isFetching,
     isSuccess,
     metaData,
-    searchBy,
     setSearchBy,
     installationData,
     getInstallationListDataExport,
+    getInstallationListData,
   } = useInstallationDetail();
   return (
     <PermissionsGuard
@@ -30,7 +30,6 @@ export const InstallationDetails = () => {
       <InstallationHeader
         activeCheck={activeCheck}
         setActiveCheck={setActiveCheck}
-        searchBy={searchBy}
         setSearchBy={setSearchBy}
         getInstallationListDataExport={getInstallationListDataExport}
       />
@@ -54,6 +53,7 @@ export const InstallationDetails = () => {
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
+        errorProps={{ canRefresh: true, refresh: getInstallationListData }}
       />
     </PermissionsGuard>
   );

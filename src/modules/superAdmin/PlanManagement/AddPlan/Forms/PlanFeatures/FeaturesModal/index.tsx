@@ -57,15 +57,25 @@ const FeaturesModal = ({
       >
         <Box sx={styles?.parentBox}>
           <Box sx={styles?.modalBox(theme?.palette)}>
-            <Box sx={styles?.innerBoxOne}>
-              <Box sx={{ cursor: 'pointer' }}>
-                <CloseIcon />
+            <Box>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'space-between'}
+              >
+                <Typography id="modal-modal-title" variant="h3" component="h2">
+                  {featureName}
+                </Typography>
+                <Box sx={styles?.innerBoxOne}>
+                  <Box
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => handleCloseFeaturesModal()}
+                  >
+                    <CloseIcon />
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-            <Box sx={{ margin: '20px 0' }}>
-              <Typography id="modal-modal-title" variant="h3" component="h2">
-                {featureName}
-              </Typography>
+
               <Typography
                 id="modal-modal-description"
                 variant="body2"
@@ -88,7 +98,7 @@ const FeaturesModal = ({
                     </Grid>
                   ))}
                 </Grid>
-                <Box sx={styles?.buttonBox} mt={2}>
+                <Box sx={styles?.buttonBox} mt={1}>
                   <Button variant="outlined" onClick={handleCloseFeaturesModal}>
                     No
                   </Button>

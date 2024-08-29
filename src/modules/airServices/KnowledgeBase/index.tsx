@@ -5,18 +5,11 @@ import { pxToRem } from '@/utils/getFontValue';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Permissions } from '@/constants/permissions';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Articles } from './Articles';
-import { Approvals } from './Approvals';
-import { KnowledgeInsights } from './KnowledgeInsights';
-import { knowledgeBaseTabsData } from './KnowledgeBase.data';
+import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 
 export const KnowledgeBase = () => {
-  const {
-    isPortalOpen,
-    createNewKnowledgeBaseDropdownOptions,
-    setIsPortalOpen,
-  } = useKnowledgeBase();
+  const { createNewKnowledgeBaseDropdownOptions, knowledgeBaseTabsData } =
+    useKnowledgeBase();
 
   return (
     <>
@@ -38,14 +31,7 @@ export const KnowledgeBase = () => {
         </PermissionsGuard>
       </PageTitledHeader>
       <br />
-      <HorizontalTabs tabsDataArray={knowledgeBaseTabsData}>
-        <Articles
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-        />
-        <Approvals />
-        <KnowledgeInsights />
-      </HorizontalTabs>
+      <PermissionsTabs spacing={0.3} tabsDataArray={knowledgeBaseTabsData} />
     </>
   );
 };

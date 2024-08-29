@@ -27,6 +27,8 @@ export const RelatedTickets = () => {
     setIsPortalOpen,
     isPortalOpen,
     portalComponentProps,
+    getChildTicketsListData,
+    page,
   } = useRelatedTickets();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -87,7 +89,6 @@ export const RelatedTickets = () => {
                 ? data?.data?.tickets
                 : []
           }
-          activeCheck={selectedChildTickets}
           columns={relatedTicketsColumns}
           isFetching={isFetching}
           isError={isError}
@@ -117,10 +118,14 @@ export const RelatedTickets = () => {
                 ? data?.data?.meta?.total
                 : PAGINATION?.TOTAL_RECORDS
           }
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           setPage={setPage}
           setPageLimit={setPageLimit}
           isPagination
+          errorProps={{
+            canRefresh: true,
+            refresh: () => getChildTicketsListData?.(page),
+          }}
         />
       </PermissionsGuard>
       {isPortalOpen?.isOpen &&

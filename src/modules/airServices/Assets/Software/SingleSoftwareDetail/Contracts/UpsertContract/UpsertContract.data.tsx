@@ -141,15 +141,15 @@ export const softwareLicense = {
   licenseKey: '',
 };
 export const upsertContractFormDefaultValuesFunction: any = (
-  software?: any,
   data?: any,
+  softwareFind?: any,
 ) => {
   return {
     contractName: data?.contractName ?? '',
     contractNumber: data?.contractNumber ?? '',
-    type: data?.type ?? {
-      _id: CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      label: 'SOFTWARE_LICENSE',
+    type: data?.contractTypeData ?? {
+      _id: softwareFind?._id,
+      name: softwareFind?.name,
     },
     cost: data?.cost ?? 0,
     status: data?.status ?? {
@@ -170,7 +170,7 @@ export const upsertContractFormDefaultValuesFunction: any = (
     billingCycle: data?.billingCycle ?? softwareLicense?.billingCycle,
     licenseType: data?.licenseType ?? softwareLicense?.licenseType,
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
-    software: software?.[0] ?? softwareLicense?.software,
+    software: data?.[0] ?? softwareLicense?.software,
     attachFile: null,
   };
 };
@@ -253,6 +253,7 @@ export const upsertContractFormFieldsDataFunction = (
   apiQueryVendor: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
+  apiContractType: any,
 ) => [
   {
     id: 1,
@@ -272,22 +273,22 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'contractName',
       label: 'Contract Name',
+      placeholder: 'Enter Contract Name',
       required: true,
     },
   },
   {
     id: 4,
     componentProps: {
-      fullWidth: true,
       name: 'type',
       label: 'Type',
-      options: contractTypeOptions,
+      apiQuery: apiContractType,
       disabled: true,
-      getOptionLabel: (option: any) => option?.label,
       required: true,
+      externalParams: { meta: false },
     },
     md: 6,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 6,
@@ -311,6 +312,7 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'cost',
       label: 'Cost (£)',
+      placeholder: 'Enter Cost',
     },
   },
   {
@@ -321,6 +323,7 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'approver',
       label: 'Approver',
+      placeholder: 'Select Approver',
       apiQuery: apiQueryApprover,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
@@ -332,6 +335,7 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'vendor',
       label: 'Vendor',
+      placeholder: 'Select Vendor',
       apiQuery: apiQueryVendor,
       externalParams: { meta: false, limit: 50 },
     },
@@ -421,6 +425,7 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'notifyBefore',
             label: 'Notify Before',
+            placeholder: 'Notify Before',
             required: true,
           },
         },
@@ -432,6 +437,7 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'notifyTo',
             label: 'Notify To',
+            placeholder: 'Select User',
             required: true,
             apiQuery: apiQueryApprover,
             getOptionLabel: (option: any) =>
@@ -483,6 +489,7 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'billingCycle',
       label: 'Billing Cycle',
+      placeholder: 'Select Billing Cycle',
       options: billingCycleOptions,
       required: true,
       getOptionLabel: (option: any) => option?.label,
@@ -507,6 +514,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'licenseType',
       label: 'License Type',
       required: true,
+      placeholder: 'Select License Type',
       options: licenseTypeOptions,
       getOptionLabel: (option: any) => option?.label,
     },
@@ -520,6 +528,7 @@ export const upsertContractFormFieldsDataFunction = (
       required: true,
       name: 'licenseKey',
       label: 'License Key',
+      placeholder: 'Enter License Key',
     },
   },
 ];

@@ -12,14 +12,15 @@ import {
   RestoreReportListsIsPortalOpenI,
   RestoreReportsListsComponentPropsI,
   RestoreReportsListsPropsI,
-} from '../Reports.interface';
+} from './RestoreReportsLists.interface';
+import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
   const { filter, apiQuery, permissions, baseModule } = props;
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [isPortalOpen, setIsPortalOpen] =
     useState<RestoreReportListsIsPortalOpenI>({});
   const [reportFilters, setReportFilter] = useState<any>({});
@@ -40,7 +41,7 @@ export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
       ...(filter ? [['filter', filter]] : []),
       ...(baseModule ? [['baseModule', baseModule]] : []),
     ];
-    const getRestoreReportParam: any = buildQueryParams(
+    const getRestoreReportParam: URLSearchParams = buildQueryParams(
       additionalParams,
       filterReports,
     );
@@ -97,10 +98,8 @@ export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
     return <></>;
   };
 
-  const actionButtonDropdown = actionsForRestoreReportListsDynamic?.(
-    setIsPortalOpen,
-    permissions,
-  );
+  const actionButtonDropdown: SingleDropdownOptionI[] =
+    actionsForRestoreReportListsDynamic?.(setIsPortalOpen, permissions);
 
   return {
     restoreReportColumns,
@@ -114,5 +113,7 @@ export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    page,
+    getRestoreReportsList,
   };
 };

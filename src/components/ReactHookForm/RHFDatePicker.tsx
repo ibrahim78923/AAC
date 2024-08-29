@@ -47,7 +47,7 @@ export default function RHFDatePicker({
                     {error?.message}
                   </Typography>
                 ),
-                error: error,
+                error: !!error,
                 fullWidth: other?.fullWidth,
                 size: other?.size,
                 label: '',

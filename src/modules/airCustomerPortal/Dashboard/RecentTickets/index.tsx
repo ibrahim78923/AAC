@@ -6,9 +6,11 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { TicketsCard } from '../../Tickets/TicketCard';
 import { Fragment } from 'react';
+import { TicketCardDataI } from '../../Tickets/TicketCard/TicketCard.interface';
 
 export const RecentTickets = () => {
-  const { data, isLoading, isFetching, isError, router } = useRecentTickets();
+  const { data, isLoading, isFetching, isError, router, refetch } =
+    useRecentTickets();
 
   return (
     <CardLayout
@@ -25,11 +27,11 @@ export const RecentTickets = () => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState height={'100%'} />
+        <ApiErrorState height={'100%'} canRefresh refresh={() => refetch?.()} />
       ) : (
         <>
           {!!data?.data?.length ? (
-            data?.data?.map((ticket: any) => (
+            data?.data?.map((ticket: TicketCardDataI) => (
               <Fragment key={ticket?._id}>
                 <TicketsCard ticket={ticket} />
               </Fragment>

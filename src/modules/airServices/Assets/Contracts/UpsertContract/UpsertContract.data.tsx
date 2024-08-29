@@ -309,6 +309,7 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'contractName',
       label: 'Contract Name',
+      placeholder: 'Enter Contract Name',
       required: true,
     },
   },
@@ -318,6 +319,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'type',
       label: 'Type',
       apiQuery: apiContractType,
+      placeholder: 'Select Type',
       required: true,
       disabled: !!contractId,
       externalParams: { meta: false },
@@ -330,6 +332,7 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'associateAssets',
       label: 'Associate Assets',
+      placeholder: 'Select Associate Assets',
       required:
         watchForContractType?.name !== CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
       disabled:
@@ -361,6 +364,7 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'cost',
       label: 'Cost (£)',
+      placeholder: 'Enter Cost',
     },
   },
   {
@@ -370,6 +374,7 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'approver',
       label: 'Approver',
+      placeholder: 'Select Approver',
       apiQuery: apiQueryApprover,
       externalParams: { productId, admin: true },
       getOptionLabel: (option: any) =>
@@ -381,6 +386,7 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'vendor',
       label: 'Vendor',
+      placeholder: 'Select Vendor',
       apiQuery: apiQueryVendor,
       externalParams: { meta: false, limit: 50 },
     },
@@ -469,6 +475,7 @@ export const upsertContractFormFieldsDataFunction = (
           componentProps: {
             name: 'notifyBefore',
             label: 'Notify Before',
+            placeholder: 'Notify Before',
             required: true,
           },
         },
@@ -479,6 +486,7 @@ export const upsertContractFormFieldsDataFunction = (
           componentProps: {
             name: 'notifyTo',
             label: 'Notify To',
+            placeholder: 'Select User',
             required: true,
             apiQuery: apiQueryApprover,
             getOptionLabel: (option: any) =>
@@ -507,6 +515,7 @@ export const upsertContractFormFieldsDataFunction = (
             name: 'software',
             label: 'Software',
             required: true,
+            placeholder: 'Select Software',
             apiQuery: apiQuerySoftware,
             externalParams: { limit: 50 },
             getOptionLabel: (option: any) => option?.name,
@@ -528,6 +537,7 @@ export const upsertContractFormFieldsDataFunction = (
           componentProps: {
             name: 'billingCycle',
             label: 'Billing Cycle',
+            placeholder: 'Select Billing Cycle',
             required: true,
             options: billingCycleOptions,
             getOptionLabel: (option: any) => option?.label,
@@ -550,6 +560,7 @@ export const upsertContractFormFieldsDataFunction = (
           componentProps: {
             name: 'licenseType',
             label: 'License Type',
+            placeholder: 'Select License Type',
             required: true,
             options: licenseTypeOptions,
             getOptionLabel: (option: any) => option?.label,
@@ -562,6 +573,7 @@ export const upsertContractFormFieldsDataFunction = (
           componentProps: {
             name: 'licenseKey',
             label: 'License Key',
+            placeholder: 'Enter License Key',
             required: true,
           },
         },

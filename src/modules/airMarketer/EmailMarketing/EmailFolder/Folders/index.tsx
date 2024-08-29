@@ -24,6 +24,8 @@ import {
 } from '@/services/airMarketer/emailFolder';
 import { successSnackbar } from '@/utils/api';
 import { enqueueSnackbar } from 'notistack';
+import Link from 'next/link';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 const Folders = ({
   allFolder,
   allSelectedFoldersIds,
@@ -191,66 +193,71 @@ const Folders = ({
                         }}
                       />
                     </Box>
-                    <Grid item lg={12} md={12} mt={-3}>
-                      <Box sx={styles?.folderBackground(theme)}>
-                        <FolderIcon />
-                      </Box>
-                    </Grid>
-                    <Grid item lg={12} md={12} sm={12} xs={12}>
-                      <Typography
-                        pt={1.7}
-                        variant="h6"
-                        sx={{
-                          fontWeight: 500,
-                          color: `${theme?.palette?.grey[600]}`,
-                        }}
-                      >
-                        {item?.name}
-                      </Typography>
-                      <Typography
-                        variant="body3"
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: `${theme?.palette?.grey[900]}`,
-                          fontWeight: 400,
-                          marginTop: '4px',
-                        }}
-                      >
-                        Created By:
+
+                    <Link
+                      href={`${AIR_MARKETER?.EMAIL_FOLDER_EMAILS}?folder=${item?.name}&id=${item?._id}`}
+                    >
+                      <Grid item lg={12} md={12} mt={-3}>
+                        <Box sx={styles?.folderBackground(theme)}>
+                          <FolderIcon />
+                        </Box>
+                      </Grid>
+                      <Grid item lg={12} md={12} sm={12} xs={12}>
                         <Typography
+                          pt={1.7}
+                          variant="h6"
                           sx={{
-                            color: `${theme?.palette?.custom?.main}`,
                             fontWeight: 500,
+                            color: `${theme?.palette?.grey[600]}`,
                           }}
                         >
-                          {item?.createdByName}
+                          {item?.name}
                         </Typography>
-                      </Typography>
-                      <Typography
-                        variant="body3"
-                        pb={2}
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: `${theme?.palette?.grey[900]}`,
-                          fontWeight: 400,
-                          marginTop: '4px',
-                        }}
-                      >
-                        Created Date:
                         <Typography
+                          variant="body3"
                           sx={{
-                            color: `${theme?.palette?.custom?.main}`,
-                            fontWeight: 500,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            color: `${theme?.palette?.grey[900]}`,
+                            fontWeight: 400,
+                            marginTop: '4px',
                           }}
                         >
-                          {dayjs(item?.createdAt).format(DATE_FORMAT.UI)}
+                          Created By:
+                          <Typography
+                            sx={{
+                              color: `${theme?.palette?.custom?.main}`,
+                              fontWeight: 500,
+                            }}
+                          >
+                            {item?.createdByName}
+                          </Typography>
                         </Typography>
-                      </Typography>
-                    </Grid>
+                        <Typography
+                          variant="body3"
+                          pb={2}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            color: `${theme?.palette?.grey[900]}`,
+                            fontWeight: 400,
+                            marginTop: '4px',
+                          }}
+                        >
+                          Created Date:
+                          <Typography
+                            sx={{
+                              color: `${theme?.palette?.custom?.main}`,
+                              fontWeight: 500,
+                            }}
+                          >
+                            {dayjs(item?.createdAt).format(DATE_FORMAT.UI)}
+                          </Typography>
+                        </Typography>
+                      </Grid>
+                    </Link>
                   </Box>
                 </Grid>
               );

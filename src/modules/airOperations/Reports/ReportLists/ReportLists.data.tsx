@@ -27,18 +27,24 @@ import {
   MANAGE_REPORTS_ACCESS_TYPES_MAPPED,
 } from '@/constants/api-mapped';
 import { CustomChips } from '@/components/CustomChips';
+import { Dispatch, SetStateAction } from 'react';
+import {
+  ReportListsIsPortalOpenI,
+  ReportListsTableRowI,
+} from './ReportLists.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
 export const actionsForReportListsDynamic = (
-  setIsPortalOpen: any,
+  setIsPortalOpen: Dispatch<SetStateAction<ReportListsIsPortalOpenI>>,
   selectedReportList: any,
-  editReportPath: any,
+  editReportPath: (reportId: string) => void,
   permission: any,
 ) => [
   {
     id: 1,
     title: 'Customize',
     permissionKey: [permission?.CUSTOMIZE],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -52,7 +58,7 @@ export const actionsForReportListsDynamic = (
     id: 2,
     title: 'Rename',
     permissionKey: [permission?.RENAME],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -69,7 +75,7 @@ export const actionsForReportListsDynamic = (
     id: 3,
     title: 'Clone',
     permissionKey: [permission?.CLONE],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -86,7 +92,7 @@ export const actionsForReportListsDynamic = (
     id: 4,
     title: 'Export',
     permissionKey: [permission?.EXPORT_RECORD],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen?.({
         isExport: true,
         isOpen: true,
@@ -98,7 +104,7 @@ export const actionsForReportListsDynamic = (
     id: 5,
     title: 'Email This Report',
     permissionKey: [permission?.EMAIL_THIS_REPORT],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -112,7 +118,7 @@ export const actionsForReportListsDynamic = (
     id: 6,
     title: 'Change Owner',
     permissionKey: [permission?.CHANGE_OWNER],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -129,7 +135,7 @@ export const actionsForReportListsDynamic = (
     id: 7,
     title: 'Add to Dashboard',
     permissionKey: [permission?.ADD_TO_DASHBOARD],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -146,7 +152,7 @@ export const actionsForReportListsDynamic = (
     id: 8,
     title: 'Delete',
     permissionKey: [permission?.DELETE],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },
@@ -155,7 +161,7 @@ export const actionsForReportListsDynamic = (
     id: 9,
     title: 'Manage Access',
     permissionKey: [permission?.MANAGE_ACCESS],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
@@ -168,14 +174,14 @@ export const actionsForReportListsDynamic = (
 ];
 
 export const reportListsColumnsDynamic = (
-  selectedReportList?: any,
-  setSelectedReportList?: any,
+  selectedReportList: any,
+  setSelectedReportList: Dispatch<SetStateAction<any>>,
   totalReports = [],
-  addReportToFavorite?: any,
+  addReportToFavorite: (e: any, id: string) => Promise<void>,
   addReportToFavoriteListStatus?: any,
 ) => [
   {
-    accessorFn: (row: any) => row?._id,
+    accessorFn: (row: ReportListsTableRowI) => row?._id,
     id: '_id',
     cell: (info: any) => (
       <Checkbox
@@ -222,7 +228,7 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.owner,
+    accessorFn: (row: ReportListsTableRowI) => row?.owner,
     id: 'owner',
     isSortable: true,
     header: 'Report Owner',
@@ -263,7 +269,7 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: ReportListsTableRowI) => row?.name,
     id: 'name',
     isSortable: true,
     header: 'Report Name',
@@ -274,7 +280,7 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.dashboardDetails,
+    accessorFn: (row: ReportListsTableRowI) => row?.dashboardDetails,
     id: 'dashboardDetails',
     isSortable: true,
     header: 'Dashboard Name',
@@ -297,7 +303,7 @@ export const reportListsColumnsDynamic = (
       ),
   },
   {
-    accessorFn: (row: any) => row?.type,
+    accessorFn: (row: ReportListsTableRowI) => row?.type,
     id: 'type',
     isSortable: true,
     header: 'Type',
@@ -305,7 +311,7 @@ export const reportListsColumnsDynamic = (
       DYNAMIC_REPORTS_TYPES_MAPPED?.[info?.getValue()] ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: ReportListsTableRowI) => row?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
@@ -315,7 +321,7 @@ export const reportListsColumnsDynamic = (
         : '---',
   },
   {
-    accessorFn: (row: any) => row?.accessLevel,
+    accessorFn: (row: ReportListsTableRowI) => row?.accessLevel,
     id: 'accessLevel',
     isSortable: true,
     header: 'Assigned',
@@ -323,7 +329,7 @@ export const reportListsColumnsDynamic = (
       MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[info?.getValue()?.type],
   },
   {
-    accessorFn: (row: any) => row?.updatedAt,
+    accessorFn: (row: ReportListsTableRowI) => row?.updatedAt,
     id: 'updatedAt',
     isSortable: true,
     header: 'Last Updated Date',

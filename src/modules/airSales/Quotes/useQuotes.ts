@@ -21,17 +21,17 @@ const useQuotes = () => {
     setActionsEl(null);
   };
 
-  const handleEditQuote = (id: any) => {
-    router.push({ pathname: AIR_SALES?.UPDATE_QUOTE, query: { data: id } });
+  const handleEditQuote = (id: string) => {
+    router?.push({ pathname: AIR_SALES?.UPDATE_QUOTE, query: { data: id } });
     handleActionsDropdownClose();
   };
   // Row Selection
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
+  const [rowId, setRowId] = useState('');
 
   const handleViewQuote = () => {
-    router.push(`${AIR_SALES?.VIEW_QUOTE}?id=${rowId}`);
+    router?.push(`${AIR_SALES?.VIEW_QUOTE}?id=${rowId}`);
     handleActionsDropdownClose();
   };
 

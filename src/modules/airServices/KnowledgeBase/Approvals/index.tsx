@@ -3,8 +3,10 @@ import NoData from '@/components/NoData';
 import ApprovalCard from './ApprovalCard';
 import { useApprovals } from './useApprovals';
 import CustomPagination from '@/components/CustomPagination';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { fullName } from '@/utils/avatarUtils';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { Fragment } from 'react';
 
 export const Approvals = () => {
   const {
@@ -13,13 +15,23 @@ export const Approvals = () => {
     setPageLimit,
     postApproval,
     postArticleApprovalStatus,
+    getArticlesForApprovalsListData,
+    page,
   } = useApprovals();
 
   if (
     lazyGetUnapprovedArticlesStatus?.isLoading ||
     lazyGetUnapprovedArticlesStatus?.isFetching
   )
-    return <SkeletonForm />;
+    return <SkeletonTable />;
+
+  if (lazyGetUnapprovedArticlesStatus?.isError)
+    return (
+      <ApiErrorState
+        canRefresh
+        refresh={() => getArticlesForApprovalsListData?.(page)}
+      />
+    );
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -36,17 +48,23 @@ export const Approvals = () => {
           </Typography>
           {lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.map(
             (approval: any) => (
-              <ApprovalCard
-                key={approval?._id}
-                title={approval?.title}
-                folder={approval?.folder?.name}
-                author={fullName(
-                  approval?.author?.firstName,
-                  approval?.author?.lastName,
-                )}
-                sendApproval={() => postApproval?.(approval?._id)}
-                disabled={postArticleApprovalStatus?.isLoading}
-              />
+              <Fragment key={approval?._id}>
+                <ApprovalCard
+                  title={approval?.title}
+                  folder={approval?.folder?.name}
+                  author={fullName(
+                    approval?.author?.firstName,
+                    approval?.author?.lastName,
+                  )}
+                  sendApproval={() => postApproval?.(approval?._id)}
+                  disabled={postArticleApprovalStatus?.isLoading}
+                  isLoading={
+                    postArticleApprovalStatus?.isLoading &&
+                    postArticleApprovalStatus?.originalArgs?.pathParams?.id ===
+                      approval?._id
+                  }
+                />
+              </Fragment>
             ),
           )}
           <br />
@@ -60,7 +78,7 @@ export const Approvals = () => {
             totalRecords={
               lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.total
             }
-            onPageChange={(page: any) => setPage?.(page)}
+            onPageChange={(page: number) => setPage?.(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}
           />

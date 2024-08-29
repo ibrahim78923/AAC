@@ -5,10 +5,13 @@ import { useRouter } from 'next/router';
 export const useServicesReportsRestore = () => {
   const router = useRouter();
   const apiQueryAllReports = useLazyRestoreGenericReportsListQuery?.();
-
+  const { id } = router?.query;
   const reportsPath = () => {
     router?.push({
       pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
+      query: {
+        id,
+      },
     });
   };
 

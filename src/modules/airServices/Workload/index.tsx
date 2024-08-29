@@ -26,12 +26,18 @@ import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
 import useWorkload from './useWorkload';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS } from '@/constants/permission-keys';
+import ViewWorkloadDrawer from './ViewWorkloadDrawer';
+import {
+  IData,
+  IDateHeaderContentData,
+  IEventInfo,
+} from './Workload.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const Workload = () => {
   const {
     status,
     statusFilter,
-    filterIndex,
     dateChangeHandler,
     dateCalendar,
     selected,
@@ -116,22 +122,23 @@ export const Workload = () => {
 
         <FullCalendar
           ref={calendarRef}
-          dayHeaderContent={(data: any) => {
+          dayHeaderContent={(data: IDateHeaderContentData) => {
             const count = statusFilter?.data?.data?.filter(
-              (item: any) =>
+              (item: IData) =>
                 item?.day === +dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
             const countHours = statusFilter?.data?.data?.filter(
-              (item: any) =>
+              (item: IData) =>
                 dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
                 dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
             const hours = Math.floor(
-              countHours?.[filterIndex]?.totalPlannedEffort / 60,
+              countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort / 60,
             );
-            const minutes = countHours?.[filterIndex]?.totalPlannedEffort % 60;
+            const minutes =
+              countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort % 60;
             const countHoursPercent = statusFilter?.data?.data?.filter(
-              (item: any) =>
+              (item: IData) =>
                 dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
                 dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
@@ -139,12 +146,13 @@ export const Workload = () => {
               <Box sx={{ cursor: 'pointer' }}>
                 {dayjs(data?.date)?.format(DATE_TIME_FORMAT?.DDDDDD)}
                 <Typography variant={'h6'}>
-                  {count?.[filterIndex]?.count ?? null}
-                  {countHours?.[filterIndex]?.totalPlannedEffort
+                  {count?.[ARRAY_INDEX?.ZERO]?.count ?? null}
+                  {countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort
                     ? `${hours}hr ${minutes}m`
                     : null}
-                  {countHoursPercent?.[filterIndex]?.averagePlannedEffort
-                    ? `${countHoursPercent?.[filterIndex]?.averagePlannedEffort}%`
+                  {countHoursPercent?.[ARRAY_INDEX?.ZERO]?.averagePlannedEffort
+                    ? `${countHoursPercent?.[ARRAY_INDEX?.ZERO]
+                        ?.averagePlannedEffort}%`
                     : null}
                 </Typography>
               </Box>
@@ -159,7 +167,7 @@ export const Workload = () => {
             meridiem: true,
           }}
           eventClassNames={styles?.eventClassNames}
-          eventContent={(eventInfo: any) => {
+          eventContent={(eventInfo: IEventInfo) => {
             return (
               <Tooltip
                 componentsProps={{
@@ -281,7 +289,7 @@ export const Workload = () => {
         />
 
         {onClickEvent?.open && (
-          <UpdateWorkloadTask
+          <ViewWorkloadDrawer
             openDrawer={onClickEvent?.open}
             onClose={() => setOnClickEvent({ open: null, data: null })}
             data={onClickEvent?.data}

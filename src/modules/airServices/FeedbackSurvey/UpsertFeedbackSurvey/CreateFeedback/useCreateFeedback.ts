@@ -79,13 +79,22 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
   };
   const sendSurveyPeople = watch('sendSurveyPeople');
   const shareSurveyPeople = watch('shareSurveyPeople');
+  const customerSupportLinkType = watch('customerSupportLinkType');
   const surveyTitle = watch('surveyTitle');
   const uuid = watch('UUID');
+  const recipientsEmails =
+    customerSupportLinkType === feedbackValuesType?.viaEmail &&
+    sendSurveyPeople?.length
+      ? sendSurveyPeople
+      : customerSupportLinkType === feedbackValuesType?.viaMagicLink &&
+          shareSurveyPeople?.length
+        ? shareSurveyPeople
+        : [];
   const handlePublish = async (handleClose: () => void) => {
     setIsStatus(true);
     if (!!sendSurveyPeople?.length || !!shareSurveyPeople?.length) {
       const emailParams = new FormData();
-      emailParams?.append('recipients', sendSurveyPeople);
+      emailParams?.append('recipients', recipientsEmails);
       emailParams?.append(
         'subject',
         `Invitation to Participate in ${surveyTitle} Survey`,

@@ -14,9 +14,9 @@ export interface IUsersProps {
   filterValues?: IFilterValues;
   searchVal: string;
   page: number;
-  setPage: (page: number) => void;
+  setPage: (page: any) => void;
   pageLimit: number;
-  setPageLimit: (limit: number) => void;
+  setPageLimit: (limit: any) => void;
   date?: string;
 }
 
@@ -86,4 +86,6 @@ export interface UseAddUserReturn {
   userDetailLoading: boolean;
   updateUserLoading: boolean;
   checkedEmailError: boolean;
+  postEmployeeLoading: boolean;
+  authCompanyLoading: boolean;
 }

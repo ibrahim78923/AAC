@@ -16,7 +16,7 @@ const useAssociations = () => {
   const [openNewIncident, setNewIncident] = useState(false);
   const [openExistingIncident, setExistingIncident] = useState(false);
   const [InventoryIncidentId, setInventoryIncidentId] = useState('');
-  const [hoveredItemId, setHoveredItemId] = useState(null);
+  const [hoveredItemId, setHoveredItemId] = useState<null | string>(null);
 
   const router = useRouter();
 
@@ -25,7 +25,7 @@ const useAssociations = () => {
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostRemoveAssociateTicketsMutation();
 
-  const handleMouseOver = (itemId: any) => {
+  const handleMouseOver = (itemId: null | string) => {
     setHoveredItemId(itemId);
   };
 
@@ -53,7 +53,7 @@ const useAssociations = () => {
     setIsDeleteModalOpen(false);
   };
 
-  const handleDelete = (id: any) => {
+  const handleDelete = (id: string) => {
     setIsDeleteModalOpen(true);
     setInventoryIncidentId(id);
   };

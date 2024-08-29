@@ -1,7 +1,7 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import ContactViewDetails from '@/modules/airSocial/Contacts/ViewDetails';
 import React from 'react';
-import { Permissions } from '@/constants/permissions';
 
 const ViewDetailsPage = () => {
   return (

@@ -1,12 +1,12 @@
 import { Box, Button } from '@mui/material';
-import { FilterSharedIcon } from '@/assets/icons';
+import { DownloadIcon, FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import ImportModal from '../ImportModal';
 import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
-import { ExportButton } from '@/components/ExportButton';
 import { HeaderI } from './Header.interface';
+import { LoadingButton } from '@mui/lab';
 
 export const Header = (props: HeaderI) => {
   const {
@@ -16,8 +16,8 @@ export const Header = (props: HeaderI) => {
     setFilterValues,
     setPage,
     filterValues,
-    handleCsvExport,
-    handleExcelExport,
+    handleDownload,
+    loading,
   } = props;
   return (
     <Box
@@ -43,15 +43,16 @@ export const Header = (props: HeaderI) => {
             AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
           ]}
         >
-          <ExportButton
-            handleExcelExport={() => {
-              handleExcelExport?.();
-            }}
-            handleCsvExport={() => {
-              handleCsvExport?.();
-            }}
-            btnText={'Download'}
-          />
+          <LoadingButton
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+            color="secondary"
+            onClick={handleDownload}
+            disabled={loading}
+            loading={loading}
+          >
+            Download
+          </LoadingButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[

@@ -1,20 +1,29 @@
-import { Avatar, Box, Divider, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { Fragment } from 'react';
 import { useTeamsDetails } from './useTeamsDetails';
-import { fullName, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { TeamPortalComponentPropsI } from '../Teams.interface';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-const TeamsDetails = (props: any) => {
+const TeamsDetails = (props: TeamPortalComponentPropsI) => {
   const { isPortalOpen } = props;
-  const { teamDataArray, data, isLoading, closeDrawer, isFetching, isError } =
-    useTeamsDetails(props);
+  const {
+    teamDataArray,
+    data,
+    isLoading,
+    closeDrawer,
+    isFetching,
+    isError,
+    refetch,
+  } = useTeamsDetails(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isView}
+        isDrawerOpen={isPortalOpen?.isView as boolean}
         onClose={() => closeDrawer?.()}
         title={data?.data?.name}
         submitHandler={() => closeDrawer?.()}
@@ -25,83 +34,103 @@ const TeamsDetails = (props: any) => {
         {isLoading || isFetching ? (
           <SkeletonTable />
         ) : isError ? (
-          <ApiErrorState />
+          <ApiErrorState canRefresh refresh={() => refetch?.()} />
         ) : (
           <Box mt={1}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  py={'1.5rem'}
-                  borderRadius={'0.625rem'}
-                  sx={{ background: 'custom.bluish_gray' }}
-                >
-                  <Box
-                    display={'flex'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
-                  >
-                    <Typography px={2}>
-                      Number of active Team Members
-                    </Typography>
-                    <Typography sx={{ marginRight: 3 }}>
-                      {teamDataArray?.length}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box py={'1.5rem'}>
-                  <Box
-                    display={'flex'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
-                    py={2}
-                  >
-                    <Typography px={1} variant="h6">
-                      Members detail
-                    </Typography>
-                  </Box>
-                  <Box>
-                    {!!!teamDataArray?.length ? (
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              p={2}
+              gap={3}
+              borderRadius={2}
+              bgcolor={'custom.bluish_gray'}
+            >
+              <Typography color="slateBlue.main">
+                Number of active Team Members
+              </Typography>
+              <Typography>{teamDataArray?.length}</Typography>
+            </Box>
+            <Box py={'1.5rem'}>
+              <Typography variant="h6" color="slateBlue.main">
+                Members detail
+              </Typography>
+              <br />
+              <Box>
+                {!!!teamDataArray?.length ? (
+                  <Typography variant="h4" textAlign={'center'}>
+                    No members found.
+                  </Typography>
+                ) : (
+                  teamDataArray?.map((item: any, index: number) => (
+                    <Fragment key={item?.user?._id}>
                       <Box
-                        display={'flex'}
-                        justifyContent={'center'}
-                        alignItems={'center'}
+                        display="flex"
+                        alignItems="center"
+                        py={1}
+                        gap={2}
+                        borderBottom={
+                          index !==
+                          teamDataArray?.length - SELECTED_ARRAY_LENGTH?.ONE
+                            ? '1px solid'
+                            : ''
+                        }
+                        borderColor={'custom.off_white'}
                       >
-                        <Typography variant="h4">No members found.</Typography>
+                        <Avatar
+                          sx={{
+                            bgcolor: 'primary.light',
+                            width: 35,
+                            height: 35,
+                          }}
+                          src={generateImage(item?.user?.avatar?.url)}
+                        >
+                          <Typography
+                            variant="body2"
+                            textTransform={'uppercase'}
+                            color="slateBlue.main"
+                          >
+                            {fullNameInitial(
+                              item?.user?.firstName,
+                              item?.user?.lastName,
+                            )}
+                          </Typography>
+                        </Avatar>
+                        <Box>
+                          <Typography
+                            variant="body4"
+                            component={'div'}
+                            color="slateBlue.main"
+                            fontWeight={600}
+                          >
+                            {fullName(
+                              item?.user?.firstName,
+                              item?.user?.lastName,
+                            )}
+                          </Typography>
+                          <Typography
+                            variant="body4"
+                            component={'div'}
+                            color="slateBlue.main"
+                          >
+                            {item?.user?.email}
+                          </Typography>
+                          <Typography
+                            variant="body4"
+                            component={'div'}
+                            color="slateBlue.main"
+                          >
+                            {item?.user?.address?.composite
+                              ? item?.user?.address?.composite
+                              : item?.user?.address}
+                          </Typography>
+                        </Box>
                       </Box>
-                    ) : (
-                      teamDataArray?.map(({ user: item }: any, index: any) => (
-                        <Fragment key={item?.id}>
-                          <Box display="flex" alignItems="center" mb={2}>
-                            <Avatar
-                              src={generateImage(item?.avatarSrc)}
-                              alt={`Avatar ${item?.id}`}
-                              sx={{ height: '2.5rem' }}
-                            />
-                            <Box ml={2} flexGrow={1}>
-                              <Typography variant="body4" display={'block'}>
-                                {fullName(item?.firstName, item?.lastName)}
-                              </Typography>
-                              <Typography variant="body4" display={'block'}>
-                                {item?.email}
-                              </Typography>
-                              <Typography variant="body4" display={'block'}>
-                                {item?.address?.composite}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          {index !== teamDataArray?.length - 1 && (
-                            <Divider
-                              variant="fullWidth"
-                              sx={{ mt: 2, mb: 2 }}
-                            />
-                          )}
-                        </Fragment>
-                      ))
-                    )}{' '}
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
+                    </Fragment>
+                  ))
+                )}{' '}
+              </Box>
+            </Box>
           </Box>
         )}
       </CommonDrawer>

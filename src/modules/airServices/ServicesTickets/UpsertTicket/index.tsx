@@ -10,9 +10,10 @@ import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const UpsertTicket = (props: TicketActionComponentPropsI) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -32,7 +33,7 @@ export const UpsertTicket = (props: TicketActionComponentPropsI) => {
 
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
+      isDrawerOpen={isPortalOpen?.isOpen as boolean}
       onClose={() => onClose?.()}
       okText={
         !!ticketId
@@ -78,7 +79,7 @@ export const UpsertTicket = (props: TicketActionComponentPropsI) => {
             onSubmit={handleSubmit(submitUpsertTicket)}
           >
             <Grid container spacing={2}>
-              {upsertTicketFormFields?.map((item: any) => (
+              {upsertTicketFormFields?.map((item: ReactHookFormFieldsI) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component
                     {...item?.componentProps}

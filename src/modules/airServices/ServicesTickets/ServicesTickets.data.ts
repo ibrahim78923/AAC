@@ -1,3 +1,5 @@
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import {
   TICKET_CATEGORY,
   TICKET_IMPACT,
@@ -5,11 +7,9 @@ import {
   TICKET_SOURCE,
   TICKET_STATUS,
   TICKET_TYPE,
-  TICKET_TYPES,
 } from '@/constants/strings';
-import { AutocompleteOptionsDropdownI } from './ServicesTickets.interface';
 
-export const ticketStatusOptions: AutocompleteOptionsDropdownI = [
+export const ticketStatusOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_STATUS?.OPEN,
     label: TICKET_STATUS?.OPEN,
@@ -38,7 +38,7 @@ export const ticketDetailsStatusOptions: string[] = [
   TICKET_STATUS?.RESOLVED,
   TICKET_STATUS?.SPAM,
 ];
-export const ticketPriorityOptions: AutocompleteOptionsDropdownI = [
+export const ticketPriorityOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_PRIORITY?.LOW,
     label: TICKET_PRIORITY?.LOW,
@@ -57,7 +57,7 @@ export const ticketPriorityOptions: AutocompleteOptionsDropdownI = [
   },
 ];
 
-export const ticketImpactOptions: AutocompleteOptionsDropdownI = [
+export const ticketImpactOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_IMPACT?.LOW,
     label: TICKET_IMPACT?.LOW,
@@ -78,7 +78,29 @@ export const ticketCategoryOptions: string[] = [
   TICKET_CATEGORY?.OFFICE_APPLICATION,
   TICKET_CATEGORY?.OFFICE_FURNITURE,
 ];
-export const ticketTypeOptions: string[] = [TICKET_TYPE?.INC, TICKET_TYPE?.SR];
+export const ticketTypeOptionsDynamic = (
+  ticketType: any,
+): AutocompleteOptionsI[] => [
+  {
+    _id: TICKET_TYPE?.INC,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.INC],
+  },
+  {
+    _id: TICKET_TYPE?.SR,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.SR],
+  },
+  ...(ticketType === TICKET_TYPE?.EQ
+    ? [
+        {
+          _id: TICKET_TYPE?.EQ,
+          label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.EQ],
+        },
+      ]
+    : []),
+];
+
+export const ticketTypeOptions = ticketTypeOptionsDynamic?.({});
+
 export const ticketsSourceOptions: string[] = [
   TICKET_SOURCE?.PHONE,
   TICKET_SOURCE?.EMAIL,
@@ -91,7 +113,7 @@ export const ticketImpact: string[] = [
   TICKET_IMPACT?.HIGH,
 ];
 
-export const ticketSourceOptions: AutocompleteOptionsDropdownI = [
+export const ticketSourceOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_SOURCE?.PHONE,
     label: TICKET_SOURCE?.PHONE,
@@ -110,13 +132,17 @@ export const ticketSourceOptions: AutocompleteOptionsDropdownI = [
   },
 ];
 
-export const ticketsTypeOptions: AutocompleteOptionsDropdownI = [
+export const ticketsTypeOptions: AutocompleteOptionsI[] = [
   {
     _id: TICKET_TYPE?.INC,
-    label: TICKET_TYPES?.INCIDENTS,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.INC],
   },
   {
     _id: TICKET_TYPE?.SR,
-    label: TICKET_TYPES?.SERVICE_REQUEST,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.SR],
+  },
+  {
+    _id: TICKET_TYPE?.EQ,
+    label: TICKET_TYPE_MAPPED?.[TICKET_TYPE?.EQ],
   },
 ];

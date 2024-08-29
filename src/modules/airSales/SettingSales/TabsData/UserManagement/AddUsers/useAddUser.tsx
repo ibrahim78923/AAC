@@ -10,6 +10,7 @@ import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { indexNumbers } from '@/constants';
 import { userValidationSchema } from './AddUsers.data';
+import { useAuthCompanyVerificationMutation } from '@/services/auth';
 interface IsAddUserDrawer {
   isToggle: boolean;
   type: string;
@@ -24,6 +25,11 @@ const useAddUser = (
     usePostPoductUserMutation();
   const [updateProductsUsers, { isLoading: updateUserLoading }] =
     useUpdateProductsUsersMutation();
+
+  const [
+    authCompanyVerification,
+    { isLoading: authCompanyVerificationLoading },
+  ] = useAuthCompanyVerificationMutation();
 
   const defaultValues = {
     firstName: '',
@@ -91,12 +97,17 @@ const useAddUser = (
     values.team = values?.team?._id;
     try {
       if (isAddUserDrawer?.type === DRAWER_TYPES?.ADD) {
-        await postPoductUser({ body: values })?.unwrap();
-        reset();
-        enqueueSnackbar('User added successfully', {
-          variant: 'success',
-        });
-        setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false });
+        const response = await postPoductUser({ body: values })?.unwrap();
+        if (response?.data?.data?.user?.email) {
+          await authCompanyVerification({
+            email: { email: response?.data?.data?.user?.email },
+          })?.unwrap();
+          reset();
+          enqueueSnackbar('User added successfully', {
+            variant: 'success',
+          });
+          setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false });
+        }
       } else {
         delete values['email'];
         delete values['timeZone'];
@@ -124,6 +135,7 @@ const useAddUser = (
     updateUserLoading,
     productUsersById,
     productUserByIdLoading,
+    authCompanyVerificationLoading,
   };
 };
 

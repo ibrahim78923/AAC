@@ -4,22 +4,27 @@ import {
   moveToCategoryDefaultValues,
   moveToCategoryValidationSchema,
 } from './MoveToCategory.data';
-
 import {
   useLazyGetCategoriesDropdownQuery,
   usePatchServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { IServicesProps } from '../Services.interface';
 
-const useMoveToCategory = (prop: any) => {
+const useMoveToCategory = (prop: IServicesProps) => {
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchServiceCatalogMutation();
+
   const { open, setOpen, id, setSelectedCheckboxes } = prop;
+
   const methodAdd = useForm({
     resolver: yupResolver(moveToCategoryValidationSchema),
     defaultValues: moveToCategoryDefaultValues,
   });
+
   const { handleSubmit } = methodAdd;
+
   const onSubmit = async (data: any) => {
     const moveToCategoryData = {
       serviceCategory: data?.category?._id,
@@ -32,11 +37,12 @@ const useMoveToCategory = (prop: any) => {
       await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
       successSnackbar('Service Move Successfully!');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
-    setOpen(false);
-    setSelectedCheckboxes([]);
+    setOpen?.(false);
+    setSelectedCheckboxes?.([]);
   };
   const apiQueryCategroy = useLazyGetCategoriesDropdownQuery();
   return {

@@ -4,36 +4,14 @@ import {
   RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
-import { MANAGE_ACCESS_TYPES, TIME_PERIODS } from '@/constants/strings';
+import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
+import { FilterReportDataDefaultValuesI } from './FilterReport.interface';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const dateOptions = [
-  {
-    _id: TIME_PERIODS?.NONE,
-    label: TIME_PERIODS?.NONE,
-  },
-  {
-    _id: TIME_PERIODS?.ALL_TIME,
-    label: TIME_PERIODS?.ALL_TIME,
-  },
-  {
-    _id: TIME_PERIODS?.TODAY,
-    label: TIME_PERIODS?.TODAY,
-  },
-  {
-    _id: TIME_PERIODS?.YESTERDAY,
-    label: TIME_PERIODS?.YESTERDAY,
-  },
-  {
-    _id: TIME_PERIODS?.PREVIOUS_WEEK,
-    label: TIME_PERIODS?.PREVIOUS_WEEK,
-  },
-  {
-    _id: TIME_PERIODS?.PREVIOUS_MONTH,
-    label: TIME_PERIODS?.PREVIOUS_MONTH,
-  },
-];
-
-export const assignedReportsOptions = [
+export const assignedReportsOptions: AutocompleteOptionsI[] = [
   {
     _id: MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL,
     label:
@@ -55,7 +33,9 @@ export const assignedReportsOptions = [
   },
 ];
 
-export const reportFiltersDefaultValues: any = (filterValue: any) => {
+export const reportFiltersDefaultValues: any = (
+  filterValue: FilterReportDataDefaultValuesI,
+) => {
   return {
     owner: filterValue?.owner ?? null,
     accessType: filterValue?.accessType ?? null,
@@ -63,16 +43,13 @@ export const reportFiltersDefaultValues: any = (filterValue: any) => {
       startDate: !!filterValue?.startDate
         ? new Date(filterValue?.startDate)
         : null,
-      endDate: !!filterValue?.startDate ? new Date(filterValue?.endDate) : null,
+      endDate: !!filterValue?.endDate ? new Date(filterValue?.endDate) : null,
       key: 'selection',
     },
   };
 };
 
-export const reportFilterFormFieldsDynamic = (
-  reportOwnerApiQuery: any,
-  productId: string,
-) => [
+export const reportFilterFormFieldsDynamic = (reportOwnerApiQuery: any) => [
   {
     id: 1,
     componentProps: {
@@ -81,8 +58,7 @@ export const reportFilterFormFieldsDynamic = (
       placeholder: 'Select report owner',
       fullWidth: true,
       apiQuery: reportOwnerApiQuery,
-      externalParams: { productId },
-      getOptionLabel: (option: any) =>
+      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
@@ -95,7 +71,7 @@ export const reportFilterFormFieldsDynamic = (
       placeholder: 'Select Assignee',
       fullWidth: true,
       options: assignedReportsOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },

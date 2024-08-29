@@ -7,7 +7,10 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 
-export const NewIncident = (props: any) => {
+export const NewIncident: React.FC<{
+  openDrawer: boolean;
+  setIsOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (props) => {
   const { openDrawer } = props;
   const {
     handleSubmit,

@@ -10,7 +10,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const TicketsLists = () => {
   const {
-    hasTicketAction,
+    isPortalOpen,
     router,
     setTicketAction,
     ticketActionComponent,
@@ -27,6 +27,8 @@ export const TicketsLists = () => {
     setTicketsListsActiveColumn,
     setSelectedTicketList,
     filterTicketLists,
+    getTicketsListData,
+    page,
   } = useTicketsLists();
 
   return (
@@ -88,11 +90,13 @@ export const TicketsLists = () => {
             metaData={lazyGetTicketsStatus}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            getTicketsListData={getTicketsListData}
+            page={page}
           />
         </PermissionsGuard>
       )}
-      {hasTicketAction &&
-        ticketActionComponent?.[router?.query?.ticketAction as string]}
+      {isPortalOpen?.isOpen &&
+        ticketActionComponent?.[isPortalOpen?.action as string]}
     </>
   );
 };

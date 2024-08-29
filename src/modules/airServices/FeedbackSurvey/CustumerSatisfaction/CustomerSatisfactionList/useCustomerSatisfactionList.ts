@@ -178,5 +178,6 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
     handleDefaultSurvey,
     patchLoading,
     defaultLoading,
+    handleFeedbackList,
   };
 };

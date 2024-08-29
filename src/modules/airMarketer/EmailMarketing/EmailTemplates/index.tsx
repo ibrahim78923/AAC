@@ -28,7 +28,6 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
-import { generateHTML } from '@/utils/emailTemplate';
 import { API_STATUS } from '@/constants';
 
 const EmailTemplates = () => {
@@ -188,8 +187,6 @@ const TemplateCard = ({ item }: any) => {
     }
   };
 
-  const generatedHTML = generateHTML(item?.data, true);
-
   return (
     <Grid item lg={4} md={6} xs={12}>
       <Card
@@ -215,9 +212,10 @@ const TemplateCard = ({ item }: any) => {
               pointerEvents: 'none',
               fontSize: '10px',
               overflow: 'auto',
+              userSelect: 'none',
             }}
           >
-            <Box dangerouslySetInnerHTML={{ __html: generatedHTML }} />
+            <Box dangerouslySetInnerHTML={{ __html: item?.html }} />
           </Box>
         </Box>
         <CardContent sx={{ padding: '20px' }}>

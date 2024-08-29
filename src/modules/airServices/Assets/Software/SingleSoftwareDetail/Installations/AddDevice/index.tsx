@@ -1,6 +1,6 @@
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { Box, Button, Dialog, Divider, Typography } from '@mui/material';
-import { GrayPlusIcon } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import { useAddDevice } from './useAddDevice';
 import { Close } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
@@ -19,10 +19,11 @@ const AddDevice = () => {
   return (
     <>
       <Button
-        color="secondary"
+        color="primary"
+        variant="contained"
         onClick={handleAddDevice}
         sx={{ px: 2 }}
-        startIcon={<GrayPlusIcon />}
+        startIcon={<PlusSharedColorIcon />}
       >
         Add Device
       </Button>
@@ -59,7 +60,9 @@ const AddDevice = () => {
               label="Device"
               required
               apiQuery={devicesQuery}
-              getOptionLabel={(option: any) => option?.displayName}
+              getOptionLabel={(option: { _id: string; displayName: string }) =>
+                option?.displayName
+              }
             />
             <Divider sx={{ my: 2 }} />
             <Box

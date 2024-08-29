@@ -12,15 +12,15 @@ export const actionsOptions = ({ selectedRecords }: any) => {
     },
     {
       label: 'Move to folder',
-      isDisabled: false,
+      isDisabled: isDisabled,
     },
     {
       label: 'Manage Access',
-      isDisabled: false,
+      isDisabled: isDisabled,
     },
     {
       label: 'Archived',
-      isDisabled: false,
+      isDisabled: isDisabled,
     },
     {
       label: 'Duplicate',

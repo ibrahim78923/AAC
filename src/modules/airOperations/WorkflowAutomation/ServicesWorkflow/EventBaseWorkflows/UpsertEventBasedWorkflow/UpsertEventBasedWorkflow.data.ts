@@ -231,6 +231,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
 
 export const EventBasedWorkflowDataArray = [
   {
+    id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -243,12 +244,13 @@ export const EventBasedWorkflowDataArray = [
     md: 6,
   },
   {
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
       fullWidth: true,
       placeholder: 'Description....',
-      style: { height: 150 },
+      style: { minHeight: 150 },
     },
     component: RHFEditor,
     md: 12,

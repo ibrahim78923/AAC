@@ -1,25 +1,44 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { defaultValues, emailTemplateSchema } from '../EmailTemplate.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAddMeetingTemplateMutation } from '@/services/commonFeatures/meetings';
+import {
+  useAddMeetingTemplateMutation,
+  useGetByIdMeetingsEmailTemplatesQuery,
+  useUpdateMeetingTemplatesMutation,
+} from '@/services/commonFeatures/meetings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AIR_SERVICES, SOCIAL_COMPONENTS } from '@/constants';
 
 export const useCreateEmail = () => {
   const router = useRouter();
-  const moduleId = router?.query?.ticketId;
+  const ticketId = router?.query?.ticketId;
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
   const [value, setValue] = useState('laptop');
+  const templateId = router?.query?.id;
+  const templateType = router?.query?.type;
+  const params = {
+    id: templateId,
+  };
+  const { data, isFetching, isLoading, isError, refetch } =
+    useGetByIdMeetingsEmailTemplatesQuery(params, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!templateId,
+    });
 
   const methods = useForm({
-    defaultValues: defaultValues,
+    defaultValues: defaultValues(data),
     resolver: yupResolver(emailTemplateSchema),
   });
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, reset } = methods;
+  useEffect(() => {
+    reset(defaultValues(data));
+  }, [data]);
+  const [updateEmailTrigger, updateEmailProcess] =
+    useUpdateMeetingTemplatesMutation();
   const [emailTrigger, emailProcess] = useAddMeetingTemplateMutation();
 
   const onSubmit = async (data: any) => {
@@ -27,14 +46,21 @@ export const useCreateEmail = () => {
       paragraph: data?.emailTemplate,
       meetingId: router?.query?.meetingId,
     };
+
     try {
-      await emailTrigger(body)?.unwrap();
-      successSnackbar('Email send successfully');
+      if (templateId) {
+        await updateEmailTrigger({ ...body, id: templateId })?.unwrap();
+      } else {
+        await emailTrigger(body)?.unwrap();
+      }
+      successSnackbar('Email sent successfully');
       router?.push({
-        pathname: moduleId
+        pathname: ticketId
           ? AIR_SERVICES?.TICKETS_LIST
           : SOCIAL_COMPONENTS?.MEETINGS,
-        query: { type: 'allMeetings', ...(moduleId && { ticketId: moduleId }) },
+        query: {
+          ...(ticketId ? { ticketId: ticketId } : { type: 'allMeetings' }),
+        },
       });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -57,5 +83,11 @@ export const useCreateEmail = () => {
     handleSubmit,
     editorData,
     emailProcess,
+    isFetching,
+    isLoading,
+    isError,
+    refetch,
+    templateType,
+    updateEmailProcess,
   };
 };

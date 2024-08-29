@@ -6,27 +6,39 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 import * as Yup from 'yup';
 
-export const salesProductvalidationSchema = Yup?.object()?.shape({
-  purchasePrice: Yup?.number()?.positive()?.required('Field is Required'),
-  unitPrice: Yup?.number()?.positive()?.required('Field is Required'),
-  name: Yup?.string()?.required('Field is Required'),
-  category: Yup?.object()?.required('Field is Required'),
-  description: Yup?.string(),
-});
+export const salesProductvalidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    purchasePrice: Yup?.number()?.positive()?.required('Field is Required'),
+    unitPrice: Yup?.number()?.positive()?.required('Field is Required'),
+    name: Yup?.string()?.required('Field is Required'),
+    category: Yup?.object()?.required('Field is Required'),
+    description: Yup?.string(),
+    ...formSchema,
+  });
+};
 
-export const salesProductDefaultValues: any = {
-  name: '',
-  sku: '',
-  purchasePrice: null,
-  category: null,
-  associate: '',
-  description: '',
-  isActive: false,
-  unitPrice: null,
-  image: '',
+export const salesProductDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+  return {
+    name: data?.name ?? '',
+    sku: data?.sku ?? '',
+    purchasePrice: data?.purchasePrice ?? '',
+    category: data?.category ?? null,
+    associate: data?.associateDetails ?? null,
+    description: data?.description ?? '',
+    isActive: data?.isActive ?? false,
+    unitPrice: data?.unitPrice ?? '',
+    image: data?.image ?? null,
+    ...initialValues,
+  };
 };
 
 export const dataArray = () => {
@@ -72,6 +84,7 @@ export const dataArray = () => {
         placeholder: 'Select category',
         name: 'category',
         label: 'Category',
+        required: true,
         apiQuery: productCategories,
         getOptionLabel: (option: any) => `${option?.name}`,
       },

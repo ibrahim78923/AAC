@@ -34,6 +34,7 @@ const Software = () => {
     setIsOpenFilterDrawer,
     filterValues,
     theme,
+    refetch,
   } = useSoftware();
 
   return (
@@ -123,9 +124,10 @@ const Software = () => {
             totalRecords={paginationData?.total}
             pageLimit={paginationData?.limit}
             currentPage={paginationData?.page}
-            onPageChange={(page: any) => setPage(page)}
+            onPageChange={(page: number) => setPage(page)}
             setPageLimit={setPageLimit}
             setPage={setPage}
+            errorProps={{ canRefresh: true, refresh: refetch }}
           />
         </PermissionsGuard>
       </Box>

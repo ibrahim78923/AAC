@@ -9,22 +9,25 @@ import {
 import { checkModalTypeForImage } from './AlertModals.data';
 import { LoadingButton } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
+import { AlertModalsPropsI } from './AlertModals.interface';
 
-export const AlertModals = ({
-  message,
-  type,
-  open,
-  handleClose,
-  handleCancelBtn = handleClose,
-  handleSubmitBtn,
-  cancelBtnText = 'No',
-  submitBtnText = 'Yes',
-  typeImage,
-  disableCancelBtn,
-  isDisableSubmitBtn = false,
-  loading,
-  footer = true,
-}: any) => {
+export const AlertModals = (props: AlertModalsPropsI) => {
+  const {
+    message,
+    type,
+    open,
+    handleClose,
+    handleCancelBtn = handleClose,
+    handleSubmitBtn,
+    cancelBtnText = 'No',
+    submitBtnText = 'Yes',
+    typeImage,
+    disableCancelBtn,
+    isDisableSubmitBtn = false,
+    loading,
+    footer = true,
+  } = props;
+
   return (
     <Dialog
       open={open}

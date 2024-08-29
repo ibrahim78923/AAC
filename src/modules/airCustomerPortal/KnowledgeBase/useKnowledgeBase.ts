@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useState } from 'react';
 import { useGetKnowledgeBaseFolderQuery } from '@/services/airCustomerPortal/KnowledgeBase';
+import { newTicketsDropdownDynamic } from './KnowledgeBase.data';
 
 export const useKnowledgeBase = () => {
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const [openReportAnIssueModal, setOpenReportAnIssueModal] =
     useState<boolean>(false);
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<any>(null);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
 
   const handleKnowledgeBaseDetail = (folderId: any) => {
     router?.push({
@@ -18,39 +17,34 @@ export const useKnowledgeBase = () => {
     });
   };
 
-  const handleButtonClick = (event: any) => {
-    setAnchorEl(event?.currentTarget);
-    setOpen(!open);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpen(false);
-  };
-
   const apiDataParameter = {
     queryParams: {
       search,
     },
   };
-  const { data, isLoading, isFetching, isError } =
+
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetKnowledgeBaseFolderQuery(apiDataParameter, {
       refetchOnMountOrArgChange: true,
     });
-  const KnowledgeBaseFolderData = data?.data;
+
+  const knowledgeBaseFolderData = data?.data;
+
+  const newTicketsDropdown = newTicketsDropdownDynamic?.(
+    setOpenReportAnIssueModal,
+    router,
+  );
 
   return {
-    handleKnowledgeBaseDetail,
-    handleButtonClick,
-    handleClose,
-    anchorEl,
-    open,
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
-    KnowledgeBaseFolderData,
+    knowledgeBaseFolderData,
     isLoading,
     isFetching,
     isError,
     setSearch,
+    handleKnowledgeBaseDetail,
+    newTicketsDropdown,
+    refetch,
   };
 };

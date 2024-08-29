@@ -1,8 +1,8 @@
 import { useImportTab } from './useImportTab';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Header } from './Header';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { ImportTabI } from './ImportTab.interface';
+import { Box } from '@mui/material';
 
 export const ImportTab = () => {
   const {
@@ -18,8 +18,10 @@ export const ImportTab = () => {
     isOpenFilterDrawer,
     setFilterValues,
     filterValues,
-    listDataExport,
     importTabColumns,
+    handleDownload,
+    downloadRef,
+    loading,
   }: ImportTabI = useImportTab();
 
   return (
@@ -31,25 +33,27 @@ export const ImportTab = () => {
         isOpenFilterDrawer={isOpenFilterDrawer}
         setPage={setPage}
         filterValues={filterValues}
-        handleExcelExport={() => listDataExport?.(EXPORT_TYPE?.XLS)}
-        handleCsvExport={() => listDataExport?.(EXPORT_TYPE?.CSV)}
+        handleDownload={handleDownload}
+        loading={loading}
       />
-      <TanstackTable
-        columns={importTabColumns}
-        data={data?.data?.datamanagements}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        isSuccess={isSuccess || true}
-        currentPage={data?.data?.meta?.page}
-        count={data?.data?.meta?.pages}
-        pageLimit={data?.data?.meta?.limit}
-        totalRecords={data?.data?.meta?.total}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        isPagination
-      />
+      <Box ref={downloadRef}>
+        <TanstackTable
+          columns={importTabColumns}
+          data={data?.data?.datamanagements}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          isSuccess={isSuccess || true}
+          currentPage={data?.data?.meta?.page}
+          count={data?.data?.meta?.pages}
+          pageLimit={data?.data?.meta?.limit}
+          totalRecords={data?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isPagination
+        />
+      </Box>
     </>
   );
 };

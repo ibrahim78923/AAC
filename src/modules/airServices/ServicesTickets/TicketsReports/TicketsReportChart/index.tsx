@@ -2,8 +2,8 @@ import { CustomChart } from '@/components/Chart';
 import { useTicketsReportChart } from './useTicketsReportChart';
 import { Box, Typography } from '@mui/material';
 
-export const TicketsReportChart = () => {
-  const { options, seriesData } = useTicketsReportChart();
+export const TicketsReportChart = ({ chartData }: any) => {
+  const { options, seriesData } = useTicketsReportChart({ chartData });
 
   return (
     <Box

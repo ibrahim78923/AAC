@@ -3,7 +3,10 @@ import { Import } from '@/components/Import';
 import { useImportInventory } from './useImportInventory';
 import { CRM_COLUMNS_INVENTORY } from './ImportInventory.data';
 
-export const ImportInventory = (props: any) => {
+export const ImportInventory: React.FC<{
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
   const {
     setDrawerDefaultState,
@@ -11,7 +14,6 @@ export const ImportInventory = (props: any) => {
     filterMandatoryFields,
     newImportFileForServicesStatus,
   } = useImportInventory?.(props);
-
   return (
     <Import
       isDrawerOpen={isDrawerOpen}

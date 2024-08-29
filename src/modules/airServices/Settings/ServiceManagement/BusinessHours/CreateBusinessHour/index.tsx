@@ -28,6 +28,7 @@ import { useCreateBusinessHour } from './useCreateBusinessHour';
 import { AIR_SERVICES } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { Fragment } from 'react';
 
 export const CreateBusinessHour = () => {
   const {
@@ -47,7 +48,6 @@ export const CreateBusinessHour = () => {
     setPageLimit,
     dateRange,
     setDateRange,
-    search,
     setSearch,
     manipulatedHolidaysData,
     openAddHolidayModal,
@@ -88,6 +88,7 @@ export const CreateBusinessHour = () => {
                       label="Name"
                       size="small"
                       required
+                      disabled={singleBusinessHour?.data?.data?.perDefined}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -102,8 +103,9 @@ export const CreateBusinessHour = () => {
                       name="timeZone"
                       required
                       label="Time Zone"
-                      options={timeZone?.map((timeZone) => timeZone?.label)}
+                      options={timeZone}
                       size="small"
+                      getOptionLabel={(option: any) => option?.label}
                     />
                   </Grid>
                 </Grid>
@@ -134,7 +136,7 @@ export const CreateBusinessHour = () => {
                       {weekDays?.map((day) => {
                         const fieldValue = watch(day);
                         return (
-                          <>
+                          <Fragment key={day}>
                             <Box
                               key={day}
                               mb={2}
@@ -187,7 +189,7 @@ export const CreateBusinessHour = () => {
                                 control={control}
                               />
                             )}
-                          </>
+                          </Fragment>
                         );
                       })}
                     </Box>
@@ -270,7 +272,6 @@ export const CreateBusinessHour = () => {
                     <Search
                       size="small"
                       label="Search"
-                      searchBy={search}
                       setSearchBy={setSearch}
                     />
                   </Box>
@@ -314,7 +315,7 @@ export const CreateBusinessHour = () => {
               count={Math.ceil(manipulatedHolidaysData?.length / pageLimit)}
               pageLimit={pageLimit}
               totalRecords={manipulatedHolidaysData?.length}
-              onPageChange={(page: any) => setPage(page)}
+              onPageChange={(page: number) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
               isPagination

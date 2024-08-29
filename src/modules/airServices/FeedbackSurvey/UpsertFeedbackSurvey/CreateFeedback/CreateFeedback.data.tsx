@@ -10,6 +10,8 @@ export const feedbackValuesType = {
   preview: 'preview',
   draft: 'draft',
   published: 'published',
+  viaEmail: 'viaEmail',
+  viaMagicLink: 'viaMagicLink',
 };
 export const sectionDropdownOptions = ({
   fields,

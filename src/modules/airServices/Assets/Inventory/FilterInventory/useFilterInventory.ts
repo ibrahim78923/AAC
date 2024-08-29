@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
   inventoryFilterFormDefaultValues,
@@ -12,8 +11,9 @@ import {
   useLazyGetLocationsDropdownQuery,
   useLazyGetUsersDropdownQuery,
 } from '@/services/airServices/assets/inventory';
+import { FilterInventoryI } from './FilterInventory.interface';
 
-export const useFilterInventory = (props: any) => {
+export const useFilterInventory = (props: FilterInventoryI) => {
   const {
     setIsDrawerOpen,
     setInventoryFilterLists,
@@ -22,7 +22,6 @@ export const useFilterInventory = (props: any) => {
   } = props;
 
   const router = useRouter();
-  const theme: any = useTheme();
 
   const methods: any = useForm({
     defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),
@@ -31,11 +30,11 @@ export const useFilterInventory = (props: any) => {
   const { makePath } = usePath();
   const { handleSubmit, reset } = methods;
   const submitInventoryFilterForm = async (data: any) => {
-    const inventoryFilteredFields: any = Object?.entries(data || {})
+    const inventoryFilteredFields = Object?.entries(data || {})
       ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
+        ([, value]) => value !== undefined && value != '' && value != null,
       )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+      ?.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
     if (!Object?.keys(inventoryFilteredFields ?? {})?.length) {
       closeInventoryFilterForm();
@@ -83,7 +82,6 @@ export const useFilterInventory = (props: any) => {
   return {
     inventoryFilterFormFieldsData,
     router,
-    theme,
     methods,
     submitInventoryFilterForm,
     handleSubmit,

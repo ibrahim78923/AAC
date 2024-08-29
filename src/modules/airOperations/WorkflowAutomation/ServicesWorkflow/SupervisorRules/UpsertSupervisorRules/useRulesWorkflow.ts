@@ -10,19 +10,20 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
-  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import { useDispatch } from 'react-redux';
+import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 
 export const useRulesWorkflow = () => {
   const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
-  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
+  const dispatch = useDispatch();
   const typeData = {
     string: 'string',
     number: 'number',
@@ -152,7 +153,6 @@ export const useRulesWorkflow = () => {
   const [updateWorkflowTrigger, updatedWorkflowProcess] =
     useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
-  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
   const handleTestWorkflow = async () => {
     setTestWorkflow(true);
@@ -162,10 +162,8 @@ export const useRulesWorkflow = () => {
     try {
       let successMessage = '';
       if (testWorkflow && validation === buttonData?.test) {
-        const response = await postTestTrigger(body).unwrap();
+        dispatch(setTestServicesWorkflowBody(body));
         setIsWorkflowDrawer(true);
-        setTestWorkflowResponse(response);
-        successMessage = 'Test Workflow Executed Successfully';
       } else {
         if (
           pageActionType === EDIT_WORKFLOW &&
@@ -181,8 +179,9 @@ export const useRulesWorkflow = () => {
           successMessage = 'Workflow Create Successfully';
         }
       }
-
-      successSnackbar(successMessage);
+      if (successMessage) {
+        successSnackbar(successMessage);
+      }
       if (validation !== buttonData?.test) {
         reset();
         movePage();
@@ -226,9 +225,7 @@ export const useRulesWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     updatedWorkflowProcess,
-    testWorkflowProgress,
     handleTestWorkflow,
-    testWorkflowResponse,
     movePage,
   };
 };

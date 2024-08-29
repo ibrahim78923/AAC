@@ -6,8 +6,9 @@ import {
 } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
 import { Avatar, Box, Typography } from '@mui/material';
+import { AnnouncementCardPropsI } from '../Announcements.interface';
 
-export const AnnouncementCard = (props: any) => {
+export const AnnouncementCard = (props: AnnouncementCardPropsI) => {
   const { data, index } = props;
   return (
     <Box
@@ -30,7 +31,7 @@ export const AnnouncementCard = (props: any) => {
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            src={generateImage(data?.userAvatar)}
+            src={generateImage(data?.createdBy?.avatar?.url)}
             alt=""
             sx={{
               width: 28,
@@ -39,11 +40,14 @@ export const AnnouncementCard = (props: any) => {
             }}
           >
             <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(data?.userName)}
+              {fullNameInitial(
+                data?.createdBy?.firstName,
+                data?.createdBy?.lastName,
+              )}
             </Typography>
           </Avatar>
           <Typography variant="body3" color={'blue.main'} fontWeight={500}>
-            {fullName(data?.userName)}
+            {fullName(data?.createdBy?.firstName, data?.createdBy?.lastName)}
           </Typography>
         </Box>
       </Box>

@@ -12,7 +12,7 @@ import { style } from './SecondStep.style';
 import { importDataField } from '../ImportModal.data';
 
 const SecondStep = (props: any) => {
-  const { handlePreview, requiredColumns = [] } = props;
+  const { handlePreview, requiredColumns = [], productOptions } = props;
   const { palette } = useTheme();
   return (
     <>
@@ -28,7 +28,7 @@ const SecondStep = (props: any) => {
       </List>
       <Box my={2.4}>
         <Grid container>
-          {importDataField?.map(
+          {importDataField(productOptions)?.map(
             (item: any) =>
               item?.tag === 'import' && (
                 <Grid item xs={12} key={item?.id}>

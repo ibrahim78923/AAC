@@ -11,8 +11,10 @@ import {
   usePostCannedResponsesMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ICannedResponsesProps } from '../CannedResponses.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export const useCreateNewFolder = (props: any) => {
+export const useCreateNewFolder = (props: ICannedResponsesProps) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;
 
   const method = useForm({
@@ -46,8 +48,9 @@ export const useCreateNewFolder = (props: any) => {
       successSnackbar('Folder Created Successfully!');
       closeCreateNewFolderModal();
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 
@@ -57,8 +60,9 @@ export const useCreateNewFolder = (props: any) => {
       successSnackbar('Canned Response Updated Successfully!');
       closeCreateNewFolderModal();
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

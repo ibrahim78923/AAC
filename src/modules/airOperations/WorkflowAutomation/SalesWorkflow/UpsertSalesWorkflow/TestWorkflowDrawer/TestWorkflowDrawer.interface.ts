@@ -4,7 +4,6 @@ import { UseFormWatch } from 'react-hook-form';
 export interface TestWorkflowDrawerProps {
   isWorkflowDrawer: boolean;
   setIsWorkflowDrawer: Dispatch<SetStateAction<boolean>>;
-  testWorkflowResponse: any;
   watch: UseFormWatch<any>;
 }
 export interface WorkflowModuleTitleI {

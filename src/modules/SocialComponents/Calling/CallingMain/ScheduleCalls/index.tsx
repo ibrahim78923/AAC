@@ -101,6 +101,7 @@ const ScheduleCalls = () => {
               Edit
             </MenuItem>
           </PermissionsGuard>
+
           <PermissionsGuard
             permissions={[
               SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.RESCHEDULE_CALL,

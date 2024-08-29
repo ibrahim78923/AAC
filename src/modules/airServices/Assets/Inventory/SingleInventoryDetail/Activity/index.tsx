@@ -19,11 +19,12 @@ export const Activity = () => {
     setPage,
     isFetching,
     data: activityData,
+    refetch,
   } = useActivity();
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <>
@@ -76,7 +77,7 @@ export const Activity = () => {
         pageLimit={activityData?.data?.meta?.limit}
         currentPage={activityData?.data?.meta?.page}
         rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPageLimit={setPageLimit}
         setPage={setPage}
       />

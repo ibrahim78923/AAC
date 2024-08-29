@@ -26,41 +26,51 @@ export const userDefaultValues = (data: any) => {
 
 export const userDataArray = (apiQueryDepartment: any) => [
   {
+    id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
+      placeholder: 'Enter Name',
     },
     component: RHFTextField,
   },
   {
+    id: 2,
     componentProps: {
       name: 'department',
       label: 'Department',
+      placeholder: 'Select Department',
       apiQuery: apiQueryDepartment,
     },
     component: RHFAutocompleteAsync,
   },
   {
+    id: 3,
     componentProps: {
       name: 'assignedDate',
       label: 'Assigned Date',
+      placeholder: 'Select Date',
       options: dropdownOptions,
     },
     component: RHFAutocomplete,
   },
 
   {
+    id: 4,
     componentProps: {
       name: 'firstSeen',
       label: 'First Seen',
+      placeholder: 'Select Date',
       options: dropdownOptions,
     },
     component: RHFAutocomplete,
   },
   {
+    id: 5,
     componentProps: {
       name: 'lastSeen',
       label: 'Last Seen',
+      placeholder: 'Select Date',
       options: dropdownOptions,
     },
     component: RHFAutocomplete,

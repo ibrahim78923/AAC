@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { NextRouter, useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
+import { DATA_TYPES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   useGetServiceCatalogCategoriesQuery,
@@ -9,21 +9,13 @@ import {
 } from '@/services/airCustomerPortal/catalog';
 
 const useCatalog = () => {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
-  const [result, setResult] = useState<any[]>([]);
-
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
+  const router: NextRouter = useRouter();
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const param = {
     page: page,
     limit: pageLimit,
-    search,
   };
 
   const serviceCatalogCategories = useGetServiceCatalogCategoriesQuery(
@@ -47,32 +39,13 @@ const useCatalog = () => {
     data: services,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   } = useGetServiceCatalogQuery(getServiceCatalogCategoriesParameter, {
     refetchOnMountOrArgChange: true,
   });
 
-  const results = services?.data;
-
-  useEffect(() => {
-    if (results) {
-      setResult(results);
-    }
-  }, [services]);
-
-  const handleClick = (prop: string) => {
-    let filteredServices;
-    if (prop === CATALOG_SERVICE_TYPES?.ALL) {
-      filteredServices = results;
-    } else {
-      filteredServices = results?.filter(
-        (service: any) => service?.serviceCategory === prop,
-      );
-    }
-
-    setResult(filteredServices);
-  };
-
-  const handleClickService = (id: any, serviceCategory: any) => {
+  const handleClickService = (id: string, serviceCategory: string) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_CATALOG_SERVICE_DETAILS,
       query: {
@@ -82,32 +55,29 @@ const useCatalog = () => {
     });
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const allCategories = [
+    {
+      _id: DATA_TYPES?.UNDEFINED,
+      categoryName: 'All Services',
+      description:
+        'Browse the list of all services offered and raise a request.',
+    },
+    ...(serviceCatalogCategories?.data?.data?.servicecategories ?? []),
+  ];
 
   return {
-    handleClick,
-    result,
     handleClickService,
     serviceCatalogCategories,
-    handleClickOpen,
+    setPageLimit,
+    setPage,
     isLoading,
     isFetching,
-    handlePageChange,
-    setPageLimit,
-    search,
-    setPage,
-    handleClose,
-    setSearch,
-    open,
-    setOpen,
     router,
     services,
     categoryId,
+    allCategories,
+    isError,
+    refetch,
   };
 };
 

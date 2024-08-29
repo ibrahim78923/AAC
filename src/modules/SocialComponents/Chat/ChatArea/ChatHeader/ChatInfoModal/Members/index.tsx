@@ -153,7 +153,7 @@ const Members = () => {
             onClick={() => setIsAddMembers(true)}
             loading={isLoadingAddParticipant}
           >
-            Add Participation
+            Add Participants
           </LoadingButton>
         </Box>
       </Box>

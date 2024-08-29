@@ -8,7 +8,7 @@ export const Attachment = () => {
   return (
     <>
       <Attachments
-        recordId={inventoryId}
+        recordId={inventoryId as string}
         permissionKey={[
           AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ATTACHMENTS,
         ]}

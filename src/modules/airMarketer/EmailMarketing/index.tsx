@@ -12,6 +12,7 @@ import { tabData } from './EmailMarketing.data';
 
 import Search from '@/components/Search';
 import {
+  BackArrIcon,
   ExportIcon,
   FilterrIcon,
   PlusIcon,
@@ -25,12 +26,16 @@ import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styles } from './EmailMarketing.style';
 import Table from './Table';
 import { PAGINATION } from '@/config';
-import { API_STATUS, EMAIL_ENUMS } from '@/constants';
+import { API_STATUS, DATE_FORMAT, EMAIL_ENUMS } from '@/constants';
 import { useGetEmailMarketingListQuery } from '@/services/airMarketer/emailMarketing';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { defaultValues, validationSchema } from './Filters/Filters.data';
+import dayjs from 'dayjs';
 
 const EmailMarketing = () => {
   const {
@@ -41,7 +46,24 @@ const EmailMarketing = () => {
     isExportModalOpen,
     setSearchEmailMarketing,
   }: any = useEmailMarketing();
+
+  // Filters methods and operations ++
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
+
+  const { handleSubmit, reset } = methods;
+  const onSubmit = async (values: any) => {
+    setFiltersData({ ...filtersData, ...values });
+    setIsOpenFilter(false);
+  };
+  // Filters methods and operations --
+
   const router = useRouter();
+  const { folder } = router.query;
+
+  const isFolderEmails = router.pathname.includes('emails');
 
   const theme = useTheme();
 
@@ -55,40 +77,74 @@ const EmailMarketing = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
+  const [filtersData, setFiltersData] = useState<any>({});
+
   const { data: emailMarketingList, status: emailMarketingStatus } =
     useGetEmailMarketingListQuery({
       params: {
         page: page,
         limit: pageLimit,
+        ...(searchEmailMarketing?.length && { search: searchEmailMarketing }),
         ...(value !== EMAIL_ENUMS?.ALL && { status: value }),
-        ...(searchEmailMarketing?.length > 0 && {
-          search: searchEmailMarketing,
+        ...(filtersData?.users?.user?.length > 0 && {
+          createdBy: filtersData?.users?.user,
+        }),
+        ...(filtersData?.createdDate > 0 && {
+          startDate: dayjs(filtersData?.createdDate).format(DATE_FORMAT?.API),
+        }),
+        ...(filtersData?.createdDate > 0 && {
+          endDate: dayjs(filtersData?.createdDate).format(DATE_FORMAT?.API),
         }),
       },
     });
+
+  const handleReset = () => {
+    setSelectedRecords([]);
+  };
+
+  useEffect(() => {
+    handleReset();
+  }, [value]);
 
   return (
     <>
       <Stack direction={{ lg: 'row' }} justifyContent="space-between">
         <Typography
           variant="h4"
-          sx={{ marginBottom: { xs: '20px', sm: '20px', md: '20px', lg: '0' } }}
+          sx={{
+            marginBottom: { xs: '20px', sm: '20px', md: '20px', lg: '0' },
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            textTransform: 'capitalize',
+          }}
         >
-          Email Marketing
+          {isFolderEmails ? (
+            <>
+              <Box onClick={() => history.back()} sx={{ cursor: 'pointer' }}>
+                <BackArrIcon />
+              </Box>
+              {folder}
+            </>
+          ) : (
+            <>Email Marketing</>
+          )}
         </Typography>
         <Stack direction="row" gap={1} flexWrap="wrap">
-          <PermissionsGuard
-            permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.SEARCH_FILTER,
-            ]}
-          >
-            <Search
-              searchBy={searchEmailMarketing}
-              setSearchBy={setSearchEmailMarketing}
-              label="Search Here"
-              size="small"
-            />
-          </PermissionsGuard>
+          {!isFolderEmails && (
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.SEARCH_FILTER,
+              ]}
+            >
+              <Search
+                searchBy={searchEmailMarketing}
+                setSearchBy={setSearchEmailMarketing}
+                label="Search Here"
+                size="small"
+              />
+            </PermissionsGuard>
+          )}
           <PermissionsGuard
             permissions={[
               AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.EXPORT_EMAILS,
@@ -107,14 +163,22 @@ const EmailMarketing = () => {
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.COMPAIR_EMAILS,
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.COMPARE_EMAILS,
             ]}
           >
             <Button
               variant="outlined"
               className="small"
               color="inherit"
-              onClick={() => router.push(`${AIR_MARKETER?.COMPARE_EMAIL}`)}
+              onClick={() =>
+                router.push(
+                  `${
+                    isFolderEmails
+                      ? AIR_MARKETER?.FOLDER_COMPARE_EMAIL
+                      : AIR_MARKETER?.COMPARE_EMAILS
+                  }`,
+                )
+              }
               sx={{ width: { sm: '140px', xs: '100%' } }}
             >
               Compare Email
@@ -126,7 +190,15 @@ const EmailMarketing = () => {
             ]}
           >
             <Button
-              onClick={() => router.push(`${AIR_MARKETER?.CREATE_NEW_EMAIL}`)}
+              onClick={() =>
+                router.push(
+                  `${
+                    isFolderEmails
+                      ? AIR_MARKETER?.FOLDER_CREATE_NEW_EMAIL
+                      : AIR_MARKETER?.CREATE_NEW_EMAIL
+                  }`,
+                )
+              }
               variant="contained"
               className="small"
               startIcon={<PlusIcon />}
@@ -154,27 +226,42 @@ const EmailMarketing = () => {
             mb: 2,
           }}
         >
-          <Box
-            sx={{ width: { xs: '100%', sm: '100%', md: '100%', lg: 'auto' } }}
-          >
-            <Tabs
-              sx={styles?.tabRoot(theme)}
-              value={value}
-              onChange={handleChange}
-              allowScrollButtonsMobile
-              orientation="horizontal"
-              variant="scrollable"
+          {isFolderEmails ? (
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS?.SEARCH_FILTER,
+              ]}
             >
-              {tabData?.map((tab) => (
-                <Tab
-                  key={tab?.value}
-                  sx={styles?.tabsStyle?.(theme)}
-                  label={tab?.label}
-                  value={tab.value}
-                />
-              ))}
-            </Tabs>
-          </Box>
+              <Search
+                searchBy={searchEmailMarketing}
+                setSearchBy={setSearchEmailMarketing}
+                label="Search Here"
+                size="small"
+              />
+            </PermissionsGuard>
+          ) : (
+            <Box
+              sx={{ width: { xs: '100%', sm: '100%', md: '100%', lg: 'auto' } }}
+            >
+              <Tabs
+                sx={styles?.tabRoot(theme)}
+                value={value}
+                onChange={handleChange}
+                allowScrollButtonsMobile
+                orientation="horizontal"
+                variant="scrollable"
+              >
+                {tabData?.map((tab) => (
+                  <Tab
+                    key={tab?.value}
+                    sx={styles?.tabsStyle?.(theme)}
+                    label={tab?.label}
+                    value={tab.value}
+                  />
+                ))}
+              </Tabs>
+            </Box>
+          )}
           <Box
             sx={{
               display: 'flex',
@@ -183,7 +270,11 @@ const EmailMarketing = () => {
               width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
             }}
           >
-            <ActionButton selectedRecords={selectedRecords} />
+            <ActionButton
+              selectedRecords={selectedRecords}
+              setSelectedRecords={setSelectedRecords}
+              handleReset={handleReset}
+            />
             <Tooltip title={'Refresh Filter'}>
               <Button
                 className="small"
@@ -191,6 +282,9 @@ const EmailMarketing = () => {
                 color="inherit"
                 sx={{
                   width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+                }}
+                onClick={() => {
+                  reset(), setFiltersData({});
                 }}
               >
                 <RefreshTasksIcon />
@@ -227,12 +321,14 @@ const EmailMarketing = () => {
         />
       </PermissionsGuard>
 
-      {isOpenFilter && (
-        <Filters
-          isOpenDrawer={isOpenFilter}
-          onClose={() => setIsOpenFilter(false)}
-        />
-      )}
+      <Filters
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        methods={methods}
+        isOpenDrawer={isOpenFilter}
+        onClose={() => setIsOpenFilter(false)}
+      />
+
       {isExportModalOpen && (
         <ExportButton
           isExportModalOpen={isExportModalOpen}

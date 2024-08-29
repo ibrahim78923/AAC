@@ -16,7 +16,7 @@ export const useChatField = () => {
   const chatMode = chatModeState?.chatModeState;
 
   const filteredMessages = chatMessages?.filter(
-    (message: any) => message?.content !== '',
+    (message: any) => message?.media?.length > 0 || message?.content !== '',
   );
 
   const chatDataToShow = filteredMessages;

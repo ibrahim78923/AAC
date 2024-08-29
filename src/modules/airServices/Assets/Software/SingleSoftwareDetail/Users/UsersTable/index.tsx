@@ -2,9 +2,9 @@ import React from 'react';
 import { usersTableColumns } from './UsersTable.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useUsers from '../useUsers';
-// import { userAgent } from 'next/server';
+import { UserTableI } from './UsersTable.interface';
 
-const UsersTable = ({ setUsersData, usersData }: any) => {
+const UsersTable = ({ setUsersData, usersData }: UserTableI) => {
   const {
     getSoftwareUsers,
     page,
@@ -16,9 +16,9 @@ const UsersTable = ({ setUsersData, usersData }: any) => {
     metaData,
     isError,
     isSuccess,
+    handleGetUser,
   } = useUsers();
   const userDetails = getSoftwareUsers?.data?.softwareusers;
-
   return (
     <div>
       <TanstackTable
@@ -35,7 +35,8 @@ const UsersTable = ({ setUsersData, usersData }: any) => {
         isPagination
         setPage={setPage}
         setPageLimit={setLimit}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
+        errorProps={{ canRefresh: true, refresh: handleGetUser }}
       />
     </div>
   );

@@ -8,10 +8,6 @@ export const tableEditorData: any = {
       collectionName: COLLECTION_NAME?.ASSET_TYPES,
     },
     {
-      fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'status',
-    },
-    {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'locationId',
       collectionName: COLLECTION_NAME?.LOCATION,
@@ -38,8 +34,9 @@ export const tableEditorData: any = {
   ],
   CONTRACT: [
     {
-      fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'type',
+      fieldType: FIELD_TYPE?.OBJECT_ID,
+      fieldName: 'contractType',
+      collectionName: COLLECTION_NAME?.CONTRACT_TYPE,
     },
     {
       fieldType: FIELD_TYPE?.STRING,

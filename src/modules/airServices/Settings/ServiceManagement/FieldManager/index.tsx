@@ -1,6 +1,8 @@
 import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { fieldManager } from './FieldManager.data';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AIR_SERVICES } from '@/constants';
 
 export default function FieldManager() {
   const theme = useTheme();
@@ -8,7 +10,16 @@ export default function FieldManager() {
 
   return (
     <>
-      <Typography variant="h3">Field Manager</Typography>
+      <Box display={'flex'} alignItems={'center'} gap={1}>
+        <ArrowBackIcon
+          color={'secondary'}
+          sx={{ cursor: 'pointer' }}
+          onClick={() => {
+            router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT);
+          }}
+        />
+        <Typography variant="h3">Field Manager</Typography>
+      </Box>
       <br />
       <Grid container spacing={3}>
         {fieldManager?.map((item: any) => (

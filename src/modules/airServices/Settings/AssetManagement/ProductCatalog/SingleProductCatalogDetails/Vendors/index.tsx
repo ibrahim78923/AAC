@@ -1,11 +1,11 @@
 import { Box, Button } from '@mui/material';
 import { Fragment } from 'react';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useVendors } from './useVendors';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { UpsertAsset } from './UpsertVendor';
+import { PlusSharedColorIcon } from '@/assets/icons';
 
 export const Vendors = () => {
   const {
@@ -25,8 +25,9 @@ export const Vendors = () => {
     <Fragment>
       <Box textAlign={'end'} mb={2}>
         <Button
-          startIcon={<AddCircleIcon />}
-          color={'secondary'}
+          startIcon={<PlusSharedColorIcon />}
+          variant={'contained'}
+          color={'primary'}
           onClick={() => setIsUpsertModalOpen?.({ open: true, id: '' })}
         >
           Add Vendor

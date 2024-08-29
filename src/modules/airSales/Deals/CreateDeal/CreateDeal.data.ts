@@ -6,18 +6,22 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
-import { PRODUCT_USER_STATUS, ROLES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
+import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 
-export const validationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  dealPipelineId: Yup?.object()?.required('Field is Required'),
-  dealStageId: Yup?.string()?.required('Field is Required'),
-});
+export const validationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    name: Yup?.string()?.required('Field is Required'),
+    dealPipelineId: Yup?.object()?.required('Field is Required'),
+    dealStageId: Yup?.string()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
 
 export const defaultValues = {
   name: '',
@@ -32,8 +36,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
   const organizationId: any = user?.organization?._id;
 
   const { salesProduct, pipelineListDropdown }: any = useDealTab();
-
-  const UserListData = useLazyGetUsersListDropdownQuery();
+  const ownerData = useLazyGetOrganizationUsersQuery();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[1]?.data?.find(
@@ -107,14 +110,10 @@ export const createDealData = ({ dealPipelineId }: any) => {
         name: 'ownerId',
         label: 'Deal Owner',
         placeholder: 'Select Owner',
-        apiQuery: UserListData,
+        apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: {
-          role: ROLES?.ORG_EMPLOYEE,
-          organization: organizationId,
-          status: PRODUCT_USER_STATUS?.ACTIVE,
-        },
+        externalParams: { id: organizationId, meta: false },
       },
       component: RHFAutocompleteAsync,
     },

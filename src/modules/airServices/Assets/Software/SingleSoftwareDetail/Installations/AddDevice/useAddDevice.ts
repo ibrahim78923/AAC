@@ -22,7 +22,12 @@ export const useAddDevice = () => {
   const searchParams = useRouter();
   const softwareId = searchParams?.query?.softwareId;
   const [postDeviceTrigger, { isLoading }] = usePostInstallationMutation();
-  const onAddDeviceSubmit = async (data: any) => {
+  const onAddDeviceSubmit = async (data: {
+    device: {
+      _id: string;
+      displayName: string;
+    };
+  }) => {
     const formData = {
       body: { id: data?.device?._id, softwareId: [softwareId] },
       id: data?.device?._id,

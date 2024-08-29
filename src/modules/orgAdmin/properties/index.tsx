@@ -1,80 +1,140 @@
-import { Box, Card, Grid, Typography, useTheme } from '@mui/material';
-import { propertiesFields, propertiesProductData } from './Properties.data';
+import { Box, Card, Grid, Skeleton, Typography, useTheme } from '@mui/material';
+import { selectCompanyField } from './Properties.data';
 import { styles } from './Properties.style';
 import useProperties from './useProperties';
-import { generateImage } from '@/utils/avatarUtils';
 import SkeletonComponent from '@/components/CardSkeletons';
+import NoData from '@/components/NoData';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-import PropertiesTable from './ProperiesTable';
-import Image from 'next/image';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import ModuleCard from './ModuleCard';
+import { moduleTypeData } from './Properties.data';
+import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
 
 const Properties = () => {
   const theme = useTheme();
-  const { productList, isLoading, activeProduct, setActiveProduct } =
-    useProperties();
-  const filteredroducts = productList?.data?.filter(
-    (item: any) => item?.status === PRODUCT_USER_STATUS?.active,
+  const router = useRouter();
+  const {
+    allProductList,
+    isLoading,
+    activeProduct,
+    // setActiveProduct,
+    handleOnClickProduct,
+    methodsSelectCompany,
+    companyAccounts,
+    getProductIcon,
+  } = useProperties();
+
+  const filteredModules = moduleTypeData?.find(
+    (module: any) => module.productType === activeProduct?.productType,
   );
-  const methods = useForm({});
 
   return (
     <Box>
-      <Typography variant="h3" color={theme?.palette?.grey[800]}>
+      <Typography variant="h3" mb={3} color={theme?.palette?.grey[800]}>
         Properties
       </Typography>
       {isLoading ? (
-        <SkeletonComponent numberOfSkeletons={2} />
+        <>
+          <Box sx={styles?.productsList}>
+            {Array(7)
+              .fill(null)
+              .map(() => (
+                <Skeleton
+                  key={uuidv4()}
+                  animation="wave"
+                  variant="rectangular"
+                  width={'100%'}
+                  height={82}
+                  sx={styles?.skeleton}
+                />
+              ))}
+          </Box>
+          <SkeletonComponent numberOfSkeletons={1} />
+        </>
       ) : (
-        <Grid container mt={3} spacing={3} flexWrap="wrap">
-          {propertiesProductData(filteredroducts)?.map((item: any) => (
-            <Grid
-              item
-              xs={12}
-              md={2}
-              key={item?.id}
-              onClick={() => setActiveProduct(item?.id)}
-            >
-              <Card
-                className={`${
-                  activeProduct === item?.id && PRODUCT_USER_STATUS?.active
-                }`}
-                sx={styles?.productIconColor(theme)}
-              >
-                <Box display="flex" gap={1} alignItems="center">
-                  <Image
-                    src={generateImage(item?.icon)}
-                    height={25}
-                    width={25}
-                    alt=""
-                  />
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    color={theme?.palette?.slateBlue?.main}
-                  >
-                    {item.name}
-                  </Typography>
-                </Box>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        <>
+          <Box sx={styles?.productsList}>
+            {allProductList?.map((product: any) => {
+              const kebabCaseName = product?.name
+                ?.toLowerCase()
+                .replace(/\s/g, '-');
+              return (
+                <Card
+                  key={product?._id}
+                  onClick={() => handleOnClickProduct(product)}
+                  className={`${
+                    activeProduct?._id === product?._id &&
+                    PRODUCT_USER_STATUS?.active
+                  } ${kebabCaseName}`}
+                  sx={styles?.productCard}
+                >
+                  <Box display="flex" gap={1} alignItems="center">
+                    <Box className="product-icon">
+                      {getProductIcon(product?.name)}
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      color={theme?.palette?.slateBlue?.main}
+                      sx={{ fontSize: '18px' }}
+                    >
+                      {product?.name}
+                    </Typography>
+                  </Box>
+                </Card>
+              );
+            })}
+          </Box>
+
+          <Box sx={styles?.selectCompanyAccount}>
+            <FormProvider methods={methodsSelectCompany}>
+              <Grid container spacing={3}>
+                {selectCompanyField(activeProduct, companyAccounts)?.map(
+                  (item: any) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={item.md}
+                      key={item.componentProps.name}
+                    >
+                      <item.component size="small" {...item?.componentProps} />
+                    </Grid>
+                  ),
+                )}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </>
       )}
 
-      <FormProvider methods={methods}>
-        <Grid container mt={3} spacing={3} flexWrap="wrap">
-          {propertiesFields(activeProduct)?.map((item: any) => (
-            <Grid item xs={12} md={item.md} key={item.componentProps.name}>
-              <item.component size="small" {...item?.componentProps} />
-            </Grid>
-          ))}
-        </Grid>
-      </FormProvider>
-      <Card sx={{ mt: 2, py: 2 }}>
-        <PropertiesTable />
-      </Card>
+      {activeProduct?.companyId && (
+        <Box sx={styles?.moduleCardsWrapper}>
+          {!filteredModules && <NoData height="300px" />}
+          <Grid container spacing={'32px'}>
+            {filteredModules?.modules?.map((item: any) => (
+              <Grid item xs={12} md={4} key={item?.moduleType}>
+                <ModuleCard
+                  icon={item?.icon}
+                  title={item?.title}
+                  description={item?.description}
+                  onClick={() =>
+                    router.push({
+                      pathname: item?.route,
+                      query: {
+                        productType: activeProduct?.productType,
+                        moduleType: item?.moduleType,
+                        companyId: activeProduct?.companyId,
+                        title: item?.title,
+                      },
+                    })
+                  }
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
     </Box>
   );
 };

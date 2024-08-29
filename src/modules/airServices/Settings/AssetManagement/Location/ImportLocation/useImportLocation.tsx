@@ -2,8 +2,10 @@ import { FIELD_TYPES, IMPORT_ACTION_TYPE } from '@/constants/strings';
 import { useImportFileMutation } from '@/services/airServices/global/import';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { CRM_COLUMNS_LOCATION } from './ImportLocation.data';
+import { ILocationProps } from '../Location.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export const useImportLocation = (props: any) => {
+export const useImportLocation = (props: ILocationProps) => {
   const { setIsDrawerOpen } = props;
 
   const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
@@ -31,8 +33,9 @@ export const useImportLocation = (props: any) => {
     try {
       const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
       successSnackbar(response?.message);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
 

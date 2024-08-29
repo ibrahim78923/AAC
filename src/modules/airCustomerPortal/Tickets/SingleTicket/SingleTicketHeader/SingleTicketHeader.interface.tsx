@@ -3,5 +3,4 @@ export interface SingleTicketHeaderPropsI {
   getSingleDefaultSurveyForCustomerTickets?: () => Promise<void>;
   ticketNumber: string;
   singleTicketData: any;
-  setOpenShareModal: any;
 }

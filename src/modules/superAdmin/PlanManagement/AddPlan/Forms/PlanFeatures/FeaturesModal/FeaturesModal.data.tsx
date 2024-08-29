@@ -13,8 +13,9 @@ export const dataArrayFeatures = [
   {
     componentProps: {
       name: 'dealsAssociationsDetail',
-      label: 'Enter Details',
+      label: '',
       fullWidth: true,
+      placeholder: 'Enter Details',
     },
 
     component: RHFTextField,

@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import {
   Box,
@@ -16,6 +15,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import CustomPagination from '@/components/CustomPagination';
 import { AIR_SERVICES } from '@/constants';
 import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/strings';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const ArticlesList = (props: any) => {
   const { isModalOpen, setArticleResponse } = props;
@@ -29,6 +29,7 @@ export const ArticlesList = (props: any) => {
     setPageLimit,
     setSearch,
     closeModal,
+    refetch,
   } = useArticlesList(props);
 
   return (
@@ -45,15 +46,15 @@ export const ArticlesList = (props: any) => {
           justifyContent={'space-between'}
           gap={1}
           flexWrap={'wrap'}
+          mb={1.5}
         >
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <Typography variant="h3" textTransform={'capitalize'}>
-              Article
-            </Typography>
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => closeModal?.()}>
-            <AlertModalCloseIcon />
-          </Box>
+          <Typography variant="h4" color="slateBlue.main">
+            Article
+          </Typography>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={() => closeModal?.()}
+          />
         </Box>
       </DialogTitle>
       <DialogContent>
@@ -76,7 +77,7 @@ export const ArticlesList = (props: any) => {
         {isLoading || isFetching ? (
           <SkeletonTable />
         ) : isError ? (
-          <ApiErrorState />
+          <ApiErrorState canRefresh refresh={() => refetch?.()} />
         ) : !!data?.data?.articles?.length ? (
           <>
             {data?.data?.articles?.map((article: any) => (
@@ -136,13 +137,13 @@ export const ArticlesList = (props: any) => {
               count={data?.data?.meta?.pages}
               pageLimit={data?.data?.meta?.limit}
               totalRecords={data?.data?.meta?.total}
-              onPageChange={(page: any) => setPage?.(page)}
+              onPageChange={(page: number) => setPage?.(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
             />
           </>
         ) : (
-          <NoData />
+          <NoData message="No article found" />
         )}
       </DialogContent>
     </Dialog>

@@ -7,13 +7,16 @@ import {
 } from '@/components/ReactHookForm';
 
 // Define your Yup validation schema
-export const contactsValidationSchema = Yup?.object()?.shape({
+export const contactsValidationSchema: any = Yup?.object()?.shape({
   email: Yup?.string()?.required('Required Field'),
+  dateOfBirth: Yup?.date()?.required('Required Field'),
 });
 
 // Define your default values
 export const contactsDefaultValues = {
   email: '',
+  dateOfBirth: null,
+  dateOfJoining: null,
 };
 
 export const contactsDataArray = ({
@@ -79,7 +82,9 @@ export const contactsDataArray = ({
       componentProps: {
         name: 'dateOfBirth',
         label: 'Date Of Birth',
+        placeholder: 'MM/DD/YYYY',
         fullWidth: true,
+        required: true,
       },
       md: 12,
       component: RHFDatePicker,
@@ -171,7 +176,7 @@ export const contactsDataArray = ({
 export const drawerTitle: any = {
   Add: 'Add Contacts',
   Edit: 'Edit Contacts',
-  View: 'View Contacts',
+  view: 'View Contacts',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',

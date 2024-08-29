@@ -5,8 +5,11 @@ import {
   softwareStatusOptions,
   softwareTypeOptions,
 } from '../Software.data';
+import { SoftwareFilterValues } from './SoftwareFilter.interface';
 
-export const softwareFilterDefaultValues = (filterValues: any) => {
+export const softwareFilterDefaultValues = (
+  filterValues: SoftwareFilterValues,
+) => {
   return {
     type: filterValues?.type ?? null,
     status: filterValues?.status ?? null,
@@ -46,6 +49,7 @@ export const softwareFilterDataArray = [
     componentProps: {
       name: 'category',
       label: 'Category',
+      placeholder: 'Enter Category',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -56,6 +60,7 @@ export const softwareFilterDataArray = [
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
+      placeholder: 'Enter Publisher',
       fullWidth: true,
     },
     component: RHFTextField,

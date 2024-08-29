@@ -19,6 +19,8 @@ import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
 import { setActiveConversation } from '@/redux/slices/chat/slice';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
+import Image from 'next/image';
+import { IMG_URL } from '@/config';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
@@ -61,7 +63,6 @@ const ChatHeader = ({ chatMode }: any) => {
       enqueueSnackbar('successfully', {
         variant: 'success',
       });
-
       dispatch(
         setActiveConversation({
           ...activeConversation,
@@ -72,6 +73,7 @@ const ChatHeader = ({ chatMode }: any) => {
         }),
       ),
         handleClose();
+      setIsDeleteModal(false);
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
@@ -102,10 +104,21 @@ const ChatHeader = ({ chatMode }: any) => {
     <>
       <Box sx={styles?.headerChat(theme)}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <ProfileNameIcon
-            lastName={activeParticipant?.lastName}
-            firstName={activeParticipant?.firstName}
-          />
+          {activeParticipant?.avatar ? (
+            <Image
+              width={50}
+              height={50}
+              src={`${IMG_URL}${activeParticipant?.avatar}`}
+              style={{ borderRadius: '50%' }}
+              alt="avatar"
+            />
+          ) : (
+            <ProfileNameIcon
+              lastName={activeParticipant?.lastName}
+              firstName={activeParticipant?.firstName}
+            />
+          )}
+
           <Box>
             <Typography
               variant="h4"
@@ -186,8 +199,7 @@ const ChatHeader = ({ chatMode }: any) => {
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => {
-          setIsDeleteModal(false);
+        handleSubmitBtn={() => {
           updateChatHandler('isDeleted');
         }}
       />

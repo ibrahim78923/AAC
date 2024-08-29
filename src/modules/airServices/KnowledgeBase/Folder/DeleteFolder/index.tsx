@@ -13,7 +13,7 @@ export const DeleteFolder = (props: ArticlesPortalComponentPropsI) => {
       <AlertModals
         message={'Are you sure you want to delete folder ?'}
         type={ALERT_MODALS_TYPE?.DELETE}
-        open={isPortalOpen?.isDeleteFolder}
+        open={isPortalOpen?.isDeleteFolder as boolean}
         handleClose={() => closeFolderDeleteModal?.()}
         handleSubmitBtn={() => deleteFolder?.()}
         loading={deleteFolderForArticleStatus?.isLoading}

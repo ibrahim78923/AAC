@@ -1,17 +1,15 @@
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useState } from 'react';
-import { useTheme } from '@mui/material';
 import { useGetAllKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 
 export const useKnowledgeBaseDetail = () => {
   const router = useRouter();
-  const theme = useTheme();
   const [searchValue, SetSearchValue] = useState<string>('');
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const handleKnowledgeBase = () => {
     router?.push({
@@ -29,7 +27,7 @@ export const useKnowledgeBaseDetail = () => {
     status: ARTICLE_STATUS?.PUBLISHED,
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAllKnowledgeBaseArticleQuery(params, {
       refetchOnMountOrArgChange: true,
       skip: !!!folderId,
@@ -37,13 +35,10 @@ export const useKnowledgeBaseDetail = () => {
   const articlesData = data?.data?.articles;
   const articlesMetaData = data?.data?.meta;
   const folderName = data?.data?.articles?.[ARRAY_INDEX?.ZERO]?.folder?.name;
+
   return {
     handleKnowledgeBase,
-    searchValue,
     SetSearchValue,
-    theme,
-    page,
-    pageLimit,
     setPage,
     setPageLimit,
     articlesData,
@@ -53,5 +48,6 @@ export const useKnowledgeBaseDetail = () => {
     folderName,
     isFetching,
     isError,
+    refetch,
   };
 };

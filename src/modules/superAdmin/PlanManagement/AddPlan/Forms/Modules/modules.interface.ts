@@ -23,4 +23,6 @@ export interface ModulesProps {
   selectedSubModule: string;
   updatePlanLoading: boolean;
   isLoading: { isLoading: boolean };
+  commonModulesPermissions: any;
+  setCommonModulesPermissions: any;
 }

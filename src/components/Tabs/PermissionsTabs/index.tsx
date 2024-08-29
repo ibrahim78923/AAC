@@ -5,8 +5,9 @@ import useAuth from '@/hooks/useAuth';
 import { styles } from '../HorizontalTabs/HorizontalTabs.style';
 import { Card, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { PermissionTabsPropsI } from './PermissionsTabs.interface';
 
-export const PermissionsTabs = (props: any) => {
+export const PermissionsTabs = (props: PermissionTabsPropsI) => {
   const {
     tabsDataArray = [],
     variant = 'scrollable',
@@ -14,6 +15,7 @@ export const PermissionsTabs = (props: any) => {
     defaultValue = 0,
     disableBoxShadow = true,
     border = 'none',
+    orientation = 'horizontal',
   } = props;
 
   const theme = useTheme();
@@ -43,8 +45,10 @@ export const PermissionsTabs = (props: any) => {
     );
   };
 
+  const { currentPermissions } = useAuth();
+
   const filteredTabs = tabsDataArray?.filter((tab: any) => {
-    const { currentPermissions } = useAuth();
+    if (tab?.hasNoPermissions) return tab;
     return checkPermissions(currentPermissions, tab?.tabPermissions);
   });
 
@@ -54,7 +58,7 @@ export const PermissionsTabs = (props: any) => {
         value={value}
         onChange={handleChange}
         selectionFollowsFocus
-        orientation="horizontal"
+        orientation={orientation}
         variant={variant}
         sx={styles?.tabRoot(theme)}
         TabIndicatorProps={styles?.tabIndicator(theme)}
@@ -72,7 +76,7 @@ export const PermissionsTabs = (props: any) => {
         ))}
       </Tabs>
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
-        {filteredTabs?.map((child: any, index: any) => {
+        {filteredTabs?.map((child: any, index: number) => {
           return (
             <Box key={child?._id}>
               {value === index && (

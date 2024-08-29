@@ -34,10 +34,13 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 
-export const useNewIncident = (props: any) => {
+export const useNewIncident = (props: {
+  openDrawer: boolean;
+  setIsOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { setIsOpenDrawer } = props;
 
-  const [form, setForm] = useState<any>([]);
+  const [form, setForm] = useState<any[]>([]);
 
   const router = useRouter();
   const { inventoryId } = router?.query;
@@ -204,7 +207,7 @@ export const useNewIncident = (props: any) => {
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostRemoveAssociateTicketsMutation();
 
-  const associateIncident = async (ticketId: any) => {
+  const associateIncident = async (ticketId: string) => {
     const body = {
       recordId: inventoryId,
       recordType: ASSOCIATIONS_API_PARAMS_FOR?.ASSETS,

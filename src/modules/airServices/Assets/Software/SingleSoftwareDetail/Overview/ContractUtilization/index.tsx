@@ -3,8 +3,10 @@ import { StyledText, styles } from './ContractUtilization.style';
 import { Box, Skeleton, Typography } from '@mui/material';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useContractUtilization } from './useContractUtilization';
+import { ContractUtilizationI } from './ContractUtilization.interface';
+import { ARRAY_INDEX } from '@/constants/strings';
 
-function ContractUtilization(props: any) {
+function ContractUtilization(props: ContractUtilizationI) {
   const {
     contractUtilizationData,
     theme,
@@ -19,7 +21,6 @@ function ContractUtilization(props: any) {
     top,
     isFetching,
   } = useContractUtilization(props);
-
   return (
     <>
       <Box sx={styles?.mainBox(theme)}>
@@ -56,7 +57,7 @@ function ContractUtilization(props: any) {
               x={left + width / styles?.alignGraph?.numberLabelX}
               y={top + height / styles?.alignGraph?.numberLabelY}
             >
-              {data?.data?.[0]?.contractUtilization}
+              {data?.data?.[ARRAY_INDEX?.ZERO]?.contractUtilization}
             </StyledText>
             <StyledText
               x={left + width / styles?.alignGraph?.textLabelX}
@@ -68,11 +69,11 @@ function ContractUtilization(props: any) {
         )}
         <Box sx={styles?.footerBox}>
           <Box sx={styles?.footerTypographyBox(theme)}>
-            {data?.data?.[0]?.inActiveContracts}
+            {data?.data?.[ARRAY_INDEX?.ZERO]?.inActiveContracts}
           </Box>
           <Typography>Inactive</Typography>
           <Box sx={styles?.footerTypographyBox(theme)}>
-            {data?.data?.[0]?.inActiveUsers}
+            {data?.data?.[ARRAY_INDEX?.ZERO]?.inActiveUsers}
           </Box>
           <Typography>Users</Typography>
         </Box>

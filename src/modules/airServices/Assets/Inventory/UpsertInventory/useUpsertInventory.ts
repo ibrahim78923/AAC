@@ -18,7 +18,7 @@ import {
   usePatchAddToInventoryMutation,
   usePostInventoryMutation,
 } from '@/services/airServices/assets/inventory';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants';
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -106,20 +106,12 @@ export const useUpsertInventory = () => {
     displayName: filledFormValues?.displayName ?? '',
     assetTypeDetails: filledFormValues?.assetType ?? null,
     impact: filledFormValues?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry:
-      typeof filledFormValues?.assetLifeExpiry === 'string'
-        ? new Date(
-            filledFormValues?.assetLifeExpiry ??
-              dayjs()?.format(DATE_FORMAT?.UI),
-          )
-        : new Date(),
+    assetLifeExpiry: new Date(filledFormValues?.assetLifeExpiry ?? dayjs()),
     description: filledFormValues?.description ?? '',
     locationDetails: filledFormValues?.location ?? null,
     departmentDetails: filledFormValues?.department ?? null,
-    assignedOn:
-      typeof filledFormValues?.assignedOn === 'string'
-        ? new Date(filledFormValues?.assignedOn)
-        : null,
+    assignedOn: new Date(filledFormValues?.assignedOn ?? dayjs()),
+
     usedByDetails: filledFormValues?.usedBy ?? null,
     fileUrl: null,
   };
@@ -133,6 +125,9 @@ export const useUpsertInventory = () => {
     ) {
       getDynamicFormData();
       prevAssetTypeWatch.current = assetTypeWatch;
+    }
+    if (!assetTypeWatch) {
+      setForm([]);
     }
   }, [assetTypeWatch]);
 

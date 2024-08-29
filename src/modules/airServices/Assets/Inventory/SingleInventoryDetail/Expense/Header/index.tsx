@@ -5,8 +5,9 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { HeaderI } from './Header.interface';
 
-const Header = ({ dropdownOptions, addExpenseProps, actionProps }: any) => {
+const Header = ({ dropdownOptions, addExpenseProps, actionProps }: HeaderI) => {
   const { updateExpenseProps, deleteExpenseProps } = actionProps;
   return (
     <Box

@@ -50,7 +50,7 @@ const ProfileCard = (props: CardPropsI) => {
         {isLoading ? (
           <SkeletonComponent numberOfSkeletons={1} />
         ) : (
-          <Box display="flex">
+          <Box display="flex" flexWrap="wrap">
             <Box
               sx={{
                 position: 'relative',
@@ -60,6 +60,7 @@ const ProfileCard = (props: CardPropsI) => {
                   width: 120,
                   borderRadius: '21px',
                   display: 'flex',
+                  flexWrap: 'wrap',
                   justifyContent: 'center',
                   alignItems: 'center',
                 },

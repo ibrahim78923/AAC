@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import {
-  useLazyGetAgentDropdownQuery,
+  useLazyGetAgentDropdownForEditTicketDetailsQuery,
   useLazyGetTaskByIdDropDownQuery,
   usePostTicketsTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
@@ -30,7 +30,7 @@ import {
 } from '@/utils/dynamic-forms';
 
 export const useAddTime = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { setIsDrawerOpen } = props;
 
   const [form, setForm] = useState<any>([]);
 
@@ -152,7 +152,7 @@ export const useAddTime = (props: any) => {
     reset();
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
   const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
 
   const addTimeFormFields = addTimeFormFieldsDynamic(
@@ -166,8 +166,6 @@ export const useAddTime = (props: any) => {
     handleSubmit,
     onSubmit,
     addTimeFormFields,
-    isDrawerOpen,
-    setIsDrawerOpen,
     postTicketStatus,
     closeDrawer,
     getDynamicFieldsStatus,

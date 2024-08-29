@@ -18,6 +18,7 @@ export const END_POINTS = {
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
+  USER_LIST_FOR_COMPANY_ACCOUNTS: '/users/company-account',
   ADD_USER: '/users',
   USER_AVATAR: 'avatar',
   ORG_ADMIN_EMP_LIST: '/users/organization',
@@ -392,6 +393,7 @@ export const END_POINTS = {
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
   LEAD_CAPTURE_CTA: '/lead-capture-cta',
+  CTA_ADD_VIEW_CLICK_COUNT: '/lead-capture-cta/addViewOrClickCount',
   DELETE_LEAD_CAPTURE_CTA: '/lead-capture-cta/multiple',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,
@@ -487,6 +489,20 @@ export const END_POINTS = {
   GET_MEETINGS_SLOTS: '/meeting-time-slots/suggested-time-slots',
   GET_BOOKED_MEETINGS_SLOTS: '/meeting-time-slots/booked_slots',
   EXPORT_GENERIC_REPORTS: `/generic-reports/export-reports`,
+  GET_MEETINGS_EMAIL_TEMPLATES: '/Meetings/get-meeting-template',
+  GET_BY_ID_MEETINGS_EMAIL_TEMPLATE: '/Meetings/get-meeting-template-by-id',
+  UPDATE_MEETINGS_EMAIL_TEMPLATE: '/Meetings/edit-meeting-template',
+  DELETE_MEETINGS_EMAIL_TEMPLATE: '/Meetings/delete-meeting-template',
+  DELETE_ARTICLE_FOLDER: `/articles/delete-folders`,
+  UPDATE_ARTICLE_FOLDER: `/articles/update-folder`,
+  UPDATE_SERVICE_DASHBOARD_ANNOUNCEMENT:
+    '/air-services-dashboard/update-dashboard-annoucement',
+  DELETE_SERVICE_DASHBOARD_ANNOUNCEMENT:
+    '/air-services-dashboard/delete-dashboard-annoucement',
+  GET_SINGLE_SERVICE_DASHBOARD_ANNOUNCEMENT:
+    '/air-services-dashboard/get-by-id-dashboard-annoucement',
+  GET_SINGLE_FOLDER_DETAIL: '/articles/get-byId-folder',
+  GET_SERVICES_SYSTEMATIC_REPORTS: `/systematic-reports/get-systematic-report`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -509,8 +525,14 @@ export const LEAD_CAPTURE_FORM = {
 
 export const EMAILS_MARKETING = {
   EMAIL_MARKETING: '/emails-marketing/get-all-marketingEmails',
+  EMAIL_MARKETING_BY_ID: '/emails-marketing/get-one-marketingEmails',
   CREATE_EMAIL: '/emails-marketing/create-email',
+  UPDATE_EMAIL: '/emails-marketing/update-email',
   DELETE_EMAIL: '/emails-marketing/delete-email',
+  GET_ALL_FOLDERS: '/emails-marketing/get-all-folders',
+  DUPLICATE_EMAIL: '/emails-marketing/duplicate-email',
+  MARKETING_USERS: '/quote/all/user',
+  MARKETING_TEAMS: '/teams',
 };
 
 export const superAdminBillingInvoices = {
@@ -641,11 +663,15 @@ export const WHATSAPP_MARKETING = {
     '/whatsapp-marketing/broadcast/{whatsappBroadcastId}',
 };
 export const SALES_DASHBOARD = {
+  ALL_SALES_DASHBOARDS: '/dynamic-dashboard/get-dynamic-dashboard',
+  SALES_DASHBOARD_LIST: '/dynamic-dashboard',
+  CREATE_SALES_DASHBOARD: '/dynamic-dashboard/create-dynamic-dashboard',
   DEALS_CREATED_VS_CLOSE_DATES:
     '/sales-dashboard/deals-created-vs-closed-deals',
   WIDGET:
     '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
-  SALES_DASHBOARD: '/sales-dashboard',
+  DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
+  UPDATE_SALES_DASHBOARD: '/dynamic-dashboard/edit-dynamic-dashboard',
 };
 
 export const AIR_MARKETER_EMAIL_FOLDER = {

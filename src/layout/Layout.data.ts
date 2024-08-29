@@ -138,7 +138,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
   {
     key: '/org-admin/subscription-and-invoices',
     icon: BillingInvoiceImage,
-    label: 'Subsciption & Invoices',
+    label: 'Subscription & Invoices',
     role: 'org-admin',
     permissions: Permissions?.ORG_ADMIN_SUBSCRIPTION_AND_INVOICE,
   },
@@ -509,6 +509,13 @@ export const AirOperationsRoutes: any = [
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
+    key: AIR_OPERATION?.REPORTS,
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_OPERATION_REPORTS,
+  },
+  {
     key: AIR_OPERATION?.ROLE_AND_RIGHT,
     icon: ForecastImage,
     label: 'Roles and Right',
@@ -521,13 +528,6 @@ export const AirOperationsRoutes: any = [
     label: 'User Management',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
-  },
-  {
-    key: AIR_OPERATION?.REPORTS,
-    icon: ReportsImage,
-    label: 'Reports',
-    role: 'AIR_OPERATIONS',
-    permissions: Permissions?.AIR_OPERATION_REPORTS,
   },
 ];
 
@@ -798,7 +798,9 @@ export const ProfileDropDown = (basePath: any) => {
       key:
         basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
           ? AIR_CUSTOMER_PORTAL?.EDIT_PROFILE
-          : ORG_ADMIN?.EDIT_PROFILE,
+          : basePath === 'org-admin'
+            ? ORG_ADMIN?.DASHBOARD_EDIT_PROFILE
+            : ORG_ADMIN?.EDIT_PROFILE,
     },
     {
       label: PROFILE_DROPDOWNS?.CHANGE_PASSWORD,
@@ -935,4 +937,5 @@ export const zeroPaddingRoutes = [
   '/air-services/settings/service-management/field-manager/ticket-fields',
   '/air-services/settings/asset-management/asset-type/create-fields',
   '/air-services/settings/asset-management/contract-types/create-fields',
+  '/org-admin/properties/dynamic-fields',
 ];

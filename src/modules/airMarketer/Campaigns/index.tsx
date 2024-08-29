@@ -8,38 +8,34 @@ import { campaignsTabs } from './Campaigns.data';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { campaignArray, compareCampaignArray } from './Compaigns.data';
+import { compareCampaignArray } from './Compaigns.data';
 import { AddCircle } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
 import Calendar from './Calendar';
 import ResetTasksFilter from './ResetTasksFilter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
+import EditCampaign from './EditCampaign';
 
 const Campaigns = () => {
   const {
-    createCampaignsLoading,
     setIsResetTaskFilter,
     isResetTaskFilter,
     resetTasksFilters,
     setCurrentTabVal,
-    setIsCreateTask,
-    setIsOpenFilter,
     setTaskFilters,
-    organizationId,
-    isCreateTask,
     setIsFilters,
     setIsCompare,
     currentTabVal,
-    userListData,
-    handleSubmit,
     taskFilters,
     isFilters,
     isCompare,
-    onSubmit,
-    methods,
     compareMethods,
     theme,
+    selectedRows,
+    setSelectedRows,
+    actionsModalDetails,
+    setActionsModalDetails,
   } = useCampaigns();
 
   return (
@@ -56,7 +52,7 @@ const Campaigns = () => {
           direction={{ md: 'row' }}
           justifyContent="space-between"
         >
-          <Typography variant="h4" mb={1} onClick={() => setIsOpenFilter(true)}>
+          <Typography variant="h4" mb={1}>
             Campaigns
           </Typography>
 
@@ -86,7 +82,16 @@ const Campaigns = () => {
                 variant="contained"
                 className="small"
                 startIcon={<PlusIcon />}
-                onClick={() => setIsCreateTask(true)}
+                onClick={() =>
+                  setActionsModalDetails({
+                    ...actionsModalDetails,
+                    isCreateCampaign: {
+                      isToggle: true,
+                      type: 'create',
+                      recId: [],
+                    },
+                  })
+                }
                 sx={{ width: { sm: '200px', xs: '100%' } }}
               >
                 Create campaigns
@@ -113,52 +118,28 @@ const Campaigns = () => {
             defaultValue={currentTabVal}
             tabsDataArray={campaignsTabs}
           >
-            <Manage />
+            <Manage
+              selectedRows={selectedRows}
+              setSelectedRows={setSelectedRows}
+            />
             <Calendar />
             <Tasks />
           </HorizontalTabs>
         </Box>
       </Box>
 
-      {isCreateTask && (
-        <CommonDrawer
-          isDrawerOpen={isCreateTask}
+      {actionsModalDetails?.isCreateCampaign && (
+        <EditCampaign
+          isOpenDrawer={actionsModalDetails?.isCreateCampaign}
           onClose={() => {
-            setIsCreateTask(false);
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isCreateCampaign: { isToggle: false, type: '', recId: [] },
+            });
           }}
-          title="Create Campaign"
-          okText="Create"
-          isOk
-          footer={true}
-          submitHandler={handleSubmit(onSubmit)}
-          isLoading={createCampaignsLoading}
-        >
-          <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={methods}>
-              <Grid container spacing={2}>
-                {campaignArray(userListData, organizationId)?.map(
-                  (item: any) => (
-                    <Grid
-                      item
-                      xs={12}
-                      md={item?.md}
-                      key={item?.componentProps?.name}
-                    >
-                      <item.component {...item?.componentProps} size={'small'}>
-                        {item?.componentProps?.select &&
-                          item?.options?.map((option: any) => (
-                            <option key={option?.value} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))}
-                      </item.component>
-                    </Grid>
-                  ),
-                )}
-              </Grid>
-            </FormProvider>
-          </Box>
-        </CommonDrawer>
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+        />
       )}
 
       {isCompare && (

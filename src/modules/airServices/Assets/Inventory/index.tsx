@@ -26,6 +26,7 @@ const Inventory = () => {
     setSearch,
     inventoryListsColumnsPersist,
     theme,
+    getInventoryListData,
   }: any = useInventory();
   return (
     <>
@@ -153,6 +154,7 @@ const Inventory = () => {
             isError={lazyGetInventoryStatus?.isError}
             isSuccess={lazyGetInventoryStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
+            errorProps={{ canRefresh: true, refresh: getInventoryListData }}
             isPagination
           />
         </PermissionsGuard>

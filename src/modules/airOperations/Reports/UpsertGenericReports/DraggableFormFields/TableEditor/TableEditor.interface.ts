@@ -8,10 +8,7 @@ export interface tableFieldsI {
 }
 export interface TableEditorI {
   setValue: UseFormReturn<FieldValues>['setValue'];
-  setColumnsData: any;
-  columnsData: any[];
   handleCancel: () => void;
-  disableTemplate: boolean;
   metricType: any;
   setForm: Dispatch<SetStateAction<any[]>>;
   setModal: Dispatch<
@@ -22,7 +19,6 @@ export interface TableEditorI {
       counter: boolean;
     }>
   >;
-  setFieldData: Dispatch<SetStateAction<boolean>>;
   form: any[];
   setDraggedItemData: Dispatch<SetStateAction<any>>;
   draggedItemData: any;

@@ -1,17 +1,15 @@
-import { REPORT_TYPE } from '@/constants/strings';
+import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { CounterI } from './Counter.interface';
+import { useDispatch } from 'react-redux';
+import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
 
 export const useCounter = (props: CounterI) => {
-  const {
-    setModal,
-    setFieldData,
-    form,
-    setForm,
-    setDraggedItemData,
-    draggedItemData,
-  } = props;
+  const { setModal, form, setForm, setDraggedItemData, draggedItemData } =
+    props;
+  const dispatch = useDispatch();
+
   const handleSave = () => {
     const uniqueId = generateUniqueId();
     setForm([
@@ -22,15 +20,14 @@ export const useCounter = (props: CounterI) => {
         ticketCount: draggedItemData?.ticketCount,
         title: draggedItemData?.title,
         templateType: draggedItemData?.type,
+        fieldName: draggedItemData?.fieldName ? draggedItemData?.fieldName : '',
+        fieldValue: draggedItemData?.fieldValue
+          ? draggedItemData?.fieldValue
+          : '',
       },
     ]);
-    setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-      counter: false,
-    });
+    dispatch(setFieldData(false));
+    setModal(MODAL_INITIAL_STATES);
     setDraggedItemData(null);
     successSnackbar('Count Added');
   };

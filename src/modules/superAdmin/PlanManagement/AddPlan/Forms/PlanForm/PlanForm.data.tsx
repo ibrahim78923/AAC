@@ -39,7 +39,8 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.matches(/^[0-9]*$/, 'must be a number'),
   planPrice: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.max(12, 'max is 12'),
+    ?.max(12, 'max is 12')
+    ?.required('Required field'),
   allowAdditionalUsers: Yup?.string(),
   additionalPerUserPrice: Yup?.string()?.matches(
     /^[0-9]*$/,
@@ -135,6 +136,7 @@ export const dataArray = (
         multiline: true,
         rows: 4,
         placeholder: 'Enter Description',
+        required: true,
       },
       component: RHFTextField,
       gridLength: 6,
@@ -156,7 +158,7 @@ export const dataArray = (
       id: 5,
       componentProps: {
         name: 'defaultStorage',
-        label: 'Default Storage',
+        label: 'Default Storage (GB)',
         fullWidth: true,
         placeholder: 'Enter Default Storage',
         required: true,
@@ -168,7 +170,7 @@ export const dataArray = (
       id: 6,
       componentProps: {
         name: 'planPrice',
-        label: 'Plan Price',
+        label: 'Plan Price (£)',
         fullWidth: true,
         placeholder: '£',
         required: isFreePlan ? false : true,
@@ -198,7 +200,7 @@ export const dataArray = (
       id: 8,
       componentProps: {
         name: 'additionalPerUserPrice',
-        label: 'Additional Per User Price',
+        label: 'Additional Per User Price (£)',
         fullWidth: true,
         placeholder: '£',
         disabled: AdditionalUsereValue[0] === 'No',

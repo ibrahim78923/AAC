@@ -5,37 +5,59 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import {
   Box,
-  IconButton,
+  Button,
   InputAdornment,
   Popover,
   TextField,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { ClearIcon, DateRangePickerIcon } from '@/assets/icons';
+import { DateRangePickerIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import CloseIcon from '@mui/icons-material/Close';
+import { pxToRem } from '@/utils/getFontValue';
 
 const RHFDateRangePicker = (props: any) => {
+  const {
+    name,
+    label,
+    labelProps,
+    required,
+    hasButton = false,
+    onSubmitBtnClick,
+    cancelBtnEffect,
+    closePopOver,
+    ...other
+  } = props;
+
   const [anchorElDate, setAnchorElDate] = useState<HTMLButtonElement | null>(
     null,
   );
   const handleClickDate = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (other?.disabled) return;
     setAnchorElDate(event?.currentTarget);
   };
 
   const handleCloseDate = () => {
+    if (hasButton) {
+      closePopOver?.();
+    }
     setAnchorElDate(null);
   };
 
   const openDate = Boolean(anchorElDate);
   const idDate = openDate ? 'simple-popover' : undefined;
 
-  const { name, label, required, ...other } = props;
   const { control, setValue } = useFormContext();
 
   const handleClear = () => {
-    setValue(name, null);
+    setValue(name, {
+      startDate: null,
+      endDate: null,
+      key: 'selection',
+    });
+    cancelBtnEffect?.();
   };
 
   return (
@@ -54,7 +76,9 @@ const RHFDateRangePicker = (props: any) => {
 
         return (
           <>
-            {label && <CustomLabel label={label} required={required} />}
+            {label && (
+              <CustomLabel label={label} required={required} {...labelProps} />
+            )}
             <TextField
               fullWidth
               helperText={
@@ -77,9 +101,14 @@ const RHFDateRangePicker = (props: any) => {
                 endAdornment: (
                   <InputAdornment position="end">
                     {displayValue && (
-                      <IconButton onClick={handleClear} size="small">
-                        <ClearIcon />
-                      </IconButton>
+                      <CloseIcon
+                        sx={{
+                          color: 'custom.darker',
+                          cursor: 'pointer',
+                          fontSize: pxToRem(20),
+                        }}
+                        onClick={() => handleClear?.()}
+                      />
                     )}
                     <Box
                       sx={{ cursor: 'pointer' }}
@@ -115,6 +144,16 @@ const RHFDateRangePicker = (props: any) => {
                 ranges={[field?.value]}
                 onChange={(item: any) => setValue(name, item?.selection)}
               />
+              {hasButton && (
+                <Box textAlign={'right'} mb={2} px={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => onSubmitBtnClick?.(setAnchorElDate)}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              )}
             </Popover>
           </>
         );

@@ -12,14 +12,21 @@ import { styles } from './MoveToFolder.style';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
 import { ArrowAlertPopupIcon } from '@/assets/icons';
+import { useLazyGetEmailFoldersQuery } from '@/services/airMarketer/emailMarketing';
+import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import { LoadingButton } from '@mui/lab';
 
 const MoveToFolder = ({
+  handleReset,
+  selectedRecords,
   openMoveToFolderModal,
   handleCloseMoveToFolderModal,
 }: any) => {
+  const [updateEmailTemplate, { isLoading: loadingUpdateEmailTemplate }] =
+    useUpdateEmailTemplatesMutation();
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaMoveToFolder),
     defaultValues: defaultValuesMoveToFolder,
@@ -27,12 +34,25 @@ const MoveToFolder = ({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    handleCloseMoveToFolderModal();
-    enqueueSnackbar('Move To Folder Added Successfully', {
-      variant: 'success',
-    });
+  const onSubmit = async (values: any) => {
+    try {
+      await updateEmailTemplate({
+        id: selectedRecords?._id,
+        body: {
+          templateId: values?.chooseFolder?._id,
+        },
+      })?.unwrap();
+      handleReset();
+      handleCloseMoveToFolderModal();
+      enqueueSnackbar('Move To Folder Added Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
   };
+
+  const apiQueryFolders = useLazyGetEmailFoldersQuery();
 
   return (
     <div>
@@ -47,12 +67,18 @@ const MoveToFolder = ({
         <Box sx={{ margin: '20px 0' }}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
-              {dataArrayMoveToFolder?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {/* eslint-disable */}
+              {dataArrayMoveToFolder(apiQueryFolders)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
+                      item?.options?.map((option: any, index: any) => (
+                        <option key={index} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}
@@ -68,9 +94,14 @@ const MoveToFolder = ({
               >
                 Cancel
               </Button>
-              <Button variant="contained" type="submit" onClick={handleSubmit}>
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                onClick={handleSubmit}
+                loading={loadingUpdateEmailTemplate}
+              >
                 Save
-              </Button>
+              </LoadingButton>
             </Box>
           </FormProvider>
         </Box>

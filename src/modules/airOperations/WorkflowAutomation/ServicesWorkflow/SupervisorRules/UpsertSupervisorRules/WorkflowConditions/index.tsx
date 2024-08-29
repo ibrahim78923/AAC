@@ -7,7 +7,7 @@ import { styles } from './WorkflowConditions.style';
 import { useWorkflowConditions } from './useWorkflowConditions';
 
 export const WorkflowConditions = (props: any) => {
-  const { moduleType, control, watch, register, setValue } = props;
+  const { moduleType, control, watch } = props;
   const { fields, remove, palette, handleAddGroup } =
     useWorkflowConditions(props);
   return (
@@ -30,7 +30,7 @@ export const WorkflowConditions = (props: any) => {
           What Conditions should be met?
         </Typography>
       </Box>
-      {fields?.map((item: any, index: any) => {
+      {fields?.map((item, index) => {
         const conditionType = watch(`groups.${index}.conditionType`);
         return (
           <Box key={item?.id} p={1.5}>
@@ -55,7 +55,7 @@ export const WorkflowConditions = (props: any) => {
             <Box display={'flex'} alignItems={'center'} gap={1} mt={2}>
               <Box sx={styles?.groupNumber(palette)}>{index + 1}</Box>
               <Grid container spacing={{ md: 2, xs: 0 }}>
-                {workflowConditionsGroupDataArray(index)?.map((item: any) => (
+                {workflowConditionsGroupDataArray(index)?.map((item) => (
                   <Grid item xs={12} md={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} />
                   </Grid>
@@ -70,8 +70,6 @@ export const WorkflowConditions = (props: any) => {
               conditionType={conditionType}
               parentField={fields}
               watch={watch}
-              register={register}
-              setValue={setValue}
             />
           </Box>
         );

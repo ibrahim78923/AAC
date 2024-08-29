@@ -79,10 +79,10 @@ const useInvoices = () => {
         dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
       }),
     };
+    filterPayloadValues.organizationId = values?.organizationId?._id;
 
     setFilterValues(filterPayloadValues);
     setIsOpenFilter(false);
-    reset();
   };
 
   const handleRefresh = async () => {

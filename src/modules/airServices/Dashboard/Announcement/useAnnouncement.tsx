@@ -1,54 +1,47 @@
 import { useState } from 'react';
-import AddAnnouncement from './AddAnnouncement';
+import { UpsertAnnouncement } from './UpsertAnnouncement';
 import { AnnouncementList } from './AnnouncementList';
 import { dropdownAnnouncementsOptionsDynamic } from './Announcement.data';
 import { DeleteAnnouncement } from './DeleteAnnouncement';
-import { useLazyGetCustomerAnnouncementQuery } from '@/services/airServices/dashboard';
-import { PAGINATION } from '@/config';
+import { useLazyGetSingleAnnouncementOnDashboardQuery } from '@/services/airServices/dashboard';
+import {
+  AnnouncementIsPortalOpenPropsI,
+  AnnouncementPortalComponentsPropsI,
+} from './Announcement.interface';
+import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
 
-export const useAnnouncement = () => {
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+export const useAnnouncement = (props: SingleDashboardComponentPropsI) => {
+  const { data, getSingleDashboardData } = props;
+  const [isPortalOpen, setIsPortalOpen] =
+    useState<AnnouncementIsPortalOpenPropsI>({});
 
   const [
     lazyGetCustomerAnnouncementTrigger,
     lazyGetCustomerAnnouncementStatus,
-  ] = useLazyGetCustomerAnnouncementQuery();
+  ] = useLazyGetSingleAnnouncementOnDashboardQuery();
 
-  const getCustomerAnnouncementData = async (currentPage = page) => {
-    const getCustomerAnnouncementApiParameter = {
-      page: currentPage,
-      limit: pageLimit,
-    };
-
-    const apiDataParameter = {
-      queryParams: getCustomerAnnouncementApiParameter,
-    };
-
+  const getCustomerAnnouncementData = async () => {
     try {
-      await lazyGetCustomerAnnouncementTrigger(apiDataParameter)?.unwrap();
+      await lazyGetCustomerAnnouncementTrigger(null)?.unwrap();
     } catch (error: any) {}
   };
 
-  const dropdownAnnouncementsOptions = (data: any) =>
-    dropdownAnnouncementsOptionsDynamic?.(setIsPortalOpen, data);
+  const dropdownAnnouncementsOptions = (dropdownData: any) =>
+    dropdownAnnouncementsOptionsDynamic?.(setIsPortalOpen, dropdownData);
 
-  const portalComponentProps = {
+  const portalComponentProps: AnnouncementPortalComponentsPropsI = {
     isPortalOpen: isPortalOpen,
     setIsPortalOpen: setIsPortalOpen,
     dropdownAnnouncementsOptions,
     lazyGetCustomerAnnouncementStatus,
-    page,
-    setPage,
-    pageLimit,
-    setPageLimit,
     getCustomerAnnouncementData,
+    data,
+    getSingleDashboardData,
   };
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isUpsert) {
-      return <AddAnnouncement {...portalComponentProps} />;
+      return <UpsertAnnouncement {...portalComponentProps} />;
     }
     if (isPortalOpen?.isView) {
       return <AnnouncementList {...portalComponentProps} />;

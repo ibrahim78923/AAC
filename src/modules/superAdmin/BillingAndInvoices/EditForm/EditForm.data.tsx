@@ -1,33 +1,34 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import {
-  useGetOrganizationsQuery,
   useGetPlanTypeQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/billing-invoices';
 
 import * as Yup from 'yup';
-import { Organization, PlanType, Product } from './editForm.interface';
+import { PlanType, Product } from './editForm.interface';
+import { useLazyGetOrganizationsListQuery } from '@/services/common-APIs';
 
 export const validationSchema = Yup?.object()?.shape({
-  clientName: Yup?.string()?.trim()?.required('Field is Required'),
+  clientName: Yup?.mixed()?.required('Field is Required'),
   product: Yup?.string()?.trim()?.required('Field is Required'),
   planType: Yup?.string()?.trim()?.required('Field is Required'),
   additionalUser: Yup?.string()?.trim(),
   planPrice: Yup?.string()?.trim(),
   defaultUser: Yup?.string()?.trim(),
   defaultUserTwo: Yup?.string()?.trim(),
-  additionalStorage: Yup?.string(),
+  additionalStorage: Yup?.string()?.trim(),
   discount: Yup?.string()?.trim(),
   billingCycle: Yup?.string()?.trim()?.required('Field is Required'),
   date: Yup?.date(),
 });
 
 export const defaultValues = {
-  clientName: '',
+  clientName: null,
   product: '',
   planType: '',
   additionalUser: '',
@@ -70,37 +71,22 @@ export const assignPlanData = (
     label: planType?.name,
   }));
 
-  const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
-    refetchOnMountOrArgChange: true,
-  });
-
-  const Organizations = OrganizationsData?.data?.map(
-    (Organizations: Organization) => ({
-      value: Organizations?._id,
-      label: Organizations?.name,
-    }),
-  );
-
   const options = selectProductSuite === 'product' ? productSuite : crmOptions;
+  const organizations = useLazyGetOrganizationsListQuery();
 
   return [
     {
       componentProps: {
         name: 'clientName',
-        label: 'Client Name & Organization',
+        label: 'Client & Organization',
         fullWidth: true,
-        select: true,
-        disabled: isEditModal,
-        required: true,
+        placeholder: 'Select organization',
+        apiQuery: organizations,
+        getOptionLabel: (option: any) => option?.name,
       },
-
-      options: Organizations,
-
-      component: RHFSelect,
-
+      component: RHFAutocompleteAsync,
       md: 12,
     },
-
     {
       componentProps: {
         name: 'product',
@@ -139,9 +125,10 @@ export const assignPlanData = (
     {
       componentProps: {
         name: 'planPrice',
-        label: 'Plan Price',
+        label: 'Plan Price (£)',
         fullWidth: true,
         disabled: true,
+        placeholder: '£',
       },
 
       component: RHFTextField,
@@ -154,6 +141,7 @@ export const assignPlanData = (
         label: 'Default User',
         fullWidth: true,
         disabled: true,
+        placeholder: 'default user',
       },
 
       component: RHFTextField,
@@ -163,9 +151,10 @@ export const assignPlanData = (
     {
       componentProps: {
         name: 'defaultStorage',
-        label: 'Default storage',
+        label: 'Def storage (GB)',
         fullWidth: true,
         disabled: true,
+        placeholder: 'GB',
       },
 
       component: RHFTextField,
@@ -178,6 +167,7 @@ export const assignPlanData = (
         label: 'Additional User',
         fullWidth: true,
         disabled: isUserPrice,
+        placeholder: 'additional user',
       },
 
       component: RHFTextField,
@@ -190,6 +180,7 @@ export const assignPlanData = (
         label: 'Additional Storage',
         fullWidth: true,
         disabled: isStoragePrice,
+        placeholder: 'GB',
       },
 
       component: RHFTextField,

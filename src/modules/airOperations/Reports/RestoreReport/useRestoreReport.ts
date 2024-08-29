@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useRestoreDeletedReportMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { RestoreReportsListsComponentPropsI } from '../Reports.interface';
+import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 
 export const useRestoreReport = (props: RestoreReportsListsComponentPropsI) => {
   const {
@@ -20,7 +20,8 @@ export const useRestoreReport = (props: RestoreReportsListsComponentPropsI) => {
     const apiQueryParams = new URLSearchParams();
 
     selectedReportLists?.forEach(
-      (reportId: any) => apiQueryParams?.append('ids', reportId?._id),
+      (reportId: { _id: string }) =>
+        apiQueryParams?.append('ids', reportId?._id),
     );
 
     const apiDataParameter = {

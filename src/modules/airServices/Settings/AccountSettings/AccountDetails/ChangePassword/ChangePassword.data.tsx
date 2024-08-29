@@ -4,6 +4,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import * as Yup from 'yup';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { IFieldConfig } from './ChangePassword.interface';
 
 export const changePasswordValidationSchema = Yup?.object()?.shape({
   currentPassword: Yup?.string()
@@ -30,8 +32,8 @@ export const changePasswordDefaultValues = {
 
 export const changePasswordDataArray = (
   showPassword: boolean[],
-  togglePasswordVisibility: any,
-) => [
+  togglePasswordVisibility: (index: number) => void,
+): IFieldConfig[] => [
   {
     _id: 2786,
     gridLength: 6,
@@ -40,12 +42,19 @@ export const changePasswordDataArray = (
       label: 'Current Password',
       size: 'small',
       required: true,
-      type: showPassword[0] ? 'text' : 'password',
+      type: showPassword[ARRAY_INDEX?.ZERO] ? 'text' : 'password',
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => togglePasswordVisibility(0)} edge="end">
-              {showPassword[0] ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            <IconButton
+              onClick={() => togglePasswordVisibility(ARRAY_INDEX?.ZERO)}
+              edge="end"
+            >
+              {showPassword[ARRAY_INDEX?.ZERO] ? (
+                <VisibilityIcon />
+              ) : (
+                <VisibilityOffIcon />
+              )}
             </IconButton>
           </InputAdornment>
         ),
@@ -61,12 +70,19 @@ export const changePasswordDataArray = (
       label: 'New Password',
       size: 'small',
       required: true,
-      type: showPassword[1] ? 'text' : 'password',
+      type: showPassword[ARRAY_INDEX?.ONE] ? 'text' : 'password',
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => togglePasswordVisibility(1)} edge="end">
-              {showPassword[1] ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            <IconButton
+              onClick={() => togglePasswordVisibility(ARRAY_INDEX?.ONE)}
+              edge="end"
+            >
+              {showPassword[ARRAY_INDEX?.ONE] ? (
+                <VisibilityIcon />
+              ) : (
+                <VisibilityOffIcon />
+              )}
             </IconButton>
           </InputAdornment>
         ),
@@ -82,12 +98,19 @@ export const changePasswordDataArray = (
       label: 'Confirm Password',
       size: 'small',
       required: true,
-      type: showPassword[2] ? 'text' : 'password',
+      type: showPassword[ARRAY_INDEX?.TWO] ? 'text' : 'password',
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={() => togglePasswordVisibility(2)} edge="end">
-              {showPassword[2] ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            <IconButton
+              onClick={() => togglePasswordVisibility(ARRAY_INDEX?.TWO)}
+              edge="end"
+            >
+              {showPassword[ARRAY_INDEX?.TWO] ? (
+                <VisibilityIcon />
+              ) : (
+                <VisibilityOffIcon />
+              )}
             </IconButton>
           </InputAdornment>
         ),

@@ -10,7 +10,10 @@ import {
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { TicketsTasksIsPortalOpenI } from './Tasks.interface';
+import {
+  TicketTasksTableRowI,
+  TicketsTasksIsPortalOpenI,
+} from './Tasks.interface';
 import { Dispatch, SetStateAction } from 'react';
 
 export const ticketsTasksListsColumnsDynamic: any = (
@@ -22,7 +25,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: TicketTasksTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
@@ -69,7 +72,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: TicketTasksTableRowI) => row?._id,
       id: 'TaskId',
       cell: (info: any) => (
         <Typography
@@ -90,14 +93,14 @@ export const ticketsTasksListsColumnsDynamic: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.title,
+      accessorFn: (row: TicketTasksTableRowI) => row?.title,
       id: 'title',
       isSortable: true,
       header: 'Task Name',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row,
+      accessorFn: (row: TicketTasksTableRowI) => row,
       id: 'startDate endDate ',
       isSortable: true,
       header: 'Due Date',
@@ -107,7 +110,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
         )} - ${dayjs(info?.getValue()?.endDate)?.format(DATE_FORMAT?.UI)}`,
     },
     {
-      accessorFn: (row: any) => row?.assignedUser,
+      accessorFn: (row: TicketTasksTableRowI) => row?.assignedUser,
       id: 'assignTo',
       isSortable: true,
       header: 'Assigned To',
@@ -115,7 +118,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: TicketTasksTableRowI) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',

@@ -10,8 +10,10 @@ import {
 import NoData from '@/components/NoData';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
+import ApiErrorState from '@/components/ApiErrorState';
+import { TicketRelatedPropsI } from './TicketRelated.interface';
 
-export const TicketRelated = (props: any) => {
+export const TicketRelated = (props: TicketRelatedPropsI) => {
   const { selectedArticle, setSelectedArticle } = props;
   const {
     data,
@@ -22,6 +24,7 @@ export const TicketRelated = (props: any) => {
     setPageLimit,
     setPage,
     error,
+    refetch,
   }: any = useTicketRelated(props);
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -32,16 +35,20 @@ export const TicketRelated = (props: any) => {
         <PageTitledHeader
           moveBack={() => setSelectedArticle?.({})}
           canMovedBack
+          title=""
         />
-        <NoData
+        <ApiErrorState
           message={
             error?.data?.message === NO_DATA_MESSAGE
               ? error?.data?.message
               : 'SOMETHING WENT WRONG'
           }
+          canRefresh={error?.data?.message !== NO_DATA_MESSAGE}
+          refresh={() => refetch?.()}
         />
       </>
     );
+
   return (
     <>
       {data?.data?.articles?.length ? (
@@ -64,7 +71,7 @@ export const TicketRelated = (props: any) => {
             isFetching={isFetching}
             isError={isError}
             isSuccess={isSuccess}
-            onPageChange={(page: any) => setPage(page)}
+            onPageChange={(page: number) => setPage(page)}
             isPagination
           />
         </Box>

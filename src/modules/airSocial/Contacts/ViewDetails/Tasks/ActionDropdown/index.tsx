@@ -38,11 +38,11 @@ const ActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem disabled={!isMenuItemDisabled} onClick={handleOpenDrawer}>
+        <MenuItem disabled={isMenuItemDisabled} onClick={handleOpenDrawer}>
           View
         </MenuItem>
         <MenuItem
-          disabled={!isMenuItemDisabled}
+          disabled={isMenuItemDisabled}
           onClick={handleOpenModalReassign}
         >
           Re-assign

@@ -1,97 +1,130 @@
 import { DownloadLargeIcon } from '@/assets/icons';
 import { CustomChart } from '@/components/Chart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
-import ReportCalendarFilter from '@/components/ReportCalendarFilter';
+import {
+  FormProvider,
+  RHFAutocomplete,
+  RHFDateRangePicker,
+} from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_SERVICES } from '@/constants';
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 
 import { ContractReportsCard } from './ContractReportsCard';
 import { useContractReports } from './useContractReports';
 import {
   contractReportsTabelCoulmns,
-  contractReportsTableData,
+  contractsTypeOptions,
 } from './ContractReportsCard.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS } from '@/constants/permission-keys';
+import { LoadingButton } from '@mui/lab';
+import { pxToRem } from '@/utils/getFontValue';
+import NoData from '@/components/NoData';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const ContractsReports = () => {
   const {
     router,
     methods,
-    handleSubmit,
-    onFilterSubmit,
+    onDateFilterSubmit,
     handleDownload,
     loading,
     contractReportsCardData,
+    setHasDate,
+    shouldDateSet,
+    contractReportsChartData,
+    downloadRef,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    data,
+    getValues,
   } = useContractReports();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError)
+    return (
+      <>
+        <PageTitledHeader
+          title={'Contract Reports'}
+          canMovedBack
+          moveBack={() =>
+            router?.push({
+              pathname: AIR_SERVICES?.REPORTS,
+            })
+          }
+        />
+        <ApiErrorState canRefresh refresh={refetch} />;
+      </>
+    );
+
   return (
     <>
-      <PageTitledHeader
-        title={'Contract'}
-        canMovedBack
-        moveBack={() => router?.push({ pathname: AIR_SERVICES?.REPORTS })}
-      >
-        <ReportCalendarFilter setcalender={{}} />
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
+      <FormProvider methods={methods}>
+        <PageTitledHeader
+          title={'Contract Reports'}
+          canMovedBack
+          moveBack={() => router?.push({ pathname: AIR_SERVICES?.REPORTS })}
         >
-          <Box mt={1} width={'10rem'}>
-            <FormProvider
-              methods={methods}
-              onSubmit={handleSubmit(onFilterSubmit)}
-            >
-              <RHFAutocomplete
-                name={'All'}
-                placeholder={'All'}
-                options={[
-                  'Active',
-                  'Draft',
-                  'Approved',
-                  'Expired',
-                  'Terminate',
-                ]}
-                size={'small'}
-              />
-            </FormProvider>
-          </Box>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.DOWNLOAD]}
-        >
-          <IconButton
-            aria-label={'download'}
-            size={'small'}
-            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
-            onClick={handleDownload}
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            gap={2}
+            flexWrap={'wrap'}
+            flexDirection={{ xs: 'column', sm: 'row' }}
           >
-            <DownloadLargeIcon />
-          </IconButton>
-        </PermissionsGuard>
-      </PageTitledHeader>
-      <Divider />
-      {loading ? (
-        <Box
-          height={'70vh'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
+            <PermissionsGuard
+              permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
+            >
+              <Box>
+                <RHFDateRangePicker
+                  name={'createdDate'}
+                  placeholder={'Date'}
+                  size="small"
+                  disabled={loading}
+                  hasButton
+                  onSubmitBtnClick={(setAnchorElDate: any) =>
+                    onDateFilterSubmit?.(setAnchorElDate)
+                  }
+                  cancelBtnEffect={() => setHasDate?.(false)}
+                  closePopOver={() => shouldDateSet?.()}
+                />
+              </Box>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.DOWNLOAD,
+              ]}
+            >
+              <LoadingButton
+                sx={{
+                  cursor: 'pointer',
+                  p: 0,
+                  minWidth: pxToRem(40),
+                  height: pxToRem(40),
+                }}
+                variant="outlined"
+                color="inherit"
+                size="small"
+                onClick={handleDownload}
+                disabled={loading}
+                loading={loading}
+              >
+                <DownloadLargeIcon />
+              </LoadingButton>
+            </PermissionsGuard>
+          </Box>
+        </PageTitledHeader>
+
+        <Divider sx={{ mb: 2 }} />
+
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
         >
-          <Box id={'contract-reports'}>
+          <Box ref={downloadRef}>
             <ContractReportsCard
               contractReportsCardData={contractReportsCardData}
             />
@@ -99,29 +132,31 @@ export const ContractsReports = () => {
             <Grid container spacing={2} mt={2}>
               <Grid item xs={12} md={4}>
                 <Box
+                  height={'45vh'}
+                  boxShadow={1}
                   border={'1px solid'}
                   borderColor={'custom.off_white_one'}
                   borderRadius={2}
-                  boxShadow={1}
-                  height={'100%'}
                   px={2}
                   py={3}
                 >
-                  <Typography variant={'h5'} color={'slateBlue.main'}>
+                  <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Contracts Distribution
                   </Typography>
-                  <CustomChart
-                    type={'pie'}
-                    series={[16, 54, 6, 24]}
-                    options={{
-                      labels: [
-                        'Warranty',
-                        'Software License',
-                        'Maintenance',
-                        'Lease',
-                      ],
-                    }}
-                  />
+                  {!!Object?.keys(contractReportsChartData ?? {})?.length ? (
+                    <CustomChart
+                      type={'pie'}
+                      series={Object?.values(contractReportsChartData ?? {})}
+                      options={{
+                        labels: Object?.keys(contractReportsChartData ?? {}),
+                        dataLabels: {
+                          enabled: true,
+                        },
+                      }}
+                    />
+                  ) : (
+                    <NoData height="100%" />
+                  )}
                 </Box>
               </Grid>
               <Grid item xs={12} md={8}>
@@ -134,28 +169,23 @@ export const ContractsReports = () => {
                   py={3}
                   height={'100%'}
                 >
-                  <FormProvider
-                    methods={methods}
-                    onSubmit={handleSubmit(onFilterSubmit)}
-                  >
-                    <Grid container mb={1}>
-                      <Grid item xs={3}>
-                        <RHFAutocomplete
-                          name={'Contracts'}
-                          placeholder={'All Contracts'}
-                          options={[
-                            ' All',
-                            'Lease',
-                            'Maintaince',
-                            'Software',
-                            'Warranty',
-                          ]}
-                        />
-                      </Grid>
+                  <Grid container mb={1}>
+                    <Grid item xs={3}>
+                      <RHFAutocomplete
+                        name={'contracts'}
+                        placeholder={'All Contracts'}
+                        disabled={loading}
+                        options={contractsTypeOptions}
+                        getOptionLabel={(option: any) => option?.label}
+                      />
                     </Grid>
-                  </FormProvider>
+                  </Grid>
                   <TanstackTable
-                    data={contractReportsTableData}
+                    data={
+                      data?.data?.[
+                        `${getValues?.('contracts')?._id}Details`
+                      ]?.slice(-5) ?? []
+                    }
                     columns={contractReportsTabelCoulmns}
                   />
                 </Box>
@@ -163,7 +193,7 @@ export const ContractsReports = () => {
             </Grid>
           </Box>
         </PermissionsGuard>
-      )}
+      </FormProvider>
     </>
   );
 };

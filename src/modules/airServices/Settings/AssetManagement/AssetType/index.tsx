@@ -113,6 +113,7 @@ export const AssetType = () => {
           {data?.data?.map((parent: any) => (
             <Accordion
               key={parent?._id}
+              disabled={parent?.perDefine}
               disableGutters
               sx={{
                 '&.MuiAccordion': {
@@ -126,7 +127,7 @@ export const AssetType = () => {
                 },
                 '& .MuiAccordionSummary-root': {
                   backgroundColor: theme?.palette?.common?.white,
-                  color: theme?.palette?.grey?.[600],
+                  color: `${theme?.palette?.grey?.[600]} !important`,
                   borderRadius: 2,
                   borderLeft: `4px solid ${theme?.palette?.primary?.main}`,
                   flexDirection: 'row-reverse',
@@ -168,7 +169,12 @@ export const AssetType = () => {
                   justifyContent={'space-between'}
                   width={'100%'}
                 >
-                  <Typography variant={'body1'} fontWeight={500} ml={1}>
+                  <Typography
+                    variant={'body1'}
+                    fontWeight={500}
+                    ml={1}
+                    textTransform={'capitalize'}
+                  >
                     {parent?.name}
                   </Typography>
 

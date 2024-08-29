@@ -21,9 +21,9 @@ export const useSingleGenericReportDetail = () => {
       skip: !reportId,
     },
   );
-  const reportWidgets = singleReportApi?.data?.data?.results?.genericReports;
+  const reportWidgets = singleReportApi?.data?.data?.result?.genericReports;
   const reportResults =
-    singleReportApi?.data?.data?.results?.genericReportsResult;
+    singleReportApi?.data?.data?.result?.genericReportsResult;
 
   const downloadReport = async () => {
     setIsDownloading(true);

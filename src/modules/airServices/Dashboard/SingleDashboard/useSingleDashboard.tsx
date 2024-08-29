@@ -1,28 +1,30 @@
-import { useTheme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 import {
   useGetDashboardCardsTicketsQuery,
   useLazyGetSingleServicesDashboardQuery,
 } from '@/services/airServices/dashboard';
 import { useEffect, useState } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 export const useSingleDashboard = (props: any) => {
   const { dashboardId, setApiLoader } = props;
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
 
   const [
     lazyGetSingleServicesDashboardTrigger,
     lazyGetSingleServicesDashboardStatus,
-  ] = useLazyGetSingleServicesDashboardQuery();
+  ]: any = useLazyGetSingleServicesDashboardQuery();
 
-  const theme = useTheme();
+  const theme: Theme = useTheme();
   const {
     data: cardsData,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   } = useGetDashboardCardsTicketsQuery(null, {
     refetchOnMountOrArgChange: true,
   });
@@ -62,5 +64,8 @@ export const useSingleDashboard = (props: any) => {
     departmentId,
     setDepartmentId,
     router,
+    getSingleDashboardData,
+    isError,
+    refetch,
   };
 };

@@ -2,7 +2,11 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
-import { ROLES, TICKET_SELECTION_TYPE } from '@/constants/strings';
+import {
+  AutocompleteAsyncOptionsI,
+  AutocompleteOptionsI,
+} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -98,7 +102,7 @@ export const mergeTicketsFormFieldsDynamic = (
         label: 'Find ticket by',
         fullWidth: true,
         options: ticketSelectionOptions,
-        getOptionLabel: (option: any) => option?.label,
+        getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
       },
     },
     ...(watchForTicketSelection?._id === TICKET_SELECTION_TYPE?.REQUESTER
@@ -111,10 +115,13 @@ export const mergeTicketsFormFieldsDynamic = (
               fullWidth: true,
               required: true,
               apiQuery: apiQueryRequester,
-              externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
-              getOptionLabel: (option: any) =>
+              externalParams: {
+                requester: true,
+                admin: true,
+              },
+              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
                 `${option?.firstName} ${option?.lastName}`,
-              placeholder: 'Add Requester',
+              placeholder: 'Search Requester',
             },
             component: RHFAutocompleteAsync,
           },
@@ -155,7 +162,7 @@ export const mergeTicketsFormFieldsDynamic = (
                 apiQueryTicketByRequester,
                 watchForTicketSelection?._id,
               )?.apiQuery,
-              getOptionLabel: (option: any) =>
+              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
                 `${option?.ticketIdNumber} ${' '} ${truncateText(
                   option?.subject,
                 )}`,
@@ -173,7 +180,7 @@ export const mergeTicketsFormFieldsDynamic = (
               required: true,
               queryKey: 'ticketIdNumber',
               apiQuery: apiQueryTicketById,
-              getOptionLabel: (option: any) =>
+              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
                 `${option?.ticketIdNumber} ${' '} ${truncateText(
                   option?.subject,
                 )}`,

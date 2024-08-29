@@ -5,8 +5,10 @@ import React from 'react';
 import { useNewEmailDrawer } from './useEmailReport';
 import { emailReportFormFields } from './EmailReport.data';
 import { LoadingButton } from '@mui/lab';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const EmailReport = (props: any) => {
+export const EmailReport = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
 
   const {
@@ -20,7 +22,7 @@ export const EmailReport = (props: any) => {
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isEmail}
+      isDrawerOpen={isPortalOpen?.isEmail as boolean}
       onClose={() => onClose?.()}
       title="Email this report"
       isOk
@@ -33,7 +35,7 @@ export const EmailReport = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {emailReportFormFields?.map((item: any) => (
+          {emailReportFormFields?.map((item: ReactHookFormFieldsI) => (
             <Grid item xs={12} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>

@@ -13,8 +13,8 @@ export const chipColor = (status: string): string => {
 };
 
 export const addAssociationsButtonDynamic = (
-  setNewIncident: any,
-  setExistingIncident: any,
+  setNewIncident: React.Dispatch<React.SetStateAction<boolean>>,
+  setExistingIncident: React.Dispatch<React.SetStateAction<boolean>>,
 ) => [
   {
     id: 1,
@@ -23,7 +23,7 @@ export const addAssociationsButtonDynamic = (
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
       ,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       setNewIncident?.(true);
       closeMenu();
     },
@@ -35,7 +35,7 @@ export const addAssociationsButtonDynamic = (
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
       ,
     ],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: () => void) => {
       setExistingIncident?.(true);
       closeMenu();
     },

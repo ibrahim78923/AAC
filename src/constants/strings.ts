@@ -71,6 +71,7 @@ export const PHONE_NUMBER_TYPE = {
   MASK_NUMBER: 'maskNumber',
 };
 export const TICKET_APPROVALS = {
+  ALL: 'ALL',
   RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
   APPROVE: 'APPROVED',
@@ -149,6 +150,7 @@ export const SOFTWARE_STATUS = {
   MANAGED: 'Managed',
   DISABLED: 'Disabled',
   IN_REVIEW: 'InReview',
+  ALL_SOFTWARE: 'All Software',
 };
 
 export const expande_status = {
@@ -383,6 +385,7 @@ export const CONTRACT_ACTION = {
 
 export const SMS_BROADCAST_CONSTANTS = {
   RECIPIENTS: 'recipients',
+  DETAILS: 'detail',
 };
 
 export enum ROLES {
@@ -434,6 +437,7 @@ export const MODULE_TYPE = {
   OPERATIONS: 'OPERATIONS',
   ATTACHMENTS: 'ATTACHMENTS',
   CONTRACTS: 'CONTRACTS',
+  CONTRACT: 'CONTRACT',
   SERVICE_CATALOG: 'SERVICE_CATALOG',
   PRODUCT_CATALOG: 'PRODUCT_CATALOG',
   ARTICLES: 'ARTICLES',
@@ -441,6 +445,9 @@ export const MODULE_TYPE = {
   ASSETS: 'ASSETS',
   TICKET: 'TICKET',
   CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
+  SOFTWARE: 'SOFTWARE',
+  PURCHASE_ORDER: 'PURCHASE_ORDER',
+  INVENTORY: 'INVENTORY',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -526,6 +533,8 @@ export const IMPORT_ACTION_TYPE = {
   DEALS: 'DEALS',
   TASKS: 'TASKS',
   PRODUCT: 'product',
+  Sales: 'Sales',
+  Services: 'Services',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -597,6 +606,7 @@ export const DRAWER_TYPES = {
   EDIT: 'edit',
   ADD: 'add',
   VIEW: 'view',
+  CREATE: 'create',
   UPDATE: 'update',
 };
 
@@ -628,6 +638,7 @@ export const STATICTICS_STATUS = {
 
 export const SMS_MARKETING_CONSTANTS = {
   ALL: 'all',
+  GROUP: 'groups',
   DETAIL: 'detail',
   NAME: 'name',
   ATTACHMENT: 'attachment',
@@ -640,6 +651,7 @@ export const DRAWER_TITLES = {
 export const DRAWER_ACTIONS_TITLES = {
   EDIT: 'Edit',
   ADD: 'ADD',
+  VIEW: 'View',
 };
 
 export const LOYALTY_SHOP_TYPE = {
@@ -690,6 +702,8 @@ export const VOUCHERS_STATUS = {
 export const DATA_TYPES = {
   NULL: null,
   UNDEFINED: undefined,
+  OBJECT: 'object',
+  STRING: 'string',
 };
 
 export const LOYALTY_TIERS_REWARD_TYPE = {
@@ -832,6 +846,8 @@ export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
 
 export const ARRAY_INDEX = {
   ZERO: 0,
+  ONE: 1,
+  TWO: 2,
 };
 
 export const PRODUCT_USER_STATUS = {
@@ -852,6 +868,13 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   UPDATE: 'Update',
   APPLY: 'Apply',
   CREATE: 'Create',
+  USE: 'Use',
+  WRITE: 'Write',
+  SAVE_AS_DRAFT: 'Save as Draft',
+  SEND_FOR_APPROVAL: 'Send For Approval',
+  PUBLISH_NOW: 'Publish Now',
+  IMPORT: 'Import',
+  NEXT: 'Next',
 };
 
 export const TEXT_FORMATE: any = {
@@ -895,10 +918,8 @@ export const TIME_TO_RESTORE_DELETED_RECORD = {
 };
 
 export const REPORT_TYPE = {
-  CHART: 'chart',
   TABLE: 'TABLE',
   TEXT: 'TEXT_FIELD',
-  COUNTER: 'counter',
   EVERYONE: 'EVERYONE',
   PRIVATE: 'PRIVATE',
   SPECIFIC_USERS: 'SPECIFIC_USERS',
@@ -920,7 +941,20 @@ export const REPORT_TYPE = {
   TEMPLATE_TEXT: 'TEMPLATE_TEXT',
   LEADS: 'LEADS',
   CAMPAIGNS: 'CAMPAIGN',
-  addToNew: 'addToNew',
+  CHART: 'chart',
+  COUNTER: 'counter',
+};
+
+export const ADD_TO = {
+  ADD_TO_NEW_CONDITION_ONE: 'addToNewConditionOne',
+  ADD_TO_NEW_CONDITION_TWO: 'addToNewConditionTwo',
+  ADD_TO_DASHBOARD: 'addToDashboard',
+  SHARED_WITH: 'sharedWith',
+  SPECIFIC_USERS_CONDITION_ONE: 'specificUsersConditionOne',
+  NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE:
+    'newDashboardSpecificUsersConditionOne',
+  NEW_DASHBOARD_EVERYONE_CONDITION: 'newDashboardEveryoneCondition',
+  ADD_TO_EXISTING_CONDITION: 'addToExistingCondition',
   SHARED_WITH_PERMISSIONS: 'sharedWithPermissions',
   NEW_DASHBOARD_PERMISSIONS: 'newDashboardPermissions',
 };
@@ -933,13 +967,14 @@ export const FIELD_TYPE = {
 
 export const COLLECTION_NAME = {
   ASSET_TYPES: 'assettypes',
-  LOCATION: 'location',
-  DEPARTMENT: 'department',
+  LOCATION: 'locations',
+  DEPARTMENT: 'departments',
   VENDORS: 'vendors',
   USERS: 'users',
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
   SALES_PIPELINES: 'salespipeline',
+  CONTRACT_TYPE: 'contracttypes',
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',
   ADD_TO_EXISTING: 'addToExisting',
@@ -952,6 +987,13 @@ export const COLLECTION_NAME = {
   PURCHASE_ORDER: 'Purchase Order',
   DEALS: 'Deals',
   FORECAST: 'Forecast',
+};
+
+export const MODAL_INITIAL_STATES: any = {
+  chart: false,
+  text: false,
+  table: false,
+  counter: false,
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {
@@ -1112,4 +1154,25 @@ export const SETTINGS_CONSTANTS = {
 export const MUI_GRID_LENGTH = {
   TWELVE: 12,
   SIX: 6,
+};
+
+export const ANNOUNCEMENTS_VISIBILITY = {
+  EVERYONE: 'EVERYONE',
+  ALL_AGENT: 'AllAGENT',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
+};
+
+export const PURCHASE_ORDER_REPORT_STATUS: any = {
+  ALL: 'All Purchase Order',
+  RECEIVED: 'Received',
+  APPROVED: 'Approved',
+  REJECTED: 'Rejected',
+  PENDING: 'Pending',
+};
+export const INVENTORY_REPORT_STATUS = {
+  ALL: 'All Assets',
+  HARDWARE: 'Hardware',
+  CONTRACTS: 'Contracts',
+  SOFTWARE: 'Backup Software',
+  PURCHASE_ORDER: 'Purchase Orders',
 };

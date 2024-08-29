@@ -143,7 +143,6 @@ export const useAssets = () => {
     limit,
     setLimit,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,

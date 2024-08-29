@@ -47,6 +47,7 @@ const Tasks = ({ companyId }: any) => {
                   selectedCheckboxes={selectedCheckboxes}
                   setSelectedCheckboxes={setSelectedCheckboxes}
                 />
+
                 <PermissionsGuard
                   permissions={[
                     SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_TASK,

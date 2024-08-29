@@ -245,9 +245,12 @@ const UserInfo = () => {
                   type="number"
                   sx={{ width: '100px', '& input': { padding: '11px' } }}
                   value={discountValue}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setDiscountValue(Number(event.target.value))
-                  }
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = Number(event.target.value);
+                    if (value >= 0) {
+                      setDiscountValue(value);
+                    }
+                  }}
                 />{' '}
               </Box>
             </Box>

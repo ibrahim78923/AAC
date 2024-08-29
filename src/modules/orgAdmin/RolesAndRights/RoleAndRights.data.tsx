@@ -1,9 +1,5 @@
 import { Checkbox } from '@mui/material';
-import {
-  RHFAutocompleteAsync,
-  RHFSwitch,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 
 import { SwitchBtn } from '@/components/SwitchButton';
 
@@ -142,15 +138,6 @@ export const addUsersArrayData = (productsData: any) => {
         rows: 3,
       },
       component: RHFTextField,
-      md: 5,
-    },
-    {
-      componentProps: {
-        label: 'Default User',
-        name: 'status',
-        fullWidth: true,
-      },
-      component: RHFSwitch,
       md: 5,
     },
   ];

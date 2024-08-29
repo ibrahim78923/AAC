@@ -25,17 +25,17 @@ export const useInventory = () => {
   const { makePath } = usePath();
   const theme = useTheme();
   const [hasInventoryAction, setHasInventoryAction] = useState(false);
-  const [selectedInventoryLists, setSelectedInventoryLists] = useState([]);
+  const [selectedInventoryLists, setSelectedInventoryLists] = useState<
+    string[]
+  >([]);
   const [inventoryListsColumns, setInventoryListsColumns] = useState(
     inventoryListsInitialColumns,
   );
-
   const [inventoryFilterLists, setInventoryFilterLists] = useState({});
-  const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
+  const [page, setPage] = useState<number>(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
   const router = useRouter();
-
   useEffect(() => {
     router?.push(
       makePath({

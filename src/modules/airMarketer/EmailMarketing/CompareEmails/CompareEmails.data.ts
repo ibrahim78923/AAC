@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 export const personalEmail = [
   {
     label: 'My Business Email',
@@ -42,3 +44,20 @@ export const businessEmail = [
     value: 'officeFurniture',
   },
 ];
+
+export const defaultEmailsCompareFields = [
+  {
+    uniqueName: 'slot_one',
+  },
+  {
+    uniqueName: 'slot_two',
+  },
+];
+
+export const addEmailValidationSchema = Yup?.object()?.shape({
+  email: Yup?.mixed()?.nullable()?.required('Email is required'),
+});
+
+export const addEmailDefaultValues = {
+  email: null,
+};

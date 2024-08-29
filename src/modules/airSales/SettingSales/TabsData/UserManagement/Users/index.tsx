@@ -132,6 +132,9 @@ const UserTable = () => {
                 setIsOpenDelete(true);
                 handleClose();
               }}
+              disabled={
+                checkedUser[0] === '66852793a152267199674836' ? true : false
+              }
             >
               Delete
             </MenuItem>

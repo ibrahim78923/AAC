@@ -22,8 +22,9 @@ import { NoAssociationFoundImage } from '@/assets/images';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
+import { TanstackTablePropsI } from './TanstackTable.interface';
 
-const TanstackTable = (props: any) => {
+const TanstackTable = (props: TanstackTablePropsI) => {
   const {
     columns = [],
     data = [],
@@ -46,6 +47,7 @@ const TanstackTable = (props: any) => {
     noDataTableText = 'No data available',
     noDataTableImage = NoAssociationFoundImage,
     errorChildren,
+    errorProps,
   } = props;
 
   const { table } = useTanstackTable(data, columns, showSerialNo);
@@ -130,7 +132,7 @@ const TanstackTable = (props: any) => {
               </TableBody>
             </Table>
             {isError ? (
-              <ApiErrorState>{errorChildren}</ApiErrorState>
+              <ApiErrorState {...errorProps}>{errorChildren}</ApiErrorState>
             ) : (
               !table?.getCoreRowModel()?.rows?.length &&
               isSuccess && (

@@ -64,7 +64,7 @@ export const useEmailThisDashboard = (props: any) => {
     const emailFormData = new FormData();
     emailFormData?.append('recipients', formData?.email);
     emailFormData?.append('subject', formData?.emailSubject);
-    emailFormData?.append('html', formData?.message);
+    !!formData?.message && emailFormData?.append('html', formData?.message);
     formData?.attachments !== null &&
       emailFormData?.append('attachments', formData?.attachments);
 

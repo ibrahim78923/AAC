@@ -1,4 +1,5 @@
 import { useDeleteResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export default function useDeleteResponseModal({
@@ -20,8 +21,9 @@ export default function useDeleteResponseModal({
       successSnackbar('Deleted successfully!');
       setSelectedData([]);
       setDeleteModal(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       setDeleteModal(false);
     }
   };

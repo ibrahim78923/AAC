@@ -3,10 +3,9 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import useTasks from './useTasks';
-import { assigneeDataArray, columns } from './Tasks.data';
-import { FormProvider } from '@/components/ReactHookForm';
-import { ScheduleModals } from '@/components/ScheduleModals';
+import { columns } from './Tasks.data';
 import { AlertModals } from '@/components/AlertModals';
+import AssignModalBox from './AssignModalBox';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -18,37 +17,26 @@ const Tasks = ({ contactId }: any) => {
     handleOpenActionMenu,
     handleCloseActionMenu,
     dataGetContactTasks,
+    loadingGetTasks,
+    setPage,
+    setPageLimit,
     openDrawerEditTask,
     handleOpenDrawerEditTask,
     handleCloseDrawerEditTask,
-    methodsEditTask,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
-    methodsAssignee,
     openModalAssignee,
     handleOpenModalAssignee,
     handleCloseModalAssignee,
-    handleSubmitReassign,
-    loadingReAssignTask,
     openTaskDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
     handleSubmitDeleteTasks,
     loadingDelete,
+    selectedRowData,
   } = useTasks(contactId);
 
-  const tasksTableColumns = columns(
-    selectedRow,
-    setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
-  );
-
-  const assigneeForm = assigneeDataArray(contactsList);
+  const tasksTableColumns = columns(selectedRow, setSelectedRow);
 
   return (
     <PermissionsGuard
@@ -71,8 +59,8 @@ const Tasks = ({ contactId }: any) => {
                   isActionMenuOpen={isActionMenuOpen}
                   handleOpenActionMenu={handleOpenActionMenu}
                   handleCloseActionMenu={handleCloseActionMenu}
-                  isActionsDisabled={isActionsDisabled}
-                  isMenuItemDisabled={rowId}
+                  isActionsDisabled={selectedRow?.length === 0}
+                  isMenuItemDisabled={selectedRow?.length > 1}
                   handleOpenDrawer={handleOpenDrawerEditTask}
                   handleOpenModalReassign={handleOpenModalAssignee}
                   handleOpenModalDelete={handleOpenModalDelete}
@@ -84,7 +72,16 @@ const Tasks = ({ contactId }: any) => {
           <Grid item xs={12}>
             <TanstackTable
               columns={tasksTableColumns}
-              data={dataGetContactTasks?.data?.tasks}
+              data={dataGetContactTasks?.data?.taskmanagements}
+              isLoading={loadingGetTasks}
+              currentPage={dataGetContactTasks?.data?.meta?.page}
+              count={dataGetContactTasks?.data?.meta?.pages}
+              pageLimit={dataGetContactTasks?.data?.meta?.limit}
+              totalRecords={dataGetContactTasks?.data?.meta?.total}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              onPageChange={(page: any) => setPage(page)}
+              isPagination
             />
           </Grid>
         </Grid>
@@ -92,37 +89,16 @@ const Tasks = ({ contactId }: any) => {
         <TaskEditorDrawer
           openDrawer={openDrawerEditTask}
           onClose={handleCloseDrawerEditTask}
-          methods={methodsEditTask}
           contactsList={contactsList || []}
+          data={selectedRowData}
         />
 
-        <ScheduleModals
-          submitButonText="Update"
-          type={'assign'}
+        <AssignModalBox
           open={openModalAssignee}
-          handleClose={handleCloseModalAssignee}
-          handleSubmit={handleSubmitReassign}
-          isFooter={true}
-          loading={loadingReAssignTask}
-        >
-          <FormProvider methods={methodsAssignee}>
-            <Grid container>
-              {assigneeForm?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </ScheduleModals>
+          onClose={handleCloseModalAssignee}
+          data={selectedRowData}
+          setSelectedRow={setSelectedRow}
+        />
 
         <AlertModals
           type={'delete'}

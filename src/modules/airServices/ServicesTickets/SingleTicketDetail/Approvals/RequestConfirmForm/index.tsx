@@ -11,8 +11,9 @@ import { useRequestConfirmForm } from './useRequestConfirmForm';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { TICKET_APPROVALS } from '@/constants/strings';
+import { ConfirmModalPropsI } from '../Approvals.interface';
 
-export const RequestConfirmForm = (props: any) => {
+export const RequestConfirmForm = (props: ConfirmModalPropsI) => {
   const { isConfirmModalOpen, selectedApproval } = props;
   const {
     handleSubmit,

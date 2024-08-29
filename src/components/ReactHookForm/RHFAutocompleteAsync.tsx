@@ -61,7 +61,7 @@ export default function RHFAutocompleteAsync({
             autoComplete
             includeInputInList
             noOptionsText={noOptionsCase}
-            options={data ?? []}
+            options={isLoading || isFetching ? [] : data ?? []}
             disableCloseOnSelect
             {...other}
             onOpen={() => {

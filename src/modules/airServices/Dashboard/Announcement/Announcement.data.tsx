@@ -1,3 +1,4 @@
+import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -9,7 +10,7 @@ export const dropdownAnnouncementsOptionsDynamic = (
     id: 1,
     title: 'Edit',
     permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen({
         isOpen: true,
         isUpsert: true,
@@ -22,7 +23,7 @@ export const dropdownAnnouncementsOptionsDynamic = (
     id: 2,
     title: 'Delete',
     permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD],
-    handleClick: (closeMenu: any) => {
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setIsPortalOpen({
         isOpen: true,
         isDelete: true,

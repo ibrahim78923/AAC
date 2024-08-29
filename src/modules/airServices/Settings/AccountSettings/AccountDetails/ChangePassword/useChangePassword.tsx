@@ -9,6 +9,8 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostChangePasswordMutation } from '@/services/airServices/settings/account-settings/account-details';
+import { IChangePasswordData } from './ChangePassword.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useChangePassword = () => {
   const theme = useTheme();
@@ -22,17 +24,18 @@ export const useChangePassword = () => {
   const [postChangePasswordTrigger, postChangePasswordProgress] =
     usePostChangePasswordMutation();
 
-  const isSubmit = async (data: any) => {
+  const isSubmit = async (data: IChangePasswordData) => {
     const payload = {
       currentPassword: data?.currentPassword,
       newPassword: data?.newPassword,
     };
     try {
-      const res: any = await postChangePasswordTrigger(payload)?.unwrap();
+      const res = await postChangePasswordTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Password Change Successfully');
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
       reset();
     }
   };
@@ -40,7 +43,7 @@ export const useChangePassword = () => {
   const { handleSubmit, reset } = ChangePasswordMethods;
   const handleSubmitChangePassword = handleSubmit(isSubmit);
 
-  const togglePasswordVisibility = (index: any) => {
+  const togglePasswordVisibility = (index: number) => {
     setShowPassword((prev) => {
       const updatedShowPassword = [...prev];
       updatedShowPassword[index] = !updatedShowPassword[index];

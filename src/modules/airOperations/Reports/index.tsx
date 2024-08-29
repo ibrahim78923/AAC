@@ -1,11 +1,17 @@
 import { Avatar, Box, Grid, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
-import { reportsTypes } from './Reports.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ReportsTypesI } from './Reports.interface';
+import { useReports } from './useReports';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Reports = () => {
-  const router = useRouter();
+  const { isLoading, isError, isFetching, reportsTypes, router, refetch } =
+    useReports();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+
   return (
     <>
       <Typography variant="h3" color="slateBlue.main">
@@ -21,11 +27,15 @@ export const Reports = () => {
               lg={4}
               xs={12}
               onClick={() => {
+                if (!report?.hasAccount) return;
                 router?.push({
                   pathname: report?.link,
+                  query: {
+                    id: report?.productId,
+                  },
                 });
               }}
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: !report?.hasAccount ? 'not-allowed' : 'pointer' }}
             >
               <Box
                 display={'flex'}
@@ -38,6 +48,7 @@ export const Reports = () => {
                 px={1.5}
                 py={2}
                 height={'100%'}
+                bgcolor={!report?.hasAccount ? 'grey.200' : 'common.white'}
               >
                 <Avatar
                   variant="rounded"

@@ -67,6 +67,7 @@ export const useAddPlan = () => {
   const [selectedModule, setSelectedModule] = useState<string>();
   const [selectedSubModule, setSelectedSubModule] = useState<string>();
   const [isFreePlan, setIsFreePlan] = useState(false);
+  const [commonModulesPermissions, setCommonModulesPermissions] = useState([]);
 
   const handleExpandAccordionChange = (module: string) => {
     if (module === selectedModule) {
@@ -460,26 +461,60 @@ export const useAddPlan = () => {
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
 
-      const planPermission = values?.permissionSlugs.reduce(
-        (acc: any, item: any) => {
-          const [productId, permissionSlug] = item.split(':');
-          const existingProduct = acc?.find(
+      const planPermission =
+        values?.permissionSlugs.length > 0
+          ? values?.permissionSlugs.reduce((acc: any, item: any) => {
+              const [productId, permissionSlug] = item.split(':');
+              const existingProduct = acc?.find(
+                (entry: any) => entry?.productId === productId,
+              );
+
+              if (existingProduct) {
+                existingProduct?.permissionSlugs?.push(permissionSlug);
+              } else {
+                acc?.push({
+                  productId,
+                  permissionSlugs: [
+                    ...commonModulesPermissions,
+                    permissionSlug,
+                  ],
+                });
+              }
+              return acc;
+            }, [])
+          : planForm?.suite.flatMap((productId: any) => ({
+              productId,
+              permissionSlugs: [...commonModulesPermissions],
+            }));
+
+      // Ensure all product IDs in planForm.suite are covered
+      planForm?.suite?.forEach((productId: any) => {
+        const existingProduct = planPermission?.find(
+          (entry: any) => entry?.productId === productId,
+        );
+        // If productId is not found in planPermission, add it with commonModulesPermissions
+        if (!existingProduct) {
+          planPermission?.push({
+            productId,
+            permissionSlugs: [...commonModulesPermissions],
+          });
+        }
+      });
+
+      if (!isNullOrEmpty(planForm?.productId)) {
+        [planForm?.productId]?.forEach((productId: any) => {
+          const existingProduct = planPermission?.find(
             (entry: any) => entry?.productId === productId,
           );
-
-          if (existingProduct) {
-            existingProduct?.permissionSlugs?.push(permissionSlug);
-          } else {
-            acc?.push({
+          // If productId is not found in planPermission, add it with commonModulesPermissions
+          if (!existingProduct) {
+            planPermission?.push({
               productId,
-              permissionSlugs: [permissionSlug],
+              permissionSlugs: [...commonModulesPermissions],
             });
           }
-
-          return acc;
-        },
-        [],
-      );
+        });
+      }
 
       const transformedModulesFormData = { planPermission };
       let res: any;
@@ -604,6 +639,8 @@ export const useAddPlan = () => {
           selectedSubModule={selectedSubModule}
           isLoading={isLoading}
           updatePlanLoading={updatePlanLoading}
+          commonModulesPermissions={commonModulesPermissions}
+          setCommonModulesPermissions={setCommonModulesPermissions}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -702,5 +739,6 @@ export const useAddPlan = () => {
     ifCrmExist,
     updatePlanLoading,
     GetsinglePlanLoading,
+    parsedRowData,
   };
 };

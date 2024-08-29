@@ -221,7 +221,13 @@ const PlanManagement = () => {
             <Grid container spacing={4}>
               {planManagementFilterFiltersDataArray()?.map(
                 (item: FilterData) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={uuidv4()}
+                    sx={{ paddingTop: '10px !important' }}
+                  >
                     <item.component {...item?.componentProps} size={'small'}>
                       {!isNullOrEmpty(item?.componentProps?.select)
                         ? item?.options?.map((option: Option) => (

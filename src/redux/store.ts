@@ -12,6 +12,9 @@ import taskManagementSlice from './slices/taskManagement/taskManagementSlice';
 import dealsTaskSlice from './slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
 import subscriptionAndInvoicesSlice from './slices/orgAdmin/SubscriptionAndInvoices';
 import forecastSlice from './slices/forecast/forecastSlice';
+import genericReportSlice from './slices/genericReport/genericReportSlice';
+import salesWorkflowSlice from './slices/salesWorkflow';
+import servicesWorkflowSlice from './slices/servicesWorkflow';
 
 const store = configureStore({
   reducer: {
@@ -27,6 +30,9 @@ const store = configureStore({
     socialInbox: SocialInboxSlice,
     planManagementForms: planManagementSlice,
     forecastForm: forecastSlice,
+    genericReport: genericReportSlice,
+    salesWorkflow: salesWorkflowSlice,
+    servicesWorkflow: servicesWorkflowSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

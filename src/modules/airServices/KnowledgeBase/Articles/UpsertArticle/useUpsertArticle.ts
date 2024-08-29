@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
+import { useForm, UseFormReturn } from 'react-hook-form';
+import { NextRouter, useRouter } from 'next/router';
+import { Theme, useTheme } from '@mui/material';
 import {
   useGetArticleByIdQuery,
   useLazyGetFoldersDropdownQuery,
@@ -18,15 +18,12 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import { ARTICLE_STATUS } from '@/constants/strings';
-import useAuth from '@/hooks/useAuth';
+import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 
 export const useUpsertArticle: any = () => {
-  const router = useRouter();
-  const theme = useTheme();
+  const router: NextRouter = useRouter();
+  const theme: Theme = useTheme();
   const { articleId } = router?.query;
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
 
   const [postArticleTrigger, postArticleStatus] = usePostArticleMutation();
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
@@ -36,14 +33,16 @@ export const useUpsertArticle: any = () => {
       articleId,
     },
   };
-  const { data, isLoading, isFetching }: any = useGetArticleByIdQuery(
-    getSingleArticleParameter,
-    {
+
+  const { data, isLoading, isFetching, isError, refetch }: any =
+    useGetArticleByIdQuery(getSingleArticleParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!articleId,
-    },
-  );
-  const editArticleMethods = useForm<any>({
+    });
+
+  const editArticleMethods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
+    UpsertArticlesFormFieldsI | any
+  >({
     defaultValues: defaultValues(),
     resolver: yupResolver(upsertArticleValidationSchema),
   });
@@ -56,7 +55,7 @@ export const useUpsertArticle: any = () => {
 
   const needApprovals = editArticleMethods?.watch('needsApproval');
 
-  const cancelBtnHandler = (type: any) => {
+  const cancelBtnHandler = (type: string) => {
     if (type === '') {
       router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
       return;
@@ -67,7 +66,10 @@ export const useUpsertArticle: any = () => {
     }
   };
 
-  const upsertArticleSubmit = async (data: any, status?: any) => {
+  const upsertArticleSubmit = async (
+    data: UpsertArticlesFormFieldsI,
+    status?: string | any,
+  ) => {
     const upsertArticle = new FormData();
     !!data?.title && upsertArticle?.append('title', data?.title);
     !!data?.details && upsertArticle?.append('details', data?.details);
@@ -125,7 +127,6 @@ export const useUpsertArticle: any = () => {
     needApprovals,
     apiQueryFolder,
     apiQueryApprover,
-    productId,
   );
 
   return {
@@ -141,5 +142,7 @@ export const useUpsertArticle: any = () => {
     isLoading,
     isFetching,
     cancelBtnHandler,
+    isError,
+    refetch,
   };
 };

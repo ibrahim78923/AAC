@@ -1,12 +1,55 @@
-export const ContractReportsCardData = () => {
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+
+export const ContractReportsCardData = (data: any) => {
   return {
-    All: '10',
-    Lease: '10',
-    Maintaince: '9',
-    Software: '8',
-    Warranty: '7',
+    All: data?.allContract,
+    Lease: data?.lease,
+    Maintenance: data?.maintenance,
+    Software: data?.softwareLicence,
+    Warranty: data?.warranty,
   };
 };
+export const ContractReportsChartData = (data: any) => {
+  return {
+    All: data?.allContract,
+    Lease: data?.lease,
+    Maintenance: data?.maintenance,
+    Software: data?.softwareLicence,
+    Warranty: data?.warranty,
+  };
+};
+export const chartOptions: any = [
+  'All',
+  'Lease',
+  'Maintenance',
+  'Software',
+  'Warranty',
+];
+
+export const contractsTypeOptions = [
+  {
+    _id: 'allContract',
+    label: 'All',
+  },
+  {
+    _id: 'lease',
+    label: 'Lease',
+  },
+  {
+    _id: 'maintenance',
+    label: 'Maintenance',
+  },
+  {
+    _id: 'softwareLicence',
+    label: 'Software',
+  },
+  {
+    _id: 'warranty',
+    label: 'Warranty',
+  },
+];
+
 export const contractReportsTableData = [
   {
     name: 'Freshsevice',
@@ -30,23 +73,23 @@ export const contractReportsTabelCoulmns = [
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.type,
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     cell: (info: any) => info?.getValue(),
     header: 'Status',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.managedby,
+    accessorFn: (row: any) => row?.contractTypeDetails?.name,
     id: 'type',
     cell: (info: any) => info?.getValue(),
     header: 'Type',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.category,
+    accessorFn: (row: any) => row?.endDate,
     id: 'expirydate',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     header: 'Expiry Date',
     isSortable: false,
   },

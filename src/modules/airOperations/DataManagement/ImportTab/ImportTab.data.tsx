@@ -3,6 +3,8 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { ImportTabColumnsI } from './ImportTab.interface';
+import { generateImage } from '@/utils/avatarUtils';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const importTabColumnsFunction: ImportTabColumnsI = (
   exportList,
@@ -65,17 +67,22 @@ export const importTabColumnsFunction: ImportTabColumnsI = (
     cell: (info: any) => (
       <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
         <Avatar
-          sx={{ bgcolor: 'error.lighter' }}
-          style={{ width: 28, height: 28 }}
-          src={info?.row?.original?.users?.avatar?.url}
-          alt={info?.row?.original?.users?.firstName}
+          sx={{ bgcolor: 'error.lighter', width: 32, height: 32 }}
+          src={generateImage(
+            info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.avatar?.url,
+          )}
+          alt={info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.firstName}
         />
         <Box display={'flex'} flexDirection={'column'}>
-          <Typography variant="body1" color={'grey.800'}>
-            {info?.row?.original?.users?.firstName ?? '---'}
+          <Typography variant="body2" color={'grey.800'}>
+            {info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.firstName +
+              ' ' +
+              info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.lastName ??
+              '---'}
           </Typography>
-          <Typography variant="body2" color={'grey.900'}>
-            {info?.row?.original?.users?.email ?? '---'}
+          <Typography variant="body3" color={'grey.900'}>
+            {info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.email ??
+              '---'}
           </Typography>
         </Box>
       </Box>
@@ -86,9 +93,7 @@ export const importTabColumnsFunction: ImportTabColumnsI = (
     id: 'fileName',
     isSortable: true,
     header: 'File Name',
-    cell: (info: any) => (
-      <Typography color="primary.main">{info?.getValue() ?? '---'}</Typography>
-    ),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.product,

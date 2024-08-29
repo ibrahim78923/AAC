@@ -1,8 +1,9 @@
 import { DATE_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
+import { SingleViewArticleDataI } from './SingleViewArticle.interface';
 
-export const sideData = (data: any) => {
+export const sideData = (data: SingleViewArticleDataI) => {
   return [
     {
       heading: 'Details',

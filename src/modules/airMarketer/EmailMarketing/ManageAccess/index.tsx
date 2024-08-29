@@ -1,17 +1,12 @@
 import * as React from 'react';
 
-import {
-  Box,
-  Button,
-  Typography,
-  useTheme,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from '@mui/material';
+import { Box, Button, Typography, useTheme, Grid } from '@mui/material';
 
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFAutocompleteAsync,
+  RHFRadioGroup,
+} from '@/components/ReactHookForm';
 
 import { enqueueSnackbar } from 'notistack';
 import {
@@ -24,27 +19,57 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import CommonModal from '@/components/CommonModal';
-import useEmailMarketing from '../useEmailMarketing';
+import {
+  useLazyGetAllMarketingTeamsQuery,
+  useLazyGetAllMarketingUsersQuery,
+} from '@/services/airMarketer/emailMarketing';
+import { getActiveProductSession } from '@/utils';
+import { PAGINATION } from '@/config';
+import { MANAGE_ACCESS_VISIBLE } from '@/constants';
+import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import { LoadingButton } from '@mui/lab';
 
 const ManageAccess = ({
   isOpenManageAccessModal,
   handleCloseManageAccessModal,
+  selectedRecords,
 }: any) => {
-  const { handleChangeAccessValue, isAccessValue } = useEmailMarketing();
   const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaEmailAccess),
     defaultValues: defaultValuesEmailAccess,
   });
 
-  const { handleSubmit } = methods;
+  const ActiveProduct = getActiveProductSession();
 
-  const onSubmit = async () => {
-    handleCloseManageAccessModal();
-    enqueueSnackbar('Manage Access Successfully', {
-      variant: 'success',
-    });
+  const { handleSubmit, watch } = methods;
+
+  const [updateEmailTemplate, { isLoading: loadingUpdateEmailTemplate }] =
+    useUpdateEmailTemplatesMutation();
+
+  const onSubmit = async (values: any) => {
+    try {
+      await updateEmailTemplate({
+        id: selectedRecords?._id,
+        body: {
+          visibleTo: values?.access,
+          teamIds: values?.teams?.map((item: any) => item?._id),
+          userAccoutIds: values?.users?.map((item: any) => item?._id),
+        },
+      })?.unwrap();
+      handleCloseManageAccessModal();
+      enqueueSnackbar('Manage Access Successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
   };
+
+  const access = watch('access');
+
+  const apiQueryUsers = useLazyGetAllMarketingUsersQuery?.();
+  const apiQueryTeams = useLazyGetAllMarketingTeamsQuery?.();
 
   return (
     <div>
@@ -56,38 +81,84 @@ const ManageAccess = ({
         title="Email Access"
       >
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <Typography
-              variant="h6"
-              fontWeight={600}
-              color={theme?.palette?.slateBlue?.main}
-            >
-              Shared with *
-            </Typography>
-            <RadioGroup
-              value={isAccessValue}
-              onChange={handleChangeAccessValue}
-              name="access"
-            >
-              <FormControlLabel
-                value="availableToEveryOne"
-                control={<Radio />}
-                label="Available to Everyone"
+          <Typography
+            variant="h6"
+            fontWeight={600}
+            color={theme?.palette?.slateBlue?.main}
+          >
+            Shared with *
+          </Typography>
+
+          <Grid container>
+            <Grid item xs={12}>
+              <RHFRadioGroup
+                name="access"
+                row={false}
+                options={[
+                  {
+                    value: MANAGE_ACCESS_VISIBLE?.EVERYONE,
+                    label: 'Available to everyone',
+                  },
+                  {
+                    value: MANAGE_ACCESS_VISIBLE?.TEAMS,
+                    label: 'Select teams who can edit',
+                  },
+                  {
+                    value: MANAGE_ACCESS_VISIBLE?.USERS,
+                    label: 'Select users who can edit',
+                  },
+                ]}
               />
-              <FormControlLabel
-                value="selectUserAndTeamWhoCanEdit"
-                control={<Radio />}
-                label="Select user and team who can edit"
-              />
-            </RadioGroup>
-          </FormControl>
+            </Grid>
+
+            {access === MANAGE_ACCESS_VISIBLE?.USERS && (
+              <Grid item xs={12}>
+                <RHFAutocompleteAsync
+                  label={'Users'}
+                  name={`users`}
+                  fullWidth
+                  multiple
+                  externalParams={{ meta: true, product: ActiveProduct?._id }}
+                  apiQuery={apiQueryUsers}
+                  size="small"
+                  placeholder="Select user"
+                  getOptionLabel={(option: any) => option?.username}
+                />
+              </Grid>
+            )}
+
+            {access === MANAGE_ACCESS_VISIBLE?.TEAMS && (
+              <Grid item xs={12}>
+                <RHFAutocompleteAsync
+                  label={'Teams'}
+                  name={`teams`}
+                  fullWidth
+                  multiple
+                  externalParams={{
+                    page: PAGINATION?.CURRENT_PAGE,
+                    limit: PAGINATION?.PAGE_LIMIT,
+                  }}
+                  apiQuery={apiQueryTeams}
+                  size="small"
+                  placeholder="Select team"
+                  getOptionLabel={(option: any) => option?.name}
+                />
+              </Grid>
+            )}
+          </Grid>
+
           <Box sx={styles?.buttonBox} mt={2}>
             <Button variant="outlined" onClick={handleCloseManageAccessModal}>
               Cancel
             </Button>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
+            <LoadingButton
+              loading={loadingUpdateEmailTemplate}
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+            >
               Save
-            </Button>
+            </LoadingButton>
           </Box>
         </FormProvider>
       </CommonModal>

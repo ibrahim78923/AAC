@@ -12,7 +12,6 @@ export const UpsertEventBasedWorkflow = () => {
   const {
     eventMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     moduleType,
@@ -28,8 +27,6 @@ export const UpsertEventBasedWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
     updatedWorkflowProcess,
-    testWorkflowProgress,
-    testWorkflowResponse,
     movePage,
   } = useUpsertEventBasedWorkflow();
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -46,9 +43,7 @@ export const UpsertEventBasedWorkflow = () => {
           postWorkflowProgress={postWorkflowProgress}
           saveWorkflowProgress={saveWorkflowProgress}
           handleTestWorkflow={handleTestWorkflow}
-          testWorkflowProgress={testWorkflowProgress}
           updatedWorkflowProcess={updatedWorkflowProcess}
-          testWorkflowResponse={testWorkflowResponse}
           watch={watch}
           movePage={movePage}
         />
@@ -60,11 +55,7 @@ export const UpsertEventBasedWorkflow = () => {
           ))}
         </Grid>
         <Grid container>
-          <WorkflowRunAndTrigger
-            palette={palette}
-            register={register}
-            watch={watch}
-          />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}

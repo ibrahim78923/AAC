@@ -10,7 +10,8 @@ import {
 } from '@mui/material';
 import { useChangeReportOwner } from './useChangeReportOwner';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../Reports.interface';
+import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const ChangeReportOwner = (props: ReportsListsComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -21,7 +22,7 @@ export const ChangeReportOwner = (props: ReportsListsComponentPropsI) => {
     closeModal,
     reportOwnerApiQuery,
     changeReportOwnerStatus,
-  }: any = useChangeReportOwner(props);
+  } = useChangeReportOwner(props);
 
   return (
     <Dialog
@@ -61,7 +62,7 @@ export const ChangeReportOwner = (props: ReportsListsComponentPropsI) => {
             apiQuery={reportOwnerApiQuery}
             size="small"
             placeholder="Choose Owner"
-            getOptionLabel={(option: any) =>
+            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
               `${option?.firstName} ${option?.lastName}`
             }
           />

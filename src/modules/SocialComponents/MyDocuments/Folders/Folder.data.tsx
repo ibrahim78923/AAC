@@ -4,6 +4,10 @@ import { Box, Checkbox } from '@mui/material';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import { RowI } from './Folder.interface';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 export const columns: any = (
   setIsGetRowValues: React.Dispatch<React.SetStateAction<string[]>>,
@@ -93,12 +97,22 @@ export const toolTipData = [
   'To track who has viewed this link, make sure Require an email address to view document is enabled. Disabling this option will prevent HubSpot from tracking who is viewing your Document',
 ];
 
-export const validationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-});
+export const validationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const defaultValuesFolder = {
-  name: '',
+  return Yup?.object()?.shape({
+    name: Yup?.string()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
+
+export const defaultValuesFolder = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
+  return {
+    name: data?.name ?? '',
+    ...initialValues,
+  };
 };
 
 export const dataArray = [
@@ -108,6 +122,8 @@ export const dataArray = [
       label: 'Folder Name',
       fullWidth: true,
       select: false,
+      placeholder: 'Enter name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,

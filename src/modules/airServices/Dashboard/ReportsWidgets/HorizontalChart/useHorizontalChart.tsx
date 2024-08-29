@@ -1,10 +1,11 @@
 import { useTheme } from '@mui/material';
 import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
-import { MONTH_NAMES } from '@/constants/strings';
+import { ARRAY_INDEX, MONTH_NAMES } from '@/constants/strings';
 
 export const useHorizontalChart = (props: any) => {
-  const { data = { counts: [], items: [] }, barChart } = props;
-  const { items = [], counts = [] } = data;
+  const { data = { counts: [], items: [] }, barChart, title } = props;
+  const { items = [], counts = [] } =
+    data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const theme = useTheme();
 
@@ -44,8 +45,7 @@ export const useHorizontalChart = (props: any) => {
     plotOptions: {
       bar: {
         horizontal: true,
-        columnWidth: '30%',
-        borderRadius: 2,
+        barHeight: '20%',
       },
     },
     legend: {

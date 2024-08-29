@@ -284,7 +284,7 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
+        component = RHFTextField;
         componentProps = {
           placeholder: 'Enter Task Name',
         };

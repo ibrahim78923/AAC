@@ -1,10 +1,6 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import {
-  EXPORT_FILE_TYPE,
-  EXPORT_TYPE,
-  SELECTED_ARRAY_LENGTH,
-} from '@/constants/strings';
+import { EXPORT_FILE_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   actionsForReportListsDynamic,
@@ -17,19 +13,15 @@ import { ChangeReportOwner } from '../ChangeReportOwner';
 import { EmailReport } from '../EmailReport';
 import { FilterReport } from '../FilterReport';
 import { ExportModal } from '@/components/ExportModal';
-import { downloadFile, exportDataToCSV, exportDataToXLS } from '@/utils/file';
+import { downloadFile } from '@/utils/file';
 import { useAddReportToFavoriteListMutation } from '@/services/airOperations/reports';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { AddToDashboardReport } from '../AddToDashboardReport';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
-import { fullName } from '@/utils/avatarUtils';
-import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 import {
   ReportListsIsPortalOpenI,
   ReportsListsComponentPropsI,
   ReportsListsPropsI,
-} from '../Reports.interface';
+} from './ReportLists.interface';
 
 export const useReportLists = (props: ReportsListsPropsI) => {
   const {
@@ -40,10 +32,10 @@ export const useReportLists = (props: ReportsListsPropsI) => {
     permission,
     baseModule,
   } = props;
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [isPortalOpen, setIsPortalOpen] = useState<ReportListsIsPortalOpenI>(
     {},
   );
@@ -65,7 +57,7 @@ export const useReportLists = (props: ReportsListsPropsI) => {
       ...(!!filter?.length ? [...filter] : []),
       ...(baseModule ? [['baseModule', baseModule]] : []),
     ];
-    const getReportParam: any = buildQueryParams(
+    const getReportParam: URLSearchParams = buildQueryParams(
       additionalParams,
       filterReports,
     );
@@ -86,7 +78,7 @@ export const useReportLists = (props: ReportsListsPropsI) => {
     getReportsList?.();
   }, [page, pageLimit, search, reportFilters]);
 
-  const addReportToFavorite = async (e: any, id: any) => {
+  const addReportToFavorite = async (e: any, id: string) => {
     const body = {
       isFavorite: e?.target?.checked,
     };
@@ -114,62 +106,17 @@ export const useReportLists = (props: ReportsListsPropsI) => {
       await getReportsList?.(newPage);
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
-      const newPage =
-        lazyGetReportsListStatus?.data?.data?.genericReports?.length ===
-        SELECTED_ARRAY_LENGTH?.ONE
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getReportsList?.(newPage);
     }
   };
 
-  const handleFileExportSubmits = async (type: any) => {
-    const exportData =
-      lazyGetReportsListStatus?.data?.data?.genericReports?.map(
-        (item: any) => ({
-          'Report Owner': fullName(
-            item?.owner?.firstName,
-            item?.owner?.lastName,
-          ),
-          'Report Name': item?.name ?? '---',
-          Dashboard: item?.dashboard?.name ?? '---',
-          Type: item?.type ?? '---',
-          'Created Date': !!item?.createdAt
-            ? dayjs(item?.createdAt)?.format(DATE_FORMAT?.UI)
-            : '---',
-          Assigned:
-            MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[item?.accessLevel?.type] ??
-            '---',
-          'Last Updated Date': !!item?.updatedAt
-            ? dayjs(item?.updatedAt)?.format(DATE_FORMAT?.UI)
-            : '---',
-        }),
-      );
-
-    if (type === EXPORT_TYPE?.CSV) {
-      exportDataToCSV?.(exportData, 'ReportsLists', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar(`File Exported successfully`);
-      setIsPortalOpen({});
-      return;
-    }
-    if (type === EXPORT_TYPE?.XLS) {
-      exportDataToXLS?.(exportData, 'ReportsLists', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar(`File Exported successfully`);
-      setIsPortalOpen({});
-      return;
-    }
-  };
-
-  const handleFileExportSubmit = async (type: any) => {
-    if (!type) return errorSnackbar('Please select a file type');
+  const handleFileExportSubmit = async (type: string) => {
     const additionalParams = [
       ['exportType', type],
       ...(!!filter?.length ? [...filter] : []),
       ...(baseModule ? [['baseModule', baseModule]] : []),
     ];
 
-    const getReportParam: any = buildQueryParams(
+    const getReportParam: URLSearchParams = buildQueryParams(
       additionalParams,
       reportFilters,
     );
@@ -240,7 +187,9 @@ export const useReportLists = (props: ReportsListsPropsI) => {
       return (
         <ExportModal
           open={isPortalOpen?.isExport}
-          onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
+          onSubmit={(exportType: string) =>
+            handleFileExportSubmit?.(exportType)
+          }
           handleClose={() => setIsPortalOpen({})}
         />
       );
@@ -267,6 +216,7 @@ export const useReportLists = (props: ReportsListsPropsI) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
-    handleFileExportSubmits,
+    page,
+    getReportsList,
   };
 };

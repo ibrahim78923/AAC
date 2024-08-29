@@ -15,9 +15,8 @@ export const Announcements = () => {
     isError,
     openDrawer,
     setDrawerOpen,
-    setPageLimit,
-    setPage,
     onClose,
+    refetch,
   } = useAnnouncements();
 
   return (
@@ -32,11 +31,15 @@ export const Announcements = () => {
         {isLoading || isFetching ? (
           <SkeletonForm />
         ) : isError ? (
-          <ApiErrorState height={'100%'} />
+          <ApiErrorState
+            height={'100%'}
+            canRefresh
+            refresh={() => refetch?.()}
+          />
         ) : (
           <>
-            {!!data?.annoucements?.length ? (
-              data?.annoucements?.map((announcement: any, index: number) => (
+            {!!data?.data?.length ? (
+              data?.data?.map((announcement: any, index: number) => (
                 <Fragment key={announcement?._id}>
                   <AnnouncementCard data={announcement} index={index} />
                 </Fragment>
@@ -56,8 +59,7 @@ export const Announcements = () => {
           isLoading={isLoading}
           isFetching={isFetching}
           isError={isError}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
+          refetch={refetch}
         />
       )}
     </>

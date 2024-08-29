@@ -9,10 +9,9 @@ import {
 import * as Yup from 'yup';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import useDetails from './useDetails';
-import { ROLES } from '@/constants/strings';
-import { useLazyGetDealOwnersListQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 import { indexNumbers } from '@/constants';
+import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string(),
@@ -40,7 +39,7 @@ export const detailsDataArray = (dealPipelineId: any) => {
   const { getDealOwnerContacts } = useDetails({});
 
   const { pipelineListDropdown }: any = useDealTab();
-  const userListData = useLazyGetDealOwnersListQuery();
+  const ownerData = useLazyGetOrganizationUsersQuery();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[indexNumbers?.ONE]?.data?.find(
@@ -73,14 +72,10 @@ export const detailsDataArray = (dealPipelineId: any) => {
         placeholder: 'Select deal owner',
         name: 'ownerId',
         label: 'Deal Owner',
-        apiQuery: userListData,
+        apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: {
-          role: ROLES?.ORG_EMPLOYEE,
-          organization: organizationId,
-        },
-        queryKey: 'role',
+        externalParams: { id: organizationId, meta: false },
       },
       component: RHFAutocompleteAsync,
       md: 4,

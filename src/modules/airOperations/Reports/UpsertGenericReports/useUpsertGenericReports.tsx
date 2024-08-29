@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import {
   defaultValues,
   fieldsList,
-  modalInitialState,
   templateList,
 } from './UpsertGenericReports.data';
-import { useTheme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { EditorState } from 'draft-js';
 import {
   CHARTS,
   FIELD_TYPE,
   GENERIC_REPORT_MODULES,
+  MODAL_INITIAL_STATES,
   REPORT_TYPE,
 } from '@/constants/strings';
 import { useRouter } from 'next/router';
@@ -22,23 +22,35 @@ import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useGetSingleGenericReportsQuery } from '@/services/airOperations/reports/upsert-generic-reports';
 import { AIR_OPERATIONS } from '@/constants';
+import { useDispatch } from 'react-redux';
+import {
+  setColumnsData,
+  setDisableTemplate,
+  setEditorState,
+  setFieldData,
+  setShowTemplate,
+} from '@/redux/slices/genericReport/genericReportSlice';
+import { useAppSelector } from '@/redux/store';
 
 export default function useUpsertGenericReports() {
-  const [draggedItemData, setDraggedItemData] = useState<any>(null);
-  const theme: any = useTheme();
+  const dispatch = useDispatch();
+  const theme: Theme = useTheme();
   const router: any = useRouter();
-  const reportId = router?.query?.reportId;
-  const moduleName = router?.query?.moduleName;
 
+  const showTemplate = useAppSelector(
+    (state) => state?.genericReport?.showTemplate,
+  );
+  const { id, reportId, moduleName } = router?.query;
   const params = {
     id: reportId,
   };
-  const { data, isLoading, isFetching, isError } =
+
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleGenericReportsQuery(params, {
       refetchOnMountOrArgChange: true,
       skip: !!!reportId,
     });
-  const singleReport = (data as any)?.data?.results?.genericReports;
+  const singleReport = (data as any)?.data?.genericReport;
 
   const methods: any = useForm({
     defaultValues: defaultValues(),
@@ -47,15 +59,8 @@ export default function useUpsertGenericReports() {
   const { watch, setValue } = methods;
   const chartType = watch('chartType');
   const [form, setForm] = useState<any>([]);
-  const [modal, setModal] = useState<any>(modalInitialState);
-  const [fieldData, setFieldData] = useState<any>(false);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState?.createEmpty());
-  const [fontSize, setFontSize] = useState('16px');
-  const [color, setColor] = useState('black');
-  const [columnsData, setColumnsData] = useState([]);
-  const [showTemplate, setShowTemplate] = useState(false);
-  const [disableTemplate, setDisableTemplate] = useState(false);
+  const [modal, setModal] = useState<any>(MODAL_INITIAL_STATES);
+  const [draggedItemData, setDraggedItemData] = useState<any>(null);
 
   useEffect(() => {
     setValue('chartType', draggedItemData?.chartType ?? '');
@@ -64,8 +69,9 @@ export default function useUpsertGenericReports() {
     setValue('chartTitle', draggedItemData?.title ?? 'Report Chart');
     setValue('textTitle', draggedItemData?.title ?? 'Report Text');
     setValue('tableTitle', draggedItemData?.title ?? 'Report Table');
-    setColumnsData(draggedItemData?.tableColumns ?? []);
+    dispatch(setColumnsData(draggedItemData?.tableColumns ?? []));
   }, [draggedItemData]);
+
   useEffect(() => {
     if (!draggedItemData) {
       setValue('xAxis', null);
@@ -103,7 +109,7 @@ export default function useUpsertGenericReports() {
 
   const getTemplateModalState = (draggedItem: any) => {
     setDraggedItemData(draggedItem);
-    setDisableTemplate(true);
+    dispatch(setDisableTemplate(true));
     const newModal: any = {
       chart: false,
       text: false,
@@ -133,7 +139,7 @@ export default function useUpsertGenericReports() {
 
   useEffect(() => {
     (modal?.chart || modal?.table || modal?.text || modal?.counter) &&
-      setFieldData(true);
+      dispatch(setFieldData(true));
   }, [modal?.text, modal?.chart, modal?.table, modal?.counter]);
 
   const allChartComponents = {
@@ -144,20 +150,21 @@ export default function useUpsertGenericReports() {
   };
 
   const handleCancel = () => {
-    setFieldData(false);
-    setModal(modalInitialState);
-    setColumnsData([]);
+    dispatch(setFieldData(false));
+    setModal(MODAL_INITIAL_STATES);
+    dispatch(setColumnsData([]));
     setValue('tableTitle', 'Report Table');
-    setEditorState(EditorState.createEmpty());
+    dispatch(setEditorState(EditorState.createEmpty()));
     setValue('textTitle', 'Report Text');
     setValue('chartType', '');
     setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
     setDraggedItemData(null);
   };
+
   const handleChooseTemplate = () => {
-    setDisableTemplate(false);
-    setShowTemplate(false);
+    dispatch(setDisableTemplate(false));
+    dispatch(setShowTemplate(false));
   };
 
   useEffect(() => {
@@ -265,6 +272,8 @@ export default function useUpsertGenericReports() {
               ticketCount: index,
               title: item?.title,
               templateType: REPORT_TYPE?.TEMPLATE_TEXT,
+              fieldName: item?.templateText?.fieldName,
+              fieldValue: item?.templateText?.status,
             };
           }
           return null;
@@ -279,14 +288,17 @@ export default function useUpsertGenericReports() {
       case GENERIC_REPORT_MODULES?.SERVICES:
         return router?.push({
           pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
+          query: { id },
         });
       case GENERIC_REPORT_MODULES?.SALES:
         return router?.push({
           pathname: AIR_OPERATIONS?.SALES_REPORTS,
+          query: { id },
         });
       case GENERIC_REPORT_MODULES?.MARKETING:
         return router?.push({
           pathname: AIR_OPERATIONS?.MARKETING_REPORTS,
+          query: { id },
         });
       default:
         return [];
@@ -300,29 +312,15 @@ export default function useUpsertGenericReports() {
     modal,
     setModal,
     theme,
-    setFieldData,
-    fieldData,
     methods,
-    setEditorState,
-    editorState,
-    setColor,
-    color,
-    setFontSize,
-    fontSize,
     setValue,
-    columnsData,
-    setColumnsData,
-    setOpenDrawer,
-    openDrawer,
     allChartComponents,
     showTemplate,
-    setShowTemplate,
     handleTemplateDragEnd,
     handleCancel,
     reportId,
     setDraggedItemData,
     draggedItemData,
-    disableTemplate,
     handleChooseTemplate,
     moduleName,
     isLoading,
@@ -331,5 +329,7 @@ export default function useUpsertGenericReports() {
     handleMoveBack,
     watch,
     isError,
+    refetch,
+    dispatch,
   };
 }

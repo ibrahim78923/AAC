@@ -4,25 +4,21 @@ import {
   mergeTicketsFormFieldsDynamic,
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
-import { useRouter } from 'next/router';
-import usePath from '@/hooks/usePath';
 import {
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetTicketByIdForMergeQuery,
   useLazyGetTicketByRequesterQuery,
   useLazyGetTicketBySubjectQuery,
   usePostMergeTicketsMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
 export const useMergedTickets = (props: TicketActionComponentPropsI) => {
-  const router = useRouter();
-  const { makePath } = usePath();
-  const { setIsDrawerOpen, setSelectedTicketList, selectedTicketList } = props;
+  const { setIsPortalOpen, setSelectedTicketList, selectedTicketList } = props;
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
     usePostMergeTicketsMutation();
   const mergedTicketsFormMethod = useForm({
@@ -56,7 +52,10 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
     data?.ticketSelection?._id === TICKET_SELECTION_TYPE?.ID &&
       postMergeTicketsParams?.append('searchTicket', data?.searchTicketId?._id);
     postMergeTicketsParams?.append('findTicketBy', data?.ticketSelection?._id);
-    postMergeTicketsParams?.append('ticketId', selectedTicketList?.[0]);
+    postMergeTicketsParams?.append(
+      'ticketId',
+      selectedTicketList?.[ARRAY_INDEX?.ZERO],
+    );
     const postMergeTicketsParameter = {
       queryParams: postMergeTicketsParams,
     };
@@ -70,21 +69,16 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
   };
 
   const closeMergedTicketsModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     reset();
     setSelectedTicketList?.([]);
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({});
   };
 
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
   const apiQueryTicketByRequester = useLazyGetTicketByRequesterQuery();
   const apiQueryTicketById = useLazyGetTicketByIdForMergeQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
 
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,

@@ -6,8 +6,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePatchRejectRequestMutation } from '@/services/airServices/settings/user-management/agents';
+import { IAgentsProps } from '../../Agents.interface';
 
-export const useRejectedModal = (props: any) => {
+export const useRejectedModal = (props: IAgentsProps) => {
   const {
     setOpenRejectedModal,
     selectedAgentRequest,

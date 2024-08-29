@@ -148,7 +148,7 @@ export const useUpsertConversation = (
   };
 
   const setCannedResponse = (cannedResponse: any) => {
-    setValue?.('html', `${getValues?.('html')} ${cannedResponse?.description}`);
+    setValue?.('html', `${getValues?.('html')} ${cannedResponse?.message}`);
     setSelectedResponseType({});
   };
 

@@ -124,19 +124,17 @@ export const reportsValidationSchema = (reportValidation: any) =>
 
 export const reportsDefaultValues = (singleReport: any) => {
   return {
-    reportName: singleReport?.genericReports?.name ?? '',
-    sharedWith: singleReport?.genericReports?.accessLevel?.type ?? null,
+    reportName: singleReport?.genericReport?.name ?? '',
+    sharedWith: singleReport?.genericReport?.accessLevel?.type ?? null,
     addToDashboard: null,
     addToExistingCondition: [],
-    everyoneCondition:
-      singleReport?.genericReports?.accessLevel?.access ?? null,
+    everyoneCondition: singleReport?.genericReport?.accessLevel?.access ?? null,
     specificUsersConditionOne: [],
     addToNewConditionOne: '',
     addToNewConditionTwo: null,
     newDashboardEveryoneCondition: null,
     newDashboardSpecificUsersConditionOne: [],
-    newDashboardSpecificUsersConditionTwo: null,
-    addFilter: singleReport?.genericReports?.isDateFilter ?? false,
+    addFilter: singleReport?.genericReport?.isDateFilter ?? false,
   };
 };
 
@@ -145,6 +143,7 @@ export const reportsDataArray = (
   dashboardDropdown: any,
   newDashboardFields: SpecialUsersFieldsI[],
   sharedWithFields: SpecialUsersFieldsI[],
+  id: any,
 ) => [
   {
     id: 7578,
@@ -260,6 +259,9 @@ export const reportsDataArray = (
         apiQuery={dashboardDropdown}
         getOptionLabel={(option: any) => option?.name}
         placeholder="Select Option"
+        externalParams={{
+          productId: id,
+        }}
       />
     ),
     conditionalComponentFour: (

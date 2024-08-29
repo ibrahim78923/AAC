@@ -32,9 +32,9 @@ import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const Header = (props: any) => {
   const { currentPermissions } = useAuth();
@@ -127,6 +127,7 @@ const Header = (props: any) => {
                     permissions={image?.permissions}
                   >
                     <Box
+                      key={uuidv4()}
                       sx={styles?.innerQuickLinkBox(theme)}
                       onLoad={() => {
                         if (!innerBoxesRendered) {

@@ -51,46 +51,10 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
-import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
 import { AIR_CUSTOMER_PORTAL, PRODUCT_LABELS } from '@/constants';
 
 const drawerWidth = 230;
-
-// const array = [
-//   {
-//     email: 'mubashir.yusuf@ceative.co.uk',
-//     role: 'SUPER_ADMIN',
-//   },
-//   {
-//     email: 'azeem.aslam@ceative.co.uk',
-//     role: 'AIR_SALES',
-//   },
-//   {
-//     email: 'airmarketerapplecart@yopmail.com',
-//     role: 'AIR_MARKETER',
-//   },
-//   {
-//     email: 'orgadminairapplecard@yopmail.com',
-//     role: 'ORG_ADMIN',
-//   },
-//   {
-//     email: 'wan@yopmail.com',
-//     role: 'AIR_SERVICES',
-//   },
-//   {
-//     email: 'operations@example.com',
-//     role: 'AIR_OPERATIONS',
-//   },
-//   {
-//     email: 'loyalty@example.com',
-//     role: 'LOYALTY_PROGRAM',
-//   },
-//   {
-//     email: 'customer@example.com',
-//     role: 'CUSTOMER_PORTAL',
-//   },
-// ];
-
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
   const { authMeLoadingState } = useAuth();
@@ -100,10 +64,12 @@ const DashboardLayout = ({ children, window }: any) => {
   const pathSegments = currentPath.slice(1).split('/');
 
   const basePath = pathSegments[0];
-
   let productName = '';
   if (`/${basePath}` === AIR_CUSTOMER_PORTAL?.DASHBOARD) {
     productName = PRODUCT_LABELS?.CUSTOMER_PORTAL;
+  } else if (`/${basePath}` === ORG_ADMIN?.DASHBOARD) {
+    // Modification : manually push ORG_ADMIN.DASHBOARD
+    productName = PRODUCT_LABELS?.ORG_ADMIN;
   } else {
     productName = getActiveProductSession()?.name;
   }
@@ -127,7 +93,7 @@ const DashboardLayout = ({ children, window }: any) => {
     }));
   };
 
-  const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(pathname);
+  const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(router?.pathname);
   const { logout } = useAuth();
 
   const drawer = (

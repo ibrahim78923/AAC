@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
@@ -15,13 +14,18 @@ import {
   GENERIC_UPSERT_FORM_CONSTANT,
 } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
-export const LifeCycleStagevalidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()
-    ?.required('Field is Required')
-    ?.matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
-  description: Yup?.string()?.required('Field is Required'),
-});
+export const LifeCycleStagevalidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+  return Yup?.object()?.shape({
+    name: Yup?.string()
+      ?.required('Field is Required')
+      ?.matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
+    description: Yup?.string()?.required('Field is Required'),
+    ...formSchema,
+  });
+};
 
 export const LifeCycleStageDefaultValues = {
   name: '',
@@ -60,13 +64,6 @@ export const columns = (
   handleEditClick: (id: string) => void,
 ) => {
   return [
-    {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
-      cell: () => <DragIndicatorIcon />,
-      header: <></>,
-      isSortable: false,
-    },
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',

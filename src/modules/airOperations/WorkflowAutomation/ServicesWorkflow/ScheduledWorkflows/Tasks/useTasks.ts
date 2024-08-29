@@ -143,7 +143,6 @@ export const useTasks = () => {
     limit,
     setLimit,
     setSearch,
-    search,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,

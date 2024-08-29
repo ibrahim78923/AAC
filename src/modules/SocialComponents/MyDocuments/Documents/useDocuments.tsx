@@ -14,11 +14,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
 
 import { enqueueSnackbar } from 'notistack';
-import { validationSchema } from './Documents.data';
-import { isNullOrEmpty } from '@/utils';
+import { defaultValuesFolder, validationSchema } from './Documents.data';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
-import { successSnackbar } from '@/utils/api';
-import { CreateFolderValuesI } from './Documents.interface';
+import { filteredEmptyValues, successSnackbar } from '@/utils/api';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicFormInitialValue,
+} from '@/utils/dynamic-forms';
 
 const useDocuments = () => {
   const theme = useTheme<Theme>();
@@ -105,18 +109,56 @@ const useDocuments = () => {
     setAnchorEl(null);
   };
 
-  const FolderAdd = useForm<CreateFolderValuesI>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: async (): Promise<CreateFolderValuesI> => {
-      if (isEditOpenModal) {
-        if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
-          return {
-            name: watch('name'),
-          };
-        }
-      }
-      return validationSchema;
-    },
+  const [form, setForm] = useState<any>([]);
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_COMMON,
+      moduleType: DYNAMIC_FIELDS?.MT_DOCUMENT,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
+  let filteredData;
+
+  useEffect(() => {
+    filteredData = data?.data?.folders?.find(
+      (item: any) => item._id === allSelectedFoldersIds[0],
+    );
+
+    const initialValues: any = dynamicFormInitialValue(filteredData, form);
+
+    if (initialValues) {
+      Object.keys(initialValues).forEach((name) => {
+        const value = initialValues[name];
+        setValue(name, value);
+      });
+    }
+  }, [allSelectedFoldersIds?.length > 0]);
+
+  const FolderAdd: any = useForm<any>({
+    resolver: yupResolver(validationSchema?.(form)),
+    defaultValues: defaultValuesFolder?.(
+      data?.data?.folders?.find(
+        (item: any) => item._id === allSelectedFoldersIds[0],
+      ),
+      form,
+    ),
   });
 
   useEffect(() => {
@@ -126,12 +168,41 @@ const useDocuments = () => {
     }
   }, [isEditOpenModal, FolderAdd]);
 
-  const { handleSubmit, watch, reset } = FolderAdd;
+  const { handleSubmit, reset, setValue } = FolderAdd;
 
-  const onSubmit = async () => {
-    const documentData = {
-      name: watch('name'),
-    };
+  const onSubmit = async (values: any) => {
+    const filteredEmptyData = filteredEmptyValues(values);
+
+    const customFields: any = {};
+    const body: any = {};
+
+    const customFieldKeys = new Set(
+      form?.map((field: any) => field?.componentProps?.label),
+    );
+
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (customFieldKeys?.has(key)) {
+        if (value instanceof Date) {
+          value = value?.toISOString();
+        }
+        if (
+          typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+          !Array?.isArray(value) &&
+          value !== null
+        ) {
+          customFields[key] = { ...customFields[key], ...value };
+        } else {
+          customFields[key] = value;
+        }
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
+
     try {
       if (
         actionType === DOCUMENTS_ACTION_TYPES.MOVE_FOLDER ||
@@ -139,14 +210,14 @@ const useDocuments = () => {
       ) {
         await updateFolder({
           id: allSelectedFoldersIds,
-          body: documentData,
+          body: body,
         }).unwrap();
         enqueueSnackbar('Folder Update Successfully', {
           variant: 'success',
         });
       } else {
         await postDocumentFolder({
-          body: documentData,
+          body: body,
         }).unwrap();
         enqueueSnackbar('Folder Created Successfully', {
           variant: 'success',
@@ -158,6 +229,10 @@ const useDocuments = () => {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
+
+  const { handleSubmit: handleMethodCreateFolder } = FolderAdd;
+
+  const handleCreateFolderSubmit = handleMethodCreateFolder(onSubmit);
 
   return {
     documentData: data?.data?.folders,
@@ -198,6 +273,9 @@ const useDocuments = () => {
     setActionType,
     setSelectedFolder,
     selectedFolder,
+    form,
+    getDynamicFieldsStatus,
+    handleCreateFolderSubmit,
   };
 };
 

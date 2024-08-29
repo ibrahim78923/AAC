@@ -73,7 +73,7 @@ export const defaultValues = (data?: any, form?: any) => {
     location: data?.locationDetails ?? null,
     termAndCondition: data?.termAndCondition ?? '',
     subTotal: data?.subTotal ?? 0,
-    taxRatio: data?.taxRatio ?? 0,
+    taxRatio: data?.taxRate ?? 0,
     shipping: data?.shipping ?? 0,
     discount: data?.discount ?? 0,
     total: data?.total ?? 0,
@@ -124,6 +124,7 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'orderName',
       label: 'Order Name',
+      placeholder: 'Enter Order Name',
       required: true,
     },
   },
@@ -135,6 +136,7 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'orderNumber',
       label: 'Order Number',
+      placeholder: 'Enter Order Number',
       required: true,
       InputProps: {
         inputProps: {

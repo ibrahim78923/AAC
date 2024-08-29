@@ -2,27 +2,28 @@ import { useState } from 'react';
 import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { PAGINATION } from '@/config';
 import { MODULE_TYPE } from '@/constants/strings';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 export const useActivities = () => {
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { ticketId } = router?.query;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
 
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
-  const { data, isLoading, isError, isFetching } = useGetActivityLogQuery(
-    {
-      page,
-      limit: pageLimit,
-      moduleId: ticketId,
-      module: MODULE_TYPE?.TICKETS,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    },
-  );
+  const { data, isLoading, isError, isFetching, refetch } =
+    useGetActivityLogQuery(
+      {
+        page,
+        limit: pageLimit,
+        moduleId: ticketId,
+        module: MODULE_TYPE?.TICKETS,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!ticketId,
+      },
+    );
 
   return {
     isLoading,
@@ -31,5 +32,6 @@ export const useActivities = () => {
     setPage,
     isFetching,
     data,
+    refetch,
   };
 };

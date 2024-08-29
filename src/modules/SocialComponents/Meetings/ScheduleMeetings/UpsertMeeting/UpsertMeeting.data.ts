@@ -120,11 +120,14 @@ export const upsertMeetingSchema: any = (router: any) =>
     allDay: Yup?.boolean(),
     timeZone: Yup?.mixed()?.required('Required'),
     startDate: Yup?.date()?.required('Required'),
-    startTime: Yup?.mixed()?.when(schemaTypes?.allDay, {
-      is: (allDay: string) => allDay,
-      then: (schema: any) => schema?.notRequired(),
-      otherwise: (schema: any) => schema?.required('Required'),
-    }),
+    startTime: Yup?.mixed()?.when(
+      [schemaTypes?.allDay, schemaTypes?.allowAttendee],
+      {
+        is: (allDay: string, allowAttendee: boolean) => allDay || allowAttendee,
+        then: (schema: any) => schema?.notRequired(),
+        otherwise: (schema: any) => schema?.required('Required'),
+      },
+    ),
     endDate: Yup?.mixed()?.when(
       [schemaTypes?.recurring, schemaTypes?.allowAttendee],
       {
@@ -134,12 +137,15 @@ export const upsertMeetingSchema: any = (router: any) =>
         otherwise: (schema: any) => schema?.required('Required'),
       },
     ),
-    endTime: Yup?.mixed()?.when([schemaTypes?.allDay], {
-      is: (allDay: boolean, recurring: boolean, allowAttendee: boolean) =>
-        allDay || recurring || allowAttendee,
-      then: (schema: any) => schema?.notRequired(),
-      otherwise: (schema: any) => schema?.required('Required'),
-    }),
+    endTime: Yup?.mixed()?.when(
+      [schemaTypes?.allDay, schemaTypes?.allowAttendee],
+      {
+        is: (allDay: boolean, recurring: boolean, allowAttendee: boolean) =>
+          allDay || recurring || allowAttendee,
+        then: (schema: any) => schema?.notRequired(),
+        otherwise: (schema: any) => schema?.required('Required'),
+      },
+    ),
     recurring: Yup?.boolean(),
     recurringType: Yup?.mixed()
       ?.nullable()

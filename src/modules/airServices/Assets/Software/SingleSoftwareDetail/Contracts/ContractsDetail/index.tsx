@@ -1,7 +1,7 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
-import { AddCircleBlackIcon } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { contractsTableColumns } from './ContractsDetail.data';
 import { useContractDetail } from './useContractDetail';
@@ -14,7 +14,6 @@ export const ContractsDetails = () => {
     setPage,
     limit,
     setLimit,
-    searchBy,
     setSearchBy,
     router,
     isLoading,
@@ -23,6 +22,7 @@ export const ContractsDetails = () => {
     isError,
     softwareContractData,
     softwareContractMeta,
+    handleSoftwareContract,
   } = useContractDetail();
   return (
     <PermissionsGuard
@@ -35,14 +35,11 @@ export const ContractsDetails = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search
-          label="Search Here"
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
-        />
+        <Search label="Search Here" setSearchBy={setSearchBy} />
         <Button
-          startIcon={<AddCircleBlackIcon />}
-          color="secondary"
+          startIcon={<PlusSharedColorIcon />}
+          color="primary"
+          variant="contained"
           size="large"
           onClick={() =>
             router?.push({
@@ -69,9 +66,10 @@ export const ContractsDetails = () => {
         totalRecords={softwareContractMeta?.total}
         pageLimit={limit}
         currentPage={page}
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setLimit}
+        errorProps={{ canRefresh: true, refresh: handleSoftwareContract }}
       />
     </PermissionsGuard>
   );

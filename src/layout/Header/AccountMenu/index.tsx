@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { Box, useTheme, Popover, Typography } from '@mui/material';
+import { Box, useTheme, Popover, Typography, Button } from '@mui/material';
 
 import {
   getActivePermissionsSession,
@@ -22,13 +22,14 @@ import {
 } from '@/services/auth';
 import { getRoutes } from '@/layout/Layout.data';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { generateImage } from '@/utils/avatarUtils';
+import { ORG_ADMIN } from '@/constants';
 
 const role = 'sales';
 const AccountMenu = () => {
   const theme = useTheme();
-  const { setActiveProduct, setPermissions, setAuthLoading } = useAuth();
+  const { setActiveProduct, setPermissions, setAuthLoading, user } = useAuth();
   const router = useRouter();
   const { data: accountsData, isFetching: postAuthAccountSelectFetching } =
     useGetAuthAccountsQuery({});
@@ -63,20 +64,28 @@ const AccountMenu = () => {
   };
 
   const permissionsFromLocalStorage = getActivePermissionsSession();
+
   const permissionsHandler = () => {
+    if (!selectedProduct || !permissionsFromLocalStorage) {
+      return;
+    }
     for (const modulePermission of selectedProduct) {
-      const componentPermissionsDictionary: any = {};
-      modulePermission?.permissions?.forEach((value: any) => {
+      if (!modulePermission?.permissions) {
+        continue;
+      }
+      const componentPermissionsDictionary: Record<string, boolean> = {};
+      modulePermission?.permissions?.forEach((value: string) => {
         componentPermissionsDictionary[value] = true;
       });
       for (const permission of permissionsFromLocalStorage) {
         if (componentPermissionsDictionary[permission]) {
-          return router?.push(modulePermission?.key);
-          // Return the module permission path
+          router?.push(modulePermission?.key);
+          return;
         }
       }
     }
   };
+
   if (!stringArraysEqual(permissionsFromLocalStorage, activePermissions)) {
     permissionsHandler();
     setActivePermissions(permissionsFromLocalStorage);
@@ -103,6 +112,7 @@ const AccountMenu = () => {
       setAuthLoading(false);
     }
   }, [isLoading, postAuthAccountSelectFetching]);
+
   return (
     <div>
       <Box onClick={handleClick}>
@@ -129,8 +139,9 @@ const AccountMenu = () => {
         sx={{
           marginTop: '20px',
           '& .MuiPopover-paper': {
-            height: '93vh',
+            height: 'auto',
             width: '450px',
+            pb: 4,
           },
         }}
       >
@@ -152,6 +163,30 @@ const AccountMenu = () => {
             </Typography>
           </Box>
           <Box>
+            {user?.role === ROLES?.ORG_ADMIN && (
+              <>
+                {accountsData?.data?.length && (
+                  <Box
+                    sx={{
+                      px: 4,
+                      mt: 3,
+                      pb: 2,
+                      borderTop: `1px solid ${theme?.palette?.grey[400]}`,
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        router.push(ORG_ADMIN?.DASHBOARD);
+                      }}
+                    >
+                      Organization Admin portal
+                    </Button>
+                  </Box>
+                )}
+              </>
+            )}
+
             {!isNullOrEmpty(accountsData) &&
               accountsData?.data?.map((item) => {
                 return (
@@ -180,7 +215,7 @@ const AccountMenu = () => {
                     </Box>
 
                     <Box>
-                      {item?.accounts?.map((subitem) => {
+                      {item?.accounts?.map((subitem: any) => {
                         return (
                           <Box
                             sx={{

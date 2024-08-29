@@ -3,7 +3,10 @@ import { useDeleteSoftwareMutation } from '@/services/airServices/assets/softwar
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 
-export const useDeleteSoftware = (props: any) => {
+export const useDeleteSoftware = (props: {
+  deleteModalOpen: boolean;
+  setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { setDeleteModalOpen } = props;
   const router = useRouter();
   const { softwareId } = router?.query;

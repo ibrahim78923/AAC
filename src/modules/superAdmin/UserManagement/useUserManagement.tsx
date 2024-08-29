@@ -140,7 +140,6 @@ const useUserManagement = () => {
     useGetUsersByIdQuery,
     selectedRow,
     setSelectedRow,
-    updateUsers,
     searchVal,
     setSearchVal,
     resetFilters,

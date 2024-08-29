@@ -13,6 +13,7 @@ import { upsertFolderFormFields } from './UpsertFolder.data';
 import CloseIcon from '@mui/icons-material/Close';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
   const { isPortalOpen } = props;
@@ -55,7 +56,7 @@ export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
       </DialogTitle>
       <DialogContent>
         <FormProvider methods={methods}>
-          {upsertFolderFormFields?.map((item: any) => (
+          {upsertFolderFormFields?.map((item: ReactHookFormFieldsI) => (
             <item.component
               {...item?.componentProps}
               key={item?.id}

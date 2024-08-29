@@ -54,6 +54,7 @@ const NotesActionDropdown = (props: any) => {
             View
           </MenuItem>
         </PermissionsGuard>
+
         <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.EDIT_NOTE]}
         >
@@ -64,6 +65,7 @@ const NotesActionDropdown = (props: any) => {
             Edit
           </MenuItem>
         </PermissionsGuard>
+
         <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.DELETE_NOTES]}
         >

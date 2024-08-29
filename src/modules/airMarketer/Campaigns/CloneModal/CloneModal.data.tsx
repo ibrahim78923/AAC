@@ -1,9 +1,10 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const validationSchemaFeatures = Yup.object().shape({
@@ -14,7 +15,7 @@ export const defaultValuesFeatures = {
   title: '',
 };
 
-export const dataArrayFeatures = (UserListData: any) => {
+export const dataArrayFeatures = (userListData: any, organizationId: any) => {
   return [
     {
       componentProps: {
@@ -24,26 +25,25 @@ export const dataArrayFeatures = (UserListData: any) => {
         required: true,
         fullWidth: true,
       },
-
       component: RHFTextField,
-
       md: 12,
     },
     {
       componentProps: {
         name: 'campaignOwner',
-        label: 'Compaign Owner',
+        label: 'Campaign Owner',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: userListData,
+        getOptionLabel: (item: any) =>
+          item ? `${item?.firstName} ${item?.lastName}` : '',
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
+        queryKey: 'role',
       },
-
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-
-      component: RHFSelect,
-
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -52,9 +52,7 @@ export const dataArrayFeatures = (UserListData: any) => {
         label: 'Start Date',
         fullWidth: true,
       },
-
       component: RHFDatePicker,
-
       md: 12,
     },
     {
@@ -63,28 +61,24 @@ export const dataArrayFeatures = (UserListData: any) => {
         label: 'End Date',
         fullWidth: true,
       },
-
       component: RHFDatePicker,
-
       md: 12,
     },
     {
       componentProps: {
         name: 'campaignGoal',
         label: 'Campaign Goal',
-        placeholder: 'Get 5k likes on instagram',
+        placeholder: 'Enter goal',
         fullWidth: true,
       },
-
       component: RHFTextField,
-
       md: 12,
     },
     {
       componentProps: {
         name: 'campaignAudience',
         label: 'Campaign Audience',
-        placeholder: 'Instagram influencers',
+        placeholder: 'Enter audience',
         fullWidth: true,
       },
 
@@ -96,24 +90,20 @@ export const dataArrayFeatures = (UserListData: any) => {
       componentProps: {
         name: 'campaignBudget',
         label: 'Campaign Budget',
-        placeholder: '$20,105.00',
+        placeholder: 'Enter budget',
         fullWidth: true,
       },
-
       component: RHFTextField,
-
       md: 12,
     },
     {
       componentProps: {
         name: 'campaignStatus',
         label: 'Campaign Status',
-        placeholder: 'Active',
+        placeholder: 'Enter status',
         fullWidth: true,
       },
-
       component: RHFTextField,
-
       md: 12,
     },
     {

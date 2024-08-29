@@ -6,7 +6,7 @@ import {
   ticketsListsColumnFunction,
 } from './TicketsLists.data';
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
@@ -21,7 +21,6 @@ import { PAGINATION } from '@/config';
 import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
-  usePutSingleTicketStatusMutation,
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
@@ -29,12 +28,17 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 import {
+  FilterTicketListsI,
   TicketActionComponentI,
   TicketActionComponentPropsI,
+  TicketListsIsPortalOpenI,
 } from './TicketsLists.interface';
+import { UpdateTicketStatus } from '../UpdateTicketStatus';
 
-export const useTicketsLists: any = () => {
-  const [hasTicketAction, setHasTicketAction] = useState<boolean>(false);
+export const useTicketsLists = () => {
+  const [isPortalOpen, setIsPortalOpen] = useState<TicketListsIsPortalOpenI>(
+    {},
+  );
   const [selectedTicketList, setSelectedTicketList] = useState([]);
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -42,10 +46,11 @@ export const useTicketsLists: any = () => {
   const [ticketsListsActiveColumn, setTicketsListsActiveColumn] = useState<
     string[]
   >(ticketsListInitialColumns);
-  const [filterTicketLists, setFilterTicketLists] = useState<any>({});
+  const [filterTicketLists, setFilterTicketLists] =
+    useState<FilterTicketListsI>({});
 
   const overallPermissions = getActivePermissionsSession();
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { makePath } = usePath();
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
@@ -54,11 +59,8 @@ export const useTicketsLists: any = () => {
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
 
-  const [putSingleTicketStatusTrigger, putSingleTicketStatusStatus] =
-    usePutSingleTicketStatusMutation();
-
-  const getValueTicketsListData = async (
-    currentPage = page,
+  const getTicketsListData = async (
+    currentPage: number = page,
     filtered = filterTicketLists,
   ) => {
     const additionalParams = [
@@ -114,7 +116,7 @@ export const useTicketsLists: any = () => {
   };
 
   useEffect(() => {
-    getValueTicketsListData();
+    getTicketsListData();
   }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
@@ -147,23 +149,6 @@ export const useTicketsLists: any = () => {
     }
   }, []);
 
-  const updateTicketStatus = async (status: string) => {
-    const updateTicketStatusTicketsParameter = {
-      queryParams: {
-        status,
-        id: selectedTicketList?.[ARRAY_INDEX?.ZERO],
-      },
-    };
-    try {
-      await putSingleTicketStatusTrigger(
-        updateTicketStatusTicketsParameter,
-      )?.unwrap();
-      successSnackbar('Ticket status updated successfully');
-      setSelectedTicketList([]);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
     router,
     lazyGetTicketsStatus?.data?.data?.tickets,
@@ -172,15 +157,15 @@ export const useTicketsLists: any = () => {
   );
 
   const ticketActionComponentProps: TicketActionComponentPropsI = {
-    setIsDrawerOpen: setHasTicketAction,
-    isDrawerOpen: hasTicketAction,
+    isPortalOpen,
+    setIsPortalOpen,
     selectedTicketList: selectedTicketList,
     setSelectedTicketList: setSelectedTicketList,
     singleTicketDetail: lazyGetTicketsStatus?.data?.data?.tickets?.find(
       (singleTicket: any) =>
         singleTicket?._id === selectedTicketList?.[ARRAY_INDEX?.ZERO],
     ),
-    getTicketsListData: getValueTicketsListData,
+    getTicketsListData: getTicketsListData,
     setFilterTicketLists: setFilterTicketLists,
     filterTicketLists: filterTicketLists,
     setPage: setPage,
@@ -196,7 +181,6 @@ export const useTicketsLists: any = () => {
     [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
       <CustomizeTicketsColumn {...ticketActionComponentProps} />
     ),
-
     [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: (
       <FilterTickets {...ticketActionComponentProps} />
     ),
@@ -221,30 +205,29 @@ export const useTicketsLists: any = () => {
     [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (
       <TicketsDelete {...ticketActionComponentProps} />
     ),
+    [TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS]: (
+      <UpdateTicketStatus {...ticketActionComponentProps} />
+    ),
   };
 
-  const setTicketAction = (ticketActionQuery: string) => {
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...router?.query,
-        ticketAction: ticketActionQuery,
-      },
+  const setTicketAction = (
+    ticketActionQuery: string,
+    data: { [key: string]: any } = {},
+  ) => {
+    setIsPortalOpen({
+      isOpen: true,
+      action: ticketActionQuery,
+      status: data?.status,
     });
-    setTimeout(() => {
-      setHasTicketAction?.(true);
-    }, 100);
   };
 
   const ticketsActionDropdown = ticketsActionDropdownFunction?.(
     setTicketAction,
     selectedTicketList,
-    updateTicketStatus,
-    putSingleTicketStatusStatus,
   );
 
   return {
-    hasTicketAction,
+    isPortalOpen,
     router,
     setTicketAction,
     TICKETS_ACTION_CONSTANTS,
@@ -263,7 +246,7 @@ export const useTicketsLists: any = () => {
     pageLimit,
     setPageLimit,
     setTicketsListsActiveColumn,
-    getValueTicketsListData,
+    getTicketsListData,
     setSelectedTicketList,
     filterTicketLists,
   };

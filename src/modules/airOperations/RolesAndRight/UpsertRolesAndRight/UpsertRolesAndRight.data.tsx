@@ -1,14 +1,18 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import * as yup from 'yup';
+import {
+  IFormUser,
+  IUpsertRolesAndRightFormData,
+} from './UpsertRolesAndRight.interface';
 
-export const TITLE_FORM_USER: any = {
+export const TITLE_FORM_USER: IFormUser = {
   [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add User Role',
   [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Edit User Role',
   [GENERIC_UPSERT_FORM_CONSTANT?.VIEW]: 'View User Role',
 };
 
-export const BUTTON_TITLE_FORM_USER: any = {
+export const BUTTON_TITLE_FORM_USER: IFormUser = {
   [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Submit',
   [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update',
   [GENERIC_UPSERT_FORM_CONSTANT?.VIEW]: 'Ok',
@@ -19,7 +23,9 @@ export const upsertRolesAndRightValidationSchema = yup?.object()?.shape({
   description: yup?.string()?.trim(),
 });
 
-export const upsertRolesAndRightDefaultValues = (data?: any) => {
+export const upsertRolesAndRightDefaultValues = (
+  data?: IUpsertRolesAndRightFormData,
+) => {
   return {
     name: data?.name ?? '',
     description: data?.description ?? '',
