@@ -154,7 +154,12 @@ const ChatBox = ({
           <Image
             width={30}
             height={30}
-            src={item?.userImage ?? UserDefault}
+            src={
+              item?.ownerDetail?.avatar?.url
+                ? `${IMG_URL}${item?.ownerDetail?.avatar?.url}`
+                : UserDefault
+            }
+            style={{ borderRadius: '50%' }}
             alt="avatar"
           />
         </Box>
@@ -291,6 +296,7 @@ const ChatBox = ({
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between',
+                              gap: '10px',
                             }}
                             key={uuidv4()}
                           >
@@ -312,31 +318,35 @@ const ChatBox = ({
                                 {item?.orignalName}
                               </Typography>
                             </Box>
-                            <a
-                              href={`${IMG_URL}${item?.url}`}
-                              download={`${IMG_URL}${item?.url}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <Box sx={{ cursor: 'pointer' }}>
+                            <Box sx={{ cursor: 'pointer' }}>
+                              <a
+                                href={`${IMG_URL}${item?.url}`}
+                                download={`${IMG_URL}${item?.url}`}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
                                 <DownloadRoundedIcon />
-                              </Box>
-                            </a>
+                              </a>
+                            </Box>
                           </Box>
                         ))}
                       </Box>
                     )}
                   </>
                 )}
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    right: '5px',
-                    bottom: '0px',
-                  }}
-                >
-                  {!item?.isDeleted && <CharmTickIcon isRead={item?.isRead} />}
-                </Box>
+                {role === CHAT_MESSAGE_ROLES?.SENDER && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: '5px',
+                      bottom: '-2px',
+                    }}
+                  >
+                    {!item?.isDeleted && (
+                      <CharmTickIcon isRead={item?.isRead} />
+                    )}
+                  </Box>
+                )}
 
                 {!item?.isDeleted && (
                   <Box sx={styles?.chatReactionWrapper(theme)}>

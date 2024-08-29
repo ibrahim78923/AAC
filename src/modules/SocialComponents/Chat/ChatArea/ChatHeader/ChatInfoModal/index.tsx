@@ -25,13 +25,14 @@ import {
 } from './ChatInfoModal.data';
 
 import CloseIcon from '@/assets/icons/shared/close-icon';
-import { UserDefault } from '@/assets/images';
 
 import { styles } from './ChatInfoModal.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useAppSelector } from '@/redux/store';
 import { useGetUserChatsInfoQuery } from '@/services/chat';
+import { IMG_URL } from '@/config';
+import ProfileNameIcon from '@/components/ProfileNameIcon';
 
 const ChatInfoModal = ({
   isUserProfile,
@@ -93,7 +94,20 @@ const ChatInfoModal = ({
           </Box>
         </Box>
         <Box sx={styles?.chatInfoDetails(theme)}>
-          <Image src={UserDefault} width={95} height={95} alt="profile-image" />
+          {activeParticipant?.avatar ? (
+            <Image
+              width={95}
+              height={95}
+              src={`${IMG_URL}${activeParticipant?.avatar}`}
+              style={{ borderRadius: '50%' }}
+              alt="avatar"
+            />
+          ) : (
+            <ProfileNameIcon
+              lastName={activeParticipant?.lastName}
+              firstName={activeParticipant?.firstName}
+            />
+          )}
           <br />
           {chatMode === 'groupChat' ? (
             <Typography
@@ -144,10 +158,18 @@ const ChatInfoModal = ({
             />
           )}
           {toggleSwitchActive === 'docs' && (
-            <DocumentAssets data={chatsData?.data?.messages} status={status} />
+            <DocumentAssets
+              data={chatsData?.data?.messages}
+              status={status}
+              handelRefetch={handelRefetch}
+            />
           )}
           {toggleSwitchActive === 'link' && (
-            <LinksAssets data={chatsData?.data?.messages} status={status} />
+            <LinksAssets
+              data={chatsData?.data?.messages}
+              status={status}
+              handelRefetch={handelRefetch}
+            />
           )}
           {toggleSwitchActive === 'members' && <Members />}
         </Box>

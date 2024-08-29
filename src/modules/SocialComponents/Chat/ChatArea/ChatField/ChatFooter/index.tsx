@@ -76,6 +76,7 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
   };
   const handleCloseAttachment = () => {
     setAnchorElAttachment(null);
+    setImageToUpload([]);
   };
   const open = Boolean(anchorElAttachment);
   const idOpen = open ? 'simple-popover' : undefined;
@@ -362,8 +363,18 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
           {isMessageLoading ? (
             <CircularProgress color="success" size={20} />
           ) : (
-            <Button sx={styles?.unStyledButton} onClick={setAddMessageHandler}>
-              <PostIcon />
+            <Button
+              disabled={messageText || imageToUpload.length ? false : true}
+              sx={styles?.unStyledButton}
+              onClick={setAddMessageHandler}
+            >
+              <PostIcon
+                color={
+                  messageText || imageToUpload.length
+                    ? theme?.palette?.primary?.main
+                    : theme?.palette?.grey[500]
+                }
+              />
             </Button>
           )}
         </Box>
