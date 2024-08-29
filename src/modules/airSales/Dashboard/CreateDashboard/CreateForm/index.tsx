@@ -20,7 +20,6 @@ import {
   RHFSwitch,
 } from '@/components/ReactHookForm';
 import { dashboardReportsData } from './CreateForm.data';
-import { v4 as uuidv4 } from 'uuid';
 import DetailsView from '../DetailsView';
 import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
@@ -93,12 +92,11 @@ const CreateForm = () => {
     router,
     fields,
   } = useCreateForm();
-
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={6}>
+          <Grid item container xs={12} lg={6}>
             <Grid item xs={12}>
               <RHFTextField
                 size="small"
@@ -226,12 +224,10 @@ const CreateForm = () => {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Typography variant="h6" fontWeight={600} sx={{ my: 1.5 }}>
-              Use the checkboxes to remove/add any report you want
-            </Typography>
-
-            <Grid item xs={12} key={uuidv4()}>
+            <Grid item xs={12}>
+              <Typography variant="h6" fontWeight={600} sx={{ my: 1.5 }}>
+                Use the checkboxes to remove/add any report you want
+              </Typography>
               <RHFMultiCheckbox
                 name="reportType"
                 options={dashboardReportsData?.map((item: any) => ({
@@ -242,7 +238,6 @@ const CreateForm = () => {
                 GridView={12}
               />
             </Grid>
-
             <Grid item sm={12} sx={{ textAlign: 'end' }} mt={6} mr={3}>
               <Button
                 variant="outlined"

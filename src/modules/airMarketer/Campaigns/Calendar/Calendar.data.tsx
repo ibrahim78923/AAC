@@ -24,7 +24,7 @@ export const taskEvents: any = (
         : `${theme?.palette?.error?.lighter}`,
       textColor: isTask
         ? `${theme?.palette?.common?.white}`
-        : `${theme?.palette?.error?.main}`,
+        : `${theme?.palette?.common?.white}`,
       start: `${dayjs(data?.startDate)?.format(DATE_FORMAT?.API)}`,
       type: isTask ? 'task' : 'campaign',
       id: data?._id,

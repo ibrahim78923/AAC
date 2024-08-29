@@ -50,6 +50,7 @@ export const createDashboardDefaultValue = () => {
     permissions: '',
     specialUsers: [],
     permissionsUsers: [],
+    reportType: [],
   };
 };
 

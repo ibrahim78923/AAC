@@ -1,20 +1,20 @@
 import { useTheme } from '@mui/material';
 
 const customYAxisLabels = ['0', '1', '2', '3', '4', '5', '6'];
-const monthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+// const monthNames = [
+//   'Jan',
+//   'Feb',
+//   'Mar',
+//   'Apr',
+//   'May',
+//   'Jun',
+//   'Jul',
+//   'Aug',
+//   'Sep',
+//   'Oct',
+//   'Nov',
+//   'Dec',
+// ];
 
 export const options: any = (dataArray: any) => {
   const theme = useTheme();
@@ -43,9 +43,7 @@ export const options: any = (dataArray: any) => {
       colors: ['transparent'],
     },
     xaxis: {
-      categories: dataArray
-        ? dataArray?.map((item: any) => monthNames[item?.month - 1])
-        : [],
+      categories: dataArray ? dataArray?.map((item: any) => item?.month) : [],
     },
     yaxis: {
       labels: {
@@ -67,12 +65,12 @@ export const options: any = (dataArray: any) => {
 export const series = (dataArray: any) => {
   return [
     {
-      name: 'Count of deals',
-      data: dataArray ? dataArray?.map((item: any) => item?.created) : [],
+      name: 'Open Deals',
+      data: dataArray ? dataArray?.map((item: any) => item?.openDeals) : [],
     },
     {
       name: 'Closed Deals',
-      data: dataArray ? dataArray?.map((item: any) => item?.closed) : [],
+      data: dataArray ? dataArray?.map((item: any) => item?.closedDeals) : [],
     },
   ];
 };

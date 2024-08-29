@@ -10,7 +10,7 @@ import {
 import ActivityDetails from './ActivityDetails';
 import { FilterLargeWidgetIcon } from '@/assets/icons';
 
-const TeamActivity = () => {
+const TeamActivity = ({ teamActivityDetails }: any) => {
   const theme = useTheme();
   return (
     <Card>
@@ -33,7 +33,7 @@ const TeamActivity = () => {
       </Box>
       <Grid item sm={12} sx={{ padding: '0px' }}>
         <CardContent style={{ height: '316px', overflow: 'auto' }}>
-          <ActivityDetails />
+          <ActivityDetails data={teamActivityDetails} />
         </CardContent>
       </Grid>
     </Card>

@@ -73,6 +73,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
       componentProps: {
         name: 'startDate',
         label: 'Start Date',
+        minDate: new Date(),
         fullWidth: true,
       },
 
@@ -84,6 +85,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
       componentProps: {
         name: 'endDate',
         label: 'End Date',
+        minDate: new Date(),
         fullWidth: true,
       },
 

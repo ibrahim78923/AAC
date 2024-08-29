@@ -1,5 +1,4 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { MeetingDetailsTableData } from '@/mock/modules/airSales/Dashboard/MeetingDetails';
 import { columns } from './Table.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

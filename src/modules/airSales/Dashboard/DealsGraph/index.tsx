@@ -1,17 +1,14 @@
 import dynamic from 'next/dynamic';
-
 import { Box, Card, Typography, useTheme } from '@mui/material';
-
 import { options, series } from './DealsGraph.data';
-import { useGetDealsCreatedQuery } from '@/services/airSales/dashboard';
+// import { useGetDealsCreatedQuery } from '@/services/airSales/dashboard';
 
-const DealsGraph = () => {
+const DealsGraph = ({ dealsData }: any) => {
   const theme = useTheme();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
-
-  const { data: dealsData } = useGetDealsCreatedQuery({});
+  // const { data: dealsData } = useGetDealsCreatedQuery({});
 
   return (
     <Card>
@@ -23,8 +20,8 @@ const DealsGraph = () => {
       </Box>
       <Box>
         <ReactApexChart
-          options={options(dealsData?.data)}
-          series={series(dealsData?.data)}
+          options={options(dealsData)}
+          series={series(dealsData)}
           type="bar"
           height={300}
         />

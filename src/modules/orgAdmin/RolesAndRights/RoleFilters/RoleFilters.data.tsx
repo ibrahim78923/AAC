@@ -3,7 +3,7 @@ import {
   RHFAutocompleteAsync,
   RHFDatePicker,
 } from '@/components/ReactHookForm';
-import { useLazyGetProductsListQuery } from '@/services/common-APIs';
+import { useLazyGetDropdownProductsQuery } from '@/services/common-APIs';
 
 export const rolesFilterDefaultValues = (data: any) => {
   return {
@@ -16,14 +16,14 @@ export const rolesFilterDefaultValues = (data: any) => {
 };
 
 export const rolesFiltersArray = () => {
-  const getProductsList = useLazyGetProductsListQuery({});
+  const productsData = useLazyGetDropdownProductsQuery();
   return [
     {
       componentProps: {
         placeholder: 'Select product',
         name: 'product',
         label: 'Product',
-        apiQuery: getProductsList,
+        apiQuery: productsData,
         getOptionLabel: (option: any) => `${option?.name}`,
         externalParams: { status: 'ACTIVE' },
         queryKey: 'status',

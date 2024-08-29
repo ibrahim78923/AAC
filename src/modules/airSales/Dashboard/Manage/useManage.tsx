@@ -4,6 +4,7 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import {
   useDeleteSalesDashboardMutation,
   useGetSalesDashboardsQuery,
+  useUpdateSalesDashboardMutation,
 } from '@/services/airSales/dashboard';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -29,6 +30,8 @@ const useManage = () => {
 
   const [deleteSalesDashboard, { isLoading: loadingDeleteDashboard }] =
     useDeleteSalesDashboardMutation();
+  const [updatesalesDashboard, { isLoading: loadingUpdateDashboard }] =
+    useUpdateSalesDashboardMutation();
 
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen({ isToggle: false, id: '' });
@@ -66,6 +69,14 @@ const useManage = () => {
     },
   });
 
+  const handleUpdateDefault = async (id: string, defaultVal: boolean) => {
+    const body = {
+      id: id,
+      isDefault: defaultVal,
+    };
+    await updatesalesDashboard({ body: body })?.unwrap();
+  };
+
   const handelNavigate = () => {
     router?.push({
       pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
@@ -79,6 +90,8 @@ const useManage = () => {
 
   return {
     loadingDeleteDashboard,
+    handleUpdateDefault,
+    loadingUpdateDashboard,
     handleCloseDeleteModal,
     setIsDeleteModalOpen,
     dashboardListArray,

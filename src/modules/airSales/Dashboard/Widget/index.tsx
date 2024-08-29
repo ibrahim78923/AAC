@@ -3,7 +3,7 @@ import { widgetData } from './Widget.data';
 import { v4 as uuidv4 } from 'uuid';
 import { FilterLargeWidgetIcon } from '@/assets/icons';
 
-const Widget = () => {
+const Widget = ({ widgetDetails }: any) => {
   const theme = useTheme();
   return (
     <Card style={{ minHeight: '450px' }}>
@@ -28,7 +28,7 @@ const Widget = () => {
         </Stack>
       </Box>
       <Grid container spacing={1}>
-        {widgetData?.map((widgetData: any) => (
+        {widgetData(widgetDetails)?.map((widgetData: any) => (
           <Grid item xs={12} sm={6} md={4} lg={3.4} key={uuidv4()}>
             <Card sx={{ maxHeight: '84px', minWidth: '131px', margin: '20px' }}>
               <Typography

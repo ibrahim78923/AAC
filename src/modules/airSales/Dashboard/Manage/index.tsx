@@ -26,6 +26,7 @@ const Manage = () => {
     setFilterValues,
     isFilterDrawer,
     handelNavigate,
+    handleUpdateDefault,
     handleDelete,
     filterValues,
     setPageLimit,
@@ -40,6 +41,7 @@ const Manage = () => {
     setIsDeleteModalOpen: setIsDeleteModalOpen,
     theme: theme,
     router: router,
+    handleUpdateDefault: handleUpdateDefault,
   };
 
   const columnParams = columns(columnsProps);

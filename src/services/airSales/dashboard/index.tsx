@@ -6,7 +6,7 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsCreated: builder.query({
       query: ({ params }: any) => ({
-        url: `${SALES_DASHBOARD?.DEALS_CREATED_VS_CLOSE_DATES}`,
+        url: SALES_DASHBOARD?.DEALS_CREATED_VS_CLOSE_DATES,
         method: 'GET',
         params: params,
       }),
@@ -15,7 +15,7 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
 
     getSalesDashboards: builder.query({
       query: ({ params }: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}`,
+        url: SALES_DASHBOARD?.SALES_DASHBOARD_LIST,
         method: 'GET',
         params: params,
       }),
@@ -32,10 +32,21 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
 
     postSalesDashboard: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${SALES_DASHBOARD?.CREATE_SALES_DASHBOARD}`,
+        url: SALES_DASHBOARD?.CREATE_SALES_DASHBOARD,
         method: 'POST',
         body: body,
       }),
+      invalidatesTags: TAG,
+    }),
+
+    updateSalesDashboard: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: SALES_DASHBOARD?.UPDATE_SALES_DASHBOARD,
+          method: 'PATCH',
+          body: body,
+        };
+      },
       invalidatesTags: TAG,
     }),
 
@@ -57,6 +68,15 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+
+    getAllSalesDashboards: builder.query({
+      query: ({ params }: any) => ({
+        url: `${SALES_DASHBOARD?.ALL_SALES_DASHBOARDS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -66,5 +86,7 @@ export const {
   usePostSalesDashboardMutation,
   useGetSalesDashboardByIdQuery,
   useDeleteSalesDashboardMutation,
+  useUpdateSalesDashboardMutation,
+  useGetAllSalesDashboardsQuery,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
 } = salesDashboardApi;

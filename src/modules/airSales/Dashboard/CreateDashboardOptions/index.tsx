@@ -3,9 +3,10 @@ import {
   Menu,
   MenuItem,
   Fade,
-  useTheme,
   Typography,
   Stack,
+  CircularProgress,
+  Box,
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
@@ -13,21 +14,19 @@ import useCreateDashboardOptions from './useCreateDashboardOptions';
 import { CheckMarkIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { useRouter } from 'next/router';
-import { AIR_SALES } from '@/routesConstants/paths';
 
-const CreateDashboardOptions = () => {
-  const { handleCloseMenuOptions, anchorEl, openDropDown, handleClickActions } =
-    useCreateDashboardOptions();
-  const theme = useTheme();
+const CreateDashboardOptions = (props: any) => {
+  const { listData, selectedDashboard, isLoading } = props;
 
-  const router = useRouter();
-
-  const handelNavigate = () => {
-    router?.push({
-      pathname: `${AIR_SALES?.MANAGE_DASHBOARD}`,
-    });
-  };
+  const {
+    handleCloseMenuOptions,
+    handleMenuItemClick,
+    handleClickActions,
+    handelNavigate,
+    openDropDown,
+    anchorEl,
+    theme,
+  } = useCreateDashboardOptions(selectedDashboard);
 
   return (
     <div>
@@ -35,9 +34,7 @@ const CreateDashboardOptions = () => {
         className="small"
         variant="outlined"
         color="inherit"
-        sx={{
-          padding: '0px 18px 0px 18px',
-        }}
+        sx={{ padding: '0px 18px 0px 18px' }}
         onClick={handleClickActions}
       >
         Dashboards
@@ -56,39 +53,47 @@ const CreateDashboardOptions = () => {
         <PermissionsGuard
           permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SET_DEFAULT]}
         >
-          <MenuItem>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              width={'100%'}
-            >
-              <Typography variant="body2">Sales_1</Typography>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                gap={1}
-                sx={{
-                  background: theme?.palette?.custom?.success_light,
-                  color: theme?.palette?.success?.main,
-                  borderRadius: '50px',
-                  px: 1,
-                }}
+          {isLoading ? (
+            <Box sx={{ display: 'grid', placeItems: 'center', p: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            listData?.map((dashboard: any) => (
+              <MenuItem
+                key={dashboard?._id}
+                onClick={() => handleMenuItemClick(dashboard?._id)}
               >
-                <Typography variant="body3">Default</Typography>
-                <CheckMarkIcon />
-              </Stack>
-            </Stack>
-          </MenuItem>
-          <MenuItem>Sales_2</MenuItem>
-          <MenuItem>Sales_3</MenuItem>
-          <MenuItem>Sales_4</MenuItem>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  width={'100%'}
+                >
+                  <Typography variant="body2">{dashboard?.name}</Typography>
+                  {dashboard?.isDefault && (
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      gap={1}
+                      sx={{
+                        background: theme?.palette?.custom?.success_light,
+                        color: theme?.palette?.success?.main,
+                        borderRadius: '50px',
+                        px: 1,
+                      }}
+                    >
+                      <Typography variant="body3">Default</Typography>
+                      <CheckMarkIcon />
+                    </Stack>
+                  )}
+                </Stack>
+              </MenuItem>
+            ))
+          )}
         </PermissionsGuard>
         <MenuItem onClick={handelNavigate}>
           <Button
-            sx={{
-              color: theme?.palette?.grey[500],
-            }}
+            sx={{ color: theme?.palette?.grey[500] }}
             variant="outlined"
             color="inherit"
           >
@@ -99,4 +104,5 @@ const CreateDashboardOptions = () => {
     </div>
   );
 };
+
 export default CreateDashboardOptions;

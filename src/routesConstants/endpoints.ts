@@ -663,6 +663,7 @@ export const WHATSAPP_MARKETING = {
     '/whatsapp-marketing/broadcast/{whatsappBroadcastId}',
 };
 export const SALES_DASHBOARD = {
+  ALL_SALES_DASHBOARDS: '/dynamic-dashboard/get-dynamic-dashboard',
   SALES_DASHBOARD_LIST: '/dynamic-dashboard',
   CREATE_SALES_DASHBOARD: '/dynamic-dashboard/create-dynamic-dashboard',
   DEALS_CREATED_VS_CLOSE_DATES:
@@ -670,6 +671,7 @@ export const SALES_DASHBOARD = {
   WIDGET:
     '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
+  UPDATE_SALES_DASHBOARD: '/dynamic-dashboard/edit-dynamic-dashboard',
 };
 
 export const AIR_MARKETER_EMAIL_FOLDER = {

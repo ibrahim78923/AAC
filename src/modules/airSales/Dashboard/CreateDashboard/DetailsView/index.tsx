@@ -1,17 +1,18 @@
 import Image from 'next/image';
 import { Card, Typography, Box, Stack } from '@mui/material';
-import { styles } from './DetailsView.style';
 import { NotSelectedItemImage } from '@/assets/images';
-import DealsGraph from '../../DealsGraph';
 import MeetingDetails from '../../MeetingDetails';
 import TeamActivity from '../../TeamActivity';
+import DealsGraph from '../../DealsGraph';
 import Widget from '../../Widget';
 import { AIR_SALES_DASHBOARD_REPORTS_TYPES } from '@/constants';
+import DealsReportsAnalytics from '../../DealsReportsAnalytics';
+import { styles } from './DetailsView.style';
 
 const DetailsView = ({ selectedReports }: any) => {
   const displayDashboardWidgets = (selectedWidget: any) => {
     if (selectedWidget?.length > 0) {
-      return selectedWidget.map((report: any) => {
+      return selectedWidget?.map((report: any) => {
         switch (report) {
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEALS_CREATED_VS_CLOSED_DEALS:
             return <DealsGraph />;
@@ -22,9 +23,7 @@ const DetailsView = ({ selectedReports }: any) => {
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
             return <Widget />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEAL_REPORTS:
-            return (
-              <Typography variant="h6">Under construction.....</Typography>
-            );
+            return <DealsReportsAnalytics />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_PIPELINE_REPORT:
             return (
               <Typography variant="h6">Under construction.....</Typography>
@@ -45,7 +44,6 @@ const DetailsView = ({ selectedReports }: any) => {
       );
     }
   };
-
   return (
     <Card sx={{ height: '80vh', overflow: 'auto' }}>
       <Typography variant="h4" mt={2} sx={{ textAlign: 'center' }} gutterBottom>

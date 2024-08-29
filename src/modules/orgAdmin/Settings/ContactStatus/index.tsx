@@ -52,14 +52,8 @@ const ContactStatus = () => {
         <CommonDrawer
           isDrawerOpen={isDraweropen}
           onClose={handleCloseDrawer}
-          title={
-            isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT
-              ? 'Edit Contact Status'
-              : 'Create Contact Status'
-          }
-          okText={
-            isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Update' : 'Add'
-          }
+          title={isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Edit Contact Status' : 'Create Contact Status'}
+          okText={isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Update' : 'Add'}
           footer={isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW ? false : true}
           isOk={true}
           submitHandler={handleSubmit(onSubmit)}
@@ -71,11 +65,7 @@ const ContactStatus = () => {
                 {dataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component
-                      disabled={
-                        isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW
-                          ? true
-                          : false
-                      }
+                      disabled={isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW ? true : false}
                       {...item.componentProps}
                       size={'small'}
                     ></item.component>

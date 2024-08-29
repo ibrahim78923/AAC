@@ -9,7 +9,8 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import { AIR_SALES } from '@/routesConstants/paths';
 
 export const columns: any = (columnsProps: any) => {
-  const { setIsDeleteModalOpen, theme, router } = columnsProps;
+  const { setIsDeleteModalOpen, theme, router, handleUpdateDefault } =
+    columnsProps;
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -22,7 +23,14 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?.isDefault,
       id: 'isDefault',
-      cell: (info: any) => <SwitchBtn checked={info?.getValue()} />,
+      cell: (info: any) => (
+        <SwitchBtn
+          handleSwitchChange={(e: any) => {
+            handleUpdateDefault(info?.row?.original?._id, e?.target?.checked);
+          }}
+          checked={info?.getValue()}
+        />
+      ),
       header: 'Default',
       isSortable: false,
     },
@@ -117,21 +125,23 @@ export const columns: any = (columnsProps: any) => {
           >
             <EditPenIcon />
           </Box>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setIsDeleteModalOpen({
-                  isToggle: true,
-                  id: info?.row?.original?._id,
-                });
-              }}
+          {!info?.row?.original?.isDefault && (
+            <PermissionsGuard
+              permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
             >
-              <DeleteCrossIcon />
-            </Box>
-          </PermissionsGuard>
+              <Box
+                sx={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setIsDeleteModalOpen({
+                    isToggle: true,
+                    id: info?.row?.original?._id,
+                  });
+                }}
+              >
+                <DeleteCrossIcon />
+              </Box>
+            </PermissionsGuard>
+          )}
         </Stack>
       ),
     },
