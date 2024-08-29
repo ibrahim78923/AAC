@@ -4,7 +4,9 @@ import { ARRAY_INDEX } from '@/constants/strings';
 
 export const TemplateText = (props: any) => {
   const { title = '', data } = props;
-  const count = data?.[title]?.[ARRAY_INDEX?.ZERO]?.[title];
+  const count = data?.[title]?.[ARRAY_INDEX?.ZERO]?.[title] ?? data?.[title];
+
+  const totalCount = Array?.isArray(count) ? 0 : count;
   return (
     <Box
       boxShadow={1}
@@ -22,7 +24,7 @@ export const TemplateText = (props: any) => {
       </Typography>
       <Chip
         color="primary"
-        label={count ?? 0}
+        label={totalCount ?? 0}
         sx={{
           fontSize: pxToRem(16),
           fontWeight: 500,

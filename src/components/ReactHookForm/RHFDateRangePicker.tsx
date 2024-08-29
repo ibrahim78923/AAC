@@ -35,6 +35,7 @@ const RHFDateRangePicker = (props: any) => {
     null,
   );
   const handleClickDate = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (other?.disabled) return;
     setAnchorElDate(event?.currentTarget);
   };
 

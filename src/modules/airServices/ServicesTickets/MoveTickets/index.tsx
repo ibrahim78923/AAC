@@ -56,7 +56,7 @@ export const MoveTickets = (props: TicketActionComponentPropsI) => {
         </DialogTitle>
         <DialogContent>
           <br />
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {moveTicketsFormFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />

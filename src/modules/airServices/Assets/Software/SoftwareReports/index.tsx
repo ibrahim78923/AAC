@@ -1,7 +1,7 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { SoftwareReportsCards } from './SoftwareReportsCards';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -42,7 +42,6 @@ export const SoftwareReports = () => {
     getValues,
   } = useSoftwareReports();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
   if (isError)
     return (
       <>
@@ -78,7 +77,7 @@ export const SoftwareReports = () => {
               name={'createdDate'}
               placeholder={'Date'}
               size="small"
-              disabled={loading}
+              disabled={loading || isLoading || isFetching}
               label={`\u00a0\u00a0`}
               hasButton
               onSubmitBtnClick={(setAnchorElDate: any) =>
@@ -105,94 +104,95 @@ export const SoftwareReports = () => {
             color="inherit"
             size="small"
             onClick={handleDownload}
-            disabled={loading}
+            disabled={loading || isLoading || isFetching}
             loading={loading}
           >
             <DownloadLargeIcon />
           </LoadingButton>
         </PermissionsGuard>
       </PageTitledHeader>
-
-      <Divider sx={{ mb: 2 }} />
-
-      <PermissionsGuard
-        permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
-      >
-        <Box ref={downloadRef}>
-          <SoftwareReportsCards
-            softwareReportsCardsData={softwareReportsCardsData}
-          />
-          <br />
-          <Grid container spacing={2}>
-            <Grid item xs={12} lg={5}>
-              <Box
-                height={'100%'}
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-              >
-                <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
-                  Software Distribution
-                </Typography>
-                {!!Object?.keys(softwareReportsChartsData ?? {})?.length ? (
-                  <CustomChart
-                    type={'pie'}
-                    series={Object?.values(softwareReportsChartsData ?? {})}
-                    options={{
-                      labels: Object?.keys(softwareReportsChartsData ?? {}),
-                      dataLabels: {
-                        enabled: true,
-                      },
-                    }}
-                  />
-                ) : (
-                  <NoData height="100%" />
-                )}
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={7}>
-              <Box
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-                height={'100%'}
-              >
-                <FormProvider methods={methods}>
-                  <Grid container mb={1}>
-                    <Grid item xs={12} md={4}>
-                      <RHFAutocomplete
-                        name={'status'}
-                        placeholder={'Select option'}
-                        size="small"
-                        disableClearable
-                        options={softwareStatusReportsOptions}
-                        disabled={loading}
-                        getOptionLabel={(option: AutocompleteOptionsI) =>
-                          option?.label
-                        }
-                      />
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : (
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
+        >
+          <Box ref={downloadRef}>
+            <SoftwareReportsCards
+              softwareReportsCardsData={softwareReportsCardsData}
+            />
+            <br />
+            <Grid container spacing={2}>
+              <Grid item xs={12} lg={5}>
+                <Box
+                  height={'100%'}
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                >
+                  <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
+                    Software Distribution
+                  </Typography>
+                  {!!Object?.keys(softwareReportsChartsData ?? {})?.length ? (
+                    <CustomChart
+                      type={'pie'}
+                      series={Object?.values(softwareReportsChartsData ?? {})}
+                      options={{
+                        labels: Object?.keys(softwareReportsChartsData ?? {}),
+                        dataLabels: {
+                          enabled: true,
+                        },
+                      }}
+                    />
+                  ) : (
+                    <NoData height="100%" />
+                  )}
+                </Box>
+              </Grid>
+              <Grid item xs={12} lg={7}>
+                <Box
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                  height={'100%'}
+                >
+                  <FormProvider methods={methods}>
+                    <Grid container mb={1}>
+                      <Grid item xs={12} md={4}>
+                        <RHFAutocomplete
+                          name={'status'}
+                          placeholder={'Select option'}
+                          size="small"
+                          disableClearable
+                          options={softwareStatusReportsOptions}
+                          disabled={loading}
+                          getOptionLabel={(option: AutocompleteOptionsI) =>
+                            option?.label
+                          }
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </FormProvider>
-                <TanstackTable
-                  data={
-                    data?.data?.[`${getValues?.('status')?._id}Details`]?.slice(
-                      -5,
-                    ) ?? []
-                  }
-                  columns={softwareReportsTableColumns}
-                />
-              </Box>
+                  </FormProvider>
+                  <TanstackTable
+                    data={
+                      data?.data?.[`${getValues?.('status')?._id}Details`]
+                        ?.slice?.(-5)
+                        ?.reverse() ?? []
+                    }
+                    columns={softwareReportsTableColumns}
+                  />
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </PermissionsGuard>
+          </Box>
+        </PermissionsGuard>
+      )}
     </>
   );
 };

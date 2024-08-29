@@ -128,8 +128,8 @@ export const ticketsFilterFormFieldsDataFunction = (
       placeholder: 'Choose Requester',
       apiQuery: apiQueryRequester,
       externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_REQUESTER,
+        requester: true,
+        admin: true,
       },
       getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,

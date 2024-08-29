@@ -5,7 +5,7 @@ import {
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
 import {
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetTicketByIdForMergeQuery,
   useLazyGetTicketByRequesterQuery,
   useLazyGetTicketBySubjectQuery,
@@ -74,10 +74,11 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
     setIsPortalOpen?.({});
   };
 
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
   const apiQueryTicketByRequester = useLazyGetTicketByRequesterQuery();
   const apiQueryTicketById = useLazyGetTicketByIdForMergeQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
 
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,

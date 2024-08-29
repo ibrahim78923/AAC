@@ -4,7 +4,8 @@ import { ARRAY_INDEX, MONTH_NAMES } from '@/constants/strings';
 
 export const useHorizontalChart = (props: any) => {
   const { data = { counts: [], items: [] }, barChart, title } = props;
-  const { items = [], counts = [] } = data?.[title]?.[ARRAY_INDEX?.ZERO];
+  const { items = [], counts = [] } =
+    data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const theme = useTheme();
 

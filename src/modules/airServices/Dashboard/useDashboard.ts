@@ -49,6 +49,10 @@ export const useDashboard = () => {
   }`;
 
   const copyEmail = () => {
+    if (apiLoader?.isError) {
+      errorSnackbar('Dashboard link not found.');
+      return;
+    }
     if (!apiLoader?.data?.data?.dashboard?._id) {
       errorSnackbar('Dashboard link not found.');
       return;

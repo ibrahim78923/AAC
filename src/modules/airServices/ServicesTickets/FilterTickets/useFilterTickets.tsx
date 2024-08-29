@@ -1,9 +1,9 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   useLazyGetAgentDropdownQuery,
+  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
 } from '@/services/airServices/tickets';
 import {
   ticketsFilterFormFieldsDataFunction,
@@ -51,10 +51,11 @@ export const useFilterTickets = (props: TicketActionComponentPropsI) => {
     setIsPortalOpen?.({});
   };
 
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
 
   const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
     apiQueryRequester,

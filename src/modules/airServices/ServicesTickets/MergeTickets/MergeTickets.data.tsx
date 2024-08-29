@@ -6,8 +6,7 @@ import {
   AutocompleteAsyncOptionsI,
   AutocompleteOptionsI,
 } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
-import { ROLES, TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -117,12 +116,12 @@ export const mergeTicketsFormFieldsDynamic = (
               required: true,
               apiQuery: apiQueryRequester,
               externalParams: {
-                limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-                role: ROLES?.ORG_REQUESTER,
+                requester: true,
+                admin: true,
               },
               getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
                 `${option?.firstName} ${option?.lastName}`,
-              placeholder: 'Add Requester',
+              placeholder: 'Search Requester',
             },
             component: RHFAutocompleteAsync,
           },

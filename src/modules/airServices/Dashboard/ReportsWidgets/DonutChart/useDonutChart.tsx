@@ -4,7 +4,8 @@ import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
 export const useDonutChart = (props: any) => {
   const { data = { counts: [], items: [] }, donutChart, title } = props;
 
-  const { items = [], counts = [] } = data?.[title]?.[ARRAY_INDEX?.ZERO];
+  const { items = [], counts = [] } =
+    data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const dataItems =
     donutChart?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID

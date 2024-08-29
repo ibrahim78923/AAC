@@ -6,7 +6,8 @@ export const useBarChart = (props: any) => {
   const { data = { counts: [], items: [] }, barChart, title } = props;
   const theme = useTheme();
 
-  const { items = [], counts = [] } = data?.[title]?.[ARRAY_INDEX?.ZERO];
+  const { items = [], counts = [] } =
+    data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const dataItems =
     barChart?.xAxis?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID
