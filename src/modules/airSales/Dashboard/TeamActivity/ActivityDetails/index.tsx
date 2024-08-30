@@ -1,15 +1,16 @@
 import { Avatar, Grid, Typography, useTheme } from '@mui/material';
-// import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivity';
+import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivity';
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 const ActivityDetails = ({ data }: any) => {
+  const activitDetails = data ? data : teamActivityData;
   const theme = useTheme();
   return (
     <>
-      {data?.map((teamData: any) => {
+      {activitDetails?.map((teamData: any) => {
         return (
           <Grid container key={uuidv4()} p={1}>
             <Grid item sm={1}>

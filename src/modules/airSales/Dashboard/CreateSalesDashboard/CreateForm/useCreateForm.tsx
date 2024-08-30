@@ -8,33 +8,67 @@ import {
 } from './CreateForm.data';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
 import {
+  useGetSalesDashboardByIdQuery,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
   usePostSalesDashboardMutation,
+  useUpdateSalesDashboardMutation,
 } from '@/services/airSales/dashboard';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useCreateForm = () => {
+const useCreateForm = (formType: any) => {
   const router = useRouter();
-  // const selectedDashboardId = router?.query?.id;
+  const selectedDashboardId = router?.query?.id;
+  const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
+
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
 
   // States
   const [isOpenPreview, setIsOpenPreview] = useState(false);
   const [accessValue, setAccessValue] = useState('');
 
-  // commented for future use
-  // const { data: getSalesDashboardById } = useGetSalesDashboardByIdQuery(selectedDashboardId,
-  //   { skip: !selectedDashboardId });
+  // API calls
+  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
+    usePostSalesDashboardMutation();
 
-  // Functions
+  const { data: getSalesDashboardById, isLoading: dashboardDetailsLoading } =
+    useGetSalesDashboardByIdQuery(selectedDashboardId, {
+      skip: !selectedDashboardId,
+    });
+
+  const [updatesalesDashboard, { isLoading: loadingUpdateDashboard }] =
+    useUpdateSalesDashboardMutation();
 
   const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: createDashboardDefaultValue?.(),
   });
+
   const { handleSubmit, reset, control, setValue, watch }: any = methods;
 
+  useEffect(() => {
+    if (selectedDashboardId) {
+      const data = getSalesDashboardById;
+      const fieldsToSet: any = {
+        dashboardName: data?.name,
+        access: data?.access,
+        isDefault: data?.isDefault,
+        permissions: data?.permissions,
+        specialUsers: data?.specialUsers?.map((item: any) => item?.userId),
+        permissionsUsers: data?.specialUsers?.map(
+          (item: any) => item?.permission,
+        ),
+        reportType: data?.reports?.map((item: any) => item?.name),
+      };
+      for (const key in fieldsToSet) {
+        setValue(key, fieldsToSet[key]);
+      }
+    }
+  }, [selectedDashboardId, setValue, getSalesDashboardById]);
+
+  // Functions
   const selectedReports = watch('reportType');
 
   const dashboardPermissions = (radioVal: any) => {
@@ -50,12 +84,6 @@ const useCreateForm = () => {
         return 'VIEW_AND_EDIT';
     }
   };
-
-  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
-    usePostSalesDashboardMutation();
-
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
 
   const specificUserWatch: any = useWatch({
     control,
@@ -93,16 +121,26 @@ const useCreateForm = () => {
       }),
       isDefault: values?.isDefault,
     };
-
     try {
-      await postSalesDashboard({
-        body: payload,
-      }).unwrap();
+      if (formType === DRAWER_TYPES?.EDIT) {
+        await updatesalesDashboard({
+          body: { id: selectedDashboardId, ...payload },
+        })?.unwrap();
+      } else {
+        await postSalesDashboard({
+          body: payload,
+        })?.unwrap();
+      }
       reset();
-      router.back();
-      enqueueSnackbar('Dashboard Created Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      router?.back();
+      enqueueSnackbar(
+        `Dashboard ${
+          formType === DRAWER_TYPES?.EDIT ? 'Updated' : 'Created'
+        } Successfully`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -123,26 +161,29 @@ const useCreateForm = () => {
   };
 
   return {
-    dashboardPermissions,
-    selectedReports,
-    methods,
-    handleSubmit,
-    reset,
-    control,
-    setValue,
-    watch,
+    postSalesDashboardLoading,
+    dashboardDetailsLoading,
     handleChangeAccessValue,
+    loadingUpdateDashboard,
+    dashboardPermissions,
+    specificUserWatch,
     setIsOpenPreview,
+    selectedReports,
     setAccessValue,
     isOpenPreview,
-    accessValue,
-    router,
-    postSalesDashboardLoading,
-    onSubmit,
-    productId,
     apiQueryUsers,
-    specificUserWatch,
+    handleSubmit,
+    accessValue,
+    disbaleForm,
+    productId,
+    setValue,
+    onSubmit,
+    methods,
+    control,
     fields,
+    router,
+    reset,
+    watch,
   };
 };
 export default useCreateForm;

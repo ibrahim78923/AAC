@@ -17,7 +17,7 @@ export const columns: any = (columnsProps: any) => {
       id: 'name',
       isSortable: true,
       header: 'Dashboard Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
 
     {
@@ -107,7 +107,7 @@ export const columns: any = (columnsProps: any) => {
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id },
+                  query: { id: info?.row?.original?._id, type: 'view' },
                 });
               }}
             >
@@ -119,7 +119,7 @@ export const columns: any = (columnsProps: any) => {
             onClick={() => {
               router?.push({
                 pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                query: { id: info?.row?.original?._id },
+                query: { id: info?.row?.original?._id, type: 'edit' },
               });
             }}
           >
