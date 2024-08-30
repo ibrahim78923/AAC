@@ -14,6 +14,7 @@ const CommonModal = ({
   handleSubmit,
   children,
   title,
+  titleDescription,
   okText,
   cancelText,
   submitIcon,
@@ -56,7 +57,14 @@ const CommonModal = ({
               }}
             >
               {headerIcon}
-              <Typography variant="h5">{title}</Typography>
+              <Box>
+                <Typography variant="h5">{title}</Typography>
+                {titleDescription && (
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {titleDescription}
+                  </Typography>
+                )}
+              </Box>
             </Box>
             {cancelIcon && (
               <Box

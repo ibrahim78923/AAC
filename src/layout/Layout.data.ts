@@ -383,6 +383,12 @@ export const AirMarketingRoutes: any = [
           Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS,
       },
       {
+        key: AIR_MARKETER?.EMAIL_SETTINGS,
+        label: 'Email Settings',
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS, //:Todo
+      },
+      {
         key: AIR_MARKETER?.EMAIL_REPORTS,
         label: 'Email Reports',
         permissions:

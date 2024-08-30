@@ -135,6 +135,7 @@ export const AIR_MARKETER = {
     '/email-marketing/email-templates/create-template',
   ),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
+  EMAIL_SETTINGS: path(AIR_MARKETING_PAGE, '/email-marketing/email-settings'),
   EMAIL_FOLDER_EMAILS: path(
     AIR_MARKETING_PAGE,
     '/email-marketing/email-folder/emails',

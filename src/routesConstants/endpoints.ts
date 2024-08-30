@@ -534,6 +534,12 @@ export const EMAILS_MARKETING = {
   MARKETING_USERS: '/quote/all/user',
   MARKETING_TEAMS: '/teams',
 };
+export const EMAILS_MARKETING_SETTINGS = {
+  EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities?status=VERIFIED',
+  CREATE_EMAIL_SETTINGS: '/emails-marketing/create-email-identities',
+  EMAIL_VERIFY_OTP_SETTINGS: '/emails-marketing/verify-email-identities',
+  UPDATE_EMAIL_IDENTITIES: '/emails-marketing/update-email-identities',
+};
 
 export const superAdminBillingInvoices = {
   GET_ORG_PLAN: '/super-admin/get-all-orgplans?',
