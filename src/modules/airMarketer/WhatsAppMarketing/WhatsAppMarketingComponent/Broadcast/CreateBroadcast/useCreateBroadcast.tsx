@@ -254,7 +254,7 @@ const useCreateBroadcast = () => {
       }
       delete body?.customFields;
       Object.keys(body).forEach((key) => {
-        formData.append(key, JSON.stringify(body[key]));
+        formData.append(key, body[key]);
       });
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();
