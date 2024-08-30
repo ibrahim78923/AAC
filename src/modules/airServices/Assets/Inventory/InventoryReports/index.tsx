@@ -44,7 +44,6 @@ export const InventoryReports = () => {
     getValues,
   } = useInventoryReports();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
   if (isError)
     return (
       <>
@@ -80,7 +79,7 @@ export const InventoryReports = () => {
               name={'createdDate'}
               placeholder={'Date'}
               size="small"
-              disabled={loading}
+              disabled={loading || isLoading || isFetching}
               hasButton
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
@@ -105,7 +104,7 @@ export const InventoryReports = () => {
             color="inherit"
             size="small"
             onClick={handleDownload}
-            disabled={loading}
+            disabled={loading || isLoading || isFetching}
             loading={loading}
           >
             <DownloadLargeIcon />
@@ -115,80 +114,84 @@ export const InventoryReports = () => {
 
       <Divider sx={{ mb: 2 }} />
 
-      <PermissionsGuard
-        permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.VIEW]}
-      >
-        <Box ref={downloadRef}>
-          <ReportsCards cardsData={inventoryReportsCardsData} />
-          <Grid container spacing={2}>
-            <Grid item xs={12} lg={4}>
-              <Box
-                height={'100%'}
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-              >
-                <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
-                  Assets Distribution
-                </Typography>
-                {!!Object?.keys(inventoryReportsChartsData ?? {})?.length ? (
-                  <CustomChart
-                    type={'pie'}
-                    series={Object?.values(inventoryReportsChartsData ?? {})}
-                    options={{
-                      labels: Object?.keys(inventoryReportsChartsData ?? {}),
-                      dataLabels: {
-                        enabled: true,
-                      },
-                    }}
-                  />
-                ) : (
-                  <NoData height="100%" />
-                )}
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={8}>
-              <Box
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-                height={'100%'}
-              >
-                <FormProvider methods={methods}>
-                  <Grid container mb={1}>
-                    <Grid item xs={12} md={4}>
-                      <RHFAutocomplete
-                        name={'status'}
-                        placeholder={'Select Option'}
-                        size="small"
-                        options={inventoryTableFilterOptions}
-                        disabled={loading}
-                        getOptionLabel={(option: AutocompleteOptionsI) =>
-                          option?.label
-                        }
-                      />
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : (
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.VIEW]}
+        >
+          <Box ref={downloadRef}>
+            <ReportsCards cardsData={inventoryReportsCardsData} />
+            <Grid container spacing={2}>
+              <Grid item xs={12} lg={4}>
+                <Box
+                  height={'100%'}
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                >
+                  <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
+                    Assets Distribution
+                  </Typography>
+                  {!!Object?.keys(inventoryReportsChartsData ?? {})?.length ? (
+                    <CustomChart
+                      type={'pie'}
+                      series={Object?.values(inventoryReportsChartsData ?? {})}
+                      options={{
+                        labels: Object?.keys(inventoryReportsChartsData ?? {}),
+                        dataLabels: {
+                          enabled: true,
+                        },
+                      }}
+                    />
+                  ) : (
+                    <NoData height="100%" />
+                  )}
+                </Box>
+              </Grid>
+              <Grid item xs={12} lg={8}>
+                <Box
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                  height={'100%'}
+                >
+                  <FormProvider methods={methods}>
+                    <Grid container mb={1}>
+                      <Grid item xs={12} md={4}>
+                        <RHFAutocomplete
+                          name={'status'}
+                          placeholder={'Select Option'}
+                          size="small"
+                          options={inventoryTableFilterOptions}
+                          disabled={loading}
+                          getOptionLabel={(option: AutocompleteOptionsI) =>
+                            option?.label
+                          }
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </FormProvider>
-                <TanstackTable
-                  data={
-                    inventoryData?.[
-                      `${getValues?.('status')?.value}Details`
-                    ]?.slice(-5) ?? []
-                  }
-                  columns={inventoryColumns}
-                />
-              </Box>
+                  </FormProvider>
+                  <TanstackTable
+                    data={
+                      inventoryData?.[
+                        `${getValues?.('status')?.value}Details`
+                      ]?.slice(-5) ?? []
+                    }
+                    columns={inventoryColumns}
+                  />
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </PermissionsGuard>
+          </Box>
+        </PermissionsGuard>
+      )}
     </>
   );
 };

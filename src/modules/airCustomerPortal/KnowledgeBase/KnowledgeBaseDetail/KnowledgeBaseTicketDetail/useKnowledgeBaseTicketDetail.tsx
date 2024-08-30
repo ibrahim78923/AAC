@@ -15,6 +15,7 @@ import {
   usePostArticleFeedbackMutation,
 } from '@/services/airCustomerPortal/KnowledgeBase';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ARTICLE_STATUS } from '@/constants/strings';
 
 export const useKnowledgeBaseTicketDetail = () => {
   const theme = useTheme();
@@ -27,6 +28,7 @@ export const useKnowledgeBaseTicketDetail = () => {
 
   const relatedArticlesParams = {
     folderId: folderId,
+    status: ARTICLE_STATUS?.PUBLISHED,
   };
   const {
     data: articlesData,
