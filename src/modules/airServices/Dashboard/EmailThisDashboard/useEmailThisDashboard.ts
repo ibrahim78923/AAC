@@ -93,9 +93,9 @@ export const useEmailThisDashboard = (props: any) => {
     methods,
     sendDashboardViaEmailFormFields,
     sendServiceDashboardViaEmailStatus,
+    closeDrawer,
     handleSubmit,
     submitEmail,
-    closeDrawer,
     sendServiceDashboardViaEmailOnceStatus,
   };
 };

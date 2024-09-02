@@ -1,10 +1,10 @@
 import {
-  defaultValues,
-  validationSchemaReportAnIssueModal,
-} from './ReportAnIssueModal.data';
+  reportIssueFormDefaultValues,
+  reportIssueFormFieldsDynamic,
+  reportIssueFormValidationSchema,
+} from './ReportIssue.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useTheme } from '@mui/material';
 import {
   useLazyGetAssociateAssetsDropdownQuery,
   useLazyGetRequesterDropdownQuery,
@@ -12,22 +12,28 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
+import { ReportIssuePropsI } from './ReportIssue.interface';
 
-export const useReportAnIssueModal = (props: any) => {
-  const { setOpenReportAnIssueModal } = props;
-  const theme = useTheme();
+export const useReportIssue = (props: ReportIssuePropsI) => {
+  const { setIsPortalOpen } = props;
 
   const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
 
   const methods = useForm<any>({
-    resolver: yupResolver(validationSchemaReportAnIssueModal),
-    defaultValues,
+    resolver: yupResolver(reportIssueFormValidationSchema),
+    defaultValues: reportIssueFormDefaultValues?.(),
   });
 
   const { handleSubmit, reset } = methods;
-  const [postTrigger, postProgress] = usePostReportAnIssueMutation();
-  const isLoading = postProgress?.isLoading;
+
+  const [postReportAnIssueTrigger, postReportAnIssueStatus] =
+    usePostReportAnIssueMutation();
+
+  const closePortal = () => {
+    reset?.();
+    setIsPortalOpen?.(false);
+  };
 
   const onSubmit = async (data: any) => {
     const reportAnIssueData = new FormData();
@@ -50,28 +56,25 @@ export const useReportAnIssueModal = (props: any) => {
     };
 
     try {
-      await postTrigger(postReportAnIssueParameter)?.unwrap();
+      await postReportAnIssueTrigger(postReportAnIssueParameter)?.unwrap();
       successSnackbar('Issue Report Successfully');
-      reset();
-      if (setOpenReportAnIssueModal) {
-        setOpenReportAnIssueModal?.(false);
-      }
+      closePortal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
-  const handleSubmitIssue = handleSubmit(onSubmit);
+  const reportIssueFormFields = reportIssueFormFieldsDynamic(
+    apiQueryAssociateAsset,
+    apiQueryRequester,
+  );
 
   return {
     methods,
-    validationSchemaReportAnIssueModal,
-    defaultValues,
+    postReportAnIssueStatus,
+    closePortal,
     handleSubmit,
-    handleSubmitIssue,
-    theme,
-    isLoading,
-    apiQueryAssociateAsset,
-    apiQueryRequester,
+    onSubmit,
+    reportIssueFormFields,
   };
 };

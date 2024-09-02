@@ -20,7 +20,7 @@ export const Table = (props: any) => {
       <PageTitledHeader title={title} />
       <Box>
         <TanstackTable
-          data={tableData?.slice?.(-10)?.reverse()}
+          data={tableData?.slice?.(-5)?.reverse()}
           columns={tableColumn}
         />
       </Box>

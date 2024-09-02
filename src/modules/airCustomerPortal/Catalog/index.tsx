@@ -66,7 +66,7 @@ export const Catalog = () => {
                         },
                       });
                     }}
-                    categoryId={categoryId}
+                    categoryId={categoryId as string}
                   />
                 </Grid>
               ))

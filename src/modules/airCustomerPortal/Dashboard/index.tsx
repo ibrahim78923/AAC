@@ -4,11 +4,11 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ROLES } from '@/constants/strings';
-import ReportAnIssueModal from './ReportAnIssueModal';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { ReportIssue } from '../Tickets/ReportIssue';
 
 const Dashboard = () => {
   const {
@@ -58,9 +58,9 @@ const Dashboard = () => {
         ))}
       </Grid>
       {openReportAnIssueModal && (
-        <ReportAnIssueModal
-          openReportAnIssueModal={openReportAnIssueModal}
-          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+        <ReportIssue
+          isPortalOpen={openReportAnIssueModal}
+          setIsPortalOpen={setOpenReportAnIssueModal}
         />
       )}
     </>

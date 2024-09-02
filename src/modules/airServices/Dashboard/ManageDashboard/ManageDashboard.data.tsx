@@ -29,6 +29,8 @@ export const checkDashboardEditPermission = (data: any) => {
     MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER
   )
     return data?.loggedInUser?._id === data?.dashboardData?.ownerDetails?._id;
+  if (data?.loggedInUser?._id === data?.dashboardData?.ownerDetails?._id)
+    return true;
   if (data?.dashboardData?.access === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE)
     return (
       data?.dashboardData?.permissions ===
@@ -112,7 +114,7 @@ export const manageDashboardsDataColumnsDynamic = (
             {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
           </Typography>
           <Typography variant="body3" component={'div'} color="custom.light">
-            {info?.getValue()?.email}
+            {info?.getValue()?.email ?? '---'}
           </Typography>
         </Box>
       </Box>

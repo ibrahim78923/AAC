@@ -13,8 +13,8 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
-import ReportAnIssueModal from '../Dashboard/ReportAnIssueModal';
 import { fullName } from '@/utils/avatarUtils';
+import { ReportIssue } from '../Tickets/ReportIssue';
 
 export const KnowledgeBase = () => {
   const {
@@ -84,9 +84,9 @@ export const KnowledgeBase = () => {
         )}
       </PermissionsGuard>
       {openReportAnIssueModal && (
-        <ReportAnIssueModal
-          openReportAnIssueModal={openReportAnIssueModal}
-          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+        <ReportIssue
+          isPortalOpen={openReportAnIssueModal}
+          setIsPortalOpen={setOpenReportAnIssueModal}
         />
       )}
     </>

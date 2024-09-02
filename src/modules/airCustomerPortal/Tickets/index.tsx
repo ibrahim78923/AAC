@@ -13,8 +13,9 @@ import {
 } from '@/constants/permission-keys';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import ReportAnIssueModal from '../Dashboard/ReportAnIssueModal';
+
 import { TicketCardDataI } from './TicketCard/TicketCard.interface';
+import { ReportIssue } from './ReportIssue';
 
 export const Tickets = () => {
   const {
@@ -82,9 +83,9 @@ export const Tickets = () => {
         setPageLimit={setPageLimit}
       />
       {openReportAnIssueModal && (
-        <ReportAnIssueModal
-          openReportAnIssueModal={openReportAnIssueModal}
-          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+        <ReportIssue
+          isPortalOpen={openReportAnIssueModal}
+          setIsPortalOpen={setOpenReportAnIssueModal}
         />
       )}
     </>

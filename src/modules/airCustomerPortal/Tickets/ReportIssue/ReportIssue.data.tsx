@@ -9,7 +9,7 @@ import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
-export const validationSchemaReportAnIssueModal = Yup?.object()?.shape({
+export const reportIssueFormValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
   subject: Yup?.string()?.trim()?.required('subject is required'),
   description: Yup?.string()?.trim()?.required('description is required'),
@@ -17,15 +17,17 @@ export const validationSchemaReportAnIssueModal = Yup?.object()?.shape({
   attachFile: Yup?.mixed()?.nullable(),
 });
 
-export const defaultValues = {
-  requester: null,
-  subject: '',
-  description: '',
-  associatesAssets: [],
-  attachFile: null,
+export const reportIssueFormDefaultValues = () => {
+  return {
+    requester: null,
+    subject: '',
+    description: '',
+    associatesAssets: [],
+    attachFile: null,
+  };
 };
 
-export const reportAnIssueModalFormFields = (
+export const reportIssueFormFieldsDynamic = (
   apiQueryAssociateAsset: any,
   apiQueryRequester: any,
 ) => [
