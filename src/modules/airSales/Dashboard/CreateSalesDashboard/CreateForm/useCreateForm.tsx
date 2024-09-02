@@ -50,7 +50,7 @@ const useCreateForm = (formType: any) => {
 
   useEffect(() => {
     if (selectedDashboardId) {
-      const data = getSalesDashboardById;
+      const data = getSalesDashboardById?.data;
       const fieldsToSet: any = {
         dashboardName: data?.name,
         access: data?.access,

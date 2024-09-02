@@ -678,6 +678,7 @@ export const SALES_DASHBOARD = {
     '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
   UPDATE_SALES_DASHBOARD: '/dynamic-dashboard/edit-dynamic-dashboard',
+  UPDATE_DEFAULT_SALES_DASHBOARD: '/dynamic-dashboard/edit-default-option',
 };
 
 export const AIR_MARKETER_EMAIL_FOLDER = {

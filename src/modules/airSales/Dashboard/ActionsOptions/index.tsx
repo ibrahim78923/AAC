@@ -7,14 +7,14 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
   const {
-    handleClickActions,
-    isShowDrawer,
-    handleShowCopyUrl,
-    handleCloseDrawer,
-    handleCloseMenuOptions,
-    anchorEl,
-    openDropDown,
     handleShowEmailDashboard,
+    handleCloseMenuOptions,
+    handleClickActions,
+    handleCloseDrawer,
+    handleShowCopyUrl,
+    isShowDrawer,
+    openDropDown,
+    anchorEl,
   } = useActionsOptions();
 
   return (

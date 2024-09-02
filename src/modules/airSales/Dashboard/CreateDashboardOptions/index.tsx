@@ -9,11 +9,11 @@ import {
   Box,
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-
 import useCreateDashboardOptions from './useCreateDashboardOptions';
 import { CheckMarkIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { capitalizeFirstLetters } from '@/utils';
 
 const CreateDashboardOptions = (props: any) => {
   const { listData, selectedDashboard, isLoading } = props;
@@ -69,7 +69,9 @@ const CreateDashboardOptions = (props: any) => {
                   alignItems="center"
                   width={'100%'}
                 >
-                  <Typography variant="body2">{dashboard?.name}</Typography>
+                  <Typography variant="body2">
+                    {capitalizeFirstLetters(dashboard?.name)}
+                  </Typography>
                   {dashboard?.isDefault && (
                     <Stack
                       direction="row"
@@ -91,15 +93,14 @@ const CreateDashboardOptions = (props: any) => {
             ))
           )}
         </PermissionsGuard>
-        <MenuItem onClick={handelNavigate}>
-          <Button
-            sx={{ color: theme?.palette?.grey[500] }}
-            variant="outlined"
-            color="inherit"
-          >
-            Manage Dashboards
-          </Button>
-        </MenuItem>
+        <Button
+          sx={{ color: theme?.palette?.grey[500], margin: '10px' }}
+          onClick={handelNavigate}
+          variant="outlined"
+          color="inherit"
+        >
+          Manage Dashboards
+        </Button>
       </Menu>
     </div>
   );

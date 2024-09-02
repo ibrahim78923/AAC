@@ -50,6 +50,17 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
+    updateDefaultSalesDashboard: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: SALES_DASHBOARD?.UPDATE_DEFAULT_SALES_DASHBOARD,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
     deleteSalesDashboard: builder.mutation({
       query: (ids: any) => ({
         url: `${SALES_DASHBOARD?.DELETE_SALES_DASHBOARD}?ids=${ids}`,
@@ -88,5 +99,6 @@ export const {
   useDeleteSalesDashboardMutation,
   useUpdateSalesDashboardMutation,
   useGetAllSalesDashboardsQuery,
+  useUpdateDefaultSalesDashboardMutation,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
 } = salesDashboardApi;

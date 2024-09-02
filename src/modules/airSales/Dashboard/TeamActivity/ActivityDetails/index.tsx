@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 const ActivityDetails = ({ data }: any) => {
   const activitDetails = data ? data : teamActivityData;
   const theme = useTheme();
+
   return (
     <>
       {activitDetails?.map((teamData: any) => {
@@ -15,7 +16,7 @@ const ActivityDetails = ({ data }: any) => {
           <Grid container key={uuidv4()} p={1}>
             <Grid item sm={1}>
               <Avatar
-                src={generateImage(teamData?.userDetails?.profileImg?.url)}
+                src={generateImage(teamData?.userDetails?.avatar?.url)}
                 sx={{ color: theme?.palette?.grey[900], fontSize: '15px' }}
               >
                 {`${teamData?.userDetails?.firstName?.charAt(0)?.toUpperCase()}
@@ -43,15 +44,6 @@ const ActivityDetails = ({ data }: any) => {
               <Typography variant="body4">
                 at {dayjs(teamData?.updatedAt)?.format(DATE_FORMAT?.UI)}{' '}
               </Typography>
-              {/* commented for future use */}
-              {/* <Typography
-                variant="body4"
-                sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
-              >
-
-                {teamData?.visitWebsiteName}
-              </Typography>
-              <Typography variant="body3"> {teamData?.visitUrl} </Typography> */}
             </Grid>
           </Grid>
         );

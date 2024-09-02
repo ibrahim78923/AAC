@@ -34,9 +34,9 @@ export const dataArray = () => {
         placeholder: 'Select access rights',
         fullWidth: true,
         options: [
-          'Privatetoowner',
-          'Everyone(Viewandedit)',
-          'Everyone(View)',
+          'Private to owner',
+          'Everyone (View and edit)',
+          'Everyone (View)',
           'SpecialUser',
         ],
       },

@@ -7,6 +7,7 @@ import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const columns: any = (columnsProps: any) => {
   const { setIsDeleteModalOpen, theme, router, handleUpdateDefault } =
@@ -49,6 +50,7 @@ export const columns: any = (columnsProps: any) => {
               fontSize: '12px',
               fontWeight: 500,
             }}
+            src={generateImage(info?.getValue()?.avatar?.url)}
           >
             {capitalizeFirstLetters(info?.getValue()?.firstName?.charAt(0))}
             {capitalizeFirstLetters(info?.getValue()?.lastName?.charAt(0))}
