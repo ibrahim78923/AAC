@@ -460,6 +460,7 @@ export const Gmail_CONST = {
   SENT: 'SENT',
   TRASH: 'TRASH',
   Cc: 'Cc',
+  cc: 'CC',
 };
 
 export const EMAIL_ENUMS = {

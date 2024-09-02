@@ -292,7 +292,8 @@ const RightPane = () => {
 
                                     {obj?.payload?.headers?.find(
                                       (header: { name: string }) =>
-                                        header?.name === Gmail_CONST?.Cc,
+                                        header?.name === Gmail_CONST?.Cc ||
+                                        header?.name === Gmail_CONST?.cc,
                                     )?.value && (
                                       <Typography variant="body2">
                                         <span style={{ fontWeight: '700' }}>
@@ -301,7 +302,8 @@ const RightPane = () => {
                                         </span>{' '}
                                         {obj?.payload?.headers?.find(
                                           (header: { name: string }) =>
-                                            header?.name === Gmail_CONST?.Cc,
+                                            header?.name === Gmail_CONST?.Cc ||
+                                            header?.name === Gmail_CONST?.cc,
                                         )?.value ?? '--'}
                                       </Typography>
                                     )}
@@ -399,6 +401,13 @@ const RightPane = () => {
                                                       header?.name ===
                                                       Gmail_CONST?.SUBJECT,
                                                   )?.value,
+                                                Cc: obj?.payload?.headers?.find(
+                                                  (header: { name: string }) =>
+                                                    header?.name ===
+                                                      Gmail_CONST?.Cc ||
+                                                    header?.name ===
+                                                      Gmail_CONST?.cc,
+                                                )?.value,
                                               },
                                             }),
                                           );
@@ -469,6 +478,13 @@ const RightPane = () => {
                                                       header?.name ===
                                                       Gmail_CONST?.SUBJECT,
                                                   )?.value,
+                                                Cc: obj?.payload?.headers?.find(
+                                                  (header: { name: string }) =>
+                                                    header?.name ===
+                                                      Gmail_CONST?.Cc ||
+                                                    header?.name ===
+                                                      Gmail_CONST?.cc,
+                                                )?.value,
                                               },
                                             }),
                                           );
