@@ -34,6 +34,7 @@ import {
   usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import { getSession } from '@/utils';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateBroadcast = () => {
   const { user }: any = getSession();
@@ -282,7 +283,7 @@ const useCreateBroadcast = () => {
     try {
       await updateWhatsappBroadcast(updateWhatsappBroadcastParameter)?.unwrap();
       successSnackbar('Broadcast Updated Successfully!');
-      router?.back();
+      router?.push(AIR_MARKETER?.WHATSAPP_MARKETING);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

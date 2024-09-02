@@ -86,10 +86,10 @@ export const allContactsColumns: any = ({
       ),
     },
     {
-      accessorFn: (row: any) => row?.phoneNumber,
+      accessorFn: (row: any) => row?.whatsAppNumber,
       id: 'phoneNumber',
       isSortable: false,
-      header: 'Phone Number',
+      header: 'Whatsapp Number',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
   ];

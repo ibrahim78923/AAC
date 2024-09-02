@@ -34,6 +34,7 @@ import dayjs from 'dayjs';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { API_STATUS } from '@/constants';
+import { generateImage } from '@/utils/avatarUtils';
 
 const CreateSMSBroadcast = () => {
   const {
@@ -200,7 +201,9 @@ const CreateSMSBroadcast = () => {
                                 <Avatar
                                   key={uuidv4()}
                                   alt="recipient_avatar"
-                                  src=""
+                                  src={generateImage(
+                                    contact?.profilePicture?.url || 'N/A',
+                                  )}
                                 >
                                   <Typography variant="body3" fontWeight={500}>
                                     {contact?.firstName
@@ -272,17 +275,10 @@ const CreateSMSBroadcast = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} my={1}>
                 <Stack direction="row" alignItems="center" gap={1}>
-                  <Avatar>
-                    <Typography
-                      sx={{ color: theme?.palette?.common?.black }}
-                      variant="body1"
-                      fontWeight={700}
-                    >
-                      {broadcastName?.title
-                        ?.charAt(ARRAY_INDEX?.ZERO)
-                        ?.toUpperCase()}
-                      {broadcastName?.title?.slice(-1)?.toUpperCase()}
-                    </Typography>
+                  <Avatar alt="Remy Sharp">
+                    {broadcastName?.title === ''
+                      ? 'N/A'
+                      : broadcastName?.title?.charAt(0)?.toUpperCase()}
                   </Avatar>
                   <Box>
                     <Typography
@@ -379,6 +375,7 @@ const CreateSMSBroadcast = () => {
               variant="contained"
               className="small"
               onClick={handleSubmit(onSubmit)}
+              disabled={selectedRec?.length === 0 ? true : false}
               loading={
                 createStatus === STATUS_CONTANTS?.COMPLETED &&
                 (postBroadcastLoading || updateBroadcastLoading)
