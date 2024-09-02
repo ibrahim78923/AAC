@@ -563,3 +563,7 @@ export { default as PtOperationIcon } from './modules/orgAdmin/properties/produc
 export { default as PtSalesIcon } from './modules/orgAdmin/properties/product-sales-icon';
 export { default as PtServiceIcon } from './modules/orgAdmin/properties/product-service-icon';
 export { default as PtOrgAdminIcon } from './modules/orgAdmin/properties/product-org-admin';
+export { default as CustomerDashboardIcon } from './modules/airCustomerPortal/dashboard';
+export { default as CustomerTicketsIcon } from './modules/airCustomerPortal/tickets';
+export { default as CustomerKnowledgeBaseIcon } from './modules/airCustomerPortal/knowledge-base';
+export { default as CustomerCatalogIcon } from './modules/airCustomerPortal/catalog';
