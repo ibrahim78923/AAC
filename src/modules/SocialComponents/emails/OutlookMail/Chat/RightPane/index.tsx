@@ -24,6 +24,7 @@ import SendEmailDrawer from '../../SendEmail';
 import {
   API_STATUS,
   CREATE_EMAIL_TYPES,
+  DATE_TIME_FORMAT,
   EMAIL_TABS_TYPES,
   FILE_TYPES,
   indexNumbers,
@@ -50,6 +51,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
 import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
+import dayjs from 'dayjs';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -335,7 +337,9 @@ const RightPane = ({
                                         paddingRight: '15px',
                                       }}
                                     >
-                                      {obj?.createdDateTime}
+                                      {dayjs(obj?.createdDateTime)?.format(
+                                        DATE_TIME_FORMAT?.DMYhmma,
+                                      )}
                                     </Typography>
                                     <Tooltip
                                       placement="top"
@@ -417,14 +421,6 @@ const RightPane = ({
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: '',
-                                                cc: obj?.ccRecipients?.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                ),
-                                                bcc: obj?.bccRecipients?.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                ),
                                               },
                                             }),
                                           );

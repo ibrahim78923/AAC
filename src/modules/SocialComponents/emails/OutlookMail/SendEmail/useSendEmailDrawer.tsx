@@ -157,15 +157,18 @@ const useSendEmailDrawer = ({
     ) {
       if (isToExists?.length > 0 && isSubjectExists?.length > 0) {
         setIsProcessDraft(true);
+        setIsSendLater(false);
       } else {
         reset();
         setOpenDrawer(false);
         setAutocompleteValues([]);
+        setIsSendLater(false);
       }
     } else {
       reset();
       setOpenDrawer(false);
       setAutocompleteValues([]);
+      setIsSendLater(false);
     }
   };
 
@@ -272,11 +275,17 @@ const useSendEmailDrawer = ({
           formDataSend.append(
             'content',
             `<div 
-            style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
-            font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+            style="font-family:${
+              emailSettingsData?.data?.emailSettings?.fontName ?? 'sans-serif'
+            }; 
+            font-size:${
+              emailSettingsData?.data?.emailSettings?.fontSize ?? '14'
+            }px ">
             ${values?.description} 
             <br> 
-            <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+            <div style="font-size:16px;" >${
+              emailSettingsData?.data?.emailSettings?.signature ?? ''
+            }</div> 
             </div>` || '<p></p>',
           );
 

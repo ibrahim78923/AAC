@@ -422,41 +422,43 @@ const SendEmailDrawer = (props: any) => {
               </Box>
             )}
           </FormProvider>
-          <Box mt={2}>
-            <Box
-              sx={{
-                borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
-                padding: '5px 0px 5px 20px',
-              }}
-            >
-              <Box>
-                <Typography variant="body3">
-                  <strong>From :</strong> {currentEmailAssets?.others?.from}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>Sent :</strong>{' '}
-                  <UnixDateFormatter
-                    timestamp={currentEmailAssets?.others?.sent}
-                    timeZone="Asia/Karachi"
-                  ></UnixDateFormatter>
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>To :</strong>
-                  {currentEmailAssets?.others?.to}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>Subject:</strong>{' '}
-                  {currentEmailAssets?.others?.subject}
-                </Typography>
+          {drawerType !== CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+            <Box mt={2}>
+              <Box
+                sx={{
+                  borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                  padding: '5px 0px 5px 20px',
+                }}
+              >
+                <Box>
+                  <Typography variant="body3">
+                    <strong>From :</strong> {currentEmailAssets?.others?.from}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>Sent :</strong>{' '}
+                    <UnixDateFormatter
+                      timestamp={currentEmailAssets?.others?.sent}
+                      timeZone="Asia/Karachi"
+                    ></UnixDateFormatter>
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>To :</strong>
+                    {currentEmailAssets?.others?.to}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>Subject:</strong>{' '}
+                    {currentEmailAssets?.others?.subject}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          )}
         </Box>
       </CommonDrawer>
     </div>
