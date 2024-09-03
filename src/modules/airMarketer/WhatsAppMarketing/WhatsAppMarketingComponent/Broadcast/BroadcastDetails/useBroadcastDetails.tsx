@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
-const useBroadcastDetails = (broadcastDetails: any) => {
+const useBroadcastDetails = (broadcastDetails?: any) => {
   const theme = useTheme();
   const navigate = useRouter();
   const broadcastId = useSearchParams()?.get('id');

@@ -17,8 +17,14 @@ import { useRouter } from 'next/router';
 
 export const broadcastColumns: any = (columnsProps: any) => {
   const navigate = useRouter();
-  const { theme, data, checkedRows, setCheckedRows } = columnsProps;
-  const handleSelectBroadcastById = (checked: boolean, id: string): void => {
+  const { theme, data, checkedRows, setCheckedRows, setRecordStatus } =
+    columnsProps;
+  const handleSelectBroadcastById = (
+    checked: boolean,
+    id: string,
+    status: string,
+  ): void => {
+    setRecordStatus(status);
     if (checked) {
       setCheckedRows([...checkedRows, id]);
     } else {
@@ -37,7 +43,11 @@ export const broadcastColumns: any = (columnsProps: any) => {
         <Checkbox
           checked={checkedRows?.includes(original?._id)}
           onChange={({ target }) => {
-            handleSelectBroadcastById(target.checked, original?._id);
+            handleSelectBroadcastById(
+              target.checked,
+              original?._id,
+              original?.status,
+            );
           }}
         />
       ),

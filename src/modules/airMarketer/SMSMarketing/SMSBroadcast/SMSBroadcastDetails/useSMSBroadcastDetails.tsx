@@ -22,7 +22,7 @@ const useSMSBroadcastDetails = (detailsData?: any) => {
 
   const [filters, setFilters] = useState({
     search: '',
-    status: MEETINGS_DETAILS_TYPE?.ALL,
+    status: MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
   });
 
   const [updateSmsBroadcast, { isLoading: updateBroadcastLoading }] =
@@ -57,7 +57,7 @@ const useSMSBroadcastDetails = (detailsData?: any) => {
         ?.toLowerCase()
         ?.includes(filters?.search?.toLowerCase());
     } else if (filters?.status) {
-      if (filters?.status === MEETINGS_DETAILS_TYPE?.ALL) {
+      if (filters?.status === MEETINGS_DETAILS_TYPE?.ALL_MEETINGS) {
         return true;
       } else {
         return item?.messageStatus === filters?.status;

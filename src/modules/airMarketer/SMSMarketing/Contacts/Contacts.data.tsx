@@ -5,7 +5,7 @@ import { Avatar, Box, Theme, Typography } from '@mui/material';
 export const columns: any = (theme: Theme) => {
   return [
     {
-      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
+      accessorFn: (row: any) => row,
       id: 'name',
       header: 'Name',
       cell: (info: any) => (
@@ -33,7 +33,9 @@ export const columns: any = (theme: Theme) => {
                 ?.toUpperCase()}
             </Typography>
           </Avatar>
-          {info?.getValue() ?? 'N/A'}
+          {info?.getValue()?.firstName
+            ? `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`
+            : 'N/A'}
         </Box>
       ),
     },

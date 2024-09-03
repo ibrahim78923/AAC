@@ -89,7 +89,7 @@ const CreateBroadcast = () => {
           </Box>
           <Typography sx={styles?.heading} variant="h3">
             {type === DRAWER_TYPES?.EDIT
-              ? ' Update Broadcast'
+              ? 'Update Broadcast'
               : 'Create Broadcast'}
           </Typography>
         </Box>

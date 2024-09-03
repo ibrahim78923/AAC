@@ -23,12 +23,19 @@ import {
 } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { AlertModals } from '@/components/AlertModals';
+import {
+  AGENT_REQUEST_STATUS,
+  AIR_CUSTOMER_PORTAL_TICKET,
+  MEETINGS_DETAILS_TYPE,
+} from '@/constants/strings';
+import { indexNumbers } from '@/constants';
 
 const BroadcastHeader = (props: any) => {
   const {
     setDatePickerVal,
     setFilterValues,
     datePickerVal,
+    recordStatus,
     resetFilters,
     filterValues,
     startedDate,
@@ -120,7 +127,7 @@ const BroadcastHeader = (props: any) => {
           </FormControl>
         </PermissionsGuard>
 
-        {checkedRows?.length > 1 ? (
+        {checkedRows?.length > indexNumbers?.ONE ? (
           <LoadingButton
             variant="outlined"
             onClick={() => {
@@ -138,7 +145,9 @@ const BroadcastHeader = (props: any) => {
             <Button
               className="small"
               onClick={handleActionsMenuClick}
-              disabled={checkedRows?.length === 0 ? true : false}
+              disabled={
+                checkedRows?.length === indexNumbers?.ZERO ? true : false
+              }
               variant="outlined"
               color="inherit"
               sx={{
@@ -174,6 +183,14 @@ const BroadcastHeader = (props: any) => {
                 ]}
               >
                 <MenuItem
+                  disabled={
+                    recordStatus ===
+                      MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ||
+                    recordStatus === AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING ||
+                    recordStatus === AGENT_REQUEST_STATUS?.REJECTED
+                      ? true
+                      : false
+                  }
                   onClick={() => {
                     navigate?.push({
                       pathname:

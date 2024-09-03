@@ -17,7 +17,11 @@ import useBroadcastDetails from '../useBroadcastDetails';
 import Image from 'next/image';
 import { generateImage } from '@/utils/avatarUtils';
 
-const BroadcastDetailsTab = ({ isLoading, broadcastDetails }: any) => {
+const BroadcastDetailsTab = ({
+  isLoading,
+  broadcastDetails,
+  recordStatus,
+}: any) => {
   const {
     updateBroadcastLoading,
     handleDeleteRecipient,
@@ -94,6 +98,7 @@ const BroadcastDetailsTab = ({ isLoading, broadcastDetails }: any) => {
         setOpenModalDelete={setOpenModalDelete}
         recepientsData={updatedRecords}
         loading={isLoading}
+        recordStatus={recordStatus}
       />
 
       {openModalDelete?.isToggle && (
