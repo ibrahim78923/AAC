@@ -89,7 +89,7 @@ export const getAssociateContactsColumns: any = ({
         <Box display={'flex'} alignItems={'center'} gap={1}>
           <Avatar
             sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-            src={generateImage(info?.getValue()?.createdBy?.avatar?.url)}
+            src={generateImage(info?.getValue()?.profilePicture?.url)}
           >
             <Typography variant="body2" textTransform={'uppercase'}>
               {fullNameInitial(

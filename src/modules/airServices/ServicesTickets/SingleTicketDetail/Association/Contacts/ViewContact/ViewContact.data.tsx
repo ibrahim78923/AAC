@@ -3,6 +3,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const getDefaultValues = (data: any) => {
   return {
@@ -15,9 +16,9 @@ export const getDefaultValues = (data: any) => {
     whatsAppNumber: data?.whatsAppNumber ?? '',
     jobTitle: data?.jobTitle ?? '',
     dateOfJoining: new Date(data?.dateOfJoining) ?? null,
-    contactOwnerId: data?.ownerData?.[0] ?? null,
-    lifeCycleStageId: data?.lifeCycleStageData?.[0] ?? null,
-    statusId: data?.statusData?.[0] ?? null,
+    contactOwnerId: data?.ownerData?.[ARRAY_INDEX?.ZERO] ?? null,
+    lifeCycleStageId: data?.lifeCycleStageData?.[ARRAY_INDEX?.ZERO] ?? null,
+    statusId: data?.statusData?.[ARRAY_INDEX?.ZERO] ?? null,
   };
 };
 

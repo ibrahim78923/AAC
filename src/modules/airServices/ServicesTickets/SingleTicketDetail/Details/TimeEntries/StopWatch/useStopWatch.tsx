@@ -117,9 +117,7 @@ export const useStopWatch = (props: any) => {
       setIsTimerPause?.(true);
       startTimerId.current = undefined;
       reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    } catch (error) {}
   };
 
   const toggleTimerPlayPause = () => {
