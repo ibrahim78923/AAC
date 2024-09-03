@@ -22,13 +22,14 @@ export const styles = {
   },
   toggleButtonRight: (theme: any) => {
     return {
-      border: `1.5px solid ${theme?.palette?.grey[700]}`,
+      border: `1.5px solid ${theme?.palette?.grey[700]} !important`,
+      color: `${theme?.palette?.common?.black} !important`,
       borderRadius: '0px 8px 8px 0px',
       height: '36px',
       padding: '0px 10px',
       '&.Mui-selected': {
         background: `${theme?.palette?.blue?.main} !important`,
-        color: '#fff',
+        color: `${theme?.palette?.common?.white} !important`,
       },
     };
   },

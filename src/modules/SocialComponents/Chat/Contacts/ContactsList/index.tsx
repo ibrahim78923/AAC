@@ -37,6 +37,7 @@ import { enqueueSnackbar } from 'notistack';
 import { ContactListPropsI } from './contactsList.interface';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
+import { CHAT_TYPES } from '@/constants';
 
 const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   const theme = useTheme();
@@ -80,8 +81,12 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     ?.join('&');
   const query = `&${queryParams}`;
 
-  const { data: contactsData, status } = useGetChatsContactsQuery({
-    isGroup: chatMode === 'groupChat' ? true : false,
+  const {
+    data: contactsData,
+    status,
+    refetch,
+  } = useGetChatsContactsQuery({
+    isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
     query,
   });
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
@@ -199,6 +204,10 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       setCurrentPage(1);
     }
   }, [searchContacts]);
+
+  useEffect(() => {
+    refetch();
+  }, [chatMode]);
 
   return (
     <>

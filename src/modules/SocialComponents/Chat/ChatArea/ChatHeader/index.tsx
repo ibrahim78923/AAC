@@ -17,7 +17,11 @@ import ChatDropdown from '../../ChatDropdown';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
-import { setActiveConversation } from '@/redux/slices/chat/slice';
+import {
+  setActiveConversation,
+  setActiveReceiverId,
+  setChatMessages,
+} from '@/redux/slices/chat/slice';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import Image from 'next/image';
 import { IMG_URL } from '@/config';
@@ -99,6 +103,30 @@ const ChatHeader = ({ chatMode }: any) => {
       handler: () => setIsDeleteModal(true),
     },
   ];
+
+  const deleteConversation = async () => {
+    const payloadMap: any = {
+      deleteMessages: true,
+    };
+    const payload = payloadMap;
+    try {
+      await updateChat({
+        body: payload,
+        id: activeConversation?.conversationId,
+      })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+      handleClose();
+      dispatch(setChatMessages([]));
+      dispatch(setActiveReceiverId(null));
+      dispatch(setActiveConversation({})), setIsDeleteModal(false);
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
 
   return (
     <>
@@ -200,7 +228,7 @@ const ChatHeader = ({ chatMode }: any) => {
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
         handleSubmitBtn={() => {
-          updateChatHandler('isDeleted');
+          deleteConversation();
         }}
       />
     </>

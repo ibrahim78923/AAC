@@ -58,8 +58,8 @@ export const columns = (
         <Checkbox
           color="primary"
           name={info?.getValue()}
-          checked={groupAdmins?.includes(info.row?.original?.id)}
-          onChange={() => handleCheckboxChange(info.row?.original?.id)}
+          checked={groupAdmins?.includes(info.row?.original?._id)}
+          onChange={() => handleCheckboxChange(info.row?.original?._id)}
         />
       ),
       header: 'Group Admin',
@@ -71,7 +71,9 @@ export const columns = (
       isSortable: false,
       header: 'Participant',
       cell: (info: any) => (
-        <Typography variant="body3">{info?.getValue()}</Typography>
+        <Typography variant="body3">
+          {info?.cell?.row?.original.firstName}
+        </Typography>
       ),
     },
     {
@@ -83,7 +85,9 @@ export const columns = (
       cell: (info: any) => (
         <Box
           sx={{ textAlign: 'right' }}
-          onClick={() => handleRemoveParticipant(info?.cell?.row?.original?.id)}
+          onClick={() =>
+            handleRemoveParticipant(info?.cell?.row?.original?._id)
+          }
         >
           <Typography
             variant="body3"

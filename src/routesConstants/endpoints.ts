@@ -19,6 +19,7 @@ export const END_POINTS = {
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
   USER_LIST_FOR_COMPANY_ACCOUNTS: '/users/company-account',
+  USER_LIST_FOR_COMPANY_EMPLOYEE: '/users/company-employees',
   ADD_USER: '/users',
   USER_AVATAR: 'avatar',
   ORG_ADMIN_EMP_LIST: '/users/organization',

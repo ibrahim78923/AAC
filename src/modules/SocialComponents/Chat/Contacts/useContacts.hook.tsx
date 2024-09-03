@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 
 export const useContacts = () => {
   const dispatch = useDispatch();
+
   const handleSelection = (_: any, newValue: any) => {
     dispatch(setChatModes({ chatModeState: newValue }));
     dispatch(setActiveChat([]));

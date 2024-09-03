@@ -26,7 +26,10 @@ import {
   setChatMetaInfo,
   setNewOrFetchedChatMessages,
 } from '@/redux/slices/chat/slice';
-import { useGetChatUsersQuery, useGetUserChatsQuery } from '@/services/chat';
+import {
+  useGetChatUsersByCompanyQuery,
+  useGetUserChatsQuery,
+} from '@/services/chat';
 import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
@@ -56,6 +59,7 @@ const Chat = () => {
   const socket = useAppSelector((state) => state?.chat?.socket);
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const activeChat = useAppSelector((state) => state?.chat?.activeChat);
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
   const chatModeState = useAppSelector(
     (state: any) => state?.chat?.chatModeState?.chatModeState,
@@ -80,6 +84,7 @@ const Chat = () => {
       limit: chatMetaInfo?.limit,
       page: chatMetaInfo?.page,
       isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
+      messageDeletionTimestamp: activeChat?.messageDeletionTimestamp,
     },
     { skip: activeChatId ? false : true, refetchOnMountOrArgChange: true },
   );
@@ -87,13 +92,11 @@ const Chat = () => {
   const { user }: { user: any } = getSession();
   const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
   const { data: chatsUsersData, status: chatUsersStatus } =
-    useGetChatUsersQuery({
+    useGetChatUsersByCompanyQuery({
       params: {
-        organization: user?.organization?._id,
         page: currentPage,
         limit: PAGINATION?.PAGE_LIMIT,
-        role: user?.role,
-        search: searchTerm,
+        ...(searchTerm?.length > 0 && { search: searchTerm }),
       },
     });
   const handleManualRefetch = () => {
@@ -124,13 +127,15 @@ const Chat = () => {
     }
   }, [status]);
 
-  const transformedData = chatsUsersData?.data?.users?.map((item: UserI) => ({
-    id: item?._id,
-    firstName: item?.firstName,
-    lastName: item?.lastName,
-    email: item?.email,
-    src: UserDefault,
-  }));
+  const transformedData = chatsUsersData?.data?.usercompanyaccounts?.map(
+    (item: UserI) => ({
+      id: item?._id,
+      firstName: item?.firstName,
+      lastName: item?.lastName,
+      email: item?.email,
+      src: UserDefault,
+    }),
+  );
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 

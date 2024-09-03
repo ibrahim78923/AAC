@@ -5,8 +5,15 @@ const TAG = ['CHAT'];
 export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
-      query: ({ activeChatId, params, limit, page, isGroup }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=${page}&limit=${limit}&isGroup=${isGroup}`,
+      query: ({
+        activeChatId,
+        params,
+        limit,
+        page,
+        isGroup,
+        messageDeletionTimestamp,
+      }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=${page}&limit=${limit}&isGroup=${isGroup}&messageDeletionTimestamp=${messageDeletionTimestamp}`,
         method: 'GET',
         params: params,
         headers: {
@@ -16,10 +23,17 @@ export const chatApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     getUserChatsInfo: builder.query({
-      query: ({ activeChatId, params, limit, isGroup, mediaType }: any) => ({
+      query: ({
+        activeChatId,
+        params,
+        limit,
+        isGroup,
+        mediaType,
+        messageDeletionTimestamp,
+      }: any) => ({
         url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=${
           limit ?? 1000
-        }&isGroup=${isGroup}&mediaType=${mediaType}`,
+        }&isGroup=${isGroup}&mediaType=${mediaType}&messageDeletionTimestamp=${messageDeletionTimestamp}`,
         method: 'GET',
         params: params,
         headers: {
@@ -86,6 +100,24 @@ export const chatApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getChatUsersByCompany: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST_FOR_COMPANY_EMPLOYEE}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getAllChatUsersByCompany: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST_FOR_COMPANY_EMPLOYEE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.usercompanyaccounts;
+      },
+    }),
     getChatUsersForCompanyAccounts: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.USER_LIST_FOR_COMPANY_ACCOUNTS}`,
@@ -114,4 +146,6 @@ export const {
   useGetChatUsersQuery,
   useDeleteChatIdsMutation,
   useGetChatUsersForCompanyAccountsQuery,
+  useGetChatUsersByCompanyQuery,
+  useLazyGetAllChatUsersByCompanyQuery,
 } = chatApi;
