@@ -10,6 +10,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import CustomLabel from '../CustomLabel';
 import { useEffect } from 'react';
+import { indexNumbers } from '@/constants';
 
 export default function RHFMultiCheckbox({
   GridView,
@@ -38,6 +39,9 @@ export default function RHFMultiCheckbox({
         };
 
         useEffect(() => {
+          if (typeof options[indexNumbers?.ZERO]?.checked === 'undefined') {
+            return; // Exit early if checked is undefined
+          }
           const currentValues = getValues(name) || [];
           const initialSelected = options
             ?.filter((option: any) => option?.checked)
@@ -48,7 +52,7 @@ export default function RHFMultiCheckbox({
           );
 
           setValue(name, updatedValues, { shouldValidate: true });
-        }, [options?.isChecked]);
+        }, [options[indexNumbers?.ZERO]?.checked]);
 
         return (
           <>

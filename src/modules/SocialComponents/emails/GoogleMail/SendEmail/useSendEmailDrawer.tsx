@@ -75,6 +75,10 @@ const useSendEmailDrawer = ({
   }, [autocompleteValues, currentGmailAssets]);
 
   useEffect(() => {
+    reset();
+  }, [drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL]);
+
+  useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
       setValue(
         'description',
