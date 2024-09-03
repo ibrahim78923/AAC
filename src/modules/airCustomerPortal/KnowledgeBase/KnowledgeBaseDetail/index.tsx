@@ -1,7 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
 import Search from '@/components/Search';
 import { useKnowledgeBaseDetail } from './useKnowledgeBaseDetail';
-import { KnowledgeBaseTicket } from './KnowledgeBaseTicket';
+import { KnowledgeBaseArticles } from './KnowledgeBaseArticles';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -11,6 +11,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const KnowledgeBaseDetail = () => {
   const {
@@ -52,7 +53,7 @@ export const KnowledgeBaseDetail = () => {
             isLoading || isFetching ? (
               <Skeleton variant="rectangular" width={'10rem'} />
             ) : folderName ? (
-              `Knowledge Base - ${folderName}`
+              `Knowledge Base - ${truncateText(folderName)}`
             ) : (
               'Knowledge Base'
             )
@@ -71,7 +72,7 @@ export const KnowledgeBaseDetail = () => {
             <Box height={'28rem'} overflow={'scroll'}>
               {!!articlesData?.length ? (
                 articlesData?.map((item: any) => (
-                  <KnowledgeBaseTicket
+                  <KnowledgeBaseArticles
                     key={item?._id}
                     articleId={item?._id}
                     folderId={folderId}

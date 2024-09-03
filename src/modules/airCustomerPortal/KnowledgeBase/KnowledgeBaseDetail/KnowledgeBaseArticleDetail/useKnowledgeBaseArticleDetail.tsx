@@ -8,7 +8,7 @@ import {
   feedbackDefaultValues,
   feedbackValidationSchema,
   feedbackDataArray,
-} from './KnowledgeBaseTicketDetail.data';
+} from './KnowledgeBaseArticleDetail.data';
 import {
   useGetAllKnowledgeBaseArticleQuery,
   useGetSingleKnowledgeBaseArticleQuery,
@@ -17,7 +17,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARTICLE_STATUS } from '@/constants/strings';
 
-export const useKnowledgeBaseTicketDetail = () => {
+export const useKnowledgeBaseArticleDetail = () => {
   const theme = useTheme();
   const [showFeedbackField, setShowFeedbackField] = useState(false);
   const [showOkFeedback, setShowOkFeedback] = useState(false);

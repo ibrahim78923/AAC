@@ -1,9 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { KnowledgeBaseTicketDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail/KnowledgeBaseTicketDetail';
+import { KnowledgeBaseArticleDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail/KnowledgeBaseArticleDetail';
 
 const KnowledgeBaseTicketDetailPage = () => {
-  return <KnowledgeBaseTicketDetail />;
+  return <KnowledgeBaseArticleDetail />;
 };
 
 KnowledgeBaseTicketDetailPage.getLayout = function getLayout(page: any) {

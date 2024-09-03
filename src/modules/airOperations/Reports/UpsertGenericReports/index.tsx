@@ -83,7 +83,9 @@ export const UpsertGenericReports = () => {
                       : () => dispatch(setShowTemplate(true))
                   }
                 >
-                  {showTemplate ? 'Create Report' : 'Choose Template'}
+                  {showTemplate
+                    ? REPORTS_HEADER_TITLE?.CREATE_REPORT
+                    : REPORTS_HEADER_TITLE?.CHOOSE_TEMPLATE}
                 </Button>
               )}
             </PageTitledHeader>

@@ -1,12 +1,13 @@
 import { Box, Grid, Skeleton } from '@mui/material';
-import { useKnowledgeBaseTicketDetail } from './useKnowledgeBaseTicketDetail';
+import { useKnowledgeBaseArticleDetail } from './useKnowledgeBaseArticleDetail';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { KnowledgeBaseRelatedArticles } from './KnowledgeBaseRelatedArticles';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const KnowledgeBaseTicketDetail = () => {
+export const KnowledgeBaseArticleDetail = () => {
   const {
     theme,
     handlePageBack,
@@ -26,7 +27,7 @@ export const KnowledgeBaseTicketDetail = () => {
     feedbackIsLoading,
     isFetching,
     fetchingArticles,
-  } = useKnowledgeBaseTicketDetail();
+  } = useKnowledgeBaseArticleDetail();
 
   return (
     <PermissionsGuard
@@ -41,7 +42,7 @@ export const KnowledgeBaseTicketDetail = () => {
               isLoading || isFetching ? (
                 <Skeleton variant="rectangular" width="10rem" />
               ) : (
-                singleArticlesData?.title
+                truncateText(singleArticlesData?.title)
               )
             }
             canMovedBack
