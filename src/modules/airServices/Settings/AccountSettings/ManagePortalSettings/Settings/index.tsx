@@ -1,18 +1,15 @@
 import { Box, Grid, Typography } from '@mui/material';
-import { useSettings } from './useSettings';
 import { FormProvider } from '@/components/ReactHookForm';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { ISettingsDataItem } from './Settings.interface';
+import { useSettings } from './useSettings';
 
 export const Settings = () => {
-  const { settingsMethods, settingsDataArray, isLoading, isFetching } =
+  const { settingsMethods, settingsDataArray, checkApiErrorOrLoading } =
     useSettings();
 
   return (
     <Box border={'.1rem solid'} borderColor={'grey.700'} p={2} borderRadius={4}>
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : (
+      {checkApiErrorOrLoading?.() ?? (
         <>
           <Typography variant="h4">Security Help Desk</Typography>
           <Box bgcolor={'grey.100'} borderRadius={3} p={2} mt={1}>

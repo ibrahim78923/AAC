@@ -3,11 +3,8 @@ import { useEffect, useState } from 'react';
 import { useLazyGetCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
-import {
-  allTicketsDropdownFunction,
-  newTicketsDropdownDynamic,
-  ticketStatuses,
-} from './Tickets.data';
+import { allTicketsDropdownFunction, ticketStatuses } from './Tickets.data';
+import { newTicketsDropdownDynamic } from './ReportIssue/ReportIssue.data';
 
 export const useTickets = () => {
   const router = useRouter();

@@ -503,6 +503,8 @@ export const END_POINTS = {
     '/air-services-dashboard/get-by-id-dashboard-annoucement',
   GET_SINGLE_FOLDER_DETAIL: '/articles/get-byId-folder',
   GET_SERVICES_SYSTEMATIC_REPORTS: `/systematic-reports/get-systematic-report`,
+  PATCH_CUSTOMER_PORTAL_PERMISSIONS:
+    '/org-company-account/update-customer-portal-permissions',
 };
 
 export const LEAD_CAPTURE_FORM = {

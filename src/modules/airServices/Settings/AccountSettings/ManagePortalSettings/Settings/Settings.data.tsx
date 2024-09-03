@@ -24,7 +24,7 @@ export const settingsDefaultValues = ({
 }: ISettingsDefaultValuesProps): ISettingsDefaultValues => {
   return {
     portalName: 'Air Customer Portal',
-    portalURL: `${domain}/air-customer-portal/sign-up?companyId=${encryptedValue}`,
+    portalURL: `${domain}/air-customer-portal?companyId=${encryptedValue}`,
     dateFormat: DATE_FORMAT?.UI,
     timeFormat: TIME_FORMAT?.UI,
     primaryLanguage: 'English',

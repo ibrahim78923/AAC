@@ -9,6 +9,7 @@ import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permissio
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ReportIssue } from '../Tickets/ReportIssue';
+import NonRegisterDashboard from './NonRegisterDashboard';
 
 const Dashboard = () => {
   const {
@@ -19,6 +20,8 @@ const Dashboard = () => {
     newTicketsDropdown,
     dashboardWidgets,
   } = useDashboard();
+
+  if (!user) return <NonRegisterDashboard />;
 
   return (
     <>

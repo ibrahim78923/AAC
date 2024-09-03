@@ -124,8 +124,8 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: ArticlesTableRowI) => row?.insertedTicketsDetails,
-      id: 'insertedTicketsDetails',
+      accessorFn: (row: ArticlesTableRowI) => row?.ticketDetails,
+      id: 'ticketDetails',
       isSortable: true,
       header: `Inserted Tickets`,
       cell: (info: any) =>

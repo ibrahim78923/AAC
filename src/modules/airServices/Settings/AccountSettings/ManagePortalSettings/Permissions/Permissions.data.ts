@@ -1,21 +1,48 @@
+import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 import * as Yup from 'yup';
 
-export const permissionValidation = Yup?.object()?.shape({
-  allowUserSignUp: Yup?.string(),
-  whoCanSubmit: Yup?.string(),
-  whoCanView: Yup?.string(),
-  autoSuggest: Yup?.boolean(),
-  allowLoggedIn: Yup?.string(),
-  allowRequester: Yup?.string(),
+export const customerPortalSettingsSchemaValidation = Yup?.object()?.shape({
+  [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS]:
+    Yup?.string(),
+  [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE]:
+    Yup?.string(),
+  [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_VIEW_KB_TO_EVERYONE]:
+    Yup?.string(),
+  [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE]:
+    Yup?.boolean(),
+  [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE]:
+    Yup?.string(),
+  [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER]:
+    Yup?.string(),
 });
 
-export const permissionValue = {
-  allowUserSignUp: 'yes',
-  whoCanSubmit: 'loggedInUsers',
-  whoCanView: 'loggedInUsers',
-  autoSuggest: true,
-  allowLoggedIn: 'yes',
-  allowRequester: 'yes',
+export const customerPortalSettingsFormDefaultValues = (data?: any) => {
+  return {
+    [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS]:
+      data?.includes(
+        AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS,
+      ) + '',
+    [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE]:
+      data?.includes(
+        AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
+      ) + '',
+    [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_VIEW_KB_TO_EVERYONE]:
+      data?.includes(
+        AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_VIEW_KB_TO_EVERYONE,
+      ) + '',
+    [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE]:
+      !!data?.includes(
+        AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
+      ),
+    [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE]:
+      data?.includes(
+        AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+      ) + '',
+    [AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER]:
+      data?.includes(
+        AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER,
+      ) + '',
+  };
 };
 
 const headingProp = {
@@ -37,10 +64,10 @@ export const permissionData = [
     },
     headingProp: headingProp,
     componentProps: {
-      name: 'allowUserSignUp',
+      name: AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS,
       options: [
-        { value: 'yes', label: 'Yes' },
-        { value: 'no', label: 'No' },
+        { value: 'true', label: 'Yes' },
+        { value: 'false', label: 'No' },
       ],
     },
   },
@@ -49,10 +76,14 @@ export const permissionData = [
     heading: 'Who can submit a new ticket on portal?',
     headingProp: headingProp,
     componentProps: {
-      name: 'whoCanSubmit',
+      name: AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
+
       options: [
-        { value: 'loggedInUsers', label: 'Logged In Users' },
-        { value: 'everyone', label: 'Everyone' },
+        { value: 'false', label: 'Logged In Users' },
+        {
+          value: 'true',
+          label: 'Everyone',
+        },
       ],
     },
     tooltipProps: {
@@ -64,14 +95,16 @@ export const permissionData = [
     heading: 'Who can view Knowledge Base?',
     headingProp: headingProp,
     componentProps: {
-      name: 'whoCanView',
+      name: AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_VIEW_KB_TO_EVERYONE,
+
       options: [
-        { value: 'loggedInUsers', label: 'Logged In Users' },
-        { value: 'everyone', label: 'Everyone' },
+        { value: 'false', label: 'Logged In Users' },
+        { value: 'true', label: 'Everyone' },
       ],
     },
     checkboxProps: {
-      name: 'autoSuggest',
+      name: AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
+
       label: 'Auto suggest articles while creating a new ticket',
     },
     tooltipProps: {
@@ -84,22 +117,30 @@ export const permissionData = [
       'Allow logged-in users to search requesters when creating tickets or services requesters',
     headingProp: headingProp,
     componentProps: {
-      name: 'allowLoggedIn',
+      name: AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+
       options: [
-        { value: 'yes', label: 'Yes' },
-        { value: 'no', label: 'No' },
+        {
+          value: 'true',
+          label: 'Yes',
+        },
+        { value: 'false', label: 'No' },
       ],
     },
   },
   {
     id: 5,
-    heading: 'Allow  requester to share ticket with others',
+    heading: 'Allow requester to share ticket with others',
     headingProp: headingProp,
     componentProps: {
-      name: 'allowRequester',
+      name: AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER,
+
       options: [
-        { value: 'yes', label: 'Yes' },
-        { value: 'no', label: 'No' },
+        {
+          value: 'true',
+          label: 'Yes',
+        },
+        { value: 'false', label: 'No' },
       ],
     },
   },

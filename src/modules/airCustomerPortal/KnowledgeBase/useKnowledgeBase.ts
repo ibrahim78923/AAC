@@ -2,7 +2,7 @@ import { NextRouter, useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useState } from 'react';
 import { useGetKnowledgeBaseFolderQuery } from '@/services/airCustomerPortal/KnowledgeBase';
-import { newTicketsDropdownDynamic } from './KnowledgeBase.data';
+import { newTicketsDropdownDynamic } from '../Tickets/ReportIssue/ReportIssue.data';
 
 export const useKnowledgeBase = () => {
   const router: NextRouter = useRouter();

@@ -1855,3 +1855,17 @@ export const AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS_PERMISSIONS = {
   EDIT_USER: `loyalty-program-user-managment-edit-user`,
   DELETE_USER: `loyalty-program-user-managment-delete-user`,
 };
+
+export const AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS = {
+  SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS:
+    'service-customer-allow-signup-from-CS',
+  SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE:
+    'service-customer-submit-ticket-by-everyone',
+  SERVICE_CUSTOMER_VIEW_KB_TO_EVERYONE: 'service-customer-view-KB-to-everyone',
+  SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE:
+    'service-customer-suggest-articles-to-everyone',
+  SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE:
+    'service-customer-search-requester-agent-by-everyone',
+  SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER:
+    'service-customer-share-ticket-with-other-requester',
+};
