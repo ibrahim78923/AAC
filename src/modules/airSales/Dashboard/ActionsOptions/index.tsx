@@ -4,8 +4,11 @@ import EmailDashboard from '../Email';
 import useActionsOptions from './useActionsOptions';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
+const ActionsOptions = ({ selectedDashboard }: any) => {
   const {
     handleShowEmailDashboard,
     handleCloseMenuOptions,
@@ -16,7 +19,7 @@ const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
     openDropDown,
     anchorEl,
   } = useActionsOptions();
-
+  const router = useRouter();
   return (
     <>
       <div>
@@ -54,7 +57,13 @@ const ActionsOptions = ({ setIsShowEditDashboard }: any) => {
           >
             <MenuItem
               onClick={() => {
-                setIsShowEditDashboard(true);
+                router?.push({
+                  pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                  query: {
+                    id: selectedDashboard?.dashboard?._id,
+                    type: DRAWER_TYPES?.EDIT,
+                  },
+                });
               }}
             >
               Edit

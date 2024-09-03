@@ -45,6 +45,7 @@ const useDashboard = () => {
     isShowEditDashboard,
     dashboardListArray,
     dashboardNotFound,
+    selectedDashboard,
     dashboardLoading,
     dropdownOptions,
     dashboardsData,

@@ -38,7 +38,10 @@ const Dashboard = () => {
             <Typography variant="h3">Sales Dashboard</Typography>
             <Stack direction={{ sm: 'row' }} gap={1}>
               {!dashboardNotFound && (
-                <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
+                <Actions
+                  setIsShowEditDashboard={setIsShowEditDashboard}
+                  selectedDashboard={dashboardsData}
+                />
               )}
               <CreateDashboardOptions
                 listData={dropdownOptions}

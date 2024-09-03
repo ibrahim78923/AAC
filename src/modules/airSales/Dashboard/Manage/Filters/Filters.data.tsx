@@ -6,6 +6,13 @@ import { PRODUCT_USER_STATUS, ROLES } from '@/constants/strings';
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import { getSession } from '@/utils';
 
+export const filterDefaultValues = (filters: any) => {
+  return {
+    owner: filters?.owner || null,
+    accessRights: filters?.accessRights || null,
+  };
+};
+
 export const dataArray = () => {
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
@@ -31,14 +38,9 @@ export const dataArray = () => {
       componentProps: {
         name: 'accessRights',
         label: 'Access Rights',
-        placeholder: 'Select access rights',
+        placeholder: 'Select Access Rights',
         fullWidth: true,
-        options: [
-          'Private to owner',
-          'Everyone (View and edit)',
-          'Everyone (View)',
-          'SpecialUser',
-        ],
+        options: ['PRIVATE', 'EVERYONE', 'SPECIFIC_USERS'],
       },
       component: RHFAutocomplete,
       md: 12,

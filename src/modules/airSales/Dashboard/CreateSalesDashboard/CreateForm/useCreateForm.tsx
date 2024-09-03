@@ -15,7 +15,11 @@ import {
 } from '@/services/airSales/dashboard';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
-import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  DRAWER_TYPES,
+  MANAGE_ACCESS_TYPES,
+  NOTISTACK_VARIANTS,
+} from '@/constants/strings';
 
 const useCreateForm = (formType: any) => {
   const router = useRouter();
@@ -56,7 +60,7 @@ const useCreateForm = (formType: any) => {
         access: data?.access,
         isDefault: data?.isDefault,
         permissions: data?.permissions,
-        specialUsers: data?.specialUsers?.map((item: any) => item?.userId),
+        specialUsers: data?.specialUsers?.map((item: any) => item),
         permissionsUsers: data?.specialUsers?.map(
           (item: any) => item?.permission,
         ),
@@ -71,17 +75,30 @@ const useCreateForm = (formType: any) => {
   // Functions
   const selectedReports = watch('reportType');
 
-  const dashboardPermissions = (radioVal: any) => {
+  const dashboardPermissions = (radioVal: any, nestedVal?: any) => {
     switch (radioVal) {
       case MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER:
-        return 'VIEW_AND_EDIT';
-      case MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_ONLY_VIEW:
-        return 'VIEW_ONLY';
-      case MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW:
-        return 'VIEW_AND_EDIT';
+        return MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL;
+      case MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE:
+        switch (nestedVal) {
+          case MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_ONLY_VIEW:
+            return MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL;
+          case MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW:
+            return MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL;
+          default:
+            return MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL;
+        }
       case MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS:
+        switch (nestedVal) {
+          case MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_ONLY_VIEW:
+            return MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL;
+          case MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_EDIT_AND_VIEW:
+            return MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL;
+          default:
+            return MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL;
+        }
       default:
-        return 'VIEW_AND_EDIT';
+        return MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL;
     }
   };
 
@@ -113,7 +130,7 @@ const useCreateForm = (formType: any) => {
       })),
       access: values?.access,
       permissions: dashboardPermissions(values?.access),
-      specialUsers: values?.permissionsUsers.map((user: any) => {
+      specialUsers: values?.permissionsUsers?.map((user: any) => {
         return {
           userId: user?.userId,
           permission: user?.permission,

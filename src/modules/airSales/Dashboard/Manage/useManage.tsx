@@ -26,7 +26,7 @@ const useManage = () => {
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [filterValues, setFilterValues] = useState({
+  const [filterValues, setFilterValues] = useState<any>({
     search: '',
     owner: null,
     accessRights: null,
@@ -63,7 +63,7 @@ const useManage = () => {
       page,
       limit: pageLimit,
       search: filterValues?.search ?? undefined,
-      owner: filterValues?.owner ? filterValues?.owner : currentUser,
+      owner: filterValues?.owner?._id ? filterValues?.owner?._id : currentUser,
       accessRights: filterValues?.accessRights
         ? filterValues?.accessRights
         : undefined,
