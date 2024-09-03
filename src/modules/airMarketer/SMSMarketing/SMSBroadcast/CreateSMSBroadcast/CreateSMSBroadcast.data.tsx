@@ -1,5 +1,6 @@
 import { RHFAutocompleteAsync, RHFEditor } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
+import { STATUS_CONTANTS } from '@/constants/strings';
 import {
   useLazyGetAllCampaignsListQuery,
   useLazyGetAllTemplateListQuery,
@@ -7,7 +8,15 @@ import {
 import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const validationSchema = (isScheduled: boolean, form: any) => {
+export const validationSchema = (
+  isScheduled: boolean,
+  form: any,
+  status?: string,
+) => {
+  if (status === STATUS_CONTANTS?.DRAFT) {
+    return Yup.object().shape({});
+  }
+
   const formSchema: any = dynamicFormValidationSchema(form);
   return Yup.object().shape({
     name: Yup.string().required('Field is Required'),

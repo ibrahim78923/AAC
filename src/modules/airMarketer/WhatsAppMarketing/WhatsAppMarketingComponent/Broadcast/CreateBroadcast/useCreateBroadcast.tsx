@@ -34,7 +34,6 @@ import {
   usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import { getSession } from '@/utils';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateBroadcast = () => {
   const { user }: any = getSession();
@@ -78,7 +77,9 @@ const useCreateBroadcast = () => {
   }, []);
 
   const methods: any = useForm({
-    resolver: yupResolver(broadCastValidationSchema(isSchedule, form)),
+    resolver: yupResolver(
+      broadCastValidationSchema(isSchedule, form, createStatus),
+    ),
     defaultValues: broadcastDefaultValues?.(),
   });
 
@@ -260,7 +261,7 @@ const useCreateBroadcast = () => {
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();
       successSnackbar('Broadcast Created Successfully');
-      // router?.back();
+      router?.back();
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
@@ -283,7 +284,7 @@ const useCreateBroadcast = () => {
     try {
       await updateWhatsappBroadcast(updateWhatsappBroadcastParameter)?.unwrap();
       successSnackbar('Broadcast Updated Successfully!');
-      router?.push(AIR_MARKETER?.WHATSAPP_MARKETING);
+      router?.back();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

@@ -22,11 +22,14 @@ const SMSBroadcast = () => {
     setDatePickerVal,
     startedDate,
     endedDate,
+    recordStatus,
+    setRecordStatus,
   } = useSMSBroadcast();
 
   const broadCastData = smsBroadcastData?.data?.smsbroadcasts;
 
   const columnsParams = {
+    setRecordStatus: setRecordStatus,
     setCheckedRows: setCheckedRows,
     checkedRows: checkedRows,
     data: broadCastData,
@@ -44,6 +47,7 @@ const SMSBroadcast = () => {
         setDatePickerVal={setDatePickerVal}
         startedDate={startedDate}
         endedDate={endedDate}
+        recordStatus={recordStatus}
       />
       <PermissionsGuard
         permissions={[

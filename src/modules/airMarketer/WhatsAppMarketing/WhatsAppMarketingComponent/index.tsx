@@ -19,7 +19,7 @@ import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
 import useWhatsAppMarketing from '../useWhatsAppMarketing';
 import { getSession } from '@/utils';
-import { ACTIONS_TYPES } from '@/constants/strings';
+import { ACTIONS_TYPES, DRAWER_TYPES } from '@/constants/strings';
 
 const WhatsAppMarketingComponent = () => {
   const { user }: any = getSession();
@@ -105,7 +105,10 @@ const WhatsAppMarketingComponent = () => {
               className="small"
               variant="contained"
               onClick={() =>
-                router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
+                router.push({
+                  pathname: AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST,
+                  query: { type: DRAWER_TYPES?.ADD },
+                })
               }
             >
               Create Broadcast

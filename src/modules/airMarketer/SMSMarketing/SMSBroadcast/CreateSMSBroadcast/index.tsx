@@ -50,6 +50,8 @@ const CreateSMSBroadcast = () => {
     setCreateStatus,
     setSelectedRec,
     broadcastName,
+    recipientType,
+    setRecipientType,
     setIsSchedule,
     handleSubmit,
     createStatus,
@@ -394,6 +396,8 @@ const CreateSMSBroadcast = () => {
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
           setSelectedContactsData={setSelectedContactsData}
+          setRecipientType={setRecipientType}
+          recipientType={recipientType}
         />
       )}
     </>

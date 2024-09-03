@@ -35,7 +35,7 @@ export const columns: any = (theme: any) => {
     {
       accessorFn: (row: any) => row?.whatsAppNumber,
       id: 'phoneNo',
-      header: 'Phone Number',
+      header: 'Whatsapp Number',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
   ];

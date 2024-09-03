@@ -13,6 +13,7 @@ import { enqueueSnackbar } from 'notistack';
 import {
   DRAWER_TYPES,
   NOTISTACK_VARIANTS,
+  SMS_MARKETING_CONSTANTS,
   STATUS_CONTANTS,
 } from '@/constants/strings';
 import useSMSMarketing from '../../useSMSMarketing';
@@ -31,6 +32,7 @@ const useCreateSMSBroadcast = () => {
   const theme = useTheme<Theme>();
   const { type, id: selectedBroadCast } = navigate?.query;
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
+  const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
@@ -73,7 +75,9 @@ const useCreateSMSBroadcast = () => {
     useUpdateSmsBroadcastMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver<any>(validationSchema(isSchedule, form)),
+    resolver: yupResolver<any>(
+      validationSchema(isSchedule, form, createStatus),
+    ),
     defaultValues: defaultValues(getIsPhoneConnected),
   });
 
@@ -113,11 +117,17 @@ const useCreateSMSBroadcast = () => {
       for (const key in fieldsToSet) {
         setValue(key, fieldsToSet[key]);
       }
+
+      setRecipientType(
+        data?.groupDetails?.length > 0
+          ? SMS_MARKETING_CONSTANTS?.GROUP
+          : SMS_MARKETING_CONSTANTS?.ALL,
+      );
       setSelectedContactsData(data?.recipients ?? []);
       setSelectedRec(data?.recipients);
       setIsSchedule(data?.schedualDate ? true : false);
     }
-  }, [getSmsBroadcatsById, templateData?.detail]);
+  }, [getSmsBroadcatsById, templateData?.detail, type, setValue]);
 
   const onSubmit = async (values: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -217,6 +227,8 @@ const useCreateSMSBroadcast = () => {
     setSelectedRec,
     broadcastName,
     setIsSchedule,
+    recipientType,
+    setRecipientType,
     handleSubmit,
     createStatus,
     selectedRec,

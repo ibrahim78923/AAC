@@ -5,9 +5,10 @@ import { contactsArray } from './AllContactDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 import AllContacts from './AllContacts';
 import GroupContacts from './GroupContacts';
-import { ROLES_ACCORDION_DETAILS } from '@/constants/strings';
+import { SMS_MARKETING_CONSTANTS } from '@/constants/strings';
 import useAddContactDrawer from './useAddContactDrawer';
 import { AddContactDrawerProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
+import { useEffect } from 'react';
 
 const AddContactDrawer = (props: AddContactDrawerProps) => {
   const {
@@ -16,6 +17,8 @@ const AddContactDrawer = (props: AddContactDrawerProps) => {
     selectedRec,
     setSelectedRec,
     setSelectedContactsData,
+    setRecipientType,
+    recipientType,
   } = props;
 
   const {
@@ -26,7 +29,16 @@ const AddContactDrawer = (props: AddContactDrawerProps) => {
     allContactsData,
     setPageLimit,
     setPage,
-  } = useAddContactDrawer(onClose, setSelectedContactsData, selectedRec);
+  } = useAddContactDrawer(
+    onClose,
+    setSelectedContactsData,
+    selectedRec,
+    recipientType,
+  );
+
+  useEffect(() => {
+    setRecipientType(radioVal);
+  }, [radioVal]);
 
   return (
     <CommonDrawer
@@ -56,7 +68,7 @@ const AddContactDrawer = (props: AddContactDrawerProps) => {
             </Grid>
           ))}
         </Grid>
-        {radioVal === ROLES_ACCORDION_DETAILS?.ALL ? (
+        {recipientType === SMS_MARKETING_CONSTANTS?.ALL ? (
           <AllContacts
             setSelectedRec={setSelectedRec}
             selectedRec={selectedRec}

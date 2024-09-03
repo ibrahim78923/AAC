@@ -3,11 +3,7 @@ import { Theme, useTheme } from '@mui/material';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { useGetGroupsQuery } from '@/services/commonFeatures/contact-groups';
 import { PAGINATION } from '@/config';
-import {
-  contactsDefaultValues,
-  contactsValidationSchema,
-} from './AllContactDrawer.data';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { contactsDefaultValues } from './AllContactDrawer.data';
 import { useForm } from 'react-hook-form';
 import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
@@ -43,7 +39,6 @@ const useAddContactDrawer = (
   const contactsGroupData = getGroupsData?.data?.contactgroups;
 
   const methods: any = useForm({
-    resolver: yupResolver(contactsValidationSchema),
     defaultValues: contactsDefaultValues(recipientType),
   });
 
