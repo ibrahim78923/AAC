@@ -9,6 +9,7 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Skeleton,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -50,10 +51,14 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS } from '@/constants/permission-keys';
+import NoData from '@/components/NoData';
 
 const Documents = () => {
   const navigate = useRouter();
   const {
+    isLoading,
+    isFetching,
+    isSuccess,
     searchValue,
     setSearchValue,
     isOpenDrawer,
@@ -425,10 +430,29 @@ const Documents = () => {
         <PermissionsGuard
           permissions={[SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.VIEW_FOLDERS]}
         >
-          {documentData?.map((item: any) => {
-            return (
-              <>
-                <Grid item lg={3} md={3} sm={6} xs={12}>
+          {(isLoading || isFetching) &&
+            Array(8)
+              .fill(null)
+              .map(() => (
+                <Grid item lg={3} md={3} sm={6} xs={12} key={uuidv4()}>
+                  <Skeleton
+                    animation="wave"
+                    variant="rectangular"
+                    width={'100%'}
+                    height={150}
+                    sx={styles?.skeleton}
+                  />
+                </Grid>
+              ))}
+
+          {!(isLoading || isFetching) &&
+            isSuccess &&
+            documentData &&
+            (documentData?.length === 0 ? (
+              <NoData />
+            ) : (
+              documentData?.map((item: any) => (
+                <Grid item lg={3} md={3} sm={6} xs={12} key={item?._id}>
                   <Box
                     sx={{
                       border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
@@ -531,9 +555,8 @@ const Documents = () => {
                     </Grid>
                   </Box>
                 </Grid>
-              </>
-            );
-          })}
+              ))
+            ))}
         </PermissionsGuard>
       </Grid>
       <CommonModal

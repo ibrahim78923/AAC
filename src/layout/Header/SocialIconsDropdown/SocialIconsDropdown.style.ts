@@ -5,7 +5,7 @@ export const styles = {
       display: { xs: 'flex', sm: 'none' },
       flexDirection: 'row',
       borderRadius: '4px',
-      padding: '1px 8px',
+      padding: { xs: '1px 4px', sm: '1px 8px' },
       cursor: 'pointer',
     };
   },

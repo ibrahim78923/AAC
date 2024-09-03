@@ -127,7 +127,7 @@ const useDetails = () => {
         setValue(key, initialValues[key]);
       }
     }
-  }, [contactData, initialValues]);
+  }, [contactData]);
 
   const onSubmitUpdateContactDetail = async (values: any) => {
     const formData = new FormData();

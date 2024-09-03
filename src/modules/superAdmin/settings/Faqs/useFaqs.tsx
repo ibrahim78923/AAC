@@ -67,7 +67,6 @@ const useFaqs = () => {
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
-    resetFilters();
   };
 
   const onSubmitFilters = async (values: any) => {

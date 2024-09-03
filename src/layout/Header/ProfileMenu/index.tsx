@@ -70,7 +70,8 @@ const ProfilMenu = () => {
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
-          width: '50px',
+          px: { xs: '0', sm: '8px' },
+          justifyContent: 'center',
         }}
       >
         <ArrowDropDownIcon sx={{ fontSize: '30px' }} />
