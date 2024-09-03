@@ -101,7 +101,11 @@ const useSendEmailDrawer = ({
       drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL;
 
     if (isReplyOrReplyAll) {
-      setAutocompleteValues([currentEmailAssets?.from ?? '']);
+      if (typeof currentEmailAssets?.from === 'string') {
+        setAutocompleteValues([currentEmailAssets?.from ?? '']);
+      } else {
+        setAutocompleteValues(currentEmailAssets?.from ?? []);
+      }
       setAutocompleteCCValues(currentEmailAssets?.others?.cc || []);
       setAutocompleteBCCValues(currentEmailAssets?.others?.bcc ?? []);
 

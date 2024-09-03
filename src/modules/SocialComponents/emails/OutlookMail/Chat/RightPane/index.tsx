@@ -28,6 +28,7 @@ import {
   EMAIL_TABS_TYPES,
   FILE_TYPES,
   indexNumbers,
+  OUTLOOK_EMAIL_TABS_TYPES,
 } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
@@ -79,9 +80,6 @@ const RightPane = ({
 
   const activeRecord = useAppSelector(
     (state: any) => state?.outlook?.activeRecord,
-  );
-  const loggedInState = useAppSelector(
-    (state: any) => state?.outlook?.loggedInState,
   );
 
   const {
@@ -358,8 +356,8 @@ const RightPane = ({
                                               messageId: obj?.id,
                                               id: obj?.id,
                                               from:
-                                                obj?.from?.emailAddress
-                                                  ?.address === loggedInState
+                                                mailTabType?.displayName ===
+                                                OUTLOOK_EMAIL_TABS_TYPES?.SENT
                                                   ? obj?.toRecipients.map(
                                                       (item: any) =>
                                                         item?.emailAddress
@@ -379,10 +377,6 @@ const RightPane = ({
                                                 subject: obj?.subject,
                                                 body: '',
                                                 cc: obj?.ccRecipients?.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                ),
-                                                bcc: obj?.bccRecipients?.map(
                                                   (item: any) =>
                                                     item?.emailAddress?.address,
                                                 ),
@@ -411,13 +405,13 @@ const RightPane = ({
                                             setCurrentEmailAssets({
                                               messageId: obj?.id,
                                               id: obj?.id,
-                                              from: obj?.from?.emailAddress
+                                              from: obj?.sender?.emailAddress
                                                 ?.address,
                                               others: {
                                                 from: `${obj?.from?.emailAddress?.name} ${'<'}
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
-                                                sent: obj?.createdDateTime,
+                                                sent: obj?.sentDateTime,
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: '',
@@ -541,10 +535,9 @@ const RightPane = ({
                                     <Box>
                                       <Typography variant="body3">
                                         <strong>Sent :</strong>{' '}
-                                        {obj?.createdDateTime}
+                                        {obj?.sentDateTime}
                                       </Typography>
                                     </Box>
-
                                     <Box>
                                       <Typography variant="body3">
                                         <strong>To : </strong>
