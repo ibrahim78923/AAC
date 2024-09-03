@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { getDefaultValues, getFormFields } from './ViewContact.data';
-import { useGetContactByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetTicketContactByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect } from 'react';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export default function useViewContact({ modalId, setModalId }: any) {
-  const { data, isLoading, isFetching, isError } = useGetContactByIdQuery(
+  const { data, isLoading, isFetching, isError } = useGetTicketContactByIdQuery(
     { params: { id: modalId?.id } },
     { refetchOnMountOrArgChange: true },
   );

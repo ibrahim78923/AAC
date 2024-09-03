@@ -40,7 +40,7 @@ export const getFormFields = ({ contactOwner }: any) => [
     componentProps: {
       name: 'name',
       label: 'Company Name',
-      placeholder: 'OneCareMedia',
+      placeholder: 'Company Name',
     },
     component: RHFTextField,
   },

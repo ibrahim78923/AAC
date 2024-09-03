@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
+import { useGetActivityLogForSingleTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { PAGINATION } from '@/config';
 import { MODULE_TYPE } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
@@ -12,7 +12,7 @@ export const useActivities = () => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const { data, isLoading, isError, isFetching, refetch } =
-    useGetActivityLogQuery(
+    useGetActivityLogForSingleTicketsQuery(
       {
         page,
         limit: pageLimit,

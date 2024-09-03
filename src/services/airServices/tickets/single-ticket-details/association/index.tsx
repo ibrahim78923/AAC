@@ -110,7 +110,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getContactById: builder.query({
+    getTicketContactById: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.CONTACTS}/${params?.id}`,
         method: 'GET',
@@ -157,7 +157,7 @@ export const {
   useLazyGetLifeCycleStageQuery,
   useLazyGetStatusQuery,
   usePostContactMutation,
-  useGetContactByIdQuery,
+  useGetTicketContactByIdQuery,
   usePostCompanyMutation,
   useGetAssociatesCompanyQuery,
   useGetCompanyByIdQuery,
