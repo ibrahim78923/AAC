@@ -47,7 +47,15 @@ const EmailTemplate = () => {
       <PageTitledHeader
         title={`All Template`}
         canMovedBack
-        moveBack={() => router?.basePath}
+        moveBack={() =>
+          router?.push({
+            pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+            query: {
+              type: router?.query?.type,
+              id: router?.query?.meetingId,
+            },
+          })
+        }
       >
         <Search label="Search Here" setSearchBy={setSearch} />
         <Button

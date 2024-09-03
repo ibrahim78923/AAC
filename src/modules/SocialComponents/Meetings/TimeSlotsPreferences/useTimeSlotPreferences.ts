@@ -73,7 +73,7 @@ export const useTimeSlotPreferences = () => {
     };
     try {
       await postTimeSlotsTrigger({ body })?.unwrap();
-      successSnackbar('Added Weekly Hours Successfully');
+      successSnackbar('Added Time Preferences Successfully');
       setDisabled(true);
     } catch (err) {
       errorSnackbar();

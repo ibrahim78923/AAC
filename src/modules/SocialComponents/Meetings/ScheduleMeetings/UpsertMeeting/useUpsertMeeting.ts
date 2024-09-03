@@ -198,6 +198,7 @@ export const useUpsertMeeting = () => {
         query: {
           ...(moduleId && { ticketId: moduleId }),
           meetingId: res?.data?._id,
+          type: router?.query?.type,
         },
       });
     } catch (err: any) {

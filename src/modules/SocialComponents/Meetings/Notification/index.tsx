@@ -18,49 +18,61 @@ export const Notification = () => {
     refetch,
   } = useNotification();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
   if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <Box>
       <PageTitledHeader title={'Notification'} />
-      {meetingsNotificationData?.map((item: MeetingNotificationI) => (
-        <Box
-          key={item?.id}
-          border="1px solid"
-          borderColor="grey.700"
-          borderRadius={3}
-          marginTop={2}
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          p={2}
-        >
-          <Box display={'flex'} gap={3} alignItems={'center'}>
-            <Avatar variant="rounded" sx={{ backgroundColor: 'primary.light' }}>
-              {item?.avatar}
-            </Avatar>
-            <Box>
-              <Typography variant="h6" color="grey.800">
-                {item?.type}
-              </Typography>
-              <Typography variant="body2" fontWeight={500} color="custom.main">
-                {item?.purpose}
-              </Typography>
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : (
+        <>
+          {meetingsNotificationData?.map((item: MeetingNotificationI) => (
+            <Box
+              key={item?.id}
+              border="1px solid"
+              borderColor="grey.700"
+              borderRadius={3}
+              marginTop={2}
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              p={2}
+            >
+              <Box display={'flex'} gap={3} alignItems={'center'}>
+                <Avatar
+                  variant="rounded"
+                  sx={{ backgroundColor: 'primary.light' }}
+                >
+                  {item?.avatar}
+                </Avatar>
+                <Box>
+                  <Typography variant="h6" color="grey.800">
+                    {item?.type}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    color="custom.main"
+                  >
+                    {item?.purpose}
+                  </Typography>
+                </Box>
+              </Box>
+              <AntSwitch
+                onChange={(e: any) => toggleMeetingsNotification?.(e, item)}
+                checked={data?.data?.notificationsOff?.[item?.enum]}
+                isLoading={
+                  patchMeetingsSettingsNotificationStatus?.isLoading &&
+                  patchMeetingsSettingsNotificationStatus?.originalArgs
+                    ?.pathParams?.enum === item?.enum
+                }
+                disabled={patchMeetingsSettingsNotificationStatus?.isLoading}
+              />
             </Box>
-          </Box>
-          <AntSwitch
-            onChange={(e: any) => toggleMeetingsNotification?.(e, item)}
-            checked={data?.data?.notificationsOff?.[item?.enum]}
-            isLoading={
-              patchMeetingsSettingsNotificationStatus?.isLoading &&
-              patchMeetingsSettingsNotificationStatus?.originalArgs?.pathParams
-                ?.enum === item?.enum
-            }
-            disabled={patchMeetingsSettingsNotificationStatus?.isLoading}
-          />
-        </Box>
-      ))}
+          ))}
+        </>
+      )}
     </Box>
   );
 };

@@ -16,6 +16,7 @@ import { Reminder } from './Reminder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { AllowAttendee } from './AllowAttendee';
+import dayjs from 'dayjs';
 
 export const meetingTypeOption = [
   { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
@@ -49,10 +50,14 @@ export const meetingFormFields = (props: any) => {
     meetingType,
   } = props;
   const watchAllDay = watch('allDay');
+  const watchRecurring = watch('recurring');
   const watchMeetingType = watch('meetingType');
   const watchFrom = watch('startDate');
+  const watchTo = watch('endDate');
+  const startHour = watch('startTime');
   const watchAllowAttendee = watch('allowAttendee');
   const OTHER_SETTINGS = 'Other Settings';
+
   return [
     {
       id: 1,
@@ -71,7 +76,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'All Day',
         name: 'allDay',
-        disabled: meetingData,
+        disabled: meetingData || !!watchRecurring,
       },
       component: RHFSwitch,
     },
@@ -111,7 +116,7 @@ export const meetingFormFields = (props: any) => {
         label: 'Start Time',
         name: 'startTime',
         disabled: watchAllDay || watchAllowAttendee,
-        required: true,
+        required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
       },
@@ -140,9 +145,19 @@ export const meetingFormFields = (props: any) => {
         label: 'End Time',
         name: 'endTime',
         disabled: watchAllDay || watchAllowAttendee,
-        required: true,
+        required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
+        shouldDisableTime: (timeValue: any) => {
+          if (
+            watchFrom &&
+            watchTo &&
+            dayjs(watchFrom)?.isSame(watchTo, 'day')
+          ) {
+            return timeValue < startHour;
+          }
+          return false;
+        },
       },
       component: RHFTimePicker,
     },
@@ -200,7 +215,10 @@ export const meetingFormFields = (props: any) => {
       id: 11,
       sx: {
         display:
-          (meetingType === meetingContents?.group || meetingId) && 'none',
+          (meetingType === meetingContents?.group ||
+            meetingId ||
+            !!watchRecurring) &&
+          'none',
       },
       componentProps: props,
       component: AllowAttendee,
