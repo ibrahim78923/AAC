@@ -28,9 +28,13 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
   if (loadingArticles || fetchingArticles) return <SkeletonTable />;
 
   return (
-    <>
+    <Box display={'flex'} flexDirection={'column'} height={'100%'}>
       <Typography variant="h4">Related Articles</Typography>
-      <Box height={showFeedbackField ? '9rem' : '34rem'} overflow="scroll">
+      <Box
+        height={showFeedbackField ? '9rem' : '32rem'}
+        overflow="scroll"
+        flexGrow={1}
+      >
         {relatedArticlesData?.length <= 1 ? (
           <NoData message="No related articles found" />
         ) : (
@@ -60,8 +64,9 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
           )
         )}
       </Box>
+
       {showFeedbackField ? (
-        <Box p={1}>
+        <>
           <Typography color="secondary" variant="body2" mb={1}>
             Sorry we cannot be helpful. Help us improve this article with your
             feedback.
@@ -74,7 +79,8 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
                 </Grid>
               ))}
             </Grid>
-            <Box display="flex" justifyContent="flex-end" gap={1} mt={1}>
+            <Divider sx={{ m: 1.5 }} />
+            <Box display="flex" justifyContent="flex-end" gap={1}>
               <LoadingButton
                 variant="outlined"
                 color="secondary"
@@ -92,7 +98,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
               </LoadingButton>
             </Box>
           </FormProvider>
-        </Box>
+        </>
       ) : showOkFeedback ? (
         <Box
           display="flex"
@@ -137,6 +143,6 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
           </Box>
         </>
       )}
-    </>
+    </Box>
   );
 };

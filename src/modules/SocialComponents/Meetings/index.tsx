@@ -4,6 +4,7 @@ import { SOCIAL_COMPONENTS } from '@/constants';
 import { Settings } from '@mui/icons-material';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { ListView } from './ListView';
+import { IconButton } from '@mui/material';
 
 export const Meetings = () => {
   const { router } = useMeetings();
@@ -18,15 +19,16 @@ export const Meetings = () => {
           SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
         ]}
       >
-        <Settings
-          sx={{ cursor: 'pointer' }}
+        <IconButton
           onClick={() =>
             router?.push({
               pathname: SOCIAL_COMPONENTS?.MEETINGS_SETTINGS,
               query: { module: calenderIntegration },
             })
           }
-        />
+        >
+          <Settings />
+        </IconButton>
       </PageTitledHeader>
       <ListView />
     </>

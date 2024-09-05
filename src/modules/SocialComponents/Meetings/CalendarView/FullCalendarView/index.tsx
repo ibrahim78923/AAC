@@ -134,7 +134,11 @@ export const FullCalendarView = (props: any) => {
                               penColor={theme?.palette?.primary?.dark}
                             />
                           </IconButton>
-                          <DeleteIcon onClick={() => handleDelete(findData)} />
+                          <IconButton onClick={() => handleDelete(findData)}>
+                            <DeleteIcon
+                              sx={{ color: theme?.palette?.primary?.dark }}
+                            />
+                          </IconButton>
                         </Box>
                       )}
                     </Box>
@@ -231,7 +235,11 @@ export const FullCalendarView = (props: any) => {
                               penColor={theme?.palette?.primary?.dark}
                             />
                           </IconButton>
-                          <DeleteIcon onClick={() => handleDelete(findData)} />
+                          <IconButton onClick={() => handleDelete(findData)}>
+                            <DeleteIcon
+                              sx={{ color: theme?.palette?.primary?.dark }}
+                            />
+                          </IconButton>
                         </Box>
                       )}
                     </Box>
@@ -274,7 +282,6 @@ export const FullCalendarView = (props: any) => {
                 display={'flex'}
                 justifyContent={'space-between'}
                 width={'100%'}
-                gap={'.5rem'}
                 onMouseEnter={() => handleEventMouseEnter(eventId)}
                 onMouseLeave={handleEventMouseLeave}
                 ml={0.2}
@@ -310,9 +317,11 @@ export const FullCalendarView = (props: any) => {
                   <Box
                     display={'flex'}
                     alignItems={'center'}
-                    sx={{ cursor: 'pointer', pr: 1.5 }}
+                    sx={{ cursor: 'pointer' }}
                   >
-                    <IconButton
+                    <Box
+                      display={'flex'}
+                      alignItems={'center'}
                       onClick={() =>
                         router?.push({
                           pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
@@ -328,8 +337,10 @@ export const FullCalendarView = (props: any) => {
                       <EditPenCustomIcon
                         penColor={theme?.palette?.primary?.lighter}
                       />
-                    </IconButton>
-                    <DeleteIcon onClick={() => handleDelete(findData)} />
+                    </Box>
+                    <Box display={'flex'} alignItems={'center'}>
+                      <DeleteIcon onClick={() => handleDelete(findData)} />
+                    </Box>
                   </Box>
                 )}
               </Box>
@@ -404,7 +415,9 @@ export const FullCalendarView = (props: any) => {
                     alignItems={'center'}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <IconButton
+                    <Box
+                      display={'flex'}
+                      alignItems={'center'}
                       onClick={() =>
                         router?.push({
                           pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
@@ -420,8 +433,10 @@ export const FullCalendarView = (props: any) => {
                       <EditPenCustomIcon
                         penColor={theme?.palette?.primary?.lighter}
                       />
-                    </IconButton>
-                    <DeleteIcon onClick={() => handleDelete(findData)} />
+                    </Box>
+                    <Box display={'flex'} alignItems={'center'}>
+                      <DeleteIcon onClick={() => handleDelete(findData)} />
+                    </Box>
                   </Box>
                 )}
               </Box>

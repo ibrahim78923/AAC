@@ -35,8 +35,14 @@ export const KnowledgeBaseArticleDetail = () => {
         AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS?.VIEW_ARTICLES_DIFFERENT_CATEGORY,
       ]}
     >
-      <Grid container justifyContent="space-between">
-        <Grid item xs={12} lg={9}>
+      <Grid
+        container
+        justifyContent="space-between"
+        spacing={1}
+        height={'100%'}
+        minHeight={'45rem'}
+      >
+        <Grid item xs={12} lg={9} display={'flex'} flexDirection={'column'}>
           <PageTitledHeader
             title={
               isLoading || isFetching ? (
@@ -52,15 +58,16 @@ export const KnowledgeBaseArticleDetail = () => {
             <SkeletonTable />
           ) : (
             <Box
-              height="42rem"
+              height={'1rem'}
               overflow="scroll"
+              flexGrow={1}
               p={1}
               dangerouslySetInnerHTML={{ __html: singleArticlesData?.details }}
             />
           )}
         </Grid>
 
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={12} lg={3} display={'flex'}>
           <Box
             borderLeft={{
               lg: `.1rem solid ${theme?.palette?.grey?.[700]}`,
@@ -74,8 +81,8 @@ export const KnowledgeBaseArticleDetail = () => {
               lg: null,
               xs: `.1rem solid ${theme?.palette?.grey?.[700]}`,
             }}
-            height="100%"
             p={1}
+            flexGrow={1}
           >
             <KnowledgeBaseRelatedArticles
               loadingArticles={loadingArticles}
