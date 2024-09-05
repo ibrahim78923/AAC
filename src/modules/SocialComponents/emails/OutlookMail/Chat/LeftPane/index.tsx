@@ -77,7 +77,7 @@ const LeftPane = ({
     'Schedule',
     'Deleted Items',
   ];
-  const filteredData = foldersData?.data?.filter((item: any) => {
+  const filteredData = foldersData?.data?.folders?.filter((item: any) => {
     return dataToShow
       ?.map((name) => name?.toLowerCase())
       ?.includes(item?.displayName?.toLowerCase());

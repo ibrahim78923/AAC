@@ -14,7 +14,7 @@ const EmailChat = () => {
   const [mailType, setMailType] = useState('');
 
   const { data: foldersData } = useGetMailFoldersOutlookQuery({});
-  const result = foldersData?.data?.find((item: any) => {
+  const result = foldersData?.data?.folders?.find((item: any) => {
     return item?.displayName?.toLowerCase() === 'inbox';
   });
 
