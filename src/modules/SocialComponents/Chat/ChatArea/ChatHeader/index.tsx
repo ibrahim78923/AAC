@@ -25,6 +25,7 @@ import {
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import Image from 'next/image';
 import { IMG_URL } from '@/config';
+import { CHAT_TYPES } from '@/constants';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
@@ -158,35 +159,38 @@ const ChatHeader = ({ chatMode }: any) => {
             >
               {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {activeParticipant?.liveStatus === 'AVAILABLE' ? (
-                <>
-                  <Box sx={styles?.userStatus(true)}></Box>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      fontWeight: '600',
-                      color: theme?.palette?.common?.white,
-                    }}
-                  >
-                    Active Now
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <Box sx={styles?.userStatus(false)}></Box>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      fontWeight: '600',
-                      color: theme?.palette?.common?.white,
-                    }}
-                  >
-                    Offline
-                  </Typography>
-                </>
-              )}
-            </Box>
+
+            {chatMode === CHAT_TYPES?.PERSONAL_CHAT && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {activeParticipant?.liveStatus === 'AVAILABLE' ? (
+                  <>
+                    <Box sx={styles?.userStatus(true)}></Box>
+                    <Typography
+                      variant="body3"
+                      sx={{
+                        fontWeight: '600',
+                        color: theme?.palette?.common?.white,
+                      }}
+                    >
+                      Active Now
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Box sx={styles?.userStatus(false)}></Box>
+                    <Typography
+                      variant="body3"
+                      sx={{
+                        fontWeight: '600',
+                        color: theme?.palette?.common?.white,
+                      }}
+                    >
+                      Offline
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            )}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

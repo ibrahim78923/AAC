@@ -123,6 +123,10 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     }
   }, [status]);
 
+  useEffect(() => {
+    if (chatMode) showAllRecordsHandler();
+  }, [chatMode]);
+
   const menuItemsData = [
     {
       menuLabel: 'All',

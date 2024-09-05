@@ -162,6 +162,14 @@ const ContactsCard = ({
     dispatch(setChatMessages([]));
     dispatch(setActiveReceiverId(null));
   };
+
+  const contactImageToShow =
+    chatMode === CHAT_TYPES?.GROUP_CHAT
+      ? UserDefault
+      : filteredParticipants[0]?.avatar?.url
+        ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
+        : UserDefault;
+
   return (
     <>
       <Box
@@ -205,11 +213,7 @@ const ContactsCard = ({
               <Image
                 width={isCardHover ? 32 : 24}
                 height={isCardHover ? 32 : 24}
-                src={
-                  filteredParticipants[0]?.avatar?.url
-                    ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
-                    : UserDefault
-                }
+                src={contactImageToShow}
                 style={{ borderRadius: '50%' }}
                 alt="avatar"
               />
