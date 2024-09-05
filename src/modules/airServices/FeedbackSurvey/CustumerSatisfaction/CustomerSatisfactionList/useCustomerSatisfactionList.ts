@@ -7,8 +7,8 @@ import {
 import {
   useDeleteFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
+  usePatchChangeSurveyStatusMutation,
   usePatchDefaultSurveyMutation,
-  usePatchFeedbackSurveyMutation,
   usePostCloneFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -42,8 +42,8 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
     usePostCloneFeedbackSurveyMutation();
   const [patchDefaultSurveyTrigger, { isLoading: patchLoading }] =
     usePatchDefaultSurveyMutation();
-  const [patchSurveyTrigger, { isLoading: statusLoading }] =
-    usePatchFeedbackSurveyMutation();
+  const [patchChangeSurveyStatusTrigger, { isLoading: statusLoading }] =
+    usePatchChangeSurveyStatusMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item) => deleteParams?.append('ids', item?._id));
@@ -124,19 +124,17 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
     }
   };
   const handleStatus = async (closeMenu: () => void) => {
-    const patchParams = {
-      params: {
-        id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
-      },
-      body: {
-        status: FEEDBACK_STATUS?.DRAFT,
-      },
+    const statusBody = {
+      id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+      surveyType: FEEDBACK_SURVEY_TYPES?.CUSTOMER_SATISFACTION,
+      status: FEEDBACK_STATUS?.DRAFT,
     };
-    const response: any = await patchSurveyTrigger(patchParams);
+    const response: any = await patchChangeSurveyStatusTrigger(statusBody);
     if (response?.data?.message) {
       closeMenu();
       successSnackbar(
-        `${response?.data?.data?.surveyTitle} Save as draft successfully`,
+        `${activeCheck?.[ARRAY_INDEX?.ZERO]
+          ?.surveyTitle} Save as draft successfully`,
       );
       setActiveCheck([]);
     } else {

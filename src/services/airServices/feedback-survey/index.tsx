@@ -110,6 +110,14 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchChangeSurveyStatus: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.CHANGE_SURVEY_STATUS}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     allUserDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
@@ -134,6 +142,7 @@ export const {
   usePatchMergeFeedbackSectionMutation,
   usePatchCloneFeedbackSectionMutation,
   usePostCloneFeedbackSurveyMutation,
+  usePatchChangeSurveyStatusMutation,
   usePatchDefaultSurveyMutation,
   useLazyAllUserDropdownQuery,
   usePostSurveyEmailMutation,

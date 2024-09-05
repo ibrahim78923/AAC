@@ -7,7 +7,11 @@ import { createElement } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './UpsertSurveyResponse.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  FEEDBACK_STATUS,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
 
@@ -33,6 +37,11 @@ export const UpsertSurveyResponse: React.FC<{
   )
     return <SkeletonForm />;
   if (lazyGetSingleSurveyForResponseStatus?.isError) return <ApiErrorState />;
+  if (
+    lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
+      ?.status !== FEEDBACK_STATUS?.PUBLISHED
+  )
+    return <NoData message="No survey found" />;
 
   if (patchSingleSurveyQuestionsAnswerForResponseStatus?.isSuccess)
     return (

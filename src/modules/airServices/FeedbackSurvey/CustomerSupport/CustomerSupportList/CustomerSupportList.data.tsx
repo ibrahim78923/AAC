@@ -135,7 +135,8 @@ export const feedbackDropdown = (
   handleCloneSurvey: (closeMenu: () => void) => Promise<void>,
   cloneLoading: boolean,
   handleStatus: (closeMenu: () => void) => Promise<void>,
-  patchLoading: boolean,
+  statusLoading: boolean,
+  handleCopy: (surveyLink?: string) => void,
 ) => {
   const dropdownData = [
     {
@@ -152,7 +153,7 @@ export const feedbackDropdown = (
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_CLONE,
       ],
-      disabled: cloneLoading || patchLoading,
+      disabled: cloneLoading || statusLoading,
     },
     {
       id: 4,
@@ -161,7 +162,7 @@ export const feedbackDropdown = (
         setOpenModal(true);
         closeMenu?.();
       },
-      disabled: cloneLoading || patchLoading,
+      disabled: cloneLoading || statusLoading,
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_DELETE,
       ],
@@ -174,7 +175,7 @@ export const feedbackDropdown = (
   ) {
     dropdownData?.unshift({
       id: 1,
-      title: patchLoading ? (
+      title: statusLoading ? (
         <LinearProgress sx={{ width: '70px' }} />
       ) : (
         'Inactive'
@@ -187,7 +188,25 @@ export const feedbackDropdown = (
         }
         handleStatus(closeMenu);
       },
-      disabled: cloneLoading || patchLoading,
+      disabled: cloneLoading || statusLoading,
+      permissionKey:
+        Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY_ACTIONS,
+    });
+  }
+  if (shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.PUBLISHED)) {
+    dropdownData?.unshift({
+      id: 5,
+      title: 'Copy Survey Link',
+      handleClick: (closeMenu: () => void) => {
+        if (activeCheck?.length > 1) {
+          errorSnackbar('Please select one to copy survey link');
+          closeMenu?.();
+          return;
+        }
+        handleCopy(activeCheck?.[ARRAY_INDEX?.ZERO]?.magicLink);
+        closeMenu?.();
+      },
+      disabled: cloneLoading || statusLoading,
       permissionKey:
         Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY_ACTIONS,
     });
@@ -217,7 +236,7 @@ export const feedbackDropdown = (
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
       ],
-      disabled: cloneLoading || patchLoading,
+      disabled: cloneLoading || statusLoading,
     });
   }
   return dropdownData;

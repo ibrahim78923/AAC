@@ -440,6 +440,7 @@ export const END_POINTS = {
   MERGE_FEEDBACK_SECTION: '/feedback-survey/merge-section',
   CLONE_FEEDBACK_SECTION: '/feedback-survey/clone-survey-section',
   SET_SURVEY_DEFAULT: '/feedback-survey/set-servey-default',
+  CHANGE_SURVEY_STATUS: '/feedback-survey/change-survey-status',
   GET_ZOOM_AUTH: '/auth/zoom/authorize',
   GET_TIME_SLOTS: '/meeting-time-slots/get-time-slots',
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,

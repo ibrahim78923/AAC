@@ -70,9 +70,10 @@ export interface FeedbackSurveyListI {
   _id: string;
   surveyTitle: string;
   status: string;
-  isDefault: boolean;
+  isDefault?: boolean;
   surveyType: string;
   createdAt: string;
+  magicLink?: string;
 }
 export interface FeedbackResponsesAnalysisI {
   answers: { percentage: number; text: string }[];
