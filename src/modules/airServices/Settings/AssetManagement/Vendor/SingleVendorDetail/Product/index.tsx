@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { UpsertProduct } from './UpsertProduct';
-import { GrayPlusIcon } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import { useProduct } from './useProduct';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
@@ -35,11 +35,12 @@ export const Product = () => {
         flexWrap={'wrap'}
       >
         <Button
-          color="secondary"
+          color="primary"
+          variant="contained"
           onClick={() => {
             setUpsertProductModal(true);
           }}
-          startIcon={<GrayPlusIcon />}
+          startIcon={<PlusSharedColorIcon />}
         >
           Add Product
         </Button>

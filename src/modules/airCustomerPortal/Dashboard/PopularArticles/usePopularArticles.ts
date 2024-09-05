@@ -12,7 +12,7 @@ export const usePopularArticles = () => {
       status: ARTICLE_STATUS?.PUBLISHED,
     },
   };
-
+  const companyId = router?.query?.companyId;
   const { data, isLoading, isFetching, isError, refetch } =
     useGetPopularArticlesQuery(getPopularArticlesParameter, {
       refetchOnMountOrArgChange: true,
@@ -25,5 +25,6 @@ export const usePopularArticles = () => {
     isError,
     router,
     refetch,
+    companyId,
   };
 };

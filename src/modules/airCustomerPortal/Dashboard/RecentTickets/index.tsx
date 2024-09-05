@@ -9,7 +9,7 @@ import { Fragment } from 'react';
 import { TicketCardDataI } from '../../Tickets/TicketCard/TicketCard.interface';
 
 export const RecentTickets = () => {
-  const { data, isLoading, isFetching, isError, router, refetch } =
+  const { data, isLoading, isFetching, isError, router, refetch, companyId } =
     useRecentTickets();
 
   return (
@@ -18,6 +18,7 @@ export const RecentTickets = () => {
       btnClick={() => {
         router?.push({
           pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
+          query: { ...(companyId && { companyId }) },
         });
       }}
       btnPosition="left"

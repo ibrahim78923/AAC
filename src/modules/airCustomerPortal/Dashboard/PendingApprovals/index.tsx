@@ -9,7 +9,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { ApprovalsDataI } from '../../Catalog/Approvals/AllApprovals/AllApprovals.interface';
 
 export const PendingApprovals = () => {
-  const { data, isLoading, isFetching, isError, router, refetch } =
+  const { data, isLoading, isFetching, isError, router, refetch, companyId } =
     usePendingApprovals();
 
   return (
@@ -18,6 +18,7 @@ export const PendingApprovals = () => {
       btnClick={() => {
         router?.push({
           pathname: AIR_CUSTOMER_PORTAL?.APPROVALS,
+          query: { ...(companyId && { companyId }) },
         });
       }}
       btnPosition="left"
