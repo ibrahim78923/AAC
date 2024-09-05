@@ -4,12 +4,11 @@ import Search from '@/components/Search';
 import AddCard from './AddCard';
 import usePaymentMethods from './usePaymentMethods';
 import { DropdownIcon } from '@/assets/icons';
-import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './PaymentMethod.style';
-import { useState } from 'react';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import { isNullOrEmpty } from '@/utils';
 
 const PaymentMethods = () => {
   const {
@@ -26,12 +25,17 @@ const PaymentMethods = () => {
     handleOpenDeleteModal,
     handleCloseDeleteModal,
     getRowValues,
-    isChecked,
     setOpenAddCard,
     isGetRowValues,
+    dataPaymentCard,
+    searchValue,
+    setSearchValue,
+    loadingPaymentCard,
+    setPageLimit,
+    setPage,
+    loadingDelete,
+    handleDelete,
   } = usePaymentMethods();
-
-  const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <>
@@ -66,8 +70,8 @@ const PaymentMethods = () => {
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
             <Search
-              searchBy={searchTerm}
-              setSearchBy={setSearchTerm}
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
               label="Search here"
               fullWidth
               size="small"
@@ -80,7 +84,7 @@ const PaymentMethods = () => {
             onClick={handleActionsClick}
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
-            disabled={!isChecked}
+            disabled={isNullOrEmpty(isGetRowValues)}
           >
             Actions
           </Button>
@@ -114,7 +118,19 @@ const PaymentMethods = () => {
           </Menu>
         </Box>
 
-        <TanstackTable columns={getRowValues} data={paymentData} isPagination />
+        <TanstackTable
+          columns={getRowValues}
+          data={dataPaymentCard?.data?.payments}
+          isPagination
+          isLoading={loadingPaymentCard}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={dataPaymentCard?.data?.meta?.pages}
+          totalRecords={dataPaymentCard?.data?.meta?.total}
+          onPageChange={(page: number) => setPage(page)}
+          currentPage={dataPaymentCard?.data?.meta?.page}
+          pageLimit={dataPaymentCard?.data?.meta?.limit}
+        />
       </Box>
       <AddCard
         open={openAddCard}
@@ -128,7 +144,8 @@ const PaymentMethods = () => {
         type="delete"
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}
-        handleSubmit={handleCloseDeleteModal}
+        handleSubmitBtn={handleDelete}
+        loading={loadingDelete}
       />
     </>
   );

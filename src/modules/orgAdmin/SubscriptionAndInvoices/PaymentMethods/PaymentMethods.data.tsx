@@ -2,39 +2,58 @@ import { Box, Checkbox } from '@mui/material';
 
 export const columns = (
   setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
   isGetRowValues: any,
+  dataPaymentCard: any,
 ) => {
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setIsGetRowValues([...isGetRowValues, id]);
+    } else {
+      setIsGetRowValues(isGetRowValues?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setIsGetRowValues(
+      checked
+        ? dataPaymentCard?.data?.payments?.map(({ _id }: any) => _id)
+        : [],
+    );
+  };
+
   return [
     {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
-      cell: (info: any) => (
+      accessorFn: (row: any) => row?.id,
+      id: 'id',
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          checked={
-            info?.cell?.row?.original?.id ===
-              isGetRowValues?.cell?.row?.original?.id && ischecked
-          }
-          name={info?.getValue()}
-          onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
+          checked={isGetRowValues?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
           }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={
+            dataPaymentCard?.data?.payments?.length &&
+            isGetRowValues?.length === dataPaymentCard?.data?.payments?.length
+          }
+        />
+      ),
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
+      accessorFn: (row: any) => row?.cardHolderName,
+      id: 'cardHolderName',
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}
+            {info?.getValue() ?? 'N/A'}
           </Box>
-          <Box>{info?.row?.original?.plan}</Box>
         </>
       ),
       header: 'Name',
@@ -45,21 +64,48 @@ export const columns = (
       id: 'billingAddress',
       isSortable: true,
       header: 'Billing Address',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <>
+          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+            {info?.row?.original?.organizations?.address?.street},
+            {info?.row?.original?.organizations?.address?.city},
+            {info?.row?.original?.organizations?.address?.state}
+          </Box>
+        </>
+      ),
     },
     {
       accessorFn: (row: any) => row?.expirationDate,
       id: 'expirationDate',
       isSortable: true,
       header: 'Expiration Date',
+      cell: (info: any) => (
+        <>
+          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+            {info?.row?.original?.expMonth}/{info?.row?.original?.expYear}
+          </Box>
+        </>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.brand,
+      id: 'brand',
+      isSortable: true,
+      header: 'Card Type',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.product,
-      id: 'product',
+      accessorFn: (row: any) => row?.last4,
+      id: 'last4',
       isSortable: true,
-      header: 'Product',
-      cell: (info: any) => info?.getValue(),
+      header: 'Card Number',
+      cell: (info: any) => (
+        <>
+          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+            **** **** **** {info?.getValue()}
+          </Box>
+        </>
+      ),
     },
   ];
 };

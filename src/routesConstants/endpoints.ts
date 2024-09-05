@@ -606,6 +606,8 @@ export const ORG_ADMIN = {
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
   SETTINGS_CONTACT_STATUS: '/contact-status',
   PRODUCT_DROPDOWN: '/dropdown/products',
+  PAYMENT_METHOD: '/payment-method',
+  DELETE_PAYMENT_METHOD: '/payment-method/delete',
 };
 
 export const COMMON_DOCUMENTS = {

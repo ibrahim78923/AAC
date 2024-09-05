@@ -101,6 +101,29 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getPaymentCard: builder.query({
+      query: ({ params }) => ({
+        url: `${ORG_ADMIN?.PAYMENT_METHOD}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    deletePaymentCard: builder.mutation({
+      query: ({ ids, stripeCustomerId }: any) => ({
+        url: `${ORG_ADMIN?.DELETE_PAYMENT_METHOD}?stripeCustomerId=${stripeCustomerId}&ids=${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
+    postPaymentCard: builder.mutation({
+      query: ({ body }) => ({
+        url: `${ORG_ADMIN?.PAYMENT_METHOD}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -118,4 +141,7 @@ export const {
   usePatchSubscriptionPlanMutation,
   useGetTaxCalculationsQuery,
   usePatchUnAssignPlanMutation,
+  useGetPaymentCardQuery,
+  useDeletePaymentCardMutation,
+  usePostPaymentCardMutation,
 } = subscriptionAndInvoicesAPI;
