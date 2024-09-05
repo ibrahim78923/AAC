@@ -111,7 +111,7 @@ const useUserManagement = () => {
       role: '',
       products: '',
       organization: '',
-      createdDate: null,
+      createdDate: '',
     });
   };
 

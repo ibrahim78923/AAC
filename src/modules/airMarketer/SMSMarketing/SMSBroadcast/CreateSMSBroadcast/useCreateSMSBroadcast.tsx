@@ -17,7 +17,6 @@ import {
   STATUS_CONTANTS,
 } from '@/constants/strings';
 import useSMSMarketing from '../../useSMSMarketing';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import { indexNumbers, productSuiteName } from '@/constants';
 import {
   DYNAMIC_FIELDS,
@@ -180,12 +179,15 @@ const useCreateSMSBroadcast = () => {
         enqueueSnackbar(`Sms Broadcast updated Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
-        navigate?.push(AIR_MARKETER?.SMS_MARKETING);
+        navigate?.back();
+      } else {
+        await postSmsBroadcast({ body: payload })?.unwrap();
+        enqueueSnackbar(`Sms Broadcast created Successfully`, {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+        navigate?.back();
+        reset();
       }
-      await postSmsBroadcast({ body: payload })?.unwrap();
-      enqueueSnackbar(`Sms Broadcast created Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg)
@@ -195,8 +197,6 @@ const useCreateSMSBroadcast = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    navigate?.push(AIR_MARKETER?.SMS_MARKETING);
-    reset();
   };
 
   const flattenContactsData = (data: any[]) => {

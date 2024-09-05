@@ -13,11 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { contactsColumns, createBroadcast } from './CreateSMSBroadcast.data';
 import { FormProvider, RHFDateTimePicker } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  BookMarkIcon,
-  PlusSharedColorIcon,
-  TimeClockIcon,
-} from '@/assets/icons';
+import { PlusSharedColorIcon, TimeClockIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -349,19 +345,6 @@ const CreateSMSBroadcast = () => {
               width: '100%',
             }}
           >
-            {type !== DRAWER_TYPES?.ADD && (
-              <Button
-                className="small"
-                variant="outlined"
-                sx={{ background: theme?.palette?.primary?.light }}
-                onClick={() => {
-                  navigate?.push(AIR_MARKETER?.CREATE_TEMPLATE);
-                }}
-                startIcon={<BookMarkIcon />}
-              >
-                Save as Template
-              </Button>
-            )}
             <Button
               variant="outlined"
               color="inherit"

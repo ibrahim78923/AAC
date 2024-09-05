@@ -4,9 +4,9 @@ export interface AssociationsProps {
 }
 
 export interface AttachmentsProps {
-  attachmentsData: string[];
-  isLoading: boolean;
-  dealId: string;
+  attachmentsData?: string[];
+  isLoading?: boolean;
+  dealId?: string;
 }
 
 export interface CompaniesProps {

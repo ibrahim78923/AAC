@@ -4,7 +4,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { COMPANITES_TYPE } from '@/constants';
-import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const companiesValidationSchema = Yup?.object()?.shape({
@@ -34,7 +33,6 @@ export const companiesDefaultValues = {
 };
 
 export const companiesDataArray = (getCompanyContactsList: any) => {
-  const { user }: any = getSession();
   return [
     {
       componentProps: {
@@ -68,8 +66,9 @@ export const companiesDataArray = (getCompanyContactsList: any) => {
         required: true,
         apiQuery: getCompanyContactsList,
         getOptionLabel: (option: any) =>
-          `${option?.firstName} ${option?.lastName}`,
-        externalParams: { contactOwnerId: user?._id },
+          option?.firstName
+            ? `${option?.firstName} ${option?.lastName}`
+            : 'N/A',
         queryKey: 'contactOwnerId',
       },
       component: RHFAutocompleteAsync,

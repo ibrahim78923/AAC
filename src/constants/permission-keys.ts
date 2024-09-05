@@ -355,7 +355,6 @@ export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
   SCHEDULE_BROADCAST:
     'marketer-whatsapp-marketing-broadcast-schedule-broadcast',
   SEND_BROADCAST: 'marketer-whatsapp-marketing-broadcast-send-broadcast',
-  VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
   SEARCH_AND_FILTER: 'marketer-whatsapp-marketing-broadcast-search-and-filter',
   ACTIONS: 'marketer-whatsapp-marketing-broadcast-actions',
   EDIT_BROADCAST: 'marketer-whatsapp-marketing-broadcast-edit-broadcast',
@@ -375,6 +374,10 @@ export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
 
 export const AIR_MARKETER_WHATSAPP_MARKETING_CREATE_TEMPLATE_PERMISSIONS = {
   CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
+};
+
+export const AIR_MARKETER_WHATSAPP_MARKETING_VIEW_BROADCAST = {
+  VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
 };
 
 export const AIR_MARKETER_SETTINGS_PERMISSIONS = {

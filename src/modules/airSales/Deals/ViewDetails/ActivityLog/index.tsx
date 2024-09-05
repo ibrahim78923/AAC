@@ -8,6 +8,7 @@ import useActivitylog from './useActivitylog';
 import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const ActivityLog = ({ selectedRecId }: any) => {
   const { theme } = useNameWithStyledWords();
@@ -58,7 +59,7 @@ const ActivityLog = ({ selectedRecId }: any) => {
                           fontWeight: 400,
                         }}
                       >
-                        {item?.activityType}
+                        {capitalizeFirstLetter(item?.activityType)}
                       </Typography>
                       <Typography
                         variant="h5"

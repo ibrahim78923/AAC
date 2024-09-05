@@ -9,8 +9,8 @@ import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
 import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  purchasePrice: Yup?.number()?.required('Field is Required'),
-  unitPrice: Yup?.number()?.required('Field is Required'),
+  purchasePrice: Yup?.string()?.required('Field is Required'),
+  unitPrice: Yup?.string()?.required('Field is Required'),
 });
 
 export const productsDefaultValues = {

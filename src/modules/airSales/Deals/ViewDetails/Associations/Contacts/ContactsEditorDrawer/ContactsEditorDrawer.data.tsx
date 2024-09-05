@@ -94,7 +94,6 @@ export const contactsDataArray = ({
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        type: 'number',
         placeholder: 'Enter Number',
       },
       md: 12,
@@ -105,7 +104,6 @@ export const contactsDataArray = ({
       componentProps: {
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
-        type: 'number',
         placeholder: 'Enter Number',
       },
       md: 12,

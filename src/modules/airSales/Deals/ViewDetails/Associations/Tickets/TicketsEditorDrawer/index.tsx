@@ -8,7 +8,7 @@ import {
   ticketOptions,
   existingTicketDataArray,
 } from './TicketsEditorDrawer.data';
-import { DRAWER_TYPES } from '@/constants/strings';
+import { DRAWER_TYPES, ROLES_ACTION_CONSTANTS } from '@/constants/strings';
 import { TICKETS_TYPE } from '@/constants';
 import { TicketsEditorDrawerProps } from '../../Associations-interface';
 
@@ -35,10 +35,10 @@ const TicketsEditorDrawer = (props: TicketsEditorDrawerProps) => {
     <CommonDrawer
       isDrawerOpen={openDrawer?.isToggle}
       onClose={() => setOpenDrawer({ ...openDrawer, isToggle: false })}
-      title={drawerTitle[openDrawer]}
+      title={drawerTitle[openDrawer?.type]}
       okText="Add"
       isOk={true}
-      footer={openDrawer?.type !== DRAWER_TYPES?.ADD ? false : true}
+      footer={openDrawer?.type !== ROLES_ACTION_CONSTANTS?.ADD ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       isLoading={loadingPostTicket || loadingPostAssociation}
     >
