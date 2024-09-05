@@ -230,6 +230,20 @@ export const convertKebabToCamelCase = (str: string): string => {
   return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 };
 
+export const getCustomerPortalPermissions = () => {
+  let customerPortalPermissions;
+  if (typeof localStorage !== 'undefined') {
+    const customerPortalPermissionsJSON = localStorage?.getItem(
+      'customerPortalPermissions',
+    );
+    if (customerPortalPermissionsJSON) {
+      customerPortalPermissions = JSON?.parse(customerPortalPermissionsJSON);
+    }
+  }
+
+  return customerPortalPermissions;
+};
+
 export {
   getSession,
   setSession,

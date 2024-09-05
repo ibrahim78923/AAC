@@ -6,5 +6,5 @@ const AirCustomerPortalDashboard = () => <Dashboard />;
 export default AirCustomerPortalDashboard;
 
 AirCustomerPortalDashboard.getLayout = function getLayout(page: any) {
-  return <Layout variant="public">{page}</Layout>;
+  return <Layout variant={'customer-portal'}>{page}</Layout>;
 };

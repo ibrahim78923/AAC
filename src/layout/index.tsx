@@ -1,6 +1,7 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import DashboardLayout from './MainDashboard';
+import CustomerPortalLayout from './CustomerPortal';
 
 export default function Layout({
   variant = 'dashboard',
@@ -31,6 +32,9 @@ export default function Layout({
       break;
     case 'public':
       layout = <DashboardLayout>{children}</DashboardLayout>;
+      break;
+    case 'customer-portal':
+      layout = <CustomerPortalLayout>{children}</CustomerPortalLayout>;
       break;
     default:
       layout = children;

@@ -506,6 +506,7 @@ export const END_POINTS = {
   GET_SERVICES_SYSTEMATIC_REPORTS: `/systematic-reports/get-systematic-report`,
   PATCH_CUSTOMER_PORTAL_PERMISSIONS:
     '/org-company-account/update-customer-portal-permissions',
+  CUSTOMER_PORTAL_PUBLIC_PERMISSIONS: '/org-company-account/public',
 };
 
 export const LEAD_CAPTURE_FORM = {
