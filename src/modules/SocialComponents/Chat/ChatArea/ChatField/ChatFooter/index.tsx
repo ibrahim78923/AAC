@@ -127,6 +127,7 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
         setImageToUpload([]);
         dispatch(setActiveReply({}));
         setIsMessageLoading(false);
+        handleTypingStop();
         handleScrollToBottom();
       },
     );

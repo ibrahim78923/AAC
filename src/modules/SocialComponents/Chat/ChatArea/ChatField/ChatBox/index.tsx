@@ -364,7 +364,7 @@ const ChatBox = ({
                 {!item?.isDeleted && (
                   <>
                     {item?._id === activeChat && (
-                      <Box sx={styles?.sendReaction(theme)}>
+                      <Box sx={styles?.sendReaction(theme, role)}>
                         {customEmojis?.map((emoji: any) => (
                           <Box
                             key={uuidv4()}

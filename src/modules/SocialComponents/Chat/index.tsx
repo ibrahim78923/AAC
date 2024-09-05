@@ -110,6 +110,7 @@ const Chat = () => {
       dispatch(setChatMetaInfo(chatsData?.data?.meta));
     }
   }, [chatsData]);
+
   useEffect(() => {
     if (chatsData?.data?.messages?.length > 0) {
       dispatch(
@@ -119,6 +120,7 @@ const Chat = () => {
       );
     }
   }, [chatsData]);
+
   useEffect(() => {
     if (status === API_STATUS?.PENDING) {
       dispatch(setChatMessagesLoading(true));

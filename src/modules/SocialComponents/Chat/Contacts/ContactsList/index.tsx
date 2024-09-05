@@ -75,7 +75,6 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   paramsObj['search'] = searchContacts;
   paramsObj['page'] = currentPage;
   paramsObj['limit'] = PAGINATION?.ROWS_PER_PAGE[0];
-
   const queryParams = Object?.entries(paramsObj)
     ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
     ?.join('&');
@@ -127,10 +126,21 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   const menuItemsData = [
     {
       menuLabel: 'All',
-      handler: showAllRecordsHandler,
+      selected: !(
+        isDeletedFilter ||
+        unReadFilter ||
+        isMutedFilter ||
+        isPinnedFilter ||
+        isArchivedFilter
+      ),
+      handler: () => {
+        showAllRecordsHandler();
+        handleClose();
+      },
     },
     {
       menuLabel: 'Pinned',
+      selected: isPinnedFilter,
       handler: () => {
         showAllRecordsHandler();
         setIsPinnedFilter(true);
@@ -139,6 +149,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     },
     {
       menuLabel: 'Archived',
+      selected: isArchivedFilter,
       handler: () => {
         showAllRecordsHandler();
         setIsArchivedFilter(true);
@@ -147,6 +158,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     },
     {
       menuLabel: 'Deleted',
+      selected: isDeletedFilter,
       handler: () => {
         showAllRecordsHandler();
         setIsDeletedFilter(true);
@@ -155,6 +167,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     },
     {
       menuLabel: 'Mark as unread',
+      selected: unReadFilter,
       handler: () => {
         showAllRecordsHandler();
         setUnReadFilter(true);
@@ -163,6 +176,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     },
     {
       menuLabel: 'Muted',
+      selected: isMutedFilter ? true : false,
       handler: () => {
         showAllRecordsHandler();
         setIsMutedFilter(true);
@@ -187,6 +201,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       setIsDeleteAllModal(false);
       dispatch(setChatMessages([]));
       dispatch(setActiveReceiverId(null));
+      selectedValues([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -207,7 +222,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
 
   useEffect(() => {
     refetch();
-  }, [chatMode]);
+  }, [chatMode, query]);
 
   return (
     <>

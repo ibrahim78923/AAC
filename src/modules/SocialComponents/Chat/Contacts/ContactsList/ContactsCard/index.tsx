@@ -89,6 +89,7 @@ const ContactsCard = ({
           isPinned: response?.data?.isPinned,
         }),
       );
+      selectedValues([]);
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
@@ -166,20 +167,28 @@ const ContactsCard = ({
       <Box
         sx={styles?.contactsCardMain(isCardHover, theme, isActiveUser)}
         style={{ position: 'relative' }}
-        onMouseOver={() => setIsCardHover(true)}
+        onMouseOver={() => {
+          cardData?.item?.isDeleted ? null : setIsCardHover(true);
+        }}
         onMouseLeave={() => setIsCardHover(false)}
       >
         {isCardHover && (
-          <Checkbox
-            onClick={() => {
-              handleChatSelect(cardData?.item?._id);
-            }}
-            checked={
-              selectedValues
-                ? selectedValues?.includes(cardData?.item?._id)
-                : false
-            }
-          />
+          <>
+            {cardData?.item?.isDeleted ? (
+              <></>
+            ) : (
+              <Checkbox
+                onClick={() => {
+                  handleChatSelect(cardData?.item?._id);
+                }}
+                checked={
+                  selectedValues
+                    ? selectedValues?.includes(cardData?.item?._id)
+                    : false
+                }
+              />
+            )}
+          </>
         )}
         <Box style={{ width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -248,12 +257,16 @@ const ContactsCard = ({
                       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
                   }
                 >
-                  <Box
-                    onClick={() => setIsDeleteModal(true)}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <DeleteIcon />
-                  </Box>
+                  {cardData?.item?.isDeleted ? (
+                    <></>
+                  ) : (
+                    <Box
+                      onClick={() => setIsDeleteModal(true)}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      <DeleteIcon />
+                    </Box>
+                  )}
                 </PermissionsGuard>
               )}
               {cardData?.item?.isPinned ? (
