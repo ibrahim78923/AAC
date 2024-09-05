@@ -41,7 +41,6 @@ const EmailTemplate = () => {
     deleteMeetingsTrigger,
     theme,
   } = useEmilTemplate();
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
   return (
     <Box>
       <PageTitledHeader
@@ -68,6 +67,8 @@ const EmailTemplate = () => {
       </PageTitledHeader>
       {isLoading || isFetching ? (
         <SkeletonForm />
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <Grid container spacing={2} sx={{ display: 'flex' }}>
           {meetingsEmailData?.length ? (

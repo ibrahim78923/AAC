@@ -27,6 +27,7 @@ export const Catalog = () => {
     allCategories,
     isError,
     refetch,
+    companyId,
   } = useCatalog();
 
   return (
@@ -62,6 +63,9 @@ export const Catalog = () => {
                           ...(!!category?._id
                             ? { categoryId: category?._id }
                             : {}),
+                          ...(companyId && {
+                            companyId: companyId,
+                          }),
                           categoryName: category?.categoryName,
                         },
                       });
@@ -105,19 +109,21 @@ export const Catalog = () => {
                 <ApiErrorState canRefresh refresh={() => refetch?.()} />
               </Box>
             ) : !!services?.data?.length ? (
-              services?.data?.map((service: ServiceI) => (
-                <Grid item xs={12} md={6} lg={4} key={service?._id}>
-                  <ServiceCard
-                    service={service}
-                    onCardClick={() =>
-                      handleClickService?.(
-                        service?._id,
-                        service?.serviceCategory,
-                      )
-                    }
-                  />
-                </Grid>
-              ))
+              services?.data?.map((service: ServiceI) => {
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={service?._id}>
+                    <ServiceCard
+                      service={service}
+                      onCardClick={() =>
+                        handleClickService?.(
+                          service?._id,
+                          service?.serviceCategory,
+                        )
+                      }
+                    />
+                  </Grid>
+                );
+              })
             ) : (
               <NoData message="No service found" />
             )}
