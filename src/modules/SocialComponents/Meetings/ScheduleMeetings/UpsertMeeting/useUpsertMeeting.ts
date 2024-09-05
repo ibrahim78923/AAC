@@ -139,14 +139,14 @@ export const useUpsertMeeting = () => {
                 isRecurringDailyOnWorkingDay ||
                 isRecurringMonthlyOnTheDay ||
                 isRecurringWeekly,
-              days: isRecurringMonthlyOnMonthDate ? formData?.monthlyDate : [],
-              onDay: isRecurringWeekly
+              days: isRecurringWeekly
                 ? formData?.weekDays?.map((day: any) => day?.toUpperCase())
                 : isRecurringMonthlyOnTheDay
-                  ? formData?.weekDays?.map((day: any) => day?.toUpperCase())
+                  ? formData?.monthlyDays?.map((day: any) => day?.toUpperCase())
                   : isRecurringDailyOnWorkingDay
                     ? workingDay
                     : [],
+              onDay: isRecurringMonthlyOnMonthDate ? formData?.monthlyDate : [],
               onWeek: isRecurringMonthlyOnTheDay
                 ? formData?.monthlyWeeks?.map(
                     (week: any) => week?.toUpperCase(),
@@ -170,7 +170,7 @@ export const useUpsertMeeting = () => {
       ...(!!!meetingId && { AllowAttendeeTimeRange: selectedSlots }),
       reminders: formData?.reminder?.map((reminder: any) => ({
         type: reminder?.type?.value,
-        interval: reminder?.counter,
+        interval: Number(reminder?.counter),
         timeUnit: reminder?.duration?.value,
       })),
       peoples:

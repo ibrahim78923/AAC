@@ -11,7 +11,7 @@ export const useReminder = (props: any) => {
     if (fields?.length >= 5) {
       return errorSnackbar('Reminder limit exceeds');
     }
-    return append({ type: '', counter: null, duration: '' });
+    return append({ type: null, counter: '', duration: null });
   };
   const handleRemove = (index: number) => {
     if (fields?.length === 1) {

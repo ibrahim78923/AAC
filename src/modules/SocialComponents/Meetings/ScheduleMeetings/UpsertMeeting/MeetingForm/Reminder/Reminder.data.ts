@@ -12,7 +12,7 @@ export const durationOption = [
   { value: 'WEEKS', label: 'Weeks' },
 ];
 
-const counterOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const counterOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 export const reminderFields = (index: number) => [
   {
@@ -40,7 +40,6 @@ export const reminderFields = (index: number) => [
       label: '\u00a0',
       size: 'small',
       options: counterOptions,
-      getOptionLabel: (option: any) => option,
     },
     component: RHFAutocomplete,
   },

@@ -76,7 +76,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'All Day',
         name: 'allDay',
-        disabled: meetingData || !!watchRecurring,
+        disabled: !!meetingData || !!watchRecurring,
       },
       component: RHFSwitch,
     },
@@ -115,7 +115,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'Start Time',
         name: 'startTime',
-        disabled: watchAllDay || watchAllowAttendee,
+        disabled: !!watchAllDay || !!watchAllowAttendee,
         required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
@@ -144,7 +144,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'End Time',
         name: 'endTime',
-        disabled: watchAllDay || watchAllowAttendee,
+        disabled: !!watchAllDay || !!watchAllowAttendee,
         required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
@@ -174,7 +174,7 @@ export const meetingFormFields = (props: any) => {
         name: 'meetingType',
         placeholder: 'Select Type',
         required: true,
-        disabled: watchAllDay || meetingId,
+        disabled: !!watchAllDay || !!meetingId,
         options: meetingTypeOption,
         getOptionLabel: (item: any) => item?.label,
         fullWidth: true,
@@ -231,7 +231,7 @@ export const meetingFormFields = (props: any) => {
       },
       componentProps: {
         label: (
-          <Typography variant="h6" mb={-2}>
+          <Typography component={'span'} variant="h6" mb={-2}>
             Buffer Time
           </Typography>
         ),

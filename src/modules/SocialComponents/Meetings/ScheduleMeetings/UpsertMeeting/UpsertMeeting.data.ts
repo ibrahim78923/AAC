@@ -11,7 +11,7 @@ import {
   typeOptions,
 } from './MeetingForm/Reminder/Reminder.data';
 import { timeZone } from '@/constants/time-zone';
-import { timeFormatter } from '@/utils/api';
+import { capitalizeFirstWord, timeFormatter } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 
 export const schemaTypes = {
@@ -33,6 +33,9 @@ export const schemaTypes = {
   onWorkingDay: 'workingDay',
 };
 export const upsertMeetingValues = (router: any, meetingData: any) => {
+  const recurringType = recurringTypeOption?.find(
+    (item: any) => item?.value === meetingData?.recurring?.type,
+  );
   const todayDate = dayjs()?.format(DATE_TIME_FORMAT?.UI);
   return {
     title: meetingData?.title ?? '',
@@ -51,24 +54,21 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
       ? timeFormatter(meetingData?.endTime)
       : null,
     recurring: meetingData?.isRecurring ?? false,
-    recurringType: meetingData?.recurring?.type
-      ? recurringTypeOption?.find(
-          (item: any) => item?.value === meetingData?.recurring?.type,
-        )
-      : '',
+    recurringType: meetingData?.recurring?.type ? recurringType : '',
     dailyType:
       meetingData?.recurring?.isWeekdays === false
         ? schemaTypes?.onThe
         : schemaTypes?.onWorkingDay,
     recurringDay: meetingData?.recurring?.interval?.toString() ?? Number(),
-    weekDays: meetingData?.recurring?.onDay ?? [],
+    weekDays: meetingData?.recurring?.days ?? [],
     monthType:
       meetingData?.recurring?.isWeekdays === false
         ? schemaTypes?.onDate
         : schemaTypes?.onThe,
-    monthlyDate: meetingData?.recurring?.days ?? [],
-    monthlyWeeks: meetingData?.recurring?.onWeek ?? [],
-    monthlyDays: meetingData?.recurring?.onDay ?? [],
+    monthlyDate: meetingData?.recurring?.onDay ?? [],
+    monthlyWeeks:
+      meetingData?.recurring?.onWeek?.map(capitalizeFirstWord) ?? [],
+    monthlyDays: meetingData?.recurring?.days?.map(capitalizeFirstWord) ?? [],
     description: meetingData?.agenda ?? '',
     meetingType: meetingData?.type
       ? meetingTypeOption?.find(
@@ -101,14 +101,14 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
       type: data?.type
         ? typeOptions?.find((item: any) => item?.value === data?.type)
         : null,
-      counter: data?.interval?.toString() ?? Number(),
+      counter: data?.interval?.toString() ?? '',
       duration: data?.timeUnit
         ? durationOption?.find((item: any) => item?.value === data?.timeUnit)
         : null,
     })) ?? [
       {
         type: null,
-        counter: Number(),
+        counter: '',
         duration: null,
       },
     ],
@@ -244,7 +244,7 @@ export const upsertMeetingSchema: any = (router: any) =>
     reminder: Yup?.array()?.of(
       Yup?.object()?.shape({
         type: Yup?.mixed()?.nullable()?.required('Required'),
-        counter: Yup?.number()?.required('Required'),
+        counter: Yup?.string()?.required('Required'),
         duration: Yup?.mixed()?.nullable()?.required('Required'),
       }),
     ),
