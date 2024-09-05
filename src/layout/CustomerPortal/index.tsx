@@ -12,6 +12,7 @@ import {
   Typography,
   Drawer,
   Skeleton,
+  Button,
 } from '@mui/material';
 import { AirCustomerPortalLogo, LogoutImage } from '@/assets/images';
 import { styles } from '../Layout.style';
@@ -20,6 +21,8 @@ import { drawerWidth } from './CustomerPortal.data';
 import { ARRAY_INDEX } from '@/constants/strings';
 import Header from '../Header';
 import useCustomerPortal from './useCustomerPortal';
+import { AIR_CUSTOMER_PORTAL, AUTH } from '@/constants';
+import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 
 const CustomerPortalLayout = ({
   children,
@@ -40,6 +43,8 @@ const CustomerPortalLayout = ({
     isMobileOpen,
     setIsMobileOpen,
     isZeroPaddingRoutes,
+    customerPortalPermissions,
+    isMounted,
   } = useCustomerPortal();
 
   const drawerContent = useMemo(
@@ -176,7 +181,42 @@ const CustomerPortalLayout = ({
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar sx={styles?.appToolbar(drawerWidth, theme)}>
-        {user && <Header handleDrawerToggle={() => setIsMobileOpen(true)} />}
+        {user ? (
+          <Header handleDrawerToggle={() => setIsMobileOpen(true)} />
+        ) : (
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'flex-end'}
+            gap={2}
+          >
+            <Link href={AUTH?.LOGIN}>
+              <Button variant={'outlined'} color={'inherit'}>
+                Sign In
+              </Button>
+            </Link>
+
+            {isMounted &&
+              customerPortalPermissions?.includes(
+                AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS,
+              ) && (
+                <Link
+                  href={{
+                    pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
+                    ...(companyId && { query: { companyId } }),
+                  }}
+                >
+                  <Button
+                    variant={'contained'}
+                    color={'primary'}
+                    disableElevation
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              )}
+          </Box>
+        )}
       </AppBar>
       <Box
         component="nav"

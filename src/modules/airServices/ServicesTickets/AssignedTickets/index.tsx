@@ -65,7 +65,7 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
             size="small"
             placeholder="Choose Agent"
             externalParams={{
-              limit: PAGINATION?.CURRENT_PAGE,
+              limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
               role: ROLES?.ORG_EMPLOYEE,
             }}
             getOptionLabel={(option: AutocompleteAsyncOptionsI) =>

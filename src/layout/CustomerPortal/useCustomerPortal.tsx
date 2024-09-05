@@ -7,7 +7,11 @@ import { getCustomerPortalRoutes } from './CustomerPortal.data';
 import { usePathname } from 'next/navigation';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useLazyGetPublicCustomerPermissionsQuery } from '@/services/airCustomerPortal/Layout';
-import { getActiveProductSession, getSession } from '@/utils';
+import {
+  getActiveProductSession,
+  getCustomerPortalPermissions,
+  getSession,
+} from '@/utils';
 import { AUTH } from '@/constants';
 
 export default function useCustomerPortal() {
@@ -16,6 +20,11 @@ export default function useCustomerPortal() {
   const pathname = usePathname();
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const routerPathName = useMemo(
     () =>
@@ -88,6 +97,8 @@ export default function useCustomerPortal() {
     [user, getPublicCustomerPermissionsStatus?.data],
   );
 
+  const customerPortalPermissions = getCustomerPortalPermissions();
+
   return {
     theme,
     router,
@@ -100,5 +111,7 @@ export default function useCustomerPortal() {
     isMobileOpen,
     setIsMobileOpen,
     isZeroPaddingRoutes,
+    customerPortalPermissions,
+    isMounted,
   };
 }
