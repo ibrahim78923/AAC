@@ -21,7 +21,7 @@ const useBroadcastDetails = (broadcastDetails?: any) => {
 
   const [filters, setFilters] = useState({
     search: '',
-    status: MEETINGS_DETAILS_TYPE?.ALL,
+    status: MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
   });
 
   const { data: getSmsBroadcatsById, isLoading: smsDetailsLoading } =
@@ -60,7 +60,7 @@ const useBroadcastDetails = (broadcastDetails?: any) => {
         ?.toLowerCase()
         ?.includes(filters?.search?.toLowerCase());
     } else if (filters?.status) {
-      if (filters?.status === MEETINGS_DETAILS_TYPE?.ALL) {
+      if (filters?.status === MEETINGS_DETAILS_TYPE?.ALL_MEETINGS) {
         return true;
       } else {
         return item?.messageStatus === filters?.status;

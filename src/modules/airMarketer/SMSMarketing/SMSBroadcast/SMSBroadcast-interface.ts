@@ -29,11 +29,13 @@ export interface SMSDetailsProps {
     detail?: string | any;
   };
   isLoading: boolean;
+  recordStatus: string;
 }
 
 export interface SMSDetailsTableProps {
   recipientsData: string[];
   loading: boolean;
+  recordStatus: string;
 }
 
 export interface AnalyticsProps {

@@ -55,6 +55,7 @@ const SMSBroadcastDetails = () => {
         <SMSDetails
           detailsData={smsBroadcastDetails}
           isLoading={smsDetailsLoading}
+          recordStatus={smsBroadcastDetails?.status}
         />
         <Analytics
           analyticsData={smsBroadcastDetails}

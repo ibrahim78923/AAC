@@ -50,7 +50,9 @@ const useCreateBroadcast = () => {
   const [form, setForm] = useState<any>([]);
 
   const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =
-    useGetWhatsappBroadcatsByIdQuery(selectedBroadCast);
+    useGetWhatsappBroadcatsByIdQuery(selectedBroadCast, {
+      skip: !selectedBroadCast,
+    });
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();

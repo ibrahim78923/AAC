@@ -1,7 +1,11 @@
 import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 
-export const smsDetailsColumns: any = (setOpenModalDelete: any) => {
+export const smsDetailsColumns: any = (
+  setOpenModalDelete: any,
+  recordStatus: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row,
@@ -31,23 +35,31 @@ export const smsDetailsColumns: any = (setOpenModalDelete: any) => {
       isSortable: false,
       header: 'Actions',
       cell: (info: any) => (
-        <Box
-          onClick={() =>
-            setOpenModalDelete({
-              isToggle: true,
-              recipientId: info?.row?.original?._id,
-            })
-          }
-          sx={{
-            background: (theme: any) => theme?.Palette?.grey[400],
-            width: 'fit-content',
-            borderRadius: '100%',
-            p: 1,
-            cursor: 'pointer',
-          }}
-        >
-          <DeleteIcon />
-        </Box>
+        <>
+          {recordStatus !== MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ? (
+            <Box
+              onClick={() =>
+                setOpenModalDelete({
+                  isToggle: true,
+                  recipientId: info.row?.original?._id,
+                })
+              }
+              sx={{
+                background: (theme: any) => theme?.Palette?.grey[400],
+                width: 'fit-content',
+                borderRadius: '100%',
+                p: 1,
+                cursor: 'pointer',
+              }}
+            >
+              <DeleteIcon />
+            </Box>
+          ) : (
+            <Box sx={{ cursor: 'not-allowed' }}>
+              <DeleteIcon />
+            </Box>
+          )}
+        </>
       ),
     },
   ];

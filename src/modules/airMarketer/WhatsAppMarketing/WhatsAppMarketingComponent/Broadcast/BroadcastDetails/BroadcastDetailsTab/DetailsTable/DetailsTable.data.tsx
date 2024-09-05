@@ -36,7 +36,7 @@ export const detailsColumns: any = (
       header: 'Actions',
       cell: (info: any) => (
         <>
-          {recordStatus !== MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS && (
+          {recordStatus !== MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ? (
             <Box
               onClick={() =>
                 setOpenModalDelete({
@@ -52,6 +52,10 @@ export const detailsColumns: any = (
                 cursor: 'pointer',
               }}
             >
+              <DeleteIcon />
+            </Box>
+          ) : (
+            <Box sx={{ cursor: 'not-allowed' }}>
               <DeleteIcon />
             </Box>
           )}
