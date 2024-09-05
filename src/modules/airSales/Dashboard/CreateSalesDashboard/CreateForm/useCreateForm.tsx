@@ -129,7 +129,7 @@ const useCreateForm = (formType: any) => {
         name: item,
       })),
       access: values?.access,
-      permissions: dashboardPermissions(values?.access),
+      permissions: dashboardPermissions(values?.access, values?.permissions),
       specialUsers: values?.permissionsUsers?.map((user: any) => {
         return {
           userId: user?.userId,

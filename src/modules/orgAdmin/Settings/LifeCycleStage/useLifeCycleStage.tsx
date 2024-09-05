@@ -87,11 +87,13 @@ const useLifeCycleStage = () => {
       await deleteSettingLifeCycleStage(rowId).unwrap();
 
       enqueueSnackbar('Stage Deleted Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setIsOpenAlert(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      enqueueSnackbar('Something went wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -150,7 +152,7 @@ const useLifeCycleStage = () => {
         await postSettingLifeCycleStage({
           body: body,
         })?.unwrap();
-        enqueueSnackbar('Satge Added Successfully', {
+        enqueueSnackbar('Stage Added Successfully', {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         handleCloseDrawer();

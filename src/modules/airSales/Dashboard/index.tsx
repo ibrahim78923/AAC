@@ -1,4 +1,4 @@
-import { Grid, Typography, Stack, Button } from '@mui/material';
+import { Grid, Typography, Stack, Button, Skeleton } from '@mui/material';
 import Actions from './ActionsOptions';
 import MeetingDetails from './MeetingDetails';
 import TeamActivity from './TeamActivity';
@@ -12,6 +12,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { PlusIcon } from '@/assets/icons';
 import useManage from './Manage/useManage';
+import { capitalizeFirstLetters } from '@/utils';
 
 const Dashboard = () => {
   const {
@@ -25,7 +26,6 @@ const Dashboard = () => {
   } = useDashboard();
 
   const { handelNavigate } = useManage();
-
   return (
     <>
       <Grid container spacing={2}>
@@ -35,7 +35,21 @@ const Dashboard = () => {
             justifyContent="space-between"
             gap={1}
           >
-            <Typography variant="h3">Sales Dashboard</Typography>
+            {dashboardLoading ? (
+              <Skeleton
+                width={250}
+                height={36}
+                variant={'rectangular'}
+                animation={'wave'}
+              />
+            ) : (
+              <Stack direction="column">
+                <Typography variant="h3">
+                  {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
+                </Typography>
+              </Stack>
+            )}
+
             <Stack direction={{ sm: 'row' }} gap={1}>
               {!dashboardNotFound && (
                 <Actions
@@ -112,7 +126,6 @@ const Dashboard = () => {
           </>
         )}
       </Grid>
-      {/* )} */}
     </>
   );
 };

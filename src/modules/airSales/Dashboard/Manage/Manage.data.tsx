@@ -10,8 +10,14 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
 
 export const columns: any = (columnsProps: any) => {
-  const { setIsDeleteModalOpen, theme, router, handleUpdateDefault } =
-    columnsProps;
+  const {
+    setIsDeleteModalOpen,
+    theme,
+    router,
+    handleUpdateDefault,
+    currentUser,
+  } = columnsProps;
+
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -20,7 +26,6 @@ export const columns: any = (columnsProps: any) => {
       header: 'Dashboard Name',
       cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
-
     {
       accessorFn: (row: any) => row?.isDefault,
       id: 'isDefault',
@@ -29,13 +34,14 @@ export const columns: any = (columnsProps: any) => {
           handleSwitchChange={(e: any) => {
             handleUpdateDefault(info?.row?.original?._id, e?.target?.checked);
           }}
-          checked={info?.getValue()}
+          checked={
+            currentUser === info?.row?.original?.createdBy && info?.getValue()
+          }
         />
       ),
       header: 'Default',
       isSortable: false,
     },
-
     {
       accessorFn: (row: any) => row?.ownerDetails,
       id: 'owner',
@@ -68,7 +74,6 @@ export const columns: any = (columnsProps: any) => {
         </Stack>
       ),
     },
-
     {
       accessorFn: (row: any) => row?.access,
       id: 'sharedWith',
@@ -76,7 +81,6 @@ export const columns: any = (columnsProps: any) => {
       header: 'Access Rights',
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
-
     {
       accessorFn: (row: any) => row?.lastView,
       id: 'lastViewed',
@@ -85,7 +89,6 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) =>
         dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
-
     {
       accessorFn: (row: any) => row?.updatedAt,
       id: 'updatedAt',
@@ -94,7 +97,6 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) =>
         dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
-
     {
       id: 'actions',
       isSortable: true,
@@ -116,34 +118,40 @@ export const columns: any = (columnsProps: any) => {
               <ViewEyeIcon />
             </Box>
           </PermissionsGuard>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              router?.push({
-                pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                query: { id: info?.row?.original?._id, type: 'edit' },
-              });
-            }}
-          >
-            <EditPenIcon />
-          </Box>
-          {!info?.row?.original?.isDefault && (
-            <PermissionsGuard
-              permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
+          {(info?.row?.original?.permissions !== 'VIEW_ONLY' ||
+            currentUser === info?.row?.original?.createdBy) && (
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                router?.push({
+                  pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                  query: { id: info?.row?.original?._id, type: 'edit' },
+                });
+              }}
             >
-              <Box
-                sx={{ cursor: 'pointer' }}
-                onClick={() => {
-                  setIsDeleteModalOpen({
-                    isToggle: true,
-                    id: info?.row?.original?._id,
-                  });
-                }}
-              >
-                <DeleteCrossIcon />
-              </Box>
-            </PermissionsGuard>
+              <EditPenIcon />
+            </Box>
           )}
+          {currentUser === info?.row?.original?.createdBy &&
+            !info?.row?.original?.isDefault && (
+              <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD,
+                ]}
+              >
+                <Box
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setIsDeleteModalOpen({
+                      isToggle: true,
+                      id: info?.row?.original?._id,
+                    });
+                  }}
+                >
+                  <DeleteCrossIcon />
+                </Box>
+              </PermissionsGuard>
+            )}
         </Stack>
       ),
     },

@@ -107,6 +107,7 @@ const useManage = () => {
     resetFilters,
     setPageLimit,
     handleDelete,
+    currentUser,
     isLoading,
     pageLimit,
     setPage,

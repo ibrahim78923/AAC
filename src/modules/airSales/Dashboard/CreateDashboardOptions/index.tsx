@@ -13,7 +13,7 @@ import useCreateDashboardOptions from './useCreateDashboardOptions';
 import { CheckMarkIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { capitalizeFirstLetters } from '@/utils';
+import { capitalizeFirstLetters, getSession } from '@/utils';
 
 const CreateDashboardOptions = (props: any) => {
   const { listData, selectedDashboard, isLoading } = props;
@@ -27,6 +27,8 @@ const CreateDashboardOptions = (props: any) => {
     anchorEl,
     theme,
   } = useCreateDashboardOptions(selectedDashboard);
+  const { user }: any = getSession();
+  const currentUser = user?._id;
 
   return (
     <div>
@@ -72,22 +74,23 @@ const CreateDashboardOptions = (props: any) => {
                   <Typography variant="body2">
                     {capitalizeFirstLetters(dashboard?.name)}
                   </Typography>
-                  {dashboard?.isDefault && (
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      gap={1}
-                      sx={{
-                        background: theme?.palette?.custom?.success_light,
-                        color: theme?.palette?.success?.main,
-                        borderRadius: '50px',
-                        px: 1,
-                      }}
-                    >
-                      <Typography variant="body3">Default</Typography>
-                      <CheckMarkIcon />
-                    </Stack>
-                  )}
+                  {dashboard?.isDefault &&
+                    currentUser === dashboard?.createdBy && (
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        gap={1}
+                        sx={{
+                          background: theme?.palette?.custom?.success_light,
+                          color: theme?.palette?.success?.main,
+                          borderRadius: '50px',
+                          px: 1,
+                        }}
+                      >
+                        <Typography variant="body3">Default</Typography>
+                        <CheckMarkIcon />
+                      </Stack>
+                    )}
                 </Stack>
               </MenuItem>
             ))
