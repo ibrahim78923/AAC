@@ -1,5 +1,5 @@
 import { DocumentTextIcon } from '@/assets/icons';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
@@ -7,13 +7,7 @@ import { truncateText } from '@/utils/avatarUtils';
 import { KnowledgeBaseArticlesI } from './KnowledgeBaseArticles.interface';
 
 export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
-  const {
-    modifiedDate,
-    purposeDescription,
-    articleId,
-    articlesTitle,
-    folderId,
-  } = props;
+  const { modifiedDate, purposeDescription, articleId, articlesTitle } = props;
   const router = useRouter();
 
   return (
@@ -60,15 +54,22 @@ export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
           </Typography>
         </Box>
       </Box>
-      <VisibilityIcon
-        sx={{ cursor: 'pointer', color: 'blue.main' }}
+      <IconButton
         onClick={() =>
           router?.push({
             pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
-            query: { articleId, folderId },
+            query: {
+              articleId,
+              folderId: router?.query?.folderId,
+              ...(router?.query?.companyId && {
+                companyId: router?.query?.companyId,
+              }),
+            },
           })
         }
-      />
+      >
+        <VisibilityIcon sx={{ color: 'blue.main' }} />
+      </IconButton>
     </Box>
   );
 };

@@ -1,4 +1,3 @@
-import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { KnowledgeBaseArticleDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail/KnowledgeBaseArticleDetail';
 
@@ -7,11 +6,7 @@ const KnowledgeBaseTicketDetailPage = () => {
 };
 
 KnowledgeBaseTicketDetailPage.getLayout = function getLayout(page: any) {
-  return (
-    <Layout permissions={Permissions?.AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE}>
-      {page}
-    </Layout>
-  );
+  return <Layout variant={'customer-portal'}>{page}</Layout>;
 };
 
 export default KnowledgeBaseTicketDetailPage;

@@ -14,6 +14,11 @@ export const useKnowledgeBaseDetail = () => {
   const handleKnowledgeBase = () => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
+      query: {
+        ...(router?.query?.companyId && {
+          companyId: router?.query?.companyId,
+        }),
+      },
     });
   };
 
@@ -44,7 +49,6 @@ export const useKnowledgeBaseDetail = () => {
     articlesData,
     articlesMetaData,
     isLoading,
-    folderId,
     folderName,
     isFetching,
     isError,

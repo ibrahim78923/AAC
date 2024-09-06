@@ -25,6 +25,7 @@ export const useKnowledgeBaseArticleDetail = () => {
 
   const folderId = route?.query?.folderId;
   const singleArticleId = route?.query?.articleId;
+  const companyId = route?.query?.companyId;
 
   const relatedArticlesParams = {
     folderId: folderId,
@@ -53,20 +54,20 @@ export const useKnowledgeBaseArticleDetail = () => {
   );
   const singleArticlesData = data?.data;
 
-  const { push } = useRouter();
   const handlePageBack = () => {
-    push({
+    route?.push({
       pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
-      query: { folderId },
+      query: { folderId, ...(companyId && { companyId }) },
     });
   };
 
   const handleRelatedArticles = (articleId: any) => {
-    push({
+    route?.push({
       pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
       query: {
         articleId: articleId,
         folderId: folderId,
+        ...(companyId && { companyId }),
       },
     });
   };

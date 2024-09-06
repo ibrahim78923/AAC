@@ -3,5 +3,4 @@ export interface KnowledgeBaseCardI {
   name: string;
   createdBy: string;
   createdDate: string;
-  handleKnowledgeBaseDetail: any;
 }

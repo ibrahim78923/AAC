@@ -109,7 +109,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
         >
           <CheckCircleIcon sx={{ color: 'success.main' }} />
           <Typography color="secondary" variant="body2">
-            Glad we could be helpful. Thanks for the feedback.
+            Glad we could helpful. Thanks for the feedback.
           </Typography>
         </Box>
       ) : (

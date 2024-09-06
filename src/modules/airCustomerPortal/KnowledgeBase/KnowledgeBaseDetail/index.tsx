@@ -8,8 +8,6 @@ import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
 
@@ -22,7 +20,6 @@ export const KnowledgeBaseDetail = () => {
     articlesData,
     articlesMetaData,
     isLoading,
-    folderId,
     folderName,
     isFetching,
     isError,
@@ -42,64 +39,57 @@ export const KnowledgeBaseDetail = () => {
     );
 
   return (
-    <PermissionsGuard
-      permissions={[
-        AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS?.VIEW_ARTICLES_DIFFERENT_CATEGORY,
-      ]}
-    >
-      <Box border={1} borderColor="grey.700" p={2} borderRadius={2}>
-        <PageTitledHeader
-          title={
-            isLoading || isFetching ? (
-              <Skeleton variant="rectangular" width={'10rem'} />
-            ) : folderName ? (
-              `Knowledge Base - ${truncateText(folderName)}`
-            ) : (
-              'Knowledge Base'
-            )
-          }
-          canMovedBack
-          moveBack={handleKnowledgeBase}
-        />
-        <Box>
-          <Search label="Search Here" setSearchBy={SetSearchValue} />
-        </Box>
-        <br />
-        {isLoading || isFetching ? (
-          <SkeletonTable />
-        ) : (
-          <>
-            <Box height={'28rem'} overflow={'scroll'}>
-              {!!articlesData?.length ? (
-                articlesData?.map((item: any) => (
-                  <KnowledgeBaseArticles
-                    key={item?._id}
-                    articleId={item?._id}
-                    folderId={folderId}
-                    articlesTitle={item?.title}
-                    modifiedDate={dayjs(item?.updatedAt)?.format(
-                      DATE_TIME_FORMAT?.UI,
-                    )}
-                    purposeDescription={item?.details}
-                  />
-                ))
-              ) : (
-                <NoData message="No articles found" />
-              )}
-            </Box>
-            <br />
-            <CustomPagination
-              count={articlesMetaData?.pages}
-              totalRecords={articlesMetaData?.total}
-              pageLimit={articlesMetaData?.limit}
-              currentPage={articlesMetaData?.page}
-              onPageChange={(page: number) => setPage(page)}
-              setPageLimit={setPageLimit}
-              setPage={setPage}
-            />
-          </>
-        )}
+    <Box border={1} borderColor="grey.700" p={2} borderRadius={2}>
+      <PageTitledHeader
+        title={
+          isLoading || isFetching ? (
+            <Skeleton variant="rectangular" width={'10rem'} />
+          ) : folderName ? (
+            `Knowledge Base - ${truncateText(folderName)}`
+          ) : (
+            'Knowledge Base'
+          )
+        }
+        canMovedBack
+        moveBack={handleKnowledgeBase}
+      />
+      <Box>
+        <Search label="Search Here" setSearchBy={SetSearchValue} />
       </Box>
-    </PermissionsGuard>
+      <br />
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : (
+        <>
+          <Box height={'28rem'} overflow={'scroll'}>
+            {!!articlesData?.length ? (
+              articlesData?.map((item: any) => (
+                <KnowledgeBaseArticles
+                  key={item?._id}
+                  articleId={item?._id}
+                  articlesTitle={item?.title}
+                  modifiedDate={dayjs(item?.updatedAt)?.format(
+                    DATE_TIME_FORMAT?.UI,
+                  )}
+                  purposeDescription={item?.details}
+                />
+              ))
+            ) : (
+              <NoData message="No articles found" />
+            )}
+          </Box>
+          <br />
+          <CustomPagination
+            count={articlesMetaData?.pages}
+            totalRecords={articlesMetaData?.total}
+            pageLimit={articlesMetaData?.limit}
+            currentPage={articlesMetaData?.page}
+            onPageChange={(page: number) => setPage(page)}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+          />
+        </>
+      )}
+    </Box>
   );
 };
