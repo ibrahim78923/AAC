@@ -9,20 +9,23 @@ import {
   Toolbar,
   CssBaseline,
   List,
-  Typography,
   Drawer,
   Skeleton,
   Button,
 } from '@mui/material';
-import { AirCustomerPortalLogo, LogoutImage } from '@/assets/images';
-import { styles } from '../Layout.style';
+import { AirCustomerPortalLogo } from '@/assets/images';
 import Link from 'next/link';
-import { drawerWidth } from './CustomerPortal.data';
+import {
+  customizePortalDefaultValues,
+  drawerWidth,
+} from './CustomerPortal.data';
 import { ARRAY_INDEX } from '@/constants/strings';
 import Header from '../Header';
 import useCustomerPortal from './useCustomerPortal';
 import { AIR_CUSTOMER_PORTAL, AUTH } from '@/constants';
-import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage } from '@/utils/avatarUtils';
+import { customerPortalStyles } from './CustomerPortal.styles';
+import { CustomerLogoutIcon } from '@/assets/icons';
 
 const CustomerPortalLayout = ({
   children,
@@ -33,25 +36,25 @@ const CustomerPortalLayout = ({
 }) => {
   const {
     theme,
-    router,
     user,
     logout,
     companyId,
-    getPublicCustomerPermissionsStatus,
-    CustomerPortalRoutes,
+    customerPortalRoutes,
     routerPathName,
     isMobileOpen,
     setIsMobileOpen,
     isZeroPaddingRoutes,
-    customerPortalPermissions,
     isMounted,
+    customerPortalStyling,
+    reducedOpacityBgColor,
+    hasPermissions,
+    isFetching,
   } = useCustomerPortal();
 
   const drawerContent = useMemo(
     () => (
       <>
-        {getPublicCustomerPermissionsStatus?.isLoading ||
-        getPublicCustomerPermissionsStatus?.isFetching ? (
+        {isFetching ? (
           <Box sx={{ width: '100%' }}>
             {[1, 2, 3, 4]?.map((index) => (
               <Skeleton
@@ -65,95 +68,122 @@ const CustomerPortalLayout = ({
           </Box>
         ) : (
           <>
-            <Box sx={{ padding: '0px 0px 20px 10px' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-                <Image
-                  src={AirCustomerPortalLogo}
-                  alt="Air Apple Cart"
-                  width={153}
-                  height={38}
-                  style={{ objectFit: 'contain' }}
-                />
+            <Box p={'0px 0px 20px 10px'}>
+              <Box display={'flex'} flexDirection={'row'} gap={1}>
+                {customerPortalStyling?.logo ? (
+                  <Image
+                    src={generateImage(customerPortalStyling?.logo?.url)}
+                    alt={'Air Apple Cart'}
+                    width={153}
+                    height={38}
+                    style={{ objectFit: 'contain' }}
+                  />
+                ) : (
+                  <Image
+                    src={AirCustomerPortalLogo}
+                    alt={'Air Apple Cart'}
+                    width={153}
+                    height={38}
+                    style={{ objectFit: 'contain' }}
+                  />
+                )}
               </Box>
             </Box>
             <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: 'column',
-                height: '100%',
-              }}
+              display={'flex'}
+              justifyContent={'space-between'}
+              flexDirection={'column'}
+              height={'100%'}
             >
-              <Box>
-                <List>
-                  {CustomerPortalRoutes?.map((item) => {
-                    const pathNameKey =
-                      item?.key?.split('/')[ARRAY_INDEX?.TWO] ??
-                      item?.key?.split('/')[ARRAY_INDEX?.ONE];
-                    return (
-                      <Link
-                        key={item?.key}
-                        href={{
-                          pathname: item?.key,
-                          ...(companyId && { query: { companyId } }),
-                        }}
-                      >
-                        {item?.permissions && (
-                          <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                            <ListItemButton
-                              sx={styles?.mainNavLink(
-                                pathNameKey,
-                                routerPathName,
-                                theme,
-                              )}
-                            >
-                              <ListItemIcon
-                                sx={{ minWidth: 20, marginRight: '10px' }}
+              <List>
+                {customerPortalRoutes?.map((item) => {
+                  const pathNameKey =
+                    item?.key?.split('/')[ARRAY_INDEX?.TWO] ??
+                    item?.key?.split('/')[ARRAY_INDEX?.ONE];
+                  return (
+                    <Link
+                      key={item?.key}
+                      href={{
+                        pathname: item?.key,
+                        ...(companyId && { query: { companyId } }),
+                      }}
+                    >
+                      {item?.permissions && (
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                          <ListItemButton
+                            sx={customerPortalStyles?.listNavBarStyles(
+                              routerPathName,
+                              pathNameKey,
+                              reducedOpacityBgColor,
+                              customerPortalStyling ||
+                                customizePortalDefaultValues(theme),
+                            )}
+                          >
+                            <ListItemIcon sx={{ mr: 1 }}>
+                              <Box
+                                display={'flex'}
+                                bgcolor={
+                                  customerPortalStyling?.iconSecondary ||
+                                  customizePortalDefaultValues(theme)
+                                    ?.iconSecondary
+                                }
+                                sx={{
+                                  opacity:
+                                    routerPathName === pathNameKey
+                                      ? '1'
+                                      : '0.4',
+                                }}
                               >
-                                <Box
-                                  display="flex"
-                                  sx={{
-                                    opacity:
-                                      routerPathName === pathNameKey
-                                        ? '1'
-                                        : '0.4',
-                                  }}
-                                >
-                                  <item.icon />
-                                </Box>
-                              </ListItemIcon>
-                              {item?.label}
-                            </ListItemButton>
-                          </ListItem>
-                        )}
-                      </Link>
-                    );
-                  })}
-                </List>
-              </Box>
+                                <item.icon
+                                  fill={
+                                    customerPortalStyling?.iconPrimary ||
+                                    customizePortalDefaultValues(theme)
+                                      ?.iconPrimary
+                                  }
+                                />
+                              </Box>
+                            </ListItemIcon>
+                            {item?.label}
+                          </ListItemButton>
+                        </ListItem>
+                      )}
+                    </Link>
+                  );
+                })}
+              </List>
 
               {user && (
-                <Box sx={{ paddingBottom: '20px' }}>
+                <Box pb={2}>
                   <List>
                     <ListItem
                       sx={{ padding: '6px 0px 6px 0px' }}
                       onClick={logout}
                     >
                       <ListItemButton
-                        sx={styles?.mainNavLink('link', router, theme)}
+                        sx={customerPortalStyles?.logoutButtonStyles(
+                          customerPortalStyling ||
+                            customizePortalDefaultValues(theme),
+                          reducedOpacityBgColor,
+                        )}
                       >
-                        <ListItemIcon
-                          sx={{ minWidth: 20, marginRight: '10px' }}
-                        >
-                          <Image
-                            src={LogoutImage}
-                            alt="Logout"
-                            style={{ opacity: '0.4' }}
-                          />
+                        <ListItemIcon sx={{ marginRight: 1 }}>
+                          <Box
+                            display={'flex'}
+                            bgcolor={
+                              customerPortalStyling?.iconSecondary ||
+                              customizePortalDefaultValues(theme)?.iconSecondary
+                            }
+                            sx={{ opacity: '0.4' }}
+                          >
+                            <CustomerLogoutIcon
+                              fill={
+                                customerPortalStyling?.iconPrimary ||
+                                customizePortalDefaultValues(theme)?.iconPrimary
+                              }
+                            />
+                          </Box>
                         </ListItemIcon>
-                        <Typography fontWeight={500} fontSize={14}>
-                          Logout
-                        </Typography>
+                        Logout
                       </ListItemButton>
                     </ListItem>
                   </List>
@@ -165,12 +195,15 @@ const CustomerPortalLayout = ({
       </>
     ),
     [
-      getPublicCustomerPermissionsStatus,
-      CustomerPortalRoutes,
+      isFetching,
+      customerPortalRoutes,
       routerPathName,
+      companyId,
       theme,
       logout,
       user,
+      customerPortalStyling,
+      reducedOpacityBgColor,
     ],
   );
 
@@ -178,9 +211,9 @@ const CustomerPortalLayout = ({
     typeof window !== 'undefined' ? window?.document?.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box display={'flex'}>
       <CssBaseline />
-      <AppBar sx={styles?.appToolbar(drawerWidth, theme)}>
+      <AppBar sx={customerPortalStyles?.appToolbarStyles(drawerWidth, theme)}>
         {user ? (
           <Header handleDrawerToggle={() => setIsMobileOpen(true)} />
         ) : (
@@ -191,55 +224,101 @@ const CustomerPortalLayout = ({
             gap={2}
           >
             <Link href={AUTH?.LOGIN}>
-              <Button variant={'outlined'} color={'inherit'}>
+              <Button
+                variant={'outlined'}
+                sx={{
+                  borderColor:
+                    customerPortalStyling?.btnSecondary ||
+                    customizePortalDefaultValues(theme)?.btnSecondary,
+                  color:
+                    customerPortalStyling?.btnSecondary ||
+                    customizePortalDefaultValues(theme)?.btnSecondary,
+                  '&:hover': {
+                    borderColor:
+                      customerPortalStyling?.btnSecondary ||
+                      customizePortalDefaultValues(theme)?.btnSecondary,
+                    color:
+                      customerPortalStyling?.btnSecondary ||
+                      customizePortalDefaultValues(theme)?.btnSecondary,
+                  },
+                }}
+                disableElevation
+              >
                 Sign In
               </Button>
             </Link>
 
-            {isMounted &&
-              customerPortalPermissions?.includes(
-                AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS,
-              ) && (
-                <Link
-                  href={{
-                    pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
-                    ...(companyId && { query: { companyId } }),
+            {isMounted && hasPermissions && (
+              <Link
+                href={{
+                  pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
+                  ...(companyId && { query: { companyId } }),
+                }}
+              >
+                <Button
+                  variant={'contained'}
+                  sx={{
+                    bgcolor:
+                      customerPortalStyling?.btnPrimary ||
+                      customizePortalDefaultValues(theme)?.btnPrimary,
+                    color: 'common.white',
+                    '&:hover': {
+                      bgcolor:
+                        customerPortalStyling?.btnPrimary ||
+                        customizePortalDefaultValues(theme)?.btnPrimary,
+                      color: 'common.white',
+                    },
                   }}
+                  disableElevation
                 >
-                  <Button
-                    variant={'contained'}
-                    color={'primary'}
-                    disableElevation
-                  >
-                    Sign Up
-                  </Button>
-                </Link>
-              )}
+                  Sign Up
+                </Button>
+              </Link>
+            )}
           </Box>
         )}
       </AppBar>
       <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-        aria-label="mailbox folders"
+        component={'nav'}
+        width={{ md: drawerWidth }}
+        flexShrink={{ md: 0 }}
+        aria-label={'mailbox folders'}
       >
         <Drawer
           container={container}
-          variant="temporary"
+          variant={'temporary'}
           open={isMobileOpen}
           onClose={() => setIsMobileOpen(false)}
           ModalProps={{ keepMounted: true }}
-          sx={styles?.mobileDrawer(drawerWidth)}
+          sx={customerPortalStyles?.mobileDrawerStyles(
+            drawerWidth,
+            customerPortalStyling || customizePortalDefaultValues(theme),
+          )}
         >
           {drawerContent}
         </Drawer>
-        <Drawer variant="permanent" sx={styles?.mainDrawer(drawerWidth)} open>
+        <Drawer
+          variant={'permanent'}
+          sx={customerPortalStyles?.mainDrawerStyles(
+            drawerWidth,
+            customerPortalStyling || customizePortalDefaultValues(theme),
+          )}
+          open
+        >
           {drawerContent}
         </Drawer>
       </Box>
-      <Box component="main" sx={styles?.layoutBox(drawerWidth)}>
+      <Box
+        component={'main'}
+        sx={customerPortalStyles?.layoutBoxStyles(drawerWidth, theme)}
+      >
         <Toolbar />
-        <Box sx={styles?.layoutInnerBox(theme, isZeroPaddingRoutes)}>
+        <Box
+          sx={customerPortalStyles?.layoutInnerBoxStyle(
+            theme,
+            isZeroPaddingRoutes,
+          )}
+        >
           {children}
         </Box>
       </Box>

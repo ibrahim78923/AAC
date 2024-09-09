@@ -238,10 +238,28 @@ export const getCustomerPortalPermissions = () => {
     );
     if (customerPortalPermissionsJSON) {
       customerPortalPermissions = JSON?.parse(customerPortalPermissionsJSON);
+    } else {
+      localStorage?.removeItem('customerPortalPermissions');
     }
   }
 
   return customerPortalPermissions;
+};
+
+export const getCustomerPortalStyling = () => {
+  let customerPortalStyling;
+  if (typeof localStorage !== 'undefined') {
+    const customerPortalStylingJSON = localStorage?.getItem(
+      'customerPortalStyling',
+    );
+    if (customerPortalStylingJSON) {
+      customerPortalStyling = JSON?.parse(customerPortalStylingJSON);
+    } else {
+      localStorage?.removeItem('customerPortalStyling');
+    }
+  }
+
+  return customerPortalStyling;
 };
 
 export {

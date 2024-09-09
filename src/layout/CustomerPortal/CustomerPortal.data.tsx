@@ -8,6 +8,14 @@ import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permissio
 
 export const drawerWidth = 230;
 
+export const customizePortalDefaultValues = (theme?: any) => ({
+  btnPrimary: theme?.palette?.primary?.main,
+  btnSecondary: theme?.palette?.secondary?.main,
+  sideMenu: theme?.palette?.common?.white,
+  iconPrimary: theme?.palette?.secondary?.main,
+  iconSecondary: theme?.palette?.common?.white,
+});
+
 export const getCustomerPortalRoutes = (user: any, permissions: string[]) => [
   {
     key: '/air-customer-portal',
