@@ -280,10 +280,34 @@ const LeftPane = () => {
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
         <Typography variant="h3">Email</Typography>
-        <Box display={'flex'}>
+        <Box display={'flex'} flexWrap={'wrap'}>
+          <Box sx={{ marginRight: '13px' }}>
+            <SwitchableDatepicker
+              renderInput="button"
+              placement="left"
+              dateValue={datePickerVal}
+              setDateValue={setDatePickerVal}
+              handleDateSubmit={() => {
+                const toDate = new Date(datePickerVal[startedDate]);
+                let fromDate = new Date(datePickerVal[endedDate]);
+                if (!fromDate) {
+                  fromDate = new Date(toDate);
+                  fromDate?.setDate(toDate?.getDate() + 1);
+                } else {
+                  fromDate?.setDate(fromDate?.getDate() + 1);
+                }
+
+                setIsFiltersValues({
+                  ...isFiltersValues,
+                  toDate,
+                  fromDate,
+                });
+              }}
+            />
+          </Box>
           <Tooltip title={'Refresh Filter'}>
             <Button
-              sx={{ marginRight: '5px' }}
+              sx={{ marginRight: '13px' }}
               variant="outlined"
               color="inherit"
               className="small"
@@ -292,23 +316,6 @@ const LeftPane = () => {
               <RefreshTasksIcon />
             </Button>
           </Tooltip>
-
-          <Box sx={{ marginRight: '5px' }}>
-            <SwitchableDatepicker
-              renderInput="button"
-              placement="left"
-              dateValue={datePickerVal}
-              setDateValue={setDatePickerVal}
-              handleDateSubmit={() => {
-                setIsFiltersValues({
-                  ...isFiltersValues,
-                  toDate: datePickerVal[startedDate],
-                  fromDate: datePickerVal[endedDate],
-                });
-              }}
-            />
-          </Box>
-
           <ActionBtn />
         </Box>
       </Box>

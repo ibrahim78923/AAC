@@ -124,6 +124,13 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getPaymentCardById: builder.query({
+      query: ({ id }) => ({
+        url: `${ORG_ADMIN?.PAYMENT_METHOD_ID}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -144,4 +151,5 @@ export const {
   useGetPaymentCardQuery,
   useDeletePaymentCardMutation,
   usePostPaymentCardMutation,
+  useGetPaymentCardByIdQuery,
 } = subscriptionAndInvoicesAPI;

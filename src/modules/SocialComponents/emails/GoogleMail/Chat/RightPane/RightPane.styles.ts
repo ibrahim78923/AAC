@@ -13,6 +13,7 @@ export const styles = {
     borderRadius: '8px',
     display: 'flex',
     gap: '14px',
+    flexWrap: 'wrap',
   },
   emailWrap: {
     display: 'flex',

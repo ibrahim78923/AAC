@@ -612,6 +612,7 @@ export const ORG_ADMIN = {
   PRODUCT_DROPDOWN: '/dropdown/products',
   PAYMENT_METHOD: '/payment-method',
   DELETE_PAYMENT_METHOD: '/payment-method/delete',
+  PAYMENT_METHOD_ID: '/payment-method/find',
 };
 
 export const COMMON_DOCUMENTS = {

@@ -27,6 +27,7 @@ const PaymentMethods = () => {
     getRowValues,
     setOpenAddCard,
     isGetRowValues,
+    setIsGetRowValues,
     dataPaymentCard,
     searchValue,
     setSearchValue,
@@ -72,7 +73,7 @@ const PaymentMethods = () => {
             <Search
               searchBy={searchValue}
               setSearchBy={setSearchValue}
-              label="Search here"
+              label="Search by name"
               fullWidth
               size="small"
             />
@@ -109,10 +110,11 @@ const PaymentMethods = () => {
             <MenuItem
               onClick={() => {
                 setOpenAddCard(true);
-                setOpenEditCard('Edit');
+                setOpenEditCard('View');
+                handleClose();
               }}
             >
-              Edit
+              View
             </MenuItem>
             <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
           </Menu>
@@ -120,7 +122,7 @@ const PaymentMethods = () => {
 
         <TanstackTable
           columns={getRowValues}
-          data={dataPaymentCard?.data?.payments}
+          data={dataPaymentCard?.data?.payments ?? []}
           isPagination
           isLoading={loadingPaymentCard}
           setPage={setPage}
@@ -138,6 +140,7 @@ const PaymentMethods = () => {
         openEditCard={openEditCard}
         setOpenAddCard={setOpenAddCard}
         isGetRowValues={isGetRowValues}
+        setIsGetRowValues={setIsGetRowValues}
       />
       <AlertModals
         message="Are you sure you want to delete this payment method ?"

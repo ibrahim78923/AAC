@@ -12,6 +12,8 @@ import {
   useTheme,
 } from '@mui/material';
 import {
+  DocumentBlueIcon,
+  DocumentIcon,
   DotsBoldIcon,
   EmailReplyIcon,
   ForwardIcon,
@@ -270,6 +272,12 @@ const RightPane = () => {
                               <AccordionSummary
                                 aria-controls="panel1-content"
                                 id="panel1-header"
+                                sx={{
+                                  '& .MuiAccordionSummary-content.Mui-expanded':
+                                    {
+                                      margin: '0px',
+                                    },
+                                }}
                               >
                                 <Box sx={styles?.emailWrap}>
                                   <Box flex={1} sx={{ cursor: 'pointer' }}>
@@ -800,8 +808,40 @@ export function ImageComponent({ base64, contentType, fileName }: any) {
         </Box>
       </a>
     );
+  } else if (contentType === FILE_TYPES?.DOC) {
+    return (
+      <a href={src} download={fileName}>
+        <DocumentBoxWrapper>
+          <DocumentBlueIcon />
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </DocumentBoxWrapper>
+      </a>
+    );
+  } else if (contentType?.startsWith(FILE_TYPES?.TEXT)) {
+    return (
+      <a href={src} download={fileName}>
+        <DocumentBoxWrapper>
+          <DocumentIcon />
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </DocumentBoxWrapper>
+      </a>
+    );
   } else {
-    return null;
+    return (
+      <a href={src} download={fileName}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            backgroundColor: theme?.palette?.grey[400],
+            padding: '5px 10px',
+            textTransform: 'capitalize',
+          }}
+        >
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </Box>
+      </a>
+    );
   }
 }
 export function decodeBase64(base64: any) {
@@ -824,6 +864,23 @@ export const DecodeBase64 = ({ base64String }: any) => {
     <>
       <Typography dangerouslySetInnerHTML={{ __html: decodedText }} />
     </>
+  );
+};
+
+export const DocumentBoxWrapper = ({ children }: any) => {
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '10px',
+        backgroundColor: theme?.palette?.grey[400],
+        padding: '5px 10px',
+        textTransform: 'capitalize',
+      }}
+    >
+      {children}
+    </Box>
   );
 };
 
