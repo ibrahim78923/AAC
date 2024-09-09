@@ -161,6 +161,8 @@ const ContactsCard = ({
     setIsDeleteModal(false);
     dispatch(setChatMessages([]));
     dispatch(setActiveReceiverId(null));
+    dispatch(setActiveConversation({}));
+    setSelectedValues([]);
   };
 
   const contactImageToShow =
@@ -323,7 +325,7 @@ const ContactsCard = ({
             {cardData?.item?.lastMessage?.content}
           </Box>
           <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>
-            {dayjs(cardData?.item?.lastMessage?.createdAt).format(
+            {dayjs(cardData?.item?.lastMessage?.updatedAt).format(
               TIME_FORMAT?.UI,
             )}
           </Typography>

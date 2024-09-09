@@ -91,7 +91,6 @@ const chatSlice = createSlice({
         if (existingContactsIndex === -1) {
           state.chatContacts.push(action?.payload);
         } else {
-          state.chatContacts[existingContactsIndex] = action?.payload;
         }
       }
     },

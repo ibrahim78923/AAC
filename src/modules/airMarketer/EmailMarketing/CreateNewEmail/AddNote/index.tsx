@@ -50,6 +50,8 @@ const AddANote = ({
       lastName: user?.lastName,
       avatar: user?.avatar,
       _id: uuidv4(),
+      notesId: uuidv4(),
+
     };
     setNotesData((prevNotesData: any) => [...prevNotesData, newData]);
     setComment('');
@@ -164,7 +166,8 @@ const AddANote = ({
           size="small"
           value={comment}
           placeholder="Add Your Note Here"
-          onChange={(e: any) => setComment(e.target.value)}
+          onChange={(e: any) => setComment(e?.target?.value)}
+
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

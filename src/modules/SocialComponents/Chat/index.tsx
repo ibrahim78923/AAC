@@ -21,9 +21,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
+  setActiveChat,
+  setActiveChatId,
+  setActiveConversation,
+  setActiveParticipant,
+  setActiveReceiverId,
+  setChatContacts,
   setChatMessages,
   setChatMessagesLoading,
   setChatMetaInfo,
+  setChatModes,
   setNewOrFetchedChatMessages,
 } from '@/redux/slices/chat/slice';
 import {
@@ -179,6 +186,20 @@ const Chat = () => {
       setCurrentPage(1);
     }
   }, [searchTerm]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setChatModes({ chatModeState: CHAT_TYPES?.PERSONAL_CHAT }));
+      dispatch(setActiveChat({}));
+      dispatch(setActiveReceiverId(''));
+      dispatch(setActiveConversation({}));
+      dispatch(setChatMessages([]));
+      dispatch(setChatContacts([]));
+      dispatch(setActiveChatId(''));
+      dispatch(setActiveParticipant({}));
+      dispatch(setNewOrFetchedChatMessages([]));
+    };
+  }, []);
 
   return (
     <Box sx={{ position: 'relative' }}>

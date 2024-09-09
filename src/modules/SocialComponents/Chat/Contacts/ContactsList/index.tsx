@@ -161,15 +161,6 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       },
     },
     {
-      menuLabel: 'Deleted',
-      selected: isDeletedFilter,
-      handler: () => {
-        showAllRecordsHandler();
-        setIsDeletedFilter(true);
-        handleClose();
-      },
-    },
-    {
       menuLabel: 'Mark as unread',
       selected: unReadFilter,
       handler: () => {
@@ -321,13 +312,19 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
             <>
               {!isNullOrEmpty(chatsTypeToShow) ? (
                 chatsTypeToShow?.map((item: any) => (
-                  <ContactsCard
-                    key={uuidv4()}
-                    cardData={{ item }}
-                    selectedValues={selectedValues}
-                    setSelectedValues={setSelectedValues}
-                    handleManualRefetch={handleManualRefetch}
-                  />
+                  <>
+                    {item?.isDeleted ? (
+                      <></>
+                    ) : (
+                      <ContactsCard
+                        key={uuidv4()}
+                        cardData={{ item }}
+                        selectedValues={selectedValues}
+                        setSelectedValues={setSelectedValues}
+                        handleManualRefetch={handleManualRefetch}
+                      />
+                    )}
+                  </>
                 ))
               ) : (
                 <Box>No Data Found</Box>
