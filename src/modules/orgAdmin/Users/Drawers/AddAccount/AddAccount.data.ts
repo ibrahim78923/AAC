@@ -9,6 +9,7 @@ import {
   useLazyGetCompanyAccountsListsQuery,
   useLazyGetProductsListQuery,
 } from '@/services/common-APIs';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const AddAccountArray = (companyRoleParams: any) => {
   const { companyRoles, user } = useAddAccount();
@@ -24,6 +25,7 @@ export const AddAccountArray = (companyRoleParams: any) => {
         placeholder: 'Select product',
         apiQuery: products,
         getOptionLabel: (option: any) => option?.name,
+        externalParams: { status: PRODUCT_USER_STATUS?.active },
       },
       component: RHFAutocompleteAsync,
       md: 12,
