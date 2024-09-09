@@ -89,6 +89,7 @@ const CreateForm = ({ formType }: any) => {
     selectedReports,
     isOpenPreview,
     apiQueryUsers,
+    disableAccess,
     handleSubmit,
     disbaleForm,
     productId,
@@ -137,7 +138,9 @@ const CreateForm = ({ formType }: any) => {
                           filter: (
                             <Box px={3}>
                               <RHFRadioGroup
-                                disabled={disbaleForm}
+                                disabled={
+                                  disableAccess !== true ? true : disbaleForm
+                                }
                                 name="permissions"
                                 row={false}
                                 options={[
@@ -234,7 +237,7 @@ const CreateForm = ({ formType }: any) => {
                           ),
                         },
                       ]}
-                      disabled={disbaleForm}
+                      disabled={disableAccess !== true ? true : disbaleForm}
                     />
                   </Grid>
                   <Grid item xs={12} md={3} textAlign={'end'}>

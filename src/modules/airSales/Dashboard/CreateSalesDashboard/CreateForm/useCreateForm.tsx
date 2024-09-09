@@ -20,9 +20,13 @@ import {
   MANAGE_ACCESS_TYPES,
   NOTISTACK_VARIANTS,
 } from '@/constants/strings';
+import { getSession } from '@/utils';
 
 const useCreateForm = (formType: any) => {
   const router = useRouter();
+  const { user }: any = getSession();
+  const currentUser = user?._id;
+
   const selectedDashboardId = router?.query?.id;
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
 
@@ -41,6 +45,8 @@ const useCreateForm = (formType: any) => {
     useGetSalesDashboardByIdQuery(selectedDashboardId, {
       skip: !selectedDashboardId,
     });
+
+  const disableAccess = currentUser === getSalesDashboardById?.data?.createdBy;
 
   const [updatesalesDashboard, { isLoading: loadingUpdateDashboard }] =
     useUpdateSalesDashboardMutation();
@@ -189,9 +195,11 @@ const useCreateForm = (formType: any) => {
     setAccessValue,
     isOpenPreview,
     apiQueryUsers,
+    disableAccess,
     handleSubmit,
     accessValue,
     disbaleForm,
+    currentUser,
     productId,
     setValue,
     onSubmit,

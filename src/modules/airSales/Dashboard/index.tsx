@@ -83,7 +83,9 @@ const Dashboard = () => {
         ) : (
           <>
             {dashboardLoading ? (
-              <SkeletonForm />
+              <Grid item xs={12} p={1}>
+                <SkeletonForm />
+              </Grid>
             ) : (
               <>
                 {dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS && (

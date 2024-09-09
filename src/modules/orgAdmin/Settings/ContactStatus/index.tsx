@@ -55,7 +55,9 @@ const ContactStatus = () => {
           title={
             isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT
               ? 'Edit Contact Status'
-              : 'Create Contact Status'
+              : isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW
+                ? 'View Contact Status'
+                : 'Create Contact Status'
           }
           okText={
             isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Update' : 'Add'
