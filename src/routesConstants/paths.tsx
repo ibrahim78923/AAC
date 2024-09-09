@@ -57,7 +57,7 @@ export const SUPER_ADMIN_SETTINGS: any = {
 
 export const SOCIAL_FEATURES = {
   calls: path(SOCIAL_ROOT_PAGE, '/calling/call'),
-  FOLDER_DETAILS: path(SOCIAL_ROOT_PAGE, '/my-documents/my-folders'),
+  DOCUMENTS: '/social-components/documents',
 };
 
 export const AIR_SOCIAL = {

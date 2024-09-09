@@ -45,7 +45,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
-import { useRouter } from 'next/router';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 import { Quick_Links_Routes } from '@/constants';
@@ -56,8 +55,11 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
 
 const Folders = () => {
-  const navigate = useRouter();
   const {
+    router,
+    // isFetchingSubfolders,
+    // isLoadingSubfolders,
+    dataSubfolders,
     searchValue,
     setSearchValue,
     isOpenDrawer,
@@ -98,10 +100,11 @@ const Folders = () => {
     setCardBox,
     setSelectedFolder,
     deleteUserFolders,
-    setIsImage,
-    isImage,
-    onSubmitImage,
-    addFile,
+    isOpenUploadDocModal,
+    handleOpenUploadDocModal,
+    handleCloseUploadDocModal,
+    methodsUploadDocument,
+    handleUploadDocumentSubmit,
     getRowValues,
     selectedTableRows,
     deleteUserFiles,
@@ -142,6 +145,389 @@ const Folders = () => {
     : documentSubData;
   return (
     <>
+      <Grid container spacing={2}>
+        <Grid item lg={3} md={4} sm={12} xs={12}>
+          <Box
+            sx={{
+              border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
+              padding: '1rem',
+              borderRadius: '8px, 0px, 0px, 8px',
+            }}
+          >
+            <Box sx={{ paddingBottom: '0.5rem' }}>
+              <ArrowBackIcon
+                onClick={() => {
+                  router.push({
+                    pathname: Quick_Links_Routes?.DOCUMENT,
+                  });
+                }}
+                sx={{
+                  color: `${theme?.palette?.custom?.light}`,
+                  fontSize: '30px',
+                  cursor: 'pointer',
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                variant="h3"
+                sx={{ color: `${theme?.palette?.grey[800]}` }}
+              >
+                Folders
+              </Typography>
+              <Box sx={styles?.actionFilterBox}>
+                <Button
+                  sx={styles?.actionButton(theme)}
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClickSide}
+                  className="small"
+                >
+                  Action
+                  <ArrowDropDownIcon
+                    sx={{ color: `${theme?.palette?.custom?.main}` }}
+                  />
+                </Button>
+                <Menu
+                  anchorEl={anchorElSide}
+                  open={openSide}
+                  onClose={handleCloseSide}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <PermissionsGuard
+                    permissions={[
+                      SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
+                    ]}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorElSide(null);
+                        setIsOpenModal(true);
+                        setActionType('create-sub-folder');
+                        FolderAdd?.setValue('name', '');
+                      }}
+                    >
+                      Create Sub Folder
+                    </MenuItem>
+                  </PermissionsGuard>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenFolderDrawer(true);
+                    }}
+                  >
+                    Download
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenFolderDrawer(true);
+                      setMoveChildFolder(true);
+                    }}
+                  >
+                    Move to Folder
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setModalHeading('Edit Name');
+                      setIsOpenModal(true);
+                      setActionType('move-folder');
+                      FolderAdd?.setValue('name', selectedFolder?.name);
+                    }}
+                  >
+                    Rename
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorElSide(null);
+                      setIsOpenDelete(true);
+                    }}
+                  >
+                    Delete
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </Box>
+            <Divider
+              sx={{
+                marginY: '10px',
+                border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
+              }}
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                cursor: 'pointer',
+                background: cardBox?.includes(parentFolderId)
+                  ? `${theme?.palette?.grey[400]}`
+                  : `${theme?.palette?.common?.white}`,
+                borderRadius: '8px',
+                padding: '8px',
+              }}
+              onClick={() => {
+                setCardBox([parentFolderId]);
+
+                setSelectedFolder({
+                  _id: parentFolderId,
+                  name: parentFolderName,
+                });
+                setSelectedFile(null);
+                setSelectedTableRows([]);
+              }}
+            >
+              <FolderBlackIcon />
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 400, color: `${theme?.palette?.grey[600]}` }}
+              >
+                {parentFolderName}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'grid',
+                justifyItems: 'start',
+                justifyContent: 'space-evenly',
+                paddingTop: '10px',
+              }}
+            >
+              {dataSubfolders?.data?.map((item: any) => {
+                return (
+                  <>
+                    <Box
+                      onClick={() => {
+                        setCardBox([item?._id]);
+                        setSelectedFolder(item);
+                        setSelectedFile(null);
+                        setSelectedTableRows([]);
+                      }}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                        marginY: '4px',
+                        cursor: 'pointer',
+                        background: cardBox?.includes(item?._id)
+                          ? `${theme?.palette?.grey[400]}`
+                          : `${theme?.palette?.common?.white}`,
+                        borderRadius: '8px',
+                        padding: '8px',
+                      }}
+                      key={uuidv4()}
+                    >
+                      <FolderBlackIcon />
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: 400,
+                          color: `${theme?.palette?.grey[600]}`,
+                        }}
+                      >
+                        {item?.name}
+                      </Typography>
+                    </Box>
+                  </>
+                );
+              })}
+            </Box>
+          </Box>
+        </Grid>
+        <Grid item lg={9} md={8} sm={12} xs={12}>
+          <Box
+            sx={{
+              border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
+              borderRadius: '8px, 0px, 0px, 8px',
+              padding: '1rem',
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <Typography variant="h5" sx={styles?.documentTitle(theme)}>
+                  Documents
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={6}
+                xs={12}
+                sx={styles?.actionButtonBox}
+              >
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
+                  ]}
+                >
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    onClick={() => {
+                      setIsOpenModal(true);
+                    }}
+                    sx={styles?.createFolderButton(theme)}
+                  >
+                    <AddCircle /> Create Folder
+                  </Button>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.UPLOAD_DOCUMENT,
+                  ]}
+                >
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={handleOpenUploadDocModal}
+                    sx={styles?.uploadDocumentsButton(theme)}
+                  >
+                    Upload Documents
+                  </Button>
+                </PermissionsGuard>
+              </Grid>
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={6}
+                xs={12}
+                sx={styles?.documentTitle(theme)}
+              >
+                <Search
+                  label="Search here"
+                  width="260px"
+                  size="small"
+                  searchBy={searchValue}
+                  setSearchBy={(e: string) => {
+                    setSearchValue(e);
+                  }}
+                />
+              </Grid>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <Box sx={styles?.actionFilterBox}>
+                  <Button
+                    sx={styles?.actionButton(theme)}
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    className="small"
+                    disabled={selectedTableRows?.length === 0}
+                  >
+                    Action
+                    <ArrowDropDownIcon
+                      sx={{ color: `${theme?.palette?.custom?.main}` }}
+                    />
+                  </Button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsLinkOpen(true);
+                      }}
+                    >
+                      Create Link
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsPdfOpen(true);
+                      }}
+                    >
+                      Preview
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsEditOpenModal(true);
+                      }}
+                    >
+                      Download
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsOpenFolderDrawer(true);
+                        setSearchValue('');
+                        setSlectedFolderForMovingData(null);
+                        setMoveChildFolder(false);
+                      }}
+                    >
+                      Move to Folder
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setIsOpenFile(true);
+                      }}
+                    >
+                      Delete
+                    </MenuItem>
+                  </Menu>
+                  <Box>
+                    <Tooltip title={'Refresh Filter'}>
+                      <Button
+                        variant="outlined"
+                        color="inherit"
+                        className="small"
+                      >
+                        <RefreshTasksIcon />
+                      </Button>
+                    </Tooltip>
+                  </Box>
+                  <Button
+                    onClick={() => {
+                      setAnchorEl(null);
+                      setIsOpenDrawer(true);
+                    }}
+                    variant="outlined"
+                    sx={styles?.fiterButton(theme)}
+                    className="small"
+                  >
+                    <FilterrIcon /> Filters
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item lg={12} md={12} sm={12} xs={12}>
+                <TanstackTable
+                  columns={getRowValues}
+                  data={filesData?.data?.files ?? []}
+                  currentPage={filesData?.data?.meta?.page}
+                  count={filesData?.data?.meta?.pages}
+                  pageLimit={filesData?.data?.meta?.limit}
+                  totalRecords={filesData?.data?.meta?.total}
+                  setPage={setPage}
+                  setPageLimit={setPageLimit}
+                  onPageChange={(page: any) => setPage(page)}
+                  isPagination
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+      </Grid>
+
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
@@ -318,390 +704,7 @@ const Folders = () => {
               ))}
         </Box>
       </CommonDrawer>
-      <Grid container spacing={2}>
-        <Grid item lg={3} md={4} sm={12} xs={12}>
-          <Box
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
-              padding: '1rem',
-              borderRadius: '8px, 0px, 0px, 8px',
-            }}
-          >
-            <Box sx={{ paddingBottom: '0.5rem' }}>
-              <ArrowBackIcon
-                onClick={() => {
-                  navigate.push({
-                    pathname: Quick_Links_Routes?.DOCUMENT,
-                  });
-                }}
-                sx={{
-                  color: `${theme?.palette?.custom?.light}`,
-                  fontSize: '30px',
-                  cursor: 'pointer',
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Typography
-                variant="h3"
-                sx={{ color: `${theme?.palette?.grey[800]}` }}
-              >
-                Folders
-              </Typography>
-              <Box sx={styles?.actionFilterBox}>
-                <Button
-                  sx={styles?.actionButton(theme)}
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClickSide}
-                  className="small"
-                >
-                  Action
-                  <ArrowDropDownIcon
-                    sx={{ color: `${theme?.palette?.custom?.main}` }}
-                  />
-                </Button>
-                <Menu
-                  anchorEl={anchorElSide}
-                  open={openSide}
-                  onClose={handleCloseSide}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <PermissionsGuard
-                    permissions={[
-                      SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
-                    ]}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorElSide(null);
-                        setIsOpenModal(true);
-                        setActionType('create-sub-folder');
-                        FolderAdd?.setValue('name', '');
-                      }}
-                    >
-                      Create Sub Folder
-                    </MenuItem>
-                  </PermissionsGuard>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorElSide(null);
-                      setIsOpenFolderDrawer(true);
-                    }}
-                  >
-                    Download
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorElSide(null);
-                      setIsOpenFolderDrawer(true);
-                      setMoveChildFolder(true);
-                    }}
-                  >
-                    Move to Folder
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorElSide(null);
-                      setModalHeading('Edit Name');
-                      setIsOpenModal(true);
-                      setActionType('move-folder');
-                      FolderAdd?.setValue('name', selectedFolder?.name);
-                    }}
-                  >
-                    Rename
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorElSide(null);
-                      setIsOpenDelete(true);
-                    }}
-                  >
-                    Delete
-                  </MenuItem>
-                </Menu>
-              </Box>
-            </Box>
-            <Divider
-              sx={{
-                marginY: '10px',
-                border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
-              }}
-            />
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                cursor: 'pointer',
-                background: cardBox?.includes(parentFolderId)
-                  ? `${theme?.palette?.grey[400]}`
-                  : `${theme?.palette?.common?.white}`,
-                borderRadius: '8px',
-                padding: '8px',
-              }}
-              onClick={() => {
-                setCardBox([parentFolderId]);
 
-                setSelectedFolder({
-                  _id: parentFolderId,
-                  name: parentFolderName,
-                });
-                setSelectedFile(null);
-                setSelectedTableRows([]);
-              }}
-            >
-              <FolderBlackIcon />
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: 400, color: `${theme?.palette?.grey[600]}` }}
-              >
-                {parentFolderName}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'grid',
-                justifyItems: 'start',
-                justifyContent: 'space-evenly',
-                paddingTop: '10px',
-              }}
-            >
-              {documentSubData?.map((item: any) => {
-                return (
-                  <>
-                    <Box
-                      onClick={() => {
-                        setCardBox([item?._id]);
-                        setSelectedFolder(item);
-                        setSelectedFile(null);
-                        setSelectedTableRows([]);
-                      }}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                        marginY: '4px',
-                        cursor: 'pointer',
-                        background: cardBox?.includes(item?._id)
-                          ? `${theme?.palette?.grey[400]}`
-                          : `${theme?.palette?.common?.white}`,
-                        borderRadius: '8px',
-                        padding: '8px',
-                      }}
-                      key={uuidv4()}
-                    >
-                      <FolderBlackIcon />
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: 400,
-                          color: `${theme?.palette?.grey[600]}`,
-                        }}
-                      >
-                        {item?.name}
-                      </Typography>
-                    </Box>
-                  </>
-                );
-              })}
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item lg={9} md={8} sm={12} xs={12}>
-          <Box
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
-              borderRadius: '8px, 0px, 0px, 8px',
-              padding: '1rem',
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Typography variant="h5" sx={styles?.documentTitle(theme)}>
-                  Documents
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                lg={6}
-                md={6}
-                sm={6}
-                xs={12}
-                sx={styles?.actionButtonBox}
-              >
-                <PermissionsGuard
-                  permissions={[
-                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
-                  ]}
-                >
-                  <Button
-                    variant="outlined"
-                    className="small"
-                    onClick={() => {
-                      setIsOpenModal(true);
-                    }}
-                    sx={styles?.createFolderButton(theme)}
-                  >
-                    <AddCircle /> Create Folder
-                  </Button>
-                </PermissionsGuard>
-
-                <PermissionsGuard
-                  permissions={[
-                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.UPLOAD_DOCUMENT,
-                  ]}
-                >
-                  <Button
-                    variant="contained"
-                    className="small"
-                    onClick={() => {
-                      setIsImage(true);
-                    }}
-                    sx={styles?.uploadDocumentsButton(theme)}
-                  >
-                    Upload Documents
-                  </Button>
-                </PermissionsGuard>
-              </Grid>
-              <Grid
-                item
-                lg={6}
-                md={6}
-                sm={6}
-                xs={12}
-                sx={styles?.documentTitle(theme)}
-              >
-                <Search
-                  label="Search here"
-                  width="260px"
-                  size="small"
-                  searchBy={searchValue}
-                  setSearchBy={(e: string) => {
-                    setSearchValue(e);
-                  }}
-                />
-              </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Box sx={styles?.actionFilterBox}>
-                  <Button
-                    sx={styles?.actionButton(theme)}
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                    className="small"
-                    disabled={selectedTableRows?.length === 0}
-                  >
-                    Action
-                    <ArrowDropDownIcon
-                      sx={{ color: `${theme?.palette?.custom?.main}` }}
-                    />
-                  </Button>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button',
-                    }}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorEl(null);
-                        setIsLinkOpen(true);
-                      }}
-                    >
-                      Create Link
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorEl(null);
-                        setIsPdfOpen(true);
-                      }}
-                    >
-                      Preview
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorEl(null);
-                        setIsEditOpenModal(true);
-                      }}
-                    >
-                      Download
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorEl(null);
-                        setIsOpenFolderDrawer(true);
-                        setSearchValue('');
-                        setSlectedFolderForMovingData(null);
-                        setMoveChildFolder(false);
-                      }}
-                    >
-                      Move to Folder
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setAnchorEl(null);
-                        setIsOpenFile(true);
-                      }}
-                    >
-                      Delete
-                    </MenuItem>
-                  </Menu>
-                  <Box>
-                    <Tooltip title={'Refresh Filter'}>
-                      <Button
-                        variant="outlined"
-                        color="inherit"
-                        className="small"
-                      >
-                        <RefreshTasksIcon />
-                      </Button>
-                    </Tooltip>
-                  </Box>
-                  <Button
-                    onClick={() => {
-                      setAnchorEl(null);
-                      setIsOpenDrawer(true);
-                    }}
-                    variant="outlined"
-                    sx={styles?.fiterButton(theme)}
-                    className="small"
-                  >
-                    <FilterrIcon /> Filters
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item lg={12} md={12} sm={12} xs={12}>
-                <TanstackTable
-                  columns={getRowValues}
-                  data={filesData?.data?.files ?? []}
-                  currentPage={filesData?.data?.meta?.page}
-                  count={filesData?.data?.meta?.pages}
-                  pageLimit={filesData?.data?.meta?.limit}
-                  totalRecords={filesData?.data?.meta?.total}
-                  setPage={setPage}
-                  setPageLimit={setPageLimit}
-                  onPageChange={(page: any) => setPage(page)}
-                  isPagination
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        </Grid>
-      </Grid>
       <CommonModal
         open={isOpenModal}
         handleCancel={() => {
@@ -751,6 +754,7 @@ const Folders = () => {
           </FormProvider>
         )}
       </CommonModal>
+
       <CommonModal
         open={isLinkOpen}
         handleCancel={() => setIsLinkOpen(false)}
@@ -911,19 +915,18 @@ const Folders = () => {
         handlePdfClose={handlePdfClose}
         selectedFile={selectedFile}
       />
+
       <CommonModal
-        open={isImage}
-        handleCancel={() => setIsImage(false)}
-        handleSubmit={() => {
-          onSubmitImage();
-        }}
+        open={isOpenUploadDocModal}
+        handleCancel={handleCloseUploadDocModal}
+        handleSubmit={handleUploadDocumentSubmit}
         title={'Upload Documents'}
         okText={'Upload'}
         cancelText="Cancel"
         footerFill={false}
         footer={true}
       >
-        <FormProvider methods={addFile}>
+        <FormProvider methods={methodsUploadDocument}>
           <Grid container spacing={4}>
             {dataArrayImage?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>

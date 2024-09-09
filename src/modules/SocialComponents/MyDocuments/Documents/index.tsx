@@ -1,12 +1,13 @@
 import React, { createElement } from 'react';
-
-import Image from 'next/image';
-
 import {
   Box,
   Button,
   Checkbox,
   Grid,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
   Skeleton,
@@ -16,7 +17,6 @@ import {
 
 import { AddCircle } from '@mui/icons-material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
@@ -24,15 +24,12 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
 
 import {
-  AnyRoundIcon,
   FolderIcon,
-  SingleUserBlackIcon,
-  TeamUserIcon,
-  TwoUserBlackIcon,
   FilterrIcon,
   RefreshTasksIcon,
+  TickCirclePrimary,
+  MoveFolderIcon,
 } from '@/assets/icons';
-import { UserRoundImage } from '@/assets/images';
 
 import useDocuments from './useDocuments';
 
@@ -40,7 +37,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
 
 import { styles } from './Documents.style';
-import { dataArray } from './Documents.data';
+import { createFolderData, MODAL_HEADING, filterData } from './Documents.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
@@ -56,225 +53,55 @@ import NoData from '@/components/NoData';
 const Documents = () => {
   const navigate = useRouter();
   const {
-    isLoading,
-    isFetching,
-    isSuccess,
-    searchValue,
-    setSearchValue,
-    isOpenDrawer,
-    setIsOpenDrawer,
-    isOpenModal,
-    setIsOpenModal,
     theme,
-    isOpenFolderDrawer,
-    setIsOpenFolderDrawer,
-    setSelectedFolder,
-    selectedFolder,
-    setActionType,
-    isOpenDelete,
-    setIsOpenDelete,
-    anchorEl,
     open,
+    anchorEl,
     handleClick,
     handleClose,
-    FolderAdd,
-    documentData,
+    getFoldersData,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    selectedFolders,
     handleCheckboxChange,
-    allSelectedFoldersIds,
+    setSearchValue,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+    isOpenModal,
+    handleOpenCreateFolderModal,
+    handleCloseCreateFolderModal,
+    methodsFolder,
+    watchVisibleTo,
+    orgUsersData,
+    orgId,
     modalHeading,
-    setModalHeading,
+    isOpenDelete,
+    setIsOpenDelete,
     deleteUserFolders,
-    selectedItemId,
-    handleBoxClick,
-    MoveToFolder,
+    loadingDelete,
     form,
     getDynamicFieldsStatus,
     handleCreateFolderSubmit,
+    loadingCreateFolder,
+    loadingUpdate,
+    isOpenMoveFolderDrawer,
+    setIsOpenMoveFolderDrawer,
+    setSearchMoveFolder,
+    moveFoldersData,
+    fetchingGetMoveFolders,
+    loadingGetMoveFolders,
+    selectedMoveToFolderId,
+    handleListItemClick,
+    handleSubmitMoveToFolder,
   } = useDocuments();
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isOpenDrawer}
-        onClose={() => {
-          setIsOpenDrawer(false);
-        }}
-        title="Filters"
-        okText="Apply"
-        isOk={true}
-        footer={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <Search
-            label="Search here"
-            sx={{ width: '100%' }}
-            searchBy={searchValue}
-            setSearchBy={(e: string) => {
-              setSearchValue(e);
-            }}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingTop: '1.5rem',
-            }}
-          >
-            <Button
-              variant="outlined"
-              className="medium"
-              sx={styles?.filterUserButton}
-            >
-              <SingleUserBlackIcon /> Me
-            </Button>
-            <Button
-              variant="outlined"
-              className="medium"
-              sx={styles?.filterUserButton}
-            >
-              <TwoUserBlackIcon /> My Team
-            </Button>
-            <Button
-              variant="contained"
-              className="medium"
-              sx={styles?.filterUserAnyButton(theme)}
-            >
-              <AnyRoundIcon /> Any
-            </Button>
-          </Box>
-          <Box sx={{ paddingTop: '1rem' }}>
-            <Typography
-              variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue.main}` }}
-            >
-              Teams
-            </Typography>
-            <Box sx={styles?.teamRow}>
-              <TeamUserIcon />
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 400,
-                  color: `${theme?.palette?.blue.dull_blue}`,
-                }}
-              >
-                AirApple Cart team
-              </Typography>
-            </Box>
-            <Box sx={styles?.teamRow}>
-              <TeamUserIcon />
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 400,
-                  color: `${theme?.palette?.slateBlue?.main}`,
-                }}
-              >
-                Johan Doe
-              </Typography>
-            </Box>
-          </Box>
-          <Box sx={{ paddingTop: '1rem' }}>
-            <Typography
-              variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
-            >
-              Users
-            </Typography>
-            <Box sx={styles?.teamRow}>
-              <Image src={UserRoundImage} alt="No Image" />
-              <Box>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: `${theme?.palette?.slateBlue?.main}`,
-                    fontWeight: 500,
-                  }}
-                >
-                  AirApple Cart team
-                </Typography>
-                <Typography
-                  variant="body3"
-                  sx={{
-                    color: `${theme?.palette?.custom?.main}`,
-                    fontWeight: 500,
-                  }}
-                >
-                  1 document
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 500,
-              color: `${theme?.palette?.slateBlue?.main}`,
-              paddingTop: '1rem',
-            }}
-          >
-            Manage Users and Teams
-          </Typography>
-        </Box>
-      </CommonDrawer>
-      <CommonDrawer
-        isDrawerOpen={isOpenFolderDrawer}
-        onClose={() => {
-          setIsOpenFolderDrawer(false);
-        }}
-        title="Move to folder"
-        okText="Move"
-        submitHandler={MoveToFolder}
-        isOk={true}
-        footer={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <Search
-            label="Search here"
-            sx={{ width: '100%' }}
-            searchBy={searchValue}
-            setSearchBy={setSearchValue}
-          />
-          {documentData?.map((item: any) => {
-            return allSelectedFoldersIds?.find(
-              (val: any) => val == item?._id,
-            ) ? null : (
-              <>
-                <Box
-                  key={item?._id}
-                  sx={styles?.folderRow}
-                  onClick={() => handleBoxClick(item?._id)}
-                >
-                  <Box
-                    sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-                  >
-                    <FolderIcon />
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        fontWeight: 400,
-                        color: `${theme?.palette?.slateBlue?.main}`,
-                      }}
-                    >
-                      {item?.name}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ textAlign: 'end' }}>
-                    {item?._id === selectedItemId && (
-                      <CheckCircleIcon
-                        color="primary"
-                        sx={{ fontSize: '20px' }}
-                      />
-                    )}
-                  </Box>
-                </Box>
-              </>
-            );
-          })}
-        </Box>
-      </CommonDrawer>
       <Grid container spacing={2}>
         <Grid item lg={6} md={6} sm={6} xs={12}>
           <Typography variant="h5" sx={styles?.documentTitle(theme)}>
@@ -291,9 +118,7 @@ const Documents = () => {
               variant="outlined"
               className="small"
               onClick={() => {
-                setIsOpenModal(true);
-                setActionType('create-sub-folder');
-                FolderAdd?.setValue('name', '');
+                handleOpenCreateFolderModal(MODAL_HEADING?.create);
               }}
               sx={styles?.createFolderButton(theme)}
             >
@@ -312,10 +137,7 @@ const Documents = () => {
           <Search
             label="Search here"
             width="260px"
-            searchBy={searchValue}
-            setSearchBy={(e: string) => {
-              setSearchValue(e);
-            }}
+            setSearchBy={setSearchValue}
           />
         </Grid>
         <Grid item lg={6} md={6} sm={6} xs={12}>
@@ -327,7 +149,7 @@ const Documents = () => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               className="small"
-              disabled={allSelectedFoldersIds?.length > 0 ? false : true}
+              disabled={selectedFolders.length === 0}
             >
               Action
               <ArrowDropDownIcon
@@ -359,7 +181,7 @@ const Documents = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    setIsOpenFolderDrawer(true);
+                    setIsOpenMoveFolderDrawer(true);
                   }}
                 >
                   Move To Folder
@@ -374,12 +196,9 @@ const Documents = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    setModalHeading('Edit Name');
-                    setIsOpenModal(true);
-                    setActionType('move-folder');
-                    FolderAdd?.setValue('name', selectedFolder?.name);
+                    handleOpenCreateFolderModal(MODAL_HEADING?.update);
                   }}
-                  disabled={allSelectedFoldersIds?.length > 1}
+                  disabled={selectedFolders?.length > 1}
                 >
                   Rename
                 </MenuItem>
@@ -408,15 +227,18 @@ const Documents = () => {
             >
               <Box>
                 <Tooltip title={'Refresh Filter'}>
-                  <Button variant="outlined" color="inherit" className="small">
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    className="small"
+                    onClick={handleRefresh}
+                  >
                     <RefreshTasksIcon />
                   </Button>
                 </Tooltip>
               </Box>
               <Button
-                onClick={() => {
-                  setIsOpenDrawer(true);
-                }}
+                onClick={handleOpenFilters}
                 variant="outlined"
                 sx={styles?.fiterButton(theme)}
                 className="small"
@@ -444,23 +266,30 @@ const Documents = () => {
                   />
                 </Grid>
               ))}
-
+          {isError && (
+            <Grid item xs={12}>
+              <ApiErrorState />
+            </Grid>
+          )}
           {!(isLoading || isFetching) &&
             isSuccess &&
-            documentData &&
-            (documentData?.length === 0 ? (
-              <NoData />
+            getFoldersData &&
+            (getFoldersData?.data?.length === 0 ? (
+              <Grid item xs={12}>
+                <NoData />
+              </Grid>
             ) : (
-              documentData?.map((item: any) => (
+              getFoldersData?.data?.map((item: any) => (
                 <Grid item lg={3} md={3} sm={6} xs={12} key={item?._id}>
                   <Box
                     sx={{
                       border: `1.16px solid ${theme?.palette?.custom?.pale_gray}`,
                       borderRadius: '11.56px',
                       padding: '0.6rem',
+                      transition: 'all 0.3s ease',
                       '&:hover': {
                         boxShadow: ' 0px 0px 5px 3px #A0E5DB40',
-                        border: 'unset',
+                        borderColor: 'transparent',
                       },
                     }}
                     key={uuidv4()}
@@ -478,10 +307,11 @@ const Documents = () => {
                       </Box>
                       <Box sx={{ zIndex: 999, cursor: 'unset' }}>
                         <Checkbox
-                          checked={allSelectedFoldersIds?.includes(item?._id)}
+                          checked={selectedFolders.some(
+                            (selected: any) => selected._id === item._id,
+                          )}
                           onChange={() => {
-                            handleCheckboxChange(item?._id);
-                            setSelectedFolder(item);
+                            handleCheckboxChange(item);
                           }}
                         />
                       </Box>
@@ -491,9 +321,8 @@ const Documents = () => {
                         sx={{ cursor: 'pointer' }}
                         onClick={() => {
                           navigate.push({
-                            pathname: SOCIAL_FEATURES?.FOLDER_DETAILS,
+                            pathname: `${SOCIAL_FEATURES?.DOCUMENTS}/${item?._id}`,
                             query: {
-                              folder: item?._id,
                               name: item?.name,
                             },
                           });
@@ -559,19 +388,123 @@ const Documents = () => {
             ))}
         </PermissionsGuard>
       </Grid>
+
+      {/* Filter Drawer */}
+      <CommonDrawer
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
+        title="Filters"
+        okText="Apply"
+        isOk={true}
+        footer={true}
+        submitHandler={handleFiltersSubmit}
+      >
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={methodsFilter}>
+            <Grid container spacing={2}>
+              {filterData?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                  ></item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
+
+      <CommonDrawer
+        isDrawerOpen={isOpenMoveFolderDrawer}
+        onClose={() => {
+          setIsOpenMoveFolderDrawer(false);
+        }}
+        title="Move to folder"
+        okText="Move"
+        submitHandler={handleSubmitMoveToFolder}
+        isOk={true}
+        footer={true}
+        isLoading={loadingUpdate}
+      >
+        <Box sx={{ paddingTop: '1rem' }}>
+          <Search
+            label="Search here"
+            setSearchBy={setSearchMoveFolder}
+            size="small"
+            sx={{ width: '100%' }}
+          />
+          <List component="nav" sx={{ padding: '12px 0' }}>
+            {fetchingGetMoveFolders || loadingGetMoveFolders
+              ? Array(6)
+                  .fill(null)
+                  .map(() => (
+                    <Box sx={{ mt: '12px' }} key={uuidv4()}>
+                      <Skeleton
+                        animation="wave"
+                        variant="rectangular"
+                        width={'100%'}
+                        height={52}
+                        sx={styles?.skeleton}
+                      />
+                    </Box>
+                  ))
+              : moveFoldersData?.map((item: any) => (
+                  <ListItemButton
+                    key={item?._id}
+                    selected={selectedMoveToFolderId === item?._id}
+                    onClick={(event) => handleListItemClick(event, item?._id)}
+                    sx={{
+                      mt: '12px',
+                      p: '14px 20px',
+                      '&:hover': {
+                        backgroundColor: `${theme?.palette?.grey[100]}`,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: `${theme?.palette?.grey[100]}`,
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ mr: '6px' }}>
+                      <MoveFolderIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item?.name}
+                      sx={{
+                        '& .MuiListItemText-primary': {
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          color: `${theme?.palette?.blue?.dull_blue}`,
+                        },
+                      }}
+                    />
+                    {selectedMoveToFolderId === item?._id && (
+                      <TickCirclePrimary />
+                    )}
+                  </ListItemButton>
+                ))}
+          </List>
+        </Box>
+      </CommonDrawer>
+
+      {/* Create Folder Modal */}
       <CommonModal
         open={isOpenModal}
-        handleCancel={() => {
-          setIsOpenModal(false);
-          setActionType('');
-          setModalHeading('');
-        }}
+        handleCancel={handleCloseCreateFolderModal}
         handleSubmit={handleCreateFolderSubmit}
-        title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
-        okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
+        title={modalHeading}
+        okText={
+          modalHeading === MODAL_HEADING?.update ? 'Update' : 'Create Folder'
+        }
         cancelText="Cancel"
         footerFill={false}
         footer={true}
+        isLoading={loadingCreateFolder || loadingUpdate}
       >
         {getDynamicFieldsStatus?.isLoading ||
         getDynamicFieldsStatus?.isFetching ? (
@@ -579,10 +512,20 @@ const Documents = () => {
         ) : getDynamicFieldsStatus?.isError ? (
           <ApiErrorState />
         ) : (
-          <FormProvider methods={FolderAdd}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+          <FormProvider methods={methodsFolder}>
+            <Grid container spacing={2}>
+              {createFolderData(
+                watchVisibleTo,
+                orgUsersData,
+                orgId,
+                modalHeading,
+              )?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component
                     {...item.componentProps}
                     size={'small'}
@@ -608,12 +551,15 @@ const Documents = () => {
           </FormProvider>
         )}
       </CommonModal>
+
+      {/* Delete Folder Modal */}
       <AlertModals
         message={'Are you sure you want to delete this folder?'}
         type={'delete'}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
         handleSubmitBtn={deleteUserFolders}
+        loading={loadingDelete}
       />
     </>
   );

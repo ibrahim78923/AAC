@@ -143,7 +143,7 @@ export const dataArrayImage = [
     componentProps: {
       name: 'file',
       fullWidth: true,
-      select: false,
+      required: true,
     },
     component: RHFDropZone,
     md: 12,

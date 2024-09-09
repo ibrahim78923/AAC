@@ -283,7 +283,7 @@ export const AUTH = {
 
 export const Quick_Links_Routes = {
   CALLING: '/social-components/calling',
-  DOCUMENT: '/social-components/my-documents',
+  DOCUMENT: '/social-components/documents',
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',

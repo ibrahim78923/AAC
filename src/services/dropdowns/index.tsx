@@ -22,6 +22,9 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
       query: ({ params }) => ({
         url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.id}/users`,
         method: 'GET',
+        params: {
+          search: params?.search,
+        },
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;

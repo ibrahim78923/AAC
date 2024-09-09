@@ -11,33 +11,25 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['MyDocuments'],
     }),
+
     postDocumentFiles: builder.mutation({
-      query: (body) => {
-        const formData = new FormData();
-        formData.append('file', body?.file);
-        formData.append('folderId', body?.folderId);
-        return {
-          url: `${COMMON_DOCUMENTS.POST_DOCUMENTS_FILE}`,
-          method: 'POST',
-          body: formData,
-          formData: true,
-        };
-      },
+      query: ({ body }: any) => ({
+        url: `${COMMON_DOCUMENTS.POST_DOCUMENTS_FILE}`,
+        method: 'POST',
+        body: body,
+      }),
       invalidatesTags: ['MyDocuments'],
     }),
+
     getDocumentFolder: builder.query({
-      query: ({
-        organizationId = '',
-        parentFolderId = '',
-        page = 1,
-        limit = 10,
-        search = '',
-      }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${page}&limit=${limit}&organizationId=${organizationId}&parentFolderId=${parentFolderId}&search=${search}`,
+      query: ({ params }) => ({
+        url: COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['MyDocuments'],
     }),
+
     getDocumentFile: builder.query({
       query: ({ folderId = '', page = 1, limit = 10, search = '' }: any) => ({
         url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FILE}?page=${page}&limit=${limit}&folderId=${folderId}&search=${search}`,
@@ -54,7 +46,7 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['MyDocuments'],
     }),
     updateFolder: builder.mutation({
-      query: ({ id = '', body }: any) => ({
+      query: ({ id, body }: any) => ({
         url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FOLDER_ID}/${id}`,
         method: 'PATCH',
         body: body,

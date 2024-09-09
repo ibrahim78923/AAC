@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteFilesMutation,
@@ -11,7 +10,7 @@ import {
   useUpdateFileMutation,
   useUpdateFolderMutation,
 } from '@/services/commonFeatures/documents';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import {
   ImageUploadSchema,
@@ -36,9 +35,16 @@ import {
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 
 const useFolder: any = () => {
-  const router = useRouter();
-  const { user }: any = useAuth();
   const theme = useTheme<Theme>();
+  const { user }: any = useAuth();
+  const router = useRouter();
+  const { name, folderId } = router?.query;
+  const [parentFolderId, setParentFolderId] = useState<string>(() => {
+    if (Array.isArray(folderId)) {
+      return folderId[0] || '';
+    }
+    return folderId || '';
+  });
   const [searchValue, setSearchValue] = useState('');
   const [modalHeading, setModalHeading] = useState('');
   const [cardBox, setCardBox] = useState<string[]>([]);
@@ -53,14 +59,12 @@ const useFolder: any = () => {
   const [anchorElSide, setAnchorElSide] = useState<null | HTMLElement>(null);
   const [isLinkOpen, setIsLinkOpen] = useState(false);
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
-  const [isImage, setIsImage] = useState(false);
   const [selectedTableRows, setSelectedTableRows] = useState<any>([]);
   const [isChecked, setIsChecked] = useState(false);
   const [isOpenFile, setIsOpenFile] = useState(false);
   const [actionType, setActionType] = useState('');
   const [slectedFolderForMovingData, setSlectedFolderForMovingData] =
     useState<null | Record<string, any>>(null);
-  const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [selectedFile, setSelectedFile] = useState<null | Record<string, any>>(
     null,
   );
@@ -76,9 +80,8 @@ const useFolder: any = () => {
   const [deleteFiles] = useDeleteFilesMutation();
   const openSide = Boolean(anchorElSide);
 
-  const searchParams = useSearchParams();
-  const parentFolderId: any = searchParams?.get('folder');
-  const parentFolderName: any = searchParams?.get('name');
+  // const searchParams = useSearchParams();
+  const parentFolderName = name;
   const permissionParams = {
     page: page,
     limit: pageLimit,
@@ -86,10 +89,30 @@ const useFolder: any = () => {
     folderId: selectedFolder ? selectedFolder._id : parentFolderId,
   };
 
-  const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({
-      parentFolderId,
+  // Get Subfolders
+  const {
+    data: dataSubfolders,
+    isLoading: isLoadingSubfolders,
+    isFetching: isFetchingSubfolders,
+  } = useGetDocumentFolderQuery({
+    params: {
+      meta: false,
+      parentFolderId: folderId,
+    },
+  });
+
+  const [selectedFolderId, setSelectedFolderId] = useState('');
+  useEffect(() => {
+    setSelectedFolderId(() => {
+      if (Array.isArray(folderId)) {
+        return folderId[0] || '';
+      }
+      return folderId || '';
     });
+  }, []);
+  const handleChangeSelectedFolder = (id: string) => {
+    setSelectedFolderId(id);
+  };
 
   const { data: documentParentsData } = useGetDocumentFolderQuery({
     ...(searchValue && { search: searchValue }),
@@ -100,31 +123,48 @@ const useFolder: any = () => {
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
 
-  const addFile = useForm({
+  const [isOpenUploadDocModal, setIsOpenUploadDocModal] = useState(false);
+  const methodsUploadDocument = useForm({
     resolver: yupResolver(ImageUploadSchema),
     defaultValues: defaultValuesImage,
   });
 
-  const { watch: watchFile, reset: resetImage } = addFile;
+  const { handleSubmit: submitUploadDocument, reset: resetUploadDocument } =
+    methodsUploadDocument;
 
-  const onSubmitImage = async () => {
-    const file = watchFile('file');
-    const body = {
-      folderId: selectedFolder ? selectedFolder?._id : parentFolderId,
-      file: file,
-    };
+  const handleOpenUploadDocModal = () => {
+    setIsOpenUploadDocModal(true);
+  };
+  const handleCloseUploadDocModal = () => {
+    resetUploadDocument();
+    setIsOpenUploadDocModal(false);
+  };
+
+  const onSubmitUploadDocument = async (values: any) => {
+    // console.log('values', values);
+    const formData = new FormData();
+    formData.append('file', values?.file);
+    //     formData.append('folderId', body?.folderId);
+    // const file = watchFile('file');
+    // const body = {
+    //   folderId: selectedFolder ? selectedFolder?._id : parentFolderId,
+    //   file: file,
+    // };
     try {
-      await postDocumentFiles(body).unwrap();
+      await postDocumentFiles(formData).unwrap();
 
       enqueueSnackbar('Document Upload Successfully', {
         variant: 'success',
       });
-      resetImage(defaultValuesImage);
-      setIsImage(false);
+      // resetImage(defaultValuesImage);
+      // setIsImage(false);
     } catch (error: any) {
       enqueueSnackbar(error?.message, { variant: 'error' });
     }
   };
+  const handleUploadDocumentSubmit = submitUploadDocument(
+    onSubmitUploadDocument,
+  );
 
   const deleteUserFolders = async () => {
     try {
@@ -331,17 +371,16 @@ const useFolder: any = () => {
   );
 
   return {
-    documentSubData: data?.data,
+    router,
+    isFetchingSubfolders,
+    isLoadingSubfolders,
+    dataSubfolders,
     filesData: filesData || [],
     getRowValues,
     setSelectedTableRows,
     setIsChecked,
     isChecked,
     selectedTableRows,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
     open,
     openSide,
     handleCloseSide,
@@ -385,10 +424,11 @@ const useFolder: any = () => {
     setSelectedFolder,
     selectedFolder,
     deleteUserFolders,
-    setIsImage,
-    isImage,
-    onSubmitImage,
-    addFile,
+    isOpenUploadDocModal,
+    handleOpenUploadDocModal,
+    handleCloseUploadDocModal,
+    handleUploadDocumentSubmit,
+    methodsUploadDocument,
     deleteUserFiles,
     isOpenFile,
     setIsOpenFile,
@@ -402,7 +442,6 @@ const useFolder: any = () => {
     pageLimit,
     setPage,
     page,
-    router,
     moveChildFolder,
     setMoveChildFolder,
     documentParentsData,
@@ -411,6 +450,8 @@ const useFolder: any = () => {
     form,
     getDynamicFieldsStatus,
     handleCreateFolderSubmit,
+    setParentFolderId,
+    handleChangeSelectedFolder,
   };
 };
 

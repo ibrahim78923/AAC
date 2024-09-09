@@ -1,10 +1,10 @@
 import React from 'react';
 import Layout from '@/layout';
-import MyDocuments from '@/modules/SocialComponents/MyDocuments';
+import Documents from '@/modules/SocialComponents/MyDocuments/Documents';
 import { Permissions } from '@/constants/permissions';
 
 const AirMarketerDocumentPage = () => {
-  return <MyDocuments />;
+  return <Documents />;
 };
 
 export default AirMarketerDocumentPage;
