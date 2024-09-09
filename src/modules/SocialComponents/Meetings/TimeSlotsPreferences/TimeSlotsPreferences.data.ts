@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { bufferTime } from './DateOverrides/DateOverrides.data';
+import { timeFormatter } from '@/utils/api';
 
 const timeSlotsWeeklyDataArray = [
   'Sunday',
@@ -60,8 +61,8 @@ export const timeSlotsDefaultValues = (timeSlotsData: any) => {
         timeSlotsData?.daysTimeRanges
           ?.find((item: any) => item?.days === day)
           ?.timeRanges?.map((slot: any) => ({
-            startHour: new Date(slot?.startHour),
-            endHour: new Date(slot?.endHour),
+            startHour: new Date(timeFormatter(slot?.startHour)),
+            endHour: new Date(timeFormatter(slot?.endHour)),
           })) ?? [],
     })),
     bufferTime: {

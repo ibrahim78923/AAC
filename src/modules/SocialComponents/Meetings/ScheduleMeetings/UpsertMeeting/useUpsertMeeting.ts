@@ -268,6 +268,7 @@ export const useUpsertMeeting = () => {
     meetingId,
     meetingData,
     refetch,
+    reset,
   };
   return {
     methods,

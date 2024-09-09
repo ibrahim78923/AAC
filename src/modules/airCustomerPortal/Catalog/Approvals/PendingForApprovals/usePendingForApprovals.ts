@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 export const usePendingForApprovals = () => {
   const router = useRouter();
+  const companyId = router?.query?.companyId;
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
   const setApproval = (approval: any) => {
@@ -31,6 +32,7 @@ export const usePendingForApprovals = () => {
       query: {
         approvalId: data?._id,
         ticketId: data?.ticketId,
+        ...(!!companyId && { companyId }),
       },
     });
   };

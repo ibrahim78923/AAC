@@ -7,6 +7,7 @@ import { AllApprovalsPropsI, ApprovalsDataI } from './AllApprovals.interface';
 export const useAllApprovals = (props: AllApprovalsPropsI) => {
   const { approvalStatus } = props;
   const router: NextRouter = useRouter();
+  const companyId = router?.query?.companyId;
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
 
@@ -34,6 +35,7 @@ export const useAllApprovals = (props: AllApprovalsPropsI) => {
       query: {
         approvalId: data?._id,
         ticketId: data?.ticketId,
+        ...(!!companyId && { companyId }),
       },
     });
   };

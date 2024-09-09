@@ -52,7 +52,7 @@ const useCatalog = () => {
       query: {
         serviceId: id,
         categoryId: serviceCategory,
-        ...(companyId && { companyId: companyId }),
+        ...(!!companyId && { companyId }),
       },
     });
   };

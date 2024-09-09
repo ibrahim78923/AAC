@@ -14,7 +14,10 @@ const Approvals = () => {
         title="Approvals"
         canMovedBack
         moveBack={() => {
-          router.push(AIR_CUSTOMER_PORTAL?.CUSTOMER_PORTAL_DASHBOARD);
+          router?.push({
+            pathname: AIR_CUSTOMER_PORTAL?.CUSTOMER_PORTAL_DASHBOARD,
+            query: { ...router?.query },
+          });
         }}
       />
       <PermissionsTabs spacing={0.3} tabsDataArray={catalogApprovalsTabsData} />

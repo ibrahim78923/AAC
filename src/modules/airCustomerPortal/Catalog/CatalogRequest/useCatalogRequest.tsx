@@ -25,6 +25,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;
   const router: NextRouter = useRouter();
   const { serviceId } = router?.query;
+  const companyId = router?.query?.companyId;
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const categoryType = servicesDetails?.data?.serviceType;
@@ -66,6 +67,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
       handleClose?.();
       router?.push({
         pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
+        query: { ...(!!companyId && { companyId }) },
       });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

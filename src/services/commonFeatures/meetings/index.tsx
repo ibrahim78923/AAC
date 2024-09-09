@@ -4,6 +4,7 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 const TAGS = 'TIME_SLOTS';
 const MEETINGS_TAG = 'MEETINGS';
 const LOCATION_TAG = 'MEETINGS_LOCATIONS';
+const DROPDOWN_TAG = 'ALL_USERS_AND_CONTACTS';
 export const meetingApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getTimeSlots: builder?.query({
@@ -131,15 +132,16 @@ export const meetingApi = baseAPI?.injectEndpoints({
       },
       providesTags: [MEETINGS_TAG],
     }),
-    getUsersDropdownList: builder?.query({
+    getAllUsersAndContactsDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        url: `${END_POINTS?.ALL_USERS_CONTACTS}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
+      providesTags: [DROPDOWN_TAG],
     }),
     getMeetingsEmailTemplates: builder?.query({
       query: (params: any) => ({
@@ -190,7 +192,7 @@ export const {
   useGetMeetingsSlotsListQuery,
   useLazyGetMeetingsSlotsListQuery,
   useLazyGetMeetingsCalenderListQuery,
-  useLazyGetUsersDropdownListQuery,
+  useLazyGetAllUsersAndContactsDropdownQuery,
   useLazyGetBookedMeetingsSlotsListQuery,
   useGetMeetingsEmailTemplatesQuery,
   useGetByIdMeetingsEmailTemplatesQuery,

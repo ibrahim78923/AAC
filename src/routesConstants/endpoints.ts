@@ -508,6 +508,7 @@ export const END_POINTS = {
   PATCH_CUSTOMER_PORTAL_PERMISSIONS:
     '/org-company-account/update-customer-portal-permissions',
   CUSTOMER_PORTAL_PUBLIC_PERMISSIONS: '/org-company-account/public',
+  ALL_USERS_CONTACTS: '/dropdown/all-company-users-and-contacts',
   CUSTOMER_PORTAL_STYLINGS:
     '/org-company-account/update-customer-portal-STYLING',
 };

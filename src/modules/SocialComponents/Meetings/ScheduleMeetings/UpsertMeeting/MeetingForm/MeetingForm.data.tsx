@@ -57,6 +57,7 @@ export const meetingFormFields = (props: any) => {
   const startHour = watch('startTime');
   const watchAllowAttendee = watch('allowAttendee');
   const OTHER_SETTINGS = 'Other Settings';
+  const today = dayjs();
 
   return [
     {
@@ -119,6 +120,12 @@ export const meetingFormFields = (props: any) => {
         required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
+        shouldDisableTime: (time: any) => {
+          if (dayjs(watchFrom && watchTo)?.isSame(today, 'day')) {
+            return dayjs(time)?.isBefore(today, 'minute');
+          }
+          return false;
+        },
       },
       component: RHFTimePicker,
     },

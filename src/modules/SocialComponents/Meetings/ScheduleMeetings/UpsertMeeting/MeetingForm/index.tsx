@@ -75,8 +75,8 @@ export const MeetingForm = (props: any) => {
           }
         >
           {meetingId
-            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-            : GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+            ? `${GENERIC_UPSERT_FORM_CONSTANT?.UPDATE}/ Next`
+            : `${GENERIC_UPSERT_FORM_CONSTANT?.SAVE}/ Next`}
         </LoadingButton>
       </DialogActions>
       <Divider />

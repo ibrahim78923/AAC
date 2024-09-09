@@ -94,9 +94,7 @@ const TimeSlotsWeekly = (props: any) => {
                 {dayField?.timeRanges?.length ? (
                   dayField?.timeRanges?.map((time: any) => (
                     <Typography key={time?._id}>
-                      {`${dayjs(time?.startHour)?.format(
-                        TIME_FORMAT?.TH,
-                      )} - ${dayjs(time?.endHour)?.format(TIME_FORMAT?.TH)}`}
+                      {`${time?.startHour} - ${time?.endHour}`}
                     </Typography>
                   ))
                 ) : (
