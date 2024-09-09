@@ -6,23 +6,38 @@ import {
   moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
 import {
-  useLazyGetFoldersDropdownQuery,
+  useLazyGetFoldersDropdownForMoveArticlesQuery,
   usePatchArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { MoveFolderFormFieldsI } from './MoveFolder.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedArticlesList,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/knowledge-base/slice';
+import useAuth from '@/hooks/useAuth';
 
-export const useMoveFolder = (props: ArticlesPortalComponentPropsI) => {
-  const { selectedArticlesData, setSelectedArticlesData, setIsPortalOpen } =
-    props;
+export const useMoveFolder = () => {
+  const auth: any = useAuth();
+  const { _id: companyId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const { _id: userId } = auth?.user;
+  const { _id: organizationId } = auth?.user?.organization;
 
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.isPortalOpen,
+  );
+  const selectedArticlesList = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.selectedArticlesList,
+  );
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(moveFolderValidationSchema),
-    defaultValues: moveFolderDefaultValues?.(selectedArticlesData),
+    defaultValues: moveFolderDefaultValues?.(selectedArticlesList),
   });
 
   const { reset, handleSubmit } = methods;
@@ -30,7 +45,7 @@ export const useMoveFolder = (props: ArticlesPortalComponentPropsI) => {
   const submitMoveFolder = async (data: MoveFolderFormFieldsI) => {
     const upsertArticle = new FormData();
     upsertArticle?.append('folder', data?.moveTo?._id);
-    upsertArticle?.append('id', selectedArticlesData?.[ARRAY_INDEX?.ZERO]?._id);
+    upsertArticle?.append('id', selectedArticlesList?.[ARRAY_INDEX?.ZERO]?._id);
     const patchArticleParameter = {
       body: upsertArticle,
     };
@@ -45,12 +60,20 @@ export const useMoveFolder = (props: ArticlesPortalComponentPropsI) => {
 
   const closeMoveFolderModal = () => {
     reset?.();
-    setIsPortalOpen?.({});
-    setSelectedArticlesData?.([]);
+    dispatch(setIsPortalClose());
+    dispatch(emptySelectedArticlesList());
+  };
+  const apiExternalParamsForMoveFolder = {
+    userId,
+    companyId,
+    organizationId,
   };
 
-  const apiQueryFolder = useLazyGetFoldersDropdownQuery();
-  const moveFolderFormFields = moveFolderFormFieldsDynamic(apiQueryFolder);
+  const apiQueryFolder = useLazyGetFoldersDropdownForMoveArticlesQuery();
+  const moveFolderFormFields = moveFolderFormFieldsDynamic(
+    apiQueryFolder,
+    apiExternalParamsForMoveFolder,
+  );
 
   return {
     methods,
@@ -59,5 +82,6 @@ export const useMoveFolder = (props: ArticlesPortalComponentPropsI) => {
     handleSubmit,
     closeMoveFolderModal,
     moveFolderFormFields,
+    isPortalOpen,
   };
 };

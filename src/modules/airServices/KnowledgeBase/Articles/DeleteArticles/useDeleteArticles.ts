@@ -3,30 +3,40 @@ import { AIR_SERVICES } from '@/constants';
 import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { ArticlesPortalComponentPropsI } from '../Articles.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedArticlesList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airServices/knowledge-base/slice';
+import { useGetArticlesApi } from '../../KnowlegdeBaseHooks/useGetArticlesApi';
 
-export const useDeleteArticles = (
-  props: ArticlesPortalComponentPropsI | any,
-) => {
-  const {
-    setIsPortalOpen,
-    selectedArticlesData,
-    setSelectedArticlesData,
-    setPage,
-    moveBack = false,
-    getValueArticlesListData,
-    totalRecords,
-    page,
-  } = props;
+export const useDeleteArticles = () => {
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.isPortalOpen,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.totalRecords,
+  );
+
+  const selectedArticlesList = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.selectedArticlesList,
+  );
+
+  const { getArticlesListData, page } = useGetArticlesApi?.();
 
   const [deleteArticleTrigger, deleteArticleStatus] =
     useDeleteArticleMutation();
   const router = useRouter();
+  const isMoveBack = !!router?.query?.articleId;
 
   const deleteArticles = async () => {
     const deleteParams = new URLSearchParams();
 
-    selectedArticlesData?.forEach(
+    selectedArticlesList?.forEach(
       (article: { _id: string }) => deleteParams?.append('ids', article?._id),
     );
 
@@ -36,22 +46,22 @@ export const useDeleteArticles = (
     try {
       await deleteArticleTrigger(deleteArticlesParameter)?.unwrap();
       successSnackbar('Article deleted successfully');
-      setSelectedArticlesData?.([]);
+      dispatch(emptySelectedArticlesList());
       closeArticleDeleteModal?.();
       const newPage =
-        selectedArticlesData?.length === totalRecords
+        selectedArticlesList?.length === totalRecords
           ? PAGINATION?.CURRENT_PAGE
           : page;
-      setPage?.(newPage);
-      await getValueArticlesListData?.(newPage);
-      moveBack && moveToArticleList?.();
+      dispatch(setPage(newPage));
+      await getArticlesListData?.(newPage);
+      isMoveBack && moveToArticleList?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeArticleDeleteModal = () => {
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
   const moveToArticleList = () => {
@@ -62,5 +72,6 @@ export const useDeleteArticles = (
     deleteArticles,
     closeArticleDeleteModal,
     deleteArticleStatus,
+    isPortalOpen,
   };
 };

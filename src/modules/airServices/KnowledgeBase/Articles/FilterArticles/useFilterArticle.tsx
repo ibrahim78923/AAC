@@ -6,15 +6,25 @@ import {
 import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
-import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 import { FilterArticlesFormFieldsI } from './FilterArticles.interface';
+import {
+  emptyFilterArticlesList,
+  setFilterArticlesList,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/knowledge-base/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 
-export const useFilterArticles = (props: ArticlesPortalComponentPropsI) => {
-  const { setIsPortalOpen, filterValues, setFilterValues, setPage } = props;
-
+export const useFilterArticles = () => {
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.isPortalOpen,
+  );
+  const filterArticlesList = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.filterArticlesList,
+  );
   const methods: UseFormReturn<FilterArticlesFormFieldsI> =
     useForm<FilterArticlesFormFieldsI>({
-      defaultValues: filterArticlesDataDefaultValues?.(filterValues),
+      defaultValues: filterArticlesDataDefaultValues?.(filterArticlesList),
     });
 
   const { handleSubmit, reset } = methods;
@@ -23,27 +33,31 @@ export const useFilterArticles = (props: ArticlesPortalComponentPropsI) => {
     const articleFilter = filteredEmptyValues(data);
 
     if (!Object?.keys(articleFilter || {})?.length) {
-      setFilterValues({});
+      dispatch(emptyFilterArticlesList());
       reset();
       onClose();
       return;
     }
 
-    setPage(PAGINATION?.CURRENT_PAGE);
-    setFilterValues(articleFilter);
+    dispatch(
+      setFilterArticlesList<any>({
+        filterValues: articleFilter,
+        page: PAGINATION?.CURRENT_PAGE,
+      }),
+    );
     onClose();
   };
 
   const resetArticleFilterForm = async () => {
-    if (!!Object?.keys(filterValues)?.length) {
-      setFilterValues({});
+    if (!!Object?.keys(filterArticlesList)?.length) {
+      dispatch(emptyFilterArticlesList());
     }
     reset();
     onClose();
   };
 
   const onClose = () => {
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
   const apiQueryAuthor = useLazyGetUsersDropdownListForAuthorsQuery();
@@ -53,11 +67,11 @@ export const useFilterArticles = (props: ArticlesPortalComponentPropsI) => {
 
   return {
     submitHandler,
-    setIsPortalOpen,
     methods,
     resetArticleFilterForm,
     onClose,
     handleSubmit,
     filterArticlesFormFields,
+    isPortalOpen,
   };
 };

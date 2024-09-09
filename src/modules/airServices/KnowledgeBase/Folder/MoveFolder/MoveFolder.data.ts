@@ -17,7 +17,10 @@ export const moveFolderDefaultValues = (
   };
 };
 
-export const moveFolderFormFieldsDynamic = (apiQueryFolder: any) => [
+export const moveFolderFormFieldsDynamic = (
+  apiQueryFolder: any,
+  apiExternalParamsForMoveFolder: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -37,6 +40,7 @@ export const moveFolderFormFieldsDynamic = (apiQueryFolder: any) => [
       fullWidth: true,
       required: true,
       apiQuery: apiQueryFolder,
+      externalParams: apiExternalParamsForMoveFolder,
       placeholder: 'Select folder',
     },
     component: RHFAutocompleteAsync,

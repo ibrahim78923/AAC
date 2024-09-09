@@ -42,9 +42,10 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       }),
     }),
     getArticlesFoldersForFilter: builder?.query({
-      query: () => ({
+      query: (apiDataParameter: any) => ({
         url: END_POINTS?.ARTICLES_FOLDERS,
         method: 'GET',
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -119,6 +120,16 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getFoldersDropdownForMoveArticles: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.ARTICLES_FOLDERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -133,9 +144,11 @@ export const {
   useLazyGetFoldersDropdownQuery,
   useLazyGetUsersDropdownQuery,
   useGetArticlesFoldersForFilterQuery,
+  useLazyGetArticlesFoldersForFilterQuery,
   useLazyGetUsersDropdownListForArticlesApprovalsQuery,
   useLazyGetUsersDropdownListForAuthorsQuery,
   useDeleteFolderForArticleMutation,
   useUpdateFolderForArticlesMutation,
   useGetSingleFolderByIdQuery,
+  useLazyGetFoldersDropdownForMoveArticlesQuery,
 } = articlesAPI;

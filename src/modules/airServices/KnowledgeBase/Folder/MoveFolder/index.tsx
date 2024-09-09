@@ -11,11 +11,9 @@ import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useMoveFolder } from './useMoveFolder';
 import CloseIcon from '@mui/icons-material/Close';
-import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const MoveFolder = () => {
   const {
     methods,
     submitMoveFolder,
@@ -23,12 +21,13 @@ export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
     handleSubmit,
     closeMoveFolderModal,
     moveFolderFormFields,
-  } = useMoveFolder(props);
+    isPortalOpen,
+  } = useMoveFolder();
 
   return (
     <Dialog
-      open={isPortalOpen?.isMoveFolder as boolean}
-      onClose={() => closeMoveFolderModal()}
+      open={isPortalOpen?.isOpen as boolean}
+      onClose={closeMoveFolderModal}
       maxWidth={'sm'}
       fullWidth
     >
@@ -46,18 +45,15 @@ export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
           </Typography>
           <CloseIcon
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => closeMoveFolderModal?.()}
+            onClick={closeMoveFolderModal}
           />
         </Box>
       </DialogTitle>
       <DialogContent>
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(submitMoveFolder)}
-        >
+        <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {moveFolderFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={item?.md} key={item?._id}>
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
@@ -68,7 +64,7 @@ export const MoveFolder = (props: ArticlesPortalComponentPropsI) => {
         <LoadingButton
           variant="outlined"
           color="secondary"
-          onClick={() => closeMoveFolderModal()}
+          onClick={closeMoveFolderModal}
           type="button"
           disabled={patchArticleStatus?.isLoading}
         >

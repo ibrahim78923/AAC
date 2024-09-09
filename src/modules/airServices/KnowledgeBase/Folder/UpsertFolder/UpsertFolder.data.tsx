@@ -3,6 +3,22 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { UpsertFolderFormDefaultValuesI } from './UpsertFolder.interface';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
+export const FOLDER_ACTIONS_CONSTANT = {
+  ADD_FOLDER: 'add-folder',
+  EDIT_FOLDER: 'edit-folder',
+};
+
+export const SET_DRAWER_CONSTANTS = {
+  [FOLDER_ACTIONS_CONSTANT?.EDIT_FOLDER]: {
+    title: 'Edit Folder',
+    buttonText: 'Update',
+  },
+  [FOLDER_ACTIONS_CONSTANT?.ADD_FOLDER]: {
+    title: 'Add Folder',
+    buttonText: 'Create',
+  },
+};
+
 export const FOLDER_VISIBILITY = {
   ALL: 'ALL',
   ONLY_ME: 'ONLY_ME',

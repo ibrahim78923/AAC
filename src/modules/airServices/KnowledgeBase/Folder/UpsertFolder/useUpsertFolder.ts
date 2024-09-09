@@ -1,25 +1,37 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   usePostFolderMutation,
   useUpdateFolderForArticlesMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
+  FOLDER_ACTIONS_CONSTANT,
   upsertFolderFormDefaultValues,
   upsertFolderValidationSchema,
 } from './UpsertFolder.data';
-import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 import { UpsertFolderFormFieldsI } from './UpsertFolder.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/knowledge-base/slice';
 
-export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
-  const { setIsPortalOpen, isPortalOpen, getFolderListData } = props;
+export const useUpsertFolder = () => {
+  const selectedFolder = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.selectedFolder,
+  );
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.isPortalOpen,
+  );
+
+  const setEditDefaultValues =
+    isPortalOpen?.action === FOLDER_ACTIONS_CONSTANT?.EDIT_FOLDER
+      ? selectedFolder
+      : undefined;
 
   const methods: UseFormReturn<UpsertFolderFormFieldsI> =
     useForm<UpsertFolderFormFieldsI>({
       resolver: yupResolver(upsertFolderValidationSchema),
-      defaultValues: upsertFolderFormDefaultValues?.(isPortalOpen?.data),
+      defaultValues: upsertFolderFormDefaultValues?.(setEditDefaultValues),
     });
 
   const { handleSubmit, reset } = methods;
@@ -35,7 +47,7 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
     };
     const apiDataParameter = { body };
 
-    if (!!isPortalOpen?.data?._id) {
+    if (isPortalOpen?.action === FOLDER_ACTIONS_CONSTANT?.EDIT_FOLDER) {
       submitUpdateFolder(body);
       return;
     }
@@ -44,7 +56,6 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
       await postFolderTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Folder created successfully!');
       closePortal?.();
-      await getFolderListData?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
@@ -52,7 +63,7 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
 
   const submitUpdateFolder = async (body: UpsertFolderFormFieldsI) => {
     const queryParams = {
-      id: isPortalOpen?.data?._id,
+      id: selectedFolder?._id,
     };
 
     const apiDataParameter = { body, queryParams };
@@ -61,15 +72,14 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
       await updateFolderForArticlesTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Folder updated successfully!');
       closePortal?.();
-      await getFolderListData?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
   };
 
   const closePortal = () => {
-    setIsPortalOpen({});
     reset();
+    dispatch(setIsPortalClose());
   };
 
   return {
@@ -79,5 +89,7 @@ export const useUpsertFolder = (props: ArticlesPortalComponentPropsI) => {
     postFolderStatus,
     closePortal,
     updateFolderForArticlesStatus,
+    isPortalOpen,
+    selectedFolder,
   };
 };

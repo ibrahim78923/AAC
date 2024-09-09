@@ -15,6 +15,7 @@ import forecastSlice from './slices/forecast/forecastSlice';
 import genericReportSlice from './slices/genericReport/genericReportSlice';
 import salesWorkflowSlice from './slices/salesWorkflow';
 import servicesWorkflowSlice from './slices/servicesWorkflow';
+import { servicesKnowledgeBaseSlice } from './slices/airServices';
 import servicesTicketsSlice from './slices/airServices/tickets/slice';
 
 const store = configureStore({
@@ -34,6 +35,7 @@ const store = configureStore({
     genericReport: genericReportSlice,
     salesWorkflow: salesWorkflowSlice,
     servicesWorkflow: servicesWorkflowSlice,
+    servicesKnowledgeBase: servicesKnowledgeBaseSlice,
     servicesTickets: servicesTicketsSlice,
   },
 

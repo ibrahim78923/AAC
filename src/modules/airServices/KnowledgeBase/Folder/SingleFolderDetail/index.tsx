@@ -2,21 +2,29 @@ import { EditGreyIcon } from '@/assets/icons';
 import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
 import { Box, Divider, Skeleton, Typography } from '@mui/material';
-import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 import { useSingleFolderDetail } from './useSingleFolderDetail';
 import ApiErrorState from '@/components/ApiErrorState';
+import { ALL_FOLDER } from '../Folder.data';
 
-export const SingleFolderDetail = (props: ArticlesPortalComponentPropsI) => {
-  const { setIsPortalOpen } = props;
-  const { data, isLoading, isFetching, isError, refetch } =
-    useSingleFolderDetail(props);
+export const SingleFolderDetail = () => {
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    openUpsertFolderPortal,
+    openDeleteFolderPortal,
+    selectedFolder,
+  } = useSingleFolderDetail();
 
+  if (selectedFolder?._id === ALL_FOLDER) return;
   if (isLoading || isFetching) return <Skeleton height="10vh" />;
   if (isError)
     return (
       <>
         <Box maxHeight={'40vh'} overflow="auto">
-          <ApiErrorState height="100%" canRefresh refresh={() => refetch?.()} />
+          <ApiErrorState height="100%" canRefresh refresh={refetch} />
         </Box>
         <br />
       </>
@@ -28,7 +36,7 @@ export const SingleFolderDetail = (props: ArticlesPortalComponentPropsI) => {
         color="slateBlue.main"
         textTransform={'capitalize'}
       >
-        {data?.data?.name}
+        {truncateText(data?.data?.name)}
       </Typography>
       <Box
         display={'flex'}
@@ -41,28 +49,13 @@ export const SingleFolderDetail = (props: ArticlesPortalComponentPropsI) => {
           {truncateText(data?.data?.description || '---', 150)}
         </Typography>
         <Box display={'flex'} gap={2} alignItems={'center'}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() =>
-              setIsPortalOpen?.({
-                isOpen: true,
-                isUpsertFolder: true,
-                data: data?.data,
-              })
-            }
-          >
+          <Box sx={{ cursor: 'pointer' }} onClick={openUpsertFolderPortal}>
             <EditGreyIcon />
           </Box>
           <Box>
             <DeleteForever
               sx={{ cursor: 'pointer' }}
-              onClick={() =>
-                setIsPortalOpen?.({
-                  isOpen: true,
-                  isDeleteFolder: true,
-                  data: data?.data,
-                })
-              }
+              onClick={openDeleteFolderPortal}
             />
           </Box>
         </Box>
