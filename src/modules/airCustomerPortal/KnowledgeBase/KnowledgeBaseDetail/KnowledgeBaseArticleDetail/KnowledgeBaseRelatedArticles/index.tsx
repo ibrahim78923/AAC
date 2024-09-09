@@ -23,6 +23,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
     feedbackIsLoading,
     helpfulSubmit,
     setShowFeedbackField,
+    companyId,
   } = props;
 
   if (loadingArticles || fetchingArticles) return <SkeletonTable />;
@@ -31,7 +32,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
     <Box display={'flex'} flexDirection={'column'} height={'100%'}>
       <Typography variant="h4">Related Articles</Typography>
       <Box
-        height={showFeedbackField ? '9rem' : '32rem'}
+        height={showFeedbackField ? (companyId ? '4rem' : '9rem') : '32rem'}
         overflow="scroll"
         flexGrow={1}
       >
@@ -73,11 +74,19 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
           </Typography>
           <FormProvider methods={feedbackMethod} onSubmit={feedbackSubmit}>
             <Grid container>
-              {feedbackDataArray?.map((item: any) => (
-                <Grid item key={item?.id} xs={12}>
-                  <item.component {...item?.componentProps} />
-                </Grid>
-              ))}
+              {feedbackDataArray?.map((item: any) => {
+                if (
+                  item?.showField ||
+                  (item?.componentProps.name === 'email' && companyId)
+                ) {
+                  return (
+                    <Grid item xs={12} key={item?.id}>
+                      <item.component {...item?.componentProps} />
+                    </Grid>
+                  );
+                }
+                return null;
+              })}
             </Grid>
             <Divider sx={{ m: 1.5 }} />
             <Box display="flex" justifyContent="flex-end" gap={1}>

@@ -25,6 +25,7 @@ export const KnowledgeBaseArticleDetail = () => {
     feedbackIsLoading,
     isFetching,
     fetchingArticles,
+    companyId,
   } = useKnowledgeBaseArticleDetail();
 
   return (
@@ -92,6 +93,7 @@ export const KnowledgeBaseArticleDetail = () => {
             feedbackIsLoading={feedbackIsLoading}
             setShowFeedbackField={setShowFeedbackField}
             helpfulSubmit={helpfulSubmit}
+            companyId={companyId}
           />
         </Box>
       </Grid>

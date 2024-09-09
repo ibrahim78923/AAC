@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -15,22 +15,37 @@ import {
   usePostArticleFeedbackMutation,
 } from '@/services/airCustomerPortal/KnowledgeBase';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
+import { getActiveProductSession, getSession } from '@/utils';
 
 export const useKnowledgeBaseArticleDetail = () => {
   const theme = useTheme();
   const [showFeedbackField, setShowFeedbackField] = useState(false);
   const [showOkFeedback, setShowOkFeedback] = useState(false);
   const route = useRouter();
+  const product = getActiveProductSession();
+  const session: any = getSession();
+  const sessionCompanyId = session?.user?.companyId;
+  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const sessionUserId = session?.user?._id;
+
+  const { companyId } = route?.query;
+  const decryptedId = useMemo(() => {
+    const id = Array.isArray(companyId)
+      ? companyId[ARRAY_INDEX?.ZERO]
+      : companyId;
+    return atob(id ?? '');
+  }, [companyId]);
 
   const folderId = route?.query?.folderId;
   const singleArticleId = route?.query?.articleId;
-  const companyId = route?.query?.companyId;
 
   const relatedArticlesParams = {
-    folderId: folderId,
+    folderId,
     status: ARTICLE_STATUS?.PUBLISHED,
+    companyId: decryptedId || companyIdStorage || sessionCompanyId,
   };
+
   const {
     data: articlesData,
     isLoading: loadingArticles,
@@ -43,6 +58,7 @@ export const useKnowledgeBaseArticleDetail = () => {
 
   const params = {
     id: singleArticleId,
+    companyId: decryptedId || companyIdStorage || sessionCompanyId,
   };
 
   const { data, isLoading, isFetching } = useGetSingleKnowledgeBaseArticleQuery(
@@ -72,7 +88,7 @@ export const useKnowledgeBaseArticleDetail = () => {
     });
   };
   const feedbackMethod: any = useForm<any>({
-    resolver: yupResolver(feedbackValidationSchema),
+    resolver: yupResolver(feedbackValidationSchema(companyId)),
     defaultValues: feedbackDefaultValues,
   });
   const { handleSubmit, reset } = feedbackMethod;
@@ -87,6 +103,9 @@ export const useKnowledgeBaseArticleDetail = () => {
       helpful: false,
       feedback: JSON.stringify(data?.feedback),
       comment: data?.comment,
+      ...(sessionUserId && { createdBy: sessionUserId }),
+      ...(companyId && { email: data?.email }),
+      companyId: decryptedId || companyIdStorage || sessionCompanyId,
     };
 
     try {
@@ -139,5 +158,6 @@ export const useKnowledgeBaseArticleDetail = () => {
     helpfulSubmit,
     isFetching,
     fetchingArticles,
+    companyId,
   };
 };

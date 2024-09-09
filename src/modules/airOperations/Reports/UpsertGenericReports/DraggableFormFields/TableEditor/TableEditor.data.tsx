@@ -161,11 +161,15 @@ export const tableEditorData: any = {
   LEADS: [
     {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'formViews',
+      fieldName: 'clickCount',
     },
     {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'ctaClicks',
+      fieldName: 'viewCount',
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'clickRate',
     },
   ],
 };

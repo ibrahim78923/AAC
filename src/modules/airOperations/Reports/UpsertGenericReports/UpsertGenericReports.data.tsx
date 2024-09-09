@@ -649,15 +649,19 @@ export const templateList = [
     id: '48',
     title: 'Table',
     type: REPORT_TYPE?.TEMPLATE_TABLE,
-    tableColumns: ['formViews', 'ctaClicks'],
+    tableColumns: ['clickCount', 'viewCount', 'clickRate'],
     templateColumnsData: [
       {
         fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'formViews',
+        fieldName: 'clickCount',
       },
       {
         fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'ctaClicks',
+        fieldName: 'viewCount',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'clickRate',
       },
     ],
     match: 'table',

@@ -1,20 +1,41 @@
 import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const feedbackValidationSchema = Yup?.object()?.shape({
-  feedback: Yup?.array()
-    ?.required('Field is Required')
-    ?.min(1, 'At least one field is required'),
-  comment: Yup?.string(),
-});
+export const feedbackValidationSchema = (emailValidation: any) =>
+  Yup?.object()?.shape({
+    email: Yup?.string()?.when(() =>
+      emailValidation
+        ? Yup?.string()?.email()?.required('Email is Required')
+        : Yup?.string()?.notRequired(),
+    ),
+    feedback: Yup?.array()
+      ?.required('Field is Required')
+      ?.min(1, 'At least one field is required'),
+    comment: Yup?.string(),
+  });
+
 export const feedbackDefaultValues = {
+  email: '',
   feedback: null,
   comment: '',
 };
 
 export const feedbackDataArray = [
   {
+    id: 9584,
+    showField: false,
+    componentProps: {
+      name: 'email',
+      label: 'Email',
+      placeholder: 'User Email',
+      size: 'small',
+      required: true,
+    },
+    component: RHFTextField,
+  },
+  {
     id: 2355,
+    showField: true,
     componentProps: {
       name: 'feedback',
       label: 'Your Feedback',
@@ -34,6 +55,7 @@ export const feedbackDataArray = [
   },
   {
     id: 6547,
+    showField: true,
     componentProps: {
       name: 'comment',
       label: 'Comment Here',
