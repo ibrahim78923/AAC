@@ -21,10 +21,20 @@ export const customerPortalSettingsApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
+    patchCustomerPortalStylings: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.CUSTOMER_PORTAL_STYLINGS,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
 export const {
   useGetCustomerPortalPermissionsQuery,
   usePatchCustomerPortalPermissionsMutation,
+  usePatchCustomerPortalStylingsMutation,
 } = customerPortalSettingsApi;

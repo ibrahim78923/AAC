@@ -1,4 +1,4 @@
-import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
+import { RHFDropzonePreview, RHFTextField } from '@/components/ReactHookForm';
 import { IconButton, InputAdornment } from '@mui/material';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { pxToRem } from '@/utils/getFontValue';
@@ -7,13 +7,13 @@ export type DefaultValuesKeys = keyof ReturnType<
   typeof customizePortalDefaultValues
 >;
 
-export const customizePortalDefaultValues = (theme?: any) => ({
-  companyLogo: null,
-  primaryButton: theme?.palette?.primary?.main,
-  secondaryButton: theme?.palette?.secondary?.main,
-  sideMenu: theme?.palette?.common?.white,
-  sideMenuIconPrimary: theme?.palette?.secondary?.main,
-  sideMenuIconSecondary: theme?.palette?.common?.white,
+export const customizePortalDefaultValues = (theme?: any, data?: any) => ({
+  image: data?.logo ?? null,
+  btnPrimary: data?.btnPrimary ?? theme?.palette?.primary?.main,
+  btnSecondary: data?.btnSecondary ?? theme?.palette?.secondary?.main,
+  sideMenu: data?.sideMenu ?? theme?.palette?.common?.white,
+  iconPrimary: data?.iconPrimary ?? theme?.palette?.secondary?.main,
+  iconSecondary: data?.iconSecondary ?? theme?.palette?.common?.white,
 });
 
 const fieldStylings = {
@@ -58,15 +58,14 @@ export const getCustomizationsDataArray = (
       {
         id: 1,
         componentProps: {
-          name: 'companyLogo',
-          maxSize: 1024 * 1024 * 2.44,
+          name: 'image',
           fileType: 'Supports JPEG and PNG Files',
           accept: {
             'image/png': ['.png', '.PNG'],
             'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
           },
         },
-        component: RHFDropZone,
+        component: RHFDropzonePreview,
       },
     ],
   },
@@ -77,14 +76,14 @@ export const getCustomizationsDataArray = (
       {
         id: 2,
         componentProps: {
-          name: 'primaryButton',
+          name: 'btnPrimary',
           label: 'Primary',
           type: 'color',
           InputProps: {
             endAdornment: (
               <InputAdornment position={'end'}>
                 <IconButton
-                  onClick={() => resetHandler('primaryButton')}
+                  onClick={() => resetHandler('btnPrimary')}
                   sx={{ ...iconButtonStylings }}
                 >
                   <RestartAltIcon />
@@ -99,14 +98,14 @@ export const getCustomizationsDataArray = (
       {
         id: 3,
         componentProps: {
-          name: 'secondaryButton',
+          name: 'btnSecondary',
           label: 'Secondary',
           type: 'color',
           InputProps: {
             endAdornment: (
               <InputAdornment position={'end'}>
                 <IconButton
-                  onClick={() => resetHandler('secondaryButton')}
+                  onClick={() => resetHandler('btnSecondary')}
                   sx={{ ...iconButtonStylings }}
                 >
                   <RestartAltIcon />
@@ -154,14 +153,14 @@ export const getCustomizationsDataArray = (
       {
         id: 5,
         componentProps: {
-          name: 'sideMenuIconPrimary',
+          name: 'iconPrimary',
           label: 'Primary',
           type: 'color',
           InputProps: {
             endAdornment: (
               <InputAdornment position={'end'}>
                 <IconButton
-                  onClick={() => resetHandler('sideMenuIconPrimary')}
+                  onClick={() => resetHandler('iconPrimary')}
                   sx={{ ...iconButtonStylings }}
                 >
                   <RestartAltIcon />
@@ -176,14 +175,14 @@ export const getCustomizationsDataArray = (
       {
         id: 6,
         componentProps: {
-          name: 'sideMenuIconSecondary',
+          name: 'iconSecondary',
           label: 'Secondary',
           type: 'color',
           InputProps: {
             endAdornment: (
               <InputAdornment position={'end'}>
                 <IconButton
-                  onClick={() => resetHandler('sideMenuIconSecondary')}
+                  onClick={() => resetHandler('iconSecondary')}
                   sx={{ ...iconButtonStylings }}
                 >
                   <RestartAltIcon />

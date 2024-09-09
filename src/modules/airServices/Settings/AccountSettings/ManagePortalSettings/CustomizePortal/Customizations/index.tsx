@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  useTheme,
 } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
@@ -13,9 +14,13 @@ import {
   ICustomizationsProps,
 } from '../CustomizePortal.interface';
 import { LoadingButton } from '@mui/lab';
+import { customizePortalDefaultValues } from '../CustomizePortal.data';
 
 const Customizations = (props: ICustomizationsProps) => {
-  const { reset, customizationsDataArray } = props;
+  const { reset, customizationsDataArray, patchCustomerPortalStylingsStatus } =
+    props;
+
+  const theme = useTheme();
 
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>(
     customizationsDataArray.reduce(
@@ -67,7 +72,10 @@ const Customizations = (props: ICustomizationsProps) => {
           <AccordionDetails>
             {accordion?.contentArray?.map((content: IContentArrayItem) => (
               <Box key={content?.id}>
-                <content.component {...content?.componentProps} />
+                <content.component
+                  {...content?.componentProps}
+                  disabled={patchCustomerPortalStylingsStatus?.isLoading}
+                />
               </Box>
             ))}
           </AccordionDetails>
@@ -76,13 +84,18 @@ const Customizations = (props: ICustomizationsProps) => {
 
       <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
         <LoadingButton
-          onClick={() => reset()}
+          onClick={() => reset(() => customizePortalDefaultValues?.(theme))}
           variant={'outlined'}
           color={'secondary'}
+          disabled={patchCustomerPortalStylingsStatus?.isLoading}
         >
           Reset
         </LoadingButton>
-        <LoadingButton type={'submit'} variant={'contained'}>
+        <LoadingButton
+          type={'submit'}
+          variant={'contained'}
+          loading={patchCustomerPortalStylingsStatus?.isLoading}
+        >
           Apply
         </LoadingButton>
       </Box>

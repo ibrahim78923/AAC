@@ -27,8 +27,9 @@ export interface ICustomizationsDataItem {
 }
 
 export interface ICustomizationsProps {
-  reset: () => any;
+  reset: any;
   customizationsDataArray: ICustomizationsDataItem[];
+  patchCustomerPortalStylingsStatus?: any;
 }
 
 export interface IPreviewProps {

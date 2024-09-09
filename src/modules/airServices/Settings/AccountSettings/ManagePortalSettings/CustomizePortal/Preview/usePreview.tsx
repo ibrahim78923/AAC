@@ -7,12 +7,12 @@ export default function usePreview(props: IPreviewProps) {
   const isStringUrl = (value: any) => typeof value === 'string';
 
   const {
-    companyLogo,
-    primaryButton,
-    secondaryButton,
+    image,
+    btnPrimary,
+    btnSecondary,
     sideMenu,
-    sideMenuIconPrimary,
-    sideMenuIconSecondary,
+    iconPrimary,
+    iconSecondary,
   } = watch();
 
   const hexToRgba = (hex: string, opacity: number) => {
@@ -33,15 +33,15 @@ export default function usePreview(props: IPreviewProps) {
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   };
 
-  const reducedOpacityBgColor = hexToRgba(sideMenuIconPrimary, 0.1);
+  const reducedOpacityBgColor = hexToRgba(iconPrimary, 0.1);
 
   return {
-    companyLogo,
-    primaryButton,
-    secondaryButton,
+    image,
+    btnPrimary,
+    btnSecondary,
     sideMenu,
-    sideMenuIconPrimary,
-    sideMenuIconSecondary,
+    iconPrimary,
+    iconSecondary,
     isFileInstance,
     isStringUrl,
     reducedOpacityBgColor,

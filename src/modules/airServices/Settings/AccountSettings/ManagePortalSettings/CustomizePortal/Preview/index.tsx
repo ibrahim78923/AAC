@@ -15,15 +15,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { generateImage } from '@/utils/avatarUtils';
 
 const Preview = (props: IPreviewProps) => {
   const {
-    companyLogo,
-    primaryButton,
-    secondaryButton,
+    image,
+    btnPrimary,
+    btnSecondary,
     sideMenu,
-    sideMenuIconPrimary,
-    sideMenuIconSecondary,
+    iconPrimary,
+    iconSecondary,
     isFileInstance,
     isStringUrl,
     reducedOpacityBgColor,
@@ -48,17 +49,17 @@ const Preview = (props: IPreviewProps) => {
             height={'100%'}
           >
             <Box p={2} mb={4}>
-              {isFileInstance(companyLogo) ? (
+              {isFileInstance(image) ? (
                 <Image
-                  src={URL?.createObjectURL(companyLogo)}
+                  src={URL?.createObjectURL(image)}
                   alt={'Air Apple Cart'}
                   width={153}
                   height={38}
                   style={{ objectFit: 'contain' }}
                 />
-              ) : isStringUrl(companyLogo) ? (
+              ) : isStringUrl(image?.url) ? (
                 <Image
-                  src={companyLogo}
+                  src={generateImage(image?.url)}
                   alt={'Air Apple Cart'}
                   width={153}
                   height={38}
@@ -88,16 +89,16 @@ const Preview = (props: IPreviewProps) => {
               >
                 <Box
                   display={'flex'}
-                  bgcolor={sideMenuIconSecondary}
+                  bgcolor={iconSecondary}
                   p={0.2}
                   borderRadius={0.5}
                 >
-                  <item.icon fill={sideMenuIconPrimary} />
+                  <item.icon fill={iconPrimary} />
                 </Box>
                 <Typography
                   variant={'body2'}
                   fontWeight={500}
-                  color={sideMenuIconPrimary}
+                  color={iconPrimary}
                 >
                   {item?.title}
                 </Typography>
@@ -142,13 +143,13 @@ const Preview = (props: IPreviewProps) => {
                 variant={'outlined'}
                 sx={{
                   '&.Mui-disabled': {
-                    borderColor: secondaryButton,
-                    color: secondaryButton,
+                    borderColor: btnSecondary,
+                    color: btnSecondary,
                   },
                 }}
                 startIcon={
                   <ArrowBackIcon
-                    color={secondaryButton}
+                    color={btnSecondary}
                     sx={{ cursor: 'pointer' }}
                   />
                 }
@@ -160,19 +161,16 @@ const Preview = (props: IPreviewProps) => {
                 variant={'contained'}
                 sx={{
                   '&.Mui-disabled': {
-                    bgcolor: primaryButton,
+                    bgcolor: btnPrimary,
                     color: 'common.white',
                   },
                 }}
                 startIcon={
-                  <AddBoxIcon
-                    color={primaryButton}
-                    sx={{ cursor: 'pointer' }}
-                  />
+                  <AddBoxIcon color={btnPrimary} sx={{ cursor: 'pointer' }} />
                 }
                 endIcon={
                   <ArrowDropDownIcon
-                    color={primaryButton}
+                    color={btnPrimary}
                     sx={{ cursor: 'pointer' }}
                   />
                 }
