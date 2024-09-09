@@ -24,9 +24,10 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
     }),
 
     getTeamsList: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.SALES_TEAM,
         method: 'GET',
+        params: params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.userTeams;

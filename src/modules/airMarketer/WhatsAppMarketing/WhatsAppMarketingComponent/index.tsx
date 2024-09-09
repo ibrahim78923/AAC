@@ -120,8 +120,9 @@ const WhatsAppMarketingComponent = () => {
       <CommonTabs
         tabsArray={['Dashboard', 'Broadcast', 'Contacts', 'Templates']}
         getTabVal={(val: number) => setTabVal(val)}
+        activeTab={tabVal}
       >
-        <Dashboard />
+        <Dashboard setTabVal={setTabVal} />
         <Broadcast />
         <Contacts />
         <Templates />

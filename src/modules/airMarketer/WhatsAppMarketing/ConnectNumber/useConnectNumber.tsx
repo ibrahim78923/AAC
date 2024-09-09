@@ -37,7 +37,6 @@ const useConnectNumber = ({ setIsConnected }: any) => {
           body: { phoneNumber: phoneNumber },
         })?.unwrap();
         setIsConnected(true);
-        setPhoneNumber('');
         setOpenDialogRegNumber(false);
         enqueueSnackbar('Phone number Connected Successfully', {
           variant: NOTISTACK_VARIANTS?.SUCCESS,

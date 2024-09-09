@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { STATUS_CONTANTS } from '@/constants/strings';
 
 export const detailsColumns: any = (
   setOpenModalDelete: any,
@@ -16,7 +16,7 @@ export const detailsColumns: any = (
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.whatsAppNumber,
+      accessorFn: (row: any) => row?.phoneNumber,
       id: 'phoneNumber',
       isSortable: false,
       header: 'Whatsapp Number',
@@ -36,7 +36,7 @@ export const detailsColumns: any = (
       header: 'Actions',
       cell: (info: any) => (
         <>
-          {recordStatus !== MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ? (
+          {recordStatus === STATUS_CONTANTS?.DRAFT ? (
             <Box
               onClick={() =>
                 setOpenModalDelete({

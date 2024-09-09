@@ -151,12 +151,14 @@ const useCreateBroadcast = () => {
         getWhatsappBroadcatsById?.data?.schedualDate ? true : false,
       );
       setRecipientType(
-        getWhatsappBroadcatsById?.data?.groupDetails?.length > 0
+        getWhatsappBroadcatsById?.data?.groupDetails?.length >
+          indexNumbers?.ZERO
           ? SMS_MARKETING_CONSTANTS?.GROUP
           : SMS_MARKETING_CONSTANTS?.ALL,
       );
       const selectedContactsData =
-        getWhatsappBroadcatsById?.data?.groupDetails?.length === 0
+        getWhatsappBroadcatsById?.data?.groupDetails?.length ===
+        indexNumbers?.ZERO
           ? getWhatsappBroadcatsById?.data?.recipients
           : getWhatsappBroadcatsById?.data?.groupDetails;
       setSelectedRec(
@@ -195,7 +197,7 @@ const useCreateBroadcast = () => {
         ?.map(
           (item: any) => item?.contacts?.map((contact: any) => contact?._id),
         )
-        .flat();
+        ?.flat();
       payloadData.contactGroupId = selectedContactsData?.map(
         (item: any) => item?._id,
       );

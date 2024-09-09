@@ -1,7 +1,12 @@
+import { useGetWhatsAppBroadcatsQuery } from '@/services/airMarketer/whatsapp-marketing';
 import { Theme, useTheme } from '@mui/material';
 
 const useBroadCastScheduled = () => {
   const theme = useTheme<Theme>();
+
+  const { data: whatsAppBroadcastData, isLoading: getBroadcastLoading } =
+    useGetWhatsAppBroadcatsQuery({});
+  const broadcastsData = whatsAppBroadcastData?.data?.whatsappbroadcasts;
 
   const statusTag = (val: any) => {
     switch (val) {
@@ -19,6 +24,8 @@ const useBroadCastScheduled = () => {
   return {
     theme,
     statusTag,
+    broadcastsData,
+    getBroadcastLoading,
   };
 };
 

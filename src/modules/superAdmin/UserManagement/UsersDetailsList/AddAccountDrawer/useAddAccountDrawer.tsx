@@ -1,4 +1,4 @@
-import { CommonAPIS } from '@/services/common-APIs';
+import { useLazyGetCompanyAccountsRolesListQuery } from '@/services/common-APIs';
 import { enqueueSnackbar } from 'notistack';
 import {
   AddAccountDefaultValues,
@@ -15,11 +15,6 @@ const useAddAccountDrawer = (
   organizationId?: string,
 ) => {
   const [postUsersAccount] = usePostUsersAccountMutation();
-  const {
-    useLazyGetCompanyAccountsListsQuery,
-    useLazyGetCompanyAccountsRolesListQuery,
-  } = CommonAPIS;
-  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   const methods: any = useForm({
     resolver: yupResolver(AddAccountValidationSchema),
@@ -67,7 +62,6 @@ const useAddAccountDrawer = (
   };
 
   return {
-    companyAccounts,
     companyRoles,
     handleSubmit,
     onSubmit,

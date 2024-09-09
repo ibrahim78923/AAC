@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { STATUS_CONTANTS } from '@/constants/strings';
 
 export const smsDetailsColumns: any = (
   setOpenModalDelete: any,
@@ -36,7 +36,7 @@ export const smsDetailsColumns: any = (
       header: 'Actions',
       cell: (info: any) => (
         <>
-          {recordStatus !== MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ? (
+          {recordStatus === STATUS_CONTANTS?.DRAFT ? (
             <Box
               onClick={() =>
                 setOpenModalDelete({

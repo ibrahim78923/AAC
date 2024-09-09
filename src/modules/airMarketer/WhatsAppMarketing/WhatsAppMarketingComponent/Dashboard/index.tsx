@@ -8,7 +8,8 @@ import SMSContacts from './Contacts';
 
 import StatusCards from './StatusCards';
 
-const Dashboard = () => {
+const Dashboard = (props: any) => {
+  const { setTabVal } = props;
   return (
     <Box sx={{ padding: '20px' }}>
       <Grid container spacing={2}>
@@ -19,10 +20,10 @@ const Dashboard = () => {
           <StatisticsCard />
         </Grid>
         <Grid item lg={6} xs={12}>
-          <ScheduledSMS />
+          <ScheduledSMS setTabVal={setTabVal} />
         </Grid>
         <Grid item lg={6} xs={12}>
-          <SMSContacts />
+          <SMSContacts setTabVal={setTabVal} />
         </Grid>
       </Grid>
     </Box>

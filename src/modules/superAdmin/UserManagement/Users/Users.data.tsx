@@ -14,14 +14,15 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
 import {
-  useLazyGetOrganizationsListQuery,
   useLazyGetProductsListQuery,
+  useLazyGetSearchOrganizationsListQuery,
 } from '@/services/common-APIs';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { ColumnsProps, RowInterface } from './Users-interface';
 import { convertIdToShortNumber } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { generateImage } from '@/utils/avatarUtils';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const columns: any = (columnsProps: ColumnsProps) => {
   const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
@@ -268,7 +269,7 @@ export const usersFilterDefaultValues = (data: any) => {
 
 export const usersFilterArray = () => {
   const products = useLazyGetProductsListQuery();
-  const organizations = useLazyGetOrganizationsListQuery();
+  const organizations = useLazyGetSearchOrganizationsListQuery();
 
   return [
     {
@@ -291,6 +292,7 @@ export const usersFilterArray = () => {
         placeholder: 'Select product',
         apiQuery: products,
         getOptionLabel: (option: any) => option?.name,
+        externalParams: { status: PRODUCT_USER_STATUS?.ACTIVE },
       },
       component: RHFAutocompleteAsync,
       md: 12,

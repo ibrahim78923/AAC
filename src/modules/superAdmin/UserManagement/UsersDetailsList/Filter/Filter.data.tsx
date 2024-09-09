@@ -3,8 +3,8 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import {
-  useLazyGetOrganizationsListQuery,
   useLazyGetProductsListQuery,
+  useLazyGetSearchOrganizationsListQuery,
 } from '@/services/common-APIs';
 
 export const usersFilterDefaultValues = (data: any) => {
@@ -17,7 +17,7 @@ export const usersFilterDefaultValues = (data: any) => {
 
 export const dataArray = () => {
   const products = useLazyGetProductsListQuery();
-  const organizations = useLazyGetOrganizationsListQuery();
+  const organizations = useLazyGetSearchOrganizationsListQuery();
 
   return [
     {

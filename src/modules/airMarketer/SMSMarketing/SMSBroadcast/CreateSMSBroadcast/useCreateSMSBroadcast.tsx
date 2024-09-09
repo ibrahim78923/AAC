@@ -116,7 +116,6 @@ const useCreateSMSBroadcast = () => {
       for (const key in fieldsToSet) {
         setValue(key, fieldsToSet[key]);
       }
-
       setRecipientType(
         data?.groupDetails?.length > 0
           ? SMS_MARKETING_CONSTANTS?.GROUP
@@ -137,7 +136,20 @@ const useCreateSMSBroadcast = () => {
     values.recipients = selectedContactsData?.map((item: any) => item?._id);
     values.status = createStatus;
     if (isSchedule) {
-      values.schedualDate = values.schedualDate;
+      values.schedualDate = values?.schedualDate;
+    }
+    if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
+      values.contactGroupId = [];
+      values.recipients = selectedContactsData?.map((item: any) => item?._id);
+    } else {
+      values.recipients = selectedContactsData
+        ?.map(
+          (item: any) => item?.contacts?.map((contact: any) => contact?._id),
+        )
+        ?.flat();
+      values.contactGroupId = selectedContactsData?.map(
+        (item: any) => item?._id,
+      );
     }
     const filteredEmptyData = filteredEmptyValues(values);
     const customFields: any = {};

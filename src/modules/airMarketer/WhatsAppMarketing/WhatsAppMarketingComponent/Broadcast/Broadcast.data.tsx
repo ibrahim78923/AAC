@@ -14,6 +14,7 @@ import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { getProgressColor, statusTag } from '@/utils';
 import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const broadcastColumns: any = (columnsProps: any) => {
   const navigate = useRouter();
@@ -195,7 +196,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
                   <Avatar
                     key={recipient?._id}
                     alt="recipient_avatar"
-                    src={recipient?.profilePicture}
+                    src={generateImage(recipient?.profilePicture)}
                   />
                 );
               })}
@@ -232,7 +233,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
                   <Avatar
                     key={failed?._id}
                     alt="recipient_avatar"
-                    src={failed?.profilePicture}
+                    src={generateImage(failed?.profilePicture)}
                   />
                 );
               })}
