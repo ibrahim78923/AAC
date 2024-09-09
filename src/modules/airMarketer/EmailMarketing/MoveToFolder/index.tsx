@@ -39,7 +39,7 @@ const MoveToFolder = ({
       await updateEmailTemplate({
         id: selectedRecords?._id,
         body: {
-          templateId: values?.chooseFolder?._id,
+          folderId: values?.chooseFolder?._id,
         },
       })?.unwrap();
       handleReset();

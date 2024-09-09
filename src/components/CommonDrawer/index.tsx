@@ -37,6 +37,7 @@ const CommonDrawer = ({
   variant,
   disabledCancelBtn,
   isFooterFeatureDisabled,
+  zIndex,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -44,7 +45,12 @@ const CommonDrawer = ({
   const handlerIsFooterFeature = isFooterFeature === true ? true : false;
 
   return (
-    <Drawer open={isDrawerOpen} onClose={onClose} anchor="right">
+    <Drawer
+      open={isDrawerOpen}
+      onClose={onClose}
+      anchor="right"
+      sx={{ ...(zIndex && { zIndex: zIndex }) }}
+    >
       <Box
         display="flex"
         flexDirection="column"

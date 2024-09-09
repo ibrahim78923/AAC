@@ -61,7 +61,7 @@ const EmailMarketing = () => {
   // Filters methods and operations --
 
   const router = useRouter();
-  const { folder } = router.query;
+  const { folder, id } = router.query;
 
   const isFolderEmails = router.pathname.includes('emails');
 
@@ -94,6 +94,9 @@ const EmailMarketing = () => {
         }),
         ...(filtersData?.createdDate > 0 && {
           endDate: dayjs(filtersData?.createdDate).format(DATE_FORMAT?.API),
+        }),
+        ...(id && {
+          folderId: id,
         }),
       },
     });
@@ -172,11 +175,9 @@ const EmailMarketing = () => {
               color="inherit"
               onClick={() =>
                 router.push(
-                  `${
-                    isFolderEmails
-                      ? AIR_MARKETER?.FOLDER_COMPARE_EMAIL
-                      : AIR_MARKETER?.COMPARE_EMAILS
-                  }`,
+                  isFolderEmails
+                    ? `${AIR_MARKETER?.FOLDER_COMPARE_EMAIL}?folder=${folder}&id=${id}`
+                    : `${AIR_MARKETER?.COMPARE_EMAILS}`,
                 )
               }
               sx={{ width: { sm: '140px', xs: '100%' } }}
@@ -192,11 +193,9 @@ const EmailMarketing = () => {
             <Button
               onClick={() =>
                 router.push(
-                  `${
-                    isFolderEmails
-                      ? AIR_MARKETER?.FOLDER_CREATE_NEW_EMAIL
-                      : AIR_MARKETER?.CREATE_NEW_EMAIL
-                  }`,
+                  isFolderEmails
+                    ? `${AIR_MARKETER?.FOLDER_CREATE_NEW_EMAIL}?folder=${folder}&id=${id}`
+                    : `${AIR_MARKETER?.CREATE_NEW_EMAIL}`,
                 )
               }
               variant="contained"

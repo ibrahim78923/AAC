@@ -11,6 +11,7 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
   },
   chatCardContent: {
     background: '#F9FAFB',

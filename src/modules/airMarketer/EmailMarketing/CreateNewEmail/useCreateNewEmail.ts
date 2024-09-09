@@ -28,17 +28,8 @@ export const useCreateNewEmail = () => {
   const handleActionsButton = () => {
     setOpenCalendar(true);
   };
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const handlePopverClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handlePopverClose = () => setAnchorEl(null);
-  const menuOpen = Boolean(anchorEl);
+
   return {
-    anchorEl,
-    handlePopverClick,
-    handlePopverClose,
-    menuOpen,
     enqueueSnackbar,
     theme,
     handleAddNoteDrawer,
