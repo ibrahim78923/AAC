@@ -1,4 +1,5 @@
 import { ticketsListInitialColumns } from '@/modules/airServices/ServicesTickets/TicketsLists/TicketsLists.data';
+import { initialTime } from './slice';
 
 const setPageReducer = (state: any, action: any) => {
   state.page = action?.payload;
@@ -58,6 +59,27 @@ const setTicketsListsTotalRecordsReducer = (state: any, action: any) => {
   state.totalRecords = action?.payload;
 };
 
+const setTimeReducer = (state: any, action: any) => {
+  state.time = action?.payload;
+};
+
+const setIsTimerPauseReducer = (state: any, action: any) => {
+  state.isTimerPause = action?.payload?.isTimerPause;
+  state.timerId = action?.payload?.timerId;
+};
+
+const resetTimeReducer = (state: any) => {
+  state.time = initialTime;
+};
+
+const resetInternalRefReducer = (state: any) => {
+  state.intervalRef = '';
+};
+
+const setInternalRefReducer = (state: any, action: any) => {
+  state.intervalRef = action?.payload;
+};
+
 export const servicesTicketsReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -73,4 +95,9 @@ export const servicesTicketsReducersList = {
   setTicketsListsActiveColumnReducer,
   setTicketsListsInitialColumnReducer,
   setTicketsListsTotalRecordsReducer,
+  setTimeReducer,
+  setIsTimerPauseReducer,
+  resetTimeReducer,
+  resetInternalRefReducer,
+  setInternalRefReducer,
 };

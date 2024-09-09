@@ -1,5 +1,3 @@
-import { TICKET_STATUS } from '@/constants/strings';
-import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
 import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import { Permissions } from '@/constants/permissions';
 import {
@@ -14,12 +12,7 @@ import { Approvals } from './Approvals';
 import { Meeting } from './Meeting';
 import { Activities } from './Activities';
 import { Conversations } from './Conversations';
-import { Dispatch, SetStateAction } from 'react';
-import {
-  SingleTicketDetailChildComponentPropsI,
-  SingleTicketDetailIsPortalOpenI,
-} from './SingleTicketDetails.interface';
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleTicketDetailChildComponentPropsI } from './SingleTicketDetails.interface';
 
 export const singleTicketDetailTabsDynamic = (
   props: SingleTicketDetailChildComponentPropsI,
@@ -106,45 +99,3 @@ export const singleTicketDetailTabsDynamic = (
     },
   ];
 };
-
-export const singleTicketDetailDropdownOptionsDynamic = (
-  setIsPortalOpen: Dispatch<SetStateAction<SingleTicketDetailIsPortalOpenI>>,
-) => [
-  {
-    id: 1,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-    title: 'Print',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setIsPortalOpen?.({
-        isOpen: true,
-        action: TICKETS_ACTION_CONSTANTS?.PRINT_TICKET,
-      });
-      closeMenu?.();
-    },
-  },
-  {
-    id: 2,
-    title: 'Delete',
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setIsPortalOpen?.({
-        isOpen: true,
-        action: TICKETS_ACTION_CONSTANTS?.DELETE_TICKET,
-      });
-      closeMenu?.();
-    },
-  },
-  {
-    id: 3,
-    title: 'Close',
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setIsPortalOpen?.({
-        isOpen: true,
-        action: TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS,
-        status: TICKET_STATUS?.CLOSED,
-      });
-      closeMenu?.();
-    },
-  },
-];

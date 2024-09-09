@@ -1,19 +1,18 @@
 import CommonDrawer from '@/components/CommonDrawer';
-
-import React from 'react';
-
 import { Box, Divider, Grid, Typography } from '@mui/material';
-
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { usePrintTicket } from './usePrintTicket';
-import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
 
-export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
-
-  const { onSubmit, onClose, data, printDataField } = usePrintTicket(props);
+export const PrintTicket = () => {
+  const {
+    onSubmit,
+    onClose,
+    singleTicketDetail,
+    printDataField,
+    isPortalOpen,
+  } = usePrintTicket();
 
   return (
     <CommonDrawer
@@ -28,7 +27,7 @@ export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
       <Box>
         <Typography variant="body1" fontWeight={600}>
           {' '}
-          TIcket ID: {data?.data?.[0]?.ticketIdNumber}
+          TIcket ID: {singleTicketDetail?.ticketIdNumber}
         </Typography>
         <Typography
           variant="body1"
@@ -36,29 +35,29 @@ export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
           sx={{ wordBreak: 'break-all' }}
         >
           {'  '}
-          Subject : {data?.data?.[0]?.subject}
+          Subject : {singleTicketDetail?.subject}
         </Typography>
         <Typography variant="body3">by </Typography>
         <Typography variant="body3" fontWeight={'bold'}>
           {fullName(
-            data?.data?.[0]?.requesterDetails?.firstName,
-            data?.data?.[0]?.requesterDetails?.lastName,
+            singleTicketDetail?.requesterDetails?.firstName,
+            singleTicketDetail?.requesterDetails?.lastName,
           ) ?? '-'}{' '}
         </Typography>
         <Typography variant="body3">
-          ({data?.data?.[0]?.requesterDetails?.email ?? '-'} ) on{' '}
+          ({singleTicketDetail?.requesterDetails?.email ?? '-'} ) on{' '}
         </Typography>
         <Typography variant="body3" fontWeight={'bold'}>
-          {dayjs(data?.data?.[0]?.requesterDetails?.createdAt)?.format(
+          {dayjs(singleTicketDetail?.requesterDetails?.createdAt)?.format(
             DATE_TIME_FORMAT?.DDMYHMA,
           ) ?? '-'}
           ,{' '}
         </Typography>{' '}
-        {!!data?.data?.[0]?.source && (
+        {!!singleTicketDetail?.source && (
           <>
             <Typography variant="body3">via </Typography>
             <Typography variant="body3" fontWeight={'bold'}>
-              {data?.data?.[0]?.source ?? '-'}
+              {singleTicketDetail?.source ?? '-'}
             </Typography>
           </>
         )}
@@ -66,11 +65,11 @@ export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
           Requestor For :{' '}
           <Typography variant="h4" component={'span'}>
             {fullName(
-              data?.data?.[0]?.requesterDetails?.firstName,
-              data?.data?.[0]?.requesterDetails?.lastName,
+              singleTicketDetail?.requesterDetails?.firstName,
+              singleTicketDetail?.requesterDetails?.lastName,
             ) ?? '-'}{' '}
             <Typography variant="body3" component={'span'}>
-              ({data?.data?.[0]?.requesterDetails?.email ?? '-'} )
+              ({singleTicketDetail?.requesterDetails?.email ?? '-'} )
             </Typography>
           </Typography>
         </Typography>
@@ -78,15 +77,13 @@ export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
         <Typography variant="h4"> TICKET PROPERTIES </Typography>
         <Grid container mt={1}>
           {printDataField?.map((item: any) => (
-            <Grid key={item?.id} xs={12} lg={3.5}>
+            <Grid item key={item?.id} xs={12} lg={3.5}>
               <Box display={'flex'} flexDirection={'row'}>
                 <Box display={'flex'} flexDirection={'column'}>
-                  <Typography key={item?.id} variant="h6" fontWeight={'bold'}>
+                  <Typography variant="h6" fontWeight={'bold'}>
                     {item?.heading}
                   </Typography>
-                  <Typography key={item?.id} variant="body1">
-                    {item?.text}
-                  </Typography>
+                  <Typography variant="body1">{item?.text}</Typography>
                 </Box>
               </Box>
             </Grid>
@@ -97,7 +94,7 @@ export const PrintTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
         <Typography
           variant="h6"
           dangerouslySetInnerHTML={
-            { __html: data?.data?.[0]?.description } ?? '-'
+            { __html: singleTicketDetail?.description } ?? '-'
           }
         />{' '}
         <Divider sx={{ marginTop: '2rem' }} />

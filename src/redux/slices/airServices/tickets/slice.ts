@@ -2,6 +2,7 @@ import { PAGINATION } from '@/config';
 import { createSlice } from '@reduxjs/toolkit';
 import { servicesTicketsReducersList } from './reducers';
 import { ticketsListInitialColumns } from '@/modules/airServices/ServicesTickets/TicketsLists/TicketsLists.data';
+import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
 
 const {
   setPageReducer,
@@ -18,7 +19,18 @@ const {
   setTicketsListsActiveColumnReducer,
   setTicketsListsInitialColumnReducer,
   setTicketsListsTotalRecordsReducer,
+  setTimeReducer,
+  setIsTimerPauseReducer,
+  resetTimeReducer,
+  resetInternalRefReducer,
+  setInternalRefReducer,
 } = servicesTicketsReducersList;
+
+export const initialTime = {
+  hours: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_HOUR,
+  minutes: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_MINUTE,
+  seconds: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_SECOND,
+};
 
 const servicesTicketsInitialState: any = {
   page: PAGINATION?.CURRENT_PAGE,
@@ -29,6 +41,10 @@ const servicesTicketsInitialState: any = {
   isPortalOpen: {},
   ticketsListsActiveColumn: ticketsListInitialColumns,
   totalRecords: 0,
+  isTimerPause: true,
+  time: initialTime,
+  timerId: '',
+  intervalRef: '',
 };
 
 const servicesTicketsSlice = createSlice({
@@ -49,6 +65,11 @@ const servicesTicketsSlice = createSlice({
     setTicketsListsActiveColumn: setTicketsListsActiveColumnReducer,
     setTicketsListsInitialColumn: setTicketsListsInitialColumnReducer,
     setTicketsListsTotalRecords: setTicketsListsTotalRecordsReducer,
+    setTime: setTimeReducer,
+    setIsTimerPause: setIsTimerPauseReducer,
+    resetTime: resetTimeReducer,
+    resetInternalRef: resetInternalRefReducer,
+    setInternalRef: setInternalRefReducer,
   },
 });
 
@@ -67,6 +88,11 @@ export const {
   setTicketsListsActiveColumn,
   setTicketsListsInitialColumn,
   setTicketsListsTotalRecords,
+  setTime,
+  setIsTimerPause,
+  resetTime,
+  resetInternalRef,
+  setInternalRef,
 } = servicesTicketsSlice?.actions;
 
 export default servicesTicketsSlice?.reducer;

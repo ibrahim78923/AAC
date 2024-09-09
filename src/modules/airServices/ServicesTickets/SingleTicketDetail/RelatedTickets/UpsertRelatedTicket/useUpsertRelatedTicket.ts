@@ -24,12 +24,16 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
-import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertRelatedTicket = (
   props: RelatedTicketsPortalComponentPropsI,
 ) => {
   const { setIsPortalOpen, childTicketId, setSelectedChildTickets } = props;
+  const auth: any = useAuth();
+  const { _id: companyId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
 
   const router: NextRouter = useRouter();
   const { ticketId } = router?.query;
@@ -159,6 +163,7 @@ export const useUpsertRelatedTicket = (
     apiQueryCategories,
     apiQueryAssociateAsset,
     router,
+    companyId,
   );
 
   return {

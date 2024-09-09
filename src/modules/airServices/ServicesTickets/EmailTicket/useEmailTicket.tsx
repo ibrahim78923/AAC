@@ -6,13 +6,19 @@ import {
 } from './EmailTicket.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
-import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
 import { EmailTicketFormFieldsI } from './EmailTicket.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets/slice';
 
-export const useEmailTicket = (
-  props: SingleTicketDetailPortalComponentPropsI,
-) => {
-  const { setIsPortalOpen } = props;
+export const useEmailTicket = () => {
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
 
   const [trigger, status] = usePostNewEmailMutation();
 
@@ -27,7 +33,8 @@ export const useEmailTicket = (
 
   const onClose = () => {
     reset();
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
   const onSubmit = async (data: EmailTicketFormFieldsI) => {
@@ -51,5 +58,6 @@ export const useEmailTicket = (
     onSubmit,
     onClose,
     status,
+    isPortalOpen,
   };
 };

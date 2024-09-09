@@ -1,5 +1,6 @@
 import { PAGINATION } from '@/config';
-import { ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 import { useGetAllArticlesForConversationQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -10,6 +11,10 @@ export const useArticlesList = (props: any) => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
 
+  const auth: any = useAuth();
+  const { _id: companyId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+
   const router = useRouter();
   const getAllArticlesForConversationParameter = {
     queryParams: {
@@ -17,6 +22,7 @@ export const useArticlesList = (props: any) => {
       limit: pageLimit,
       search,
       status: ARTICLE_STATUS?.PUBLISHED,
+      companyId,
     },
   };
 

@@ -1,24 +1,30 @@
 import { ARRAY_INDEX, TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import {
+  resetTime,
+  setIsTimerPause,
+  setTime,
+} from '@/redux/slices/airServices/tickets/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
   usePostTicketsTimeMutation,
   usePutTicketsTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
-
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export const useStopWatch = (props: any) => {
-  const {
-    data,
-    setIsTimerPause,
-    isTimerPause,
-    setTime,
-    startTimerId,
-    intervalRef,
-  } = props;
+  const { data, startTimerId, intervalRef } = props;
+
+  const dispatch = useAppDispatch();
+
+  const isTimerPause = useAppSelector(
+    (state) => state?.servicesTickets?.isTimerPause,
+  );
+
+  const time = useAppSelector((state) => state?.servicesTickets?.time);
 
   const { user }: any = useAuth();
   const theme = useTheme();
@@ -32,46 +38,53 @@ export const useStopWatch = (props: any) => {
   const { ticketId } = router?.query;
 
   const start = () => {
-    if (!intervalRef?.current) {
-      intervalRef.current = window?.setInterval(() => {
-        setTime((prevTime: any) => {
-          let { hours, minutes, seconds } = prevTime;
+    if (!intervalRef?.current !== null) {
+      const id = window?.setInterval(() => {
+        dispatch((dispatch, getState) => {
+          const { hours, minutes, seconds } = getState()?.servicesTickets?.time;
 
-          if (seconds === TIME_ENTRIES_TICKETS_TIMES?.PREVIOUS_SECOND) {
-            seconds = 0;
-            if (minutes === TIME_ENTRIES_TICKETS_TIMES?.PREVIOUS_MINUTE) {
-              minutes = 0;
-              hours += 1;
+          let newHours = hours;
+          let newMinutes = minutes;
+          let newSeconds = seconds;
+
+          if (newSeconds === TIME_ENTRIES_TICKETS_TIMES?.PREVIOUS_SECOND) {
+            newSeconds = 0;
+            if (newMinutes === TIME_ENTRIES_TICKETS_TIMES?.PREVIOUS_MINUTE) {
+              newMinutes = 0;
+              newHours += 1;
             } else {
-              minutes += 1;
+              newMinutes += 1;
             }
           } else {
-            seconds += 1;
+            newSeconds += 1;
           }
 
-          return { hours, minutes, seconds };
+          dispatch(
+            setTime<any>({
+              hours: newHours,
+              minutes: newMinutes,
+              seconds: newSeconds,
+            }),
+          );
         });
       }, 1000);
+      intervalRef.current = id;
     }
   };
 
   const stop = () => {
-    if (intervalRef?.current) {
-      clearInterval(intervalRef?.current);
+    if (intervalRef?.current !== null) {
+      window?.clearInterval(intervalRef?.current);
       intervalRef.current = null;
     }
   };
 
   const reset = () => {
-    if (intervalRef?.current) {
-      clearInterval(intervalRef?.current);
+    if (intervalRef?.current !== null) {
+      window?.clearInterval(intervalRef?.current);
       intervalRef.current = null;
     }
-    setTime({
-      hours: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_HOUR,
-      minutes: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_MINUTE,
-      seconds: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_SECOND,
-    });
+    dispatch(resetTime());
   };
 
   const submitStartTimer = async () => {
@@ -91,13 +104,18 @@ export const useStopWatch = (props: any) => {
       const response =
         await postTicketsTimeTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket time added successfully!');
-      setIsTimerPause?.(false);
+      dispatch(
+        setIsTimerPause<any>({
+          isTimerPause: false,
+        }),
+      );
       startTimerId.current = response?.data?._id;
       start();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const submitPauseTimer = async () => {
     const body = {
       id: startTimerId?.current,
@@ -114,8 +132,8 @@ export const useStopWatch = (props: any) => {
       stop();
       await putTicketsTimeTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket time updated successfully!');
-      setIsTimerPause?.(true);
-      startTimerId.current = undefined;
+      dispatch(setIsTimerPause<any>({ isTimerPause: true }));
+      startTimerId.current = null;
       reset();
     } catch (error) {}
   };
@@ -128,7 +146,7 @@ export const useStopWatch = (props: any) => {
 
   useEffect(() => {
     const handleUnmount = () => {
-      if (!!startTimerId?.current) {
+      if (startTimerId?.current !== null) {
         submitPauseTimer?.();
       }
     };
@@ -142,5 +160,6 @@ export const useStopWatch = (props: any) => {
     postTicketsTimeStatus,
     putTicketsTimeStatus,
     theme,
+    time,
   };
 };

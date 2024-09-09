@@ -4,13 +4,11 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { addEmailDataArray } from './EmailTicket.data';
 import { useEmailTicket } from './useEmailTicket';
-import { SingleTicketDetailPortalComponentPropsI } from '../SingleTicketDetail/SingleTicketDetails.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const EmailTicket = (props: SingleTicketDetailPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
-  const { methods, handleSubmit, onSubmit, onClose, status } =
-    useEmailTicket(props);
+export const EmailTicket = () => {
+  const { methods, handleSubmit, onSubmit, onClose, status, isPortalOpen } =
+    useEmailTicket();
 
   return (
     <CommonDrawer

@@ -84,6 +84,7 @@ export const upsertTicketFormFieldsDynamic = (
   apiQueryCategory?: any,
   apiQueryAssociateAsset?: any,
   router?: NextRouter,
+  companyId?: string,
 ) => [
   {
     id: 1,
@@ -260,7 +261,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       multiple: true,
       apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
+      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT, companyId },
       getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         option?.displayName,
       renderOption: (option: any) => (
