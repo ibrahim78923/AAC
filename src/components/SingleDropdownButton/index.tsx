@@ -60,7 +60,10 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
           >
             <MenuItem
               disabled={singleOption?.disabled}
-              onClick={() => singleOption?.handleClick?.(handleClose)}
+              onClick={(event: any) => {
+                event?.stopPropagation();
+                singleOption?.handleClick?.(handleClose);
+              }}
               sx={{
                 '&.MuiMenuItem-root': {
                   marginBottom: { md: 0.5 },

@@ -9,15 +9,24 @@ import {
   ticketsFilterFormFieldsDataFunction,
   ticketsFilterFormFieldsDefaultValues,
 } from './FilterTickets.data';
-import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import { TicketsFilterFormFieldsI } from './FilterTickets.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptyFilterTicketLists,
+  setFilterTicketLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets/slice';
+import { PAGINATION } from '@/config';
 
-export const useFilterTickets = (props: TicketActionComponentPropsI) => {
-  const { setIsPortalOpen, setFilterTicketLists, filterTicketLists, setPage } =
-    props;
-
+export const useFilterTickets = () => {
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
+  const filterTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.filterTicketLists,
+  );
+  const dispatch = useAppDispatch();
   const methods: UseFormReturn<TicketsFilterFormFieldsI> =
     useForm<TicketsFilterFormFieldsI>({
       defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
@@ -29,26 +38,35 @@ export const useFilterTickets = (props: TicketActionComponentPropsI) => {
     const ticketsFiltered: any = filteredEmptyValues?.(data);
 
     if (!Object?.keys(ticketsFiltered || {})?.length) {
-      setFilterTicketLists(ticketsFiltered);
+      dispatch(
+        setFilterTicketLists<any>({
+          filterValues: ticketsFiltered,
+          page: PAGINATION?.CURRENT_PAGE,
+        }),
+      );
       onClose();
       return;
     }
-    setPage(PAGINATION?.CURRENT_PAGE);
-    setFilterTicketLists(ticketsFiltered);
+    dispatch(
+      setFilterTicketLists<any>({
+        filterValues: ticketsFiltered,
+        page: PAGINATION?.CURRENT_PAGE,
+      }),
+    );
     onClose();
   };
 
   const resetTicketFilterForm = async () => {
     if (!!Object?.keys(filterTicketLists)?.length) {
-      setFilterTicketLists({});
+      dispatch(emptyFilterTicketLists());
     }
     reset();
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
   const onClose = () => {
     reset?.();
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
@@ -71,5 +89,6 @@ export const useFilterTickets = (props: TicketActionComponentPropsI) => {
     submitTicketFilterForm,
     onClose,
     resetTicketFilterForm,
+    isPortalOpen,
   };
 };

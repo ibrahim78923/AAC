@@ -2,14 +2,14 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { CloneReportIcon } from '@/assets/icons';
 import { useUpdateTicketStatus } from './useUpdateTicketStatus';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const UpdateTicketStatus = (
-  props: TicketActionComponentPropsI | any,
-) => {
-  const { isPortalOpen } = props;
-  const { putSingleTicketStatusStatus, closeModal, updateTicketStatus } =
-    useUpdateTicketStatus(props);
+export const UpdateTicketStatus = () => {
+  const {
+    putSingleTicketStatusStatus,
+    closeModal,
+    updateTicketStatus,
+    isPortalOpen,
+  } = useUpdateTicketStatus();
 
   return (
     <AlertModals

@@ -10,12 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 import { useMoveTickets } from './useMoveTickets';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const MoveTickets = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const MoveTickets = () => {
   const {
     moveTicketsFormMethod,
     closeMoveTicketsModal,
@@ -23,7 +21,8 @@ export const MoveTickets = (props: TicketActionComponentPropsI) => {
     submitMoveTicketsForm,
     moveTicketsFormFields,
     putTicketStatus,
-  } = useMoveTickets(props);
+    isPortalOpen,
+  } = useMoveTickets();
 
   return (
     <Dialog

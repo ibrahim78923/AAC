@@ -1,10 +1,6 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import {
-  SELECTED_ARRAY_LENGTH,
-  TICKET_STATUS,
-  TICKET_TYPE,
-} from '@/constants/strings';
+import { TICKET_TYPE } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
@@ -13,14 +9,7 @@ import {
   generateImage,
   truncateText,
 } from '@/utils/avatarUtils';
-import {
-  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
-  AIR_SERVICES_TICKETS_TICKET_LISTS,
-} from '@/constants/permission-keys';
-import { errorSnackbar } from '@/utils/api';
 import { NextRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { TicketTableRowI } from './TicketsLists.interface';
 
 export const TICKETS_ACTION_CONSTANTS = {
@@ -39,125 +28,6 @@ export const TICKETS_ACTION_CONSTANTS = {
   ADD_TIME_ON_TICKET: 'add-time-on-ticket',
 };
 
-export const ticketsActionDropdownFunction = (
-  setTicketAction: (
-    ticketActionQuery: string,
-    data?: {
-      [key: string]: any;
-    },
-  ) => void,
-  selectedTicketList: any,
-) => [
-  {
-    id: 1,
-    permissionKey: [
-      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
-    ],
-    title: 'Edit',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
-      closeMenu?.();
-    },
-  },
-  {
-    id: 2,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Assign To',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
-      closeMenu?.();
-    },
-  },
-  {
-    id: 3,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Bulk Update',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
-      closeMenu?.();
-    },
-  },
-  {
-    id: 4,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Merge',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.MERGE_TICKET);
-      closeMenu?.();
-    },
-  },
-  {
-    id: 5,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Move',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
-      closeMenu?.();
-    },
-  },
-  {
-    id: 6,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Mark as Close',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS, {
-        status: TICKET_STATUS?.CLOSED,
-      });
-      closeMenu?.();
-    },
-  },
-  {
-    id: 7,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Mark as Spam',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS, {
-        status: TICKET_STATUS?.SPAM,
-      });
-      closeMenu?.();
-    },
-  },
-  {
-    id: 8,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
-    title: 'Delete',
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
-      closeMenu?.();
-    },
-  },
-];
-
 export const ticketsListInitialColumns: string[] = [
   '_id',
   'ticketIdNumber',
@@ -170,10 +40,10 @@ export const ticketsListInitialColumns: string[] = [
 ];
 
 export const ticketsListsColumnFunction: any = (
-  router: NextRouter,
+  router?: NextRouter,
   ticketList = [],
-  selectedTicketList: any,
-  setSelectedTicketList: Dispatch<SetStateAction<any>>,
+  selectedTicketList?: any,
+  setSelectedTicketList?: any,
 ) => {
   return [
     {
@@ -184,14 +54,19 @@ export const ticketsListsColumnFunction: any = (
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!selectedTicketList?.find((item: any) => item === info?.getValue())
+            !!selectedTicketList?.find(
+              (item: any) => item?._id === info?.getValue(),
+            )
           }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList([...selectedTicketList, info?.getValue()])
+              ? setSelectedTicketList([
+                  ...selectedTicketList,
+                  info?.row?.original,
+                ])
               : setSelectedTicketList(
                   selectedTicketList?.filter(
-                    (item: any) => item !== info?.getValue(),
+                    (item: any) => item?._id !== info?.getValue(),
                   ),
                 );
           }}
@@ -210,9 +85,7 @@ export const ticketsListsColumnFunction: any = (
           }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedTicketList(
-                  ticketList?.map((ticket: any) => ticket?._id),
-                )
+              ? setSelectedTicketList(ticketList?.map((ticket: any) => ticket))
               : setSelectedTicketList([]);
           }}
           color="primary"
@@ -235,14 +108,14 @@ export const ticketsListsColumnFunction: any = (
             <Avatar
               variant="rounded"
               sx={{
-                bgcolor: 'blue.main',
+                bgcolor: 'primary.main',
                 width: 25,
                 height: 25,
               }}
               src={generateImage(info?.row?.original?.attachment?.fileUrl)}
             >
               <Typography variant="body2" textTransform={'uppercase'}>
-                {info?.row?.original?.departmentsDetails?.name?.[0] ?? '-'}
+                {fullNameInitial(info?.row?.original?.departmentsDetails?.name)}
               </Typography>
             </Avatar>
             <Typography
@@ -289,7 +162,7 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+            sx={{ bgcolor: 'primary.main', width: 28, height: 28 }}
             src={generateImage(
               info?.row?.original?.requesterDetails?.avatar?.url,
             )}

@@ -16,19 +16,23 @@ import {
   usePostAddReplyToBulkUpdateMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
-import { PAGINATION } from '@/config';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 
-export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedTicketList,
-    selectedTicketList,
-    setFilterTicketLists,
-    getTicketsListData,
-    setPage,
-  } = props;
+export const useTicketBulkUpdate = () => {
+  const dispatch = useAppDispatch();
+  const { getTicketsListData } = useGetTicketList();
 
+  const selectedTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.selectedTicketLists,
+  );
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
   const [isReplyAdded, setIsReplyAdded] = useState(false);
 
   const theme: any = useTheme();
@@ -81,8 +85,8 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
         {},
       );
     const bulkUpdateTicketParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => bulkUpdateTicketParams?.append('ids', ticketId),
+    selectedTicketLists?.forEach(
+      (ticketId: any) => bulkUpdateTicketParams?.append('ids', ticketId?._id),
     );
     const bulkUpdateTicketsParameter = {
       queryParams: bulkUpdateTicketParams,
@@ -92,15 +96,11 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     try {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
-      setIsPortalOpen?.({});
-      setFilterTicketLists?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
-      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       if (!!data?.to?.length && !!data?.description) {
         submitReply?.(data);
       }
-      reset();
-      setSelectedTicketList?.([]);
+      onClose();
+      await getTicketsListData();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -108,7 +108,8 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
 
   const onClose = () => {
     reset?.();
-    setIsPortalOpen({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
@@ -130,5 +131,6 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     submitTicketBulkUpdateForm,
     patchBulkUpdateTicketsStatus,
     postAddReplyToBulkUpdateStatus,
+    isPortalOpen,
   };
 };

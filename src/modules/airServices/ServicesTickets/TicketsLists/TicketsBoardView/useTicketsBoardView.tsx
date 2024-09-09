@@ -1,14 +1,24 @@
-import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
-import { buildQueryParams } from '@/utils/api';
-import { neglectKeysInLoop } from '../../FilterTickets/FilterTickets.data';
-import { useEffect, useState } from 'react';
-import { PAGINATION } from '@/config';
-import { TicketBoardViewPropsI } from '../TicketsLists.interface';
+import { useEffect } from 'react';
+import { useGetTicketList } from '../../TicketsServicesHooks/useGetTicketList';
+import { useAppDispatch } from '@/redux/store';
+import {
+  setPage,
+  setPageLimit,
+} from '@/redux/slices/airServices/tickets/slice';
 
-export const useTicketsBoardView = (props: TicketBoardViewPropsI) => {
-  const { search, filterTicketLists } = props;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+export const useTicketsBoardView = () => {
+  const {
+    getTicketsListData,
+    lazyGetTicketsStatus,
+    page,
+    pageLimit,
+    search,
+    filterTicketLists,
+  } = useGetTicketList();
+
+  useEffect(() => {
+    getTicketsListData?.();
+  }, [page, pageLimit, search, filterTicketLists]);
 
   const HEAD_STATUS = [
     { heading: 'Open', be: 'OPEN' },
@@ -16,39 +26,23 @@ export const useTicketsBoardView = (props: TicketBoardViewPropsI) => {
     { heading: 'Pending', be: 'PENDING' },
     { heading: 'Closed', be: 'CLOSED' },
   ];
-  const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
-    useLazyGetTicketsQuery();
 
-  const getValueTicketsListData = async (currentPage = page) => {
-    const additionalParams = [
-      ['metaData', true + ''],
-      ['page', currentPage + ''],
-      ['limit', pageLimit + ''],
-      ['search', search],
-    ];
-    const ticketsParam = buildQueryParams(
-      additionalParams,
-      filterTicketLists,
-      neglectKeysInLoop,
-    );
-    const getTicketsParameter = {
-      queryParams: ticketsParam,
-    };
-    try {
-      await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
-    } catch (error: any) {}
+  const dispatch = useAppDispatch();
+
+  const handleSetPage = (newPage: any) => {
+    dispatch(setPage(newPage));
   };
 
-  useEffect(() => {
-    getValueTicketsListData();
-  }, [search, page, pageLimit, filterTicketLists]);
+  const handleSetPageLimit = (newPageLimit: any) => {
+    dispatch(setPageLimit(newPageLimit));
+  };
 
   return {
     HEAD_STATUS,
     lazyGetTicketsStatus,
-    setPage,
-    setPageLimit,
-    getValueTicketsListData,
     page,
+    handleSetPageLimit,
+    handleSetPage,
+    getTicketsListData,
   };
 };

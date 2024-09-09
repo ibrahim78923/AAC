@@ -1,12 +1,14 @@
 import { AlertModals } from '@/components/AlertModals';
 import { useTicketDelete } from './useTicketsDelete';
 import { AlertModalDeleteIcon } from '@/assets/icons';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const TicketsDelete = (props: TicketActionComponentPropsI | any) => {
-  const { isPortalOpen } = props;
-  const { deleteTicket, closeTicketsDeleteModal, deleteTicketsStatus } =
-    useTicketDelete(props);
+export const TicketsDelete = () => {
+  const {
+    deleteTicket,
+    closeTicketsDeleteModal,
+    deleteTicketsStatus,
+    isPortalOpen,
+  } = useTicketDelete();
 
   return (
     <AlertModals

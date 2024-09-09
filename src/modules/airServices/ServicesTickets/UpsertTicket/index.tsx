@@ -8,12 +8,10 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const UpsertTicket = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const UpsertTicket = () => {
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -29,7 +27,8 @@ export const UpsertTicket = (props: TicketActionComponentPropsI) => {
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
-  }: any = useUpsertTicket(props);
+    isPortalOpen,
+  }: any = useUpsertTicket();
 
   return (
     <CommonDrawer

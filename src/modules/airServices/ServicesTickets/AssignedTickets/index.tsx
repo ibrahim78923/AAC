@@ -10,13 +10,11 @@ import {
 } from '@mui/material';
 import { useAssignedTickets } from './useAssignedTickets';
 import { ROLES } from '@/constants/strings';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import { PAGINATION } from '@/config';
 import CloseIcon from '@mui/icons-material/Close';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const AssignedTickets = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const AssignedTickets = () => {
   const {
     assignedTicketsMethod,
     handleSubmit,
@@ -24,7 +22,8 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
     closeTicketsAssignedModal,
     apiQueryAgent,
     putTicketStatus,
-  }: any = useAssignedTickets(props);
+    isPortalOpen,
+  }: any = useAssignedTickets();
 
   return (
     <Dialog

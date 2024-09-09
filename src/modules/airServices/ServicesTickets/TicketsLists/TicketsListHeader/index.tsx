@@ -4,30 +4,52 @@ import { NextRouter, useRouter } from 'next/router';
 import { CutomizeIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
 import AutoRenewIcon from '@mui/icons-material/Autorenew';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { ticketsListInitialColumns } from '../TicketsLists.data';
+import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists.data';
 import usePath from '@/hooks/usePath';
-import { VIEW_TYPES } from '@/constants/strings';
+import { EXPORT_TYPE, VIEW_TYPES } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
+import { useTicketsListHeader } from './useTicketsListHeader';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-export const TicketsListSubHeader = (props: any) => {
+export const TicketsListHeader = () => {
   const {
-    onCustomizeClick,
-    onFilterClick,
     ticketsActionDropdown,
-    setSearch,
-    disabledActionButton,
-    setTicketsListsActiveColumn,
-  } = props;
+    isPortalOpen,
+    ticketActionComponent,
+    setTicketAction,
+    handleSetSearch,
+    selectedTicketLists,
+    getTicketsListDataExport,
+    setInitialColumns,
+  } = useTicketsListHeader();
 
   const router: NextRouter = useRouter();
   const { makePath } = usePath();
 
   return (
     <>
+      <PageTitledHeader
+        title={
+          router?.query?.viewType === VIEW_TYPES?.BOARD
+            ? 'Tickets Board'
+            : 'Ticket List - All Tickets'
+        }
+        addTitle={'Create Ticket'}
+        hasExport
+        handleExcelExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.XLS)}
+        handleCsvExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.CSV)}
+        handleAction={() =>
+          setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
+        }
+        exportPermissionKey={[
+          AIR_SERVICES_TICKETS_TICKET_LISTS?.EXPORT_TICKETS,
+        ]}
+        createPermissionKey={[AIR_SERVICES_TICKETS_TICKET_LISTS?.CREATE_TICKET]}
+      />
       <Box
         display={'flex'}
         gap={'1rem'}
@@ -37,12 +59,7 @@ export const TicketsListSubHeader = (props: any) => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
         >
-          <Search
-            label="Search Here"
-            width="100%"
-            setSearchBy={setSearch}
-            sx={{ minWidth: '260px' }}
-          />
+          <Search label="Search Here" setSearchBy={handleSetSearch} />
         </PermissionsGuard>
         <Box
           display={'flex'}
@@ -59,7 +76,7 @@ export const TicketsListSubHeader = (props: any) => {
             {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
               <SingleDropdownButton
                 dropdownOptions={ticketsActionDropdown}
-                disabled={disabledActionButton}
+                disabled={!!!selectedTicketLists?.length}
               />
             )}
           </PermissionsGuard>
@@ -69,9 +86,7 @@ export const TicketsListSubHeader = (props: any) => {
             {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
               <Button
                 variant="outlined"
-                onClick={() => {
-                  setTicketsListsActiveColumn(ticketsListInitialColumns);
-                }}
+                onClick={setInitialColumns}
                 size="large"
                 color="secondary"
               >
@@ -87,7 +102,9 @@ export const TicketsListSubHeader = (props: any) => {
             {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
               <Button
                 variant="outlined"
-                onClick={() => onCustomizeClick?.()}
+                onClick={() =>
+                  setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN)
+                }
                 size="large"
                 startIcon={<CutomizeIcon />}
                 color="secondary"
@@ -101,7 +118,9 @@ export const TicketsListSubHeader = (props: any) => {
           >
             <Button
               variant="outlined"
-              onClick={() => onFilterClick?.()}
+              onClick={() =>
+                setTicketAction?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)
+              }
               size="large"
               startIcon={<FilterIcon />}
               color="secondary"
@@ -168,6 +187,8 @@ export const TicketsListSubHeader = (props: any) => {
           </ButtonGroup>
         </Box>
       </Box>
+      {isPortalOpen?.isOpen &&
+        ticketActionComponent?.[isPortalOpen?.action as string]}
     </>
   );
 };

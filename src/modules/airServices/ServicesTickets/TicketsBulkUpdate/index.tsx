@@ -4,11 +4,9 @@ import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CommonDrawer from '@/components/CommonDrawer';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const TicketsBulkUpdate = () => {
   const {
     ticketsBulkUpdateFormFields,
     theme,
@@ -20,7 +18,9 @@ export const TicketsBulkUpdate = (props: TicketActionComponentPropsI) => {
     onClose,
     submitTicketBulkUpdateForm,
     patchBulkUpdateTicketsStatus,
-  }: any = useTicketBulkUpdate(props);
+    isPortalOpen,
+  }: any = useTicketBulkUpdate();
+
   return (
     <>
       <CommonDrawer

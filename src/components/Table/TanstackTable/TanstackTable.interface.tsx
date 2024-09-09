@@ -31,4 +31,6 @@ export interface TanstackTablePropsI {
   errorProps?: { [key: string]: any };
   rootSX?: any;
   showSerialNo?: boolean;
+  incrementPageClick?: any;
+  decrementPageClick?: any;
 }

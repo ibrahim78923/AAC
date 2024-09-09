@@ -2,10 +2,8 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useFilterTickets } from './useFilterTickets';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const FilterTickets = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const FilterTickets = () => {
   const {
     ticketsFilterFormFieldsData,
     methods,
@@ -13,7 +11,8 @@ export const FilterTickets = (props: TicketActionComponentPropsI) => {
     submitTicketFilterForm,
     onClose,
     resetTicketFilterForm,
-  } = useFilterTickets(props);
+    isPortalOpen,
+  } = useFilterTickets();
 
   return (
     <>

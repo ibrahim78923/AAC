@@ -1,15 +1,21 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { usePutSingleTicketStatusMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets/slice';
 
-export const useUpdateTicketStatus = (props: TicketActionComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedTicketList,
-    selectedTicketList,
-    isPortalOpen,
-  } = props;
+export const useUpdateTicketStatus = () => {
+  const dispatch = useAppDispatch();
+  const selectedTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.selectedTicketLists,
+  );
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
 
   const [putSingleTicketStatusTrigger, putSingleTicketStatusStatus] =
     usePutSingleTicketStatusMutation();
@@ -18,7 +24,7 @@ export const useUpdateTicketStatus = (props: TicketActionComponentPropsI) => {
     const updateTicketStatusTicketsParameter = {
       queryParams: {
         status: isPortalOpen?.status,
-        id: selectedTicketList?.[ARRAY_INDEX?.ZERO],
+        id: selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id,
       },
     };
     try {
@@ -31,14 +37,16 @@ export const useUpdateTicketStatus = (props: TicketActionComponentPropsI) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const closeModal = () => {
-    setSelectedTicketList?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
   return {
     putSingleTicketStatusStatus,
     closeModal,
     updateTicketStatus,
+    isPortalOpen,
   };
 };

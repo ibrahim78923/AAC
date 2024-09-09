@@ -15,10 +15,22 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 
-export const useMergedTickets = (props: TicketActionComponentPropsI) => {
-  const { setIsPortalOpen, setSelectedTicketList, selectedTicketList } = props;
+export const useMergedTickets = () => {
+  const dispatch = useAppDispatch();
+  const selectedTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.selectedTicketLists,
+  );
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
+  const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
+
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
     usePostMergeTicketsMutation();
   const mergedTicketsFormMethod = useForm({
@@ -52,10 +64,7 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
     data?.ticketSelection?._id === TICKET_SELECTION_TYPE?.ID &&
       postMergeTicketsParams?.append('searchTicket', data?.searchTicketId?._id);
     postMergeTicketsParams?.append('findTicketBy', data?.ticketSelection?._id);
-    postMergeTicketsParams?.append(
-      'ticketId',
-      selectedTicketList?.[ARRAY_INDEX?.ZERO],
-    );
+    postMergeTicketsParams?.append('ticketId', singleTicketDetail?._id);
     const postMergeTicketsParameter = {
       queryParams: postMergeTicketsParams,
     };
@@ -70,8 +79,8 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
 
   const closeMergedTicketsModal = () => {
     reset();
-    setSelectedTicketList?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
   const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
@@ -96,5 +105,7 @@ export const useMergedTickets = (props: TicketActionComponentPropsI) => {
     submitMergedTicketsForm,
     mergeTicketsFormFields,
     postMergeTicketsStatus,
+    isPortalOpen,
+    singleTicketDetail,
   };
 };

@@ -16,13 +16,16 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
   const {
     HEAD_STATUS,
     lazyGetTicketsStatus,
-    setPage,
-    setPageLimit,
-    getValueTicketsListData,
     page,
-  } = useTicketsBoardView(props);
+    handleSetPageLimit,
+    handleSetPage,
+    getTicketsListData,
+  } = useTicketsBoardView();
 
-  if (lazyGetTicketsStatus?.isError) return <ApiErrorState />;
+  if (lazyGetTicketsStatus?.isError)
+    return (
+      <ApiErrorState canRefresh refresh={() => getTicketsListData?.(page)} />
+    );
   if (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching)
     return <SkeletonTable />;
   if (!!!lazyGetTicketsStatus?.data?.data?.tickets?.length)
@@ -56,9 +59,9 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
                           totalRecords={
                             lazyGetTicketsStatus?.data?.data?.tickets?.length
                           }
-                          setPage={setPage}
+                          setPage={handleSetPage}
                           page={page}
-                          getValueTicketsListData={getValueTicketsListData}
+                          getValueTicketsListData={getTicketsListData}
                         />
                       </Fragment>
                     ),
@@ -72,9 +75,9 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
         count={lazyGetTicketsStatus?.data?.data?.meta?.pages}
         pageLimit={lazyGetTicketsStatus?.data?.data?.meta?.limit}
         currentPage={lazyGetTicketsStatus?.data?.data?.meta?.page}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
+        onPageChange={(page: number) => handleSetPage(page)}
+        setPage={handleSetPage}
+        setPageLimit={handleSetPageLimit}
         totalRecords={lazyGetTicketsStatus?.data?.data?.meta?.total}
       />
     </>

@@ -8,6 +8,7 @@ export const useSingleDropdownButton = () => {
   const theme: Theme = useTheme();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     setAnchorEl(event?.currentTarget);
   };
 

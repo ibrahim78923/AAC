@@ -48,6 +48,8 @@ const TanstackTable = (props: TanstackTablePropsI) => {
     noDataTableImage = NoAssociationFoundImage,
     errorChildren,
     errorProps,
+    incrementPageClick,
+    decrementPageClick,
   } = props;
 
   const { table } = useTanstackTable(data, columns, showSerialNo);
@@ -160,6 +162,8 @@ const TanstackTable = (props: TanstackTablePropsI) => {
               onPageChange={(page: any) => onPageChange?.(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
+              incrementPageClick={incrementPageClick}
+              decrementPageClick={decrementPageClick}
             />
           )}
         </Box>

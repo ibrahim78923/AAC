@@ -4,6 +4,7 @@ export interface SingleTicketDetailIsPortalOpenI {
   isOpen?: boolean;
   action?: string;
   status?: string;
+  data?: string[];
 }
 
 export interface TimeI {
