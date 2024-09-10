@@ -5,56 +5,34 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { ROLES } from '@/constants/strings';
-import {
-  dynamicFormInitialValue,
-  dynamicFormValidationSchema,
-} from '@/utils/dynamic-forms';
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 
-export const validationSchema: any = (form: any) => {
-  const formSchema: any = dynamicFormValidationSchema(form);
+export const getWorkloadValidationSchema: any = Yup?.object()?.shape({
+  title: Yup?.string()?.trim()?.required('Title is Required'),
+  description: Yup?.string()?.trim()?.required('Description is Required'),
+  assignTo: Yup?.mixed()?.nullable(),
+  status: Yup.string()?.required('Status is Required'),
+  startDate: Yup?.date()?.nullable(),
+  endDate: Yup?.date()?.nullable(),
+  plannedEffort: Yup?.string(),
+});
 
-  return Yup?.object()?.shape({
-    title: Yup?.string()?.trim()?.required('Required'),
-    description: Yup?.string()?.trim()?.required('Required'),
-    departmentId: Yup?.mixed()?.nullable()?.required('Required'),
-    assignTo: Yup?.mixed()?.nullable(),
-    status: Yup.string()?.required('Required'),
-    startDate: Yup?.date()?.nullable(),
-    endDate: Yup?.date()?.nullable(),
-    plannedEffort: Yup?.string(),
-    ...formSchema,
-  });
-};
+export const getWorkloadDefaultValues = (data?: any) => ({
+  title: data?.title ?? '',
+  description: data?.description ?? '',
+  assignTo: !!Object?.keys(data?.assignedUser ?? {})?.length
+    ? data?.assignedUser
+    : null,
+  status: data?.status ?? '',
+  startDate: data?.startDate ? new Date(data?.startDate) : null,
+  endDate: data?.endDate ? new Date(data?.endDate) : null,
+  plannedEffort: data?.plannedEffort ?? '',
+});
 
-export const getWorkloadDefaultValues = (data?: any, form?: any) => {
-  const initialValues: any = dynamicFormInitialValue(data, form);
-
-  return {
-    title: data?.title ?? '',
-    description: data?.description ?? '',
-    departmentId: !!Object?.keys(data?.departmentData ?? {})?.length
-      ? data?.departmentData
-      : null,
-    assignTo: !!Object?.keys(data?.assignedUser ?? {})?.length
-      ? data?.assignedUser
-      : null,
-    status: data?.status ?? '',
-    startDate: data?.startDate ? new Date(data?.startDate) : null,
-    endDate: data?.endDate ? new Date(data?.endDate) : null,
-    plannedEffort: data?.plannedEffort ?? '',
-    ...initialValues,
-  };
-};
-
-export const getWorkloadDataArray = ({
-  apiQueryDepartment,
-  apiQueryAssignTo,
-}: any) => {
+export const getWorkloadDataArray = ({ apiQueryAssignTo }: any) => {
   return [
     {
       id: 1,
@@ -63,6 +41,7 @@ export const getWorkloadDataArray = ({
         label: 'Title',
         placeholder: 'Title',
         required: true,
+        disabled: true,
       },
       component: RHFTextField,
     },
@@ -77,27 +56,18 @@ export const getWorkloadDataArray = ({
       component: RHFEditor,
     },
     {
-      id: 3,
-      componentProps: {
-        name: 'departmentId',
-        label: 'Department',
-        apiQuery: apiQueryDepartment,
-        placeholder: 'Choose Department',
-        required: true,
-      },
-      component: RHFAutocompleteAsync,
-    },
-    {
       id: 4,
       componentProps: {
         name: 'assignTo',
-        label: 'Assign To',
+        label: 'Assignee',
         fullWidth: true,
         placeholder: 'Select',
         apiQuery: apiQueryAssignTo,
         getOptionLabel: (option: any) =>
           option?.firstName + ' ' + option?.lastName,
-        externalParams: { role: ROLES?.ORG_EMPLOYEE, limit: 50 },
+        externalParams: {
+          admin: true,
+        },
       },
       component: RHFAutocompleteAsync,
     },
@@ -119,7 +89,6 @@ export const getWorkloadDataArray = ({
         name: 'startDate',
         label: 'Planned Start Date',
         fullWidth: true,
-        disabled: true,
       },
       component: RHFDesktopDateTimePicker,
     },

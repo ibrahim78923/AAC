@@ -7,12 +7,11 @@ import {
   Typography,
 } from '@mui/material';
 import { Fragment } from 'react';
-import { IMG_URL } from '@/config';
 import Search from '@/components/Search';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useProfile from './useProfile';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const Profile = ({ selected, setSelected }: any) => {
   const {
@@ -73,7 +72,7 @@ export const Profile = ({ selected, setSelected }: any) => {
                   mx: 0.2,
                   textTransform: 'capitalize',
                 }}
-                src={`${IMG_URL}${item?.img}`}
+                src={generateImage(item?.avatar?.url)}
                 onClick={() => addToArray?.(item)}
               >
                 {fullNameInitial(item?.firstName, item?.lastName)}
@@ -167,7 +166,7 @@ export const Profile = ({ selected, setSelected }: any) => {
                     mx: 0.2,
                     textTransform: 'capitalize',
                   }}
-                  src={`${IMG_URL}${item?.img}`}
+                  src={generateImage(item?.avatar?.url)}
                 >
                   {fullNameInitial(item?.firstName, item?.lastName)}
                 </Avatar>

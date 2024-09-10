@@ -32,7 +32,7 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
     <CommonDrawer
       isDrawerOpen={openDrawer}
       onClose={() => onClose(false)}
-      title={`#${data?.extendedProps?.taskNo}`}
+      title={`#${data?.extendedProps?.taskId}`}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}
