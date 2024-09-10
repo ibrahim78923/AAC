@@ -5,7 +5,22 @@ import {
 } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
-import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists.data';
+
+export const TICKETS_ACTION_CONSTANTS = {
+  CUSTOMIZE_COLUMN: 'customize-column',
+  FILTER_DATA: 'filter-data',
+  BULK_UPDATE_DATA: 'bulk-update-data',
+  CREATE_NEW_TICKET: 'create-new-ticket',
+  EDIT_TICKET: 'edit-ticket',
+  ASSIGNED_TICKET: 'assigned-ticket',
+  MOVE_TICKET: 'move-ticket',
+  MERGE_TICKET: 'merge-ticket',
+  DELETE_TICKET: 'delete-ticket',
+  UPDATE_TICKET_STATUS: 'update-ticket-status',
+  PRINT_TICKET: 'print-ticket',
+  EMAIL_TICKET: 'email-ticket',
+  ADD_TIME_ON_TICKET: 'add-time-on-ticket',
+};
 
 export const ticketsActionDropdownDynamic = (
   setTicketAction: (

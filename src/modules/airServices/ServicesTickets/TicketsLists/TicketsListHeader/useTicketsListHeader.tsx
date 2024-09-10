@@ -7,10 +7,7 @@ import { TicketsDelete } from '../../TicketsDelete';
 import { UpdateTicketStatus } from '../../UpdateTicketStatus';
 import { FilterTickets } from '../../FilterTickets';
 import { CustomizeTicketsColumn } from '../../CustomizeTicketsColumn';
-import {
-  TicketActionComponentI,
-  TicketActionComponentPropsI,
-} from '../TicketsLists.interface';
+import { TicketActionComponentI } from '../TicketsLists.interface';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists.data';
 import { ticketsActionDropdownDynamic } from './TicketListHeader.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -19,11 +16,14 @@ import {
   setSearch,
   setTicketsListsInitialColumn,
 } from '@/redux/slices/airServices/tickets/slice';
-import { useGetTicketList } from '../../TicketsServicesHooks/useGetTicketList';
+import { PAGINATION } from '@/config';
+import { VIEW_TYPES } from '@/constants/strings';
+import { NextRouter, useRouter } from 'next/router';
+import usePath from '@/hooks/usePath';
 
 export const useTicketsListHeader = () => {
-  const { getTicketsListDataExport } = useGetTicketList();
-
+  const router: NextRouter = useRouter();
+  const { makePath } = usePath();
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTickets?.isPortalOpen,
   );
@@ -34,42 +34,17 @@ export const useTicketsListHeader = () => {
 
   const dispatch = useAppDispatch();
 
-  const ticketActionComponentProps: TicketActionComponentPropsI | any = {
-    isPortalOpen,
-    selectedTicketLists,
-  };
-
   const ticketActionComponent: TicketActionComponentI = {
-    [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: (
-      <CustomizeTicketsColumn {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: (
-      <FilterTickets {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
-      <UpsertTicket {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
-      <UpsertTicket {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
-      <TicketsBulkUpdate {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: (
-      <AssignedTickets {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
-      <MoveTickets {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (
-      <MergeTickets {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (
-      <TicketsDelete {...ticketActionComponentProps} />
-    ),
-    [TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS]: (
-      <UpdateTicketStatus {...ticketActionComponentProps} />
-    ),
+    [TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN]: <CustomizeTicketsColumn />,
+    [TICKETS_ACTION_CONSTANTS?.FILTER_DATA]: <FilterTickets />,
+    [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: <UpsertTicket />,
+    [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: <UpsertTicket />,
+    [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: <TicketsBulkUpdate />,
+    [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: <AssignedTickets />,
+    [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: <MoveTickets />,
+    [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: <MergeTickets />,
+    [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: <TicketsDelete />,
+    [TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS]: <UpdateTicketStatus />,
   };
 
   const setTicketAction = (
@@ -91,11 +66,34 @@ export const useTicketsListHeader = () => {
   );
 
   const handleSetSearch = (newSearch: any) => {
-    dispatch(setSearch<any>({ searchTerm: newSearch, page: 1 }));
+    dispatch(
+      setSearch<any>({ searchTerm: newSearch, page: PAGINATION?.CURRENT_PAGE }),
+    );
   };
+
   const setInitialColumns = () => {
     dispatch(setTicketsListsInitialColumn());
   };
+
+  const renderBoardView = () => {
+    router?.push({
+      pathname: router?.pathname,
+      query: {
+        ...router?.query,
+        viewType: VIEW_TYPES?.BOARD,
+      },
+    });
+  };
+
+  const renderTableView = () => {
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['viewType'],
+      }),
+    );
+  };
+
   return {
     ticketsActionDropdown,
     isPortalOpen,
@@ -103,7 +101,9 @@ export const useTicketsListHeader = () => {
     setTicketAction,
     handleSetSearch,
     selectedTicketLists,
-    getTicketsListDataExport,
     setInitialColumns,
+    renderTableView,
+    renderBoardView,
+    router,
   };
 };

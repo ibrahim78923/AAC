@@ -8,10 +8,9 @@ import {
   AutocompleteAsyncOptionsI,
   AutocompleteOptionsI,
 } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
-import { ROLES, TICKET_TYPE } from '@/constants/strings';
+import { TICKET_TYPE } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -76,9 +75,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
           label: TICKET_TYPE_MAPPED?.[data?.ticketType] ?? data?.ticketType,
         }
       : null,
-    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
-      ? data?.agentDetails
-      : null,
+    agent: data?.agentDetails ?? null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
 
     plannedEndDate:
@@ -182,8 +179,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
       externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
+        admin: true,
       },
       getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,

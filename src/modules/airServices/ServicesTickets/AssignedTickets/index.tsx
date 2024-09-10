@@ -9,8 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import { useAssignedTickets } from './useAssignedTickets';
-import { ROLES } from '@/constants/strings';
-import { PAGINATION } from '@/config';
 import CloseIcon from '@mui/icons-material/Close';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
@@ -64,8 +62,7 @@ export const AssignedTickets = () => {
             size="small"
             placeholder="Choose Agent"
             externalParams={{
-              limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-              role: ROLES?.ORG_EMPLOYEE,
+              admin: true,
             }}
             getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
               `${option?.firstName} ${option?.lastName}`

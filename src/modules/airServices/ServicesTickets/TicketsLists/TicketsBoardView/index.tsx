@@ -20,6 +20,8 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
     handleSetPageLimit,
     handleSetPage,
     getTicketsListData,
+    decrement,
+    increment,
   } = useTicketsBoardView();
 
   if (lazyGetTicketsStatus?.isError)
@@ -79,6 +81,8 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
         setPage={handleSetPage}
         setPageLimit={handleSetPageLimit}
         totalRecords={lazyGetTicketsStatus?.data?.data?.meta?.total}
+        incrementPageClick={increment}
+        decrementPageClick={decrement}
       />
     </>
   );

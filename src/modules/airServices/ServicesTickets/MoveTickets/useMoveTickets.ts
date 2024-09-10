@@ -6,7 +6,7 @@ import {
 } from './MoveTickets.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
-  useLazyGetAgentDropdownQuery,
+  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
   useLazyGetDepartmentDropdownQuery,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
@@ -17,18 +17,27 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
+  setPage,
 } from '@/redux/slices/airServices/tickets/slice';
+import { PAGINATION } from '@/config';
 
 export const useMoveTickets = () => {
   const dispatch = useAppDispatch();
-  const { getTicketsListData } = useGetTicketList();
+
+  const { getTicketsListData, page } = useGetTicketList();
+
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesTickets?.totalRecords,
+  );
 
   const selectedTicketLists = useAppSelector(
     (state) => state?.servicesTickets?.selectedTicketLists,
   );
+
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTickets?.isPortalOpen,
   );
+
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
@@ -39,6 +48,15 @@ export const useMoveTickets = () => {
   });
 
   const { handleSubmit, reset } = moveTicketsFormMethod;
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedTicketLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage?.(newPage));
+    await getTicketsListData?.(newPage);
+  };
 
   const submitMoveTicketsForm = async (data: any) => {
     const moveTicketFormData = new FormData();
@@ -62,7 +80,7 @@ export const useMoveTickets = () => {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
       closeMoveTicketsModal?.();
-      await getTicketsListData();
+      await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -74,7 +92,7 @@ export const useMoveTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const moveTicketsFormFields = moveTicketsFormFieldsDynamic(
     apiQueryDepartment,

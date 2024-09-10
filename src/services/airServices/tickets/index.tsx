@@ -54,7 +54,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'PUT',
         params: putSingleTicketStatusParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     patchBulkUpdateTickets: builder?.mutation({
       query: (patchBulkUpdateTicketsParameter: any) => ({
@@ -258,6 +257,16 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getAirServicesAllAgentsUsersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 export const {
@@ -288,4 +297,5 @@ export const {
   useLazyGetDepartmentDropdownForTicketsQuery,
   useLazyGetRequesterDropdownForTicketsQuery,
   useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
+  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
 } = ticketsAPI;

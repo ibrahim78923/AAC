@@ -1,6 +1,6 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import {
-  useLazyGetAgentDropdownQuery,
+  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
   useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
@@ -69,7 +69,7 @@ export const useFilterTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryRequester =

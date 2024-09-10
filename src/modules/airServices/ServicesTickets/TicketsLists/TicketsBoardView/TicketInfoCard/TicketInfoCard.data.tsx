@@ -3,7 +3,7 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
 } from '@/constants/permission-keys';
-import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists.data';
+import { TICKETS_ACTION_CONSTANTS } from '../../TicketsListHeader/TicketListHeader.data';
 
 export const STATUSES = {
   OPEN: 'OPEN',

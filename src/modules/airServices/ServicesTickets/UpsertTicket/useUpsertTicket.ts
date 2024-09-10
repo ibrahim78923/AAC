@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import {
   useGetTicketsByIdQuery,
-  useLazyGetAgentDropdownForTicketsQuery,
+  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
   useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
   useLazyGetAssociateAssetsDropdownForTicketsQuery,
   useLazyGetCategoriesDropdownForTicketsQuery,
@@ -40,6 +40,7 @@ import {
   emptySelectedTicketLists,
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
+import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
@@ -52,7 +53,10 @@ export const useUpsertTicket = () => {
     (state) => state?.servicesTickets?.isPortalOpen,
   );
 
-  const ticketId = selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id;
+  const ticketId =
+    isPortalOpen?.action === TICKETS_ACTION_CONSTANTS?.EDIT_TICKET
+      ? selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id
+      : '';
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -267,7 +271,7 @@ export const useUpsertTicket = () => {
   const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
   const apiQueryRequester =
     useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
+  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForTicketsQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownForTicketsQuery();

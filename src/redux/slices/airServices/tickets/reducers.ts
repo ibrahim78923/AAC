@@ -1,5 +1,4 @@
-import { ticketsListInitialColumns } from '@/modules/airServices/ServicesTickets/TicketsLists/TicketsLists.data';
-import { initialTime } from './slice';
+import { initialTime, ticketsListInitialColumns } from './slice';
 
 const setPageReducer = (state: any, action: any) => {
   state.page = action?.payload;

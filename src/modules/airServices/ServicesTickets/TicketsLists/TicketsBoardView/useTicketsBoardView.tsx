@@ -3,6 +3,8 @@ import { useGetTicketList } from '../../TicketsServicesHooks/useGetTicketList';
 import { useAppDispatch } from '@/redux/store';
 import {
   setPage,
+  setPageDecrement,
+  setPageIncrement,
   setPageLimit,
 } from '@/redux/slices/airServices/tickets/slice';
 
@@ -37,6 +39,9 @@ export const useTicketsBoardView = () => {
     dispatch(setPageLimit(newPageLimit));
   };
 
+  const increment = () => dispatch(setPageIncrement?.());
+  const decrement = () => dispatch(setPageDecrement?.());
+
   return {
     HEAD_STATUS,
     lazyGetTicketsStatus,
@@ -44,5 +49,7 @@ export const useTicketsBoardView = () => {
     handleSetPageLimit,
     handleSetPage,
     getTicketsListData,
+    decrement,
+    increment,
   };
 };

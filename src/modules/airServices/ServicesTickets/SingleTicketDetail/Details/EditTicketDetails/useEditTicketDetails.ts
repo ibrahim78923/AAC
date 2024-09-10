@@ -4,7 +4,6 @@ import { useForm, useWatch } from 'react-hook-form';
 import {
   useGetTicketsDetailsByIdQuery,
   useEditTicketsDetailsMutation,
-  useLazyGetAgentDropdownForEditTicketDetailsQuery,
   useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
   useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
@@ -22,7 +21,10 @@ import {
   editTicketDetailsFormFieldsDynamic,
   editTicketDetailsValidationSchema,
 } from './EditTicketDetails.data';
-import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
+import {
+  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
+  useLazyGetDepartmentDropdownQuery,
+} from '@/services/airServices/tickets';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -219,7 +221,7 @@ export const useEditTicketDetails = () => {
     }
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
+  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
   const apiQueryCategory =
     useLazyGetCategoriesDropdownForEditTicketDetailsQuery();
   const apiQueryServicesCategory =

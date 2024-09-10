@@ -5,7 +5,6 @@ import {
 } from '@/constants';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
-import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists/TicketsLists.data';
 import { singleTicketDetailDropdownOptionsDynamic } from './Header.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -16,6 +15,7 @@ import { TicketsDelete } from '../../TicketsDelete';
 import { UpdateTicketStatus } from '../../UpdateTicketStatus';
 import { PrintTicket } from '../../PrintTicket';
 import { EmailTicket } from '../../EmailTicket';
+import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists/TicketsListHeader/TicketListHeader.data';
 
 export const useHeader = (props: any) => {
   const { data } = props;

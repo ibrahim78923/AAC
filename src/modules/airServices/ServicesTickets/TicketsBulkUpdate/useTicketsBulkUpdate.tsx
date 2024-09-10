@@ -19,14 +19,18 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
+  setPage,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
+import { PAGINATION } from '@/config';
 
 export const useTicketBulkUpdate = () => {
   const dispatch = useAppDispatch();
-  const { getTicketsListData } = useGetTicketList();
-
+  const { getTicketsListData, page } = useGetTicketList();
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesTickets?.totalRecords,
+  );
   const selectedTicketLists = useAppSelector(
     (state) => state?.servicesTickets?.selectedTicketLists,
   );
@@ -71,6 +75,15 @@ export const useTicketBulkUpdate = () => {
     }
   };
 
+  const refetchApi = async () => {
+    const newPage =
+      selectedTicketLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage?.(newPage));
+    await getTicketsListData?.(newPage);
+  };
+
   const submitTicketBulkUpdateForm = async (data: any) => {
     const body: any = Object?.entries(data || {})
       ?.filter(
@@ -100,7 +113,7 @@ export const useTicketBulkUpdate = () => {
         submitReply?.(data);
       }
       onClose();
-      await getTicketsListData();
+      await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

@@ -4,7 +4,7 @@ import {
   setIsPortalClose,
   setTicketsListsActiveColumn,
 } from '@/redux/slices/airServices/tickets/slice';
-import { ticketsListsColumnFunction } from '../TicketsLists/TicketsLists.data';
+import { ticketsListsColumnDynamic } from '../TicketsLists/TicketsTableView/TicketsTableView.data';
 
 export const useCustomizeTicketColumn = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +34,9 @@ export const useCustomizeTicketColumn = () => {
   const onClose = () => {
     dispatch(setIsPortalClose());
   };
-  const ticketsListsColumnPersist = ticketsListsColumnFunction();
+
+  const ticketsListsColumnPersist = ticketsListsColumnDynamic();
+
   return {
     submit,
     onClose,

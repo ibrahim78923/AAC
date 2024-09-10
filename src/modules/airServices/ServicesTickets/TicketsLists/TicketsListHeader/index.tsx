@@ -1,19 +1,16 @@
 import Search from '@/components/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
-import { NextRouter, useRouter } from 'next/router';
 import { CutomizeIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
 import AutoRenewIcon from '@mui/icons-material/Autorenew';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists.data';
-import usePath from '@/hooks/usePath';
-import { EXPORT_TYPE, VIEW_TYPES } from '@/constants/strings';
+import { VIEW_TYPES } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import { useTicketsListHeader } from './useTicketsListHeader';
-import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const TicketsListHeader = () => {
   const {
@@ -23,33 +20,14 @@ export const TicketsListHeader = () => {
     setTicketAction,
     handleSetSearch,
     selectedTicketLists,
-    getTicketsListDataExport,
     setInitialColumns,
+    renderTableView,
+    renderBoardView,
+    router,
   } = useTicketsListHeader();
-
-  const router: NextRouter = useRouter();
-  const { makePath } = usePath();
 
   return (
     <>
-      <PageTitledHeader
-        title={
-          router?.query?.viewType === VIEW_TYPES?.BOARD
-            ? 'Tickets Board'
-            : 'Ticket List - All Tickets'
-        }
-        addTitle={'Create Ticket'}
-        hasExport
-        handleExcelExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.XLS)}
-        handleCsvExport={() => getTicketsListDataExport?.(EXPORT_TYPE?.CSV)}
-        handleAction={() =>
-          setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
-        }
-        exportPermissionKey={[
-          AIR_SERVICES_TICKETS_TICKET_LISTS?.EXPORT_TICKETS,
-        ]}
-        createPermissionKey={[AIR_SERVICES_TICKETS_TICKET_LISTS?.CREATE_TICKET]}
-      />
       <Box
         display={'flex'}
         gap={'1rem'}
@@ -138,14 +116,7 @@ export const TicketsListHeader = () => {
               >
                 <Button
                   key={1}
-                  onClick={() => {
-                    router?.push(
-                      makePath({
-                        path: router?.pathname,
-                        skipQueries: ['viewType'],
-                      }),
-                    );
-                  }}
+                  onClick={renderTableView}
                   sx={{
                     backgroundColor:
                       router?.query?.viewType !== VIEW_TYPES?.BOARD
@@ -169,15 +140,7 @@ export const TicketsListHeader = () => {
                         ? 'grey.0'
                         : '',
                   }}
-                  onClick={() => {
-                    router?.push({
-                      pathname: router?.pathname,
-                      query: {
-                        ...router?.query,
-                        viewType: VIEW_TYPES?.BOARD,
-                      },
-                    });
-                  }}
+                  onClick={renderBoardView}
                   color="secondary"
                 >
                   <SubTabIcon />

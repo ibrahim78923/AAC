@@ -8,8 +8,9 @@ import {
   setSelectedTicketLists,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { ticketsListsColumnFunction } from '../TicketsLists.data';
+
 import { useRouter } from 'next/router';
+import { ticketsListsColumnDynamic } from './TicketsTableView.data';
 
 export const useTicketTableView = () => {
   const {
@@ -22,12 +23,15 @@ export const useTicketTableView = () => {
   } = useGetTicketList();
 
   const router = useRouter();
+
   const selectedTicketLists = useAppSelector(
     (state) => state?.servicesTickets?.selectedTicketLists,
   );
+
   const ticketsListsActiveColumn = useAppSelector(
     (state) => state?.servicesTickets?.ticketsListsActiveColumn,
   );
+
   useEffect(() => {
     getTicketsListData?.();
   }, [page, pageLimit, search, filterTicketLists]);
@@ -45,7 +49,7 @@ export const useTicketTableView = () => {
     dispatch(setSelectedTicketLists<any>(ticket));
   };
 
-  const ticketsListsColumnPersist = ticketsListsColumnFunction(
+  const ticketsListsColumnPersist = ticketsListsColumnDynamic(
     router,
     lazyGetTicketsStatus?.data?.data?.tickets,
     selectedTicketLists,

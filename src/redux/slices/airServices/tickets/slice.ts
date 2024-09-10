@@ -1,7 +1,6 @@
 import { PAGINATION } from '@/config';
 import { createSlice } from '@reduxjs/toolkit';
 import { servicesTicketsReducersList } from './reducers';
-import { ticketsListInitialColumns } from '@/modules/airServices/ServicesTickets/TicketsLists/TicketsLists.data';
 import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
 
 const {
@@ -31,6 +30,17 @@ export const initialTime = {
   minutes: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_MINUTE,
   seconds: TIME_ENTRIES_TICKETS_TIMES?.INITIAL_SECOND,
 };
+
+export const ticketsListInitialColumns: string[] = [
+  '_id',
+  'ticketIdNumber',
+  'subject',
+  'requesterDetails',
+  'agentDetails',
+  'state',
+  'status',
+  'pirority',
+];
 
 const servicesTicketsInitialState: any = {
   page: PAGINATION?.CURRENT_PAGE,

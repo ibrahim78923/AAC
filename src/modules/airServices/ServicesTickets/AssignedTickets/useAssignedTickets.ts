@@ -1,6 +1,6 @@
 import {
   usePutTicketsMutation,
-  useLazyGetAgentDropdownQuery,
+  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,19 +11,28 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
+  setPage,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const useAssignedTickets = () => {
   const dispatch = useAppDispatch();
-  const { getTicketsListData } = useGetTicketList();
+  const { getTicketsListData, page } = useGetTicketList();
+
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesTickets?.totalRecords,
+  );
+
   const selectedTicketLists = useAppSelector(
     (state) => state?.servicesTickets?.selectedTicketLists,
   );
+
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTickets?.isPortalOpen,
   );
+
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
@@ -38,6 +47,15 @@ export const useAssignedTickets = () => {
       }),
     ),
   });
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedTicketLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage?.(newPage));
+    await getTicketsListData?.(newPage);
+  };
 
   const { handleSubmit, reset } = assignedTicketsMethod;
 
@@ -62,7 +80,7 @@ export const useAssignedTickets = () => {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket assigned Successfully');
       closeTicketsAssignedModal?.();
-      await getTicketsListData();
+      await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -73,7 +91,8 @@ export const useAssignedTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
+
   return {
     assignedTicketsMethod,
     handleSubmit,

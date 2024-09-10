@@ -17,7 +17,6 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
-import { ROLES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   dynamicFormInitialValue,
@@ -242,8 +241,7 @@ export const upsertTicketFormFieldsDynamic = (
             apiQuery: apiQueryAgent,
             placeholder: 'Choose Agent',
             externalParams: {
-              limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-              role: ROLES?.ORG_EMPLOYEE,
+              admin: true,
             },
             getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
               `${option?.firstName} ${option?.lastName}`,

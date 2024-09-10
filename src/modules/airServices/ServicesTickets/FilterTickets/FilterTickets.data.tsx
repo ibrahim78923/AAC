@@ -11,12 +11,11 @@ import {
   ticketStatusOptions,
   ticketsTypeOptions,
 } from '../ServicesTickets.data';
-import { DATA_TYPES, ROLES } from '@/constants/strings';
+import { DATA_TYPES } from '@/constants/strings';
 import {
   AutocompleteAsyncOptionsI,
   AutocompleteOptionsI,
 } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
 import { TicketsFilterDataDefaultValuesI } from './FilterTickets.interface';
 
 export const sendIdOptions: string[] = [
@@ -111,8 +110,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
       externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
+        admin: true,
       },
       getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
