@@ -48,7 +48,7 @@ const Preview = (props: IPreviewProps) => {
             pb={2}
             height={'100%'}
           >
-            <Box p={2} mb={4}>
+            <Box p={2} mb={2}>
               {isFileInstance(image) ? (
                 <Image
                   src={URL?.createObjectURL(image)}

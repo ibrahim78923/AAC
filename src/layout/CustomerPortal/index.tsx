@@ -127,6 +127,8 @@ const CustomerPortalLayout = ({
                                   customizePortalDefaultValues(theme)
                                     ?.iconSecondary
                                 }
+                                borderRadius={0.5}
+                                p={0.2}
                                 sx={{
                                   opacity:
                                     routerPathName === pathNameKey
@@ -173,6 +175,8 @@ const CustomerPortalLayout = ({
                               customerPortalStyling?.iconSecondary ||
                               customizePortalDefaultValues(theme)?.iconSecondary
                             }
+                            borderRadius={0.5}
+                            p={0.2}
                             sx={{ opacity: '0.4' }}
                           >
                             <CustomerLogoutIcon
