@@ -14,7 +14,7 @@ import {
   useGetSubscriptionsAllCrmWithSubscriptionsQuery,
   useGetSubscriptionsAndInvoicesQuery,
 } from '@/services/orgAdmin/subscription-and-invoices';
-import { DATE_FORMAT, PLAN_PRICE_TYPE_TAGS, PRODUCT_LABELS } from '@/constants';
+import { DATE_FORMAT, PRODUCT_LABELS } from '@/constants';
 import dayjs from 'dayjs';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -123,11 +123,7 @@ const Subscriptions = () => {
                   planData={plan?.billingCycle}
                   price={plan?.planPrice || plan?.plans?.planPrice || 0}
                   billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
-                  type={
-                    plan?.planTypeName
-                      ? plan?.planTypeName
-                      : PLAN_PRICE_TYPE_TAGS?.FREE_PLAN
-                  }
+                  type={plan?.planTypeName ? plan?.planTypeName : ''}
                   handleBillingDetail={handleDrawerOpen}
                   id={plan?._id}
                   plan={plan}
