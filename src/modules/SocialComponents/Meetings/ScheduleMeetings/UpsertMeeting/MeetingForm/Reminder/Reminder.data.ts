@@ -2,7 +2,7 @@ import { RHFAutocomplete } from '@/components/ReactHookForm';
 
 export const typeOptions = [
   { value: 'EMAIL', label: 'Email' },
-  { value: 'CHAT', label: 'Chat' },
+  { value: 'SMS', label: 'SMS' },
 ];
 
 export const durationOption = [
@@ -12,9 +12,20 @@ export const durationOption = [
   { value: 'WEEKS', label: 'Weeks' },
 ];
 
+const duration = {
+  MINUTES: 'Minutes',
+  HOURS: 'Hours',
+  DAYS: 'Days',
+  WEEKS: 'Weeks',
+};
+
 const counterOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-export const reminderFields = (index: number) => [
+export const reminderFields = (
+  index: number,
+  differenceInDays: number,
+  differenceInHours: number,
+) => [
   {
     id: 1,
     md: 6,
@@ -52,6 +63,21 @@ export const reminderFields = (index: number) => [
       label: '\u00a0',
       size: 'small',
       placeholder: 'Select',
+      getOptionDisabled: (option: any) => {
+        if (differenceInDays < 1) {
+          if (differenceInHours < 1) {
+            return option?.label !== duration?.MINUTES;
+          } else {
+            return (
+              option?.label !== duration?.MINUTES &&
+              option?.label !== duration?.HOURS
+            );
+          }
+        } else if (differenceInDays < 8) {
+          return option?.label === duration?.WEEKS;
+        }
+        return false;
+      },
       options: durationOption,
       getOptionLabel: (option: any) => option?.label,
     },
