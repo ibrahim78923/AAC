@@ -1,18 +1,33 @@
 import { PAGINATION } from '@/config';
-import { ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 import { useGetPopularArticlesQuery } from '@/services/airCustomerPortal';
+import { getActiveProductSession, getSession } from '@/utils';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 export const usePopularArticles = () => {
   const router = useRouter();
+  const product = getActiveProductSession();
+  const session: any = getSession();
+  const sessionId = session?.user?.companyId;
+  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+
+  const { companyId } = router?.query;
+  const decryptedId = useMemo(() => {
+    const id = Array.isArray(companyId)
+      ? companyId[ARRAY_INDEX?.ZERO]
+      : companyId;
+    return atob(id ?? '');
+  }, [companyId]);
+
   const getPopularArticlesParameter = {
     queryParams: {
       page: PAGINATION?.CURRENT_PAGE,
       limit: PAGINATION?.PAGE_LIMIT,
       status: ARTICLE_STATUS?.PUBLISHED,
+      companyId: decryptedId || companyIdStorage || sessionId,
     },
   };
-  const companyId = router?.query?.companyId;
   const { data, isLoading, isFetching, isError, refetch } =
     useGetPopularArticlesQuery(getPopularArticlesParameter, {
       refetchOnMountOrArgChange: true,
