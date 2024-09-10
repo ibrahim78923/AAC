@@ -22,6 +22,7 @@ import {
   setCompaniesSelectedIds,
   setContactsSelectedIds,
   setDealsSelectedIds,
+  setSelectedTaskIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
@@ -33,13 +34,17 @@ import {
 import { filteredEmptyValues } from '@/utils/api';
 import { TASK_TYPE } from '@/constants';
 
-const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
+const useCreateTask = ({
+  creationMode,
+  setIsCreateTaskDrawerOpen,
+  setIsLoading,
+}: any) => {
   const theme = useTheme();
   const dispatch: any = useAppDispatch();
 
-  const [postCreateTask, { isLoading: postTaskLoading }] =
+  const [postCreateTask, { status: postTaskLoading }] =
     usePostCreateTaskMutation();
-  const [patchCreateTask, { isLoading: patchTaskLoading }] =
+  const [patchCreateTask, { status: patchTaskLoading }] =
     usePatchCreateTaskMutation();
 
   // custom fields ++
@@ -188,6 +193,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     };
 
     if (creationMode === TASK_TYPE?.CREATE_TASK) {
+      setIsLoading(true);
       try {
         await postCreateTask({
           body: payload,
@@ -195,13 +201,16 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
         enqueueSnackbar('Task Created Successfully', {
           variant: 'success',
         });
-        setIsCreateTaskDrawerOpen(false);
+        setIsLoading(false);
+        dispatch(setSelectedTaskIds([]));
         reset();
+        setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
     } else {
       try {
+        setIsLoading(true);
         await patchCreateTask({
           body: payload,
           id: selectedTaskIds && selectedTaskIds[0],
@@ -209,6 +218,8 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
         enqueueSnackbar('Task Updated Successfully', {
           variant: 'success',
         });
+        setIsLoading(false);
+        dispatch(setSelectedTaskIds([]));
         reset();
         setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
