@@ -3,7 +3,6 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 import { CutomizeIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
 import AutoRenewIcon from '@mui/icons-material/Autorenew';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists.data';
 import { VIEW_TYPES } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
@@ -11,6 +10,7 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import { useTicketsListHeader } from './useTicketsListHeader';
+import { TICKETS_ACTION_CONSTANTS } from './TicketListHeader.data';
 
 export const TicketsListHeader = () => {
   const {

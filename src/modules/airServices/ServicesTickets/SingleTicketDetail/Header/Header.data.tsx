@@ -1,7 +1,7 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
-import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists/TicketsLists.data';
 import { TICKET_STATUS } from '@/constants/strings';
+import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists/TicketsListHeader/TicketListHeader.data';
 
 export const singleTicketDetailDropdownOptionsDynamic = (
   setTicketAction: any,

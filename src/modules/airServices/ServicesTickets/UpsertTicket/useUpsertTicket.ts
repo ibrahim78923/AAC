@@ -40,7 +40,7 @@ import {
   emptySelectedTicketLists,
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
-import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsLists.data';
+import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();

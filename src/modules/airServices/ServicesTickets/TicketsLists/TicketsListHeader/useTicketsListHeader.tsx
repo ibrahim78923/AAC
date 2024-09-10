@@ -8,8 +8,10 @@ import { UpdateTicketStatus } from '../../UpdateTicketStatus';
 import { FilterTickets } from '../../FilterTickets';
 import { CustomizeTicketsColumn } from '../../CustomizeTicketsColumn';
 import { TicketActionComponentI } from '../TicketsLists.interface';
-import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists.data';
-import { ticketsActionDropdownDynamic } from './TicketListHeader.data';
+import {
+  TICKETS_ACTION_CONSTANTS,
+  ticketsActionDropdownDynamic,
+} from './TicketListHeader.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setIsPortalOpen,
