@@ -248,7 +248,7 @@ export const ORG_ADMIN = {
 };
 
 export const COMMON_ROUTES = {
-  DELEGATE: '/delegate',
+  DELEGATE: '/delegates',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
