@@ -1,41 +1,49 @@
-import { Grid, Box, Typography, InputAdornment, Card } from '@mui/material';
+import { Grid, Box, Typography, InputAdornment, Checkbox } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider, RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray } from './AddCompanyDetails.data';
-import UploadLogo from './UploadLogo';
 import { styles } from './AddCompanyDetails.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
 import { AddCompanyDetailsProps } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
+import Image from 'next/image';
+import { AddPenIcon } from '@/assets/icons';
+import { ProductListPropsI } from '@/modules/orgAdmin/Organization/OrganizationSubFolder/OrganizationTable/organizationTable.interface';
+import { useGetDropdownProductsListQuery } from '@/services/common-APIs';
+import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
   onClose,
   organizationId,
   setISOpenCompanyDrawer,
-  organizationBasesProducts,
 }: AddCompanyDetailsProps) {
   const [isToggled, setIsToggled] = useToggle(false);
+  const { data: productsList } = useGetDropdownProductsListQuery({});
 
-  const { theme, methods, handleSubmit, onSubmit, companyImg, setCompanyImg } =
-    useAddCompanyDetails(organizationId, setISOpenCompanyDrawer, isToggled);
+  const {
+    theme,
+    methods,
+    handleSubmit,
+    onSubmit,
+    imagePreview,
+    handleImageChangeCompany,
+    loadingAddCompanyAccount,
+    selectedProducts,
+    setSelectedProducts,
+  } = useAddCompanyDetails(organizationId, setISOpenCompanyDrawer, isToggled);
 
-  const productsList = organizationBasesProducts?.map((item: any) => ({
-    value: item?._id,
-    label: (
-      <Card sx={styles?.productCard}>
-        {/* need this code after some time */}
-        {/* <Image
-          src={generateImage(item?.logo?.url)}
-          alt="sales-image"
-          width={25}
-          height={25}
-        /> */}
-        <Typography>{item?.name}</Typography>
-      </Card>
-    ),
-  }));
+  const handleCheckboxChange = (event: any, productId: any) => {
+    const isChecked = event?.target?.checked;
+    if (isChecked) {
+      setSelectedProducts((prev: any[]) => [...prev, productId]);
+    } else {
+      setSelectedProducts(
+        (prev: any[]) => prev?.filter((id) => id !== productId),
+      );
+    }
+  };
 
   return (
     <CommonDrawer
@@ -47,23 +55,102 @@ export default function AddCompanyDetails({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={loadingAddCompanyAccount}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             <Grid item sm={12}>
               <Typography variant="h4">Company Logo</Typography>
-              <Box>
-                <UploadLogo
-                  companyImg={companyImg}
-                  setCompanyImg={setCompanyImg}
-                />
-              </Box>
+              <center>
+                <Box sx={{ position: 'relative' }}>
+                  <Box
+                    sx={{
+                      border: `1px solid ${theme?.palette?.grey[700]}`,
+                      borderRadius: '100px',
+                      width: '120px',
+                      height: '120px',
+                      boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green},
+                    5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                    }}
+                  >
+                    {imagePreview && (
+                      <Image
+                        src={imagePreview}
+                        alt="selected"
+                        width={120}
+                        height={120}
+                        style={{ borderRadius: '50%' }}
+                      />
+                    )}
+                  </Box>
+                  <input
+                    hidden={true}
+                    id="upload-group-image-one"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e: any) => handleImageChangeCompany(e)}
+                  />
+                  <label htmlFor="upload-group-image-one">
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        right: '165px',
+                        bottom: 0,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <AddPenIcon />
+                    </Box>
+                  </label>
+                </Box>
+              </center>
             </Grid>
             <Grid item sm={12}>
               <Typography variant="h4">Products</Typography>
-              <Box mt={2} sx={styles?.productItem}>
-                <RHFMultiCheckbox name="products" options={productsList} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  columnGap: '1rem',
+                  alignItems: 'center',
+                  overflowX: 'auto',
+                  marginBottom: '1rem',
+                  mt: 1,
+                }}
+              >
+                {productsList?.data?.map((product: ProductListPropsI) => (
+                  <Box sx={styles?.productCard} key={product?._id}>
+                    <Checkbox
+                      name={product?._id}
+                      checked={selectedProducts.includes(product?._id)}
+                      onChange={(event) =>
+                        handleCheckboxChange(event, product?._id)
+                      }
+                      sx={{
+                        marginLeft: '7rem',
+                      }}
+                    />
+                    <Box sx={styles?.productItem}>
+                      <Box
+                        sx={{
+                          height: '55px',
+                          background: theme?.palette?.primary?.light,
+                          width: '55px',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {getProductIcon(product?.name)}
+                      </Box>
+
+                      <Typography sx={{ whiteSpace: 'nowrap', mt: 1 }}>
+                        {product?.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))}
               </Box>
             </Grid>
             {dataArray?.map((item: any) => (
