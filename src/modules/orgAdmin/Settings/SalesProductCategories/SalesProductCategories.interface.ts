@@ -6,6 +6,7 @@ export interface ComponentProps {
   label: string;
   fullWidth: boolean;
   required?: boolean;
+  placeholder?: string;
 }
 
 export interface DataArrayItem {

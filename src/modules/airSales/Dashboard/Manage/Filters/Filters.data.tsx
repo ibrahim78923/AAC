@@ -22,7 +22,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'owner',
         label: 'Owner',
-        placeholder: 'Select Owner',
+        placeholder: 'Select owner',
         apiQuery: UserListData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
@@ -38,7 +38,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'accessRights',
         label: 'Access Rights',
-        placeholder: 'Select Access Rights',
+        placeholder: 'Select access rights',
         fullWidth: true,
         options: ['PRIVATE', 'EVERYONE', 'SPECIFIC_USERS'],
       },

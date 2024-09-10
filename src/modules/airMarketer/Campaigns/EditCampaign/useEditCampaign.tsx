@@ -171,13 +171,14 @@ const useEditCampaigns = (
       enqueueSnackbar('Campaigns created successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      reset();
-      onClose();
+      // reset();
       setSelectedRows([]);
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
+    onClose();
   };
+
   const submitUpdateCampaign = async (body: any) => {
     body.campaignOwner = body?.campaignOwner?._id;
     body.campaignBudget = Number(body?.campaignBudget);

@@ -48,47 +48,6 @@ const ContactStatus = () => {
 
   return (
     <>
-      {isDraweropen && (
-        <CommonDrawer
-          isDrawerOpen={isDraweropen}
-          onClose={handleCloseDrawer}
-          title={
-            isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT
-              ? 'Edit Contact Status'
-              : isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW
-                ? 'View Contact Status'
-                : 'Create Contact Status'
-          }
-          okText={
-            isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Update' : 'Add'
-          }
-          footer={isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW ? false : true}
-          isOk={true}
-          submitHandler={handleSubmit(onSubmit)}
-          isLoading={loadingUpdateContactStatus || loadingAddStatus}
-        >
-          <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={ContactStatus}>
-              <Grid container spacing={4}>
-                {dataArray?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component
-                      disabled={
-                        isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW
-                          ? true
-                          : false
-                      }
-                      {...item.componentProps}
-                      size={'small'}
-                    ></item.component>
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          </Box>
-        </CommonDrawer>
-      )}
-
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -130,7 +89,7 @@ const ContactStatus = () => {
         </Box>
         <Box sx={styles?.searchAction}>
           <Search
-            label={'Search here'}
+            label={'Search by name'}
             setSearchBy={setSearchValue}
             size="small"
           />
@@ -168,6 +127,47 @@ const ContactStatus = () => {
           loading={loadingDelete}
         />
       </Box>
+
+      {isDraweropen && (
+        <CommonDrawer
+          isDrawerOpen={isDraweropen}
+          onClose={handleCloseDrawer}
+          title={
+            isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT
+              ? 'Edit Contact Status'
+              : isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW
+                ? 'View Contact Status'
+                : 'Create Contact Status'
+          }
+          okText={
+            isModalHeading === DRAWER_ACTIONS_TITLES?.EDIT ? 'Update' : 'Add'
+          }
+          footer={isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW ? false : true}
+          isOk={true}
+          submitHandler={handleSubmit(onSubmit)}
+          isLoading={loadingUpdateContactStatus || loadingAddStatus}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={ContactStatus}>
+              <Grid container spacing={2}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component
+                      disabled={
+                        isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW
+                          ? true
+                          : false
+                      }
+                      {...item.componentProps}
+                      size={'small'}
+                    ></item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
     </>
   );
 };

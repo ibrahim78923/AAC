@@ -31,7 +31,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        placeholder: 'Select Status',
+        placeholder: 'Select status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
         getOptionLabel: (option: any) =>
           option?.charAt(indexNumbers?.ZERO)?.toUpperCase() +
@@ -45,7 +45,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         name: 'campaignOwner',
         label: 'Campaign Owner',
         fullWidth: true,
-        placeholder: 'Select Campaign Owner',
+        placeholder: 'Select campaign owner',
         apiQuery: userListData,
         getOptionLabel: (item: any) => `${item?.firstName} ${item?.lastName}`,
         externalParams: {

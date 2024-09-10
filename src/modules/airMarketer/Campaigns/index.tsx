@@ -34,8 +34,8 @@ const Campaigns = () => {
     theme,
     selectedRows,
     setSelectedRows,
-    actionsModalDetails,
-    setActionsModalDetails,
+    createCampaign,
+    setCreateCampaign,
   } = useCampaigns();
 
   return (
@@ -83,13 +83,10 @@ const Campaigns = () => {
                 className="small"
                 startIcon={<PlusIcon />}
                 onClick={() =>
-                  setActionsModalDetails({
-                    ...actionsModalDetails,
-                    isCreateCampaign: {
-                      isToggle: true,
-                      type: 'create',
-                      recId: [],
-                    },
+                  setCreateCampaign({
+                    isToggle: true,
+                    type: 'create',
+                    recId: [],
                   })
                 }
                 sx={{ width: { sm: '200px', xs: '100%' } }}
@@ -127,14 +124,15 @@ const Campaigns = () => {
           </HorizontalTabs>
         </Box>
       </Box>
-
-      {actionsModalDetails?.isCreateCampaign && (
+      {createCampaign?.isToggle && (
         <EditCampaign
-          isOpenDrawer={actionsModalDetails?.isCreateCampaign}
+          isOpenDrawer={createCampaign}
           onClose={() => {
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isCreateCampaign: { isToggle: false, type: '', recId: [] },
+            setCreateCampaign({
+              ...createCampaign,
+              isToggle: false,
+              type: '',
+              recId: [],
             });
           }}
           selectedRows={selectedRows}

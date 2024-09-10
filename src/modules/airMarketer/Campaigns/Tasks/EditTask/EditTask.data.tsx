@@ -65,7 +65,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'taskName',
         label: 'Task Name',
-        placeholder: 'Enter Name',
+        placeholder: 'Enter name',
         required: true,
         fullWidth: true,
       },
