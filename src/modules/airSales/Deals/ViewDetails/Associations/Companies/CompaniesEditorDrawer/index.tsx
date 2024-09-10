@@ -26,6 +26,7 @@ const CompaniesEditorDrawer = (props: any) => {
     postCompanyLoading,
     getCompanyContactsList,
     companyOptions,
+    createAssociationLoading,
   } = useCompaniesEditorDrawer({
     openDrawer,
     setOpenDrawer,
@@ -43,7 +44,7 @@ const CompaniesEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
-        isLoading={postCompanyLoading}
+        isLoading={postCompanyLoading || createAssociationLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methodsCompanies}>

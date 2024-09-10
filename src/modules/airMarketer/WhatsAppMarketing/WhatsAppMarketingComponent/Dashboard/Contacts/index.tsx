@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
 import useContacts from './useContacts';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './Contacts.style';
@@ -6,6 +6,8 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import { indexNumbers } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { generateImage } from '@/utils/avatarUtils';
 
 const SMSContacts = ({ setTabVal }: any) => {
   const { theme, allContacts, loadingGetContacts } = useContacts();
@@ -56,7 +58,17 @@ const SMSContacts = ({ setTabVal }: any) => {
                 className="innerCard"
               >
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  {item?.avatar}
+                  <Avatar
+                    sx={{
+                      color: theme?.palette?.grey[600],
+                      fontSize: '16px',
+                      fontWeight: 500,
+                    }}
+                    src={generateImage(item?.profilePicture?.url)}
+                  >
+                    {capitalizeFirstLetter(item?.firstName?.charAt(0)) +
+                      capitalizeFirstLetter(item?.lastName?.charAt(0))}
+                  </Avatar>
                   <Typography>
                     {item?.firstName
                       ? `${item?.firstName} ${item?.lastName}`

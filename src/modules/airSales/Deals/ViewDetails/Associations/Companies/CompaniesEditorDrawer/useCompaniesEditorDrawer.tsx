@@ -42,7 +42,8 @@ const useCompaniesEditorDrawer = ({
   const [postCompanies, { isLoading: postCompanyLoading }] =
     usePostCompaniesMutation();
 
-  const [createAssociation] = useCreateAssociationMutation();
+  const [createAssociation, { isLoading: createAssociationLoading }] =
+    useCreateAssociationMutation();
 
   const methodsCompanies = useForm<any>({
     resolver: yupResolver(companiesValidationSchema),
@@ -113,7 +114,6 @@ const useCompaniesEditorDrawer = ({
             .then((res) => {
               if (res) {
                 setOpenDrawer(false);
-                // reset();
                 enqueueSnackbar(` Companies updated Successfully`, {
                   variant: NOTISTACK_VARIANTS?.SUCCESS,
                 });
@@ -163,6 +163,7 @@ const useCompaniesEditorDrawer = ({
     handleSubmit,
     watchCompany,
     onSubmit,
+    createAssociationLoading,
   };
 };
 

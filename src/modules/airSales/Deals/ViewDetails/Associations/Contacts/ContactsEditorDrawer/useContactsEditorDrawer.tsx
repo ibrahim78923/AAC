@@ -76,6 +76,8 @@ const useContactsEditorDrawer = ({
     const dateOfBirth = 'dateOfBirth';
     const dateOfJoining = 'dateOfJoining';
     values.contactOwnerId = values.contactOwnerId?._id;
+    values.lifeCycleStageId = values.lifeCycleStageId?._id;
+    values.statusId = values.statusId?._id;
     const formData = new FormData();
     formData.append('recordType', recordType);
     formData.append('recordId', dealId);

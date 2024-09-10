@@ -122,7 +122,13 @@ const useCreateSMSBroadcast = () => {
           : SMS_MARKETING_CONSTANTS?.ALL,
       );
       setSelectedContactsData(data?.recipients ?? []);
-      setSelectedRec(data?.recipients);
+      const selectedContactsData =
+        data?.groupDetails?.length === indexNumbers?.ZERO
+          ? data?.recipients
+          : data?.groupDetails;
+      setSelectedRec(
+        Array?.isArray(selectedContactsData) ? selectedContactsData : [],
+      );
       setIsSchedule(data?.schedualDate ? true : false);
     }
   }, [getSmsBroadcatsById, templateData?.detail, type, setValue]);

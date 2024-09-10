@@ -162,7 +162,7 @@ const useCreateBroadcast = () => {
           ? getWhatsappBroadcatsById?.data?.recipients
           : getWhatsappBroadcatsById?.data?.groupDetails;
       setSelectedRec(
-        Array.isArray(selectedContactsData) ? selectedContactsData : [],
+        Array?.isArray(selectedContactsData) ? selectedContactsData : [],
       );
     }
   }, [getWhatsappBroadcatsById?.data, reset, form, type]);
