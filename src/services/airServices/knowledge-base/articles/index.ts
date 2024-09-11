@@ -14,7 +14,7 @@ export const articlesAPI = baseAPI?.injectEndpoints({
     }),
     getArticleById: builder?.query({
       query: (getSingleArticleParameter: any) => ({
-        url: `${END_POINTS?.KNOWLEDGE_BASE_ARTICLE}/${getSingleArticleParameter?.pathParam?.articleId}`,
+        url: `${END_POINTS?.KNOWLEDGE_BASE_ARTICLE}/${getSingleArticleParameter?.pathParam?.articleId}/${getSingleArticleParameter?.pathParam?.companyId}`,
       }),
       providesTags: [TAG],
     }),
@@ -151,4 +151,5 @@ export const {
   useUpdateFolderForArticlesMutation,
   useGetSingleFolderByIdQuery,
   useLazyGetFoldersDropdownForMoveArticlesQuery,
+  useLazyGetArticleByIdQuery,
 } = articlesAPI;

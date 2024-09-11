@@ -19,6 +19,7 @@ const {
   setSelectedFolderReducer,
   canDisableFolderSelectionsReducer,
   refetchArticlesListReducer,
+  hasSingleArticleApiErrorReducer,
 } = servicesKnowledgeBaseReducersList;
 
 export const isPortalOpenInitialState = {
@@ -42,6 +43,7 @@ const servicesKnowledgeBaseInitialState = {
   selectedFolder: selectedFolderInitialState,
   IsSelectedFolderChange: false,
   canDisableFolderSelection: false,
+  singleArticleApiError: false,
 };
 
 export const servicesKnowledgeBaseSlice = createSlice({
@@ -63,6 +65,7 @@ export const servicesKnowledgeBaseSlice = createSlice({
     setSelectedFolder: setSelectedFolderReducer,
     canDisableFolderSelections: canDisableFolderSelectionsReducer,
     refetchArticlesList: refetchArticlesListReducer,
+    hasSingleArticleApiError: hasSingleArticleApiErrorReducer,
   },
 });
 
@@ -82,6 +85,7 @@ export const {
   setSelectedFolder,
   canDisableFolderSelections,
   refetchArticlesList,
+  hasSingleArticleApiError,
 } = servicesKnowledgeBaseSlice?.actions;
 
 export default servicesKnowledgeBaseSlice?.reducer;

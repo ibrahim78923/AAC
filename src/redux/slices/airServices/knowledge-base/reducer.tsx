@@ -68,6 +68,10 @@ const canDisableFolderSelectionsReducer = (state: any, action: any) => {
   state.canDisableFolderSelection = action?.payload;
 };
 
+const hasSingleArticleApiErrorReducer = (state: any, action: any) => {
+  state.singleArticleApiError = action?.payload;
+};
+
 export const servicesKnowledgeBaseReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -84,4 +88,5 @@ export const servicesKnowledgeBaseReducersList = {
   setSelectedFolderReducer,
   canDisableFolderSelectionsReducer,
   refetchArticlesListReducer,
+  hasSingleArticleApiErrorReducer,
 };

@@ -22,5 +22,5 @@ export interface SingleViewArticleDataI {
   views?: number;
   helpfulYesCount?: number;
   helpfulNoCount?: number;
-  insertedTicket?: [];
+  insertedTickets?: [];
 }
