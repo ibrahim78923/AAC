@@ -513,6 +513,7 @@ export const END_POINTS = {
   ALL_USERS_CONTACTS: '/dropdown/all-company-users-and-contacts',
   CUSTOMER_PORTAL_STYLINGS:
     '/org-company-account/update-customer-portal-STYLING',
+  CUSTOMER_PORTAL_ASSET_DROPDOWN: '/dropdown/all-assets-customer-portal',
 };
 
 export const LEAD_CAPTURE_FORM = {

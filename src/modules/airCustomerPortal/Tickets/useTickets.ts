@@ -5,6 +5,7 @@ import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { allTicketsDropdownFunction, ticketStatuses } from './Tickets.data';
 import { newTicketsDropdownDynamic } from './ReportIssue/ReportIssue.data';
+import { getCustomerPortalStyling } from '@/utils';
 
 export const useTickets = () => {
   const router = useRouter();
@@ -51,7 +52,7 @@ export const useTickets = () => {
     setOpenReportAnIssueModal,
     router,
   );
-
+  const portalStyles = getCustomerPortalStyling();
   return {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
@@ -65,5 +66,6 @@ export const useTickets = () => {
     newTicketsDropdown,
     getTicketsData,
     page,
+    portalStyles,
   };
 };

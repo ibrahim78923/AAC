@@ -6,16 +6,12 @@ import { useTickets } from './useTickets';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Fragment } from 'react';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import {
-  AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS,
-  AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS,
-} from '@/constants/permission-keys';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-
 import { TicketCardDataI } from './TicketCard/TicketCard.interface';
 import { ReportIssue } from './ReportIssue';
+import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { Theme } from '@mui/material';
 
 export const Tickets = () => {
   const {
@@ -31,33 +27,50 @@ export const Tickets = () => {
     newTicketsDropdown,
     getTicketsData,
     page,
+    portalStyles,
   } = useTickets();
 
   return (
     <>
       <PageTitledHeader title={'All Tickets'}>
-        <PermissionsGuard
-          permissions={[AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS]}
-        >
-          <SingleDropdownButton
-            dropdownOptions={allTicketsDropdown}
-            dropdownName={ticketStatus}
-          />
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[
-            AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.REPORT_AN_ISSUES,
-            AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.SENT_SERVICES_REQUEST,
-          ]}
-        >
-          <SingleDropdownButton
-            dropdownOptions={newTicketsDropdown}
-            dropdownName={'New'}
-            btnVariant="contained"
-            color="primary"
-            startIcon={<AddBoxIcon />}
-          />
-        </PermissionsGuard>
+        <PublicSingleDropdownButton
+          dropdownOptions={allTicketsDropdown}
+          dropdownName={ticketStatus}
+          sx={(theme: Theme) => ({
+            borderColor:
+              portalStyles?.btnSecondary ||
+              customizePortalDefaultValues(theme)?.btnSecondary,
+            color:
+              portalStyles?.btnSecondary ||
+              customizePortalDefaultValues(theme)?.btnSecondary,
+            '&:hover': {
+              borderColor:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+            },
+          })}
+        />
+        <PublicSingleDropdownButton
+          dropdownOptions={newTicketsDropdown}
+          dropdownName={'New'}
+          btnVariant="contained"
+          startIcon={<AddBoxIcon />}
+          sx={(theme: Theme) => ({
+            bgcolor:
+              portalStyles?.btnPrimary ||
+              customizePortalDefaultValues(theme)?.btnPrimary,
+            color: 'common.white',
+            '&:hover': {
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+            },
+          })}
+        />
       </PageTitledHeader>
       {lazyGetCustomerPortalTicketsStatus?.isLoading ||
       lazyGetCustomerPortalTicketsStatus?.isFetching ? (

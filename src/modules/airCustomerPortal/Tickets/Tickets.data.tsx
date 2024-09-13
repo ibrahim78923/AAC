@@ -1,5 +1,4 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
-import { AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
 import { TICKET_STATUS } from '@/constants/strings';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -9,6 +8,7 @@ export const ticketStatuses: string[] = [
   TICKET_STATUS?.PENDING,
   TICKET_STATUS?.RESOLVED,
   TICKET_STATUS?.SPAM,
+  TICKET_STATUS?.SHARE_WITH_ME,
 ];
 
 export const CHECK_SURVEY_SUBMISSION_STATUS = {
@@ -21,7 +21,6 @@ export const allTicketsDropdownFunction = (
 ) => [
   {
     id: 1,
-    permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'All tickets',
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.('All tickets');
@@ -30,7 +29,6 @@ export const allTicketsDropdownFunction = (
   },
   {
     id: 2,
-    permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'Open',
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.(TICKET_STATUS?.OPEN);
@@ -39,7 +37,6 @@ export const allTicketsDropdownFunction = (
   },
   {
     id: 3,
-    permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'Closed',
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.(TICKET_STATUS?.CLOSED);
@@ -48,10 +45,17 @@ export const allTicketsDropdownFunction = (
   },
   {
     id: 4,
-    permissionKey: [AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS],
     title: 'Resolved',
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketStatus?.(TICKET_STATUS?.RESOLVED);
+      closeMenu?.();
+    },
+  },
+  {
+    id: 5,
+    title: 'Share with me',
+    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+      setTicketStatus?.(TICKET_STATUS?.SHARE_WITH_ME);
       closeMenu?.();
     },
   },

@@ -37,7 +37,6 @@ export const PublicSingleDropdownButton = (
         onClick={handleClick}
         color="secondary"
         disabled={disabled}
-        sx={{ textTransform: 'capitalize' }}
         {...buttonPropsWithIcon}
         {...buttonProps}
       >

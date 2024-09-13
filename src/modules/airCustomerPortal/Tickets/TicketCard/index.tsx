@@ -8,8 +8,8 @@ import { TicketCardPropsI } from './TicketCard.interface';
 
 export const TicketsCard = (props: TicketCardPropsI) => {
   const { ticket } = props;
-
   const router: NextRouter = useRouter();
+  const { companyId } = router?.query;
 
   return (
     <Box
@@ -31,6 +31,7 @@ export const TicketsCard = (props: TicketCardPropsI) => {
           pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
           query: {
             id: ticket?._id,
+            ...(!!companyId && { companyId }),
           },
         });
       }}

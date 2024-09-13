@@ -9,6 +9,7 @@ import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketDetailPropsI } from './SingleTicketDetail.interface';
 import { CHECK_SURVEY_SUBMISSION_STATUS } from '../../Tickets.data';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -18,7 +19,8 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
   } = props;
 
-  const { theme, getCustomerSurvey } = useSingleTicketDetail(props);
+  const { theme, getCustomerSurvey, portalStyles } =
+    useSingleTicketDetail(props);
 
   return (
     <>
@@ -134,6 +136,18 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                 <LoadingButton
                   onClick={() => getCustomerSurvey?.()}
                   variant="contained"
+                  sx={{
+                    bgcolor:
+                      portalStyles?.btnPrimary ||
+                      customizePortalDefaultValues(theme)?.btnPrimary,
+                    color: 'common.white',
+                    '&:hover': {
+                      bgcolor:
+                        portalStyles?.btnPrimary ||
+                        customizePortalDefaultValues(theme)?.btnPrimary,
+                      color: 'common.white',
+                    },
+                  }}
                   disabled={
                     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus
                       ?.data?.message ===

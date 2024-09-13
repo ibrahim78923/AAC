@@ -6,12 +6,20 @@ import { NextRouter, useRouter } from 'next/router';
 export const CustomerSurvey = () => {
   const { user }: any = useAuth();
   const router: NextRouter = useRouter();
+  const { companyId } = router?.query;
   return (
     <>
       <UpsertSurveyResponse
         loggedInUser={user?.email}
         goBack={() =>
-          router?.push({ pathname: AIR_CUSTOMER_PORTAL?.DASHBOARD })
+          router?.push({
+            pathname: AIR_CUSTOMER_PORTAL?.DASHBOARD,
+            ...(!!companyId && {
+              query: {
+                companyId,
+              },
+            }),
+          })
         }
       />
     </>
