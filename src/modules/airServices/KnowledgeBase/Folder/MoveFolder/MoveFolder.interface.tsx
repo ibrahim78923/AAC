@@ -2,7 +2,7 @@ import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookF
 
 export interface MoveFolderFormFieldsI {
   movingFrom?: AutocompleteAsyncOptionsI | null | any;
-  moveTo?: AutocompleteAsyncOptionsI | null | any;
+  folder?: AutocompleteAsyncOptionsI | null | any;
 }
 
 export type MoveFolderFormDefaultValuesI = AutocompleteAsyncOptionsI[] | any[];

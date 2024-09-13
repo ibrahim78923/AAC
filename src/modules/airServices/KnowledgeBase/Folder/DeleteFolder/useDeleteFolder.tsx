@@ -12,9 +12,11 @@ export const useDeleteFolder = () => {
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.isPortalOpen,
   );
+
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
+
   const [deleteFolderForArticleTrigger, deleteFolderForArticleStatus] =
     useDeleteFolderForArticleMutation();
 
@@ -28,7 +30,7 @@ export const useDeleteFolder = () => {
       await deleteFolderForArticleTrigger(apiDataParameter)?.unwrap();
       successSnackbar?.('Folder deleted successfully!');
       closeFolderDeleteModal?.();
-      dispatch(setSelectedFolder?.({ _id: ALL_FOLDER }));
+      dispatch(setSelectedFolder<any>({ _id: ALL_FOLDER }));
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

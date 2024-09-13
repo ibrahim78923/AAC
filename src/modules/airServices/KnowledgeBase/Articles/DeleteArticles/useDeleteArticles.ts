@@ -9,7 +9,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airServices/knowledge-base/slice';
-import { useGetArticlesApi } from '../../KnowlegdeBaseHooks/useGetArticlesApi';
+import { useGetArticlesApi } from '../../KnowledgeBaseHooks/useGetArticlesApi';
 
 export const useDeleteArticles = () => {
   const dispatch = useAppDispatch();

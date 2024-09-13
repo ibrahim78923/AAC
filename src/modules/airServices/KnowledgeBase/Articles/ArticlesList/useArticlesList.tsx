@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useGetArticlesApi } from '../../KnowlegdeBaseHooks/useGetArticlesApi';
+import { useGetArticlesApi } from '../../KnowledgeBaseHooks/useGetArticlesApi';
 import { articlesListColumnsDynamic } from './ArticlesList.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {

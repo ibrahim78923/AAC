@@ -18,7 +18,7 @@ export const SingleFolderDetail = () => {
     selectedFolder,
   } = useSingleFolderDetail();
 
-  if (selectedFolder?._id === ALL_FOLDER) return;
+  if (selectedFolder?._id === ALL_FOLDER) return <></>;
   if (isLoading || isFetching) return <Skeleton height="10vh" />;
   if (isError)
     return (

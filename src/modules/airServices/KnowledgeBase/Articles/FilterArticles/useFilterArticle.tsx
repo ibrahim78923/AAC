@@ -3,7 +3,6 @@ import {
   filterArticlesDataDefaultValues,
   filterArticlesFormFieldsDynamic,
 } from './FilterArticles.data';
-import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
 import { FilterArticlesFormFieldsI } from './FilterArticles.interface';
@@ -60,10 +59,7 @@ export const useFilterArticles = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAuthor = useLazyGetUsersDropdownListForAuthorsQuery();
-
-  const filterArticlesFormFields =
-    filterArticlesFormFieldsDynamic(apiQueryAuthor);
+  const filterArticlesFormFields = filterArticlesFormFieldsDynamic();
 
   return {
     submitHandler,

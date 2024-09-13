@@ -1,11 +1,12 @@
-import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import { ARRAY_INDEX } from '@/constants/strings';
 import * as Yup from 'yup';
 import { MoveFolderFormDefaultValuesI } from './MoveFolder.interface';
+import { FoldersFields } from '../../KnowledgeBaseFormFields';
 
 export const moveFolderValidationSchema = Yup?.object()?.shape({
   movingFrom: Yup?.string()?.trim()?.required('Folder name is required'),
-  moveTo: Yup?.mixed()?.nullable()?.required('Folder name is required'),
+  folder: Yup?.mixed()?.nullable()?.required('Folder name is required'),
 });
 
 export const moveFolderDefaultValues = (
@@ -13,14 +14,11 @@ export const moveFolderDefaultValues = (
 ) => {
   return {
     movingFrom: data?.[ARRAY_INDEX?.ZERO]?.folder?.name ?? '',
-    moveTo: null,
+    folder: null,
   };
 };
 
-export const moveFolderFormFieldsDynamic = (
-  apiQueryFolder: any,
-  apiExternalParamsForMoveFolder: any,
-) => [
+export const moveFolderFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -35,15 +33,9 @@ export const moveFolderFormFieldsDynamic = (
   {
     id: 2,
     componentProps: {
-      name: 'moveTo',
       label: 'Move To',
-      fullWidth: true,
-      required: true,
-      apiQuery: apiQueryFolder,
-      externalParams: apiExternalParamsForMoveFolder,
-      placeholder: 'Select folder',
     },
-    component: RHFAutocompleteAsync,
+    component: FoldersFields,
     md: 12,
   },
 ];

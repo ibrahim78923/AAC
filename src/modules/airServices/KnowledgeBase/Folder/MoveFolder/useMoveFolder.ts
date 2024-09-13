@@ -5,10 +5,7 @@ import {
   moveFolderDefaultValues,
   moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
-import {
-  useLazyGetFoldersDropdownForMoveArticlesQuery,
-  usePatchArticleMutation,
-} from '@/services/airServices/knowledge-base/articles';
+import { usePatchArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { MoveFolderFormFieldsI } from './MoveFolder.interface';
@@ -17,22 +14,17 @@ import {
   emptySelectedArticlesList,
   setIsPortalClose,
 } from '@/redux/slices/airServices/knowledge-base/slice';
-import useAuth from '@/hooks/useAuth';
 
 export const useMoveFolder = () => {
-  const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
-  const { _id: userId } = auth?.user;
-  const { _id: organizationId } = auth?.user?.organization;
-
   const dispatch = useAppDispatch();
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.isPortalOpen,
   );
+
   const selectedArticlesList = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedArticlesList,
   );
+
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
 
   const methods = useForm<any>({
@@ -43,8 +35,15 @@ export const useMoveFolder = () => {
   const { reset, handleSubmit } = methods;
 
   const submitMoveFolder = async (data: MoveFolderFormFieldsI) => {
+    const isFolderSame =
+      data?.folder?._id ===
+      selectedArticlesList?.[ARRAY_INDEX?.ZERO]?.folder?._id;
+    if (isFolderSame) {
+      errorSnackbar('Article is already in the selected folder');
+      return;
+    }
     const upsertArticle = new FormData();
-    upsertArticle?.append('folder', data?.moveTo?._id);
+    upsertArticle?.append('folder', data?.folder?._id);
     upsertArticle?.append('id', selectedArticlesList?.[ARRAY_INDEX?.ZERO]?._id);
     const patchArticleParameter = {
       body: upsertArticle,
@@ -63,17 +62,8 @@ export const useMoveFolder = () => {
     dispatch(setIsPortalClose());
     dispatch(emptySelectedArticlesList());
   };
-  const apiExternalParamsForMoveFolder = {
-    userId,
-    companyId,
-    organizationId,
-  };
 
-  const apiQueryFolder = useLazyGetFoldersDropdownForMoveArticlesQuery();
-  const moveFolderFormFields = moveFolderFormFieldsDynamic(
-    apiQueryFolder,
-    apiExternalParamsForMoveFolder,
-  );
+  const moveFolderFormFields = moveFolderFormFieldsDynamic();
 
   return {
     methods,
