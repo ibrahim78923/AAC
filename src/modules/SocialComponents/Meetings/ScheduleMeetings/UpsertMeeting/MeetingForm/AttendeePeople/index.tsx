@@ -31,7 +31,6 @@ export const AttendeePeople = (props: any) => {
     slotsData,
     watchStartDate,
     meetingType,
-    handleFetchBookedMeetingSlots,
     bookedStatus,
     bookedSlotsData,
     watchPeople,
@@ -154,7 +153,6 @@ export const AttendeePeople = (props: any) => {
               <Button
                 sx={{ fontWeight: 500 }}
                 onClick={() => {
-                  handleFetchBookedMeetingSlots();
                   handleFetchMeetingSlots();
                 }}
               >
@@ -248,64 +246,64 @@ export const AttendeePeople = (props: any) => {
               <NoData height="20vh" message="No Slots found" />
             )}
           </Box>
-          <Box
-            p={2}
-            border="1.5px solid"
-            borderColor="grey.0"
-            borderRadius={2}
-            mt={1.5}
-          >
-            <Box display="flex" alignItems="center">
-              <Typography variant="body1" fontWeight={500} color="grey.600">
-                My Booked Slots
-              </Typography>
-            </Box>
-            {bookedStatus?.isLoading || bookedStatus?.isFetching ? (
-              <Skeleton />
-            ) : bookedStatus?.isError ? (
-              <ApiErrorState />
-            ) : bookedSlotsData?.length ? (
-              <Grid container spacing={2} mt={0}>
-                {bookedSlotsData?.map((slot: any) => {
-                  return (
-                    <>
-                      <Grid item lg={6} sm={6} xs={12} key={slot?._id}>
-                        <Box
-                          p={1}
-                          border="1px solid"
-                          borderColor="primary.main"
-                          borderRadius={2}
-                          display="flex"
-                          flexDirection="column"
-                          gap={1}
-                        >
-                          <Typography variant="body4" color="custom.main">
-                            {slot?.startTime}-{slot?.endTime}
-                          </Typography>
-                          <Typography
-                            variant="body3"
-                            color="custom.main"
-                            display="flex"
-                            alignItems="center"
-                            gap={0.5}
-                          >
-                            <DateRangePickerIcon />
-                            {dayjs(watchStartDate)?.format(
-                              DATE_TIME_FORMAT?.WDM,
-                            )}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                    </>
-                  );
-                })}
-              </Grid>
-            ) : (
-              <NoData height="20vh" message="No Slots found" />
-            )}
-          </Box>
         </>
       ) : null}
+      {!!watchStartDate && (
+        <Box
+          p={2}
+          border="1.5px solid"
+          borderColor="grey.0"
+          borderRadius={2}
+          mt={1.5}
+        >
+          <Box display="flex" alignItems="center">
+            <Typography variant="body1" fontWeight={500} color="grey.600">
+              My Booked Slots
+            </Typography>
+          </Box>
+          {bookedStatus?.isLoading || bookedStatus?.isFetching ? (
+            <Skeleton />
+          ) : bookedStatus?.isError ? (
+            <ApiErrorState />
+          ) : bookedSlotsData?.length ? (
+            <Grid container spacing={2} mt={0}>
+              {bookedSlotsData?.map((slot: any) => {
+                return (
+                  <>
+                    <Grid item lg={6} sm={6} xs={12} key={slot?._id}>
+                      <Box
+                        p={1}
+                        border="1px solid"
+                        borderColor="primary.main"
+                        borderRadius={2}
+                        display="flex"
+                        flexDirection="column"
+                        gap={1}
+                      >
+                        <Typography variant="body4" color="custom.main">
+                          {slot?.startTime}-{slot?.endTime}
+                        </Typography>
+                        <Typography
+                          variant="body3"
+                          color="custom.main"
+                          display="flex"
+                          alignItems="center"
+                          gap={0.5}
+                        >
+                          <DateRangePickerIcon />
+                          {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </>
+                );
+              })}
+            </Grid>
+          ) : (
+            <NoData height="20vh" message="No Slots found" />
+          )}
+        </Box>
+      )}
     </>
   );
 };

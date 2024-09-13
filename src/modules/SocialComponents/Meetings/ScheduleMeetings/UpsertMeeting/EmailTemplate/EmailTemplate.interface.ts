@@ -1,4 +1,4 @@
-export interface MeetingData {
+export interface MeetingDataI {
   _id: string;
   paragraph: string;
   createdBy: string;
@@ -6,6 +6,7 @@ export interface MeetingData {
   companyId: string;
   createdAt: string;
   updatedAt: string;
+  isDefault: boolean;
 }
 
 export interface RouterQuery {
@@ -16,6 +17,6 @@ export interface RouterQuery {
 export interface ApiResponseI {
   statusCode: number;
   message: string;
-  data?: MeetingData[];
+  data?: MeetingDataI[];
   error: string | null;
 }

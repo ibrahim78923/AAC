@@ -24,7 +24,7 @@ const counterOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 export const reminderFields = (
   index: number,
   differenceInDays: number,
-  differenceInHours: number,
+  differenceInMinutes: number,
 ) => [
   {
     id: 1,
@@ -64,18 +64,34 @@ export const reminderFields = (
       size: 'small',
       placeholder: 'Select',
       getOptionDisabled: (option: any) => {
+        if (differenceInMinutes < 60 && differenceInDays < 1) {
+          return (
+            option?.label === duration?.HOURS ||
+            option?.label === duration?.DAYS ||
+            option?.label === duration?.WEEKS
+          );
+        }
+
         if (differenceInDays < 1) {
-          if (differenceInHours < 1) {
-            return option?.label !== duration?.MINUTES;
-          } else {
-            return (
-              option?.label !== duration?.MINUTES &&
-              option?.label !== duration?.HOURS
-            );
-          }
-        } else if (differenceInDays < 8) {
+          return (
+            option?.label !== duration?.MINUTES &&
+            option?.label !== duration?.HOURS
+          );
+        }
+
+        if (differenceInDays >= 1 && differenceInDays < 7) {
           return option?.label === duration?.WEEKS;
         }
+
+        if (differenceInDays >= 7) {
+          return (
+            option?.label !== duration?.WEEKS &&
+            option?.label !== duration?.DAYS &&
+            option?.label !== duration?.HOURS &&
+            option?.label !== duration?.MINUTES
+          );
+        }
+
         return false;
       },
       options: durationOption,

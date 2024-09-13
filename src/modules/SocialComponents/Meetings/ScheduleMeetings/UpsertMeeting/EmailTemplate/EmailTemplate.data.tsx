@@ -2,7 +2,7 @@ import { SOCIAL_COMPONENTS } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import * as Yup from 'yup';
-import { MeetingData } from './EmailTemplate.interface';
+import { MeetingDataI } from './EmailTemplate.interface';
 import { Dispatch, SetStateAction } from 'react';
 import { NextRouter } from 'next/router';
 
@@ -21,7 +21,7 @@ export const defaultValues = (data: any) => ({
 });
 
 export const templateDropdownFunction = (
-  item: MeetingData,
+  item: MeetingDataI,
   router: NextRouter,
   meetingId: any,
   ticketId: any,
@@ -58,5 +58,6 @@ export const templateDropdownFunction = (
       close?.(false);
       setDeleteModal({ isOpen: true, data: item });
     },
+    disabled: item?.isDefault === true,
   },
 ];

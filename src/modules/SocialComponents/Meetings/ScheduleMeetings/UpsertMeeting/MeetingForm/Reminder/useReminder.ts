@@ -27,23 +27,25 @@ export const useReminder = (props: any) => {
 
   const fromDate = new Date(watchFromDate);
   const toDate = new Date(watchToDate);
-  const fromTime = new Date(`${watchFromDate}T${watchTime}`);
-  const toTime = new Date(`${watchToDate}T${watchTimeEnd}`);
+
+  const startTime = new Date(watchTime);
+  const endTime = new Date(watchTimeEnd);
 
   const differenceInDays = Math?.abs(
     (toDate?.getTime() - fromDate?.getTime()) /
       (TIME_UNITS?.MS * TIME_UNITS?.SEC_PER_HOUR * TIME_UNITS?.HOURS_PER_DAY),
   );
 
-  const differenceInHours = Math?.abs(
-    (toTime?.getTime() - fromTime?.getTime()) /
-      (TIME_UNITS?.MS * TIME_UNITS?.SEC_PER_HOUR),
+  const differenceInMinutes = Math.abs(
+    (endTime?.getTime() - startTime?.getTime()) /
+      (TIME_UNITS?.MS * TIME_UNITS?.SEC_PER_MINUTE),
   );
+
   return {
     fields,
     handleAppend,
     handleRemove,
     differenceInDays,
-    differenceInHours,
+    differenceInMinutes,
   };
 };

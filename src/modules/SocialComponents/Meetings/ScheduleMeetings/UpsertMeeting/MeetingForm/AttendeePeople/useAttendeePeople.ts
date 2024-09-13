@@ -7,6 +7,7 @@ import {
   useLazyGetMeetingsSlotsListQuery,
   useLazyGetAllUsersAndContactsDropdownQuery,
 } from '@/services/commonFeatures/meetings';
+import { useEffect } from 'react';
 
 export const useAttendeePeople = (props: any) => {
   const { watch, setValue } = props;
@@ -56,6 +57,12 @@ export const useAttendeePeople = (props: any) => {
   const slotsData = status?.data?.data?.availability;
   const bookedSlotsData = bookedStatus?.data?.data?.bookedSlots;
 
+  useEffect(() => {
+    if (watchStartDate) {
+      handleFetchBookedMeetingSlots();
+    }
+  }, [watchStartDate]);
+
   return {
     userDropdown,
     peopleData,
@@ -67,7 +74,6 @@ export const useAttendeePeople = (props: any) => {
     slotsData,
     watchStartDate,
     meetingType,
-    handleFetchBookedMeetingSlots,
     bookedStatus,
     bookedSlotsData,
     watchPeople,

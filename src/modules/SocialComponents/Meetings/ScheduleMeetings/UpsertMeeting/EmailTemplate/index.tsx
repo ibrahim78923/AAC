@@ -21,7 +21,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { templateDropdownFunction } from './EmailTemplate.data';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TemplateDeleteModal } from './TemplateDeleteModal';
-import { MeetingData } from './EmailTemplate.interface';
+import { MeetingDataI } from './EmailTemplate.interface';
 
 const EmailTemplate = () => {
   const {
@@ -73,7 +73,7 @@ const EmailTemplate = () => {
         <Grid container spacing={2} sx={{ display: 'flex' }}>
           {meetingsEmailData?.length ? (
             <>
-              {meetingsEmailData?.map((item: MeetingData) => (
+              {meetingsEmailData?.map((item: MeetingDataI) => (
                 <Grid key={item?._id} item lg={4} md={6} xs={12}>
                   <Card
                     sx={{
