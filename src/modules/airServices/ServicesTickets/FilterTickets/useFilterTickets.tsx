@@ -1,11 +1,5 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import {
-  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
-  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-} from '@/services/airServices/tickets';
-import {
   ticketsFilterFormFieldsDataFunction,
   ticketsFilterFormFieldsDefaultValues,
 } from './FilterTickets.data';
@@ -69,18 +63,7 @@ export const useFilterTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryRequester =
-    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
-
-  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
-    apiQueryRequester,
-    apiQueryAgent,
-    apiQueryCategories,
-    apiQueryDepartment,
-  );
+  const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction();
 
   return {
     ticketsFilterFormFieldsData,

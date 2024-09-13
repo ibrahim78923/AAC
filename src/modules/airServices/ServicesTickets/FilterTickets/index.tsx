@@ -18,23 +18,20 @@ export const FilterTickets = () => {
     <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
-        onClose={() => onClose?.()}
+        onClose={onClose}
         okText={'Apply'}
         title={'Filter'}
-        submitHandler={() => handleSubmit(submitTicketFilterForm)()}
+        submitHandler={handleSubmit(submitTicketFilterForm)}
         isOk
         cancelText={'Reset'}
         footer
-        cancelBtnHandler={() => resetTicketFilterForm?.()}
+        cancelBtnHandler={resetTicketFilterForm}
       >
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(submitTicketFilterForm)}
-        >
+        <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {ticketsFilterFormFieldsData?.map((form: any) => {
               return (
-                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>
               );

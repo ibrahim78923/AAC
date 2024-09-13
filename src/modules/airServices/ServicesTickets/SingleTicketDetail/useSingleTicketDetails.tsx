@@ -40,5 +40,6 @@ export const useSingleTicketDetails = () => {
     refetch,
     data,
     childComponentProps,
+    router,
   };
 };

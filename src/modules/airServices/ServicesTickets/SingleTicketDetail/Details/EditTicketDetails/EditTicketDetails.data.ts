@@ -24,6 +24,9 @@ import {
 } from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
+import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
+import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -88,9 +91,6 @@ export const editTicketDetailsDefaultValuesDynamic = (
 };
 
 export const editTicketDetailsFormFieldsDynamic = (
-  apiQueryAgent: any,
-  apiQueryCategory: any,
-  apiQueryDepartment?: any,
   watchForTicketType?: any,
   apiQueryServicesCategory?: any,
   getValues?: any,
@@ -124,14 +124,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   },
   {
     id: 70,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      fullWidth: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Choose Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
   },
   {
     id: 3,
@@ -155,7 +148,6 @@ export const editTicketDetailsFormFieldsDynamic = (
       options: ticketTypeOptionsDynamic?.(data?.ticketType),
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
-
     component: RHFAutocomplete,
   },
   {
@@ -172,32 +164,11 @@ export const editTicketDetailsFormFieldsDynamic = (
   },
   {
     id: 6,
-    componentProps: {
-      name: 'agent',
-      label: 'Agent',
-      fullWidth: true,
-      apiQuery: apiQueryAgent,
-      placeholder: 'Choose Agent',
-      externalParams: {
-        admin: true,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
   {
     id: 7,
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      fullWidth: true,
-      apiQuery: apiQueryCategory,
-      placeholder: 'Choose Category',
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
+    component: CategoryFieldDropdown,
   },
   ...(watchForTicketType?._id === TICKET_TYPE?.SR
     ? [

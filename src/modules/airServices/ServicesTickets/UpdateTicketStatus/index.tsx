@@ -17,8 +17,8 @@ export const UpdateTicketStatus = () => {
       type={ALERT_MODALS_TYPE?.INFO}
       message="Do you want to update the ticket status?"
       open={isPortalOpen?.isOpen as boolean}
-      handleClose={() => closeModal?.()}
-      handleSubmitBtn={() => updateTicketStatus?.()}
+      handleClose={closeModal}
+      handleSubmitBtn={updateTicketStatus}
       loading={putSingleTicketStatusStatus?.isLoading}
       disableCancelBtn={putSingleTicketStatusStatus?.isLoading}
     />

@@ -7,4 +7,5 @@ export interface ApiErrorStatePropsI {
   children?: ReactNode;
   refresh?: (...args: any) => Promise<void> | any;
   canRefresh?: boolean;
+  refreshButtonProps?: any;
 }

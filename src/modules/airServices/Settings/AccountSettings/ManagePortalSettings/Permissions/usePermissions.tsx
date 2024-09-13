@@ -11,7 +11,7 @@ import {
   customerPortalSettingsSchemaValidation,
 } from './Permissions.data';
 import { useEffect } from 'react';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 
@@ -65,6 +65,7 @@ export const usePermissions = () => {
     const apiDataParameter = { body };
     try {
       await patchCustomerPortalPermissionsTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Permissions updated successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

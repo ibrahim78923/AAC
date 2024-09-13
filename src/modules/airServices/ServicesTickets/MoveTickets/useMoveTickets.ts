@@ -5,11 +5,7 @@ import {
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
-  useLazyGetDepartmentDropdownQuery,
-  usePutTicketsMutation,
-} from '@/services/airServices/tickets';
+import { usePutTicketsMutation } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
@@ -92,12 +88,7 @@ export const useMoveTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const moveTicketsFormFields = moveTicketsFormFieldsDynamic(
-    apiQueryDepartment,
-    apiQueryAgent,
-  );
+  const moveTicketsFormFields = moveTicketsFormFieldsDynamic();
 
   return {
     moveTicketsFormMethod,

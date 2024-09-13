@@ -1,15 +1,14 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertTicket } from './useUpsertTicket';
-import { Attachments } from '@/components/Attachments';
-import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { TicketAttachment } from '../TicketAttachment';
 
 export const UpsertTicket = () => {
   const {
@@ -33,7 +32,7 @@ export const UpsertTicket = () => {
   return (
     <CommonDrawer
       isDrawerOpen={isPortalOpen?.isOpen as boolean}
-      onClose={() => onClose?.()}
+      onClose={onClose}
       okText={
         !!ticketId
           ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
@@ -44,7 +43,7 @@ export const UpsertTicket = () => {
           ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
           : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
       } Ticket`}
-      submitHandler={() => handleSubmit(submitUpsertTicket)()}
+      submitHandler={handleSubmit(submitUpsertTicket)}
       isOk
       cancelText={GENERIC_UPSERT_FORM_CONSTANT?.CANCEL}
       footer
@@ -100,29 +99,7 @@ export const UpsertTicket = () => {
                 ))}
             </Grid>
             <br />
-
-            {!!ticketId && (
-              <>
-                <Typography
-                  variant="body1"
-                  fontWeight={500}
-                  color="slateBlue.main"
-                  mb={2}
-                >
-                  {' '}
-                  Attachments{' '}
-                </Typography>
-                <Box maxHeight={'20vh'}>
-                  <Attachments
-                    recordId={ticketId}
-                    permissionKey={[
-                      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
-                    ]}
-                    colSpan={{ sm: 12, lg: 12 }}
-                  />
-                </Box>
-              </>
-            )}
+            <TicketAttachment ticketId={ticketId} />
           </FormProvider>
         )}
       </Box>

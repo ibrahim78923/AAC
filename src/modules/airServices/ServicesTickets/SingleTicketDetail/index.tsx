@@ -16,7 +16,10 @@ export const SingleTicketDetail = () => {
     refetch,
     data,
     childComponentProps,
+    router,
   } = useSingleTicketDetails?.();
+
+  if (!router?.isReady) return <SkeletonTable />;
 
   if (isLoading || isFetching) return <SkeletonTable />;
 

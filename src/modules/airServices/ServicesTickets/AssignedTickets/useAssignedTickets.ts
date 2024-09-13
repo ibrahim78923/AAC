@@ -1,7 +1,4 @@
-import {
-  usePutTicketsMutation,
-  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
-} from '@/services/airServices/tickets';
+import { usePutTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
@@ -39,11 +36,11 @@ export const useAssignedTickets = () => {
 
   const assignedTicketsMethod: UseFormReturn<any> = useForm<any>({
     defaultValues: {
-      user: null,
+      agent: null,
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        user: Yup?.mixed()?.nullable()?.required('Agent is Required'),
+        agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
       }),
     ),
   });
@@ -60,7 +57,7 @@ export const useAssignedTickets = () => {
   const { handleSubmit, reset } = assignedTicketsMethod;
 
   const submitAssignedTicketsForm = async (formData: {
-    user: AutocompleteAsyncOptionsI;
+    agent: AutocompleteAsyncOptionsI;
   }) => {
     const assignTicketFormData = new FormData();
     assignTicketFormData?.append(
@@ -72,7 +69,7 @@ export const useAssignedTickets = () => {
     assignTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
     assignTicketFormData?.append('status', singleTicketDetail?.status);
     assignTicketFormData?.append('id', singleTicketDetail?._id);
-    assignTicketFormData?.append('agent', formData?.user?._id);
+    assignTicketFormData?.append('agent', formData?.agent?._id);
     const putTicketParameter = {
       body: assignTicketFormData,
     };
@@ -91,14 +88,11 @@ export const useAssignedTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
-
   return {
     assignedTicketsMethod,
     handleSubmit,
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
-    apiQueryAgent,
     putTicketStatus,
     isPortalOpen,
   };

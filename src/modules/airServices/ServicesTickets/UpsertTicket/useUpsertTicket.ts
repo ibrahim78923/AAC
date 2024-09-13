@@ -11,14 +11,10 @@ import {
 import { useEffect, useState } from 'react';
 import {
   useGetTicketsByIdQuery,
-  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
-  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
-  useLazyGetAssociateAssetsDropdownForTicketsQuery,
-  useLazyGetCategoriesDropdownForTicketsQuery,
-  useLazyGetDepartmentDropdownForTicketsQuery,
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
+
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -41,8 +37,15 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertTicket = () => {
+  const auth: any = useAuth();
+  const { _id: companyId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};
+  const { _id: userId } = auth?.user ?? {};
+  const { _id: organizationId } = auth?.user?.organization ?? {};
+
   const dispatch = useAppDispatch();
   const { getTicketsListData } = useGetTicketList();
   const selectedTicketLists = useAppSelector(
@@ -215,6 +218,9 @@ export const useUpsertTicket = () => {
         'ticketType',
         data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
       );
+      upsertTicketFormData?.append('userId', userId);
+      upsertTicketFormData?.append('companyId', companyId);
+      upsertTicketFormData?.append('organization', organizationId);
 
       if (body?.customFields) {
         upsertTicketFormData?.append(
@@ -268,23 +274,7 @@ export const useUpsertTicket = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
-  const apiQueryRequester =
-    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
-  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
-  const apiQueryAssociateAsset =
-    useLazyGetAssociateAssetsDropdownForTicketsQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownForTicketsQuery();
-
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
-    apiQueryRequester,
-    apiQueryDepartment,
-    apiQueryAgent,
-    apiQueryCategories,
-    apiQueryAssociateAsset,
-    router,
-    ticketId,
-  );
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
 
   return {
     router,

@@ -1,8 +1,4 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFDatePicker,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
 
 import {
   ticketImpactOptions,
@@ -12,11 +8,12 @@ import {
   ticketsTypeOptions,
 } from '../ServicesTickets.data';
 import { DATA_TYPES } from '@/constants/strings';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TicketsFilterDataDefaultValuesI } from './FilterTickets.interface';
+import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
+import { RequesterFieldDropdown } from '../ServiceTicketFormFields/RequesterFieldDropdown';
+import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
+import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFieldDropdown';
 
 export const sendIdOptions: string[] = [
   'ticketType',
@@ -62,12 +59,8 @@ export const ticketsFilterFormFieldsDefaultValues = (
         : null,
   };
 };
-export const ticketsFilterFormFieldsDataFunction = (
-  apiQueryRequester?: any,
-  apiQueryAgent?: any,
-  apiQueryCategory?: any,
-  apiQueryDepartment?: any,
-) => [
+
+export const ticketsFilterFormFieldsDataFunction = () => [
   {
     id: 1,
     componentProps: {
@@ -103,47 +96,19 @@ export const ticketsFilterFormFieldsDataFunction = (
   },
   {
     id: 4,
-    componentProps: {
-      fullWidth: true,
-      name: 'agent',
-      label: 'Agent',
-      placeholder: 'Choose Agent',
-      apiQuery: apiQueryAgent,
-      externalParams: {
-        admin: true,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
   {
     id: 5,
     componentProps: {
-      name: 'requester',
-      label: 'Requester',
-      fullWidth: true,
-      placeholder: 'Choose Requester',
-      apiQuery: apiQueryRequester,
-      externalParams: {
-        requester: true,
-        admin: true,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
+      hasEndIcon: false,
+      required: false,
     },
-    component: RHFAutocompleteAsync,
+    component: RequesterFieldDropdown,
   },
   {
     id: 6,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      fullWidth: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Choose Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
   },
   {
     id: 7,
@@ -171,16 +136,7 @@ export const ticketsFilterFormFieldsDataFunction = (
   },
   {
     id: 9,
-    componentProps: {
-      fullWidth: true,
-      name: 'category',
-      label: 'Category',
-      placeholder: 'Choose Category',
-      apiQuery: apiQueryCategory,
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
+    component: CategoryFieldDropdown,
   },
   {
     id: 16,

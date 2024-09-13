@@ -2,9 +2,7 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFAutocomplete,
-  RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
 import {
   ticketImpactOptions,
@@ -12,13 +10,10 @@ import {
   ticketSourceOptions,
   ticketStatusOptions,
 } from '../ServicesTickets.data';
-import { ROLES } from '@/constants/strings';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { pxToRem } from '@/utils/getFontValue';
+import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
+import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
 
 export const dropdownDummy = [
   {
@@ -117,10 +112,7 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
     }),
   });
 
-export const ticketsBulkUpdateFormFieldsDynamic = (
-  apiQueryAgent: any,
-  apiQueryCategories: any,
-) => [
+export const ticketsBulkUpdateFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -156,20 +148,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
   },
   {
     id: 4,
-    componentProps: {
-      fullWidth: true,
-      name: 'agent',
-      label: 'Agent',
-      apiQuery: apiQueryAgent,
-      placeholder: 'Choose Agent',
-      externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
   {
     id: 5,
@@ -184,15 +163,6 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
   },
   {
     id: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'category',
-      label: 'Category',
-      apiQuery: apiQueryCategories,
-      placeholder: 'Choose Category',
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
+    component: CategoryFieldDropdown,
   },
 ];

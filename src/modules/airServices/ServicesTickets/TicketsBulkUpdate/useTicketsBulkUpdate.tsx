@@ -10,8 +10,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetAgentDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
   usePatchBulkUpdateTicketsMutation,
   usePostAddReplyToBulkUpdateMutation,
 } from '@/services/airServices/tickets';
@@ -125,12 +123,7 @@ export const useTicketBulkUpdate = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-  const ticketsBulkUpdateFormFields = ticketsBulkUpdateFormFieldsDynamic?.(
-    apiQueryAgent,
-    apiQueryCategories,
-  );
+  const ticketsBulkUpdateFormFields = ticketsBulkUpdateFormFieldsDynamic?.();
 
   return {
     ticketsBulkUpdateFormFields,

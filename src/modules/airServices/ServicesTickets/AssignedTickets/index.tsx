@@ -1,4 +1,4 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { useAssignedTickets } from './useAssignedTickets';
 import CloseIcon from '@mui/icons-material/Close';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 
 export const AssignedTickets = () => {
   const {
@@ -18,7 +18,6 @@ export const AssignedTickets = () => {
     handleSubmit,
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
-    apiQueryAgent,
     putTicketStatus,
     isPortalOpen,
   }: any = useAssignedTickets();
@@ -26,7 +25,7 @@ export const AssignedTickets = () => {
   return (
     <Dialog
       open={isPortalOpen?.isOpen as boolean}
-      onClose={() => closeTicketsAssignedModal?.()}
+      onClose={closeTicketsAssignedModal}
       fullWidth
       maxWidth={'sm'}
     >
@@ -48,32 +47,18 @@ export const AssignedTickets = () => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => closeTicketsAssignedModal?.()}
+              onClick={closeTicketsAssignedModal}
             />
           </Box>
         </DialogTitle>
         <DialogContent>
-          <RHFAutocompleteAsync
-            label="Select user"
-            name="user"
-            fullWidth
-            required
-            apiQuery={apiQueryAgent}
-            size="small"
-            placeholder="Choose Agent"
-            externalParams={{
-              admin: true,
-            }}
-            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
-              `${option?.firstName} ${option?.lastName}`
-            }
-          />
+          <AgentFieldDropdown />
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"
-            onClick={() => closeTicketsAssignedModal?.()}
+            onClick={closeTicketsAssignedModal}
             disabled={putTicketStatus?.isLoading}
           >
             Cancel

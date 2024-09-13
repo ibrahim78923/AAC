@@ -1,13 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, useWatch } from 'react-hook-form';
-
 import {
   useGetTicketsDetailsByIdQuery,
   useEditTicketsDetailsMutation,
-  useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
   useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
-
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import {
@@ -21,10 +18,6 @@ import {
   editTicketDetailsFormFieldsDynamic,
   editTicketDetailsValidationSchema,
 } from './EditTicketDetails.data';
-import {
-  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
-  useLazyGetDepartmentDropdownQuery,
-} from '@/services/airServices/tickets';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -221,17 +214,10 @@ export const useEditTicketDetails = () => {
     }
   };
 
-  const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
-  const apiQueryCategory =
-    useLazyGetCategoriesDropdownForEditTicketDetailsQuery();
   const apiQueryServicesCategory =
     useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery?.();
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
 
   const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
-    apiQueryAgent,
-    apiQueryCategory,
-    apiQueryDepartment,
     watchForTicketType,
     apiQueryServicesCategory,
     getValues,

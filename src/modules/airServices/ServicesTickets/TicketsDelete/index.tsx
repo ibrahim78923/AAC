@@ -16,8 +16,8 @@ export const TicketsDelete = () => {
       typeImage={<AlertModalDeleteIcon />}
       message="Are you sure you want to delete the selected ticket ?"
       open={isPortalOpen?.isOpen as boolean}
-      handleClose={() => closeTicketsDeleteModal?.()}
-      handleSubmitBtn={() => deleteTicket?.()}
+      handleClose={closeTicketsDeleteModal}
+      handleSubmitBtn={deleteTicket}
       loading={deleteTicketsStatus?.isLoading}
       disableCancelBtn={deleteTicketsStatus?.isLoading}
     />

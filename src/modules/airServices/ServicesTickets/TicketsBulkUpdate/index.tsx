@@ -25,10 +25,10 @@ export const TicketsBulkUpdate = () => {
     <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
-        onClose={() => onClose?.()}
+        onClose={onClose}
         okText={'Update'}
         title={'Bulk Update'}
-        submitHandler={() => handleSubmit(submitTicketBulkUpdateForm)()}
+        submitHandler={handleSubmit(submitTicketBulkUpdateForm)}
         isOk
         cancelText={'Cancel'}
         footer
@@ -47,10 +47,7 @@ export const TicketsBulkUpdate = () => {
           </Button>
         )}
         <br />
-        <FormProvider
-          methods={methodsBulkUpdateForm}
-          onSubmit={handleSubmit(submitTicketBulkUpdateForm)}
-        >
+        <FormProvider methods={methodsBulkUpdateForm}>
           {isReplyAdded && (
             <>
               <Box

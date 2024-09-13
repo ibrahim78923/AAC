@@ -10,7 +10,9 @@ const ApiErrorState = (props: ApiErrorStatePropsI) => {
     children,
     refresh,
     canRefresh = false,
+    refreshButtonProps,
   } = props;
+
   return (
     <Box
       height={height}
@@ -39,7 +41,11 @@ const ApiErrorState = (props: ApiErrorStatePropsI) => {
       <br />
       {children}
       {canRefresh && (
-        <Button variant="contained" onClick={() => refresh?.()}>
+        <Button
+          variant="contained"
+          onClick={() => refresh?.()}
+          {...refreshButtonProps}
+        >
           Refresh
         </Button>
       )}
