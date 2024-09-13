@@ -5,7 +5,6 @@ import {
 } from '@/components/ReactHookForm';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_CUSTOMER_PORTAL, DATE_FORMAT } from '@/constants';
-import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { ROLE } from '@/constants/strings';
 import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
@@ -132,9 +131,7 @@ export const newTicketsDropdownDynamic = (
   {
     id: 1,
     title: 'Report an issue',
-    permissionKey: [
-      AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.REPORT_AN_ISSUES,
-    ],
+
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setOpenReportAnIssueModal?.(true);
       closeMenu?.();
@@ -143,9 +140,7 @@ export const newTicketsDropdownDynamic = (
   {
     id: 2,
     title: 'Request a service',
-    permissionKey: [
-      AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.SENT_SERVICES_REQUEST,
-    ],
+
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       router?.push({
         pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
