@@ -147,7 +147,9 @@ const LeftPane = () => {
             )?.value || '';
           const cc =
             headers?.find(
-              (header: { name: string }) => header?.name === Gmail_CONST?.CC,
+              (header: { name: string }) =>
+                header?.name === Gmail_CONST?.CC ||
+                header?.name === Gmail_CONST?.cc,
             )?.value || '';
           const Bcc =
             headers?.find(
@@ -209,7 +211,9 @@ const LeftPane = () => {
             )?.value || '';
           const cc =
             headers?.find(
-              (header: { name: string }) => header?.name === Gmail_CONST?.Cc,
+              (header: { name: string }) =>
+                header?.name === Gmail_CONST?.Cc ||
+                header?.name === Gmail_CONST?.cc,
             )?.value || '';
           const Bcc =
             headers?.find(

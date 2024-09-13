@@ -4,6 +4,7 @@ import { PAGINATION } from '@/config';
 import {
   useDeletePaymentCardMutation,
   useGetPaymentCardQuery,
+  usePatchPaymentCardMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { enqueueSnackbar } from 'notistack';
 import { successSnackbar } from '@/utils/api';
@@ -14,6 +15,7 @@ const usePaymentMethods = () => {
   const [openAddCard, setOpenAddCard] = useState(false);
   const [openEditCard, setOpenEditCard] = useState('');
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDefault, setOpenDefault] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState<string[]>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -39,6 +41,9 @@ const usePaymentMethods = () => {
   const [deletePaymentCard, { isLoading: loadingDelete }] =
     useDeletePaymentCardMutation();
 
+  const [updatePaymentCard, { isLoading: loadingUpdate }] =
+    usePatchPaymentCardMutation();
+
   const handleDelete = async () => {
     try {
       await deletePaymentCard({
@@ -47,7 +52,6 @@ const usePaymentMethods = () => {
       }).unwrap();
       successSnackbar('Record Deleted Successfully');
       handleCloseDeleteModal();
-      setIsGetRowValues([]);
       handleClose();
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
@@ -74,8 +78,36 @@ const usePaymentMethods = () => {
   };
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
+    setIsGetRowValues([]);
   };
 
+  const handleOpenDefaultModal = () => {
+    setOpenDefault(true);
+    handleClose();
+  };
+
+  const handleCloseDefaultModal = () => {
+    setOpenDefault(false);
+    setIsGetRowValues([]);
+  };
+
+  const handleUpdate = async () => {
+    const payload = {
+      stripeCustomerId: user?.stripeCustomerId,
+      isDefault: true,
+    };
+    try {
+      await updatePaymentCard({
+        body: payload,
+        id: isGetRowValues,
+      }).unwrap();
+      successSnackbar('Set Card Default Successfully');
+      handleCloseDefaultModal();
+      handleClose();
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
   const getRowValues = columns(
     setIsGetRowValues,
     isGetRowValues,
@@ -107,6 +139,11 @@ const usePaymentMethods = () => {
     setPage,
     loadingDelete,
     handleDelete,
+    openDefault,
+    handleCloseDefaultModal,
+    handleUpdate,
+    handleOpenDefaultModal,
+    loadingUpdate,
   };
 };
 

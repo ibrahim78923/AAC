@@ -1,12 +1,8 @@
 import { Box, Typography, Theme, useTheme } from '@mui/material';
-import useForecast from './useForecast';
-import CommonTabs from '@/components/Tabs';
 import Setup from './Setup';
-import Pipeline from './Pipeline';
 
 const Forecast = () => {
   const theme = useTheme<Theme>();
-  const { setActiveTab } = useForecast();
 
   return (
     <>
@@ -18,24 +14,10 @@ const Forecast = () => {
           padding: '1rem',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Typography variant="h4">Forecast</Typography>
-        </Box>
-        <Box sx={{ width: '100%' }}>
-          <CommonTabs
-            getTabVal={(val: any) => setActiveTab(val)}
-            tabsArray={['Setup', 'pipeline']}
-          >
-            <Setup />
-            <Pipeline />
-          </CommonTabs>
-        </Box>
+        <Typography variant="h4" mb={2}>
+          Forecast
+        </Typography>
+        <Setup />
       </Box>
     </>
   );

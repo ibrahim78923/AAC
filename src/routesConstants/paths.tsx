@@ -323,6 +323,7 @@ export const SOCIAL_FEATURES_GMAIL = {
   MAIN_EMAIL_PAGE: '/social-components/email',
   DRAFT_GMAIL_POST: '/gmail/send-gmail-draft-mail',
   LOGOUT_MAIL: 'email-marketing/save-email-marketing-setting',
+  LINK_DEAL: '/gmail/link-to-deal',
 };
 
 export const CHAT_SOCKETS = {

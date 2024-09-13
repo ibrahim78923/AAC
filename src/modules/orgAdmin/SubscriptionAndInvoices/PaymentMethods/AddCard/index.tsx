@@ -220,7 +220,7 @@ const AddCard = ({
                     disabled={openEditCard === 'View'}
                   />
                 }
-                label="is Default"
+                label="Default"
               />
             </Box>
 
@@ -233,7 +233,7 @@ const AddCard = ({
                   disabled={openEditCard === 'View'}
                 />
               }
-              label="secure Transaction"
+              label="Secure Transaction"
             />
           </DialogContent>
           <DialogActions>

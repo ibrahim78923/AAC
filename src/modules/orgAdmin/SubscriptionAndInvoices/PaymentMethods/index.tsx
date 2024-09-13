@@ -9,6 +9,7 @@ import { styles } from './PaymentMethod.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import { isNullOrEmpty } from '@/utils';
+import { useGetPaymentCardByIdQuery } from '@/services/orgAdmin/subscription-and-invoices';
 
 const PaymentMethods = () => {
   const {
@@ -36,7 +37,17 @@ const PaymentMethods = () => {
     setPage,
     loadingDelete,
     handleDelete,
+    openDefault,
+    handleCloseDefaultModal,
+    handleUpdate,
+    handleOpenDefaultModal,
+    loadingUpdate,
   } = usePaymentMethods();
+
+  const { data } = useGetPaymentCardByIdQuery(
+    { id: isGetRowValues[0] },
+    { skip: isNullOrEmpty(isGetRowValues) },
+  );
 
   return (
     <>
@@ -117,6 +128,11 @@ const PaymentMethods = () => {
               View
             </MenuItem>
             <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
+            {!data?.data?.isDefault && (
+              <MenuItem onClick={handleOpenDefaultModal}>
+                Set as Default
+              </MenuItem>
+            )}
           </Menu>
         </Box>
 
@@ -143,12 +159,26 @@ const PaymentMethods = () => {
         setIsGetRowValues={setIsGetRowValues}
       />
       <AlertModals
-        message="Are you sure you want to delete this payment method ?"
-        type="delete"
+        message={
+          data?.data?.isDefault
+            ? 'This is Default card Please select other card as Default to delete this.'
+            : 'Are you sure you want to delete this payment method ?'
+        }
+        type={data?.data?.isDefault ? 'Information' : 'delete'}
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}
         handleSubmitBtn={handleDelete}
         loading={loadingDelete}
+        footer={data?.data?.isDefault ? false : true}
+      />
+
+      <AlertModals
+        message="Are you sure to set this card as default?"
+        type={'Information'}
+        open={openDefault}
+        handleClose={handleCloseDefaultModal}
+        handleSubmitBtn={handleUpdate}
+        loading={loadingUpdate}
       />
     </>
   );

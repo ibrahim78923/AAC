@@ -567,6 +567,7 @@ export { default as CustomerDashboardIcon } from './modules/airCustomerPortal/da
 export { default as CustomerTicketsIcon } from './modules/airCustomerPortal/tickets';
 export { default as CustomerKnowledgeBaseIcon } from './modules/airCustomerPortal/knowledge-base';
 export { default as CustomerCatalogIcon } from './modules/airCustomerPortal/catalog';
+export { default as DeleteCrossDisableIcon } from './shared/delete-cross-disable';
 export { default as CustomerLogoutIcon } from './modules/airCustomerPortal/logout';
 export { default as TickCirclePrimary } from './modules/SocialComponents/documents/tick-circle-primary';
 export { default as MoveFolderIcon } from './modules/SocialComponents/documents/move-folder-icon';

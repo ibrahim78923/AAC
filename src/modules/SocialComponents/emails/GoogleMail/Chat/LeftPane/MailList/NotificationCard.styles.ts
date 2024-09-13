@@ -8,8 +8,8 @@ export const styles = {
   card: (theme: any) => {
     return {
       background: theme?.palette?.common?.white,
-      padding: '14px',
-      m: '24px 10px',
+      padding: '14px 2px',
+      m: '15px 10px',
       '&:hover': {
         background: theme?.palette?.custom?.light_white_bg,
         cursor: 'pointer',

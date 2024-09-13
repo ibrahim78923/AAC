@@ -131,6 +131,14 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    patchPaymentCard: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${ORG_ADMIN?.PAYMENT_METHOD}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -152,4 +160,5 @@ export const {
   useDeletePaymentCardMutation,
   usePostPaymentCardMutation,
   useGetPaymentCardByIdQuery,
+  usePatchPaymentCardMutation,
 } = subscriptionAndInvoicesAPI;

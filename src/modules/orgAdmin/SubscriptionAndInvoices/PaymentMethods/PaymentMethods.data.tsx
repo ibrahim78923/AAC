@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { Box, Checkbox } from '@mui/material';
 
 export const columns = (
@@ -20,6 +21,7 @@ export const columns = (
         : [],
     );
   };
+  const theme = useTheme();
 
   return [
     {
@@ -92,7 +94,24 @@ export const columns = (
       id: 'brand',
       isSortable: true,
       header: 'Card Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+          {info?.getValue()} &nbsp;
+          {info?.row?.original?.isDefault && (
+            <span
+              style={{
+                color: theme?.palette?.common?.white,
+                backgroundColor: theme?.palette?.primary?.main,
+                width: 'fit-content',
+                padding: '3px 7px',
+                borderRadius: '5px',
+              }}
+            >
+              Default
+            </span>
+          )}
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row?.last4,
