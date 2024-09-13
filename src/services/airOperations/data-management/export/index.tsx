@@ -7,7 +7,7 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getExportList: builder?.query({
       query: (params) => ({
-        url: `${OPERATION}`,
+        url: `${OPERATION?.GET_EXPORT_DATA_MANAGEMENT}`,
         method: 'GET',
         params,
       }),

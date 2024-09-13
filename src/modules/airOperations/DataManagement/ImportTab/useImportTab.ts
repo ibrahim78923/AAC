@@ -21,7 +21,7 @@ export const useImportTab: () => ImportTabI = () => {
     product: filterValues?.product,
     user: filterValues?.user && filterValues?.user?._id,
     object: filterValues?.object,
-    createdDate:
+    createdAt:
       filterValues?.createdDate &&
       dayjs(filterValues?.createdDate)?.format(CALENDAR_FORMAT?.YMD),
   };

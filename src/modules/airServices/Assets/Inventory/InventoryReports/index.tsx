@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -112,8 +112,6 @@ export const InventoryReports = () => {
         </PermissionsGuard>
       </PageTitledHeader>
 
-      <Divider sx={{ mb: 2 }} />
-
       {isLoading || isFetching ? (
         <SkeletonTable />
       ) : (
@@ -122,7 +120,7 @@ export const InventoryReports = () => {
         >
           <Box ref={downloadRef}>
             <ReportsCards cardsData={inventoryReportsCardsData} />
-            <Grid container spacing={2}>
+            <Grid container spacing={1.5}>
               <Grid item xs={12} lg={4}>
                 <Box
                   height={'100%'}
@@ -131,7 +129,7 @@ export const InventoryReports = () => {
                   borderColor={'custom.off_white_one'}
                   borderRadius={2}
                   px={2}
-                  py={3}
+                  py={1.5}
                 >
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Assets Distribution
@@ -159,7 +157,7 @@ export const InventoryReports = () => {
                   borderColor={'custom.off_white_one'}
                   borderRadius={2}
                   px={2}
-                  py={3}
+                  py={2}
                   height={'100%'}
                 >
                   <FormProvider methods={methods}>

@@ -643,6 +643,7 @@ export const OPERATION = {
   CLONE_WORKFLOW: '/workflows/clone',
   TEST_WORKFLOW: '/workflows/test',
   GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
+  GET_EXPORT_DATA_MANAGEMENT: '/data-management/list-exported-file-logs',
   POST_GENERIC_REPORT: '/generic-reports',
   PATCH_GENERIC_REPORT: '/generic-reports/update-generic-report',
   GET_SINGLE_GENERIC_REPORT: '/generic-reports/get-generic-report-details',

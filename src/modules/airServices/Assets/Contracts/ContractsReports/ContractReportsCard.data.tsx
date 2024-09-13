@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
+import { truncateText } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 
 export const ContractReportsCardData = (data: any) => {
@@ -68,28 +69,29 @@ export const contractReportsTabelCoulmns = [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
     header: 'Contract Name',
     isSortable: false,
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
     header: 'Status',
     isSortable: false,
   },
   {
     accessorFn: (row: any) => row?.contractTypeDetails?.name,
     id: 'type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
     header: 'Type',
     isSortable: false,
   },
   {
     accessorFn: (row: any) => row?.endDate,
     id: 'expirydate',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
     header: 'Expiry Date',
     isSortable: false,
   },

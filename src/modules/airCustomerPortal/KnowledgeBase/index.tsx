@@ -1,15 +1,16 @@
 import { KnowledgeBaseCard } from './KnowledgeBaseCard';
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import NoData from '@/components/NoData';
 import { useKnowledgeBase } from './useKnowledgeBase';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
 import { ReportIssue } from '../Tickets/ReportIssue';
+import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const KnowledgeBase = () => {
   const {
@@ -21,19 +22,56 @@ export const KnowledgeBase = () => {
     isError,
     setSearch,
     newTicketsDropdown,
+    sessionUserId,
     refetch,
+    customerPortalStyling,
+    reportAnIssuePermission,
   } = useKnowledgeBase();
 
   return (
     <>
       <PageTitledHeader title={'Knowledge Base'}>
-        <SingleDropdownButton
-          dropdownOptions={newTicketsDropdown}
-          dropdownName={'New'}
-          btnVariant="contained"
-          color="primary"
-          startIcon={<AddBoxIcon />}
-        />
+        {!sessionUserId ? (
+          reportAnIssuePermission && (
+            <Button
+              variant="contained"
+              onClick={() => setOpenReportAnIssueModal?.(true)}
+              sx={(theme: any) => ({
+                bgcolor:
+                  customerPortalStyling?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+                '&:hover': {
+                  bgcolor:
+                    customerPortalStyling?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                  color: 'common.white',
+                },
+              })}
+            >
+              Report An Issue
+            </Button>
+          )
+        ) : (
+          <PublicSingleDropdownButton
+            dropdownOptions={newTicketsDropdown}
+            dropdownName={'New'}
+            btnVariant="contained"
+            startIcon={<AddBoxIcon />}
+            sx={(theme: any) => ({
+              bgcolor:
+                customerPortalStyling?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+              '&:hover': {
+                bgcolor:
+                  customerPortalStyling?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+              },
+            })}
+          />
+        )}
       </PageTitledHeader>
       <Box mb={2}>
         <Search label="Search Here" setSearchBy={setSearch} />

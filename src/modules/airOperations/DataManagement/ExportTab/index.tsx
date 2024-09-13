@@ -36,7 +36,7 @@ export const ExportTab = () => {
       />
       <TanstackTable
         columns={exportTabColumns}
-        data={data?.data?.datamanagements}
+        data={data?.data?.exportedfilelogs}
         isLoading={isLoading}
         isFetching={isFetching}
         isError={isError}

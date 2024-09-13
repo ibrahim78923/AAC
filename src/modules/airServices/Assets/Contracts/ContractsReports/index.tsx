@@ -8,7 +8,7 @@ import {
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_SERVICES } from '@/constants';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { ContractReportsCard } from './ContractReportsCard';
 import { useContractReports } from './useContractReports';
@@ -118,8 +118,6 @@ export const ContractsReports = () => {
           </Box>
         </PageTitledHeader>
 
-        <Divider sx={{ mb: 2 }} />
-
         {isLoading || isFetching ? (
           <SkeletonTable />
         ) : (
@@ -131,16 +129,16 @@ export const ContractsReports = () => {
                 contractReportsCardData={contractReportsCardData}
               />
 
-              <Grid container spacing={2} mt={2}>
+              <Grid container spacing={1.5}>
                 <Grid item xs={12} md={4}>
                   <Box
-                    height={'45vh'}
+                    height={'100%'}
                     boxShadow={1}
                     border={'1px solid'}
                     borderColor={'custom.off_white_one'}
                     borderRadius={2}
                     px={2}
-                    py={3}
+                    py={1.5}
                   >
                     <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                       Contracts Distribution
@@ -168,14 +166,15 @@ export const ContractsReports = () => {
                     borderColor={'custom.off_white_one'}
                     borderRadius={2}
                     px={2}
-                    py={3}
+                    py={2}
                     height={'100%'}
                   >
                     <Grid container mb={1}>
-                      <Grid item xs={3}>
+                      <Grid item xs={12} md={4}>
                         <RHFAutocomplete
                           name={'contracts'}
                           placeholder={'All Contracts'}
+                          size="small"
                           disabled={loading}
                           options={contractsTypeOptions}
                           getOptionLabel={(option: any) => option?.label}

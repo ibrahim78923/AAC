@@ -5,7 +5,7 @@ import { camelCaseToTitleCase } from '@/utils/api';
 
 export const SoftwareReportsCards = ({ softwareReportsCardsData }: any) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1.5} mb={2}>
       {Object?.entries(softwareReportsCardsData)?.map(([key, value]: any) => (
         <Grid item lg={3} md={6} xs={12} key={key}>
           <Box

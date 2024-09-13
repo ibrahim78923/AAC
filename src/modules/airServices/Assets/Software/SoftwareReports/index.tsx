@@ -78,12 +78,10 @@ export const SoftwareReports = () => {
               placeholder={'Date'}
               size="small"
               disabled={loading || isLoading || isFetching}
-              label={`\u00a0\u00a0`}
               hasButton
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
               }
-              labelProps={{ marginBottom: 0 }}
               cancelBtnEffect={() => setHasDate?.(false)}
               closePopOver={() => shouldDateSet?.()}
             />
@@ -98,7 +96,7 @@ export const SoftwareReports = () => {
               p: 0,
               minWidth: pxToRem(40),
               height: pxToRem(40),
-              marginTop: pxToRem(10),
+              marginTop: pxToRem(-10),
             }}
             variant="outlined"
             color="inherit"
@@ -121,8 +119,7 @@ export const SoftwareReports = () => {
             <SoftwareReportsCards
               softwareReportsCardsData={softwareReportsCardsData}
             />
-            <br />
-            <Grid container spacing={2}>
+            <Grid container spacing={1.5}>
               <Grid item xs={12} lg={5}>
                 <Box
                   height={'100%'}
@@ -131,7 +128,7 @@ export const SoftwareReports = () => {
                   borderColor={'custom.off_white_one'}
                   borderRadius={2}
                   px={2}
-                  py={3}
+                  py={1.5}
                 >
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Software Distribution
@@ -159,7 +156,7 @@ export const SoftwareReports = () => {
                   borderColor={'custom.off_white_one'}
                   borderRadius={2}
                   px={2}
-                  py={3}
+                  py={2}
                   height={'100%'}
                 >
                   <FormProvider methods={methods}>

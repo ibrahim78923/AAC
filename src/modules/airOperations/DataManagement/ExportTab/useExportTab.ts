@@ -22,7 +22,7 @@ export const useExportTab: () => ExportTabI = () => {
     product: filterValues?.product,
     user: filterValues?.user && filterValues?.user?._id,
     object: filterValues?.object,
-    createdDate:
+    createdAt:
       filterValues?.createdDate &&
       dayjs(filterValues?.createdDate)?.format(CALENDAR_FORMAT?.YMD),
   };
@@ -32,29 +32,28 @@ export const useExportTab: () => ExportTabI = () => {
     limit: pageLimit,
     search,
     ...filterBody,
+    meta: true,
   };
 
   const { data, isFetching, isError, isLoading, isSuccess } =
     useGetExportListQuery(params, { refetchOnMountOrArgChange: true });
 
+  const exportList = data?.data?.exportedfilelogs;
+
   const exportTabColumns = exportTabColumnsFunction(
-    data?.data?.datamanagements,
+    exportList,
     selectedTabList,
     setSelectedTabList,
   );
 
   const listDataExport = async (type: any) => {
-    if (!selectedTabList?.length) {
-      errorSnackbar('please select record to export.');
-      return;
-    }
     try {
       if (type === 'CSV') {
-        const csv = parse(selectedTabList);
+        const csv = parse(exportList);
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'Import List.csv');
+        saveAs(blob, 'Export_List.csv');
       } else if (type === 'XLS') {
-        const worksheet = XLSX?.utils?.json_to_sheet(selectedTabList);
+        const worksheet = XLSX?.utils?.json_to_sheet(exportList);
         const workbook = XLSX?.utils?.book_new();
         XLSX?.utils?.book_append_sheet(workbook, worksheet, 'Data');
         const excelBuffer = XLSX?.write(workbook, {
@@ -64,7 +63,7 @@ export const useExportTab: () => ExportTabI = () => {
         const blob = new Blob([excelBuffer], {
           type: 'application/octet-stream',
         });
-        saveAs(blob, 'Import List.xlsx');
+        saveAs(blob, 'Export_List.xlsx');
       } else {
         errorSnackbar('Invalid export type.');
         return;

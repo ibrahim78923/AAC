@@ -4,7 +4,7 @@ import React from 'react';
 
 export const ContractReportsCard = ({ contractReportsCardData }: any) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1.5} mb={2}>
       {Object?.entries(contractReportsCardData)?.map(([key, value]: any) => (
         <Grid item xs={3} key={key}>
           <Box

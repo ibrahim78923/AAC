@@ -9,7 +9,7 @@ export interface ExportTabState {
 
 export interface ExportTabResponseData {
   data: {
-    datamanagements: any[];
+    exportedfilelogs: any[];
     meta: {
       page: number;
       pages: number;
@@ -25,9 +25,9 @@ export interface ExportTabResponseData {
 
 export interface ExportTabI {
   page: number;
-  setPage: (page: number) => void;
+  setPage: any;
   pageLimit: number;
-  setPageLimit: (limit: number) => void;
+  setPageLimit: any;
   setSearch: (search: string) => void;
   data: ExportTabResponseData | undefined;
   isFetching: boolean;

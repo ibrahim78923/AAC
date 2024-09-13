@@ -2,8 +2,14 @@ import { NextRouter, useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useGetKnowledgeBaseFolderQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { newTicketsDropdownDynamic } from '../Tickets/ReportIssue/ReportIssue.data';
-import { getActiveProductSession, getSession } from '@/utils';
+import {
+  getActiveProductSession,
+  getCustomerPortalPermissions,
+  getCustomerPortalStyling,
+  getSession,
+} from '@/utils';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 
 export const useKnowledgeBase = () => {
   const router: NextRouter = useRouter();
@@ -11,10 +17,14 @@ export const useKnowledgeBase = () => {
     useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
 
+  const customerPortalStyling = getCustomerPortalStyling();
+  const customerPortalPermissions = getCustomerPortalPermissions();
   const product = getActiveProductSession();
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const sessionUserId = session?.user?._id;
+  const sessionOrganizationId = session?.user?.organization?._id;
 
   const { companyId } = router?.query;
   const decryptedId = useMemo(() => {
@@ -27,7 +37,9 @@ export const useKnowledgeBase = () => {
   const apiDataParameter = {
     queryParams: {
       search,
+      userId: sessionUserId,
       companyId: decryptedId || companyIdStorage || sessionId,
+      organizationId: sessionOrganizationId,
     },
   };
 
@@ -43,6 +55,10 @@ export const useKnowledgeBase = () => {
     router,
   );
 
+  const reportAnIssuePermission = customerPortalPermissions?.includes(
+    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
+  );
+
   return {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
@@ -53,5 +69,8 @@ export const useKnowledgeBase = () => {
     setSearch,
     newTicketsDropdown,
     refetch,
+    sessionUserId,
+    customerPortalStyling,
+    reportAnIssuePermission,
   };
 };
