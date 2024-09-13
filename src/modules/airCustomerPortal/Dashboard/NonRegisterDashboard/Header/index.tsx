@@ -1,7 +1,24 @@
-import { Box, Typography } from '@mui/material';
-import { WelcomeCardImage } from '@/assets/images';
+import { Box, Button, Typography } from '@mui/material';
+import { useState } from 'react';
+import { ReportIssue } from '@/modules/airCustomerPortal/Tickets/ReportIssue';
+import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  getCustomerPortalPermissions,
+  getCustomerPortalStyling,
+} from '@/utils';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const Header = () => {
+  const [openReportAnIssueModal, setOpenReportAnIssueModal] =
+    useState<boolean>(false);
+  const handleOpenModal = () => {
+    setOpenReportAnIssueModal(true);
+  };
+  const customerPortalPermissions = getCustomerPortalPermissions();
+  const reportAnIssuePermission = customerPortalPermissions?.includes(
+    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
+  );
+  const customerPortalStyling = getCustomerPortalStyling();
   return (
     <>
       <Box
@@ -13,30 +30,34 @@ export const Header = () => {
         sx={{ backgroundColor: 'white' }}
       >
         <Typography variant="h3">Customer Portal - Dashboard</Typography>
-      </Box>
 
-      <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        flexDirection={{ xs: 'column', xl: 'row' }}
-        alignItems={{ xs: 'start', xl: 'center' }}
-        p={3}
-        mt={2}
-        borderRadius={'1rem'}
-        sx={{
-          backgroundImage: `url(${WelcomeCardImage?.src})`,
-          backgroundColor: 'blue.main',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100% 110%',
-        }}
-      >
-        <Box flexBasis={{ xs: '100%', xl: '50%' }} color={'white'}>
-          <Typography variant="h4" mb={0.5}>
-            Welcome to AirApple Cart - Services
-          </Typography>
-          <Typography variant="body2">
-            We are here to help you, Please let us know what you need.
-          </Typography>
+        <Box>
+          {reportAnIssuePermission && (
+            <Button
+              onClick={handleOpenModal}
+              variant="contained"
+              sx={(theme: any) => ({
+                bgcolor:
+                  customerPortalStyling?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+                '&:hover': {
+                  bgcolor:
+                    customerPortalStyling?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                  color: 'common.white',
+                },
+              })}
+            >
+              Report an Issue
+            </Button>
+          )}
+          {openReportAnIssueModal && (
+            <ReportIssue
+              isPortalOpen={openReportAnIssueModal}
+              setIsPortalOpen={setOpenReportAnIssueModal}
+            />
+          )}
         </Box>
       </Box>
     </>
