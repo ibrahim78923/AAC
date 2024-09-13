@@ -97,11 +97,16 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
     },
     {
       id: 6,
-      data: index !== ARRAY_INDEX?.ZERO && (
-        <Button type="button" onClick={() => remove(index)}>
-          Delete
-        </Button>
-      ),
+      data:
+        index !== ARRAY_INDEX?.ZERO ? (
+          <Button type={'button'} onClick={() => remove(index)}>
+            Delete
+          </Button>
+        ) : (
+          <Button type={'button'} disabled>
+            Delete
+          </Button>
+        ),
     },
   ];
 };

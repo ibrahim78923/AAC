@@ -32,7 +32,7 @@ const ItemsDetails = (props: any) => {
       <br />
       <Box boxShadow={1}>
         <TableContainer>
-          <Table sx={{ minWidth: pxToRem(1800) }}>
+          <Table sx={{ minWidth: pxToRem(1800), width: '100%' }}>
             <TableHead>
               <TableRow>
                 {itemsDetailsColumnsList?.map((column: any) => (

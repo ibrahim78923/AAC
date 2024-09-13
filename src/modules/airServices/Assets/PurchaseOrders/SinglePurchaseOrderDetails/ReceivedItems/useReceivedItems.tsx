@@ -77,7 +77,7 @@ export const useReceivedItems = (props: any) => {
     const body = {
       id: data?.data?._id,
       orderName: data?.data?.orderName,
-      orderNumber: data?.data?.orderName,
+      orderNumber: data?.data?.orderNumber,
       vendorId: data?.data?.vendorId,
       currency: data?.data?.currency,
       expectedDeliveryDate: data?.data?.expectedDeliveryDate,

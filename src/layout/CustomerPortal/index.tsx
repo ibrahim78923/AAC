@@ -76,7 +76,7 @@ const CustomerPortalLayout = ({
                     alt={'Air Apple Cart'}
                     width={153}
                     height={38}
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'cover' }}
                   />
                 ) : (
                   <Image
@@ -84,7 +84,7 @@ const CustomerPortalLayout = ({
                     alt={'Air Apple Cart'}
                     width={153}
                     height={38}
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'cover' }}
                   />
                 )}
               </Box>

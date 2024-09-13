@@ -43,7 +43,6 @@ const OverviewBilling = ({
             sm={6}
             md={5}
             lg={4}
-            xl={2.5}
             sx={{
               ...styles?.flexBetween,
               ...styles?.billingWrapper,
@@ -66,7 +65,7 @@ const OverviewBilling = ({
             <Grid
               item
               sx={{
-                width: 70,
+                width: 100,
                 height: 44,
                 maxHeight: 44,
                 border: '1px solid black',

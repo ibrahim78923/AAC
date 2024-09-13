@@ -62,7 +62,10 @@ export const overviewTableColumns: any = (
       cell: (info: any) => info?.getValue(),
     },
   ];
-  if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
+  if (
+    orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED ||
+    orderStatus === PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED
+  ) {
     columns.push(
       {
         accessorFn: (row: any) => row?.receivedVsOrdered,
