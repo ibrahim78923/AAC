@@ -21,9 +21,6 @@ const LinksAssets = ({ data, status, handelRefetch }: any) => {
         </>
       ) : (
         <Box>
-          {/* <Typography variant="body3" sx={{ fontWeight: '600' }}>
-            June
-          </Typography> */}
           <Box
             sx={{
               display: 'flex',

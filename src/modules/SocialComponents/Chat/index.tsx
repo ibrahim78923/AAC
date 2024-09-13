@@ -118,6 +118,14 @@ const Chat = () => {
     }
   }, [chatsData]);
 
+  const [getReqRenderTrack, setGetReqRenderTrack] = useState(0);
+
+  useEffect(() => {
+    if (status === API_STATUS?.FULFILLED) {
+      setGetReqRenderTrack(getReqRenderTrack + 1);
+    }
+  }, [activeChatId, status]);
+
   useEffect(() => {
     if (chatsData?.data?.messages?.length > 0) {
       dispatch(
@@ -126,7 +134,7 @@ const Chat = () => {
         ),
       );
     }
-  }, [chatsData]);
+  }, [chatsData?.data?.messages, getReqRenderTrack]);
 
   useEffect(() => {
     if (status === API_STATUS?.PENDING) {

@@ -226,6 +226,11 @@ const ContactsCard = ({
                     fontWeight: '600',
                     whiteSpace: 'nowrap',
                     textTransform: 'capitalize',
+                    color:
+                      cardData?.item?.unReadMessagesCount > 0 ||
+                      cardData?.item?.unRead === true
+                        ? theme?.palette?.primary?.main
+                        : theme?.palette?.common?.black,
                   }}
                 >
                   {chatMode === CHAT_TYPES?.GROUP_CHAT ? (

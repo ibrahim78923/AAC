@@ -196,7 +196,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       setIsDeleteAllModal(false);
       dispatch(setChatMessages([]));
       dispatch(setActiveReceiverId(null));
-      selectedValues([]);
+      setSelectedValues([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
@@ -18,9 +18,14 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
 import {
+  setActiveChat,
+  setActiveChatId,
   setActiveConversation,
+  setActiveParticipant,
   setActiveReceiverId,
+  setChatContacts,
   setChatMessages,
+  setNewOrFetchedChatMessages,
 } from '@/redux/slices/chat/slice';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import Image from 'next/image';
@@ -79,12 +84,52 @@ const ChatHeader = ({ chatMode }: any) => {
       ),
         handleClose();
       setIsDeleteModal(false);
+
+      if (requestType === 'unRead') {
+        dispatch(setActiveChat({}));
+        dispatch(setActiveReceiverId(''));
+        dispatch(setActiveConversation({}));
+        dispatch(setChatMessages([]));
+        dispatch(setChatContacts([]));
+        dispatch(setActiveChatId(''));
+        dispatch(setActiveParticipant({}));
+        dispatch(setNewOrFetchedChatMessages([]));
+      }
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
       });
     }
   };
+
+  const updateReadMessageHandler = async () => {
+    try {
+      const response = await updateChat({
+        body: { unRead: false },
+        id: activeConversation?.conversationId,
+      })?.unwrap();
+      enqueueSnackbar('auto updated successfully', {
+        variant: 'success',
+      });
+      dispatch(
+        setActiveConversation({
+          ...activeConversation,
+          isDeleted: response?.data?.isDeleted,
+          isArchived: response?.data?.isArchived,
+          isMuted: response?.data?.isMuted,
+          unRead: response?.data?.unRead,
+        }),
+      );
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
+  useEffect(() => {
+    updateReadMessageHandler();
+  }, []);
 
   const menuItemsData = [
     {
