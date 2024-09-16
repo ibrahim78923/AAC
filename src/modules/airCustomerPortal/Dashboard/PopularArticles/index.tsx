@@ -10,7 +10,7 @@ import { truncateText } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const PopularArticles = () => {
-  const { data, isLoading, isFetching, isError, router, refetch } =
+  const { data, isLoading, isFetching, isError, router, refetch, companyId } =
     usePopularArticles();
 
   return (
@@ -19,6 +19,7 @@ export const PopularArticles = () => {
       btnClick={() => {
         router?.push({
           pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
+          query: { ...(companyId && { companyId }) },
         });
       }}
       maxHeight={'40vh'}
@@ -51,6 +52,7 @@ export const PopularArticles = () => {
                         query: {
                           articleId: article?._id,
                           folderId: article?.folder?._id,
+                          ...(companyId && { companyId }),
                         },
                       });
                     }}

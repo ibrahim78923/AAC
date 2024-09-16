@@ -5,7 +5,7 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
-import { getSession, isNullOrEmpty } from '@/utils';
+import { isNullOrEmpty } from '@/utils';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -44,8 +44,6 @@ export const defaultCreateCompanyValues = (data?: any, form?: any) => {
 };
 
 export const dataArray = (getCompanyContactsList: any) => {
-  const { user } = getSession();
-
   return [
     {
       componentProps: {
@@ -82,8 +80,7 @@ export const dataArray = (getCompanyContactsList: any) => {
           isNullOrEmpty(option?.firstName)
             ? `${option?.email}`
             : `${option?.firstName} ${option?.lastName}`,
-        externalParams: { page: 1, limit: 100, contactOwnerId: user?._id },
-        queryKey: 'contactOwnerId',
+        externalParams: { page: 1, limit: 100 },
       },
       component: RHFAutocompleteAsync,
       md: 12,

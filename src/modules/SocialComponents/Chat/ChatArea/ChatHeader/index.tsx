@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
@@ -17,10 +17,20 @@ import ChatDropdown from '../../ChatDropdown';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
-import { setActiveConversation } from '@/redux/slices/chat/slice';
+import {
+  setActiveChat,
+  setActiveChatId,
+  setActiveConversation,
+  setActiveParticipant,
+  setActiveReceiverId,
+  setChatContacts,
+  setChatMessages,
+  setNewOrFetchedChatMessages,
+} from '@/redux/slices/chat/slice';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import Image from 'next/image';
 import { IMG_URL } from '@/config';
+import { CHAT_TYPES } from '@/constants';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
@@ -74,12 +84,52 @@ const ChatHeader = ({ chatMode }: any) => {
       ),
         handleClose();
       setIsDeleteModal(false);
+
+      if (requestType === 'unRead') {
+        dispatch(setActiveChat({}));
+        dispatch(setActiveReceiverId(''));
+        dispatch(setActiveConversation({}));
+        dispatch(setChatMessages([]));
+        dispatch(setChatContacts([]));
+        dispatch(setActiveChatId(''));
+        dispatch(setActiveParticipant({}));
+        dispatch(setNewOrFetchedChatMessages([]));
+      }
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
       });
     }
   };
+
+  const updateReadMessageHandler = async () => {
+    try {
+      const response = await updateChat({
+        body: { unRead: false },
+        id: activeConversation?.conversationId,
+      })?.unwrap();
+      enqueueSnackbar('auto updated successfully', {
+        variant: 'success',
+      });
+      dispatch(
+        setActiveConversation({
+          ...activeConversation,
+          isDeleted: response?.data?.isDeleted,
+          isArchived: response?.data?.isArchived,
+          isMuted: response?.data?.isMuted,
+          unRead: response?.data?.unRead,
+        }),
+      );
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
+  useEffect(() => {
+    updateReadMessageHandler();
+  }, []);
 
   const menuItemsData = [
     {
@@ -99,6 +149,30 @@ const ChatHeader = ({ chatMode }: any) => {
       handler: () => setIsDeleteModal(true),
     },
   ];
+
+  const deleteConversation = async () => {
+    const payloadMap: any = {
+      deleteMessages: true,
+    };
+    const payload = payloadMap;
+    try {
+      await updateChat({
+        body: payload,
+        id: activeConversation?.conversationId,
+      })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+      handleClose();
+      dispatch(setChatMessages([]));
+      dispatch(setActiveReceiverId(null));
+      dispatch(setActiveConversation({})), setIsDeleteModal(false);
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
 
   return (
     <>
@@ -130,35 +204,38 @@ const ChatHeader = ({ chatMode }: any) => {
             >
               {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {activeParticipant?.liveStatus === 'AVAILABLE' ? (
-                <>
-                  <Box sx={styles?.userStatus(true)}></Box>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      fontWeight: '600',
-                      color: theme?.palette?.common?.white,
-                    }}
-                  >
-                    Active Now
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <Box sx={styles?.userStatus(false)}></Box>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      fontWeight: '600',
-                      color: theme?.palette?.common?.white,
-                    }}
-                  >
-                    Offline
-                  </Typography>
-                </>
-              )}
-            </Box>
+
+            {chatMode === CHAT_TYPES?.PERSONAL_CHAT && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {activeParticipant?.liveStatus === 'AVAILABLE' ? (
+                  <>
+                    <Box sx={styles?.userStatus(true)}></Box>
+                    <Typography
+                      variant="body3"
+                      sx={{
+                        fontWeight: '600',
+                        color: theme?.palette?.common?.white,
+                      }}
+                    >
+                      Active Now
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Box sx={styles?.userStatus(false)}></Box>
+                    <Typography
+                      variant="body3"
+                      sx={{
+                        fontWeight: '600',
+                        color: theme?.palette?.common?.white,
+                      }}
+                    >
+                      Offline
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            )}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -200,7 +277,7 @@ const ChatHeader = ({ chatMode }: any) => {
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
         handleSubmitBtn={() => {
-          updateChatHandler('isDeleted');
+          deleteConversation();
         }}
       />
     </>

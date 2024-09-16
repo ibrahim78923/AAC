@@ -5,12 +5,16 @@ import {
 import useAddAccount from './useAddAccount';
 import * as Yup from 'yup';
 import { indexNumbers } from '@/constants';
-import { CommonAPIS } from '@/services/common-APIs';
+import {
+  useLazyGetCompanyAccountsListsQuery,
+  useLazyGetProductsListQuery,
+} from '@/services/common-APIs';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const AddAccountArray = (companyRoleParams: any) => {
-  const { companyAccounts, companyRoles, user } = useAddAccount();
-  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
-  const products = useLazyGetDropdownProductsQuery();
+  const { companyRoles, user } = useAddAccount();
+  const products = useLazyGetProductsListQuery();
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   return [
     {
@@ -21,6 +25,7 @@ export const AddAccountArray = (companyRoleParams: any) => {
         placeholder: 'Select product',
         apiQuery: products,
         getOptionLabel: (option: any) => option?.name,
+        externalParams: { status: PRODUCT_USER_STATUS?.active },
       },
       component: RHFAutocompleteAsync,
       md: 12,
@@ -35,7 +40,6 @@ export const AddAccountArray = (companyRoleParams: any) => {
         apiQuery: companyAccounts,
         getOptionLabel: (option: any) => option?.accountName,
         externalParams: { orgId: user?.organization?._id, limit: 50 },
-        queryKey: 'ordId',
       },
       component: RHFAutocompleteAsync,
       md: 12,

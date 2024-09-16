@@ -4,6 +4,7 @@ export interface SingleTicketDetailIsPortalOpenI {
   isOpen?: boolean;
   action?: string;
   status?: string;
+  data?: string[];
 }
 
 export interface TimeI {
@@ -24,10 +25,6 @@ export interface SingleTicketDetailPortalComponentPropsI {
 
 export interface SingleTicketDetailChildComponentPropsI {
   data: any;
-  isTimerPause: boolean;
-  setIsTimerPause: Dispatch<SetStateAction<boolean>>;
-  time: TimeI;
-  setTime: Dispatch<SetStateAction<TimeI>>;
   startTimerId: any;
   intervalRef: any;
   refetch: any;

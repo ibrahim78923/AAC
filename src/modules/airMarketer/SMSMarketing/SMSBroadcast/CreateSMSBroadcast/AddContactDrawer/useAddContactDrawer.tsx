@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import { useGetGroupsQuery } from '@/services/commonFeatures/contact-groups';
 import { PAGINATION } from '@/config';
-import {
-  contactsDefaultValues,
-  contactsValidationSchema,
-} from './AllContactDrawer.data';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { contactsDefaultValues } from './AllContactDrawer.data';
 import { useForm } from 'react-hook-form';
 import { CONTACTS_CONSTANTS } from '@/constants/strings';
 import { useGetContactsListQuery } from '@/services/common-APIs';
@@ -15,6 +11,7 @@ const useAddContactDrawer = (
   onClose?: any,
   setSelectedContactsData?: any,
   selectedRec?: any,
+  recipientType?: string,
 ) => {
   const theme = useTheme<Theme>();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -34,8 +31,7 @@ const useAddContactDrawer = (
   const contactsGroupData = getGroupsData?.data?.contactgroups;
 
   const methods: any = useForm({
-    resolver: yupResolver(contactsValidationSchema),
-    defaultValues: contactsDefaultValues,
+    defaultValues: contactsDefaultValues(recipientType),
   });
 
   const { handleSubmit, watch } = methods;

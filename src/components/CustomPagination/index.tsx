@@ -21,6 +21,8 @@ const CustomPagination = (props: any) => {
     setPage,
     setPageLimit,
     totalRecords = PAGINATION?.TOTAL_RECORDS,
+    incrementPageClick = () => setPage?.((page: any) => page + 1),
+    decrementPageClick = () => setPage?.((page: any) => page - 1),
   } = props;
 
   const theme = useTheme();
@@ -55,8 +57,11 @@ const CustomPagination = (props: any) => {
         </Box>
         <Box display={'flex'}>
           <IconButton
-            disabled={currentPage === 1 || currentPage < 1}
-            onClick={() => setPage?.((page: any) => page - 1)}
+            disabled={
+              currentPage === PAGINATION?.CURRENT_PAGE ||
+              currentPage < PAGINATION?.CURRENT_PAGE
+            }
+            onClick={() => decrementPageClick?.()}
             sx={styles?.iconStyleTwo(theme)}
           >
             <ArrowCircleLeftIcon />
@@ -74,8 +79,8 @@ const CustomPagination = (props: any) => {
             sx={styles?.paddingStyle(theme)}
           />
           <IconButton
-            disabled={currentPage === count}
-            onClick={() => setPage?.((page: any) => page + 1)}
+            disabled={currentPage === count || currentPage > count}
+            onClick={() => incrementPageClick?.()}
             sx={styles?.iconStyle(theme)}
           >
             <ArrowCircleRightIcon />

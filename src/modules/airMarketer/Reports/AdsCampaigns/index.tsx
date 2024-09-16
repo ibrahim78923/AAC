@@ -7,6 +7,7 @@ import {
   Grid,
   Typography,
   useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 
@@ -32,7 +33,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 const AdsCampaigns = () => {
   const theme = useTheme();
   const { searchBy, setSearchBy }: any = useMarketerReports();
-
+  const mediaQuery = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <PermissionsGuard
       permissions={[AIR_MARKETER_REPORTS_PERMISSIONS?.ADS_CAMPAIGNS]}
@@ -64,7 +65,7 @@ const AdsCampaigns = () => {
         <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
           <SwitchableDatepicker
             sx={{ fontSize: '16px', fontWeight: 500 }}
-            placement={'right'}
+            placement={mediaQuery ? 'left' : 'right'}
             renderInput={'button'}
           />
           <Button

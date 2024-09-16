@@ -1,4 +1,4 @@
-import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
@@ -118,8 +118,8 @@ export const useUpsertMeeting = () => {
             : routeConstant?.collectiveMeeting,
       isAllDay: formData?.allDay,
       timeZone: formData?.timeZone?.label,
-      startDate: formData?.startDate,
-      endDate: formData?.endDate,
+      startDate: dayjs(formData?.startDate)?.format(DATE_TIME_FORMAT?.YYMMDD),
+      endDate: dayjs(formData?.endDate)?.format(DATE_TIME_FORMAT?.YYMMDD),
       startTime:
         formData?.allDay === false && formData?.allowAttendee === false
           ? dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH)
@@ -139,14 +139,14 @@ export const useUpsertMeeting = () => {
                 isRecurringDailyOnWorkingDay ||
                 isRecurringMonthlyOnTheDay ||
                 isRecurringWeekly,
-              days: isRecurringMonthlyOnMonthDate ? formData?.monthlyDate : [],
-              onDay: isRecurringWeekly
+              days: isRecurringWeekly
                 ? formData?.weekDays?.map((day: any) => day?.toUpperCase())
                 : isRecurringMonthlyOnTheDay
-                  ? formData?.weekDays?.map((day: any) => day?.toUpperCase())
+                  ? formData?.monthlyDays?.map((day: any) => day?.toUpperCase())
                   : isRecurringDailyOnWorkingDay
                     ? workingDay
                     : [],
+              onDay: isRecurringMonthlyOnMonthDate ? formData?.monthlyDate : [],
               onWeek: isRecurringMonthlyOnTheDay
                 ? formData?.monthlyWeeks?.map(
                     (week: any) => week?.toUpperCase(),
@@ -170,7 +170,7 @@ export const useUpsertMeeting = () => {
       ...(!!!meetingId && { AllowAttendeeTimeRange: selectedSlots }),
       reminders: formData?.reminder?.map((reminder: any) => ({
         type: reminder?.type?.value,
-        interval: reminder?.counter,
+        interval: Number(reminder?.counter),
         timeUnit: reminder?.duration?.value,
       })),
       peoples:
@@ -198,6 +198,7 @@ export const useUpsertMeeting = () => {
         query: {
           ...(moduleId && { ticketId: moduleId }),
           meetingId: res?.data?._id,
+          type: router?.query?.type,
         },
       });
     } catch (err: any) {
@@ -267,6 +268,7 @@ export const useUpsertMeeting = () => {
     meetingId,
     meetingData,
     refetch,
+    reset,
   };
   return {
     methods,

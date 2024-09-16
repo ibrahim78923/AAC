@@ -60,9 +60,10 @@ export const CommonAPIS = baseAPI.injectEndpoints({
     }),
 
     getProductsList: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.PRODUCTS,
         method: 'GET',
+        params: params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
@@ -79,9 +80,22 @@ export const CommonAPIS = baseAPI.injectEndpoints({
     }),
 
     getOrganizationsList: builder.query({
-      query: () => ({
-        url: END_POINTS?.ORGANIZATIONS,
+      query: ({ params }: any) => ({
+        url: END_POINTS?.ORGANIZATION_LIST,
         method: 'GET',
+        params: params,
+      }),
+      providesTags: ['ORGANIZATIONS'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+
+    getSearchOrganizationsList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.ORGANIZATION_LIST,
+        method: 'GET',
+        params: params,
       }),
       providesTags: ['ORGANIZATIONS'],
       transformResponse: (response: any) => {
@@ -166,9 +180,10 @@ export const CommonAPIS = baseAPI.injectEndpoints({
     }),
 
     getAllCampaignsList: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: AIR_MARKETER?.CAMPAIGNS,
         method: 'GET',
+        params: params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.campaigns;
@@ -177,9 +192,10 @@ export const CommonAPIS = baseAPI.injectEndpoints({
     }),
 
     getAllTemplateList: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.GET_SMS_TEMPLATES,
         method: 'GET',
+        params: params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.smstemplates;
@@ -188,9 +204,10 @@ export const CommonAPIS = baseAPI.injectEndpoints({
     }),
 
     getAllWhatsAppTemplateList: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.WHATSAPP_TEMPLATE,
         method: 'GET',
+        params: params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.whatsapptemplates;
@@ -357,6 +374,7 @@ export const {
   useGetDepartmentQuery,
   useGetCompanyContactsQuery,
   useGetSchemaKeysQuery,
+  useLazyGetSearchOrganizationsListQuery,
   useLazyGetCompanyAccountsListsQuery,
   useLazyGetAllCampaignsListQuery,
   useLazyGetDealOwnersListQuery,

@@ -1,5 +1,6 @@
 import { RHFAutocompleteAsync, RHFEditor } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
+import { STATUS_CONTANTS } from '@/constants/strings';
 import {
   useLazyGetAllCampaignsListQuery,
   useLazyGetAllTemplateListQuery,
@@ -7,18 +8,26 @@ import {
 import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const validationSchema = (isScheduled: boolean, form: any) => {
+export const validationSchema = (
+  isScheduled: boolean,
+  form: any,
+  status?: string,
+) => {
+  if (status === STATUS_CONTANTS?.DRAFT) {
+    return Yup.object().shape({});
+  }
+
   const formSchema: any = dynamicFormValidationSchema(form);
-  return Yup?.object()?.shape({
-    name: Yup?.string()?.required('Field is Required'),
-    campaignId: Yup?.object()?.required('Field is Required'),
-    detail: Yup?.string()?.required('Field is Required'),
-    schedualDate: Yup?.date()
-      ?.nullable()
-      ?.when([], () =>
+  return Yup.object().shape({
+    name: Yup.string().required('Field is Required'),
+    campaignId: Yup.object().required('Field is Required'),
+    detail: Yup.string().required('Field is Required'),
+    schedualDate: Yup.date()
+      .nullable()
+      .when([], () =>
         isScheduled
-          ? Yup?.date()?.required('Field is Required')
-          : Yup?.date()?.nullable(),
+          ? Yup.date().required('Field is Required')
+          : Yup.date().nullable(),
       ),
     ...formSchema,
   });
@@ -30,7 +39,6 @@ export const defaultValues = (getIsPhoneConnected: any) => {
     senderId: getIsPhoneConnected?.data?.phoneNumber,
     campaignId: null,
     templateId: null,
-    recipients: '',
     schedualDate: null,
     detail: '',
   };
@@ -92,6 +100,7 @@ export const createBroadcast = () => {
         label: 'Recipients',
         placeholder: 'Select recipients',
         required: true,
+        disbaled: true,
       },
       component: RHFTextField,
       md: 12,

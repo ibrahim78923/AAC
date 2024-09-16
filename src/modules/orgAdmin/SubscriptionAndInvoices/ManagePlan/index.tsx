@@ -212,6 +212,7 @@ const ManagePlan = () => {
                     size="small"
                     fullWidth
                     defaultValue={maxAddUsers}
+                    inputProps={{ min: 1 }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setMaxAddUsers(e?.target?.value)
                     }
@@ -224,6 +225,7 @@ const ManagePlan = () => {
                     size="small"
                     fullWidth
                     defaultValue={maxAddStorage}
+                    inputProps={{ min: 1 }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setMaxAddStorage(e?.target?.value)
                     }

@@ -37,6 +37,7 @@ import { enqueueSnackbar } from 'notistack';
 import { ContactListPropsI } from './contactsList.interface';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
+import { CHAT_TYPES } from '@/constants';
 
 const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   const theme = useTheme();
@@ -74,14 +75,17 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
   paramsObj['search'] = searchContacts;
   paramsObj['page'] = currentPage;
   paramsObj['limit'] = PAGINATION?.ROWS_PER_PAGE[0];
-
   const queryParams = Object?.entries(paramsObj)
     ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
     ?.join('&');
   const query = `&${queryParams}`;
 
-  const { data: contactsData, status } = useGetChatsContactsQuery({
-    isGroup: chatMode === 'groupChat' ? true : false,
+  const {
+    data: contactsData,
+    status,
+    refetch,
+  } = useGetChatsContactsQuery({
+    isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
     query,
   });
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
@@ -119,13 +123,28 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     }
   }, [status]);
 
+  useEffect(() => {
+    if (chatMode) showAllRecordsHandler();
+  }, [chatMode]);
+
   const menuItemsData = [
     {
       menuLabel: 'All',
-      handler: showAllRecordsHandler,
+      selected: !(
+        isDeletedFilter ||
+        unReadFilter ||
+        isMutedFilter ||
+        isPinnedFilter ||
+        isArchivedFilter
+      ),
+      handler: () => {
+        showAllRecordsHandler();
+        handleClose();
+      },
     },
     {
       menuLabel: 'Pinned',
+      selected: isPinnedFilter,
       handler: () => {
         showAllRecordsHandler();
         setIsPinnedFilter(true);
@@ -134,6 +153,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     },
     {
       menuLabel: 'Archived',
+      selected: isArchivedFilter,
       handler: () => {
         showAllRecordsHandler();
         setIsArchivedFilter(true);
@@ -141,15 +161,8 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       },
     },
     {
-      menuLabel: 'Deleted',
-      handler: () => {
-        showAllRecordsHandler();
-        setIsDeletedFilter(true);
-        handleClose();
-      },
-    },
-    {
       menuLabel: 'Mark as unread',
+      selected: unReadFilter,
       handler: () => {
         showAllRecordsHandler();
         setUnReadFilter(true);
@@ -158,6 +171,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     },
     {
       menuLabel: 'Muted',
+      selected: isMutedFilter ? true : false,
       handler: () => {
         showAllRecordsHandler();
         setIsMutedFilter(true);
@@ -182,6 +196,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       setIsDeleteAllModal(false);
       dispatch(setChatMessages([]));
       dispatch(setActiveReceiverId(null));
+      setSelectedValues([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -199,6 +214,10 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
       setCurrentPage(1);
     }
   }, [searchContacts]);
+
+  useEffect(() => {
+    refetch();
+  }, [chatMode, query]);
 
   return (
     <>
@@ -293,13 +312,19 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
             <>
               {!isNullOrEmpty(chatsTypeToShow) ? (
                 chatsTypeToShow?.map((item: any) => (
-                  <ContactsCard
-                    key={uuidv4()}
-                    cardData={{ item }}
-                    selectedValues={selectedValues}
-                    setSelectedValues={setSelectedValues}
-                    handleManualRefetch={handleManualRefetch}
-                  />
+                  <>
+                    {item?.isDeleted ? (
+                      <></>
+                    ) : (
+                      <ContactsCard
+                        key={uuidv4()}
+                        cardData={{ item }}
+                        selectedValues={selectedValues}
+                        setSelectedValues={setSelectedValues}
+                        handleManualRefetch={handleManualRefetch}
+                      />
+                    )}
+                  </>
                 ))
               ) : (
                 <Box>No Data Found</Box>

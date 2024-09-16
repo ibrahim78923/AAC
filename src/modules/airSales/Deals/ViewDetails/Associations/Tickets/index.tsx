@@ -9,8 +9,7 @@ import { PlusIcon } from '@/assets/icons';
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
-import { DRAWER_TYPES } from '@/constants/strings';
-
+import { DRAWER_TITLE } from '@/constants';
 const Tickets = ({ isLoading }: any) => {
   const {
     theme,
@@ -78,7 +77,7 @@ const Tickets = ({ isLoading }: any) => {
                 onClick={() =>
                   setOpenDrawer({
                     isToggle: true,
-                    type: DRAWER_TYPES?.ADD,
+                    type: DRAWER_TITLE?.ADD,
                     data: {},
                   })
                 }

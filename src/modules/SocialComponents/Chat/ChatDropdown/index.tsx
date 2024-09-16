@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 interface MenuI {
   handler: () => void;
   menuLabel: string;
+  selected?: boolean;
 }
 
 const ChatDropdown = ({
@@ -25,7 +26,11 @@ const ChatDropdown = ({
         onClose={handleClose}
       >
         {menuData?.map((menu: MenuI) => (
-          <MenuItem onClick={menu?.handler} key={uuidv4()}>
+          <MenuItem
+            onClick={menu?.handler}
+            key={uuidv4()}
+            selected={menu.selected}
+          >
             {menu?.menuLabel}
           </MenuItem>
         ))}

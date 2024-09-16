@@ -1,46 +1,9 @@
-import { AIR_SERVICES } from '@/constants';
-import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import { Articles } from './Articles';
 import { Approvals } from './Approvals';
 import { KnowledgeInsights } from './KnowledgeInsights';
-import { NextRouter } from 'next/router';
-import {
-  ArticlesIsPortalOpenI,
-  ChildComponentPropsI,
-} from './KnowledgeBase.interface';
-import { Dispatch, SetStateAction } from 'react';
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
-export const createNewKnowledgeBaseDropdownOptionsDynamic = (
-  setIsPortalOpen: Dispatch<SetStateAction<ArticlesIsPortalOpenI>>,
-  router: NextRouter,
-) => [
-  {
-    id: 1,
-    title: 'Article',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
-    ],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      router?.push(AIR_SERVICES?.UPSERT_ARTICLE);
-      closeMenu();
-    },
-  },
-  {
-    id: 2,
-    title: 'Folder',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_FOLDER,
-    ],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setIsPortalOpen({ isOpen: true, isUpsertFolder: true });
-      closeMenu();
-    },
-  },
-];
-
-export const knowledgeBaseTabsDataDynamic = (props: ChildComponentPropsI) => {
+export const knowledgeBaseTabsDataDynamic = () => {
   return [
     {
       _id: 1,
@@ -48,7 +11,7 @@ export const knowledgeBaseTabsDataDynamic = (props: ChildComponentPropsI) => {
       id: 'articles',
       tabPermissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_TABS,
       component: Articles,
-      componentProps: { ...props },
+      componentProps: {},
     },
     {
       _id: 2,

@@ -79,7 +79,11 @@ export const listViewDetails = (
     cell: (info: any) => {
       const startTime = info?.row?.original?.startTime;
       const endTime = info?.row?.original?.endTime;
-      return TimeFormatDuration(startTime, endTime);
+      const duration = TimeFormatDuration(startTime, endTime);
+      if (duration === 'NaNh NaNm' || duration === 'n/a') {
+        return '---';
+      }
+      return duration;
     },
   },
   {

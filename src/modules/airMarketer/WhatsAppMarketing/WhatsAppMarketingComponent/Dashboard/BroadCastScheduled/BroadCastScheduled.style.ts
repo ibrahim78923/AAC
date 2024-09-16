@@ -29,6 +29,7 @@ export const styles = {
       display: 'flex',
       p: '8px 16px',
       gap: 1,
+      mr: 1,
     };
   },
 

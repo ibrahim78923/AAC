@@ -1,7 +1,7 @@
 import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { dataArray } from './Filters.data';
+import { dataArray, filterDefaultValues } from './Filters.data';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 
@@ -12,13 +12,13 @@ export default function Filters({
   setFilterValues,
 }: any) {
   const methods: any = useForm({
-    defaultValues: filterValues,
+    defaultValues: filterDefaultValues(filterValues),
   });
 
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
-    values.owner = values?.owner?._id;
+    // values.owner = values?.owner;
     const filteredValues = filteredEmptyValues?.(values);
     setFilterValues(filteredValues);
     onClose(false);

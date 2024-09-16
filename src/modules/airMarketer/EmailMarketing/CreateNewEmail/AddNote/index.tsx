@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { styles } from './styles';
 import {
   Box,
   IconButton,
   InputAdornment,
-  Menu,
   MenuItem,
   TextField,
   Typography,
@@ -14,24 +13,90 @@ import Image from 'next/image';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { SendPrimaryIcon, SmileIcon } from '@/assets/icons';
 import { AvatarImage, EmailMockupImage } from '@/assets/images';
+import { getSession } from '@/utils';
+import { v4 as uuidv4 } from 'uuid';
+import { IMG_URL } from '@/config';
+import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailMarketing';
+import { enqueueSnackbar } from 'notistack';
+import { TableIconActions } from './AddNoteMenu';
 
 interface noteProps {
   isDrawerOpen: boolean;
   onClose: () => void;
-  isMenuOpen: boolean;
-  handlePopverClick: any;
-  handlePopverClose: () => void;
-  anchorEl: any;
+  notesData: any;
+  setNotesData: any;
+  notesDataArray: any;
+  edit: any;
 }
 
 const AddANote = ({
   isDrawerOpen,
   onClose,
-  handlePopverClick,
-  handlePopverClose,
-  anchorEl,
-  isMenuOpen,
+  notesData,
+  setNotesData,
+  notesDataArray,
+  edit,
 }: noteProps) => {
+  const { user }: any = getSession();
+
+  const [comment, setComment] = useState('');
+  const [renderTrack, setRenderTrack] = useState(0);
+
+  const handleAddNoteClick = () => {
+    const id = uuidv4();
+    const newData = {
+      message: comment,
+      createdBy: user?._id,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      uuid: id,
+      avatar: user?.avatar,
+    };
+    setNotesData((prevNotesData: any) => [...prevNotesData, newData]);
+    setComment('');
+  };
+
+  const deleteNotes = (id: string) => {
+    const updatedNotes = notesData?.filter((item: any) => item?.uuid !== id);
+    setNotesData(updatedNotes);
+  };
+
+  useEffect(() => {
+    if (notesDataArray?.notes) setNotesData(notesDataArray?.notes);
+  }, [notesDataArray?.notes]);
+
+  useEffect(() => {
+    setRenderTrack(renderTrack + 1);
+    if (renderTrack > 1) {
+      if (edit) {
+        onNotesUpdateAndPost();
+      }
+    }
+  }, [notesData]);
+
+  const [updateEmailTemplate] = useUpdateEmailTemplatesMutation();
+
+  const onNotesUpdateAndPost = async () => {
+    const mappedData = notesData?.map(({ message, createdBy, uuid }: any) => ({
+      message,
+      createdBy,
+      uuid,
+    }));
+    try {
+      await updateEmailTemplate({
+        id: notesDataArray?._id,
+        body: {
+          notes: mappedData,
+        },
+      })?.unwrap();
+      enqueueSnackbar('Note posted', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   return (
     <CommonDrawer
       title="Add a Note"
@@ -39,64 +104,79 @@ const AddANote = ({
       onClose={onClose}
       isOk
       okText={'Add'}
-      footer
+      footer={false}
+      zIndex={13000}
     >
-      <Box sx={styles?.subjectWrapper}>
-        <SubjectComp title="To" value="CustomerCare@Airapplecart.com" />
-        <SubjectComp title="From" value="Mr.RobertFox413@Gmail.com" />
-        <SubjectComp title="Subject" value="Business Consultant" />
-      </Box>
-      <Box>
+      <>
+        <Box sx={styles?.subjectWrapper}>
+          <SubjectComp title="To" value="CustomerCare@Airapplecart.com" />
+          <SubjectComp title="From" value="Mr.RobertFox413@Gmail.com" />
+          <SubjectComp title="Subject" value="Business Consultant" />
+        </Box>
+
         <Image src={EmailMockupImage} alt="" style={{ paddingTop: '15px' }} />
-        <Box sx={styles?.chatCardContent}>
-          <Box sx={styles?.chatWrap}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Image src={AvatarImage} alt="" />
-              <Typography variant="body4">Paula Griffin</Typography>
-            </Box>
-            <Box>
-              <Box onClick={handlePopverClick} sx={{ cursor: 'pointer' }}>
-                <MoreVertIcon />
+        {notesData?.map((item: any) => (
+          <>
+            <Box key={uuidv4()}>
+              <Box sx={styles?.chatCardContent}>
+                <Box sx={styles?.chatWrap}>
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <Image
+                      src={
+                        item?.avatar?.url
+                          ? `${IMG_URL}${item?.avatar?.url}`
+                          : AvatarImage
+                      }
+                      width={35}
+                      height={35}
+                      style={{ borderRadius: '50%' }}
+                      alt=""
+                    />
+                    <Typography variant="body4">
+                      {item?.firstName}&nbsp;{item?.lastName}
+                    </Typography>
+                  </Box>
+                  <TableIconActions icon={<MoreVertIcon />}>
+                    <MenuItem>
+                      <Typography variant="subtitle2">Edit</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => deleteNotes(item?.uuid)}>
+                      <Typography variant="subtitle2">Delete</Typography>
+                    </MenuItem>
+                  </TableIconActions>
+                </Box>
+
+                <Box sx={styles?.chatContent}>
+                  <Typography variant="body3" sx={{ color: '#14142B' }}>
+                    {item?.message}
+                  </Typography>
+                  <SmileIcon />
+                </Box>
               </Box>
-              <Menu
-                anchorEl={anchorEl}
-                open={isMenuOpen}
-                onClose={handlePopverClose}
-                PaperProps={{
-                  style: {
-                    width: '112px',
-                  },
-                }}
-              >
-                <MenuItem>Edit</MenuItem>
-                <MenuItem>Delete</MenuItem>
-              </Menu>
             </Box>
-          </Box>
-          <Box sx={styles?.chatContent}>
-            <Typography variant="body3" sx={{ color: '#14142B' }}>
-              This is an employee email
-            </Typography>
-            <SmileIcon />
-          </Box>
-        </Box>
-        <Box sx={{ mt: '26px' }}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            size="small"
-            placeholder="Add Your Note Here"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <SendPrimaryIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
+          </>
+        ))}
+      </>
+      <Box sx={{ mt: '26px' }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          size="small"
+          value={comment}
+          placeholder="Add Your Note Here"
+          onChange={(e: any) => setComment(e?.target?.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => handleAddNoteClick()}>
+                  <SendPrimaryIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
       </Box>
     </CommonDrawer>
   );

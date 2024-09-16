@@ -1,10 +1,9 @@
 import { PAGINATION } from '@/config';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { buildQueryParams } from '@/utils/api';
 import useAuth from '@/hooks/useAuth';
 import { DeleteRoles } from './DeleteRoles';
 import { useRouter } from 'next/router';
-import { ARRAY_INDEX } from '@/constants/strings';
 import {
   actionButtonDropdownDynamic,
   operationsRolesAndRightColumnsDynamic,
@@ -15,6 +14,7 @@ import {
   IIsPortalOpen,
   ISelectedRolesList,
 } from './RolesAndRight.interface';
+import { getActiveAccountSession } from '@/utils';
 
 export const useRolesAndRight = () => {
   const [search, setSearch] = useState('');
@@ -25,12 +25,10 @@ export const useRolesAndRight = () => {
   const [isPortalOpen, setIsPortalOpen] = useState<IIsPortalOpen>({});
   const router = useRouter();
   const auth: IAuth | any = useAuth();
-
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const organizationCompanyAccountId = product?.company?._id;
   const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
   const { _id: organizationId } = auth?.user?.organization;
-
   const [
     lazyGetPermissionsRoleForOperationsTrigger,
     lazyGetPermissionsRoleForOperationsStatus,

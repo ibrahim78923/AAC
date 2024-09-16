@@ -88,7 +88,7 @@ export const PermissionsAccordion = (props: IUsePermissionsAccordionProps) => {
                       isSettingPermission?.isLoading &&
                       isSettingPermission?.name === parent?.name
                     }
-                    disabled={isSettingPermission?.isLoading}
+                    disabled={isSettingPermission?.isLoading || disabled}
                   />
                 </Box>
                 <Typography>{parent?.name}</Typography>

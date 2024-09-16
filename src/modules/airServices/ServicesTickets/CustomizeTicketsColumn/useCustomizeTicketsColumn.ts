@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  setIsPortalClose,
+  setTicketsListsActiveColumn,
+} from '@/redux/slices/airServices/tickets/slice';
+import { ticketsListsColumnDynamic } from '../TicketsLists/TicketsTableView/TicketsTableView.data';
 
-export const useCustomizeTicketColumn = (
-  props: TicketActionComponentPropsI,
-) => {
-  const {
-    ticketsListsColumnPersist,
-    setIsPortalOpen,
-    setTicketsListsActiveColumn,
-    ticketsListsActiveColumn,
-  } = props;
-
+export const useCustomizeTicketColumn = () => {
+  const dispatch = useAppDispatch();
+  const ticketsListsActiveColumn = useAppSelector(
+    (state) => state?.servicesTickets?.ticketsListsActiveColumn,
+  );
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
     ticketsListsActiveColumn,
   );
@@ -24,13 +27,15 @@ export const useCustomizeTicketColumn = (
   };
 
   const submit = () => {
-    setTicketsListsActiveColumn(customizeColumn);
+    dispatch(setTicketsListsActiveColumn(customizeColumn));
     onClose?.();
   };
 
   const onClose = () => {
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
+
+  const ticketsListsColumnPersist = ticketsListsColumnDynamic();
 
   return {
     submit,
@@ -38,5 +43,6 @@ export const useCustomizeTicketColumn = (
     checkboxHandler,
     customizeColumn,
     ticketsListsColumnPersist,
+    isPortalOpen,
   };
 };

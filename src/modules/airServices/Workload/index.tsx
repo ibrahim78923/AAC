@@ -27,12 +27,9 @@ import useWorkload from './useWorkload';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS } from '@/constants/permission-keys';
 import ViewWorkloadDrawer from './ViewWorkloadDrawer';
-import {
-  IData,
-  IDateHeaderContentData,
-  IEventInfo,
-} from './Workload.interface';
+import { IData, IDateHeaderContentData } from './Workload.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { WORKLOAD_STATUSES_OBJECT } from './Workload.data';
 
 export const Workload = () => {
   const {
@@ -44,8 +41,6 @@ export const Workload = () => {
     setSelected,
     setFilter,
     calendarRef,
-    COMPLETED,
-    IN_PROGRESS,
     setAddPlannedEffort,
     router,
     setOnClickEvent,
@@ -167,7 +162,7 @@ export const Workload = () => {
             meridiem: true,
           }}
           eventClassNames={styles?.eventClassNames}
-          eventContent={(eventInfo: IEventInfo) => {
+          eventContent={(eventInfo: any) => {
             return (
               <Tooltip
                 componentsProps={{
@@ -186,10 +181,17 @@ export const Workload = () => {
                       <CircleIcon
                         fontSize="small"
                         color={
-                          eventInfo?.event?.extendedProps?.status === COMPLETED
+                          eventInfo?.event?.extendedProps?.status ===
+                            WORKLOAD_STATUSES_OBJECT?.COMPLETED ||
+                          eventInfo?.event?.extendedProps?.status ===
+                            WORKLOAD_STATUSES_OBJECT?.RESOLVED ||
+                          eventInfo?.event?.extendedProps?.status ===
+                            WORKLOAD_STATUSES_OBJECT?.CLOSED
                             ? 'primary'
                             : eventInfo?.event?.extendedProps?.status ===
-                                IN_PROGRESS
+                                  WORKLOAD_STATUSES_OBJECT?.IN_PROGRESS ||
+                                eventInfo?.event?.extendedProps?.status ===
+                                  WORKLOAD_STATUSES_OBJECT?.PENDING
                               ? 'warning'
                               : 'secondary'
                         }
@@ -205,11 +207,21 @@ export const Workload = () => {
                     <Divider />
                     <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
                       <TodoIcon />
-                      <Typography variant="h5" color={'blue.main'}>
-                        {eventInfo?.event?.extendedProps?.taskNo}
+                      <Typography
+                        variant="h5"
+                        color={'blue.main'}
+                        textTransform={'uppercase'}
+                      >
+                        {eventInfo?.event?.extendedProps?.ticketIdNumber ||
+                          eventInfo?.event?.extendedProps?.taskId}
                       </Typography>
-                      <Typography variant="body1" color={'blue.main'}>
-                        {eventInfo?.event?.extendedProps?.data?.title}
+                      <Typography
+                        variant="body1"
+                        color={'blue.main'}
+                        textTransform={'capitalize'}
+                      >
+                        {eventInfo?.event?.extendedProps?.title ||
+                          eventInfo?.event?.extendedProps?.subject}
                       </Typography>
                     </Box>
                     <Typography
@@ -219,34 +231,39 @@ export const Workload = () => {
                       color={'custom.main'}
                       pb={2}
                     >
-                      {dayjs(eventInfo?.event?.start)?.format(
-                        DATE_TIME_FORMAT?.DDMMYYYY,
-                      )}{' '}
+                      {eventInfo?.event?.start
+                        ? dayjs(eventInfo?.event?.start)?.format(
+                            DATE_TIME_FORMAT?.DDMMYYYY,
+                          )
+                        : 'No Date'}{' '}
                       -{' '}
-                      {dayjs(eventInfo?.event?.end)?.format(
-                        DATE_TIME_FORMAT?.DDMMYYYY,
-                      )}
+                      {eventInfo?.event?.end
+                        ? dayjs(eventInfo?.event?.end)?.format(
+                            DATE_TIME_FORMAT?.DDMMYYYY,
+                          )
+                        : 'No Date'}
                     </Typography>
                     <Divider />
-                    <Button
-                      color="secondary"
-                      onClick={() =>
-                        setAddPlannedEffort({
-                          open: true,
-                          data: eventInfo?.event,
-                        })
-                      }
-                    >
-                      ADD PLANNED EFFORT
-                    </Button>
+                    {eventInfo?.event?.extendedProps?.taskId && (
+                      <Button
+                        color="secondary"
+                        onClick={() =>
+                          setAddPlannedEffort({
+                            open: true,
+                            data: eventInfo?.event,
+                          })
+                        }
+                      >
+                        ADD PLANNED EFFORT
+                      </Button>
+                    )}
                     <Button
                       color="secondary"
                       onClick={() =>
                         router?.push({
                           pathname: AIR_SERVICES?.TICKETS_LIST,
                           query: {
-                            ticketId:
-                              eventInfo?.event?.extendedProps?.data?.ticketId,
+                            ticketId: eventInfo?.event?.extendedProps?.ticketId,
                           },
                         })
                       }
@@ -259,28 +276,44 @@ export const Workload = () => {
                 <Box
                   display={'flex'}
                   alignItems={'center'}
-                  gap={'1rem'}
+                  gap={1}
                   sx={{ cursor: 'pointer' }}
                   overflow={'hidden'}
                   onClick={() =>
-                    setOnClickEvent({
-                      open: true,
-                      data: eventInfo?.event,
-                    })
+                    eventInfo?.event?.extendedProps?.taskId
+                      ? setOnClickEvent({
+                          open: true,
+                          data: eventInfo?.event,
+                        })
+                      : router?.push({
+                          pathname: AIR_SERVICES?.TICKETS_LIST,
+                          query: {
+                            ticketId: eventInfo?.event?.extendedProps?.ticketId,
+                          },
+                        })
                   }
                 >
                   <Avatar
-                    src={eventInfo?.event?.extendedProps?.img?.src}
+                    src={eventInfo?.event?.extendedProps?.avatar?.src}
                     sx={{ width: 28, height: 28, color: 'primary.main' }}
                   />
                   <Typography
                     variant={'body2'}
                     color={'common.white'}
                     display={'flex'}
-                    gap={0.3}
+                    textTransform={'uppercase'}
                   >
-                    {eventInfo?.event?.extendedProps?.taskNo}{' '}
-                    {eventInfo?.event?.extendedProps?.data?.title}
+                    {eventInfo?.event?.extendedProps?.ticketIdNumber ||
+                      eventInfo?.event?.extendedProps?.taskId}
+                  </Typography>
+                  <Typography
+                    variant={'body2'}
+                    color={'common.white'}
+                    display={'flex'}
+                    textTransform={'capitalize'}
+                  >
+                    {eventInfo?.event?.extendedProps?.title ||
+                      eventInfo?.event?.extendedProps?.subject}
                   </Typography>
                 </Box>
               </Tooltip>
@@ -301,7 +334,6 @@ export const Workload = () => {
             openDrawer={addPlannedEffort?.open}
             onClose={() => setAddPlannedEffort({ open: null, data: null })}
             data={addPlannedEffort?.data}
-            edit
           />
         )}
       </PermissionsGuard>

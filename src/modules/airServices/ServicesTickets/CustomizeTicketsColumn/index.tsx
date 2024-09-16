@@ -3,17 +3,16 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const CustomizeTicketsColumn = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const CustomizeTicketsColumn = () => {
   const {
     submit,
     onClose,
     checkboxHandler,
     customizeColumn,
     ticketsListsColumnPersist,
-  } = useCustomizeTicketColumn(props);
+    isPortalOpen,
+  } = useCustomizeTicketColumn();
 
   return (
     <>

@@ -1,14 +1,19 @@
 import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { STATUS_CONTANTS } from '@/constants/strings';
 
-export const smsDetailsColumns: any = (setOpenModalDelete: any) => {
+export const smsDetailsColumns: any = (
+  setOpenModalDelete: any,
+  recordStatus: any,
+) => {
   return [
     {
-      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
+      accessorFn: (row: any) => row,
       id: 'name',
       isSortable: false,
       header: 'Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) =>
+        `${info?.row?.original?.firstName} ${info?.row?.original?.lastName}`,
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,
@@ -30,23 +35,31 @@ export const smsDetailsColumns: any = (setOpenModalDelete: any) => {
       isSortable: false,
       header: 'Actions',
       cell: (info: any) => (
-        <Box
-          onClick={() =>
-            setOpenModalDelete({
-              isToggle: true,
-              recipientId: info?.row?.original?._id,
-            })
-          }
-          sx={{
-            background: (theme: any) => theme?.Palette?.grey[400],
-            width: 'fit-content',
-            borderRadius: '100%',
-            p: 1,
-            cursor: 'pointer',
-          }}
-        >
-          <DeleteIcon />
-        </Box>
+        <>
+          {recordStatus === STATUS_CONTANTS?.DRAFT ? (
+            <Box
+              onClick={() =>
+                setOpenModalDelete({
+                  isToggle: true,
+                  recipientId: info.row?.original?._id,
+                })
+              }
+              sx={{
+                background: (theme: any) => theme?.Palette?.grey[400],
+                width: 'fit-content',
+                borderRadius: '100%',
+                p: 1,
+                cursor: 'pointer',
+              }}
+            >
+              <DeleteIcon />
+            </Box>
+          ) : (
+            <Box sx={{ cursor: 'not-allowed' }}>
+              <DeleteIcon />
+            </Box>
+          )}
+        </>
       ),
     },
   ];

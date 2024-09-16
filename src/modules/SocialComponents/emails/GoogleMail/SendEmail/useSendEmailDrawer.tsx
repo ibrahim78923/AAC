@@ -41,10 +41,6 @@ const useSendEmailDrawer = ({
   const { handleSubmit, watch, reset, setValue } = methodsDealsTasks;
   const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to', 'sentDate']);
 
-  useEffect(() => {
-    setValue('to', autocompleteValues);
-  }, [autocompleteValues]);
-
   const [postSendGmail, { isLoading: loadingOtherSend }] =
     usePostSendGmailMutation();
   const [postScheduleGmail, { isLoading: loadingOtherScheduleSend }] =
@@ -63,6 +59,24 @@ const useSendEmailDrawer = ({
   const currentForwardMessage = useAppSelector(
     (state: any) => state?.gmail?.currentForwardMessage,
   );
+
+  useEffect(() => {
+    setValue('to', autocompleteValues);
+
+    if (currentGmailAssets?.others?.Cc) {
+      setValue('cc', currentGmailAssets?.others?.Cc);
+      setValue('ccChecked', true);
+    }
+
+    if (currentGmailAssets?.others?.BCC) {
+      setValue('bcc', currentGmailAssets?.others?.BCC);
+      setValue('bccChecked', true);
+    }
+  }, [autocompleteValues, currentGmailAssets]);
+
+  useEffect(() => {
+    reset();
+  }, [drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL]);
 
   useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
@@ -139,8 +153,12 @@ const useSendEmailDrawer = ({
         //draft process
         const formDataSend = new FormData();
         formDataSend.append('to', values?.to);
-        formDataSend.append('subject', values?.subject);
-        formDataSend.append('content', values?.description);
+        if (values?.subject) {
+          formDataSend.append('subject', values?.subject);
+        }
+        if (values?.description) {
+          formDataSend.append('content', values?.description);
+        }
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
         }
@@ -196,11 +214,14 @@ const useSendEmailDrawer = ({
         formDataSend.append(
           'content',
           `<div 
-          style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
+          style="font-family:${emailSettingsData?.data?.emailSettings
+            ?.fontName}; 
           font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
           ${values?.description} 
           <br> 
-          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+          <div style="font-size:16px;" >${
+            emailSettingsData?.data?.emailSettings?.signature ?? ''
+          }</div> 
           </div>` || '<p></p>',
         );
         if (values?.cc && values?.cc?.trim() !== '') {

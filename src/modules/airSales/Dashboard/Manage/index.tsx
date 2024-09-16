@@ -32,6 +32,7 @@ const Manage = () => {
     setPageLimit,
     resetFilters,
     isLoading,
+    currentUser,
     setPage,
     router,
     theme,
@@ -42,6 +43,7 @@ const Manage = () => {
     theme: theme,
     router: router,
     handleUpdateDefault: handleUpdateDefault,
+    currentUser: currentUser,
   };
 
   const columnParams = columns(columnsProps);

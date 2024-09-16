@@ -23,4 +23,5 @@ export interface CommonDrawerPropsI {
   variant?: any;
   disabledCancelBtn?: boolean;
   isFooterFeatureDisabled?: any;
+  zIndex?: number;
 }

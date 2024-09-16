@@ -66,13 +66,12 @@ const Header = (props: any) => {
     <>
       <Box
         sx={{
-          mr: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', mr: '8px' }}>
           <IconButton
             aria-label="open drawer"
             edge="start"
@@ -114,7 +113,7 @@ const Header = (props: any) => {
           sx={{
             display: 'flex',
             justifyContent: 'end',
-            gap: { sm: 2, xs: 1.5 },
+            gap: { sm: 2, xs: 1 },
             alignItems: 'center',
           }}
         >

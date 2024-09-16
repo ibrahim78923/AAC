@@ -13,13 +13,32 @@ const useAddCompanyDetails = (
 ) => {
   const theme = useTheme();
   const { usePostCompanyMutation } = userListApi;
-  const [postCompany] = usePostCompanyMutation();
+
+  const [postCompany, { isLoading: loadingAddCompanyAccount }] =
+    usePostCompanyMutation();
   const [companyImg, setCompanyImg] = useState<any>();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
+
+  const formData = new FormData();
+
+  const [selectedProducts, setSelectedProducts] = useState<any>([]);
+  const [imageToUpload, setImageToUpload] = useState<any>();
+  const [imagePreview, setImagePreview] = useState<any>();
+  const handleImageChangeCompany = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('image', selectedImage);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader?.result);
+    };
+    reader?.readAsDataURL(selectedImage);
+  };
 
   const { handleSubmit, reset, watch, setValue } = methods;
 
@@ -49,7 +68,6 @@ const useAddCompanyDetails = (
   }, [addressValues]);
 
   const onSubmit = async (values: any) => {
-    const formData = new FormData();
     values.file = companyImg;
     values.organizationId = organizationId;
     if (isToggled) {
@@ -75,13 +93,13 @@ const useAddCompanyDetails = (
     delete values['compositeAddress'];
     values.isActive = true;
 
-    formData?.append('image', values?.file);
+    formData.append('image', imageToUpload);
     formData?.append('organizationId', values?.organizationId);
     formData?.append('address', JSON.stringify(values?.address));
     formData?.append('accountName', values?.accountName);
     formData?.append('phoneNo', values?.phoneNo);
     formData?.append('postCode', values?.postCode);
-    formData?.append('products', values?.products);
+    formData?.append('products', selectedProducts);
     formData?.append('isActive', values?.isActive);
 
     try {
@@ -96,12 +114,16 @@ const useAddCompanyDetails = (
 
   return {
     theme,
-    // productsList,
     methods,
     handleSubmit,
     onSubmit,
     companyImg,
     setCompanyImg,
+    imagePreview,
+    handleImageChangeCompany,
+    loadingAddCompanyAccount,
+    selectedProducts,
+    setSelectedProducts,
   };
 };
 

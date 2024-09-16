@@ -23,7 +23,7 @@ export const knowledgeBaseAPI = baseAPI?.injectEndpoints({
     }),
     getSingleKnowledgeBaseArticle: builder?.query({
       query: (params: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_KNOWLEDGE_BASE_ARTICLES}/${params?.id}`,
+        url: `${END_POINTS?.GET_SINGLE_KNOWLEDGE_BASE_ARTICLES}/${params?.id}/${params?.companyId}`,
         method: 'GET',
       }),
       providesTags: [TAG],

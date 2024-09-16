@@ -34,6 +34,7 @@ export const TICKET_STATUS = {
   RESOLVED: 'RESOLVED',
   PENDING: 'PENDING',
   SPAM: 'SPAMS',
+  SHARE_WITH_ME: 'SHARE_WITH_ME',
 };
 
 export const TICKET_PRIORITY = {
@@ -688,6 +689,7 @@ export const TIME_UNITS = {
   SEC_PER_HOUR: 3600,
   HOURS_PER_DAY: 24,
   MS_PER_MINUTE: 60000,
+  SEC_PER_MINUTE: 60,
 };
 
 export const LOYALTY_REWARDS_CLASS = {
@@ -1091,6 +1093,7 @@ export const FEEDBACK_STATUS = {
   PUBLISHED: 'published',
   DRAFT: 'draft',
   INACTIVE: 'inactive',
+  EXPIRED: 'expired',
 };
 
 export const FEEDBACK_SURVEY_PATH_TYPES = {
@@ -1175,4 +1178,8 @@ export const INVENTORY_REPORT_STATUS = {
   CONTRACTS: 'Contracts',
   SOFTWARE: 'Backup Software',
   PURCHASE_ORDER: 'Purchase Orders',
+};
+export const PORTAL_TICKET_FIELDS = {
+  REQUESTER: 'requester',
+  SUBJECT: 'subject',
 };

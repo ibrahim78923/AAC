@@ -218,51 +218,57 @@ const RHFSwitchableDatepicker = ({
       <Controller
         name={name}
         control={control}
-        render={({ field, fieldState: { error } }) => (
-          <>
-            {other?.label && (
-              <CustomLabel label={other?.label} required={required} />
-            )}
-            <TextField
-              onClick={handleClick}
-              {...field}
-              fullWidth
-              error={!!error}
-              helperText={
-                <Typography
-                  component={'span'}
-                  sx={{ display: 'block', mt: -1, ml: -1 }}
-                >
-                  {error?.message}
-                </Typography>
-              }
-              FormHelperTextProps={{
-                classes: {
-                  root: '',
-                  color: 'green',
-                },
-              }}
-              {...other}
-              label=""
-              value={formattedDate}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {formattedDate && (
-                      <IconButton
-                        className="clearButton"
-                        onClick={handleClear}
-                        size="small"
-                      >
-                        <ClearIcon />
-                      </IconButton>
-                    )}
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </>
-        )}
+        render={({ field, fieldState: { error } }) => {
+          return (
+            <>
+              {other?.label && (
+                <CustomLabel label={other?.label} required={required} />
+              )}
+              <TextField
+                onClick={handleClick}
+                {...field}
+                fullWidth
+                error={!!error}
+                helperText={
+                  <Typography
+                    component={'span'}
+                    sx={{ display: 'block', mt: -1, ml: -1 }}
+                  >
+                    {error?.message}
+                  </Typography>
+                }
+                FormHelperTextProps={{
+                  classes: {
+                    root: '',
+                    color: 'green',
+                  },
+                }}
+                {...other}
+                label=""
+                value={
+                  field?.value
+                    ?.map((date: any) => dayjs(date).format(DATE_FORMAT.UI))
+                    .join(' - ') || ''
+                }
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {field?.value && (
+                        <IconButton
+                          className="clearButton"
+                          onClick={handleClear}
+                          size="small"
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </>
+          );
+        }}
       />
       {isOpen && (
         <>

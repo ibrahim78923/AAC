@@ -37,74 +37,75 @@ export const CalendarIntegration = () => {
           conferencing tool to boost your productivity right away.
         </Typography>
       </Grid>
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : (
-        <>
-          <Grid item xs={12}>
-            <Grid container spacing={3}>
-              {calendarServices?.map((service) => (
-                <Grid item xs={6} key={service?.id}>
-                  <Box
-                    border="1px solid"
-                    borderColor="grey.700"
-                    borderRadius={2}
-                    marginTop="2rem"
-                  >
-                    <Box m="1rem">
-                      <Box display="flex" alignItems="center" mb={1}>
-                        <Box display="flex" alignItems="center" mr={1}>
-                          {service?.icon && <service.icon />}
-                        </Box>
-                        <Box>
-                          <Typography
-                            variant="h4"
-                            color="slateBlue.main"
-                            fontWeight={500}
-                          >
-                            {service?.name}
-                          </Typography>
-                        </Box>
+      <>
+        <Grid item xs={12}>
+          <Grid container spacing={3}>
+            {calendarServices?.map((service) => (
+              <Grid item xs={6} key={service?.id}>
+                <Box
+                  border="1px solid"
+                  borderColor="grey.700"
+                  borderRadius={2}
+                  marginTop="2rem"
+                >
+                  <Box m="1rem">
+                    <Box display="flex" alignItems="center" mb={1}>
+                      <Box display="flex" alignItems="center" mr={1}>
+                        {service?.icon && <service.icon />}
                       </Box>
-                      <Typography
-                        sx={{ mt: 2 }}
-                        variant="body3"
-                        color="custom.main"
-                      >
-                        {service?.description}
-                      </Typography>
+                      <Box>
+                        <Typography
+                          variant="h4"
+                          color="slateBlue.main"
+                          fontWeight={500}
+                        >
+                          {service?.name}
+                        </Typography>
+                      </Box>
                     </Box>
-                    <Box display="flex" flexDirection="column" m={2}>
-                      <LoadingButton
-                        sx={{ mb: 1 }}
-                        variant="contained"
-                        onClick={
-                          service?.name === calenderType?.google
-                            ? handleGoogleClick
-                            : handleOfficeClick
-                        }
-                      >
-                        Connect Now
-                      </LoadingButton>
-                    </Box>
+                    <Typography
+                      sx={{ mt: 2 }}
+                      variant="body3"
+                      color="custom.main"
+                    >
+                      {service?.description}
+                    </Typography>
                   </Box>
-                </Grid>
-              ))}
-            </Grid>
+                  <Box display="flex" flexDirection="column" m={2}>
+                    <LoadingButton
+                      sx={{ mb: 1 }}
+                      variant="contained"
+                      onClick={
+                        service?.name === calenderType?.google
+                          ? handleGoogleClick
+                          : handleOfficeClick
+                      }
+                    >
+                      Connect Now
+                    </LoadingButton>
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
-          <Grid item xs={12}>
-            <Box
-              border="1px solid"
-              borderColor="grey.700"
-              borderRadius={2}
-              marginTop="2rem"
-              p={2}
-            >
-              <Box>
-                <Typography variant="formTopHeading" color="secondary.main">
-                  My Calendar Account
-                </Typography>
-              </Box>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Box
+            border="1px solid"
+            borderColor="grey.700"
+            borderRadius={2}
+            marginTop="2rem"
+            p={2}
+          >
+            <Box>
+              <Typography variant="formTopHeading" color="secondary.main">
+                My Calendar Account
+              </Typography>
+            </Box>
+            {isLoading || isFetching ? (
+              <SkeletonForm />
+            ) : (
               <Box>
                 {calendarListData?.length ? (
                   <Grid container mt={2} spacing={2}>
@@ -178,10 +179,10 @@ export const CalendarIntegration = () => {
                   <NoData message={'No data is available'} height={'100%'} />
                 )}
               </Box>
-            </Box>
-          </Grid>
-        </>
-      )}
+            )}
+          </Box>
+        </Grid>
+      </>
     </Grid>
   );
 };

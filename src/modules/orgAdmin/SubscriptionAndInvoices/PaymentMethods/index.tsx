@@ -4,12 +4,12 @@ import Search from '@/components/Search';
 import AddCard from './AddCard';
 import usePaymentMethods from './usePaymentMethods';
 import { DropdownIcon } from '@/assets/icons';
-import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './PaymentMethod.style';
-import { useState } from 'react';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import { isNullOrEmpty } from '@/utils';
+import { useGetPaymentCardByIdQuery } from '@/services/orgAdmin/subscription-and-invoices';
 
 const PaymentMethods = () => {
   const {
@@ -26,12 +26,28 @@ const PaymentMethods = () => {
     handleOpenDeleteModal,
     handleCloseDeleteModal,
     getRowValues,
-    isChecked,
     setOpenAddCard,
     isGetRowValues,
+    setIsGetRowValues,
+    dataPaymentCard,
+    searchValue,
+    setSearchValue,
+    loadingPaymentCard,
+    setPageLimit,
+    setPage,
+    loadingDelete,
+    handleDelete,
+    openDefault,
+    handleCloseDefaultModal,
+    handleUpdate,
+    handleOpenDefaultModal,
+    loadingUpdate,
   } = usePaymentMethods();
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const { data } = useGetPaymentCardByIdQuery(
+    { id: isGetRowValues[0] },
+    { skip: isNullOrEmpty(isGetRowValues) },
+  );
 
   return (
     <>
@@ -66,9 +82,9 @@ const PaymentMethods = () => {
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
             <Search
-              searchBy={searchTerm}
-              setSearchBy={setSearchTerm}
-              label="Search here"
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
+              label="Search by name"
               fullWidth
               size="small"
             />
@@ -80,7 +96,7 @@ const PaymentMethods = () => {
             onClick={handleActionsClick}
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
-            disabled={!isChecked}
+            disabled={isNullOrEmpty(isGetRowValues)}
           >
             Actions
           </Button>
@@ -105,16 +121,34 @@ const PaymentMethods = () => {
             <MenuItem
               onClick={() => {
                 setOpenAddCard(true);
-                setOpenEditCard('Edit');
+                setOpenEditCard('View');
+                handleClose();
               }}
             >
-              Edit
+              View
             </MenuItem>
             <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
+            {!data?.data?.isDefault && (
+              <MenuItem onClick={handleOpenDefaultModal}>
+                Set as Default
+              </MenuItem>
+            )}
           </Menu>
         </Box>
 
-        <TanstackTable columns={getRowValues} data={paymentData} isPagination />
+        <TanstackTable
+          columns={getRowValues}
+          data={dataPaymentCard?.data?.payments ?? []}
+          isPagination
+          isLoading={loadingPaymentCard}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={dataPaymentCard?.data?.meta?.pages}
+          totalRecords={dataPaymentCard?.data?.meta?.total}
+          onPageChange={(page: number) => setPage(page)}
+          currentPage={dataPaymentCard?.data?.meta?.page}
+          pageLimit={dataPaymentCard?.data?.meta?.limit}
+        />
       </Box>
       <AddCard
         open={openAddCard}
@@ -122,13 +156,29 @@ const PaymentMethods = () => {
         openEditCard={openEditCard}
         setOpenAddCard={setOpenAddCard}
         isGetRowValues={isGetRowValues}
+        setIsGetRowValues={setIsGetRowValues}
       />
       <AlertModals
-        message="Are you sure you want to delete this payment method ?"
-        type="delete"
+        message={
+          data?.data?.isDefault
+            ? 'This is Default card Please select other card as Default to delete this.'
+            : 'Are you sure you want to delete this payment method ?'
+        }
+        type={data?.data?.isDefault ? 'Information' : 'delete'}
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}
-        handleSubmit={handleCloseDeleteModal}
+        handleSubmitBtn={handleDelete}
+        loading={loadingDelete}
+        footer={data?.data?.isDefault ? false : true}
+      />
+
+      <AlertModals
+        message="Are you sure to set this card as default?"
+        type={'Information'}
+        open={openDefault}
+        handleClose={handleCloseDefaultModal}
+        handleSubmitBtn={handleUpdate}
+        loading={loadingUpdate}
       />
     </>
   );

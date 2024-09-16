@@ -22,7 +22,6 @@ import { styles } from './CreateBroadcast.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AddContactDrawer from './AddContactDrawer/index';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { AvatarImage } from '@/assets/images';
 import { LoadingButton } from '@mui/lab';
 import {
   DRAWER_TYPES,
@@ -32,6 +31,8 @@ import {
 import dayjs from 'dayjs';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { componentMap } from '@/utils/dynamic-forms';
+import { generateImage } from '@/utils/avatarUtils';
+import { indexNumbers } from '@/constants';
 
 const CreateBroadcast = () => {
   const {
@@ -88,7 +89,7 @@ const CreateBroadcast = () => {
           </Box>
           <Typography sx={styles?.heading} variant="h3">
             {type === DRAWER_TYPES?.EDIT
-              ? ' Update Broadcast'
+              ? 'Update Broadcast'
               : 'Create Broadcast'}
           </Typography>
         </Box>
@@ -156,11 +157,14 @@ const CreateBroadcast = () => {
                           >
                             {selectedContactsData?.map((item: any) => {
                               const contacts = item?.contacts || [item];
+
                               return contacts?.map((contact: any) => (
                                 <Avatar
                                   key={uuidv4()}
                                   alt="recipient_avatar"
-                                  src=""
+                                  src={generateImage(
+                                    contact?.profilePicture?.url || 'N/A',
+                                  )}
                                 >
                                   <Typography variant="body3" fontWeight={500}>
                                     {contact?.firstName
@@ -181,7 +185,7 @@ const CreateBroadcast = () => {
                           {templateDetailsVariables?.map((variable: any) => (
                             <Grid item xs={6} key={variable}>
                               <RHFTextField
-                                name={variable}
+                                name={`field_${variable}`}
                                 placeholder={`Enter ${variable}`}
                                 size="small"
                                 fullWidth
@@ -238,12 +242,10 @@ const CreateBroadcast = () => {
               <Grid container spacing={'16px'}>
                 <Grid item xs={12}>
                   <Stack direction="row" alignItems="center" gap={'10px'}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={AvatarImage?.src}
-                      sx={styles?.previewAvatar}
-                    >
-                      AB
+                    <Avatar alt="Remy Sharp" sx={styles?.previewAvatar}>
+                      {previewName === ''
+                        ? 'N/A'
+                        : previewName?.charAt(0)?.toUpperCase()}
                     </Avatar>
                     <Box>
                       <Typography variant="h5" sx={styles?.previewName}>
@@ -301,6 +303,11 @@ const CreateBroadcast = () => {
                 className="small"
                 onClick={handleSubmit(onSubmit)}
                 loading={postBroadcastLoading || updateBroadcastLoading}
+                disabled={
+                  selectedContactsData?.length === indexNumbers?.ZERO
+                    ? true
+                    : false
+                }
               >
                 Send Now
               </LoadingButton>

@@ -202,7 +202,7 @@ const ProductSuite = () => {
 
           {user?.role === ROLES?.ORG_ADMIN && (
             <>
-              {accountsData?.data?.length && (
+              {accountsData?.data?.length > 0 && (
                 <Button
                   variant="contained"
                   onClick={() => {

@@ -1,107 +1,259 @@
-import { Grid, Box, Typography } from '@mui/material';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  Box,
+  useTheme,
+  FormLabel,
+  TextField,
+  Typography,
+  CircularProgress,
+} from '@mui/material';
 
-import { dataArray, defaultValues, validationSchema } from './AddCard.data';
-import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
-
-import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { v4 as uuidv4 } from 'uuid';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useEffect, useState } from 'react';
+import {
+  useGetPaymentCardByIdQuery,
+  usePostPaymentCardMutation,
+} from '@/services/orgAdmin/subscription-and-invoices';
+import { getSession, isNullOrEmpty } from '@/utils';
+import { LoadingButton } from '@mui/lab';
 
 const AddCard = ({
   open,
   onClose,
   openEditCard,
-  setOpenAddCard,
   isGetRowValues,
+  setOpenAddCard,
+  setIsGetRowValues,
 }: any) => {
-  const rowApiValues = {
-    cardNumber: isGetRowValues?.cell?.row?.original?.name,
-    expirationDate: isGetRowValues?.cell?.row?.original?.expirationDate,
-    nameOnCard: '',
-    CVVCode: '',
-    companyAccount: '',
-    seePaymentMethod: '',
-    sirSales: '',
-    airService: '',
-    airOperations: '',
-  };
+  const { data, status } = useGetPaymentCardByIdQuery(
+    { id: isGetRowValues[0] },
+    { skip: openEditCard != 'View' || isNullOrEmpty(isGetRowValues) },
+  );
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
-  });
+  const [isDefault, setIsDefault] = useState(false);
+  const [isSecureTransaction, setIsSecureTransaction] = useState(false);
 
-  const apiMethods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: rowApiValues,
-  });
+  const stripe = useStripe();
+  const elements = useElements();
+  const [cardHolderName, setCardHolderName] = useState('');
+  const { user }: any = getSession();
+  const [postPaymentCard, { isLoading: PostPaymentCardLoading }] =
+    usePostPaymentCardMutation();
+  const theme = useTheme();
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
 
-  const { handleSubmit, reset } = openEditCard === 'Add' ? methods : apiMethods;
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet.
+      return;
+    }
 
-  const onSubmit = async () => {
-    reset();
-    setOpenAddCard(false);
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
+    const cardElement = elements.getElement(CardElement);
+
+    const { token, error } = await stripe.createToken(cardElement, {
+      name: cardHolderName, // Pass cardholder's name here
     });
+
+    if (error) {
+      enqueueSnackbar('Error creating token', {
+        variant: 'error',
+      });
+      return;
+    } else {
+      const payload = {
+        stripeCustomerId: user?.stripeCustomerId,
+        cardToken: token?.id,
+        useCompanyAddress: true,
+        secureTransaction: isSecureTransaction,
+        isDefault: isDefault,
+      };
+
+      try {
+        await postPaymentCard({ body: payload })?.unwrap();
+        enqueueSnackbar('Card Added Successful', {
+          variant: 'success',
+        });
+        onClose();
+      } catch (error: any) {
+        enqueueSnackbar('something went wrong', {
+          variant: 'error',
+        });
+      }
+    }
   };
+
+  const handleCloseAddCard = () => {
+    setOpenAddCard(false);
+    setCardHolderName('');
+    setIsDefault(false);
+    setIsSecureTransaction(false);
+    setIsGetRowValues([]);
+  };
+
+  useEffect(() => {
+    setCardHolderName(data?.data?.cardHolderName);
+    setIsDefault(data?.data?.isDefault);
+    setIsSecureTransaction(data?.data?.secureTransaction);
+  }, [status === 'fulfilled']);
+
+  useEffect(() => {
+    setCardHolderName('');
+    setIsDefault(false);
+    setIsSecureTransaction(false);
+  }, [openEditCard === 'Add']);
 
   return (
-    <CommonDrawer
-      isDrawerOpen={open}
-      onClose={onClose}
-      title={`${
-        openEditCard === 'Add'
-          ? `${openEditCard} a new card`
-          : `${openEditCard} Card `
-      }`}
-      okText={'Save'}
-      isOk
-      cancelText={'Cancel'}
-      footer
-      submitHandler={handleSubmit(onSubmit)}
+    <Dialog
+      open={open}
+      onClose={handleCloseAddCard}
+      fullWidth={true}
+      maxWidth={'sm'}
     >
-      <Box mt={1}>
-        <FormProvider methods={openEditCard === 'Add' ? methods : apiMethods}>
-          <Grid container spacing={4}>
-            <Typography variant="h5" sx={{ padding: '35px 0px 0px 35px' }}>
-              {openEditCard} a debit or credit card
-            </Typography>
-            {dataArray?.map((item: any, index: any) => (
-              <Grid
-                item
-                xs={12}
-                md={item?.md}
-                key={uuidv4()}
-                sx={{ paddingTop: index === 0 ? undefined : '20px !important' }}
+      {status === 'pending' ? (
+        <Box
+          sx={{ height: '400px' }}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <DialogTitle
+            sx={{
+              fontWeight: '700',
+              fontSize: '20px !important',
+              marginBottom: '10px',
+            }}
+          >
+            {openEditCard === 'Add'
+              ? 'Add a debit or credit Card'
+              : 'View Card Details'}
+          </DialogTitle>
+          <DialogContent>
+            <Box style={{ marginBottom: '10px' }}>
+              <FormLabel
+                htmlFor="cardholder-name"
+                style={{
+                  fontSize: '14px',
+                  marginBottom: '5px',
+                  display: 'block',
+                }}
               >
-                {item?.componentProps?.heading && (
-                  <Typography variant="h5">
-                    {item?.componentProps?.heading}
-                  </Typography>
-                )}
-                {item?.componentProps?.paragraph && (
-                  <Typography variant="body2">
-                    {item?.componentProps?.paragraph}
-                  </Typography>
-                )}
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </Box>
-    </CommonDrawer>
+                Cardholder Name
+              </FormLabel>
+              <TextField
+                id="cardholder-name"
+                variant="outlined"
+                placeholder="Enter Cardholder Name"
+                value={cardHolderName}
+                onChange={(e) => setCardHolderName(e.target.value)}
+                required
+                fullWidth
+                size="small"
+                disabled={openEditCard === 'View'}
+                InputProps={{
+                  style: {
+                    borderRadius: '5px',
+                    fontSize: '16px',
+                  },
+                }}
+                inputProps={{
+                  style: {
+                    color: '#424770',
+                  },
+                }}
+              />
+            </Box>
+
+            {isNullOrEmpty(isGetRowValues) ? (
+              <Box
+                sx={{
+                  border: `1px solid #0000003b`,
+                  padding: '10px',
+                  borderRadius: '5px',
+                }}
+              >
+                <CardElement
+                  options={{
+                    hidePostalCode: true,
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: theme?.palette?.grey[500],
+                        '::placeholder': {
+                          color: theme?.palette?.custom?.sliver_grey,
+                        },
+                      },
+                    },
+                  }}
+                />
+              </Box>
+            ) : (
+              <Box marginBottom={1}>
+                <Typography variant="body2" color="textSecondary">
+                  <b>Saved Card :</b> {data?.data?.brand} ending in{' '}
+                  {data?.data?.last4}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  <b>Expiration: </b> {data?.data?.expMonth}/
+                  {data?.data?.expYear}
+                </Typography>
+              </Box>
+            )}
+
+            <Box sx={{ marginTop: '10px' }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isDefault}
+                    onChange={(e) => setIsDefault(e.target.checked)}
+                    color="primary"
+                    disabled={openEditCard === 'View'}
+                  />
+                }
+                label="Default"
+              />
+            </Box>
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isSecureTransaction}
+                  onChange={(e) => setIsSecureTransaction(e.target.checked)}
+                  color="primary"
+                  disabled={openEditCard === 'View'}
+                />
+              }
+              label="Secure Transaction"
+            />
+          </DialogContent>
+          <DialogActions>
+            {isNullOrEmpty(isGetRowValues) && (
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                loading={PostPaymentCardLoading}
+              >
+                Add
+              </LoadingButton>
+            )}
+
+            <Button variant="outlined" onClick={handleCloseAddCard}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
+      )}
+    </Dialog>
   );
 };
 

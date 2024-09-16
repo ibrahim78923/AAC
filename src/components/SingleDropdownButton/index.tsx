@@ -31,6 +31,7 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
   return (
     <>
       <Variant
+        className="small"
         variant={btnVariant}
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
@@ -60,7 +61,10 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
           >
             <MenuItem
               disabled={singleOption?.disabled}
-              onClick={() => singleOption?.handleClick?.(handleClose)}
+              onClick={(event: any) => {
+                event?.stopPropagation();
+                singleOption?.handleClick?.(handleClose);
+              }}
               sx={{
                 '&.MuiMenuItem-root': {
                   marginBottom: { md: 0.5 },

@@ -89,6 +89,7 @@ const ContactsCard = ({
           isPinned: response?.data?.isPinned,
         }),
       );
+      selectedValues([]);
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
@@ -160,26 +161,44 @@ const ContactsCard = ({
     setIsDeleteModal(false);
     dispatch(setChatMessages([]));
     dispatch(setActiveReceiverId(null));
+    dispatch(setActiveConversation({}));
+    setSelectedValues([]);
   };
+
+  const contactImageToShow =
+    chatMode === CHAT_TYPES?.GROUP_CHAT
+      ? UserDefault
+      : filteredParticipants[0]?.avatar?.url
+        ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
+        : UserDefault;
+
   return (
     <>
       <Box
         sx={styles?.contactsCardMain(isCardHover, theme, isActiveUser)}
         style={{ position: 'relative' }}
-        onMouseOver={() => setIsCardHover(true)}
+        onMouseOver={() => {
+          cardData?.item?.isDeleted ? null : setIsCardHover(true);
+        }}
         onMouseLeave={() => setIsCardHover(false)}
       >
         {isCardHover && (
-          <Checkbox
-            onClick={() => {
-              handleChatSelect(cardData?.item?._id);
-            }}
-            checked={
-              selectedValues
-                ? selectedValues?.includes(cardData?.item?._id)
-                : false
-            }
-          />
+          <>
+            {cardData?.item?.isDeleted ? (
+              <></>
+            ) : (
+              <Checkbox
+                onClick={() => {
+                  handleChatSelect(cardData?.item?._id);
+                }}
+                checked={
+                  selectedValues
+                    ? selectedValues?.includes(cardData?.item?._id)
+                    : false
+                }
+              />
+            )}
+          </>
         )}
         <Box style={{ width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -196,11 +215,7 @@ const ContactsCard = ({
               <Image
                 width={isCardHover ? 32 : 24}
                 height={isCardHover ? 32 : 24}
-                src={
-                  filteredParticipants[0]?.avatar?.url
-                    ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
-                    : UserDefault
-                }
+                src={contactImageToShow}
                 style={{ borderRadius: '50%' }}
                 alt="avatar"
               />
@@ -211,6 +226,11 @@ const ContactsCard = ({
                     fontWeight: '600',
                     whiteSpace: 'nowrap',
                     textTransform: 'capitalize',
+                    color:
+                      cardData?.item?.unReadMessagesCount > 0 ||
+                      cardData?.item?.unRead === true
+                        ? theme?.palette?.primary?.main
+                        : theme?.palette?.common?.black,
                   }}
                 >
                   {chatMode === CHAT_TYPES?.GROUP_CHAT ? (
@@ -248,12 +268,16 @@ const ContactsCard = ({
                       : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
                   }
                 >
-                  <Box
-                    onClick={() => setIsDeleteModal(true)}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <DeleteIcon />
-                  </Box>
+                  {cardData?.item?.isDeleted ? (
+                    <></>
+                  ) : (
+                    <Box
+                      onClick={() => setIsDeleteModal(true)}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      <DeleteIcon />
+                    </Box>
+                  )}
                 </PermissionsGuard>
               )}
               {cardData?.item?.isPinned ? (
@@ -306,7 +330,7 @@ const ContactsCard = ({
             {cardData?.item?.lastMessage?.content}
           </Box>
           <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>
-            {dayjs(cardData?.item?.lastMessage?.createdAt).format(
+            {dayjs(cardData?.item?.lastMessage?.updatedAt).format(
               TIME_FORMAT?.UI,
             )}
           </Typography>

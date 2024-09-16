@@ -4,11 +4,12 @@ import { useEditTicketStatusMutation } from '@/services/airCustomerPortal/Ticket
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
+import { getCustomerPortalStyling } from '@/utils';
 
 export const useSingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   const { id, getSingleDefaultSurveyForCustomerTickets } = props;
   const router = useRouter();
-
+  const { companyId } = router?.query;
   const [editTicketStatusTrigger, { isLoading }] =
     useEditTicketStatusMutation();
 
@@ -32,12 +33,18 @@ export const useSingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   const handleBack = () => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
+      ...(!!companyId && {
+        query: {
+          companyId,
+        },
+      }),
     });
   };
-
+  const portalStyles = getCustomerPortalStyling();
   return {
     isLoading,
     updateTicketStatus,
     handleBack,
+    portalStyles,
   };
 };

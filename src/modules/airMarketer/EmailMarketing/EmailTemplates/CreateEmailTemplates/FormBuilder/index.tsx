@@ -30,7 +30,7 @@ import {
 } from './FormFields.data';
 import {
   RHFCheckbox,
-  RHFImageEditor,
+  RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as yup from 'yup';
@@ -401,7 +401,7 @@ const FormBuilder = ({
                 onSubmit={createTemplateSubmit(onSubmit)}
               >
                 <Box pb={1.4}>
-                  <RHFImageEditor
+                  <RHFEditor
                     name="emailTemplate"
                     style={{ height: 600 }}
                     placeholder="Enter Email Text"

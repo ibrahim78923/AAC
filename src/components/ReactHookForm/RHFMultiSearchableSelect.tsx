@@ -8,7 +8,6 @@ import {
   Menu,
   Checkbox,
   Typography,
-  Button,
   useTheme,
   Pagination,
   CircularProgress,
@@ -18,6 +17,7 @@ import Search from '../Search';
 import { ArrowDownIcon } from '@/assets/icons';
 
 import { useFormContext, Controller } from 'react-hook-form';
+import { LoadingButton } from '@mui/lab';
 
 export default function RHFMultiSearchableSelect({
   name,
@@ -41,6 +41,7 @@ export default function RHFMultiSearchableSelect({
   isLoading,
   isPagination = false,
   defaultValues = [],
+  isFooterActionLoading = false,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -211,7 +212,7 @@ export default function RHFMultiSearchableSelect({
                   </Box>
                 ) : (
                   <>
-                    {filteredOptions &&
+                    {filteredOptions?.length > 0 ? (
                       filteredOptions?.map((option: any) => (
                         <Box
                           key={option?.value}
@@ -265,7 +266,12 @@ export default function RHFMultiSearchableSelect({
                             {option?.label}
                           </Typography>
                         </Box>
-                      ))}
+                      ))
+                    ) : (
+                      <Box sx={{ mt: 2, mb: 2, textAlign: 'center' }}>
+                        No records found
+                      </Box>
+                    )}
                   </>
                 )}
               </div>
@@ -279,13 +285,14 @@ export default function RHFMultiSearchableSelect({
                 )}
               </Box>
               {isFooter && (
-                <Button
+                <LoadingButton
                   variant="contained"
                   sx={{ width: '100%' }}
                   onClick={footerActionHandler}
+                  loading={isFooterActionLoading}
                 >
                   {footerText}
-                </Button>
+                </LoadingButton>
               )}
             </>
           </Menu>

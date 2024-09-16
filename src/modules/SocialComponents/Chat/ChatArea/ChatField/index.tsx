@@ -59,7 +59,6 @@ const ChatField = ({ isError }: any) => {
             dispatch(
               setChatMetaInfo({
                 ...chatMetaInfo,
-                // limit: chatMetaInfo?.limit + 10,
                 page: chatMetaInfo?.page + 1,
               }),
             );

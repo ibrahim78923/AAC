@@ -37,9 +37,15 @@ const useCampaigns = () => {
     isViewDeatsils: false,
     isSaveView: false,
     isDelete: false,
-    isCreateCampaign: { isToggle: false, type: '', recId: [] },
     isCreateTask: false,
   });
+
+  const [createCampaign, setCreateCampaign] = useState({
+    isToggle: false,
+    type: '',
+    recId: [],
+  });
+
   const [isCompare, setIsCompare] = useState(false);
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
@@ -200,6 +206,8 @@ const useCampaigns = () => {
     UserListData,
     userListData,
     organizationId,
+    createCampaign,
+    setCreateCampaign,
   };
 };
 export default useCampaigns;

@@ -14,7 +14,7 @@ const EmailChat = () => {
   const [mailType, setMailType] = useState('');
 
   const { data: foldersData } = useGetMailFoldersOutlookQuery({});
-  const result = foldersData?.data?.find((item: any) => {
+  const result = foldersData?.data?.folders?.find((item: any) => {
     return item?.displayName?.toLowerCase() === 'inbox';
   });
 
@@ -31,7 +31,7 @@ const EmailChat = () => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item md={4} xs={12}>
+        <Grid item lg={4} md={5} sm={12} xs={12}>
           <LeftPane
             setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
             isOpenSendEmailDrawer={isOpenSendEmailDrawer}
@@ -39,7 +39,7 @@ const EmailChat = () => {
             setMailType={setMailType}
           />
         </Grid>
-        <Grid item md={8} xs={12}>
+        <Grid item lg={8} md={7} sm={12} xs={12}>
           <RightPane
             setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
             isOpenSendEmailDrawer={isOpenSendEmailDrawer}

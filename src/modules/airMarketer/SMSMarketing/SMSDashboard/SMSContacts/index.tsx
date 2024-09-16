@@ -8,6 +8,7 @@ import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { SMSDashboardProps } from '@/modules/airMarketer/SMSMarketing/SMSDashboard/SMSDashboard-interface';
+import { generateImage } from '@/utils/avatarUtils';
 
 const SMSContacts = (props: SMSDashboardProps) => {
   const { setTabVal } = props;
@@ -98,6 +99,7 @@ const SMSContacts = (props: SMSDashboardProps) => {
                     fontSize: '16px',
                     fontWeight: 500,
                   }}
+                  src={generateImage(item?.profilePicture?.url)}
                 >
                   {capitalizeFirstLetter(item?.firstName?.charAt(0)) +
                     capitalizeFirstLetter(item?.lastName?.charAt(0))}

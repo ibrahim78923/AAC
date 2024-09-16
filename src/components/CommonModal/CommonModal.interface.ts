@@ -4,6 +4,7 @@ export interface ModelPropsI {
   handleSubmit?: () => void;
   children: any;
   title: React.ReactNode;
+  titleDescription?: React.ReactNode;
   okText?: string;
   cancelText?: string;
   handleCancel?: any;

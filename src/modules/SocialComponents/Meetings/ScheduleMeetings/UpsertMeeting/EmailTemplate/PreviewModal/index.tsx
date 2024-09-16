@@ -116,9 +116,7 @@ const PreviewModal = (props: any) => {
                 }}
               >
                 <Box
-                  display="flex"
-                  alignItems="center"
-                  sx={{ margin: '60px 0 10px 20px' }}
+                  sx={{ margin: '60px 0 10px 20px', fontSize: '12px' }}
                   dangerouslySetInnerHTML={{ __html: editorData }}
                 />
               </Box>

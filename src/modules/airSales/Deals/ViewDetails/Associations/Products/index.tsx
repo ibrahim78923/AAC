@@ -31,6 +31,9 @@ const Products = ({
     selectedProduct,
     productLoading,
     deleteProductHandler,
+    handleQuantityChange,
+    getDealsAssociateProducts,
+    // loadingProducts,
   } = useProducts(dealId);
 
   return (
@@ -97,8 +100,10 @@ const Products = ({
               setOpenDrawer,
               setIsOpenAlert,
               setSelectedProduct,
+              handleQuantityChange,
             })}
-            data={productsData}
+            // data={productsData}
+            data={getDealsAssociateProducts?.data}
           />
         </Grid>
       </Grid>

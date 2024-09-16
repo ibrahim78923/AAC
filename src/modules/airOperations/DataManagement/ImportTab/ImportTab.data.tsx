@@ -1,64 +1,10 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import { ImportTabColumnsI } from './ImportTab.interface';
 import { generateImage } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 
-export const importTabColumnsFunction: ImportTabColumnsI = (
-  exportList,
-  selectedExportList,
-  setSelectedExportList,
-) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          !!selectedExportList?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
-        }
-        onChange={(e: any) => {
-          e?.target.checked
-            ? setSelectedExportList([
-                ...selectedExportList,
-                exportList?.find((item: any) => item?._id === info?.getValue()),
-              ])
-            : setSelectedExportList(
-                selectedExportList?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
-        }}
-        color="primary"
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          selectedExportList?.length
-            ? selectedExportList?.length === exportList?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedExportList([...exportList])
-            : setSelectedExportList([]);
-        }}
-        color="primary"
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+export const importTabColumns = [
   {
     accessorFn: (row: any) => row?.user,
     id: 'user',

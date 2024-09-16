@@ -1,4 +1,5 @@
 import { ARRAY_INDEX, PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
   [PURCHASE_ORDER_REPORT_STATUS?.ALL]: 'allPurchaseOrder',
@@ -116,7 +117,7 @@ export const purchaseOrderReportsTableColumns = [
     accessorFn: (row: any) => row?.orderName,
     id: 'orderName',
     header: 'Order Name',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.vendorDetails?.name,

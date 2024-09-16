@@ -28,6 +28,7 @@ export const dataArray: DataArrayItem[] = [
     componentProps: {
       name: 'name',
       label: 'Product Category Name',
+      placeholder: 'Enter product name',
       fullWidth: true,
       required: true,
     },
@@ -38,6 +39,7 @@ export const dataArray: DataArrayItem[] = [
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter description...',
       fullWidth: true,
     },
     component: RHFEditor,

@@ -7,18 +7,28 @@ import { useTheme } from '@mui/material/styles';
 import 'react-quill/dist/quill.snow.css';
 import { indexNumbers } from '@/constants';
 
-const ReactQuill = dynamic(() => import('react-quill'), {
-  ssr: false,
-});
-
 export default function RHFImageEditor({
   name,
   required,
   disabled,
   style = {},
   modules: customModules = {},
+  quillRef = null,
   ...other
 }: any) {
+  const ReactQuill = dynamic(
+    async () => {
+      const { default: RQ } = await import('react-quill');
+      const DynamicReactQuill = (props: any) => (
+        <RQ ref={quillRef} {...props} />
+      );
+      DynamicReactQuill.displayName = 'ReactQuill';
+      return DynamicReactQuill;
+    },
+    {
+      ssr: false,
+    },
+  );
   const { control } = useFormContext();
   const theme: any = useTheme();
   const [isClient, setIsClient] = useState(false);

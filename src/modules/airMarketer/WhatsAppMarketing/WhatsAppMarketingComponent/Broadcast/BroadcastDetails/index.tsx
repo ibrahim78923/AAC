@@ -53,6 +53,7 @@ const BroadcastDetails = () => {
         <BroadcastDetailsTab
           broadcastDetails={smsBroadcastDetails}
           isLoading={smsDetailsLoading}
+          recordStatus={smsBroadcastDetails?.status}
         />
         <AnalyticsTab
           statisticsData={smsBroadcastDetails?.statisticsData}

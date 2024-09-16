@@ -13,6 +13,7 @@ import {
   createGroupValidationSchema,
 } from './CreateGroupModal/CreateGroupModal.data';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
 const useContactsGroup = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -22,6 +23,7 @@ const useContactsGroup = () => {
   // Get Contacts
   const filterParams = {
     meta: false,
+    numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER,
   };
   let searchPayLoad;
   if (searchValue) {

@@ -67,7 +67,10 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
               variant="outlined"
               color="inherit"
               className="small"
-              onClick={resetFilters}
+              onClick={() => {
+                resetFilters();
+                setSearchCompany('');
+              }}
             >
               <RefreshTasksIcon />
             </Button>

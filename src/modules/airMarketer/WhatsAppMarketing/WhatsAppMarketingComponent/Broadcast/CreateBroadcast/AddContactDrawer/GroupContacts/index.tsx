@@ -45,7 +45,6 @@ const GroupContacts = ({
         setPage={setPage}
         isPagination
       />
-      {/* <TanstackTable columns={groupsColumns} data={groupsData} /> */}
     </Box>
   );
 };

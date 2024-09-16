@@ -2,10 +2,8 @@ import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useFilterTickets } from './useFilterTickets';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 
-export const FilterTickets = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const FilterTickets = () => {
   const {
     ticketsFilterFormFieldsData,
     methods,
@@ -13,29 +11,27 @@ export const FilterTickets = (props: TicketActionComponentPropsI) => {
     submitTicketFilterForm,
     onClose,
     resetTicketFilterForm,
-  } = useFilterTickets(props);
+    isPortalOpen,
+  } = useFilterTickets();
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
-        onClose={() => onClose?.()}
+        onClose={onClose}
         okText={'Apply'}
         title={'Filter'}
-        submitHandler={() => handleSubmit(submitTicketFilterForm)()}
+        submitHandler={handleSubmit(submitTicketFilterForm)}
         isOk
         cancelText={'Reset'}
         footer
-        cancelBtnHandler={() => resetTicketFilterForm?.()}
+        cancelBtnHandler={resetTicketFilterForm}
       >
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(submitTicketFilterForm)}
-        >
+        <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {ticketsFilterFormFieldsData?.map((form: any) => {
               return (
-                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>
               );

@@ -1,5 +1,4 @@
-import { ROLES } from '@/constants/strings';
-import { useLazyGetAssignToAgentsQuery } from '@/services/airServices/workload';
+import { useLazyGetAllUsersInWorkloadQuery } from '@/services/airServices/workload';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -9,18 +8,19 @@ export default function useProfile({ setSelected }: any) {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [searchBy, setSearchBy] = useState('');
 
-  const [usersTrigger, usersStatus] = useLazyGetAssignToAgentsQuery();
-  const [usersExtraTrigger, usersExtraStatus] = useLazyGetAssignToAgentsQuery();
+  const [usersTrigger, usersStatus] = useLazyGetAllUsersInWorkloadQuery();
+  const [usersExtraTrigger, usersExtraStatus] =
+    useLazyGetAllUsersInWorkloadQuery();
 
   useEffect(() => {
     usersTrigger?.({
-      params: { search: '', role: ROLES?.ORG_EMPLOYEE },
+      params: { search: '', admin: true },
     });
   }, []);
 
   useEffect(() => {
     usersExtraTrigger?.({
-      params: { search: searchBy, role: ROLES?.ORG_EMPLOYEE },
+      params: { search: searchBy, admin: true },
     });
   }, [searchBy]);
 

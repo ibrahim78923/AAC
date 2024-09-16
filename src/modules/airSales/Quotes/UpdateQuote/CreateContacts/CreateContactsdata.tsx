@@ -1,71 +1,76 @@
+import * as Yup from 'yup';
 import {
   RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { CONTACT_TYPE } from '@/constants';
 import { ROLES } from '@/constants/strings';
-import * as Yup from 'yup';
 
-const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
-export const contactsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  phoneNumber: Yup.string()
-    .nullable()
-    .matches(phoneRegex, 'Phone number is not valid'),
-
-  whatsAppNumber: Yup.string()
-    .nullable()
-    .matches(phoneRegex, 'Phone number is not valid'),
+// Define your Yup validation schema
+export const contactsValidationSchema: any = Yup?.object()?.shape({
+  chooseContact: Yup?.string()?.when(
+    'contactType',
+    ([contact]: any, field: any) =>
+      contact !== CONTACT_TYPE?.NEW_CONTACT
+        ? field?.required('Field is required')
+        : field?.optional(),
+  ),
+  email: Yup.string().when('contactType', ([contact]: any, field: any) =>
+    contact === CONTACT_TYPE.NEW_CONTACT
+      ? field.required('Field is required')
+      : field.optional(),
+  ),
+  dateOfBirth: Yup?.date()
+    ?.nullable()
+    ?.when('contactType', ([contact]: any, field: any) =>
+      contact === CONTACT_TYPE?.NEW_CONTACT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
 });
 
+// Define your default values
 export const contactsDefaultValues = {
+  contactType: 'new-contact',
   email: '',
-  profilePicture: '',
-  firstName: '',
-  lastName: '',
-  address: '',
-  jobTitle: '',
-  phoneNumber: null,
-  whatsAppNumber: null,
-  lifeCycleStageId: '',
-  contactOwnerId: '',
-  statusId: '',
   dateOfBirth: null,
   dateOfJoining: null,
 };
+
 export const contactsDataArray = (contactDataArrayParasm: any) => {
   const { contactsStatus, lifeCycleStages, UserListData } =
     contactDataArrayParasm;
 
-  const maxDate = new Date();
   return [
     {
+      title: 'Email',
       componentProps: {
         name: 'email',
-        label: 'Email',
-        placeholder: 'Search or Enter Email',
+        label: 'Enter Email',
+        placeholder: 'Enter Email',
         required: true,
       },
       md: 12,
       component: RHFTextField,
     },
     {
+      title: 'Profile Pictures',
       componentProps: {
         name: 'profilePicture',
         label: 'Profile Picture',
-
         select: false,
       },
       md: 12,
       component: RHFDropZone,
     },
     {
+      title: 'First Name',
       componentProps: {
         name: 'firstName',
-        label: 'First Name',
+        label: 'Enter First Name',
         placeholder: 'Enter First Name',
-        require: true,
       },
       md: 12,
       component: RHFTextField,
@@ -74,7 +79,7 @@ export const contactsDataArray = (contactDataArrayParasm: any) => {
       title: 'Last Name',
       componentProps: {
         name: 'lastName',
-        label: 'Last Name',
+        label: ' Enter Last Name',
         placeholder: 'Enter Last Name',
         type: 'text',
       },
@@ -82,9 +87,10 @@ export const contactsDataArray = (contactDataArrayParasm: any) => {
       component: RHFTextField,
     },
     {
+      title: 'Address',
       componentProps: {
         name: 'address',
-        label: 'Address',
+        label: 'Enter Address',
         placeholder: 'Enter Address',
       },
       md: 12,
@@ -94,8 +100,9 @@ export const contactsDataArray = (contactDataArrayParasm: any) => {
       componentProps: {
         name: 'dateOfBirth',
         label: 'Date Of Birth',
+        placeholder: 'MM/DD/YYYY',
         fullWidth: true,
-        maxDate: maxDate,
+        required: true,
       },
       md: 12,
       component: RHFDatePicker,
@@ -105,16 +112,17 @@ export const contactsDataArray = (contactDataArrayParasm: any) => {
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        placeholder: 'Enter Phone Number',
+        placeholder: 'Enter Number',
       },
       md: 12,
       component: RHFTextField,
     },
     {
+      title: 'WhatsApp Number',
       componentProps: {
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
-        placeholder: 'Enter WhatsApp Number',
+        placeholder: 'Enter Number',
       },
       md: 12,
       component: RHFTextField,
@@ -143,26 +151,33 @@ export const contactsDataArray = (contactDataArrayParasm: any) => {
       component: RHFTextField,
     },
     {
+      id: 'lifeCycleStageId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'lifeCycleStageId',
         label: 'Lifecycle Stage',
-        placeholder: 'Select Stage',
+        placeholder: 'Select Lifecycle Stage',
         apiQuery: lifeCycleStages,
         getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      component: RHFAutocompleteAsync,
     },
     {
+      id: 'statusId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'statusId',
         label: 'Status',
         placeholder: 'Select Status',
         apiQuery: contactsStatus,
         getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      component: RHFAutocompleteAsync,
     },
     {
+      title: 'Date of Joining',
       componentProps: {
         name: 'dateOfJoining',
         label: 'Date of Joining',
@@ -177,9 +192,20 @@ export const contactsDataArray = (contactDataArrayParasm: any) => {
 export const drawerTitle: any = {
   Add: 'Add Contacts',
   Edit: 'Edit Contacts',
-  View: 'View Contacts',
+  view: 'View Contacts',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',
   Edit: 'Edit',
 };
+
+export const contactOptions = [
+  {
+    label: 'New Contact',
+    value: 'new-contact',
+  },
+  {
+    label: 'Existing Contact',
+    value: 'existing-contact',
+  },
+];

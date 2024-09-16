@@ -10,13 +10,16 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { useStopWatch } from './useStopWatch';
 
 const StopWatch = (props: any) => {
-  const { data, isTimerPause, time } = props;
+  const { data } = props;
+
   const {
     user,
     toggleTimerPlayPause,
     postTicketsTimeStatus,
     putTicketsTimeStatus,
     theme,
+    time,
+    isTimerPause,
   } = useStopWatch(props);
 
   return (
@@ -72,4 +75,5 @@ const StopWatch = (props: any) => {
     </>
   );
 };
+
 export default StopWatch;

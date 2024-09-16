@@ -37,6 +37,9 @@ import CommonModal from '@/components/CommonModal';
 
 const CompareEmails = () => {
   const router = useRouter();
+
+  const { id } = router.query;
+
   const [searchByCompareEmails, setSearchByCompareEmails] = useState();
   const [datePickerVal, setDatePickerVal] = useState(new Date());
   const [IsAddEmail, setIsAddEmail] = useState(false);
@@ -169,6 +172,11 @@ const CompareEmails = () => {
                       name={`emailCompare${slot?.uniqueName}`}
                       fullWidth
                       apiQuery={apiQueryUsers}
+                      externalParams={{
+                        ...(id && {
+                          folderId: id,
+                        }),
+                      }}
                       size="small"
                       placeholder="Select email"
                       getOptionLabel={(option: any) => option?.subject}

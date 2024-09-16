@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  ButtonGroup,
   Checkbox,
   Divider,
   Grid,
@@ -25,6 +26,9 @@ import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
+import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
+import { useUpdateAssociateProductMutation } from '@/services/airSales/deals/view-details/association';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -115,89 +119,201 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     );
     openCreateProduct();
   };
-  const lineItemsColumns: any = [
-    {
-      accessorFn: (row: any) => row?.name,
-      id: 'productName',
-      cell: (info: any) => info?.getValue(),
-      header: 'Product Name',
-      isSortable: true,
-    },
-    {
-      accessorFn: (row: any) => row?.unitPrice ?? 'N/A',
-      id: 'unitPrice',
-      isSortable: true,
-      header: 'Unit Price',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
-    },
-    {
-      accessorFn: (row: any) => row?.quantity ?? 'N/A',
-      id: 'quantity',
-      isSortable: true,
-      header: 'Quantity',
-      cell: (info: any) => <Box sx={styles?.cellChip}>{info?.getValue()}</Box>,
-    },
-    {
-      accessorFn: (row: any) => row?.unitDiscount ?? 'N/A',
-      id: 'unitDiscount',
-      isSortable: true,
-      header: 'Unit Discount',
-      cell: (info: any) => (
-        <Stack direction={'row'} gap="6px">
-          <Box sx={styles?.cellChip}>{info?.getValue()}</Box>
-          <Box sx={styles?.cellChip}>
-            {info?.row?.original.discount}{' '}
-            {info?.getValue() === '%' ? '%' : null}
-          </Box>
-        </Stack>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.unitPrice * row?.quantity ?? 'N/A',
-      id: 'totalPrice',
-      isSortable: true,
-      header: 'Total Price',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
-    },
-    {
-      accessorFn: (row: any) => row?.createdAt ?? 'N/A',
-      id: 'createdAt',
-      isSortable: true,
-      header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
-    },
-    {
-      accessorFn: ({ _id }: { _id: string }) => _id,
-      id: '_id',
-      header: 'Actions',
-      cell: ({ getValue }: any) => (
-        <Stack direction="row" gap="8px">
-          <Box
-            sx={styles?.actionBtn}
-            onClick={() => {
-              handleAction(getValue(), 'view');
-            }}
-          >
-            <ViewEyeIcon />
-          </Box>
-          <Box
-            sx={styles?.actionBtn}
-            onClick={() => {
-              handleAction(getValue(), 'edit');
-            }}
-          >
-            <EditYellowBgIcon />
-          </Box>
-          <Box
-            sx={styles?.actionBtn}
-            onClick={() => handleDeleteDeals(getValue())}
-          >
-            <TrashIcon />
-          </Box>
-        </Stack>
-      ),
-    },
-  ];
+
+  const [updateAssociateProduct] = useUpdateAssociateProductMutation();
+
+  const handleQuantityChange = async ({
+    productId,
+    quantity,
+    unitDiscount,
+  }: {
+    productId: number;
+    quantity?: number;
+    unitDiscount?: any;
+  }) => {
+    try {
+      await updateAssociateProduct({
+        id: productsData?.data?.dealId,
+        body: {
+          productId: productId,
+          quantity: quantity,
+          unitDiscount: unitDiscount,
+        },
+      })?.unwrap();
+      enqueueSnackbar('Product Quantity Updated Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const lineItemsColumns: any = () => {
+    // const [quantCount, setQuantCount] = useState(1);
+    // const [disCount, setDisCount] = useState(1);
+
+    return [
+      {
+        accessorFn: (row: any) => row?.name,
+        id: 'productName',
+        cell: (info: any) => info?.getValue(),
+        header: 'Product Name',
+        isSortable: true,
+      },
+      {
+        accessorFn: (row: any) => row?.unitPrice ?? 'N/A',
+        id: 'unitPrice',
+        isSortable: true,
+        header: 'Unit Price',
+        cell: (info: any) => <>£ {info?.getValue()}</>,
+      },
+      {
+        accessorFn: (row: any) => row?.quantity ?? 'N/A',
+        id: 'quantity',
+        isSortable: true,
+        header: 'Quantity',
+        cell: (info: any) => {
+          return (
+            <Box>
+              <ButtonGroup>
+                <Button
+                  className="small"
+                  color="inherit"
+                  variant="outlined"
+                  onClick={() => {
+                    handleQuantityChange({
+                      productId: info?.row?.original?._id,
+                      quantity: info?.getValue() - 1,
+                    });
+                  }}
+                >
+                  <RemoveCircleOutline />
+                </Button>
+                <Button
+                  className="small"
+                  color="inherit"
+                  variant="outlined"
+                  disabled
+                >
+                  {info?.row?.original?.quantity}
+                </Button>
+                <Button
+                  className="small"
+                  color="inherit"
+                  variant="outlined"
+                  onClick={() => {
+                    handleQuantityChange({
+                      productId: info?.row?.original?._id,
+                      quantity: info?.getValue() + 1,
+                    });
+                  }}
+                >
+                  <AddCircleOutline />
+                </Button>
+              </ButtonGroup>
+            </Box>
+          );
+        },
+      },
+      {
+        accessorFn: (row: any) => row?.unitDiscount ?? 'N/A',
+        id: 'unitDiscount',
+        isSortable: true,
+        header: 'Unit Discount',
+        cell: (info: any) => {
+          return (
+            <Box>
+              <ButtonGroup>
+                <Button
+                  className="small"
+                  color="inherit"
+                  variant="outlined"
+                  onClick={() => {
+                    handleQuantityChange({
+                      productId: info?.row?.original?._id,
+                      unitDiscount: info?.getValue() - 1,
+                    });
+                  }}
+                >
+                  <RemoveCircleOutline />
+                </Button>
+                <Button
+                  className="small"
+                  color="inherit"
+                  variant="outlined"
+                  disabled
+                >
+                  {info?.row?.original?.unitDiscount}
+                </Button>
+                <Button
+                  className="small"
+                  color="inherit"
+                  variant="outlined"
+                  onClick={() => {
+                    handleQuantityChange({
+                      productId: info?.row?.original?._id,
+                      unitDiscount: info?.getValue() + 1,
+                    });
+                  }}
+                >
+                  <AddCircleOutline />
+                </Button>
+              </ButtonGroup>
+            </Box>
+          );
+        },
+      },
+      {
+        accessorFn: (row: any) => row?.unitPrice * row?.quantity ?? 'N/A',
+        id: 'totalPrice',
+        isSortable: true,
+        header: 'Total Price',
+        cell: (info: any) => <>£ {info?.getValue()}</>,
+      },
+      {
+        accessorFn: (row: any) => row?.createdAt ?? 'N/A',
+        id: 'createdAt',
+        isSortable: true,
+        header: 'Created Date',
+        cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
+      },
+      {
+        accessorFn: ({ _id }: { _id: string }) => _id,
+        id: '_id',
+        header: 'Actions',
+        cell: ({ getValue }: any) => (
+          <Stack direction="row" gap="8px">
+            <Box
+              sx={styles?.actionBtn}
+              onClick={() => {
+                handleAction(getValue(), 'view');
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+            <Box
+              sx={styles?.actionBtn}
+              onClick={() => {
+                handleAction(getValue(), 'edit');
+              }}
+            >
+              <EditYellowBgIcon />
+            </Box>
+            <Box
+              sx={styles?.actionBtn}
+              onClick={() => handleDeleteDeals(getValue())}
+            >
+              <TrashIcon />
+            </Box>
+          </Stack>
+        ),
+      },
+    ];
+  };
+
   const discountsData = [
     { id: '1', label: 'Loyalty Discounts', value: '£ 20' },
     { id: '2', label: 'Voucher or gift card', value: '£ 10' },
@@ -243,7 +359,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
           </Box>
 
           <TanstackTable
-            columns={lineItemsColumns}
+            columns={lineItemsColumns()}
             data={productsData?.data?.products}
           />
         </Grid>

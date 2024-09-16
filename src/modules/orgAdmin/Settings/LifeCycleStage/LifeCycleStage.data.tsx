@@ -9,10 +9,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS } from '@/constants/permission-keys';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import {
-  DRAWER_ACTIONS_TITLES,
-  GENERIC_UPSERT_FORM_CONSTANT,
-} from '@/constants/strings';
+import { DRAWER_ACTIONS_TITLES } from '@/constants/strings';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
@@ -38,7 +35,8 @@ export const dataArray = (isModalHeading: string) => {
       componentProps: {
         name: 'name',
         label: 'Add stage name',
-        disabled: isModalHeading === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
+        disabled: isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW,
+        placeholder: 'Enter stage name',
         required: true,
       },
       component: RHFTextField,
@@ -48,8 +46,9 @@ export const dataArray = (isModalHeading: string) => {
       componentProps: {
         name: 'description',
         label: 'Description',
+        placeholder: 'Enter description...',
         required: true,
-        disabled: isModalHeading === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
+        disabled: isModalHeading === DRAWER_ACTIONS_TITLES?.VIEW,
       },
       component: RHFEditor,
       md: 12,
@@ -106,7 +105,7 @@ export const columns = (
               onClick={() => {
                 handleEditClick(info?.row?.original);
                 setIsDraweropen(true);
-                setIsModalHeading(GENERIC_UPSERT_FORM_CONSTANT?.VIEW);
+                setIsModalHeading(DRAWER_ACTIONS_TITLES?.VIEW);
               }}
             >
               <ViewEyeIcon />

@@ -88,14 +88,15 @@ export const inventoryColumns = [
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
     header: 'Name',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => truncateText(info?.getValue()?.locationName) ?? '---',
+    cell: (info: any) =>
+      truncateText(info?.row?.original?.locationDetails?.locationName),
   },
   {
     accessorFn: (row: any) => row?.userDetails,

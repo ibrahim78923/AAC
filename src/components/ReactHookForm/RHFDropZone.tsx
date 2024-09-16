@@ -30,12 +30,11 @@ export default function RHFDropZone({
   const {
     setValue,
     getValues,
+    watch,
     formState: { errors },
   }: any = useFormContext();
-
   const theme = useTheme();
   const inputRef: any = useRef(null);
-
   const [fileList, setFileList] = useState(getValues(name) || []);
 
   const onDrop = useCallback(
@@ -116,6 +115,19 @@ export default function RHFDropZone({
       setFileList(multiple ? currentFiles : [currentFiles]);
     }
   }, [getValues, name, multiple]);
+
+  useEffect(() => {
+    const dropzone = watch((value: any) => {
+      if (value[name] === null) {
+        setFileList([]);
+        if (inputRef?.current) {
+          inputRef.current.value = '';
+        }
+      }
+    });
+
+    return () => dropzone?.unsubscribe();
+  }, [watch, name]);
 
   return (
     <>

@@ -355,7 +355,6 @@ export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
   SCHEDULE_BROADCAST:
     'marketer-whatsapp-marketing-broadcast-schedule-broadcast',
   SEND_BROADCAST: 'marketer-whatsapp-marketing-broadcast-send-broadcast',
-  VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
   SEARCH_AND_FILTER: 'marketer-whatsapp-marketing-broadcast-search-and-filter',
   ACTIONS: 'marketer-whatsapp-marketing-broadcast-actions',
   EDIT_BROADCAST: 'marketer-whatsapp-marketing-broadcast-edit-broadcast',
@@ -375,6 +374,10 @@ export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
 
 export const AIR_MARKETER_WHATSAPP_MARKETING_CREATE_TEMPLATE_PERMISSIONS = {
   CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
+};
+
+export const AIR_MARKETER_WHATSAPP_MARKETING_VIEW_BROADCAST = {
+  VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
 };
 
 export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
@@ -1854,4 +1857,18 @@ export const AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS_PERMISSIONS = {
   VIEW_USER_DETAIL: 'loyalty-program-user-managment-view-user-detail',
   EDIT_USER: `loyalty-program-user-managment-edit-user`,
   DELETE_USER: `loyalty-program-user-managment-delete-user`,
+};
+
+export const AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS = {
+  SERVICE_CUSTOMER_ALLOW_SIGNUP_FROM_CS:
+    'service-customer-allow-signup-from-CS',
+  SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE:
+    'service-customer-submit-ticket-by-everyone',
+  SERVICE_CUSTOMER_VIEW_KB_TO_EVERYONE: 'service-customer-view-KB-to-everyone',
+  SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE:
+    'service-customer-suggest-articles-to-everyone',
+  SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE:
+    'service-customer-search-requester-agent-by-everyone',
+  SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER:
+    'service-customer-share-ticket-with-other-requester',
 };

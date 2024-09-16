@@ -8,6 +8,7 @@ const useCatalogService = () => {
   const router: NextRouter = useRouter();
   const theme: Theme = useTheme();
   const { serviceId, categoryId } = router?.query;
+  const companyId = router?.query?.companyId;
 
   const getServiceCatalogCategoriesDetailsParameter = {
     queryParam: {
@@ -39,6 +40,7 @@ const useCatalogService = () => {
     refetch,
     router,
     theme,
+    companyId,
   };
 };
 

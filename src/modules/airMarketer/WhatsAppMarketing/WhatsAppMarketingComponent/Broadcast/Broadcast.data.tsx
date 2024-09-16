@@ -14,11 +14,18 @@ import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { getProgressColor, statusTag } from '@/utils';
 import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const broadcastColumns: any = (columnsProps: any) => {
   const navigate = useRouter();
-  const { theme, data, checkedRows, setCheckedRows } = columnsProps;
-  const handleSelectBroadcastById = (checked: boolean, id: string): void => {
+  const { theme, data, checkedRows, setCheckedRows, setRecordStatus } =
+    columnsProps;
+  const handleSelectBroadcastById = (
+    checked: boolean,
+    id: string,
+    status: string,
+  ): void => {
+    setRecordStatus(status);
     if (checked) {
       setCheckedRows([...checkedRows, id]);
     } else {
@@ -37,7 +44,11 @@ export const broadcastColumns: any = (columnsProps: any) => {
         <Checkbox
           checked={checkedRows?.includes(original?._id)}
           onChange={({ target }) => {
-            handleSelectBroadcastById(target.checked, original?._id);
+            handleSelectBroadcastById(
+              target.checked,
+              original?._id,
+              original?.status,
+            );
           }}
         />
       ),
@@ -185,7 +196,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
                   <Avatar
                     key={recipient?._id}
                     alt="recipient_avatar"
-                    src={recipient?.profilePicture}
+                    src={generateImage(recipient?.profilePicture)}
                   />
                 );
               })}
@@ -222,7 +233,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
                   <Avatar
                     key={failed?._id}
                     alt="recipient_avatar"
-                    src={failed?.profilePicture}
+                    src={generateImage(failed?.profilePicture)}
                   />
                 );
               })}

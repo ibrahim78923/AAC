@@ -171,6 +171,7 @@ const CUSTOM_COLORS = {
   blush_pink: '#FFBDBD',
   pale_mint: '#D9F8E1',
   success_light: '#ECFFF1',
+  light_grey: '#5C5C5C',
 };
 const GRAPH = {
   cyan: 'blue',
@@ -189,7 +190,7 @@ const GRADIENTS = {
 };
 
 const COMMON = {
-  common: { black: '#000', white: '#fff' },
+  common: { black: '#000000', white: '#ffffff' },
   primary: { ...PRIMARY, contrastText: '#fff' },
   secondary: { ...SECONDARY, contrastText: '#fff' },
   success: { ...SUCCESS, contrastText: GREY[800] },

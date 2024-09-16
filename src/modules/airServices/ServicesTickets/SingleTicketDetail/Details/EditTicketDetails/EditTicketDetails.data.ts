@@ -8,10 +8,9 @@ import {
   AutocompleteAsyncOptionsI,
   AutocompleteOptionsI,
 } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
-import { ROLES, TICKET_TYPE } from '@/constants/strings';
+import { TICKET_TYPE } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -25,6 +24,9 @@ import {
 } from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
+import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
+import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -76,9 +78,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
           label: TICKET_TYPE_MAPPED?.[data?.ticketType] ?? data?.ticketType,
         }
       : null,
-    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
-      ? data?.agentDetails
-      : null,
+    agent: data?.agentDetails ?? null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
 
     plannedEndDate:
@@ -91,9 +91,6 @@ export const editTicketDetailsDefaultValuesDynamic = (
 };
 
 export const editTicketDetailsFormFieldsDynamic = (
-  apiQueryAgent: any,
-  apiQueryCategory: any,
-  apiQueryDepartment?: any,
   watchForTicketType?: any,
   apiQueryServicesCategory?: any,
   getValues?: any,
@@ -127,14 +124,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   },
   {
     id: 70,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      fullWidth: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Choose Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
   },
   {
     id: 3,
@@ -158,7 +148,6 @@ export const editTicketDetailsFormFieldsDynamic = (
       options: ticketTypeOptionsDynamic?.(data?.ticketType),
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
-
     component: RHFAutocomplete,
   },
   {
@@ -175,33 +164,11 @@ export const editTicketDetailsFormFieldsDynamic = (
   },
   {
     id: 6,
-    componentProps: {
-      name: 'agent',
-      label: 'Agent',
-      fullWidth: true,
-      apiQuery: apiQueryAgent,
-      placeholder: 'Choose Agent',
-      externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
   {
     id: 7,
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      fullWidth: true,
-      apiQuery: apiQueryCategory,
-      placeholder: 'Choose Category',
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
+    component: CategoryFieldDropdown,
   },
   ...(watchForTicketType?._id === TICKET_TYPE?.SR
     ? [

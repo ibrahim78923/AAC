@@ -69,10 +69,12 @@ export default function Products({ theme, dealProducts }: any) {
                   </Typography>
                 </Avatar>
                 <Typography variant={'body2'} fontWeight={500}>
-                  {item?.name} x{item?.quantity}
+                  {item?.name ?? '---'} x{item?.quantity ?? ''}
                 </Typography>
               </Box>
-              <Typography variant={'body2'}>£{item?.unitPrice}</Typography>
+              <Typography variant={'body2'}>
+                £{item?.unitPrice ?? '---'}
+              </Typography>
             </Box>
           ))
         )}

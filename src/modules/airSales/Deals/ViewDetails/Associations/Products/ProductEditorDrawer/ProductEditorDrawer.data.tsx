@@ -5,15 +5,52 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
+import { PRODUCTS_TYPE } from '@/constants';
 import * as Yup from 'yup';
+
 export const productsValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  purchasePrice: Yup?.number()?.required('Field is Required'),
-  unitPrice: Yup?.number()?.required('Field is Required'),
+  name: Yup?.string()?.when('productType', ([pro]: any, field: any) =>
+    pro === PRODUCTS_TYPE?.NEW_PRODUCT
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  purchasePrice: Yup?.string()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  unitPrice: Yup?.string()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  sku: Yup?.string()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  category: Yup?.object()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  chooseProduct: Yup?.string()?.when('productType', ([pro]: any, field: any) =>
+    pro !== PRODUCTS_TYPE?.NEW_PRODUCT
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
 });
 
 export const productsDefaultValues = {
+  productType: 'new-products',
   name: '',
   purchasePrice: null,
   unitPrice: null,
@@ -25,9 +62,7 @@ export const productsDefaultValues = {
   file: '',
 };
 
-export const productsDataArray = () => {
-  const productCategories = useLazyGetProductCategoriesQuery();
-
+export const productsDataArray = (productCategories: any) => {
   return [
     {
       componentProps: {
@@ -46,6 +81,7 @@ export const productsDataArray = () => {
         label: 'SKU',
         fullWidth: true,
         select: false,
+        required: true,
         placeholder: 'Enter here',
       },
       component: RHFTextField,
@@ -69,6 +105,7 @@ export const productsDataArray = () => {
         name: 'category',
         label: 'Category',
         apiQuery: productCategories,
+        required: true,
         getOptionLabel: (option: any) => `${option?.name}`,
       },
       component: RHFAutocompleteAsync,
@@ -136,3 +173,14 @@ export const drawerButtonTitle: any = {
   Add: 'Add',
   Edit: 'Edit',
 };
+
+export const productRadioOptions = [
+  {
+    label: 'New Products',
+    value: 'new-products',
+  },
+  {
+    label: 'Existing Products',
+    value: 'existing-products',
+  },
+];

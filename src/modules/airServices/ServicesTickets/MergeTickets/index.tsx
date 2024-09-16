@@ -13,13 +13,11 @@ import {
 import { useMergedTickets } from './useMergeTickets';
 import { fullName } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const MergeTickets = (props: TicketActionComponentPropsI) => {
+export const MergeTickets = () => {
   const theme = useTheme();
-  const { isPortalOpen, singleTicketDetail } = props;
   const {
     mergedTicketsFormMethod,
     closeMergedTicketsModal,
@@ -27,7 +25,9 @@ export const MergeTickets = (props: TicketActionComponentPropsI) => {
     submitMergedTicketsForm,
     mergeTicketsFormFields,
     postMergeTicketsStatus,
-  }: any = useMergedTickets(props);
+    isPortalOpen,
+    singleTicketDetail,
+  }: any = useMergedTickets();
 
   return (
     <Dialog

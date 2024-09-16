@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import {
   useGetEnquiriesQuery,
   usePatchEnquiriesMutation,
@@ -9,10 +9,11 @@ import {
   getEnquiriesColumns,
 } from './Enquiries.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
+
 import { IEnquiry, IInfo, IModalState } from './Enquiries.interface';
-import { ARRAY_INDEX } from '@/constants/strings';
+
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { getActiveAccountSession } from '@/utils';
 
 export default function useEnquiries() {
   const [enquiriesSelected, setEnquiriesSelected] = useState<IEnquiry[]>([]);
@@ -36,9 +37,8 @@ export default function useEnquiries() {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const auth: any = useAuth();
-  const { _id: companyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyAccountId = product?.company?._id;
 
   const params = {
     page: page,

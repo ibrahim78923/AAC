@@ -21,6 +21,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { setActiveConversation } from '@/redux/slices/chat/slice';
 import { LoadingButton } from '@mui/lab';
+import { getSession } from '@/utils';
 
 const Members = () => {
   const dispatch = useDispatch();
@@ -75,6 +76,8 @@ const Members = () => {
     ? activeConversation?.participants
     : activeConversation?.participants?.slice(0, 3);
 
+  const { user }: any = getSession();
+
   return (
     <>
       <Box sx={{ position: 'relative' }}>
@@ -118,19 +121,25 @@ const Members = () => {
                         <CircularProgress size={20} />
                       </>
                     ) : (
-                      <Typography
-                        variant="body3"
-                        sx={{
-                          color: theme?.palette?.error?.main,
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => {
-                          updateChatHandler(item?._id);
-                          setActiveUserId(item?._id);
-                        }}
-                      >
-                        Remove
-                      </Typography>
+                      <>
+                        {activeConversation?.groupAdmins.includes(
+                          user?._id,
+                        ) && (
+                          <Typography
+                            variant="body3"
+                            sx={{
+                              color: theme?.palette?.error?.main,
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => {
+                              updateChatHandler(item?._id);
+                              setActiveUserId(item?._id);
+                            }}
+                          >
+                            Remove
+                          </Typography>
+                        )}
+                      </>
                     )}
                   </>
                 )}

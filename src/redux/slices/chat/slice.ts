@@ -77,7 +77,13 @@ const chatSlice = createSlice({
 
     setNewOrFetchedChatMessages(state, action) {
       if (Array.isArray(action?.payload)) {
-        state.chatMessages = [...state.chatMessages, ...action.payload];
+        const existingMessageIds = new Set(
+          state?.chatMessages?.map((msg: any) => msg?._id),
+        );
+        const newMessages = action.payload.filter(
+          (msg) => !existingMessageIds.has(msg?._id),
+        );
+        state.chatMessages = [...state.chatMessages, ...newMessages];
       }
     },
 
@@ -91,7 +97,6 @@ const chatSlice = createSlice({
         if (existingContactsIndex === -1) {
           state.chatContacts.push(action?.payload);
         } else {
-          state.chatContacts[existingContactsIndex] = action?.payload;
         }
       }
     },

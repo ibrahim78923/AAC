@@ -35,6 +35,8 @@ const useSendEmailDrawer = ({
 }: any) => {
   const theme = useTheme();
 
+  const [isReplaceTemplate, setIsReplaceTemplate] = useState(false);
+
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
@@ -68,7 +70,12 @@ const useSendEmailDrawer = ({
     'sentDate',
     'subject',
     'attachments',
+    'template',
+    'description',
   ]);
+
+  const templateMessage = watchEmailsForm[6]?.html ?? '';
+  const description = watchEmailsForm[7];
 
   useEffect(() => {
     setValue('to', autocompleteValues);
@@ -101,7 +108,11 @@ const useSendEmailDrawer = ({
       drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL;
 
     if (isReplyOrReplyAll) {
-      setAutocompleteValues([currentEmailAssets?.from ?? '']);
+      if (typeof currentEmailAssets?.from === 'string') {
+        setAutocompleteValues([currentEmailAssets?.from ?? '']);
+      } else {
+        setAutocompleteValues(currentEmailAssets?.from ?? []);
+      }
       setAutocompleteCCValues(currentEmailAssets?.others?.cc || []);
       setAutocompleteBCCValues(currentEmailAssets?.others?.bcc ?? []);
 
@@ -135,6 +146,21 @@ const useSendEmailDrawer = ({
     }
   }, [drawerType]);
 
+  useEffect(() => {
+    if (description?.length > 1) {
+      setIsReplaceTemplate(true);
+    } else {
+      handleUseTemplate();
+    }
+  }, [templateMessage]);
+
+  const handleUseTemplate = () => {
+    if (templateMessage) {
+      setValue('description', templateMessage);
+      setIsReplaceTemplate(false);
+    }
+  };
+
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendEmailOutlookMutation();
   const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
@@ -157,15 +183,18 @@ const useSendEmailDrawer = ({
     ) {
       if (isToExists?.length > 0 && isSubjectExists?.length > 0) {
         setIsProcessDraft(true);
+        setIsSendLater(false);
       } else {
         reset();
         setOpenDrawer(false);
         setAutocompleteValues([]);
+        setIsSendLater(false);
       }
     } else {
       reset();
       setOpenDrawer(false);
       setAutocompleteValues([]);
+      setIsSendLater(false);
     }
   };
 
@@ -272,11 +301,17 @@ const useSendEmailDrawer = ({
           formDataSend.append(
             'content',
             `<div 
-            style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
-            font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+            style="font-family:${
+              emailSettingsData?.data?.emailSettings?.fontName ?? 'sans-serif'
+            }; 
+            font-size:${
+              emailSettingsData?.data?.emailSettings?.fontSize ?? '14'
+            }px ">
             ${values?.description} 
             <br> 
-            <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+            <div style="font-size:16px;" >${
+              emailSettingsData?.data?.emailSettings?.signature ?? ''
+            }</div> 
             </div>` || '<p></p>',
           );
 
@@ -448,6 +483,10 @@ const useSendEmailDrawer = ({
 
     setToStateDep,
     toStateDep,
+
+    setIsReplaceTemplate,
+    isReplaceTemplate,
+    handleUseTemplate,
   };
 };
 export default useSendEmailDrawer;

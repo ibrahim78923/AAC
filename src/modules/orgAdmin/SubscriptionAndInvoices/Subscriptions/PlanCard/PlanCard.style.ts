@@ -29,6 +29,7 @@ export const styles = {
   },
   planTitle: {
     textAlign: 'center',
+    textTransform: 'capitalize',
     fontWeight: '600',
     color: 'slateBlue.main',
     mt: '4px',

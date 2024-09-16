@@ -5,7 +5,11 @@ import { AlertModalDeleteIcon } from '@/assets/icons';
 import useSMSBroadcastDetails from '../../useSMSBroadcastDetails';
 import { SMSDetailsTableProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
 
-const SMSDetailsTable = ({ recipientsData, loading }: SMSDetailsTableProps) => {
+const SMSDetailsTable = ({
+  recipientsData,
+  loading,
+  recordStatus,
+}: SMSDetailsTableProps) => {
   const {
     openModalDelete,
     handleCloseDelete,
@@ -16,7 +20,7 @@ const SMSDetailsTable = ({ recipientsData, loading }: SMSDetailsTableProps) => {
   return (
     <>
       <TanstackTable
-        columns={smsDetailsColumns(setOpenModalDelete)}
+        columns={smsDetailsColumns(setOpenModalDelete, recordStatus)}
         data={recipientsData}
         isLoading={loading}
       />

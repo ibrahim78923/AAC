@@ -1,8 +1,6 @@
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
-import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
+import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFieldDropdown';
+import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 
 export const moveTicketsValidationSchema = Yup?.object()?.shape({
   department: Yup?.mixed()?.nullable()?.required('Department is Required'),
@@ -14,38 +12,13 @@ export const moveTicketsDefaultValue = {
   agent: null,
 };
 
-export const moveTicketsFormFieldsDynamic = (
-  apiQueryDepartment: any,
-  apiQueryAgent: any,
-) => [
+export const moveTicketsFormFieldsDynamic = () => [
   {
     id: 1,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      fullWidth: true,
-      required: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Choose Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
   },
   {
     id: 2,
-    componentProps: {
-      name: 'agent',
-      label: 'Agent',
-      fullWidth: true,
-      apiQuery: apiQueryAgent,
-      required: true,
-      placeholder: 'Choose Agent',
-      externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
 ];

@@ -297,10 +297,11 @@ const PlanFeatures = ({ methods, handleSubmit, editPlan }: any) => {
                 )?.label}
               {productList &&
                 type === 'edit' &&
-                productsOptions?.find(
-                  (obj: any) =>
-                    obj?.value ===
-                    planManagement?.addPlanForm?.productId[ARRAY_INDEX?.ZERO],
+                productsOptions?.find((obj: any) =>
+                  obj?.value ===
+                  Array.isArray(planManagement?.addPlanForm?.productId)
+                    ? planManagement?.addPlanForm?.productId[ARRAY_INDEX?.ZERO]
+                    : undefined,
                 )?.label}
             </Typography>
           </AccordionSummary>

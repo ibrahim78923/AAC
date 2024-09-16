@@ -26,6 +26,7 @@ const useSMSBroadcast = () => {
     toDate: '',
     fromDate: '',
   });
+  const [recordStatus, setRecordStatus] = useState<any>(null);
   const navigate = useRouter();
 
   const startedDate = 0;
@@ -127,6 +128,8 @@ const useSMSBroadcast = () => {
     deleteBroadcastLoading,
     startedDate,
     endedDate,
+    recordStatus,
+    setRecordStatus,
   };
 };
 

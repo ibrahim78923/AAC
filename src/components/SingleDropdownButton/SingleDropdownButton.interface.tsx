@@ -9,7 +9,7 @@ export interface SingleDropdownButtonPropsI {
   [key: string]: any;
 }
 
-export type SingleDropdownButtonCloseMenuI = () => void;
+export type SingleDropdownButtonCloseMenuI = (e?: any) => void;
 
 export interface SingleDropdownOptionI {
   permissionKey: string[];

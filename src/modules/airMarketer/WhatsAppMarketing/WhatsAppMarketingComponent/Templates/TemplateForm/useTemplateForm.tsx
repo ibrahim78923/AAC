@@ -154,9 +154,8 @@ const useTemplateForm = () => {
 
   const submitUpdateTemplate = async (data: any) => {
     const formData = new FormData();
-    formData.append('language', 'English');
-    Object.keys(data).forEach((key) => {
-      formData.append(key, JSON?.stringify(data[key]));
+    Object?.keys(data)?.forEach((key) => {
+      formData?.append(key, JSON?.stringify(data[key]));
     });
 
     const updateWhatsappTemplateParameter = {

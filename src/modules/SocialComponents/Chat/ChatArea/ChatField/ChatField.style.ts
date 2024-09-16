@@ -91,7 +91,7 @@ export const styles = {
       justifyContent: 'center',
     };
   },
-  sendReaction: (theme: any) => {
+  sendReaction: (theme: any, role: any) => {
     return {
       background: theme?.palette?.common?.white,
       boxShadow: '01px 4px 4px 0px rgb(194 194 194 / 16%)',
@@ -99,7 +99,7 @@ export const styles = {
       height: '50px',
       position: 'absolute',
       bottom: '-50px',
-      left: '0px',
+      ...(role === 'sender' ? { right: '-20px' } : { left: '-20px' }),
       borderRadius: '8px',
       border: `1px solid ${theme?.palette?.grey[400]}`,
       display: 'flex',

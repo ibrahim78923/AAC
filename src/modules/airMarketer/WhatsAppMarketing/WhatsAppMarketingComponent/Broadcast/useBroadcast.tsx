@@ -27,6 +27,7 @@ const useBroadcast = () => {
     toDate: '',
     fromDate: '',
   });
+  const [recordStatus, setRecordStatus] = useState<any>(null);
   const actionsMenuOpen = Boolean(actionsEl);
 
   const startedDate = 0;
@@ -112,6 +113,7 @@ const useBroadcast = () => {
     handleOpenDelete,
     actionsMenuOpen,
     openModalDelete,
+    setRecordStatus,
     setFilterValues,
     broadcastsData,
     setCheckedRows,
@@ -121,6 +123,7 @@ const useBroadcast = () => {
     selectedValue,
     setPageLimit,
     checkedRows,
+    recordStatus,
     startedDate,
     actionsEl,
     endedDate,

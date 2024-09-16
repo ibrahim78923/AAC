@@ -237,7 +237,12 @@ const SendEmailDrawer = (props: any) => {
               </Grid>
               {watchEmailsForm[0] && (
                 <Grid item xs={12}>
-                  <RHFTextField name="cc" label="CC" size="small" />
+                  <RHFTextField
+                    name="cc"
+                    label="CC"
+                    size="small"
+                    disabled={currentGmailAssets?.others?.Cc}
+                  />
                 </Grid>
               )}
               {watchEmailsForm[1] && (
@@ -418,40 +423,42 @@ const SendEmailDrawer = (props: any) => {
               </Box>
             )}
           </FormProvider>
-          <Box mt={2}>
-            <Box
-              sx={{
-                borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
-                padding: '5px 0px 5px 20px',
-              }}
-            >
-              <Box>
-                <Typography variant="body3">
-                  <strong>From :</strong> {currentGmailAssets?.others?.from}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>Sent :</strong>{' '}
-                  {dayjs(currentGmailAssets?.others?.sent).format(
-                    DATE_TIME_FORMAT?.MMMDDYYYY,
-                  )}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>To :</strong>
-                  {currentGmailAssets?.others?.to}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>Subject:</strong>{' '}
-                  {currentGmailAssets?.others?.subject}
-                </Typography>
+          {drawerType != CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+            <Box mt={2}>
+              <Box
+                sx={{
+                  borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                  padding: '5px 0px 5px 20px',
+                }}
+              >
+                <Box>
+                  <Typography variant="body3">
+                    <strong>From :</strong> {currentGmailAssets?.others?.from}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>Sent :</strong>{' '}
+                    {dayjs(currentGmailAssets?.others?.sent).format(
+                      DATE_TIME_FORMAT?.MMMDDYYYY,
+                    )}
+                  </Typography>
+                </Box>
+                {/* <Box>
+                  <Typography variant="body3">
+                    <strong>To :</strong>
+                    {currentGmailAssets?.others?.to}
+                  </Typography>
+                </Box> */}
+                <Box>
+                  <Typography variant="body3">
+                    <strong>Subject:</strong>{' '}
+                    {currentGmailAssets?.others?.subject}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          )}
         </Box>
       </CommonDrawer>
     </div>

@@ -1,15 +1,13 @@
-import { Box, Chip, Typography, Popover, Avatar } from '@mui/material';
+import { Box, Chip, Typography, Avatar } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import { AlertModals } from '@/components/AlertModals';
 import {
   STATUSES,
   ticketInfoCardAppearanceColor,
   ticketInfoCardPriorityColor,
 } from './TicketInfoCard.data';
 import { AIR_SERVICES } from '@/constants';
-import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists.data';
 import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
@@ -23,39 +21,20 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
-export const TicketInfoCard = ({
-  details,
-  setTicketAction,
-  setSelectedTicketList,
-  totalRecords,
-  setPage,
-  getValueTicketsListData,
-  page,
-}: any) => {
+export const TicketInfoCard = (props: any) => {
+  const { details } = props;
+
   const {
-    openDeleteModal,
-    setOpenDeleteModal,
-    open,
-    anchorEl,
-    setAnchorEl,
-    id,
     theme,
     router,
     openMessage,
     resolvedMessage,
     pendingMessage,
     closedMessage,
-    setDeleteId,
-    handleSubmitDelete,
-    deleteTicketsStatus,
-  } = useTicketInfoCard({
-    details,
-    setPage,
-    totalRecords,
-    getValueTicketsListData,
-    page,
-  });
+    singleTicketBoardViewDropdownOptions,
+  } = useTicketInfoCard(props);
 
   return (
     <>
@@ -93,7 +72,7 @@ export const TicketInfoCard = ({
               )}
             >
               <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
-                {details?.departmentsDetails?.name?.slice(0, 2) ?? '-'}
+                {details?.departmentsDetails?.name?.slice?.(0, 2) ?? '-'}
               </Typography>
             </Avatar>
             <Typography
@@ -124,12 +103,13 @@ export const TicketInfoCard = ({
                 AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
               ]}
             >
-              <MoreVertIcon
-                onClick={(event: any) => {
-                  event.stopPropagation();
-                  setAnchorEl(event?.currentTarget);
-                }}
-                sx={{ cursor: 'pointer' }}
+              <SingleDropdownButton
+                dropdownOptions={singleTicketBoardViewDropdownOptions?.(
+                  details,
+                )}
+                dropdownName={<MoreVertIcon />}
+                hasEndIcon={false}
+                btnVariant="text"
               />
             </PermissionsGuard>
           </Box>
@@ -221,88 +201,13 @@ export const TicketInfoCard = ({
           >
             <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
               {fullNameInitial(
-                details?.requesterDetails?.firstName?.[0],
-                details?.requesterDetails?.lastName?.[0],
+                details?.requesterDetails?.firstName,
+                details?.requesterDetails?.lastName,
               )}
             </Typography>
           </Avatar>
         </Box>
       </Box>
-
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        sx={{
-          '& .MuiPopover-paper': { borderRadius: 3, width: '9rem' },
-        }}
-      >
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
-          ]}
-        >
-          <Typography
-            sx={{
-              px: 2,
-              py: 1,
-              cursor: 'pointer',
-              '&:hover': {
-                bgcolor: theme?.palette?.grey?.[700],
-              },
-            }}
-            onClick={() => {
-              setSelectedTicketList([details?._id]);
-              setTicketAction(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
-              setAnchorEl(null);
-            }}
-          >
-            Edit
-          </Typography>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS]}
-        >
-          <Typography
-            sx={{
-              px: 2,
-              py: 1,
-              cursor: 'pointer',
-              '&:hover': {
-                bgcolor: theme?.palette?.grey?.[700],
-              },
-            }}
-            onClick={() => {
-              setDeleteId([details?._id]);
-              setOpenDeleteModal(true);
-              setAnchorEl(null);
-            }}
-          >
-            Delete
-          </Typography>
-        </PermissionsGuard>
-      </Popover>
-
-      <AlertModals
-        message={'Are you sure you want to delete this ticket?'}
-        type={'delete'}
-        open={openDeleteModal}
-        handleClose={() => {
-          setOpenDeleteModal(false);
-        }}
-        handleSubmitBtn={handleSubmitDelete}
-        loading={deleteTicketsStatus?.isLoading}
-        disableCancelBtn={deleteTicketsStatus?.isLoading}
-      />
     </>
   );
 };

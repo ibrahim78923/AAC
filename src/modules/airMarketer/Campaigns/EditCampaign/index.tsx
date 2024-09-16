@@ -29,7 +29,7 @@ export default function EditCampaign({
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer?.isToggle}
-      onClose={() => onClose(false)}
+      onClose={() => onClose()}
       title={
         isOpenDrawer?.type !== DRAWER_TYPES?.CREATE
           ? 'Edit Campaign'

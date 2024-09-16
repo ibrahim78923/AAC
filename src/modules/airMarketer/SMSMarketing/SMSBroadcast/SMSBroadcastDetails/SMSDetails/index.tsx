@@ -17,9 +17,14 @@ import SkeletonComponent from '@/components/CardSkeletons';
 import useSMSBroadcastDetails from '../useSMSBroadcastDetails';
 import { SMSDetailsProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
 
-const SMSDetails = ({ detailsData, isLoading }: SMSDetailsProps) => {
+const SMSDetails = ({
+  detailsData,
+  isLoading,
+  recordStatus,
+}: SMSDetailsProps) => {
   const { theme, filters, setFilters, updatedRecords } =
     useSMSBroadcastDetails(detailsData);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -106,7 +111,11 @@ const SMSDetails = ({ detailsData, isLoading }: SMSDetailsProps) => {
             </Button>
           </Box>
         </Stack>
-        <SMSDetailsTable recipientsData={updatedRecords} loading={isLoading} />
+        <SMSDetailsTable
+          recipientsData={updatedRecords}
+          loading={isLoading}
+          recordStatus={recordStatus}
+        />
       </Grid>
     </Grid>
   );

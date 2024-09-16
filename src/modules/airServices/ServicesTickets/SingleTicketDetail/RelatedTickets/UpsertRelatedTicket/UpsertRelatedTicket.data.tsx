@@ -1,30 +1,24 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDesktopDateTimePicker,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import dayjs from 'dayjs';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
 } from '../../../ServicesTickets.data';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { Box, Typography } from '@mui/material';
-import { ROLES } from '@/constants/strings';
-import { NextRouter } from 'next/router';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { pxToRem } from '@/utils/getFontValue';
-import { PAGINATION } from '@/config';
+import { RequesterFieldDropdown } from '../../../ServiceTicketFormFields/RequesterFieldDropdown';
+import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
+import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
+import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
+import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldDropdown';
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Requester is Required'),
@@ -77,32 +71,11 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     attachFile: null,
   };
 };
-export const upsertTicketFormFieldsDynamic = (
-  apiQueryRequester?: any,
-  apiQueryDepartment?: any,
-  apiQueryAgent?: any,
-  apiQueryCategory?: any,
-  apiQueryAssociateAsset?: any,
-  router?: NextRouter,
-) => [
+
+export const upsertTicketFormFieldsDynamic = () => [
   {
     id: 1,
-    componentProps: {
-      name: 'requester',
-      label: 'Requester',
-      fullWidth: true,
-      required: true,
-      apiQuery: apiQueryRequester,
-      EndIcon: AddCircleIcon,
-      externalParams: { requester: true, admin: true },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-      endIconClick: () => {
-        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
-      },
-      placeholder: 'Add Requester',
-    },
-    component: RHFAutocompleteAsync,
+    component: RequesterFieldDropdown,
   },
   {
     id: 2,
@@ -127,16 +100,7 @@ export const upsertTicketFormFieldsDynamic = (
   },
   {
     id: 4,
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      fullWidth: true,
-      apiQuery: apiQueryCategory,
-      placeholder: 'Choose Category',
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
+    component: CategoryFieldDropdown,
   },
   {
     id: 5,
@@ -166,14 +130,7 @@ export const upsertTicketFormFieldsDynamic = (
   },
   {
     id: 7,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      fullWidth: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Choose Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
   },
   {
     id: 8,
@@ -201,20 +158,7 @@ export const upsertTicketFormFieldsDynamic = (
   },
   {
     id: 10,
-    componentProps: {
-      name: 'agent',
-      label: 'Agent',
-      fullWidth: true,
-      apiQuery: apiQueryAgent,
-      placeholder: 'Choose Agent',
-      externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
-      },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
   {
     id: 11,
@@ -254,45 +198,7 @@ export const upsertTicketFormFieldsDynamic = (
   },
   {
     id: 16,
-    componentProps: {
-      name: 'associatesAssets',
-      label: 'Associate Assets',
-      fullWidth: true,
-      multiple: true,
-      apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        option?.displayName,
-      renderOption: (option: any) => (
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          width={'100%'}
-        >
-          <Box>
-            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
-              {option?.displayName}
-            </Typography>
-            <Typography variant={'body4'} color={'grey.900'}>
-              {option?.assetType}
-            </Typography>
-          </Box>
-          <Typography variant={'body4'} color={'grey.900'}>
-            EOL:
-            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
-              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
-          </Typography>
-        </Box>
-      ),
-      placeholder: 'Choose Assets',
-      EndIcon: AddCircleIcon,
-      endIconSx: { color: 'primary.main' },
-      endIconClick: () => {
-        router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
-      },
-    },
-    component: RHFAutocompleteAsync,
+    component: AssetFieldDropdown,
   },
   {
     id: 17,

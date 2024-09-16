@@ -4,26 +4,29 @@ import { NextRouter, useRouter } from 'next/router';
 import { Theme, useTheme } from '@mui/material';
 import {
   useGetArticleByIdQuery,
-  useLazyGetFoldersDropdownQuery,
-  useLazyGetUsersDropdownListForArticlesApprovalsQuery,
   usePatchArticleMutation,
   usePostArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import {
-  defaultValues,
-  editArticleFieldsFunction,
+  upsertArticleDefaultValues,
+  upsertArticleFormFieldsDynamic,
   upsertArticleValidationSchema,
 } from './UpsertArticle.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
-import { ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertArticle: any = () => {
   const router: NextRouter = useRouter();
   const theme: Theme = useTheme();
   const { articleId } = router?.query;
+  const auth: any = useAuth();
+
+  const { _id: companyId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};
 
   const [postArticleTrigger, postArticleStatus] = usePostArticleMutation();
   const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
@@ -31,6 +34,7 @@ export const useUpsertArticle: any = () => {
   const getSingleArticleParameter = {
     pathParam: {
       articleId,
+      companyId,
     },
   };
 
@@ -40,20 +44,20 @@ export const useUpsertArticle: any = () => {
       skip: !!!articleId,
     });
 
-  const editArticleMethods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
+  const methods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
     UpsertArticlesFormFieldsI | any
   >({
-    defaultValues: defaultValues(),
+    defaultValues: upsertArticleDefaultValues(),
     resolver: yupResolver(upsertArticleValidationSchema),
   });
 
-  const { reset, handleSubmit } = editArticleMethods;
+  const { reset, handleSubmit } = methods;
 
   useEffect(() => {
-    reset(() => defaultValues(data?.data));
+    reset(() => upsertArticleDefaultValues(data?.data));
   }, [articleId, data, reset]);
 
-  const needApprovals = editArticleMethods?.watch('needsApproval');
+  const needApprovals = methods?.watch('needsApproval');
 
   const cancelBtnHandler = (type: string) => {
     if (type === '') {
@@ -76,18 +80,16 @@ export const useUpsertArticle: any = () => {
     !!data?.folder?._id && upsertArticle?.append('folder', data?.folder?._id);
     upsertArticle?.append('status', status);
     !!data?.tags?.length && upsertArticle?.append('tags', data?.tags);
-
     !!data?.keywords?.length &&
       upsertArticle?.append('keywords', data?.keywords);
-
     upsertArticle?.append('isApproval', data?.needsApproval);
-
     !!data?.approver?._id &&
       data?.needsApproval &&
       upsertArticle?.append('approver', data?.approver?._id);
     data?.needsApproval &&
       upsertArticle?.append('reviewDate', data?.reviewDate?.toISOString());
-    !!data?.attachments && upsertArticle?.append('fileUrl', data?.attachments);
+    !!data?.attachments &&
+      upsertArticle?.append('attachment', data?.attachments);
     const postArticleParameter = {
       body: upsertArticle,
     };
@@ -120,17 +122,10 @@ export const useUpsertArticle: any = () => {
     }
   };
 
-  const apiQueryFolder = useLazyGetFoldersDropdownQuery();
-  const apiQueryApprover =
-    useLazyGetUsersDropdownListForArticlesApprovalsQuery();
-  const newArticleFields = editArticleFieldsFunction?.(
-    needApprovals,
-    apiQueryFolder,
-    apiQueryApprover,
-  );
+  const newArticleFields = upsertArticleFormFieldsDynamic?.(needApprovals);
 
   return {
-    editArticleMethods,
+    methods,
     needApprovals,
     upsertArticleSubmit,
     theme,

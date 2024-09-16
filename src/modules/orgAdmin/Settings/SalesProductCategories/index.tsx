@@ -42,38 +42,6 @@ const SalesProductCategories = () => {
   } = useSalesProduct();
   return (
     <>
-      {isDraweropen && (
-        <CommonDrawer
-          isDrawerOpen={isDraweropen}
-          onClose={handleCloseDrawer}
-          title={isEditMode ? 'Edit Category' : 'Product Category'}
-          okText={isEditMode ? 'Update' : 'Add'}
-          footer={true}
-          isOk={true}
-          submitHandler={handleSubmit(onSubmit)}
-          isLoading={loadingAdd || loadingUpdate}
-        >
-          <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={ProductCategory}>
-              <Grid container spacing={4}>
-                {dataArray?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item.componentProps} size={'small'}>
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          </Box>
-        </CommonDrawer>
-      )}
-
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -178,6 +146,38 @@ const SalesProductCategories = () => {
           </PermissionsGuard>
         </Grid>
       </Box>
+
+      {isDraweropen && (
+        <CommonDrawer
+          isDrawerOpen={isDraweropen}
+          onClose={handleCloseDrawer}
+          title={isEditMode ? 'Edit Category' : 'Product Category'}
+          okText={isEditMode ? 'Update' : 'Add'}
+          footer={true}
+          isOk={true}
+          submitHandler={handleSubmit(onSubmit)}
+          isLoading={loadingAdd || loadingUpdate}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={ProductCategory}>
+              <Grid container spacing={2}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
     </>
   );
 };

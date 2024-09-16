@@ -1,25 +1,17 @@
 import { DATE_FORMAT } from '@/constants';
-import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { singleTicketBoardViewDropdownOptionsDynamic } from './TicketInfoCard.data';
+import {
+  setIsPortalOpen,
+  setSelectedTicketLists,
+} from '@/redux/slices/airServices/tickets/slice';
+import { useAppDispatch } from '@/redux/store';
 
-export default function useTicketInfoCard({
-  details,
-  setPage,
-  totalRecords,
-  getValueTicketsListData,
-  page,
-}: any) {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [deleteId, setDeleteId] = useState<any>(null);
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
+export const useTicketInfoCard = (props: any) => {
+  const { details } = props;
+  const dispatch = useAppDispatch();
   const theme: any = useTheme();
 
   const router = useRouter();
@@ -87,42 +79,31 @@ export default function useTicketInfoCard({
     'Closed:',
     'Closed:',
   );
-
-  const [deleteTicketsTrigger, deleteTicketsStatus] =
-    useDeleteTicketsMutation();
-
-  const handleSubmitDelete = async () => {
-    const deleteTicketsParameter = {
-      queryParams: `Ids=${deleteId}`,
-    };
-    try {
-      await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
-      successSnackbar('Ticket deleted successfully');
-      const newPage = totalRecords === 1 ? 1 : page;
-      setPage?.(newPage);
-      setOpenDeleteModal(false);
-      await getValueTicketsListData?.(newPage);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-      setOpenDeleteModal(false);
-    }
+  const setTicketAction = (
+    ticketActionQuery: string,
+    data: { [key: string]: any } = {},
+  ) => {
+    dispatch(
+      setIsPortalOpen<any>({
+        isOpen: true,
+        action: ticketActionQuery,
+        status: data?.status,
+      }),
+    );
+    dispatch(setSelectedTicketLists<any>([data]));
   };
+  const singleTicketBoardViewDropdownOptions = (detail: any) =>
+    singleTicketBoardViewDropdownOptionsDynamic?.(setTicketAction, detail);
 
   return {
-    openDeleteModal,
-    setOpenDeleteModal,
-    open,
-    anchorEl,
-    setAnchorEl,
-    id,
     theme,
     router,
     openMessage,
     resolvedMessage,
     pendingMessage,
     closedMessage,
-    setDeleteId,
-    handleSubmitDelete,
-    deleteTicketsStatus,
+    singleTicketBoardViewDropdownOptions,
   };
-}
+};
+
+export default useTicketInfoCard;

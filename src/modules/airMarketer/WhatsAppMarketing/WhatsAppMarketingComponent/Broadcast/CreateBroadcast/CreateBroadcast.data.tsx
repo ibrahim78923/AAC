@@ -15,20 +15,29 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { STATUS_CONTANTS } from '@/constants/strings';
 
-export const broadCastValidationSchema = (isSchedule: any, form: any) => {
+export const broadCastValidationSchema = (
+  isSchedule: any,
+  form: any,
+  status?: any,
+) => {
+  if (status === STATUS_CONTANTS?.DRAFT) {
+    return Yup.object().shape({});
+  }
+
   const formSchema: any = dynamicFormValidationSchema(form);
-  return Yup?.object()?.shape({
-    broadcastName: Yup?.string()?.required('Field is Required'),
-    campaignId: Yup?.object()?.required('Field is Required'),
-    templateId: Yup?.object()?.required('Field is Required'),
-    detail: Yup?.string()?.required('Field is Required'),
-    schedualDate: Yup?.date()
-      ?.nullable()
-      ?.when([], () =>
+  return Yup.object().shape({
+    name: Yup.string().required('Field is Required'),
+    campaignId: Yup.object().required('Field is Required'),
+    templateId: Yup.object().required('Field is Required'),
+    detail: Yup.string().required('Field is Required'),
+    schedualDate: Yup.date()
+      .nullable()
+      .when([], () =>
         isSchedule
-          ? Yup?.date()?.required('Field is Required')
-          : Yup?.date()?.nullable(),
+          ? Yup.date().required('Field is Required')
+          : Yup.date().nullable(),
       ),
     ...formSchema,
   });
@@ -37,7 +46,7 @@ export const broadCastValidationSchema = (isSchedule: any, form: any) => {
 export const broadcastDefaultValues = (data?: any, form?: any) => {
   const initialValues: any = dynamicFormInitialValue(data, form);
   return {
-    broadcastName: data?.name ?? '',
+    name: data?.name ?? '',
     campaignId: data?.campaignId ?? null,
     templateId: data?.templateId ?? null,
     recipients: data?.recipients ?? '',
@@ -56,7 +65,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       id: '01',
       componentProps: {
         label: 'Broadcast Name',
-        name: 'broadcastName',
+        name: 'name',
         fullWidth: true,
         placeholder: 'Enter Name',
         required: true,

@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
-
 import { useForm } from 'react-hook-form';
-
 import { Theme, useTheme } from '@mui/material';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { columns, LifeCycleStagevalidationSchema } from './LifeCycleStage.data';
 import {
   useDeleteSettingLifeCycleStageMutation,
@@ -23,8 +19,16 @@ import {
   dynamicFormInitialValue,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
+import { getAccountsData } from '@/utils';
+import { indexNumbers } from '@/constants';
 
 const useLifeCycleStage = () => {
+  const theme = useTheme<Theme>();
+  const accountsData = getAccountsData();
+  const activeCompAccount =
+    accountsData?.data[indexNumbers?.ZERO]?.accounts[indexNumbers?.ZERO]
+      ?.company?._id;
+
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -45,16 +49,17 @@ const useLifeCycleStage = () => {
     useGetSettingLifeCycleStageQuery({ params });
   const [updateSettingLifeCycleStage, { isLoading: lifeCycleStageLoading }] =
     useUpdateSettingLifeCycleStageMutation();
-  const theme = useTheme<Theme>();
 
   // Dynamic form
   const [form, setForm] = useState<any>([]);
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
+
   const getDynamicFormData = async () => {
     const params = {
       productType: DYNAMIC_FIELDS?.PT_ORG_ADMIN,
       moduleType: DYNAMIC_FIELDS?.MT_LIFE_CYCLE_STAGE,
+      companyId: activeCompAccount,
     };
     const getDynamicFieldsParameters = { params };
     try {
@@ -87,11 +92,13 @@ const useLifeCycleStage = () => {
       await deleteSettingLifeCycleStage(rowId).unwrap();
 
       enqueueSnackbar('Stage Deleted Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setIsOpenAlert(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      enqueueSnackbar('Something went wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -150,7 +157,7 @@ const useLifeCycleStage = () => {
         await postSettingLifeCycleStage({
           body: body,
         })?.unwrap();
-        enqueueSnackbar('Satge Added Successfully', {
+        enqueueSnackbar('Stage Added Successfully', {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         handleCloseDrawer();

@@ -152,11 +152,7 @@ export const agentsListsColumnsFunction = (
     id: 'email',
     header: 'Email',
     isSortable: true,
-    cell: (info: any) => (
-      <Typography variant="body2" textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
-      </Typography>
-    ),
+    Cell: (info: any) => <>{info?.getValue()}</>,
   },
   {
     accessorFn: (row: { departmentData: any }) => row?.departmentData?.name,

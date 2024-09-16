@@ -10,10 +10,12 @@ const Broadcast = () => {
     whatsAppBroadcastData,
     handleOpenDelete,
     setDatePickerVal,
+    setRecordStatus,
     setFilterValues,
     broadcastsData,
     setCheckedRows,
     datePickerVal,
+    recordStatus,
     resetFilters,
     filterValues,
     setPageLimit,
@@ -26,6 +28,7 @@ const Broadcast = () => {
     theme,
   } = useBroadcast();
   const columnsParams = {
+    setRecordStatus: setRecordStatus,
     setCheckedRows: setCheckedRows,
     checkedRows: checkedRows,
     data: broadcastsData,
@@ -45,6 +48,7 @@ const Broadcast = () => {
         startedDate={startedDate}
         endedDate={endedDate}
         resetFilters={resetFilters}
+        recordStatus={recordStatus}
       />
 
       <PermissionsGuard

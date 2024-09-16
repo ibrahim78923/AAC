@@ -9,14 +9,14 @@ import {
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertFolder } from './useUpsertFolder';
 import { LoadingButton } from '@mui/lab';
-import { upsertFolderFormFields } from './UpsertFolder.data';
+import {
+  SET_DRAWER_CONSTANTS,
+  upsertFolderFormFields,
+} from './UpsertFolder.data';
 import CloseIcon from '@mui/icons-material/Close';
-import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { ArticlesPortalComponentPropsI } from '../../Articles/Articles.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const UpsertFolder = () => {
   const {
     methods,
     handleSubmit,
@@ -24,12 +24,13 @@ export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
     postFolderStatus,
     closePortal,
     updateFolderForArticlesStatus,
-  } = useUpsertFolder(props);
+    isPortalOpen,
+  } = useUpsertFolder();
 
   return (
     <Dialog
-      open={isPortalOpen?.isUpsertFolder as boolean}
-      onClose={() => closePortal()}
+      open={isPortalOpen?.isOpen as boolean}
+      onClose={closePortal}
       maxWidth={'sm'}
       fullWidth
     >
@@ -43,14 +44,11 @@ export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
           mb={1.5}
         >
           <Typography variant="h4" color="slateBlue.main">
-            {isPortalOpen?.data?._id
-              ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
-              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}{' '}
-            Folder
+            {SET_DRAWER_CONSTANTS?.[isPortalOpen?.action]?.title}
           </Typography>
           <CloseIcon
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => closePortal?.()}
+            onClick={closePortal}
           />
         </Box>
       </DialogTitle>
@@ -70,7 +68,7 @@ export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
           type="button"
           variant="outlined"
           color="secondary"
-          onClick={() => closePortal?.()}
+          onClick={closePortal}
           disabled={
             postFolderStatus?.isLoading ||
             updateFolderForArticlesStatus?.isLoading
@@ -87,9 +85,7 @@ export const UpsertFolder = (props: ArticlesPortalComponentPropsI) => {
             updateFolderForArticlesStatus?.isLoading
           }
         >
-          {isPortalOpen?.data?._id
-            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-            : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
+          {SET_DRAWER_CONSTANTS?.[isPortalOpen?.action]?.buttonText}
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -58,7 +58,7 @@ export const DATE_TIME_FORMAT = {
 
 export const VALIDATION_CONSTANT = {
   PHONE_NUMBER: {
-    regex: /^\+44[0-9]{11}$/,
+    regex: /^\+44[0-9]{10}$/,
     message: 'Only UK phone number',
   },
 };
@@ -92,6 +92,7 @@ export const SUPER_ADMIN: any = {
 
 export const AIR_SERVICES = {
   DASHBOARD: `/air-services`,
+  SINGLE_DASHBOARD: `/air-services/dashboard`,
   TICKETS: `/air-services/tickets`,
   TICKETS_LIST: `/air-services/tickets/detail`,
   CHILD_TICKETS_DETAIL: `/air-services/tickets/child-detail`,
@@ -282,7 +283,7 @@ export const AUTH = {
 
 export const Quick_Links_Routes = {
   CALLING: '/social-components/calling',
-  DOCUMENT: '/social-components/my-documents',
+  DOCUMENT: '/social-components/documents',
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
@@ -330,6 +331,11 @@ export const QUICKLINKSROLES = {
 export const DOCUMENTS_ACTION_TYPES = {
   MOVE_FOLDER: 'move-folder',
   UPDATE_FOLDER: 'update-folder',
+};
+
+export const DOCUMENTS_TYPE = {
+  FOLDER: 'folder',
+  FILE: 'file',
 };
 
 export const fieldName = {
@@ -446,6 +452,17 @@ export const CREATE_DASHBOARD_KEYS = {
 export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',
   COMPANY: 'company',
+  EXT_COMPANY: 'existing-company',
+};
+
+export const CONTACT_TYPE = {
+  NEW_CONTACT: 'new-contact',
+  EXT_CONTACT: 'existing-contact',
+};
+
+export const PRODUCTS_TYPE = {
+  NEW_PRODUCT: 'new-products',
+  EXT_PRODUCT: 'existing-products',
 };
 
 export const Gmail_CONST = {
@@ -460,6 +477,7 @@ export const Gmail_CONST = {
   SENT: 'SENT',
   TRASH: 'TRASH',
   Cc: 'Cc',
+  cc: 'CC',
 };
 
 export const EMAIL_ENUMS = {
@@ -477,6 +495,7 @@ export const REPORTS_HEADER_TITLE = {
   CREATE_TEXT: 'Create Text',
   CREATE_COUNTER: 'Create Counter',
   CUSTOMIZE_REPORT: 'Customize Report',
+  CHOOSE_TEMPLATE: 'Choose Template',
 };
 
 export const ASSOCIATIONS_API_PARAMS_FOR = {

@@ -165,7 +165,7 @@ const AccountMenu = () => {
           <Box>
             {user?.role === ROLES?.ORG_ADMIN && (
               <>
-                {accountsData?.data?.length && (
+                {accountsData?.data?.length > 0 ? (
                   <Box
                     sx={{
                       px: 4,
@@ -183,6 +183,8 @@ const AccountMenu = () => {
                       Organization Admin portal
                     </Button>
                   </Box>
+                ) : (
+                  <Box sx={{ marginLeft: '20px' }}>No accounts found</Box>
                 )}
               </>
             )}

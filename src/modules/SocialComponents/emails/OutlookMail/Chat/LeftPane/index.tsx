@@ -77,7 +77,7 @@ const LeftPane = ({
     'Schedule',
     'Deleted Items',
   ];
-  const filteredData = foldersData?.data?.filter((item: any) => {
+  const filteredData = foldersData?.data?.folders?.filter((item: any) => {
     return dataToShow
       ?.map((name) => name?.toLowerCase())
       ?.includes(item?.displayName?.toLowerCase());
@@ -140,10 +140,18 @@ const LeftPane = ({
         limit: PAGINATION?.PAGE_LIMIT,
         ...(searchTerm && { search: searchTerm }),
         ...(isFiltersValues?.toDate && {
-          startDate: dayjs(isFiltersValues?.toDate)?.format(DATE_FORMAT?.API),
+          startDate: new Date(
+            `${dayjs(isFiltersValues?.toDate)?.format(
+              DATE_FORMAT?.API,
+            )}T00:00:01Z`,
+          ).toISOString(),
         }),
         ...(isFiltersValues?.fromDate && {
-          endDate: dayjs(isFiltersValues?.fromDate)?.format(DATE_FORMAT?.API),
+          endDate: new Date(
+            `${dayjs(isFiltersValues?.fromDate)?.format(
+              DATE_FORMAT?.API,
+            )}T23:59:59Z`,
+          ).toISOString(),
         }),
       },
       id: mailTabType?.id,
@@ -187,6 +195,9 @@ const LeftPane = ({
       dispatch(setBreakScrollOperation(false));
       setTrackRenders(1);
 
+      setDatePickerVal(new Date());
+      setIsFiltersValues({});
+
       await new Promise((resolve) => setTimeout(resolve, 0));
       refetch();
       setManualActionsTrack(manualActionsTrack + 1);
@@ -203,6 +214,12 @@ const LeftPane = ({
       dispatch(setBreakScrollOperation(false));
       setTrackRenders(1);
       refetch();
+    } else {
+      if (emailsByFolderIdData) {
+        if (searchTerm?.length === 0) {
+          handelRefresh();
+        }
+      }
     }
   }, [searchTerm]);
 

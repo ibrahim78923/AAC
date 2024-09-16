@@ -50,7 +50,9 @@ const useCreateBroadcast = () => {
   const [form, setForm] = useState<any>([]);
 
   const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =
-    useGetWhatsappBroadcatsByIdQuery(selectedBroadCast);
+    useGetWhatsappBroadcatsByIdQuery(selectedBroadCast, {
+      skip: !selectedBroadCast,
+    });
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -77,7 +79,9 @@ const useCreateBroadcast = () => {
   }, []);
 
   const methods: any = useForm({
-    resolver: yupResolver(broadCastValidationSchema(isSchedule, form)),
+    resolver: yupResolver(
+      broadCastValidationSchema(isSchedule, form, createStatus),
+    ),
     defaultValues: broadcastDefaultValues?.(),
   });
 
@@ -108,7 +112,7 @@ const useCreateBroadcast = () => {
 
   const templateDetailsVariables = processString(templateData?.detail);
   const variableValues = templateDetailsVariables?.map((variable) =>
-    watch(variable),
+    watch(`field_${variable}`),
   );
 
   useEffect(() => {
@@ -147,16 +151,18 @@ const useCreateBroadcast = () => {
         getWhatsappBroadcatsById?.data?.schedualDate ? true : false,
       );
       setRecipientType(
-        getWhatsappBroadcatsById?.data?.groupDetails?.length > 0
+        getWhatsappBroadcatsById?.data?.groupDetails?.length >
+          indexNumbers?.ZERO
           ? SMS_MARKETING_CONSTANTS?.GROUP
           : SMS_MARKETING_CONSTANTS?.ALL,
       );
       const selectedContactsData =
-        getWhatsappBroadcatsById?.data?.groupDetails?.length === 0
+        getWhatsappBroadcatsById?.data?.groupDetails?.length ===
+        indexNumbers?.ZERO
           ? getWhatsappBroadcatsById?.data?.recipients
           : getWhatsappBroadcatsById?.data?.groupDetails;
       setSelectedRec(
-        Array.isArray(selectedContactsData) ? selectedContactsData : [],
+        Array?.isArray(selectedContactsData) ? selectedContactsData : [],
       );
     }
   }, [getWhatsappBroadcatsById?.data, reset, form, type]);
@@ -166,17 +172,21 @@ const useCreateBroadcast = () => {
   const onSubmit = async (data: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
     const cleanedDetailsText = removeHtmlTags(detailsMsg);
+    templateDetailsVariables?.forEach((item) => {
+      delete data[`field_${item}`];
+    });
 
     const payloadData: any = {
-      name: data.broadcastName,
+      ...data,
       senderId: user?._id,
       campaignId: data?.campaignId?._id,
       templateId: data?.templateId?._id,
       templateSid: templateData?.sid,
       status: createStatus,
       detail: cleanedDetailsText,
-      variables: templateDetailsVariables,
+      variables: variableValues,
     };
+
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
       payloadData.contactGroupId = [];
       payloadData.recipients = selectedContactsData?.map(
@@ -187,7 +197,7 @@ const useCreateBroadcast = () => {
         ?.map(
           (item: any) => item?.contacts?.map((contact: any) => contact?._id),
         )
-        .flat();
+        ?.flat();
       payloadData.contactGroupId = selectedContactsData?.map(
         (item: any) => item?._id,
       );
@@ -249,9 +259,8 @@ const useCreateBroadcast = () => {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
       }
       delete body?.customFields;
-      delete body?.detail;
       Object.keys(body).forEach((key) => {
-        formData.append(key, JSON.stringify(body[key]));
+        formData.append(key, body[key]);
       });
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();

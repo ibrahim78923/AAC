@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
-import { DRAWER_TYPES } from '@/constants/strings';
+import { DRAWER_TITLE } from '@/constants';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -65,7 +65,7 @@ export const columns: any = ({
               onClick={() => {
                 setOpenDrawer({
                   isToggle: true,
-                  type: DRAWER_TYPES?.VIEW,
+                  type: DRAWER_TITLE?.VIEW,
                   data: info?.row?.original,
                 });
                 setTicketRecord(info?.row?.original);

@@ -21,8 +21,8 @@ export interface TanstackTablePropsI {
   currentPage?: number;
   totalRecords?: number;
   onPageChange?: (page: number) => void;
-  setPage?: Dispatch<SetStateAction<number>>;
-  setPageLimit?: Dispatch<SetStateAction<number>>;
+  setPage?: Dispatch<SetStateAction<number>> | any;
+  setPageLimit?: Dispatch<SetStateAction<number>> | any;
   rowsPerPageOptions?: [];
   paginationPaddingX?: number;
   noDataTableText?: string;
@@ -31,4 +31,6 @@ export interface TanstackTablePropsI {
   errorProps?: { [key: string]: any };
   rootSX?: any;
   showSerialNo?: boolean;
+  incrementPageClick?: any;
+  decrementPageClick?: any;
 }

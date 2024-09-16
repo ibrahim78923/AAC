@@ -10,24 +10,6 @@ export interface IDateHeaderContentData {
   date?: Date;
 }
 
-export interface IEventInfo {
-  event?: {
-    extendedProps?: {
-      status?: string;
-      taskNo?: string;
-      data?: {
-        title?: string;
-        ticketId?: string;
-      };
-      img?: {
-        src?: string;
-      };
-    };
-    start?: Date;
-    end?: Date;
-  };
-}
-
 export interface IFilter {
   countDayWise?: boolean | undefined;
   countDayWiseHours?: boolean | undefined;

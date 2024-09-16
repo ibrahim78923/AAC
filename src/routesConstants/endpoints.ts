@@ -19,6 +19,7 @@ export const END_POINTS = {
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
   USER_LIST_FOR_COMPANY_ACCOUNTS: '/users/company-account',
+  USER_LIST_FOR_COMPANY_EMPLOYEE: '/users/company-employees',
   ADD_USER: '/users',
   USER_AVATAR: 'avatar',
   ORG_ADMIN_EMP_LIST: '/users/organization',
@@ -54,7 +55,9 @@ export const END_POINTS = {
   AUTH_SEARCH_COMPANY: 'auth/search-company',
   AUTH_IG_VERIFICATION: 'auth/ig-verification',
   PRODUCTS: '/products',
+  PRODUCTS_LIST: '/dropdown/products',
   ORGANIZATIONS: '/organization/get-organizations',
+  ORGANIZATION_LIST: '/dropdown/organizations',
   VIEW_DEALS_NOTES: '/note',
   CONTACTS: '/contact',
   TEAMS_ALL_USER: '/dropdown/all-user-teams',
@@ -74,6 +77,8 @@ export const END_POINTS = {
   ENQUIRIES: '/enquiries',
   CREATE_ASSOCIATION: '/deals/create-association',
   DELETE_ASSOCIATION: '/deals/delete-association',
+  GET_DEAL_PRODUCTS: '/deals/get-products',
+  UPADTE_DEAL_PRODUCT: '/deals/edit-deal-products',
   ASSETS_INVENTORY: '/assets/inventory',
   INVENTORY_EXISTING_INCIDENT: '/assets/assets-associate-existing-tickets',
   DELETE_INVENTORY_ASSOCIATIONS_LIST: '/assets/delete-ticket-association',
@@ -439,6 +444,7 @@ export const END_POINTS = {
   MERGE_FEEDBACK_SECTION: '/feedback-survey/merge-section',
   CLONE_FEEDBACK_SECTION: '/feedback-survey/clone-survey-section',
   SET_SURVEY_DEFAULT: '/feedback-survey/set-servey-default',
+  CHANGE_SURVEY_STATUS: '/feedback-survey/change-survey-status',
   GET_ZOOM_AUTH: '/auth/zoom/authorize',
   GET_TIME_SLOTS: '/meeting-time-slots/get-time-slots',
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
@@ -503,6 +509,14 @@ export const END_POINTS = {
     '/air-services-dashboard/get-by-id-dashboard-annoucement',
   GET_SINGLE_FOLDER_DETAIL: '/articles/get-byId-folder',
   GET_SERVICES_SYSTEMATIC_REPORTS: `/systematic-reports/get-systematic-report`,
+  PATCH_CUSTOMER_PORTAL_PERMISSIONS:
+    '/org-company-account/update-customer-portal-permissions',
+  CUSTOMER_PORTAL_PUBLIC_PERMISSIONS: '/org-company-account/public',
+  ALL_USERS_CONTACTS: '/dropdown/all-company-users-and-contacts',
+  CUSTOMER_PORTAL_STYLINGS:
+    '/org-company-account/update-customer-portal-STYLING',
+  DROPDOWN_ORG_TEAMS: '/dropdown/organization-all-teams',
+  CUSTOMER_PORTAL_ASSET_DROPDOWN: '/dropdown/all-assets-customer-portal',
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -533,6 +547,12 @@ export const EMAILS_MARKETING = {
   DUPLICATE_EMAIL: '/emails-marketing/duplicate-email',
   MARKETING_USERS: '/quote/all/user',
   MARKETING_TEAMS: '/teams',
+};
+export const EMAILS_MARKETING_SETTINGS = {
+  EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities?status=VERIFIED',
+  CREATE_EMAIL_SETTINGS: '/emails-marketing/create-email-identities',
+  EMAIL_VERIFY_OTP_SETTINGS: '/emails-marketing/verify-email-identities',
+  UPDATE_EMAIL_IDENTITIES: '/emails-marketing/update-email-identities',
 };
 
 export const superAdminBillingInvoices = {
@@ -597,6 +617,9 @@ export const ORG_ADMIN = {
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
   SETTINGS_CONTACT_STATUS: '/contact-status',
   PRODUCT_DROPDOWN: '/dropdown/products',
+  PAYMENT_METHOD: '/payment-method',
+  DELETE_PAYMENT_METHOD: '/payment-method/delete',
+  PAYMENT_METHOD_ID: '/payment-method/find',
 };
 
 export const COMMON_DOCUMENTS = {
@@ -624,6 +647,7 @@ export const OPERATION = {
   CLONE_WORKFLOW: '/workflows/clone',
   TEST_WORKFLOW: '/workflows/test',
   GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
+  GET_EXPORT_DATA_MANAGEMENT: '/data-management/list-exported-file-logs',
   POST_GENERIC_REPORT: '/generic-reports',
   PATCH_GENERIC_REPORT: '/generic-reports/update-generic-report',
   GET_SINGLE_GENERIC_REPORT: '/generic-reports/get-generic-report-details',
@@ -672,6 +696,7 @@ export const SALES_DASHBOARD = {
     '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   DELETE_SALES_DASHBOARD: '/dynamic-dashboard/delete-dashboards',
   UPDATE_SALES_DASHBOARD: '/dynamic-dashboard/edit-dynamic-dashboard',
+  UPDATE_DEFAULT_SALES_DASHBOARD: '/dynamic-dashboard/edit-default-option',
 };
 
 export const AIR_MARKETER_EMAIL_FOLDER = {

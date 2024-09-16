@@ -63,9 +63,15 @@ export const useTimeSlotPreferences = () => {
 
   const onSubmit = async (data: any) => {
     const body = {
-      ...data,
       months: selectedMonths,
       dateOverrides: formattedOverrides,
+      daysTimeRanges: data?.daysTimeRanges?.map((day: any) => ({
+        days: day?.days,
+        timeRanges: day?.timeRanges?.map((range: any) => ({
+          startHour: dayjs(range?.startHour)?.format(TIME_FORMAT?.TH),
+          endHour: dayjs(range?.endHour)?.format(TIME_FORMAT?.TH),
+        })),
+      })),
       bufferTime: {
         bufferBefore: data?.bufferTime?.bufferBefore?.value,
         bufferAfter: data?.bufferTime?.bufferAfter?.value,
@@ -73,7 +79,7 @@ export const useTimeSlotPreferences = () => {
     };
     try {
       await postTimeSlotsTrigger({ body })?.unwrap();
-      successSnackbar('Added Weekly Hours Successfully');
+      successSnackbar('Added Time Preferences Successfully');
       setDisabled(true);
     } catch (err) {
       errorSnackbar();

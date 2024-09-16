@@ -62,12 +62,14 @@ export const TimeSlot = ({
                     <RHFTimePicker
                       name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.startHour`}
                       size="small"
+                      ampm={false}
                     />
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <RHFTimePicker
                       name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.endHour`}
                       size="small"
+                      ampm={false}
                     />
                   </Grid>
                   <Grid item md={3} xs={12}>

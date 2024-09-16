@@ -8,6 +8,8 @@ const TAG_TYPE = {
   DEALS_ATTACHMENTS: 'DEALS_ATTACHMENTS',
   ORGANIZATION: 'Organization',
   CONTACT_ASSOCIATION: 'CONTACT_ASSOCIATION',
+  QUOTES: 'AIR_SALES_QUOTES',
+  CONTACTS: 'CONTACTS',
 };
 
 export const associationAPI = baseAPI.injectEndpoints({
@@ -18,7 +20,12 @@ export const associationAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: [TAG_TYPE?.DEALS_ASSOCIATION, TAG_TYPE?.COMPANY],
+      invalidatesTags: [
+        TAG_TYPE?.DEALS_ASSOCIATION,
+        TAG_TYPE?.COMPANY,
+        TAG_TYPE?.CONTACTS,
+        TAG_TYPE?.QUOTES,
+      ],
     }),
 
     deleteAssociation: builder.mutation({
@@ -58,6 +65,23 @@ export const associationAPI = baseAPI.injectEndpoints({
         TAG_TYPE?.CONTACT_ASSOCIATION,
       ],
     }),
+
+    getAssociateProducts: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_DEAL_PRODUCTS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG_TYPE?.DEALS_ASSOCIATION],
+    }),
+
+    updateAssociateProduct: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.UPADTE_DEAL_PRODUCT}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: [TAG_TYPE?.DEALS_ASSOCIATION],
+    }),
   }),
 });
 
@@ -67,4 +91,6 @@ export const {
   usePostAttachmentsMutation,
   useLazyGetAttachmentsByIdQuery,
   useGetTicketsQuery,
+  useUpdateAssociateProductMutation,
+  useGetAssociateProductsQuery,
 } = associationAPI;

@@ -9,6 +9,7 @@ export const useRecentTickets = () => {
       refetchOnMountOrArgChange: true,
     });
 
+  const companyId = router?.query?.companyId;
   return {
     data,
     isLoading,
@@ -16,5 +17,6 @@ export const useRecentTickets = () => {
     isError,
     router,
     refetch,
+    companyId,
   };
 };

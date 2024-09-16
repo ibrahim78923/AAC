@@ -4,6 +4,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { indexNumbers } from '@/constants';
 import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
@@ -25,7 +26,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'name',
         label: 'Name',
-        placeholder: 'Enter Name',
+        placeholder: 'Enter name',
         fullWidth: true,
         required: true,
       },
@@ -37,8 +38,11 @@ export const dataArray = () => {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        placeholder: 'Select Campaign Status',
+        placeholder: 'Select campaign status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
+        getOptionLabel: (option: any) =>
+          option?.charAt(indexNumbers?.ZERO)?.toUpperCase() +
+          option?.slice(indexNumbers?.ONE),
       },
 
       component: RHFAutocomplete,

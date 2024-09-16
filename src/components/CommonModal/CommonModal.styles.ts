@@ -10,6 +10,7 @@ export const styles = {
       p: 2,
       borderRadius: '20px',
       maxHeight: '90vh',
+      overflow: 'hidden',
       '@media (max-width:1200px)': {
         width: '60vw',
       },

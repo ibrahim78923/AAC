@@ -5,15 +5,34 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { CONTACT_TYPE } from '@/constants';
 
 // Define your Yup validation schema
 export const contactsValidationSchema: any = Yup?.object()?.shape({
-  email: Yup?.string()?.required('Required Field'),
-  dateOfBirth: Yup?.date()?.required('Required Field'),
+  chooseContact: Yup?.string()?.when(
+    'contactType',
+    ([contact]: any, field: any) =>
+      contact !== CONTACT_TYPE?.NEW_CONTACT
+        ? field?.required('Field is required')
+        : field?.optional(),
+  ),
+  email: Yup.string().when('contactType', ([contact]: any, field: any) =>
+    contact === CONTACT_TYPE.NEW_CONTACT
+      ? field.required('Field is required')
+      : field.optional(),
+  ),
+  dateOfBirth: Yup?.date()
+    ?.nullable()
+    ?.when('contactType', ([contact]: any, field: any) =>
+      contact === CONTACT_TYPE?.NEW_CONTACT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
 });
 
 // Define your default values
 export const contactsDefaultValues = {
+  contactType: 'new-contact',
   email: '',
   dateOfBirth: null,
   dateOfJoining: null,
@@ -94,7 +113,6 @@ export const contactsDataArray = ({
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        type: 'number',
         placeholder: 'Enter Number',
       },
       md: 12,
@@ -105,7 +123,6 @@ export const contactsDataArray = ({
       componentProps: {
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
-        type: 'number',
         placeholder: 'Enter Number',
       },
       md: 12,
@@ -182,3 +199,14 @@ export const drawerButtonTitle: any = {
   Add: 'Add',
   Edit: 'Edit',
 };
+
+export const contactOptions = [
+  {
+    label: 'New Contact',
+    value: 'new-contact',
+  },
+  {
+    label: 'Existing Contact',
+    value: 'existing-contact',
+  },
+];

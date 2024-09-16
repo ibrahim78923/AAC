@@ -1,4 +1,4 @@
-import { Box, Divider, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { TicketsReportCard } from './TicketsReportCard';
 import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
@@ -78,9 +78,6 @@ export const TicketsReports = () => {
           </LoadingButton>
         </PermissionsGuard>
       </PageTitledHeader>
-
-      <Divider sx={{ mb: 2 }} />
-
       {isLoading || isFetching ? (
         <SkeletonTable />
       ) : isError ? (
@@ -90,7 +87,7 @@ export const TicketsReports = () => {
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <Grid container spacing={2} mb={2}>
+            <Grid container spacing={1.5} mb={2}>
               {cardOptions?.(data?.data)?.map((item: any) => (
                 <Grid item xs={12} md={6} lg={3} key={item?.id}>
                   <TicketsReportCard

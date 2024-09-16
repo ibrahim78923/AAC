@@ -1,7 +1,7 @@
 import { getFormFields } from './NewContact.data';
 import useAuth from '@/hooks/useAuth';
 import {
-  useLazyGetContactOwnerQuery,
+  useLazyGetContactOwnerUsersDropdownQuery,
   useLazyGetLifeCycleStageQuery,
   useLazyGetStatusQuery,
 } from '@/services/airServices/tickets/single-ticket-details/association';
@@ -10,7 +10,7 @@ export default function useNewContact() {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
 
-  const contactOwner = useLazyGetContactOwnerQuery();
+  const contactOwner = useLazyGetContactOwnerUsersDropdownQuery();
   const lifecycleStage = useLazyGetLifeCycleStageQuery();
   const status = useLazyGetStatusQuery();
 

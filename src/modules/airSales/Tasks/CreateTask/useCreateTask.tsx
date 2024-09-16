@@ -14,32 +14,34 @@ import {
   createTaskDefaultValues,
   createTaskValidationSchema,
 } from '../Task.data';
-// import dayjs from 'dayjs';
-// import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import {
   setCompaniesSelectedIds,
   setContactsSelectedIds,
   setDealsSelectedIds,
+  setSelectedTaskIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
   DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicFormInitialValue,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
 import { TASK_TYPE } from '@/constants';
 
-const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
+const useCreateTask = ({
+  creationMode,
+  setIsCreateTaskDrawerOpen,
+  setIsLoading,
+}: any) => {
   const theme = useTheme();
   const dispatch: any = useAppDispatch();
 
-  const [postCreateTask, { isLoading: postTaskLoading }] =
+  const [postCreateTask, { status: postTaskLoading }] =
     usePostCreateTaskMutation();
-  const [patchCreateTask, { isLoading: patchTaskLoading }] =
+  const [patchCreateTask, { status: patchTaskLoading }] =
     usePatchCreateTaskMutation();
 
   // custom fields ++
@@ -91,12 +93,11 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     (state: any) => state?.task?.companiesSelectedIds,
   );
 
-  const initialValues: any = dynamicFormInitialValue(taskData?.data, form);
   const methodsFilter: any = useForm({
     resolver: yupResolver(createTaskValidationSchema?.(form)),
     defaultValues: createTaskDefaultValues({
       data: taskData?.data,
-      initialValues,
+      form,
     }),
   });
 
@@ -143,7 +144,11 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     }
   }, [taskData?.data]);
 
-  const { handleSubmit: handleMethodFilter, reset, setValue } = methodsFilter;
+  const { handleSubmit: handleMethodFilter, reset } = methodsFilter;
+
+  useEffect(() => {
+    reset(() => createTaskDefaultValues({ data: taskData?.data, form }));
+  }, [taskData?.data, reset, form]);
 
   const onSubmitHandler = async (values: any) => {
     const filteredEmptyData = filteredEmptyValues(values);
@@ -178,6 +183,8 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
       body.customFields = customFields;
     }
 
+    useEffect(() => {}, []);
+
     const payload = {
       ...body,
       companiesIds: companiesSelectedIds?.map((ele: any) => ele?.id),
@@ -188,6 +195,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     };
 
     if (creationMode === TASK_TYPE?.CREATE_TASK) {
+      setIsLoading(true);
       try {
         await postCreateTask({
           body: payload,
@@ -195,13 +203,16 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
         enqueueSnackbar('Task Created Successfully', {
           variant: 'success',
         });
-        setIsCreateTaskDrawerOpen(false);
+        setIsLoading(false);
+        dispatch(setSelectedTaskIds([]));
         reset();
+        setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
     } else {
       try {
+        setIsLoading(true);
         await patchCreateTask({
           body: payload,
           id: selectedTaskIds && selectedTaskIds[0],
@@ -209,6 +220,8 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
         enqueueSnackbar('Task Updated Successfully', {
           variant: 'success',
         });
+        setIsLoading(false);
+        dispatch(setSelectedTaskIds([]));
         reset();
         setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
@@ -221,14 +234,6 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
   const usersData = useLazyGetAssignedUsersQuery();
 
   const getCreateTaskData = createTaskData({ data: taskData?.data, usersData });
-
-  useEffect(() => {
-    if (initialValues) {
-      Object.keys(initialValues).forEach((key) => {
-        setValue(key, initialValues[key]);
-      });
-    }
-  }, [initialValues]);
 
   return {
     theme,

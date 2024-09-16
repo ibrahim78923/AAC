@@ -17,7 +17,10 @@ import {
 import { AddMembersPropsI } from './AddMembers.interface';
 
 import { useForm } from 'react-hook-form';
-import { useGetChatUsersQuery, useUpdateChatMutation } from '@/services/chat';
+import {
+  useGetChatUsersByCompanyQuery,
+  useUpdateChatMutation,
+} from '@/services/chat';
 import { PAGINATION } from '@/config';
 import { getSession } from '@/utils';
 import { UserDefault } from '@/assets/images';
@@ -49,21 +52,25 @@ const AddMembers = ({
   const pageLimit = PAGINATION?.PAGE_LIMIT;
   const [searchValue, setSearchValue] = useState('');
 
-  const { data: chatsUsers, status } = useGetChatUsersQuery({
+  const [response, setResponse] = useState<any>({});
+
+  const { data: chatsUsers, status } = useGetChatUsersByCompanyQuery({
     params: {
-      organization: user?.organization?._id,
       page: currentPage,
       limit: pageLimit,
-      role: user?.role,
       search: searchValue,
     },
   });
-  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
-    id: item?._id,
-    label: `${item?.firstName} ${item?.lastName}`,
-    value: item?._id,
-    image: UserDefault,
-  }));
+
+  const transformedData = chatsUsers?.data?.usercompanyaccounts?.map(
+    (item: any) => ({
+      id: item?._id,
+      label: `${item?.firstName} ${item?.lastName}`,
+      value: item?._id,
+      image: UserDefault,
+    }),
+  );
+
   const exceptCurrentUser =
     transformedData &&
     transformedData?.filter((item: any) => item?.id !== user?._id);
@@ -79,8 +86,6 @@ const AddMembers = ({
       ),
   );
 
-  const [response, setResponse] = useState<any>({});
-
   useEffect(() => {
     if (Object.keys(response)?.length) {
       dispatch(
@@ -89,6 +94,7 @@ const AddMembers = ({
           participants: response?.data?.participants,
         }),
       );
+      setIsAddMembers(false);
     }
   }, [response]);
 
@@ -98,7 +104,6 @@ const AddMembers = ({
       participants: participantsToAdd ? participantsToAdd : [],
     };
     try {
-      // setIsAddMembers(false);
       const apiResponse = await updateChat({
         body: payload,
         id: activeConversation?._id,
@@ -127,7 +132,6 @@ const AddMembers = ({
             isCheckBox={true}
             label="Add Participant"
             size="small"
-            // setValues={setValues}
             options={filteredParticipants ?? []}
             isPagination={true}
             defaultOpen={true}
@@ -142,6 +146,7 @@ const AddMembers = ({
             footerText="Add"
             footerActionHandler={updateChatHandler}
             setIsDropdownClose={setIsAddMembers}
+            isFooterActionLoading={isLoading}
           />
         </Grid>
       </Grid>

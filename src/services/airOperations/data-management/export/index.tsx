@@ -7,11 +7,19 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getExportList: builder?.query({
       query: (params) => ({
-        url: `${OPERATION}`,
+        url: `${OPERATION?.GET_EXPORT_DATA_MANAGEMENT}`,
         method: 'GET',
         params,
       }),
       providesTags: [TAG],
+    }),
+    exportList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${OPERATION?.GET_EXPORT_DATA_MANAGEMENT}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
     }),
     getUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
@@ -27,5 +35,8 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useGetExportListQuery, useLazyGetUsersDropdownListQuery } =
-  dataManagementExportAPI;
+export const {
+  useGetExportListQuery,
+  useLazyGetUsersDropdownListQuery,
+  useLazyExportListQuery,
+} = dataManagementExportAPI;

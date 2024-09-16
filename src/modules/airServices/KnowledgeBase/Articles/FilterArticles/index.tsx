@@ -2,11 +2,9 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterArticles } from './useFilterArticle';
-import { ArticlesPortalComponentPropsI } from '../Articles.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-const FilterArticles = (props: ArticlesPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
+const FilterArticles = () => {
   const {
     submitHandler,
     resetArticleFilterForm,
@@ -14,14 +12,13 @@ const FilterArticles = (props: ArticlesPortalComponentPropsI) => {
     onClose,
     handleSubmit,
     filterArticlesFormFields,
-  } = useFilterArticles(props);
+    isPortalOpen,
+  } = useFilterArticles();
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isFilter as boolean}
-      onClose={() => {
-        onClose();
-      }}
+      isDrawerOpen={isPortalOpen?.isOpen as boolean}
+      onClose={onClose}
       submitHandler={() => {
         handleSubmit?.(submitHandler)();
       }}

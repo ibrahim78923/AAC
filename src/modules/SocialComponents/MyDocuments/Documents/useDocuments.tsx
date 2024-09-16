@@ -1,117 +1,150 @@
 import React, { useEffect, useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
-
 import {
   useDeleteFoldersMutation,
   useGetDocumentFolderQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
 } from '@/services/commonFeatures/documents';
-
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
-
 import { enqueueSnackbar } from 'notistack';
 import { defaultValuesFolder, validationSchema } from './Documents.data';
-import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { filteredEmptyValues, successSnackbar } from '@/utils/api';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
   DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicFormInitialValue,
 } from '@/utils/dynamic-forms';
+import { MODAL_HEADING } from './Documents.data';
+import {
+  useLazyGetOrganizationUsersQuery,
+  useLazyGetOrganizationTeamsQuery,
+} from '@/services/dropdowns';
 
 const useDocuments = () => {
   const theme = useTheme<Theme>();
-  const [searchValue, setSearchValue] = useState('');
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isEditOpenModal, setIsEditOpenModal] = useState();
-  const [modalHeading, setModalHeading] = useState('');
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [postDocumentFolder] = usePostDocumentFolderMutation();
-  const [updateFolder] = useUpdateFolderMutation();
-  const [deleteFolders] = useDeleteFoldersMutation();
-  const [allSelectedFoldersIds, setAllSelectedFoldersIds] = useState<string[]>(
-    [],
-  );
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const [actionType, setActionType] = useState('');
-  const [selectedFolder, setSelectedFolder] = useState(null);
   const { user }: any = useAuth();
+  const orgId: any = user?.organization?._id;
+  const orgUsersData = useLazyGetOrganizationUsersQuery();
+  const orgTeamsData = useLazyGetOrganizationTeamsQuery();
 
-  const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({
-      ...(searchValue && { search: searchValue }),
-      organizationId: user?.organization?._id,
-    });
-
-  const deleteUserFolders = async () => {
-    try {
-      await deleteFolders({
-        ids: allSelectedFoldersIds?.map((id) => `ids=${id}`)?.join('&'),
-      }).unwrap();
-      successSnackbar('Folder Deleted Successfully');
-      setIsOpenDelete(false);
-      setAllSelectedFoldersIds([]);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
-    }
-  };
-
-  const MoveToFolder = async () => {
-    try {
-      for (const item of allSelectedFoldersIds) {
-        await updateFolder({
-          id: item,
-          body: {
-            parentFolderId: selectedItemId,
-            name: data?.data?.folders.find((item2: any) => item2?._id == item)
-              .name,
-          },
-        }).unwrap();
-      }
-      enqueueSnackbar('Folder Moved Successfully', {
-        variant: 'success',
-      });
-      setIsOpenFolderDrawer(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
-    }
-  };
-
-  const handleCheckboxChange = (id: string) => {
-    if (allSelectedFoldersIds?.includes(id)) {
-      setAllSelectedFoldersIds(
-        allSelectedFoldersIds?.filter((item: string) => item != id),
-      );
-    } else {
-      setAllSelectedFoldersIds([...allSelectedFoldersIds, id]);
-    }
-  };
-
-  const handleBoxClick = (itemId: string) => {
-    setSelectedItemId(itemId === selectedItemId ? null : itemId);
-  };
-
+  // Actions menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  // Get Folders
+  const [searchValue, setSearchValue] = useState('');
+  const [filterParams, setFilterParams] = useState({});
+  const getFoldersParams = {
+    meta: false,
+  };
+
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const {
+    data: getFoldersData,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+  } = useGetDocumentFolderQuery({
+    params: {
+      ...searchPayLoad,
+      ...getFoldersParams,
+      ...filterParams,
+    },
+  });
+
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
+  const methodsFilter = useForm();
+  const { handleSubmit: handleMethodFilter, reset: resetFilters } =
+    methodsFilter;
+  const handleOpenFilters = () => {
+    setOpenFilters(true);
+  };
+  const handleCloseFilters = () => {
+    setOpenFilters(false);
+  };
+
+  const onSubmitFilters = async (values: any) => {
+    setFilterParams(values);
+    handleCloseFilters();
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
+  // Refresh
+  const handleRefresh = () => {
+    setFilterParams({});
+    resetFilters();
+  };
+
+  // Check/ Uncheck folders
+  const [selectedFolders, setSelectedFolders] = useState<any>([]);
+  const handleCheckboxChange = (folder: any) => {
+    const index = selectedFolders.findIndex(
+      (item: any) => item._id === folder._id,
+    );
+    if (index > -1) {
+      setSelectedFolders(
+        selectedFolders.filter((item: any) => item._id !== folder._id),
+      );
+    } else {
+      setSelectedFolders([...selectedFolders, folder]);
+    }
+  };
+
+  // Delete Folders
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [deleteFolders, { isLoading: loadingDelete }] =
+    useDeleteFoldersMutation();
+
+  const deleteUserFolders = async () => {
+    const ids = selectedFolders
+      .map((item: any) => `ids=${item._id}`)
+      ?.join('&');
+    try {
+      await deleteFolders({ ids }).unwrap();
+      setIsOpenDelete(false);
+      setSelectedFolders([]);
+      successSnackbar('Folder Deleted Successfully');
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  // Create/Update Folder
+  const [postDocumentFolder, { isLoading: loadingCreateFolder }] =
+    usePostDocumentFolderMutation();
+  const [updateFolder, { isLoading: loadingUpdate }] =
+    useUpdateFolderMutation();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [modalHeading, setModalHeading] = useState(MODAL_HEADING.create);
   const [form, setForm] = useState<any>([]);
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
+
+  const handleOpenCreateFolderModal = (heading: string) => {
+    if (heading === MODAL_HEADING?.create) {
+      setSelectedFolders([]);
+    }
+    setIsOpenModal(true);
+    setModalHeading(heading);
+  };
+  const handleCloseCreateFolderModal = () => {
+    setSelectedFolders([]);
+    setIsOpenModal(false);
+  };
 
   const getDynamicFormData = async () => {
     const params = {
@@ -134,41 +167,19 @@ const useDocuments = () => {
     getDynamicFormData();
   }, []);
 
-  let filteredData;
-
-  useEffect(() => {
-    filteredData = data?.data?.folders?.find(
-      (item: any) => item._id === allSelectedFoldersIds[0],
-    );
-
-    const initialValues: any = dynamicFormInitialValue(filteredData, form);
-
-    if (initialValues) {
-      Object.keys(initialValues).forEach((name) => {
-        const value = initialValues[name];
-        setValue(name, value);
-      });
-    }
-  }, [allSelectedFoldersIds?.length > 0]);
-
-  const FolderAdd: any = useForm<any>({
+  const methodsFolder: any = useForm<any>({
     resolver: yupResolver(validationSchema?.(form)),
-    defaultValues: defaultValuesFolder?.(
-      data?.data?.folders?.find(
-        (item: any) => item._id === allSelectedFoldersIds[0],
-      ),
-      form,
-    ),
+    defaultValues: defaultValuesFolder?.(selectedFolders[0], form),
   });
-
+  const {
+    handleSubmit: handleMethodCreateFolder,
+    reset: resetFolderForm,
+    watch,
+  } = methodsFolder;
+  const watchVisibleTo = watch('visibleTo');
   useEffect(() => {
-    if (isEditOpenModal) {
-      const { name } = isEditOpenModal;
-      FolderAdd?.setValue('name', name);
-    }
-  }, [isEditOpenModal, FolderAdd]);
-
-  const { handleSubmit, reset, setValue } = FolderAdd;
+    resetFolderForm(() => defaultValuesFolder(selectedFolders[0], form));
+  }, [selectedFolders, resetFolderForm, form]);
 
   const onSubmit = async (values: any) => {
     const filteredEmptyData = filteredEmptyValues(values);
@@ -180,12 +191,11 @@ const useDocuments = () => {
       form?.map((field: any) => field?.componentProps?.label),
     );
 
-    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]: any) => {
       if (customFieldKeys?.has(key)) {
         if (value instanceof Date) {
           value = value?.toISOString();
-        }
-        if (
+        } else if (
           typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
           !Array?.isArray(value) &&
           value !== null
@@ -195,7 +205,11 @@ const useDocuments = () => {
           customFields[key] = value;
         }
       } else {
-        body[key] = value;
+        if (key === 'userIds' || key === 'teamIds') {
+          body[key] = value?.map((item: any) => item?._id);
+        } else {
+          body[key] = value;
+        }
       }
     });
 
@@ -203,79 +217,145 @@ const useDocuments = () => {
       body.customFields = customFields;
     }
 
-    try {
-      if (
-        actionType === DOCUMENTS_ACTION_TYPES.MOVE_FOLDER ||
-        actionType === DOCUMENTS_ACTION_TYPES.UPDATE_FOLDER
-      ) {
+    if (modalHeading === MODAL_HEADING?.update) {
+      const payload = {
+        name: body?.name,
+      };
+      try {
         await updateFolder({
-          id: allSelectedFoldersIds,
-          body: body,
+          id: selectedFolders[0]?._id,
+          body: payload,
         }).unwrap();
-        enqueueSnackbar('Folder Update Successfully', {
+        handleCloseCreateFolderModal();
+        enqueueSnackbar('Folder name update successfully.', {
           variant: 'success',
         });
-      } else {
-        await postDocumentFolder({
-          body: body,
-        }).unwrap();
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    } else {
+      try {
+        await postDocumentFolder({ body: body }).unwrap();
+        handleCloseCreateFolderModal();
         enqueueSnackbar('Folder Created Successfully', {
           variant: 'success',
         });
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
       }
-      reset(validationSchema);
-      setIsOpenModal(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
 
-  const { handleSubmit: handleMethodCreateFolder } = FolderAdd;
-
   const handleCreateFolderSubmit = handleMethodCreateFolder(onSubmit);
 
+  // Move Folder Drawer
+  const [selectedMoveToFolderId, setSelectedMoveToFolderId] = useState('');
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    id: string,
+  ) => {
+    setSelectedMoveToFolderId(id);
+  };
+
+  // Move Folder
+  const [isOpenMoveFolderDrawer, setIsOpenMoveFolderDrawer] = useState(false);
+  const [searchMoveFolder, setSearchMoveFolder] = useState('');
+  const getMoveFoldersParams = {
+    meta: false,
+  };
+
+  let searchMovePayLoad;
+  if (searchMoveFolder) {
+    searchMovePayLoad = { search: searchMoveFolder };
+  }
+  const {
+    data: getMoveFoldersData,
+    isLoading: loadingGetMoveFolders,
+    isFetching: fetchingGetMoveFolders,
+  } = useGetDocumentFolderQuery({
+    params: {
+      ...searchMovePayLoad,
+      ...getMoveFoldersParams,
+    },
+  });
+
+  const moveFoldersData = (getMoveFoldersData?.data || []).filter(
+    (folder: any) =>
+      !selectedFolders?.some((item: any) => item._id === folder._id),
+  );
+
+  const handleSubmitMoveToFolder = async () => {
+    const allSelectedFoldersIds = selectedFolders.map((item: any) => item._id);
+    try {
+      for (const item of allSelectedFoldersIds) {
+        await updateFolder({
+          id: item,
+          body: {
+            parentFolderId: selectedMoveToFolderId,
+          },
+        }).unwrap();
+      }
+      enqueueSnackbar('Folder Moved Successfully', {
+        variant: 'success',
+      });
+      setSelectedFolders([]);
+      setIsOpenMoveFolderDrawer(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
   return {
-    documentData: data?.data?.folders,
+    theme,
+    open,
+    anchorEl,
+    handleClick,
+    handleClose,
+    getFoldersData,
     isLoading,
     isError,
     isFetching,
     isSuccess,
-    open,
-    handleClick,
-    handleClose,
-    searchValue,
+    selectedFolders,
+    handleCheckboxChange,
     setSearchValue,
-    isOpenDrawer,
-    setIsOpenDrawer,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
     isOpenModal,
-    setIsOpenModal,
-    theme,
-    isOpenFolderDrawer,
-    setIsOpenFolderDrawer,
-    isEditOpenModal,
-    setIsEditOpenModal,
+    handleOpenCreateFolderModal,
+    handleCloseCreateFolderModal,
+    methodsFolder,
+    watchVisibleTo,
+    orgUsersData,
+    orgTeamsData,
+    orgId,
+    modalHeading,
     isOpenDelete,
     setIsOpenDelete,
-    anchorEl,
-    setAnchorEl,
-    handleSubmit,
-    onSubmit,
-    FolderAdd,
-    handleCheckboxChange,
-    allSelectedFoldersIds,
-    modalHeading,
-    setModalHeading,
     deleteUserFolders,
-    selectedItemId,
-    setSelectedItemId,
-    handleBoxClick,
-    MoveToFolder,
-    setActionType,
-    setSelectedFolder,
-    selectedFolder,
+    loadingDelete,
     form,
     getDynamicFieldsStatus,
     handleCreateFolderSubmit,
+    loadingCreateFolder,
+    loadingUpdate,
+    isOpenMoveFolderDrawer,
+    setIsOpenMoveFolderDrawer,
+    setSearchMoveFolder,
+    moveFoldersData,
+    fetchingGetMoveFolders,
+    loadingGetMoveFolders,
+    selectedMoveToFolderId,
+    handleListItemClick,
+    handleSubmitMoveToFolder,
   };
 };
 

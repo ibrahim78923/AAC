@@ -12,9 +12,7 @@ export const ReportsWidgets = (props: any) => {
   return (
     <>
       <br />
-      <PageTitledHeader title={reportWidgets?.name}>
-        {reportWidgets?.isDateFilter && <></>}
-      </PageTitledHeader>
+      <PageTitledHeader title={reportWidgets?.name}></PageTitledHeader>
       <Grid container spacing={2}>
         {reportWidgets?.widgets?.map((item: any, index: any) => (
           <Grid
@@ -38,7 +36,6 @@ export const ReportsWidgets = (props: any) => {
                 pieChart: item?.genericChart,
                 donutChart: item?.genericChart,
                 filterQuery: item?.filterQuery,
-                results: reportResults,
               })}
           </Grid>
         ))}

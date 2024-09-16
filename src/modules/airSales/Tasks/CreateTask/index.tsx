@@ -12,15 +12,14 @@ import {
   setDealsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
 import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
+import { createElement, useState } from 'react';
 
 const CreateTask = ({
   isCreateTaskDrawerOpen,
   setIsCreateTaskDrawerOpen,
   creationMode, // taskData,
-  postTaskLoading,
-  patchTaskLoading,
 }: any) => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleFiltersSubmit,
     getCreateTaskData,
@@ -29,7 +28,7 @@ const CreateTask = ({
     reset,
     form,
     getDynamicFieldsStatus,
-  } = useCreateTask({ creationMode, setIsCreateTaskDrawerOpen });
+  } = useCreateTask({ creationMode, setIsCreateTaskDrawerOpen, setIsLoading });
 
   const dispatch: any = useAppDispatch();
 
@@ -52,11 +51,7 @@ const CreateTask = ({
       okText={creationMode === TASK_TYPE?.CREATE_TASK ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
-      isLoading={
-        creationMode === TASK_TYPE?.CREATE_TASK
-          ? postTaskLoading
-          : patchTaskLoading
-      }
+      isLoading={isLoading}
       footer={true}
       submitHandler={() => handleFiltersSubmit(onSubmitHandler)}
     >

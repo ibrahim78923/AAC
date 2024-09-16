@@ -2,6 +2,7 @@ import { useLazyAllUserDropdownQuery } from '@/services/airServices/feedback-sur
 import { UseFormReturn, FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
+import { getSession } from '@/utils';
 export const useCreateSurvey = ({
   methods,
   isLoading,
@@ -18,6 +19,7 @@ export const useCreateSurvey = ({
   const customerSupportLinkType = watch('customerSupportLinkType');
   const displayWatch = watch('display');
   const userDropdown = useLazyAllUserDropdownQuery();
+  const sessionUser: any = getSession();
   return {
     setValue,
     isLoading,
@@ -29,5 +31,6 @@ export const useCreateSurvey = ({
     openShare,
     setOpenShare,
     userDropdown,
+    sessionUser,
   };
 };

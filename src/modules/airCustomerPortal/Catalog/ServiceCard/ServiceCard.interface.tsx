@@ -9,5 +9,5 @@ export interface ServiceI {
 
 export interface ServiceCardPropsI {
   service: ServiceI;
-  onCardClick: () => void;
+  onCardClick?: () => void;
 }

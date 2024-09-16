@@ -50,6 +50,7 @@ export const createSurveyFields = (
   watch: UseFormWatch<FieldValues>,
   setOpenShare: React.Dispatch<React.SetStateAction<boolean>>,
   userDropdown: any,
+  sessionUser: any,
 ) => [
   {
     id: 1,
@@ -104,6 +105,11 @@ export const createSurveyFields = (
       multiple: true,
       required: true,
       apiQuery: userDropdown,
+      externalParams: {
+        limit: 5000,
+        role: 'ORG_EMPLOYEE',
+        organization: sessionUser?.user?.organization?._id,
+      },
       getOptionLabel: (option: any) => (option?.email ? option?.email : option),
       isOptionEqualToValue: (option: any, newValue: any) =>
         newValue?.email

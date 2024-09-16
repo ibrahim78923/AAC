@@ -29,6 +29,7 @@ export const objectOptions = [
   'ROLES_AND_TIERS',
   'COMPANIES',
   'LOYALTY_SHOPS',
+  'REPORTS',
 ];
 
 export const defaultValues = (filterValues: any) => {

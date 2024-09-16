@@ -1,17 +1,12 @@
-import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { KnowledgeBaseTicketDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail/KnowledgeBaseTicketDetail';
+import { KnowledgeBaseArticleDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail/KnowledgeBaseArticleDetail';
 
 const KnowledgeBaseTicketDetailPage = () => {
-  return <KnowledgeBaseTicketDetail />;
+  return <KnowledgeBaseArticleDetail />;
 };
 
 KnowledgeBaseTicketDetailPage.getLayout = function getLayout(page: any) {
-  return (
-    <Layout permissions={Permissions?.AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE}>
-      {page}
-    </Layout>
-  );
+  return <Layout variant={'customer-portal'}>{page}</Layout>;
 };
 
 export default KnowledgeBaseTicketDetailPage;

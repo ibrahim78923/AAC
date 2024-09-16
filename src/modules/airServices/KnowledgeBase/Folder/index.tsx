@@ -1,24 +1,28 @@
 import { Box, Typography } from '@mui/material';
 import { FolderGreyIcon } from '@/assets/icons';
 import ApiErrorState from '@/components/ApiErrorState';
-import { FolderComponentPropsI } from '../Articles/Articles.interface';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { useFolder } from './useFolder';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const Folder = (props: FolderComponentPropsI) => {
+export const Folder = () => {
   const {
-    setFolder,
-    selectedArticlesTab,
-    isLoading,
-    isFetching,
-    isError,
-    refetch,
+    showLoader,
+    showError,
     foldersList,
+    getArticlesFolderListForFilterData,
+    setFolder,
+    selectedFolder,
     theme,
-  } = props;
+  } = useFolder();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (showLoader) return <SkeletonTable />;
+
+  if (showError)
+    return (
+      <ApiErrorState canRefresh refresh={getArticlesFolderListForFilterData} />
+    );
 
   return (
     <Box
@@ -36,7 +40,7 @@ export const Folder = (props: FolderComponentPropsI) => {
             gap: 1,
             p: 1,
             background:
-              tab?._id === selectedArticlesTab?._id
+              tab?._id === selectedFolder?._id
                 ? theme?.palette?.grey?.['400']
                 : 'common.white',
             borderRadius: '0.5rem',
@@ -47,19 +51,19 @@ export const Folder = (props: FolderComponentPropsI) => {
           <FolderGreyIcon
             fill={
               theme?.palette?.grey?.[
-                tab?._id === selectedArticlesTab?._id ? '800' : '900'
+                tab?._id === selectedFolder?._id ? '800' : '900'
               ]
             }
           />
           <Typography
             color={
               theme?.palette?.grey?.[
-                tab?._id === selectedArticlesTab?._id ? '800' : '900'
+                tab?._id === selectedFolder?._id ? '800' : '900'
               ]
             }
             textTransform={'capitalize'}
           >
-            {tab?.name}
+            {truncateText(tab?.name, 15)}
           </Typography>
         </Box>
       ))}

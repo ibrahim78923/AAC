@@ -12,7 +12,7 @@ export const TicketsReportChart = ({ chartData }: any) => {
       borderColor={'custom.off_white_one'}
       borderRadius={2}
       px={2}
-      py={3}
+      py={1.5}
     >
       <Typography variant="h5">Tickets Analytic Report</Typography>
       <CustomChart

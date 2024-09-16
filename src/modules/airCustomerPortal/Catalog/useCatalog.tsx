@@ -28,6 +28,7 @@ const useCatalog = () => {
   );
 
   const { categoryId } = router?.query;
+  const companyId = router?.query?.companyId;
 
   const getServiceCatalogCategoriesParameter = {
     queryParam: {
@@ -51,6 +52,7 @@ const useCatalog = () => {
       query: {
         serviceId: id,
         categoryId: serviceCategory,
+        ...(!!companyId && { companyId }),
       },
     });
   };
@@ -78,6 +80,7 @@ const useCatalog = () => {
     allCategories,
     isError,
     refetch,
+    companyId,
   };
 };
 

@@ -8,7 +8,7 @@ import {
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_SERVICES } from '@/constants';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { ContractReportsCard } from './ContractReportsCard';
 import { useContractReports } from './useContractReports';
@@ -44,7 +44,6 @@ export const ContractsReports = () => {
     getValues,
   } = useContractReports();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
   if (isError)
     return (
       <>
@@ -84,7 +83,7 @@ export const ContractsReports = () => {
                   name={'createdDate'}
                   placeholder={'Date'}
                   size="small"
-                  disabled={loading}
+                  disabled={loading || isLoading || isFetching}
                   hasButton
                   onSubmitBtnClick={(setAnchorElDate: any) =>
                     onDateFilterSubmit?.(setAnchorElDate)
@@ -110,7 +109,7 @@ export const ContractsReports = () => {
                 color="inherit"
                 size="small"
                 onClick={handleDownload}
-                disabled={loading}
+                disabled={loading || isLoading || isFetching}
                 loading={loading}
               >
                 <DownloadLargeIcon />
@@ -119,80 +118,83 @@ export const ContractsReports = () => {
           </Box>
         </PageTitledHeader>
 
-        <Divider sx={{ mb: 2 }} />
+        {isLoading || isFetching ? (
+          <SkeletonTable />
+        ) : (
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
+          >
+            <Box ref={downloadRef}>
+              <ContractReportsCard
+                contractReportsCardData={contractReportsCardData}
+              />
 
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
-        >
-          <Box ref={downloadRef}>
-            <ContractReportsCard
-              contractReportsCardData={contractReportsCardData}
-            />
-
-            <Grid container spacing={2} mt={2}>
-              <Grid item xs={12} md={4}>
-                <Box
-                  height={'45vh'}
-                  boxShadow={1}
-                  border={'1px solid'}
-                  borderColor={'custom.off_white_one'}
-                  borderRadius={2}
-                  px={2}
-                  py={3}
-                >
-                  <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
-                    Contracts Distribution
-                  </Typography>
-                  {!!Object?.keys(contractReportsChartData ?? {})?.length ? (
-                    <CustomChart
-                      type={'pie'}
-                      series={Object?.values(contractReportsChartData ?? {})}
-                      options={{
-                        labels: Object?.keys(contractReportsChartData ?? {}),
-                        dataLabels: {
-                          enabled: true,
-                        },
-                      }}
-                    />
-                  ) : (
-                    <NoData height="100%" />
-                  )}
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={8}>
-                <Box
-                  boxShadow={1}
-                  border={'1px solid'}
-                  borderColor={'custom.off_white_one'}
-                  borderRadius={2}
-                  px={2}
-                  py={3}
-                  height={'100%'}
-                >
-                  <Grid container mb={1}>
-                    <Grid item xs={3}>
-                      <RHFAutocomplete
-                        name={'contracts'}
-                        placeholder={'All Contracts'}
-                        disabled={loading}
-                        options={contractsTypeOptions}
-                        getOptionLabel={(option: any) => option?.label}
+              <Grid container spacing={1.5}>
+                <Grid item xs={12} md={4}>
+                  <Box
+                    height={'100%'}
+                    boxShadow={1}
+                    border={'1px solid'}
+                    borderColor={'custom.off_white_one'}
+                    borderRadius={2}
+                    px={2}
+                    py={1.5}
+                  >
+                    <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
+                      Contracts Distribution
+                    </Typography>
+                    {!!Object?.keys(contractReportsChartData ?? {})?.length ? (
+                      <CustomChart
+                        type={'pie'}
+                        series={Object?.values(contractReportsChartData ?? {})}
+                        options={{
+                          labels: Object?.keys(contractReportsChartData ?? {}),
+                          dataLabels: {
+                            enabled: true,
+                          },
+                        }}
                       />
+                    ) : (
+                      <NoData height="100%" />
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <Box
+                    boxShadow={1}
+                    border={'1px solid'}
+                    borderColor={'custom.off_white_one'}
+                    borderRadius={2}
+                    px={2}
+                    py={2}
+                    height={'100%'}
+                  >
+                    <Grid container mb={1}>
+                      <Grid item xs={12} md={4}>
+                        <RHFAutocomplete
+                          name={'contracts'}
+                          placeholder={'All Contracts'}
+                          size="small"
+                          disabled={loading}
+                          options={contractsTypeOptions}
+                          getOptionLabel={(option: any) => option?.label}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <TanstackTable
-                    data={
-                      data?.data?.[
-                        `${getValues?.('contracts')?._id}Details`
-                      ]?.slice(-5) ?? []
-                    }
-                    columns={contractReportsTabelCoulmns}
-                  />
-                </Box>
+                    <TanstackTable
+                      data={
+                        data?.data?.[
+                          `${getValues?.('contracts')?._id}Details`
+                        ]?.slice(-5) ?? []
+                      }
+                      columns={contractReportsTabelCoulmns}
+                    />
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </PermissionsGuard>
+            </Box>
+          </PermissionsGuard>
+        )}
       </FormProvider>
     </>
   );

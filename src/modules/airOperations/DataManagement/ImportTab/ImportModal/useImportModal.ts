@@ -78,7 +78,7 @@ export const useImportModal = () => {
 
   const submitImportModalForm = async (data: any) => {
     try {
-      if (data?.product === 'Sales') {
+      if (data?.product === IMPORT_ACTION_TYPE?.Sales) {
         if (modalStep === 1) {
           setModalStep((prev: any) => ++prev);
         } else if (modalStep === 2) {

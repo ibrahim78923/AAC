@@ -13,10 +13,10 @@ import { enqueueSnackbar } from 'notistack';
 import {
   DRAWER_TYPES,
   NOTISTACK_VARIANTS,
+  SMS_MARKETING_CONSTANTS,
   STATUS_CONTANTS,
 } from '@/constants/strings';
 import useSMSMarketing from '../../useSMSMarketing';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import { indexNumbers, productSuiteName } from '@/constants';
 import {
   DYNAMIC_FIELDS,
@@ -31,6 +31,7 @@ const useCreateSMSBroadcast = () => {
   const theme = useTheme<Theme>();
   const { type, id: selectedBroadCast } = navigate?.query;
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
+  const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
@@ -73,7 +74,9 @@ const useCreateSMSBroadcast = () => {
     useUpdateSmsBroadcastMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver<any>(validationSchema(isSchedule, form)),
+    resolver: yupResolver<any>(
+      validationSchema(isSchedule, form, createStatus),
+    ),
     defaultValues: defaultValues(getIsPhoneConnected),
   });
 
@@ -113,11 +116,22 @@ const useCreateSMSBroadcast = () => {
       for (const key in fieldsToSet) {
         setValue(key, fieldsToSet[key]);
       }
+      setRecipientType(
+        data?.groupDetails?.length > 0
+          ? SMS_MARKETING_CONSTANTS?.GROUP
+          : SMS_MARKETING_CONSTANTS?.ALL,
+      );
       setSelectedContactsData(data?.recipients ?? []);
-      setSelectedRec(data?.recipients);
+      const selectedContactsData =
+        data?.groupDetails?.length === indexNumbers?.ZERO
+          ? data?.recipients
+          : data?.groupDetails;
+      setSelectedRec(
+        Array?.isArray(selectedContactsData) ? selectedContactsData : [],
+      );
       setIsSchedule(data?.schedualDate ? true : false);
     }
-  }, [getSmsBroadcatsById, templateData?.detail]);
+  }, [getSmsBroadcatsById, templateData?.detail, type, setValue]);
 
   const onSubmit = async (values: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -128,7 +142,20 @@ const useCreateSMSBroadcast = () => {
     values.recipients = selectedContactsData?.map((item: any) => item?._id);
     values.status = createStatus;
     if (isSchedule) {
-      values.schedualDate = values.schedualDate;
+      values.schedualDate = values?.schedualDate;
+    }
+    if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
+      values.contactGroupId = [];
+      values.recipients = selectedContactsData?.map((item: any) => item?._id);
+    } else {
+      values.recipients = selectedContactsData
+        ?.map(
+          (item: any) => item?.contacts?.map((contact: any) => contact?._id),
+        )
+        ?.flat();
+      values.contactGroupId = selectedContactsData?.map(
+        (item: any) => item?._id,
+      );
     }
     const filteredEmptyData = filteredEmptyValues(values);
     const customFields: any = {};
@@ -170,12 +197,15 @@ const useCreateSMSBroadcast = () => {
         enqueueSnackbar(`Sms Broadcast updated Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
-        navigate?.push(AIR_MARKETER?.SMS_MARKETING);
+        navigate?.back();
+      } else {
+        await postSmsBroadcast({ body: payload })?.unwrap();
+        enqueueSnackbar(`Sms Broadcast created Successfully`, {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+        navigate?.back();
+        reset();
       }
-      await postSmsBroadcast({ body: payload })?.unwrap();
-      enqueueSnackbar(`Sms Broadcast created Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg)
@@ -185,8 +215,6 @@ const useCreateSMSBroadcast = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    navigate?.push(AIR_MARKETER?.SMS_MARKETING);
-    reset();
   };
 
   const flattenContactsData = (data: any[]) => {
@@ -217,6 +245,8 @@ const useCreateSMSBroadcast = () => {
     setSelectedRec,
     broadcastName,
     setIsSchedule,
+    recipientType,
+    setRecipientType,
     handleSubmit,
     createStatus,
     selectedRec,

@@ -113,4 +113,8 @@ export const styles = {
       gap: '10px',
     };
   },
+  skeleton: (theme: any) => ({
+    bgcolor: theme?.palette?.grey?.[300],
+    borderRadius: '6px',
+  }),
 };

@@ -53,6 +53,7 @@ export const ManageDashboard = () => {
           >
             <Search label="Search Here" setSearchBy={setSearch} />
             <Button
+              className="small"
               variant="outlined"
               color="secondary"
               startIcon={<FilterSharedIcon />}

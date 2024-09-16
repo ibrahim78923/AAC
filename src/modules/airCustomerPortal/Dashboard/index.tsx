@@ -4,11 +4,11 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ROLES } from '@/constants/strings';
-import ReportAnIssueModal from './ReportAnIssueModal';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { ReportIssue } from '../Tickets/ReportIssue';
+import NonRegisterDashboard from './NonRegisterDashboard';
+import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 const Dashboard = () => {
   const {
@@ -18,7 +18,11 @@ const Dashboard = () => {
     user,
     newTicketsDropdown,
     dashboardWidgets,
+    colorChanger,
+    theme,
   } = useDashboard();
+
+  if (!user) return <NonRegisterDashboard />;
 
   return (
     <>
@@ -26,29 +30,49 @@ const Dashboard = () => {
         {[ROLES?.ORG_EMPLOYEE, ROLES?.ORG_ADMIN]?.includes(user?.role) && (
           <Button
             variant="outlined"
-            color="secondary"
             startIcon={
               <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
             }
             onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+            sx={{
+              borderColor:
+                colorChanger?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                colorChanger?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              '&:hover': {
+                borderColor:
+                  colorChanger?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+                color:
+                  colorChanger?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+              },
+            }}
           >
             Revert
           </Button>
         )}
-        <PermissionsGuard
-          permissions={[
-            AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.REPORT_AN_ISSUES,
-            AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.SENT_SERVICES_REQUEST,
-          ]}
-        >
-          <SingleDropdownButton
-            dropdownOptions={newTicketsDropdown}
-            dropdownName={'New'}
-            btnVariant="contained"
-            color="primary"
-            startIcon={<AddBoxIcon />}
-          />
-        </PermissionsGuard>
+
+        <PublicSingleDropdownButton
+          dropdownOptions={newTicketsDropdown}
+          dropdownName={'New'}
+          btnVariant="contained"
+          sx={{
+            bgcolor:
+              colorChanger?.btnPrimary ||
+              customizePortalDefaultValues(theme)?.btnPrimary,
+            color: 'common.white',
+            '&:hover': {
+              bgcolor:
+                colorChanger?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+            },
+          }}
+          startIcon={<AddBoxIcon />}
+        />
       </PageTitledHeader>
       <Grid container spacing={2}>
         {dashboardWidgets?.map((item: any) => (
@@ -58,9 +82,9 @@ const Dashboard = () => {
         ))}
       </Grid>
       {openReportAnIssueModal && (
-        <ReportAnIssueModal
-          openReportAnIssueModal={openReportAnIssueModal}
-          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+        <ReportIssue
+          isPortalOpen={openReportAnIssueModal}
+          setIsPortalOpen={setOpenReportAnIssueModal}
         />
       )}
     </>

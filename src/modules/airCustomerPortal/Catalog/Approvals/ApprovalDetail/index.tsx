@@ -24,6 +24,7 @@ export const ApprovalDetail = () => {
     openTicketDetail,
     ticketDetails,
     refetch,
+    companyId,
   } = useApprovalDetail();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -37,6 +38,7 @@ export const ApprovalDetail = () => {
         moveBack={() =>
           router?.push({
             pathname: AIR_CUSTOMER_PORTAL?.APPROVALS,
+            query: { ...(!!companyId && { companyId }) },
           })
         }
       />

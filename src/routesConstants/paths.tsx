@@ -57,7 +57,7 @@ export const SUPER_ADMIN_SETTINGS: any = {
 
 export const SOCIAL_FEATURES = {
   calls: path(SOCIAL_ROOT_PAGE, '/calling/call'),
-  FOLDER_DETAILS: path(SOCIAL_ROOT_PAGE, '/my-documents/my-folders'),
+  DOCUMENTS: '/social-components/documents',
 };
 
 export const AIR_SOCIAL = {
@@ -135,6 +135,7 @@ export const AIR_MARKETER = {
     '/email-marketing/email-templates/create-template',
   ),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
+  EMAIL_SETTINGS: path(AIR_MARKETING_PAGE, '/email-marketing/email-settings'),
   EMAIL_FOLDER_EMAILS: path(
     AIR_MARKETING_PAGE,
     '/email-marketing/email-folder/emails',
@@ -247,7 +248,7 @@ export const ORG_ADMIN = {
 };
 
 export const COMMON_ROUTES = {
-  DELEGATE: '/delegate',
+  DELEGATE: '/delegates',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
@@ -322,6 +323,7 @@ export const SOCIAL_FEATURES_GMAIL = {
   MAIN_EMAIL_PAGE: '/social-components/email',
   DRAFT_GMAIL_POST: '/gmail/send-gmail-draft-mail',
   LOGOUT_MAIL: 'email-marketing/save-email-marketing-setting',
+  LINK_DEAL: '/gmail/link-to-deal',
 };
 
 export const CHAT_SOCKETS = {

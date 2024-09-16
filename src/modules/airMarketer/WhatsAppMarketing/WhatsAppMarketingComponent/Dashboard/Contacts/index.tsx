@@ -1,17 +1,17 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
-
-import { smsContactsArray } from '../Dashboard.data';
-
+import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
 import useContacts from './useContacts';
-
 import { v4 as uuidv4 } from 'uuid';
-
 import { styles } from './Contacts.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import { indexNumbers } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { generateImage } from '@/utils/avatarUtils';
 
-const SMSContacts = () => {
-  const { theme } = useContacts();
+const SMSContacts = ({ setTabVal }: any) => {
+  const { theme, allContacts, loadingGetContacts } = useContacts();
+
   return (
     <Box sx={{ pr: '24px' }}>
       <Box sx={styles?.SMSContactsCardStyle}>
@@ -23,13 +23,13 @@ const SMSContacts = () => {
             <Box component={'span'} sx={{ color: 'primary.main' }}>
               Total Contacts:
             </Box>
-            786
+            {allContacts?.length}
           </Typography>
           <Typography>
             <Box component={'span'} sx={{ color: 'primary.main' }}>
               New Contacts:
             </Box>
-            94
+            {allContacts?.length}
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="space-between">
@@ -39,27 +39,49 @@ const SMSContacts = () => {
               AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.VIEW_CONTACT,
             ]}
           >
-            <Button size="small">View All</Button>
+            <Button size="small" onClick={() => setTabVal(indexNumbers?.TWO)}>
+              View All
+            </Button>
           </PermissionsGuard>
         </Stack>
 
-        <Box className="cardWrapper">
-          {smsContactsArray?.map((item: any) => (
-            <Stack
-              key={uuidv4()}
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              className="innerCard"
-            >
-              <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                {item?.avatar}
-                <Typography>{item?.name}</Typography>
-              </Box>
-              <Typography>{item?.phone}</Typography>
-            </Stack>
-          ))}
-        </Box>
+        {loadingGetContacts ? (
+          <SkeletonTable />
+        ) : (
+          <Box className="cardWrapper">
+            {allContacts?.map((item: any) => (
+              <Stack
+                key={uuidv4()}
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                className="innerCard"
+              >
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Avatar
+                    sx={{
+                      color: theme?.palette?.grey[600],
+                      fontSize: '16px',
+                      fontWeight: 500,
+                    }}
+                    src={generateImage(item?.profilePicture?.url)}
+                  >
+                    {capitalizeFirstLetter(item?.firstName?.charAt(0)) +
+                      capitalizeFirstLetter(item?.lastName?.charAt(0))}
+                  </Avatar>
+                  <Typography>
+                    {item?.firstName
+                      ? `${capitalizeFirstLetter(
+                          item?.firstName,
+                        )} ${capitalizeFirstLetter(item?.lastName)}`
+                      : 'N/A'}
+                  </Typography>
+                </Box>
+                <Typography>{item?.whatsAppNumber}</Typography>
+              </Stack>
+            ))}
+          </Box>
+        )}
       </Box>
     </Box>
   );

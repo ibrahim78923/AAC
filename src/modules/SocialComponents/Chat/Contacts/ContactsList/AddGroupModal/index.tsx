@@ -6,10 +6,7 @@ import { Box, Grid, Typography } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  FormProvider,
-  RHFMultiSearchableSelect,
-} from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -21,24 +18,20 @@ import {
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
-import { AddRoundedImage, UserDefault } from '@/assets/images';
+import { AddRoundedImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
-import { getSession, isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import {
   useCreateNewGroupMutation,
-  useGetChatUsersQuery,
+  useLazyGetAllChatUsersByCompanyQuery,
 } from '@/services/chat';
-import { PAGINATION } from '@/config';
 
 const AddGroupModal = ({
   isAddGroupModal,
   setIsAddGroupModal,
 }: AddGroupPropsI) => {
-  const [setValues] = useState<any>([]);
-
   const methodsAddGroup = useForm({
     resolver: yupResolver(addGroupValidationSchema),
     defaultValues: addGroupDefaultValues,
@@ -46,43 +39,26 @@ const AddGroupModal = ({
 
   const { handleSubmit, watch, reset } = methodsAddGroup;
 
-  const participantIds = watch('participant');
+  const participantIds: any = watch('participant');
+  const [participants, setParticipants] = useState([]);
 
-  const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
   const [groupAdmins, setGroupAdmins] = useState<any>([]);
   const [imageToUpload, setImageToUpload] = useState<any>();
   const [imagePreview, setImagePreview] = useState<any>();
 
-  const { user }: { user: any } = getSession();
-
-  const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const pageLimit = PAGINATION?.PAGE_LIMIT;
-  const [searchValue, setSearchValue] = useState('');
-
-  const { data: chatsUsers, status } = useGetChatUsersQuery({
-    params: {
-      organization: user?.organization?._id,
-      page: currentPage,
-      limit: pageLimit,
-      role: user?.role,
-      search: searchValue,
-    },
-  });
-
-  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
-    id: item?._id,
-    label: `${item?.firstName} ${item?.lastName}`,
-    value: item?._id,
-    image: UserDefault,
-  }));
+  useEffect(() => {
+    if (participantIds) {
+      setParticipants(participantIds);
+    }
+  }, [participantIds]);
 
   const [createNewGroup, { isLoading }] = useCreateNewGroupMutation();
 
-  const handleRemoveParticipant = (id: any) => {
-    const updatedParticipantsIds = participantsIdsValues?.filter(
-      (participantId: any) => participantId !== id,
+  const handleRemoveParticipant = (_id: any) => {
+    const updatedParticipantsIds = participants?.filter(
+      (participantId: any) => participantId?._id !== _id,
     );
-    setParticipantsIdsValues(updatedParticipantsIds);
+    setParticipants(updatedParticipantsIds);
   };
 
   const getColumns = columns(
@@ -91,27 +67,12 @@ const AddGroupModal = ({
     setGroupAdmins,
   );
 
-  const filteredParticipants = transformedData
-    ?.filter(
-      (participant: any) => participantsIdsValues?.includes(participant?.id),
-    )
-    ?.map((participant: any) => ({
-      id: participant?.id,
-      participant: participant?.label,
-    }));
-
-  const exceptCurrentUser =
-    transformedData &&
-    transformedData?.filter((item: any) => item?.id !== user?._id);
-
-  useEffect(() => {
-    setParticipantsIdsValues(participantIds);
-  }, [participantIds]);
-
   const formData = new FormData();
-
   const onSubmit = async (values: any) => {
-    formData.append('participants', participantsIdsValues);
+    const participantIds: any = participants?.map(
+      (participant: any) => participant?._id,
+    );
+    formData.append('participants', participantIds);
     formData.append('groupAdmins', groupAdmins);
     formData.append('groupName', values?.groupTitle);
     formData.append('groupImage', imageToUpload);
@@ -144,6 +105,8 @@ const AddGroupModal = ({
     };
     reader?.readAsDataURL(selectedImage);
   };
+
+  const apiQueryUsers = useLazyGetAllChatUsersByCompanyQuery?.();
 
   return (
     <CommonModal
@@ -225,36 +188,31 @@ const AddGroupModal = ({
               </Grid>
             ))}
             <Grid item xs={12} md={12}>
-              <RHFMultiSearchableSelect
-                name="participant"
-                isCheckBox={true}
-                label="Add Participant"
+              <RHFAutocompleteAsync
+                label={'Add Participant'}
+                name={`participant`}
+                fullWidth
+                multiple
+                externalParams={{}}
+                apiQuery={apiQueryUsers}
                 size="small"
-                setValues={setValues}
-                options={exceptCurrentUser ?? []}
-                isPagination={true}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={chatsUsers?.data?.meta?.pages}
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-                customSearch={true}
-                isLoading={status === 'pending' ? true : false}
+                placeholder="Select user"
+                getOptionLabel={(option: any) => (
+                  <>{`${option?.firstName} ${option?.lastName}`}</>
+                )}
               />
             </Grid>
           </Grid>
         </FormProvider>
         <br />
-        {!isNullOrEmpty(filteredParticipants) && (
-          <Box
-            sx={{
-              maxHeight: '315px',
-              overflow: 'scroll',
-            }}
-          >
-            <TanstackTable columns={getColumns} data={filteredParticipants} />
-          </Box>
-        )}
+        <Box
+          sx={{
+            maxHeight: '315px',
+            overflow: 'scroll',
+          }}
+        >
+          <TanstackTable columns={getColumns} data={participants} />
+        </Box>
       </>
     </CommonModal>
   );

@@ -121,7 +121,8 @@ export const xAxesDataArray: any = {
     { label: 'Campaign Status', value: 'campaignStatus', ref: null },
   ],
   LEADS: [
-    { label: 'Form Views', value: 'formViews', ref: null },
-    { label: 'CTA Clicks', value: 'ctaClicks', ref: null },
+    { label: 'Click Count', value: 'clickCount', ref: null },
+    { label: 'View Count', value: 'viewCount', ref: null },
+    { label: 'Click Rate', value: 'clickRate', ref: null },
   ],
 };

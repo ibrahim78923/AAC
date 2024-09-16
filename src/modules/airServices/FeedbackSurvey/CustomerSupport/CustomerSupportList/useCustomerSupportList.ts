@@ -7,7 +7,7 @@ import {
 import {
   useDeleteFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
-  usePatchFeedbackSurveyMutation,
+  usePatchChangeSurveyStatusMutation,
   usePostCloneFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -33,8 +33,8 @@ export const useCustomerSupportList = (props: { status?: string }) => {
     useDeleteFeedbackSurveyMutation();
   const [cloneSurveyTrigger, { isLoading: cloneLoading }] =
     usePostCloneFeedbackSurveyMutation();
-  const [patchSurveyTrigger, { isLoading: patchLoading }] =
-    usePatchFeedbackSurveyMutation();
+  const [patchChangeSurveyStatusTrigger, { isLoading: statusLoading }] =
+    usePatchChangeSurveyStatusMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item) => deleteParams?.append('ids', item?._id));
@@ -78,19 +78,16 @@ export const useCustomerSupportList = (props: { status?: string }) => {
     }
   };
   const handleStatus = async (closeMenu: () => void) => {
-    const patchParams = {
-      params: {
-        id: singleSurvey?._id,
-      },
-      body: {
-        status: FEEDBACK_STATUS?.INACTIVE,
-      },
+    const statusBody = {
+      id: singleSurvey?._id,
+      surveyType: FEEDBACK_SURVEY_TYPES?.CUSTOMER_SUPPORT,
+      status: FEEDBACK_STATUS?.INACTIVE,
     };
-    const response: any = await patchSurveyTrigger(patchParams);
+    const response: any = await patchChangeSurveyStatusTrigger(statusBody);
     if (response?.data?.message) {
       closeMenu();
       successSnackbar(
-        `${response?.data?.data?.surveyTitle} ${FEEDBACK_STATUS?.INACTIVE} Successfully`,
+        `${singleSurvey?.surveyTitle} ${FEEDBACK_STATUS?.INACTIVE} Successfully`,
       );
       setActiveCheck([]);
     } else {
@@ -127,6 +124,12 @@ export const useCustomerSupportList = (props: { status?: string }) => {
     }
     return;
   };
+  const handleCopy = (surveyLink?: string) => {
+    const linkToCopy = surveyLink || '';
+    navigator?.clipboard?.writeText(linkToCopy)?.then(() => {
+      successSnackbar('Link copied to clipboard!');
+    });
+  };
   const feedbackDropdownOption = feedbackDropdown(
     activeCheck,
     setOpenModal,
@@ -134,7 +137,8 @@ export const useCustomerSupportList = (props: { status?: string }) => {
     handleCloneSurvey,
     cloneLoading,
     handleStatus,
-    patchLoading,
+    statusLoading,
+    handleCopy,
   );
   const feedbackTableData = data?.data?.feedbackSurvey;
   const meta = data?.data?.meta;

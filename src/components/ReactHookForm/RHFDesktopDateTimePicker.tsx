@@ -26,7 +26,6 @@ export default function RHFDesktopDateTimePicker({
           <DateTimePicker
             {...field}
             {...other}
-            disablePast
             slots={{
               openPickerIcon: openPickerIcon,
             }}

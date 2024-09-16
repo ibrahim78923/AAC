@@ -1,13 +1,8 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { ARTICLE_STATUS } from '@/constants/strings';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { FilterArticlesFormDefaultValuesI } from './FilterArticles.interface';
+import AuthorsFields from '../../KnowledgeBaseFormFields/AuthorsFields';
 
 const statusOption: AutocompleteOptionsI[] = [
   { _id: ARTICLE_STATUS?.DRAFT, label: ARTICLE_STATUS?.DRAFT },
@@ -23,7 +18,7 @@ export const filterArticlesDataDefaultValues = (
   };
 };
 
-export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
+export const filterArticlesFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -38,15 +33,6 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   },
   {
     id: 2,
-    componentProps: {
-      name: 'authorId',
-      label: 'Author',
-      placeholder: 'Select Author',
-      fullWidth: true,
-      apiQuery: apiQueryAuthor,
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AuthorsFields,
   },
 ];

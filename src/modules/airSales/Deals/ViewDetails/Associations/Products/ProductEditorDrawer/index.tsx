@@ -1,8 +1,15 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSearchableSelect,
+} from '@/components/ReactHookForm';
 import useProductEditorDrawer from './useProductEditorDrawer';
-import { productsDataArray } from './ProductEditorDrawer.data';
+import {
+  productRadioOptions,
+  productsDataArray,
+} from './ProductEditorDrawer.data';
 import { DRAWER_TYPES } from '@/constants/strings';
 
 const ProductEditorDrawer = (props: any) => {
@@ -13,6 +20,11 @@ const ProductEditorDrawer = (props: any) => {
     methodsProducts,
     addProductLoading,
     postAssociationLoading,
+    watchProduct,
+    theme,
+    productCategories,
+    extProductOptions,
+    associationLoading,
   } = useProductEditorDrawer({
     selectedProduct,
     openDrawer,
@@ -29,7 +41,9 @@ const ProductEditorDrawer = (props: any) => {
         okText="Add"
         submitHandler={handleSubmit(onSubmit)}
         isOk={true}
-        isLoading={addProductLoading || postAssociationLoading}
+        isLoading={
+          addProductLoading || postAssociationLoading || associationLoading
+        }
         footer={openDrawer === DRAWER_TYPES?.VIEW ? false : true}
       >
         <Box>
@@ -38,28 +52,58 @@ const ProductEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={1}>
-              {productsDataArray()?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={item?.componentProps?.name}
-                >
-                  <item.component
-                    disabled={openDrawer === DRAWER_TYPES?.VIEW ? true : false}
-                    {...item?.componentProps}
-                    size={'small'}
+              <Grid item xs={12}>
+                <RHFRadioGroup
+                  options={productRadioOptions}
+                  name="productType"
+                  label={false}
+                  defaultValue="new-products"
+                />
+              </Grid>
+              {watchProduct === 'new-products' ? (
+                productsDataArray(productCategories)?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
                   >
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
+                    <item.component
+                      disabled={
+                        openDrawer === DRAWER_TYPES?.VIEW ? true : false
+                      }
+                      {...item?.componentProps}
+                      size={'small'}
+                    >
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    color={theme?.palette?.grey[600]}
+                  >
+                    Choose Product{' '}
+                    <span style={{ color: theme?.palette?.error?.main }}>
+                      *
+                    </span>
+                  </Typography>
+                  <RHFSearchableSelect
+                    size="small"
+                    name="chooseProduct"
+                    options={extProductOptions}
+                  />
                 </Grid>
-              ))}
+              )}
             </Grid>
           </FormProvider>
         </Box>

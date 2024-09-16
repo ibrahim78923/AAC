@@ -16,6 +16,7 @@ export const PermissionsTabs = (props: PermissionTabsPropsI) => {
     disableBoxShadow = true,
     border = 'none',
     orientation = 'horizontal',
+    handleTabChange,
   } = props;
 
   const theme = useTheme();
@@ -26,6 +27,7 @@ export const PermissionsTabs = (props: PermissionTabsPropsI) => {
   }, [defaultValue]);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    handleTabChange?.(newValue);
     setValue(newValue);
   };
 

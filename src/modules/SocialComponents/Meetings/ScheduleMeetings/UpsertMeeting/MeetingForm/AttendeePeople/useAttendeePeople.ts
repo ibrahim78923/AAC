@@ -5,8 +5,9 @@ import { errorSnackbar, timeFormatter } from '@/utils/api';
 import {
   useLazyGetBookedMeetingsSlotsListQuery,
   useLazyGetMeetingsSlotsListQuery,
-  useLazyGetUsersDropdownListQuery,
+  useLazyGetAllUsersAndContactsDropdownQuery,
 } from '@/services/commonFeatures/meetings';
+import { useEffect } from 'react';
 
 export const useAttendeePeople = (props: any) => {
   const { watch, setValue } = props;
@@ -14,7 +15,7 @@ export const useAttendeePeople = (props: any) => {
   const router = useRouter();
   const watchPeople = watch('people');
   const watchStartDate = watch('startDate');
-  const userDropdown = useLazyGetUsersDropdownListQuery();
+  const userDropdown = useLazyGetAllUsersAndContactsDropdownQuery();
   const organizer = getSession()?.user;
   const meetingType = router?.query?.type;
   const handleDateValues = (startTime: any, endTime: any) => {
@@ -23,6 +24,7 @@ export const useAttendeePeople = (props: any) => {
   };
   const peopleData =
     router?.query?.type === peopleTypes?.group ? watchPeople : [watchPeople];
+
   const [trigger, status]: any = useLazyGetMeetingsSlotsListQuery();
   const [bookedTrigger, bookedStatus]: any =
     useLazyGetBookedMeetingsSlotsListQuery();
@@ -52,8 +54,14 @@ export const useAttendeePeople = (props: any) => {
       await bookedTrigger(meetingParameter)?.unwrap();
     } catch (error) {}
   };
-  const slotsData = status?.data;
+  const slotsData = status?.data?.data?.availability;
   const bookedSlotsData = bookedStatus?.data?.data?.bookedSlots;
+
+  useEffect(() => {
+    if (watchStartDate) {
+      handleFetchBookedMeetingSlots();
+    }
+  }, [watchStartDate]);
 
   return {
     userDropdown,
@@ -66,8 +74,8 @@ export const useAttendeePeople = (props: any) => {
     slotsData,
     watchStartDate,
     meetingType,
-    handleFetchBookedMeetingSlots,
     bookedStatus,
     bookedSlotsData,
+    watchPeople,
   };
 };

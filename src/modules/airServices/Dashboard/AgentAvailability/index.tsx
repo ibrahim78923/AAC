@@ -44,6 +44,9 @@ export const AgentAvailability = (props: any) => {
                 '.MuiFormHelperText-root': {
                   display: 'none',
                 },
+                '& .MuiOutlinedInput-root ': {
+                  height: pxToRem(36),
+                },
               }}
               placeholder="All Departments"
               apiQuery={departmentDropdown}

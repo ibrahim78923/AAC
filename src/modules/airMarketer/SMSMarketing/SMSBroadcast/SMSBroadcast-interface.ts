@@ -4,6 +4,8 @@ export interface AddContactDrawerProps {
   selectedRec: string[];
   setSelectedRec: (rec: string[]) => void;
   setSelectedContactsData: (data: string[]) => void;
+  setRecipientType: (type: string) => void;
+  recipientType: string;
 }
 
 export interface AllContactsProps {
@@ -27,11 +29,13 @@ export interface SMSDetailsProps {
     detail?: string | any;
   };
   isLoading: boolean;
+  recordStatus: string;
 }
 
 export interface SMSDetailsTableProps {
   recipientsData: string[];
   loading: boolean;
+  recordStatus: string;
 }
 
 export interface AnalyticsProps {
@@ -53,4 +57,5 @@ export interface SMSBroadcastHeaderProps {
   setDatePickerVal: (value: any) => void;
   startedDate: number;
   endedDate: number;
+  recordStatus?: string;
 }

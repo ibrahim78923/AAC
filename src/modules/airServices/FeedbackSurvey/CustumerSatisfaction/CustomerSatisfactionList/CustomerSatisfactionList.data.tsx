@@ -17,6 +17,17 @@ const statusColor = (status: string) => {
       return 'default';
     case FEEDBACK_STATUS?.INACTIVE:
       return 'warning';
+    case FEEDBACK_STATUS?.EXPIRED:
+      return 'error';
+  }
+};
+const statusTextColor = (status: string) => {
+  switch (status) {
+    case FEEDBACK_STATUS?.PUBLISHED:
+    case FEEDBACK_STATUS?.EXPIRED:
+      return 'common.white';
+    default:
+      return 'common.black';
   }
 };
 const surveyType: { [key: string]: string } = {
@@ -97,7 +108,7 @@ export const customerSupportListColumn = (
             isLoading={defaultLoading?.[info?.row?.original?._id]}
             disabled={
               patchLoading ||
-              info?.row?.original?.status === surveyDataTypes?.draft ||
+              info?.row?.original?.status !== FEEDBACK_STATUS?.PUBLISHED ||
               info?.row?.original?.isDefault
             }
           />
@@ -123,6 +134,7 @@ export const customerSupportListColumn = (
         <Chip
           color={statusColor(info?.getValue())}
           label={capitalizeFirstLetter(info?.getValue())}
+          sx={{ color: statusTextColor(info?.getValue()) }}
         />
       ),
     },
@@ -185,10 +197,7 @@ export const feedbackDropdown = (
       ],
     },
   ];
-  if (
-    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.INACTIVE) &&
-    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.DRAFT)
-  ) {
+  if (!!shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.PUBLISHED)) {
     dropdownData?.unshift({
       id: 4,
       title: statusLoading ? (

@@ -3,6 +3,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { Header } from './Header';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { ExportTabI } from './ExportTab.interface';
+import { exportTabColumns } from './ExportTab.data';
 
 export const ExportTab = () => {
   const {
@@ -19,7 +20,6 @@ export const ExportTab = () => {
     setFilterValues,
     filterValues,
     listDataExport,
-    exportTabColumns,
   }: ExportTabI = useExportTab();
 
   return (
@@ -36,7 +36,7 @@ export const ExportTab = () => {
       />
       <TanstackTable
         columns={exportTabColumns}
-        data={data?.data?.datamanagements}
+        data={data?.data?.exportedfilelogs}
         isLoading={isLoading}
         isFetching={isFetching}
         isError={isError}

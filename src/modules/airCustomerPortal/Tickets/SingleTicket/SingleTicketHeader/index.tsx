@@ -1,13 +1,14 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Theme, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useSingleTicketHeader } from './useSingleTicketHeader';
 import { LoadingButton } from '@mui/lab';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   const { ticketNumber, singleTicketData } = props;
-  const { isLoading, updateTicketStatus, handleBack } =
+  const { isLoading, updateTicketStatus, handleBack, portalStyles } =
     useSingleTicketHeader(props);
 
   return (
@@ -36,6 +37,18 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
             variant="contained"
             loading={isLoading}
             onClick={updateTicketStatus}
+            sx={(theme: Theme) => ({
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+              '&:hover': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+              },
+            })}
           >
             Mark ticket as closed
           </LoadingButton>

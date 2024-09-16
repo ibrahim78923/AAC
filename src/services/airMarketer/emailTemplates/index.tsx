@@ -12,6 +12,17 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
+    getEmailTemplatesAsync: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${EMAIL_TEMPLATES?.GET_TEMPLATES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.emailtemplates;
+      },
+    }),
+
     getEmailTemplatesByID: builder.query({
       query: ({ params }: any) => ({
         url: `${EMAIL_TEMPLATES?.GET_TEMPLATES_BY_ID}`,
@@ -70,4 +81,5 @@ export const {
   useUpdateEmailTemplatesMutation,
   useDeleteEmailTemplatesMutation,
   usePostEmailWithTemplatesMutation,
+  useLazyGetEmailTemplatesAsyncQuery,
 } = emailTemplatesApi;

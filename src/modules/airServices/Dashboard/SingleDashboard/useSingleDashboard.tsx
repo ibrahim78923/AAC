@@ -1,71 +1,57 @@
-import { Theme, useTheme } from '@mui/material';
-import {
-  useGetDashboardCardsTicketsQuery,
-  useLazyGetSingleServicesDashboardQuery,
-} from '@/services/airServices/dashboard';
-import { useEffect, useState } from 'react';
+import { useGetSingleServicesDashboardQuery } from '@/services/airServices/dashboard';
+import { useRef, useState } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import useAuth from '@/hooks/useAuth';
 
 export const useSingleDashboard = (props: any) => {
-  const { dashboardId, setApiLoader } = props;
+  const { dashboardId } = props;
+  const downloadRef = useRef(null);
   const router: NextRouter = useRouter();
   const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
+  const auth: any = useAuth();
 
-  const [
-    lazyGetSingleServicesDashboardTrigger,
-    lazyGetSingleServicesDashboardStatus,
-  ]: any = useLazyGetSingleServicesDashboardQuery();
-
-  const theme: Theme = useTheme();
-  const {
-    data: cardsData,
-    isLoading,
-    isFetching,
-    isError,
-    refetch,
-  } = useGetDashboardCardsTicketsQuery(null, {
-    refetchOnMountOrArgChange: true,
+  const { _id: productId } = auth?.product;
+  const methods = useForm({
+    defaultValues: { dashboardId: null },
+    resolver: yupResolver(
+      Yup?.object()?.shape({
+        dashboardId: Yup?.mixed()?.nullable(),
+      }),
+    ),
   });
 
-  const cardData = cardsData?.data;
+  const { watch } = methods;
 
-  const getSingleDashboardData = async () => {
-    const apiDataParameter = {
-      queryParams: {
-        filterBy: ticketType,
-        departmentId: departmentId?._id,
-        dashboardId: router?.query?.dashboardId ?? dashboardId?._id,
-      },
-    };
-
-    try {
-      await lazyGetSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+  const apiDataParameter = {
+    queryParams: {
+      filterBy: ticketType,
+      departmentId: departmentId?._id,
+      dashboardId:
+        router?.query?.dashboardId ??
+        dashboardId?._id ??
+        watch?.('dashboardId')?._id,
+      productId,
+    },
   };
 
-  useEffect(() => {
-    setApiLoader?.(lazyGetSingleServicesDashboardStatus);
-  }, [lazyGetSingleServicesDashboardStatus]);
-
-  useEffect(() => {
-    getSingleDashboardData?.();
-  }, [ticketType, departmentId?._id, dashboardId]);
+  const lazyGetSingleServicesDashboardStatus =
+    useGetSingleServicesDashboardQuery?.(apiDataParameter, {
+      refetchOnMountOrArgChange: true,
+    });
 
   return {
-    theme,
-    cardData,
-    isLoading,
-    isFetching,
     lazyGetSingleServicesDashboardStatus,
     ticketType,
     setTicketType,
     departmentId,
     setDepartmentId,
     router,
-    getSingleDashboardData,
-    isError,
-    refetch,
+    methods,
+    downloadRef,
   };
 };

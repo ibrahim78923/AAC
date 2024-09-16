@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {
   FormProvider,
@@ -20,12 +20,13 @@ import {
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS,
 } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
-import { Attachments } from '@/components/Attachments';
 import ApiErrorState from '@/components/ApiErrorState';
+import { pxToRem } from '@/utils/getFontValue';
+import { ArticlesAttachment } from '../ArticlesAttachment';
 
 export const UpsertArticle = () => {
   const {
-    editArticleMethods: methods,
+    methods,
     upsertArticleSubmit,
     needApprovals,
     theme,
@@ -43,7 +44,7 @@ export const UpsertArticle = () => {
 
   if (isLoading || isFetching) return <SkeletonForm />;
 
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <PermissionsGuard
@@ -76,7 +77,7 @@ export const UpsertArticle = () => {
                 name="details"
                 label="Description"
                 placeholder="Write the description"
-                style={{ height: 500 }}
+                style={{ height: pxToRem(500) }}
                 required
               />
             </Box>
@@ -86,27 +87,7 @@ export const UpsertArticle = () => {
               ]}
             >
               <RHFDropZone name="attachments" fullWidth />
-              {!!articleId && (
-                <>
-                  <Typography
-                    variant="body1"
-                    fontWeight={500}
-                    color="slateBlue.main"
-                    my={2}
-                  >
-                    {' '}
-                    Attachments{' '}
-                  </Typography>
-                  <Box maxHeight={'20vh'}>
-                    <Attachments
-                      recordId={articleId}
-                      permissionKey={[
-                        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
-                      ]}
-                    />
-                  </Box>
-                </>
-              )}
+              <ArticlesAttachment />
             </PermissionsGuard>
             <br />
           </Grid>
@@ -132,6 +113,7 @@ export const UpsertArticle = () => {
             <Box flexGrow={{ lg: 1 }}></Box>
             <Box>
               <Box
+                mt={2}
                 sx={{
                   height: { lg: '100%' },
                   display: 'flex',
@@ -162,6 +144,7 @@ export const UpsertArticle = () => {
                       postArticleStatus?.isLoading ||
                       patchArticleStatus?.isLoading
                     }
+                    fullWidth
                     onClick={() =>
                       cancelBtnHandler(
                         needApprovals ? '' : ARTICLE_STATUS?.DRAFT,
@@ -193,6 +176,7 @@ export const UpsertArticle = () => {
                         ARTICLE_STATUS?.PUBLISHED,
                       )
                     }
+                    fullWidth
                     loading={
                       postArticleStatus?.isLoading ||
                       patchArticleStatus?.isLoading

@@ -71,9 +71,10 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getContactOwner: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.CONTACTS,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.contacts;
@@ -110,7 +111,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getContactById: builder.query({
+    getTicketContactById: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.CONTACTS}/${params?.id}`,
         method: 'GET',
@@ -142,6 +143,19 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getContactOwnerUsersDropdown: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.orgId}/users`,
+        method: 'GET',
+        params: {
+          search: params?.search,
+        },
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -157,8 +171,9 @@ export const {
   useLazyGetLifeCycleStageQuery,
   useLazyGetStatusQuery,
   usePostContactMutation,
-  useGetContactByIdQuery,
+  useGetTicketContactByIdQuery,
   usePostCompanyMutation,
   useGetAssociatesCompanyQuery,
   useGetCompanyByIdQuery,
+  useLazyGetContactOwnerUsersDropdownQuery,
 } = ticketsAssociationAPI;

@@ -4,11 +4,13 @@ import {
 } from '@/components/ReactHookForm';
 import useAddAccountDrawer from './useAddAccountDrawer';
 import * as Yup from 'yup';
+import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
 
 export const AddAccountArray = (props: any) => {
   const { companyRoleParams, organizationBasesProducts, organizationId } =
     props;
-  const { companyAccounts, companyRoles } = useAddAccountDrawer();
+  const { companyRoles } = useAddAccountDrawer();
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   return [
     {
@@ -33,8 +35,7 @@ export const AddAccountArray = (props: any) => {
         required: true,
         apiQuery: companyAccounts,
         getOptionLabel: (option: any) => option?.accountName,
-        externalParams: { orgId: organizationId },
-        queryKey: 'ordId',
+        externalParams: { orgId: organizationId, limit: 50 },
       },
       component: RHFAutocompleteAsync,
       md: 12,

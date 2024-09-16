@@ -32,6 +32,8 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
+import { AUTH } from '@/constants';
 
 const Security = () => {
   const router = useRouter();
@@ -71,6 +73,13 @@ const Security = () => {
     defaultValues: profileSecurityDefaultValues,
   });
 
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push(AUTH?.LOGIN);
+  };
+
   const { handleSubmit, reset } = profileSecurityForm;
   const onSubmit = async (values: any) => {
     const payload = {
@@ -82,7 +91,9 @@ const Security = () => {
       enqueueSnackbar('Password Change Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+
       reset();
+      handleLogout();
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;

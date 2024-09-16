@@ -8,24 +8,19 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   useGetTicketsByIdQuery,
-  useLazyGetAgentDropdownForTicketsQuery,
-  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
-  useLazyGetAssociateAssetsDropdownForTicketsQuery,
-  useLazyGetCategoriesDropdownForTicketsQuery,
-  useLazyGetDepartmentDropdownForTicketsQuery,
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
+
 import {
   errorSnackbar,
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
-import { PAGINATION } from '@/config';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -35,17 +30,37 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets/slice';
+import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
+import useAuth from '@/hooks/useAuth';
+import { getActiveAccountSession } from '@/utils';
 
-export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    ticketId,
-    setSelectedTicketList,
-    setFilterTicketLists,
-    getTicketsListData,
-    setPage,
-  } = props;
+export const useUpsertTicket = () => {
+  const auth: any = useAuth();
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
+  const userId = auth?.user?._id ?? {};
+  const organizationId = auth?.user?.organization?._id ?? {};
+
+  const dispatch = useAppDispatch();
+  const { getTicketsListData } = useGetTicketList();
+  const selectedTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.selectedTicketLists,
+  );
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
+
+  const ticketId =
+    isPortalOpen?.action === TICKETS_ACTION_CONSTANTS?.EDIT_TICKET
+      ? selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id
+      : '';
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -204,6 +219,10 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
         'ticketType',
         data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
       );
+      !!!ticketId && upsertTicketFormData?.append('userId', userId);
+      !!!ticketId && upsertTicketFormData?.append('companyId', companyId);
+      !!!ticketId &&
+        upsertTicketFormData?.append('organization', organizationId);
 
       if (body?.customFields) {
         upsertTicketFormData?.append(
@@ -223,11 +242,8 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
 
       await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Ticket Added Successfully');
-      reset();
-      getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
-      setFilterTicketLists?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
-      setIsPortalOpen?.({});
+      onClose?.();
+      await getTicketsListData();
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
@@ -247,40 +263,20 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
-      setSelectedTicketList([]);
-      reset();
-      getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
-      setFilterTicketLists?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
-      setIsPortalOpen?.({});
+      onClose?.();
+      await getTicketsListData();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const onClose = () => {
-    setSelectedTicketList([]);
     reset?.();
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
-  const apiQueryRequester =
-    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownForTicketsQuery();
-  const apiQueryAssociateAsset =
-    useLazyGetAssociateAssetsDropdownForTicketsQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownForTicketsQuery();
-
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
-    apiQueryRequester,
-    apiQueryDepartment,
-    apiQueryAgent,
-    apiQueryCategories,
-    apiQueryAssociateAsset,
-    router,
-    ticketId,
-  );
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
 
   return {
     router,
@@ -299,5 +295,6 @@ export const useUpsertTicket = (props: TicketActionComponentPropsI) => {
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    isPortalOpen,
   };
 };

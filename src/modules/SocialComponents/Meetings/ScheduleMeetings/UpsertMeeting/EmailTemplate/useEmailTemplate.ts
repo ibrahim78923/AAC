@@ -12,7 +12,7 @@ export const useEmilTemplate = () => {
   const theme = useTheme();
   const [search, setSearch] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState<Record<string, any>>({});
-  const router = useRouter();
+  const router: any = useRouter();
   const ticketId = router?.query?.ticketId;
   const meetingId = router?.query?.meetingId;
   const handleMoveCreateEmail = () => {

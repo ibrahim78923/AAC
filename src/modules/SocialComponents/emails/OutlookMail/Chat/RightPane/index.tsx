@@ -24,9 +24,11 @@ import SendEmailDrawer from '../../SendEmail';
 import {
   API_STATUS,
   CREATE_EMAIL_TYPES,
+  DATE_TIME_FORMAT,
   EMAIL_TABS_TYPES,
   FILE_TYPES,
   indexNumbers,
+  OUTLOOK_EMAIL_TABS_TYPES,
 } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
@@ -50,6 +52,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
 import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
+import dayjs from 'dayjs';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -77,9 +80,6 @@ const RightPane = ({
 
   const activeRecord = useAppSelector(
     (state: any) => state?.outlook?.activeRecord,
-  );
-  const loggedInState = useAppSelector(
-    (state: any) => state?.outlook?.loggedInState,
   );
 
   const {
@@ -335,7 +335,9 @@ const RightPane = ({
                                         paddingRight: '15px',
                                       }}
                                     >
-                                      {obj?.createdDateTime}
+                                      {dayjs(obj?.createdDateTime)?.format(
+                                        DATE_TIME_FORMAT?.DMYhmma,
+                                      )}
                                     </Typography>
                                     <Tooltip
                                       placement="top"
@@ -354,8 +356,8 @@ const RightPane = ({
                                               messageId: obj?.id,
                                               id: obj?.id,
                                               from:
-                                                obj?.from?.emailAddress
-                                                  ?.address === loggedInState
+                                                mailTabType?.displayName ===
+                                                OUTLOOK_EMAIL_TABS_TYPES?.SENT
                                                   ? obj?.toRecipients.map(
                                                       (item: any) =>
                                                         item?.emailAddress
@@ -375,10 +377,6 @@ const RightPane = ({
                                                 subject: obj?.subject,
                                                 body: '',
                                                 cc: obj?.ccRecipients?.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                ),
-                                                bcc: obj?.bccRecipients?.map(
                                                   (item: any) =>
                                                     item?.emailAddress?.address,
                                                 ),
@@ -407,24 +405,16 @@ const RightPane = ({
                                             setCurrentEmailAssets({
                                               messageId: obj?.id,
                                               id: obj?.id,
-                                              from: obj?.from?.emailAddress
+                                              from: obj?.sender?.emailAddress
                                                 ?.address,
                                               others: {
                                                 from: `${obj?.from?.emailAddress?.name} ${'<'}
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
-                                                sent: obj?.createdDateTime,
+                                                sent: obj?.sentDateTime,
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: '',
-                                                cc: obj?.ccRecipients?.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                ),
-                                                bcc: obj?.bccRecipients?.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                ),
                                               },
                                             }),
                                           );
@@ -545,10 +535,9 @@ const RightPane = ({
                                     <Box>
                                       <Typography variant="body3">
                                         <strong>Sent :</strong>{' '}
-                                        {obj?.createdDateTime}
+                                        {obj?.sentDateTime}
                                       </Typography>
                                     </Box>
-
                                     <Box>
                                       <Typography variant="body3">
                                         <strong>To : </strong>

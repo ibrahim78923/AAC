@@ -67,12 +67,15 @@ export const campaignDetailsData = (campaignsById: any) => {
     },
     {
       deatilsName: 'Campaign Spend total',
-      detailsDes: 'depends on third Party libarary',
+      detailsDes: campaignsData?.campaignTotalSpend
+        ? 'depends on third Party libarary'
+        : 'N/A',
     },
     {
       deatilsName: 'Campaign Notes',
-      detailsDes:
-        'This campaign will help you to get likes and your page reach will increase',
+      detailsDes: campaignsData?.campaignNotes
+        ? 'This campaign will help you to get likes and your page reach will increase'
+        : 'N/A',
       paddingBottom: '170px',
     },
   ];

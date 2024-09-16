@@ -14,14 +14,13 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import {
   FormProvider,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDateTimePicker,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { options } from './SendEmailDrawer.data';
 
 import {
   ClearIcon,
@@ -45,6 +44,9 @@ import { ImageComponent } from '../Chat/RightPane';
 import { useDispatch } from 'react-redux';
 import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 import dayjs from 'dayjs';
+import { useLazyGetEmailTemplatesAsyncQuery } from '@/services/airMarketer/emailTemplates';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
@@ -73,6 +75,10 @@ const SendEmailDrawer = (props: any) => {
     isToValid,
     isLoadingForward,
     loadingOtherReply,
+
+    setIsReplaceTemplate,
+    isReplaceTemplate,
+    handleUseTemplate,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType, emailSettingsData });
 
   const dispatch = useDispatch();
@@ -128,6 +134,8 @@ const SendEmailDrawer = (props: any) => {
       ),
     );
   };
+
+  const apiQueryUsers = useLazyGetEmailTemplatesAsyncQuery?.();
 
   return (
     <div>
@@ -261,13 +269,15 @@ const SendEmailDrawer = (props: any) => {
               </Grid>
 
               <Grid item md={6}>
-                <RHFSelect name="template" label="Template" size="small">
-                  {options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </RHFSelect>
+                <RHFAutocompleteAsync
+                  label="Template"
+                  name="template"
+                  fullWidth
+                  apiQuery={apiQueryUsers}
+                  size="small"
+                  placeholder="Select email"
+                  getOptionLabel={(option: any) => option?.name}
+                />
               </Grid>
               {isCrmConnected && (
                 <Grid item xs={12}>
@@ -422,42 +432,52 @@ const SendEmailDrawer = (props: any) => {
               </Box>
             )}
           </FormProvider>
-          <Box mt={2}>
-            <Box
-              sx={{
-                borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
-                padding: '5px 0px 5px 20px',
-              }}
-            >
-              <Box>
-                <Typography variant="body3">
-                  <strong>From :</strong> {currentEmailAssets?.others?.from}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>Sent :</strong>{' '}
-                  <UnixDateFormatter
-                    timestamp={currentEmailAssets?.others?.sent}
-                    timeZone="Asia/Karachi"
-                  ></UnixDateFormatter>
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>To :</strong>
-                  {currentEmailAssets?.others?.to}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body3">
-                  <strong>Subject:</strong>{' '}
-                  {currentEmailAssets?.others?.subject}
-                </Typography>
+          {drawerType !== CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+            <Box mt={2}>
+              <Box
+                sx={{
+                  borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                  padding: '5px 0px 5px 20px',
+                }}
+              >
+                <Box>
+                  <Typography variant="body3">
+                    <strong>From :</strong> {currentEmailAssets?.others?.from}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>Sent :</strong>{' '}
+                    <UnixDateFormatter
+                      timestamp={currentEmailAssets?.others?.sent}
+                      timeZone="Asia/Karachi"
+                    ></UnixDateFormatter>
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>To :</strong>
+                    {currentEmailAssets?.others?.to}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body3">
+                    <strong>Subject:</strong>{' '}
+                    {currentEmailAssets?.others?.subject}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          )}
         </Box>
+
+        <AlertModals
+          type={ALERT_MODALS_TYPE?.INFO}
+          open={isReplaceTemplate}
+          handleClose={() => setIsReplaceTemplate(false)}
+          handleSubmitBtn={handleUseTemplate}
+          message="Are you sure you want to replace changes with email template?"
+        />
       </CommonDrawer>
     </div>
   );

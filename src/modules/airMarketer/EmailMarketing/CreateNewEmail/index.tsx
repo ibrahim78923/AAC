@@ -37,23 +37,24 @@ import { enqueueSnackbar } from 'notistack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 
-const CreateNewEmail = () => {
+const CreateNewEmail = ({ edit, data }: any) => {
   const {
     isAddNoteDrawer,
     handleAddNoteDrawer,
     openCalendar,
     setOpenCalendar,
     router,
-    anchorEl,
-    handlePopverClick,
-    handlePopverClose,
-    menuOpen,
     sendAnchorEl,
     handleSendMenuClick,
     handleSendMenuClose,
     sendMenuOpen,
   }: any = useCreateNewEmail();
 
+  const theme = useTheme();
+
+  const { folder, id } = router.query;
+
+  const [notesData, setNotesData] = useState<any>([]);
   const [isCcVisible, setIsCcVisible] = useState(false);
   const [isBccVisible, setIsBccVisible] = useState(false);
 
@@ -116,6 +117,17 @@ const CreateNewEmail = () => {
     'attachments',
   ]);
 
+  useEffect(() => {
+    if (edit) {
+      if (data?.data) {
+        setValue('from', data?.data?.from);
+        setAutocompleteValues(data?.data?.to);
+        setValue('subject', data?.data?.subject);
+        setValue('description', data?.data?.message);
+      }
+    }
+  }, [data?.data]);
+
   const [toStateDep, setToStateDep] = useState(1);
   const isToExists = watchEmailsForm[indexNumbers?.TWO];
 
@@ -164,6 +176,20 @@ const CreateNewEmail = () => {
       if (sendLaterDate) {
         formDataSend.append('sentOn', sendLaterDate);
       }
+      if (id) {
+        formDataSend.append('folderId', id);
+      }
+      if (notesData.length > 0) {
+        const mappedData = notesData?.map(
+          ({ message, createdBy, uuid }: any) => ({
+            message,
+            createdBy,
+            uuid,
+          }),
+        );
+        const notesDataJson = JSON.stringify(mappedData);
+        formDataSend.append('notes', notesDataJson);
+      }
 
       try {
         await postEmailTemplate({
@@ -173,7 +199,13 @@ const CreateNewEmail = () => {
           variant: 'success',
         });
 
-        router.push(`${AIR_MARKETER?.EMAIL_MARKETING}`);
+        // router.push(`${AIR_MARKETER?.EMAIL_MARKETING}`);
+
+        router.push(
+          id
+            ? `${AIR_MARKETER?.EMAIL_FOLDER_EMAILS}?folder=${folder}&id=${id}`
+            : `${AIR_MARKETER?.EMAIL_MARKETING}`,
+        );
 
         reset();
       } catch (error: any) {
@@ -206,7 +238,7 @@ const CreateNewEmail = () => {
           <span style={{ cursor: 'pointer' }} onClick={() => router.back()}>
             <BackArrIcon />
           </span>
-          &nbsp; Create New Email
+          &nbsp;&nbsp; {edit ? 'Edit Details' : 'Create New Email'}
         </Typography>
         <Box>
           <Button variant="contained" onClick={handleAddNoteDrawer}>
@@ -215,7 +247,14 @@ const CreateNewEmail = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ mt: 3 }}>
+      <Box
+        sx={{
+          mt: 3,
+          ...(edit && {
+            paddingBottom: '60px',
+          }),
+        }}
+      >
         <FormProvider {...methodsDealsTasks} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={12} lg={7}>
@@ -314,7 +353,21 @@ const CreateNewEmail = () => {
           </Grid>
         </FormProvider>
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            mt: 2,
+            ...(edit && {
+              position: 'fixed',
+              bottom: '0px',
+              left: '0',
+              width: '100%',
+              background: theme?.palette?.common?.white,
+              padding: '20px 20px',
+            }),
+          }}
+        >
           <Button
             className="small"
             color="primary"
@@ -382,10 +435,10 @@ const CreateNewEmail = () => {
       <AddANote
         isDrawerOpen={isAddNoteDrawer}
         onClose={handleAddNoteDrawer}
-        isMenuOpen={menuOpen}
-        handlePopverClick={handlePopverClick}
-        handlePopverClose={handlePopverClose}
-        anchorEl={anchorEl}
+        edit={edit}
+        notesData={notesData}
+        setNotesData={setNotesData}
+        notesDataArray={data?.data}
       />
     </>
   );

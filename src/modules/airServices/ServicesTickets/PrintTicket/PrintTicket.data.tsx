@@ -2,59 +2,59 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 
-export const printData = (data: any) => [
+export const printData = (singleTicketDetail: any) => [
+  {
+    id: 1,
+    heading: 'Impact',
+    text: singleTicketDetail?.impact ?? '-',
+  },
+  {
+    id: 2,
+    heading: 'Priority',
+    text: singleTicketDetail?.pirority ?? '-',
+  },
   {
     id: 3,
-    heading: 'Impact',
-    text: data?.data?.[0]?.impact ?? '-',
+    heading: 'status',
+    text: singleTicketDetail?.status ?? '-',
   },
   {
     id: 4,
-    heading: 'Priority',
-    text: data?.data?.[0]?.pirority ?? '-',
+    heading: 'Source',
+    text: singleTicketDetail?.source ?? '-',
   },
   {
     id: 5,
-    heading: 'status',
-    text: data?.data?.[0]?.status ?? '-',
+    heading: 'Type',
+    text: singleTicketDetail?.ticketType ?? '-',
   },
   {
     id: 6,
-    heading: 'Source',
-    text: data?.data?.[0]?.source ?? '-',
-  },
-  {
-    id: 7,
-    heading: 'Type',
-    text: data?.data?.[0]?.ticketType ?? '-',
-  },
-  {
-    id: 9,
     heading: 'Agent',
     text:
       fullName(
-        data?.data?.[0]?.agentDetails?.firstName,
-        data?.data?.[0]?.agentDetails?.lastName,
+        singleTicketDetail?.agentDetails?.firstName,
+        singleTicketDetail?.agentDetails?.lastName,
       ) ?? '-',
   },
 
   {
-    id: 10,
+    id: 7,
     heading: 'Department',
-    text: data?.data?.[0]?.departmentDetails?.name ?? '-',
+    text: singleTicketDetail?.departmentDetails?.name ?? '-',
   },
 
   {
-    id: 11,
+    id: 8,
     heading: 'Category',
-    text: data?.data?.[0]?.categoryDetails?.categoryName ?? '-',
+    text: singleTicketDetail?.categoryDetails?.categoryName ?? '-',
   },
 
   {
-    id: 13,
+    id: 9,
     heading: 'Due by ',
     text:
-      dayjs(data?.data[0]?.requesterDetails?.createdAt)?.format(
+      dayjs(singleTicketDetail?.requesterDetails?.createdAt)?.format(
         DATE_TIME_FORMAT?.DDMYHMA,
       ) ?? '-',
   },

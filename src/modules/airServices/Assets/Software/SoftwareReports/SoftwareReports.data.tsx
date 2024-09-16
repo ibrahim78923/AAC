@@ -1,6 +1,5 @@
 import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
 import { fullName, truncateText } from '@/utils/avatarUtils';
-import { Typography } from '@mui/material';
 
 export const SOFTWARE_STATUS_COUNT = {
   TOTAL_SOFTWARE: 'totalSoftware',
@@ -89,30 +88,25 @@ export const softwareReportsTableColumnsDynamic = () => [
     id: 'name',
     isSortable: false,
     header: 'Name',
-    cell: (info: any) => (
-      <Typography
-        component="span"
-        color="custom.bright"
-        sx={{ cursor: 'pointer' }}
-      >
-        {truncateText(info?.getValue())}
-      </Typography>
-    ),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.softwareManagedByDetails,
-    id: 'managedByDetails',
+    id: 'softwareManagedByDetails',
     isSortable: false,
-    header: 'Managed by',
+    header: 'Managed By',
     cell: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      fullName(
+        info?.row?.original?.softwareManagedByDetails?.firstName,
+        info?.row?.original?.softwareManagedByDetails?.lastName,
+      ),
   },
   {
     accessorFn: (row: any) => row?.details,

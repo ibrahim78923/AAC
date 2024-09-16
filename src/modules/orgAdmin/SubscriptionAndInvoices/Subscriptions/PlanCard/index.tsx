@@ -40,17 +40,27 @@ const PlanCard: FC<PlanCardI> = ({
         <Box component={'span'} sx={styles?.planPlanLight}>
           {planDuration}{' '}
         </Box>
-        ({planUsers} users / {planData})
+        {type ? (
+          <>
+            ({planUsers} users / {plan?.planData?.defaultStorage} GB ){' '}
+            {planData}
+          </>
+        ) : (
+          <Box sx={{ height: '20px' }}></Box>
+        )}
       </Box>
-
       <Box sx={styles?.planStrip}>
         <Box sx={styles?.planPrice}>£{price}</Box>
         <Typography variant="body2" sx={styles?.planBillOn}>
-          {status === 'active' ? `To be billed on ${billOn}` : '-'}
+          {status === 'active' ? `To be billed on ${billOn}` : ''}
         </Typography>
       </Box>
 
-      <Box sx={styles?.planType}>{type}</Box>
+      {type ? (
+        <Box sx={styles?.planType}>{type}</Box>
+      ) : (
+        <Box sx={{ height: '20px' }}></Box>
+      )}
 
       <Stack
         spacing={'12px'}

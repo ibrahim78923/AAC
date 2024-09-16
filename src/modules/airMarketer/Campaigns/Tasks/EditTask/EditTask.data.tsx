@@ -27,11 +27,17 @@ export const validationSchema = (form: any) => {
     taskName: Yup?.string()?.required('Field is Required'),
     dueDate: Yup?.date()
       ?.min(today, 'You cannot select a past date')
-      ?.required('Date is required'),
+      ?.required('Field is Required'),
     taskType: Yup?.string()?.required('Field is Required'),
     campaignId: Yup?.object()?.required('Field is Required'),
     assignedTo: Yup?.object()?.required('Field is Required'),
     note: Yup?.string()?.required('Field is Required'),
+    time: Yup?.date()
+      ?.required('Field is Required')
+      ?.test('is-future-time', 'Time must be in the future', function (value) {
+        const currentDate = new Date();
+        return value && value > currentDate;
+      }),
     ...formSchema,
   });
 };
@@ -59,7 +65,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'taskName',
         label: 'Task Name',
-        placeholder: 'Enter Name',
+        placeholder: 'Enter name',
         required: true,
         fullWidth: true,
       },

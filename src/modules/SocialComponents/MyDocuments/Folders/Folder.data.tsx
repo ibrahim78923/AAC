@@ -1,6 +1,11 @@
-import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFDropZone,
+  RHFRadioGroup,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { generateImage } from '@/utils/avatarUtils';
-import { Box, Checkbox } from '@mui/material';
+import { Box } from '@mui/material';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import { RowI } from './Folder.interface';
@@ -8,42 +13,37 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import RowSelectionAll from '@/components/RowSelectionAll';
+import RowSelection from '@/components/RowSelection';
+import { VISIBLETO_OPTIONS } from '../Documents/Documents.data';
 
-export const columns: any = (
-  setIsGetRowValues: React.Dispatch<React.SetStateAction<string[]>>,
-  setIschecked: React.Dispatch<React.SetStateAction<boolean>>,
-  ischecked: boolean,
-  isGetRowValues: string[],
-) => {
+export const columns: any = (selectedRow: any, setSelectedRow: any) => {
   return [
     {
-      accessorFn: (row: RowI) => row?._id,
-      id: 'id',
-      cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          checked={isGetRowValues?.includes(info?.row?.original?._id)}
-          name={info?.getValue()}
-          onClick={() => {
-            const isChecked = isGetRowValues?.includes(
-              info?.row?.original?._id,
-            );
-            if (!isChecked) {
-              setIsGetRowValues((prev: any) => [
-                ...prev,
-                info?.row?.original?._id,
-              ]);
-            } else {
-              setIsGetRowValues((prev: any) =>
-                prev.filter((id: any) => id !== info?.row?.original?._id),
-              );
-            }
-            setIschecked(!isChecked);
-          }}
-        />
-      ),
-      header: <Checkbox color="primary" name="Id" />,
+      accessorFn: (row: any) => row?.Id,
+      id: 'Id',
       isSortable: false,
+      header: (info: any) => {
+        const rows = info?.table?.options?.data;
+        return (
+          <RowSelectionAll
+            rows={rows}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+            disabled={rows?.length === 0}
+          />
+        );
+      },
+      cell: (info: any) => {
+        const id = info?.cell?.row?.original?._id;
+        return (
+          <RowSelection
+            id={id}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+          />
+        );
+      },
     },
     {
       accessorFn: (row: RowI) => row?.name,
@@ -130,22 +130,116 @@ export const dataArray = [
   },
 ];
 
-export const ImageUploadSchema: any = Yup?.object()?.shape({
-  file: Yup?.string()?.required('Field is Required'),
-});
+export const uploadDocumentValidationSchema = (visibleTo: string) =>
+  Yup?.object()?.shape({
+    file: Yup?.mixed()?.nullable()?.required('Field is Required'),
+    visibleTo: Yup?.string()?.required('Field is Required'),
+    userIds:
+      visibleTo === VISIBLETO_OPTIONS?.USERS
+        ? Yup.array()
+            .min(1, 'At least one user must be selected')
+            .required('Field is Required')
+        : Yup.array().ensure(),
+    teamIds:
+      visibleTo === VISIBLETO_OPTIONS?.TEAMS
+        ? Yup.array()
+            .min(1, 'At least one user must be selected')
+            .required('Field is Required')
+        : Yup.array().ensure(),
+  });
 
-export const defaultValuesImage = {
-  file: '',
+export const uploadDocumentDefaultValues = {
+  file: null,
+  visibleTo: VISIBLETO_OPTIONS?.EVERYONE,
+  userIds: [],
+  teamIds: [],
 };
 
-export const dataArrayImage = [
+export const uploadDocumentData = (
+  watchVisibleTo: any,
+  orgUsersData: any,
+  orgId: string,
+  orgTeamsData: any,
+) => [
   {
     componentProps: {
       name: 'file',
       fullWidth: true,
-      select: false,
+      required: true,
     },
     component: RHFDropZone,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'visibleTo',
+      label: 'Shared with',
+      fullWidth: true,
+      defaultValue: 'EVERYONE',
+      options: [
+        { value: VISIBLETO_OPTIONS?.PRIVATE, label: 'Private' },
+        { value: VISIBLETO_OPTIONS?.USERS, label: 'Specific users' },
+        { value: VISIBLETO_OPTIONS?.TEAMS, label: 'Specific teams' },
+        { value: VISIBLETO_OPTIONS?.EVERYONE, label: 'Everyone' },
+      ],
+      row: false,
+      required: true,
+    },
+    component: RHFRadioGroup,
+    md: 12,
+  },
+  ...(watchVisibleTo === VISIBLETO_OPTIONS?.USERS
+    ? [
+        {
+          componentProps: {
+            placeholder: 'Select users',
+            name: 'userIds',
+            label: 'Select Users',
+            apiQuery: orgUsersData,
+            multiple: true,
+            getOptionLabel: (option: any) =>
+              `${option?.firstName} ${option?.lastName}`,
+            externalParams: { id: orgId },
+          },
+          component: RHFAutocompleteAsync,
+          md: 12,
+        },
+      ]
+    : []),
+  ...(watchVisibleTo === VISIBLETO_OPTIONS?.TEAMS
+    ? [
+        {
+          componentProps: {
+            placeholder: 'Select teams',
+            name: 'teamIds',
+            label: 'Select Teams',
+            apiQuery: orgTeamsData,
+            multiple: true,
+            getOptionLabel: (option: any) => `${option?.name}`,
+            externalParams: { meta: false },
+          },
+          component: RHFAutocompleteAsync,
+          md: 12,
+        },
+      ]
+    : []),
+];
+
+export const filterData = [
+  {
+    componentProps: {
+      name: 'visibleTo',
+      label: 'Filter by',
+      fullWidth: true,
+      defaultValue: 'EVERYONE',
+      options: [
+        { value: VISIBLETO_OPTIONS?.PRIVATE, label: 'Me' },
+        { value: VISIBLETO_OPTIONS?.TEAMS, label: 'My Teams' },
+        { value: VISIBLETO_OPTIONS?.EVERYONE, label: 'Any' },
+      ],
+      row: false,
+    },
+    component: RHFRadioGroup,
     md: 12,
   },
 ];

@@ -5,26 +5,37 @@ import {
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  useLazyGetAgentDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  usePutTicketsMutation,
-} from '@/services/airServices/tickets';
+import { usePutTicketsMutation } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airServices/tickets/slice';
 import { PAGINATION } from '@/config';
 
-export const useMoveTickets = (props: TicketActionComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedTicketList,
-    selectedTicketList,
-    singleTicketDetail,
-    setFilterTicketLists,
-    getTicketsListData,
-    setPage,
-  } = props;
+export const useMoveTickets = () => {
+  const dispatch = useAppDispatch();
+
+  const { getTicketsListData, page } = useGetTicketList();
+
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesTickets?.totalRecords,
+  );
+
+  const selectedTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.selectedTicketLists,
+  );
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
+
+  const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
+
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
   const moveTicketsFormMethod = useForm<any>({
@@ -33,6 +44,15 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
   });
 
   const { handleSubmit, reset } = moveTicketsFormMethod;
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedTicketLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage?.(newPage));
+    await getTicketsListData?.(newPage);
+  };
 
   const submitMoveTicketsForm = async (data: any) => {
     const moveTicketFormData = new FormData();
@@ -44,7 +64,7 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     moveTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
     moveTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
     moveTicketFormData?.append('status', singleTicketDetail?.status);
-    moveTicketFormData?.append('id', selectedTicketList?.[ARRAY_INDEX?.ZERO]);
+    moveTicketFormData?.append('id', singleTicketDetail?._id);
     moveTicketFormData?.append('department', data?.department?._id);
     moveTicketFormData?.append('agent', data?.agent?._id);
 
@@ -56,9 +76,7 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
       closeMoveTicketsModal?.();
-      setFilterTicketLists?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
-      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
+      await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -66,16 +84,11 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
 
   const closeMoveTicketsModal = () => {
     reset();
-    setSelectedTicketList([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const moveTicketsFormFields = moveTicketsFormFieldsDynamic(
-    apiQueryDepartment,
-    apiQueryAgent,
-  );
+  const moveTicketsFormFields = moveTicketsFormFieldsDynamic();
 
   return {
     moveTicketsFormMethod,
@@ -84,5 +97,6 @@ export const useMoveTickets = (props: TicketActionComponentPropsI) => {
     submitMoveTicketsForm,
     moveTicketsFormFields,
     putTicketStatus,
+    isPortalOpen,
   };
 };

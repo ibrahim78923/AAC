@@ -87,6 +87,7 @@ const useInvoices = () => {
 
   const handleRefresh = async () => {
     setFilterValues('');
+    reset();
   };
 
   const { handleSubmit, reset } = FilterInvoiceFilters;

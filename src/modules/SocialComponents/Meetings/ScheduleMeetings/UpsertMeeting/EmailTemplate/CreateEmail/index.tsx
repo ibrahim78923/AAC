@@ -1,12 +1,11 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box } from '@mui/material';
-import { useCreateEmail } from './useCreateEmail';
+import { Box, Chip } from '@mui/material';
+import { apiKeys, useCreateEmail } from './useCreateEmail';
 import PreviewModal from '../PreviewModal';
 import { FormProvider, RHFImageEditor } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const CreateEmail = () => {
   const {
@@ -25,11 +24,13 @@ const CreateEmail = () => {
     isLoading,
     isError,
     refetch,
-    templateType,
     updateEmailProcess,
+    quillRef,
+    handleInsertText,
   } = useCreateEmail();
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -43,9 +44,17 @@ const CreateEmail = () => {
             name="emailTemplate"
             style={{ height: 600 }}
             placeholder="Enter Email Text"
-            disabled={templateType === GENERIC_UPSERT_FORM_CONSTANT?.USE}
+            quillRef={quillRef}
           />
         </Box>
+        {apiKeys?.map((key) => (
+          <Chip
+            key={key?.id}
+            sx={{ m: 0.5 }}
+            label={key?.label}
+            onClick={() => handleInsertText(key?.value)}
+          />
+        ))}
         <Box display={'flex'} justifyContent={'space-between'}>
           <LoadingButton
             sx={{

@@ -1,0 +1,162 @@
+import { ArticlesTableRowI } from '../Articles.interface';
+import { Checkbox, Chip, Typography } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { fullName, truncateText } from '@/utils/avatarUtils';
+import { CustomChips } from '@/components/CustomChips';
+
+const bgColor: any = {
+  published: 'blue.main',
+  draft: 'grey.400',
+};
+const color: any = {
+  published: 'white',
+  draft: 'slateBlue.main',
+};
+
+export const styleFunction: any = (value: string) => ({
+  bgColor: bgColor?.[value?.toLowerCase()],
+  color: color?.[value?.toLowerCase()],
+});
+
+export const articlesListColumnsDynamic = (
+  articlesList: any = [],
+  selectedArticlesData: any,
+  setSelectedArticlesData: any,
+  handleSingleArticleNavigation: (id: string) => void,
+) => {
+  return [
+    {
+      accessorFn: (row: ArticlesTableRowI) => row?._id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            !!selectedArticlesData?.find(
+              (item: any) => item?._id === info?.getValue(),
+            )
+          }
+          onChange={(e: any) => {
+            e?.target?.checked
+              ? setSelectedArticlesData([
+                  ...selectedArticlesData,
+                  info?.row?.original,
+                ])
+              : setSelectedArticlesData(
+                  selectedArticlesData?.filter(
+                    (item: any) => item?._id !== info?.getValue(),
+                  ),
+                );
+          }}
+          color="primary"
+          name={info?.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            articlesList?.length
+              ? selectedArticlesData?.length === articlesList?.length
+              : false
+          }
+          onChange={(e: any) => {
+            e?.target?.checked
+              ? setSelectedArticlesData(
+                  articlesList?.map((article: any) => article),
+                )
+              : setSelectedArticlesData([]);
+          }}
+          color="primary"
+          name="id"
+        />
+      ),
+    },
+    {
+      accessorFn: (row: ArticlesTableRowI) => row?.title,
+      id: 'title',
+      isSortable: false,
+      header: 'Article',
+      cell: (info: any) => {
+        return (
+          <Typography
+            component={'span'}
+            onClick={() =>
+              handleSingleArticleNavigation(info?.row?.original?._id)
+            }
+            style={{ cursor: 'pointer', fontWeight: 600 }}
+          >
+            {truncateText(info?.getValue())}
+          </Typography>
+        );
+      },
+    },
+    {
+      accessorFn: (row: ArticlesTableRowI) => row?.status,
+      id: 'status',
+      header: 'Status',
+      isSortable: true,
+      cell: (info: any) => (
+        <Chip
+          label={
+            <Typography
+              component={'span'}
+              style={{ textTransform: 'capitalize' }}
+            >
+              {info?.getValue()?.toLowerCase()}
+            </Typography>
+          }
+          size="small"
+          sx={{
+            backgroundColor: styleFunction?.(info?.getValue())?.bgColor,
+            color: styleFunction?.(info?.getValue())?.color,
+          }}
+        />
+      ),
+    },
+    {
+      accessorFn: (row: ArticlesTableRowI) => row?.ticketDetails,
+      id: 'ticketDetails',
+      isSortable: true,
+      header: `Inserted Tickets`,
+      cell: (info: any) =>
+        !!info?.getValue()?.length ? (
+          <CustomChips
+            data={info?.getValue()?.map((item: any) => ({
+              label: item?.subject,
+              _id: item?._id,
+            }))}
+          />
+        ) : (
+          <Chip
+            size="small"
+            label="---"
+            variant="filled"
+            color={'primary'}
+            sx={{ mx: 0.5, my: 0.5 }}
+          />
+        ),
+    },
+    {
+      accessorFn: (row: ArticlesTableRowI) => row?.author,
+      id: 'author',
+      isSortable: true,
+      header: 'Author',
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+    },
+    {
+      accessorFn: (row: ArticlesTableRowI) => row?.folder,
+      id: 'folder',
+      isSortable: true,
+      header: 'Folder',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {truncateText(info?.getValue()?.name)}
+        </Typography>
+      ),
+    },
+  ];
+};

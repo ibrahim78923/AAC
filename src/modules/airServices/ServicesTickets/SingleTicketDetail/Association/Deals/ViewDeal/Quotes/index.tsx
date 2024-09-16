@@ -59,14 +59,14 @@ export default function Quotes({ theme, dealQuotes }: any) {
             >
               <Box display={'flex'} flexDirection={'column'}>
                 <Typography variant={'body2'} fontWeight={700}>
-                  {item?.name}
+                  {item?.name ?? '---'}
                 </Typography>
                 <Typography variant={'body2'} fontWeight={400}>
                   {dayjs(item?.expiryDate)?.format(DATE_FORMAT?.UI)}
                 </Typography>
               </Box>
               <Chip
-                label={item?.status}
+                label={item?.status ?? '---'}
                 sx={{
                   bgcolor:
                     item?.status === ARTICLE_STATUS?.PUBLISHED

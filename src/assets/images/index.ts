@@ -292,3 +292,6 @@ export { default as TransferredCallsImage } from './modules/airCallCenter/Dashbo
 export { default as MissedCallsImage } from './modules/airCallCenter/Dashboard/Performance/missed-calls-bg-image.png';
 export { default as AnsweredCallsImage } from './modules/airCallCenter/Dashboard/Performance/answered-calls-bg-image.png';
 export { default as TotalCallsImage } from './modules/airCallCenter/Dashboard/Performance/total-calls-bg-image.png';
+export { default as AirCustomerPortalLogo } from './modules/airCustomerPortal/customer-portal-logo.png';
+export { default as AirCustomerPortalProfile } from './modules/airCustomerPortal/customer-portal-profile.png';
+export { default as AirCustomerPortalDashboard } from './modules/airCustomerPortal/customer-portal-dashboard.png';

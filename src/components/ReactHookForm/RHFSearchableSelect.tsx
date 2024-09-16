@@ -13,6 +13,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 
 import { ArrowDownIcon } from '@/assets/icons';
 import Search from '../Search';
+import { indexNumbers } from '@/constants';
 
 export default function RHFSearchableSelect({
   name,
@@ -108,34 +109,40 @@ export default function RHFSearchableSelect({
                   },
                 }}
               />
-              {filteredOptions?.map((option: any) => (
-                <Box
-                  key={option?.value}
-                  onClick={() => {
-                    handleClose(),
-                      field.onChange(option?.value),
-                      setSelectedValue(option?.label);
-                  }}
-                  sx={{
-                    width: '100%',
-                    height: '30px',
-                    padding: '5px 10px',
-                    display: 'flex',
-                    marginBottom: '10px',
-                    gap: '5px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    backgroundColor: selectedValue?.includes(option?.value)
-                      ? '#e0e0e0'
-                      : 'transparent',
-                    '&:hover': {
-                      backgroundColor: '#e0e0e0',
-                    },
-                  }}
-                >
-                  {option.label}
-                </Box>
-              ))}
+              {filteredOptions?.length > indexNumbers?.ZERO ? (
+                filteredOptions?.map((option: any) => (
+                  <Box
+                    key={option?.value}
+                    onClick={() => {
+                      handleClose(),
+                        field.onChange(option?.value),
+                        setSelectedValue(option?.label);
+                    }}
+                    sx={{
+                      width: '100%',
+                      height: '30px',
+                      padding: '5px 10px',
+                      display: 'flex',
+                      marginBottom: '10px',
+                      gap: '5px',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      backgroundColor: selectedValue?.includes(option?.value)
+                        ? '#e0e0e0'
+                        : 'transparent',
+                      '&:hover': {
+                        backgroundColor: '#e0e0e0',
+                      },
+                    }}
+                  >
+                    {option.label}
+                  </Box>
+                ))
+              ) : (
+                <Typography color={theme?.palette?.grey[500]}>
+                  No Data Found
+                </Typography>
+              )}
               {isFooter && (
                 <Box
                   color={theme?.palette?.primary?.main}

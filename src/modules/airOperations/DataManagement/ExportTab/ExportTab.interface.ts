@@ -9,7 +9,7 @@ export interface ExportTabState {
 
 export interface ExportTabResponseData {
   data: {
-    datamanagements: any[];
+    exportedfilelogs: any[];
     meta: {
       page: number;
       pages: number;
@@ -25,9 +25,9 @@ export interface ExportTabResponseData {
 
 export interface ExportTabI {
   page: number;
-  setPage: (page: number) => void;
+  setPage: any;
   pageLimit: number;
-  setPageLimit: (limit: number) => void;
+  setPageLimit: any;
   setSearch: (search: string) => void;
   data: ExportTabResponseData | undefined;
   isFetching: boolean;
@@ -39,7 +39,6 @@ export interface ExportTabI {
   setFilterValues: (values: Record<string, any>) => void;
   filterValues: Record<string, any>;
   listDataExport: any;
-  exportTabColumns: any[];
 }
 
 export interface ExportDataRow {
@@ -54,9 +53,3 @@ export interface ExportDataRow {
   status: string;
   createdAt: string;
 }
-
-export type ExportTabColumnsI = (
-  exportList: ExportDataRow[],
-  selectedExportList: ExportDataRow[],
-  setSelectedExportList: React.Dispatch<React.SetStateAction<any>>,
-) => any[];

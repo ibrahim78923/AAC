@@ -10,25 +10,31 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetAgentDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
   usePatchBulkUpdateTicketsMutation,
   usePostAddReplyToBulkUpdateMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
+import {
+  emptySelectedTicketLists,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airServices/tickets/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { PAGINATION } from '@/config';
 
-export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedTicketList,
-    selectedTicketList,
-    setFilterTicketLists,
-    getTicketsListData,
-    setPage,
-  } = props;
-
+export const useTicketBulkUpdate = () => {
+  const dispatch = useAppDispatch();
+  const { getTicketsListData, page } = useGetTicketList();
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesTickets?.totalRecords,
+  );
+  const selectedTicketLists = useAppSelector(
+    (state) => state?.servicesTickets?.selectedTicketLists,
+  );
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTickets?.isPortalOpen,
+  );
   const [isReplyAdded, setIsReplyAdded] = useState(false);
 
   const theme: any = useTheme();
@@ -67,6 +73,15 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     }
   };
 
+  const refetchApi = async () => {
+    const newPage =
+      selectedTicketLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage?.(newPage));
+    await getTicketsListData?.(newPage);
+  };
+
   const submitTicketBulkUpdateForm = async (data: any) => {
     const body: any = Object?.entries(data || {})
       ?.filter(
@@ -81,8 +96,8 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
         {},
       );
     const bulkUpdateTicketParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => bulkUpdateTicketParams?.append('ids', ticketId),
+    selectedTicketLists?.forEach(
+      (ticketId: any) => bulkUpdateTicketParams?.append('ids', ticketId?._id),
     );
     const bulkUpdateTicketsParameter = {
       queryParams: bulkUpdateTicketParams,
@@ -92,15 +107,11 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     try {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
-      setIsPortalOpen?.({});
-      setFilterTicketLists?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
-      await getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       if (!!data?.to?.length && !!data?.description) {
         submitReply?.(data);
       }
-      reset();
-      setSelectedTicketList?.([]);
+      onClose();
+      await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -108,15 +119,11 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
 
   const onClose = () => {
     reset?.();
-    setIsPortalOpen({});
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-  const ticketsBulkUpdateFormFields = ticketsBulkUpdateFormFieldsDynamic?.(
-    apiQueryAgent,
-    apiQueryCategories,
-  );
+  const ticketsBulkUpdateFormFields = ticketsBulkUpdateFormFieldsDynamic?.();
 
   return {
     ticketsBulkUpdateFormFields,
@@ -130,5 +137,6 @@ export const useTicketBulkUpdate = (props: TicketActionComponentPropsI) => {
     submitTicketBulkUpdateForm,
     patchBulkUpdateTicketsStatus,
     postAddReplyToBulkUpdateStatus,
+    isPortalOpen,
   };
 };

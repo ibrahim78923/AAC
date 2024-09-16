@@ -49,7 +49,6 @@ const ItemBilling = ({ watch }: any) => {
             sm={6}
             md={5}
             lg={4}
-            xl={2.5}
             sx={{
               ...flexBetween,
               ...billingWrapper,
@@ -83,7 +82,7 @@ const ItemBilling = ({ watch }: any) => {
                     max: item?.name === 'shipping' ? null : 100,
                     min: 0,
                     style: {
-                      width: 50,
+                      width: 100,
                       height: 1,
                     },
                   }}

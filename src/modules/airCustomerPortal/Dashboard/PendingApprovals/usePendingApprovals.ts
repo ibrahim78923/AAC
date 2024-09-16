@@ -10,6 +10,7 @@ export const usePendingApprovals = () => {
     },
   };
 
+  const companyId = router?.query?.companyId;
   const { data, isLoading, isFetching, isError, refetch } =
     useGetPendingForApprovalsTicketsQuery(
       getPendingForApprovalsTicketsParameter,
@@ -25,5 +26,6 @@ export const usePendingApprovals = () => {
     isError,
     router,
     refetch,
+    companyId,
   };
 };

@@ -1,4 +1,4 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -9,27 +9,23 @@ import {
   Typography,
 } from '@mui/material';
 import { useAssignedTickets } from './useAssignedTickets';
-import { ROLES } from '@/constants/strings';
-import { TicketActionComponentPropsI } from '../TicketsLists/TicketsLists.interface';
-import { PAGINATION } from '@/config';
 import CloseIcon from '@mui/icons-material/Close';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 
-export const AssignedTickets = (props: TicketActionComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const AssignedTickets = () => {
   const {
     assignedTicketsMethod,
     handleSubmit,
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
-    apiQueryAgent,
     putTicketStatus,
-  }: any = useAssignedTickets(props);
+    isPortalOpen,
+  }: any = useAssignedTickets();
 
   return (
     <Dialog
       open={isPortalOpen?.isOpen as boolean}
-      onClose={() => closeTicketsAssignedModal?.()}
+      onClose={closeTicketsAssignedModal}
       fullWidth
       maxWidth={'sm'}
     >
@@ -51,33 +47,18 @@ export const AssignedTickets = (props: TicketActionComponentPropsI) => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => closeTicketsAssignedModal?.()}
+              onClick={closeTicketsAssignedModal}
             />
           </Box>
         </DialogTitle>
         <DialogContent>
-          <RHFAutocompleteAsync
-            label="Select user"
-            name="user"
-            fullWidth
-            required
-            apiQuery={apiQueryAgent}
-            size="small"
-            placeholder="Choose Agent"
-            externalParams={{
-              limit: PAGINATION?.CURRENT_PAGE,
-              role: ROLES?.ORG_EMPLOYEE,
-            }}
-            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
-              `${option?.firstName} ${option?.lastName}`
-            }
-          />
+          <AgentFieldDropdown />
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"
-            onClick={() => closeTicketsAssignedModal?.()}
+            onClick={closeTicketsAssignedModal}
             disabled={putTicketStatus?.isLoading}
           >
             Cancel

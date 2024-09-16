@@ -1,14 +1,13 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFSwitch,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ApprovalsFields, FoldersFields } from '../../KnowledgeBaseFormFields';
 
-export const defaultValues = (
+export const upsertArticleDefaultValues = (
   articleData?: UpsertArticlesFormDefaultValuesI,
 ) => {
   return {
@@ -53,100 +52,73 @@ export const upsertArticleValidationSchema = Yup?.object()?.shape({
     }),
 });
 
-export const editArticleFieldsFunction = (
-  needApprovals: boolean,
-  apiQueryFolder: any,
-  apiQueryApprover: any,
-) => {
-  const conditionalFields = [
-    {
-      id: 1,
-      componentProps: {
-        fullWidth: true,
-        name: 'approver',
-        label: 'Approver',
-        required: needApprovals,
-        placeholder: 'Select an approver',
-        sx: { pb: 1.2 },
-        externalParams: { admin: true },
-        apiQuery: apiQueryApprover,
-        getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-          `${option?.firstName} ${option?.lastName}`,
-      },
-      gridLength: 12,
-      component: RHFAutocompleteAsync,
+export const upsertArticleFormFieldsDynamic = (needApprovals: boolean) => [
+  {
+    id: 1,
+    component: FoldersFields,
+    gridLength: 12,
+  },
+  {
+    id: 2,
+    componentProps: {
+      fullWidth: true,
+      name: 'tags',
+      label: 'Tags',
+      placeholder: 'Write tags and press enter',
+      sx: { pb: 1.2 },
+      freeSolo: true,
+      options: [],
+      multiple: true,
+      isOptionEqualToValue: () => {},
     },
-    {
-      id: 6,
-      component: RHFDatePicker,
-      gridLength: 12,
-      componentProps: {
-        fullWidth: true,
-        required: needApprovals,
-        name: 'reviewDate',
-        label: 'Review Date',
-        sx: { pb: 1.2 },
-      },
+    gridLength: 12,
+    component: RHFAutocomplete,
+  },
+  {
+    id: 3,
+    componentProps: {
+      fullWidth: true,
+      name: 'keywords',
+      label: 'Keywords',
+      placeholder: 'Write keywords and press enter',
+      freeSolo: true,
+      options: [],
+      multiple: true,
+      isOptionEqualToValue: () => {},
     },
-  ];
-  const defaultFields = [
-    {
-      id: 3,
-      component: RHFAutocompleteAsync,
-      gridLength: 12,
-      componentProps: {
-        fullWidth: true,
-        required: true,
-        name: 'folder',
-        label: 'Folder',
-        placeholder: 'Select a folder',
-        apiQuery: apiQueryFolder,
-        sx: { pb: 1.2 },
-      },
+    gridLength: 12,
+    component: RHFAutocomplete,
+  },
+  {
+    id: 4,
+    component: RHFSwitch,
+    gridLength: 12,
+    componentProps: {
+      name: 'needsApproval',
+      label: 'Need Approvals',
+      sx: { pb: 1.8, pl: 1 },
     },
-    {
-      id: 8,
-      componentProps: {
-        fullWidth: true,
-        name: 'tags',
-        label: 'Tags',
-        placeholder: 'Write tags and press enter',
-        sx: { pb: 1.2 },
-        freeSolo: true,
-        options: [],
-        multiple: true,
-        isOptionEqualToValue: () => {},
-      },
-      gridLength: 12,
-      component: RHFAutocomplete,
-    },
-    {
-      id: 2,
-      componentProps: {
-        fullWidth: true,
-        name: 'keywords',
-        label: 'Keywords',
-        placeholder: 'Write keywords and press enter',
-        freeSolo: true,
-        options: [],
-        multiple: true,
-        isOptionEqualToValue: () => {},
-      },
-      gridLength: 12,
-      component: RHFAutocomplete,
-    },
-    {
-      id: 4,
-      component: RHFSwitch,
-      gridLength: 12,
-      componentProps: {
-        name: 'needsApproval',
-        label: 'Need Approvals',
-        sx: { pb: 1.8, pl: 1 },
-      },
-    },
-  ];
-  return needApprovals
-    ? [...defaultFields, ...conditionalFields]
-    : defaultFields;
-};
+  },
+  ...(needApprovals
+    ? [
+        {
+          id: 5,
+          component: ApprovalsFields,
+          gridLength: 12,
+        },
+        {
+          id: 6,
+          component: RHFDatePicker,
+          gridLength: 12,
+          componentProps: {
+            fullWidth: true,
+            required: needApprovals,
+            name: 'reviewDate',
+            label: 'Review Date',
+            sx: { pb: 1.2 },
+            textFieldProps: { readOnly: true },
+          },
+        },
+      ]
+    : []),
+];

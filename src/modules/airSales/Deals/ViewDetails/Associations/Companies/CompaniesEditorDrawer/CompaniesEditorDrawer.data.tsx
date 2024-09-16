@@ -4,7 +4,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { COMPANITES_TYPE } from '@/constants';
-import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const companiesValidationSchema = Yup?.object()?.shape({
@@ -18,11 +17,13 @@ export const companiesValidationSchema = Yup?.object()?.shape({
       ? field?.required('Field is required')
       : field?.optional(),
   ),
-  ownerId: Yup?.object()?.when('company', ([company]: any, field: any) =>
-    company === COMPANITES_TYPE?.NEW_COMPANY
-      ? field?.required('Field is required')
-      : field?.optional(),
-  ),
+  ownerId: Yup?.object()
+    ?.nullable()
+    ?.when('company', ([company]: any, field: any) =>
+      company === COMPANITES_TYPE?.NEW_COMPANY
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
 });
 
 export const companiesDefaultValues = {
@@ -34,7 +35,6 @@ export const companiesDefaultValues = {
 };
 
 export const companiesDataArray = (getCompanyContactsList: any) => {
-  const { user }: any = getSession();
   return [
     {
       componentProps: {
@@ -68,9 +68,9 @@ export const companiesDataArray = (getCompanyContactsList: any) => {
         required: true,
         apiQuery: getCompanyContactsList,
         getOptionLabel: (option: any) =>
-          `${option?.firstName} ${option?.lastName}`,
-        externalParams: { contactOwnerId: user?._id },
-        queryKey: 'contactOwnerId',
+          option?.firstName
+            ? `${option?.firstName} ${option?.lastName}`
+            : 'N/A',
       },
       component: RHFAutocompleteAsync,
       md: 12,

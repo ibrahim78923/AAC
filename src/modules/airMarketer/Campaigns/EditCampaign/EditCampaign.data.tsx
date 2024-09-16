@@ -44,7 +44,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
       componentProps: {
         name: 'title',
         label: 'Title',
-        placeholder: 'Enter Title',
+        placeholder: 'Enter title',
         required: true,
         fullWidth: true,
       },
@@ -56,7 +56,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         name: 'campaignOwner',
         label: 'Campaign Owner',
         fullWidth: true,
-        placeholder: 'Select Owner',
+        placeholder: 'Select owner',
         apiQuery: userListData,
         getOptionLabel: (item: any) =>
           item ? `${item?.firstName} ${item?.lastName}` : '',
@@ -97,7 +97,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
       componentProps: {
         name: 'campaignGoal',
         label: 'Campaign Goal',
-        placeholder: 'Enter Goal',
+        placeholder: 'Enter goal',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -107,7 +107,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
       componentProps: {
         name: 'campaignAudience',
         label: 'Campaign Audience',
-        placeholder: 'Enter Audience',
+        placeholder: 'Enter audience',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -117,7 +117,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
       componentProps: {
         name: 'campaignBudget',
         label: 'Campaign Budget (₤)',
-        placeholder: 'Enter Budget',
+        placeholder: 'Enter budget',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -128,7 +128,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        placeholder: 'Select Status',
+        placeholder: 'Select status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
         getOptionLabel: (option: any) =>
           option?.charAt(indexNumbers?.ZERO)?.toUpperCase() +
@@ -142,7 +142,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         name: 'description',
         label: '',
         fullWidth: true,
-        placeholder: 'This campaign is created to market our instagram page',
+        placeholder: 'Enter description...',
       },
       component: RHFEditor,
       md: 12,

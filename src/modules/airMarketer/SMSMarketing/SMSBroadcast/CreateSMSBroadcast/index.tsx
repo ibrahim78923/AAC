@@ -13,11 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { contactsColumns, createBroadcast } from './CreateSMSBroadcast.data';
 import { FormProvider, RHFDateTimePicker } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  BookMarkIcon,
-  PlusSharedColorIcon,
-  TimeClockIcon,
-} from '@/assets/icons';
+import { PlusSharedColorIcon, TimeClockIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -34,6 +30,7 @@ import dayjs from 'dayjs';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { API_STATUS } from '@/constants';
+import { generateImage } from '@/utils/avatarUtils';
 
 const CreateSMSBroadcast = () => {
   const {
@@ -49,6 +46,8 @@ const CreateSMSBroadcast = () => {
     setCreateStatus,
     setSelectedRec,
     broadcastName,
+    recipientType,
+    setRecipientType,
     setIsSchedule,
     handleSubmit,
     createStatus,
@@ -200,7 +199,9 @@ const CreateSMSBroadcast = () => {
                                 <Avatar
                                   key={uuidv4()}
                                   alt="recipient_avatar"
-                                  src=""
+                                  src={generateImage(
+                                    contact?.profilePicture?.url || 'N/A',
+                                  )}
                                 >
                                   <Typography variant="body3" fontWeight={500}>
                                     {contact?.firstName
@@ -272,17 +273,10 @@ const CreateSMSBroadcast = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} my={1}>
                 <Stack direction="row" alignItems="center" gap={1}>
-                  <Avatar>
-                    <Typography
-                      sx={{ color: theme?.palette?.common?.black }}
-                      variant="body1"
-                      fontWeight={700}
-                    >
-                      {broadcastName?.title
-                        ?.charAt(ARRAY_INDEX?.ZERO)
-                        ?.toUpperCase()}
-                      {broadcastName?.title?.slice(-1)?.toUpperCase()}
-                    </Typography>
+                  <Avatar alt="Remy Sharp">
+                    {broadcastName?.title === ''
+                      ? 'N/A'
+                      : broadcastName?.title?.charAt(0)?.toUpperCase()}
                   </Avatar>
                   <Box>
                     <Typography
@@ -351,19 +345,6 @@ const CreateSMSBroadcast = () => {
               width: '100%',
             }}
           >
-            {type !== DRAWER_TYPES?.ADD && (
-              <Button
-                className="small"
-                variant="outlined"
-                sx={{ background: theme?.palette?.primary?.light }}
-                onClick={() => {
-                  navigate?.push(AIR_MARKETER?.CREATE_TEMPLATE);
-                }}
-                startIcon={<BookMarkIcon />}
-              >
-                Save as Template
-              </Button>
-            )}
             <Button
               variant="outlined"
               color="inherit"
@@ -379,6 +360,7 @@ const CreateSMSBroadcast = () => {
               variant="contained"
               className="small"
               onClick={handleSubmit(onSubmit)}
+              disabled={selectedRec?.length === 0 ? true : false}
               loading={
                 createStatus === STATUS_CONTANTS?.COMPLETED &&
                 (postBroadcastLoading || updateBroadcastLoading)
@@ -397,6 +379,8 @@ const CreateSMSBroadcast = () => {
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
           setSelectedContactsData={setSelectedContactsData}
+          setRecipientType={setRecipientType}
+          recipientType={recipientType}
         />
       )}
     </>

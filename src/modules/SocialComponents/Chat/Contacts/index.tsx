@@ -15,7 +15,6 @@ import { CHAT_TYPES } from '@/constants';
 
 const Contacts = ({ handleManualRefetch }: ContactsPropsI) => {
   const { handleSelection, theme, chatMode } = useContacts();
-
   return (
     <>
       <Box
@@ -33,6 +32,7 @@ const Contacts = ({ handleManualRefetch }: ContactsPropsI) => {
               value={CHAT_TYPES?.PERSONAL_CHAT}
               sx={styles?.toggleButtonLeft(theme)}
               aria-label="left-aligned"
+              disabled={chatMode === 'personalChat' ? true : false}
             >
               <Typography variant="body2" fontWeight={'400'}>
                 Personal Chat
@@ -42,6 +42,7 @@ const Contacts = ({ handleManualRefetch }: ContactsPropsI) => {
               value={CHAT_TYPES?.GROUP_CHAT}
               sx={styles?.toggleButtonRight(theme)}
               aria-label="right-aligned"
+              disabled={chatMode === 'groupChat' ? true : false}
             >
               <Typography variant="body2" fontWeight={'400'}>
                 Group chat

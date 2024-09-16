@@ -26,7 +26,10 @@ export const useManageDashboard = () => {
   const [isPortalOpen, setIsPortalOpen] =
     useState<ManageDashboardIsPortalOpenI>({});
 
-  const { user } = useAuth();
+  const auth: any = useAuth();
+
+  const { user } = auth;
+  const { _id: productId } = auth?.product;
 
   const overallPermissions = getActivePermissionsSession();
 
@@ -43,6 +46,7 @@ export const useManageDashboard = () => {
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
+      ['productId', productId],
     ];
     const getDashboardParam: URLSearchParams = buildQueryParams(
       additionalParams,

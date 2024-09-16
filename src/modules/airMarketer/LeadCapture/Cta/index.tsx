@@ -8,7 +8,6 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
-import CtaEditorDrawer from './CtaEditorDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
@@ -17,23 +16,16 @@ import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
+import CreateCTADrawer from './CreateCTADrawer';
 
 const CTA = () => {
   const {
     theme,
-    toggleButtonType,
-    handleSwitchButtonType,
-    activeStep,
+    isDrawerOpen,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    selectedRowData,
     drawerTitle,
-    openDrawer,
-    handleDrawerOpen,
-    handleDrawerClose,
-    handleBack,
-    okText,
-    loadingCreateCTA,
-    loadingUpdateCTA,
-    methodsEditCTA,
-    handleDrawerSubmit,
     dataGetCTAs,
     loadingGetCTAs,
     fetchingGetCTAs,
@@ -42,7 +34,6 @@ const CTA = () => {
     setPage,
     selectedRow,
     setSelectedRow,
-    ctaButtonData,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
@@ -57,7 +48,7 @@ const CTA = () => {
     checkedValue,
   } = useCta();
 
-  const tableColumns = columns(selectedRow, setSelectedRow, handleDrawerOpen);
+  const tableColumns = columns(selectedRow, setSelectedRow, handleOpenDrawer);
 
   return (
     <Box
@@ -77,7 +68,7 @@ const CTA = () => {
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                onClick={() => handleDrawerOpen(DRAWER_TITLE?.create)}
+                onClick={() => handleOpenDrawer(DRAWER_TITLE?.create, null)}
               >
                 <PlusIcon /> Create CTA
               </Button>
@@ -171,19 +162,11 @@ const CTA = () => {
         loading={loadingDelete}
       />
 
-      <CtaEditorDrawer
-        toggleButtonType={toggleButtonType}
-        handleSwitchButtonType={handleSwitchButtonType}
+      <CreateCTADrawer
         title={drawerTitle}
-        okText={okText}
-        isOpen={openDrawer}
-        onClose={handleDrawerClose}
-        handleBack={handleBack}
-        methods={methodsEditCTA}
-        onSubmit={handleDrawerSubmit}
-        isLoading={loadingCreateCTA || loadingUpdateCTA}
-        activeStep={activeStep}
-        ctaButtonData={ctaButtonData}
+        isOpen={isDrawerOpen}
+        onClose={handleCloseDrawer}
+        data={selectedRowData}
       />
 
       <ScheduleModals

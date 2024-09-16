@@ -1,16 +1,10 @@
 import { useState } from 'react';
 
-import {
-  Popover,
-  Button,
-  MenuItem,
-  Typography,
-  TextField,
-} from '@mui/material';
+import { Popover, Button, MenuItem, Grid } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES, Gmail_CONST } from '@/constants';
+import { CREATE_EMAIL_TYPES, Gmail_CONST, indexNumbers } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
@@ -18,6 +12,7 @@ import {
   useDeleteGmailMutation,
   usePatchGmailMessageMutation,
   usePermanentlyDeleteGmailMutation,
+  usePostLinkToDealGmailMutation,
 } from '@/services/commonFeatures/email/gmail';
 import { useDispatch } from 'react-redux';
 import {
@@ -26,6 +21,15 @@ import {
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
 import SendEmailDrawer from '../../../SendEmail';
+import { FormProvider } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
+import {
+  defaultValues,
+  FilterData,
+  validationSchema,
+} from './DealFilterDrawer.data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { isNullOrEmpty } from '@/utils';
 
 const ActionBtn = () => {
   const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
@@ -65,6 +69,9 @@ const ActionBtn = () => {
   };
   const [patchGmailMessage, { isLoading: loadingRestore }] =
     usePatchGmailMessageMutation();
+
+  const [PostLinkToDealGmail, { isLoading: loadingLinkToDeal }] =
+    usePostLinkToDealGmailMutation();
 
   const [deleteGmail, { isLoading: loadingDelete }] = useDeleteGmailMutation();
   const [permanentlyDeleteGmail, { isLoading: loadingPermanentlyDelete }] =
@@ -148,6 +155,44 @@ const ActionBtn = () => {
       enqueueSnackbar('Something went wrong while updating message!', {
         variant: 'error',
       });
+    }
+  };
+
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues(),
+  });
+
+  const { handleSubmit, reset } = methods;
+
+  const onSubmit = async (values: any) => {
+    const payload = {
+      provider: 'GMAIL',
+      threadId: selectedGmailRecords[indexNumbers?.ZERO]?.threadId,
+      dealIds: values?.dealName,
+      from: selectedGmailRecords[indexNumbers?.ZERO]?.name,
+      to: [selectedGmailRecords[indexNumbers?.ZERO]?.to],
+      ...(!isNullOrEmpty(selectedGmailRecords[indexNumbers?.ZERO]?.cc)
+        ? { cc: [selectedGmailRecords[indexNumbers?.ZERO]?.cc] }
+        : {}),
+      ...(!isNullOrEmpty(selectedGmailRecords[indexNumbers?.ZERO]?.Bcc)
+        ? { bcc: [selectedGmailRecords[indexNumbers?.ZERO]?.Bcc] }
+        : {}),
+      subject: selectedGmailRecords[indexNumbers?.ZERO]?.subject,
+      content: selectedGmailRecords[indexNumbers?.ZERO]?.snippet,
+    };
+    try {
+      await PostLinkToDealGmail({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Link with Deal successfully', {
+        variant: 'success',
+      });
+      setIsLinkToDealModal(false);
+      dispatch(setSelectedGmailRecords([]));
+      reset();
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
 
@@ -253,14 +298,31 @@ const ActionBtn = () => {
 
       <CommonModal
         open={isLinkToDealModal}
-        handleClose={() => setIsLinkToDealModal(false)}
         title="Link to deal"
         okText="Save"
         footer
         cancelText="Cancel"
+        handleClose={() => setIsLinkToDealModal(false)}
+        handleCancel={() => setIsLinkToDealModal(false)}
+        handleSubmit={handleSubmit(onSubmit)}
+        isLoading={loadingLinkToDeal}
       >
-        <Typography>Deal</Typography>
-        <TextField placeholder="Search Deal" fullWidth size="small" />
+        <FormProvider methods={methods}>
+          <Grid container spacing={2}>
+            {FilterData()?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={item?.value} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
       </CommonModal>
 
       <AlertModals

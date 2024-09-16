@@ -47,19 +47,19 @@ export interface TicketActionComponentI {
 
 export interface TicketTableViewPropsI {
   ticketsListsColumn: any;
-  ticketListsData: any;
-  metaData: any;
-  setPage: Dispatch<SetStateAction<number>>;
-  setPageLimit: Dispatch<SetStateAction<number>>;
-  getTicketsListData: any;
-  page: number;
+  ticketListsData?: any;
+  metaData?: any;
+  setPage?: Dispatch<SetStateAction<number>>;
+  setPageLimit?: Dispatch<SetStateAction<number>>;
+  getTicketsListData?: any;
+  page?: number;
 }
 
 export interface TicketBoardViewPropsI {
-  setTicketAction: any;
-  setSelectedTicketList: Dispatch<SetStateAction<any>>;
-  search: string;
-  filterTicketLists: any;
+  setTicketAction?: any;
+  setSelectedTicketList?: Dispatch<SetStateAction<any>>;
+  search?: string;
+  filterTicketLists?: any;
 }
 
 export interface TicketTableRowI {

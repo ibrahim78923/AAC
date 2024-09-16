@@ -21,7 +21,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { templateDropdownFunction } from './EmailTemplate.data';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TemplateDeleteModal } from './TemplateDeleteModal';
-import { MeetingData } from './EmailTemplate.interface';
+import { MeetingDataI } from './EmailTemplate.interface';
 
 const EmailTemplate = () => {
   const {
@@ -41,13 +41,20 @@ const EmailTemplate = () => {
     deleteMeetingsTrigger,
     theme,
   } = useEmilTemplate();
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
   return (
     <Box>
       <PageTitledHeader
         title={`All Template`}
         canMovedBack
-        moveBack={() => router?.basePath}
+        moveBack={() =>
+          router?.push({
+            pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+            query: {
+              type: router?.query?.type,
+              id: router?.query?.meetingId,
+            },
+          })
+        }
       >
         <Search label="Search Here" setSearchBy={setSearch} />
         <Button
@@ -60,11 +67,13 @@ const EmailTemplate = () => {
       </PageTitledHeader>
       {isLoading || isFetching ? (
         <SkeletonForm />
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={() => refetch?.()} />
       ) : (
         <Grid container spacing={2} sx={{ display: 'flex' }}>
           {meetingsEmailData?.length ? (
             <>
-              {meetingsEmailData?.map((item: MeetingData) => (
+              {meetingsEmailData?.map((item: MeetingDataI) => (
                 <Grid key={item?._id} item lg={4} md={6} xs={12}>
                   <Card
                     sx={{

@@ -9,6 +9,7 @@ import { useState } from 'react';
 export const useApprovalDetail = () => {
   const router = useRouter();
   const { approvalId, ticketId } = router?.query;
+  const companyId = router?.query?.companyId;
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
 
@@ -45,6 +46,7 @@ export const useApprovalDetail = () => {
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
       query: {
         id: data?._id,
+        ...(!!companyId && { companyId }),
       },
     });
   };
@@ -63,5 +65,6 @@ export const useApprovalDetail = () => {
     openTicketDetail,
     ticketDetails,
     refetch,
+    companyId,
   };
 };

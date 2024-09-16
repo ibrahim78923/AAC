@@ -1,13 +1,8 @@
 import { RHFRadioGroup } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
 
-export const contactsValidationSchema = Yup?.object()?.shape({
-  contacts: Yup?.string(),
+export const contactsDefaultValues = (recipientType: any) => ({
+  contacts: recipientType ?? 'all',
 });
-
-export const contactsDefaultValues = {
-  contacts: '',
-};
 
 export const contactsArray = [
   {

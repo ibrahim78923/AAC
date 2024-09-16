@@ -511,23 +511,22 @@ const DashboardLayout = ({ children, window }: any) => {
 
   useEffect(() => {
     const handleOnMessageReceived = (payload: any) => {
-      if (activeChatId !== payload?.data?.chatId) {
-        if (payload?.data) {
-          const currentData = chatContacts?.find(
-            (ele: any) => ele?._id === payload?.data?.chatId,
+      if (payload?.data) {
+        const currentData = chatContacts?.find(
+          (ele: any) => ele?._id === payload?.data?.chatId,
+        );
+        if (currentData) {
+          dispatch(
+            setChatContacts({
+              ...currentData,
+              lastMessage: {
+                ...currentData?.lastMessage,
+                content: payload?.data?.content,
+                updatedAt: payload?.data?.updatedAt,
+              },
+              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
+            }),
           );
-          if (currentData) {
-            dispatch(
-              setChatContacts({
-                ...currentData,
-                lastMessage: {
-                  ...currentData?.lastMessage,
-                  content: payload?.data?.content,
-                },
-                unReadMessagesCount: currentData?.unReadMessagesCount + 1,
-              }),
-            );
-          }
         }
       }
       if (activeChatId === payload?.data?.chatId) {

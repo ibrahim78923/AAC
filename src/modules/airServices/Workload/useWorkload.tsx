@@ -53,9 +53,6 @@ export default function useWorkload() {
     });
   }, [filter]);
 
-  const COMPLETED = 'Done';
-  const IN_PROGRESS = 'In-Progress';
-
   const dateChangeHandler = async (date: string | any) => {
     setDateCalendar(date);
     try {
@@ -86,8 +83,6 @@ export default function useWorkload() {
     setSelected,
     setFilter,
     calendarRef,
-    COMPLETED,
-    IN_PROGRESS,
     setAddPlannedEffort,
     router,
     setOnClickEvent,

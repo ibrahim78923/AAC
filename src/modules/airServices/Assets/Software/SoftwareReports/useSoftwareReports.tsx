@@ -36,8 +36,6 @@ export const useSoftwareReports = () => {
 
   const { handleSubmit, getValues, watch, setValue } = methods;
 
-  watch?.();
-
   const apiDataParameter = {
     queryParams: {
       moduleType: MODULE_TYPE?.SOFTWARE,
@@ -48,8 +46,8 @@ export const useSoftwareReports = () => {
         ? { endDate: filterDate?.endDate }
         : {}),
 
-      ...(!!getValues?.('status')?._id
-        ? { requestedKey: getValues?.('status')?._id }
+      ...(!!watch?.('status')?._id
+        ? { requestedKey: watch?.('status')?._id }
         : {}),
     },
   };

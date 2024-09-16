@@ -21,9 +21,9 @@ import {
 } from '@/redux/slices/email/outlook/slice';
 import {
   API_STATUS,
+  DATE_TIME_FORMAT,
   EMAIL_TABS_TYPES,
   OUTLOOK_EMAIL_TABS_TYPES,
-  TIME_FORMAT,
 } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
@@ -321,6 +321,9 @@ const MailList = ({
                                           textOverflow: 'ellipsis',
                                           whiteSpace: 'nowrap',
                                           fontWeight: item?.isRead ? '' : 700,
+                                          color: item?.isRead
+                                            ? ''
+                                            : theme?.palette?.custom?.bright,
                                         }}
                                       >
                                         <>
@@ -388,10 +391,14 @@ const MailList = ({
                                       ? '--'
                                       : item?.subject}
                                   </Typography>
-                                  <Typography
-                                    variant="body3"
-                                    margin={'3px 0px'}
+                                  <Box
+                                    mt={0.5}
                                     sx={{
+                                      fontSize: '12px',
+                                      fontWeight: '400',
+                                      '& a': {
+                                        color: theme?.palette?.primary?.main,
+                                      },
                                       display: '-webkit-box',
                                       WebkitBoxOrient: 'vertical',
                                       WebkitLineClamp: 3,
@@ -399,11 +406,14 @@ const MailList = ({
                                       textOverflow: 'ellipsis',
                                       wordBreak: 'break-all',
                                     }}
-                                  >
-                                    {item?.bodyPreview?.length > 0
-                                      ? item?.bodyPreview
-                                      : 'No preview is available'}
-                                  </Typography>
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${
+                                        item?.bodyPreview?.length > 0
+                                          ? item?.bodyPreview
+                                          : 'No preview is available'
+                                      }`,
+                                    }}
+                                  />
                                   <Typography
                                     variant="body2"
                                     sx={{
@@ -412,7 +422,7 @@ const MailList = ({
                                     }}
                                   >
                                     {dayjs(item?.lastModifiedDateTime)?.format(
-                                      TIME_FORMAT?.UI,
+                                      DATE_TIME_FORMAT?.DDMMYYYYT,
                                     )}
                                   </Typography>
                                 </Box>
@@ -465,7 +475,6 @@ const MailList = ({
         type={'Delete'}
         message={`Are you sure you want to empty trash`}
         open={isEmptyTrashModal}
-        disabled={false}
         handleClose={() => setIsEmptyTrashModal(false)}
         loading={loadingDelete}
         handleSubmitBtn={handelDelete}

@@ -33,6 +33,7 @@ import { useAppSelector } from '@/redux/store';
 import { useGetUserChatsInfoQuery } from '@/services/chat';
 import { IMG_URL } from '@/config';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
+import { CHAT_TYPES } from '@/constants';
 
 const ChatInfoModal = ({
   isUserProfile,
@@ -47,6 +48,7 @@ const ChatInfoModal = ({
   const activeChatId = useAppSelector(
     (state: any) => state?.chat?.activeChatId,
   );
+  const activeChat = useAppSelector((state) => state?.chat?.activeChat);
   const {
     data: chatsData,
     status,
@@ -54,8 +56,9 @@ const ChatInfoModal = ({
   } = useGetUserChatsInfoQuery({
     activeChatId: activeChatId,
     limit: '100',
-    isGroup: chatMode === 'groupChat' ? true : false,
+    isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
     mediaType: toggleSwitchActive,
+    messageDeletionTimestamp: activeChat?.messageDeletionTimestamp,
   });
   const handleSelection = (_: any, newValue: any) => {
     if (newValue !== null) {

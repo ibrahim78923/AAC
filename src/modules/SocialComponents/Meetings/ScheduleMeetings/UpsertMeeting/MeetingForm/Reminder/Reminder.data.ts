@@ -2,7 +2,7 @@ import { RHFAutocomplete } from '@/components/ReactHookForm';
 
 export const typeOptions = [
   { value: 'EMAIL', label: 'Email' },
-  { value: 'CHAT', label: 'Chat' },
+  { value: 'SMS', label: 'SMS' },
 ];
 
 export const durationOption = [
@@ -12,9 +12,20 @@ export const durationOption = [
   { value: 'WEEKS', label: 'Weeks' },
 ];
 
-const counterOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const duration = {
+  MINUTES: 'Minutes',
+  HOURS: 'Hours',
+  DAYS: 'Days',
+  WEEKS: 'Weeks',
+};
 
-export const reminderFields = (index: number) => [
+const counterOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+export const reminderFields = (
+  index: number,
+  differenceInDays: number,
+  differenceInMinutes: number,
+) => [
   {
     id: 1,
     md: 6,
@@ -40,7 +51,6 @@ export const reminderFields = (index: number) => [
       label: '\u00a0',
       size: 'small',
       options: counterOptions,
-      getOptionLabel: (option: any) => option,
     },
     component: RHFAutocomplete,
   },
@@ -53,6 +63,37 @@ export const reminderFields = (index: number) => [
       label: '\u00a0',
       size: 'small',
       placeholder: 'Select',
+      getOptionDisabled: (option: any) => {
+        if (differenceInMinutes < 60 && differenceInDays < 1) {
+          return (
+            option?.label === duration?.HOURS ||
+            option?.label === duration?.DAYS ||
+            option?.label === duration?.WEEKS
+          );
+        }
+
+        if (differenceInDays < 1) {
+          return (
+            option?.label !== duration?.MINUTES &&
+            option?.label !== duration?.HOURS
+          );
+        }
+
+        if (differenceInDays >= 1 && differenceInDays < 7) {
+          return option?.label === duration?.WEEKS;
+        }
+
+        if (differenceInDays >= 7) {
+          return (
+            option?.label !== duration?.WEEKS &&
+            option?.label !== duration?.DAYS &&
+            option?.label !== duration?.HOURS &&
+            option?.label !== duration?.MINUTES
+          );
+        }
+
+        return false;
+      },
       options: durationOption,
       getOptionLabel: (option: any) => option?.label,
     },
