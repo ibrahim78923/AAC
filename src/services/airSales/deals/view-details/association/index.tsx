@@ -8,6 +8,8 @@ const TAG_TYPE = {
   DEALS_ATTACHMENTS: 'DEALS_ATTACHMENTS',
   ORGANIZATION: 'Organization',
   CONTACT_ASSOCIATION: 'CONTACT_ASSOCIATION',
+  QUOTES: 'AIR_SALES_QUOTES',
+  CONTACTS: 'CONTACTS',
 };
 
 export const associationAPI = baseAPI.injectEndpoints({
@@ -18,7 +20,12 @@ export const associationAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: [TAG_TYPE?.DEALS_ASSOCIATION, TAG_TYPE?.COMPANY],
+      invalidatesTags: [
+        TAG_TYPE?.DEALS_ASSOCIATION,
+        TAG_TYPE?.COMPANY,
+        TAG_TYPE?.CONTACTS,
+        TAG_TYPE?.QUOTES,
+      ],
     }),
 
     deleteAssociation: builder.mutation({

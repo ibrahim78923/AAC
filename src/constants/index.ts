@@ -452,6 +452,12 @@ export const CREATE_DASHBOARD_KEYS = {
 export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',
   COMPANY: 'company',
+  EXT_COMPANY: 'existing-company',
+};
+
+export const CONTACT_TYPE = {
+  NEW_CONTACT: 'new-contact',
+  EXT_CONTACT: 'existing-contact',
 };
 
 export const Gmail_CONST = {

@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -27,6 +27,7 @@ const CompaniesEditorDrawer = (props: any) => {
     getCompanyContactsList,
     companyOptions,
     createAssociationLoading,
+    theme,
   } = useCompaniesEditorDrawer({
     openDrawer,
     setOpenDrawer,
@@ -82,6 +83,16 @@ const CompaniesEditorDrawer = (props: any) => {
                 ))
               ) : (
                 <Grid item xs={12}>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    color={theme?.palette?.grey[600]}
+                  >
+                    Choose Contact{' '}
+                    <span style={{ color: theme?.palette?.error?.main }}>
+                      *
+                    </span>
+                  </Typography>
                   <RHFSearchableSelect
                     size="small"
                     name="chooseCompany"

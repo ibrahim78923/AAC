@@ -24,6 +24,7 @@ import {
 import { AIR_SALES, quoteStatus } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
+import { indexNumbers } from '@/constants';
 
 const useUpdateQuote = () => {
   const router = useRouter();
@@ -174,14 +175,16 @@ const useUpdateQuote = () => {
     contactId?: any,
     companyId?: any,
   ) => {
-    const param = {
+    const param: any = {
       recordId: dataGetQuoteById?.data?.dealId,
-
-      contactsIds: contactId ? [contactId] : [],
-      companiesIds: companyId ? [companyId] : [],
       recordType: 'deals',
       operation: 'REMOVE',
     };
+    if (contactId?.length > indexNumbers?.ZERO) {
+      param.contactsIds = [contactId];
+    } else if (companyId?.length > indexNumbers?.ZERO) {
+      param.companiesIds = [companyId];
+    }
     try {
       await postManageAssociate({ body: param })?.unwrap();
       enqueueSnackbar('Record has been deleted.', {

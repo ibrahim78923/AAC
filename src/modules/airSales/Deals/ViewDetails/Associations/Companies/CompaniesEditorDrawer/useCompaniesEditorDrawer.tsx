@@ -14,6 +14,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
+import { useTheme } from '@mui/material';
 
 const useCompaniesEditorDrawer = ({
   openDrawer,
@@ -22,7 +23,7 @@ const useCompaniesEditorDrawer = ({
   companyRecord,
 }: any) => {
   const defaultCompany = 'new-Company';
-
+  const theme = useTheme();
   const getCompanyContactsList = useLazyGetCompanyContactsListQuery();
 
   const companyParams = {
@@ -156,6 +157,7 @@ const useCompaniesEditorDrawer = ({
   };
 
   return {
+    theme,
     getCompanyContactsList,
     postCompanyLoading,
     methodsCompanies,

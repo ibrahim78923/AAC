@@ -1,20 +1,32 @@
-import { Grid, Box, Alert, useTheme } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { Grid, Box, Alert, useTheme, Typography } from '@mui/material';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSearchableSelect,
+} from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { dataArray } from './FormAddCompany.data';
+import { companiesOptions, dataArray } from './FormAddCompany.data';
 import useFormAddContact from './useFormAddContact';
-import { v4 as uuidv4 } from 'uuid';
+import { COMPANITES_TYPE } from '@/constants';
 
 const FormAddCompany = ({ open, onClose }: any) => {
   const theme = useTheme();
-  const { onSubmit, handleSubmit, methods, contacts, loadingCompnayPost } =
-    useFormAddContact(onClose);
+  const {
+    onSubmit,
+    handleSubmit,
+    methods,
+    contacts,
+    loadingCompnayPost,
+    watchCompany,
+    companyOptions,
+    createAssociationLoading,
+  } = useFormAddContact(onClose);
 
   return (
     <CommonDrawer
       submitHandler={handleSubmit(onSubmit)}
       title="Your Company Information"
-      isLoading={loadingCompnayPost}
+      isLoading={loadingCompnayPost || createAssociationLoading}
       cancelBtnHandler={onClose}
       cancelText={'Cancel'}
       isDrawerOpen={open}
@@ -38,19 +50,51 @@ const FormAddCompany = ({ open, onClose }: any) => {
           account&apos;s branding.
         </Alert>
         <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {dataArray(contacts)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.name}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <RHFRadioGroup
+                options={companiesOptions}
+                name="companyType"
+                label={false}
+                defaultValue="new-Company"
+              />
+            </Grid>
+            {watchCompany === COMPANITES_TYPE?.NEW_COMPANY ? (
+              dataArray(contacts)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  color={theme?.palette?.grey[600]}
+                >
+                  Choose Company
+                  <span style={{ color: theme?.palette?.error?.main }}>*</span>
+                </Typography>
+                <RHFSearchableSelect
+                  size="small"
+                  name="chooseCompany"
+                  options={companyOptions}
+                />
               </Grid>
-            ))}
+            )}
           </Grid>
         </FormProvider>
       </Box>

@@ -15,6 +15,7 @@ import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permiss
 import dayjs from 'dayjs';
 import { DATE_FORMAT, indexNumbers } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const ScheduledSMS = (props: any) => {
   const { setTabVal } = props;
@@ -75,7 +76,8 @@ const ScheduledSMS = (props: any) => {
                         </Typography>
                         {item?.recipients?.length < 10
                           ? `0${item?.recipients?.length}`
-                          : item?.recipients?.length}
+                          : item?.recipients?.length}{' '}
+                        Contacts
                       </Typography>
                     </Stack>
                   </CardContent>
@@ -109,10 +111,10 @@ const CardHeader = ({ item, statusTag }: any) => {
         justifyContent="space-between"
       >
         <Typography gutterBottom variant="h5" component="div">
-          {item?.name ?? 'N/A'}
+          {capitalizeFirstLetter(item?.name) ?? 'N/A'}
         </Typography>
         <Box
-          sx={{ display: 'flex', alignItems: 'center', marginRight: '-30px' }}
+          sx={{ display: 'flex', alignItems: 'center', marginRight: '-15px' }}
         >
           <Box sx={styles?.cardHeader}>
             <Box

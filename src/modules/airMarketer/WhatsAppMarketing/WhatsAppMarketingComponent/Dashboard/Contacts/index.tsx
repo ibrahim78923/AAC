@@ -71,7 +71,9 @@ const SMSContacts = ({ setTabVal }: any) => {
                   </Avatar>
                   <Typography>
                     {item?.firstName
-                      ? `${item?.firstName} ${item?.lastName}`
+                      ? `${capitalizeFirstLetter(
+                          item?.firstName,
+                        )} ${capitalizeFirstLetter(item?.lastName)}`
                       : 'N/A'}
                   </Typography>
                 </Box>

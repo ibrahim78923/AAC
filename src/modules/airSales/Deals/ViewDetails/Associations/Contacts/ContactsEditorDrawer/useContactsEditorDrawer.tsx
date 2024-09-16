@@ -8,14 +8,16 @@ import { usePostContactsMutation } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
-import { DATE_FORMAT } from '@/constants';
+import { CONTACT_TYPE, DATE_FORMAT } from '@/constants';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import {
+  useGetContactsListQuery,
   useLazyGetContactsStatusQuery,
   useLazyGetLifeCycleStagesQuery,
 } from '@/services/common-APIs';
+import { useTheme } from '@mui/material';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -23,6 +25,7 @@ const useContactsEditorDrawer = ({
   setOpenDrawer,
   dealId,
 }: any) => {
+  const theme = useTheme();
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
   const contactOwnerData = useLazyGetOrganizationUsersQuery();
@@ -31,7 +34,8 @@ const useContactsEditorDrawer = ({
 
   const [postContacts, { isLoading: postContactLoading }] =
     usePostContactsMutation();
-  const [createAssociation] = useCreateAssociationMutation();
+  const [createAssociation, { isLoading: associationLoading }] =
+    useCreateAssociationMutation();
 
   const methodscontacts = useForm({
     resolver: yupResolver(contactsValidationSchema),
@@ -72,19 +76,25 @@ const useContactsEditorDrawer = ({
   });
 
   const onSubmit = async (values: any) => {
+    delete values.contactType;
     const recordType = 'deals';
     const dateOfBirth = 'dateOfBirth';
     const dateOfJoining = 'dateOfJoining';
-    values.contactOwnerId = values.contactOwnerId?._id;
-    values.lifeCycleStageId = values.lifeCycleStageId?._id;
-    values.statusId = values.statusId?._id;
     const formData = new FormData();
     formData.append('recordType', recordType);
     formData.append('recordId', dealId);
+
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
-        // For date values, format them before appending
-        if (key === dateOfBirth || key === dateOfJoining) {
+        if (key === CONTACT_TYPE?.EXT_CONTACT) {
+          return;
+        } else if (
+          key === 'contactOwnerId' ||
+          key === 'lifeCycleStageId' ||
+          key === 'statusId'
+        ) {
+          formData.append(key, value?._id);
+        } else if (key === dateOfBirth || key === dateOfJoining) {
           formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
         } else {
           formData.append(key, value);
@@ -93,28 +103,39 @@ const useContactsEditorDrawer = ({
     });
 
     try {
-      const response = await postContacts({ body: formData }).unwrap();
-
-      if (response?.data) {
-        try {
-          await createAssociation({
+      watchContacts === CONTACT_TYPE?.EXT_CONTACT
+        ? await createAssociation({
             body: {
               dealId: dealId,
-              contactId: response?.data?._id,
+              contactId: values?.chooseContact,
             },
-          }).unwrap();
-          enqueueSnackbar(`Contact Added Successfully`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-          onCloseHandler();
-        } catch (error: any) {
-          const errMsg = error?.data?.message;
-          const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-          enqueueSnackbar(errMessage ?? 'Error occurred', {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          });
-        }
-      }
+          })
+            .unwrap()
+            .then((res) => {
+              if (res) {
+                setOpenDrawer(false);
+                enqueueSnackbar(` Companies updated Successfully`, {
+                  variant: NOTISTACK_VARIANTS?.SUCCESS,
+                });
+              }
+            })
+        : await postContacts({ body: formData })
+            .unwrap()
+            ?.then((res) => {
+              if (res?.data) {
+                createAssociation({
+                  body: {
+                    dealId: dealId,
+                    contactId: res?.data?._id,
+                  },
+                }).unwrap();
+                setOpenDrawer(false);
+                reset();
+                enqueueSnackbar(` Companies added Successfully`, {
+                  variant: NOTISTACK_VARIANTS?.SUCCESS,
+                });
+              }
+            });
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
@@ -128,9 +149,20 @@ const useContactsEditorDrawer = ({
     setOpenDrawer({ isToggle: false, type: '' });
     reset();
   };
-  const { handleSubmit, reset } = methodscontacts;
+  const { handleSubmit, reset, watch }: any = methodscontacts;
+  const watchContacts = watch('contactType');
+
+  const { data: dataGetContacts } = useGetContactsListQuery({});
+
+  const existingContacts = dataGetContacts?.data?.contacts;
+  const extContactOptions = existingContacts?.map((item: any) => ({
+    value: item?._id,
+    label: item?.firstName ? `${item?.firstName} ${item?.lastName}` : 'N/A',
+  }));
+
   return {
     handleSubmit,
+    watchContacts,
     onSubmit,
     methodscontacts,
     lifeCycleStagesData,
@@ -139,6 +171,9 @@ const useContactsEditorDrawer = ({
     contactOwnerData,
     postContactLoading,
     orgId,
+    extContactOptions,
+    theme,
+    associationLoading,
   };
 };
 

@@ -3,14 +3,39 @@ import {
   RHFAutocompleteAsync,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { COMPANITES_TYPE } from '@/constants';
 
 import * as Yup from 'yup';
+
 export const createComapnySchema = Yup?.object()?.shape({
-  domain: Yup?.string()?.required('Field is Required'),
-  ownerId: Yup.object().nullable()?.required('Field is Required'),
+  chooseCompany: Yup?.string()?.when(
+    'companyType',
+    ([company]: any, field: any) =>
+      company !== COMPANITES_TYPE?.NEW_COMPANY
+        ? field?.required('Field is required')
+        : field?.optional(),
+  ),
+  domain: Yup?.string()?.when('companyType', ([company]: any, field: any) =>
+    company === COMPANITES_TYPE?.NEW_COMPANY
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  name: Yup?.string()?.when('companyType', ([company]: any, field: any) =>
+    company === COMPANITES_TYPE?.NEW_COMPANY
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  ownerId: Yup?.object()
+    ?.nullable()
+    ?.when('companyType', ([company]: any, field: any) =>
+      company === COMPANITES_TYPE?.NEW_COMPANY
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
 });
 
 export const defaultCreateCompanyValues = {
+  companyType: COMPANITES_TYPE?.NEW_COMPANY,
   domain: '',
   name: '',
   ownerId: null,
@@ -46,6 +71,7 @@ export const dataArray = (contacts: any) => {
         placeholder: 'Company name',
         fullWidth: true,
         select: false,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
@@ -169,3 +195,14 @@ export const dataArray = (contacts: any) => {
     },
   ];
 };
+
+export const companiesOptions = [
+  {
+    label: 'New Company',
+    value: 'new-Company',
+  },
+  {
+    label: 'Existing Company',
+    value: 'existing-company',
+  },
+];

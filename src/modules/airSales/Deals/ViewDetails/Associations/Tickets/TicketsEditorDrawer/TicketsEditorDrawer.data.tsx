@@ -41,7 +41,7 @@ export const ticketsDefaultValues: any = {
   category: null,
   status: '',
   priority: '',
-  attachfile: '',
+  fileUrl: '',
   ticketId: null,
 };
 
@@ -123,7 +123,7 @@ export const ticketsDataArray = (addTicketFormParams: any) => {
     },
     {
       componentProps: {
-        name: 'attachFile',
+        name: 'fileUrl',
         label: '',
         fullWidth: true,
       },
