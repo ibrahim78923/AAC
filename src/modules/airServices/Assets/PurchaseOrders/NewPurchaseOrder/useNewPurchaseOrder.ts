@@ -31,6 +31,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { isoDateString } from '@/utils/dateTime';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -120,7 +121,7 @@ const useNewPurchaseOrders = () => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&

@@ -29,6 +29,7 @@ import { useEffect, useState } from 'react';
 import { IRequestersProps } from '../Requesters.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertRequestersResponseI } from './UpsertRequesters.interface';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertRequester = (props: IRequestersProps) => {
   const { setIsDrawerOpen, singleRequesterDetails } = props;
@@ -108,7 +109,7 @@ export const useUpsertRequester = (props: IRequestersProps) => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&

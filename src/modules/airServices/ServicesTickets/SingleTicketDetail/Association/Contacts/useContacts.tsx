@@ -8,7 +8,7 @@ import {
 } from './Contacts.data';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { ASSOCIATIONS_API_PARAMS_FOR, DATE_TIME_FORMAT } from '@/constants';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
   useGetAssociateTicketsQuery,
   usePostContactMutation,
@@ -17,7 +17,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
-import dayjs from 'dayjs';
+import { isoDateString } from '@/utils/dateTime';
 
 export default function useContacts({ setIsDrawerOpen }: any) {
   const router = useRouter();
@@ -85,7 +85,7 @@ export default function useContacts({ setIsDrawerOpen }: any) {
         switch (key) {
           case 'dateOfBirth':
           case 'dateOfJoining':
-            body?.append(key, dayjs(value)?.format(DATE_TIME_FORMAT?.YYMMDD));
+            body?.append(key, isoDateString(value));
             break;
           case 'contactOwnerId':
           case 'lifeCycleStageId':

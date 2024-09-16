@@ -196,7 +196,8 @@ export const inventoryListsColumnsFunction: any = (
             },
           })
         }
-        color="custom.bright"
+        color={'custom.bright'}
+        textTransform={'capitalize'}
         sx={{ cursor: 'pointer' }}
       >
         {truncateText(info?.getValue())}
@@ -208,22 +209,33 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue()?.name),
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {truncateText(info?.getValue()?.name)}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => truncateText(info?.getValue()?.locationName),
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {truncateText(info?.getValue()?.locationName)}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
     id: 'UsedBy',
     isSortable: true,
     header: 'Used By',
-    cell: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.departmentDetails,

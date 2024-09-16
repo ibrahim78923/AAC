@@ -39,6 +39,7 @@ import {
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
 import useAuth from '@/hooks/useAuth';
 import { getActiveAccountSession } from '@/utils';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertTicket = () => {
   const auth: any = useAuth();
@@ -154,6 +155,9 @@ export const useUpsertTicket = () => {
 
       Object?.entries(newFormData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&

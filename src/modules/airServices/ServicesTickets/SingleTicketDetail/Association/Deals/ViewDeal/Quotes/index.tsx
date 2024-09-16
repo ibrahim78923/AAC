@@ -7,9 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { ARTICLE_STATUS } from '@/constants/strings';
+import { uiDateFormat } from '@/utils/dateTime';
 
 export default function Quotes({ theme, dealQuotes }: any) {
   return (
@@ -62,7 +61,7 @@ export default function Quotes({ theme, dealQuotes }: any) {
                   {item?.name ?? '---'}
                 </Typography>
                 <Typography variant={'body2'} fontWeight={400}>
-                  {dayjs(item?.expiryDate)?.format(DATE_FORMAT?.UI)}
+                  {uiDateFormat(item?.expiryDate)}
                 </Typography>
               </Box>
               <Chip

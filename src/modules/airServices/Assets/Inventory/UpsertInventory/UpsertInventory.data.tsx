@@ -8,22 +8,19 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import { ASSET_IMPACT } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { localeDateTime } from '@/utils/dateTime';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
   ASSET_IMPACT?.MEDIUM,
   ASSET_IMPACT?.HIGH,
 ];
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const UpsertInventoryValidationSchema: any = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -52,11 +49,15 @@ export const upsertInventoryFieldsDefaultValuesFunction = (
     displayName: data?.displayName ?? '',
     assetType: data?.assetTypeDetails ?? null,
     impact: data?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry: new Date(data?.assetLifeExpiry ?? todayDate),
+    assetLifeExpiry: data?.assetLifeExpiry
+      ? localeDateTime(data?.assetLifeExpiry)
+      : new Date(),
     description: data?.description ?? '',
     location: data?.locationDetails ?? null,
     department: data?.departmentDetails ?? null,
-    assignedOn: new Date(data?.assignedOn ?? todayDate),
+    assignedOn: data?.assignedOn
+      ? localeDateTime(data?.assignedOn)
+      : new Date(),
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
     ...initialValues,
@@ -71,7 +72,6 @@ export const editInventoryDefaultValues = {
   description: '',
   location: '',
   assignedOn: '',
-  assignedOnTime: '',
   usedBy: '',
 };
 

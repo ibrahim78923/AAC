@@ -27,6 +27,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
   const {
@@ -115,6 +116,9 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&

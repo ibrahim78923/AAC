@@ -30,6 +30,7 @@ import {
   UpsertSoftwareFormI,
   UpsertSoftwareI,
 } from './UpsertSoftware.interface';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;
@@ -99,7 +100,7 @@ export const useUpsertSoftware = (props: UpsertSoftwareI) => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&

@@ -18,7 +18,7 @@ import {
   usePatchAddToInventoryMutation,
   usePostInventoryMutation,
 } from '@/services/airServices/assets/inventory';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -36,6 +36,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { ARRAY_INDEX, ASSET_IMPACT } from '@/constants/strings';
 import dayjs from 'dayjs';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertInventory = () => {
   const theme = useTheme();
@@ -106,12 +107,15 @@ export const useUpsertInventory = () => {
     displayName: filledFormValues?.displayName ?? '',
     assetTypeDetails: filledFormValues?.assetType ?? null,
     impact: filledFormValues?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry: new Date(filledFormValues?.assetLifeExpiry ?? dayjs()),
+    assetLifeExpiry: dayjs(filledFormValues?.assetLifeExpiry)?.format(
+      DATE_TIME_FORMAT?.YYMMDD,
+    ),
     description: filledFormValues?.description ?? '',
     locationDetails: filledFormValues?.location ?? null,
     departmentDetails: filledFormValues?.department ?? null,
-    assignedOn: new Date(filledFormValues?.assignedOn ?? dayjs()),
-
+    assignedOn: dayjs(filledFormValues?.assignedOn)?.format(
+      DATE_TIME_FORMAT?.YYMMDD,
+    ),
     usedByDetails: filledFormValues?.usedBy ?? null,
     fileUrl: null,
   };
@@ -173,6 +177,9 @@ export const useUpsertInventory = () => {
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&
@@ -198,7 +205,7 @@ export const useUpsertInventory = () => {
       inventoryDetailsData.append('description', data?.description);
       inventoryDetailsData.append(
         'assetLifeExpiry',
-        data?.assetLifeExpiry?.toISOString(),
+        dayjs(data?.assetLifeExpiry)?.format(DATE_TIME_FORMAT?.YYMMDD),
       );
       !!data?.location?._id &&
         inventoryDetailsData.append('locationId', data?.location?._id);
@@ -209,7 +216,7 @@ export const useUpsertInventory = () => {
       !!data?.assignedOn &&
         inventoryDetailsData.append(
           'assignedOn',
-          data?.assignedOn?.toISOString(),
+          dayjs(data?.assignedOn)?.format(DATE_TIME_FORMAT?.YYMMDD),
         );
       data?.fileUrl !== null &&
         inventoryDetailsData?.append('attachment', data?.fileUrl);

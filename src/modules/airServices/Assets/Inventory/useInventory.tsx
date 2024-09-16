@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   INVENTORY_LIST_ACTIONS,
   inventoryListsColumnsFunction,
@@ -20,6 +20,7 @@ import { DeleteInventory } from './DeleteInventory';
 import { ImportInventory } from './ImportInventory';
 import { useTheme } from '@mui/material';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { getActiveAccountSession } from '@/utils';
 
 export const useInventory = () => {
   const { makePath } = usePath();
@@ -50,11 +51,15 @@ export const useInventory = () => {
 
   const [lazyGetExportInventoryTrigger] = useLazyGetExportInventoryQuery();
 
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyIdStorage = product?.company?._id;
+
   const getInventoryListData = async (currentPage: any = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
+      ['companyId', companyIdStorage],
     ];
     const getInventoryParam: any = buildQueryParams(
       additionalParams,

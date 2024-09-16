@@ -28,6 +28,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { AIR_SERVICES } from '@/constants';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useEditTicketDetails = () => {
   const router = useRouter();
@@ -137,6 +138,9 @@ export const useEditTicketDetails = () => {
 
       Object?.entries(newFormData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&
