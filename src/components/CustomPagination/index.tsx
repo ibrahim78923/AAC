@@ -45,11 +45,8 @@ const CustomPagination = (props: any) => {
             rowsPerPage={pageLimit}
             onRowsPerPageChange={(event: any) => {
               const newPageLimit = parseInt(event?.target?.value, 10);
-              const newPage =
-                Math.floor(((currentPage - 1) * pageLimit) / newPageLimit) + 1;
-
               setPageLimit?.(newPageLimit);
-              setPage?.(newPage);
+              setPage?.(PAGINATION?.CURRENT_PAGE);
             }}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
