@@ -12,29 +12,54 @@ import {
 import { NextRouter, useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
+  ARRAY_INDEX,
   CATALOG_SERVICE_TYPES,
   MODULE_TYPE,
   TICKET_STATUS,
   TICKET_TYPE,
 } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { CatalogRequestI } from './CatalogRequest.interface';
+import {
+  getActiveAccountSession,
+  getCustomerPortalPermissions,
+  getSession,
+} from '@/utils';
+import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 
 const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;
   const router: NextRouter = useRouter();
   const { serviceId } = router?.query;
-  const companyId = router?.query?.companyId;
+
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const session: any = getSession();
+  const sessionId = session?.user?.companyId;
+  const companyIdStorage = product?.company?._id;
+  const sessionUserId = session?.user?._id;
+  const sessionOrganizationId = session?.user?.organization?._id;
+
+  const { companyId } = router?.query;
+  const decryptedId = useMemo(() => {
+    const id = Array.isArray(companyId)
+      ? companyId[ARRAY_INDEX?.ZERO]
+      : companyId;
+    return atob(id ?? '');
+  }, [companyId]);
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const categoryType = servicesDetails?.data?.serviceType;
 
   const searchStringLowerCase = categoryType?.toLowerCase();
+  const getPortalPermissions = getCustomerPortalPermissions();
+  const checkPermission = getPortalPermissions?.includes(
+    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+  );
 
   const methodRequest = useForm<any>({
     resolver: yupResolver(
-      placeRequestValidationSchema?.(searchStringLowerCase),
+      placeRequestValidationSchema?.(searchStringLowerCase, checkPermission),
     ),
     defaultValues: placeRequestDefaultValues,
   });
@@ -50,13 +75,25 @@ const useCatalogRequest = (props: CatalogRequestI) => {
         : servicesDetails?.data?.description;
 
     const placeRequestData = new FormData();
-    placeRequestData?.append('requester', data?.requestor?._id);
+    if (checkPermission) {
+      placeRequestData?.append('requester', data?.requestor?._id);
+    }
+    if (!checkPermission) {
+      placeRequestData?.append('requesterEmail', data?.requesterEmail);
+    }
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
     placeRequestData?.append('subject', servicesDetails?.data?.itemName);
     placeRequestData?.append('serviceId', serviceId as string);
     placeRequestData?.append('moduleType', MODULE_TYPE?.CUSTOMER_PORTAL);
     placeRequestData?.append('ticketType', TICKET_TYPE?.SR);
     placeRequestData?.append('description', addItemToDescription);
+    placeRequestData?.append('userId', sessionUserId || '');
+    placeRequestData?.append(
+      'companyId',
+      decryptedId || companyIdStorage || sessionId || '',
+    );
+    placeRequestData?.append('organization', sessionOrganizationId || '');
+
     const postTicketParameter = {
       body: placeRequestData,
     };
@@ -96,6 +133,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     apiQueryRequester,
     searchStringLowerCase,
     requestForSomeOne,
+    checkPermission,
   );
 
   return {
@@ -110,6 +148,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     searchStringLowerCase,
     reset,
     postTicketStatus,
+    checkPermission,
   };
 };
 export default useCatalogRequest;

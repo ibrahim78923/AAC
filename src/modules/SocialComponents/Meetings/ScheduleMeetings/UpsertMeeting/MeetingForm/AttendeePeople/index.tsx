@@ -162,7 +162,12 @@ export const AttendeePeople = (props: any) => {
             {status?.isLoading || status?.isFetching ? (
               <Skeleton />
             ) : slotsData && Object?.keys(slotsData)?.length > 0 ? (
-              <Grid container spacing={2} mt={0}>
+              <Grid
+                container
+                spacing={2}
+                mt={0}
+                sx={{ overflowY: 'auto', maxHeight: '35vh' }}
+              >
                 {Object?.entries(slotsData)?.map(([slot, slotValues]: any) => {
                   const [startTime, endTime] = slot?.split('-');
                   const availability = slot || {};
@@ -210,10 +215,10 @@ export const AttendeePeople = (props: any) => {
                             <Typography variant="subtitle2">
                               Available:
                               {meetingType === ROUTER_CONSTANTS?.GROUP
-                                ? `${peopleData?.length} / ${
+                                ? `${
                                     totalCounts?.totalAvailableCount +
                                       totalCounts?.totalUnavailableCount || 1
-                                  }`
+                                  }/ ${peopleData?.length}`
                                 : 'Everyone'}
                             </Typography>
                             <Typography variant="body4" color="custom.main">
