@@ -6,11 +6,11 @@ import {
   upsertRolesAndRightValidationSchema,
 } from './UpsertRolesAndRight.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AIR_OPERATIONS } from '@/constants';
-import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import {
   useGetPermissionsRoleByIdForOperationsQuery,
   usePatchPermissionsRoleByIdForOperationsMutation,
@@ -24,15 +24,15 @@ import {
   IUpsertRolesAndRightFormData,
 } from './UpsertRolesAndRight.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { getActiveAccountSession } from '@/utils';
 
 export const useUpsertRolesAndRight = () => {
   const router = useRouter();
   const { roleId, action } = router?.query;
   const auth: IAuth | any = useAuth();
-
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const organizationCompanyAccountId = product?.company?._id;
   const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
   const { _id: organizationId } = auth?.user?.organization;
   const methods: UseFormReturn<IUpsertRolesAndRightFormData> =
     useForm<IUpsertRolesAndRightFormData>({

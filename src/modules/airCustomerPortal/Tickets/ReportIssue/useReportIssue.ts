@@ -11,7 +11,7 @@ import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashb
 import { ARRAY_INDEX, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import {
-  getActiveProductSession,
+  getActiveAccountSession,
   getCustomerPortalPermissions,
   getCustomerPortalStyling,
   getSession,
@@ -29,10 +29,10 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
   const { setIsPortalOpen } = props;
   const router = useRouter();
   const { companyId } = router?.query;
-  const product = useMemo(() => getActiveProductSession(), []);
+  const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = useMemo(() => getSession(), []);
   const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const companyIdStorage = product?.company?._id;
   const decryptedId = useMemo(() => {
     const id = Array.isArray(companyId)
       ? companyId[ARRAY_INDEX?.ZERO]

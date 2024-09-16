@@ -76,7 +76,24 @@ export const Tickets = () => {
       lazyGetCustomerPortalTicketsStatus?.isFetching ? (
         <SkeletonForm />
       ) : lazyGetCustomerPortalTicketsStatus?.isError ? (
-        <ApiErrorState canRefresh refresh={() => getTicketsData?.(page)} />
+        <ApiErrorState
+          canRefresh
+          refresh={() => getTicketsData?.(page)}
+          refreshButtonProps={{
+            sx: (theme: Theme) => ({
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+              '&:hover': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+              },
+            }),
+          }}
+        />
       ) : !!!ticketData?.length ? (
         <NoData message="No ticket found" />
       ) : (

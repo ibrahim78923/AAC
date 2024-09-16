@@ -1,8 +1,8 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-import { transformResponse } from '@/utils/api';
 
 const TAG = 'FEEDBACK_SURVEY';
+const TAG_ONE = 'USERS_DROPDOWN';
 export const feedbackSurvey = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     postFeedbackSurvey: builder?.mutation({
@@ -119,13 +119,15 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     allUserDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
         method: 'GET',
         params,
       }),
-      transformResponse,
-      providesTags: [TAG],
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_ONE],
     }),
   }),
 });

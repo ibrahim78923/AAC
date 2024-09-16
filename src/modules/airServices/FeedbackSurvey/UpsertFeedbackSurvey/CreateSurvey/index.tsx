@@ -20,6 +20,7 @@ export const CreateSurvey: React.FC<{
     openShare,
     setOpenShare,
     userDropdown,
+    sessionUser,
   } = useCreateSurvey(props);
   return (
     <>
@@ -37,6 +38,7 @@ export const CreateSurvey: React.FC<{
           props?.methods?.watch,
           setOpenShare,
           userDropdown,
+          sessionUser,
         )?.map((field) => {
           if (
             field?.conditionalComponent &&
