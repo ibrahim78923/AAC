@@ -1,22 +1,19 @@
 import * as Yup from 'yup';
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDesktopDateTimePicker,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TASK_STATUS } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
+import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 const statusOptions = [TO_DO, IN_PROGRESS, DONE];
@@ -45,7 +42,7 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
     title: Yup?.string()?.trim()?.required('Title is Required'),
     description: Yup?.string()?.trim()?.required('Description is Required'),
     departmentId: Yup?.mixed()?.required('Department is Required'),
-    assignTo: Yup?.mixed()?.nullable(),
+    agent: Yup?.mixed()?.nullable(),
     notifyBefore: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.required('Status is Required'),
     startDate: Yup?.date(),
@@ -63,7 +60,7 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
     title: taskData?.title ?? '',
     description: taskData?.description ?? '',
     departmentId: taskData?.departmentData ?? null,
-    assignTo: taskData?.assignedUser ?? null,
+    agent: taskData?.assignedUser ?? null,
     status: taskData?.status ?? null,
     notifyBefore: !!taskData?.notifyBefore
       ? notifyBeforeOption?.find(
@@ -77,10 +74,7 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
   };
 };
 
-export const upsertTicketTaskFormFormFieldsDynamic = (
-  apiQueryDepartment: any,
-  apiQueryUser: any,
-) => [
+export const upsertTicketTaskFormFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -109,30 +103,15 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
   },
   {
     id: 3,
-    componentProps: {
-      name: 'departmentId',
-      label: 'Department',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Chose department',
-      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
-      apiQuery: apiQueryDepartment,
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
     md: 12,
   },
   {
     id: 4,
     componentProps: {
-      name: 'assignTo',
       label: 'Assign To',
-      fullWidth: true,
-      placeholder: 'Select',
-      apiQuery: apiQueryUser,
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
     md: 12,
   },
   {

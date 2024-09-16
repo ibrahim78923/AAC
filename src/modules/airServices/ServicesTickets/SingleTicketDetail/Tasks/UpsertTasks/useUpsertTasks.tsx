@@ -12,8 +12,6 @@ import {
 } from '@/utils/api';
 import { useRouter } from 'next/router';
 import {
-  useLazyGetDepartmentDropdownListForTicketTasksQuery,
-  useLazyGetUsersDropdownListForTicketTasksQuery,
   usePatchTaskByIdMutation,
   usePostTaskByIdMutation,
 } from '@/services/airServices/tickets/single-ticket-details/tasks';
@@ -144,7 +142,7 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
         ticketId: ticketId,
         startDate: filteredEmptyData?.startDate?.toISOString(),
         endDate: filteredEmptyData?.endDate?.toISOString(),
-        assignTo: filteredEmptyData?.assignTo?._id,
+        assignTo: filteredEmptyData?.agent?._id,
         departmentId: filteredEmptyData?.departmentId?._id,
         notifyBefore: filteredEmptyData?.notifyBefore?._id,
       };
@@ -196,11 +194,8 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
     reset();
   };
 
-  const apiQueryDepartment =
-    useLazyGetDepartmentDropdownListForTicketTasksQuery();
-  const apiQueryUser = useLazyGetUsersDropdownListForTicketTasksQuery();
   const upsertTicketTaskFormFormFields =
-    upsertTicketTaskFormFormFieldsDynamic?.(apiQueryDepartment, apiQueryUser);
+    upsertTicketTaskFormFormFieldsDynamic?.();
 
   return {
     submitUpsertTicketTasks,

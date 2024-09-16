@@ -1,22 +1,22 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants';
 import { useLazyGetAssociateAssetsDropdownForTicketsQuery } from '@/services/airServices/tickets';
 import { Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { AddCircle } from '@mui/icons-material';
-import useAuth from '@/hooks/useAuth';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { useMemo } from 'react';
+import { getActiveAccountSession } from '@/utils';
+import { uiDateFormat } from '@/utils/dateTime';
 
 export const AssetFieldDropdown = (props: any) => {
   const { required = false } = props;
   const router = useRouter();
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForTicketsQuery();
-  const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
 
   return (
     <RHFAutocompleteAsync
@@ -52,7 +52,7 @@ export const AssetFieldDropdown = (props: any) => {
           <Typography variant={'body4'} color={'grey.900'}>
             EOL:{' '}
             {!!option?.assetLifeExpiry
-              ? dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI)
+              ? uiDateFormat(option?.assetLifeExpiry)
               : '---'}
           </Typography>
         </Box>

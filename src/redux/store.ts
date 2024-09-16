@@ -17,6 +17,7 @@ import salesWorkflowSlice from './slices/salesWorkflow';
 import servicesWorkflowSlice from './slices/servicesWorkflow';
 import { servicesKnowledgeBaseSlice } from './slices/airServices';
 import servicesTicketsSlice from './slices/airServices/tickets/slice';
+import servicesRelatedTicketsSlice from './slices/airServices/related-tickets/slice';
 
 const store = configureStore({
   reducer: {
@@ -37,6 +38,7 @@ const store = configureStore({
     servicesWorkflow: servicesWorkflowSlice,
     servicesKnowledgeBase: servicesKnowledgeBaseSlice,
     servicesTickets: servicesTicketsSlice,
+    servicesRelatedTickets: servicesRelatedTicketsSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

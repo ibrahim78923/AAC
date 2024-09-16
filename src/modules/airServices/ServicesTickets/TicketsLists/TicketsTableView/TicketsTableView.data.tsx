@@ -1,7 +1,6 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants';
 import { TICKET_TYPE } from '@/constants/strings';
-import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
   fullName,
@@ -11,6 +10,7 @@ import {
 } from '@/utils/avatarUtils';
 import { NextRouter } from 'next/router';
 import { TicketTableRowI } from '../TicketsLists.interface';
+import { uiDateFormat } from '@/utils/dateTime';
 
 export const ticketsListsColumnDynamic: any = (
   router?: NextRouter,
@@ -202,22 +202,22 @@ export const ticketsListsColumnDynamic: any = (
       id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
-      cell: (info: any) => info?.getValue()?.name ?? '---',
+      cell: (info: any) => truncateText(info?.getValue()?.name),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+      cell: (info: any) => uiDateFormat(info?.getValue()),
     },
     {
-      accessorFn: (row: TicketTableRowI) => row?.dueDate,
-      id: 'dueDate',
+      accessorFn: (row: TicketTableRowI) => row?.plannedEndDate,
+      id: 'plannedEndDate',
       isSortable: true,
       header: 'Due Date',
       cell: (info: any) =>
-        dayjs(info?.row?.original?.plannedEndDate)?.format(DATE_FORMAT?.UI),
+        !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.impact,
@@ -231,14 +231,15 @@ export const ticketsListsColumnDynamic: any = (
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+      cell: (info: any) => uiDateFormat(info?.getValue()),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Planned End Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+      cell: (info: any) =>
+        !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedEffort,

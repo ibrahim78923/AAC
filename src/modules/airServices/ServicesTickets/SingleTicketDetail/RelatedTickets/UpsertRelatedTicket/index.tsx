@@ -5,15 +5,11 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertRelatedTicket } from './useUpsertRelatedTicket';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { RelatedTicketsPortalComponentPropsI } from '../RelatedTickets.interface';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const UpsertRelatedTicket = (
-  props: RelatedTicketsPortalComponentPropsI,
-) => {
-  const { isPortalOpen, childTicketId } = props;
+export const UpsertRelatedTicket = () => {
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -26,12 +22,14 @@ export const UpsertRelatedTicket = (
     putChildTicketStatus,
     isError,
     refetch,
-  } = useUpsertRelatedTicket(props);
+    isPortalOpen,
+    childTicketId,
+  } = useUpsertRelatedTicket();
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isUpsert as boolean}
-      onClose={() => onClose?.()}
+      isDrawerOpen={isPortalOpen?.isOpen as boolean}
+      onClose={onClose}
       okText={
         !!childTicketId
           ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
@@ -42,7 +40,7 @@ export const UpsertRelatedTicket = (
           ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
           : GENERIC_UPSERT_FORM_CONSTANT?.ADD
       } Child Ticket`}
-      submitHandler={() => handleSubmit(submitUpsertTicket)()}
+      submitHandler={handleSubmit(submitUpsertTicket)}
       isOk
       cancelText={'Cancel'}
       footer
@@ -59,14 +57,11 @@ export const UpsertRelatedTicket = (
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
+        <ApiErrorState canRefresh refresh={refetch} />
       ) : (
         <>
           <Box mt={1}>
-            <FormProvider
-              methods={methods}
-              onSubmit={handleSubmit(submitUpsertTicket)}
-            >
+            <FormProvider methods={methods}>
               <Grid container spacing={2}>
                 {upsertTicketFormFields?.map((item: ReactHookFormFieldsI) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>

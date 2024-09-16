@@ -3,13 +3,13 @@ import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookF
 import { useLazyGetAirServicesAllAgentsUsersDropdownListQuery } from '@/services/airServices/tickets';
 
 export const AgentFieldDropdown = (props: any) => {
-  const { required = false } = props;
+  const { required = false, label = 'Agent' } = props;
   const apiQueryAgent = useLazyGetAirServicesAllAgentsUsersDropdownListQuery();
 
   return (
     <RHFAutocompleteAsync
       name="agent"
-      label="Agent"
+      label={label}
       placeholder="Choose Agent"
       fullWidth
       size="small"

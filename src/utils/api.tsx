@@ -1,6 +1,7 @@
 import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
+import { isoDateString } from './dateTime';
 
 export const transformResponse = (response: any) => {
   if (response) return response?.data;
@@ -48,7 +49,7 @@ export const buildQueryParams = (
   Object?.entries(filterLists || {})?.forEach(([key, value]: any) => {
     if (neglectKeysInLoop?.includes(key)) return;
     if (value instanceof Date)
-      return getQueryParam?.append(key, value?.toISOString());
+      return getQueryParam?.append(key, isoDateString(value));
     if (typeof value === 'string') return getQueryParam?.append(key, value);
     getQueryParam?.append(key, value?._id);
   });
