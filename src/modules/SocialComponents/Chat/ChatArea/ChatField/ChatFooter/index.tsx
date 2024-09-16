@@ -35,6 +35,7 @@ import { getSession } from '@/utils';
 import { useChatAttachmentUploadMutation } from '@/services/chat';
 import { generateImage } from '@/utils/avatarUtils';
 import { v4 as uuidv4 } from 'uuid';
+import { CHAT_TYPES } from '@/constants';
 
 const ChatFooter = ({ handleScrollToBottom }: any) => {
   const theme = useTheme();
@@ -135,13 +136,17 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
 
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
+
   const checkTypingPayload = {
     typingUserName: `${
       user?.firstName.toLowerCase() + ' ' + user?.lastName.toLowerCase()
     }`,
-    isGroup: false,
-    receiverId: activeReceiverId && activeReceiverId[0],
-    chatId: activeChatId,
+    isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
+    ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+      receiverId: activeReceiverId && activeReceiverId[0],
+    }),
+    ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && { chatId: activeChatId }),
+    ...(chatMode === CHAT_TYPES?.GROUP_CHAT && { groupId: activeChatId }),
   };
 
   const handleTypingStart = () => {

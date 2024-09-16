@@ -46,6 +46,7 @@ export default function Enquiries() {
 
         <Grid item xs={12} md={6} textAlign={'end'}>
           <SingleDropdownButton
+            className="small"
             dropdownOptions={enquiriesActionDropdown}
             disabled={!!!enquiriesSelected?.length}
           />
@@ -55,6 +56,7 @@ export default function Enquiries() {
           >
             <Button
               variant="outlined"
+              className="small"
               startIcon={<FilterIcon />}
               color="secondary"
               sx={{ ml: 2 }}

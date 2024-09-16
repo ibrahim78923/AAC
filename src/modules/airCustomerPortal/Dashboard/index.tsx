@@ -30,6 +30,7 @@ const Dashboard = () => {
         {[ROLES?.ORG_EMPLOYEE, ROLES?.ORG_ADMIN]?.includes(user?.role) && (
           <Button
             variant="outlined"
+            className="small"
             startIcon={
               <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
             }
@@ -57,6 +58,7 @@ const Dashboard = () => {
 
         <PublicSingleDropdownButton
           dropdownOptions={newTicketsDropdown}
+          className="small"
           dropdownName={'New'}
           btnVariant="contained"
           sx={{
