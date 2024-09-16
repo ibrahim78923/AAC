@@ -15,9 +15,10 @@ export const Header = () => {
     setOpenReportAnIssueModal(true);
   };
   const customerPortalPermissions = getCustomerPortalPermissions();
-  const reportAnIssuePermission = customerPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
-  );
+  const reportAnIssuePermission =
+    customerPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
+    );
   const customerPortalStyling = getCustomerPortalStyling();
   return (
     <>

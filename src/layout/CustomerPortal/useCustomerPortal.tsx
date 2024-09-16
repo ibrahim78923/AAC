@@ -69,10 +69,10 @@ export default function useCustomerPortal() {
         const response = await getPublicCustomerPermissionsTrigger({
           id: idToUse,
         })?.unwrap();
-        if (response?.data?.customerPortalPermissions) {
+        if (response?.data) {
           localStorage?.setItem(
             'customerPortalPermissions',
-            JSON?.stringify(response?.data?.customerPortalPermissions),
+            JSON?.stringify(response?.data),
           );
         }
         if (response?.data?.customerPortalStyling) {

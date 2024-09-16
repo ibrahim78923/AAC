@@ -41,12 +41,14 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
   }, [companyId]);
   const getCompanyId = decryptedId || companyIdStorage || sessionId;
   const getPortalPermissions = getCustomerPortalPermissions();
-  const checkRequesterPermission = getPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
-  );
-  const checkArticlePermission = getPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
-  );
+  const checkRequesterPermission =
+    getPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+    );
+  const checkArticlePermission =
+    getPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
+    );
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownByCompanyIdQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();

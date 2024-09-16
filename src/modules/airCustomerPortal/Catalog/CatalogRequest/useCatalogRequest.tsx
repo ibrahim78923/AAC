@@ -53,9 +53,10 @@ const useCatalogRequest = (props: CatalogRequestI) => {
 
   const searchStringLowerCase = categoryType?.toLowerCase();
   const getPortalPermissions = getCustomerPortalPermissions();
-  const checkPermission = getPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
-  );
+  const checkPermission =
+    getPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+    );
 
   const methodRequest = useForm<any>({
     resolver: yupResolver(
