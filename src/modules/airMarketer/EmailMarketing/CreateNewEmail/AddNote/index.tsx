@@ -43,21 +43,21 @@ const AddANote = ({
   const [renderTrack, setRenderTrack] = useState(0);
 
   const handleAddNoteClick = () => {
+    const id = uuidv4();
     const newData = {
       message: comment,
       createdBy: user?._id,
       firstName: user?.firstName,
       lastName: user?.lastName,
+      uuid: id,
       avatar: user?.avatar,
-      _id: uuidv4(),
-      notesId: uuidv4(),
     };
     setNotesData((prevNotesData: any) => [...prevNotesData, newData]);
     setComment('');
   };
 
   const deleteNotes = (id: string) => {
-    const updatedNotes = notesData?.filter((item: any) => item?._id !== id);
+    const updatedNotes = notesData?.filter((item: any) => item?.uuid !== id);
     setNotesData(updatedNotes);
   };
 
@@ -77,9 +77,10 @@ const AddANote = ({
   const [updateEmailTemplate] = useUpdateEmailTemplatesMutation();
 
   const onNotesUpdateAndPost = async () => {
-    const mappedData = notesData?.map(({ message, createdBy }: any) => ({
+    const mappedData = notesData?.map(({ message, createdBy, uuid }: any) => ({
       message,
       createdBy,
+      uuid,
     }));
     try {
       await updateEmailTemplate({
@@ -141,7 +142,7 @@ const AddANote = ({
                     <MenuItem>
                       <Typography variant="subtitle2">Edit</Typography>
                     </MenuItem>
-                    <MenuItem onClick={() => deleteNotes(item?._id)}>
+                    <MenuItem onClick={() => deleteNotes(item?.uuid)}>
                       <Typography variant="subtitle2">Delete</Typography>
                     </MenuItem>
                   </TableIconActions>

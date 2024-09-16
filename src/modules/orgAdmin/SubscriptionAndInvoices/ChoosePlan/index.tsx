@@ -79,12 +79,15 @@ const ChoosePlan = () => {
   const { data: featuresData } = useGetProductFeaturesQuery(
     {
       id: isCRM
-        ? parsedManageData?.plans?.planProducts
+        ? parsedManageData?.plans?.planProducts ??
+          parsedManageData?.planProducts
         : parsedManageData?.productId,
     },
     {
       skip:
-        parsedManageData?.productId || parsedManageData?.plans?.planProducts
+        parsedManageData?.productId ||
+        (parsedManageData?.plans?.planProducts ??
+          parsedManageData?.planProducts)
           ? false
           : true,
     },

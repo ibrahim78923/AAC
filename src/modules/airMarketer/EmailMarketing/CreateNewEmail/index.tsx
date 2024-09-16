@@ -180,10 +180,13 @@ const CreateNewEmail = ({ edit, data }: any) => {
         formDataSend.append('folderId', id);
       }
       if (notesData.length > 0) {
-        const mappedData = notesData?.map(({ message, createdBy }: any) => ({
-          message,
-          createdBy,
-        }));
+        const mappedData = notesData?.map(
+          ({ message, createdBy, uuid }: any) => ({
+            message,
+            createdBy,
+            uuid,
+          }),
+        );
         const notesDataJson = JSON.stringify(mappedData);
         formDataSend.append('notes', notesDataJson);
       }
