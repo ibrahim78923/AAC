@@ -1,19 +1,23 @@
-import { Box } from '@mui/material';
+import { Box, Button, ButtonGroup } from '@mui/material';
 
 import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
+
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
   setSelectedProduct,
-  viewDeal,
+  // viewDeal,
+  handleQuantityChange,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedProduct: any;
   viewDeal: any;
+  handleQuantityChange: (productId: number, quantity: number) => void;
 }) => {
   return [
     {
@@ -29,15 +33,56 @@ export const columns: any = ({
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: () => '01',
+      cell: (info: any) => {
+        return (
+          <Box>
+            <ButtonGroup>
+              <Button
+                className="small"
+                color="inherit"
+                variant="outlined"
+                onClick={() => {
+                  handleQuantityChange(
+                    info?.row?.original?.productId,
+                    info?.getValue() - 1,
+                  );
+                }}
+              >
+                <RemoveCircleOutline />
+              </Button>
+              <Button
+                className="small"
+                disabled
+                color="inherit"
+                variant="outlined"
+              >
+                {info?.getValue()}
+              </Button>
+              <Button
+                className="small"
+                color="inherit"
+                variant="outlined"
+                onClick={() => {
+                  handleQuantityChange(
+                    info?.row?.original?.productId,
+                    info?.getValue() + 1,
+                  );
+                }}
+              >
+                <AddCircleOutline />
+              </Button>
+            </ButtonGroup>
+          </Box>
+        );
+      },
     },
 
     {
-      accessorFn: (row: any) => row,
+      accessorFn: (row: any) => row?.unitPrice,
       id: 'phonenumber',
       isSortable: true,
       header: 'Amount',
-      cell: () => viewDeal?.amount ?? 'N/A',
+      cell: (info: any) => `£ ${info?.getValue()}` ?? 'N/A',
     },
 
     {

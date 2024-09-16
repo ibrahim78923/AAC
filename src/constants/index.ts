@@ -460,6 +460,11 @@ export const CONTACT_TYPE = {
   EXT_CONTACT: 'existing-contact',
 };
 
+export const PRODUCTS_TYPE = {
+  NEW_PRODUCT: 'new-products',
+  EXT_PRODUCT: 'existing-products',
+};
+
 export const Gmail_CONST = {
   DATE: 'Date',
   FROM: 'From',

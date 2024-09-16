@@ -77,6 +77,8 @@ export const END_POINTS = {
   ENQUIRIES: '/enquiries',
   CREATE_ASSOCIATION: '/deals/create-association',
   DELETE_ASSOCIATION: '/deals/delete-association',
+  GET_DEAL_PRODUCTS: '/deals/get-products',
+  UPADTE_DEAL_PRODUCT: '/deals/edit-deal-products',
   ASSETS_INVENTORY: '/assets/inventory',
   INVENTORY_EXISTING_INCIDENT: '/assets/assets-associate-existing-tickets',
   DELETE_INVENTORY_ASSOCIATIONS_LIST: '/assets/delete-ticket-association',

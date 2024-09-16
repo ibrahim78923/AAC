@@ -46,6 +46,7 @@ const DashboardAccordion = ({
                 disabled={disabled}
                 name="permissions"
                 options={item?.permissions?.map((permission: Permission) => ({
+                  key: permission?.slug,
                   label: permission?.name,
                   value: permission?.slug,
                 }))}
