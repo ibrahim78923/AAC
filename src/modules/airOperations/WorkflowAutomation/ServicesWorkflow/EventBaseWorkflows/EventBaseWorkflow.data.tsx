@@ -5,8 +5,17 @@ import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
+import {
+  GENERIC_UPSERT_FORM_CONSTANT,
+  REQUESTORS_STATUS,
+  WORKFLOW_TYPE,
+} from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import React from 'react';
@@ -113,8 +122,11 @@ export const listsColumnsFunction = (
     header: 'Workflow Name',
     cell: (info: any) => (
       <Box display={'flex'} gap={0.3}>
-        {info?.getValue()}
-        {info?.row?.original?.draft && (
+        <Typography variant="body2" textTransform={'capitalize'}>
+          {truncateText(info?.getValue()?.toLowerCase())}
+        </Typography>
+        {info?.row?.original?.status ===
+          GENERIC_UPSERT_FORM_CONSTANT?.DRAFT && (
           <Chip
             icon={
               <FiberManualRecordIcon
@@ -201,7 +213,7 @@ export const listsColumnsFunction = (
         : '';
       const typeText = capitalizedType ? capitalizedType + ' by' + ' ' : null;
       return (
-        <Typography>
+        <Typography variant="body2">
           {typeText}
           {fullName(
             info?.getValue()?.user?.firstName,

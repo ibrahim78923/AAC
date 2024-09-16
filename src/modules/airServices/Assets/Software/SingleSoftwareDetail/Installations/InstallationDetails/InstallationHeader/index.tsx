@@ -36,6 +36,7 @@ export const InstallationHeader: React.FC<InstallationHeaderI> = (props) => {
             variant="outlined"
             disabled={!!!activeCheck?.length}
             onClick={handleOpenDelete}
+            className="small"
           >
             Remove Device
           </Button>

@@ -56,13 +56,13 @@ const Tickets = () => {
         isSuccess={isSuccess}
         isLoading={isLoading}
         isError={isError}
-        setLimit={setLimit}
+        setPageLimit={setLimit}
         setPage={setPage}
         count={ticketsData?.meta?.pages}
         totalRecords={ticketsData?.meta?.total}
         onPageChange={(page: number) => setPage(page)}
         currentPage={ticketsData?.meta?.page}
-        limit={limit}
+        pageLimit={limit}
         errorProps={{ canRefresh: true, refresh: handleWorkflow }}
       />
     </>

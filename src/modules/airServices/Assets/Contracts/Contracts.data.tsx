@@ -66,6 +66,8 @@ export const contractsListsColumnsFunction = (
     cell: (info: any) => (
       <Typography
         component="span"
+        variant={'body2'}
+        textTransform={'capitalize'}
         onClick={() =>
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
@@ -77,7 +79,7 @@ export const contractsListsColumnsFunction = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {truncateText(info?.getValue())}
+        {truncateText(info?.getValue()?.toLowerCase())}
       </Typography>
     ),
   },
@@ -87,7 +89,7 @@ export const contractsListsColumnsFunction = (
     header: 'Type',
     isSortable: false,
     cell: (info: any) => (
-      <Typography variant={'body1'} textTransform={'capitalize'}>
+      <Typography variant={'body2'} textTransform={'capitalize'}>
         {truncateText(info?.getValue())}
       </Typography>
     ),

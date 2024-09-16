@@ -56,13 +56,13 @@ const Tasks = () => {
         isSuccess={isSuccess}
         isLoading={isLoading}
         isError={isError}
-        setLimit={setLimit}
+        setPageLimit={setLimit}
         setPage={setPage}
         count={taskData?.meta?.pages}
         totalRecords={taskData?.meta?.total}
         onPageChange={(page: number) => setPage(page)}
         currentPage={taskData?.meta?.page}
-        limit={limit}
+        pageLimit={limit}
         errorProps={{ canRefresh: true, refresh: handleWorkflow }}
       />
     </>

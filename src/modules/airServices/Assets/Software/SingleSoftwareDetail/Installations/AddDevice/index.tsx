@@ -24,6 +24,7 @@ const AddDevice = () => {
         onClick={handleAddDevice}
         sx={{ px: 2 }}
         startIcon={<PlusSharedColorIcon />}
+        className="small"
       >
         Add Device
       </Button>

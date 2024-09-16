@@ -877,6 +877,7 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   PUBLISH_NOW: 'Publish Now',
   IMPORT: 'Import',
   NEXT: 'Next',
+  DRAFT: 'DRAFT',
 };
 
 export const TEXT_FORMATE: any = {

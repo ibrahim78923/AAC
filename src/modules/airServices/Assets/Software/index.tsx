@@ -82,6 +82,7 @@ const Software = () => {
               variant="outlined"
               disabled={!!!softwareData?.length}
               onClick={() => setOpenAssignModal?.(true)}
+              className="small"
             >
               Assign Category
             </Button>
@@ -95,6 +96,7 @@ const Software = () => {
                 variant="outlined"
                 startIcon={<FilterSharedIcon />}
                 onClick={() => setIsOpenFilterDrawer(true)}
+                className="small"
               >
                 Filter
               </Button>

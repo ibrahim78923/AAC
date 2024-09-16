@@ -5,7 +5,6 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
 import {
@@ -15,9 +14,7 @@ import {
   LICENSE_TYPE,
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
-import { DATE_FORMAT } from '@/constants';
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+import { localeDateTime } from '@/utils/dateTime';
 
 export const dropdownDummy = [
   {
@@ -158,8 +155,8 @@ export const upsertContractFormDefaultValuesFunction: any = (
     },
     vendor: data?.vendor ?? null,
     approver: data?.approver ?? null,
-    startDate: new Date(data?.startDate ?? todayDate),
-    endDate: new Date(data?.endDate ?? todayDate),
+    startDate: data?.startDate ? localeDateTime(data?.startDate) : new Date(),
+    endDate: data?.startDate ? localeDateTime(data?.endDate) : new Date(),
     autoRenew: data?.autoRenew ?? false,
     notifyExpiry: data?.notifyExpiry ?? false,
     notifyBefore: data?.notifyBefore ?? '',

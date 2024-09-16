@@ -1,4 +1,4 @@
-import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
@@ -18,6 +18,7 @@ import {
 } from '@/services/commonFeatures/meetings';
 import dayjs from 'dayjs';
 import { MEETINGS_ACTION_TYPE } from '@/constants/strings';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
@@ -118,8 +119,8 @@ export const useUpsertMeeting = () => {
             : routeConstant?.collectiveMeeting,
       isAllDay: formData?.allDay,
       timeZone: formData?.timeZone?.label,
-      startDate: dayjs(formData?.startDate)?.format(DATE_TIME_FORMAT?.YYMMDD),
-      endDate: dayjs(formData?.endDate)?.format(DATE_TIME_FORMAT?.YYMMDD),
+      startDate: isoDateString(formData?.startDate),
+      endDate: isoDateString(formData?.endDate),
       startTime:
         formData?.allDay === false && formData?.allowAttendee === false
           ? dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH)

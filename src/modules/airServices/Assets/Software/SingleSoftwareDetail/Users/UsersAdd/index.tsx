@@ -33,6 +33,7 @@ export const UsersAdd = () => {
               startIcon={<PlusSharedColorIcon />}
               color="primary"
               variant="contained"
+              className="small"
             >
               Add User
             </Button>

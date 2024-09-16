@@ -58,6 +58,7 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
               variant="outlined"
               startIcon={<FilterSharedIcon />}
               onClick={() => setIsDrawerOpen?.(true)}
+              className="small"
             >
               Filter
             </Button>
@@ -72,6 +73,7 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
               onClick={() =>
                 router?.push(AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES)
               }
+              className="small"
             >
               Create Rules
             </Button>

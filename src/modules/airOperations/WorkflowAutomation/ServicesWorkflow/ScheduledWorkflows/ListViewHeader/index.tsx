@@ -58,6 +58,7 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
               variant="outlined"
               startIcon={<FilterSharedIcon />}
               onClick={() => setIsDrawerOpen?.(true)}
+              className="small"
             >
               Filter
             </Button>
@@ -72,6 +73,7 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
               onClick={() =>
                 router?.push(AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW)
               }
+              className="small"
             >
               Create Schedule Workflow
             </Button>

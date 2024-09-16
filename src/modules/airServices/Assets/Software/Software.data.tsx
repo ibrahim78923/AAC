@@ -82,6 +82,8 @@ export const columns = (
     cell: (info: any) => (
       <Typography
         component="span"
+        textTransform={'capitalize'}
+        variant={'body2'}
         onClick={() =>
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
@@ -93,7 +95,7 @@ export const columns = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {truncateText(info?.getValue())}
+        {truncateText(info?.getValue()?.toLowerCase())}
       </Typography>
     ),
   },

@@ -2,21 +2,14 @@ import { AIR_SERVICES } from '@/constants';
 import { useGetSoftwareByIdQuery } from '@/services/airServices/assets/software';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
+import { softwareActionsOptions } from './Header.data';
 
 export function useHeader() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const router = useRouter();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const softwareId = searchParams.get('softwareId');
 
@@ -34,18 +27,21 @@ export function useHeader() {
     });
   };
 
+  const actionOptions = softwareActionsOptions(
+    setIsDrawerOpen,
+    setDeleteModalOpen,
+  );
+
   return {
     isDrawerOpen,
     setIsDrawerOpen,
     deleteModalOpen,
     setDeleteModalOpen,
-    handleClick,
-    handleClose,
     open,
-    anchorEl,
     moveBackArrow,
     data,
     isLoading,
     isFetching,
+    actionOptions,
   };
 }

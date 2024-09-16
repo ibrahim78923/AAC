@@ -46,6 +46,7 @@ export const Header = (props: any) => {
               color="secondary"
               onClick={handleSubmitForApproval}
               type="submit"
+              className="small"
             >
               Submit For Approval
             </Button>

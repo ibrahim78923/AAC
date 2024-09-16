@@ -1,10 +1,10 @@
-import { Button, MenuItem, Menu, Box, Skeleton } from '@mui/material';
-import { ActionButtonIcon } from '@/assets/icons';
+import { Box, Skeleton } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useHeader } from './useHeader';
 import { UpsertSoftware } from '../../UpsertSoftware';
 import { DeleteSoftware } from '../../DeleteSoftware';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
 
 export default function Header() {
   const {
@@ -12,14 +12,11 @@ export default function Header() {
     setIsDrawerOpen,
     deleteModalOpen,
     setDeleteModalOpen,
-    handleClick,
-    handleClose,
-    open,
-    anchorEl,
     moveBackArrow,
     data,
     isLoading,
     isFetching,
+    actionOptions,
   } = useHeader();
 
   if (isLoading || isFetching) return <Skeleton height={50} />;
@@ -38,41 +35,7 @@ export default function Header() {
           moveBack={moveBackArrow}
           title={data?.data?.[ARRAY_INDEX?.ZERO]?.name}
         />
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            endIcon={<ActionButtonIcon />}
-            onClick={handleClick}
-          >
-            Action
-          </Button>
-
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                setIsDrawerOpen(true), handleClose();
-              }}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setDeleteModalOpen(true), handleClose();
-              }}
-            >
-              Delete
-            </MenuItem>
-          </Menu>
-        </Box>
+        <PublicSingleDropdownButton dropdownOptions={actionOptions} />
       </Box>
       {deleteModalOpen && (
         <DeleteSoftware

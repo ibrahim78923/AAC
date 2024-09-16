@@ -27,6 +27,7 @@ export const UsersFilter: React.FC<UsersFilterI> = (props) => {
         onClick={openFilterDrawer}
         startIcon={<FilterIcon />}
         color="secondary"
+        className="small"
       >
         Filter
       </Button>

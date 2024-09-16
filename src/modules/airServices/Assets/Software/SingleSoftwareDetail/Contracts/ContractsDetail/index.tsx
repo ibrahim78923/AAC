@@ -41,6 +41,7 @@ export const ContractsDetails = () => {
           color="primary"
           variant="contained"
           size="large"
+          className="small"
           onClick={() =>
             router?.push({
               pathname: AIR_SERVICES?.UPSERT_SOFTWARE_CONTRACT,

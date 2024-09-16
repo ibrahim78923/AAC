@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { ARRAY_INDEX, LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
@@ -9,6 +9,7 @@ import {
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { monthFormatter, timeFormatter } from '@/utils/api';
+import { localeDateTime } from '@/utils/dateTime';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -172,13 +173,14 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
       ? monthFormatter(singleWorkflowData?.schedule?.annually?.month)
       : new Date(),
     scheduleDay:
-      singleWorkflowData?.schedule?.weekly?.days?.[0]?.toLowerCase() ??
-      'monday',
+      singleWorkflowData?.schedule?.weekly?.days?.[
+        ARRAY_INDEX?.ZERO
+      ]?.toLowerCase() ?? 'monday',
     scheduleDate: singleWorkflowData?.schedule?.monthly?.day ?? 1,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
-      startDate: startDate ? new Date(startDate) : new Date(),
-      endDate: endDate ? new Date(endDate) : new Date(),
+      startDate: startDate ? localeDateTime(startDate) : new Date(),
+      endDate: endDate ? localeDateTime(endDate) : new Date(),
       key: 'selection',
     },
     runType: singleWorkflowData?.runType

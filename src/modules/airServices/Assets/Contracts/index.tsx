@@ -75,6 +75,7 @@ const Contracts = () => {
                 color="secondary"
                 disabled={!!!selectedContractList?.length}
                 onClick={() => setIsDeleteModalOpen(true)}
+                className="small"
               >
                 Delete
               </Button>
@@ -103,6 +104,7 @@ const Contracts = () => {
                 color="secondary"
                 startIcon={<FilterSharedIcon />}
                 onClick={() => setIsDrawerOpen(true)}
+                className="small"
               >
                 Filter
               </Button>
