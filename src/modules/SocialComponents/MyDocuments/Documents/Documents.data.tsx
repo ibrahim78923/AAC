@@ -48,6 +48,7 @@ export const createFolderData = (
   orgUsersData: any,
   orgId: string,
   heading: string,
+  orgTeamsData: any,
 ) => {
   return [
     {
@@ -93,6 +94,23 @@ export const createFolderData = (
                     getOptionLabel: (option: any) =>
                       `${option?.firstName} ${option?.lastName}`,
                     externalParams: { id: orgId },
+                  },
+                  component: RHFAutocompleteAsync,
+                  md: 12,
+                },
+              ]
+            : []),
+          ...(watchVisibleTo === VISIBLETO_OPTIONS?.TEAMS
+            ? [
+                {
+                  componentProps: {
+                    placeholder: 'Select teams',
+                    name: 'teamIds',
+                    label: 'Select Teams',
+                    apiQuery: orgTeamsData,
+                    multiple: true,
+                    getOptionLabel: (option: any) => `${option?.name}`,
+                    externalParams: { meta: false },
                   },
                   component: RHFAutocompleteAsync,
                   md: 12,

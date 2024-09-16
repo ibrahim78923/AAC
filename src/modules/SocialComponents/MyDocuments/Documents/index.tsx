@@ -78,6 +78,7 @@ const Documents = () => {
     methodsFolder,
     watchVisibleTo,
     orgUsersData,
+    orgTeamsData,
     orgId,
     modalHeading,
     isOpenDelete,
@@ -99,6 +100,14 @@ const Documents = () => {
     handleListItemClick,
     handleSubmitMoveToFolder,
   } = useDocuments();
+
+  const createFolderFormData = createFolderData(
+    watchVisibleTo,
+    orgUsersData,
+    orgId,
+    modalHeading,
+    orgTeamsData,
+  );
 
   return (
     <>
@@ -514,12 +523,7 @@ const Documents = () => {
         ) : (
           <FormProvider methods={methodsFolder}>
             <Grid container spacing={2}>
-              {createFolderData(
-                watchVisibleTo,
-                orgUsersData,
-                orgId,
-                modalHeading,
-              )?.map((item: any) => (
+              {createFolderFormData?.map((item: any) => (
                 <Grid
                   item
                   xs={12}

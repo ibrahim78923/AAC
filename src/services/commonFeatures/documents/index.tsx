@@ -31,12 +31,14 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
     }),
 
     getDocumentFile: builder.query({
-      query: ({ folderId = '', page = 1, limit = 10, search = '' }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FILE}?page=${page}&limit=${limit}&folderId=${folderId}&search=${search}`,
+      query: ({ params }) => ({
+        url: COMMON_DOCUMENTS.GET_DOCUMENT_FILE,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['MyDocuments'],
     }),
+
     updateFile: builder.mutation({
       query: ({ id = '', body }: any) => ({
         url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FILE_ID}/${id}`,

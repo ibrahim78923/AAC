@@ -513,6 +513,7 @@ export const END_POINTS = {
   ALL_USERS_CONTACTS: '/dropdown/all-company-users-and-contacts',
   CUSTOMER_PORTAL_STYLINGS:
     '/org-company-account/update-customer-portal-STYLING',
+  DROPDOWN_ORG_TEAMS: '/dropdown/organization-all-teams',
   CUSTOMER_PORTAL_ASSET_DROPDOWN: '/dropdown/all-assets-customer-portal',
 };
 

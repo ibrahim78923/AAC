@@ -333,6 +333,11 @@ export const DOCUMENTS_ACTION_TYPES = {
   UPDATE_FOLDER: 'update-folder',
 };
 
+export const DOCUMENTS_TYPE = {
+  FOLDER: 'folder',
+  FILE: 'file',
+};
+
 export const fieldName = {
   ADDRESS: 'address',
   EMAIL: 'email',

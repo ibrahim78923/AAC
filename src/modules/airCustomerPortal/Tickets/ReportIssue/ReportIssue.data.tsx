@@ -5,7 +5,7 @@ import {
 } from '@/components/ReactHookForm';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 
-import { AIR_CUSTOMER_PORTAL, DATE_FORMAT } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { ROLE } from '@/constants/strings';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';

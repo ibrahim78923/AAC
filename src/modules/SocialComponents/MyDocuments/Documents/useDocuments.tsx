@@ -18,13 +18,17 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
 } from '@/utils/dynamic-forms';
 import { MODAL_HEADING } from './Documents.data';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
+import {
+  useLazyGetOrganizationUsersQuery,
+  useLazyGetOrganizationTeamsQuery,
+} from '@/services/dropdowns';
 
 const useDocuments = () => {
   const theme = useTheme<Theme>();
   const { user }: any = useAuth();
   const orgId: any = user?.organization?._id;
   const orgUsersData = useLazyGetOrganizationUsersQuery();
+  const orgTeamsData = useLazyGetOrganizationTeamsQuery();
 
   // Actions menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -331,6 +335,7 @@ const useDocuments = () => {
     methodsFolder,
     watchVisibleTo,
     orgUsersData,
+    orgTeamsData,
     orgId,
     modalHeading,
     isOpenDelete,

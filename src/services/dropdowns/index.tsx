@@ -71,6 +71,21 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+
+    getOrganizationTeams: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ORG_TEAMS}`,
+        method: 'GET',
+        params: {
+          search: params?.search,
+          meta: params?.meta,
+        },
+      }),
+      providesTags: ['ORGANIZATION_TEAMS'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -83,4 +98,5 @@ export const {
   useGetOrganizationUsersQuery,
   useLazyGetOrganizationUsersQuery,
   useLazyGetContactDropdownQuery,
+  useLazyGetOrganizationTeamsQuery,
 } = dropdownsAPI;
