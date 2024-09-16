@@ -33,6 +33,7 @@ export const TicketsListHeader = () => {
         gap={'1rem'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}
+        alignItems={'center'}
       >
         <PermissionsGuard
           permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
@@ -63,6 +64,7 @@ export const TicketsListHeader = () => {
           >
             {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
               <Button
+                className="small"
                 variant="outlined"
                 onClick={setInitialColumns}
                 size="large"
@@ -79,6 +81,7 @@ export const TicketsListHeader = () => {
           >
             {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
               <Button
+                className="small"
                 variant="outlined"
                 onClick={() =>
                   setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CUSTOMIZE_COLUMN)
@@ -95,6 +98,7 @@ export const TicketsListHeader = () => {
             permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
           >
             <Button
+              className="small"
               variant="outlined"
               onClick={() =>
                 setTicketAction?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)
@@ -115,6 +119,7 @@ export const TicketsListHeader = () => {
                 ]}
               >
                 <Button
+                  className="small"
                   key={1}
                   onClick={renderTableView}
                   sx={{
@@ -133,6 +138,7 @@ export const TicketsListHeader = () => {
                 permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW]}
               >
                 <Button
+                  className="small"
                   key={2}
                   sx={{
                     backgroundColor:

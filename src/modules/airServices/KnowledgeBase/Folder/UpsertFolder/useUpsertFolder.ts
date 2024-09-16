@@ -13,8 +13,11 @@ import {
 import { UpsertFolderFormFieldsI } from './UpsertFolder.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/knowledge-base/slice';
+import { useGetFoldersApi } from '../../KnowledgeBaseHooks/useGetFoldersApi';
 
 export const useUpsertFolder = () => {
+  const { getArticlesFolderListForFilterData } = useGetFoldersApi?.();
+
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
@@ -56,6 +59,7 @@ export const useUpsertFolder = () => {
       await postFolderTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Folder created successfully!');
       closePortal?.();
+      await getArticlesFolderListForFilterData?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
@@ -72,6 +76,7 @@ export const useUpsertFolder = () => {
       await updateFolderForArticlesTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Folder updated successfully!');
       closePortal?.();
+      await getArticlesFolderListForFilterData?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }

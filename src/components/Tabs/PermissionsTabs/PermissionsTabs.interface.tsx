@@ -17,4 +17,5 @@ export interface PermissionTabsPropsI {
   disableBoxShadow?: boolean;
   border?: string | number;
   orientation?: 'horizontal' | 'vertical';
+  handleTabChange?: any;
 }

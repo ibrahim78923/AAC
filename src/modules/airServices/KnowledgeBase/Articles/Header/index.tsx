@@ -47,6 +47,7 @@ export const Header = () => {
           ]}
         >
           <Button
+            className="small"
             variant="outlined"
             size="large"
             startIcon={<FilterIcon />}

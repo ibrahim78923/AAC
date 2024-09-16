@@ -31,6 +31,7 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
   return (
     <>
       <Variant
+        className="small"
         variant={btnVariant}
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}

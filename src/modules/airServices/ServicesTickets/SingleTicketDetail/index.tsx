@@ -23,7 +23,7 @@ export const SingleTicketDetail = () => {
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <>

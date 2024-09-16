@@ -74,7 +74,7 @@ export const upsertFolderFormFields = [
       placeholder: '#example',
       fullWidth: true,
       multiline: true,
-      minRows: 3,
+      rows: 4,
     },
     component: RHFTextField,
     md: 12,

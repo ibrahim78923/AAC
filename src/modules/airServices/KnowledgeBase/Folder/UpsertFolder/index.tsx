@@ -30,7 +30,7 @@ export const UpsertFolder = () => {
   return (
     <Dialog
       open={isPortalOpen?.isOpen as boolean}
-      onClose={() => closePortal()}
+      onClose={closePortal}
       maxWidth={'sm'}
       fullWidth
     >
@@ -48,7 +48,7 @@ export const UpsertFolder = () => {
           </Typography>
           <CloseIcon
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => closePortal?.()}
+            onClick={closePortal}
           />
         </Box>
       </DialogTitle>
@@ -68,7 +68,7 @@ export const UpsertFolder = () => {
           type="button"
           variant="outlined"
           color="secondary"
-          onClick={() => closePortal?.()}
+          onClick={closePortal}
           disabled={
             postFolderStatus?.isLoading ||
             updateFolderForArticlesStatus?.isLoading

@@ -74,6 +74,9 @@ export const DashboardFilter = (props: any) => {
                 '.MuiFormHelperText-root': {
                   display: 'none',
                 },
+                '& .MuiOutlinedInput-root ': {
+                  height: pxToRem(36),
+                },
               }}
               placeholder="Dashboards"
               apiQuery={apiQueryDashboardList}
@@ -106,6 +109,7 @@ export const DashboardFilter = (props: any) => {
             permissions={Permissions?.AIR_SERVICES_MANAGE_DASHBOARD}
           >
             <Button
+              className="small"
               color="inherit"
               variant="outlined"
               onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}

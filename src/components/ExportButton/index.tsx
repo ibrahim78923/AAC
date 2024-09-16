@@ -25,6 +25,7 @@ export const ExportButton = (props: ExportButtonPropsI) => {
         startIcon={<ExportIcon />}
         color="secondary"
         size="medium"
+        className="small"
       >
         {btnText}
       </Button>

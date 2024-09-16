@@ -62,6 +62,7 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
         )}
         <Box textAlign={'center'}>
           <Button
+            className="small"
             variant="text"
             disabled={isPreviewMode}
             fullWidth

@@ -36,7 +36,7 @@ export const SingleFolderDetail = () => {
         color="slateBlue.main"
         textTransform={'capitalize'}
       >
-        {truncateText(data?.data?.name)}
+        {truncateText(data?.data?.name, 47)}
       </Typography>
       <Box
         display={'flex'}

@@ -69,6 +69,7 @@ export const AlertModals = (props: AlertModalsPropsI) => {
           sx={{ '&.MuiDialogActions-root': { paddingTop: '0rem !important' } }}
         >
           <LoadingButton
+            className="small"
             variant="outlined"
             color="secondary"
             onClick={() => handleCancelBtn?.()}
@@ -77,6 +78,7 @@ export const AlertModals = (props: AlertModalsPropsI) => {
             {cancelBtnText}
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             onClick={handleSubmitBtn}
             disabled={isDisableSubmitBtn}

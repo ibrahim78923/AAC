@@ -16,8 +16,8 @@ export const DeleteFolder = () => {
         message={'Are you sure you want to delete folder ?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={isPortalOpen?.isOpen as boolean}
-        handleClose={() => closeFolderDeleteModal?.()}
-        handleSubmitBtn={() => deleteFolder?.()}
+        handleClose={closeFolderDeleteModal}
+        handleSubmitBtn={deleteFolder}
         loading={deleteFolderForArticleStatus?.isLoading}
         disableCancelBtn={deleteFolderForArticleStatus?.isLoading}
       />

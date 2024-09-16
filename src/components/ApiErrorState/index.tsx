@@ -42,6 +42,7 @@ const ApiErrorState = (props: ApiErrorStatePropsI) => {
       {children}
       {canRefresh && (
         <Button
+          className="small"
           variant="contained"
           onClick={() => refresh?.()}
           {...refreshButtonProps}

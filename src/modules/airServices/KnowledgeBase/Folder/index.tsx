@@ -4,6 +4,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useFolder } from './useFolder';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const Folder = () => {
   const {
@@ -62,7 +63,7 @@ export const Folder = () => {
             }
             textTransform={'capitalize'}
           >
-            {tab?.name}
+            {truncateText(tab?.name, 15)}
           </Typography>
         </Box>
       ))}

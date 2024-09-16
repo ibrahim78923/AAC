@@ -1,3 +1,5 @@
+import { pxToRem } from '@/utils/getFontValue';
+
 export const styles = {
   cardStyle: (spacing: any, disableBoxShadow: any, border: any) => {
     return {
@@ -8,6 +10,7 @@ export const styles = {
   },
   circleIconStyle: { ml: 'auto', mt: 0.5, cursor: 'pointer' },
   tabRoot: (theme: any) => ({
+    minHeight: pxToRem(34),
     '.MuiTabScrollButton-root.Mui-disabled': { opacity: 1, color: 'grey.0' },
     '.MuiTab-root': { marginRight: `1rem !important` },
     borderBottom: 1,
@@ -20,6 +23,7 @@ export const styles = {
   tabsStyle: (theme: any) => ({
     paddingX: 2,
     borderRadius: '.5rem',
+    minHeight: pxToRem(34),
     color: theme?.palette?.grey?.[900],
     fontSize: '0.875rem',
     fontWeight: 500,

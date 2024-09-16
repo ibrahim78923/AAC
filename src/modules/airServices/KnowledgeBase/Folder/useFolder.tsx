@@ -3,42 +3,25 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setSelectedFolder } from '@/redux/slices/airServices/knowledge-base/slice';
 import { PAGINATION } from '@/config';
 import { useTheme } from '@mui/material';
-import { useLazyGetArticlesFoldersForFilterQuery } from '@/services/airServices/knowledge-base/articles';
-import useAuth from '@/hooks/useAuth';
-import { ARRAY_INDEX } from '@/constants/strings';
 import { ALL_FOLDER } from './Folder.data';
+import { useGetFoldersApi } from '../KnowledgeBaseHooks/useGetFoldersApi';
 
 export const useFolder = () => {
   const theme = useTheme();
-  const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
-  const { _id: userId } = auth?.user;
-  const { _id: organizationId } = auth?.user?.organization;
+
+  const {
+    getArticlesFolderListForFilterData,
+    lazyGetArticlesFoldersForFilterStatus,
+  } = useGetFoldersApi?.();
+
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
+
   const canDisableFolderSelection = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.canDisableFolderSelection,
   );
 
-  const [
-    lazyGetArticlesFoldersForFilterTrigger,
-    lazyGetArticlesFoldersForFilterStatus,
-  ] = useLazyGetArticlesFoldersForFilterQuery();
-
-  const getArticlesFolderListForFilterData = async () => {
-    const apiDataParameter = {
-      queryParams: {
-        userId,
-        companyId,
-        organizationId,
-      },
-    };
-    try {
-      await lazyGetArticlesFoldersForFilterTrigger(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
-  };
   const dispatch = useAppDispatch();
 
   useEffect(() => {

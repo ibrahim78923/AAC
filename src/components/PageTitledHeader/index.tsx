@@ -56,6 +56,7 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
                 variant="outlined"
                 startIcon={<ImportIcon />}
                 onClick={() => handleImport?.()}
+                className="small"
               >
                 Import
               </Button>
@@ -77,6 +78,7 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
           {!!addTitle?.length && (
             <PermissionsGuard permissions={createPermissionKey}>
               <Button
+                className="small"
                 disableElevation
                 variant="contained"
                 startIcon={hasStartIcon && <PlusSharedColorIcon />}
