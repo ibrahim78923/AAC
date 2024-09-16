@@ -16,17 +16,17 @@ import {
 } from '@/services/airCustomerPortal/KnowledgeBase';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
-import { getActiveProductSession, getSession } from '@/utils';
+import { getActiveAccountSession, getSession } from '@/utils';
 
 export const useKnowledgeBaseArticleDetail = () => {
   const theme = useTheme();
   const [showFeedbackField, setShowFeedbackField] = useState(false);
   const [showOkFeedback, setShowOkFeedback] = useState(false);
   const route = useRouter();
-  const product = getActiveProductSession();
+  const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = getSession();
   const sessionCompanyId = session?.user?.companyId;
-  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const companyIdStorage = product?.company?._id;
   const sessionUserId = session?.user?._id;
 
   const { companyId } = route?.query;

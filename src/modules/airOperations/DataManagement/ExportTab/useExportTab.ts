@@ -1,17 +1,17 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
-import { exportTabColumnsFunction } from './ExportTab.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { saveAs } from 'file-saver';
-import { parse } from 'json2csv';
-import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
-import { useGetExportListQuery } from '@/services/airOperations/data-management/export';
+import {
+  useGetExportListQuery,
+  useLazyExportListQuery,
+} from '@/services/airOperations/data-management/export';
 import { ExportTabI } from './ExportTab.interface';
+import { downloadFile } from '@/utils/file';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 
 export const useExportTab: () => ExportTabI = () => {
-  const [selectedTabList, setSelectedTabList] = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
@@ -38,39 +38,25 @@ export const useExportTab: () => ExportTabI = () => {
   const { data, isFetching, isError, isLoading, isSuccess } =
     useGetExportListQuery(params, { refetchOnMountOrArgChange: true });
 
-  const exportList = data?.data?.exportedfilelogs;
-
-  const exportTabColumns = exportTabColumnsFunction(
-    exportList,
-    selectedTabList,
-    setSelectedTabList,
-  );
+  const [lazyGetExportListTrigger] = useLazyExportListQuery();
 
   const listDataExport = async (type: any) => {
+    const params = {
+      exportType: type,
+      meta: false,
+    };
+
+    const exportListParameter = {
+      queryParams: params,
+    };
+
     try {
-      if (type === 'CSV') {
-        const csv = parse(exportList);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'Export_List.csv');
-      } else if (type === 'XLS') {
-        const worksheet = XLSX?.utils?.json_to_sheet(exportList);
-        const workbook = XLSX?.utils?.book_new();
-        XLSX?.utils?.book_append_sheet(workbook, worksheet, 'Data');
-        const excelBuffer = XLSX?.write(workbook, {
-          bookType: 'xlsx',
-          type: 'array',
-        });
-        const blob = new Blob([excelBuffer], {
-          type: 'application/octet-stream',
-        });
-        saveAs(blob, 'Export_List.xlsx');
-      } else {
-        errorSnackbar('Invalid export type.');
-        return;
-      }
-      successSnackbar('File Exported successfully');
+      const response: any =
+        await lazyGetExportListTrigger(exportListParameter)?.unwrap();
+      downloadFile(response, 'Export_Lists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar('File export successfully');
     } catch (error: any) {
-      errorSnackbar(error?.message || 'An error occurred during file export');
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -90,6 +76,5 @@ export const useExportTab: () => ExportTabI = () => {
     setFilterValues,
     filterValues,
     listDataExport,
-    exportTabColumns,
   };
 };

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { useGetAllKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
-import { getActiveProductSession, getSession } from '@/utils';
+import { getActiveAccountSession, getSession } from '@/utils';
 
 export const useKnowledgeBaseDetail = () => {
   const router = useRouter();
@@ -12,10 +12,10 @@ export const useKnowledgeBaseDetail = () => {
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
-  const product = getActiveProductSession();
+  const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const companyIdStorage = product?.company?._id;
 
   const { companyId } = router?.query;
   const decryptedId = useMemo(() => {

@@ -3,6 +3,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { Header } from './Header';
 import { ImportTabI } from './ImportTab.interface';
 import { Box } from '@mui/material';
+import { importTabColumns } from './ImportTab.data';
 
 export const ImportTab = () => {
   const {
@@ -18,7 +19,6 @@ export const ImportTab = () => {
     isOpenFilterDrawer,
     setFilterValues,
     filterValues,
-    importTabColumns,
     handleDownload,
     downloadRef,
     loading,

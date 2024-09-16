@@ -39,7 +39,6 @@ export interface ExportTabI {
   setFilterValues: (values: Record<string, any>) => void;
   filterValues: Record<string, any>;
   listDataExport: any;
-  exportTabColumns: any[];
 }
 
 export interface ExportDataRow {
@@ -54,9 +53,3 @@ export interface ExportDataRow {
   status: string;
   createdAt: string;
 }
-
-export type ExportTabColumnsI = (
-  exportList: ExportDataRow[],
-  selectedExportList: ExportDataRow[],
-  setSelectedExportList: React.Dispatch<React.SetStateAction<any>>,
-) => any[];

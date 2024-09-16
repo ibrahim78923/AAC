@@ -1,5 +1,5 @@
 import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
-import { truncateText } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 
 export const SOFTWARE_STATUS_COUNT = {
   TOTAL_SOFTWARE: 'totalSoftware',
@@ -98,12 +98,15 @@ export const softwareReportsTableColumnsDynamic = () => [
     cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.details,
-    id: 'managedByDetails',
+    accessorFn: (row: any) => row?.softwareManagedByDetails,
+    id: 'softwareManagedByDetails',
     isSortable: false,
-    header: 'Managed by',
+    header: 'Managed By',
     cell: (info: any) =>
-      truncateText(info?.getValue()?.managedBy?.name) ?? '---',
+      fullName(
+        info?.row?.original?.softwareManagedByDetails?.firstName,
+        info?.row?.original?.softwareManagedByDetails?.lastName,
+      ),
   },
   {
     accessorFn: (row: any) => row?.details,

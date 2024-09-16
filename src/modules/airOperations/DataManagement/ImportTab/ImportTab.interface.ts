@@ -38,7 +38,6 @@ export interface ImportTabI {
   isOpenFilterDrawer: boolean;
   setFilterValues: (values: Record<string, any>) => void;
   filterValues: Record<string, any>;
-  importTabColumns: any[];
   handleDownload: any;
   downloadRef: any;
   loading: boolean;
@@ -56,9 +55,3 @@ export interface ImportDataRow {
   status: string;
   createdAt: string;
 }
-
-export type ImportTabColumnsI = (
-  exportList: ImportDataRow[],
-  selectedExportList: ImportDataRow[],
-  setSelectedExportList: React.Dispatch<React.SetStateAction<any>>,
-) => any[];

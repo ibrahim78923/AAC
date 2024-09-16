@@ -13,6 +13,14 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    exportList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${OPERATION?.GET_EXPORT_DATA_MANAGEMENT}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+    }),
     getUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
@@ -27,5 +35,8 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useGetExportListQuery, useLazyGetUsersDropdownListQuery } =
-  dataManagementExportAPI;
+export const {
+  useGetExportListQuery,
+  useLazyGetUsersDropdownListQuery,
+  useLazyExportListQuery,
+} = dataManagementExportAPI;

@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { useGetKnowledgeBaseFolderQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { newTicketsDropdownDynamic } from '../Tickets/ReportIssue/ReportIssue.data';
 import {
-  getActiveProductSession,
+  getActiveAccountSession,
   getCustomerPortalPermissions,
   getCustomerPortalStyling,
   getSession,
@@ -17,12 +17,12 @@ export const useKnowledgeBase = () => {
     useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
 
-  const customerPortalStyling = getCustomerPortalStyling();
   const customerPortalPermissions = getCustomerPortalPermissions();
-  const product = getActiveProductSession();
+  const customerPortalStyling = getCustomerPortalStyling();
+  const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const companyIdStorage = product?.company?._id;
   const sessionUserId = session?.user?._id;
   const sessionOrganizationId = session?.user?.organization?._id;
 

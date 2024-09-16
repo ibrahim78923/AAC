@@ -95,7 +95,8 @@ export const inventoryColumns = [
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => truncateText(info?.getValue()?.locationName),
+    cell: (info: any) =>
+      truncateText(info?.row?.original?.locationDetails?.locationName),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
