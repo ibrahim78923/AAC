@@ -35,6 +35,8 @@ const useSendEmailDrawer = ({
 }: any) => {
   const theme = useTheme();
 
+  const [isReplaceTemplate, setIsReplaceTemplate] = useState(false);
+
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
@@ -68,7 +70,12 @@ const useSendEmailDrawer = ({
     'sentDate',
     'subject',
     'attachments',
+    'template',
+    'description',
   ]);
+
+  const templateMessage = watchEmailsForm[6]?.html ?? '';
+  const description = watchEmailsForm[7];
 
   useEffect(() => {
     setValue('to', autocompleteValues);
@@ -138,6 +145,21 @@ const useSendEmailDrawer = ({
       setValue('ccChecked', false);
     }
   }, [drawerType]);
+
+  useEffect(() => {
+    if (description?.length > 1) {
+      setIsReplaceTemplate(true);
+    } else {
+      handleUseTemplate();
+    }
+  }, [templateMessage]);
+
+  const handleUseTemplate = () => {
+    if (templateMessage) {
+      setValue('description', templateMessage);
+      setIsReplaceTemplate(false);
+    }
+  };
 
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendEmailOutlookMutation();
@@ -461,6 +483,10 @@ const useSendEmailDrawer = ({
 
     setToStateDep,
     toStateDep,
+
+    setIsReplaceTemplate,
+    isReplaceTemplate,
+    handleUseTemplate,
   };
 };
 export default useSendEmailDrawer;

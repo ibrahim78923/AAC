@@ -14,8 +14,6 @@ import {
   createTaskDefaultValues,
   createTaskValidationSchema,
 } from '../Task.data';
-// import dayjs from 'dayjs';
-// import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import {
@@ -29,7 +27,6 @@ import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
   DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicFormInitialValue,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
 import { TASK_TYPE } from '@/constants';
@@ -96,12 +93,11 @@ const useCreateTask = ({
     (state: any) => state?.task?.companiesSelectedIds,
   );
 
-  const initialValues: any = dynamicFormInitialValue(taskData?.data, form);
   const methodsFilter: any = useForm({
     resolver: yupResolver(createTaskValidationSchema?.(form)),
     defaultValues: createTaskDefaultValues({
       data: taskData?.data,
-      initialValues,
+      form,
     }),
   });
 
@@ -148,7 +144,11 @@ const useCreateTask = ({
     }
   }, [taskData?.data]);
 
-  const { handleSubmit: handleMethodFilter, reset, setValue } = methodsFilter;
+  const { handleSubmit: handleMethodFilter, reset } = methodsFilter;
+
+  useEffect(() => {
+    reset(() => createTaskDefaultValues({ data: taskData?.data, form }));
+  }, [taskData?.data, reset, form]);
 
   const onSubmitHandler = async (values: any) => {
     const filteredEmptyData = filteredEmptyValues(values);
@@ -182,6 +182,8 @@ const useCreateTask = ({
     if (Object?.keys(customFields)?.length > 0) {
       body.customFields = customFields;
     }
+
+    useEffect(() => {}, []);
 
     const payload = {
       ...body,
@@ -232,14 +234,6 @@ const useCreateTask = ({
   const usersData = useLazyGetAssignedUsersQuery();
 
   const getCreateTaskData = createTaskData({ data: taskData?.data, usersData });
-
-  useEffect(() => {
-    if (initialValues) {
-      Object.keys(initialValues).forEach((key) => {
-        setValue(key, initialValues[key]);
-      });
-    }
-  }, [initialValues]);
 
   return {
     theme,

@@ -16,7 +16,10 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
-import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 export const filterDefaultValues = {
   assignTo: null,
@@ -158,13 +161,15 @@ export const createTaskValidationSchema = (form: any) => {
   });
 };
 
-export const createTaskDefaultValues = ({ data }: any) => {
+export const createTaskDefaultValues = ({ data, form }: any) => {
   const inputDate = new Date(data?.dueDate);
   const inputTime = new Date(data?.time);
 
   function isValidDate(date: any) {
     return date instanceof Date && !isNaN(date?.getTime());
   }
+
+  const initialValues: any = dynamicFormInitialValue(data, form);
 
   return {
     name: data?.name ?? '',
@@ -176,6 +181,7 @@ export const createTaskDefaultValues = ({ data }: any) => {
     time: isValidDate(inputTime) ? inputTime : null,
     reminder: data?.reminder ?? '',
     note: data?.note ?? '',
+    ...initialValues,
   };
 };
 
