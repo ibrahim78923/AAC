@@ -1,25 +1,24 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import useAuth from '@/hooks/useAuth';
+
 import {
   getSettingsDataArray,
   settingsDefaultValues,
   settingsValidationSchema,
 } from './Settings.data';
 import { useGetCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
-import { useEffect } from 'react';
-import { ARRAY_INDEX } from '@/constants/strings';
-import { IAuth, ISettingsDefaultValues } from './Settings.interface';
+import { useEffect, useMemo } from 'react';
+
+import { ISettingsDefaultValues } from './Settings.interface';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { getActiveAccountSession } from '@/utils';
 
 export const useSettings = () => {
   const domain = window?.location?.hostname;
 
-  const auth: IAuth = useAuth();
-
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id;
 
   const encryptedValue = btoa(companyId);
 

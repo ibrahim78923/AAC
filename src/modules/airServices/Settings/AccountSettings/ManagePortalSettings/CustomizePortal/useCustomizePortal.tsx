@@ -5,21 +5,20 @@ import {
   DefaultValuesKeys,
   getCustomizationsDataArray,
 } from './CustomizePortal.data';
-import useAuth from '@/hooks/useAuth';
-import { ARRAY_INDEX } from '@/constants/strings';
+
 import { useCallback, useEffect, useMemo } from 'react';
 import {
   useGetCustomerPortalPermissionsQuery,
   usePatchCustomerPortalStylingsMutation,
 } from '@/services/airServices/settings/account-settings/customer-portal-settings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { getActiveAccountSession } from '@/utils';
 
 export default function useCustomizePortal() {
   const theme: Theme = useTheme();
-  const auth: any = useAuth();
 
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const organizationCompanyAccountId = product?.company?._id;
 
   const apiDataParameter = {
     pathParams: {

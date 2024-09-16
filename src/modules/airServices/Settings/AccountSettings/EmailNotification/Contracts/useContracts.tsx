@@ -1,18 +1,18 @@
-import useAuth from '@/hooks/useAuth';
 import {
   useGetEmailNotificationQuery,
   usePatchEmailNotificationMutation,
 } from '@/services/airServices/settings/account-settings/email-notification';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useState } from 'react';
-import { IAuth, ISwitchLoadingState } from '../EmailNotification.interface';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { useMemo, useState } from 'react';
+import { ISwitchLoadingState } from '../EmailNotification.interface';
+
+import { getActiveAccountSession } from '@/utils';
 
 export default function useContracts() {
   const [switchLoading, setSwitchLoading] = useState<ISwitchLoadingState>({});
 
-  const auth: IAuth = useAuth();
-  const { _id: accountId } = auth?.product?.accounts?.[ARRAY_INDEX?.ZERO];
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const accountId = product?._id;
 
   const { data, isLoading, isFetching, isError } = useGetEmailNotificationQuery(
     {

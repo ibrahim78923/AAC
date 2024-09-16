@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import useAuth from '@/hooks/useAuth';
-import { ARRAY_INDEX } from '@/constants/strings';
+
 import {
   useGetCustomerPortalPermissionsQuery,
   usePatchCustomerPortalPermissionsMutation,
@@ -10,10 +9,11 @@ import {
   customerPortalSettingsFormDefaultValues,
   customerPortalSettingsSchemaValidation,
 } from './Permissions.data';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { getActiveAccountSession } from '@/utils';
 
 export const usePermissions = () => {
   const [
@@ -27,10 +27,9 @@ export const usePermissions = () => {
   });
   const { handleSubmit, reset } = methods;
 
-  const auth: any = useAuth();
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const organizationCompanyAccountId = product?.company?._id;
 
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
   const apiDataParameter = {
     pathParams: {
       id: organizationCompanyAccountId,

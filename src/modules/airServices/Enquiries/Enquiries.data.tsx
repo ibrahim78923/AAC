@@ -1,7 +1,13 @@
 import { AIR_SERVICES_ENQUIRIES_PERMISSION } from '@/constants/permission-keys';
 import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { Checkbox, CircularProgress, MenuItem, Select } from '@mui/material';
+import {
+  Checkbox,
+  CircularProgress,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { errorSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, DONE } from '@/constants/strings';
 import {
@@ -162,7 +168,12 @@ export const getEnquiriesColumns = ({
     id: 'name',
     isSortable: true,
     header: 'Name',
-    cell: (info) => info?.getValue() ?? '-',
+
+    cell: (info) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: IEnquiry) => row?.email,
