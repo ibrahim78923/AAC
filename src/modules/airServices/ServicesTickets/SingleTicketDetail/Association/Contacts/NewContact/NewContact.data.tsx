@@ -115,7 +115,7 @@ export const getFormFields = ({
       apiQuery: contactOwner,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
-      externalParams: { id: orgId },
+      externalParams: { orgId },
     },
     component: RHFAutocompleteAsync,
   },

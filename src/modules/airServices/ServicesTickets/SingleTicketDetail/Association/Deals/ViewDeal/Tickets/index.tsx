@@ -55,13 +55,13 @@ export default function Tickets({ theme, dealTickets }: any) {
             >
               <Box display={'flex'} flexDirection={'column'}>
                 <Typography variant={'body2'} fontWeight={500}>
-                  {item?.ticketIdNumber}
+                  {item?.ticketIdNumber ?? '---'}
                 </Typography>
                 <Typography variant={'subtitle2'} fontWeight={400}>
-                  {item?.subject}
+                  {item?.subject ?? '---'}
                 </Typography>
               </Box>
-              <Typography variant={'body2'}>{item?.status}</Typography>
+              <Typography variant={'body2'}>{item?.status ?? '---'}</Typography>
             </Box>
           ))
         )}

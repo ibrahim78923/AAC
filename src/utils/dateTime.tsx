@@ -1,3 +1,4 @@
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 const MINUTES_IN_HOUR = 60;
@@ -75,3 +76,12 @@ export const UnixDateFormatter = ({
 
   return <span>{formattedDate}</span>;
 };
+
+export const localeDateTime = (date: string) =>
+  new Date(dayjs(date?.slice?.(0, -1))?.format());
+
+export const isoDateString = (date: Date) =>
+  dayjs(date).format(DATE_TIME_FORMAT?.YYMMDD);
+
+export const uiDateFormat = (date: Date | string) =>
+  dayjs(date)?.format(DATE_FORMAT?.UI);

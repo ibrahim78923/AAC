@@ -7,7 +7,7 @@ import { getCustomerPortalRoutes } from './CustomerPortal.data';
 import { usePathname } from 'next/navigation';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useLazyGetPublicCustomerPermissionsQuery } from '@/services/airCustomerPortal/Layout';
-import { getActiveProductSession, getSession } from '@/utils';
+import { getActiveAccountSession, getSession } from '@/utils';
 import { AUTH } from '@/constants';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -35,10 +35,10 @@ export default function useCustomerPortal() {
   }, [router?.pathname]);
 
   const { logout, user } = useAuth();
-  const product = useMemo(() => getActiveProductSession(), []);
+  const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = useMemo(() => getSession(), []);
-  const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const sessionId = session?.user?.companyId; // Direct Logged In Requester
+  const companyIdStorage = product?.company?._id; // Logged In User from Service Product
 
   const { companyId } = router?.query;
 

@@ -70,15 +70,15 @@ export default function Companies({ theme, dealCompanies }: any) {
                 </Avatar>
                 <Box display={'flex'} flexDirection={'column'}>
                   <Typography variant={'body2'} fontWeight={500}>
-                    {item?.name}
+                    {item?.name ?? '---'}
                   </Typography>
                   <Typography variant={'subtitle2'} fontWeight={400}>
-                    {item?.domain}
+                    {item?.domain ?? '---'}
                   </Typography>
                 </Box>
               </Box>
               <Typography variant={'body2'}>
-                {item?.owner?.phoneNumber}
+                {item?.owner?.phoneNumber ?? '---'}
               </Typography>
             </Box>
           ))

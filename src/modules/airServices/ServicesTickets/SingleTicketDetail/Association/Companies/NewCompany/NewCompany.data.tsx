@@ -7,6 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import { pxToRem } from '@/utils/getFontValue';
 import { optionsIndustry, optionsType } from '../Companies.data';
+import { isNullOrEmpty } from '@/utils';
 
 export const getFormFields = ({ contactOwner }: any) => [
   {
@@ -48,7 +49,10 @@ export const getFormFields = ({ contactOwner }: any) => [
       placeholder: 'Select Owner',
       apiQuery: contactOwner,
       getOptionLabel: (option: any) =>
-        `${option?.firstName ?? '-'} ${option?.lastName ?? '-'}`,
+        isNullOrEmpty(option?.firstName)
+          ? `${option?.email}`
+          : `${option?.firstName} ${option?.lastName}`,
+      externalParams: { limit: 50 },
       required: true,
     },
     component: RHFAutocompleteAsync,

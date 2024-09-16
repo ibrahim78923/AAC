@@ -70,14 +70,16 @@ export default function Contacts({ theme, dealContacts }: any) {
                 </Avatar>
                 <Box display={'flex'} flexDirection={'column'}>
                   <Typography variant={'body2'} fontWeight={500}>
-                    {item?.name}
+                    {item?.name ?? '---'}
                   </Typography>
                   <Typography variant={'subtitle2'} fontWeight={400}>
-                    {item?.email}
+                    {item?.email ?? '---'}
                   </Typography>
                 </Box>
               </Box>
-              <Typography variant={'body2'}>{item?.phoneNumber}</Typography>
+              <Typography variant={'body2'}>
+                {item?.phoneNumber ?? '---'}
+              </Typography>
             </Box>
           ))
         )}
