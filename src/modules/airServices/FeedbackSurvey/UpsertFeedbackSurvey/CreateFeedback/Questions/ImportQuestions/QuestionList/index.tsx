@@ -125,11 +125,17 @@ export const QuestionList: React.FC<QuestionListI> = (props) => {
       )}
       <br />
       <Box display="flex" justifyContent="end" gap={1}>
-        <Button variant="outlined" color="secondary" onClick={handleMoveBack}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className="small"
+          onClick={handleMoveBack}
+        >
           Back
         </Button>
         <Button
           variant="contained"
+          className="small"
           onClick={handleInsert}
           disabled={!!!questionsData?.length}
         >

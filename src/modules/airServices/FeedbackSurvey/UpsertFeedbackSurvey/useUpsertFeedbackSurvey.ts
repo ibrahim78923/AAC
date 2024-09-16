@@ -23,6 +23,7 @@ import {
   FeedbackSurveyI,
   FeedbackSurveyQuestionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertFeedbackSurvey = () => {
   const [createSurvey, setCreateSurvey] = useState<string>(
@@ -65,7 +66,7 @@ export const useUpsertFeedbackSurvey = () => {
     description: surveyData?.description,
     displayName: surveyData?.display ? surveyData?.displayName : '',
     satisfactionSurveyLinkType: surveyData?.satisfactionSurveyLinkType,
-    surveyDuration: surveyData?.surveyDuration,
+    surveyDuration: isoDateString(surveyData?.surveyDuration),
     customerSupportLinkType: surveyData?.customerSupportLinkType,
     UUID: surveyData?.UUID,
     sendSurveyPeople:

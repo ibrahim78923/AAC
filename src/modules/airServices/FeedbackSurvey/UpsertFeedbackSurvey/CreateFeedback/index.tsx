@@ -125,6 +125,7 @@ export const CreateFeedback: React.FC<CreateFeedbackI> = (props) => {
         <LoadingButton
           variant="outlined"
           color="secondary"
+          className="small"
           startIcon={<EyeIcon />}
           onClick={() => setCreateSurvey(feedbackValuesType?.preview)}
           disabled={!sectionVerification}
@@ -134,6 +135,7 @@ export const CreateFeedback: React.FC<CreateFeedbackI> = (props) => {
         <Button
           variant="outlined"
           color="secondary"
+          className="small"
           disabled={!sectionVerification}
           onClick={() => setCreateSurvey(feedbackValuesType?.survey)}
         >

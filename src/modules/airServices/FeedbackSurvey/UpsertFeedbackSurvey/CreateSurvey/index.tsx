@@ -92,12 +92,13 @@ export const CreateSurvey: React.FC<{
           xs={12}
           display="flex"
           justifyContent="flex-end"
-          gap={2}
+          gap={1}
           mt={4}
         >
           <Button
             variant="outlined"
             color="secondary"
+            className="small"
             disabled={isLoading}
             onClick={() => router?.back()}
           >
@@ -105,6 +106,7 @@ export const CreateSurvey: React.FC<{
           </Button>
           <LoadingButton
             variant="contained"
+            className="small"
             onClick={() => setSubmitType(surveyConditions?.createSurvey)}
             type="submit"
             loading={isLoading}

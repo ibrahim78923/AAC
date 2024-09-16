@@ -58,7 +58,7 @@ export interface FeedbackSurveyI {
   updatedAt?: string;
   satisfactionSurveyLinkType: string;
   subject: string;
-  surveyDuration: string | null;
+  surveyDuration?: string | null | any;
   UUID: string;
   magicLink: string;
   customerSupportLinkType: string;

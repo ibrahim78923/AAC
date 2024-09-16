@@ -56,7 +56,11 @@ export const ShareModal: React.FC<{
         />
         <br />
         <Box display="flex" justifyContent="end">
-          <Button variant="contained" onClick={() => setOpenShare(false)}>
+          <Button
+            variant="contained"
+            className="small"
+            onClick={() => setOpenShare(false)}
+          >
             Share
           </Button>
         </Box>

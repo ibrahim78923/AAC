@@ -4,7 +4,7 @@ import { usePublicSingleDropdownButton } from './usePublicSingleDropdownButton';
 import {
   PublicSingleDropdownButtonPropsI,
   PublicSingleDropdownOptionI,
-} from './PublicSingleDropdownButton .interface';
+} from './PublicSingleDropdownButton.interface';
 
 export const PublicSingleDropdownButton = (
   props: PublicSingleDropdownButtonPropsI,
@@ -36,6 +36,7 @@ export const PublicSingleDropdownButton = (
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         color="secondary"
+        className="small"
         disabled={disabled}
         {...buttonPropsWithIcon}
         {...buttonProps}

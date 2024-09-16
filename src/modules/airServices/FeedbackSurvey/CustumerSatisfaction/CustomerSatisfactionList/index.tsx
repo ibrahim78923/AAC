@@ -72,6 +72,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
             <Button
               startIcon={<PlusIcon />}
               variant="contained"
+              className="small"
               onClick={() =>
                 router?.push({
                   pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,

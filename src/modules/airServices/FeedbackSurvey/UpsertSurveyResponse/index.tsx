@@ -53,6 +53,7 @@ export const UpsertSurveyResponse: React.FC<{
           <Button
             variant="contained"
             color="primary"
+            className="small"
             onClick={() => goBack?.()}
           >
             {' '}
@@ -177,6 +178,7 @@ export const UpsertSurveyResponse: React.FC<{
             <LoadingButton
               variant="outlined"
               type="button"
+              className="small"
               color="secondary"
               loading={
                 patchSingleSurveyDropoutAnswerForResponseStatus?.isLoading
@@ -191,6 +193,7 @@ export const UpsertSurveyResponse: React.FC<{
             <LoadingButton
               variant="contained"
               type="submit"
+              className="small"
               disabled={
                 patchSingleSurveyDropoutAnswerForResponseStatus?.isLoading
               }

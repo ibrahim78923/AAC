@@ -67,6 +67,7 @@ export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
             <Button
               startIcon={<PlusIcon />}
               variant="contained"
+              className="small"
               onClick={() =>
                 router?.push({
                   pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
