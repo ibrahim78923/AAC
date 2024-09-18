@@ -75,7 +75,7 @@ const ManagePlan = () => {
     billingDate: dayjs(parsedManageData?.billingDate)?.format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
-    billingCycle: PLAN_PAYMENT_TYPE_TAGS?.PAID_MONTHLY,
+    billingCycle: PLAN_PAYMENT_TYPE_TAGS?.MONTHLY,
     planDiscount: 1,
   };
 
