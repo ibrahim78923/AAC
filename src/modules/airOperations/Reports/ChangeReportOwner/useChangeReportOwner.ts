@@ -1,26 +1,47 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import {
-  useChangeReportOwnerMutation,
-  useLazyGetReportsOwnersDropdownListForReportsQuery,
-} from '@/services/airOperations/reports';
+import { useChangeReportOwnerMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import * as Yup from 'yup';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 import { ChangeReportOwnerFormFieldsI } from './ChangeReportOwner.interface';
+import { useGetReportLists } from '../ReportHooks/useGetReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/reports/slice';
+import { PAGINATION } from '@/config';
 
-export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedReportLists,
-    page,
-    getReportListData,
-    selectedReportLists,
-  } = props;
-
+export const useChangeReportOwner = () => {
   const [changeReportOwnerTrigger, changeReportOwnerStatus] =
     useChangeReportOwnerMutation();
+
+  const { getReportsList, page } = useGetReportLists();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getReportsList?.(newPage);
+  };
 
   const methods: UseFormReturn<ChangeReportOwnerFormFieldsI | any> =
     useForm<any>({
@@ -39,7 +60,7 @@ export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
   const submitChangeOwner = async (formData: ChangeReportOwnerFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         owner: formData?.owner?._id,
@@ -50,7 +71,7 @@ export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
       await changeReportOwnerTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report Owner changed Successfully');
       closeModal?.();
-      await getReportListData?.(page);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -58,19 +79,16 @@ export const useChangeReportOwner = (props: ReportsListsComponentPropsI) => {
 
   const closeModal = () => {
     reset();
-    setSelectedReportLists([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
-
-  const reportOwnerApiQuery =
-    useLazyGetReportsOwnersDropdownListForReportsQuery?.();
 
   return {
     methods,
     handleSubmit,
     submitChangeOwner,
     closeModal,
-    reportOwnerApiQuery,
     changeReportOwnerStatus,
+    isPortalOpen,
   };
 };

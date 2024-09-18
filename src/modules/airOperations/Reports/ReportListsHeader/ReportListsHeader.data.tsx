@@ -3,13 +3,13 @@ import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import { RenameReport } from '../RenameReport';
 import { CloneReport } from '../CloneReport';
-import { ExportModal } from '@/components/ExportModal';
 import { EmailReport } from '../EmailReport';
 import { ChangeReportOwner } from '../ChangeReportOwner';
 import { AddToDashboardReport } from '../AddToDashboardReport';
 import { DeleteReport } from '../DeleteReport';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { FilterReport } from '../FilterReport';
+import { ExportReport } from '../ExportReport';
 
 export const REPORT_LISTS_ACTION_CONSTANTS = {
   FILTER_REPORT: 'filter-report',
@@ -39,7 +39,7 @@ export const reportListsActionComponent = {
   [FILTER_REPORT]: <FilterReport />,
   [RENAME_REPORT]: <RenameReport />,
   [CLONE_REPORT]: <CloneReport />,
-  [EXPORT_REPORT]: <ExportModal />,
+  [EXPORT_REPORT]: <ExportReport />,
   [EMAIL_REPORT]: <EmailReport />,
   [CHANGE_REPORT_OWNER]: <ChangeReportOwner />,
   [ADD_REPORT_TO_DASHBOARD]: <AddToDashboardReport />,

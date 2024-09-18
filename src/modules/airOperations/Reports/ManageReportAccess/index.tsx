@@ -11,11 +11,9 @@ import {
 } from '@mui/material';
 import { useManageReportAccess } from './useManageReportAccess';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const ManageReportAccess = () => {
   const {
     methods,
     handleSubmit,
@@ -23,12 +21,13 @@ export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
     closeModal,
     manageReportAccessFromFields,
     manageReportAccessStatus,
-  }: any = useManageReportAccess(props);
+    isPortalOpen,
+  }: any = useManageReportAccess();
 
   return (
     <Dialog
-      open={isPortalOpen?.isAccessManage as boolean}
-      onClose={() => closeModal?.()}
+      open={isPortalOpen?.isOpen as boolean}
+      onClose={closeModal}
       fullWidth
       maxWidth={'sm'}
     >
@@ -50,7 +49,7 @@ export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => closeModal?.()}
+              onClick={closeModal}
             />
           </Box>
         </DialogTitle>
@@ -66,14 +65,16 @@ export const ManageReportAccess = (props: ReportsListsComponentPropsI) => {
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
+            className="small"
             variant="outlined"
             color="secondary"
-            onClick={() => closeModal?.()}
+            onClick={closeModal}
             disabled={manageReportAccessStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             type="submit"
             loading={manageReportAccessStatus?.isLoading}

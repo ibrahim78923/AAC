@@ -5,19 +5,41 @@ import * as Yup from 'yup';
 import { useRenameReportsMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { RenameReportFormFieldsI } from './RenameReport.interface';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/reports/slice';
+import { useGetReportLists } from '../ReportHooks/useGetReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { PAGINATION } from '@/config';
 
-export const useRenameReport = (props: ReportsListsComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedReportLists,
-    page,
-    getReportListData,
-    selectedReportLists,
-  } = props;
-
+export const useRenameReport = () => {
   const [renameReportsTrigger, renameReportsStatus] =
     useRenameReportsMutation();
+  const { getReportsList, page } = useGetReportLists();
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getReportsList?.(newPage);
+  };
 
   const methods: UseFormReturn<RenameReportFormFieldsI> = useForm({
     resolver: yupResolver(
@@ -33,7 +55,7 @@ export const useRenameReport = (props: ReportsListsComponentPropsI) => {
   const onSubmit = async (formData: RenameReportFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         name: formData?.name,
@@ -43,7 +65,7 @@ export const useRenameReport = (props: ReportsListsComponentPropsI) => {
       await renameReportsTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report renamed Successfully');
       handleClose?.();
-      await getReportListData?.(page);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -51,8 +73,8 @@ export const useRenameReport = (props: ReportsListsComponentPropsI) => {
 
   const handleClose = () => {
     reset();
-    setIsPortalOpen?.({});
-    setSelectedReportLists?.([]);
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
 
   return {
@@ -61,5 +83,6 @@ export const useRenameReport = (props: ReportsListsComponentPropsI) => {
     methods,
     handleClose,
     renameReportsStatus,
+    isPortalOpen,
   };
 };

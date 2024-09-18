@@ -1,4 +1,4 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -10,24 +10,22 @@ import {
 } from '@mui/material';
 import { useChangeReportOwner } from './useChangeReportOwner';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ReportOwnerFieldDropdown } from '../ReportFormFields/ReportOwnerFieldDropdown';
 
-export const ChangeReportOwner = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const ChangeReportOwner = () => {
   const {
     methods,
     handleSubmit,
     submitChangeOwner,
     closeModal,
-    reportOwnerApiQuery,
     changeReportOwnerStatus,
-  } = useChangeReportOwner(props);
+    isPortalOpen,
+  } = useChangeReportOwner();
 
   return (
     <Dialog
-      open={isPortalOpen?.isChangeOwner as boolean}
-      onClose={() => closeModal?.()}
+      open={isPortalOpen?.isOpen as boolean}
+      onClose={closeModal}
       fullWidth
       maxWidth={'sm'}
     >
@@ -49,34 +47,25 @@ export const ChangeReportOwner = (props: ReportsListsComponentPropsI) => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => closeModal?.()}
+              onClick={closeModal}
             />
           </Box>
         </DialogTitle>
         <DialogContent>
-          <RHFAutocompleteAsync
-            label="Owner Name"
-            name="owner"
-            fullWidth
-            required
-            apiQuery={reportOwnerApiQuery}
-            size="small"
-            placeholder="Choose Owner"
-            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
-              `${option?.firstName} ${option?.lastName}`
-            }
-          />
+          <ReportOwnerFieldDropdown />
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
+            className="small"
             variant="outlined"
             color="secondary"
-            onClick={() => closeModal?.()}
+            onClick={closeModal}
             disabled={changeReportOwnerStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             type="submit"
             loading={changeReportOwnerStatus?.isLoading}

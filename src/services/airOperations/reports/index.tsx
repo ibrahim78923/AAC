@@ -26,7 +26,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),

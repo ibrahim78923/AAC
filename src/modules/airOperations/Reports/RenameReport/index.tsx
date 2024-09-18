@@ -10,17 +10,21 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { useRenameReport } from './useRenameReport';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 
-export const RenameReport = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen } = props;
-  const { onSubmit, handleSubmit, methods, handleClose, renameReportsStatus } =
-    useRenameReport(props);
+export const RenameReport = () => {
+  const {
+    onSubmit,
+    handleSubmit,
+    methods,
+    handleClose,
+    renameReportsStatus,
+    isPortalOpen,
+  } = useRenameReport();
 
   return (
     <Dialog
-      open={isPortalOpen?.isRename as boolean}
-      onClose={() => handleClose()}
+      open={isPortalOpen?.isOpen as boolean}
+      onClose={handleClose}
       maxWidth={'sm'}
       fullWidth
     >
@@ -39,7 +43,7 @@ export const RenameReport = (props: ReportsListsComponentPropsI) => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => handleClose?.()}
+              onClick={handleClose}
             />
           </Box>
         </DialogTitle>
@@ -55,14 +59,16 @@ export const RenameReport = (props: ReportsListsComponentPropsI) => {
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
+            className="small"
             variant="outlined"
             color="inherit"
-            onClick={() => handleClose?.()}
+            onClick={handleClose}
             disabled={renameReportsStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             type="submit"
             disabled={renameReportsStatus?.isLoading}

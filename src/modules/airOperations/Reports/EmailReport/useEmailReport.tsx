@@ -11,16 +11,27 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
 import { EmailReportFormFieldsI } from './EmailReport.interface';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+} from '@/redux/slices/airOperations/reports/slice';
 
-export const useNewEmailDrawer = (props: ReportsListsComponentPropsI) => {
-  const { setIsPortalOpen, selectedReportLists, setSelectedReportLists } =
-    props;
-
+export const useNewEmailDrawer = () => {
   const { user }: any = useAuth();
   const router = useRouter();
-  const { id } = router?.query;
+  const id = router?.query?.id;
   const [emailReportsTrigger, emailReportsStatus] = useEmailReportsMutation();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
 
   const data = {
     sender: user?.email,
@@ -55,15 +66,15 @@ export const useNewEmailDrawer = (props: ReportsListsComponentPropsI) => {
 
   const onClose = () => {
     reset();
-    setIsPortalOpen?.({});
-    setSelectedReportLists?.([]);
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
 
   const downloadPath = () =>
     router?.push({
       pathname: AIR_OPERATIONS?.SINGLE_GENERIC_REPORTS_DETAILS,
       query: {
-        reportId: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        reportId: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
         redirect: router?.pathname,
         id,
       },
@@ -76,5 +87,6 @@ export const useNewEmailDrawer = (props: ReportsListsComponentPropsI) => {
     onClose,
     emailReportsStatus,
     downloadPath,
+    isPortalOpen,
   };
 };

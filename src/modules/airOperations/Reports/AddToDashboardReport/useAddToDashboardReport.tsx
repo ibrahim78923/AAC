@@ -1,35 +1,51 @@
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, REPORT_TYPE } from '@/constants/strings';
-import {
-  useAddReportsToDashboardMutation,
-  useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
-} from '@/services/airOperations/reports';
+import { useAddReportsToDashboardMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 import { AddToDashboardFormFieldsI } from './AddToDashboard.interface';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { useGetReportLists } from '../ReportHooks/useGetReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/reports/slice';
 
-export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    selectedReportLists,
-    setSelectedReportLists,
-    setPage,
-    totalRecords,
-    page,
-    getReportListData,
-  } = props;
-
+export const useAddToDashboardReport = () => {
   const router = useRouter();
-
-  const { id } = router?.query;
+  const id = router?.query?.id;
 
   const [addReportsToDashboardTrigger, addReportsToDashboardStatus] =
     useAddReportsToDashboardMutation();
+
+  const { getReportsList, page } = useGetReportLists();
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getReportsList?.(newPage);
+  };
 
   const methods: UseFormReturn<AddToDashboardFormFieldsI> = useForm({
     defaultValues: {
@@ -49,7 +65,7 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
   ) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         linkDashboard: {
@@ -66,12 +82,7 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
       await addReportsToDashboardTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report added to dashboard successfully');
       closeModal?.();
-      const newPage =
-        selectedReportLists?.length === totalRecords
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getReportListData?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -79,20 +90,16 @@ export const useAddToDashboardReport = (props: ReportsListsComponentPropsI) => {
 
   const closeModal = () => {
     reset();
-    setSelectedReportLists?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
-
-  const apiQueryServicesDashboard =
-    useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery();
 
   return {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    apiQueryServicesDashboard,
     addReportsToDashboardStatus,
-    id,
+    isPortalOpen,
   };
 };

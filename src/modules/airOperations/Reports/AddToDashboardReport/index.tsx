@@ -1,4 +1,4 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -8,28 +8,24 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { PAGINATION } from '@/config';
 import { useAddToDashboardReport } from './useAddToDashboardReport';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { DashboardNameFieldDropdown } from '../ReportFormFields/DashboardNameFieldDropdown';
 
-export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const AddToDashboardReport = () => {
   const {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    apiQueryServicesDashboard,
     addReportsToDashboardStatus,
-    id,
-  }: any = useAddToDashboardReport(props);
+    isPortalOpen,
+  }: any = useAddToDashboardReport();
 
   return (
     <Dialog
-      open={isPortalOpen?.isAddedToDashboard as boolean}
-      onClose={() => closeModal?.()}
+      open={isPortalOpen?.isOpen as boolean}
+      onClose={closeModal}
       fullWidth
       maxWidth={'sm'}
     >
@@ -51,40 +47,26 @@ export const AddToDashboardReport = (props: ReportsListsComponentPropsI) => {
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => closeModal?.()}
+              onClick={closeModal}
             />
           </Box>
         </DialogTitle>
         <DialogContent>
           <br />
-          <RHFAutocompleteAsync
-            label=""
-            name="dashboard"
-            fullWidth
-            required
-            apiQuery={apiQueryServicesDashboard}
-            multiple
-            size="small"
-            placeholder="Search Here"
-            externalParams={{
-              limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-              productId: id,
-            }}
-            getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
-              `${option?.name}`
-            }
-          />
+          <DashboardNameFieldDropdown />
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
+            className="small"
             variant="outlined"
             color="secondary"
-            onClick={() => closeModal?.()}
+            onClick={closeModal}
             disabled={addReportsToDashboardStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             type="submit"
             loading={addReportsToDashboardStatus?.isLoading}
