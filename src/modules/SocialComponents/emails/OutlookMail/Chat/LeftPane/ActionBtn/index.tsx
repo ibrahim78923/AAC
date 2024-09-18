@@ -4,22 +4,27 @@ import {
   Popover,
   Button,
   MenuItem,
-  Typography,
-  TextField,
   Menu,
   CircularProgress,
+  Grid,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES, OUTLOOK_EMAIL_TABS_TYPES } from '@/constants';
+import {
+  CREATE_EMAIL_TYPES,
+  indexNumbers,
+  OUTLOOK_EMAIL_TABS_TYPES,
+} from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import {
   useDeleteEmailOutlookMutation,
+  useLazyGetAllDealsAsyncQuery,
   usePatchOutlookEmailMessageMutation,
   usePatchOutlookMoveToFolderMutation,
+  usePostLinkToDealOutlookMutation,
 } from '@/services/commonFeatures/email/outlook';
 import { useDispatch } from 'react-redux';
 import {
@@ -29,6 +34,13 @@ import {
   setSelectedRecords,
   setUpdateMailList,
 } from '@/redux/slices/email/outlook/slice';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import {
+  emailLinkToDealDefaultValues,
+  emailLinkToDealSchema,
+} from './ActionBtn.data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 interface ActionBtnPropsI {
   sortedData: any[];
@@ -54,6 +66,8 @@ const ActionBtn = ({
   const activeRecord: any = useAppSelector(
     (state: any) => state?.outlook?.activeRecord,
   );
+
+  const selectedFirstRec = selectedRecords[indexNumbers?.ZERO];
 
   const tabName = mailTabType?.displayName?.toLowerCase();
 
@@ -212,6 +226,53 @@ const ActionBtn = ({
     }
   };
 
+  const methodsDealsTasks: any = useForm({
+    resolver: yupResolver(emailLinkToDealSchema()),
+    defaultValues: emailLinkToDealDefaultValues,
+  });
+  const { handleSubmit, reset } = methodsDealsTasks;
+
+  const [PostLinkToDealOutlook, { isLoading: loadingLinkToDeal }] =
+    usePostLinkToDealOutlookMutation();
+
+  const onSubmit = async (values: any) => {
+    const payload = {
+      provider: 'OUTLOOK',
+      threadId: selectedFirstRec?.conversationId,
+      dealIds: [values?.linkToDeal?._id],
+      from: `${selectedFirstRec?.sender?.emailAddress?.name} <${selectedFirstRec?.sender?.emailAddress?.address}>`,
+      to: selectedFirstRec?.toRecipients?.map(
+        (to: any) => `${to?.emailAddress?.name} <${to?.emailAddress?.address}>`,
+      ),
+      cc: selectedFirstRec?.ccRecipients?.map(
+        (cc: any) => `${cc?.emailAddress?.name} <${cc?.emailAddress?.address}>`,
+      ),
+      bcc: selectedFirstRec?.bccRecipients?.map(
+        (bcc: any) =>
+          `${bcc?.emailAddress?.name} <${bcc?.emailAddress?.address}>`,
+      ),
+      subject: selectedFirstRec?.subject,
+      content: selectedFirstRec?.body?.content,
+    };
+
+    try {
+      await PostLinkToDealOutlook({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Email association successful', {
+        variant: 'success',
+      });
+      dispatch(setSelectedRecords([]));
+      dispatch(setActiveRecord({}));
+      reset();
+      setIsLinkToDealModal(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
+  const apiQueryUsers = useLazyGetAllDealsAsyncQuery?.();
+
   return (
     <>
       <Button
@@ -303,9 +364,27 @@ const ActionBtn = ({
         okText="Save"
         footer
         cancelText="Cancel"
+        handleSubmit={handleSubmit(onSubmit)}
+        isLoading={loadingLinkToDeal}
       >
-        <Typography>Deal</Typography>
-        <TextField placeholder="Search Deal" fullWidth size="small" />
+        <FormProvider
+          methods={methodsDealsTasks}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Grid container>
+            <Grid item md={12}>
+              <RHFAutocompleteAsync
+                label="Deal"
+                name="linkToDeal"
+                fullWidth
+                apiQuery={apiQueryUsers}
+                size="small"
+                placeholder="Select deal"
+                getOptionLabel={(option: any) => option?.name}
+              />
+            </Grid>
+          </Grid>
+        </FormProvider>
       </CommonModal>
 
       <Menu
@@ -348,7 +427,6 @@ const ActionBtn = ({
         typeImage={<WarningIcon />}
         message={'Are you sure you want to restore email.'}
         open={isRestoreEmail}
-        disabled={false}
         handleClose={() => setIsRestoreEmail(false)}
         loading={loadingRestore}
         handleSubmitBtn={handelRestore}
@@ -360,7 +438,6 @@ const ActionBtn = ({
           selectedRecords?.length > 1 ? 'these' : 'this'
         } record ?.`}
         open={isDeleteModalOpen}
-        disabled={false}
         handleClose={() => setIsDeleteModalOpen(false)}
         loading={loadingRestore || loadingMove}
         handleSubmitBtn={handelDelete}

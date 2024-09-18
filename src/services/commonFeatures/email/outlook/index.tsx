@@ -1,4 +1,8 @@
-import { SOCIAL_FEATURES_OUTLOOK } from '@/routesConstants/paths';
+import { END_POINTS } from '@/routesConstants/endpoints';
+import {
+  SOCIAL_FEATURES_GMAIL,
+  SOCIAL_FEATURES_OUTLOOK,
+} from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['OUTLOOK'];
 const TAG_UPDATE_EMAIL = ['OUTLOOK_UPDATE'];
@@ -159,6 +163,31 @@ export const outlookApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+
+    getAllDealsAsync: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.deals;
+      },
+    }),
+
+    postLinkToDealOutlook: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_GMAIL?.LINK_DEAL}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -176,4 +205,6 @@ export const {
   usePatchOutlookEmailMessageMutation,
   usePatchOutlookMoveToFolderMutation,
   useLogoutOutlookMutation,
+  useLazyGetAllDealsAsyncQuery,
+  usePostLinkToDealOutlookMutation,
 } = outlookApi;
