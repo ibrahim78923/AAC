@@ -11,6 +11,8 @@ import {
 import { NextRouter } from 'next/router';
 import { TicketTableRowI } from '../TicketsLists.interface';
 import { uiDateFormat } from '@/utils/dateTime';
+import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 export const ticketsListsColumnDynamic: any = (
   router?: NextRouter,
@@ -121,9 +123,14 @@ export const ticketsListsColumnDynamic: any = (
       header: 'Subject',
       cell: (info: any) => (
         <>
-          {info?.row?.original?.ticketType === TICKET_TYPE?.SR
-            ? `Request For: ${truncateText(info?.getValue())}`
-            : truncateText(info?.getValue())}
+          {info?.row?.original?.ticketType === TICKET_TYPE?.SR ? (
+            <TruncateText
+              text={info.getValue()}
+              retainTextLeft="Request For: "
+            />
+          ) : (
+            <TruncateText text={info.getValue()} />
+          )}
         </>
       ),
     },
@@ -133,24 +140,17 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Requester',
       cell: (info: any) => (
-        <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-          <Avatar
-            sx={{ bgcolor: 'primary.main', width: 28, height: 28 }}
-            src={generateImage(
-              info?.row?.original?.requesterDetails?.avatar?.url,
-            )}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(
-                info?.getValue()?.firstName,
-                info?.getValue()?.lastName,
-              )}
-            </Typography>
-          </Avatar>
-          <Typography variant="body2" textTransform={'capitalize'}>
-            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-          </Typography>
-        </Box>
+        <UserInfo
+          nameInitial={fullNameInitial(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          name={fullName(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          avatarSrc={info?.row?.original?.requesterDetails?.avatar?.url}
+        />
       ),
     },
     {
