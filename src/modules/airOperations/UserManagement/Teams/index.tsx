@@ -41,6 +41,7 @@ export const Teams = () => {
           ]}
         >
           <Button
+            className="small"
             variant="contained"
             startIcon={<AddWhiteBgIcon />}
             onClick={() => {

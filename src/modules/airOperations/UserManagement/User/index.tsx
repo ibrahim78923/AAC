@@ -53,6 +53,7 @@ export const User = () => {
             />
           </PermissionsGuard>
           <Button
+            className="small"
             variant="contained"
             startIcon={<AddWhiteBgIcon />}
             onClick={() => {
