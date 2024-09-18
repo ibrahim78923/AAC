@@ -1,20 +1,18 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Button, Chip, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { truncateText } from '@/utils/avatarUtils';
 import { AIR_SERVICES } from '@/constants';
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { pxToRem } from '@/utils/getFontValue';
 import { Permissions } from '@/constants/permissions';
 import EmailThisDashboard from '../EmailThisDashboard';
 import { useDashboardFilter } from './useDashboardFilter';
+import { DashboardListFieldDropdown } from '../DashboardFormFields/DashboardsListFieldDropdown';
 
 export const DashboardFilter = (props: any) => {
   const { apiLoader } = props;
   const {
     dashboardDropdownActions,
-    apiQueryDashboardList,
     isDrawerOpen,
     setIsDrawerOpen,
     router,
@@ -62,47 +60,8 @@ export const DashboardFilter = (props: any) => {
           <PermissionsGuard
             permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
           >
-            <RHFAutocompleteAsync
+            <DashboardListFieldDropdown
               disabled={apiLoader?.isLoading || apiLoader?.isFetching}
-              name="dashboardId"
-              size="small"
-              sx={{
-                minWidth: pxToRem(230),
-                '.MuiInputBase-input': {
-                  padding: `${pxToRem(5)} !important`,
-                },
-                '.MuiFormHelperText-root': {
-                  display: 'none',
-                },
-                '& .MuiOutlinedInput-root ': {
-                  height: pxToRem(36),
-                },
-              }}
-              placeholder="Dashboards"
-              apiQuery={apiQueryDashboardList}
-              renderOption={(option: any) => (
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  width={'100%'}
-                >
-                  <Box>
-                    <Typography variant="body2" component={'span'} flex={1}>
-                      {truncateText(option?.name)}
-                    </Typography>
-                  </Box>
-                  {option?.isDefault && (
-                    <Chip
-                      size="small"
-                      label="Default"
-                      variant="outlined"
-                      color={'success'}
-                      component={'span'}
-                    />
-                  )}
-                </Box>
-              )}
             />
           </PermissionsGuard>
           <PermissionsGuard

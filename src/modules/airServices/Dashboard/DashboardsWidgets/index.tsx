@@ -60,6 +60,7 @@ export const DashboardWidgets = (props: any) => {
                 ]}
               >
                 <Button
+                  className="small"
                   variant="contained"
                   onClick={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
                 >

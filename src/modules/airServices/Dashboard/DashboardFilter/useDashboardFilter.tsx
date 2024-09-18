@@ -1,5 +1,4 @@
 import { AIR_SERVICES } from '@/constants';
-import { useLazyGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 import { dashboardDropdownActionsDynamic } from './DashboardFilter.data';
@@ -12,8 +11,6 @@ export const useDashboardFilter = (props: any) => {
   const auth: any = useAuth();
   const { user }: any = auth;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const apiQueryDashboardList =
-    useLazyGetDashboardNameListDropdownListForDashboardQuery?.();
 
   const emailToCopy = `${window?.location
     ?.origin}${AIR_SERVICES?.SINGLE_DASHBOARD}${
@@ -42,7 +39,6 @@ export const useDashboardFilter = (props: any) => {
 
   return {
     dashboardDropdownActions,
-    apiQueryDashboardList,
     isDrawerOpen,
     setIsDrawerOpen,
     router,

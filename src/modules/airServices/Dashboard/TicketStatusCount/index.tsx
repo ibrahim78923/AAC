@@ -10,7 +10,7 @@ export const TicketStatusCount = () => {
     useTicketStatusCount();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <Grid container spacing={3}>

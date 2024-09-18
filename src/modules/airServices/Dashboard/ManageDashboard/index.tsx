@@ -77,14 +77,10 @@ export const ManageDashboard = () => {
             isSuccess={lazyGetDashboardStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
             isPagination
-            errorChildren={
-              <Button
-                variant="contained"
-                onClick={() => getDashboardListData?.(page)}
-              >
-                Refresh
-              </Button>
-            }
+            errorProps={{
+              canRefresh: true,
+              refresh: () => getDashboardListData?.(page),
+            }}
             noDataTableText="No Dashboards Found"
           />
         </Box>

@@ -19,8 +19,8 @@ export const DeleteDashboard = (
         message={'Are you sure you want to delete dashboard ?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={isPortalOpen?.isDelete as boolean}
-        handleClose={() => closeDashboardDeleteModal?.()}
-        handleSubmitBtn={() => deleteDashboard?.()}
+        handleClose={closeDashboardDeleteModal}
+        handleSubmitBtn={deleteDashboard}
         loading={deleteSingleServicesDashboardStatus?.isLoading}
         disableCancelBtn={deleteSingleServicesDashboardStatus?.isLoading}
       />
