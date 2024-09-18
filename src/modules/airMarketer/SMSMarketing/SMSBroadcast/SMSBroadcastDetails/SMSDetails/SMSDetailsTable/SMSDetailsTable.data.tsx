@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { STATUS_CONTANTS } from '@/constants/strings';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const smsDetailsColumns: any = (
   setOpenModalDelete: any,
@@ -23,11 +24,12 @@ export const smsDetailsColumns: any = (
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.messageStatus,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: false,
       header: 'Status',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) =>
+        info?.getValue() ? capitalizeFirstLetter(info?.getValue()) : 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Actions,

@@ -7,8 +7,12 @@ import * as Yup from 'yup';
 import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
 
 export const AddAccountArray = (props: any) => {
-  const { companyRoleParams, organizationBasesProducts, organizationId } =
-    props;
+  const {
+    companyRoleParams,
+    organizationBasesProducts,
+    organizationId,
+    productId,
+  } = props;
   const { companyRoles } = useAddAccountDrawer();
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
@@ -34,8 +38,13 @@ export const AddAccountArray = (props: any) => {
         fullWidth: true,
         required: true,
         apiQuery: companyAccounts,
+        disabled: !productId,
         getOptionLabel: (option: any) => option?.accountName,
-        externalParams: { orgId: organizationId, limit: 50 },
+        externalParams: {
+          orgId: organizationId,
+          limit: 50,
+          productId: productId,
+        },
       },
       component: RHFAutocompleteAsync,
       md: 12,
@@ -48,6 +57,7 @@ export const AddAccountArray = (props: any) => {
         fullWidth: true,
         required: true,
         apiQuery: companyRoles,
+        disabled: !companyRoleParams?.organizationCompanyAccountId,
         getOptionLabel: (option: any) => option?.name,
         externalParams: companyRoleParams,
       },

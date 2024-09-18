@@ -11,7 +11,7 @@ import {
 } from '@/services/common-APIs';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
-export const AddAccountArray = (companyRoleParams: any) => {
+export const AddAccountArray = (companyRoleParams: any, productValue: any) => {
   const { companyRoles, user } = useAddAccount();
   const products = useLazyGetProductsListQuery();
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
@@ -38,8 +38,13 @@ export const AddAccountArray = (companyRoleParams: any) => {
         fullWidth: true,
         required: true,
         apiQuery: companyAccounts,
+        disabled: !productValue,
         getOptionLabel: (option: any) => option?.accountName,
-        externalParams: { orgId: user?.organization?._id, limit: 50 },
+        externalParams: {
+          orgId: user?.organization?._id,
+          limit: 50,
+          productId: productValue?._id,
+        },
       },
       component: RHFAutocompleteAsync,
       md: 12,

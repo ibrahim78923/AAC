@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { DATE_FORMAT } from '@/constants';
@@ -51,22 +51,6 @@ export const columns: any = ({
               }}
             >
               <ViewEyeIcon />
-            </Box>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_ATTACHMENT]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer({
-                  isToggle: true,
-                  type: 'Edit',
-                  recData: info?.row?.original,
-                });
-              }}
-            >
-              <EditPenIcon />
             </Box>
           </PermissionsGuard>
           <PermissionsGuard

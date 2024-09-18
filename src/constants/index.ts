@@ -465,11 +465,6 @@ export const PRODUCTS_TYPE = {
   EXT_PRODUCT: 'existing-products',
 };
 
-export const PRODUCTS_TYPE = {
-  NEW_PRODUCT: 'new-products',
-  EXT_PRODUCT: 'existing-products',
-};
-
 export const Gmail_CONST = {
   DATE: 'Date',
   FROM: 'From',

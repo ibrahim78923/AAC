@@ -360,7 +360,7 @@ const CreateSMSBroadcast = () => {
               variant="contained"
               className="small"
               onClick={handleSubmit(onSubmit)}
-              disabled={selectedRec?.length === 0 ? true : false}
+              disabled={selectedContactsData?.length === 0 ? true : false}
               loading={
                 createStatus === STATUS_CONTANTS?.COMPLETED &&
                 (postBroadcastLoading || updateBroadcastLoading)
