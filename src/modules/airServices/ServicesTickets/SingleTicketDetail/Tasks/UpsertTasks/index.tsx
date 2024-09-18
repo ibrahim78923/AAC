@@ -7,12 +7,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
-import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const UpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
-
+export const UpsertTasks = () => {
   const {
     submitUpsertTicketTasks,
     methods,
@@ -25,18 +22,19 @@ export const UpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
     form,
     postAttachmentStatus,
     getDynamicFormData,
-  } = useUpsertTasks?.(props);
+    isPortalOpen,
+  } = useUpsertTasks?.();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isUpsert as boolean}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={() => handleCloseDrawer?.()}
-        title={TITLE_FORM_USER?.[isPortalOpen?.type as string]}
+        title={TITLE_FORM_USER?.[isPortalOpen?.action as string]}
         submitHandler={() => handleSubmit?.(submitUpsertTicketTasks)()}
         footer
         isOk
-        okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.type as string]}
+        okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.action as string]}
         isLoading={
           postTicketTasksStatus?.isLoading ||
           patchTicketTasksStatus?.isLoading ||

@@ -5,9 +5,9 @@ import {
   RHFAutocomplete,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { styles } from './DetailTaskDrawer.styles';
-import { useDetailTaskDrawer } from './useDetailTaskDrawer';
-import { drawerDetail, statusOptions } from './DetailTaskDrawer.data';
+import { styles } from './SingleTaskDetail.styles';
+import { useSingleTaskDetail } from './useSingleTaskDetail';
+import { drawerDetail, statusOptions } from './SingleTaskDetail.data';
 import {
   generateColorFromName,
   generateImage,
@@ -19,10 +19,8 @@ import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 
-export const DetailTaskDrawer = (props: TicketsTasksPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const SingleTaskDetail = () => {
   const {
     theme,
     method,
@@ -31,12 +29,13 @@ export const DetailTaskDrawer = (props: TicketsTasksPortalComponentPropsI) => {
     isLoading,
     handleCloseDrawer,
     overviewData,
-  } = useDetailTaskDrawer(props);
+    isPortalOpen,
+  } = useSingleTaskDetail();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isView as boolean}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={() => handleCloseDrawer()}
         title={`#TSK-${isPortalOpen?.data?._id?.slice(-3)?.toUpperCase()}`}
         submitHandler={handleSubmit(onSubmitDrawer)}

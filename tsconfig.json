@@ -21,7 +21,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/air-marketer/whatsapp-marketing/create-template.tsx"
+    "src/pages/air-marketer/whatsapp-marketing/create-template.tsx",
+    "src/modules/airServices/ServicesTickets/TicketsServicesHooks/useGetTicketTasksList.tsx"
   ],
   "exclude": ["node_modules"]
 }

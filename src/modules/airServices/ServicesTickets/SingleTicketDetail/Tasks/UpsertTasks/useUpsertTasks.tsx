@@ -26,19 +26,29 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
 import { isoDateString } from '@/utils/dateTime';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedTicketTasksLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/tickets-tasks/slice';
+import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 
-export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    selectedTasksList,
-    setSelectedTasksLists,
-    isPortalOpen,
-  } = props;
+const { EDIT_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
+
+export const useUpsertTasks = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const { ticketId } = router?.query;
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketTasks?.isPortalOpen,
+  );
+
+  const selectedTicketTasksLists = useAppSelector(
+    (state) => state?.servicesTicketTasks?.selectedTicketTasksLists,
+  );
+
+  const ticketId = router?.query?.ticketId;
 
   const [form, setForm] = useState<any>([]);
 
@@ -47,7 +57,6 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
 
   const [patchTicketTasksTrigger, patchTicketTasksStatus] =
     usePatchTaskByIdMutation();
-
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
@@ -76,14 +85,19 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
 
   const methods = useForm({
     resolver: yupResolver(upsertTicketTaskFormValidationSchema?.(form)),
-    defaultValues: upsertTicketTaskFormDefaultValues?.(selectedTasksList, form),
+    defaultValues: upsertTicketTaskFormDefaultValues?.(
+      selectedTicketTasksLists,
+      form,
+    ),
   });
 
   const { handleSubmit, reset, getValues } = methods;
 
   useEffect(() => {
-    reset(() => upsertTicketTaskFormDefaultValues(selectedTasksList, form));
-  }, [selectedTasksList, reset, form]);
+    reset(() =>
+      upsertTicketTaskFormDefaultValues(selectedTicketTasksLists, form),
+    );
+  }, [selectedTicketTasksLists, reset, form]);
 
   const submitUpsertTicketTasks = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
@@ -147,18 +161,20 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
         startDate: filteredEmptyData?.startDate?.toISOString(),
         endDate: filteredEmptyData?.endDate?.toISOString(),
         assignTo: filteredEmptyData?.agent?._id,
-        departmentId: filteredEmptyData?.departmentId?._id,
+        departmentId: filteredEmptyData?.department?._id,
         notifyBefore: filteredEmptyData?.notifyBefore?._id,
       };
 
       const reqBody = { customFields };
+
+      delete queryParams?.department;
 
       const apiDataParameter = {
         queryParams,
         reqBody,
       };
 
-      if (isPortalOpen?.isEdit) {
+      if (isPortalOpen?.action === EDIT_TICKET_TASKS) {
         patchUpsertTicketTasks?.(apiDataParameter);
         return;
       }
@@ -176,7 +192,7 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
 
     const queryParams = {
       ...formData?.queryParams,
-      id: selectedTasksList?.[ARRAY_INDEX?.ZERO]?._id,
+      id: selectedTicketTasksLists?.[ARRAY_INDEX?.ZERO]?._id,
     };
     const apiDataParameter = {
       queryParams,
@@ -193,8 +209,8 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
   };
 
   const handleCloseDrawer = () => {
-    setIsPortalOpen({});
-    setSelectedTasksLists?.([]);
+    dispatch(emptySelectedTicketTasksLists());
+    dispatch(setIsPortalClose());
     reset();
   };
 
@@ -213,5 +229,6 @@ export const useUpsertTasks = (props: TicketsTasksPortalComponentPropsI) => {
     form,
     postAttachmentStatus,
     getDynamicFormData,
+    isPortalOpen,
   };
 };

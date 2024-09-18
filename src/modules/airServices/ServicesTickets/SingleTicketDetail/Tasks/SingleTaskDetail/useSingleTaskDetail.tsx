@@ -5,15 +5,18 @@ import {
   defaultValues,
   overviewDataArray,
   validationSchema,
-} from './DetailTaskDrawer.data';
+} from './SingleTaskDetail.data';
 import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/tickets-tasks/slice';
 
-export const useDetailTaskDrawer = (
-  props: TicketsTasksPortalComponentPropsI,
-) => {
-  const { setIsPortalOpen, setSelectedTasksLists, isPortalOpen } = props;
+export const useSingleTaskDetail = () => {
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketTasks?.isPortalOpen,
+  );
 
   const method = useForm({
     resolver: yupResolver(validationSchema),
@@ -46,8 +49,7 @@ export const useDetailTaskDrawer = (
   };
 
   const handleCloseDrawer = () => {
-    setIsPortalOpen({});
-    setSelectedTasksLists?.([]);
+    dispatch(setIsPortalClose());
     reset();
   };
 
@@ -61,5 +63,6 @@ export const useDetailTaskDrawer = (
     isLoading,
     handleCloseDrawer,
     overviewData,
+    isPortalOpen,
   };
 };

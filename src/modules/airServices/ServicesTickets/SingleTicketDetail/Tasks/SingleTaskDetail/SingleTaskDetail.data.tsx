@@ -1,7 +1,7 @@
 import { Theme, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
-import { styles } from './DetailTaskDrawer.styles';
+import { styles } from './SingleTaskDetail.styles';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TASK_STATUS } from '@/constants/strings';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
