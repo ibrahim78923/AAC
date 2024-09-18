@@ -29,6 +29,7 @@ import { useForm } from 'react-hook-form';
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
 import { useUpdateAssociateProductMutation } from '@/services/airSales/deals/view-details/association';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { capitalizeFirstLetters } from '@/utils';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -57,6 +58,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     id: quoteId,
     ...(search && { productSearchKeyword: search }),
   });
+
   const sum = productsData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
       accumulator + (currentValue?.unitPrice * currentValue?.quantity || 0),
@@ -68,6 +70,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       accumulator + (currentValue?.unitDiscount * currentValue?.quantity || 0),
     0,
   );
+
   let totalPercentage = 0;
   if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
     for (const tax of taxCalculationPerc) {
@@ -152,16 +155,13 @@ const StepLineItems = ({ openCreateProduct }: any) => {
   };
 
   const lineItemsColumns: any = () => {
-    // const [quantCount, setQuantCount] = useState(1);
-    // const [disCount, setDisCount] = useState(1);
-
     return [
       {
         accessorFn: (row: any) => row?.name,
         id: 'productName',
-        cell: (info: any) => info?.getValue(),
         header: 'Product Name',
         isSortable: true,
+        cell: (info: any) => capitalizeFirstLetters(info?.getValue()),
       },
       {
         accessorFn: (row: any) => row?.unitPrice ?? 'N/A',
@@ -171,10 +171,17 @@ const StepLineItems = ({ openCreateProduct }: any) => {
         cell: (info: any) => <>£ {info?.getValue()}</>,
       },
       {
-        accessorFn: (row: any) => row?.quantity ?? 'N/A',
+        accessorFn: (row: any) => row?.products ?? 'N/A',
         id: 'quantity',
         isSortable: true,
         header: 'Quantity',
+        cell: (info: any) => info?.row?.original?.quantity,
+      },
+      {
+        accessorFn: (row: any) => row?.quantity ?? 'N/A',
+        id: 'additionalQuantity',
+        isSortable: true,
+        header: 'Additional Quantity',
         cell: (info: any) => {
           return (
             <Box>
@@ -328,35 +335,38 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     <>
       <Grid container spacing={2}>
         <Grid item lg={8} md={12} sm={12} xs={12}>
-          <Box>
-            <Box sx={styles?.pageHeader}>
-              <Typography variant="h4" sx={styles?.pageHeaderTitle}>
-                Products
-              </Typography>
-              <Stack
-                direction="row"
-                sx={{ flexWrap: 'wrap' }}
-                spacing={{ xs: 0, sm: '12px' }}
-                gap={{ xs: 1, sm: 0 }}
+          <Stack
+            direction={{ md: 'row' }}
+            justifyContent={'space-between'}
+            gap={1}
+            sx={{ my: 2 }}
+          >
+            <Typography variant="h4" sx={styles?.pageHeaderTitle}>
+              Products
+            </Typography>
+            <Stack
+              direction="row"
+              sx={{ flexWrap: 'wrap' }}
+              spacing={{ xs: 0, sm: '12px' }}
+              gap={{ xs: 1, sm: 0 }}
+            >
+              <Search
+                placeholder="Search Here"
+                setSearchBy={(value: string) => setSearch(value)}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AddCircleSmallIcon />}
+                onClick={() => {
+                  handleAction('', 'create');
+                }}
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
               >
-                <Search
-                  placeholder="Search Here"
-                  setSearchBy={(value: string) => setSearch(value)}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddCircleSmallIcon />}
-                  onClick={() => {
-                    handleAction('', 'create');
-                  }}
-                  sx={{ width: { xs: '100%', sm: 'auto' } }}
-                >
-                  Add Products
-                </Button>
-              </Stack>
-            </Box>
-          </Box>
+                Add Products
+              </Button>
+            </Stack>
+          </Stack>
 
           <TanstackTable
             columns={lineItemsColumns()}

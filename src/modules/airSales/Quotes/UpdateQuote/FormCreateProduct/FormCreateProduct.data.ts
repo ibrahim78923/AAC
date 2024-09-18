@@ -7,10 +7,12 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const ProductValidationSchema = Yup?.object()?.shape({
+export const ProductValidationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
   purchasePrice: Yup?.string()?.required('Field is Required'),
   unitPrice: Yup?.string()?.required('Field is Required'),
+  sku: Yup?.string()?.required('Field is Required'),
+  category: Yup?.object()?.required('Field is Required'),
 });
 
 export const productDefaultValues = {
@@ -43,6 +45,7 @@ export const addContactFields = (productCatagories: any) => {
         label: 'SKU',
         fullWidth: true,
         select: false,
+        required: true,
         placeholder: 'Enter here',
       },
       component: RHFTextField,
@@ -65,6 +68,7 @@ export const addContactFields = (productCatagories: any) => {
         name: 'category',
         label: 'Category',
         placeholder: 'Select Category',
+        required: true,
         apiQuery: productCatagories,
         getOptionLabel: (option: any) => option?.name,
       },

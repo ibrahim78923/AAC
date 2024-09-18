@@ -10,9 +10,9 @@ import {
   productDefaultValues,
 } from './FormCreateProduct.data';
 import {
-  useCreateAssociationQuoteMutation,
+  // useCreateAssociationQuoteMutation,
   // useGetProductCatagoriesQuery,
-  useGetQuoteByIdQuery,
+  // useGetQuoteByIdQuery,
   useLazyGetProductCatagoriesUpdatedQuery,
   useLazyGetProductsByIdQuery,
   usePostProductMutation,
@@ -20,13 +20,14 @@ import {
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+// import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
   const params = useSearchParams();
   const actionType = params.get('type');
   const disableForm = actionType === 'view' ? true : false;
-  const quoteId = params.get('data');
+  // const quoteId = params.get('data');
   const productId = params.get('productId');
 
   const [postProduct, { isLoading: loadingProductPost }] =
@@ -34,14 +35,16 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 
   const [updateProductById] = useUpdateProductByIdMutation();
 
-  const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
+  // const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
+
+  // console.log('Quotenew', Quotenew);
 
   // const { data: productCatagories } = useGetProductCatagoriesQuery({});
   const productCatagories = useLazyGetProductCatagoriesUpdatedQuery();
 
   const [lazyGetProductsByIdQuery] = useLazyGetProductsByIdQuery();
 
-  const [createAssociationQuote] = useCreateAssociationQuoteMutation();
+  // const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(ProductValidationSchema),
@@ -60,54 +63,53 @@ const FormCreateProduct = ({ open, onClose }: any) => {
       }
     });
 
-    if (actionType === 'edit') {
+    if (actionType === DRAWER_TYPES?.EDIT) {
       try {
-        await updateProductById({ id: productId, body: formData })
-          ?.unwrap()
-          .then((res: any) => {
-            const associationBody = {
-              dealId: Quotenew?.data?.dealId,
-              product: {
-                productId: res?.data?._id,
-                quantity: 1,
-              },
-            };
-            createAssociationQuote({ body: associationBody })?.unwrap();
-            enqueueSnackbar('Product Updated Successfully', {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-          });
+        await updateProductById({ id: productId, body: formData })?.unwrap();
+        // .then((res: any) => {
+        //   const associationBody = {
+        //     dealId: Quotenew?.data?.dealId,
+        //     product: {
+        //       productId: res?.data?._id,
+        //       quantity: 1,
+        //     },
+        //   };
+        //   createAssociationQuote({ body: associationBody })?.unwrap();
+        //   enqueueSnackbar('Product Updated Successfully', {
+        //     variant: NOTISTACK_VARIANTS?.SUCCESS,
+        //   });
+        // });
       } catch (err: any) {
         enqueueSnackbar('Error while edit product', {
-          variant: 'error',
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
-    } else if (actionType === 'create') {
+    } else if (actionType === DRAWER_TYPES?.CREATE) {
       try {
-        await postProduct({ body: formData })
-          ?.unwrap()
-          .then((res: any) => {
-            const associationBody = {
-              dealId: Quotenew?.data?.dealId,
-              product: {
-                productId: res?.data?._id,
-                quantity: 1,
-              },
-            };
-            createAssociationQuote({ body: associationBody })?.unwrap();
-            enqueueSnackbar('Product added Successfully', {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-            reset();
-          });
+        await postProduct({ body: formData })?.unwrap();
+        // .then((res: any) => {
+        //   const associationBody = {
+        //     dealId: Quotenew?.data?.dealId,
+        //     product: {
+        //       productId: res?.data?._id,
+        //       quantity: 1,
+        //     },
+        //   };
+        //   createAssociationQuote({ body: associationBody })?.unwrap();
+        //   enqueueSnackbar('Product added Successfully', {
+        //     variant: NOTISTACK_VARIANTS?.SUCCESS,
+        //   });
+        //   reset();
+        // });
       } catch (err: any) {
         enqueueSnackbar('Error while creating product', {
-          variant: 'error',
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     }
     onClose();
   };
+
   useEffect(() => {
     if ((actionType === 'edit' || actionType === 'view') && productId) {
       lazyGetProductsByIdQuery({ id: productId }).then((res: any) => {
