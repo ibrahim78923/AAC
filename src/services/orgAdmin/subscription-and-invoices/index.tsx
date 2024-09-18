@@ -139,6 +139,20 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getSingleInvoicesById: builder.query({
+      query: ({ id }) => ({
+        url: `${ORG_ADMIN?.GET_ONE_INVOICES}?invoiceId=${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    postPayInvoice: builder.mutation({
+      query: ({ invoiceId, paymentId }) => ({
+        url: `${ORG_ADMIN?.PAY_NOW_INVOICES}?invoiceId=${invoiceId}&paymentId=${paymentId}`,
+        method: 'POST',
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -161,4 +175,6 @@ export const {
   usePostPaymentCardMutation,
   useGetPaymentCardByIdQuery,
   usePatchPaymentCardMutation,
+  useGetSingleInvoicesByIdQuery,
+  usePostPayInvoiceMutation,
 } = subscriptionAndInvoicesAPI;

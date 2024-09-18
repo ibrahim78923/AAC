@@ -10,6 +10,8 @@ import { useGetInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoic
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { OnSubmitFiltersValueI } from './Invoices.interface';
+import { PAGINATION } from '@/config';
+import { useTheme } from '@emotion/react';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -20,7 +22,10 @@ const useInvoices = () => {
   const [filterValues, setFilterValues] = useState({});
   const [searchByInvoices, setSearchByInvoices] = useState('');
   const [selectedRows, setSelectedRows] = useState<any>([]);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
+  const theme = useTheme();
   const handleCheckboxClick = (row: any) => {
     const index = selectedRows.findIndex(
       (selectedRow: any) => selectedRow?._id === row?._id,
@@ -35,9 +40,14 @@ const useInvoices = () => {
     }
   };
 
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
+
   const searchParam = { search: searchByInvoices };
-  const { data } = useGetInvoicesQuery({
-    params: { ...filterValues, ...searchParam },
+  const { data, isLoading } = useGetInvoicesQuery({
+    params: { ...filterValues, ...searchParam, ...paginationParams },
   });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -67,6 +77,13 @@ const useInvoices = () => {
     reset();
   };
 
+  const handleRefresh = () => {
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterValues({});
+    reset();
+  };
+
   const FilterInvoiceFilters = useForm({
     resolver: yupResolver(FilterInvoiceValidationSchema),
     defaultValues: FilterInvoiceDefaultValues,
@@ -88,7 +105,6 @@ const useInvoices = () => {
 
     setFilterValues(filterPayloadValues);
     setIsOpenFilter(false);
-    reset();
   };
 
   const { handleSubmit, reset } = FilterInvoiceFilters;
@@ -119,6 +135,11 @@ const useInvoices = () => {
     setSearchByInvoices,
     data,
     selectedRows,
+    isLoading,
+    setPageLimit,
+    setPage,
+    handleRefresh,
+    theme,
   };
 };
 

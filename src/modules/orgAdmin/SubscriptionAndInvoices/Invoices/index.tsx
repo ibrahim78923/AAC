@@ -1,9 +1,21 @@
-import { Box, Grid, Button, Menu, MenuItem } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Button,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Skeleton,
+} from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { DropdownIcon, FilterSharedIcon } from '@/assets/icons';
+import {
+  DropdownIcon,
+  FilterSharedIcon,
+  RefreshSharedIcon,
+} from '@/assets/icons';
 import ViewInvoices from './ViewInvoices';
 import PayInvoice from './PayInvoice';
 import useInvoices from './useInvoices';
@@ -13,6 +25,8 @@ import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import { indexNumbers } from '@/constants';
+import { TICKETS_STATE } from '@/constants/strings';
 
 const Invoices = () => {
   const {
@@ -38,6 +52,11 @@ const Invoices = () => {
     searchByInvoices,
     data,
     selectedRows,
+    isLoading,
+    setPageLimit,
+    setPage,
+    handleRefresh,
+    theme,
   } = useInvoices();
 
   return (
@@ -48,13 +67,27 @@ const Invoices = () => {
             <Grid item xs={12} sm={6} md={6} lg={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
-                {data?.data?.widget?.countInvoiceDue}
+                {isLoading ? (
+                  <Skeleton
+                    variant="text"
+                    sx={{ fontSize: '1rem', width: '100px' }}
+                  />
+                ) : (
+                  data?.data?.widget?.countInvoiceDue
+                )}
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
-                £ {data?.data?.widget?.countInvoiceDue}
+                {isLoading ? (
+                  <Skeleton
+                    variant="text"
+                    sx={{ fontSize: '1rem', width: '100px' }}
+                  />
+                ) : (
+                  `£ ${data?.data?.widget?.totalAmountDue}`
+                )}
               </Box>
             </Grid>
           </Grid>
@@ -109,7 +142,15 @@ const Invoices = () => {
                   ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_PAY_INVOICE,
                 ]}
               >
-                <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem>
+                <MenuItem
+                  onClick={handleOpenPayInvoice}
+                  disabled={
+                    selectedRows[indexNumbers?.ZERO]?.status ===
+                    TICKETS_STATE?.PAID
+                  }
+                >
+                  Pay Now
+                </MenuItem>
               </PermissionsGuard>
 
               <PermissionsGuard
@@ -120,6 +161,15 @@ const Invoices = () => {
                 <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
               </PermissionsGuard>
             </Menu>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button
+                sx={styles?.refreshButton(theme)}
+                className="small"
+                onClick={handleRefresh}
+              >
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
             <PermissionsGuard
               permissions={[
                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_SEARCH_INVOICE,
@@ -136,7 +186,19 @@ const Invoices = () => {
             {/* </Box> */}
           </Box>
         </Box>
-        <TanstackTable columns={getRowValues} data={invoicesTableData} />
+        <TanstackTable
+          columns={getRowValues}
+          data={invoicesTableData}
+          isLoading={isLoading}
+          isPagination
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={data?.data?.meta?.pages}
+          totalRecords={data?.data?.meta?.total}
+          onPageChange={(page: number) => setPage(page)}
+          currentPage={data?.data?.meta?.page}
+          pageLimit={data?.data?.meta?.limit}
+        />
       </Box>
 
       <ViewInvoices
@@ -144,7 +206,11 @@ const Invoices = () => {
         onClose={handleCloseViewInvoice}
         invoiceData={selectedRows ? selectedRows[0] : {}}
       />
-      <PayInvoice open={openPayInvoice} onClose={handleClosePayInvoice} />
+      <PayInvoice
+        open={openPayInvoice}
+        onClose={handleClosePayInvoice}
+        invoiceId={selectedRows[indexNumbers?.ZERO]?._id}
+      />
 
       <CommonDrawer
         title="Filters"
@@ -160,7 +226,13 @@ const Invoices = () => {
           <FormProvider methods={FilterInvoiceFilters}>
             <Grid container spacing={4}>
               {FilterInvoiceFiltersDataArray()?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{ paddingTop: '15px !important' }}
+                >
                   <item.component {...item?.componentProps} size={'small'}>
                     {!isNullOrEmpty(item?.componentProps?.select)
                       ? item?.options?.map((option: any) => (

@@ -620,6 +620,8 @@ export const ORG_ADMIN = {
   PAYMENT_METHOD: '/payment-method',
   DELETE_PAYMENT_METHOD: '/payment-method/delete',
   PAYMENT_METHOD_ID: '/payment-method/find',
+  GET_ONE_INVOICES: '/org-admin/invoices/get-one/{id}',
+  PAY_NOW_INVOICES: '/org-admin/invoices/pay-now-invoice',
 };
 
 export const COMMON_DOCUMENTS = {
