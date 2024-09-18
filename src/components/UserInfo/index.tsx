@@ -18,7 +18,6 @@ export const UserInfo = (props: any) => {
   return (
     <Box
       display={'flex'}
-      flexWrap={'wrap'}
       alignItems={'center'}
       gap={1}
       onClick={() => handleBoxClick?.()}
@@ -27,10 +26,10 @@ export const UserInfo = (props: any) => {
       <Avatar
         sx={{
           bgcolor: 'primary.main',
-          width: avatarSize?.width,
-          height: avatarSize?.height,
+          width: avatarSize?.width ?? 28,
+          height: avatarSize?.height ?? 28,
         }}
-        variant={avatarSize?.variant}
+        variant={avatarSize?.variant ?? 'circular'}
         src={generateImage(avatarSrc)}
       >
         <Typography variant="body2" textTransform={'uppercase'}>

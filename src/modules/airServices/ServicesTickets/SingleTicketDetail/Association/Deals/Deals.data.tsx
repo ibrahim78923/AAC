@@ -1,11 +1,12 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { fullName, truncateText } from '@/utils/avatarUtils';
-import { Box } from '@mui/material';
+import { fullName } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
 
 export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
   return [
@@ -13,15 +14,21 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       accessorFn: (row: any) => row?.name,
       id: 'name',
       header: 'Deal Name',
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => <TruncateText text={info.getValue()} />,
     },
     {
       accessorFn: (row: any) => row?.dealOwner,
       id: 'dealOwner',
       header: 'Deal Owner',
       isSortable: true,
-      cell: (info: any) =>
-        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {fullName(
+            info?.getValue()?.firstName?.toLowerCase(),
+            info?.getValue()?.lastName?.toLowerCase(),
+          )}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.closeDate,
@@ -29,21 +36,31 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       header: 'Close Date',
       isSortable: true,
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY),
+        info?.getValue()
+          ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY)
+          : '---',
     },
     {
       accessorFn: (row: any) => row?.dealStage?.name,
       id: 'dealStage.name',
       isSortable: true,
       header: 'Deal Stage',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.dealPipeline?.name,
       id: 'dealPipeline.name',
       isSortable: true,
       header: 'Deal Pipeline',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?._id,

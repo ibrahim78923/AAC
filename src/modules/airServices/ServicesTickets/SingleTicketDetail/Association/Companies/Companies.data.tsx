@@ -1,15 +1,11 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
+import { UserInfo } from '@/components/UserInfo';
 
 export const optionsIndustry = [
   'Aerospace & Defense',
@@ -103,7 +99,7 @@ export const defaultValues = {
   linkedInUrl: '',
 };
 
-export const getAssociateCompanyColumns: any = ({ theme, setModalId }: any) => {
+export const getAssociateCompanyColumns: any = ({ setModalId }: any) => {
   return [
     {
       accessorFn: (row: any) => row,
@@ -111,22 +107,12 @@ export const getAssociateCompanyColumns: any = ({ theme, setModalId }: any) => {
       header: 'Companies Name',
       isSortable: true,
       cell: (info: any) => (
-        <Box display={'flex'} alignItems={'center'} gap={1}>
-          <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-            src={generateImage(info?.getValue()?.profilePicture?.url)}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(info?.getValue()?.name)}
-            </Typography>
-          </Avatar>
-          <Box display={'flex'} flexDirection={'column'}>
-            <Typography variant="body2">
-              {fullName(info?.getValue()?.name)}
-            </Typography>
-            {truncateText(info?.getValue()?.domain)}
-          </Box>
-        </Box>
+        <UserInfo
+          nameInitial={fullNameInitial(info?.getValue()?.name)}
+          name={fullName(info?.getValue()?.name)}
+          avatarSrc={info?.getValue()?.profilePicture?.url}
+          email={info?.getValue()?.domain}
+        />
       ),
     },
     {
@@ -142,8 +128,11 @@ export const getAssociateCompanyColumns: any = ({ theme, setModalId }: any) => {
       isSortable: true,
       header: 'Company Owner',
       cell: (info: any) => (
-        <Typography variant="body2">
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {fullName(
+            info?.getValue()?.firstName?.toLowerCase(),
+            info?.getValue()?.lastName?.toLowerCase(),
+          )}
         </Typography>
       ),
     },

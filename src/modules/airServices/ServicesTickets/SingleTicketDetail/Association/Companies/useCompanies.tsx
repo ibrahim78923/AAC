@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -20,7 +19,6 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export default function useCompanies({ setIsDrawerOpen }: any) {
   const router = useRouter();
-  const theme: any = useTheme();
 
   const [selected, setSelected] = useState([]);
   const [modalId, setModalId] = useState({
@@ -62,7 +60,6 @@ export default function useCompanies({ setIsDrawerOpen }: any) {
     });
 
   const associateCompanyColumns = getAssociateCompanyColumns({
-    theme,
     setModalId,
   });
 

@@ -1,9 +1,9 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { UserInfo } from '@/components/UserInfo';
 
 export const useAddContactsColumns = ({
-  theme,
   setSelected,
   selected,
   associatesContactsList,
@@ -53,7 +53,11 @@ export const useAddContactsColumns = ({
   {
     accessorFn: (row: any) => row?._id,
     id: 'contactID',
-    cell: (info: any) => `#PBR - ${info?.getValue()?.slice(-3)}`,
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        #PBR - {info?.getValue()?.slice(-3)}
+      </Typography>
+    ),
     header: 'Contact ID',
     isSortable: true,
   },
@@ -63,25 +67,15 @@ export const useAddContactsColumns = ({
     header: 'Owner',
     isSortable: true,
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-          src={generateImage(info?.getValue()?.profilePicture?.url)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        <Box display={'flex'} flexDirection={'column'}>
-          <Typography variant="body2">
-            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-          </Typography>
-          {info?.getValue()?.email}
-        </Box>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(
+          info?.getValue()?.firstName,
+          info?.getValue()?.lastName,
+        )}
+        name={fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        avatarSrc={info?.getValue()?.profilePicture?.url}
+        email={info?.getValue()?.email}
+      />
     ),
   },
   {
@@ -89,6 +83,10 @@ export const useAddContactsColumns = ({
     id: 'jobTitle',
     isSortable: true,
     header: 'Job Title',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
 ];

@@ -1,6 +1,6 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
+import { TruncateText } from '@/components/TruncateText';
 
 export const useAddDealsColumns = ({
   setSelected,
@@ -50,7 +50,7 @@ export const useAddDealsColumns = ({
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
     header: 'Deal Name',
     isSortable: true,
   },
@@ -59,13 +59,17 @@ export const useAddDealsColumns = ({
     id: 'dealOwner.name',
     header: 'Deal Owner',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.dealPipeline,
     id: 'dealPipeline',
     isSortable: true,
     header: 'Deal Pipeline',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant={'body2'} textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
 ];

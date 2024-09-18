@@ -1,13 +1,15 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { ASSET_IMPACT } from '@/constants/strings';
-import { fullName, truncateText } from '@/utils/avatarUtils';
-import { Box, Chip, alpha } from '@mui/material';
+import { fullName } from '@/utils/avatarUtils';
+import { Box, Chip, Typography, alpha } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
+import { splitCapitalizedWords } from '@/utils/api';
 
 export const TYPE_VALUES = {
   ASSETS: 'assets',
@@ -45,7 +47,7 @@ export const getAssociateAssetsColumns: any = ({
       id: 'displayName',
       header: 'Asset',
       isSortable: true,
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => <TruncateText text={info.getValue()} />,
     },
     {
       accessorFn: (row: any) => row?.assetLifeExpiry,
@@ -53,15 +55,23 @@ export const getAssociateAssetsColumns: any = ({
       header: 'Due Date',
       isSortable: true,
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY),
+        info?.getValue()
+          ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY)
+          : '---',
     },
     {
       accessorFn: (row: any) => row?.usedBy,
       id: 'usedBy',
       isSortable: true,
       header: 'Used By',
-      cell: (info: any) =>
-        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {fullName(
+            info?.getValue()?.firstName?.toLowerCase(),
+            info?.getValue()?.lastName?.toLowerCase(),
+          )}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.impact,
@@ -80,10 +90,11 @@ export const getAssociateAssetsColumns: any = ({
                 }}
               />
             }
-            label={info?.getValue()}
+            label={info?.getValue()?.toLowerCase()}
             sx={{
               color: theme?.palette?.common?.black,
               backgroundColor: styleFunction?.[info?.getValue()]?.bgColor,
+              textTransform: 'capitalize',
             }}
           />
         );
@@ -137,21 +148,25 @@ export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
       accessorFn: (row: any) => row?.orderNumber,
       id: 'orderNumber',
       header: 'Order Number',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase()}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.orderName,
       id: 'orderName',
       header: 'Order Name',
       isSortable: true,
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => <TruncateText text={info.getValue()} />,
     },
     {
       accessorFn: (row: any) => row?.vendor?.name,
       id: 'vendor.name',
       isSortable: true,
       header: 'Vendor',
-      cell: (info: any) => truncateText(info?.getValue()),
+      cell: (info: any) => <TruncateText text={info.getValue()} />,
     },
     {
       accessorFn: (row: any) => row?.expectedDeliveryDate,
@@ -159,14 +174,20 @@ export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
       header: 'Expected Delivery Date',
       isSortable: true,
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY),
+        info?.getValue()
+          ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY)
+          : '---',
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       header: 'Status',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Typography variant={'body2'} whiteSpace={'nowrap'}>
+          {splitCapitalizedWords(info?.getValue())}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?._id,

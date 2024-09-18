@@ -1,11 +1,12 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
 import { VALIDATION_CONSTANT } from '@/constants';
+import { UserInfo } from '@/components/UserInfo';
 
 export const validationSchema = Yup?.object()?.shape({
   email: Yup?.string()
@@ -69,16 +70,17 @@ export const TYPE_VALUES = {
   EXISTING_CONTACT: 'existingContact',
 };
 
-export const getAssociateContactsColumns: any = ({
-  theme,
-  setModalId,
-}: any) => {
+export const getAssociateContactsColumns: any = ({ setModalId }: any) => {
   return [
     {
       accessorFn: (row: any) => row?._id,
       id: '_id',
       header: 'Contact ID',
-      cell: (info: any) => `#PBR - ${info?.getValue()?.slice(-3)}`,
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          #PBR - {info?.getValue()?.slice(-3)}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row,
@@ -86,28 +88,18 @@ export const getAssociateContactsColumns: any = ({
       header: 'Name',
       isSortable: true,
       cell: (info: any) => (
-        <Box display={'flex'} alignItems={'center'} gap={1}>
-          <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-            src={generateImage(info?.getValue()?.profilePicture?.url)}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(
-                info?.getValue()?.firstName,
-                info?.getValue()?.lastName,
-              )}
-            </Typography>
-          </Avatar>
-          <Box display={'flex'} flexDirection={'column'}>
-            <Typography variant="body2">
-              {fullName(
-                info?.getValue()?.firstName,
-                info?.getValue()?.lastName,
-              )}
-            </Typography>
-            {info?.getValue()?.email}
-          </Box>
-        </Box>
+        <UserInfo
+          nameInitial={fullNameInitial(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          name={fullName(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          avatarSrc={info?.getValue()?.profilePicture?.url}
+          email={info?.getValue()?.email}
+        />
       ),
     },
     {
@@ -122,7 +114,11 @@ export const getAssociateContactsColumns: any = ({
       id: 'jobTitle',
       isSortable: true,
       header: 'Job Title',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?._id,

@@ -1,6 +1,6 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
+import { TruncateText } from '@/components/TruncateText';
 
 export const getAddAssetsColumns = ({
   setSelected,
@@ -50,17 +50,15 @@ export const getAddAssetsColumns = ({
   {
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
-    cell: (info: any) => truncateText(info?.getValue()),
     header: 'Name',
     isSortable: true,
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.assetTypeDetails?.name,
     id: 'assetTypeDetails.name',
     isSortable: true,
     header: 'Asset Type',
-    cell: (info: any) => (
-      <Typography variant="body4">{truncateText(info?.getValue())}</Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
 ];

@@ -16,12 +16,10 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useTheme } from '@mui/material';
 import { isoDateString } from '@/utils/dateTime';
 
 export default function useContacts({ setIsDrawerOpen }: any) {
   const router = useRouter();
-  const theme: any = useTheme();
 
   const [selected, setSelected] = useState([]);
   const [modalId, setModalId] = useState({
@@ -63,7 +61,6 @@ export default function useContacts({ setIsDrawerOpen }: any) {
     });
 
   const associateContactsColumns = getAssociateContactsColumns({
-    theme,
     setModalId,
   });
 
