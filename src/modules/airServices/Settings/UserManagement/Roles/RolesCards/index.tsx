@@ -12,6 +12,8 @@ import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
 import { AlertModals } from '@/components/AlertModals';
 import GroupIcon from '@mui/icons-material/Group';
+import { truncateText } from '@/utils/avatarUtils';
+import { capitalizeFirstLetters } from '@/utils';
 
 const RolesCards = ({
   data,
@@ -100,7 +102,9 @@ const RolesCards = ({
                   alignItems={'center'}
                   mb={1}
                 >
-                  <Typography variant={'h5'}>{item?.name}</Typography>
+                  <Typography variant={'h5'}>
+                    {truncateText(capitalizeFirstLetters(item?.name))}
+                  </Typography>
 
                   <MoreHorizIcon
                     onClick={(event: any) => {

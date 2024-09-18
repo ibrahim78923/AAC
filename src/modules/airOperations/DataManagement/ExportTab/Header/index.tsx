@@ -32,7 +32,7 @@ export const Header = (props: HeaderI) => {
         ]}
       >
         <Box mb={1}>
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={setSearch} size="small" />
         </Box>
       </PermissionsGuard>
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
@@ -60,6 +60,7 @@ export const Header = (props: HeaderI) => {
             startIcon={<FilterSharedIcon />}
             color="secondary"
             onClick={() => setIsOpenFilterDrawer(true)}
+            className="small"
           >
             Filter
           </Button>

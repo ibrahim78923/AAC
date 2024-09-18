@@ -1,4 +1,5 @@
 import { ARRAY_INDEX, PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
+import { capitalizeFirstLetters } from '@/utils';
 import { truncateText } from '@/utils/avatarUtils';
 
 export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
@@ -117,19 +118,19 @@ export const purchaseOrderReportsTableColumns = [
     accessorFn: (row: any) => row?.orderName,
     id: 'orderName',
     header: 'Order Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
   },
   {
     accessorFn: (row: any) => row?.vendorDetails?.name,
     id: 'vendor',
     header: 'Vendor',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
     header: 'Status',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
   },
   {
     accessorFn: (row: any) => row?.purchaseDetails[ARRAY_INDEX?.ZERO]?.total,

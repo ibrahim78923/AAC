@@ -1,6 +1,6 @@
 import {
   RHFAutocomplete,
-  RHFFileImport,
+  RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
@@ -154,8 +154,10 @@ export const importDataField = (productOptions: any) => [
     componentProps: {
       name: 'importDeals',
       label: 'Import Deals',
+      fileType: 'XL and CSV (max 2.44 MB)',
+      accept: { 'text/csv': ['.csv'] },
     },
-    component: RHFFileImport,
+    component: RHFDropZone,
     md: 12,
   },
 ];

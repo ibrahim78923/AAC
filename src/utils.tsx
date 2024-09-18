@@ -43,7 +43,7 @@ export const convertIdToShortNumber = (mongodbId: string): any => {
 export const capitalizeFirstLetters = (str: string): string => {
   return str
     ?.split(' ')
-    ?.map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    ?.map((word: string) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
     ?.join(' ');
 };
 

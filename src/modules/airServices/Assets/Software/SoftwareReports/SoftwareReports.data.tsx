@@ -1,4 +1,5 @@
 import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
+import { capitalizeFirstLetters } from '@/utils';
 import { fullName, truncateText } from '@/utils/avatarUtils';
 
 export const SOFTWARE_STATUS_COUNT = {
@@ -88,14 +89,14 @@ export const softwareReportsTableColumnsDynamic = () => [
     id: 'name',
     isSortable: false,
     header: 'Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => capitalizeFirstLetters(info?.getValue() ?? '---'),
   },
   {
     accessorFn: (row: any) => row?.softwareManagedByDetails,
@@ -103,9 +104,11 @@ export const softwareReportsTableColumnsDynamic = () => [
     isSortable: false,
     header: 'Managed By',
     cell: (info: any) =>
-      fullName(
-        info?.row?.original?.softwareManagedByDetails?.firstName,
-        info?.row?.original?.softwareManagedByDetails?.lastName,
+      capitalizeFirstLetters(
+        fullName(
+          info?.row?.original?.softwareManagedByDetails?.firstName,
+          info?.row?.original?.softwareManagedByDetails?.lastName,
+        ),
       ),
   },
   {
@@ -113,6 +116,7 @@ export const softwareReportsTableColumnsDynamic = () => [
     id: 'category',
     isSortable: false,
     header: 'Category',
-    cell: (info: any) => truncateText(info?.getValue()?.category),
+    cell: (info: any) =>
+      truncateText(capitalizeFirstLetters(info?.getValue()?.category)),
   },
 ];

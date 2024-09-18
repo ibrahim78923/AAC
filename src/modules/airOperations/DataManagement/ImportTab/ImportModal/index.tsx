@@ -78,6 +78,7 @@ const ImportModal = () => {
         startIcon={<ImportIcon />}
         color="secondary"
         onClick={() => setIsDrawerOpen(true)}
+        className="small"
       >
         Import
       </Button>
@@ -150,6 +151,7 @@ const ImportModal = () => {
                       variant="outlined"
                       color="secondary"
                       onClick={resetImportModalForm}
+                      className="small"
                       disabled={
                         lazyGetSignedUrlForImportStatus?.isLoading ||
                         uploadFileTos3UsingSignedUrlStatus?.isLoading ||
@@ -163,6 +165,7 @@ const ImportModal = () => {
                     </Button>
                     <LoadingButton
                       variant="contained"
+                      className="small"
                       loading={
                         uploadFileTos3UsingSignedUrlStatus?.isLoading ||
                         lazyGetSignedUrlForImportStatus?.isLoading ||

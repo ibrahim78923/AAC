@@ -42,7 +42,11 @@ export const Roles = () => {
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.SEARCH_ROLES,
           ]}
         >
-          <Search label="Search Here" setSearchBy={setSearchValue} />
+          <Search
+            label="Search Here"
+            setSearchBy={setSearchValue}
+            size="small"
+          />
         </PermissionsGuard>
       </Box>
 

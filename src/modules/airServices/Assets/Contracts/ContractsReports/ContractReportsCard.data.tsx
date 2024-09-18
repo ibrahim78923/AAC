@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
+import { capitalizeFirstLetters } from '@/utils';
 import { truncateText } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 
@@ -69,21 +70,21 @@ export const contractReportsTabelCoulmns = [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
     header: 'Contract Name',
     isSortable: false,
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
     header: 'Status',
     isSortable: false,
   },
   {
     accessorFn: (row: any) => row?.contractTypeDetails?.name,
     id: 'type',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
     header: 'Type',
     isSortable: false,
   },

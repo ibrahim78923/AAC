@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
 import { fullName, truncateText } from '@/utils/avatarUtils';
+import { capitalizeFirstLetters } from '@/utils';
 
 export const INVENTORY_REPORT_STATUS_COUNT = {
   [INVENTORY_REPORT_STATUS?.ALL]: 'allAssest',
@@ -88,7 +89,7 @@ export const inventoryColumns = [
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
     header: 'Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
@@ -96,14 +97,20 @@ export const inventoryColumns = [
     isSortable: true,
     header: 'Location',
     cell: (info: any) =>
-      truncateText(info?.row?.original?.locationDetails?.locationName),
+      truncateText(
+        capitalizeFirstLetters(
+          info?.row?.original?.locationDetails?.locationName,
+        ),
+      ),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
     id: 'usedBy',
     header: 'Used By',
     cell: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      capitalizeFirstLetters(
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      ),
   },
   {
     accessorFn: (row: any) => row?.assetLifeExpiry,

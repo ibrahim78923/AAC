@@ -1,7 +1,6 @@
-import { DATE_TIME_FORMAT } from '@/constants';
 import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { generateImage } from '@/utils/avatarUtils';
+import { uiDateFormat } from '@/utils/dateTime';
 
 export const exportTabColumns = [
   {
@@ -17,8 +16,12 @@ export const exportTabColumns = [
           alt={info?.row?.original?.userFullName}
         />
         <Box display={'flex'} flexDirection={'column'}>
-          <Typography variant="body2" color={'grey.800'}>
-            {info?.row?.original?.userFullName ?? '---'}
+          <Typography
+            variant="body2"
+            color={'grey.800'}
+            textTransform="capitalize"
+          >
+            {info?.row?.original?.userFullName?.toLowerCase() ?? '---'}
           </Typography>
           <Typography variant="body3" color={'grey.900'}>
             {info?.row?.original?.email ?? '---'}
@@ -36,9 +39,13 @@ export const exportTabColumns = [
       const url = new URL(info?.row?.original?.fileName);
       const fileName = url?.pathname?.replace(/^\//, '');
       return (
-        <Typography variant="body2" color={'primary'}>
+        <Typography
+          variant="body2"
+          color={'primary'}
+          textTransform="capitalize"
+        >
           <a href={url?.href} download={fileName}>
-            {fileName ?? '---'}
+            {fileName?.toLowerCase() ?? '---'}
           </a>
         </Typography>
       );
@@ -49,14 +56,22 @@ export const exportTabColumns = [
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.noOfRecords,
@@ -70,7 +85,6 @@ export const exportTabColumns = [
     id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY) ?? '---',
+    cell: (info: any) => uiDateFormat(info?.getValue() ?? '---'),
   },
 ];

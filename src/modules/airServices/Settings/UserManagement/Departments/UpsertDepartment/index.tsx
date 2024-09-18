@@ -118,6 +118,7 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
           <Button
             variant="outlined"
             color="inherit"
+            className="small"
             onClick={handleClose}
             disabled={
               postDepartmentStatus?.isLoading ||
@@ -130,6 +131,7 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
           <LoadingButton
             variant="contained"
             type="submit"
+            className="small"
             loading={
               postDepartmentStatus?.isLoading ||
               updateDepartmentStatus?.isLoading ||

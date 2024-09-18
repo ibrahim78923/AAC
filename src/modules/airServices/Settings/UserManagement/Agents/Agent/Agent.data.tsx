@@ -2,6 +2,7 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { capitalizeFirstLetters } from '@/utils';
 import { errorSnackbar } from '@/utils/api';
 import {
   fullName,
@@ -138,7 +139,12 @@ export const agentsListsColumnsFunction = (
             )}
           </Typography>
         </Avatar>
-        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+        <Typography
+          variant="body2"
+          fontWeight={600}
+          color="slateBlue.main"
+          textTransform={'capitalize'}
+        >
           {fullName(
             info?.row?.original?.firstName,
             info?.row?.original?.lastName,
@@ -152,7 +158,7 @@ export const agentsListsColumnsFunction = (
     id: 'email',
     header: 'Email',
     isSortable: true,
-    Cell: (info: any) => <>{info?.getValue()}</>,
+    Cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: { departmentData: any }) => row?.departmentData?.name,
@@ -161,7 +167,7 @@ export const agentsListsColumnsFunction = (
     header: 'Department',
     cell: (info: any) => (
       <Typography variant="body2" textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
+        {info?.getValue() ?? '---'}
       </Typography>
     ),
   },
@@ -170,6 +176,7 @@ export const agentsListsColumnsFunction = (
     id: 'permissionsList',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => truncateText(info?.getValue()?.name),
+    cell: (info: any) =>
+      truncateText(capitalizeFirstLetters(info?.getValue()?.name)),
   },
 ];

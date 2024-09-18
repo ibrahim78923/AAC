@@ -94,6 +94,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
               onClick={() => handleClose?.()}
               variant="outlined"
               color="secondary"
+              className="small"
               disabled={
                 patchAgentStatus?.isLoading ||
                 postAgentStatus?.isLoading ||
@@ -106,6 +107,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
             <LoadingButton
               type="submit"
               variant="contained"
+              className="small"
               disabled={
                 patchAgentStatus?.isLoading ||
                 postAgentStatus?.isLoading ||
