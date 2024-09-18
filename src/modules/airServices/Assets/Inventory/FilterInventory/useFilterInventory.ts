@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import usePath from '@/hooks/usePath';
 import {
   useLazyGetAssetTypeQuery,
-  useLazyGetDepartmentDropdownQuery,
+  useLazyGetAssetsInventoryDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetUsersDropdownQuery,
 } from '@/services/airServices/assets/inventory';
@@ -67,7 +67,7 @@ export const useFilterInventory = (props: FilterInventoryI) => {
 
   const apiQueryAssetType = useLazyGetAssetTypeQuery();
   const apiQueryUsers = useLazyGetUsersDropdownQuery();
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryDepartment = useLazyGetAssetsInventoryDepartmentDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
   const apiQueryUsersCreatedBy = useLazyGetUsersDropdownQuery();
 

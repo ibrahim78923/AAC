@@ -36,10 +36,10 @@ export const useDeleteInventory = (props: DeleteInventoryI) => {
 
     try {
       await deleteInventoryTrigger(deleteInventoryParameter)?.unwrap();
-      successSnackbar('Record delete successfully');
+      successSnackbar('Record(s) Deleted Successfully');
       setSelectedInventoryLists?.([]);
       closeInventoryDeleteModal?.();
-      const newPage =
+      const newPage: number | any =
         selectedInventoryLists?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
       await getInventoryListData?.(newPage);

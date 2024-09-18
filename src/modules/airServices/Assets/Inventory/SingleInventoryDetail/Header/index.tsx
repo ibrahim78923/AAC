@@ -6,10 +6,13 @@ import { AIR_SERVICES } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { HeaderI } from './HeaderI';
+
 export const Header: React.FC<HeaderI> = (props) => {
   const { dropdownOptions, inventoryData, isFetching, isLoading } = props;
   const router = useRouter();
+
   if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <>
       <Box
@@ -32,7 +35,7 @@ export const Header: React.FC<HeaderI> = (props) => {
           >
             <ViewDetailBackArrowIcon />
           </Box>
-          <Typography variant="h5">{inventoryData?.displayName}</Typography>
+          <Typography variant={'h5'}>{inventoryData?.displayName}</Typography>
         </Box>
         <Box>
           <PermissionsGuard

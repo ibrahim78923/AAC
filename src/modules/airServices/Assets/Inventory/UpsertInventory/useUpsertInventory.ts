@@ -12,7 +12,7 @@ import { useTheme } from '@mui/material';
 import {
   useGetAddToInventoryByIdQuery,
   useLazyGetAssetTypeInventoryDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
+  useLazyGetAssetsInventoryDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetUsersDropdownQuery,
   usePatchAddToInventoryMutation,
@@ -205,7 +205,7 @@ export const useUpsertInventory = () => {
       inventoryDetailsData.append('description', data?.description);
       inventoryDetailsData.append(
         'assetLifeExpiry',
-        dayjs(data?.assetLifeExpiry)?.format(DATE_TIME_FORMAT?.YYMMDD),
+        isoDateString(data?.assetLifeExpiry),
       );
       !!data?.location?._id &&
         inventoryDetailsData.append('locationId', data?.location?._id);
@@ -216,7 +216,7 @@ export const useUpsertInventory = () => {
       !!data?.assignedOn &&
         inventoryDetailsData.append(
           'assignedOn',
-          dayjs(data?.assignedOn)?.format(DATE_TIME_FORMAT?.YYMMDD),
+          isoDateString(data?.assignedOn),
         );
       data?.fileUrl !== null &&
         inventoryDetailsData?.append('attachment', data?.fileUrl);
@@ -267,7 +267,8 @@ export const useUpsertInventory = () => {
   const { _id: productId } = auth?.product;
 
   const apiQueryAssetType = useLazyGetAssetTypeInventoryDropdownQuery();
-  const apiQueryDepartmentType = useLazyGetDepartmentDropdownQuery();
+  const apiQueryDepartmentType =
+    useLazyGetAssetsInventoryDepartmentDropdownQuery();
   const apiQueryLocationType = useLazyGetLocationsDropdownQuery();
   const apiQueryUsedByType = useLazyGetUsersDropdownQuery();
 

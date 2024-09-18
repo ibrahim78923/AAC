@@ -1,5 +1,5 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants';
 import {
   ASSET_IMPACT,
   ASSET_IMPACT_FILTER,
@@ -7,8 +7,8 @@ import {
   TIME_PERIODS,
 } from '@/constants/strings';
 import { fullName, truncateText } from '@/utils/avatarUtils';
+import { uiDateFormat } from '@/utils/dateTime';
 import { Checkbox, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const assetTypeOptions = [
   ASSET_TYPE?.SERVICES,
@@ -199,6 +199,7 @@ export const inventoryListsColumnsFunction: any = (
         color={'custom.bright'}
         textTransform={'capitalize'}
         sx={{ cursor: 'pointer' }}
+        title={info?.getValue()}
       >
         {truncateText(info?.getValue())}
       </Typography>
@@ -210,7 +211,11 @@ export const inventoryListsColumnsFunction: any = (
     header: 'Asset Type',
     isSortable: true,
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
+      <Typography
+        variant={'body2'}
+        textTransform={'capitalize'}
+        title={info?.getValue()?.name}
+      >
         {truncateText(info?.getValue()?.name)}
       </Typography>
     ),
@@ -221,7 +226,11 @@ export const inventoryListsColumnsFunction: any = (
     isSortable: true,
     header: 'Location',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
+      <Typography
+        variant={'body2'}
+        textTransform={'capitalize'}
+        title={info?.getValue()?.locationName}
+      >
         {truncateText(info?.getValue()?.locationName)}
       </Typography>
     ),
@@ -243,8 +252,12 @@ export const inventoryListsColumnsFunction: any = (
     isSortable: true,
     header: 'Department',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
-        {truncateText(info?.getValue()?.name)}
+      <Typography
+        variant={'body2'}
+        textTransform={'capitalize'}
+        title={info?.getValue()?.name}
+      >
+        {truncateText(info?.getValue()?.name?.toLowerCase())}
       </Typography>
     ),
   },
@@ -264,6 +277,6 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetLifeExpireOn',
     isSortable: true,
     header: 'Expiry date',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

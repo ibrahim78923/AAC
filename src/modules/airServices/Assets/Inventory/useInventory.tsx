@@ -25,6 +25,7 @@ import { getActiveAccountSession } from '@/utils';
 export const useInventory = () => {
   const { makePath } = usePath();
   const theme = useTheme();
+
   const [hasInventoryAction, setHasInventoryAction] = useState(false);
   const [selectedInventoryLists, setSelectedInventoryLists] = useState<
     string[]
@@ -36,7 +37,9 @@ export const useInventory = () => {
   const [page, setPage] = useState<number>(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+
   const router = useRouter();
+
   useEffect(() => {
     router?.push(
       makePath({
@@ -157,6 +160,7 @@ export const useInventory = () => {
       />
     ),
   };
+
   const setInventoryAction = (inventoryListsActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
@@ -168,6 +172,7 @@ export const useInventory = () => {
       setHasInventoryAction(true);
     }, 100);
   };
+
   return {
     handleAddInventory,
     router,

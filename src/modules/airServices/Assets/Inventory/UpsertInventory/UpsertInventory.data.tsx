@@ -107,6 +107,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
       label: 'Impact',
       placeholder: 'Choose Impact',
       options: assetsImpactOptions,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     component: RHFAutocomplete,
     md: 6,

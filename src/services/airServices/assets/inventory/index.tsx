@@ -61,7 +61,7 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG_TWO],
     }),
-    getDepartmentDropdown: builder?.query({
+    getAssetsInventoryDepartmentDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
         method: 'GET',
@@ -136,7 +136,7 @@ export const {
   useLazyGetExportInventoryQuery,
   useLazyGetAssetTypeQuery,
   useLazyGetUsersDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
+  useLazyGetAssetsInventoryDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   usePatchAddToInventoryMutation,
   useGetAddToInventoryByIdQuery,
