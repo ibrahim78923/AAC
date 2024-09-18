@@ -1,9 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { ServicesReportsRestore } from '@/modules/airOperations/Reports/ServicesReports/ServicesReportsRestore';
+import { RestoreReportsLists } from '@/modules/airOperations/Reports/RestoreReportsLists';
 
 const ServicesReportsRestorePage = () => {
-  return <ServicesReportsRestore />;
+  return <RestoreReportsLists />;
 };
 
 export default ServicesReportsRestorePage;

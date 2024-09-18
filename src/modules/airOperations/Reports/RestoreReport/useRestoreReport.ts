@@ -1,25 +1,45 @@
 import { PAGINATION } from '@/config';
 import { useRestoreDeletedReportMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
+import { useGetRestoreReportLists } from '../ReportHooks/useGetRestoreReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedRestoreReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/restore-reports/slice';
 
-export const useRestoreReport = (props: RestoreReportsListsComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    selectedReportLists,
-    setSelectedReportLists,
-    setPage,
-    totalRecords,
-    page,
-    getRestoreReportsList,
-  } = props;
+export const useRestoreReport = () => {
   const [restoreDeletedReportTrigger, restoreDeletedReportStatus] =
     useRestoreDeletedReportMutation();
+  const { getRestoreReportsList, page } = useGetRestoreReportLists();
 
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.isPortalOpen,
+  );
+
+  const selectedRestoreReportsList = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.selectedRestoreReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedRestoreReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getRestoreReportsList?.(newPage);
+  };
   const restoreReport = async () => {
     const apiQueryParams = new URLSearchParams();
 
-    selectedReportLists?.forEach(
+    selectedRestoreReportsList?.forEach(
       (reportId: { _id: string }) =>
         apiQueryParams?.append('ids', reportId?._id),
     );
@@ -32,24 +52,20 @@ export const useRestoreReport = (props: RestoreReportsListsComponentPropsI) => {
       await restoreDeletedReportTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report restore successfully');
       closeModal?.();
-      const newPage =
-        selectedReportLists?.length === totalRecords
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getRestoreReportsList?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
   const closeModal = () => {
-    setSelectedReportLists?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedRestoreReportsList());
+    dispatch(setIsPortalClose());
   };
 
   return {
     restoreReport,
     closeModal,
     restoreDeletedReportStatus,
+    isPortalOpen,
   };
 };

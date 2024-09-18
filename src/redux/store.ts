@@ -19,6 +19,7 @@ import { servicesKnowledgeBaseSlice } from './slices/airServices';
 import servicesTicketsSlice from './slices/airServices/tickets/slice';
 import operationsReportsListsSlice from './slices/airOperations/reports/slice';
 import servicesRelatedTicketsSlice from './slices/airServices/related-tickets/slice';
+import operationsRestoreReportsListsSlice from './slices/airOperations/restore-reports/slice';
 
 const store = configureStore({
   reducer: {
@@ -41,6 +42,7 @@ const store = configureStore({
     servicesTickets: servicesTicketsSlice,
     operationsReportsLists: operationsReportsListsSlice,
     servicesRelatedTickets: servicesRelatedTicketsSlice,
+    operationsRestoreReportsLists: operationsRestoreReportsListsSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

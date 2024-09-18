@@ -1,119 +1,31 @@
-import { PAGINATION } from '@/config';
-import { useEffect, useState } from 'react';
-import { buildQueryParams } from '@/utils/api';
-import {
-  actionsForRestoreReportListsDynamic,
-  restoreReportColumnsDynamic,
-} from './RestoreReportsLists.data';
-import { RestoreReport } from '../RestoreReport';
-import { RestoreReportsFilter } from '../RestoreReportsFilter';
-import { DeleteReportPermanently } from '../DeleteReportPermanently';
-import {
-  RestoreReportListsIsPortalOpenI,
-  RestoreReportsListsComponentPropsI,
-  RestoreReportsListsPropsI,
-} from './RestoreReportsLists.interface';
-import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { useRouter } from 'next/router';
+import { REPORTS_BASE_MODULE } from './RestoreReportsLists.data';
+import { useAppDispatch } from '@/redux/store';
+import { useEffect } from 'react';
+import { resetComponentState } from '@/redux/slices/airOperations/restore-reports/slice';
 
-export const useRestoreReportsLists = (props: RestoreReportsListsPropsI) => {
-  const { filter, apiQuery, permissions, baseModule } = props;
-  const [search, setSearch] = useState<string>('');
-  const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
-  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
-  const [isPortalOpen, setIsPortalOpen] =
-    useState<RestoreReportListsIsPortalOpenI>({});
-  const [reportFilters, setReportFilter] = useState<any>({});
+export const useRestoreReportsLists = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const id = router?.query?.id;
 
-  const [
-    lazyGetRestoreReportsListTrigger,
-    lazyGetRestoreReportsListStatus,
-  ]: any = apiQuery;
-
-  const getRestoreReportsList = async (
-    currentPage = page,
-    filterReports = reportFilters,
-  ) => {
-    const additionalParams = [
-      ['page', currentPage + ''],
-      ['limit', pageLimit + ''],
-      ['search', search],
-      ...(filter ? [['filter', filter]] : []),
-      ...(baseModule ? [['baseModule', baseModule]] : []),
-    ];
-    const getRestoreReportParam: URLSearchParams = buildQueryParams(
-      additionalParams,
-      filterReports,
-    );
-
-    const apiDataParameter = {
-      queryParams: getRestoreReportParam,
-    };
-
-    try {
-      await lazyGetRestoreReportsListTrigger?.(apiDataParameter)?.unwrap();
-      setSelectedReportLists([]);
-    } catch (error: any) {
-      setSelectedReportLists([]);
-    }
+  const moveBack = () => {
+    router?.push({
+      pathname: REPORTS_BASE_MODULE?.[router?.pathname],
+      query: {
+        id,
+      },
+    });
   };
 
   useEffect(() => {
-    getRestoreReportsList?.();
-  }, [page, pageLimit, search, reportFilters]);
-
-  const restoreReportColumns = restoreReportColumnsDynamic?.(
-    selectedReportLists,
-    setSelectedReportLists,
-    lazyGetRestoreReportsListStatus?.data?.data?.genericReports,
-  );
-
-  const portalComponentProps: RestoreReportsListsComponentPropsI = {
-    isPortalOpen: isPortalOpen,
-    setIsPortalOpen: setIsPortalOpen,
-    setSelectedReportLists: setSelectedReportLists,
-    selectedReportLists: selectedReportLists,
-    reportFilters: reportFilters,
-    setReportFilter: setReportFilter,
-    getRestoreReportsList: getRestoreReportsList,
-    page,
-    setPage,
-    totalRecords:
-      lazyGetRestoreReportsListStatus?.data?.data?.genericReports?.length,
-  };
-
-  const renderPortalComponent = () => {
-    if (isPortalOpen?.isRestore) {
-      return <RestoreReport {...portalComponentProps} />;
-    }
-
-    if (isPortalOpen?.isDelete) {
-      return <DeleteReportPermanently {...portalComponentProps} />;
-    }
-
-    if (isPortalOpen?.isFilter) {
-      return <RestoreReportsFilter {...portalComponentProps} />;
-    }
-
-    return <></>;
-  };
-
-  const actionButtonDropdown: SingleDropdownOptionI[] =
-    actionsForRestoreReportListsDynamic?.(setIsPortalOpen, permissions);
+    return () => {
+      dispatch(resetComponentState());
+    };
+  }, []);
 
   return {
-    restoreReportColumns,
-    setSearch,
-    setPageLimit,
-    setPage,
-    lazyGetRestoreReportsListStatus,
-    setIsPortalOpen,
-    isPortalOpen,
-    renderPortalComponent,
-    actionButtonDropdown,
-    setSelectedReportLists,
-    selectedReportLists,
-    page,
-    getRestoreReportsList,
+    moveBack,
+    router,
   };
 };

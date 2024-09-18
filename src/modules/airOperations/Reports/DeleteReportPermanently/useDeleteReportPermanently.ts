@@ -1,30 +1,49 @@
 import { PAGINATION } from '@/config';
 import { useDeleteRestoreReportPermanentlyMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
+import { useGetRestoreReportLists } from '../ReportHooks/useGetRestoreReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedRestoreReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/restore-reports/slice';
 
-export const useDeleteReportPermanently = (
-  props: RestoreReportsListsComponentPropsI,
-) => {
-  const {
-    setIsPortalOpen,
-    selectedReportLists,
-    setSelectedReportLists,
-    setPage,
-    totalRecords,
-    page,
-    getRestoreReportsList,
-  } = props;
-
+export const useDeleteReportPermanently = () => {
   const [
     deleteRestoreReportPermanentlyTrigger,
     deleteRestoreReportPermanentlyStatus,
   ] = useDeleteRestoreReportPermanentlyMutation();
 
+  const { getRestoreReportsList, page } = useGetRestoreReportLists();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.isPortalOpen,
+  );
+
+  const selectedRestoreReportsList = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.selectedRestoreReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedRestoreReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getRestoreReportsList?.(newPage);
+  };
+
   const deleteReport = async () => {
     const deleteParams = new URLSearchParams();
 
-    selectedReportLists?.forEach(
+    selectedRestoreReportsList?.forEach(
       (reportId: { _id: string }) => deleteParams?.append('ids', reportId?._id),
     );
 
@@ -36,25 +55,21 @@ export const useDeleteReportPermanently = (
       await deleteRestoreReportPermanentlyTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Record deleted successfully');
       closeModal?.();
-      const newPage =
-        selectedReportLists?.length === totalRecords
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getRestoreReportsList?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeModal = () => {
-    setSelectedReportLists?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedRestoreReportsList());
+    dispatch(setIsPortalClose());
   };
 
   return {
     deleteReport,
     closeModal,
     deleteRestoreReportPermanentlyStatus,
+    isPortalOpen,
   };
 };

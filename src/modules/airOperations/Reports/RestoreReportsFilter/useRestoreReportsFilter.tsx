@@ -5,17 +5,30 @@ import {
   restoreReportFilterFormFieldsDynamic,
   restoreReportFiltersDefaultValues,
 } from './RestoreReportsFilter.data';
-import { RestoreReportsListsComponentPropsI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 import { RestoreReportsFilterFormFieldsI } from './RestoreReportsFilter.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptyFilterRestoreReportsList,
+  setFilterRestoreReportsList,
+  setIsPortalClose,
+} from '@/redux/slices/airOperations/restore-reports/slice';
+import { PAGINATION } from '@/config';
 
-export const useRestoreReportsFilter = (
-  props: RestoreReportsListsComponentPropsI,
-) => {
-  const { setIsPortalOpen, reportFilters, setReportFilter } = props;
+export const useRestoreReportsFilter = () => {
+  const dispatch = useAppDispatch();
 
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.isPortalOpen,
+  );
+
+  const filterRestoreReportsList = useAppSelector(
+    (state) => state?.operationsRestoreReportsLists?.filterRestoreReportsList,
+  );
   const methods: UseFormReturn<RestoreReportsFilterFormFieldsI> = useForm({
-    defaultValues: restoreReportFiltersDefaultValues?.(reportFilters),
+    defaultValues: restoreReportFiltersDefaultValues?.(
+      filterRestoreReportsList,
+    ),
   });
 
   const { handleSubmit, reset, control } = methods;
@@ -27,18 +40,23 @@ export const useRestoreReportsFilter = (
         return errorSnackbar('End Date should be greater than Start Date');
     }
     const filterValues = filteredEmptyValues?.(formData);
-    setReportFilter?.(filterValues);
+    dispatch(
+      setFilterRestoreReportsList<any>({
+        filterValues: filterValues,
+        page: PAGINATION?.CURRENT_PAGE,
+      }),
+    );
     closeFilterForm?.();
   };
 
   const resetFilterForm = () => {
-    setReportFilter?.({});
+    dispatch(emptyFilterRestoreReportsList?.());
     closeFilterForm?.();
   };
 
   const closeFilterForm = () => {
     reset?.();
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
   const startDateWatch = useWatch({
@@ -57,5 +75,6 @@ export const useRestoreReportsFilter = (
     resetFilterForm,
     closeFilterForm,
     restoreReportFilterFormFields,
+    isPortalOpen,
   };
 };

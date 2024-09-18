@@ -1,31 +1,15 @@
-import Search from '@/components/Search';
-import { Box, Button, Typography } from '@mui/material';
-import TanstackTable from '@/components/Table/TanstackTable';
-import { FilterIcon } from '@/assets/icons';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { Box, Typography } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRestoreReportsLists } from './useRestoreReportsLists';
 import { TIME_TO_RESTORE_DELETED_RECORD } from '@/constants/strings';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { RestoreReportsListsPropsI } from './RestoreReportsLists.interface';
+import { RestoreReportsListsHeader } from '../RestoreReportsListsHeader';
+import { RestoreReportsListsTableView } from '../RestoreReportsListTableView';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
-  const { goBack, permissions } = props;
-  const {
-    restoreReportColumns,
-    setSearch,
-    setPageLimit,
-    setPage,
-    lazyGetRestoreReportsListStatus,
-    setIsPortalOpen,
-    isPortalOpen,
-    renderPortalComponent,
-    actionButtonDropdown,
-    setSelectedReportLists,
-    selectedReportLists,
-    getRestoreReportsList,
-    page,
-  }: any = useRestoreReportsLists(props);
+export const RestoreReportsLists = () => {
+  const { moveBack, router } = useRestoreReportsLists();
+
+  if (!router?.isReady) return <SkeletonTable />;
 
   return (
     <>
@@ -58,69 +42,13 @@ export const RestoreReportsLists = (props: RestoreReportsListsPropsI) => {
               </>
             }
             canMovedBack
-            moveBack={() => goBack?.()}
+            moveBack={moveBack}
           />
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            gap={2}
-            flexWrap={'wrap'}
-          >
-            <Box>
-              <Search label="Search Here" setSearchBy={setSearch} />
-            </Box>
-            <Box display={'flex'} gap={2}>
-              <PermissionsGuard permissions={permissions}>
-                <SingleDropdownButton
-                  dropdownOptions={actionButtonDropdown}
-                  disabled={!!!selectedReportLists?.length}
-                />
-              </PermissionsGuard>
-              <Button
-                variant="outlined"
-                color="inherit"
-                startIcon={<FilterIcon />}
-                onClick={() => {
-                  setSelectedReportLists?.([]);
-                  setIsPortalOpen?.({
-                    isOpen: true,
-                    isFilter: true,
-                  });
-                }}
-              >
-                Filter
-              </Button>
-            </Box>
-          </Box>
+          <RestoreReportsListsHeader />
         </Box>
         <br />
-        <TanstackTable
-          columns={restoreReportColumns}
-          data={
-            lazyGetRestoreReportsListStatus?.data?.data?.genericReports ?? []
-          }
-          isLoading={lazyGetRestoreReportsListStatus?.isLoading}
-          currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
-          count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
-          pageLimit={lazyGetRestoreReportsListStatus?.data?.data?.meta?.limit}
-          totalRecords={
-            lazyGetRestoreReportsListStatus?.data?.data?.meta?.total
-          }
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          isFetching={lazyGetRestoreReportsListStatus?.isFetching}
-          isError={lazyGetRestoreReportsListStatus?.isError}
-          isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
-          onPageChange={(page: number) => setPage(page)}
-          isPagination
-          errorProps={{
-            canRefresh: true,
-            refresh: () => getRestoreReportsList?.(page),
-          }}
-        />
+        <RestoreReportsListsTableView />
       </Box>
-      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };
