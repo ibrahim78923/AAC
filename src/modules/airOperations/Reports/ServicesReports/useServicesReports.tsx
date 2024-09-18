@@ -1,78 +1,64 @@
 import { AIR_OPERATIONS } from '@/constants';
-import {
-  useLazyGetAllCustomServicesReportsListQuery,
-  useLazyGetAllDashboardsServicesReportsListQuery,
-  useLazyGetAllFavoritesServicesReportsListQuery,
-  useLazyGetAllServicesReportsListQuery,
-  useLazyExportAllServicesReportsListQuery,
-  useLazyExportAllCustomServicesReportsListQuery,
-  useLazyExportAllDashboardsServicesReportsListQuery,
-  useLazyExportAllFavoritesServicesReportsListQuery,
-} from '@/services/airOperations/reports/services-reports';
 import { useRouter } from 'next/router';
-import { servicesReportsListTabsDynamic } from './ServicesReports.data';
-import { useLazyGetAllGenericReportsListQuery } from '@/services/airOperations/reports';
+import {
+  TAB_CHANGED_FILTERED,
+  servicesReportsListTabsDynamic,
+} from './ServicesReports.data';
 import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 import { PermissionTabsArrayI } from '@/components/Tabs/PermissionsTabs/PermissionsTabs.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  resetApiQueryParams,
+  resetComponentState,
+  setFilter,
+} from '@/redux/slices/airOperations/reports/slice';
+import { useEffect } from 'react';
 
 export const useServicesReports = () => {
   const router = useRouter();
-  const { id } = router?.query;
-  const apiQueryAllReports = useLazyGetAllServicesReportsListQuery?.();
-  const apiQueryFavoriteReports =
-    useLazyGetAllFavoritesServicesReportsListQuery?.();
-  const apiQueryDashboardReports =
-    useLazyGetAllDashboardsServicesReportsListQuery?.();
-  const apiQueryCustomReports = useLazyGetAllCustomServicesReportsListQuery?.();
-  const exportApiQueryCustomReports =
-    useLazyExportAllCustomServicesReportsListQuery?.();
-  const exportApiQueryAllReports = useLazyExportAllServicesReportsListQuery?.();
-  const exportApiQueryFavoriteReports =
-    useLazyExportAllFavoritesServicesReportsListQuery?.();
-  const exportApiQueryDashboardReports =
-    useLazyExportAllDashboardsServicesReportsListQuery?.();
-  const getReportsApiQuery = useLazyGetAllGenericReportsListQuery?.();
+  const id = router?.query?.id;
 
-  const restoreReportsPath = () => {
-    router?.push({
-      pathname: AIR_OPERATIONS?.SERVICES_REPORTS_RESTORE,
-      query: {
-        id,
-      },
-    });
-  };
+  const canDisableTab = useAppSelector(
+    (state) => state?.operationsReportsLists?.canDisableTab,
+  );
 
-  const editReportPath = (reportId: string) => {
+  const dispatch = useAppDispatch();
+
+  const moveToCreateReport = () => {
     router?.push({
       pathname: AIR_OPERATIONS?.UPSERT_GENERIC_REPORTS,
       query: {
-        id,
-        reportId: reportId,
         moduleName: GENERIC_REPORT_MODULES?.SERVICES,
+        id,
+        redirect: router?.pathname,
       },
     });
   };
 
-  const servicesReportsListTabsParams = {
-    apiQueryAllReports,
-    apiQueryFavoriteReports,
-    apiQueryDashboardReports,
-    apiQueryCustomReports,
-    exportApiQueryDashboardReports,
-    exportApiQueryFavoriteReports,
-    exportApiQueryAllReports,
-    exportApiQueryCustomReports,
-    getReportsApiQuery,
-    restoreReportsPath,
-    editReportPath,
+  const moveBack = () => router?.push(AIR_OPERATIONS?.REPORTS);
+
+  const handleTabChange = (tabValue: any) => {
+    dispatch(
+      setFilter<any>({ filter: TAB_CHANGED_FILTERED?.[tabValue], tabValue }),
+    );
+    dispatch(resetApiQueryParams?.());
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetComponentState());
+    };
+  }, []);
+
   const servicesReportsListTabs: PermissionTabsArrayI[] =
-    servicesReportsListTabsDynamic(servicesReportsListTabsParams);
+    servicesReportsListTabsDynamic(canDisableTab);
 
   return {
     router,
     servicesReportsListTabs,
     id,
+    handleTabChange,
+    moveToCreateReport,
+    moveBack,
   };
 };

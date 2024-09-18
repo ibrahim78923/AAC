@@ -2,11 +2,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useFilterReport } from './useFilterReport';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
-export const FilterReport = (props: ReportsListsComponentPropsI) => {
-  const { isPortalOpen } = props;
+export const FilterReport = () => {
   const {
     methods,
     handleSubmit,
@@ -14,24 +12,21 @@ export const FilterReport = (props: ReportsListsComponentPropsI) => {
     resetFilterForm,
     closeFilterForm,
     reportFilterFormFields,
-  } = useFilterReport(props);
+    isPortalOpen,
+  } = useFilterReport();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isFilter as boolean}
-        onClose={() => {
-          closeFilterForm?.();
-        }}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
+        onClose={closeFilterForm}
         title={'Filter'}
-        submitHandler={() => {
-          handleSubmit(submit)();
-        }}
+        submitHandler={handleSubmit(submit)}
         footer
         isOk
         okText={'Apply'}
         cancelText={'Reset'}
-        cancelBtnHandler={() => resetFilterForm?.()}
+        cancelBtnHandler={resetFilterForm}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
