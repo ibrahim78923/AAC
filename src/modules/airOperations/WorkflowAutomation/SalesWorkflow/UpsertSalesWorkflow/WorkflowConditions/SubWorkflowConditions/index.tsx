@@ -80,6 +80,7 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
       <Button
         onClick={handleAppend}
         color="secondary"
+        className="small"
         startIcon={<AddCircle color="action" />}
       >
         Add Condition

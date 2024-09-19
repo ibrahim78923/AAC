@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { useAppDispatch } from '@/redux/store';
 import { setTestWorkflowBody } from '@/redux/slices/salesWorkflow';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -124,8 +125,8 @@ export const useUpsertSalesWorkflow = () => {
         time: time,
       },
       custom: {
-        startDate: scheduleData?.custom?.startDate,
-        endDate: scheduleData?.custom?.endDate,
+        startDate: isoDateString(scheduleData?.custom?.startDate),
+        endDate: isoDateString(scheduleData?.custom?.endDate),
         time: time,
       },
     };

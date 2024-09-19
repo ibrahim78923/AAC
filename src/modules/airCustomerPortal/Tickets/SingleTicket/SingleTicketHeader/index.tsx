@@ -35,6 +35,7 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
         {singleTicketData?.status !== TICKET_STATUS?.CLOSED && (
           <LoadingButton
             variant="contained"
+            className="small"
             loading={isLoading}
             onClick={updateTicketStatus}
             sx={(theme: Theme) => ({

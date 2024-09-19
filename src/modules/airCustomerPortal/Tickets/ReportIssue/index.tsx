@@ -13,7 +13,6 @@ import { LoadingButton } from '@mui/lab';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useReportIssue } from './useReportIssue';
 import CloseIcon from '@mui/icons-material/Close';
-import { Fragment } from 'react';
 import { PORTAL_TICKET_FIELDS } from '@/constants/strings';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
@@ -27,11 +26,11 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
     onSubmit,
     reportIssueFormFields,
     getArticleStatus,
-    checkRequesterPermission,
     handleArticleClick,
     subjectValue,
     checkArticlePermission,
     portalStyles,
+    requestorCondition,
   } = useReportIssue(props);
 
   return (
@@ -64,12 +63,8 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportIssueFormFields?.map((item: any) => {
-                  if (
-                    item?.componentProps?.name ===
-                      PORTAL_TICKET_FIELDS?.REQUESTER &&
-                    !checkRequesterPermission
-                  )
+                {reportIssueFormFields?.map((item) => {
+                  if (requestorCondition(item))
                     return (
                       <>
                         <RHFTextField
@@ -93,9 +88,10 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                     item?.componentProps?.name === PORTAL_TICKET_FIELDS?.SUBJECT
                   )
                     return (
-                      <Fragment key={item?.id}>
+                      <>
                         <item.component
                           {...item?.componentProps}
+                          key={item?.id}
                           size="small"
                         />
                         {getArticleStatus?.isLoading ||
@@ -127,7 +123,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                             </Box>
                           )
                         )}
-                      </Fragment>
+                      </>
                     );
                   return (
                     <item.component
@@ -148,6 +144,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
             >
               <LoadingButton
                 variant="outlined"
+                className="small"
                 onClick={() => closePortal?.()}
                 disabled={postReportAnIssueStatus?.isLoading}
                 sx={(theme) => ({
@@ -171,6 +168,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
               </LoadingButton>
               <LoadingButton
                 variant="contained"
+                className="small"
                 sx={(theme) => ({
                   bgcolor:
                     portalStyles?.btnPrimary ||
@@ -181,6 +179,11 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                       portalStyles?.btnPrimary ||
                       customizePortalDefaultValues(theme)?.btnPrimary,
                     color: 'common.white',
+                  },
+                  '&.Mui-disabled': {
+                    bgcolor:
+                      portalStyles?.btnPrimary ||
+                      customizePortalDefaultValues(theme)?.btnPrimary,
                   },
                 })}
                 type="submit"

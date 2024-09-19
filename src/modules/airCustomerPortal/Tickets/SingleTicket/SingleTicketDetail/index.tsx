@@ -136,6 +136,7 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                 <LoadingButton
                   onClick={() => getCustomerSurvey?.()}
                   variant="contained"
+                  className="small"
                   sx={{
                     bgcolor:
                       portalStyles?.btnPrimary ||
@@ -146,6 +147,11 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                         portalStyles?.btnPrimary ||
                         customizePortalDefaultValues(theme)?.btnPrimary,
                       color: 'common.white',
+                    },
+                    '&.Mui-disabled': {
+                      bgcolor:
+                        portalStyles?.btnPrimary ||
+                        customizePortalDefaultValues(theme)?.btnPrimary,
                     },
                   }}
                   disabled={

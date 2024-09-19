@@ -13,6 +13,7 @@ import {
   monthFormatter,
   timeFormatter,
 } from '@/utils/api';
+import { localeDateTime } from '@/utils/dateTime';
 export const salesSaveSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
 });
@@ -93,8 +94,8 @@ export const salesValues = (data: any) => {
     scheduleDate: data?.schedule?.monthly?.day ?? 1,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
-      startDate: startDate ? new Date(startDate) : new Date(),
-      endDate: endDate ? new Date(endDate) : new Date(),
+      startDate: startDate ? localeDateTime(startDate) : new Date(),
+      endDate: endDate ? localeDateTime(endDate) : new Date(),
       key: 'selection',
     },
     module: data?.module ?? 'DEALS',

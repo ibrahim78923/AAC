@@ -70,6 +70,7 @@ export const WorkflowConditions = (props: WorkflowConditionsI) => {
       <Box display={'flex'} justifyContent={'end'} p={1.5}>
         <Button
           variant="contained"
+          className="small"
           startIcon={<AddCircle />}
           onClick={handleAddGroup}
         >

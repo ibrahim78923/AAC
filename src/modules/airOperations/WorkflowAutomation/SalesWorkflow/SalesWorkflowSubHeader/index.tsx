@@ -56,6 +56,7 @@ export const SalesWorkflowSubHeader: React.FC<SalesWorkflowSubHeaderI> = (
               size="large"
               startIcon={<FilterIcon />}
               color="secondary"
+              className="small"
             >
               Filter
             </Button>

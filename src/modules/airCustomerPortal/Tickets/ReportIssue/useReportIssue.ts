@@ -8,7 +8,12 @@ import { useForm } from 'react-hook-form';
 import { useLazyGetRequesterDropdownQuery } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
-import { ARRAY_INDEX, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  PORTAL_TICKET_FIELDS,
+  TICKET_STATUS,
+  TICKET_TYPE,
+} from '@/constants/strings';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import {
   getActiveAccountSession,
@@ -24,11 +29,13 @@ import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import useAuth from '@/hooks/useAuth';
 
 export const useReportIssue = (props: ReportIssuePropsI) => {
   const { setIsPortalOpen } = props;
   const router = useRouter();
   const { companyId } = router?.query;
+  const auth = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = useMemo(() => getSession(), []);
   const sessionId = session?.user?.companyId;
@@ -88,14 +95,17 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
 
   const onSubmit = async (data: any) => {
     const reportAnIssueData = new FormData();
-    if (checkRequesterPermission) {
+    if (!!checkRequesterPermission && !!auth?.isAuthenticated) {
       reportAnIssueData?.append('requester', data?.requester?._id);
-    }
-    if (!checkRequesterPermission) {
+    } else {
       reportAnIssueData?.append('requesterEmail', data?.requesterEmail);
     }
     reportAnIssueData?.append('subject', data?.subject);
     reportAnIssueData?.append('description', data?.description);
+    reportAnIssueData?.append(
+      'organization',
+      getPortalPermissions?.organizationId,
+    );
     reportAnIssueData?.append('status', TICKET_STATUS?.OPEN);
     !!data?.associatesAssets?.length &&
       reportAnIssueData?.append(
@@ -103,6 +113,7 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
         data?.associatesAssets?.map((asset: any) => asset?._id),
       );
     reportAnIssueData?.append('moduleType', 'CUSTOMER_PORTAL');
+    reportAnIssueData?.append('companyId', getCompanyId);
     reportAnIssueData?.append('ticketType', TICKET_TYPE?.INC);
     data?.attachFile !== null &&
       reportAnIssueData?.append('fileUrl', data?.attachFile);
@@ -131,6 +142,12 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     getCompanyId,
   );
   const portalStyles = getCustomerPortalStyling();
+  const requestorCondition = (item: any) =>
+    (item?.componentProps?.name === PORTAL_TICKET_FIELDS?.REQUESTER &&
+      !checkRequesterPermission &&
+      !!auth?.isAuthenticated) ||
+    (item?.componentProps?.name === PORTAL_TICKET_FIELDS?.REQUESTER &&
+      !auth?.isAuthenticated);
   return {
     methods,
     postReportAnIssueStatus,
@@ -144,5 +161,6 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     subjectValue,
     checkArticlePermission,
     portalStyles,
+    requestorCondition,
   };
 };
