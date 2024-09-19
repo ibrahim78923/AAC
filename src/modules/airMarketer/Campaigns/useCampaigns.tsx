@@ -24,7 +24,6 @@ const useCampaigns = () => {
   const organizationId: any = user?.organization?._id;
   const [tabVal, setTabVal] = useState<number>(0);
   const [currentTabVal, setCurrentTabVal] = useState(0);
-
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenAddAssets, setIsOpenAddAssets] = useState(false);
@@ -48,15 +47,14 @@ const useCampaigns = () => {
 
   const [isCompare, setIsCompare] = useState(false);
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const userListData = useLazyGetUsersListDropdownQuery();
 
   const { data: UserListData } = useGetUsersListQuery({
     role: ROLES?.ORG_EMPLOYEE,
     organization: organizationId,
   });
-  // collapse menu task filters start here
 
+  // collapse menu task filters start here
   const [isFilters, setIsFilters] = useState(false);
   const [taskFilters, setTaskFilters] = useState({
     campaignId: '',
@@ -201,8 +199,6 @@ const useCampaigns = () => {
     setIsFilters,
     taskFilters,
     isFilters,
-    selectedRows,
-    setSelectedRows,
     UserListData,
     userListData,
     organizationId,

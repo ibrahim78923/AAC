@@ -76,9 +76,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         minDate: new Date(),
         fullWidth: true,
       },
-
       component: RHFDatePicker,
-
       md: 12,
     },
     {
@@ -88,9 +86,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         minDate: new Date(),
         fullWidth: true,
       },
-
       component: RHFDatePicker,
-
       md: 12,
     },
     {

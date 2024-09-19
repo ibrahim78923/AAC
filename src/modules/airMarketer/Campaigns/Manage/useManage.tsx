@@ -55,6 +55,8 @@ const useManage = () => {
     campaignStatus: '',
   });
 
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
   const userListData = useLazyGetUsersListDropdownQuery();
 
   const compareMethods = useForm<any>({
@@ -156,6 +158,8 @@ const useManage = () => {
     setRowId,
     rowId,
     user,
+    selectedRows,
+    setSelectedRows,
   };
 };
 export default useManage;

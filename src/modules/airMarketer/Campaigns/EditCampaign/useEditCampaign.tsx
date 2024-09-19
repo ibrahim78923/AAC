@@ -152,10 +152,10 @@ const useEditCampaigns = (
         : null;
 
       const startDate = body?.startDate
-        ? dayjs(body?.startDate[0])?.format(DATE_FORMAT?.API)
+        ? dayjs(body?.startDate)?.format(DATE_FORMAT?.API)
         : undefined;
       const endDate = body?.endDate
-        ? dayjs(body?.endDate[0])?.format(DATE_FORMAT?.API)
+        ? dayjs(body?.endDate)?.format(DATE_FORMAT?.API)
         : undefined;
       body.campaignStatus = body.campaignStatus?.toLowerCase();
 
@@ -172,7 +172,7 @@ const useEditCampaigns = (
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       // reset();
-      setSelectedRows([]);
+      // setSelectedRows([]);
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
@@ -193,6 +193,7 @@ const useEditCampaigns = (
       enqueueSnackbar('Campaign Updated Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setSelectedRows([]);
       reset();
       onClose();
     } catch (error: any) {

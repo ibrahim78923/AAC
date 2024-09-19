@@ -22,20 +22,18 @@ const Campaigns = () => {
     setIsResetTaskFilter,
     isResetTaskFilter,
     resetTasksFilters,
+    setCreateCampaign,
     setCurrentTabVal,
+    createCampaign,
     setTaskFilters,
+    compareMethods,
+    currentTabVal,
     setIsFilters,
     setIsCompare,
-    currentTabVal,
     taskFilters,
     isFilters,
     isCompare,
-    compareMethods,
     theme,
-    selectedRows,
-    setSelectedRows,
-    createCampaign,
-    setCreateCampaign,
   } = useCampaigns();
 
   return (
@@ -115,30 +113,12 @@ const Campaigns = () => {
             defaultValue={currentTabVal}
             tabsDataArray={campaignsTabs}
           >
-            <Manage
-              selectedRows={selectedRows}
-              setSelectedRows={setSelectedRows}
-            />
+            <Manage />
             <Calendar />
             <Tasks />
           </HorizontalTabs>
         </Box>
       </Box>
-      {createCampaign?.isToggle && (
-        <EditCampaign
-          isOpenDrawer={createCampaign}
-          onClose={() => {
-            setCreateCampaign({
-              ...createCampaign,
-              isToggle: false,
-              type: '',
-              recId: [],
-            });
-          }}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-        />
-      )}
 
       {isCompare && (
         <CommonDrawer
@@ -187,6 +167,20 @@ const Campaigns = () => {
           taskFilters={taskFilters}
           reset={resetTasksFilters}
           isFilterOpen={isFilters}
+        />
+      )}
+
+      {createCampaign?.isToggle && (
+        <EditCampaign
+          isOpenDrawer={createCampaign}
+          onClose={() => {
+            setCreateCampaign({
+              ...createCampaign,
+              isToggle: false,
+              type: '',
+              recId: [],
+            });
+          }}
         />
       )}
     </>
