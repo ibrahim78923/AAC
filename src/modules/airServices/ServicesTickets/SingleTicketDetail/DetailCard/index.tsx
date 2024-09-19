@@ -1,15 +1,14 @@
-import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useDetailCard } from './useDetailCard';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import {
   formatFileSize,
   fullName,
-  generateImage,
-  getImageByType,
+  fullNameInitial,
   truncateText,
 } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { UserInfo } from '@/components/UserInfo';
+import { uiDateFormat } from '@/utils/dateTime';
 
 export const DetailCard = (props: { data: any }) => {
   const { data } = props;
@@ -40,32 +39,23 @@ export const DetailCard = (props: { data: any }) => {
           }}
         >
           <Box>
-            <Box
-              display={'flex'}
-              flexWrap={'wrap'}
-              alignItems={'center'}
-              gap={1}
-              marginBottom={1.5}
-            >
-              <Avatar
-                sx={{ bgcolor: 'blue.main' }}
-                style={{ width: 28, height: 28 }}
-                src={generateImage(ticketDetail?.requesterDetails?.avatar?.url)}
-              />
-              <Box>
-                <Typography
-                  variant="body2"
-                  fontWeight={600}
-                  color="slateBlue.main"
-                >
-                  {' '}
-                  {fullName(
-                    ticketDetail?.requesterDetails?.firstName,
-                    ticketDetail?.requesterDetails?.lastName,
-                  )}
-                </Typography>
-              </Box>
-            </Box>
+            <UserInfo
+              boxProps={{ marginBottom: 1.5 }}
+              nameInitial={fullNameInitial(
+                ticketDetail?.requesterDetails?.firstName,
+                ticketDetail?.requesterDetails?.lastName,
+              )}
+              name={fullName(
+                ticketDetail?.requesterDetails?.firstName,
+                ticketDetail?.requesterDetails?.lastName,
+              )}
+              avatarSrc={ticketDetail?.requesterDetails?.avatar?.url}
+              nameProps={{
+                color: 'slateBlue.main',
+                fontWeight: 600,
+                variant: 'body2',
+              }}
+            />
             <Box
               display={'flex'}
               flexWrap={'wrap'}
@@ -104,9 +94,7 @@ export const DetailCard = (props: { data: any }) => {
               </Typography>
               <Typography variant="body2" color="slateBlue.main">
                 {!!ticketDetail?.requesterDetails?.createdAt
-                  ? dayjs(ticketDetail?.requesterDetails?.createdAt)?.format(
-                      DATE_FORMAT?.UI,
-                    )
+                  ? uiDateFormat(ticketDetail?.requesterDetails?.createdAt)
                   : '---'}
               </Typography>
             </Box>
@@ -145,32 +133,23 @@ export const DetailCard = (props: { data: any }) => {
               Attachments:
             </Typography>
             {attachFile?.data?.length ? (
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                flexWrap={'wrap'}
-                gap={1}
-                marginBottom={1}
-              >
-                <Avatar
-                  src={getImageByType(
-                    attachFile?.data?.[ARRAY_INDEX?.ZERO],
-                    attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileUrl,
-                  )}
-                />
-                <Box>
-                  <Typography variant="body2" color="slateBlue.main">
-                    {truncateText(
-                      attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
-                    )}
-                  </Typography>
-                  <Typography variant="body3" color="grey.500">
-                    {formatFileSize(
-                      attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileSize,
-                    )}
-                  </Typography>
-                </Box>
-              </Box>
+              <UserInfo
+                boxProps={{ marginBottom: 1.5 }}
+                nameInitial={fullNameInitial(
+                  attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
+                )}
+                name={truncateText(
+                  attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
+                )}
+                avatarSrc={attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileUrl}
+                email={formatFileSize(
+                  attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileSize,
+                )}
+                nameProps={{
+                  color: 'slateBlue.main',
+                }}
+                isNameCapital={false}
+              />
             ) : (
               <Typography
                 variant="body2"
@@ -214,7 +193,7 @@ export const DetailCard = (props: { data: any }) => {
             </Typography>
             <Typography variant="body2" color="slateBlue.main">
               {!!ticketDetail?.plannedEndDate
-                ? dayjs(ticketDetail?.plannedEndDate)?.format(DATE_FORMAT?.UI)
+                ? uiDateFormat(ticketDetail?.plannedEndDate)
                 : '---'}
             </Typography>
           </Box>

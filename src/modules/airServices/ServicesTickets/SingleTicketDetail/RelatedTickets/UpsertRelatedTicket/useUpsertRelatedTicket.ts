@@ -13,7 +13,7 @@ import {
   useAddChildTicketsMutation,
   usePutChildTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
-import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { getActiveAccountSession } from '@/utils';
@@ -23,8 +23,12 @@ import {
   emptySelectedTicketLists,
   setIsPortalClose,
 } from '@/redux/slices/airServices/related-tickets/slice';
+import { isoDateString } from '@/utils/dateTime';
+import { useGetRelatedTicketList } from '../../../TicketsServicesHooks/useGetRelatedTicketList';
 
 export const useUpsertRelatedTicket = () => {
+  const { getChildTicketsListData } = useGetRelatedTicketList();
+
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesRelatedTickets?.isPortalOpen,
   );
@@ -97,7 +101,7 @@ export const useUpsertRelatedTicket = () => {
     !!data?.plannedEndDate &&
       upsertTicketFormData?.append(
         'plannedEndDate',
-        makeDateTime(data?.plannedEndDate, new Date())?.toISOString(),
+        isoDateString(data?.plannedEndDate),
       );
     !!data?.plannedEffort &&
       upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
@@ -131,6 +135,7 @@ export const useUpsertRelatedTicket = () => {
       await postChildTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Child ticket added successfully');
       onClose?.();
+      await getChildTicketsListData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -148,6 +153,7 @@ export const useUpsertRelatedTicket = () => {
       await putChildTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Child ticket updated successfully');
       onClose?.();
+      await getChildTicketsListData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

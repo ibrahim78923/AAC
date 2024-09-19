@@ -1,12 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useForm } from 'react-hook-form';
-import {
-  useLazyGetAgentDropdownForEditTicketDetailsQuery,
-  useLazyGetTaskByIdDropDownQuery,
-  usePostTicketsTimeMutation,
-} from '@/services/airServices/tickets/single-ticket-details/details';
-
+import { usePostTicketsTimeMutation } from '@/services/airServices/tickets/single-ticket-details/details';
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -153,14 +147,7 @@ export const useAddTime = (props: any) => {
     reset();
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
-  const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
-
-  const addTimeFormFields = addTimeFormFieldsDynamic(
-    apiQueryAgent,
-    apiQueryTask,
-    ticketId,
-  );
+  const addTimeFormFields = addTimeFormFieldsDynamic();
 
   return {
     methods,

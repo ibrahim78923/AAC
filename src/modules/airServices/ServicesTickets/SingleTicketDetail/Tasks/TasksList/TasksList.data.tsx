@@ -1,13 +1,12 @@
 import { TicketTasksTableRowI } from '../Tasks.interface';
 import { Checkbox, Theme, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { DATE_MONTH_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
-
-import { uiDateFormat } from '@/utils/dateTime';
+import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
 import { styles } from '../Tasks.styles';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
+import { TruncateText } from '@/components/TruncateText';
 
 const { TICKET_TASKS_DETAIL } = TICKET_TASKS_ACTIONS_CONSTANT;
 
@@ -15,7 +14,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
   totalTasks = [],
   selectedTasksList: any,
   setSelectedTasksLists: any,
-  setTicketTasksAction: (param: string) => void,
+  setTicketTasksAction: (param: string, action?: string) => void,
   theme: Theme,
 ) => {
   return [
@@ -88,7 +87,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
       id: 'title',
       isSortable: true,
       header: 'Task Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => <TruncateText text={info.getValue()} />,
     },
     {
       accessorFn: (row: TicketTasksTableRowI) => row,
@@ -96,7 +95,8 @@ export const ticketsTasksListsColumnsDynamic: any = (
       isSortable: true,
       header: 'Due Date',
       cell: (info: any) =>
-        `${dayjs(info?.getValue()?.startDate)?.format(
+        `${otherDateFormat(
+          info?.getValue()?.startDate,
           DATE_MONTH_FORMAT?.API,
         )} - ${uiDateFormat(info?.getValue()?.endDate)}`,
     },

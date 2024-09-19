@@ -30,6 +30,14 @@ export const useSingleTaskDetail = () => {
   const overviewData = overviewDataArray(isPortalOpen?.data);
 
   const onSubmitDrawer = async (formData: any) => {
+    const isDataNotChanged =
+      formData?.status === isPortalOpen?.data?.status &&
+      formData?.comments === isPortalOpen?.data?.comments;
+
+    if (isDataNotChanged) {
+      handleCloseDrawer?.();
+      return;
+    }
     delete formData?.ticketId;
     const queryParams = {
       ...formData,

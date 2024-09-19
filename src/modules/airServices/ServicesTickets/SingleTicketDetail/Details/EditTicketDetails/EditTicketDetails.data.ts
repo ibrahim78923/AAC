@@ -8,7 +8,6 @@ import {
   AutocompleteAsyncOptionsI,
   AutocompleteOptionsI,
 } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { DATE_FORMAT } from '@/constants';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import { TICKET_TYPE } from '@/constants/strings';
 import {
@@ -22,13 +21,11 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+import { localeDateTime } from '@/utils/dateTime';
 
 export const editTicketDetailsValidationSchema = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -79,13 +76,12 @@ export const editTicketDetailsDefaultValuesDynamic = (
         }
       : null,
     agent: data?.agentDetails ?? null,
-    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
-
-    plannedEndDate:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
-
+    plannedStartDate: !!data?.plannedStartDate
+      ? localeDateTime(data?.plannedStartDate)
+      : new Date(),
+    plannedEndDate: !!data?.plannedEndDate
+      ? localeDateTime(data?.plannedEndDate)
+      : null,
     plannedEffort: data?.plannedEffort ?? '',
   };
 };

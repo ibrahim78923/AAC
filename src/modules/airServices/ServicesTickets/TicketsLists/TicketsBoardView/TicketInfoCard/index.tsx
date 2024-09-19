@@ -22,6 +22,7 @@ import {
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { UserInfo } from '@/components/UserInfo';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -54,35 +55,17 @@ export const TicketInfoCard = (props: any) => {
           });
         }}
       >
-        <Box display={'flex'} justifyContent={'space-between'} mb={1.5}>
-          <Box
-            display={'flex'}
-            marginBottom={0.5}
-            alignItems={'center'}
-            gap={1}
-          >
-            <Avatar
-              sx={{
-                bgcolor: theme?.palette?.primary?.main,
-                borderRadius: 1.25,
-              }}
-              style={{ width: 20, height: 20 }}
-              src={generateImage(
-                details?.departmentsDetails?.departmenProfilePicture,
-              )}
-            >
-              <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
-                {details?.departmentsDetails?.name?.slice?.(0, 2) ?? '-'}
-              </Typography>
-            </Avatar>
-            <Typography
-              variant={'body2'}
-              color={'custom.main'}
-              fontWeight={500}
-            >
-              {details?.ticketIdNumber}
-            </Typography>
-          </Box>
+        <Box display={'flex'} justifyContent={'space-between'} mb={1}>
+          <UserInfo
+            nameInitial={fullNameInitial(details?.departmentsDetails?.name)}
+            name={details?.ticketIdNumber}
+            avatarSrc={details?.attachment?.fileUrl}
+            nameProps={{
+              color: 'custom.bright',
+              fontWeight: 500,
+            }}
+            avatarSize={{ variant: 'rounded', height: 20, width: 20 }}
+          />
           <Box display={'flex'} marginBottom={0.5} alignItems={'center'}>
             {!!details?.state && (
               <Chip

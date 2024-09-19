@@ -85,3 +85,6 @@ export const isoDateString = (date: Date) =>
 
 export const uiDateFormat = (date: Date | string) =>
   dayjs(date)?.format(DATE_FORMAT?.UI);
+
+export const otherDateFormat = (date: Date | string, format?: string) =>
+  dayjs(date)?.format(format);

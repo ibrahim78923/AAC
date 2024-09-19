@@ -1,10 +1,10 @@
 import { Theme, Typography } from '@mui/material';
 import * as Yup from 'yup';
-import dayjs from 'dayjs';
 import { styles } from './SingleTaskDetail.styles';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TASK_STATUS } from '@/constants/strings';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
+import { otherDateFormat } from '@/utils/dateTime';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 
@@ -51,21 +51,24 @@ export const drawerDetail: any = (taskDetail: any, theme: Theme) => [
   {
     id: 5,
     title: 'Due Date',
-    details: `${dayjs(taskDetail?.endDate)?.format(
+    details: `${otherDateFormat(
+      taskDetail?.endDate,
       DATE_TIME_FORMAT?.ddddDDMMMYYYYhhmmA,
     )}`,
   },
   {
     id: 6,
     title: 'Planned Start Date',
-    details: `${dayjs(taskDetail?.startDate)?.format(
+    details: `${otherDateFormat(
+      taskDetail?.startDate,
       DATE_TIME_FORMAT?.ddddDDMMMYYYY,
     )}`,
   },
   {
     id: 7,
     title: 'Planned End Date',
-    details: `${dayjs(taskDetail?.endDate)?.format(
+    details: `${otherDateFormat(
+      taskDetail?.endDate,
       DATE_TIME_FORMAT?.ddddDDMMMYYYY,
     )}`,
   },

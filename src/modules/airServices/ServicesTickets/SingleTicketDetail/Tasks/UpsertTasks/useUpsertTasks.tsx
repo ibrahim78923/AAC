@@ -158,8 +158,8 @@ export const useUpsertTasks = () => {
           ),
         ),
         ticketId: ticketId,
-        startDate: filteredEmptyData?.startDate?.toISOString(),
-        endDate: filteredEmptyData?.endDate?.toISOString(),
+        startDate: isoDateString(filteredEmptyData?.startDate),
+        endDate: isoDateString(filteredEmptyData?.endDate),
         assignTo: filteredEmptyData?.agent?._id,
         departmentId: filteredEmptyData?.department?._id,
         notifyBefore: filteredEmptyData?.notifyBefore?._id,
@@ -168,6 +168,7 @@ export const useUpsertTasks = () => {
       const reqBody = { customFields };
 
       delete queryParams?.department;
+      delete queryParams?.agent;
 
       const apiDataParameter = {
         queryParams,

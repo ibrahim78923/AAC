@@ -29,9 +29,9 @@ export const UpsertTasks = () => {
     <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
-        onClose={() => handleCloseDrawer?.()}
+        onClose={handleCloseDrawer}
         title={TITLE_FORM_USER?.[isPortalOpen?.action as string]}
-        submitHandler={() => handleSubmit?.(submitUpsertTicketTasks)()}
+        submitHandler={handleSubmit?.(submitUpsertTicketTasks)}
         footer
         isOk
         okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.action as string]}

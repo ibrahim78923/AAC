@@ -10,9 +10,15 @@ export const TruncateText = (props: any) => {
     customTooltipProps,
     boxProps,
     size = 20,
+    isCapital = true,
   } = props;
+
   return (
-    <CustomTooltip title={text} {...customTooltipProps}>
+    <CustomTooltip
+      title={text?.length > size ? text : ''}
+      isCapital={isCapital}
+      {...customTooltipProps}
+    >
       <Box {...boxProps}>
         {retainTextLeft}
         {truncateText(text, size)}

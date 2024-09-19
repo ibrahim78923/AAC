@@ -7,7 +7,6 @@ import {
   truncateText,
 } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   EditBlackIcon,
@@ -18,6 +17,7 @@ import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { otherDateFormat } from '@/utils/dateTime';
 
 export const ConversationCard = (props: any) => {
   const { data, setSelectedConversationType } = props;
@@ -72,7 +72,7 @@ export const ConversationCard = (props: any) => {
               {data?.recipients?.join?.(' ')}
             </Typography>
             <Typography variant="body3" fontWeight={400} color={'grey.900'}>
-              {dayjs()?.format(DATE_TIME_FORMAT?.UI)}
+              {otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.UI)}
             </Typography>
           </Box>
         </Box>

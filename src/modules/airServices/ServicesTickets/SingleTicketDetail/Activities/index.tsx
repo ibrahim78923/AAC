@@ -5,9 +5,9 @@ import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
-import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+import { TIME_FORMAT } from '@/constants';
 import NoData from '@/components/NoData';
+import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
 
 export const Activities = () => {
   const theme = useTheme();
@@ -24,7 +24,7 @@ export const Activities = () => {
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <>
@@ -83,14 +83,14 @@ export const Activities = () => {
                       component={'span'}
                       mr="0.625rem"
                     >
-                      {dayjs(activity?.createdAt)?.format(DATE_FORMAT?.UI)}
+                      {uiDateFormat(activity?.createdAt)}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textPrimary"
                       component={'span'}
                     >
-                      {dayjs(activity?.createdAt)?.format(TIME_FORMAT?.UI)}
+                      {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
                     </Typography>
                   </Box>
                 </Box>

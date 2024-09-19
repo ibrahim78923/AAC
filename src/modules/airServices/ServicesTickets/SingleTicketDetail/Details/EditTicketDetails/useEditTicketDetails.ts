@@ -189,7 +189,7 @@ export const useEditTicketDetails = () => {
       !!newFormData?.plannedEndDate &&
         ticketDetailsData?.append(
           'plannedEndDate',
-          newFormData?.plannedEndDate?.toISOString(),
+          isoDateString(newFormData?.plannedEndDate),
         );
       !!newFormData?.plannedEffort &&
         ticketDetailsData.append('plannedEffort', newFormData?.plannedEffort);

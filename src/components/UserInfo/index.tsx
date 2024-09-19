@@ -13,6 +13,7 @@ export const UserInfo = (props: any) => {
     boxProps,
     handleBoxClick,
     handleNameClick,
+    isNameCapital = true,
   } = props;
 
   return (
@@ -42,6 +43,7 @@ export const UserInfo = (props: any) => {
           component={'div'}
           color="blue.dull_blue"
           onClick={() => handleNameClick?.()}
+          textTransform={isNameCapital ? 'capitalize' : 'none'}
           {...nameProps}
         >
           {name}

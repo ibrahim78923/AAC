@@ -1,13 +1,8 @@
-import { Box, Checkbox, Avatar, Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { TICKET_TYPE } from '@/constants/strings';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { NextRouter } from 'next/router';
 import { TicketTableRowI } from '../TicketsLists.interface';
 import { uiDateFormat } from '@/utils/dateTime';
@@ -72,47 +67,30 @@ export const ticketsListsColumnDynamic: any = (
     {
       accessorFn: (row: TicketTableRowI) => row?.ticketIdNumber,
       id: 'ticketIdNumber',
-      cell: (info: any) => {
-        return (
-          <Box
-            display={'flex'}
-            gap={1.5}
-            flexWrap={'wrap'}
-            alignItems={'center'}
-          >
-            <Avatar
-              variant="rounded"
-              sx={{
-                bgcolor: 'primary.main',
-                width: 25,
-                height: 25,
-              }}
-              src={generateImage(info?.row?.original?.attachment?.fileUrl)}
-            >
-              <Typography variant="body2" textTransform={'uppercase'}>
-                {fullNameInitial(info?.row?.original?.departmentsDetails?.name)}
-              </Typography>
-            </Avatar>
-            <Typography
-              sx={{
-                color: 'custom.bright',
-                cursor: 'pointer',
-              }}
-              variant="body2"
-              onClick={() => {
-                router?.push({
-                  pathname: AIR_SERVICES?.TICKETS_LIST,
-                  query: {
-                    ticketId: info?.row?.original?._id,
-                  },
-                });
-              }}
-            >
-              {info?.getValue()}
-            </Typography>
-          </Box>
-        );
-      },
+      cell: (info: any) => (
+        <UserInfo
+          nameInitial={fullNameInitial(
+            info?.row?.original?.departmentsDetails?.name,
+          )}
+          name={info?.getValue()}
+          avatarSrc={info?.row?.original?.attachment?.fileUrl}
+          handleNameClick={() => {
+            router?.push({
+              pathname: AIR_SERVICES?.TICKETS_LIST,
+              query: {
+                ticketId: info?.row?.original?._id,
+              },
+            });
+          }}
+          nameProps={{
+            sx: {
+              color: 'custom.bright',
+              cursor: 'pointer',
+            },
+          }}
+          avatarSize={{ variant: 'rounded', height: 25, width: 25 }}
+        />
+      ),
       header: 'Ticket ID',
       isSortable: true,
     },
@@ -202,7 +180,12 @@ export const ticketsListsColumnDynamic: any = (
       id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
-      cell: (info: any) => truncateText(info?.getValue()?.name),
+      cell: (info: any) => (
+        <TruncateText
+          text={info.getValue()?.name?.toLowerCase()}
+          boxProps={{ textTransform: 'capitalize' }}
+        />
+      ),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.createdAt,
@@ -224,7 +207,11 @@ export const ticketsListsColumnDynamic: any = (
       id: 'impact',
       isSortable: true,
       header: 'Impact',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) => (
+        <Typography variant={'body2'} textTransform={'capitalize'}>
+          {info?.getValue()?.toLowerCase() ?? '---'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedStartDate,

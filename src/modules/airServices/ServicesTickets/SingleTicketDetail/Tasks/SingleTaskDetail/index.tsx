@@ -55,7 +55,7 @@ export const SingleTaskDetail = () => {
             methods={method}
           >
             <Typography variant="body2" mb={-2}>
-              {isPortalOpen?.data?.assignedUser?.email ?? 'Email not found'}
+              {isPortalOpen?.data?.assignedUser?.email ?? '---'}
             </Typography>
             <Grid item xs={10}>
               <RHFAutocomplete
@@ -63,6 +63,9 @@ export const SingleTaskDetail = () => {
                 sx={styles?.statusFieldStyle}
                 options={statusOptions}
                 size="small"
+                isOptionEqualToValue={(option: any, newValue: any) =>
+                  option === newValue
+                }
               />
             </Grid>
             <Grid

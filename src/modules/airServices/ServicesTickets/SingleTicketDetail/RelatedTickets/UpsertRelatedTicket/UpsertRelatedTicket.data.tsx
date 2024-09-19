@@ -19,6 +19,7 @@ import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/Category
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldDropdown';
+import { localeDateTime } from '@/utils/dateTime';
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Requester is Required'),
@@ -59,10 +60,10 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
-      ? new Date(data?.plannedStartDate)
+      ? localeDateTime(data?.plannedStartDate)
       : new Date(),
     plannedEndDate: !!data?.plannedEndDate
-      ? new Date(data?.plannedEndDate)
+      ? localeDateTime(data?.plannedEndDate)
       : null,
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length

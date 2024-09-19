@@ -20,7 +20,6 @@ export const relatedTicketsAPI = baseAPI?.injectEndpoints({
         params: addChildTicketParameters?.queryParams,
         body: addChildTicketParameters?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     putChildTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
@@ -28,7 +27,6 @@ export const relatedTicketsAPI = baseAPI?.injectEndpoints({
         method: 'PUT',
         body: putTicketParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     deleteChildTickets: builder?.mutation({
       query: (deleteTicketsParameter: any) => ({

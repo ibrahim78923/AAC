@@ -23,6 +23,7 @@ import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdow
 import { AssetFieldDropdown } from '../ServiceTicketFormFields/AssetFieldDropdown';
 import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
+import { localeDateTime } from '@/utils/dateTime';
 
 export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -49,9 +50,7 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     plannedStartDate: Yup?.date(),
-    plannedStartTime: Yup?.date()?.nullable(),
     plannedEndDate: Yup?.date()?.nullable(),
-    plannedEndTime: Yup?.date()?.nullable(),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -76,20 +75,11 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: data?.agentDetails ?? null,
     plannedStartDate: data?.plannedStartDate
-      ? new Date(data?.plannedStartDate)
+      ? localeDateTime(data?.plannedStartDate)
       : new Date(),
-    plannedStartTime:
-      typeof data?.plannedStartDate === 'string'
-        ? new Date(data?.plannedStartDate)
-        : new Date(),
-    plannedEndDate:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
-    plannedEndTime:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
+    plannedEndDate: data?.plannedEndDate
+      ? localeDateTime(data?.plannedEndDate)
+      : null,
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
       ? data?.associateAssetsDetails
@@ -189,7 +179,6 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => [
           id: 10,
           component: AgentFieldDropdown,
         },
-
         {
           id: 11,
           componentProps: {

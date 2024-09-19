@@ -24,7 +24,7 @@ export interface AutocompleteAsyncOptionsI {
 export interface ReactHookFormFieldsI {
   id: string | number;
   componentProps?: {
-    name: string;
+    name?: string;
     label?: string;
     placeholder?: string;
     required?: boolean;

@@ -15,6 +15,7 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
+import { localeDateTime } from '@/utils/dateTime';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 const statusOptions = [TO_DO, IN_PROGRESS, DONE];
@@ -44,7 +45,13 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
 
   return Yup?.object()?.shape({
     title: Yup?.string()?.trim()?.required('Title is Required'),
-    description: Yup?.string()?.trim()?.required('Description is Required'),
+    description: Yup?.string()
+      ?.trim()
+      ?.required('Description is Required')
+      ?.test('is-not-empty', 'Description is Required', (value) => {
+        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        return strippedContent !== '';
+      }),
     department: Yup?.mixed()?.required('Department is Required'),
     agent: Yup?.mixed()?.nullable(),
     notifyBefore: Yup?.mixed()?.nullable(),
@@ -71,8 +78,10 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
           (item: any) => item?._id === +taskData?.notifyBefore,
         )
       : null,
-    startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
-    endDate: taskData?.endDate ? new Date(taskData?.endDate) : null,
+    startDate: taskData?.startDate
+      ? localeDateTime(taskData?.startDate)
+      : new Date(),
+    endDate: taskData?.endDate ? localeDateTime(taskData?.endDate) : null,
     plannedEffort: taskData?.plannedEffort ?? '',
     ...initialValues,
   };
@@ -128,6 +137,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
       fullWidth: true,
       required: true,
       options: statusOptions,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     component: RHFAutocomplete,
     md: 12,

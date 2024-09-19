@@ -9,13 +9,13 @@ import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
-import { truncateText } from '@/utils/avatarUtils';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { LoadingButton } from '@mui/lab';
 import { pxToRem } from '@/utils/getFontValue';
 import { TICKET_TYPE } from '@/constants/strings';
 import { useHeader } from './useHeader';
 import StopWatch from '../Details/TimeEntries/StopWatch';
+import { TruncateText } from '@/components/TruncateText';
 
 export const Header = (props: any) => {
   const {
@@ -40,9 +40,15 @@ export const Header = (props: any) => {
               {ticketDetail?.ticketIdNumber ?? '---'}
             </Typography>
             <Typography variant="h6" component="span">
-              {ticketDetail?.ticketType === TICKET_TYPE?.SR
-                ? `Request For: ${truncateText(ticketDetail?.subject)}`
-                : truncateText(ticketDetail?.subject)}
+              {ticketDetail?.ticketType === TICKET_TYPE?.SR ? (
+                <TruncateText
+                  text={ticketDetail?.subject}
+                  retainTextLeft="Request For: "
+                  size={50}
+                />
+              ) : (
+                <TruncateText text={ticketDetail?.subject} size={50} />
+              )}
             </Typography>
           </Box>
         }

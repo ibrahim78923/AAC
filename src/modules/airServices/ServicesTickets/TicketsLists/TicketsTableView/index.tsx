@@ -39,8 +39,8 @@ export const TicketsTableView = () => {
           canRefresh: true,
           refresh: () => getTicketsListData?.(page),
         }}
-        incrementPageClick={() => increment?.()}
-        decrementPageClick={() => decrement?.()}
+        incrementPageClick={increment}
+        decrementPageClick={decrement}
       />
     </>
   );
