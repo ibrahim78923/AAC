@@ -1,5 +1,4 @@
 import { AIR_SERVICES_ENQUIRIES_PERMISSION } from '@/constants/permission-keys';
-import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
   Checkbox,
@@ -18,6 +17,7 @@ import {
   IGetEnquiriesColumnsReturn,
 } from './Enquiries.interface';
 import { ChangeEvent } from 'react';
+import { TruncateText } from '@/components/TruncateText';
 
 export const statusOptions = ['Done', 'Pending'];
 
@@ -180,7 +180,7 @@ export const getEnquiriesColumns = ({
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info) => info?.getValue() ?? '-',
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
     accessorFn: (row: IEnquiry) => row?.phoneNumber,
@@ -194,7 +194,8 @@ export const getEnquiriesColumns = ({
     id: 'comments',
     isSortable: true,
     header: 'Comments',
-    cell: (info) => truncateText(info?.getValue()),
+    // cell: (info) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
     accessorFn: (row: IEnquiry) => row?.ticketCreated,
