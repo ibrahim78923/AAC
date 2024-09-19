@@ -480,6 +480,8 @@ export const END_POINTS = {
   SERVICE_DASHBOARD_DROPDOWN: `/dynamic-dashboard`,
   SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
   GOALS: '/goals',
+  GET_USER_GOALS: '/goals/users',
+  GET_TEAM_GOALS: '/goals/teams',
   GET_SINGLE_GOAL: '/goals/broadcast',
   DELETE_SERVICES_DASHBOARD: `/dynamic-dashboard/delete-dashboards`,
   SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,

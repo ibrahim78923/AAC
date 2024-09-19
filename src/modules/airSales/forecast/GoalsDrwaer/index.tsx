@@ -10,14 +10,11 @@ import {
   filterDefaultValues,
   filterValidationSchema,
 } from './GoalsDrawer.data';
-import { setFilterValues } from '@/redux/slices/forecast/forecastSlice';
-import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
 const GoalsFilterDrawer = (props: any) => {
-  const { isOpenDrawer, onClose, setIsFilterDrawer } = props;
-  const dispatch = useDispatch();
+  const { isOpenDrawer, onClose, setIsFilterDrawer, setFilterValues } = props;
 
   const methods: any = useForm({
     resolver: yupResolver(filterValidationSchema),
@@ -32,10 +29,10 @@ const GoalsFilterDrawer = (props: any) => {
       filter.endDate = dayjs(values?.CloseDate).format(DATE_FORMAT?.API);
     }
 
-    if (values?.pipeLine) {
-      filter.pipeLine = values?.pipeLine;
+    if (values?.pipeline) {
+      filter.pipeline = values?.pipeline;
     }
-    await dispatch(setFilterValues(filter));
+    setFilterValues(filter);
     setIsFilterDrawer(false);
   };
 

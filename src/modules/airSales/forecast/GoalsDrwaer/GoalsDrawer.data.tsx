@@ -3,12 +3,12 @@ import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import * as Yup from 'yup';
 
 export const filterValidationSchema = Yup.object().shape({
-  pipeLine: Yup.string(),
+  pipeline: Yup.string(),
   CloseDate: Yup.string(),
 });
 
 export const filterDefaultValues = {
-  pipeLine: '',
+  pipeline: '',
   CloseDate: '',
 };
 export const forecastFilterArray = () => {
@@ -22,7 +22,7 @@ export const forecastFilterArray = () => {
   return [
     {
       componentProps: {
-        name: 'pipeLine',
+        name: 'pipeline',
         label: 'Pipeline',
         fullWidth: true,
         select: true,

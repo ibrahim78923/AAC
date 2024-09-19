@@ -7,6 +7,8 @@ import {
   Menu,
   MenuItem,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from '@mui/material';
 import {
@@ -23,6 +25,7 @@ import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { styles } from './ForecastCategory.style';
 import useForecastCategory from './useForecastCategory';
 import ViewDealsDrawer from '../ViewDealsDrwaer';
+import { useState } from 'react';
 
 const ForecastCategory = () => {
   const { isViewDealDrawer, setIsViewDealDrawer } = useForecast();
@@ -39,8 +42,72 @@ const ForecastCategory = () => {
     setAnchorEl,
   } = useForecastCategory();
 
+  const [alignment, setAlignment] = useState('User');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
+
   return (
     <Box>
+      <Box sx={{ marginBottom: '20px' }}>
+        <ToggleButtonGroup
+          color="primary"
+          value={alignment}
+          exclusive
+          onChange={handleChange}
+          aria-label="Platform"
+        >
+          <ToggleButton
+            disableRipple
+            value="User"
+            sx={{
+              color: theme?.palette?.primary?.main,
+              backgroundColor: '#fff',
+              border: `1px solid ${theme?.palette?.grey[0]}`,
+              height: '40px',
+              '&.Mui-selected': {
+                backgroundColor: theme?.palette?.primary?.main,
+                color: '#fff',
+              },
+              '&.Mui-selected:hover': {
+                backgroundColor: theme?.palette?.primary?.main,
+              },
+              '&:hover': {
+                backgroundColor: theme?.palette?.primary?.light,
+              },
+            }}
+          >
+            Users
+          </ToggleButton>
+          <ToggleButton
+            disableRipple
+            value="Team"
+            sx={{
+              color: theme?.palette?.primary?.main,
+              backgroundColor: '#fff',
+              border: `1px solid ${theme?.palette?.grey[0]}`,
+              height: '40px',
+              '&.Mui-selected': {
+                backgroundColor: theme?.palette?.primary?.main,
+                color: '#fff',
+              },
+              '&.Mui-selected:hover': {
+                backgroundColor: theme?.palette?.primary?.main,
+              },
+              '&:hover': {
+                backgroundColor: theme?.palette?.primary?.light,
+              },
+            }}
+          >
+            Teams
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+
       <Grid container justifyContent="space-between" spacing={2}>
         <Grid item xs={12} sm={6} md={8.5}>
           <Card sx={{ width: '100%' }}>

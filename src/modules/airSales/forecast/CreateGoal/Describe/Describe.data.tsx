@@ -11,6 +11,7 @@ export const goalDetailsValidationSchema = (form: any) => {
   return Yup?.object()?.shape({
     goalName: Yup.string().required('field is required'),
     trackingMethod: Yup.string().required('field is required'),
+    calculatetats: Yup.string().required('field is required'),
     ...formSchema,
   });
 };
@@ -20,6 +21,7 @@ export const goalDetailsDefaultValues = (data?: any, form?: any) => {
   return {
     goalName: '',
     trackingMethod: '',
+    calculatetats: '',
     ...initialValues,
   };
 };
@@ -45,12 +47,33 @@ export const goalDetailsTemplateArray = [
     },
     options: [
       {
-        value: 'Higher value is better, Lower is worse',
+        value: 'Higher value is better, lower is worse',
         label: 'Higher value is better, Lower is worse',
       },
       {
-        value: 'Lower value is better, Higher is worse',
+        value: 'Lower value is better, higher is worse',
         label: 'Lower value is better, Higher is worse',
+      },
+    ],
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'calculatetats',
+      label: 'Goal achievement',
+      fullWidth: true,
+      select: true,
+      required: true,
+    },
+    options: [
+      {
+        value: 'On Payment',
+        label: 'On Payment',
+      },
+      {
+        value: 'On Creation',
+        label: 'On Creation',
       },
     ],
     component: RHFSelect,

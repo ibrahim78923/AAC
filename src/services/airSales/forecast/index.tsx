@@ -4,9 +4,18 @@ const TAG = ['FORECAST'];
 
 export const forecastApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getForecastGoals: builder.query({
+    getForecastUserGoals: builder.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.GOALS}`,
+        url: `${END_POINTS?.GET_USER_GOALS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    getForecastTeamGoals: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TEAM_GOALS}`,
         method: 'GET',
         params: params,
       }),
@@ -22,8 +31,8 @@ export const forecastApi = baseAPI.injectEndpoints({
     }),
 
     getSingleForecastGoals: builder.query({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_GOAL}/${id}`,
+      query: ({ id, user }: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_GOAL}/${id}/${user}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -50,7 +59,8 @@ export const forecastApi = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetForecastGoalsQuery,
+  useGetForecastUserGoalsQuery,
+  useGetForecastTeamGoalsQuery,
   useDeleteForecastGoalsMutation,
   useGetSingleForecastGoalsQuery,
   usePostGoalMutation,

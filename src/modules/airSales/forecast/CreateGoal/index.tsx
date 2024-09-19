@@ -36,8 +36,8 @@ const CreateGoal = () => {
             mt={2}
             sx={{
               display: { sm: 'flex' },
-              position: { sm: 'relative', md: 'absolute' },
-              bottom: '25px',
+              position: { sm: 'relative', md: 'relative' },
+              bottom: '0px',
               width: { xs: '90%', sm: '90%', md: '96%' },
             }}
           >
