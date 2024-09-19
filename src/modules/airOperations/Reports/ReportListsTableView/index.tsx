@@ -1,5 +1,6 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useReportListsTableView } from './useReportListsTableView';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const ReportsListsTableView = () => {
   const {
@@ -12,6 +13,8 @@ export const ReportsListsTableView = () => {
     increment,
     reportListsColumns,
   } = useReportListsTableView();
+
+  if (!lazyGetReportsListStatus?.data) return <SkeletonTable />;
 
   return (
     <>

@@ -1590,7 +1590,7 @@ export const AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS = {
   CHANGE_OWNER: 'operations-report-sales-all-report-change-owner',
   ADD_TO_DASHBOARD: 'operations-report-sales-all-report-add-to-dashboard',
   DELETE: 'operations-report-sales-all-report-delete',
-  MANAGE_ACCESS: 'operations-report-sales-all-report-manage-acces',
+  MANAGE_ACCESS: 'operations-report-sales-all-report-manage-access',
   CUSTOMIZE: 'operations-report-sales-all-report-customize',
   RENAME: 'operations-report-sales-all-report-rename',
   CLONE: 'operations-report-sales-all-report-clone',

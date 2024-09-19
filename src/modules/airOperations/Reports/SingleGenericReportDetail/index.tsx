@@ -41,6 +41,7 @@ export const SingleGenericReportDetail = () => {
           }
         >
           <LoadingButton
+            className="small"
             variant="contained"
             disabled={isDownloading}
             loading={isDownloading}

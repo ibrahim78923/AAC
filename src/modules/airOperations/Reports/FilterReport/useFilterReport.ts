@@ -4,7 +4,6 @@ import {
   reportFilterFormFieldsDynamic,
   reportFiltersDefaultValues,
 } from './FilterReport.data';
-import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
 import { FilterReportFormFieldsI } from './FilterReport.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -69,11 +68,8 @@ export const useFilterReport = () => {
     dispatch(setIsPortalClose());
   };
 
-  const reportOwnerApiQuery =
-    useLazyGetReportsOwnersDropdownListForReportsQuery?.();
-
   const reportFilterFormFields: ReactHookFormFieldsI[] =
-    reportFilterFormFieldsDynamic?.(reportOwnerApiQuery);
+    reportFilterFormFieldsDynamic?.();
 
   return {
     methods,

@@ -39,7 +39,7 @@ export const EmailReport = () => {
           ))}
         </Grid>
       </FormProvider>
-      <LoadingButton sx={{ my: 1 }} onClick={downloadPath}>
+      <LoadingButton className="small" sx={{ my: 1 }} onClick={downloadPath}>
         Click here to download Report
       </LoadingButton>
       <br />

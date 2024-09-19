@@ -17,10 +17,7 @@ import {
   manageReportAccessValidationSchema,
 } from './ManageReportAccess.data';
 import { useEffect } from 'react';
-import {
-  useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
-  useManageReportAccessMutation,
-} from '@/services/airOperations/reports';
+import { useManageReportAccessMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ManageAccessReportFormFieldsI } from './ManageReportAccess.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
@@ -195,11 +192,8 @@ export const useManageReportAccess = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryUsers =
-    useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery();
-
   const manageReportAccessFromFields: ReactHookFormFieldsI[] =
-    manageReportAccessFromFieldsDynamic?.(apiQueryUsers, fields);
+    manageReportAccessFromFieldsDynamic?.(fields);
 
   return {
     methods,

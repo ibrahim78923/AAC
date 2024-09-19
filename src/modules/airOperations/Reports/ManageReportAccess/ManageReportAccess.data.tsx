@@ -1,9 +1,4 @@
-import {
-  RHFAutocompleteAsync,
-  RHFRadioGroup,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
 import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import {
@@ -16,6 +11,7 @@ import {
   TableRow,
 } from '@mui/material';
 import * as Yup from 'yup';
+import { UsersFieldDropdown } from '../ReportFormFields/UsersFieldDropdown';
 
 export const MANAGE_ACCESS_REPORT_TYPES = {
   PRIVATE_TO_OWNER: 'Private to owner',
@@ -129,10 +125,7 @@ export const specificUsersAccessFormFieldsDynamic = (
   },
 ];
 
-export const manageReportAccessFromFieldsDynamic = (
-  apiQueryUsers: any,
-  fields: any,
-) => [
+export const manageReportAccessFromFieldsDynamic = (fields: any) => [
   {
     id: 3,
     md: 9,
@@ -171,19 +164,7 @@ export const manageReportAccessFromFieldsDynamic = (
           label: 'Only Specific users',
           filter: (
             <>
-              <RHFAutocompleteAsync
-                label=""
-                name="specialUsers"
-                fullWidth
-                required
-                apiQuery={apiQueryUsers}
-                multiple
-                size="small"
-                placeholder="Select users"
-                getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
-                  `${option?.firstName} ${option?.lastName}`
-                }
-              />
+              <UsersFieldDropdown />
               <TableContainer
                 sx={{
                   maxHeight: pxToRem(400),

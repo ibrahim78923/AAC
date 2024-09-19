@@ -1,13 +1,17 @@
 import { useFavoriteReport } from './useFavoriteReport';
 import { CheckedFavoriteIcon, UnCheckedFavoriteIcon } from '@/assets/icons';
-import { Checkbox, CircularProgress } from '@mui/material';
+import { Box, Checkbox, CircularProgress } from '@mui/material';
 
 export const FavoriteReport = (props: any) => {
-  const { reportId, isFavorite } = props;
-  const { showLoader, addReportToFavorite, addReportToFavoriteListStatus } =
-    useFavoriteReport(props);
+  const { reportId, isFavorite, isDisabled } = props;
+  const { showLoader, addReportToFavorite } = useFavoriteReport(props);
 
-  if (showLoader) return <CircularProgress size={20} />;
+  if (showLoader)
+    return (
+      <Box px={1} py={0.6}>
+        <CircularProgress size={24} />
+      </Box>
+    );
 
   return (
     <Checkbox
@@ -15,7 +19,7 @@ export const FavoriteReport = (props: any) => {
       checkedIcon={<CheckedFavoriteIcon />}
       checked={isFavorite}
       onChange={(e: any) => addReportToFavorite(e, reportId)}
-      disabled={addReportToFavoriteListStatus?.isLoading}
+      disabled={isDisabled}
       color="primary"
       name={reportId}
     />

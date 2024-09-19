@@ -1,16 +1,13 @@
 import { uiDateFormat } from '@/utils/dateTime';
 import { RestoreReportListsTableRowI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Checkbox } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 import { AIR_OPERATIONS } from '@/constants';
 import { GENERIC_REPORT_MODULES } from '@/constants/strings';
+import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 const { SERVICES, SALES, MARKETING } = GENERIC_REPORT_MODULES;
 
@@ -83,7 +80,7 @@ export const restoreReportListsColumnsDynamic = (
     id: 'name',
     isSortable: true,
     header: 'Reports Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: RestoreReportListsTableRowI) => row?.deletedBy,
@@ -91,17 +88,11 @@ export const restoreReportListsColumnsDynamic = (
     isSortable: true,
     header: 'Deleted By',
     cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.avatar)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(info?.getValue())}
-          </Typography>
-        </Avatar>
-        {fullName(info?.getValue())}
-      </Box>
+      <UserInfo
+        name={fullName(info?.getValue())}
+        nameInitial={fullNameInitial(info?.getValue())}
+        avatarSrc={info?.row?.original?.avatar}
+      />
     ),
   },
   {

@@ -1,15 +1,12 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { FilterReportDataDefaultValuesI } from './FilterReport.interface';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ReportOwnerFieldDropdown } from '../ReportFormFields/ReportOwnerFieldDropdown';
 
 export const assignedReportsOptions: AutocompleteOptionsI[] = [
   {
@@ -19,6 +16,7 @@ export const assignedReportsOptions: AutocompleteOptionsI[] = [
         MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL
       ],
   },
+
   {
     _id: MANAGE_ACCESS_TYPES?.EVERYONE_CAPITAL,
     label:
@@ -49,19 +47,14 @@ export const reportFiltersDefaultValues: any = (
   };
 };
 
-export const reportFilterFormFieldsDynamic = (reportOwnerApiQuery: any) => [
+export const reportFilterFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
-      name: 'owner',
+      required: false,
       label: 'Report Owner',
-      placeholder: 'Select report owner',
-      fullWidth: true,
-      apiQuery: reportOwnerApiQuery,
-      getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFAutocompleteAsync,
+    component: ReportOwnerFieldDropdown,
   },
   {
     id: 2,

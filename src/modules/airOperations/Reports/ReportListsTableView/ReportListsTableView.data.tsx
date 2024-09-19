@@ -1,21 +1,14 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Checkbox, Chip, Typography } from '@mui/material';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
-import {
-  DYNAMIC_REPORTS_TYPES_MAPPED,
-  MANAGE_REPORTS_ACCESS_TYPES_MAPPED,
-} from '@/constants/api-mapped';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Box, Checkbox, Chip } from '@mui/material';
+import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 import { CustomChips } from '@/components/CustomChips';
 import { Dispatch, SetStateAction } from 'react';
 import { ReportListsTableRowI } from '../ReportLists/ReportLists.interface';
 import { FavoriteReport } from '../FavoriteReport';
+import { UserInfo } from '@/components/UserInfo';
+import { uiDateFormat } from '@/utils/dateTime';
+import { TruncateText } from '@/components/TruncateText';
 
 export const reportListsColumnsDynamic = (
   selectedReportList: any,
@@ -69,6 +62,7 @@ export const reportListsColumnsDynamic = (
       />
     ),
   },
+
   {
     accessorFn: (row: ReportListsTableRowI) => row?.owner,
     id: 'owner',
@@ -80,20 +74,18 @@ export const reportListsColumnsDynamic = (
           reportId={info?.row?.original?._id}
           isFavorite={info?.row?.original?.isFavorite}
         />
-        <Box display={'flex'} alignItems={'center'} gap={1}>
-          <Avatar
-            sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-            src={generateImage(info?.getValue()?.avatar?.url)}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(
-                info?.getValue()?.firstName,
-                info?.getValue()?.lastName,
-              )}
-            </Typography>
-          </Avatar>
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-        </Box>
+        <UserInfo
+          name={fullName(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          nameInitial={fullNameInitial(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          avatarSrc={info?.getValue()?.avatar?.url}
+          email={info?.getValue()?.email}
+        />
       </Box>
     ),
   },
@@ -103,9 +95,10 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Report Name',
     cell: (info: any) => (
-      <Typography component="span" variant="body2" color="custom.bright">
-        {truncateText(info?.getValue())}
-      </Typography>
+      <TruncateText
+        text={info?.getValue()}
+        boxProps={{ color: 'primary.main' }}
+      />
     ),
   },
   {
@@ -136,8 +129,11 @@ export const reportListsColumnsDynamic = (
     id: 'type',
     isSortable: true,
     header: 'Type',
-    cell: (info: any) =>
-      DYNAMIC_REPORTS_TYPES_MAPPED?.[info?.getValue()] ?? '---',
+    cell: (info: any) => (
+      <Box sx={{ textTransform: 'capitalize' }}>
+        {info?.getValue()?.toLowerCase()} Report
+      </Box>
+    ),
   },
   {
     accessorFn: (row: ReportListsTableRowI) => row?.createdAt,
@@ -145,9 +141,7 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      !!info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-        : '---',
+      !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
   },
   {
     accessorFn: (row: ReportListsTableRowI) => row?.accessLevel,
@@ -163,8 +157,6 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Last Updated Date',
     cell: (info: any) =>
-      !!info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-        : '--',
+      !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
   },
 ];
