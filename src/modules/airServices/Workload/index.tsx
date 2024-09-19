@@ -30,6 +30,8 @@ import ViewWorkloadDrawer from './ViewWorkloadDrawer';
 import { IData, IDateHeaderContentData } from './Workload.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { WORKLOAD_STATUSES_OBJECT } from './Workload.data';
+import { generateImage } from '@/utils/avatarUtils';
+import { UpdateWorkloadTicket } from './UpdateWorkloadTicket';
 
 export const Workload = () => {
   const {
@@ -46,6 +48,8 @@ export const Workload = () => {
     setOnClickEvent,
     onClickEvent,
     addPlannedEffort,
+    setAddPlannedTicketEffort,
+    addPlannedTicketEffort,
   } = useWorkload();
 
   if (status?.isError || statusFilter?.isError) return <ApiErrorState />;
@@ -65,7 +69,7 @@ export const Workload = () => {
           AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS?.VIEW_WORKLOAD,
         ]}
       >
-        <Typography variant="h3" mb={3}>
+        <Typography variant={'h3'} mb={3}>
           Workload
         </Typography>
 
@@ -155,7 +159,7 @@ export const Workload = () => {
           }}
           headerToolbar={false}
           plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridWeek"
+          initialView={'dayGridWeek'}
           events={status?.data}
           eventTimeFormat={{
             hour: 'numeric',
@@ -176,10 +180,10 @@ export const Workload = () => {
                   },
                 }}
                 title={
-                  <>
-                    <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
+                  <Box p={2}>
+                    <Box display={'flex'} alignItems={'center'} gap={1} pb={2}>
                       <CircleIcon
-                        fontSize="small"
+                        fontSize={'small'}
                         color={
                           eventInfo?.event?.extendedProps?.status ===
                             WORKLOAD_STATUSES_OBJECT?.COMPLETED ||
@@ -197,18 +201,18 @@ export const Workload = () => {
                         }
                       />
                       <Typography
-                        variant="body1"
+                        variant={'body1'}
                         color={'blue.main'}
                         textTransform={'capitalize'}
                       >
-                        {eventInfo?.event?.extendedProps?.status}
+                        {eventInfo?.event?.extendedProps?.status?.toLowerCase()}
                       </Typography>
                     </Box>
                     <Divider />
-                    <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
+                    <Box display={'flex'} alignItems={'center'} gap={1} py={2}>
                       <TodoIcon />
                       <Typography
-                        variant="h5"
+                        variant={'h5'}
                         color={'blue.main'}
                         textTransform={'uppercase'}
                       >
@@ -216,7 +220,7 @@ export const Workload = () => {
                           eventInfo?.event?.extendedProps?.taskId}
                       </Typography>
                       <Typography
-                        variant="body1"
+                        variant={'body1'}
                         color={'blue.main'}
                         textTransform={'capitalize'}
                       >
@@ -225,7 +229,7 @@ export const Workload = () => {
                       </Typography>
                     </Box>
                     <Typography
-                      variant="body2"
+                      variant={'body2'}
                       px={2}
                       ml={2}
                       color={'custom.main'}
@@ -233,20 +237,20 @@ export const Workload = () => {
                     >
                       {eventInfo?.event?.start
                         ? dayjs(eventInfo?.event?.start)?.format(
-                            DATE_TIME_FORMAT?.DDMMYYYY,
+                            DATE_TIME_FORMAT?.FORMAT_24_HOUR,
                           )
                         : 'No Date'}{' '}
                       -{' '}
                       {eventInfo?.event?.end
                         ? dayjs(eventInfo?.event?.end)?.format(
-                            DATE_TIME_FORMAT?.DDMMYYYY,
+                            DATE_TIME_FORMAT?.FORMAT_24_HOUR,
                           )
                         : 'No Date'}
                     </Typography>
                     <Divider />
                     {eventInfo?.event?.extendedProps?.taskId && (
                       <Button
-                        color="secondary"
+                        color={'secondary'}
                         onClick={() =>
                           setAddPlannedEffort({
                             open: true,
@@ -257,20 +261,36 @@ export const Workload = () => {
                         ADD PLANNED EFFORT
                       </Button>
                     )}
+                    {eventInfo?.event?.extendedProps?.ticketIdParent && (
+                      <Button
+                        color={'secondary'}
+                        onClick={() =>
+                          setAddPlannedTicketEffort({
+                            open: true,
+                            data: eventInfo?.event,
+                          })
+                        }
+                      >
+                        ADD PLANNED EFFORT
+                      </Button>
+                    )}
                     <Button
-                      color="secondary"
+                      color={'secondary'}
                       onClick={() =>
                         router?.push({
                           pathname: AIR_SERVICES?.TICKETS_LIST,
                           query: {
-                            ticketId: eventInfo?.event?.extendedProps?.ticketId,
+                            ticketId: eventInfo?.event?.extendedProps
+                              ?.ticketIdParent
+                              ? eventInfo?.event?.extendedProps?.ticketIdParent
+                              : eventInfo?.event?.extendedProps?.ticketId,
                           },
                         })
                       }
                     >
                       VIEW TICKET
                     </Button>
-                  </>
+                  </Box>
                 }
               >
                 <Box
@@ -288,15 +308,29 @@ export const Workload = () => {
                       : router?.push({
                           pathname: AIR_SERVICES?.TICKETS_LIST,
                           query: {
-                            ticketId: eventInfo?.event?.extendedProps?.ticketId,
+                            ticketId:
+                              eventInfo?.event?.extendedProps?.ticketIdParent,
                           },
                         })
                   }
                 >
-                  <Avatar
-                    src={eventInfo?.event?.extendedProps?.avatar?.src}
-                    sx={{ width: 28, height: 28, color: 'primary.main' }}
-                  />
+                  {eventInfo?.event?.extendedProps?.ticketIdParent ? (
+                    <Avatar
+                      src={generateImage(
+                        eventInfo?.event?.extendedProps?.avatar?.url,
+                      )}
+                      sx={{ width: 28, height: 28, color: 'primary.main' }}
+                    />
+                  ) : (
+                    <Avatar
+                      src={generateImage(
+                        eventInfo?.event?.extendedProps?.assignedUser?.avatar
+                          ?.url,
+                      )}
+                      sx={{ width: 28, height: 28, color: 'primary.main' }}
+                    />
+                  )}
+
                   <Typography
                     variant={'body2'}
                     color={'common.white'}
@@ -334,6 +368,16 @@ export const Workload = () => {
             openDrawer={addPlannedEffort?.open}
             onClose={() => setAddPlannedEffort({ open: null, data: null })}
             data={addPlannedEffort?.data}
+          />
+        )}
+
+        {addPlannedTicketEffort?.open && (
+          <UpdateWorkloadTicket
+            openDrawer={addPlannedTicketEffort?.open}
+            onClose={() =>
+              setAddPlannedTicketEffort({ open: null, data: null })
+            }
+            data={addPlannedTicketEffort?.data}
           />
         )}
       </PermissionsGuard>

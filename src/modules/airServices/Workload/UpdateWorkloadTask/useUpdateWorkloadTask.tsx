@@ -11,6 +11,7 @@ import {
   usePatchTaskMutation,
 } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
   const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
@@ -37,8 +38,8 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
         description: data?.description,
         assignTo: data?.assignTo?._id,
         status: data?.status,
-        startDate: data?.startDate?.toISOString(),
-        endDate: data?.endDate?.toISOString(),
+        startDate: isoDateString(data?.startDate),
+        endDate: isoDateString(data?.endDate),
         plannedEffort: data?.plannedEffort,
       };
 

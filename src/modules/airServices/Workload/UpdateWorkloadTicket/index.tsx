@@ -1,16 +1,16 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useUpdateWorkloadTask } from './useUpdateWorkloadTask';
+import { useUpdateWorkloadTicket } from './useUpdateWorkloadTicket';
 
-export const UpdateWorkloadTask = ({ openDrawer, onClose, data }: any) => {
+export const UpdateWorkloadTicket = ({ openDrawer, onClose, data }: any) => {
   const {
     handleSubmit,
     onSubmit,
     methods,
-    workloadDataArray,
-    patchTaskStatus,
-  } = useUpdateWorkloadTask({
+    workloadTicketDataArray,
+    patchTicketStatus,
+  } = useUpdateWorkloadTicket({
     onClose,
     dataGet: data,
   });
@@ -19,19 +19,19 @@ export const UpdateWorkloadTask = ({ openDrawer, onClose, data }: any) => {
     <CommonDrawer
       isDrawerOpen={openDrawer}
       onClose={() => onClose(false)}
-      title={data?.extendedProps?.taskId}
+      title={data?.extendedProps?.ticketIdNumber}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      disabledCancelBtn={patchTaskStatus?.isLoading}
-      isDisabled={patchTaskStatus?.isLoading}
-      isLoading={patchTaskStatus?.isLoading}
+      disabledCancelBtn={patchTicketStatus?.isLoading}
+      isDisabled={patchTicketStatus?.isLoading}
+      isLoading={patchTicketStatus?.isLoading}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {workloadDataArray?.map((item: any) => (
+          {workloadTicketDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>

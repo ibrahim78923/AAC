@@ -32,7 +32,7 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
     <CommonDrawer
       isDrawerOpen={openDrawer}
       onClose={() => onClose(false)}
-      title={`#${data?.extendedProps?.taskId}`}
+      title={data?.extendedProps?.taskId}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}
@@ -44,18 +44,21 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
     >
       <FormProvider onSubmit={handleSubmit(onSubmit)} methods={methods}>
         <Typography variant="body2" mb={-2}>
-          {data?.extendedProps?.data?.assignedUser?.email ?? 'Email not found'}
+          {data?.extendedProps?.assignedUser?.email ?? 'Email not found'}
         </Typography>
         <Grid item xs={10}>
           <RHFAutocomplete
-            name="status"
+            name={'status'}
             sx={styles?.statusFieldStyle}
             options={statusOptions}
-            size="small"
+            size={'small'}
+            isOptionEqualToValue={(option: any, newValue: any) =>
+              option === newValue
+            }
           />
         </Grid>
         <Grid container spacing={2.5} sx={{ mt: 2, flexDirection: 'column' }}>
-          {drawerDetail(data?.extendedProps?.data, theme)?.map((item: any) => (
+          {drawerDetail(data?.extendedProps, theme)?.map((item: any) => (
             <Grid
               key={item?.id}
               item
@@ -121,6 +124,7 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
                   variant={'body2'}
                   fontWeight={400}
                   color={'slateBlue.main'}
+                  component={'div'}
                 >
                   {isValidElement(value) ? (
                     value

@@ -2,6 +2,7 @@ import { WORKLOAD_STATUSES_OBJECT } from '@/modules/airServices/Workload/Workloa
 import styles from '@/modules/airServices/Workload/Workload.module.scss';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { localeDateTime } from '@/utils/dateTime';
 
 const TAG = 'WORKLOAD';
 const TAG_TWO = 'DROPDOWN_AGENT_LIST';
@@ -9,8 +10,8 @@ const TAG_TWO = 'DROPDOWN_AGENT_LIST';
 const TransformResponse = (response: any) => {
   return response?.data?.flatMap((item: any) => {
     const mainTask = {
-      start: item?.plannedStartDate,
-      end: item?.plannedEndDate,
+      start: localeDateTime(item?.plannedStartDate),
+      end: localeDateTime(item?.plannedEndDate),
       className:
         item?.status === WORKLOAD_STATUSES_OBJECT?.RESOLVED ||
         item?.status === WORKLOAD_STATUSES_OBJECT?.CLOSED
@@ -19,18 +20,26 @@ const TransformResponse = (response: any) => {
             ? styles?.inprogress
             : styles?.toDo,
       extendedProps: {
-        ticketId: item?._id,
+        ticketIdParent: item?._id,
         status: item?.status,
-        avatar: item?.img,
+        avatar: item?.agentDetails?.avatar,
         ticketIdNumber: item?.ticketIdNumber,
         subject: item?.subject,
+        description: item?.description,
+        agentDetails: item?.agentDetails,
+        plannedStartDate: localeDateTime(item?.plannedStartDate),
+        plannedEndDate: localeDateTime(item?.plannedEndDate),
+        plannedEffort: item?.plannedEffort,
+        moduleType: item?.moduleType,
+        ticketType: item?.ticketType,
+        isChildTicket: item?.isChildTicket,
       },
     };
 
     const taskDetails =
       item?.taskDetails?.map((detail: any) => ({
-        start: detail?.startDate,
-        end: detail?.endDate,
+        start: localeDateTime(detail?.startDate),
+        end: localeDateTime(detail?.endDate),
         className:
           detail?.status === WORKLOAD_STATUSES_OBJECT?.COMPLETED
             ? styles?.completed
@@ -39,7 +48,9 @@ const TransformResponse = (response: any) => {
               : styles?.toDo,
         extendedProps: {
           ...detail,
-          taskId: `TSK-${detail?._id?.slice(-3)}`,
+          taskId: `#TSK-${detail?._id?.slice(-3)}`,
+          startDate: localeDateTime(detail?.startDate),
+          endDate: localeDateTime(detail?.endDate),
         },
       })) || [];
 
@@ -89,6 +100,15 @@ export const workloadAPI = baseAPI.injectEndpoints({
       },
       providesTags: [TAG_TWO],
     }),
+
+    putWorkloadTickets: builder?.mutation({
+      query: (putTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/{id}`,
+        method: 'PUT',
+        body: putTicketParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -98,4 +118,5 @@ export const {
   useGetWorkloadQuery,
   usePatchTaskMutation,
   useLazyGetAllUsersInWorkloadQuery,
+  usePutWorkloadTicketsMutation,
 } = workloadAPI;

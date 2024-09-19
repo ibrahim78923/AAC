@@ -45,7 +45,9 @@ export const newIncidentValidationSchema = (form: any) => {
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     plannedStartDate: Yup?.date(),
-    plannedEndDate: Yup?.date()?.nullable(),
+    plannedEndDate: Yup?.date()
+      ?.nullable()
+      ?.required('Planned End Date is Required'),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -180,6 +182,7 @@ export const newIncidentFormFieldsDynamic = [
       fullWidth: true,
       disablePast: true,
       ampm: false,
+      required: true,
       textFieldProps: { readOnly: true },
     },
     component: RHFDesktopDateTimePicker,

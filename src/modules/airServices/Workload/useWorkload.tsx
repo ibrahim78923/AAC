@@ -26,6 +26,11 @@ export default function useWorkload() {
     open: null,
     data: null,
   });
+  const [addPlannedTicketEffort, setAddPlannedTicketEffort] =
+    useState<IOnClickEvent>({
+      open: null,
+      data: null,
+    });
   const [dateCalendar, setDateCalendar] = useState<string | any>(
     dayjs()
       ?.startOf('week')
@@ -88,5 +93,7 @@ export default function useWorkload() {
     setOnClickEvent,
     onClickEvent,
     addPlannedEffort,
+    setAddPlannedTicketEffort,
+    addPlannedTicketEffort,
   };
 }

@@ -14,20 +14,20 @@ export default function useViewWorkloadDrawer({ onClose, dataGet }: any) {
 
   const methods = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues(dataGet?.extendedProps?.data),
+    defaultValues: defaultValues(dataGet?.extendedProps),
   });
 
   const { handleSubmit } = methods;
 
   const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
 
-  const overviewData = overviewDataArray(dataGet?.extendedProps?.data);
+  const overviewData = overviewDataArray(dataGet?.extendedProps);
 
   const onSubmit = async (formData: any) => {
     delete formData?.ticketId;
     const queryParams = {
       ...formData,
-      id: dataGet?.extendedProps?.data?._id,
+      id: dataGet?.extendedProps?._id,
     };
     const apiDataParameter = {
       queryParams,

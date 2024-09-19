@@ -54,6 +54,7 @@ export const DATE_TIME_FORMAT = {
   DD: 'DD',
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
+  FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
 };
 
 export const VALIDATION_CONSTANT = {
