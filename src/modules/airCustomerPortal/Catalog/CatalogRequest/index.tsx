@@ -7,6 +7,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { Theme } from '@mui/material';
 
 export const CatalogRequest = (props: CatalogRequestI) => {
   const { open } = props;
@@ -17,6 +19,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
     methodRequest,
     handleClose,
     postTicketStatus,
+    portalStyles,
   } = useCatalogRequest(props);
 
   return (
@@ -71,6 +74,13 @@ export const CatalogRequest = (props: CatalogRequestI) => {
               variant="contained"
               type="submit"
               loading={postTicketStatus?.isLoading}
+              sx={(theme: Theme) => ({
+                '&.Mui-disabled': {
+                  bgcolor:
+                    portalStyles?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                },
+              })}
             >
               confirm
             </LoadingButton>

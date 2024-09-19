@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
 
 export const contractsTableColumns = [
   {
@@ -8,7 +9,7 @@ export const contractsTableColumns = [
     id: 'name',
     cell: (info: any) => (
       <Box fontWeight={700} color="common.black">
-        {info?.getValue()}
+        <TruncateText text={info?.getValue()} />
       </Box>
     ),
     header: 'Contract Name',

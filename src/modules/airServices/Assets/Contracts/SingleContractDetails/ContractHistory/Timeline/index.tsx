@@ -10,8 +10,6 @@ export const Timeline = ({ data, timelineIndex }: any) => {
     <>
       {timelineIndex !== 0 && (
         <Box display={'flex'} flexWrap={'wrap'} gap={1.3} marginBottom={1.5}>
-          <Box flex={0.15}></Box>
-          <Box></Box>
           <Divider
             orientation="vertical"
             sx={{
@@ -21,7 +19,6 @@ export const Timeline = ({ data, timelineIndex }: any) => {
               height: '49px',
             }}
           />
-          <Box flex={0.8}></Box>
         </Box>
       )}
       <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>

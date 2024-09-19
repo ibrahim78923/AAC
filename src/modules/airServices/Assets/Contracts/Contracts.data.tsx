@@ -1,8 +1,9 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { truncateText } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { splitCapitalizedWords } from '@/utils/api';
 
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
@@ -79,7 +80,7 @@ export const contractsListsColumnsFunction = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {truncateText(info?.getValue()?.toLowerCase())}
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
       </Typography>
     ),
   },
@@ -89,8 +90,12 @@ export const contractsListsColumnsFunction = (
     header: 'Type',
     isSortable: false,
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
-        {truncateText(info?.getValue())}
+      <Typography
+        variant={'body2'}
+        textTransform={'capitalize'}
+        component={'span'}
+      >
+        <TruncateText text={info?.getValue()} />
       </Typography>
     ),
   },
@@ -100,8 +105,12 @@ export const contractsListsColumnsFunction = (
     isSortable: false,
     header: 'Status',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
+      <Typography
+        variant={'body2'}
+        textTransform={'capitalize'}
+        component={'span'}
+      >
+        {splitCapitalizedWords(info?.getValue()) ?? '---'}
       </Typography>
     ),
   },
@@ -124,7 +133,7 @@ export const contractsListsColumnsFunction = (
     id: 'vendor',
     isSortable: false,
     header: 'Vendor',
-    cell: (info: any) => truncateText(info?.getValue()?.name),
+    cell: (info: any) => <TruncateText text={info?.getValue()?.name} />,
   },
   {
     accessorFn: (row: any) => row?.endDate,

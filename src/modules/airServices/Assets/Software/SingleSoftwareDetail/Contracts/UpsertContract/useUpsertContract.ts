@@ -115,14 +115,12 @@ export const useUpsertContract = () => {
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
   const apiQueryApprover = useLazyGetAgentsDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
-  const apiContractType = useLazyGetContractTypeListQuery();
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     apiQueryVendor,
     apiQueryApprover,
     apiQuerySoftware,
-    apiContractType,
   );
   return {
     upsertContractFormMethods,

@@ -250,7 +250,6 @@ export const upsertContractFormFieldsDataFunction = (
   apiQueryVendor: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
-  apiContractType: any,
 ) => [
   {
     id: 1,
@@ -279,13 +278,12 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'type',
       label: 'Type',
-      apiQuery: apiContractType,
       disabled: true,
       required: true,
-      externalParams: { meta: false },
+      getOptionLabel: (option: any) => option?.name || '',
     },
     md: 6,
-    component: RHFAutocompleteAsync,
+    component: RHFAutocomplete,
   },
   {
     id: 6,

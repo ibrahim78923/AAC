@@ -14,13 +14,12 @@ export const ContractHistory = () => {
   if (isError) return <ApiErrorState />;
   return (
     <Grid container>
-      <Grid item xs={12} md={0.5}></Grid>
       <Grid item xs={12} md={10.5}>
         {!!contractHistory?.length ? (
           contractHistory?.map((singleActivity: any, index: any) => (
             <Timeline
               data={singleActivity}
-              key={singleActivity?._id}
+              key={singleActivity?._id || index}
               timelineIndex={index}
             />
           ))
@@ -31,7 +30,6 @@ export const ContractHistory = () => {
           />
         )}
       </Grid>
-      <Grid item xs={12} md={1}></Grid>
     </Grid>
   );
 };

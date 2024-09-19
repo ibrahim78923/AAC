@@ -5,6 +5,7 @@ import { UpsertSoftware } from '../../UpsertSoftware';
 import { DeleteSoftware } from '../../DeleteSoftware';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { capitalizeFirstWord } from '@/utils/api';
 
 export default function Header() {
   const {
@@ -33,7 +34,7 @@ export default function Header() {
         <PageTitledHeader
           canMovedBack
           moveBack={moveBackArrow}
-          title={data?.data?.[ARRAY_INDEX?.ZERO]?.name}
+          title={capitalizeFirstWord(data?.data?.[ARRAY_INDEX?.ZERO]?.name)}
         />
         <PublicSingleDropdownButton dropdownOptions={actionOptions} />
       </Box>

@@ -24,7 +24,7 @@ export const AllowAttendee = (props: any) => {
       <RHFCheckbox
         name="allowAttendee"
         label={
-          <Typography variant="body1" color="primary.main">
+          <Typography variant="body1" color="primary.main" component="span">
             Allow Attendee To Set Meeting Time
           </Typography>
         }

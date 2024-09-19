@@ -24,6 +24,7 @@ import { CatalogRequestI } from './CatalogRequest.interface';
 import {
   getActiveAccountSession,
   getCustomerPortalPermissions,
+  getCustomerPortalStyling,
   getSession,
 } from '@/utils';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
@@ -34,11 +35,11 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const { serviceId } = router?.query;
 
   const product = useMemo(() => getActiveAccountSession(), []);
+  const getPortalPermissions = getCustomerPortalPermissions();
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.company?._id;
   const sessionUserId = session?.user?._id;
-  const sessionOrganizationId = session?.user?.organization?._id;
 
   const { companyId } = router?.query;
   const decryptedId = useMemo(() => {
@@ -52,7 +53,6 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const categoryType = servicesDetails?.data?.serviceType;
 
   const searchStringLowerCase = categoryType?.toLowerCase();
-  const getPortalPermissions = getCustomerPortalPermissions();
   const checkPermission =
     getPortalPermissions?.customerPortalPermissions?.includes(
       AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
@@ -93,7 +93,10 @@ const useCatalogRequest = (props: CatalogRequestI) => {
       'companyId',
       decryptedId || companyIdStorage || sessionId || '',
     );
-    placeRequestData?.append('organization', sessionOrganizationId || '');
+    placeRequestData?.append(
+      'organization',
+      getPortalPermissions?.organizationId || '',
+    );
 
     const postTicketParameter = {
       body: placeRequestData,
@@ -137,6 +140,8 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     checkPermission,
   );
 
+  const portalStyles = getCustomerPortalStyling();
+
   return {
     methodRequest,
     handleSubmit,
@@ -150,6 +155,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     reset,
     postTicketStatus,
     checkPermission,
+    portalStyles,
   };
 };
 export default useCatalogRequest;

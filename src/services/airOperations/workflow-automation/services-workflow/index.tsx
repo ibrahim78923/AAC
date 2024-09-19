@@ -39,7 +39,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    deleteWorkflow: builder?.mutation({
+    deleteServicesWorkflow: builder?.mutation({
       query: (params: any) => ({
         url: `${OPERATION?.OPERATION_WORKFLOW}`,
         method: 'DELETE',
@@ -151,7 +151,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
 export const {
   usePostServicesWorkflowMutation,
   useGetByIdWorkflowQuery,
-  useDeleteWorkflowMutation,
+  useDeleteServicesWorkflowMutation,
   useUpdateWorkflowMutation,
   useSaveWorkflowMutation,
   useCloneServicesWorkflowMutation,
