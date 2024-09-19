@@ -94,7 +94,9 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       content: messageText,
     };
     const addMessagePayload = {
-      receiverId: activeReceiverId && activeReceiverId[0],
+      ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+        receiverId: activeReceiverId && activeReceiverId[0],
+      }),
       chatId: activeChatId && activeChatId,
       content: messageText,
       media: imageToUpload,
@@ -104,7 +106,9 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       }),
     };
     const addMessageReplyPayload = {
-      receiverId: activeReceiverId && activeReceiverId[0],
+      ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+        receiverId: activeReceiverId && activeReceiverId[0],
+      }),
       chatId: activeChatId && activeChatId,
       content: messageText,
       parentMessage: activeReply?.chatId,
