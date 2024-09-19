@@ -5,37 +5,59 @@ export const generateFormHtml = (fields: []) => {
     <form method="get">
       ${fields
         .map((field: any) => {
-          const requiredAttr = field.required ? 'required' : '';
+          const requiredAttr = field?.required === 'true' ? 'required' : '';
+          const asterik =
+            field?.required === 'true'
+              ? '<span class="label-required">*</span>'
+              : '';
           switch (field.type) {
             case fieldTypes?.text:
               return `
               <div class="field-group">
-                <div class="field-label"><label for="${field?.name}">${field?.label}</label></div>
-                <div class="field-control"><input class="field-input" type="text" name="${field?.name}" placeholder="${field?.placeholder}" ${requiredAttr} /></div>
+                <div class="field-label">
+                  <label for="${field?.name}">${field?.label} ${asterik}</label>
+                </div>
+                <div class="field-control">
+                  <input
+                    class="field-input"
+                    type="${field?.subtype ? field?.subtype : field?.type}"
+                    name="${field?.name}"
+                    placeholder="${field?.placeholder ?? ''}"
+                    ${requiredAttr}
+                  />
+                </div>
               </div>
             `;
             case fieldTypes?.file:
               return `
               <div class="field-group">
-                <div class="field-label"><label for="${field?.name}">${field?.label}</label></div>
-                <div class="field-control"><input class="field-input file" type="file" name="${field?.name}" placeholder="${field?.placeholder}" ${requiredAttr} /></div>
+                <div class="field-label">
+                  <label for="${field?.name}">${field?.label} ${asterik}</label>
+                </div>
+                <div class="field-control"><input class="field-input file" type="file" name="${field?.name}" placeholder="${
+                  field?.placeholder ?? ''
+                }" ${requiredAttr} /></div>
               </div>
             `;
             case fieldTypes?.textarea:
               return `
               <div class="field-group">
-                <div class="field-label"><label for="${field?.name}">${field.label}</label></div>
-                <div class="field-control"><textarea class="field-control textarea" name="${field?.name}" placeholder="${field?.placeholder}" ${requiredAttr}></textarea></div>
+                <div class="field-label">
+                  <label for="${field?.name}">${field?.label} ${asterik}</label>
+                </div>
+                <div class="field-control"><textarea class="field-input textarea" name="${field?.name}" placeholder="${
+                  field?.placeholder ?? ''
+                }" ${requiredAttr}></textarea></div>
               </div>
             `;
             case fieldTypes?.select:
               return `
               <div class="field-group">
-                <div class="field-label"><label for="${field.name}">${
-                  field.label
-                }</label></div>
+                <div class="field-label">
+                  <label for="${field?.name}">${field?.label} ${asterik}</label>
+                </div>
                 <div class="field-control">
-                  <select class="field-select" name="${
+                  <select class="field-input select" name="${
                     field.name
                   }" ${requiredAttr}>
                   ${field?.values?.map((option: any) => {
@@ -72,16 +94,44 @@ export const generateFormHtml = (fields: []) => {
   <!DOCTYPE html>
   <html lang='en'>
     <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Button</title>
-        <style>
-          body {
-            margin: 0;
-            padding: 0;
-            background-color: transparent;
-          }
-        </style>
+      <meta charset='UTF-8'>
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <title>Button</title>
+      <style>
+        body {
+          font-family: system-ui, -apple-system, Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: transparent;
+        }
+        .field-group {
+          margin-bottom: 20px;
+        }
+        .field-label {
+          margin-bottom: 0.5rem;
+        }
+        .label-required {
+          color: red;
+        }
+        .field-input {
+          display: block;
+          width: 100%;
+          padding: 0.375rem 0.75rem;
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #212529;;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background-color: #ffffff;
+          background-clip: padding-box;
+          border: 1px solid #dee2e6;
+          border-radius: 0.375rem;
+          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+          box-sizing: border-box;
+        }
+      </style>
     </head>
     <body>
       ${html}
@@ -99,7 +149,7 @@ export const generateFormHtml = (fields: []) => {
   const iframeSrc = `data:text/html;charset=utf-8,${encodedHtml}`;
 
   const iframe = `<iframe
-    style={{ border: 'none', width: '100%', height: '100%' }}
+    style="border: none; width: 100%; height: 500px"
     src="${iframeSrc}"
   />`;
 
