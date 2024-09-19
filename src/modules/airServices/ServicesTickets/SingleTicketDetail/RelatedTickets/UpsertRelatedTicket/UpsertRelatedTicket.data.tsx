@@ -22,24 +22,26 @@ import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldD
 import { localeDateTime } from '@/utils/dateTime';
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Requester is Required'),
-  subject: Yup?.string()?.trim()?.required('Subject is Required'),
+  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+  subject: Yup?.string()?.trim()?.required('Subject is required'),
   description: Yup?.string()
     ?.trim()
-    ?.required('Description is Required')
-    ?.test('is-not-empty', 'Description is Required', (value: string) => {
+    ?.required('Description is required')
+    ?.test('is-not-empty', 'Description is required', (value: string) => {
       const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
       return strippedContent !== '';
     }),
   category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Status is Required'),
-  priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
+  priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
   department: Yup?.mixed()?.nullable(),
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date()?.nullable(),
-  plannedEndDate: Yup?.date()?.nullable(),
+  plannedEndDate: Yup?.date()
+    ?.nullable()
+    ?.required('Planned end date is required'),
   plannedEffort: Yup?.string()?.trim(),
   associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
@@ -181,6 +183,7 @@ export const upsertTicketFormFieldsDynamic = () => [
       fullWidth: true,
       disablePast: true,
       ampm: false,
+      required: true,
       textFieldProps: { readOnly: true },
     },
     component: RHFDesktopDateTimePicker,

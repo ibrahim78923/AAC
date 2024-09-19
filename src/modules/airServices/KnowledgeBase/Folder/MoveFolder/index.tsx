@@ -1,17 +1,8 @@
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Typography,
-} from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useMoveFolder } from './useMoveFolder';
-import CloseIcon from '@mui/icons-material/Close';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const MoveFolder = () => {
   const {
@@ -25,60 +16,24 @@ export const MoveFolder = () => {
   } = useMoveFolder();
 
   return (
-    <Dialog
-      open={isPortalOpen?.isOpen as boolean}
-      onClose={closeMoveFolderModal}
-      maxWidth={'sm'}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={isPortalOpen?.isOpen}
+      closePortal={closeMoveFolderModal}
+      dialogTitle="Move to other folder"
+      submitButtonText="Move"
+      showSubmitLoader={patchArticleStatus?.isLoading}
+      disabledCancelButton={patchArticleStatus?.isLoading}
+      handleSubmitButton={handleSubmit(submitMoveFolder)}
     >
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-          mb={1.5}
-        >
-          <Typography variant="h4" color="slateBlue.main">
-            Move to other folder
-          </Typography>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={closeMoveFolderModal}
-          />
-        </Box>
-      </DialogTitle>
-      <DialogContent>
-        <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {moveFolderFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </DialogContent>
-      <DialogActions sx={{ paddingTop: `0rem !important` }}>
-        <LoadingButton
-          variant="outlined"
-          color="secondary"
-          onClick={closeMoveFolderModal}
-          type="button"
-          disabled={patchArticleStatus?.isLoading}
-        >
-          Cancel
-        </LoadingButton>
-        <LoadingButton
-          variant="contained"
-          type="submit"
-          loading={patchArticleStatus?.isLoading}
-          onClick={handleSubmit(submitMoveFolder)}
-        >
-          Move
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+      <FormProvider methods={methods}>
+        <Grid container spacing={1}>
+          {moveFolderFormFields?.map((item: ReactHookFormFieldsI) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
+              <item.component {...item?.componentProps} size={'small'} />
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
+    </CustomCommonDialog>
   );
 };

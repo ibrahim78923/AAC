@@ -6,6 +6,7 @@ import {
 import * as Yup from 'yup';
 import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
 import { ApprovalsFields, FoldersFields } from '../../KnowledgeBaseFormFields';
+import { localeDateTime } from '@/utils/dateTime';
 
 export const upsertArticleDefaultValues = (
   articleData?: UpsertArticlesFormDefaultValuesI,
@@ -19,7 +20,7 @@ export const upsertArticleDefaultValues = (
     needsApproval: articleData?.isApproval ?? false,
     approver: articleData?.approver ?? null,
     reviewDate: !!articleData?.reviewDate
-      ? new Date(articleData?.reviewDate)
+      ? localeDateTime(articleData?.reviewDate)
       : null,
     attachments: articleData?.attachments ?? null,
   };

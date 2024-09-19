@@ -18,6 +18,7 @@ import { AIR_SERVICES } from '@/constants';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 import useAuth from '@/hooks/useAuth';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertArticle: any = () => {
   const router: NextRouter = useRouter();
@@ -87,7 +88,7 @@ export const useUpsertArticle: any = () => {
       data?.needsApproval &&
       upsertArticle?.append('approver', data?.approver?._id);
     data?.needsApproval &&
-      upsertArticle?.append('reviewDate', data?.reviewDate?.toISOString());
+      upsertArticle?.append('reviewDate', isoDateString(data?.reviewDate));
     !!data?.attachments && upsertArticle?.append('fileUrl', data?.attachments);
     const postArticleParameter = {
       body: upsertArticle,

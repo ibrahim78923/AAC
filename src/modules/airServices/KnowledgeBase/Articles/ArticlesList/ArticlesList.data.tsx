@@ -1,8 +1,9 @@
 import { ArticlesTableRowI } from '../Articles.interface';
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 import { CustomChips } from '@/components/CustomChips';
+import { TruncateText } from '@/components/TruncateText';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -79,19 +80,16 @@ export const articlesListColumnsDynamic = (
       id: 'title',
       isSortable: false,
       header: 'Article',
-      cell: (info: any) => {
-        return (
-          <Typography
-            component={'span'}
-            onClick={() =>
-              handleSingleArticleNavigation(info?.row?.original?._id)
-            }
-            style={{ cursor: 'pointer', fontWeight: 600 }}
-          >
-            {truncateText(info?.getValue())}
-          </Typography>
-        );
-      },
+      cell: (info: any) => (
+        <TruncateText
+          text={info?.getValue()?.toLowerCase()}
+          boxProps={{
+            onClick: () =>
+              handleSingleArticleNavigation(info?.row?.original?._id),
+            sx: { cursor: 'pointer', fontWeight: 'fontWeightMedium' },
+          }}
+        />
+      ),
     },
     {
       accessorFn: (row: ArticlesTableRowI) => row?.status,
@@ -153,9 +151,7 @@ export const articlesListColumnsDynamic = (
       isSortable: true,
       header: 'Folder',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
-          {truncateText(info?.getValue()?.name)}
-        </Typography>
+        <TruncateText text={info?.getValue()?.name?.toLowerCase()} />
       ),
     },
   ];

@@ -1,5 +1,3 @@
-import React from 'react';
-import { Box } from '@mui/material';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useTicketRelated } from './useTicketRelated';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -9,9 +7,9 @@ import {
 } from './TicketRelated.data';
 import NoData from '@/components/NoData';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { truncateText } from '@/utils/avatarUtils';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TicketRelatedPropsI } from './TicketRelated.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const TicketRelated = (props: TicketRelatedPropsI) => {
   const { selectedArticle, setSelectedArticle } = props;
@@ -44,40 +42,37 @@ export const TicketRelated = (props: TicketRelatedPropsI) => {
               : 'SOMETHING WENT WRONG'
           }
           canRefresh={error?.data?.message !== NO_DATA_MESSAGE}
-          refresh={() => refetch?.()}
+          refresh={refetch}
         />
       </>
     );
 
+  if (!!!data?.data?.articles?.length)
+    return <NoData message="No inserted tickets found" />;
+
   return (
     <>
-      {data?.data?.articles?.length ? (
-        <Box>
-          <PageTitledHeader
-            moveBack={() => setSelectedArticle?.({})}
-            canMovedBack
-            title={truncateText?.(selectedArticle?.title)}
-          />
-          <TanstackTable
-            data={data?.data?.articles}
-            columns={knowledgeInsightsRelatedTicketColumns}
-            isLoading={isLoading}
-            currentPage={data?.data?.meta?.page}
-            count={data?.data?.meta?.pages}
-            pageLimit={data?.data?.meta?.limit}
-            totalRecords={data?.data?.meta?.total}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-            isFetching={isFetching}
-            isError={isError}
-            isSuccess={isSuccess}
-            onPageChange={(page: number) => setPage(page)}
-            isPagination
-          />
-        </Box>
-      ) : (
-        <NoData message="No inserted tickets found" />
-      )}
+      <PageTitledHeader
+        moveBack={() => setSelectedArticle?.({})}
+        canMovedBack
+        title={<TruncateText text={selectedArticle?.title} />}
+      />
+      <TanstackTable
+        data={data?.data?.articles}
+        columns={knowledgeInsightsRelatedTicketColumns}
+        isLoading={isLoading}
+        currentPage={data?.data?.meta?.page}
+        count={data?.data?.meta?.pages}
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        onPageChange={(page: number) => setPage(page)}
+        isPagination
+      />
     </>
   );
 };

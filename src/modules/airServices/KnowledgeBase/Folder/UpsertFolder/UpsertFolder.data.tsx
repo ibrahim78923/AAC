@@ -71,7 +71,7 @@ export const upsertFolderFormFields = [
     componentProps: {
       name: 'description',
       label: 'Description',
-      placeholder: '#example',
+      placeholder: 'Write the description',
       fullWidth: true,
       multiline: true,
       rows: 4,
@@ -84,6 +84,7 @@ export const upsertFolderFormFields = [
     componentProps: {
       name: 'visibility',
       label: 'Visible to',
+      placeholder: 'Select the visibility',
       fullWidth: true,
       required: true,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,

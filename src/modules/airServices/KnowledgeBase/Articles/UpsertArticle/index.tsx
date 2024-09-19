@@ -71,6 +71,7 @@ export const UpsertArticle = () => {
               required
               fullWidth
               placeholder="Enter the title"
+              size="small"
             />
             <Box pb={1.4}>
               <RHFEditor

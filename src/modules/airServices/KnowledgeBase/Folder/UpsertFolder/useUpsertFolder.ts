@@ -15,6 +15,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/knowledge-base/slice';
 import { useGetFoldersApi } from '../../KnowledgeBaseHooks/useGetFoldersApi';
 
+const { EDIT_FOLDER } = FOLDER_ACTIONS_CONSTANT ?? {};
+
 export const useUpsertFolder = () => {
   const { getArticlesFolderListForFilterData } = useGetFoldersApi?.();
 
@@ -27,9 +29,7 @@ export const useUpsertFolder = () => {
   );
 
   const setEditDefaultValues =
-    isPortalOpen?.action === FOLDER_ACTIONS_CONSTANT?.EDIT_FOLDER
-      ? selectedFolder
-      : undefined;
+    isPortalOpen?.action === EDIT_FOLDER ? selectedFolder : undefined;
 
   const methods: UseFormReturn<UpsertFolderFormFieldsI> =
     useForm<UpsertFolderFormFieldsI>({
@@ -50,7 +50,7 @@ export const useUpsertFolder = () => {
     };
     const apiDataParameter = { body };
 
-    if (isPortalOpen?.action === FOLDER_ACTIONS_CONSTANT?.EDIT_FOLDER) {
+    if (isPortalOpen?.action === EDIT_FOLDER) {
       submitUpdateFolder(body);
       return;
     }
@@ -87,6 +87,8 @@ export const useUpsertFolder = () => {
     dispatch(setIsPortalClose());
   };
 
+  const showLoader =
+    postFolderStatus?.isLoading || updateFolderForArticlesStatus?.isLoading;
   return {
     methods,
     handleSubmit,
@@ -96,5 +98,6 @@ export const useUpsertFolder = () => {
     updateFolderForArticlesStatus,
     isPortalOpen,
     selectedFolder,
+    showLoader,
   };
 };

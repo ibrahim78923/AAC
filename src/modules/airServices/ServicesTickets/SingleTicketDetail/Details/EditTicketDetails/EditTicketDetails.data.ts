@@ -40,14 +40,16 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
         then: () => Yup?.mixed()?.nullable()?.required('Service is required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
-    status: Yup?.mixed()?.nullable()?.required('Status is Required'),
-    priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+    status: Yup?.mixed()?.nullable()?.required('Status is required'),
+    priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
     department: Yup?.mixed()?.nullable(),
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     plannedStartDate: Yup?.date()?.nullable(),
-    plannedEndDate: Yup?.date()?.nullable(),
+    plannedEndDate: Yup?.date()
+      ?.nullable()
+      ?.required('Planned end date is required'),
     plannedEffort: Yup?.string()?.trim(),
     ...formSchema,
   });
@@ -204,6 +206,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       label: 'Planned End Date',
       fullWidth: true,
       disablePast: true,
+      required: true,
       textFieldProps: { readOnly: true },
       ampm: false,
     },

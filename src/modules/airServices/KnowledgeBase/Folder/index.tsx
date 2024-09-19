@@ -63,7 +63,7 @@ export const Folder = () => {
             }
             textTransform={'capitalize'}
           >
-            {truncateText(tab?.name, 15)}
+            {truncateText(tab?.name?.toLowerCase(), 15)}
           </Typography>
         </Box>
       ))}

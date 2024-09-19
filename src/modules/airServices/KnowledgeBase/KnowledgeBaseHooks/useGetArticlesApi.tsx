@@ -57,7 +57,7 @@ export const useGetArticlesApi = () => {
     try {
       const response =
         await lazyGetArticlesTrigger(getArticlesParameter)?.unwrap();
-      dispatch(setArticlesListsTotalRecords(response?.data?.tickets?.length));
+      dispatch(setArticlesListsTotalRecords(response?.data?.articles?.length));
       dispatch(emptySelectedArticlesList());
     } catch (error: any) {}
     dispatch(canDisableFolderSelections(false));

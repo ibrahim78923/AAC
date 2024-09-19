@@ -1,0 +1,70 @@
+import { LoadingButton } from '@mui/lab';
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
+export const CustomCommonDialog = (props: any) => {
+  const {
+    isPortalOpen = false,
+    closePortal,
+    dialogTitle = '',
+    children,
+    disabledCancelButton = false,
+    showSubmitLoader = false,
+    handleSubmitButton,
+    handleCancelButton = closePortal,
+    cancelButtonText = 'Cancel',
+    submitButtonText = 'Submit',
+  } = props;
+
+  return (
+    <Dialog open={isPortalOpen} onClose={closePortal} maxWidth={'sm'} fullWidth>
+      <DialogTitle>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          gap={1}
+          flexWrap={'wrap'}
+          mb={1.5}
+        >
+          <Typography variant="h4" color="slateBlue.main">
+            {dialogTitle}
+          </Typography>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={closePortal}
+          />
+        </Box>
+      </DialogTitle>
+      <DialogContent>{children}</DialogContent>
+      <DialogActions sx={{ paddingTop: `0rem !important` }}>
+        <LoadingButton
+          className="small"
+          type="button"
+          variant="outlined"
+          color="secondary"
+          onClick={handleCancelButton}
+          disabled={disabledCancelButton}
+        >
+          {cancelButtonText}
+        </LoadingButton>
+        <LoadingButton
+          className="small"
+          type="submit"
+          variant="contained"
+          onClick={handleSubmitButton}
+          loading={showSubmitLoader}
+        >
+          {submitButtonText}
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+};

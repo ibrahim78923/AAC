@@ -33,8 +33,8 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
     subject: Yup?.string()?.trim()?.required('Subject is required'),
     description: Yup?.string()
       ?.trim()
-      ?.required('Description is Required')
-      ?.test('is-not-empty', 'Description is Required', (value) => {
+      ?.required('Description is required')
+      ?.test('is-not-empty', 'Description is required', (value) => {
         const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
         return strippedContent !== '';
       }),
@@ -42,7 +42,10 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
     ...(!!!ticketId
       ? {
           status: Yup?.mixed()?.nullable()?.required('Status is required'),
-          priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+          priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
+          plannedEndDate: Yup?.date()
+            ?.nullable()
+            ?.required('Planned end date is required'),
         }
       : {}),
     department: Yup?.mixed()?.nullable(),
@@ -50,7 +53,6 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     plannedStartDate: Yup?.date(),
-    plannedEndDate: Yup?.date()?.nullable(),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -198,6 +200,7 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => [
             label: 'Planned End Date',
             fullWidth: true,
             disablePast: true,
+            required: true,
             ampm: false,
             textFieldProps: { readOnly: true },
           },
