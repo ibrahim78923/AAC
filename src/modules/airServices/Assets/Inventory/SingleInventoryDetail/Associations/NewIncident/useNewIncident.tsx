@@ -1,5 +1,4 @@
 import {
-  newIncidentFormFieldsDynamic,
   newIncidentValidationSchema,
   newIncidentsDefaultValuesFunction,
 } from './NewIncident.data';
@@ -8,22 +7,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   errorSnackbar,
   filteredEmptyValues,
-  makeDateTime,
   successSnackbar,
 } from '@/utils/api';
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
-import {
-  useLazyGetAgentDropdownQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
-  usePostTicketsMutation,
-} from '@/services/airServices/tickets';
+import { usePostTicketsMutation } from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -34,12 +25,20 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/utils/dateTime';
+import useAuth from '@/hooks/useAuth';
+import { getActiveAccountSession } from '@/utils';
 
 export const useNewIncident = (props: {
   openDrawer: boolean;
   setIsOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { setIsOpenDrawer } = props;
+
+  const auth: any = useAuth();
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
+  const userId = auth?.user?._id ?? {};
+  const organizationId = auth?.user?.organization?._id ?? {};
 
   const [form, setForm] = useState<any[]>([]);
 
@@ -76,7 +75,7 @@ export const useNewIncident = (props: {
 
   const methods: any = useForm<any>({
     resolver: yupResolver(newIncidentValidationSchema?.(form)),
-    defaultValues: newIncidentsDefaultValuesFunction?.({}, form),
+    defaultValues: newIncidentsDefaultValuesFunction?.(form),
   });
 
   const { handleSubmit, reset, getValues } = methods;
@@ -140,11 +139,10 @@ export const useNewIncident = (props: {
         newFormData?.requester?._id,
       );
       newIncidentTicketFormData?.append('subject', newFormData?.subject);
-      !!newFormData?.description &&
-        newIncidentTicketFormData?.append(
-          'description',
-          newFormData?.description,
-        );
+      newIncidentTicketFormData?.append(
+        'description',
+        newFormData?.description,
+      );
       !!newFormData?.category?._id &&
         newIncidentTicketFormData?.append(
           'category',
@@ -163,28 +161,28 @@ export const useNewIncident = (props: {
         newIncidentTicketFormData?.append('impact', newFormData?.impact?._id);
       !!newFormData?.agent &&
         newIncidentTicketFormData?.append('agent', newFormData?.agent?._id);
-      (!!newFormData?.plannedEndDate || !!newFormData?.plannedEndTime) &&
+      !!newFormData?.plannedEndDate &&
         newIncidentTicketFormData?.append(
           'plannedEndDate',
-          makeDateTime(
-            newFormData?.plannedEndDate,
-            newFormData?.plannedEndTime,
-          )?.toISOString(),
+          isoDateString(newFormData?.plannedEndDate),
         );
       !!newFormData?.plannedEffort &&
         newIncidentTicketFormData?.append(
           'plannedEffort',
           newFormData?.plannedEffort,
         );
-      !!newFormData?.attachFile &&
-        newIncidentTicketFormData?.append('fileUrl', newFormData?.attachFile);
       !!newFormData?.associatesAssets?.length &&
         newIncidentTicketFormData?.append(
           'associateAssets',
           newFormData?.associatesAssets?.map((asset: any) => asset?._id),
         );
+      !!newFormData?.attachFile &&
+        newIncidentTicketFormData?.append('fileUrl', newFormData?.attachFile);
       newIncidentTicketFormData?.append('moduleType', MODULE_TYPE?.TICKETS);
       newIncidentTicketFormData?.append('ticketType', TICKET_TYPE?.INC);
+      newIncidentTicketFormData?.append('userId', userId);
+      newIncidentTicketFormData?.append('companyId', companyId);
+      newIncidentTicketFormData?.append('organization', organizationId);
 
       if (body?.customFields) {
         newIncidentTicketFormData?.append(
@@ -232,21 +230,6 @@ export const useNewIncident = (props: {
     }
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-
-  const newIncidentFormFields = newIncidentFormFieldsDynamic(
-    apiQueryRequester,
-    apiQueryDepartment,
-    apiQueryAgent,
-    apiQueryCategories,
-    apiQueryAssociateAsset,
-    router,
-  );
-
   const onClose = () => {
     setIsOpenDrawer?.(false);
     reset?.();
@@ -256,7 +239,6 @@ export const useNewIncident = (props: {
     handleSubmit,
     onSubmit,
     methods,
-    newIncidentFormFields,
     onClose,
     postTicketStatus,
     associateIncident,

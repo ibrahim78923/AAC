@@ -1,4 +1,5 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants';
 import {
   ASSET_IMPACT,
@@ -6,7 +7,7 @@ import {
   ASSET_TYPE,
   TIME_PERIODS,
 } from '@/constants/strings';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/utils/dateTime';
 import { Checkbox, Typography } from '@mui/material';
 
@@ -186,23 +187,18 @@ export const inventoryListsColumnsFunction: any = (
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
-      <Typography
-        component={'span'}
-        onClick={() =>
-          router?.push({
-            pathname: AIR_SERVICES?.ASSETS_INVENTORY_DETAIL,
-            query: {
-              inventoryId: info?.row?.original._id,
-            },
-          })
-        }
-        color={'custom.bright'}
-        textTransform={'capitalize'}
-        sx={{ cursor: 'pointer' }}
-        title={info?.getValue()}
-      >
-        {truncateText(info?.getValue())}
-      </Typography>
+      <TruncateText
+        text={info.getValue()}
+        boxProps={{
+          sx: { cursor: 'pointer' },
+          color: 'custom.bright',
+          onClick: () =>
+            router?.push({
+              pathname: AIR_SERVICES?.ASSETS_INVENTORY_DETAIL,
+              query: { inventoryId: info?.row?.original._id },
+            }),
+        }}
+      />
     ),
   },
   {
@@ -210,30 +206,14 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => (
-      <Typography
-        variant={'body2'}
-        textTransform={'capitalize'}
-        title={info?.getValue()?.name}
-      >
-        {truncateText(info?.getValue()?.name)}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info.getValue()?.name} />,
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => (
-      <Typography
-        variant={'body2'}
-        textTransform={'capitalize'}
-        title={info?.getValue()?.locationName}
-      >
-        {truncateText(info?.getValue()?.locationName)}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info.getValue()?.locationName} />,
   },
   {
     accessorFn: (row: any) => row?.userDetails,
@@ -242,7 +222,10 @@ export const inventoryListsColumnsFunction: any = (
     header: 'Used By',
     cell: (info: any) => (
       <Typography variant={'body2'} textTransform={'capitalize'}>
-        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        {fullName(
+          info?.getValue()?.firstName?.toLowerCase(),
+          info?.getValue()?.lastName?.toLowerCase(),
+        )}
       </Typography>
     ),
   },
@@ -251,15 +234,7 @@ export const inventoryListsColumnsFunction: any = (
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => (
-      <Typography
-        variant={'body2'}
-        textTransform={'capitalize'}
-        title={info?.getValue()?.name}
-      >
-        {truncateText(info?.getValue()?.name?.toLowerCase())}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info.getValue()?.name} />,
   },
   {
     accessorFn: (row: any) => row?.impact,
@@ -277,6 +252,7 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetLifeExpireOn',
     isSortable: true,
     header: 'Expiry date',
-    cell: (info: any) => uiDateFormat(info?.getValue()),
+    cell: (info: any) =>
+      info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
   },
 ];

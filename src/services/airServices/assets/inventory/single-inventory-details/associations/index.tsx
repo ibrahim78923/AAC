@@ -37,6 +37,14 @@ export const associationsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getExitingTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -46,4 +54,5 @@ export const {
   useLazyGetAssociationListQuery,
   usePatchExistingIncidentMutation,
   useDeleteInventoryAssociationListMutation,
+  useLazyGetExitingTicketsQuery,
 } = associationsAPI;

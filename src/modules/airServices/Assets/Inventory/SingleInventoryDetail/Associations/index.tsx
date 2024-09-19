@@ -124,11 +124,12 @@ export const Associations = () => {
                         </Typography>
                       </Box>
                       <Chip
-                        label={item?.status ?? '---'}
+                        label={item?.status?.toLowerCase() ?? '---'}
                         sx={{
                           bgcolor:
                             theme?.palette[chipColor(item?.status)]?.main,
                           color: theme?.palette?.common?.white,
+                          textTransform: 'capitalize',
                         }}
                       />
                     </Box>

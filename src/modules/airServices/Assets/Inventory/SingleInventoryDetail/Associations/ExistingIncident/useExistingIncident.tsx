@@ -1,11 +1,11 @@
 import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useLazyGetExitingTicketsQuery } from '@/services/airServices/inventory/SingleInventoryDetail/Associations';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useLazyGetExitingTicketsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 
 export const useExistingIncident = (props: {
   openDrawer: boolean;
