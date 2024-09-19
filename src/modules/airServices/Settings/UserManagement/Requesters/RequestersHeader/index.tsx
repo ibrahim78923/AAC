@@ -28,7 +28,7 @@ export const RequestersHeader = (props: IRequestersProps) => {
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
           ]}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={setSearch} size="small" />
         </PermissionsGuard>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <PermissionsGuard
@@ -50,6 +50,7 @@ export const RequestersHeader = (props: IRequestersProps) => {
               startIcon={<CirclePlusIcon />}
               variant="contained"
               onClick={() => setIsDrawerOpen(true)}
+              className="small"
             >
               Add Requestors
             </Button>

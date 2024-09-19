@@ -24,7 +24,6 @@ export const useKnowledgeBase = () => {
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.company?._id;
   const sessionUserId = session?.user?._id;
-  const sessionOrganizationId = session?.user?.organization?._id;
 
   const { companyId } = router?.query;
   const decryptedId = useMemo(() => {
@@ -39,7 +38,7 @@ export const useKnowledgeBase = () => {
       search,
       userId: sessionUserId,
       companyId: decryptedId || companyIdStorage || sessionId,
-      organizationId: sessionOrganizationId,
+      organizationId: customerPortalPermissions?.organizationId,
     },
   };
 

@@ -1,6 +1,7 @@
+import { TruncateText } from '@/components/TruncateText';
 import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
-import { capitalizeFirstLetters } from '@/utils';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
 
 export const SOFTWARE_STATUS_COUNT = {
   TOTAL_SOFTWARE: 'totalSoftware',
@@ -89,34 +90,50 @@ export const softwareReportsTableColumnsDynamic = () => [
     id: 'name',
     isSortable: false,
     header: 'Name',
-    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => capitalizeFirstLetters(info?.getValue() ?? '---'),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.softwareManagedByDetails,
     id: 'softwareManagedByDetails',
     isSortable: false,
     header: 'Managed By',
-    cell: (info: any) =>
-      capitalizeFirstLetters(
-        fullName(
-          info?.row?.original?.softwareManagedByDetails?.firstName,
-          info?.row?.original?.softwareManagedByDetails?.lastName,
-        ),
-      ),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {
+          <TruncateText
+            text={fullName(
+              info?.row?.original?.softwareManagedByDetails?.firstName?.toLowerCase(),
+              info?.row?.original?.softwareManagedByDetails?.lastName?.toLowerCase(),
+            )}
+          />
+        }
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.details,
     id: 'category',
     isSortable: false,
     header: 'Category',
-    cell: (info: any) =>
-      truncateText(capitalizeFirstLetters(info?.getValue()?.category)),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.category?.toLowerCase()} />}
+      </Typography>
+    ),
   },
 ];

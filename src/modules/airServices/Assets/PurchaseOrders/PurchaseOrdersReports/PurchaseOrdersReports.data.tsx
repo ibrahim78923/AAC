@@ -1,6 +1,6 @@
+import { TruncateText } from '@/components/TruncateText';
 import { ARRAY_INDEX, PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
-import { capitalizeFirstLetters } from '@/utils';
-import { truncateText } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
 
 export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
   [PURCHASE_ORDER_REPORT_STATUS?.ALL]: 'allPurchaseOrder',
@@ -118,25 +118,41 @@ export const purchaseOrderReportsTableColumns = [
     accessorFn: (row: any) => row?.orderName,
     id: 'orderName',
     header: 'Order Name',
-    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.vendorDetails?.name,
     id: 'vendor',
     header: 'Vendor',
-    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
     header: 'Status',
-    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.purchaseDetails[ARRAY_INDEX?.ZERO]?.total,
     id: 'totalCost',
     header: 'Total Cost (£)',
     cell: (info: any) =>
-      info?.getValue() !== undefined ? info?.getValue() : '---',
+      info?.getValue() !== undefined ? (
+        <TruncateText text={info?.getValue()} />
+      ) : (
+        '---'
+      ),
   },
 ];

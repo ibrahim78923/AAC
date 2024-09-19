@@ -1,6 +1,8 @@
-import { Avatar, Box, Typography } from '@mui/material';
-import { generateImage } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/utils/dateTime';
+import { UserInfo } from '@/components/UserInfo';
+import { TruncateText } from '@/components/TruncateText';
 
 export const exportTabColumns = [
   {
@@ -9,25 +11,12 @@ export const exportTabColumns = [
     isSortable: true,
     header: 'User',
     cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: 'error.lighter', width: 32, height: 32 }}
-          src={generateImage(info?.row?.original?.avatar)}
-          alt={info?.row?.original?.userFullName}
-        />
-        <Box display={'flex'} flexDirection={'column'}>
-          <Typography
-            variant="body2"
-            color={'grey.800'}
-            textTransform="capitalize"
-          >
-            {info?.row?.original?.userFullName?.toLowerCase() ?? '---'}
-          </Typography>
-          <Typography variant="body3" color={'grey.900'}>
-            {info?.row?.original?.email ?? '---'}
-          </Typography>
-        </Box>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(info?.row?.original?.userFullName)}
+        name={fullName(info?.row?.original?.userFullName)}
+        avatarSrc={info?.row?.original?.avatar}
+        email={info?.row?.original?.email}
+      />
     ),
   },
   {
@@ -58,7 +47,7 @@ export const exportTabColumns = [
     header: 'Product',
     cell: (info: any) => (
       <Typography variant="body2" textTransform="capitalize">
-        {info?.getValue()?.toLowerCase() ?? '---'}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -69,7 +58,7 @@ export const exportTabColumns = [
     header: 'Object',
     cell: (info: any) => (
       <Typography variant="body2" textTransform="capitalize">
-        {info?.getValue()?.toLowerCase() ?? '---'}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -78,7 +67,7 @@ export const exportTabColumns = [
     id: 'noOfRecords',
     isSortable: true,
     header: 'No of Records',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => <TruncateText text={info?.getValue()} /> ?? '---',
   },
   {
     accessorFn: (row: any) => row?.createdAt,

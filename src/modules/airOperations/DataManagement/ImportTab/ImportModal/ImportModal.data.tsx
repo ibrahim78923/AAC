@@ -6,38 +6,45 @@ import {
 import * as Yup from 'yup';
 import { Delete } from '@mui/icons-material';
 import { IMPORT_ACTION_TYPE, PRODUCTS_LISTS } from '@/constants/strings';
+import {
+  DealsIcon,
+  InventoryReportsIcon,
+  MtTaskIcon,
+  ProductCatalogIcon,
+  VendorIcon,
+} from '@/assets/icons';
 
 export const productData = [
   {
-    icon: {},
+    icon: InventoryReportsIcon,
     import: 'Services',
     title: 'Inventories',
     checkedValue: IMPORT_ACTION_TYPE?.INVENTORIES,
     desc: `Inventories manage all assets, resources, and materials necessary for the project's operation and maintenance.`,
   },
   {
-    icon: {},
+    icon: ProductCatalogIcon,
     import: 'Services',
     title: 'Product Catalog',
     checkedValue: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
     desc: 'Product catalog provides a detailed listing of all available products, including specifications and pricing.',
   },
   {
-    icon: {},
+    icon: VendorIcon,
     import: 'Services',
     title: 'Vendors',
     checkedValue: IMPORT_ACTION_TYPE?.VENDORS,
     desc: 'Vendors manage supplier information and interactions, ensuring efficient procurement and inventory control.',
   },
   {
-    icon: {},
+    icon: MtTaskIcon,
     import: 'Sales',
     title: 'Tasks',
     checkedValue: IMPORT_ACTION_TYPE?.TASKS,
     desc: 'The Tasks module streamlines workflow by assigning and tracking task completion for team members.',
   },
   {
-    icon: {},
+    icon: DealsIcon,
     import: 'Sales',
     title: 'Deals',
     checkedValue: IMPORT_ACTION_TYPE?.DEALS,

@@ -1,6 +1,6 @@
+import { TruncateText } from '@/components/TruncateText';
 import { DATE_FORMAT } from '@/constants';
-import { capitalizeFirstLetters } from '@/utils';
-import { truncateText } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const ContractReportsCardData = (data: any) => {
@@ -70,30 +70,42 @@ export const contractReportsTabelCoulmns = [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
     header: 'Contract Name',
     isSortable: false,
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
-    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
     header: 'Status',
     isSortable: false,
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.contractTypeDetails?.name,
     id: 'type',
-    cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? '---',
     header: 'Type',
     isSortable: false,
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.endDate,
     id: 'expirydate',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
     header: 'Expiry Date',
     isSortable: false,
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
   },
 ];

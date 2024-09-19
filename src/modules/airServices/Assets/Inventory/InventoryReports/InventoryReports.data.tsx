@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
-import { fullName, truncateText } from '@/utils/avatarUtils';
-import { capitalizeFirstLetters } from '@/utils';
+import { fullName } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
+import { TruncateText } from '@/components/TruncateText';
 
 export const INVENTORY_REPORT_STATUS_COUNT = {
   [INVENTORY_REPORT_STATUS?.ALL]: 'allAssest',
@@ -89,28 +90,43 @@ export const inventoryColumns = [
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
     header: 'Name',
-    cell: (info: any) => truncateText(capitalizeFirstLetters(info?.getValue())),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) =>
-      truncateText(
-        capitalizeFirstLetters(
-          info?.row?.original?.locationDetails?.locationName,
-        ),
-      ),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {
+          <TruncateText
+            text={info?.row?.original?.locationDetails?.locationName?.toLowerCase()}
+          />
+        }
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
     id: 'usedBy',
     header: 'Used By',
-    cell: (info: any) =>
-      capitalizeFirstLetters(
-        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
-      ),
+    cell: (info: any) => (
+      <Typography variant="body2" textTransform="capitalize">
+        {
+          <TruncateText
+            text={fullName(
+              info?.getValue()?.firstName?.toLowerCase(),
+              info?.getValue()?.lastName?.toLowerCase(),
+            )}
+          />
+        }
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.assetLifeExpiry,

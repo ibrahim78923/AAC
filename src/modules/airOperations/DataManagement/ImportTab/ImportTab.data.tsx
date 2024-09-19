@@ -1,7 +1,9 @@
-import { Avatar, Box, Typography } from '@mui/material';
-import { generateImage } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { uiDateFormat } from '@/utils/dateTime';
+import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 export const importTabColumns = [
   {
@@ -10,34 +12,20 @@ export const importTabColumns = [
     isSortable: true,
     header: 'User',
     cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: 'error.lighter', width: 32, height: 32 }}
-          src={generateImage(
-            info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.avatar?.url,
-          )}
-          alt={info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.firstName}
-        />
-        <Box display={'flex'} flexDirection={'column'}>
-          <Typography
-            variant="body2"
-            color={'grey.800'}
-            textTransform="capitalize"
-          >
-            {info?.row?.original?.userDetails[
-              ARRAY_INDEX?.ZERO
-            ]?.firstName?.toLowerCase() +
-              ' ' +
-              info?.row?.original?.userDetails[
-                ARRAY_INDEX?.ZERO
-              ]?.lastName?.toLowerCase() ?? '---'}
-          </Typography>
-          <Typography variant="body3" color={'grey.900'}>
-            {info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.email ??
-              '---'}
-          </Typography>
-        </Box>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(
+          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.firstName,
+          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.lastName,
+        )}
+        name={fullName(
+          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.firstName,
+          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.lastName,
+        )}
+        avatarSrc={
+          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.avatar?.url
+        }
+        email={info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.email}
+      />
     ),
   },
   {
@@ -47,7 +35,7 @@ export const importTabColumns = [
     header: 'File Name',
     cell: (info: any) => (
       <Typography variant="body2" textTransform="capitalize">
-        {info?.getValue() ?? '---'}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -58,7 +46,7 @@ export const importTabColumns = [
     header: 'Product',
     cell: (info: any) => (
       <Typography variant="body2" textTransform="capitalize">
-        {info?.getValue()?.toLowerCase() ?? '---'}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -69,7 +57,7 @@ export const importTabColumns = [
     header: 'Object',
     cell: (info: any) => (
       <Typography variant="body2" textTransform="capitalize">
-        {info?.getValue()?.toLowerCase() ?? '---'}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -80,7 +68,7 @@ export const importTabColumns = [
     header: 'Status',
     cell: (info: any) => (
       <Typography variant="body2" textTransform="capitalize">
-        {info?.getValue()?.toLowerCase() ?? '---'}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
