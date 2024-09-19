@@ -26,7 +26,7 @@ export const AddExpense = ({
     onAddExpenseSubmit: (data: any) => Promise<void>;
     handleAddExpenseModal: (isOpen?: boolean) => void;
     isLoadingExpense: boolean;
-    patchExpenseProgress: any;
+    patchExpenseProgress?: any;
   };
 }) => {
   const {
@@ -43,6 +43,7 @@ export const AddExpense = ({
     <>
       <Button
         variant="contained"
+        className={'small'}
         startIcon={<PlusSharedColorIcon />}
         onClick={() => handleAddExpenseModal?.(true)}
       >
@@ -55,7 +56,6 @@ export const AddExpense = ({
           aria-labelledby="responsive-dialog-title"
           PaperProps={{
             style: {
-              width: 440,
               borderRadius: 20,
             },
           }}
@@ -86,7 +86,7 @@ export const AddExpense = ({
               <Grid container gap={2.4}>
                 {addExpenseFormData?.map((form) => (
                   <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
+                    <form.component {...form?.componentProps} size={'small'} />
                   </Grid>
                 ))}
               </Grid>
@@ -102,19 +102,21 @@ export const AddExpense = ({
               >
                 <LoadingButton
                   onClick={() => handleAddExpenseModal?.()}
-                  variant="outlined"
-                  color="secondary"
+                  variant={'outlined'}
+                  color={'secondary'}
+                  className={'small'}
                   disabled={isLoadingExpense || patchExpenseProgress?.isLoading}
                 >
                   Cancel
                 </LoadingButton>
                 <LoadingButton
-                  type="submit"
-                  variant="contained"
+                  type={'submit'}
+                  variant={'contained'}
+                  className={'small'}
                   disabled={isLoadingExpense || patchExpenseProgress?.isLoading}
                   loading={isLoadingExpense || patchExpenseProgress?.isLoading}
                 >
-                  save
+                  Save
                 </LoadingButton>
               </Box>
             </DialogActions>

@@ -219,7 +219,7 @@ export const useUpsertInventory = () => {
           isoDateString(data?.assignedOn),
         );
       data?.fileUrl !== null &&
-        inventoryDetailsData?.append('attachment', data?.fileUrl);
+        inventoryDetailsData?.append('fileUrl', data?.fileUrl);
 
       if (body?.customFields) {
         inventoryDetailsData?.append(

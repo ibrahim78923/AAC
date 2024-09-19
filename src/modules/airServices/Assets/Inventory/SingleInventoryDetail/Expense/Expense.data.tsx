@@ -7,9 +7,10 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { EXPENSE_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, EXPENSE_TYPE } from '@/constants/strings';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { ExpenseI } from './Expense.interface';
+import { localeDateTime } from '@/utils/dateTime';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
@@ -22,12 +23,14 @@ export const addExpenseValidationSchema: any = yup?.object()?.shape({
 });
 
 export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {
-  const expenseUpdateData = selectedExpenseList[0];
+  const expenseUpdateData = selectedExpenseList[ARRAY_INDEX?.ZERO];
 
   return {
     type: expenseUpdateData?.type ?? '',
     cost: expenseUpdateData?.cost ?? '',
-    date: expenseUpdateData?.date ?? new Date(),
+    date: expenseUpdateData?.date
+      ? localeDateTime(expenseUpdateData?.date)
+      : new Date(),
   };
 };
 
@@ -41,6 +44,7 @@ export const addExpenseFormData = [
       placeholder: 'Expense Type',
       options: expenseTypeDropdown,
       required: true,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     gridLength: 12,
     component: RHFAutocomplete,

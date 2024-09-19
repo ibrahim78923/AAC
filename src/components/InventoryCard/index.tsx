@@ -3,6 +3,7 @@ import { useState } from 'react';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '../AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { splitCapitalizedWords } from '@/utils/api';
 
 export const InventoryCard = ({
   heading,
@@ -18,11 +19,14 @@ export const InventoryCard = ({
   hasDeleteIcon = true,
 }: any) => {
   const theme: any = useTheme();
+
   const [showIcon, setShowIcon] = useState(false);
+
   const handleDeleteIcon = () => {
     setDelateRecord(deletedRecordId);
     setOpenDeleteModal(true);
   };
+
   return (
     <>
       <Box
@@ -35,20 +39,20 @@ export const InventoryCard = ({
         padding={1.5}
         borderRadius={2}
         marginBottom={2}
+        sx={{ cursor: 'pointer' }}
+        onMouseEnter={() => setShowIcon(true)}
+        onMouseLeave={() => setShowIcon(false)}
       >
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          gap={'.5rem'}
-          sx={{ cursor: 'pointer' }}
-          onMouseEnter={() => setShowIcon(true)}
-          onMouseLeave={() => setShowIcon(false)}
-        >
+        <Box display={'flex'} alignItems={'center'} gap={'.5rem'}>
           {hasDeleteIcon && showIcon && (
             <RemoveCircleOutlineIcon onClick={handleDeleteIcon} />
           )}
-          <Typography variant="h6" color={theme?.palette?.primary?.main}>
-            {heading}
+          <Typography
+            variant={'h6'}
+            color={theme?.palette?.primary?.main}
+            textTransform={'capitalize'}
+          >
+            {heading?.toLowerCase()}
           </Typography>
         </Box>
         {status && (
@@ -70,7 +74,9 @@ export const InventoryCard = ({
               gap={'.3rem'}
             >
               <Typography color={theme?.palette?.grey[900]}>Status:</Typography>
-              <Typography>{status}</Typography>
+              <Typography textTransform={'capitalize'} variant={'body1'}>
+                {splitCapitalizedWords(status)}
+              </Typography>
             </Box>
           </>
         )}

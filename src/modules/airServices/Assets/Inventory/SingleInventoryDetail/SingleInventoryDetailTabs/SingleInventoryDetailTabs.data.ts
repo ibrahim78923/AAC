@@ -58,6 +58,15 @@ export const singleInventoryDetailTabsData = [
   },
   {
     _id: 6,
+    id: 'software',
+    name: 'Software',
+    tabPermissions: [
+      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RELATED_SOFTWARES,
+    ],
+    component: Software,
+  },
+  {
+    _id: 7,
     id: 'activity',
     name: 'Activity',
     tabPermissions: [
@@ -65,15 +74,6 @@ export const singleInventoryDetailTabsData = [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EXPORT_ACTIVITIES,
     ],
     component: Activity,
-  },
-  {
-    _id: 7,
-    id: 'software',
-    name: 'Software',
-    tabPermissions: [
-      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RELATED_SOFTWARES,
-    ],
-    component: Software,
   },
   {
     _id: 8,

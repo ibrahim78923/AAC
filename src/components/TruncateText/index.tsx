@@ -19,7 +19,7 @@ export const TruncateText = (props: any) => {
       isCapital={isCapital}
       {...customTooltipProps}
     >
-      <Box {...boxProps}>
+      <Box {...boxProps} textTransform={isCapital ? 'capitalize' : 'none'}>
         {retainTextLeft}
         {truncateText(text, size)}
         {retainTextRight}

@@ -22,8 +22,11 @@ export const Contract = () => {
     deleteIsLoading,
     refetch,
   } = useContract();
+
   if (isLoading || isFetching) return <SkeletonTable />;
+
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+
   return (
     <PermissionsGuard
       permissions={[
@@ -44,7 +47,7 @@ export const Contract = () => {
             deleteIsLoading={deleteIsLoading?.isLoading}
             showChild
           >
-            <Typography color={theme?.palette?.grey?.[900]}>
+            <Typography variant={'body1'} color={theme?.palette?.grey?.[900]}>
               {singleContract?.contractType}
             </Typography>
           </InventoryCard>

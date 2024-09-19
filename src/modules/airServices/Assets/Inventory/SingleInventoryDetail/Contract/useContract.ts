@@ -8,17 +8,22 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useContract = () => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const theme = useTheme();
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteRecord, setDelateRecord] = useState();
+
   const router = useRouter();
+
   const { data, isLoading, isFetching, isError, refetch } =
     useGetInventoryContractsQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
     });
+
   const [deleteInventoryContracts, deleteIsLoading] =
     useDeleteInventoryContractsMutation();
+
   const handleDelete = async () => {
     try {
       const params = {
@@ -33,6 +38,7 @@ export const useContract = () => {
       setOpenDeleteModal(false);
     }
   };
+
   return {
     data,
     isLoading,
