@@ -40,13 +40,18 @@ import {
   setSelectedRecords,
 } from '@/redux/slices/email/outlook/slice';
 import { useDispatch } from 'react-redux';
+import { ImageComponentAttachment } from '../index';
 
-const Draft = () => {
+const Draft = ({ messageDetailsData }: any) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  const [defaultValuesEmail, setDefaultValuesEmail] = useState<any>({});
+
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+
+  const [defaultAttachments, setDefaultAttachments] = useState<any>([]);
 
   const handleAutocompleteChange = (_: any, newValue: string[]) => {
     setAutocompleteValues(newValue);
@@ -89,15 +94,44 @@ const Draft = () => {
     formDataSend.append('subject', values?.subject);
     formDataSend.append('content', values?.description ?? ' ');
 
-    if (values?.attachments) {
-      formDataSend.append('attachments', values?.attachments);
-    }
     if (values?.cc && values?.cc?.trim() !== '') {
       formDataSend.append('cc', values?.cc);
     }
     if (values?.bcc && values?.bcc?.trim() !== '') {
       formDataSend.append('bcc', values?.bcc);
     }
+    const base64ToBlob = (base64: string, contentType: string) => {
+      const byteCharacters = atob(base64);
+      const byteNumbers = new Array(byteCharacters.length)
+        .fill(0)
+        .map((_, i) => byteCharacters.charCodeAt(i));
+      const byteArray = new Uint8Array(byteNumbers);
+      return new Blob([byteArray], { type: contentType });
+    };
+
+    if (defaultAttachments && Array.isArray(defaultAttachments)) {
+      defaultAttachments.forEach((data: any) => {
+        const base64 = data?.contentBytes;
+        const contentType = data?.contentType;
+        const fileName = data?.name;
+
+        if (base64 && contentType && fileName) {
+          const blob = base64ToBlob(base64, contentType);
+          const file = new File([blob], fileName, { type: contentType });
+          formDataSend.append('attachments', file);
+        }
+      });
+    }
+    if (values?.attachments) {
+      if (Array.isArray(values.attachments)) {
+        values.attachments.forEach((file: File) => {
+          formDataSend.append('attachments', file);
+        });
+      } else {
+        formDataSend.append('attachments', values?.attachments);
+      }
+    }
+
     try {
       await postSendOtherEmail({
         body: formDataSend,
@@ -118,7 +152,6 @@ const Draft = () => {
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
-
       enqueueSnackbar('Email send successfully', {
         variant: 'success',
       });
@@ -129,37 +162,59 @@ const Draft = () => {
   };
 
   const activeRecordLengthCheck =
-    activeRecord && Object.keys(activeRecord)?.length;
+    defaultValuesEmail && Object.keys(defaultValuesEmail)?.length;
 
   useEffect(() => {
     reset({
       subject: activeRecordLengthCheck
-        ? activeRecord?.subject === 'undefined'
+        ? defaultValuesEmail?.subject === 'undefined'
           ? ''
-          : activeRecord?.subject
+          : defaultValuesEmail?.subject
         : '',
       template: '',
       description: activeRecordLengthCheck
-        ? activeRecord?.body?.content === 'undefined'
+        ? defaultValuesEmail?.body?.content === 'undefined'
           ? ''
-          : activeRecord?.body?.content
+          : defaultValuesEmail?.body?.content
         : '',
     });
-  }, [activeRecord]);
+  }, [defaultValuesEmail]);
+
+  useEffect(() => {
+    if (messageDetailsData?.data) {
+      setDefaultValuesEmail(messageDetailsData?.data?.value[0]);
+      setDefaultAttachments(
+        messageDetailsData?.data?.value[0]?.attachments || [],
+      );
+    }
+  }, [messageDetailsData?.data]);
 
   useEffect(() => {
     setAutocompleteValues(
       activeRecordLengthCheck
-        ? activeRecord?.toRecipients?.map(
+        ? defaultValuesEmail?.toRecipients?.map(
             (item: any) => item?.emailAddress?.address,
           )
         : [],
     );
-  }, [activeRecord]);
+  }, [defaultValuesEmail]);
+
+  useEffect(() => {
+    if (messageDetailsData?.data) {
+      setDefaultValuesEmail(messageDetailsData?.data?.value[0]);
+    }
+  }, [messageDetailsData?.data]);
+
+  const removeAttachment = (id: string) => {
+    const updatedAttachments = defaultAttachments.filter(
+      (attachment: any) => attachment.id !== id,
+    );
+    setDefaultAttachments(updatedAttachments);
+  };
 
   return (
     <Box>
-      {Object.keys(activeRecord)?.length ? (
+      {Object.keys(defaultValuesEmail)?.length ? (
         <>
           <Box sx={styles?.draftWrap}>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -249,6 +304,29 @@ const Draft = () => {
                     required={true}
                   />
                 </Grid>
+
+                {defaultAttachments?.map((item: any) => {
+                  return (
+                    <>
+                      <Box
+                        onClick={() => removeAttachment(item.id)}
+                        sx={{
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <ImageComponentAttachment
+                          base64={item?.contentBytes}
+                          contentType={item?.contentType}
+                          fileName={item?.name}
+                        />
+                      </Box>
+                    </>
+                  );
+                })}
 
                 <Grid item xs={12}>
                   <RHFDropZone name="attachFile" label="Attachments" />

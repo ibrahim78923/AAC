@@ -549,7 +549,7 @@ export const EMAILS_MARKETING = {
   MARKETING_TEAMS: '/teams',
 };
 export const EMAILS_MARKETING_SETTINGS = {
-  EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities?status=VERIFIED',
+  EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities',
   CREATE_EMAIL_SETTINGS: '/emails-marketing/create-email-identities',
   EMAIL_VERIFY_OTP_SETTINGS: '/emails-marketing/verify-email-identities',
   UPDATE_EMAIL_IDENTITIES: '/emails-marketing/update-email-identities',

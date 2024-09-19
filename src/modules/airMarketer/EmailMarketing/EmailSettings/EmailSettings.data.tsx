@@ -1,7 +1,7 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { IMG_URL } from '@/config';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { Box, Checkbox } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import * as Yup from 'yup';
@@ -126,7 +126,13 @@ export const columns = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <>{info?.getValue()}</>,
+      cell: (info: any) => (
+        <Typography>
+          {' '}
+          {info?.getValue().charAt(0).toUpperCase() +
+            info?.getValue().slice(1).toLowerCase()}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.updatedAt,

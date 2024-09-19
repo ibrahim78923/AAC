@@ -3,7 +3,9 @@ import {
   Box,
   Button,
   CircularProgress,
+  Grid,
   IconButton,
+  Skeleton,
   Tooltip,
   Typography,
   useTheme,
@@ -206,7 +208,57 @@ const RightPane = ({
 
       {mailTabType?.displayName?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS ? (
         <>
-          <Draft />
+          {statusMessageDetailsData === 'pending' ? (
+            <Box
+              sx={{
+                borderRadius: '8px',
+                background: theme?.palette?.common?.white,
+                boxShadow: '0px 0px 5px rgba(0,0,0,0.1)',
+                padding: '24px',
+                mt: '24px',
+              }}
+            >
+              <Grid container spacing={2}>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={12}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={100}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          ) : (
+            <Draft messageDetailsData={messageDetailsData} />
+          )}
         </>
       ) : (
         <>
@@ -489,7 +541,7 @@ const RightPane = ({
                                             justifyContent: 'center',
                                           }}
                                         >
-                                          <ImageComponent
+                                          <ImageComponentAttachment
                                             base64={item?.contentBytes}
                                             contentType={item?.contentType}
                                             fileName={item?.name}
@@ -630,7 +682,11 @@ const RightPane = ({
   );
 };
 
-export function ImageComponent({ base64, contentType, fileName }: any) {
+export function ImageComponentAttachment({
+  base64,
+  contentType,
+  fileName,
+}: any) {
   const src = `data:${contentType};base64,${base64}`;
   const theme = useTheme();
 

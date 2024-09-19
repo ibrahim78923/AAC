@@ -264,8 +264,14 @@ const useSendEmailDrawer = ({
           if (values?.bcc?.length) {
             formDataSend.append('bcc', values?.bcc);
           }
-          if (values?.attachments) {
-            formDataSend.append('attachment', values?.attachments);
+          if (!isSendLater && values?.attachments) {
+            if (Array?.isArray(values?.attachments)) {
+              values?.attachments.forEach((file: File) => {
+                formDataSend?.append(`attachments`, file);
+              });
+            } else {
+              formDataSend.append('attachments', values?.attachments);
+            }
           }
           try {
             await postDraftOtherEmail({
@@ -491,7 +497,7 @@ const useSendEmailDrawer = ({
 };
 export default useSendEmailDrawer;
 
-function base64ToBlob(base64: any, contentType: any) {
+export function base64ToBlob(base64: any, contentType: any) {
   const byteCharacters = atob(base64);
   const byteNumbers = new Array(byteCharacters?.length);
 

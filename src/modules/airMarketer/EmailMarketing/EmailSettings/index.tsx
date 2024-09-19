@@ -2,7 +2,7 @@ import { DeleteIcon, FilterrIcon, PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button, Typography, Stack, useTheme, Grid } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   columns,
   linkNewEmailDataArray,
@@ -30,14 +30,13 @@ const EmailSettings = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [emailSettingSearch, setEmailSettingSearch] = useState('');
 
-  const { data, isLoading, status, refetch } =
-    useGetEmailSettingsIdentitiesQuery({
-      params: {
-        page: page,
-        limit: pageLimit,
-        ...(emailSettingSearch.length > 0 && { search: emailSettingSearch }),
-      },
-    });
+  const { data, status, refetch } = useGetEmailSettingsIdentitiesQuery({
+    params: {
+      page: page,
+      limit: pageLimit,
+      ...(emailSettingSearch.length > 0 && { search: emailSettingSearch }),
+    },
+  });
 
   const [addNewEmailModal, setAddNewEmailModal] = useState(false);
   const [verifyOTPModal, setVerifyOTPModal] = useState(false);
@@ -56,8 +55,6 @@ const EmailSettings = () => {
     usePostEmailSettingsMutation();
   const [emailSettingsVerifyOTP, { isLoading: loadingEmailSettingsVerifyOTP }] =
     useEmailSettingsVerifyOTPMutation();
-  const [emailSettingsLatestIdentities] =
-    useEmailSettingsLatestIdentitiesMutation();
 
   const { handleSubmit, reset } = methods;
   const [otp, setOtp] = useState('');
@@ -75,7 +72,6 @@ const EmailSettings = () => {
       enqueueSnackbar('Request Successful', {
         variant: 'success',
       });
-      updateIdentities();
       setCurrentEmailAddress('');
       setVerifyOTPModal(false);
     } catch (error: any) {
@@ -101,17 +97,19 @@ const EmailSettings = () => {
     }
   };
 
+  const [emailSettingsLatestIdentities] =
+    useEmailSettingsLatestIdentitiesMutation();
+
   const updateIdentities = async () => {
     try {
       await emailSettingsLatestIdentities({})?.unwrap();
-      enqueueSnackbar('Updated Successful', {
-        variant: 'success',
-      });
       refetch();
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
-    }
+    } catch (error: any) {}
   };
+
+  useEffect(() => {
+    updateIdentities();
+  }, []);
 
   return (
     <Box>
@@ -189,7 +187,7 @@ const EmailSettings = () => {
           data?.data?.emailIdentitiesSES,
         )}
         data={data?.data?.emailIdentitiesSES ?? []}
-        isLoading={isLoading}
+        isLoading={status === API_STATUS?.PENDING}
         currentPage={data?.data?.meta?.page}
         count={data?.data?.meta?.pages}
         pageLimit={data?.data?.meta?.limit}
