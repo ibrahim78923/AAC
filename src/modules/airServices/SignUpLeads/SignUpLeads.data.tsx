@@ -1,13 +1,10 @@
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { ISignUpLoads } from './SignUpLeads.interface';
 import { DATE_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 export const getSignUpLeadsColumns = () => [
   {
@@ -20,15 +17,14 @@ export const getSignUpLeadsColumns = () => [
       row: { original: ISignUpLoads };
     }) => (
       <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.profilePicture?.url)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(info?.getValue(), info?.row?.original?.lastName)}
-          </Typography>
-        </Avatar>
-        {fullName(info?.getValue(), info?.row?.original?.lastName)}
+        <UserInfo
+          nameInitial={fullNameInitial(
+            info?.getValue(),
+            info?.row?.original?.lastName,
+          )}
+          name={fullName(info?.getValue(), info?.row?.original?.lastName)}
+          avatarSrc={generateImage(info?.row?.original?.profilePicture?.url)}
+        />
       </Box>
     ),
   },
@@ -38,20 +34,20 @@ export const getSignUpLeadsColumns = () => [
     isSortable: true,
     header: 'Email',
 
-    Cell: (info: any) => <>{info?.getValue()}</>,
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
     accessorFn: (row: ISignUpLoads) => row?.address,
     id: 'address',
     isSortable: true,
     header: 'Address',
-    cell: (info: { getValue: () => string }) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
     accessorFn: (row: ISignUpLoads) => row?.dateOfBirth,
     id: 'dateOfBirth',
     isSortable: true,
-    header: 'Address',
+    header: 'DOB',
     cell: (info: { getValue: () => string }) =>
       dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
