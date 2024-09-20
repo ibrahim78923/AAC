@@ -4,8 +4,6 @@ import useCampaigns from './useCampaigns';
 import { PlusIcon, ResetFilterIcon } from '@/assets/icons';
 import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
-import { campaignsTabs } from './Campaigns.data';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { compareCampaignArray } from './Compaigns.data';
@@ -16,6 +14,7 @@ import ResetTasksFilter from './ResetTasksFilter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import EditCampaign from './EditCampaign';
+import CommonTabs from '@/components/Tabs';
 
 const Campaigns = () => {
   const {
@@ -106,17 +105,17 @@ const Campaigns = () => {
         </Stack>
 
         <Box mt={1.6}>
-          <HorizontalTabs
+          <CommonTabs
+            tabsArray={['Manage', 'Calendar', 'Tasks']}
             setActiveTab={(val: number) => {
               setCurrentTabVal(val);
             }}
             defaultValue={currentTabVal}
-            tabsDataArray={campaignsTabs}
           >
             <Manage />
             <Calendar />
             <Tasks />
-          </HorizontalTabs>
+          </CommonTabs>
         </Box>
       </Box>
 
