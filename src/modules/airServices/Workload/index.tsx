@@ -30,7 +30,7 @@ import ViewWorkloadDrawer from './ViewWorkloadDrawer';
 import { IData, IDateHeaderContentData } from './Workload.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { WORKLOAD_STATUSES_OBJECT } from './Workload.data';
-import { generateImage } from '@/utils/avatarUtils';
+import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { UpdateWorkloadTicket } from './UpdateWorkloadTicket';
 
 export const Workload = () => {
@@ -50,6 +50,8 @@ export const Workload = () => {
     addPlannedEffort,
     setAddPlannedTicketEffort,
     addPlannedTicketEffort,
+    methods,
+    setFilterByTypeState,
   } = useWorkload();
 
   if (status?.isError || statusFilter?.isError) return <ApiErrorState />;
@@ -114,7 +116,11 @@ export const Workload = () => {
                 AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS?.FILTERS,
               ]}
             >
-              <Filters setFilter={setFilter} />
+              <Filters
+                setFilter={setFilter}
+                methods={methods}
+                setFilterByTypeState={setFilterByTypeState}
+              />
             </PermissionsGuard>
           </Grid>
         </Grid>
@@ -319,16 +325,38 @@ export const Workload = () => {
                       src={generateImage(
                         eventInfo?.event?.extendedProps?.avatar?.url,
                       )}
-                      sx={{ width: 28, height: 28, color: 'primary.main' }}
-                    />
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        color: 'primary.main',
+                        fontSize: '12px',
+                      }}
+                    >
+                      {fullNameInitial(
+                        eventInfo?.event?.extendedProps?.agentDetails
+                          ?.firstName,
+                        eventInfo?.event?.extendedProps?.agentDetails?.lastName,
+                      )}
+                    </Avatar>
                   ) : (
                     <Avatar
                       src={generateImage(
                         eventInfo?.event?.extendedProps?.assignedUser?.avatar
                           ?.url,
                       )}
-                      sx={{ width: 28, height: 28, color: 'primary.main' }}
-                    />
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        color: 'primary.main',
+                        fontSize: '12px',
+                      }}
+                    >
+                      {fullNameInitial(
+                        eventInfo?.event?.extendedProps?.assignedUser
+                          ?.firstName,
+                        eventInfo?.event?.extendedProps?.assignedUser?.lastName,
+                      )}
+                    </Avatar>
                   )}
 
                   <Typography

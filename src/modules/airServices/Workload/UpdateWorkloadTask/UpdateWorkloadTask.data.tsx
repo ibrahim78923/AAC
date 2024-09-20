@@ -89,6 +89,7 @@ export const getWorkloadDataArray = ({ apiQueryAssignTo }: any) => [
       label: 'Planned Start Date',
       fullWidth: true,
       ampm: false,
+      disabled: true,
     },
     component: RHFDesktopDateTimePicker,
   },

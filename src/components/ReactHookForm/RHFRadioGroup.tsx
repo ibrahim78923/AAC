@@ -19,6 +19,7 @@ export default function RHFRadioGroup({
   required,
   disabled,
   defaultValue,
+  row = true,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -37,7 +38,7 @@ export default function RHFRadioGroup({
               )}
               <RadioGroup
                 {...field}
-                row
+                row={row}
                 value={field?.value || ''}
                 onChange={(e) => field?.onChange(e?.target?.value)}
                 {...other}

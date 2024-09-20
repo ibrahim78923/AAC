@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { NextRouter, useRouter } from 'next/router';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { IFilter, IOnClickEvent, ISelected } from './Workload.interface';
+import { useForm } from 'react-hook-form';
 
 export default function useWorkload() {
   const calendarRef: RefObject<any> = useRef<any>(null);
@@ -37,6 +38,12 @@ export default function useWorkload() {
       ?.format(DATE_FORMAT?.API),
   );
   const [selected, setSelected] = useState<ISelected | null>(null);
+  const [filterByTypeState, setFilterByTypeState] = useState('ALL');
+
+  const methods = useForm({
+    defaultValues: { filterModuleType: filterByTypeState ?? 'ALL' },
+  });
+
   const [trigger, status] = useLazyGetWorkloadQuery();
   const [triggerFilter, statusFilter] = useLazyGetWorkloadFilterQuery();
 
@@ -45,8 +52,9 @@ export default function useWorkload() {
       startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
       endDate: dayjs()?.endOf('week')?.toISOString(),
       userIds: selected?._id,
+      moduleType: filterByTypeState,
     });
-  }, [selected]);
+  }, [selected, filterByTypeState]);
 
   useEffect(() => {
     triggerFilter({
@@ -65,6 +73,7 @@ export default function useWorkload() {
         startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
         endDate: dayjs(date)?.endOf('week')?.toISOString(),
         userIds: selected?._id,
+        moduleType: filterByTypeState,
       })?.unwrap();
 
       await triggerFilter({
@@ -73,6 +82,7 @@ export default function useWorkload() {
         countDayWise: filter?.countDayWise,
         countDayWiseHours: filter?.countDayWiseHours,
         countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
+        moduleType: filterByTypeState,
       })?.unwrap();
 
       calendarRef?.current?.getApi()?.gotoDate(date);
@@ -95,5 +105,7 @@ export default function useWorkload() {
     addPlannedEffort,
     setAddPlannedTicketEffort,
     addPlannedTicketEffort,
+    methods,
+    setFilterByTypeState,
   };
 }

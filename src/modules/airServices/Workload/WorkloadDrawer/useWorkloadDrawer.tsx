@@ -17,6 +17,10 @@ export default function useWorkloadDrawer({
     open: null,
     data: null,
   });
+  const [addPlannedTicketEffort, setAddPlannedTicketEffort] = useState<any>({
+    open: null,
+    data: null,
+  });
 
   const { user }: any = useAuth();
 
@@ -93,5 +97,7 @@ export default function useWorkloadDrawer({
     handleCloseModified,
     setOnClickEvent,
     onClickEvent,
+    addPlannedTicketEffort,
+    setAddPlannedTicketEffort,
   };
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useFilters() {
+export default function useFilters({ methods, setFilterByTypeState }: any) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -14,5 +14,20 @@ export default function useFilters() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  return { id, handleClick, open, anchorEl, handleClose };
+  const { handleSubmit, reset } = methods;
+
+  const onSubmitModuleTypeFiler = (data: any) => {
+    setFilterByTypeState(data?.filterModuleType);
+  };
+
+  return {
+    id,
+    handleClick,
+    open,
+    anchorEl,
+    handleClose,
+    handleSubmit,
+    onSubmitModuleTypeFiler,
+    reset,
+  };
 }
