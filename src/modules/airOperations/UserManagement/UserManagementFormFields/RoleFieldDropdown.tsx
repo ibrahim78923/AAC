@@ -5,7 +5,8 @@ import { useLazyGetPermissionsRoleForUpsertOperationUserQuery } from '@/services
 import { getActiveAccountSession } from '@/utils';
 import { useMemo } from 'react';
 
-export const RoleFieldDropdown = () => {
+export const RoleFieldDropdown = (props: any) => {
+  const { disabled = false } = props;
   const product = useMemo(() => getActiveAccountSession(), []);
   const auth: any = useAuth();
   const productId = auth?.product?._id ?? {};
@@ -20,6 +21,8 @@ export const RoleFieldDropdown = () => {
       placeholder="Select Role"
       fullWidth
       required
+      disabled={disabled}
+      size="small"
       apiQuery={roleApiQuery}
       externalParams={{
         productId,

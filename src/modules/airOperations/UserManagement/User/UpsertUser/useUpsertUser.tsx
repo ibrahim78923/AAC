@@ -5,33 +5,44 @@ import {
   upsertUserValidationSchema,
 } from './UpsertUser.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
-import { PAGINATION } from '@/config';
-import { ARRAY_INDEX } from '@/constants/strings';
 import {
   useAddProductUserForOperationMutation,
   useGetSingleProductUserDetailForOperationQuery,
-  useLazyGetPermissionsRoleForUpsertOperationUserQuery,
-  useLazyGetTeamDropdownForOperationUserListQuery,
   useUpdateProductUserForOperationMutation,
 } from '@/services/airOperations/user-management/user';
-import { UserPortalComponentPropsI } from '../User.interface';
 import {
-  RoleApiQueryParamsI,
   UpsertUserFormI,
   UserManagementResponseI,
 } from './UpsertUser.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
+import {
+  emptySelectedUsersLists,
+  setIsPortalOpen,
+  setIsPortalClose,
+} from '@/redux/slices/airOperations/users/slice';
 
-export const useUpsertUser = (props: UserPortalComponentPropsI) => {
-  const { setIsPortalOpen, isPortalOpen, userId, setSelectedUserList } = props;
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
-  const { _id: organizationId } = auth?.user?.organization;
+const { ZERO } = ARRAY_INDEX;
+
+const { EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
+  OPERATIONS_USERS_ACTIONS_CONSTANT;
+
+export const useUpsertUser = () => {
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsUsersLists?.isPortalOpen,
+  );
+
+  const selectedUsersLists = useAppSelector(
+    (state) => state?.operationsUsersLists?.selectedUsersLists,
+  );
+
+  const userId = selectedUsersLists?.[ZERO]?._id;
 
   const [
     updateProductUserForOperationTrigger,
@@ -44,6 +55,7 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
   ]: any = useAddProductUserForOperationMutation?.();
   const [igVerificationTrigger, igVerificationStatus] =
     useAuthCompanyVerificationMutation();
+
   const getSingleUserApiParameter = {
     pathParams: {
       id: userId,
@@ -64,38 +76,34 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
     },
   );
 
-  const roleApiQueryParams: RoleApiQueryParamsI = {
-    productId,
-    organizationId,
-    organizationCompanyAccountId,
-    limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-  };
-
   const methods = useForm<any>({
     defaultValues: upsertUserDefaultValues(),
     resolver: yupResolver(upsertUserValidationSchema),
   });
+
   const { handleSubmit, reset } = methods;
 
   const submitButtonHandler = () => {
-    if (isPortalOpen?.isView) {
-      setIsPortalOpen?.({
-        isEdit: true,
-        isUpsert: true,
-        isOpen: true,
-      });
+    if (isPortalOpen?.action === OPERATIONS_USERS_DETAIL) {
+      dispatch(
+        setIsPortalOpen<any>({
+          action: EDIT_OPERATIONS_USERS,
+          isOpen: true,
+        }),
+      );
       return;
     }
     handleSubmit(submitUpsertUser)();
   };
 
   const submitUpsertUser = async (formData: UpsertUserFormI) => {
-    if (isPortalOpen?.isView) {
-      setIsPortalOpen?.({
-        isEdit: true,
-        isUpsert: true,
-        isOpen: true,
-      });
+    if (isPortalOpen?.action === OPERATIONS_USERS_DETAIL) {
+      dispatch(
+        setIsPortalOpen<any>({
+          action: EDIT_OPERATIONS_USERS,
+          isOpen: true,
+        }),
+      );
       return;
     }
     const body = {
@@ -107,7 +115,7 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
 
     const apiDataParameter = { body };
 
-    if (isPortalOpen?.isEdit) {
+    if (isPortalOpen?.action === EDIT_OPERATIONS_USERS) {
       submitUpdateUpsertUser(body);
       return;
     }
@@ -143,21 +151,13 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
       errorSnackbar(error?.data?.message);
     }
   };
-
-  const roleApiQuery = useLazyGetPermissionsRoleForUpsertOperationUserQuery?.();
-  const teamApiQuery = useLazyGetTeamDropdownForOperationUserListQuery?.();
-
-  const upsertUserFormFields = upsertUserFormFieldsDynamic?.(
-    roleApiQuery,
-    roleApiQueryParams,
-    teamApiQuery,
-    isPortalOpen,
-  );
+  const disableEmailField = isPortalOpen?.action === EDIT_OPERATIONS_USERS;
+  const upsertUserFormFields = upsertUserFormFieldsDynamic?.(disableEmailField);
 
   const closeOperationUserForm = () => {
     reset?.();
-    setIsPortalOpen?.({});
-    setSelectedUserList?.([]);
+    dispatch(emptySelectedUsersLists());
+    dispatch(setIsPortalClose());
   };
 
   useEffect(() => {
@@ -178,5 +178,6 @@ export const useUpsertUser = (props: UserPortalComponentPropsI) => {
     isError,
     refetch,
     igVerificationStatus,
+    isPortalOpen,
   };
 };

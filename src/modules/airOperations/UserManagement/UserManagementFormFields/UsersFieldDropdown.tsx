@@ -10,8 +10,9 @@ export const UsersFieldDropdown = () => {
       name="userAccounts"
       label="Select Team Members"
       placeholder="Select"
-      fullWidth={true}
-      multiple={true}
+      fullWidth
+      multiple
+      size="small"
       apiQuery={apiQueryProductUsers}
       externalParams={{ limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT }}
       getOptionLabel={(option: any) =>

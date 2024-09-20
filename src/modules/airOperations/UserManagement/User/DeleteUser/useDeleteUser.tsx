@@ -1,53 +1,70 @@
 import { PAGINATION } from '@/config';
 import { useDeleteProductUsersForOperationMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { UserPortalComponentPropsI } from '../User.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useGetUserLists } from '../../UserManagementHooks/useGetUserLists';
+import {
+  emptySelectedUsersLists,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/users/slice';
 
-export const useDeleteUser = (props: UserPortalComponentPropsI) => {
-  const {
-    totalRecords,
-    setIsPortalOpen,
-    setSelectedUserList,
-    getOperationUsersList,
-    page,
-    setPage,
-    selectedUserList,
-  } = props;
-
+export const useDeleteUser = () => {
   const [
     deleteProductUsersForOperationTrigger,
     deleteProductUsersForOperationStatus,
   ] = useDeleteProductUsersForOperationMutation();
 
+  const { getOperationUsersList, page } = useGetUserLists();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsUsersLists?.isPortalOpen,
+  );
+
+  const selectedUsersLists = useAppSelector(
+    (state) => state?.operationsUsersLists?.selectedUsersLists,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsUsersLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedUsersLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getOperationUsersList?.();
+  };
+
   const deleteUser = async () => {
     const apiDataParameter = {
       queryParams: {
-        ids: selectedUserList?.map((user: any) => user?._id)?.toString(),
+        ids: selectedUsersLists?.map((user: any) => user?._id)?.toString(),
       },
     };
     try {
       await deleteProductUsersForOperationTrigger(apiDataParameter)?.unwrap();
       successSnackbar?.('User deleted successfully!');
       closeUserDeleteModal?.();
-      const newPage =
-        totalRecords === selectedUserList?.length
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getOperationUsersList?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeUserDeleteModal = () => {
-    setIsPortalOpen?.({});
-    setSelectedUserList?.([]);
+    dispatch(emptySelectedUsersLists());
+    dispatch(setIsPortalClose());
   };
 
   return {
     deleteUser,
     closeUserDeleteModal,
     deleteProductUsersForOperationStatus,
+    isPortalOpen,
   };
 };

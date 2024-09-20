@@ -5,11 +5,12 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TITLE_FORM_USER } from './UpsertUser.data';
 import { useUpsertUser } from './useUpsertUser';
-import { UserPortalComponentPropsI } from '../User.interface';
 import ApiErrorState from '@/components/ApiErrorState';
+import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
 
-export const UpsertUser = (props: UserPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
+const { ADD_OPERATIONS_USERS, EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
+  OPERATIONS_USERS_ACTIONS_CONSTANT;
+export const UpsertUser = () => {
   const {
     upsertUserFormFields,
     methods,
@@ -22,32 +23,33 @@ export const UpsertUser = (props: UserPortalComponentPropsI) => {
     isError,
     refetch,
     igVerificationStatus,
-  } = useUpsertUser(props);
+    isPortalOpen,
+  } = useUpsertUser();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isUpsert as boolean}
-        onClose={() => closeOperationUserForm()}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
+        onClose={closeOperationUserForm}
         title={
-          isPortalOpen?.isView
+          isPortalOpen?.action === OPERATIONS_USERS_DETAIL
             ? TITLE_FORM_USER?.VIEW
-            : isPortalOpen?.isEdit
+            : isPortalOpen?.action === EDIT_OPERATIONS_USERS
               ? TITLE_FORM_USER?.EDIT
               : TITLE_FORM_USER?.ADD
         }
-        submitHandler={() => submitButtonHandler?.()}
+        submitHandler={submitButtonHandler}
         footer
         isOk
         okText={
-          isPortalOpen?.isView
+          isPortalOpen?.action === OPERATIONS_USERS_DETAIL
             ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
-            : isPortalOpen?.isAdd
+            : isPortalOpen?.action === ADD_OPERATIONS_USERS
               ? GENERIC_UPSERT_FORM_CONSTANT?.ADD
               : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
         }
         cancelText={
-          isPortalOpen?.isView
+          isPortalOpen?.action === OPERATIONS_USERS_DETAIL
             ? GENERIC_UPSERT_FORM_CONSTANT?.BACK
             : GENERIC_UPSERT_FORM_CONSTANT?.CANCEL
         }
@@ -73,7 +75,7 @@ export const UpsertUser = (props: UserPortalComponentPropsI) => {
           <ApiErrorState canRefresh refresh={() => refetch?.()} />
         ) : (
           <>
-            {isPortalOpen?.isAdd && (
+            {isPortalOpen?.action === ADD_OPERATIONS_USERS && (
               <Typography color="slateBlue.main">
                 Add a new user to this organization
               </Typography>
@@ -87,7 +89,8 @@ export const UpsertUser = (props: UserPortalComponentPropsI) => {
                         {...item?.componentProps}
                         size={'small'}
                         disabled={
-                          item?.componentProps?.disabled || isPortalOpen?.isView
+                          item?.componentProps?.disabled ||
+                          isPortalOpen?.action === OPERATIONS_USERS_DETAIL
                         }
                       />
                     </Grid>

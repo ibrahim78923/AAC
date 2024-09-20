@@ -2,7 +2,8 @@ import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
 import { useLazyGetTeamDropdownForOperationUserListQuery } from '@/services/airOperations/user-management/user';
 
-export const RoleFieldDropdown = () => {
+export const TeamFieldDropdown = (props: any) => {
+  const { disabled = false } = props;
   const teamApiQuery = useLazyGetTeamDropdownForOperationUserListQuery?.();
 
   return (
@@ -12,6 +13,8 @@ export const RoleFieldDropdown = () => {
       placeholder="Select team"
       fullWidth
       required
+      disabled={disabled}
+      size="small"
       apiQuery={teamApiQuery}
       externalParams={{
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,

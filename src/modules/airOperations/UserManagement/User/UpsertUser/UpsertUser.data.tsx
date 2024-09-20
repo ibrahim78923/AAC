@@ -1,14 +1,9 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import {
-  RoleApiQueryParamsI,
-  UpsertUserFormDefaultValuesI,
-} from './UpsertUser.interface';
+import { UpsertUserFormDefaultValuesI } from './UpsertUser.interface';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { RoleFieldDropdown } from '../../UserManagementFormFields/RoleFieldDropdown';
+import { TeamFieldDropdown } from '../../UserManagementFormFields/TeamFieldDropdown';
 
 export const userLanguage: AutocompleteOptionsI[] = [
   {
@@ -62,12 +57,7 @@ export const upsertUserDefaultValues = (
   };
 };
 
-export const upsertUserFormFieldsDynamic = (
-  roleApiQuery: any,
-  roleApiQueryParams: RoleApiQueryParamsI,
-  teamApiQuery: any,
-  isPortalOpen: any,
-) => [
+export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
   {
     id: 1,
     componentProps: {
@@ -112,7 +102,7 @@ export const upsertUserFormFieldsDynamic = (
       placeholder: 'Enter Email',
       fullWidth: true,
       required: true,
-      disabled: isPortalOpen?.isEdit,
+      disabled: disableEmailField,
     },
     component: RHFTextField,
   },
@@ -140,30 +130,11 @@ export const upsertUserFormFieldsDynamic = (
   },
   {
     id: 8,
-    componentProps: {
-      name: 'role',
-      label: 'Assign role',
-      placeholder: 'Select role',
-      fullWidth: true,
-      apiQuery: roleApiQuery,
-      externalParams: roleApiQueryParams,
-      required: true,
-      getOptionLabel: (option: any) => option?.name,
-    },
-    component: RHFAutocompleteAsync,
+    component: RoleFieldDropdown,
   },
   {
     id: 9,
-    componentProps: {
-      name: 'team',
-      label: 'Select team',
-      placeholder: 'Select team',
-      fullWidth: true,
-      apiQuery: teamApiQuery,
-      required: true,
-      getOptionLabel: (option: any) => option?.name,
-    },
-    component: RHFAutocompleteAsync,
+    component: TeamFieldDropdown,
   },
   {
     id: 10,
