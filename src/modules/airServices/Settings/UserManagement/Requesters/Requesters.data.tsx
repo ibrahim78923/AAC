@@ -1,4 +1,4 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
@@ -104,11 +104,7 @@ export const requestersList: any = (
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
-      <Typography
-        variant="body2"
-        textTransform={'capitalize'}
-        sx={{ cursor: 'pointer' }}
-      >
+      <Box sx={{ cursor: 'pointer' }}>
         <TruncateText
           text={
             <UserInfo
@@ -129,14 +125,14 @@ export const requestersList: any = (
                 info?.row?.original?.lastName,
               )}
               name={fullName(
-                info?.row?.original?.firstName,
-                info?.row?.original?.lastName,
+                info?.row?.original?.firstName?.toLowerCase(),
+                info?.row?.original?.lastName?.toLowerCase(),
               )}
               avatarSrc={info?.row?.original?.avatar?.url}
             />
           }
         />
-      </Typography>
+      </Box>
     ),
   },
   {
@@ -179,9 +175,7 @@ export const requestersList: any = (
     isSortable: true,
     header: 'Job Title',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform={'capitalize'}>
-        <TruncateText text={info?.getValue()} />
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
 ];

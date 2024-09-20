@@ -122,6 +122,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                         </Box>
                         <Button
                           variant="contained"
+                          className="small"
                           onClick={
                             showTemplate
                               ? () => handleChooseTemplate()

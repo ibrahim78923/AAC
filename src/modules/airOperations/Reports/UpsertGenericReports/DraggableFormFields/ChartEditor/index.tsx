@@ -203,11 +203,17 @@ export const ChartEditor = (props: ChartEditorI) => {
             gap: 1,
           }}
         >
-          <Button variant="outlined" onClick={handleCancel} color="secondary">
+          <Button
+            variant="outlined"
+            className="small"
+            onClick={handleCancel}
+            color="secondary"
+          >
             Cancel
           </Button>
           <Button
             variant="contained"
+            className="small"
             disabled={
               !xAxisData ||
               (xAxisData?.ref && !xAxisType?.length) ||

@@ -1,6 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
 import { ARRAY_INDEX, PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
-import { Typography } from '@mui/material';
 
 export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
   [PURCHASE_ORDER_REPORT_STATUS?.ALL]: 'allPurchaseOrder',
@@ -119,9 +118,7 @@ export const purchaseOrderReportsTableColumns = [
     id: 'orderName',
     header: 'Order Name',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -129,9 +126,7 @@ export const purchaseOrderReportsTableColumns = [
     id: 'vendor',
     header: 'Vendor',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -139,9 +134,7 @@ export const purchaseOrderReportsTableColumns = [
     id: 'status',
     header: 'Status',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {

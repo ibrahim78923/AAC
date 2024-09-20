@@ -26,10 +26,20 @@ export const Counter = (props: CounterI) => {
         </Typography>
       </Box>
       <Box display={'flex'} justifyContent={'flex-end'} gap={1}>
-        <Button onClick={handleCancel} variant="outlined" color="secondary">
+        <Button
+          onClick={handleCancel}
+          className="small"
+          variant="outlined"
+          color="secondary"
+        >
           Cancel
         </Button>
-        <Button onClick={handleSave} variant="contained" color="primary">
+        <Button
+          onClick={handleSave}
+          className="small"
+          variant="contained"
+          color="primary"
+        >
           Save
         </Button>
       </Box>

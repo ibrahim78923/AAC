@@ -87,6 +87,7 @@ export const TextEditor = (props: TextEditorI) => {
               variant="outlined"
               onClick={() => applyTextStyle(TEXT_FORMATE?.BOLD)}
               color="secondary"
+              className="small"
             >
               <FormatBoldIcon />
             </Button>
@@ -94,6 +95,7 @@ export const TextEditor = (props: TextEditorI) => {
               variant="outlined"
               onClick={() => applyTextStyle(TEXT_FORMATE?.ITALIC)}
               color="secondary"
+              className="small"
             >
               <FormatItalicIcon />
             </Button>
@@ -101,6 +103,7 @@ export const TextEditor = (props: TextEditorI) => {
               variant="outlined"
               onClick={() => applyTextStyle(TEXT_FORMATE?.UNDERLINE)}
               color="secondary"
+              className="small"
             >
               <FormatUnderlinedIcon />
             </Button>
@@ -109,6 +112,7 @@ export const TextEditor = (props: TextEditorI) => {
                 variant="outlined"
                 onClick={() => applyTextStyle(TEXT_FORMATE?.UNORDERED_LIST)}
                 color="secondary"
+                className="small"
               >
                 <FormatListBulletedIcon />
               </Button>
@@ -116,6 +120,7 @@ export const TextEditor = (props: TextEditorI) => {
                 variant="outlined"
                 onClick={() => applyTextStyle(TEXT_FORMATE?.ORDERED_LIST)}
                 color="secondary"
+                className="small"
               >
                 <FormatListNumberedIcon />
               </Button>
@@ -125,6 +130,7 @@ export const TextEditor = (props: TextEditorI) => {
                 variant="outlined"
                 onClick={() => applyTextStyle(TEXT_FORMATE?.UPPER_CASE)}
                 color="secondary"
+                className="small"
               >
                 <TextFormatIcon style={{ transform: 'scaleY(-1)' }} />
               </Button>
@@ -132,6 +138,7 @@ export const TextEditor = (props: TextEditorI) => {
                 variant="outlined"
                 onClick={() => applyTextStyle(TEXT_FORMATE?.LOWER_CASE)}
                 color="secondary"
+                className="small"
               >
                 <TextFormatIcon />
               </Button>
@@ -139,6 +146,7 @@ export const TextEditor = (props: TextEditorI) => {
                 variant="outlined"
                 onClick={() => applyTextStyle(TEXT_FORMATE?.CAPITAL_CASE)}
                 color="secondary"
+                className="small"
               >
                 <TextFormatIcon style={{ transform: 'scale(0.8)' }} />
               </Button>
@@ -173,11 +181,17 @@ export const TextEditor = (props: TextEditorI) => {
             gap: 1,
           }}
         >
-          <Button variant="outlined" onClick={handleCancel} color="secondary">
+          <Button
+            variant="outlined"
+            className="small"
+            onClick={handleCancel}
+            color="secondary"
+          >
             Cancel
           </Button>
           <Button
             variant="contained"
+            className="small"
             disabled={saveDisable || !textTitle}
             onClick={handleSave}
           >

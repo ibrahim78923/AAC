@@ -116,6 +116,7 @@ const AgentRequest = () => {
                       color={'success'}
                       disabled={patchApprovedRequestStatus?.isLoading}
                       loading={patchApprovedRequestStatus?.isLoading}
+                      className="small"
                     >
                       Approve
                     </LoadingButton>
@@ -123,6 +124,7 @@ const AgentRequest = () => {
                       onClick={() => handleOpenModal(item?._id)}
                       color={'error'}
                       disabled={patchApprovedRequestStatus?.isLoading}
+                      className="small"
                     >
                       Reject
                     </LoadingButton>

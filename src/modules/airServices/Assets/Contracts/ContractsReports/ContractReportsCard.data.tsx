@@ -1,6 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
 import { DATE_FORMAT } from '@/constants';
-import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const ContractReportsCardData = (data: any) => {
@@ -73,9 +72,7 @@ export const contractReportsTabelCoulmns = [
     header: 'Contract Name',
     isSortable: false,
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -84,9 +81,7 @@ export const contractReportsTabelCoulmns = [
     header: 'Status',
     isSortable: false,
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -95,9 +90,7 @@ export const contractReportsTabelCoulmns = [
     header: 'Type',
     isSortable: false,
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {

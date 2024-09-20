@@ -77,6 +77,7 @@ export const UpsertGenericReports = () => {
               {!!form?.length && !text && !table && !chart && !counter && (
                 <Button
                   variant="contained"
+                  className="small"
                   onClick={
                     showTemplate
                       ? () => handleChooseTemplate()

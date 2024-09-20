@@ -54,7 +54,7 @@ export const KnowledgeBaseDetail = () => {
         moveBack={handleKnowledgeBase}
       />
       <Box>
-        <Search label="Search Here" setSearchBy={SetSearchValue} />
+        <Search label="Search Here" setSearchBy={SetSearchValue} size="small" />
       </Box>
       <br />
       {isLoading || isFetching ? (

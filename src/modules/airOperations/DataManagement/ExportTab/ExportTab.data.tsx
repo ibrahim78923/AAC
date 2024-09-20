@@ -13,7 +13,7 @@ export const exportTabColumns = [
     cell: (info: any) => (
       <UserInfo
         nameInitial={fullNameInitial(info?.row?.original?.userFullName)}
-        name={fullName(info?.row?.original?.userFullName)}
+        name={fullName(info?.row?.original?.userFullName?.toLowerCase())}
         avatarSrc={info?.row?.original?.avatar}
         email={info?.row?.original?.email}
       />
@@ -28,13 +28,9 @@ export const exportTabColumns = [
       const url = new URL(info?.row?.original?.fileName);
       const fileName = url?.pathname?.replace(/^\//, '');
       return (
-        <Typography
-          variant="body2"
-          color={'primary'}
-          textTransform="capitalize"
-        >
+        <Typography variant="body2" color={'primary'}>
           <a href={url?.href} download={fileName}>
-            {fileName?.toLowerCase() ?? '---'}
+            {<TruncateText text={fileName?.toLowerCase()} />}
           </a>
         </Typography>
       );
@@ -45,29 +41,21 @@ export const exportTabColumns = [
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.noOfRecords,
     id: 'noOfRecords',
     isSortable: true,
     header: 'No of Records',
-    cell: (info: any) => <TruncateText text={info?.getValue()} /> ?? '---',
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.createdAt,

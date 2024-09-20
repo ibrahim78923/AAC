@@ -74,7 +74,7 @@ export const KnowledgeBase = () => {
         )}
       </PageTitledHeader>
       <Box mb={2}>
-        <Search label="Search Here" setSearchBy={setSearch} />
+        <Search label="Search Here" setSearchBy={setSearch} size="small" />
       </Box>
       {isLoading || isFetching ? (
         <SkeletonTable />

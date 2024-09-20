@@ -225,6 +225,7 @@ export default function DraggableFields(props: DraggableFieldsI) {
                     >
                       <Button
                         variant="contained"
+                        className="small"
                         onClick={() => setOpenDrawer(true)}
                       >
                         Save

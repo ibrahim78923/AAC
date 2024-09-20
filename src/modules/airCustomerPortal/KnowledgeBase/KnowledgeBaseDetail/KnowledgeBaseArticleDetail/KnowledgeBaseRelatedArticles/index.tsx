@@ -95,6 +95,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
                 color="secondary"
                 disabled={feedbackIsLoading}
                 onClick={() => setShowFeedbackField(false)}
+                className="small"
               >
                 Cancel
               </LoadingButton>
@@ -102,6 +103,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
                 loading={feedbackIsLoading}
                 variant="contained"
                 type="submit"
+                className="small"
               >
                 Submit
               </LoadingButton>

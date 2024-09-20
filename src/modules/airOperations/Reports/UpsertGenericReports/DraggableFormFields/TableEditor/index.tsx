@@ -118,11 +118,17 @@ export const TableEditor = (props: TableEditorI) => {
             gap: 1,
           }}
         >
-          <Button variant="outlined" onClick={handleCancel} color="secondary">
+          <Button
+            variant="outlined"
+            className="small"
+            onClick={handleCancel}
+            color="secondary"
+          >
             Cancel
           </Button>
           <Button
             variant="contained"
+            className="small"
             onClick={handleSave}
             disabled={!columnsData?.length || !tableTitle}
           >

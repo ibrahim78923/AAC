@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { uiDateFormat } from '@/utils/dateTime';
@@ -18,8 +17,12 @@ export const importTabColumns = [
           info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.lastName,
         )}
         name={fullName(
-          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.firstName,
-          info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.lastName,
+          info?.row?.original?.userDetails[
+            ARRAY_INDEX?.ZERO
+          ]?.firstName?.toLowerCase(),
+          info?.row?.original?.userDetails[
+            ARRAY_INDEX?.ZERO
+          ]?.lastName?.toLowerCase(),
         )}
         avatarSrc={
           info?.row?.original?.userDetails[ARRAY_INDEX?.ZERO]?.avatar?.url
@@ -34,9 +37,7 @@ export const importTabColumns = [
     isSortable: true,
     header: 'File Name',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -44,22 +45,14 @@ export const importTabColumns = [
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
-    ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -67,9 +60,7 @@ export const importTabColumns = [
     isSortable: true,
     header: 'Status',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {

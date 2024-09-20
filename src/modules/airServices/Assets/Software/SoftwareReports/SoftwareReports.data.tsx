@@ -1,7 +1,6 @@
 import { TruncateText } from '@/components/TruncateText';
 import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
-import { Typography } from '@mui/material';
 
 export const SOFTWARE_STATUS_COUNT = {
   TOTAL_SOFTWARE: 'totalSoftware',
@@ -91,9 +90,7 @@ export const softwareReportsTableColumnsDynamic = () => [
     isSortable: false,
     header: 'Name',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -102,9 +99,7 @@ export const softwareReportsTableColumnsDynamic = () => [
     isSortable: false,
     header: 'Type',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
   {
@@ -113,27 +108,21 @@ export const softwareReportsTableColumnsDynamic = () => [
     isSortable: false,
     header: 'Managed By',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {
-          <TruncateText
-            text={fullName(
-              info?.row?.original?.softwareManagedByDetails?.firstName?.toLowerCase(),
-              info?.row?.original?.softwareManagedByDetails?.lastName?.toLowerCase(),
-            )}
-          />
-        }
-      </Typography>
+      <TruncateText
+        text={fullName(
+          info?.row?.original?.softwareManagedByDetails?.firstName?.toLowerCase(),
+          info?.row?.original?.softwareManagedByDetails?.lastName?.toLowerCase(),
+        )}
+      />
     ),
   },
   {
-    accessorFn: (row: any) => row?.details,
-    id: 'category',
+    accessorFn: (row: any) => row?.status,
+    id: 'status',
     isSortable: false,
-    header: 'Category',
+    header: 'Status',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform="capitalize">
-        {<TruncateText text={info?.getValue()?.category?.toLowerCase()} />}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
 ];
