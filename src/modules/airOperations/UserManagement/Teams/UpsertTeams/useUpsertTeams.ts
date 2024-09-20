@@ -13,12 +13,16 @@ import {
 } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
-import { TeamPortalComponentPropsI } from '../Teams.interface';
 import { UpsertTeamsFormI } from './UpsertTeams.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airOperations/teams/slice';
 
-export const useUpsertTeams = (props: TeamPortalComponentPropsI) => {
-  const { isPortalOpen, setIsPortalOpen } = props;
+export const useUpsertTeams = () => {
+  const dispatch = useAppDispatch();
 
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsTeam?.isPortalOpen,
+  );
   const methods = useForm({
     resolver: yupResolver(upsertTeamValidationSchema),
     defaultValues: upsertTeamDefaultValues(),
@@ -82,7 +86,7 @@ export const useUpsertTeams = (props: TeamPortalComponentPropsI) => {
   };
 
   const handleClose = () => {
-    setIsPortalOpen({});
+    dispatch(setIsPortalClose());
     reset?.();
   };
 
@@ -105,5 +109,6 @@ export const useUpsertTeams = (props: TeamPortalComponentPropsI) => {
     isFetching,
     isError,
     refetch,
+    isPortalOpen,
   };
 };

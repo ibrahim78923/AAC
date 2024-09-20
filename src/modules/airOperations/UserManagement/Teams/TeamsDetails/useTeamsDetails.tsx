@@ -1,8 +1,12 @@
 import { useGetTeamsByIdForOperationQuery } from '@/services/airOperations/user-management/user';
-import { TeamPortalComponentPropsI } from '../Teams.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airOperations/teams/slice';
 
-export const useTeamsDetails = (props: TeamPortalComponentPropsI) => {
-  const { setIsPortalOpen, isPortalOpen } = props;
+export const useTeamsDetails = () => {
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsTeam?.isPortalOpen,
+  );
 
   const { data, isLoading, isFetching, isError, refetch }: any =
     useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
@@ -13,7 +17,7 @@ export const useTeamsDetails = (props: TeamPortalComponentPropsI) => {
   const teamDataArray = data?.data?.accounts || [];
 
   const closeDrawer = () => {
-    setIsPortalOpen({});
+    dispatch(setIsPortalClose());
   };
 
   return {
@@ -24,5 +28,6 @@ export const useTeamsDetails = (props: TeamPortalComponentPropsI) => {
     isFetching,
     isError,
     refetch,
+    isPortalOpen,
   };
 };

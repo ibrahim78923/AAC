@@ -5,11 +5,9 @@ import { useTeamsDetails } from './useTeamsDetails';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import { TeamPortalComponentPropsI } from '../Teams.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-const TeamsDetails = (props: TeamPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
+const TeamsDetails = () => {
   const {
     teamDataArray,
     data,
@@ -18,15 +16,16 @@ const TeamsDetails = (props: TeamPortalComponentPropsI) => {
     isFetching,
     isError,
     refetch,
-  } = useTeamsDetails(props);
+    isPortalOpen,
+  } = useTeamsDetails();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isView as boolean}
-        onClose={() => closeDrawer?.()}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
+        onClose={closeDrawer}
         title={data?.data?.name}
-        submitHandler={() => closeDrawer?.()}
+        submitHandler={closeDrawer}
         footer
         isOk
         okText={'OK'}
@@ -34,7 +33,7 @@ const TeamsDetails = (props: TeamPortalComponentPropsI) => {
         {isLoading || isFetching ? (
           <SkeletonTable />
         ) : isError ? (
-          <ApiErrorState canRefresh refresh={() => refetch?.()} />
+          <ApiErrorState canRefresh refresh={refetch} />
         ) : (
           <Box mt={1}>
             <Box

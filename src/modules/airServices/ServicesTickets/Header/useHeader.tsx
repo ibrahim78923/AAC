@@ -1,14 +1,18 @@
 import { setIsPortalOpen } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch } from '@/redux/store';
-import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { useRouter } from 'next/router';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
-import { EXPORT_TYPE } from '@/constants/strings';
+import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
+import { useLazyGetExportTicketsQuery } from '@/services/airServices/tickets';
+import { downloadFile } from '@/utils/file';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useHeader = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { getTicketsListDataExport } = useGetTicketList();
+
+  const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
+    useLazyGetExportTicketsQuery();
 
   const setTicketAction = (
     ticketActionQuery: string,
@@ -23,6 +27,25 @@ export const useHeader = () => {
     );
   };
 
+  const getTicketsListDataExport = async (type: any) => {
+    const queryParams = {
+      exportType: type,
+    };
+
+    const getTicketsParameter = {
+      queryParams,
+    };
+
+    try {
+      const response =
+        await lazyGetExportTicketsTrigger(getTicketsParameter)?.unwrap();
+      downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`Tickets Exported successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
   const exportTicketsAsCsv = () => getTicketsListDataExport?.(EXPORT_TYPE?.CSV);
   const exportTicketsAsXls = () => getTicketsListDataExport?.(EXPORT_TYPE?.XLS);
 
@@ -34,5 +57,6 @@ export const useHeader = () => {
     openCreateTicketPortal,
     exportTicketsAsCsv,
     exportTicketsAsXls,
+    lazyGetExportTicketsStatus,
   };
 };

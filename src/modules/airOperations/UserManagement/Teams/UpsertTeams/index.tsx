@@ -5,11 +5,8 @@ import { useUpsertTeams } from './useUpsertTeams';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import { TeamPortalComponentPropsI } from '../Teams.interface';
 
-const UpsertTeams = (props: TeamPortalComponentPropsI) => {
-  const { isPortalOpen } = props;
-
+const UpsertTeams = () => {
   const {
     methods,
     handleSubmit,
@@ -22,18 +19,19 @@ const UpsertTeams = (props: TeamPortalComponentPropsI) => {
     isFetching,
     isError,
     refetch,
-  } = useUpsertTeams(props);
+    isPortalOpen,
+  } = useUpsertTeams();
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isUpsert as boolean}
-      onClose={() => handleClose?.()}
+      isDrawerOpen={isPortalOpen?.isOpen as boolean}
+      onClose={handleClose}
       title={`${
         !!isPortalOpen?.data?._id
           ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
           : GENERIC_UPSERT_FORM_CONSTANT?.ADD
       } team`}
-      submitHandler={() => handleSubmit(submit)()}
+      submitHandler={handleSubmit(submit)}
       footer
       isOk
       okText={
@@ -57,7 +55,7 @@ const UpsertTeams = (props: TeamPortalComponentPropsI) => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
+        <ApiErrorState canRefresh refresh={refetch} />
       ) : (
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
