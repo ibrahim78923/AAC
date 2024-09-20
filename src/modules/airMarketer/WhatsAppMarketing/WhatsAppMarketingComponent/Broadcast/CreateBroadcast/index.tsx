@@ -38,12 +38,10 @@ const CreateBroadcast = () => {
   const {
     handleCloseContactsDrawer,
     templateDetailsVariables,
-    setSelectedContactsData,
     broadcastDetailsLoading,
     isAddContactDrawerOpen,
     updateBroadcastLoading,
     postBroadcastLoading,
-    selectedContactsData,
     flattenContactsData,
     previewAttachment,
     setSelectedRec,
@@ -155,7 +153,7 @@ const CreateBroadcast = () => {
                               },
                             }}
                           >
-                            {selectedContactsData?.map((item: any) => {
+                            {selectedRec?.map((item: any) => {
                               const contacts = item?.contacts || [item];
 
                               return contacts?.map((contact: any) => (
@@ -273,7 +271,7 @@ const CreateBroadcast = () => {
                   <Box sx={styles?.previewContacts}>
                     <TanstackTable
                       columns={contactsColumns}
-                      data={flattenContactsData(selectedContactsData)}
+                      data={flattenContactsData(selectedRec)}
                     />
                   </Box>
                 </Grid>
@@ -304,9 +302,7 @@ const CreateBroadcast = () => {
                 onClick={handleSubmit(onSubmit)}
                 loading={postBroadcastLoading || updateBroadcastLoading}
                 disabled={
-                  selectedContactsData?.length === indexNumbers?.ZERO
-                    ? true
-                    : false
+                  selectedRec?.length === indexNumbers?.ZERO ? true : false
                 }
               >
                 Send Now
@@ -322,8 +318,6 @@ const CreateBroadcast = () => {
           onClose={handleCloseContactsDrawer}
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
-          setSelectedContactsData={setSelectedContactsData}
-          selectedContactsData={selectedContactsData}
           setRecipientType={setRecipientType}
           recipientType={recipientType}
         />

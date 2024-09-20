@@ -42,7 +42,6 @@ const useCreateBroadcast = () => {
   const navigate = useRouter();
   const { type, id: selectedBroadCast } = navigate?.query;
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
-  const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedDateVal, setSelectedDateVal] = useState<any>(null);
   const [isSchedule, setIsSchedule] = useState(false);
@@ -146,7 +145,6 @@ const useCreateBroadcast = () => {
         ),
       };
       reset(() => broadcastDefaultValues(editBradcastData, form));
-      setSelectedContactsData(getWhatsappBroadcatsById?.data?.recipients ?? []);
       setIsSchedule(
         getWhatsappBroadcatsById?.data?.schedualDate ? true : false,
       );
@@ -189,18 +187,14 @@ const useCreateBroadcast = () => {
 
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
       payloadData.contactGroupId = [];
-      payloadData.recipients = selectedContactsData?.map(
-        (item: any) => item?._id,
-      );
+      payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
-      payloadData.recipients = selectedContactsData
+      payloadData.recipients = selectedRec
         ?.map(
           (item: any) => item?.contacts?.map((contact: any) => contact?._id),
         )
         ?.flat();
-      payloadData.contactGroupId = selectedContactsData?.map(
-        (item: any) => item?._id,
-      );
+      payloadData.contactGroupId = selectedRec?.map((item: any) => item?._id);
     }
     if (isSchedule) {
       payloadData.schedualDate = data?.schedualDate;
@@ -309,10 +303,8 @@ const useCreateBroadcast = () => {
     templateDetailsVariables,
     handleOpenContactsDrawer,
     broadcastDetailsLoading,
-    setSelectedContactsData,
     isAddContactDrawerOpen,
     updateBroadcastLoading,
-    selectedContactsData,
     postBroadcastLoading,
     flattenContactsData,
     setSelectedDateVal,

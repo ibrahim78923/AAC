@@ -74,8 +74,8 @@ const SMSBroadcastHeader = (props: SMSBroadcastHeaderProps) => {
               handleDateSubmit={() => {
                 setFilterValues({
                   ...filterValues,
-                  toDate: datePickerVal[startedDate],
-                  fromDate: datePickerVal[endedDate],
+                  fromDate: datePickerVal[startedDate],
+                  toDate: datePickerVal[endedDate],
                 });
               }}
             />

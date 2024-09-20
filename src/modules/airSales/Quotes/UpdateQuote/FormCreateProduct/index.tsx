@@ -1,14 +1,20 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSearchableSelect,
+} from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   addContactFields,
-  ProductValidationSchema,
+  productsValidationSchema,
   productDefaultValues,
+  productRadioOptions,
 } from './FormCreateProduct.data';
+import { useGetSalesProductlineItemQuery } from '@/services/airSales/quotes';
 import {
   // useCreateAssociationQuoteMutation,
   // useGetProductCatagoriesQuery,
@@ -21,9 +27,11 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PRODUCTS_TYPE } from '@/constants';
 // import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
+  const theme = useTheme();
   const params = useSearchParams();
   const actionType = params.get('type');
   const disableForm = actionType === 'view' ? true : false;
@@ -47,12 +55,14 @@ const FormCreateProduct = ({ open, onClose }: any) => {
   // const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver(ProductValidationSchema),
+    resolver: yupResolver(productsValidationSchema),
     defaultValues: async () => {
       return productDefaultValues;
     },
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+
+  const watchProduct = watch('productType');
 
   const onSubmit = async (values: any) => {
     values.category = values?.category?._id;
@@ -139,6 +149,15 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     }
   }, [productId, actionType, reset, lazyGetProductsByIdQuery]);
 
+  const { data: salesProducts } = useGetSalesProductlineItemQuery({});
+
+  const extProductOptions = salesProducts?.data?.salesproducts?.map(
+    (item: any) => ({
+      value: item?._id,
+      label: item?.name ? item?.name : 'N/A',
+    }),
+  );
+
   return (
     <CommonDrawer
       title={`${actionType} Product`}
@@ -154,22 +173,48 @@ const FormCreateProduct = ({ open, onClose }: any) => {
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={'22px'}>
-            {addContactFields(productCatagories)?.map((item: any) => (
-              <Grid item xs={12} key={item?.componentProps?.name}>
-                <item.component
-                  disabled={disableForm}
-                  {...item?.componentProps}
-                  size={'small'}
+            <Grid item xs={12}>
+              <RHFRadioGroup
+                options={productRadioOptions}
+                name="productType"
+                label={false}
+                defaultValue="new-products"
+              />
+            </Grid>
+            {watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT ? (
+              addContactFields(productCatagories)?.map((item: any) => (
+                <Grid item xs={12} key={item?.componentProps?.name}>
+                  <item.component
+                    disabled={disableForm}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  color={theme?.palette?.grey[600]}
                 >
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                  Choose Product{' '}
+                  <span style={{ color: theme?.palette?.error?.main }}>*</span>
+                </Typography>
+                <RHFSearchableSelect
+                  size="small"
+                  name="chooseProduct"
+                  options={extProductOptions}
+                />
               </Grid>
-            ))}
+            )}
           </Grid>
         </FormProvider>
       </Box>

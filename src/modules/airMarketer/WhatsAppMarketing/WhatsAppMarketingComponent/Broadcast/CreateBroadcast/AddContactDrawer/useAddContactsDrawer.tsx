@@ -7,12 +7,7 @@ import { contactsDefaultValues } from './AllContactDrawer.data';
 import { useForm } from 'react-hook-form';
 import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
-const useAddContactDrawer = (
-  onClose?: any,
-  setSelectedContactsData?: any,
-  selectedRec?: any,
-  recipientType?: any,
-) => {
+const useAddContactDrawer = (recipientType?: any) => {
   const theme = useTheme<Theme>();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -42,13 +37,8 @@ const useAddContactDrawer = (
     defaultValues: contactsDefaultValues(recipientType),
   });
 
-  const { handleSubmit, watch } = methods;
+  const { watch } = methods;
   const radioVal = watch('contacts');
-
-  const onSubmit = () => {
-    setSelectedContactsData(selectedRec);
-    onClose();
-  };
 
   return {
     contactGroupsLoading,
@@ -58,8 +48,6 @@ const useAddContactDrawer = (
     allContactsData,
     getGroupsData,
     setPageLimit,
-    handleSubmit,
-    onSubmit,
     radioVal,
     setPage,
     methods,

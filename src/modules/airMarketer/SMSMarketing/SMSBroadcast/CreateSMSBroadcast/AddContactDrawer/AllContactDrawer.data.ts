@@ -8,7 +8,6 @@ export const contactsArray = [
   {
     componentProps: {
       name: 'contacts',
-      defaultValue: 'all',
       options: [
         { value: 'all', label: 'All Contacts' },
         { value: 'groups', label: 'Groups' },

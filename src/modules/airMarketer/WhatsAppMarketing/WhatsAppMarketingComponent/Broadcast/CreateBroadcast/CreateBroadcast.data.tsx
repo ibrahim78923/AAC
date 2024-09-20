@@ -16,6 +16,7 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { STATUS_CONTANTS } from '@/constants/strings';
+import { getActiveAccountSession } from '@/utils';
 
 export const broadCastValidationSchema = (
   isSchedule: any,
@@ -58,8 +59,10 @@ export const broadcastDefaultValues = (data?: any, form?: any) => {
 };
 
 export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
+  const ActiveAccount = getActiveAccountSession();
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const templateList = useLazyGetAllWhatsAppTemplateListQuery();
+
   return [
     {
       id: '01',
@@ -82,6 +85,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
         required: true,
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,
+        externalParams: { companyId: ActiveAccount?.company?._id },
       },
       component: RHFAutocompleteAsync,
       md: 12,

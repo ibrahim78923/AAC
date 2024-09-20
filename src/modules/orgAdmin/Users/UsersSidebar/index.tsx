@@ -140,7 +140,6 @@ const UsersSidebar = (props: UsersSidebarProps) => {
             <Box sx={{ height: `calc(70vh - ${15}px)`, overflow: 'auto' }}>
               {employeeDetails?.map((item: any, index: number) => (
                 <Box
-                  className="users-wrapper"
                   sx={{
                     my: 2,
                     backgroundColor:
@@ -159,7 +158,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
                   <Box
                     sx={{
                       display: 'flex',
-                      gap: '10px',
+                      gap: '5px',
                       alignItems: 'center',
                       cursor: 'pointer',
                       flexWrap: {
@@ -219,7 +218,16 @@ const UsersSidebar = (props: UsersSidebarProps) => {
                           />
                         </PermissionsGuard>
                       </Box>
-                      <Typography>{item?.email}</Typography>
+                      <Typography
+                        sx={{
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          width: `calc(30vh - 15px)`,
+                        }}
+                      >
+                        {item?.email}
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
