@@ -180,6 +180,9 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
 
   const typingUserData = useAppSelector((state) => state?.chat?.typingUserData);
 
+  const onScreenUserName =
+    user?.firstName.toLowerCase() + ' ' + user?.lastName.toLowerCase();
+
   return (
     <Box
       sx={{
@@ -187,32 +190,38 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
         paddingTop: `${typingUserData?.userName ? '0px' : '53px'}`,
       }}
     >
-      {typingUserData?.userName ? (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '5px',
-          }}
-        >
-          <Box>
-            <Image width={40} height={40} src={UserDefault} alt="avatar" />
-          </Box>
-          <Box>
-            <Typography
-              sx={{ textTransform: 'lowercase' }}
-              variant="body3"
-              fontWeight={500}
+      {typingUserData?.userName !== onScreenUserName ? (
+        <>
+          {typingUserData?.userName ? (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                marginBottom: '5px',
+              }}
             >
-              {typingUserData?.userName}
-            </Typography>
-            <Box>
-              <Image src={TypingGif} width={40} alt="typing" height={21} />
+              <Box>
+                <Image width={40} height={40} src={UserDefault} alt="avatar" />
+              </Box>
+              <Box>
+                <Typography
+                  sx={{ textTransform: 'lowercase' }}
+                  variant="body3"
+                  fontWeight={500}
+                >
+                  {typingUserData?.userName}
+                </Typography>
+                <Box>
+                  <Image src={TypingGif} width={40} alt="typing" height={21} />
+                </Box>
+              </Box>
             </Box>
-          </Box>
-        </Box>
-      ) : null}
+          ) : null}
+        </>
+      ) : (
+        <></>
+      )}
 
       <Box sx={styles?.chatFooterWrapper(theme)}>
         {activeReply?.content && (

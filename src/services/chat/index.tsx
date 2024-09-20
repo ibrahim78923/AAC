@@ -1,7 +1,12 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { SOCIAL_FEATURES_CHAT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
+import { getSession } from '@/utils';
 const TAG = ['CHAT'];
+
+const { user }: { accessToken: string; refreshToken: string; user: any } =
+  getSession();
+
 export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
@@ -115,7 +120,10 @@ export const chatApi = baseAPI.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.usercompanyaccounts;
+        const filteredAccounts = response?.data?.usercompanyaccounts?.filter(
+          (ele: any) => ele?._id !== user?._id,
+        );
+        if (filteredAccounts) return filteredAccounts;
       },
     }),
     getChatUsersForCompanyAccounts: builder.query({
@@ -133,6 +141,19 @@ export const chatApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    updateChatUnFetched: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_CHAT?.UPDATE_CHAT}${id}`,
+          method: 'PATCH',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: [],
+    }),
   }),
 });
 
@@ -140,6 +161,7 @@ export const {
   useGetUserChatsQuery,
   useGetChatsContactsQuery,
   useUpdateChatMutation,
+  useUpdateChatUnFetchedMutation,
   useCreateNewGroupMutation,
   useChatAttachmentUploadMutation,
   useGetUserChatsInfoQuery,

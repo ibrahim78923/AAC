@@ -31,6 +31,7 @@ import {
   setIsNewMessages,
   setSocketConnection,
   setTypingUserData,
+  setUpdateChatContactsActions,
 } from '@/redux/slices/chat/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getActiveProductSession, getSession, isNullOrEmpty } from '@/utils';
@@ -509,26 +510,36 @@ const DashboardLayout = ({ children, window }: any) => {
     });
   }
 
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
+
+  const currentUserId = user?._id;
+
   useEffect(() => {
     const handleOnMessageReceived = (payload: any) => {
       if (payload?.data) {
-        const currentData = chatContacts?.find(
-          (ele: any) => ele?._id === payload?.data?.chatId,
-        );
-        if (currentData) {
-          dispatch(
-            setChatContacts({
-              ...currentData,
-              lastMessage: {
-                ...currentData?.lastMessage,
-                content: payload?.data?.content,
-                updatedAt: payload?.data?.updatedAt,
-              },
-              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
-            }),
+        const updatedChatContacts = chatContacts?.map((chat: any) => {
+          const filteredParticipants = chat?.participants?.filter(
+            (participant: any) => participant?._id !== currentUserId,
           );
-        }
+          if (chat?._id === payload?.data?.chatId) {
+            return {
+              ...chat,
+              content: payload?.data?.content,
+              ...(filteredParticipants[0]?._id === chat?.ownerId &&
+                activeChatId !== chat?._id && {
+                  unReadMessagesCount: chat?.unReadMessagesCount + 1,
+                }),
+              ...(filteredParticipants[0]?._id === chat?.ownerId &&
+                activeChatId !== chat?._id && { unread: true }),
+            };
+          }
+          return chat;
+        });
+
+        dispatch(setUpdateChatContactsActions(updatedChatContacts));
       }
+
       if (activeChatId === payload?.data?.chatId) {
         if (payload?.data) {
           dispatch(setChatMessages(payload?.data));
@@ -538,8 +549,45 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
 
-    const handleTypingStart = (payload: any) => {
+    const handleOnGrpMessageReceived = (payload: any) => {
+      if (payload) {
+        const updatedChatContacts = chatContacts?.map((chat: any) => {
+          const filteredParticipants = chat?.participants?.filter(
+            (participant: any) => participant?._id === currentUserId,
+          );
+          if (chat?._id === payload?.chatId) {
+            return {
+              ...chat,
+              content: payload?.content,
+
+              ...(filteredParticipants[0]?._id !== payload?.ownerId &&
+                activeChatId !== payload?.groupDetail?._id && {
+                  unReadMessagesCount: chat?.unReadMessagesCount + 1,
+                }),
+              ...(filteredParticipants[0]?._id !== payload?.ownerId &&
+                activeChatId !== payload?.groupDetail?._id && { unread: true }),
+            };
+          }
+          return chat;
+        });
+
+        dispatch(setUpdateChatContactsActions(updatedChatContacts));
+      }
+
       if (activeChatId === payload?.chatId) {
+        if (payload) {
+          dispatch(setChatMessages(payload));
+          dispatch(setChangeChat(payload));
+          dispatch(setIsNewMessages(false));
+        }
+      }
+    };
+
+    const handleTypingStart = (payload: any) => {
+      if (
+        activeChatId === payload?.chatId ||
+        activeChatId === payload?.groupId
+      ) {
         dispatch(
           setTypingUserData({
             userName: payload?.typingUserName,
@@ -554,12 +602,20 @@ const DashboardLayout = ({ children, window }: any) => {
 
     if (socket) {
       socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+      socket.on(
+        CHAT_SOCKETS?.ON_GRP_MESSAGE_RECEIVED,
+        handleOnGrpMessageReceived,
+      );
       socket.on(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
       socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
     }
     return () => {
       if (socket) {
         socket.off(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+        socket.off(
+          CHAT_SOCKETS?.ON_GRP_MESSAGE_RECEIVED,
+          handleOnGrpMessageReceived,
+        );
         socket.off(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
         socket.off(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
       }

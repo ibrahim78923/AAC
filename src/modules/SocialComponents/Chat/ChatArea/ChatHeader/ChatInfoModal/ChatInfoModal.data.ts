@@ -23,7 +23,7 @@ export const viewGroupInfoButtonData = [
   },
   {
     label: 'Shared Media',
-    value: 'media',
+    value: 'image',
     position: 'left-aligned',
   },
 ];

@@ -15,7 +15,10 @@ import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
 import ChatDropdown from '../../ChatDropdown';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useUpdateChatMutation } from '@/services/chat';
+import {
+  useUpdateChatMutation,
+  useUpdateChatUnFetchedMutation,
+} from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
 import {
   setActiveChat,
@@ -26,6 +29,7 @@ import {
   setChatContacts,
   setChatMessages,
   setNewOrFetchedChatMessages,
+  setUpdateChatContactsActions,
 } from '@/redux/slices/chat/slice';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import Image from 'next/image';
@@ -57,6 +61,7 @@ const ChatHeader = ({ chatMode }: any) => {
   };
 
   const [updateChat] = useUpdateChatMutation();
+  const [updateChatFetched] = useUpdateChatUnFetchedMutation();
   const updateChatHandler = async (requestType: any) => {
     const payloadMap: any = {
       unRead: { unRead: !activeConversation?.unRead },
@@ -102,15 +107,14 @@ const ChatHeader = ({ chatMode }: any) => {
     }
   };
 
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+
   const updateReadMessageHandler = async () => {
     try {
-      const response = await updateChat({
+      const response = await updateChatFetched({
         body: { unRead: false },
         id: activeConversation?.conversationId,
       })?.unwrap();
-      enqueueSnackbar('auto updated successfully', {
-        variant: 'success',
-      });
       dispatch(
         setActiveConversation({
           ...activeConversation,
@@ -120,6 +124,17 @@ const ChatHeader = ({ chatMode }: any) => {
           unRead: response?.data?.unRead,
         }),
       );
+      const updatedChatContacts = chatContacts?.map((chat: any) => {
+        if (chat._id === response?.data?.chatId) {
+          return {
+            ...chat,
+            unReadMessagesCount: 0,
+            unRead: false,
+          };
+        }
+        return chat;
+      });
+      dispatch(setUpdateChatContactsActions(updatedChatContacts));
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
@@ -129,7 +144,7 @@ const ChatHeader = ({ chatMode }: any) => {
 
   useEffect(() => {
     updateReadMessageHandler();
-  }, []);
+  }, [activeConversation?.conversationId]);
 
   const menuItemsData = [
     {

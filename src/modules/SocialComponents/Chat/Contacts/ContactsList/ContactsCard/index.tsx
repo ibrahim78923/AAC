@@ -327,7 +327,9 @@ const ContactsCard = ({
               marginBottom: '5px',
             }}
           >
-            {cardData?.item?.lastMessage?.content}
+            {cardData?.item?.content
+              ? cardData?.item?.content
+              : cardData?.item?.lastMessage?.content}
           </Box>
           <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>
             {dayjs(cardData?.item?.lastMessage?.updatedAt).format(
