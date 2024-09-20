@@ -80,28 +80,20 @@ export const useInventory = () => {
   };
 
   const getInventoryListDataExport = async (type: any) => {
-    const additionalParams = [
-      ['page', page + ''],
-      ['limit', pageLimit + ''],
-      ['search', search],
-      ['exportType', type],
-    ];
+    const queryParams = {
+      exportType: type,
+    };
 
-    const exportInventoryParams: any = buildQueryParams(
-      additionalParams,
-      inventoryFilterLists,
-    );
-
-    const getInventoryExportParameter = {
-      queryParams: exportInventoryParams,
+    const getInventoryParameter = {
+      queryParams,
     };
 
     try {
       const response: any = await lazyGetExportInventoryTrigger(
-        getInventoryExportParameter,
+        getInventoryParameter,
       )?.unwrap();
       downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar('File export successfully');
+      successSnackbar('File Exported Successfully!');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

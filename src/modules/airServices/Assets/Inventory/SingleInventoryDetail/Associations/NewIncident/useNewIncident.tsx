@@ -14,7 +14,7 @@ import { usePostTicketsMutation } from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -25,20 +25,12 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/utils/dateTime';
-import useAuth from '@/hooks/useAuth';
-import { getActiveAccountSession } from '@/utils';
 
 export const useNewIncident = (props: {
   openDrawer: boolean;
   setIsOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { setIsOpenDrawer } = props;
-
-  const auth: any = useAuth();
-  const product = useMemo(() => getActiveAccountSession(), []);
-  const companyId = product?.company?._id ?? {};
-  const userId = auth?.user?._id ?? {};
-  const organizationId = auth?.user?.organization?._id ?? {};
 
   const [form, setForm] = useState<any[]>([]);
 
@@ -180,9 +172,6 @@ export const useNewIncident = (props: {
         newIncidentTicketFormData?.append('fileUrl', newFormData?.attachFile);
       newIncidentTicketFormData?.append('moduleType', MODULE_TYPE?.TICKETS);
       newIncidentTicketFormData?.append('ticketType', TICKET_TYPE?.INC);
-      newIncidentTicketFormData?.append('userId', userId);
-      newIncidentTicketFormData?.append('companyId', companyId);
-      newIncidentTicketFormData?.append('organization', organizationId);
 
       if (body?.customFields) {
         newIncidentTicketFormData?.append(

@@ -11,6 +11,7 @@ import { ARRAY_INDEX, EXPENSE_TYPE } from '@/constants/strings';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { ExpenseI } from './Expense.interface';
 import { localeDateTime } from '@/utils/dateTime';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
@@ -18,8 +19,13 @@ export const expenseTypeDropdown = [
 ];
 
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
-  type: yup?.string()?.required('Required field!'),
-  cost: yup?.string()?.required('Required field!'),
+  type: yup?.string()?.required('Type is Required!'),
+  cost: yup
+    ?.number()
+    ?.positive('Must be above 0')
+    ?.typeError('Must be a Number')
+    ?.nullable()
+    ?.required('Cost is Required!'),
 });
 
 export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {
@@ -27,7 +33,7 @@ export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {
 
   return {
     type: expenseUpdateData?.type ?? '',
-    cost: expenseUpdateData?.cost ?? '',
+    cost: expenseUpdateData?.cost ?? null,
     date: expenseUpdateData?.date
       ? localeDateTime(expenseUpdateData?.date)
       : new Date(),
@@ -38,7 +44,6 @@ export const addExpenseFormData = [
   {
     id: 129,
     componentProps: {
-      fullWidth: true,
       name: 'type',
       label: 'Expense Type',
       placeholder: 'Expense Type',
@@ -53,7 +58,6 @@ export const addExpenseFormData = [
     id: 100,
     componentProps: {
       name: 'cost',
-      fullWidth: true,
       placeholder: 'Cost',
       label: 'Cost (£)',
       required: true,
@@ -142,7 +146,7 @@ export const addExpenseColumnsFunction = (
     id: 'cost',
     isSortable: true,
     header: 'Cost',
-    cell: (info: any) => (info?.getValue() ? `$${info?.getValue()}` : '---'),
+    cell: (info: any) => (info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.date,
@@ -151,7 +155,7 @@ export const addExpenseColumnsFunction = (
     header: 'Date',
     cell: (info: any) =>
       info?.getValue()
-        ? dayjs(info?.getValue())?.format('MMMM DD, YYYY')
+        ? dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI)
         : '---',
   },
 ];
