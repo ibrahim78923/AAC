@@ -519,6 +519,7 @@ export const END_POINTS = {
     '/org-company-account/update-customer-portal-STYLING',
   DROPDOWN_ORG_TEAMS: '/dropdown/organization-all-teams',
   CUSTOMER_PORTAL_ASSET_DROPDOWN: '/dropdown/all-assets-customer-portal',
+  SHARE_TICKET: '/ticket/share-ticket',
 };
 
 export const LEAD_CAPTURE_FORM = {

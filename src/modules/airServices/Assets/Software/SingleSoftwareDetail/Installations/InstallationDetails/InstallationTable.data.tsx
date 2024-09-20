@@ -1,7 +1,9 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CALENDAR_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
+import { fullName } from '@/utils/avatarUtils';
 
 export const installationTableColumns = (
   installationData: any,
@@ -61,9 +63,7 @@ export const installationTableColumns = (
       id: 'displayName',
       header: 'Installation Machine',
       cell: (info: any) => (
-        <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
-        </Typography>
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
       ),
     },
     {
@@ -71,9 +71,7 @@ export const installationTableColumns = (
       id: 'version',
       header: 'Version',
       cell: (info: any) => (
-        <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
-        </Typography>
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
       ),
     },
     {
@@ -82,7 +80,9 @@ export const installationTableColumns = (
       header: 'User',
       cell: (info: any) => {
         const user = info?.getValue();
-        return user ? `${user?.firstName} ${user?.lastName}` : '__';
+        return (
+          <TruncateText text={fullName(user?.firstName, user?.lastName)} />
+        );
       },
     },
     {
@@ -90,9 +90,7 @@ export const installationTableColumns = (
       id: 'departmentDetail',
       header: 'Department',
       cell: (info: any) => (
-        <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
-        </Typography>
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
       ),
     },
     {

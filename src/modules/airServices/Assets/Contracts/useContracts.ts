@@ -50,17 +50,11 @@ export const useContracts = () => {
   };
 
   const getContractListDataExport = async (type: any) => {
-    const exportContractParams = new URLSearchParams();
-    Object?.entries(contractFilterLists || {})?.forEach(
-      ([key, value]: any) => exportContractParams?.append(key, value?._id),
-    );
-    exportContractParams?.append('page', page + '');
-    exportContractParams?.append('limit', pageLimit + '');
-    exportContractParams?.append('search', search);
-    exportContractParams?.append('exportType', type);
-
+    const queryParams = {
+      exportType: type,
+    };
     const getContractExportParameter = {
-      queryParams: exportContractParams,
+      queryParams,
     };
 
     try {

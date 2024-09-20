@@ -1,15 +1,22 @@
-import { Box, Theme, Typography } from '@mui/material';
+import { Box, Button, Theme, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useSingleTicketHeader } from './useSingleTicketHeader';
 import { LoadingButton } from '@mui/lab';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { ShareTicket } from './ShareTicket';
 
 export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   const { ticketNumber, singleTicketData } = props;
-  const { isLoading, updateTicketStatus, handleBack, portalStyles } =
-    useSingleTicketHeader(props);
+  const {
+    isLoading,
+    updateTicketStatus,
+    handleBack,
+    portalStyles,
+    shareModalOpen,
+    setShareModalOpen,
+  } = useSingleTicketHeader(props);
 
   return (
     <Box
@@ -32,6 +39,14 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
         </Typography>
       </Box>
       <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          className="small"
+          onClick={() => setShareModalOpen?.(true)}
+        >
+          share
+        </Button>
         {singleTicketData?.status !== TICKET_STATUS?.CLOSED && (
           <LoadingButton
             variant="contained"
@@ -55,6 +70,12 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
           </LoadingButton>
         )}
       </Box>
+      {shareModalOpen && (
+        <ShareTicket
+          open={shareModalOpen}
+          handleClose={() => setShareModalOpen?.(false)}
+        />
+      )}
     </Box>
   );
 };

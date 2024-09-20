@@ -61,6 +61,7 @@ export const Meeting = () => {
         <Box
           display={'flex'}
           justifyContent={'space-between'}
+          alignItems={'center'}
           flexWrap={'wrap'}
           gap={1}
         >
@@ -80,6 +81,7 @@ export const Meeting = () => {
               startIcon={<PlusIcon />}
               variant="contained"
               sx={{ cursor: 'pointer' }}
+              className="small"
               onClick={() =>
                 router?.push({
                   pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
