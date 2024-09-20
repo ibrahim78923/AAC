@@ -5,7 +5,7 @@ const TAG = 'CONTRACT_TYPE';
 
 export const contractTypeAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getContractTypeList: builder.query({
+    getSettingsContractTypeList: builder.query({
       query: (params) => ({
         url: END_POINTS?.CONTRACT_TYPE_SERVICES_SETTINGS,
         method: 'GET',
@@ -41,7 +41,7 @@ export const contractTypeAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetContractTypeListQuery,
+  useGetSettingsContractTypeListQuery,
   usePostContractTypeMutation,
   usePatchContractTypeMutation,
   useDeleteContractTypeMutation,

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { PAGINATION } from '@/config';
 import {
   useDeleteContractTypeMutation,
-  useGetContractTypeListQuery,
+  useGetSettingsContractTypeListQuery,
 } from '@/services/airServices/settings/asset-management/contract-type';
 import { getContractTypeColumns } from './ContractType.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -31,7 +31,9 @@ export default function useContractType() {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetContractTypeListQuery(params, { refetchOnMountOrArgChange: true });
+    useGetSettingsContractTypeListQuery(params, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const [deleteContractTypeTrigger, deleteContractTypeStatus] =
     useDeleteContractTypeMutation();
