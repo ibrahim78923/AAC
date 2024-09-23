@@ -1,9 +1,8 @@
 import { DashboardMockImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from './CreateDashboard.data';
-import { useCreateDashboard } from './useCreateDashboard';
-import { styles } from './CreateDashboard.styles';
+import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from './UpsertDashboard.data';
+import { styles } from './UpsertDashboard.styles';
 import { PreviewDashboard } from '../PreviewDashboard';
 import { DragDropContext } from 'react-beautiful-dnd';
 import dynamic from 'next/dynamic';
@@ -15,19 +14,20 @@ import {
 } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
-import { UpsertServiceDashboardFormFieldsDynamicI } from './CreateDashboard.interface';
+import { UpsertServiceDashboardFormFieldsDynamicI } from './UpsertDashboard.interface';
 import { createElement } from 'react';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { Visibility } from '@mui/icons-material';
 import NoData from '@/components/NoData';
+import { useUpsertDashboard } from './useUpsertDashboard';
 
 const RHFMultiCheckboxDraggable = dynamic(
   () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
   { ssr: false },
 );
 
-export const CreateDashboard = () => {
+export const UpsertDashboard = () => {
   const {
     methods,
     submitCreateDashboardFilterForm,
@@ -46,7 +46,7 @@ export const CreateDashboard = () => {
     isPortalOpen,
     setIsPortalOpen,
     refetch,
-  } = useCreateDashboard();
+  } = useUpsertDashboard();
 
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;

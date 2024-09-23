@@ -1,7 +1,7 @@
 import { pxToRem } from '@/utils/getFontValue';
 import { useMediaQuery, useTheme } from '@mui/material';
 
-export default function useRadialBarChart({ chartData }: any) {
+export const useTicketPriorityGraph = ({ chartData }: any) => {
   const theme: any = useTheme();
   const pirorityCounts: { [key: string]: number } = {
     LOW: 0,
@@ -63,4 +63,4 @@ export default function useRadialBarChart({ chartData }: any) {
   ];
 
   return { options, radialBarChartData };
-}
+};

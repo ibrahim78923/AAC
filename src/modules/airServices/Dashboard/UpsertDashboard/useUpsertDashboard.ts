@@ -3,7 +3,7 @@ import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import {
   MultiCheckboxOptionI,
   UpsertServicesDashboardDefaultValueI,
-} from './CreateDashboard.interface';
+} from './UpsertDashboard.interface';
 import { DropResult } from 'react-beautiful-dnd';
 import {
   createDashboardDefaultValue,
@@ -11,7 +11,7 @@ import {
   dashboardWidgetsData,
   MANAGE_DASHBOARD_ACCESS_TYPES,
   upsertServiceDashboardFormFieldsDynamic,
-} from './CreateDashboard.data';
+} from './UpsertDashboard.data';
 import { useRouter } from 'next/router';
 import {
   useAddSingleServicesDashboardMutation,
@@ -28,7 +28,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 
-export const useCreateDashboard = () => {
+export const useUpsertDashboard = () => {
   const router = useRouter();
   const { dashboardId } = router?.query;
   const { action } = router?.query;

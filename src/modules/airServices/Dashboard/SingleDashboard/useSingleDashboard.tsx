@@ -14,8 +14,8 @@ export const useSingleDashboard = (props: any) => {
   const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
   const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
 
-  const { _id: productId } = auth?.product;
   const methods = useForm({
     defaultValues: { dashboardId: null },
     resolver: yupResolver(

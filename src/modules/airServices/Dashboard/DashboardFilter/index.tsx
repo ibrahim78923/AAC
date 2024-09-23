@@ -2,12 +2,12 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { truncateText } from '@/utils/avatarUtils';
 import { AIR_SERVICES } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import EmailThisDashboard from '../EmailThisDashboard';
 import { useDashboardFilter } from './useDashboardFilter';
 import { DashboardListFieldDropdown } from '../DashboardFormFields/DashboardsListFieldDropdown';
+import { TruncateText } from '@/components/TruncateText';
 
 export const DashboardFilter = (props: any) => {
   const { apiLoader } = props;
@@ -25,8 +25,10 @@ export const DashboardFilter = (props: any) => {
         <Skeleton />
       ) : (
         <Typography variant="h3" color="primary.main">
-          {`${truncateText(apiLoader?.data?.data?.dashboard?.name, 30)}` ??
-            '---'}
+          <TruncateText
+            text={apiLoader?.data?.data?.dashboard?.name?.toLowerCase()}
+            size={35}
+          />
         </Typography>
       )}
       <Box

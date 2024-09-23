@@ -10,7 +10,9 @@ const {
   DASHBOARD_AGENT_AVAILABILITY,
   GET_TOP_PERFORMER,
   DASHBOARD_EMAIL,
+  GET_PUBLIC_DASHBOARD_CARDS_TICKETS,
 } = END_POINTS;
+
 const TAG = 'DASHBOARD_TICKETS';
 const TAG_ONE = 'DASHBOARD_CARDS_TICKETS';
 const TAG_TWO = 'ANNOUNCEMENTS';
@@ -228,6 +230,20 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    getPublicSingleServicesDashboard: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_AIR_SERVICES_PUBLIC_DASHBOARD}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getPublicDashboardCardsTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${GET_PUBLIC_DASHBOARD_CARDS_TICKETS}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -262,4 +278,7 @@ export const {
   useUpdateServicesAnnouncementOnDashboardMutation,
   useGetSingleAnnouncementOnDashboardQuery,
   useLazyGetSingleAnnouncementOnDashboardQuery,
+  useLazyGetPublicSingleServicesDashboardQuery,
+  useGetPublicSingleServicesDashboardQuery,
+  useGetPublicDashboardCardsTicketsQuery,
 } = dashboardAPI;

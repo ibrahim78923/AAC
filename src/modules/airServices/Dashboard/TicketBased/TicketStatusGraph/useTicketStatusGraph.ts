@@ -1,9 +1,9 @@
+import { MONTH_NAMES } from '@/constants/strings';
 import { useTheme } from '@mui/material';
 
-export const useBarChart = ({ chartData }: any) => {
+export const useTicketStatusGraph = ({ chartData }: any) => {
   const theme = useTheme();
 
-  // Group data by month and status
   const groupedData = chartData?.statusStats?.reduce((acc: any, curr: any) => {
     const { month, status, count } = curr;
     acc[month] = acc[month] || { RESOLVED: 0, CLOSED: 0, OPEN: 0, PENDING: 0 };
@@ -11,23 +11,6 @@ export const useBarChart = ({ chartData }: any) => {
     return acc;
   }, {});
 
-  // Array of month abbreviations
-  const monthAbbreviations = [
-    'JAN',
-    'FEB',
-    'MAR',
-    'APR',
-    'MAY',
-    'JUN',
-    'JUL',
-    'AUG',
-    'SEP',
-    'OCT',
-    'NOV',
-    'DEC',
-  ];
-
-  // Extract counts for each status for every month
   const months = Object?.keys(groupedData || {})?.sort(
     (a: any, b: any) => a - b,
   );
@@ -40,9 +23,7 @@ export const useBarChart = ({ chartData }: any) => {
 
   const options = {
     xaxis: {
-      categories: months?.map(
-        (month) => monthAbbreviations[parseInt(month) - 1],
-      ),
+      categories: months?.map((month) => MONTH_NAMES[parseInt(month) - 1]),
     },
     colors: [
       theme?.palette?.custom?.bright,

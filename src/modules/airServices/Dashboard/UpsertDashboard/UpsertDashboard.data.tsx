@@ -25,7 +25,7 @@ import {
   SpecificUsersAccessFormFieldsDynamicI,
   UpsertServicesDashboardDefaultValueI,
   UsersDropdownOptionI,
-} from './CreateDashboard.interface';
+} from './UpsertDashboard.interface';
 import { RecentActivities } from '../RecentActivities';
 import { TopPerformer } from '../TopPerformer';
 import { Announcement } from '../Announcement';

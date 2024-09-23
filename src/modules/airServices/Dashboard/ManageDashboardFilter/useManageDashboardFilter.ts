@@ -4,12 +4,8 @@ import {
   manageDashboardsFilterFormFieldsDynamic,
 } from './ManageDashboardFilter.data';
 import { PAGINATION } from '@/config';
-import {
-  useLazyGetDashboardNameListDropdownListForDashboardQuery,
-  useLazyGetDashboardOwnersDropdownListForDashboardQuery,
-} from '@/services/airServices/dashboard';
-import useAuth from '@/hooks/useAuth';
-import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard.interface';
+import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const useManageDashboardFilter = (
   props: ManageDashboardPortalComponentPropsI,
@@ -21,10 +17,6 @@ export const useManageDashboardFilter = (
     setPage,
   } = props;
 
-  const auth = useAuth();
-
-  const { _id: productId }: any = auth?.product;
-
   const methods = useForm({
     defaultValues:
       manageDashboardFilterFormDefaultValuesDynamic(dashboardFilterLists),
@@ -33,15 +25,7 @@ export const useManageDashboardFilter = (
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
-    const dashboardFilteredFields: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) =>
-          value !== undefined &&
-          value != '' &&
-          value != null &&
-          value?._id !== 'All',
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const dashboardFilteredFields: any = filteredEmptyValues(data);
 
     if (!Object?.keys(dashboardFilteredFields || {})?.length) {
       setDashboardFilterLists?.(dashboardFilteredFields);
@@ -67,16 +51,7 @@ export const useManageDashboardFilter = (
     setIsPortalOpen?.({});
   };
 
-  const apiQueryOwner =
-    useLazyGetDashboardOwnersDropdownListForDashboardQuery();
-  const apiQueryDashboardName =
-    useLazyGetDashboardNameListDropdownListForDashboardQuery();
-
-  const dashboardFilterFormFields = manageDashboardsFilterFormFieldsDynamic(
-    apiQueryDashboardName,
-    apiQueryOwner,
-    productId,
-  );
+  const dashboardFilterFormFields = manageDashboardsFilterFormFieldsDynamic();
 
   return {
     methods,

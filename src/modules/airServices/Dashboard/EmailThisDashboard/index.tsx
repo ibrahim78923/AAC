@@ -19,9 +19,9 @@ const EmailThisDashboard = (props: any) => {
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => closeDrawer?.()}
+        onClose={closeDrawer}
         title="Email this dashboard"
-        submitHandler={() => handleSubmit(submitEmail)()}
+        submitHandler={handleSubmit(submitEmail)}
         footer
         isOk
         okText="Send"

@@ -12,13 +12,6 @@ export const useDashboardFilter = (props: any) => {
   const { user }: any = auth;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  const emailToCopy = `${window?.location
-    ?.origin}${AIR_SERVICES?.SINGLE_DASHBOARD}${
-    !!apiLoader?.data?.data?.dashboard?._id
-      ? `?dashboardId=${apiLoader?.data?.data?.dashboard?._id}`
-      : ''
-  }`;
-
   const copyEmail = () => {
     if (apiLoader?.isError) {
       errorSnackbar('Dashboard link not found.');
@@ -28,6 +21,12 @@ export const useDashboardFilter = (props: any) => {
       errorSnackbar('Dashboard link not found.');
       return;
     }
+    const emailToCopy = `${window?.location
+      ?.origin}${AIR_SERVICES?.SINGLE_DASHBOARD}${
+      !!apiLoader?.data?.data?.dashboard?._id
+        ? `?dashboardId=${apiLoader?.data?.data?.dashboard?._id}`
+        : ''
+    }`;
     navigator?.clipboard?.writeText(emailToCopy);
     successSnackbar('Link has been copied successfully.');
   };

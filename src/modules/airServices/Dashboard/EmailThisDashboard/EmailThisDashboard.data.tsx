@@ -3,19 +3,17 @@ import {
   RHFDropZone,
   RHFRadioGroup,
   RHFTextField,
+  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { FILE_MAX_SIZE } from '@/config';
-import { DOWNLOAD_FILE_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import {
+  DOWNLOAD_FILE_TYPE,
+  FULL_NAME_OF_WEEK,
+  NUMBER_OF_DAYS,
+  SELECTED_ARRAY_LENGTH,
+} from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
-
-export const constantData = {
-  condition: 'emailCondition',
-  schedule: 'schedule',
-  recurring: 'recurring',
-  monthly: 'monthly',
-  weekly: 'weekly',
-};
 
 export const EMAIL_SEND_SCHEDULE = {
   DAILY: 'DAILY',
@@ -27,6 +25,8 @@ export const EMAIL_SEND_TYPE = {
   ONCE: 'NO',
   RECURRING: 'YES',
 };
+
+const { DAILY, MONTHLY, WEEKLY } = EMAIL_SEND_SCHEDULE;
 
 export const isRecurringOptions = [
   {
@@ -52,23 +52,27 @@ export const fileTypeOptions = [
 
 export const emailScheduleOptions = [
   {
-    _id: EMAIL_SEND_SCHEDULE?.DAILY,
-    label: EMAIL_SEND_SCHEDULE?.DAILY,
+    _id: DAILY,
+    label: DAILY,
   },
   {
-    _id: EMAIL_SEND_SCHEDULE?.WEEKLY,
-    label: EMAIL_SEND_SCHEDULE?.WEEKLY,
+    _id: WEEKLY,
+    label: WEEKLY,
   },
   {
-    _id: EMAIL_SEND_SCHEDULE?.MONTHLY,
-    label: EMAIL_SEND_SCHEDULE?.MONTHLY,
+    _id: MONTHLY,
+    label: MONTHLY,
   },
 ];
+
+export const weeklyOptions = FULL_NAME_OF_WEEK;
+export const monthlyOptions = NUMBER_OF_DAYS;
 
 export const createEmailThisDashboardValidationSchema: any =
   Yup?.object()?.shape({
     isRecurring: Yup?.string()?.required('Type is required'),
     email: Yup?.array()
+      ?.nullable()
       ?.of(Yup?.string())
       ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
         if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
@@ -79,13 +83,17 @@ export const createEmailThisDashboardValidationSchema: any =
         );
       }),
     emailSubject: Yup?.string()?.trim()?.required('Subject is required'),
+    emailName: Yup?.string()
+      ?.trim()
+      ?.email('Enter valid emails')
+      ?.required('Subject is required'),
     message: Yup?.string()?.trim(),
     fileType: Yup?.mixed()?.nullable(),
     schedule: Yup?.mixed()
       ?.nullable()
       ?.when('isRecurring', {
         is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
-        then: () => Yup?.mixed()?.nullable()?.required('Required'),
+        then: () => Yup?.mixed()?.nullable()?.required('Schedule is required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
     timeOfDays: Yup?.mixed()
@@ -93,7 +101,21 @@ export const createEmailThisDashboardValidationSchema: any =
       ?.when('isRecurring', {
         is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
         then: () =>
-          Yup?.mixed()?.nullable()?.required('Time of days is Required'),
+          Yup?.mixed()?.nullable()?.required('Time of days is required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
+    weekly: Yup?.mixed()
+      ?.nullable()
+      ?.when('schedule', {
+        is: (value: any) => value?._id === WEEKLY,
+        then: () => Yup?.mixed()?.nullable()?.required('Week day is required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
+    monthly: Yup?.mixed()
+      ?.nullable()
+      ?.when('schedule', {
+        is: (value: any) => value?._id === MONTHLY,
+        then: () => Yup?.mixed()?.nullable()?.required('Month day is required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
     attachments: Yup?.mixed()
@@ -101,18 +123,18 @@ export const createEmailThisDashboardValidationSchema: any =
       ?.when('isRecurring', {
         is: (value: any) => value === EMAIL_SEND_TYPE?.ONCE,
         then: () =>
-          Yup?.mixed()?.nullable()?.required('Attachments is Required'),
+          Yup?.mixed()?.nullable()?.required('Attachment is required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
-  isRecurring: EMAIL_SEND_TYPE?.ONCE,
+  isRecurring: '',
   email: null,
   emailSubject: '',
   message: '',
   fileType: null,
-  emailNickname: '',
+  emailName: '',
   schedule: null,
   timeOfDays: null,
   attachments: null,
@@ -120,22 +142,60 @@ export const createEmailThisDashboardDefaultValues: any = {
 
 export const sendDashboardViaEmailFormFieldsDynamic = (
   isRecurringWatch: any,
+  watchScheduleOption: any,
 ) => {
   return [
     {
-      id: 3,
+      id: 1,
       componentProps: {
-        name: 'email',
-        label: 'Internal recipients',
-        placeholder: 'Enter recipients and press enter',
-        required: true,
-        freeSolo: true,
-        options: [],
-        multiple: true,
-        isOptionEqualToValue: () => {},
+        color: 'slateBlue.main',
+        variant: 'h5',
       },
-      component: RHFAutocomplete,
+      md: 12,
+      heading: 'Is this a recurring email ?',
+      component: Typography,
     },
+    {
+      id: 2,
+      componentProps: {
+        name: 'isRecurring',
+        row: false,
+        options: isRecurringOptions,
+      },
+      component: RHFRadioGroup,
+      md: 12,
+    },
+    ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
+      ? [
+          {
+            id: 3,
+            componentProps: {
+              name: 'email',
+              label: 'Internal recipients',
+              placeholder: 'Enter recipients and press enter',
+              required: true,
+              freeSolo: true,
+              options: [],
+              multiple: true,
+              isOptionEqualToValue: () => {},
+            },
+            component: RHFAutocomplete,
+          },
+        ]
+      : [
+          {
+            id: 3.4,
+            componentProps: {
+              name: 'emailName',
+              label: 'Email Name',
+              fullWidth: true,
+              required: true,
+              placeholder: 'Write an email',
+            },
+            component: RHFTextField,
+            md: 12,
+          },
+        ]),
     {
       id: 4,
       componentProps: {
@@ -164,26 +224,6 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.RECURRING
       ? [
           {
-            id: 1,
-            componentProps: {
-              color: 'slateBlue.main',
-              variant: 'h5',
-            },
-            md: 12,
-            heading: 'Is this a recurring email ?',
-            component: Typography,
-          },
-          {
-            id: 2,
-            componentProps: {
-              name: 'isRecurring',
-              row: false,
-              options: isRecurringOptions,
-            },
-            component: RHFRadioGroup,
-            md: 12,
-          },
-          {
             id: 6,
             componentProps: {
               name: 'schedule',
@@ -204,11 +244,49 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
               label: 'Time of days',
               fullWidth: true,
               required: true,
-              placeholder: 'Select the option',
+              placeholder: 'Select the time',
             },
-            component: RHFTextField,
+            component: RHFTimePicker,
             md: 12,
           },
+          ...(watchScheduleOption?._id === MONTHLY
+            ? [
+                {
+                  id: 7.6,
+                  componentProps: {
+                    name: 'montly',
+                    label: 'Monthly',
+                    fullWidth: true,
+                    required: true,
+                    placeholder: 'Select the option',
+                    options: monthlyOptions,
+                    isOptionEqualToValue: (option: any, newValue: any) =>
+                      option === newValue,
+                  },
+                  component: RHFAutocomplete,
+                  md: 12,
+                },
+              ]
+            : []),
+          ...(watchScheduleOption?._id === WEEKLY
+            ? [
+                {
+                  id: 7.62,
+                  componentProps: {
+                    name: 'weekly',
+                    label: 'Weekly',
+                    fullWidth: true,
+                    required: true,
+                    placeholder: 'Select the option',
+                    options: weeklyOptions,
+                    isOptionEqualToValue: (option: any, newValue: any) =>
+                      option === newValue,
+                  },
+                  component: RHFAutocomplete,
+                  md: 12,
+                },
+              ]
+            : []),
           {
             id: 8,
             componentProps: {
@@ -224,23 +302,27 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
           },
         ]
       : []),
-    {
-      id: 9,
-      componentProps: {
-        name: 'attachments',
-        label: 'Attach dashboard',
-        fullWidth: true,
-        required: true,
-        fileName: 'Attach the dashboard',
-        fileType: `PDF and PNG only (max ${
-          FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
-        } MB)`,
-        accept: {
-          'application/pdf': ['.pdf'],
-          'image/png': ['.png', '.PNG'],
-        },
-      },
-      component: RHFDropZone,
-    },
+    ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
+      ? [
+          {
+            id: 9,
+            componentProps: {
+              name: 'attachments',
+              label: 'Attach dashboard',
+              fullWidth: true,
+              required: true,
+              fileName: 'Attach the dashboard',
+              fileType: `PDF and PNG only (max ${
+                FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
+              } MB)`,
+              accept: {
+                'application/pdf': ['.pdf'],
+                'image/png': ['.png', '.PNG'],
+              },
+            },
+            component: RHFDropZone,
+          },
+        ]
+      : []),
   ];
 };

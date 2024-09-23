@@ -1,21 +1,22 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants';
 import { DASHBOARD } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import { AntSwitch } from '@/components/AntSwitch';
-import dayjs from 'dayjs';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../CreateDashboard/CreateDashboard.data';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../UpsertDashboard/UpsertDashboard.data';
 import {
   ManageDashboardIsPortalOpenI,
   ManageDashboardTableRowI,
 } from './ManageDashboard.interface';
 import { Dispatch, SetStateAction } from 'react';
+import { uiDateFormat } from '@/utils/dateTime';
+import { UserInfo } from '@/components/UserInfo';
 
 export const MANAGE_ACCESS_TYPES_API_MAPPED = {
   [MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER]: 'Private to owner',
@@ -103,24 +104,15 @@ export const manageDashboardsDataColumnsDynamic = (
     header: 'Owner',
     isSortable: true,
     cell: (info: any) => (
-      <Box display={'flex'} gap={2}>
-        <Avatar src={generateImage(info?.getValue()?.avatar?.url)}>
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        <Box>
-          <Typography variant="body4" component={'div'} color="blue.dull_blue">
-            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-          </Typography>
-          <Typography variant="body3" component={'div'} color="custom.light">
-            {info?.getValue()?.email ?? '---'}
-          </Typography>
-        </Box>
-      </Box>
+      <UserInfo
+        name={fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        nameInitital={fullNameInitial(
+          info?.getValue()?.firstName,
+          info?.getValue()?.lastName,
+        )}
+        email={info?.getValue()?.email ?? '---'}
+        avatarSrc={info?.getValue()?.avatar?.url}
+      />
     ),
   },
   {
@@ -144,9 +136,7 @@ export const manageDashboardsDataColumnsDynamic = (
     isSortable: true,
     header: 'Last Viewed',
     cell: (info: any) =>
-      !!info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-        : '---',
+      !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
   },
   {
     accessorFn: (row: ManageDashboardTableRowI) => row?.updatedAt,
@@ -154,9 +144,7 @@ export const manageDashboardsDataColumnsDynamic = (
     isSortable: true,
     header: 'Last Updated',
     cell: (info: any) =>
-      !!info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-        : '---',
+      !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
   },
   {
     accessorFn: (row: ManageDashboardTableRowI) => row?.actions,

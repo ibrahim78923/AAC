@@ -15,6 +15,7 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
+import { useEffect } from 'react';
 
 export const useEmailThisDashboard = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -23,7 +24,7 @@ export const useEmailThisDashboard = (props: any) => {
     defaultValues: createEmailThisDashboardDefaultValues,
   });
 
-  const { handleSubmit, control, reset } = methods;
+  const { handleSubmit, control, reset, clearErrors } = methods;
 
   const [
     sendServiceDashboardViaEmailTrigger,
@@ -41,6 +42,16 @@ export const useEmailThisDashboard = (props: any) => {
     defaultValue: '',
   });
 
+  const watchScheduleOption = useWatch({
+    control,
+    name: 'schedule',
+    defaultValue: null,
+  });
+
+  useEffect(() => {
+    clearErrors?.('');
+  }, [isRecurringWatch]);
+
   const submitEmail = async (formData: any) => {
     const filteredFormData = filteredEmptyValues(formData);
 
@@ -52,6 +63,7 @@ export const useEmailThisDashboard = (props: any) => {
     const apiDataParameter = {
       queryParams: filteredFormData,
     };
+
     try {
       await sendServiceDashboardViaEmailTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Email sent successfully');
@@ -82,7 +94,10 @@ export const useEmailThisDashboard = (props: any) => {
   };
 
   const sendDashboardViaEmailFormFields =
-    sendDashboardViaEmailFormFieldsDynamic?.(isRecurringWatch);
+    sendDashboardViaEmailFormFieldsDynamic?.(
+      isRecurringWatch,
+      watchScheduleOption,
+    );
 
   const closeDrawer = () => {
     reset();

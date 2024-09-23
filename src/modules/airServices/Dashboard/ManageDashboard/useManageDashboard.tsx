@@ -6,7 +6,7 @@ import {
   useLazyGetServicesDashboardListQuery,
 } from '@/services/airServices/dashboard';
 import { buildQueryParams, errorSnackbar } from '@/utils/api';
-import { ManageDashboardFilter } from './ManageDashboardFilter';
+import { ManageDashboardFilter } from '../ManageDashboardFilter';
 import { PreviewDashboard } from '../PreviewDashboard';
 import { DeleteDashboard } from '../DeleteDashboard';
 import { manageDashboardsDataColumnsDynamic } from './ManageDashboard.data';

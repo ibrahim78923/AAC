@@ -519,7 +519,10 @@ export const END_POINTS = {
     '/org-company-account/update-customer-portal-STYLING',
   DROPDOWN_ORG_TEAMS: '/dropdown/organization-all-teams',
   CUSTOMER_PORTAL_ASSET_DROPDOWN: '/dropdown/all-assets-customer-portal',
+  GET_SINGLE_AIR_SERVICES_PUBLIC_DASHBOARD: `/dynamic-dashboard/get-email-dashboard-customer-portal`,
   SHARE_TICKET: '/ticket/share-ticket',
+  GET_PUBLIC_DASHBOARD_CARDS_TICKETS:
+    '/air-services-dashboard/dashboard-tickets-customer-portal',
 };
 
 export const LEAD_CAPTURE_FORM = {

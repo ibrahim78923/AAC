@@ -3,8 +3,8 @@ import { Box, Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
-import { BarChart } from './BarChart';
-import { RadialBarChart } from './RadialBarChart';
+import { TicketStatusGraph } from './TicketStatusGraph';
+import { TicketPriorityGraph } from './TicketPriorityGraph';
 import { dropDownMenus } from './TicketBased.data';
 
 export const TicketBased = (props: any) => {
@@ -12,9 +12,11 @@ export const TicketBased = (props: any) => {
   const dropDownOptions = dropDownMenus(setTicketType);
 
   const ticketBasedChart = {
-    [TICKET_GRAPH_TYPES?.STATUS]: <BarChart chartData={data?.tickets} />,
+    [TICKET_GRAPH_TYPES?.STATUS]: (
+      <TicketStatusGraph chartData={data?.tickets} />
+    ),
     [TICKET_GRAPH_TYPES?.PRIORITY]: (
-      <RadialBarChart chartData={data?.tickets} />
+      <TicketPriorityGraph chartData={data?.tickets} />
     ),
   };
 

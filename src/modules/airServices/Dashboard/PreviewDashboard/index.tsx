@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { SingleDashboard } from '../SingleDashboard';
 import NoData from '@/components/NoData';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
-import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
+import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../UpsertDashboard/UpsertDashboard.data';
 import { createElement } from 'react';
 import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 

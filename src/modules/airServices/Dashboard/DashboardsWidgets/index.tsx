@@ -9,7 +9,7 @@ import { REPORT_TYPES } from '@/constants/strings';
 import { createElement } from 'react';
 import { ReportsWidgets } from '../ReportsWidgets';
 import { AIR_SERVICES } from '@/constants';
-import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
+import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../UpsertDashboard/UpsertDashboard.data';
 import { useRouter } from 'next/router';
 
 export const DashboardWidgets = (props: any) => {
