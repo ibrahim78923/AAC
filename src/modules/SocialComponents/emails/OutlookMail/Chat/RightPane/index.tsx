@@ -17,7 +17,6 @@ import {
   EmailReplyIcon,
   ForwardIcon,
   MailColoredIcon,
-  ReplyAllIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
@@ -394,7 +393,7 @@ const RightPane = ({
                                     <Tooltip
                                       placement="top"
                                       arrow
-                                      title={'Reply All'}
+                                      title={'Reply'}
                                     >
                                       <IconButton
                                         size="small"
@@ -432,41 +431,6 @@ const RightPane = ({
                                                   (item: any) =>
                                                     item?.emailAddress?.address,
                                                 ),
-                                              },
-                                            }),
-                                          );
-                                        }}
-                                      >
-                                        <ReplyAllIcon />
-                                      </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip
-                                      placement="top"
-                                      arrow
-                                      title={'Reply'}
-                                    >
-                                      <IconButton
-                                        size="small"
-                                        onClick={() => {
-                                          setIsOpenSendEmailDrawer(true);
-                                          setMailType(
-                                            CREATE_EMAIL_TYPES?.REPLY,
-                                          );
-                                          dispatch(
-                                            setCurrentEmailAssets({
-                                              messageId: obj?.id,
-                                              id: obj?.id,
-                                              from: obj?.sender?.emailAddress
-                                                ?.address,
-                                              others: {
-                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress?.address}
-                                                 ${'>'}`,
-                                                sent: obj?.sentDateTime,
-                                                to: `<>`,
-                                                subject: obj?.subject,
-                                                body: '',
                                               },
                                             }),
                                           );
