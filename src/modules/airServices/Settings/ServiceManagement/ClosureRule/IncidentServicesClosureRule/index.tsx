@@ -74,7 +74,7 @@ export const IncidentServicesClosureRule = (props: IClosureRuleProps) => {
         >
           <Box>
             <Typography variant="body1" mb={2} fontWeight={600}>
-              Resolve an Incident only if
+              Resolve an Services Request only if
             </Typography>
             <ClosureRulesConditions
               serviceResolveIncident
@@ -92,7 +92,7 @@ export const IncidentServicesClosureRule = (props: IClosureRuleProps) => {
           />
           <Box>
             <Typography variant="body1" mb={2} fontWeight={600}>
-              Close an Incident only if
+              Close an Services Request only if
             </Typography>
             <ClosureRulesConditions
               serviceCloseIncident

@@ -136,6 +136,7 @@ export default function DroppableArea({
                   <Button
                     variant={'outlined'}
                     color={'inherit'}
+                    className={'small'}
                     disabled={putDynamicFieldsStatus?.isLoading}
                     onClick={() => {
                       router?.push({
@@ -147,6 +148,7 @@ export default function DroppableArea({
                   </Button>
                   <LoadingButton
                     variant={'contained'}
+                    className={'small'}
                     onClick={handleFormCreation}
                     disabled={!form?.length}
                     loading={putDynamicFieldsStatus?.isLoading}

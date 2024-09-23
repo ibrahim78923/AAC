@@ -11,6 +11,7 @@ import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashb
 import {
   ARRAY_INDEX,
   PORTAL_TICKET_FIELDS,
+  ROLES,
   TICKET_STATUS,
   TICKET_TYPE,
 } from '@/constants/strings';
@@ -38,6 +39,7 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
   const auth = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = useMemo(() => getSession(), []);
+  const userRole = session?.user?.role;
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.company?._id;
   const decryptedId = useMemo(() => {
@@ -102,10 +104,11 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     }
     reportAnIssueData?.append('subject', data?.subject);
     reportAnIssueData?.append('description', data?.description);
-    reportAnIssueData?.append(
-      'organization',
-      getPortalPermissions?.organizationId,
-    );
+    userRole != ROLES?.ORG_REQUESTER &&
+      reportAnIssueData?.append(
+        'organization',
+        getPortalPermissions?.organizationId,
+      );
     reportAnIssueData?.append('status', TICKET_STATUS?.OPEN);
     !!data?.associatesAssets?.length &&
       reportAnIssueData?.append(
@@ -113,7 +116,8 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
         data?.associatesAssets?.map((asset: any) => asset?._id),
       );
     reportAnIssueData?.append('moduleType', 'CUSTOMER_PORTAL');
-    reportAnIssueData?.append('companyId', getCompanyId);
+    userRole != ROLES?.ORG_REQUESTER &&
+      reportAnIssueData?.append('companyId', getCompanyId);
     reportAnIssueData?.append('ticketType', TICKET_TYPE?.INC);
     data?.attachFile !== null &&
       reportAnIssueData?.append('fileUrl', data?.attachFile);

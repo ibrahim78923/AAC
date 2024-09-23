@@ -139,14 +139,16 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
             <LoadingButton
               variant="outlined"
               color="secondary"
+              className="small"
               disabled={feedbackIsLoading}
               onClick={() => setShowFeedbackField(true)}
             >
               No
             </LoadingButton>
             <LoadingButton
-              loading={feedbackIsLoading}
               variant="contained"
+              className="small"
+              loading={feedbackIsLoading}
               onClick={helpfulSubmit}
             >
               Yes

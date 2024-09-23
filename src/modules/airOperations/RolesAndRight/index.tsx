@@ -62,7 +62,11 @@ export const RolesAndRight = () => {
             ]}
           >
             <Box>
-              <Search label="Search Here" setSearchBy={setSearch} />
+              <Search
+                label="Search Here"
+                setSearchBy={setSearch}
+                size="small"
+              />
             </Box>
           </PermissionsGuard>
           <PermissionsGuard

@@ -45,13 +45,11 @@ export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
           flexDirection={'column'}
         >
           <Typography variant="h6">Purpose:</Typography>
-          <Typography color="secondary">
-            <Box
-              dangerouslySetInnerHTML={{
-                __html: truncateText(purposeDescription, 40),
-              }}
-            />
-          </Typography>
+          <Box
+            dangerouslySetInnerHTML={{
+              __html: truncateText(purposeDescription, 40),
+            }}
+          />
         </Box>
       </Box>
       <IconButton

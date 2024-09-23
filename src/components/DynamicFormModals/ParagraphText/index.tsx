@@ -88,11 +88,12 @@ export default function ParagraphText({
             type={'button'}
             variant={'outlined'}
             color={'inherit'}
+            className={'small'}
             onClick={() => setOpen(false)}
           >
             Cancel
           </Button>
-          <Button type={'submit'} variant={'contained'}>
+          <Button type={'submit'} variant={'contained'} className={'small'}>
             Save
           </Button>
         </DialogActions>

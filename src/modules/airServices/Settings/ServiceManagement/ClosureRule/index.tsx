@@ -42,10 +42,16 @@ export const ClosureRule = () => {
           disabled={postClosureRuleProgress?.isLoading}
           variant="contained"
           type="submit"
+          className="small"
         >
           Save
         </LoadingButton>
-        <Button variant="outlined" onClick={handleCancel} color="secondary">
+        <Button
+          variant="outlined"
+          className="small"
+          onClick={handleCancel}
+          color="secondary"
+        >
           Cancel
         </Button>
       </Box>

@@ -161,6 +161,10 @@ export const operationsRolesAndRightColumnsDynamic = (
     id: 'description',
     header: 'Description',
     isSortable: true,
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue() == '' ? undefined : info?.getValue()}
+      />
+    ),
   },
 ];
