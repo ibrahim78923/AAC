@@ -422,7 +422,7 @@ const MailList = ({
                                     }}
                                   >
                                     {dayjs(item?.lastModifiedDateTime)?.format(
-                                      DATE_TIME_FORMAT?.DDMMYYYYT,
+                                      DATE_TIME_FORMAT?.DMYhmma,
                                     )}
                                   </Typography>
                                 </Box>
