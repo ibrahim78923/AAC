@@ -14,7 +14,9 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       accessorFn: (row: any) => row?.name,
       id: 'name',
       header: 'Deal Name',
-      cell: (info: any) => <TruncateText text={info.getValue()} />,
+      cell: (info: any) => (
+        <TruncateText text={info.getValue()?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.dealOwner,

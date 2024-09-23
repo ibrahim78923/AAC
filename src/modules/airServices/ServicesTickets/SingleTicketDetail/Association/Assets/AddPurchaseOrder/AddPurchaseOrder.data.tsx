@@ -52,14 +52,14 @@ export const getAddPurchaseOrderColumns = ({
     id: 'orderNumber',
     header: 'Order Number',
     isSortable: true,
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
   {
     accessorFn: (row: any) => row?.orderName,
     id: 'orderName',
     isSortable: true,
     header: 'Order Name',
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
   {
     accessorFn: (row: any) => row?.subTotal,

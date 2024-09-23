@@ -52,13 +52,13 @@ export const getAddAssetsColumns = ({
     id: 'displayName',
     header: 'Name',
     isSortable: true,
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
   {
     accessorFn: (row: any) => row?.assetTypeDetails?.name,
     id: 'assetTypeDetails.name',
     isSortable: true,
     header: 'Asset Type',
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
 ];

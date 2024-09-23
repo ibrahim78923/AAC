@@ -188,7 +188,7 @@ export const inventoryListsColumnsFunction: any = (
     header: 'Name',
     cell: (info: any) => (
       <TruncateText
-        text={info.getValue()}
+        text={info.getValue()?.toLowerCase()}
         boxProps={{
           sx: { cursor: 'pointer' },
           color: 'custom.bright',
@@ -206,14 +206,18 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => <TruncateText text={info.getValue()?.name} />,
+    cell: (info: any) => (
+      <TruncateText text={info.getValue()?.name?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => <TruncateText text={info.getValue()?.locationName} />,
+    cell: (info: any) => (
+      <TruncateText text={info.getValue()?.locationName?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
@@ -234,7 +238,9 @@ export const inventoryListsColumnsFunction: any = (
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => <TruncateText text={info.getValue()?.name} />,
+    cell: (info: any) => (
+      <TruncateText text={info.getValue()?.name?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.impact,

@@ -47,7 +47,9 @@ export const getAssociateAssetsColumns: any = ({
       id: 'displayName',
       header: 'Asset',
       isSortable: true,
-      cell: (info: any) => <TruncateText text={info.getValue()} />,
+      cell: (info: any) => (
+        <TruncateText text={info.getValue()?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.assetLifeExpiry,
@@ -159,14 +161,18 @@ export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
       id: 'orderName',
       header: 'Order Name',
       isSortable: true,
-      cell: (info: any) => <TruncateText text={info.getValue()} />,
+      cell: (info: any) => (
+        <TruncateText text={info.getValue()?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.vendor?.name,
       id: 'vendor.name',
       isSortable: true,
       header: 'Vendor',
-      cell: (info: any) => <TruncateText text={info.getValue()} />,
+      cell: (info: any) => (
+        <TruncateText text={info.getValue()?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.expectedDeliveryDate,

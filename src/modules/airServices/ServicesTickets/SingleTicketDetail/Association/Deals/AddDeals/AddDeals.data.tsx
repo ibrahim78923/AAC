@@ -50,7 +50,7 @@ export const useAddDealsColumns = ({
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
     header: 'Deal Name',
     isSortable: true,
   },
@@ -59,7 +59,7 @@ export const useAddDealsColumns = ({
     id: 'dealOwner.name',
     header: 'Deal Owner',
     isSortable: true,
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
   {
     accessorFn: (row: any) => row?.dealPipeline,
