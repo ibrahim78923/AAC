@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Table,
   TableBody,
@@ -19,10 +18,10 @@ import {
 import { flexRender } from '@tanstack/react-table';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TanstackTablePropsI } from './TanstackTable.interface';
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 
 const TanstackTable = (props: TanstackTablePropsI) => {
   const {
@@ -54,7 +53,7 @@ const TanstackTable = (props: TanstackTablePropsI) => {
 
   const { table } = useTanstackTable(data, columns, showSerialNo);
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isLoading || isFetching) return <SkeletonTanStackTable />;
 
   return (
     <>

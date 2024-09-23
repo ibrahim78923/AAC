@@ -58,13 +58,22 @@ export const useApprovals = () => {
     }
   };
 
+  const showLoader =
+    lazyGetUnapprovedArticlesStatus?.isLoading ||
+    lazyGetUnapprovedArticlesStatus?.isFetching;
+  const isError = lazyGetUnapprovedArticlesStatus?.isError;
+  const hasData = lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length;
+
   return {
+    lazyGetUnapprovedArticlesStatus,
     setPage,
     setPageLimit,
-    lazyGetUnapprovedArticlesStatus,
     postApproval,
     postArticleApprovalStatus,
     getArticlesForApprovalsListData,
     page,
+    hasData,
+    showLoader,
+    isError,
   };
 };

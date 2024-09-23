@@ -1,7 +1,5 @@
 import { useLazyGetArticlesQuery } from '@/services/airServices/knowledge-base/articles';
 import { buildQueryParams } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
-import { ARRAY_INDEX } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   canDisableFolderSelections,
@@ -9,12 +7,13 @@ import {
   setArticlesListsTotalRecords,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { ALL_FOLDER } from '../Folder/Folder.data';
+import { useMemo } from 'react';
+import { getActiveAccountSession } from '@/utils';
 
 export const useGetArticlesApi = () => {
   const dispatch = useAppDispatch();
-  const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
 
   const page = useAppSelector((state) => state?.servicesKnowledgeBase?.page);
   const pageLimit = useAppSelector(

@@ -5,6 +5,7 @@ const FONT_FAMILY = 'Plus Jakarta Sans;';
 const typography = {
   fontFamily: FONT_FAMILY,
   fontWeightRegular: 400,
+  fontWeightSmall: 500,
   fontWeightMedium: 600,
   fontWeightBold: 700,
   h1: {

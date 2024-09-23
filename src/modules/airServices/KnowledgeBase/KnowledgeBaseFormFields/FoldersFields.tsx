@@ -1,13 +1,14 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useLazyGetFoldersDropdownQuery } from '@/services/airServices/knowledge-base/articles';
+import { getActiveAccountSession } from '@/utils';
+import { useMemo } from 'react';
 
 export const FoldersFields = (props: any) => {
   const { label = 'Folder' } = props;
   const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
   const { _id: userId } = auth?.user ?? {};
   const { _id: organizationId } = auth?.user?.organization ?? {};
   const apiQueryFolder = useLazyGetFoldersDropdownQuery();

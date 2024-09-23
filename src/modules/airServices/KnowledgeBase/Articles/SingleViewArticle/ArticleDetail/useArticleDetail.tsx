@@ -4,6 +4,7 @@ import { useLazyGetArticleByIdQuery } from '@/services/airServices/knowledge-bas
 import { Theme, useTheme } from '@mui/material';
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { sideData } from './ArticleDetail.data';
 
 export const useArticleDetail = () => {
   const theme: Theme = useTheme();
@@ -38,6 +39,8 @@ export const useArticleDetail = () => {
   const showError = lazyGetArticleByIdStatus?.isError;
   const data = lazyGetArticleByIdStatus?.data;
 
+  const articleDetails = sideData?.(data?.data);
+
   return {
     theme,
     articleId,
@@ -46,5 +49,6 @@ export const useArticleDetail = () => {
     router,
     showError,
     getSingleArticle,
+    articleDetails,
   };
 };

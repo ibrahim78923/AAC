@@ -1,12 +1,13 @@
 import { EditGreyIcon } from '@/assets/icons';
 import { DeleteForever } from '@mui/icons-material';
-import { Box, Divider, Skeleton } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { useSingleFolderDetail } from './useSingleFolderDetail';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ALL_FOLDER } from '../Folder.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { TruncateText } from '@/components/TruncateText';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const SingleFolderDetail = () => {
   const {
@@ -21,7 +22,7 @@ export const SingleFolderDetail = () => {
   } = useSingleFolderDetail();
 
   if (selectedFolder?._id === ALL_FOLDER) return <></>;
-  if (isLoading || isFetching) return <Skeleton height="10vh" />;
+  if (isLoading || isFetching) return <SkeletonForm length={1} height="10vh" />;
   if (isError)
     return (
       <>
@@ -32,28 +33,31 @@ export const SingleFolderDetail = () => {
       </>
     );
   return (
-    <Box maxHeight={'20vh'} overflow="auto">
-      <TruncateText
-        text={data?.data?.name?.toLowerCase()}
-        size={45}
-        boxProps={{
-          variant: 'h4',
-          textTransform: 'capitalize',
-          color: 'slateBlue.main',
-        }}
-      />
+    <Box maxHeight={'20vh'} overflow="auto" mb={1}>
+      <Typography variant="h4" component={'div'}>
+        <TruncateText
+          text={data?.data?.name?.toLowerCase()}
+          size={45}
+          boxProps={{
+            textTransform: 'capitalize',
+            color: 'slateBlue.main',
+          }}
+        />
+      </Typography>
       <Box
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
-        flexWrap={'wrap'}
-        mb={1}
+        gap={2}
       >
-        <TruncateText
-          text={!!data?.data?.description ? data?.data?.description : '---'}
-          size={100}
-          boxProps={{ variant: 'body2', my: 0.5, color: 'grey.900' }}
-        />
+        <Typography variant="body2" flex={1}>
+          <TruncateText
+            text={!!data?.data?.description ? data?.data?.description : '---'}
+            size={100}
+            boxProps={{ my: 0.5, color: 'grey.900' }}
+          />
+        </Typography>
+
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_FOLDER,
@@ -73,7 +77,6 @@ export const SingleFolderDetail = () => {
         </PermissionsGuard>
       </Box>
       <Divider />
-      <br />
     </Box>
   );
 };

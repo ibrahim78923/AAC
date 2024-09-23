@@ -30,8 +30,8 @@ export const upsertArticleValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Title is required'),
   details: Yup?.string()
     ?.trim()
-    ?.required('Description is Required')
-    ?.test('is-not-empty', 'Description is Required', (value) => {
+    ?.required('Description is required')
+    ?.test('is-not-empty', 'Description is required', (value) => {
       const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
       return strippedContent !== '';
     }),

@@ -1,44 +1,27 @@
-import React from 'react';
-import { Box, Skeleton, useTheme } from '@mui/material';
-import { styles } from './SkeletonTable.style';
+import { Box, Skeleton } from '@mui/material';
 
-const SkeletonTable = () => {
-  const theme: any = useTheme();
-
+const SkeletonTable = (props: any) => {
+  const { length = 4 } = props;
   return (
-    <Box>
-      <Skeleton
-        animation="wave"
-        variant="rectangular"
-        width={'100%'}
-        height={50}
-        sx={styles?.root(theme)}
-      />
-      <br />
-      <Skeleton
-        animation="wave"
-        variant="rectangular"
-        width={'100%'}
-        height={50}
-        sx={styles?.root(theme)}
-      />
-      <br />
-      <Skeleton
-        animation="wave"
-        variant="rectangular"
-        width={'100%'}
-        height={50}
-        sx={styles?.root(theme)}
-      />
-      <br />
-      <Skeleton
-        animation="wave"
-        variant="rectangular"
-        width={'100%'}
-        height={50}
-        sx={styles?.root(theme)}
-      />
-    </Box>
+    <>
+      {Array.from({ length })?.map((item: any, id: any) => (
+        <Box key={item ?? `skeleton+${id}`}>
+          <Skeleton
+            animation="wave"
+            variant="rounded"
+            width={'100%'}
+            height={50}
+            sx={{
+              bgcolor: 'grey.300',
+              border: '1px solid',
+              borderColor: 'grey.400',
+              borderRadius: 2,
+              my: 2,
+            }}
+          />
+        </Box>
+      ))}
+    </>
   );
 };
 

@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import { FolderGreyIcon } from '@/assets/icons';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useFolder } from './useFolder';
 import { truncateText } from '@/utils/avatarUtils';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
 export const Folder = () => {
   const {
@@ -17,7 +17,15 @@ export const Folder = () => {
     theme,
   } = useFolder();
 
-  if (showLoader) return <SkeletonTable />;
+  if (showLoader)
+    return (
+      <SkeletonCard
+        gridSize={{ md: 12 }}
+        hasThirdSkeleton={false}
+        circularSkeletionSize={{ width: 25, height: 25 }}
+        length={6}
+      />
+    );
 
   if (showError)
     return (

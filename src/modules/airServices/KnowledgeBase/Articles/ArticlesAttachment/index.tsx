@@ -14,7 +14,7 @@ export const ArticlesAttachment = () => {
     <>
       <Typography
         variant="body1"
-        fontWeight={500}
+        fontWeight={'fontWeightMedium'}
         color="slateBlue.main"
         my={2}
       >

@@ -1,4 +1,3 @@
-import { truncateText } from '@/utils/avatarUtils';
 import { pxToRem } from '@/utils/getFontValue';
 import {
   Box,
@@ -9,6 +8,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { ApprovalCardI } from './ApprovalCard.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 const ApprovalCard = (props: ApprovalCardI) => {
   const {
@@ -37,36 +37,54 @@ const ApprovalCard = (props: ApprovalCardI) => {
       }}
     >
       <Box>
-        <Typography color={'primary.main'} fontWeight={500} variant="h5">
-          {truncateText(title)}
+        <Typography
+          color={'primary.main'}
+          fontWeight={'fontWeightSmall'}
+          variant="h5"
+        >
+          <TruncateText
+            text={title?.toLowerCase()}
+            boxProps={{
+              component: 'span',
+            }}
+          />
         </Typography>
         <Typography
           variant="body3"
           color="slateBlue.main"
-          fontWeight={600}
+          fontWeight={'fontWeightMedium'}
           component={'span'}
         >
           folder:
         </Typography>
         <Typography
           variant="body3"
-          fontWeight={600}
+          fontWeight={'fontWeightMedium'}
           color="slateBlue.main"
           component={'span'}
         >
-          {truncateText(folder)}
+          <TruncateText
+            text={folder?.toLowerCase()}
+            boxProps={{
+              component: 'span',
+            }}
+          />
         </Typography>
       </Box>
       <Box>
         <Typography
           variant="body3"
           color="slateBlue.main"
-          fontWeight={600}
+          fontWeight={'fontWeightMedium'}
           component={'p'}
         >
           author
         </Typography>
-        <Typography variant="body3" fontWeight={500} color="slateBlue.main">
+        <Typography
+          variant="body3"
+          fontWeight={'fontWeightSmall'}
+          color="slateBlue.main"
+        >
           {author}
         </Typography>
       </Box>

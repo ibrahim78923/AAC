@@ -4,7 +4,7 @@ import { useKnowledgeInsights } from './useKnowledgeInsights';
 import NoData from '@/components/NoData';
 import TanstackTable from '@/components/Table/TanstackTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 
 export const KnowledgeInsights = () => {
   const {
@@ -21,7 +21,7 @@ export const KnowledgeInsights = () => {
     refetch,
   } = useKnowledgeInsights();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isLoading || isFetching) return <SkeletonTanStackTable />;
 
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 

@@ -19,15 +19,13 @@ const FilterArticles = () => {
     <CommonDrawer
       isDrawerOpen={isPortalOpen?.isOpen as boolean}
       onClose={onClose}
-      submitHandler={() => {
-        handleSubmit?.(submitHandler)();
-      }}
+      submitHandler={handleSubmit?.(submitHandler)}
       title={'Filters'}
       okText={'Apply'}
       cancelText="Reset"
       isOk
       footer
-      cancelBtnHandler={() => resetArticleFilterForm?.()}
+      cancelBtnHandler={resetArticleFilterForm}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

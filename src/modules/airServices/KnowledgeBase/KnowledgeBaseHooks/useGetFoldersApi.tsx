@@ -7,8 +7,8 @@ export const useGetFoldersApi = () => {
   const auth: any = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const companyId = product?.company?._id ?? {};
-  const { _id: userId } = auth?.user;
-  const { _id: organizationId } = auth?.user?.organization;
+  const { _id: userId } = auth?.user ?? {};
+  const { _id: organizationId } = auth?.user?.organization ?? {};
 
   const [
     lazyGetArticlesFoldersForFilterTrigger,

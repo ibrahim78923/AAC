@@ -1,4 +1,3 @@
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useTicketRelated } from './useTicketRelated';
 import TanstackTable from '@/components/Table/TanstackTable';
 import {
@@ -10,6 +9,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TicketRelatedPropsI } from './TicketRelated.interface';
 import { TruncateText } from '@/components/TruncateText';
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 
 export const TicketRelated = (props: TicketRelatedPropsI) => {
   const { selectedArticle, setSelectedArticle } = props;
@@ -25,7 +25,7 @@ export const TicketRelated = (props: TicketRelatedPropsI) => {
     refetch,
   }: any = useTicketRelated(props);
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isLoading || isFetching) return <SkeletonTanStackTable />;
 
   if (isError)
     return (
@@ -48,7 +48,16 @@ export const TicketRelated = (props: TicketRelatedPropsI) => {
     );
 
   if (!!!data?.data?.articles?.length)
-    return <NoData message="No inserted tickets found" />;
+    return (
+      <>
+        <PageTitledHeader
+          moveBack={() => setSelectedArticle?.({})}
+          canMovedBack
+          title=""
+        />
+        <NoData message="No inserted tickets found" />;
+      </>
+    );
 
   return (
     <>
