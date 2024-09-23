@@ -6,6 +6,7 @@ import { dataArray } from './SalesEditorDrawer.data';
 import useSalesEditorDrawer from './useSalesEditorDrawer';
 import { SalesEditorDrawerProps } from '../Salesproduct.interface';
 import { componentMap } from '@/utils/dynamic-forms';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const SalesEditorDrawer = ({
   isDraweropen,
@@ -24,6 +25,7 @@ const SalesEditorDrawer = ({
     productsDataLoading,
     form,
     isLoading,
+    productsById,
   } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
@@ -31,6 +33,11 @@ const SalesEditorDrawer = ({
     setSelectedCheckboxes,
   });
 
+  const imageParams = {
+    orignalName: productsById?.data?.image?.url,
+    fileUrl: productsById?.data?.image?.url,
+    fileSize: productsById?.data?.image?.size,
+  };
   return (
     <>
       <CommonDrawer
@@ -60,14 +67,25 @@ const SalesEditorDrawer = ({
                       animation="wave"
                     />
                   ) : (
-                    <item.component {...item.componentProps} size={'small'}>
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
+                    <>
+                      <item.component {...item.componentProps} size={'small'}>
+                        {item?.componentProps?.select &&
+                          item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))}
+                      </item.component>
+                      {item.componentProps?.name === 'image' && isEditMode && (
+                        <Box sx={{ my: 2 }}>
+                          <AttachFileCard
+                            data={imageParams}
+                            onDelete={() => {}}
+                            permissionKey={[]}
+                          />
+                        </Box>
+                      )}
+                    </>
                   )}
                 </Grid>
               ))}

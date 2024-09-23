@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -27,7 +27,7 @@ const useCampaigns = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenAddAssets, setIsOpenAddAssets] = useState(false);
-
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [actionsModalDetails, setActionsModalDetails] = useState<any>({
     isClone: false,
     isOpenFilterDrawer: false,
@@ -64,6 +64,10 @@ const useCampaigns = () => {
     startDate: '',
     endDate: '',
   });
+
+  useEffect(() => {
+    setSelectedRows([]);
+  }, [currentTabVal]);
 
   const resetTasksFilters = () => {
     setTaskFilters({
@@ -204,6 +208,8 @@ const useCampaigns = () => {
     organizationId,
     createCampaign,
     setCreateCampaign,
+    selectedRows,
+    setSelectedRows,
   };
 };
 export default useCampaigns;

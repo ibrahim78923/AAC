@@ -171,8 +171,6 @@ const useEditCampaigns = (
       enqueueSnackbar('Campaigns created successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // reset();
-      // setSelectedRows([]);
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
@@ -196,9 +194,7 @@ const useEditCampaigns = (
       setSelectedRows([]);
       reset();
       onClose();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    } catch (error: any) {}
   };
 
   return {

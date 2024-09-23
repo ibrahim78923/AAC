@@ -33,6 +33,8 @@ const Campaigns = () => {
     isFilters,
     isCompare,
     theme,
+    selectedRows,
+    setSelectedRows,
   } = useCampaigns();
 
   return (
@@ -112,7 +114,10 @@ const Campaigns = () => {
             }}
             defaultValue={currentTabVal}
           >
-            <Manage />
+            <Manage
+              selectedRows={selectedRows}
+              setSelectedRows={setSelectedRows}
+            />
             <Calendar />
             <Tasks />
           </CommonTabs>
@@ -180,6 +185,8 @@ const Campaigns = () => {
               recId: [],
             });
           }}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
         />
       )}
     </>
