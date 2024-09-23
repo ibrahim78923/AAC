@@ -355,6 +355,7 @@ const Goals = () => {
           isOpenDrawer={isViewDealDrawer}
           tableRowValues={tableRowValues}
           onClose={() => setIsViewDealDrawer(false)}
+          user={alignment}
         />
       )}
       {isEditDrawer && (

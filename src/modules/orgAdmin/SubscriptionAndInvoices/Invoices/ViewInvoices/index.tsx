@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import { IMG_URL } from '@/config';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
   const dataArray = [invoiceData];
@@ -65,7 +66,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
             {info.getValue()}
           </Box>
-          <Box>{invoiceData?.plans?.planProducts?.name ?? '---'}</Box>
+          <Box>{invoiceData?.products?.[ARRAY_INDEX?.ZERO]?.name ?? '---'}</Box>
         </>
       ),
       header: 'Product/Suite',
@@ -214,38 +215,40 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
                       ? `${IMG_URL}${invoiceData?.organizations?.avatar?.url}`
                       : ''
                   }`}
+                  sx={{ marginRight: '10px' }}
                 />
+
                 <Box>
-                  <Box sx={styles?.orgName}>
-                    {invoiceData?.organizations?.name}
+                  <Box>
+                    <Box sx={styles?.orgName}>
+                      {invoiceData?.organizations?.name}
+                    </Box>
                   </Box>
+                  {invoiceData?.organizations?.address?.composite ? (
+                    <>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.address?.composite}
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.address?.street}
+                      </Typography>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.address?.city} |{' '}
+                        {invoiceData?.organizations?.address?.state} |{' '}
+                        {invoiceData?.organizations?.address?.postalCode}
+                      </Typography>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.mobileNo ?? '---'}
+                      </Typography>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.email ?? '---'}
+                      </Typography>
+                    </>
+                  )}
                 </Box>
-              </Box>
-              <Box>
-                {invoiceData?.organizations?.address?.composite ? (
-                  <>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.address?.composite}
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.address?.street}
-                    </Typography>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.address?.city} |{' '}
-                      {invoiceData?.organizations?.address?.state} |{' '}
-                      {invoiceData?.organizations?.address?.postalCode}
-                    </Typography>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.mobileNo ?? '---'}
-                    </Typography>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.email ?? '---'}
-                    </Typography>
-                  </>
-                )}
               </Box>
             </Box>
           </Box>

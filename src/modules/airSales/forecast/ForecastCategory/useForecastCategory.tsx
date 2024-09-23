@@ -6,6 +6,16 @@ const useForecastCategory = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [tableRowValues, setTableRowValues] = useState();
+  const [isFilterDrawer, setIsFilterDrawer] = useState(false);
+  const [filterValues, setFilterValues] = useState({});
+  const [alignment, setAlignment] = useState('UserCategory');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
 
   const open = Boolean(anchorEl);
 
@@ -28,6 +38,12 @@ const useForecastCategory = () => {
     handleClose,
     handleClick,
     setAnchorEl,
+    alignment,
+    handleChange,
+    setIsFilterDrawer,
+    isFilterDrawer,
+    setFilterValues,
+    filterValues,
   };
 };
 

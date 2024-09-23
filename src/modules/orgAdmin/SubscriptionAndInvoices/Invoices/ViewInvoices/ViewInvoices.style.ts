@@ -47,7 +47,6 @@ export const styles = {
   }),
   userInfo: () => ({
     display: 'flex',
-    alignItems: 'center',
   }),
   avatar: () => ({
     backgroundColor: 'primary.main',

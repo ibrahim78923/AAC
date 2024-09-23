@@ -92,7 +92,9 @@ const useInvoices = () => {
   const onSubmit = (value: OnSubmitFiltersValueI) => {
     const { status, productId, planId, billingDate, dueDate } = value;
     const filterPayloadValues = {
-      status,
+      ...(status && {
+        status: status,
+      }),
       productId,
       planId,
       ...(billingDate && {

@@ -9,6 +9,7 @@ import {
   Stack,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import {
@@ -25,7 +26,8 @@ import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { styles } from './ForecastCategory.style';
 import useForecastCategory from './useForecastCategory';
 import ViewDealsDrawer from '../ViewDealsDrwaer';
-import { useState } from 'react';
+import GoalsFilterDrawer from '../GoalsDrwaer';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
 const ForecastCategory = () => {
   const { isViewDealDrawer, setIsViewDealDrawer } = useForecast();
@@ -40,16 +42,12 @@ const ForecastCategory = () => {
     handleClose,
     handleClick,
     setAnchorEl,
+    alignment,
+    handleChange,
+    setIsFilterDrawer,
+    isFilterDrawer,
+    setFilterValues,
   } = useForecastCategory();
-
-  const [alignment, setAlignment] = useState('User');
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    setAlignment(newAlignment);
-  };
 
   return (
     <Box>
@@ -63,7 +61,7 @@ const ForecastCategory = () => {
         >
           <ToggleButton
             disableRipple
-            value="User"
+            value="UserCategory"
             sx={{
               color: theme?.palette?.primary?.main,
               backgroundColor: '#fff',
@@ -85,7 +83,7 @@ const ForecastCategory = () => {
           </ToggleButton>
           <ToggleButton
             disableRipple
-            value="Team"
+            value="TeamCategory"
             sx={{
               color: theme?.palette?.primary?.main,
               backgroundColor: '#fff',
@@ -240,6 +238,28 @@ const ForecastCategory = () => {
                 View Deal
               </MenuItem>
             </Menu>
+            <Tooltip title={'Refresh Filter'}>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={() => {
+                  setFilterValues('');
+                }}
+              >
+                <RefreshTasksIcon />
+              </Button>
+            </Tooltip>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={() => setIsFilterDrawer(true)}
+              startIcon={<FilterrIcon />}
+              sx={{ border: `1px solid ${theme?.palette?.custom?.dark}` }}
+            >
+              Filter
+            </Button>
           </Stack>
         </Box>
       </Box>
@@ -260,6 +280,14 @@ const ForecastCategory = () => {
         <ViewDealsDrawer
           isOpenDrawer={isViewDealDrawer}
           onClose={() => setIsViewDealDrawer(false)}
+        />
+      )}
+      {isFilterDrawer && (
+        <GoalsFilterDrawer
+          isOpenDrawer={isFilterDrawer}
+          onClose={() => setIsFilterDrawer(false)}
+          setIsFilterDrawer={setIsFilterDrawer}
+          setFilterValues={setFilterValues}
         />
       )}
     </Box>

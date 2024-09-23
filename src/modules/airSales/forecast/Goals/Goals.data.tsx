@@ -217,14 +217,14 @@ export const manageTableColumns: any = (
             borderRadius: '25px',
             width: 'fit-content',
             backgroundColor: `${
-              info?.getValue() === goalsStatus?.inProgress
-                ? '#FFFCF1'
-                : '#ECFFF1'
+              info?.getValue() === goalsStatus?.expired
+                ? theme?.palette?.custom?.light_purple
+                : theme?.palette?.custom?.light_yellow_bg
             }`,
             color: `${
-              info?.getValue() === goalsStatus?.inProgress
-                ? '#FFC20E'
-                : '#47B263'
+              info?.getValue() === goalsStatus?.expired
+                ? theme?.palette?.error?.main
+                : theme?.palette?.warning?.main
             }`,
           }}
         >

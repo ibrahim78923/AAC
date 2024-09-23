@@ -8,6 +8,7 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const columns = (selectedRows: any, handleCheckboxClick: any) => {
   return [
@@ -36,7 +37,7 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
       cell: (info: any) => (
         <>
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}
+            {info?.row?.original?.products[ARRAY_INDEX?.ZERO]?.name}
           </Box>
           <Box>{info?.row?.original?.plantypes}</Box>
         </>

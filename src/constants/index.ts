@@ -402,6 +402,7 @@ export const ORGANIZATION_DRAWER_TYPES = {
 };
 export const goalsStatus = {
   inProgress: 'In-Progress',
+  expired: 'Expired',
 };
 
 export const createGoal = {

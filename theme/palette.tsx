@@ -172,6 +172,7 @@ const CUSTOM_COLORS = {
   pale_mint: '#D9F8E1',
   success_light: '#ECFFF1',
   light_grey: '#5C5C5C',
+  light_purple: '#ff808059',
 };
 const GRAPH = {
   cyan: 'blue',
