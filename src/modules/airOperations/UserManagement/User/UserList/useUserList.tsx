@@ -25,6 +25,10 @@ export const useUserList = () => {
     (state) => state?.operationsUsersLists?.selectedUsersLists,
   );
 
+  const isSwitchDisabled = useAppSelector(
+    (state) => state?.operationsUsersLists?.isSwitchDisabled,
+  );
+
   const handleSetPage = (newPage: any) => {
     dispatch(setPage(newPage));
   };
@@ -33,8 +37,8 @@ export const useUserList = () => {
     dispatch(setPageLimit(newPageLimit));
   };
 
-  const setSelectedUserList = (ticket: any) => {
-    dispatch(setSelectedUsersLists<any>(ticket));
+  const setSelectedUserList = (user: any) => {
+    dispatch(setSelectedUsersLists<any>(user));
   };
 
   const handlePageChange = (currentPage: number) => {
@@ -56,7 +60,12 @@ export const useUserList = () => {
     selectedUsersLists,
     setSelectedUserList,
     totalUsers,
+    isSwitchDisabled,
   );
+
+  const isApiCalled =
+    !lazyGetProductUserListForOperationStatus?.data &&
+    !lazyGetProductUserListForOperationStatus?.error;
 
   return {
     operationUsersListColumns,
@@ -67,5 +76,6 @@ export const useUserList = () => {
     refetch,
     increment,
     decrement,
+    isApiCalled,
   };
 };

@@ -1,4 +1,7 @@
-import { isPortalOpenInitialState } from './slice';
+import {
+  isPortalOpenInitialState,
+  isSwitchDisabledInitialState,
+} from './slice';
 import { PAGINATION } from '@/config';
 
 const setPageReducer = (state: any, action: any) => {
@@ -56,6 +59,14 @@ const setUsersListsTotalRecordsReducer = (state: any, action: any) => {
   state.totalRecords = action?.payload;
 };
 
+const setIsSwitchDisabledReducer = (state: any, action: any) => {
+  state.isSwitchDisabled = action?.payload;
+};
+
+const resetIsSwitchDisabledReducer = (state: any) => {
+  state.isSwitchDisabled = isSwitchDisabledInitialState;
+};
+
 export const operationsUsersReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -70,4 +81,6 @@ export const operationsUsersReducersList = {
   resetTotalCountLoadingReducer,
   setTotalCountReducer,
   setUsersListsTotalRecordsReducer,
+  setIsSwitchDisabledReducer,
+  resetIsSwitchDisabledReducer,
 };

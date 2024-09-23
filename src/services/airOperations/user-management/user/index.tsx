@@ -8,7 +8,7 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getProductUserList: builder?.query({
       query: ({ param }: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        url: `${END_POINTS?.PRODUCTS_USERS}s`,
         method: 'GET',
         params: param,
       }),

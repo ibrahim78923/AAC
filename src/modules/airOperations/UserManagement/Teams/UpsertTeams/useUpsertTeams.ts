@@ -7,7 +7,6 @@ import {
 } from './UpsertTeams.data';
 import {
   useGetTeamsByIdForOperationQuery,
-  useLazyGetProductTeamUserListDropdownQuery,
   usePatchTeamUsersForOperationMutation,
   usePostCreateTeamForOperationMutation,
 } from '@/services/airOperations/user-management/user';
@@ -29,8 +28,6 @@ export const useUpsertTeams = () => {
   });
 
   const { handleSubmit, reset } = methods;
-
-  const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
 
   const { data, isLoading, isFetching, isError, refetch }: any =
     useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
@@ -95,7 +92,7 @@ export const useUpsertTeams = () => {
     [data?.data, reset],
   );
 
-  const upsertTeamFormFields = upsertTeamFormFieldsDynamic(usersTeamDropdown);
+  const upsertTeamFormFields = upsertTeamFormFieldsDynamic();
 
   return {
     methods,

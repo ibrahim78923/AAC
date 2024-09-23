@@ -12,9 +12,10 @@ export const TeamsList = () => {
     refetch,
     increment,
     decrement,
+    isApiCalled,
   } = useTeamsList();
 
-  if (!lazyGetTeamListForOperationStatus?.data) return <SkeletonTable />;
+  if (isApiCalled) return <SkeletonTable />;
 
   return (
     <TanstackTable

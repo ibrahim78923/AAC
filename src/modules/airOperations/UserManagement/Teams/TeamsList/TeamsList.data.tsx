@@ -17,7 +17,9 @@ export const operationsTeamsListColumnDynamic = (
     id: 'name',
     isSortable: true,
     header: 'Team Name',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: TeamsTableRowI) => row?.teamMembers,

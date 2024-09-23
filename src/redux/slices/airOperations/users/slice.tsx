@@ -8,6 +8,11 @@ export const isPortalOpenInitialState = {
   data: {},
 };
 
+export const isSwitchDisabledInitialState = {
+  disabled: false,
+  _id: '',
+};
+
 const {
   setPageReducer,
   setPageLimitReducer,
@@ -22,6 +27,8 @@ const {
   resetTotalCountLoadingReducer,
   setTotalCountReducer,
   setUsersListsTotalRecordsReducer,
+  setIsSwitchDisabledReducer,
+  resetIsSwitchDisabledReducer,
 } = operationsUsersReducersList;
 
 const operationsUsersInitialState = {
@@ -33,6 +40,7 @@ const operationsUsersInitialState = {
   totalRecords: 0,
   totalCount: 0,
   isTotalCountLoading: true,
+  isSwitchDisabled: isSwitchDisabledInitialState,
 };
 
 const operationsUsersSlice = createSlice({
@@ -52,6 +60,8 @@ const operationsUsersSlice = createSlice({
     resetTotalCountLoading: resetTotalCountLoadingReducer,
     setTotalCount: setTotalCountReducer,
     setUsersListsTotalRecords: setUsersListsTotalRecordsReducer,
+    setIsSwitchDisabled: setIsSwitchDisabledReducer,
+    resetIsSwitchDisabled: resetIsSwitchDisabledReducer,
   },
 });
 
@@ -69,6 +79,8 @@ export const {
   resetTotalCountLoading,
   setTotalCount,
   setUsersListsTotalRecords,
+  setIsSwitchDisabled,
+  resetIsSwitchDisabled,
 } = operationsUsersSlice?.actions;
 
 export default operationsUsersSlice?.reducer;

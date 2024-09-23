@@ -14,6 +14,8 @@ export const UserInfo = (props: any) => {
     handleBoxClick,
     handleNameClick,
     isNameCapital = true,
+    optionDetail,
+    optionDetailProps,
   } = props;
 
   return (
@@ -41,7 +43,7 @@ export const UserInfo = (props: any) => {
         <Typography
           variant="body4"
           component={'div'}
-          color="blue.dull_blue"
+          color="slateBlue.main"
           onClick={() => handleNameClick?.()}
           textTransform={isNameCapital ? 'capitalize' : 'none'}
           {...nameProps}
@@ -56,6 +58,16 @@ export const UserInfo = (props: any) => {
             {...emailProps}
           >
             {email}
+          </Typography>
+        )}
+        {!!optionDetail && (
+          <Typography
+            variant="body4"
+            component={'div'}
+            color="slateBlue.main"
+            {...optionDetailProps}
+          >
+            {optionDetail}
           </Typography>
         )}
       </Box>

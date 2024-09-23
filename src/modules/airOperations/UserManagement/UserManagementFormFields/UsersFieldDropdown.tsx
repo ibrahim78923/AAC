@@ -8,8 +8,8 @@ export const UsersFieldDropdown = () => {
   return (
     <RHFAutocompleteAsync
       name="userAccounts"
-      label="Select Team Members"
-      placeholder="Select"
+      label="Select team members"
+      placeholder="Select team members"
       fullWidth
       multiple
       size="small"

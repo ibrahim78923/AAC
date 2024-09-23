@@ -12,9 +12,10 @@ export const UserList = () => {
     refetch,
     increment,
     decrement,
+    isApiCalled,
   } = useUserList();
 
-  if (!lazyGetProductUserListForOperationStatus?.data) return <SkeletonTable />;
+  if (isApiCalled) return <SkeletonTable />;
 
   return (
     <TanstackTable

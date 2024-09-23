@@ -1,23 +1,16 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AntSwitch } from '@/components/AntSwitch';
-import { PRODUCT_USER_STATUS } from '@/constants/strings';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Checkbox } from '@mui/material';
 import { UserTableRowI } from '../User.interface';
+import { UpdateUserStatus } from '../UpdateUserStatus';
+import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 export const operationUsersListColumnsDynamic = (
   selectedUserList: any,
-  setSelectedUserList: Dispatch<SetStateAction<any>>,
+  setSelectedUserList: (user: any) => void,
   totalUsers = [],
-  changeOperationUserStatus?: (e: any, id: string) => Promise<void>,
-  changeSingleUserStatusStatus?: any,
-  setSingleUserDetail?: (param: any) => void,
+  isSwitchDisabled: any,
 ) => [
   {
     accessorFn: (row: UserTableRowI) => row?._id,
@@ -69,27 +62,14 @@ export const operationUsersListColumnsDynamic = (
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        gap={1}
-        onClick={() => setSingleUserDetail?.(info?.row?.original)}
-        sx={{ cursor: 'pointer' }}
-      >
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.getValue()?.avatar?.url)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-      </Box>
+      <UserInfo
+        name={fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        nameInitial={fullNameInitial(
+          info?.getValue()?.firstName,
+          info?.getValue()?.lastName,
+        )}
+        avatarSrc={info?.getValue()?.avatar?.url}
+      />
     ),
   },
   {
@@ -104,31 +84,29 @@ export const operationUsersListColumnsDynamic = (
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => truncateText(info?.getValue()?.name ?? '---'),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.name?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: UserTableRowI) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => truncateText(info?.getValue()?.name ?? '---'),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.name?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: UserTableRowI) => row?.status,
     id: 'status',
     header: 'Status',
     cell: (info: any) => (
-      <AntSwitch
-        checked={info?.getValue() === PRODUCT_USER_STATUS?.ACTIVE}
-        onChange={(e: any) =>
-          changeOperationUserStatus?.(e, info?.row?.original?._id)
-        }
-        isLoading={
-          changeSingleUserStatusStatus?.isLoading &&
-          changeSingleUserStatusStatus?.originalArgs?.pathParams?.id ===
-            info?.row?.original?._id
-        }
-        disabled={changeSingleUserStatusStatus?.isLoading}
+      <UpdateUserStatus
+        currentId={info?.row?.original?._id}
+        currentStatus={info?.getValue()}
+        disabled={isSwitchDisabled?.disabled}
+        loaderId={isSwitchDisabled?._id}
       />
     ),
   },

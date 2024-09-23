@@ -31,7 +31,7 @@ export const useGetUserLists = () => {
       queryParams: {
         page: currentPage,
         limit: pageLimit,
-        search: '',
+        search,
       },
     };
     try {

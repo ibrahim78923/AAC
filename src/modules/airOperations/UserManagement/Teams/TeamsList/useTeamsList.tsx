@@ -54,6 +54,10 @@ export const useTeamsList = () => {
   const operationsTeamsListColumn =
     operationsTeamsListColumnDynamic?.(setAction);
 
+  const isApiCalled =
+    !lazyGetTeamListForOperationStatus?.data &&
+    !lazyGetTeamListForOperationStatus?.error;
+
   return {
     operationsTeamsListColumn,
     lazyGetTeamListForOperationStatus,
@@ -63,5 +67,6 @@ export const useTeamsList = () => {
     refetch,
     increment,
     decrement,
+    isApiCalled,
   };
 };

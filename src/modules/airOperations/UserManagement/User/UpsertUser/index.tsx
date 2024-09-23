@@ -7,9 +7,11 @@ import { TITLE_FORM_USER } from './UpsertUser.data';
 import { useUpsertUser } from './useUpsertUser';
 import ApiErrorState from '@/components/ApiErrorState';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 const { ADD_OPERATIONS_USERS, EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
   OPERATIONS_USERS_ACTIONS_CONSTANT;
+
 export const UpsertUser = () => {
   const {
     upsertUserFormFields,
@@ -72,7 +74,7 @@ export const UpsertUser = () => {
         {isLoading || isFetching ? (
           <SkeletonForm />
         ) : isError ? (
-          <ApiErrorState canRefresh refresh={() => refetch?.()} />
+          <ApiErrorState canRefresh refresh={refetch} />
         ) : (
           <>
             {isPortalOpen?.action === ADD_OPERATIONS_USERS && (
@@ -83,7 +85,7 @@ export const UpsertUser = () => {
             <Box mt={1}>
               <FormProvider methods={methods}>
                 <Grid container spacing={2}>
-                  {upsertUserFormFields?.map((item: any) => (
+                  {upsertUserFormFields?.map((item: ReactHookFormFieldsI) => (
                     <Grid item xs={12} key={item?.id}>
                       <item.component
                         {...item?.componentProps}

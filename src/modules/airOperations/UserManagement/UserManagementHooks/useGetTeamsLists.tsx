@@ -26,7 +26,7 @@ export const useGetTeamsLists = () => {
       queryParams: {
         page: currentPage,
         limit: pageLimit,
-        search: '',
+        search,
       },
     };
     try {

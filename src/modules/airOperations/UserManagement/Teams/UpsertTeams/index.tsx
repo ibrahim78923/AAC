@@ -5,6 +5,7 @@ import { useUpsertTeams } from './useUpsertTeams';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 const UpsertTeams = () => {
   const {
@@ -59,7 +60,7 @@ const UpsertTeams = () => {
       ) : (
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {upsertTeamFormFields?.map((item: any) => (
+            {upsertTeamFormFields?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

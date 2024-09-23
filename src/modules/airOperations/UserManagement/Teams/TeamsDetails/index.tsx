@@ -1,11 +1,13 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { Fragment } from 'react';
 import { useTeamsDetails } from './useTeamsDetails';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { UserInfo } from '@/components/UserInfo';
+import { TruncateText } from '@/components/TruncateText';
 
 const TeamsDetails = () => {
   const {
@@ -24,7 +26,7 @@ const TeamsDetails = () => {
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={closeDrawer}
-        title={data?.data?.name}
+        title={<TruncateText text={data?.data?.name?.toLowerCase()} />}
         submitHandler={closeDrawer}
         footer
         isOk
@@ -63,71 +65,38 @@ const TeamsDetails = () => {
                 ) : (
                   teamDataArray?.map((item: any, index: number) => (
                     <Fragment key={item?.user?._id}>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        py={1}
-                        gap={2}
-                        borderBottom={
-                          index !==
-                          teamDataArray?.length - SELECTED_ARRAY_LENGTH?.ONE
-                            ? '1px solid'
-                            : ''
+                      <UserInfo
+                        name={fullName(
+                          item?.user?.firstName,
+                          item?.user?.lastName,
+                        )}
+                        nameInitial={fullNameInitial(
+                          item?.user?.firstName,
+                          item?.user?.lastName,
+                        )}
+                        avatarSrc={item?.user?.avatar?.url}
+                        email={item?.user?.email}
+                        optionDetail={
+                          item?.user?.address?.composite
+                            ? item?.user?.address?.composite
+                            : item?.user?.address
                         }
-                        borderColor={'custom.off_white'}
-                      >
-                        <Avatar
-                          sx={{
-                            bgcolor: 'primary.light',
-                            width: 35,
-                            height: 35,
-                          }}
-                          src={generateImage(item?.user?.avatar?.url)}
-                        >
-                          <Typography
-                            variant="body2"
-                            textTransform={'uppercase'}
-                            color="slateBlue.main"
-                          >
-                            {fullNameInitial(
-                              item?.user?.firstName,
-                              item?.user?.lastName,
-                            )}
-                          </Typography>
-                        </Avatar>
-                        <Box>
-                          <Typography
-                            variant="body4"
-                            component={'div'}
-                            color="slateBlue.main"
-                            fontWeight={600}
-                          >
-                            {fullName(
-                              item?.user?.firstName,
-                              item?.user?.lastName,
-                            )}
-                          </Typography>
-                          <Typography
-                            variant="body4"
-                            component={'div'}
-                            color="slateBlue.main"
-                          >
-                            {item?.user?.email}
-                          </Typography>
-                          <Typography
-                            variant="body4"
-                            component={'div'}
-                            color="slateBlue.main"
-                          >
-                            {item?.user?.address?.composite
-                              ? item?.user?.address?.composite
-                              : item?.user?.address}
-                          </Typography>
-                        </Box>
-                      </Box>
+                        avatarSize={{ width: 35, height: 35 }}
+                        emailProps={{ fontWeight: 'fontWeightMedium' }}
+                        boxProps={{
+                          gap: 2,
+                          borderBottom:
+                            index !==
+                            teamDataArray?.length - SELECTED_ARRAY_LENGTH?.ONE
+                              ? '1px solid'
+                              : '',
+                          borderColor: 'custom.off_white',
+                          py: 1,
+                        }}
+                      />
                     </Fragment>
                   ))
-                )}{' '}
+                )}
               </Box>
             </Box>
           </Box>
