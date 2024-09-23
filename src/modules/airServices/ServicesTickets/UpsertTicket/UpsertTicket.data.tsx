@@ -56,6 +56,7 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
+
     ...formSchema,
   });
 };

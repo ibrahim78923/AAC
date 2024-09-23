@@ -38,12 +38,12 @@ export const useMoveTickets = () => {
 
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
-  const moveTicketsFormMethod = useForm<any>({
+  const methods = useForm<any>({
     defaultValues: moveTicketsDefaultValue,
     resolver: yupResolver(moveTicketsValidationSchema),
   });
 
-  const { handleSubmit, reset } = moveTicketsFormMethod;
+  const { handleSubmit, reset } = methods;
 
   const refetchApi = async () => {
     const newPage =
@@ -75,14 +75,14 @@ export const useMoveTickets = () => {
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
-      closeMoveTicketsModal?.();
+      closePortal?.();
       await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
-  const closeMoveTicketsModal = () => {
+  const closePortal = () => {
     reset();
     dispatch(emptySelectedTicketLists());
     dispatch(setIsPortalClose());
@@ -91,8 +91,8 @@ export const useMoveTickets = () => {
   const moveTicketsFormFields = moveTicketsFormFieldsDynamic();
 
   return {
-    moveTicketsFormMethod,
-    closeMoveTicketsModal,
+    methods,
+    closePortal,
     handleSubmit,
     submitMoveTicketsForm,
     moveTicketsFormFields,

@@ -8,7 +8,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   useGetTicketsByIdQuery,
   usePostTicketsMutation,
@@ -37,17 +37,9 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
-import useAuth from '@/hooks/useAuth';
-import { getActiveAccountSession } from '@/utils';
 import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertTicket = () => {
-  const auth: any = useAuth();
-  const product = useMemo(() => getActiveAccountSession(), []);
-  const companyId = product?.company?._id ?? {};
-  const userId = auth?.user?._id ?? {};
-  const organizationId = auth?.user?.organization?._id ?? {};
-
   const dispatch = useAppDispatch();
   const { getTicketsListData } = useGetTicketList();
   const selectedTicketLists = useAppSelector(
@@ -223,10 +215,6 @@ export const useUpsertTicket = () => {
         'ticketType',
         data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
       );
-      !!!ticketId && upsertTicketFormData?.append('userId', userId);
-      !!!ticketId && upsertTicketFormData?.append('companyId', companyId);
-      !!!ticketId &&
-        upsertTicketFormData?.append('organization', organizationId);
 
       if (body?.customFields) {
         upsertTicketFormData?.append(

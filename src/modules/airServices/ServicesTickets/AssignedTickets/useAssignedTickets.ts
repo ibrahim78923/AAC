@@ -34,7 +34,7 @@ export const useAssignedTickets = () => {
 
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
-  const assignedTicketsMethod: UseFormReturn<any> = useForm<any>({
+  const methods: UseFormReturn<any> = useForm<any>({
     defaultValues: {
       agent: null,
     },
@@ -54,7 +54,7 @@ export const useAssignedTickets = () => {
     await getTicketsListData?.(newPage);
   };
 
-  const { handleSubmit, reset } = assignedTicketsMethod;
+  const { handleSubmit, reset } = methods;
 
   const submitAssignedTicketsForm = async (formData: {
     agent: AutocompleteAsyncOptionsI;
@@ -75,24 +75,24 @@ export const useAssignedTickets = () => {
     };
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
-      successSnackbar('Ticket assigned Successfully');
-      closeTicketsAssignedModal?.();
+      successSnackbar('Ticket assigned successfully');
+      closePortal?.();
       await refetchApi();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
-  const closeTicketsAssignedModal = () => {
+  const closePortal = () => {
     reset();
     dispatch(emptySelectedTicketLists());
     dispatch(setIsPortalClose());
   };
 
   return {
-    assignedTicketsMethod,
+    methods,
     handleSubmit,
     submitAssignedTicketsForm,
-    closeTicketsAssignedModal,
+    closePortal,
     putTicketStatus,
     isPortalOpen,
   };

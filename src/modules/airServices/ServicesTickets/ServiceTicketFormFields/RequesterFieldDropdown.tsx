@@ -12,7 +12,7 @@ export const RequesterFieldDropdown = (props: any) => {
   const apiQueryRequester =
     useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
   const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
+  const { _id: productId } = auth?.product ?? {};
 
   return (
     <RHFAutocompleteAsync

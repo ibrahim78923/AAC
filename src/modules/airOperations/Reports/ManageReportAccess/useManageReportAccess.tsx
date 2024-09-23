@@ -135,7 +135,7 @@ export const useManageReportAccess = () => {
     setPermissions();
   }, [specificUserWatch]);
 
-  const submitAssignedTicketsForm = async (formData: any) => {
+  const submitMangeAccessForm = async (formData: any) => {
     const filterFormData = filteredEmptyValues(formData);
     const body = {
       ...filterFormData,
@@ -198,7 +198,7 @@ export const useManageReportAccess = () => {
   return {
     methods,
     handleSubmit,
-    submitAssignedTicketsForm,
+    submitMangeAccessForm,
     closeModal,
     manageReportAccessFromFields,
     manageReportAccessStatus,

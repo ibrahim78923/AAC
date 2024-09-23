@@ -1,6 +1,4 @@
-import Typography from '@mui/material/Typography';
-import { Box, IconButton } from '@mui/material';
-import { useTheme } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -10,8 +8,6 @@ import NoData from '@/components/NoData';
 import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
 
 export const Activities = () => {
-  const theme = useTheme();
-
   const {
     isLoading,
     isError,
@@ -37,7 +33,7 @@ export const Activities = () => {
         borderRadius={2}
         p={2}
       >
-        {!!data?.data?.activitylogs?.length ? (
+        {!!!data?.data?.activitylogs?.length ? (
           data?.data?.activitylogs?.map((activity: any) => (
             <Box key={activity?._id} mb={2}>
               <Box display={'flex'}>
@@ -46,7 +42,8 @@ export const Activities = () => {
                     disabled
                     color="primary"
                     sx={{
-                      border: `1px solid ${theme?.palette?.primary?.main}`,
+                      border: `1px solid`,
+                      borderColor: 'primary.main',
                     }}
                   ></IconButton>
                 </Box>

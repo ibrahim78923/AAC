@@ -18,11 +18,10 @@ export const DetailCard = (props: { data: any }) => {
 
   return (
     <Box
-      sx={{
-        border: `2px solid ${theme?.palette?.custom?.off_white_three}`,
-        borderRadius: '.5rem',
-        paddingY: '1rem',
-      }}
+      border="2px solid"
+      borderRadius={1}
+      paddingY={2}
+      borderColor="custom.off_white_three"
     >
       <Grid container>
         <Grid
@@ -52,7 +51,7 @@ export const DetailCard = (props: { data: any }) => {
               avatarSrc={ticketDetail?.requesterDetails?.avatar?.url}
               nameProps={{
                 color: 'slateBlue.main',
-                fontWeight: 600,
+                fontWeight: 'fontWeightMedium',
                 variant: 'body2',
               }}
             />
@@ -64,7 +63,7 @@ export const DetailCard = (props: { data: any }) => {
             >
               <Typography
                 variant="body2"
-                fontWeight={600}
+                fontWeight={'fontWeightMedium'}
                 color="slateBlue.main"
               >
                 Email:
@@ -87,7 +86,7 @@ export const DetailCard = (props: { data: any }) => {
             >
               <Typography
                 variant="body2"
-                fontWeight={600}
+                fontWeight={'fontWeightMedium'}
                 color="slateBlue.main"
               >
                 Created on:
@@ -114,7 +113,11 @@ export const DetailCard = (props: { data: any }) => {
           }}
         >
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Description:
             </Typography>
             <Typography
@@ -129,7 +132,11 @@ export const DetailCard = (props: { data: any }) => {
             />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Attachments:
             </Typography>
             {attachFile?.data?.length ? (
@@ -168,7 +175,11 @@ export const DetailCard = (props: { data: any }) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Status:
             </Typography>
             {!!ticketDetail?.status ? (
@@ -188,7 +199,11 @@ export const DetailCard = (props: { data: any }) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Due by:
             </Typography>
             <Typography variant="body2" color="slateBlue.main">
@@ -203,7 +218,11 @@ export const DetailCard = (props: { data: any }) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Associated By:
             </Typography>
             <Typography
