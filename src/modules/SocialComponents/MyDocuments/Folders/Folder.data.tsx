@@ -16,6 +16,7 @@ import {
 import RowSelectionAll from '@/components/RowSelectionAll';
 import RowSelection from '@/components/RowSelection';
 import { VISIBLETO_OPTIONS } from '../Documents/Documents.data';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 export const columns: any = (selectedRow: any, setSelectedRow: any) => {
   return [
@@ -51,12 +52,17 @@ export const columns: any = (selectedRow: any, setSelectedRow: any) => {
       cell: (info: any) => {
         return (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Image
-              src={generateImage(info?.row?.original?.media?.url)}
-              alt="no image"
-              width={20}
-              height={20}
-            />
+            {info?.row?.original?.media?.mimetype?.includes('image') ? (
+              <Image
+                src={generateImage(info?.row?.original?.media?.url) ?? ''}
+                alt={info?.getValue()}
+                width={20}
+                height={20}
+              />
+            ) : (
+              <DescriptionOutlinedIcon />
+            )}
+
             {info?.getValue()}
           </Box>
         );
@@ -179,7 +185,7 @@ export const uploadDocumentData = (
       options: [
         { value: VISIBLETO_OPTIONS?.PRIVATE, label: 'Private' },
         { value: VISIBLETO_OPTIONS?.USERS, label: 'Specific users' },
-        { value: VISIBLETO_OPTIONS?.TEAMS, label: 'Specific teams' },
+        { value: VISIBLETO_OPTIONS?.TEAMS, label: 'My teams' },
         { value: VISIBLETO_OPTIONS?.EVERYONE, label: 'Everyone' },
       ],
       row: false,

@@ -3,6 +3,7 @@ import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteFoldersMutation,
   useGetDocumentFolderQuery,
+  useGetAllFoldersListQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
 } from '@/services/commonFeatures/documents';
@@ -131,6 +132,7 @@ const useDocuments = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [modalHeading, setModalHeading] = useState(MODAL_HEADING.create);
   const [form, setForm] = useState<any>([]);
+  const [visibleTo, setVisibleTo] = useState('');
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
 
@@ -168,7 +170,7 @@ const useDocuments = () => {
   }, []);
 
   const methodsFolder: any = useForm<any>({
-    resolver: yupResolver(validationSchema?.(form)),
+    resolver: yupResolver(validationSchema?.(form, visibleTo)),
     defaultValues: defaultValuesFolder?.(selectedFolders[0], form),
   });
   const {
@@ -177,6 +179,9 @@ const useDocuments = () => {
     watch,
   } = methodsFolder;
   const watchVisibleTo = watch('visibleTo');
+  useEffect(() => {
+    setVisibleTo(watchVisibleTo);
+  }, [watchVisibleTo]);
   useEffect(() => {
     resetFolderForm(() => defaultValuesFolder(selectedFolders[0], form));
   }, [selectedFolders, resetFolderForm, form]);
@@ -264,6 +269,14 @@ const useDocuments = () => {
   // Move Folder
   const [isOpenMoveFolderDrawer, setIsOpenMoveFolderDrawer] = useState(false);
   const [searchMoveFolder, setSearchMoveFolder] = useState('');
+
+  const handleOpenMoveFolderDrawer = () => {
+    setIsOpenMoveFolderDrawer(true);
+  };
+  const handleCloseMoveFolderDrawer = () => {
+    setSelectedMoveToFolderId('');
+    setIsOpenMoveFolderDrawer(false);
+  };
   const getMoveFoldersParams = {
     meta: false,
   };
@@ -273,17 +286,20 @@ const useDocuments = () => {
     searchMovePayLoad = { search: searchMoveFolder };
   }
   const {
-    data: getMoveFoldersData,
-    isLoading: loadingGetMoveFolders,
-    isFetching: fetchingGetMoveFolders,
-  } = useGetDocumentFolderQuery({
-    params: {
-      ...searchMovePayLoad,
-      ...getMoveFoldersParams,
+    data: getAllFoldersListData,
+    isLoading: loadingGetAllFolders,
+    isFetching: fetchingGetAllFolders,
+  } = useGetAllFoldersListQuery(
+    {
+      params: {
+        ...searchMovePayLoad,
+        ...getMoveFoldersParams,
+      },
     },
-  });
+    { skip: !isOpenMoveFolderDrawer },
+  );
 
-  const moveFoldersData = (getMoveFoldersData?.data || []).filter(
+  const moveFoldersData = (getAllFoldersListData?.data || []).filter(
     (folder: any) =>
       !selectedFolders?.some((item: any) => item._id === folder._id),
   );
@@ -302,8 +318,7 @@ const useDocuments = () => {
       enqueueSnackbar('Folder Moved Successfully', {
         variant: 'success',
       });
-      setSelectedFolders([]);
-      setIsOpenMoveFolderDrawer(false);
+      handleCloseMoveFolderDrawer();
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
@@ -348,11 +363,12 @@ const useDocuments = () => {
     loadingCreateFolder,
     loadingUpdate,
     isOpenMoveFolderDrawer,
-    setIsOpenMoveFolderDrawer,
+    handleOpenMoveFolderDrawer,
+    handleCloseMoveFolderDrawer,
     setSearchMoveFolder,
     moveFoldersData,
-    fetchingGetMoveFolders,
-    loadingGetMoveFolders,
+    fetchingGetAllFolders,
+    loadingGetAllFolders,
     selectedMoveToFolderId,
     handleListItemClick,
     handleSubmitMoveToFolder,

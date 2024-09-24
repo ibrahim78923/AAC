@@ -261,14 +261,16 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, selectedFile }: any) => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Box sx={{ marginTop: '0.5rem' }}>
-              <Image
-                src={generateImage(selectedFile?.media?.url)}
-                width={250}
-                height={250}
-                alt="Image Missing"
-              />
-            </Box>
+            {selectedFile?.media?.mimetype?.includes('image') ? (
+              <Box sx={{ marginTop: '0.5rem' }}>
+                <Image
+                  src={generateImage(selectedFile?.media?.url)}
+                  width={250}
+                  height={250}
+                  alt="Image Missing"
+                />
+              </Box>
+            ) : null}
           </DialogContent>
         </div>
       </Dialog>
