@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import {
   createDashboardDefaultValue,
+  MANAGE_DASHBOARD_ACCESS_TYPES,
   validationSchema,
 } from './CreateForm.data';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
 import {
   useGetSalesDashboardByIdQuery,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
@@ -26,10 +26,8 @@ const useCreateForm = (formType: any) => {
   const router = useRouter();
   const { user }: any = getSession();
   const currentUser = user?._id;
-
   const selectedDashboardId = router?.query?.id;
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
-
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
 
@@ -46,7 +44,11 @@ const useCreateForm = (formType: any) => {
       skip: !selectedDashboardId,
     });
 
-  const disableAccess = currentUser === getSalesDashboardById?.data?.createdBy;
+  const disableAccess =
+    currentUser === getSalesDashboardById?.data?.createdBy ||
+    formType === DRAWER_TYPES?.ADD
+      ? false
+      : true;
 
   const [updatesalesDashboard, { isLoading: loadingUpdateDashboard }] =
     useUpdateSalesDashboardMutation();
@@ -184,6 +186,7 @@ const useCreateForm = (formType: any) => {
   };
 
   return {
+    MANAGE_DASHBOARD_ACCESS_TYPES,
     postSalesDashboardLoading,
     dashboardDetailsLoading,
     handleChangeAccessValue,
