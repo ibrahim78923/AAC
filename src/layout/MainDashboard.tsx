@@ -53,7 +53,7 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { AIR_CUSTOMER_PORTAL, PRODUCT_LABELS } from '@/constants';
+import { AIR_CUSTOMER_PORTAL, indexNumbers, PRODUCT_LABELS } from '@/constants';
 
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
@@ -559,12 +559,18 @@ const DashboardLayout = ({ children, window }: any) => {
             return {
               ...chat,
               content: payload?.content,
-
-              ...(filteredParticipants[0]?._id !== payload?.ownerId &&
+              ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
+                payload?.ownerId &&
                 activeChatId !== payload?.groupDetail?._id && {
                   unReadMessagesCount: chat?.unReadMessagesCount + 1,
                 }),
-              ...(filteredParticipants[0]?._id !== payload?.ownerId &&
+              ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
+                payload?.ownerId &&
+                activeChatId !== payload?.groupDetail?._id && {
+                  updatedAt: payload?.updatedAt,
+                }),
+              ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
+                payload?.ownerId &&
                 activeChatId !== payload?.groupDetail?._id && { unread: true }),
             };
           }

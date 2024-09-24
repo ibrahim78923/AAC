@@ -40,13 +40,13 @@ import { UnixDateFormatter } from '@/utils/dateTime';
 import { styles } from '../../Email.styles';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
-import { ImageComponent } from '../Chat/RightPane';
 import { useDispatch } from 'react-redux';
 import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 import dayjs from 'dayjs';
 import { useLazyGetEmailTemplatesAsyncQuery } from '@/services/airMarketer/emailTemplates';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { ImageComponentAttachment } from '../Chat/RightPane';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
@@ -389,7 +389,7 @@ const SendEmailDrawer = (props: any) => {
                             justifyContent: 'space-between',
                           }}
                         >
-                          <ImageComponent
+                          <ImageComponentAttachment
                             base64={item?.contentBytes}
                             contentType={item?.contentType}
                             fileName={item?.name}

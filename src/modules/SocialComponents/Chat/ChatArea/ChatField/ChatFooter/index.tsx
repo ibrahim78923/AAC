@@ -98,6 +98,14 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
         receiverId: activeReceiverId && activeReceiverId[0],
       }),
       chatId: activeChatId && activeChatId,
+      ...(chatMode === 'groupChat' && {
+        ownerDetails: {
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          avatar: user?.avatar,
+          _id: user?._id,
+        },
+      }),
       content: messageText,
       media: imageToUpload,
       ...(imageToUpload?.length > 0 && { type: attachmentType }),
@@ -110,6 +118,14 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
         receiverId: activeReceiverId && activeReceiverId[0],
       }),
       chatId: activeChatId && activeChatId,
+      ...(chatMode === 'groupChat' && {
+        ownerDetails: {
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          avatar: user?.avatar,
+          _id: user?._id,
+        },
+      }),
       content: messageText,
       parentMessage: activeReply?.chatId,
       media: imageToUpload,

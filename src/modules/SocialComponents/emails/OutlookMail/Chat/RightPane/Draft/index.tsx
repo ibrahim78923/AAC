@@ -311,41 +311,45 @@ const Draft = ({ messageDetailsData }: any) => {
                   />
                 </Grid>
 
-                {defaultAttachments?.map((item: any) => {
-                  return (
-                    <>
-                      <Box
-                        sx={{
-                          borderRadius: '8px',
-                          overflow: 'hidden',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '10px',
-                          maxHeight: '200px',
-                          marginTop: '10px',
-                          '& img': {
-                            borderRadius: '5px',
-                            maxHeight: '100px',
-                          },
-                        }}
-                      >
-                        <ImageComponentAttachment
-                          base64={item?.contentBytes}
-                          contentType={item?.contentType}
-                          fileName={item?.name}
-                        />
+                <Grid item xs={12}>
+                  <Box sx={{ display: 'flex' }}>
+                    {defaultAttachments?.map((item: any) => {
+                      return (
+                        <>
+                          <Box
+                            sx={{
+                              borderRadius: '8px',
+                              overflow: 'hidden',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              marginRight: '10px',
+                              maxHeight: '200px',
+                              marginTop: '10px',
+                              '& img': {
+                                borderRadius: '5px',
+                                maxHeight: '100px',
+                              },
+                            }}
+                          >
+                            <ImageComponentAttachment
+                              base64={item?.contentBytes}
+                              contentType={item?.contentType}
+                              fileName={item?.name}
+                            />
 
-                        <Box
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => removeAttachment(item?.id)}
-                        >
-                          <ClearIcon />
-                        </Box>
-                      </Box>
-                    </>
-                  );
-                })}
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => removeAttachment(item?.id)}
+                            >
+                              <ClearIcon />
+                            </Box>
+                          </Box>
+                        </>
+                      );
+                    })}
+                  </Box>
+                </Grid>
 
                 <Grid item xs={12}>
                   <RHFDropZone
