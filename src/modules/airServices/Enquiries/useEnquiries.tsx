@@ -81,6 +81,28 @@ export default function useEnquiries() {
     patchEnquiriesStatus,
   });
 
+  const closeModal = () => {
+    setIsModalOpen({
+      filterOpen: false,
+      viewOpen: false,
+      deleteOpen: false,
+      convertToTicket: false,
+      createRequester: false,
+      data: null,
+    });
+    setEnquiriesSelected([]);
+  };
+  const openFilterModal = () => {
+    setIsModalOpen({
+      filterOpen: true,
+      viewOpen: false,
+      deleteOpen: false,
+      convertToTicket: false,
+      createRequester: false,
+      data: null,
+    });
+  };
+
   return {
     setSearchBy,
     isModalOpen,
@@ -97,5 +119,7 @@ export default function useEnquiries() {
     enquiriesActionDropdown,
     enquiriesSelected,
     setEnquiriesSelected,
+    closeModal,
+    openFilterModal,
   };
 }

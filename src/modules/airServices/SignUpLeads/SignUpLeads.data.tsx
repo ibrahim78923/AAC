@@ -33,8 +33,7 @@ export const getSignUpLeadsColumns = () => [
     id: 'email',
     isSortable: true,
     header: 'Email',
-
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => info.getValue(),
   },
   {
     accessorFn: (row: ISignUpLoads) => row?.address,

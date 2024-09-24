@@ -13,11 +13,10 @@ import { DeleteEnquiry } from './DeleteEnquiry';
 import ConvertTicket from './ConvertTicket';
 import CreateRequester from './CreateRequester';
 
-export default function Enquiries() {
+const Enquiries = () => {
   const {
     setSearchBy,
     isModalOpen,
-    setIsModalOpen,
     data,
     enquiriesColumns,
     isLoading,
@@ -29,7 +28,8 @@ export default function Enquiries() {
     setFilter,
     enquiriesActionDropdown,
     enquiriesSelected,
-    setEnquiriesSelected,
+    closeModal,
+    openFilterModal,
   } = useEnquiries();
 
   return (
@@ -46,7 +46,6 @@ export default function Enquiries() {
 
         <Grid item xs={12} md={6} textAlign={'end'}>
           <SingleDropdownButton
-            className="small"
             dropdownOptions={enquiriesActionDropdown}
             disabled={!!!enquiriesSelected?.length}
           />
@@ -61,14 +60,7 @@ export default function Enquiries() {
               color="secondary"
               sx={{ ml: 2 }}
               onClick={() => {
-                setIsModalOpen({
-                  filterOpen: true,
-                  viewOpen: false,
-                  deleteOpen: false,
-                  convertToTicket: false,
-                  createRequester: false,
-                  data: null,
-                });
+                openFilterModal;
               }}
             >
               Filter
@@ -103,88 +95,27 @@ export default function Enquiries() {
       {isModalOpen?.filterOpen && (
         <Filters
           isModalOpen={isModalOpen?.filterOpen}
-          onClose={() => {
-            setIsModalOpen({
-              filterOpen: false,
-              viewOpen: false,
-              deleteOpen: false,
-              convertToTicket: false,
-              createRequester: false,
-              data: null,
-            });
-            setEnquiriesSelected([]);
-          }}
+          onClose={closeModal}
           setFilter={setFilter}
         />
       )}
 
       {isModalOpen?.viewOpen && (
-        <ViewEnquiry
-          isModalOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen({
-              filterOpen: false,
-              viewOpen: false,
-              deleteOpen: false,
-              convertToTicket: false,
-              createRequester: false,
-              data: null,
-            });
-            setEnquiriesSelected([]);
-          }}
-        />
+        <ViewEnquiry isModalOpen={isModalOpen} onClose={closeModal} />
       )}
 
       {isModalOpen?.deleteOpen && (
-        <DeleteEnquiry
-          isModalOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen({
-              filterOpen: false,
-              viewOpen: false,
-              deleteOpen: false,
-              convertToTicket: false,
-              createRequester: false,
-              data: null,
-            });
-            setEnquiriesSelected([]);
-          }}
-        />
+        <DeleteEnquiry isModalOpen={isModalOpen} onClose={closeModal} />
       )}
 
       {isModalOpen?.convertToTicket && (
-        <ConvertTicket
-          isModalOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen({
-              filterOpen: false,
-              viewOpen: false,
-              deleteOpen: false,
-              convertToTicket: false,
-              createRequester: false,
-              data: null,
-            });
-            setEnquiriesSelected([]);
-          }}
-        />
+        <ConvertTicket isModalOpen={isModalOpen} onClose={closeModal} />
       )}
 
       {isModalOpen?.createRequester && (
-        <CreateRequester
-          isModalOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen({
-              filterOpen: false,
-              viewOpen: false,
-              deleteOpen: false,
-              convertToTicket: false,
-              createRequester: false,
-              data: null,
-            });
-            setEnquiriesSelected([]);
-          }}
-        />
+        <CreateRequester isModalOpen={isModalOpen} onClose={closeModal} />
       )}
     </>
   );
-}
+};
+export default Enquiries;
