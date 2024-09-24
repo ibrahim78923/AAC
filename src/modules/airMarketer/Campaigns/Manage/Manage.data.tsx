@@ -68,7 +68,7 @@ export const columns = (
   const isSelected = (id: any) => selectedRows?.indexOf(id) !== -1;
 
   const CAMNPAIGNS_ATTRIBUTES = {
-    campaignOwner: 'campaignOwner.name',
+    campaignOwner: 'userDetails.name',
     campaignGoal: 'campaignGoal',
     campaignAudience: 'campaignAudience',
     campaignbudget: 'campaignBudget',

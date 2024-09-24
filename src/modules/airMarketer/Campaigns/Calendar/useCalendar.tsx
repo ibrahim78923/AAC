@@ -15,7 +15,7 @@ import { AddPlusIcon } from '@/assets/icons';
 import { CALANDER_DATE_FORMAT, DATE_FORMAT, indexNumbers } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { getActiveProductSession } from '@/utils';
+import { capitalizeFirstLetters, getActiveProductSession } from '@/utils';
 
 const useCalendar = () => {
   const calendarRef = useRef<any>(null);
@@ -104,14 +104,19 @@ const useCalendar = () => {
   };
 
   const { data: getCampaignsById, isLoading: campaignDetailsLoading } =
-    useGetCampaignsByIdQuery(
-      { id: selectedEventData?.id },
-      { skip: !selectedEventData?.id },
-    );
-  const campaignDetails = getCampaignsById?.data;
+    useGetCampaignsByIdQuery(selectedEventData?.id, {
+      skip: !selectedEventData?.id,
+    });
+  const campaignDetails = getCampaignsById?.data[0];
 
   const campaignDetailsData = [
-    { 'Campaign Owner': campaignDetails?.owner ?? 'N/A' },
+    {
+      'Campaign Owner':
+        capitalizeFirstLetters(
+          `${campaignDetails?.campaignOwnerDetails[0]?.firstName} 
+        ${campaignDetails?.campaignOwnerDetails[0]?.lastName}`,
+        ) ?? 'N/A',
+    },
     { 'Campaign Goal': campaignDetails?.campaignGoal ?? 'N/A' },
     {
       'Campaign start date':
@@ -121,13 +126,25 @@ const useCalendar = () => {
       'Campaign end date':
         dayjs(campaignDetails?.endDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
-    { 'Campaign Notes': campaignDetails?.description ?? 'N/A' },
+    {
+      'Campaign Notes': campaignDetails?.description ? (
+        <Typography
+          color="blue.lighter"
+          dangerouslySetInnerHTML={{
+            __html: campaignDetails?.description,
+          }}
+        />
+      ) : (
+        'N/A'
+      ),
+    },
   ];
 
   const { data: getCampaignsTaskById, isLoading: campaignsTaskLoading } =
     useGetCampaignsTaskByIdQuery(selectedEventData?.id, {
       skip: !selectedEventData?.id,
     });
+
   const campaignsTaskDetails = getCampaignsTaskById?.data[0];
   const campaignTasksData = [
     { Type: campaignsTaskDetails?.taskType ?? 'N/A' },
@@ -135,8 +152,9 @@ const useCalendar = () => {
     {
       'Created by': {
         name:
-          `${campaignsTaskDetails?.createdBy[0]?.firstName} ${campaignsTaskDetails?.createdBy[0]?.lastName}` ??
-          'N/A',
+          capitalizeFirstLetters(
+            `${campaignsTaskDetails?.createdBy[0]?.firstName} ${campaignsTaskDetails?.createdBy[0]?.lastName}`,
+          ) ?? 'N/A',
         email: campaignsTaskDetails?.createdBy[0]?.email,
         avatar: campaignsTaskDetails?.createdBy[0]?.avatar?.url ?? 'N/A',
       },
@@ -144,9 +162,13 @@ const useCalendar = () => {
     {
       'Assigned to': {
         name:
-          `${campaignsTaskDetails?.assignedTo[0]?.firstName} ${campaignsTaskDetails?.assignedTo[0]?.lastName}` ??
-          'N/A',
-        email: campaignsTaskDetails?.assignedTo[0]?.email ?? 'N/A',
+          campaignsTaskDetails?.assignedTo?.length > 0
+            ? `${campaignsTaskDetails.assignedTo[0].firstName} ${campaignsTaskDetails.assignedTo[0].lastName}`
+            : 'N/A',
+        email:
+          campaignsTaskDetails?.assignedTo?.length > 0
+            ? campaignsTaskDetails.assignedTo[0].email
+            : 'N/A',
         // avatar: '',
       },
     },
@@ -154,7 +176,18 @@ const useCalendar = () => {
       'Due Date':
         dayjs(campaignsTaskDetails?.dueDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
-    { Notes: campaignsTaskDetails?.note ?? 'N/A' },
+    {
+      Notes: campaignsTaskDetails?.note ? (
+        <Typography
+          color="blue.lighter"
+          dangerouslySetInnerHTML={{
+            __html: campaignsTaskDetails?.note,
+          }}
+        />
+      ) : (
+        'N/A'
+      ),
+    },
   ];
 
   const [deleteTasks, { isLoading: deleteTaskLoading }] =
