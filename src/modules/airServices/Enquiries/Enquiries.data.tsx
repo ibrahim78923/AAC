@@ -180,7 +180,7 @@ export const getEnquiriesColumns = ({
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: { getValue: () => string }) => info?.getValue() ?? '-',
   },
   {
     accessorFn: (row: IEnquiry) => row?.phoneNumber,
@@ -194,7 +194,6 @@ export const getEnquiriesColumns = ({
     id: 'comments',
     isSortable: true,
     header: 'Comments',
-    // cell: (info) => truncateText(info?.getValue()),
     cell: (info: any) => <TruncateText text={info.getValue()} />,
   },
   {
