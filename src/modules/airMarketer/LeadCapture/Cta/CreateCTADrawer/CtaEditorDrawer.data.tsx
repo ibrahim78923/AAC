@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { BASE_URL } from '@/config';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { generateImage } from '@/utils/avatarUtils';
+import { convertObjectToCSS } from '@/utils/form-builder';
 
 export const DRAWER_TITLE = {
   create: 'Create',
@@ -343,15 +344,15 @@ export const buttonInfoData = [
   },
 ];
 
-function convertObjectToCSS(obj: any) {
-  return Object.entries(obj)
-    .map(([key, value]) => {
-      // Convert camelCase to kebab-case
-      const kebabKey = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-      return `${kebabKey}: ${value};`;
-    })
-    .join(' ');
-}
+// function convertObjectToCSS(obj: any) {
+//   return Object.entries(obj)
+//     .map(([key, value]) => {
+//       // Convert camelCase to kebab-case
+//       const kebabKey = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+//       return `${kebabKey}: ${value};`;
+//     })
+//     .join(' ');
+// }
 
 export const generateCtaIframe = (data: any) => {
   const endPoint = `${BASE_URL}${END_POINTS?.CTA_ADD_VIEW_CLICK_COUNT}`;

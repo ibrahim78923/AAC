@@ -19,25 +19,27 @@ export const dynamicallyFormDefaultValues = {
 
 export const dynamicallyFormArray = [];
 
+const colorRegEx = /^$|^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
 export const styleFormvalidationSchema = Yup?.object()?.shape({
-  width: Yup?.string(),
-  backgroundColor: Yup?.string(),
-  textColor: Yup?.string(),
-  cardColor: Yup?.string(),
-  buttonColor: Yup?.string(),
-  buttonTextColor: Yup?.string(),
-  font: Yup?.string(),
+  width: Yup?.string()?.matches(/^\d*$/, 'Width must be a number').nullable(),
+  bodyBgColor: Yup?.string()?.matches(colorRegEx, 'Invalid Color').nullable(),
+  bodyTextColor: Yup?.string()?.matches(colorRegEx, 'Invalid Color').nullable(),
+  buttonBgColor: Yup?.string()?.matches(colorRegEx, 'Invalid Color').nullable(),
+  buttonTextColor: Yup?.string()
+    ?.matches(colorRegEx, 'Invalid Color')
+    .nullable(),
+  bodyFontSize: Yup?.string(),
 });
 
-export const styleFormDefaultValues = {
-  width: '',
-  backgroundColor: '',
-  textColor: '',
-  cardColor: '',
-  buttonColor: '',
-  buttonTextColor: '',
-  font: '',
-};
+export const styleFormDefaultValues = (formStyling: any) => ({
+  width: formStyling?.body?.width?.replace('px', '') ?? null,
+  bodyBgColor: formStyling?.body?.backgroundColor ?? null,
+  bodyTextColor: formStyling?.body?.color ?? null,
+  buttonBgColor: formStyling?.button?.backgroundColor ?? null,
+  buttonTextColor: formStyling?.button?.color ?? '',
+  bodyFontSize: formStyling?.body?.fontSize?.replace('px', '') ?? null,
+});
 
 export const styleFormArray = [
   {
@@ -60,7 +62,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'backgroundColor',
+      name: 'bodyBgColor',
       label: 'Background Color',
       fullWidth: true,
     },
@@ -69,25 +71,26 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'textColor',
+      name: 'bodyTextColor',
       label: 'Text Color',
       fullWidth: true,
     },
     component: RHFTextField,
     md: 6,
   },
+
+  // {
+  //   componentProps: {
+  //     name: 'cardColor',
+  //     label: 'Card Color',
+  //     fullWidth: true,
+  //   },
+  //   component: RHFTextField,
+  //   md: 6,
+  // },
   {
     componentProps: {
-      name: 'cardColor',
-      label: 'Card Color',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'buttonColor',
+      name: 'buttonBgColor',
       label: 'Button Color',
       fullWidth: true,
     },
@@ -105,8 +108,8 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'font',
-      label: 'Font',
+      name: 'bodyFontSize',
+      label: 'Font Size',
       fullWidth: true,
       select: true,
     },

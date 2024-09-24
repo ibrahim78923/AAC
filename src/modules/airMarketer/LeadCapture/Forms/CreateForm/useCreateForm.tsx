@@ -27,11 +27,13 @@ const useCreateForm = () => {
   const [formName, setFormName] = useState('');
   const [formHtml, setFormHtml] = useState<string>('');
   const [fields, setFields] = useState<any>([]);
+  const [formStyling, setFormStyling] = useState<any>({});
   useEffect(() => {
     if (dataGetManageFieldById) {
       setFormName(dataGetManageFieldById?.data?.form?.name ?? '');
       const fields = dataGetManageFieldById?.data?.fields;
       setFields(fields);
+      setFormStyling(dataGetManageFieldById?.data?.form?.styling);
     }
   }, [dataGetManageFieldById]);
 
@@ -53,12 +55,9 @@ const useCreateForm = () => {
   const [postCreateForm] = usePostManageFieldsMutation();
   const [loadingDraft, setLoadingDraft] = useState(false);
   const [loadingPublished, setLoadingPublished] = useState(false);
+  const [createFormStyling, setCreateFormStyling] = useState({});
 
   const handlePostManageLeadForm = async (status: string) => {
-    // const newFields = fields.map((obj: any) => {
-    //   const { _id, formId, createdAt, updatedAt, ...rest } = obj;
-    //   return rest;
-    // });
     const newFields = fields?.map((obj: any) => {
       const newObj: any = {};
       for (const key in obj) {
@@ -79,6 +78,7 @@ const useCreateForm = () => {
       status: status,
       name: formName,
       values: newFields,
+      styling: createFormStyling,
     };
 
     try {
@@ -93,7 +93,12 @@ const useCreateForm = () => {
       });
       if (status === formStatus?.published) {
         if (response) {
-          setFormHtml(generateFormHtml(response?.data?.fields));
+          setFormHtml(
+            generateFormHtml(
+              response?.data?.fields,
+              response?.data?.form?.styling,
+            ),
+          );
           handleOpenAlertCreatedForm();
         }
       }
@@ -121,26 +126,58 @@ const useCreateForm = () => {
 
   // Styling Drawer
   const [isStylingDrawerOpen, setIsStylingDrawerOpen] = useState(false);
-  const [createFormStyling, setCreateFormStyling] = useState(null);
-  const styleFormMethods = useForm({
+  const methodsFormStyling = useForm<any>({
     resolver: yupResolver(styleFormvalidationSchema),
-    defaultValues: styleFormDefaultValues,
+    defaultValues: styleFormDefaultValues(formStyling),
   });
+  const { handleSubmit: handleMethodAddStyling, reset: resetStylingForm } =
+    methodsFormStyling;
+
   const handleOpenStylingDrawer = () => {
     setIsStylingDrawerOpen(true);
   };
   const handleCloseStylingDrawer = () => {
     setIsStylingDrawerOpen(false);
   };
-  const { handleSubmit: handleMethodAddStyling, reset: resetStylingForm } =
-    styleFormMethods;
+
   const onSubmitStylingForm = async (values: any) => {
-    if (values) {
-      setCreateFormStyling(values);
-    }
+    const body: any = {};
+    const button: any = {};
+
+    const keyMap: { [key: string]: (value: any) => void } = {
+      width: (value) => {
+        body.width = value + 'px';
+      },
+      bodyBgColor: (value) => {
+        body.backgroundColor = value;
+      },
+      bodyTextColor: (value) => {
+        body.color = value;
+      },
+      bodyFontSize: (value) => {
+        body.fontSize = value + 'px';
+      },
+      buttonBgColor: (value) => {
+        button.backgroundColor = value;
+      },
+      buttonTextColor: (value) => {
+        button.color = value;
+      },
+    };
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (value !== '' && keyMap[key]) {
+        keyMap[key](value);
+      }
+    });
+
+    setCreateFormStyling({ body, button });
     handleCloseStylingDrawer();
   };
   const handleStylingSubmit = handleMethodAddStyling(onSubmitStylingForm);
+  useEffect(() => {
+    resetStylingForm(styleFormDefaultValues(formStyling));
+  }, [formStyling]);
 
   return {
     theme,
@@ -159,7 +196,7 @@ const useCreateForm = () => {
     isStylingDrawerOpen,
     handleOpenStylingDrawer,
     handleCloseStylingDrawer,
-    styleFormMethods,
+    methodsFormStyling,
     handleStylingSubmit,
     resetStylingForm,
     createFormStyling,

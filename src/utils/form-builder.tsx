@@ -1,6 +1,20 @@
 import { fieldTypes } from '@/constants/form-builder';
 
-export const generateFormHtml = (fields: []) => {
+export function convertObjectToCSS(obj: any) {
+  if (obj === null || typeof obj !== 'object') {
+    return '';
+  }
+
+  return Object.entries(obj)
+    .map(([key, value]) => {
+      // Convert camelCase to kebab-case
+      const kebabKey = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      return `${kebabKey}: ${value};`;
+    })
+    .join(' ');
+}
+
+export const generateFormHtml = (fields: [], styling: any = {}) => {
   const html = `
     <form method="get">
       ${fields
@@ -79,7 +93,7 @@ export const generateFormHtml = (fields: []) => {
             case fieldTypes?.button:
               return `
               <div class="field-group">
-                <button type="${field?.buttonType}">Submit</button>
+                <button class="button-submit" type="${field?.buttonType}">Submit</button>
               </div>
             `;
             default:
@@ -89,6 +103,9 @@ export const generateFormHtml = (fields: []) => {
         .join('')}
     </form>
   `;
+
+  const bodyCssString = convertObjectToCSS(styling?.body);
+  const buttonCssString = convertObjectToCSS(styling?.button);
 
   const htmlDocument = `
   <!DOCTYPE html>
@@ -101,8 +118,11 @@ export const generateFormHtml = (fields: []) => {
         body {
           font-family: system-ui, -apple-system, Arial, sans-serif;
           margin: 0;
-          padding: 0;
+          padding: 8px;
           background-color: transparent;
+          box-sizing: border-box;
+          ${bodyCssString}
+          width: 100%;
         }
         .field-group {
           margin-bottom: 20px;
@@ -131,6 +151,15 @@ export const generateFormHtml = (fields: []) => {
           transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
           box-sizing: border-box;
         }
+        .button-submit {
+          border: 1px solid ${styling?.button?.backgroundColor};
+          border-radius: 4px;
+          padding: 6px 20px;
+          -webkit-appearance: button;
+          outline: 0;
+          cursor: pointer;
+          ${buttonCssString}
+        }
       </style>
     </head>
     <body>
@@ -149,7 +178,9 @@ export const generateFormHtml = (fields: []) => {
   const iframeSrc = `data:text/html;charset=utf-8,${encodedHtml}`;
 
   const iframe = `<iframe
-    style="border: none; width: 100%; height: 500px"
+    style="border: none; width: ${
+      styling?.body?.width ?? '100%'
+    }; height: 500px"
     src="${iframeSrc}"
   />`;
 

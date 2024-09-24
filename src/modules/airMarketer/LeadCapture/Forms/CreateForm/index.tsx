@@ -39,7 +39,7 @@ const CreateForm = () => {
     isStylingDrawerOpen,
     handleOpenStylingDrawer,
     handleCloseStylingDrawer,
-    styleFormMethods,
+    methodsFormStyling,
     handleStylingSubmit,
     openAlertCreatedForm,
     handleCloseAlertCreatedForm,
@@ -155,7 +155,7 @@ const CreateForm = () => {
         submitHandler={handleStylingSubmit}
       >
         <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={styleFormMethods}>
+          <FormProvider methods={methodsFormStyling}>
             <Grid container spacing={4}>
               {styleFormArray?.map((item: any) => (
                 <Grid

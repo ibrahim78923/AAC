@@ -31,7 +31,12 @@ const useViewDetails = () => {
 
   useEffect(() => {
     if (dataGetFormById) {
-      setHtmlTemplate(generateFormHtml(dataGetFormById?.data?.fields));
+      setHtmlTemplate(
+        generateFormHtml(
+          dataGetFormById?.data?.fields,
+          dataGetFormById?.data?.form?.styling,
+        ),
+      );
     }
   }, [dataGetFormById]);
 
