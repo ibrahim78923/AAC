@@ -1,5 +1,5 @@
 import { NextRouter } from 'next/router';
-import { Box, Checkbox, Chip, LinearProgress, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, LinearProgress, Theme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
@@ -8,6 +8,7 @@ import { AIR_SERVICES, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { TruncateText } from '@/components/TruncateText';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -33,10 +34,6 @@ const statusTextColor = (status: string) => {
 const surveyType: { [key: string]: string } = {
   customerSupport: 'Customer Support',
   customerSatisfaction: 'Customer Satisfaction',
-};
-export const surveyDataTypes = {
-  draft: 'draft',
-  customerSatisfaction: 'customer-satisfaction',
 };
 export const customerSupportListColumn = (
   activeCheck: FeedbackSurveyListI[],
@@ -113,15 +110,7 @@ export const customerSupportListColumn = (
             }
           />
           &nbsp;&nbsp;&nbsp;
-          <Typography
-            variant="body2"
-            textTransform={'capitalize'}
-            color="primary"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleTitleClick(info?.row?.original)}
-          >
-            {info?.getValue()?.toLowerCase() ?? '---'}
-          </Typography>
+          <TruncateText text={info?.getValue()} />
         </Box>
       ),
     },
@@ -246,3 +235,22 @@ export const feedbackDropdown = (
   }
   return dropdownData;
 };
+export const surveyEmailHtml = ({
+  sessionData,
+  theme,
+  magicLink,
+  surveyTitle,
+}: {
+  theme: Theme;
+  magicLink?: string;
+  surveyTitle: string;
+  sessionData: { user: { organization: { name: string } } };
+}) =>
+  `<p><b>Dear Valued Contributor,</b></p>
+<p>I hope this message finds you well. We would like to invite you to participate in an anonymous survey for the ${surveyTitle}.</p>
+<p>The purpose of this survey is to help our management team better understand your work experience. Your participation is completely private, and your answers will remain confidential.</p>
+<p>To fill out the survey, please visit the following link:<br>
+<a href="${magicLink}" style="text-decoration: underline; color: ${theme?.palette?.blue?.link_blue}" target="_blank">${surveyTitle}</a></p><br/>
+<p>Thank you in advance for your valuable feedback.</p><br/>
+<p>Regards,<br/><br><b>${sessionData?.user?.organization?.name}</b></p>
+`;

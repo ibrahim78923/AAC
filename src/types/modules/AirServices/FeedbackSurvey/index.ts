@@ -74,6 +74,7 @@ export interface FeedbackSurveyListI {
   surveyType: string;
   createdAt: string;
   magicLink?: string;
+  satisfactionSurveyLinkType?: string;
 }
 export interface FeedbackResponsesAnalysisI {
   answers: { percentage: number; text: string }[];

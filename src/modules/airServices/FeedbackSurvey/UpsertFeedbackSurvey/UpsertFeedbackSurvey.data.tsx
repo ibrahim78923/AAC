@@ -141,8 +141,8 @@ export const feedbackSurveyValidationSchema: any = (
   router: NextRouter,
 ) =>
   Yup?.object()?.shape({
-    surveyTitle: Yup?.string()?.required('Required'),
-    description: Yup?.string()?.required('Required'),
+    surveyTitle: Yup?.string()?.max(30)?.required('Required'),
+    description: Yup?.string()?.max(1000)?.required('Required'),
     surveyDuration: Yup?.date()?.nullable(),
     customerSupportLinkType: Yup?.string(),
     sendSurveyPeople: Yup?.array()?.when('customerSupportLinkType', {

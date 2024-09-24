@@ -155,10 +155,10 @@ export const downloadFiles = async (
         link.click();
         document.body.removeChild(link);
       } else {
-        console.error(`Failed to fetch ${url}`);
+        errorSnackbar(`Failed to fetch ${url}`);
       }
     } catch (error) {
-      console.error(`Error downloading ${url}: `, error);
+      errorSnackbar(`Error downloading ${url}: ${error}`);
     }
   }
 };

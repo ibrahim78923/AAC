@@ -1102,6 +1102,12 @@ export const FEEDBACK_SURVEY_PATH_TYPES = {
   CUSTOMER_SUPPORT: 'customer-support',
 };
 
+export const FEEDBACK_SURVEY_LINK_TYPES = {
+  TO_ALL_AGENTS: 'toAllAgents',
+  AFTER_TICKET_CLOSE: 'afterTicketClosed',
+  AFTER_TICKET_RESOLVED: 'afterTicketResolved',
+};
+
 export const PLAN_STATUS = {
   YES: 'Yes',
   NO: 'No',

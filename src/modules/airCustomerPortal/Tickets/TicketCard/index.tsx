@@ -5,6 +5,7 @@ import { NextRouter, useRouter } from 'next/router';
 import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { TICKET_TYPE } from '@/constants/strings';
 import { TicketCardPropsI } from './TicketCard.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const TicketsCard = (props: TicketCardPropsI) => {
   const { ticket } = props;
@@ -38,7 +39,11 @@ export const TicketsCard = (props: TicketCardPropsI) => {
     >
       <Box>
         <Typography fontWeight={600} variant="body2" color={'blue.main'}>
-          {ticket?.subject}
+          <TruncateText
+            text={ticket?.subject}
+            size={50}
+            customTooltipProps={{ placement: 'right' }}
+          />
         </Typography>
         <Box
           display={'flex'}

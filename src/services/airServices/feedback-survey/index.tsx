@@ -129,6 +129,16 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
+    getAllAgentsForFeedback: builder?.query({
+      query: () => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.map((item: any) => item?.email);
+      },
+      providesTags: [TAG_ONE],
+    }),
   }),
 });
 
@@ -148,4 +158,5 @@ export const {
   usePatchDefaultSurveyMutation,
   useLazyAllUserDropdownQuery,
   usePostSurveyEmailMutation,
+  useGetAllAgentsForFeedbackQuery,
 } = feedbackSurvey;

@@ -110,10 +110,11 @@ export const useCustomerSupportList = (props: { status?: string }) => {
         },
       });
     } else if (
-      getActivePermissionsSession()?.includes(
+      (getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE,
       ) &&
-      surveyData?.status === FEEDBACK_STATUS?.PUBLISHED
+        surveyData?.status === FEEDBACK_STATUS?.PUBLISHED) ||
+      surveyData?.status === FEEDBACK_STATUS?.EXPIRED
     ) {
       return router?.push({
         pathname: AIR_SERVICES?.FEEDBACK_SURVEY_RESPONSES,

@@ -35,7 +35,7 @@ export const Tickets = () => {
       <PageTitledHeader title={'All Tickets'}>
         <PublicSingleDropdownButton
           dropdownOptions={allTicketsDropdown}
-          dropdownName={ticketStatus}
+          dropdownName={ticketStatus?.split('_')?.join(' ')?.toLowerCase()}
           sx={(theme: Theme) => ({
             borderColor:
               portalStyles?.btnSecondary ||

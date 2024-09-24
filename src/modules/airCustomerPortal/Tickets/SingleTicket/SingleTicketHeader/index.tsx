@@ -64,6 +64,11 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
                   customizePortalDefaultValues(theme)?.btnPrimary,
                 color: 'common.white',
               },
+              '&.Mui-disabled': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+              },
             })}
           >
             Mark ticket as closed

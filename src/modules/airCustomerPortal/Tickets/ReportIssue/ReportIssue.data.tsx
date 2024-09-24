@@ -18,7 +18,7 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
       : Yup?.string()?.email()?.required('Required'),
     requesterName: !!checkPermission
       ? Yup?.string()
-      : Yup?.string()?.trim()?.required('Required'),
+      : Yup?.string()?.max(30)?.trim()?.required('Required'),
     requester: Yup?.mixed()
       ?.nullable()
       ?.when('requesterEmail', {
@@ -26,8 +26,8 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
         then: (schema: any) => schema?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),
-    subject: Yup?.string()?.trim()?.required('Required'),
-    description: Yup?.string()?.trim()?.required('Required'),
+    subject: Yup?.string()?.max(100)?.trim()?.required('Required'),
+    description: Yup?.string()?.max(1000)?.trim()?.required('Required'),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
   });

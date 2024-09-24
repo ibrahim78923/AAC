@@ -2,30 +2,36 @@ import { PAGINATION } from '@/config';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_LINK_TYPES,
+  FEEDBACK_SURVEY_PATH_TYPES,
   FEEDBACK_SURVEY_TYPES,
 } from '@/constants/strings';
 import {
   useDeleteFeedbackSurveyMutation,
+  useGetAllAgentsForFeedbackQuery,
   useLazyGetFeedbackListQuery,
   usePatchChangeSurveyStatusMutation,
   usePatchDefaultSurveyMutation,
   usePostCloneFeedbackSurveyMutation,
+  usePostSurveyEmailMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import {
   feedbackDropdown,
-  surveyDataTypes,
+  surveyEmailHtml,
 } from './CustomerSatisfactionList.data';
-import { getActivePermissionsSession } from '@/utils';
+import { getActivePermissionsSession, getSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { useTheme } from '@mui/material';
 
 export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const { status } = props;
   const router = useRouter();
+  const theme = useTheme();
   const [activeCheck, setActiveCheck] = useState<FeedbackSurveyListI[]>([]);
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
@@ -34,6 +40,7 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const [defaultLoading, setDefaultLoading] = useState<{
     [key: string]: boolean;
   }>({});
+  const sessionData: any = getSession();
   const [getFeedbackList, { data, isLoading, isFetching, isError, isSuccess }] =
     useLazyGetFeedbackListQuery();
   const [deleteSurveyTrigger, { isLoading: deleteLoading }] =
@@ -44,6 +51,11 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
     usePatchDefaultSurveyMutation();
   const [patchChangeSurveyStatusTrigger, { isLoading: statusLoading }] =
     usePatchChangeSurveyStatusMutation();
+  const [postSurveyEmailTrigger] = usePostSurveyEmailMutation();
+  const { data: allAgentEmailData } = useGetAllAgentsForFeedbackQuery(
+    {},
+    { refetchOnMountOrArgChange: true },
+  );
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item) => deleteParams?.append('ids', item?._id));
@@ -85,12 +97,12 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
       getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
       ) &&
-      surveyData?.status === surveyDataTypes?.draft
+      surveyData?.status === FEEDBACK_STATUS?.DRAFT
     ) {
       return router?.push({
         pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
         query: {
-          type: surveyDataTypes?.customerSatisfaction,
+          type: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SATISFACTION,
           id: surveyData?._id,
         },
       });
@@ -98,7 +110,7 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
       getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE,
       ) &&
-      surveyData?.status !== surveyDataTypes?.draft
+      surveyData?.status !== FEEDBACK_STATUS?.DRAFT
     ) {
       return router?.push({
         pathname: AIR_SERVICES?.FEEDBACK_SURVEY_RESPONSES,
@@ -112,14 +124,35 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const handleDefaultSurvey = async (surveyValues: FeedbackSurveyListI) => {
     setDefaultLoading({ [surveyValues?._id]: true });
     const patchParams = { id: surveyValues?._id };
-    const response: any = await patchDefaultSurveyTrigger(patchParams);
-    if (response?.data?.message) {
+    try {
+      await patchDefaultSurveyTrigger(patchParams)?.unwrap();
       successSnackbar(
         `${surveyValues?.surveyTitle} set as default successfully`,
       );
       setDefaultLoading({});
-    } else {
-      errorSnackbar(response?.error?.data?.message);
+      if (
+        surveyValues?.satisfactionSurveyLinkType ===
+        FEEDBACK_SURVEY_LINK_TYPES?.TO_ALL_AGENTS
+      ) {
+        const emailParams = new FormData();
+        emailParams?.append('recipients', allAgentEmailData);
+        emailParams?.append(
+          'subject',
+          `Invitation to Participate in ${surveyValues?.surveyTitle} Survey`,
+        );
+        emailParams?.append(
+          'html',
+          surveyEmailHtml({
+            sessionData,
+            theme,
+            magicLink: surveyValues?.magicLink,
+            surveyTitle: surveyValues?.surveyTitle,
+          }),
+        );
+        await postSurveyEmailTrigger(emailParams)?.unwrap();
+      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       setDefaultLoading({});
     }
   };
