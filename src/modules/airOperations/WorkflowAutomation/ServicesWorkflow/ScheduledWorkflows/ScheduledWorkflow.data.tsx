@@ -1,16 +1,11 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box, Checkbox, Chip, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import {
   GENERIC_UPSERT_FORM_CONSTANT,
   REQUESTORS_STATUS,
@@ -19,6 +14,8 @@ import {
 import { DATE_TIME_FORMAT } from '@/constants';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 export const ScheduleWorkflowActionsDropdown = (
   handleActionClick: (type: string) => void,
@@ -121,8 +118,12 @@ export const listsColumnsFunction = (
     header: 'Workflow Name',
     cell: (info: any) => (
       <Box display={'flex'} gap={0.3}>
-        <Typography variant="body2" textTransform={'capitalize'}>
-          {truncateText(info?.getValue()?.toLowerCase())}
+        <Typography
+          variant="body2"
+          textTransform={'capitalize'}
+          component={'span'}
+        >
+          <TruncateText text={info?.getValue()?.toLowerCase()} />
         </Typography>
         {info?.row?.original?.status ===
           GENERIC_UPSERT_FORM_CONSTANT?.DRAFT && (
@@ -172,25 +173,17 @@ export const listsColumnsFunction = (
     isSortable: false,
     header: 'Created By',
     cell: (info: any) => (
-      <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.createdBy?.avatar?.url)}
-        >
-          <Typography variant="body3" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.row?.original?.createdBy?.firstName,
-              info?.row?.original?.createdBy?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
-          {fullName(
-            info?.row?.original?.createdBy?.firstName,
-            info?.row?.original?.createdBy?.lastName,
-          )}
-        </Typography>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(
+          info?.row?.original?.createdBy?.firstName,
+          info?.row?.original?.createdBy?.lastName,
+        )}
+        name={fullName(
+          info?.row?.original?.createdBy?.firstName,
+          info?.row?.original?.createdBy?.lastName,
+        )}
+        avatarSrc={info?.row?.original?.createdBy?.avatar?.url}
+      />
     ),
   },
   {
@@ -212,13 +205,12 @@ export const listsColumnsFunction = (
         : '';
       const typeText = capitalizedType ? capitalizedType + ' by' + ' ' : null;
       return (
-        <Typography variant="body2">
-          {typeText}
-          {fullName(
+        <TruncateText
+          text={`${typeText} ${fullName(
             info?.getValue()?.user?.firstName,
             info?.getValue()?.user?.lastName,
-          )}
-        </Typography>
+          )}`}
+        />
       );
     },
   },

@@ -262,12 +262,16 @@ export const useUpsertContract = () => {
         postContractForm?.append('notifyBefore', data?.notifyBefore);
       !!data?.notifyExpiry &&
         postContractForm?.append('notifyTo', data?.notifyTo?._id);
-      postContractForm?.append('software', data?.software?._id);
-      postContractForm?.append('itemsDetail', JSON.stringify(data?.itemDetail));
-      postContractForm?.append('billingCycle', data?.billingCycle?._id);
-      postContractForm?.append('licenseType', data?.licenseType?._id);
-      postContractForm?.append('licenseKey', data?.licenseKey);
-
+      if (data?.software?._id) {
+        postContractForm?.append('software', data?.software?._id);
+        postContractForm?.append(
+          'itemsDetail',
+          JSON.stringify(data?.itemDetail),
+        );
+        postContractForm?.append('billingCycle', data?.billingCycle?._id);
+        postContractForm?.append('licenseType', data?.licenseType?._id);
+        postContractForm?.append('licenseKey', data?.licenseKey);
+      }
       data?.approver !== null &&
         postContractForm?.append('approver', data?.approver?._id);
       data?.associateAssets !== null &&

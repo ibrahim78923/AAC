@@ -20,6 +20,7 @@ const TimeSlotsHeader = (props: any) => {
       </PermissionsGuard>
       <Button
         variant="contained"
+        className="small"
         startIcon={
           timeSlotsData?.length ? (
             <PlusSharedColorIcon />
