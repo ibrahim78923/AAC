@@ -141,7 +141,14 @@ const useNewPurchaseOrders = () => {
         body.customFields = customFields;
       }
 
-      const { location, vendor, department, purchaseDetails, ...rest } = body;
+      const {
+        location,
+        vendor,
+        department,
+        purchaseDetails,
+        expectedDeliveryDate,
+        ...rest
+      } = body;
       const taxRate = rest?.taxRatio;
       delete rest?.taxRatio;
 
@@ -153,6 +160,8 @@ const useNewPurchaseOrders = () => {
           vendorId: vendor?._id,
           departmentId: department?._id,
           status: PURCHASE_ORDER_STATUS?.OPEN,
+          currency: 'Pound',
+          expectedDeliveryDate: isoDateString(expectedDeliveryDate),
           purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
             const name = purchaseDetail?.itemName?._id;
             delete purchaseDetail?.itemName;

@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 import {
-  RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
   RHFTextField,
@@ -12,24 +11,29 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-
-export const currencyOptions = ['Pound', 'Dollar'];
+import { localeDateTime } from '@/utils/dateTime';
 
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
   description: yup?.string()?.trim()?.required('Description is required'),
   quantity: yup
     ?.number()
+    ?.nullable()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Quantity is required'),
   costPerItem: yup
     ?.number()
+    ?.nullable()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Cost is required'),
   taxRate: yup
     ?.number()
+    ?.nullable()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Tax is required'),
   total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
 });
 
@@ -40,7 +44,6 @@ export const validationSchema: any = (form: any) => {
     orderName: yup?.string()?.required('Order Name is Required'),
     orderNumber: yup?.string()?.required('Order Number is Required'),
     vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
-    currency: yup?.mixed()?.nullable()?.required('Currency is Required'),
     department: yup?.mixed()?.nullable(),
     expectedDeliveryDate: yup
       ?.date()
@@ -65,10 +68,9 @@ export const defaultValues = (data?: any, form?: any) => {
     orderName: data?.orderName ?? '',
     orderNumber: data?.orderNumber ?? '',
     vendor: data?.vendorDetails ?? null,
-    currency: data?.currency ?? null,
     department: data?.departmentDetails ?? null,
     expectedDeliveryDate: data?.expectedDeliveryDate
-      ? new Date(data?.expectedDeliveryDate)
+      ? localeDateTime(data?.expectedDeliveryDate)
       : null,
     location: data?.locationDetails ?? null,
     termAndCondition: data?.termAndCondition ?? '',
@@ -91,10 +93,10 @@ export const defaultValues = (data?: any, form?: any) => {
           {
             itemName: null,
             description: '',
-            quantity: '0',
-            costPerItem: '0',
-            taxRate: '0',
-            total: '0',
+            quantity: null,
+            costPerItem: null,
+            taxRate: null,
+            total: null,
           },
         ],
     ...initialValues,
@@ -163,19 +165,6 @@ export const newPurchaseFieldsFunction = (
     },
   },
   {
-    id: 4,
-    component: RHFAutocomplete,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'currency',
-      label: 'Currency',
-      options: currencyOptions,
-      required: true,
-      placeholder: 'Select Currency',
-    },
-  },
-  {
     id: 5,
     componentProps: {
       fullWidth: true,
@@ -233,7 +222,7 @@ export const itemsDetailsList = [
   { label: 'Cost Per Item', value: 'costPerItem' },
   { label: 'Quantity', value: 'quantity' },
   { label: 'Tax Rate(%)', value: 'taxRate' },
-  { label: 'Total()', value: 'total' },
+  { label: 'Total(£)', value: 'total' },
 ];
 
 export const itemsDetailsSubList = ['itemName', 'description', 'total'];

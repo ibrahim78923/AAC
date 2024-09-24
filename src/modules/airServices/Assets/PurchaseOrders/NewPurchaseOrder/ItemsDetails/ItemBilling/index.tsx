@@ -45,6 +45,7 @@ const ItemBilling = ({ watch }: any) => {
           <Grid
             key={item?.name}
             container
+            item
             xs={12}
             sm={6}
             md={5}

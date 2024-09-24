@@ -37,6 +37,7 @@ export const PurchaseOrderHeader = (props: any) => {
           color="secondary"
           disabled={deleteButtonDisabled}
           onClick={() => onDeleteClick?.()}
+          className={'small'}
         >
           Delete
         </Button>
@@ -65,6 +66,7 @@ export const PurchaseOrderHeader = (props: any) => {
             size="large"
             startIcon={<FilterIcon />}
             color="secondary"
+            className={'small'}
           >
             Filter
           </Button>
