@@ -22,6 +22,7 @@ const {
   resetTotalCountLoadingReducer,
   setTotalCountReducer,
   setTeamListsTotalRecordsReducer,
+  resetComponentStateReducers,
 } = operationsTeamReducersList;
 
 const operationsTeamInitialState = {
@@ -30,8 +31,8 @@ const operationsTeamInitialState = {
   search: '',
   selectedTeamLists: [],
   isPortalOpen: isPortalOpenInitialState,
-  totalRecords: 0,
-  totalCount: 0,
+  totalRecords: PAGINATION?.TOTAL_RECORDS,
+  totalCount: PAGINATION?.TOTAL_RECORDS,
   isTotalCountLoading: true,
 };
 
@@ -52,6 +53,7 @@ const operationsTeamSlice = createSlice({
     resetTotalCountLoading: resetTotalCountLoadingReducer,
     setTotalCount: setTotalCountReducer,
     setTeamListsTotalRecords: setTeamListsTotalRecordsReducer,
+    resetComponentState: resetComponentStateReducers,
   },
 });
 
@@ -69,6 +71,7 @@ export const {
   resetTotalCountLoading,
   setTotalCount,
   setTeamListsTotalRecords,
+  resetComponentState,
 } = operationsTeamSlice?.actions;
 
 export default operationsTeamSlice?.reducer;

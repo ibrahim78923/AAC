@@ -52,6 +52,17 @@ const setTotalCountReducer = (state: any, action: any) => {
   state.totalCount = action?.payload;
 };
 
+const resetComponentStateReducers = (state: any) => {
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.pageLimit = PAGINATION?.PAGE_LIMIT;
+  state.search = '';
+  state.selectedRelatedTicketLists = [];
+  state.isPortalOpen = isPortalOpenInitialState;
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
+  state.totalCount = PAGINATION?.TOTAL_RECORDS;
+  state.isTotalCountLoading = true;
+};
+
 export const servicesRelatedTicketsReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -65,4 +76,5 @@ export const servicesRelatedTicketsReducersList = {
   setTotalCountLoadingReducer,
   resetTotalCountLoadingReducer,
   setTotalCountReducer,
+  resetComponentStateReducers,
 };

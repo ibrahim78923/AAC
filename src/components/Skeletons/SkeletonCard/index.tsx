@@ -1,3 +1,4 @@
+import { FLEX_DIRECTION } from '@/constants/style';
 import { Box, Grid, Skeleton } from '@mui/material';
 
 export const SkeletonCard = (props: any) => {
@@ -8,7 +9,7 @@ export const SkeletonCard = (props: any) => {
     hasThirdSkeleton = true,
     flexDirection = 'row',
     gridSize,
-    circularSkeletionSize,
+    circularSkeletonSize,
   } = props;
 
   return (
@@ -32,11 +33,11 @@ export const SkeletonCard = (props: any) => {
                 animation="wave"
                 variant={'circular'}
                 width={
-                  flexDirection === 'column'
-                    ? circularSkeletionSize?.width ?? 50
-                    : circularSkeletionSize?.width ?? 100
+                  flexDirection === FLEX_DIRECTION?.COLUMN
+                    ? circularSkeletonSize?.width ?? 50
+                    : circularSkeletonSize?.width ?? 100
                 }
-                height={circularSkeletionSize?.height ?? 50}
+                height={circularSkeletonSize?.height ?? 50}
                 sx={{
                   bgcolor: 'grey.300',
                   border: '1px solid',

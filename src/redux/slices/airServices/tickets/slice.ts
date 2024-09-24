@@ -23,6 +23,7 @@ const {
   resetTimeReducer,
   resetInternalRefReducer,
   setInternalRefReducer,
+  resetComponentStateReducers,
 } = servicesTicketsReducersList;
 
 export const initialTime = {
@@ -50,7 +51,7 @@ const servicesTicketsInitialState: any = {
   filterTicketLists: {},
   isPortalOpen: {},
   ticketsListsActiveColumn: ticketsListInitialColumns,
-  totalRecords: 0,
+  totalRecords: PAGINATION?.TOTAL_RECORDS,
   isTimerPause: true,
   time: initialTime,
   timerId: '',
@@ -80,6 +81,7 @@ const servicesTicketsSlice = createSlice({
     resetTime: resetTimeReducer,
     resetInternalRef: resetInternalRefReducer,
     setInternalRef: setInternalRefReducer,
+    resetComponentState: resetComponentStateReducers,
   },
 });
 
@@ -103,6 +105,7 @@ export const {
   resetTime,
   resetInternalRef,
   setInternalRef,
+  resetComponentState,
 } = servicesTicketsSlice?.actions;
 
 export default servicesTicketsSlice?.reducer;

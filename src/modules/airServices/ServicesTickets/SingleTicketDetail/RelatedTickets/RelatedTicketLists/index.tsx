@@ -1,3 +1,4 @@
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 import { useRelatedTicketsLists } from './useRelatedTicketLists';
 import TanstackTable from '@/components/Table/TanstackTable';
 
@@ -19,7 +20,10 @@ export const RelatedTicketsList = () => {
     decrement,
     handlePageChange,
     refetch,
+    isApiCalled,
   } = useRelatedTicketsLists();
+
+  if (isApiCalled) return <SkeletonTanStackTable />;
 
   return (
     <>
@@ -42,8 +46,8 @@ export const RelatedTicketsList = () => {
           canRefresh: true,
           refresh: refetch,
         }}
-        incrementPageClick={() => increment?.()}
-        decrementPageClick={() => decrement?.()}
+        incrementPageClick={increment}
+        decrementPageClick={decrement}
       />
     </>
   );

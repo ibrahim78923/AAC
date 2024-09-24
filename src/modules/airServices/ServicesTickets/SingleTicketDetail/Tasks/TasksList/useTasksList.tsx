@@ -72,6 +72,9 @@ export const useTasksList = () => {
     theme,
   );
 
+  const isApiCalled =
+    !lazyGetTicketsTasksStatus?.data && !lazyGetTicketsTasksStatus?.error;
+
   return {
     ticketsTasksListsColumns,
     isLoading,
@@ -87,5 +90,6 @@ export const useTasksList = () => {
     handlePageChange,
     refetch,
     lazyGetTicketsTasksStatus,
+    isApiCalled,
   };
 };

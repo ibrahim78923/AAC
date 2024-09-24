@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { initialTime, ticketsListInitialColumns } from './slice';
 
 const setPageReducer = (state: any, action: any) => {
@@ -79,6 +80,17 @@ const setInternalRefReducer = (state: any, action: any) => {
   state.intervalRef = action?.payload;
 };
 
+const resetComponentStateReducers = (state: any) => {
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.pageLimit = PAGINATION?.PAGE_LIMIT;
+  state.search = '';
+  state.filterTicketLists = {};
+  state.selectedTicketLists = [];
+  state.ticketsListsActiveColumn = ticketsListInitialColumns;
+  state.isPortalOpen = {};
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
+};
+
 export const servicesTicketsReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -99,4 +111,5 @@ export const servicesTicketsReducersList = {
   resetTimeReducer,
   resetInternalRefReducer,
   setInternalRefReducer,
+  resetComponentStateReducers,
 };

@@ -67,6 +67,18 @@ const resetIsSwitchDisabledReducer = (state: any) => {
   state.isSwitchDisabled = isSwitchDisabledInitialState;
 };
 
+const resetComponentStateReducers = (state: any) => {
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.pageLimit = PAGINATION?.PAGE_LIMIT;
+  state.search = '';
+  state.selectedUsersLists = [];
+  state.isPortalOpen = isPortalOpenInitialState;
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
+  state.totalCount = PAGINATION?.TOTAL_RECORDS;
+  state.isTotalCountLoading = true;
+  state.isSwitchDisabled = isSwitchDisabledInitialState;
+};
+
 export const operationsUsersReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -83,4 +95,5 @@ export const operationsUsersReducersList = {
   setUsersListsTotalRecordsReducer,
   setIsSwitchDisabledReducer,
   resetIsSwitchDisabledReducer,
+  resetComponentStateReducers,
 };

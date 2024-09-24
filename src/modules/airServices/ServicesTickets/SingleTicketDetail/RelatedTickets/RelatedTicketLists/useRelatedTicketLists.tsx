@@ -68,6 +68,8 @@ export const useRelatedTicketsLists = () => {
     router,
     overallPermissions,
   );
+  const isApiCalled =
+    !lazyGetChildTicketsStatus?.data && !lazyGetChildTicketsStatus?.error;
 
   return {
     relatedTicketsListsColumn,
@@ -88,5 +90,6 @@ export const useRelatedTicketsLists = () => {
     decrement,
     handlePageChange,
     refetch,
+    isApiCalled,
   };
 };

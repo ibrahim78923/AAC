@@ -5,8 +5,18 @@ import { SingleFolderDetail } from '../Folder/SingleFolderDetail';
 import { Folder } from '../Folder';
 import { Header } from './Header';
 import { ArticlesLists } from './ArticlesList';
+import { resetComponentState } from '@/redux/slices/airServices/knowledge-base/slice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '@/redux/store';
 
 export const Articles = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(resetComponentState());
+    };
+  }, []);
+
   return (
     <>
       <Grid container spacing={2}>

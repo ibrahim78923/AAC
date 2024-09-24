@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { isPortalOpenInitialState } from './slice';
+import { isPortalOpenInitialState, selectedFolderInitialState } from './slice';
 
 const setPageReducer = (state: any, action: any) => {
   state.page = action?.payload;
@@ -72,6 +72,20 @@ const hasSingleArticleApiErrorReducer = (state: any, action: any) => {
   state.singleArticleApiError = action?.payload;
 };
 
+const resetComponentStateReducers = (state: any) => {
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.pageLimit = PAGINATION?.PAGE_LIMIT;
+  state.search = '';
+  state.filterArticlesList = {};
+  state.selectedArticlesList = [];
+  state.isPortalOpen = isPortalOpenInitialState;
+  state.selectedFolder = selectedFolderInitialState;
+  state.IsSelectedFolderChange = false;
+  state.canDisableFolderSelection = false;
+  state.singleArticleApiError = false;
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
+};
+
 export const servicesKnowledgeBaseReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -89,4 +103,5 @@ export const servicesKnowledgeBaseReducersList = {
   canDisableFolderSelectionsReducer,
   refetchArticlesListReducer,
   hasSingleArticleApiErrorReducer,
+  resetComponentStateReducers,
 };

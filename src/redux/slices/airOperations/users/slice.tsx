@@ -29,6 +29,7 @@ const {
   setUsersListsTotalRecordsReducer,
   setIsSwitchDisabledReducer,
   resetIsSwitchDisabledReducer,
+  resetComponentStateReducers,
 } = operationsUsersReducersList;
 
 const operationsUsersInitialState = {
@@ -37,8 +38,8 @@ const operationsUsersInitialState = {
   search: '',
   selectedUsersLists: [],
   isPortalOpen: isPortalOpenInitialState,
-  totalRecords: 0,
-  totalCount: 0,
+  totalRecords: PAGINATION?.TOTAL_RECORDS,
+  totalCount: PAGINATION?.TOTAL_RECORDS,
   isTotalCountLoading: true,
   isSwitchDisabled: isSwitchDisabledInitialState,
 };
@@ -62,6 +63,7 @@ const operationsUsersSlice = createSlice({
     setUsersListsTotalRecords: setUsersListsTotalRecordsReducer,
     setIsSwitchDisabled: setIsSwitchDisabledReducer,
     resetIsSwitchDisabled: resetIsSwitchDisabledReducer,
+    resetComponentState: resetComponentStateReducers,
   },
 });
 
@@ -81,6 +83,7 @@ export const {
   setUsersListsTotalRecords,
   setIsSwitchDisabled,
   resetIsSwitchDisabled,
+  resetComponentState,
 } = operationsUsersSlice?.actions;
 
 export default operationsUsersSlice?.reducer;

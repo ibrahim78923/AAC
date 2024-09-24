@@ -89,6 +89,8 @@ const resetComponentStateReducers = (state: any) => {
   state.selectedReportsList = [];
   state.filter = [];
   state.tabValue = 0;
+  state.isPortalOpen = isPortalOpenInitialState;
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
 };
 
 export const operationsReportsListsReducersList = {

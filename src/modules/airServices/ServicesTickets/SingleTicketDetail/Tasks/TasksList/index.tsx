@@ -1,6 +1,6 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTasksList } from './useTasksList';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 
 export const TasksList = () => {
   const {
@@ -12,9 +12,10 @@ export const TasksList = () => {
     handlePageChange,
     refetch,
     lazyGetTicketsTasksStatus,
+    isApiCalled,
   } = useTasksList();
 
-  if (!lazyGetTicketsTasksStatus?.data) return <SkeletonTable />;
+  if (isApiCalled) return <SkeletonTanStackTable />;
 
   return (
     <TanstackTable

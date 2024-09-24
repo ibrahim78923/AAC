@@ -120,16 +120,18 @@ export const DetailCard = (props: { data: any }) => {
             >
               Description:
             </Typography>
-            <Typography
-              variant="body2"
-              color="slateBlue.main"
-              sx={{ wordBreak: 'break-all' }}
-              dangerouslySetInnerHTML={{
-                __html: !!ticketDetail?.description
-                  ? ticketDetail?.description
-                  : '---',
-              }}
-            />
+            <Box maxHeight={'10vh'} overflow="auto" component={'span'}>
+              <Typography
+                variant="body2"
+                color="slateBlue.main"
+                sx={{ wordBreak: 'break-all' }}
+                dangerouslySetInnerHTML={{
+                  __html: !!ticketDetail?.description
+                    ? ticketDetail?.description
+                    : '---',
+                }}
+              />
+            </Box>
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
             <Typography

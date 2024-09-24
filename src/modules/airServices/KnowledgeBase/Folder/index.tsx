@@ -22,7 +22,7 @@ export const Folder = () => {
       <SkeletonCard
         gridSize={{ md: 12 }}
         hasThirdSkeleton={false}
-        circularSkeletionSize={{ width: 25, height: 25 }}
+        circularSkeletonSize={{ width: 25, height: 25 }}
         length={6}
       />
     );

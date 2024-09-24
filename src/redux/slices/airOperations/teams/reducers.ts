@@ -56,6 +56,17 @@ const setTeamListsTotalRecordsReducer = (state: any, action: any) => {
   state.totalRecords = action?.payload;
 };
 
+const resetComponentStateReducers = (state: any) => {
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.pageLimit = PAGINATION?.PAGE_LIMIT;
+  state.search = '';
+  state.selectedTeamLists = [];
+  state.isPortalOpen = isPortalOpenInitialState;
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
+  state.totalCount = PAGINATION?.TOTAL_RECORDS;
+  state.isTotalCountLoading = true;
+};
+
 export const operationsTeamReducersList = {
   setPageReducer,
   setPageLimitReducer,
@@ -70,4 +81,5 @@ export const operationsTeamReducersList = {
   resetTotalCountLoadingReducer,
   setTotalCountReducer,
   setTeamListsTotalRecordsReducer,
+  resetComponentStateReducers,
 };

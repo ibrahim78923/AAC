@@ -22,6 +22,7 @@ const {
   resetTotalCountLoadingReducer,
   setTotalCountReducer,
   setTicketsTasksListsTotalRecordsReducer,
+  resetComponentStateReducers,
 } = servicesTicketTasksReducersList;
 
 const servicesTicketTasksInitialState = {
@@ -30,8 +31,8 @@ const servicesTicketTasksInitialState = {
   search: '',
   selectedTicketTasksLists: [],
   isPortalOpen: isPortalOpenInitialState,
-  totalRecords: 0,
-  totalCount: 0,
+  totalRecords: PAGINATION?.TOTAL_RECORDS,
+  totalCount: PAGINATION?.TOTAL_RECORDS,
   isTotalCountLoading: true,
 };
 
@@ -52,6 +53,7 @@ const servicesTicketTasksSlice = createSlice({
     resetTotalCountLoading: resetTotalCountLoadingReducer,
     setTotalCount: setTotalCountReducer,
     setTicketsTasksListsTotalRecords: setTicketsTasksListsTotalRecordsReducer,
+    resetComponentState: resetComponentStateReducers,
   },
 });
 
@@ -69,6 +71,7 @@ export const {
   resetTotalCountLoading,
   setTotalCount,
   setTicketsTasksListsTotalRecords,
+  resetComponentState,
 } = servicesTicketTasksSlice?.actions;
 
 export default servicesTicketTasksSlice?.reducer;

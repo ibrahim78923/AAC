@@ -35,7 +35,7 @@ const operationsRestoreReportsListsInitialState = {
   filterRestoreReportsList: {},
   selectedRestoreReportsList: [],
   isPortalOpen: isPortalOpenInitialState,
-  totalRecords: 0,
+  totalRecords: PAGINATION?.TOTAL_RECORDS,
   filter: [],
   tabValue: 0,
   canDisableTab: true,

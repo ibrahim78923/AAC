@@ -1,11 +1,12 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
 import { TIME_FORMAT } from '@/constants';
 import NoData from '@/components/NoData';
 import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
+import { TruncateText } from '@/components/TruncateText';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
 export const Activities = () => {
   const {
@@ -18,7 +19,22 @@ export const Activities = () => {
     refetch,
   } = useActivities();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isLoading || isFetching)
+    return (
+      <Box
+        border={'1px solid'}
+        borderColor={'custom.off_white'}
+        borderRadius={2}
+        p={2}
+      >
+        <SkeletonCard
+          gridSize={{ md: 12 }}
+          hasThirdSkeleton={false}
+          circularSkeletonSize={{ width: 25, height: 25 }}
+          outerPadding={{ x: 0, y: 0 }}
+        />
+      </Box>
+    );
 
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
@@ -33,63 +49,42 @@ export const Activities = () => {
         borderRadius={2}
         p={2}
       >
-        {!!!data?.data?.activitylogs?.length ? (
+        {!!data?.data?.activitylogs?.length ? (
           data?.data?.activitylogs?.map((activity: any) => (
-            <Box key={activity?._id} mb={2}>
-              <Box display={'flex'}>
-                <Box>
-                  <IconButton
-                    disabled
-                    color="primary"
-                    sx={{
-                      border: `1px solid`,
-                      borderColor: 'primary.main',
-                    }}
-                  ></IconButton>
-                </Box>
-                <Box sx={{ marginLeft: 2 }}>
+            <Box key={activity?._id} mb={2} display={'flex'} gap={2}>
+              <Box>
+                <IconButton
+                  disabled
+                  color="primary"
+                  sx={{
+                    border: `1px solid`,
+                    borderColor: 'primary.main',
+                  }}
+                ></IconButton>
+              </Box>
+              <Box>
+                <Box display={'flex'} gap={0.3}>
                   <Typography
                     variant="body2"
                     color="primary"
-                    marginRight={0.3}
-                    component={'span'}
+                    textTransform={'capitalize'}
                   >
-                    {activity?.performedByName}
+                    {activity?.performedByName?.toLowerCase()}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    color="secondary"
-                    marginRight={0.3}
-                    component={'span'}
-                  >
+                  <Typography variant="body2" color="secondary">
                     has {activity?.activityType?.toLowerCase()}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    color="primary"
-                    marginRight={0.3}
-                    component={'span'}
-                  >
-                    {activity?.moduleName}
+                  <Typography variant="body2" color="primary">
+                    <TruncateText text={activity?.moduleName} />
                   </Typography>
-
-                  <Box>
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      component={'span'}
-                      mr="0.625rem"
-                    >
-                      {uiDateFormat(activity?.createdAt)}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      component={'span'}
-                    >
-                      {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
-                    </Typography>
-                  </Box>
+                </Box>
+                <Box display={'flex'} gap={1}>
+                  <Typography variant="body2" color="textPrimary">
+                    {uiDateFormat(activity?.createdAt)}
+                  </Typography>
+                  <Typography variant="body2" color="textPrimary">
+                    {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
+                  </Typography>
                 </Box>
               </Box>
             </Box>
