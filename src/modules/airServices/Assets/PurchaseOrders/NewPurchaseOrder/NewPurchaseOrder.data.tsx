@@ -12,6 +12,7 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { localeDateTime } from '@/utils/dateTime';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
@@ -41,8 +42,20 @@ export const validationSchema: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return yup?.object()?.shape({
-    orderName: yup?.string()?.required('Order Name is Required'),
-    orderNumber: yup?.string()?.required('Order Number is Required'),
+    orderName: yup
+      ?.string()
+      ?.required('Order Name is Required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
+    orderNumber: yup
+      ?.string()
+      ?.required('Order Number is Required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
     vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
     department: yup?.mixed()?.nullable(),
     expectedDeliveryDate: yup
@@ -50,7 +63,12 @@ export const validationSchema: any = (form: any) => {
       ?.nullable()
       ?.required('Delivery Date is Required'),
     location: yup?.mixed()?.nullable(),
-    termAndCondition: yup?.string(),
+    termAndCondition: yup
+      ?.string()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+      ),
     subTotal: yup?.number(),
     taxRatio: yup?.number(),
     shipping: yup?.number(),

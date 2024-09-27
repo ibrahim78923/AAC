@@ -47,8 +47,12 @@ export const Contract = () => {
             deleteIsLoading={deleteIsLoading?.isLoading}
             showChild
           >
-            <Typography variant={'body1'} color={theme?.palette?.grey?.[900]}>
-              {singleContract?.contractType}
+            <Typography
+              variant={'body1'}
+              color={theme?.palette?.grey?.[900]}
+              textTransform={'capitalize'}
+            >
+              {singleContract?.contractTypeDetails?.name?.toLowerCase()}
             </Typography>
           </InventoryCard>
         ))

@@ -7,16 +7,36 @@ import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
 import { VALIDATION_CONSTANT } from '@/constants';
 import { UserInfo } from '@/components/UserInfo';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const validationSchema = Yup?.object()?.shape({
   email: Yup?.string()
     ?.email('Invalid email format')
     ?.required('Email is required')
-    ?.trim(),
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.EMAIL,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL}`,
+    ),
   profilePicture: Yup?.mixed()?.nullable(),
-  firstName: Yup?.string()?.trim(),
-  lastName: Yup?.string()?.trim(),
-  address: Yup?.string()?.trim(),
+  firstName: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
+  lastName: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
+  address: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.ADDRESS,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.ADDRESS}`,
+    ),
   dateOfBirth: Yup?.date()?.nullable(),
   phoneNumber: Yup?.string()
     ?.trim()
@@ -42,7 +62,12 @@ export const validationSchema = Yup?.object()?.shape({
         return true;
       },
     ),
-  jobTitle: Yup?.string()?.trim(),
+  jobTitle: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
   dateOfJoining: Yup?.date()?.nullable(),
   contactOwnerId: Yup?.mixed()?.nullable(),
   lifeCycleStageId: Yup?.mixed()?.nullable(),

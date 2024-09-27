@@ -15,6 +15,7 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { localeDateTime } from '@/utils/dateTime';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
@@ -26,9 +27,18 @@ export const UpsertInventoryValidationSchema: any = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    displayName: Yup?.string()?.trim()?.required('Display name is required'),
+    displayName: Yup?.string()
+      ?.trim()
+      ?.required('Display name is required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
     assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
-    description: Yup?.string(),
+    description: Yup?.string()?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+    ),
     impact: Yup?.mixed()?.nullable(),
     department: Yup?.mixed()?.nullable(),
     assetLifeExpiry: Yup?.date()?.nullable(),

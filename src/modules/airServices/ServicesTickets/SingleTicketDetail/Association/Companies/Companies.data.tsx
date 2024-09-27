@@ -6,6 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
 import { UserInfo } from '@/components/UserInfo';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const optionsIndustry = [
   'Aerospace & Defense',
@@ -69,17 +70,54 @@ export const TYPE_VALUES = {
 
 export const validationSchema: any = Yup?.object()?.shape({
   domain: Yup?.string()?.trim()?.required('Domain is required'),
-  name: Yup?.string()?.trim(),
+  name: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
   profilePicture: Yup?.mixed()?.nullable(),
   ownerId: Yup?.mixed()?.nullable()?.required('Owner is required'),
-  description: Yup?.string()?.trim(),
+  description: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+    ),
   industry: Yup?.string(),
   type: Yup?.string(),
-  city: Yup?.string()?.trim(),
-  postalCode: Yup?.string()?.trim(),
-  address: Yup?.string()?.trim(),
-  noOfEmloyee: Yup?.number()?.nullable()?.typeError('Must be a number'),
-  totalRevenue: Yup?.number()?.nullable()?.typeError('Must be a number'),
+  city: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  postalCode: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  address: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.ADDRESS,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.ADDRESS}`,
+    ),
+  noOfEmloyee: Yup?.number()
+    ?.nullable()
+    ?.typeError('Must be a number')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  totalRevenue: Yup?.number()
+    ?.nullable()
+    ?.typeError('Must be a number')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
   linkedInUrl: Yup?.string()?.trim(),
 });
 

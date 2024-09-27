@@ -26,6 +26,7 @@ export const addExpenseValidationSchema: any = yup?.object()?.shape({
     ?.typeError('Must be a Number')
     ?.nullable()
     ?.required('Cost is Required!'),
+  date: yup?.date(),
 });
 
 export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {

@@ -23,20 +23,31 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { DepartmentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AssetFieldDropdown';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const newIncidentValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
     requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
-    subject: Yup?.string()?.trim()?.required('Subject is required'),
+    subject: Yup?.string()
+      ?.trim()
+      ?.required('Subject is required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.SUBJECT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.SUBJECT}`,
+      ),
     description: Yup?.string()
       ?.trim()
       ?.required('Description is Required')
       ?.test('is-not-empty', 'Description is Required', (value) => {
         const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
         return strippedContent !== '';
-      }),
+      })
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+      ),
     category: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.nullable()?.required('Status is required'),
     priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
@@ -48,7 +59,12 @@ export const newIncidentValidationSchema = (form: any) => {
     plannedEndDate: Yup?.date()
       ?.nullable()
       ?.required('Planned End Date is Required'),
-    plannedEffort: Yup?.string()?.trim(),
+    plannedEffort: Yup?.string()
+      ?.trim()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.NAME,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+      ),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
     ...formSchema,
