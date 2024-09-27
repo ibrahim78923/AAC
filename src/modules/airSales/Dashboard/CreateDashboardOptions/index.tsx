@@ -31,7 +31,7 @@ const CreateDashboardOptions = (props: any) => {
   const currentUser = user?._id;
 
   return (
-    <div>
+    <>
       <Button
         className="small"
         variant="outlined"
@@ -70,6 +70,7 @@ const CreateDashboardOptions = (props: any) => {
                   justifyContent="space-between"
                   alignItems="center"
                   width={'100%'}
+                  gap={1}
                 >
                   <Typography variant="body2">
                     {capitalizeFirstLetters(dashboard?.name)}
@@ -96,16 +97,18 @@ const CreateDashboardOptions = (props: any) => {
             ))
           )}
         </PermissionsGuard>
-        <Button
-          sx={{ color: theme?.palette?.grey[500], margin: '10px' }}
-          onClick={handelNavigate}
-          variant="outlined"
-          color="inherit"
-        >
-          Manage Dashboards
-        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            sx={{ color: theme?.palette?.grey[500], margin: '8px' }}
+            onClick={handelNavigate}
+            variant="outlined"
+            color="inherit"
+          >
+            Manage Dashboards
+          </Button>
+        </Box>
       </Menu>
-    </div>
+    </>
   );
 };
 

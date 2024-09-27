@@ -14,27 +14,33 @@ const DetailsView = ({ selectedReports }: any) => {
       return selectedWidget?.map((report: any) => {
         switch (report) {
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEALS_CREATED_VS_CLOSED_DEALS:
-            return <DealsGraph />;
+            return <DealsGraph key={report} />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.MEETING_DETAILS:
-            return <MeetingDetails />;
+            return <MeetingDetails key={report} />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE:
-            return <TeamActivity />;
+            return <TeamActivity key={report} />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
-            return <Widget />;
+            return <Widget key={report} />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEAL_REPORTS:
             return (
-              <Typography variant="h6">Under construction.....</Typography>
+              <Typography key={report} variant="h6">
+                Under construction.....
+              </Typography>
             );
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_PIPELINE_REPORT:
             return (
-              <Typography variant="h6">Under construction.....</Typography>
+              <Typography key={report} variant="h6">
+                Under construction.....
+              </Typography>
             );
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_CATEGORY_REPORTS:
             return (
-              <Typography variant="h6">Under construction.....</Typography>
+              <Typography key={report} variant="h6">
+                Under construction.....
+              </Typography>
             );
           default:
-            return;
+            return null;
         }
       });
     } else {

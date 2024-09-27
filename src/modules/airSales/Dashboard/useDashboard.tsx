@@ -5,6 +5,10 @@ import {
 } from '@/services/airSales/dashboard';
 import { getSession } from '@/utils';
 import { useState } from 'react';
+import DealsGraph from './DealsGraph';
+import TeamActivity from './TeamActivity';
+import MeetingDetails from './MeetingDetails';
+import Widget from './Widget';
 const useDashboard = () => {
   const { user }: any = getSession();
   const currentUser = user?._id;
@@ -36,7 +40,24 @@ const useDashboard = () => {
 
   const dashboardsData = getDashboards?.data;
 
+  const SALES_DASHBOARD_WIDGETS: any = {
+    DEALS_CREATED_VS_CLOSED_DEALS: 'DEALS_CREATED_VS_CLOSED_DEALS',
+    TEAM_ACTIVITIES_BY_ACTIVITY_DATE: 'TEAM_ACTIVITIES_BY_ACTIVITY_DATE',
+    MEETING_DETAILS: 'MEETING_DETAILS',
+    TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
+      'TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES',
+  };
+
+  const AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS = {
+    [SALES_DASHBOARD_WIDGETS?.DEALS_CREATED_VS_CLOSED_DEALS]: DealsGraph,
+    [SALES_DASHBOARD_WIDGETS?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE]: TeamActivity,
+    [SALES_DASHBOARD_WIDGETS?.MEETING_DETAILS]: MeetingDetails,
+    [SALES_DASHBOARD_WIDGETS?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES]:
+      Widget,
+  };
+
   return {
+    AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS,
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,
     setIsShowEditDashboard,
