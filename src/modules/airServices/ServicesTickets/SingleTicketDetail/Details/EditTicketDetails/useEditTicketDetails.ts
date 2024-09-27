@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, useWatch } from 'react-hook-form';
 import {
-  useGetTicketsDetailsByIdQuery,
-  useEditTicketsDetailsMutation,
-  useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
+  useEditSingleServicesTicketsDetailsByIdMutation,
+  useGetSingleServicesTicketsDetailsForEditByIdQuery,
+  useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -36,7 +36,7 @@ export const useEditTicketDetails = () => {
 
   const { ticketId } = router?.query;
   const [editTicketsDetailsTrigger, editTicketsDetailsStatus] =
-    useEditTicketsDetailsMutation();
+    useEditSingleServicesTicketsDetailsByIdMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -71,10 +71,13 @@ export const useEditTicketDetails = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    });
+    useGetSingleServicesTicketsDetailsForEditByIdQuery(
+      getSingleTicketParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!ticketId,
+      },
+    );
 
   const methods: any = useForm<any>({
     resolver: yupResolver(editTicketDetailsValidationSchema?.(form)),
@@ -219,7 +222,7 @@ export const useEditTicketDetails = () => {
   };
 
   const apiQueryServicesCategory =
-    useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery?.();
+    useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery?.();
 
   const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
     watchForTicketType,

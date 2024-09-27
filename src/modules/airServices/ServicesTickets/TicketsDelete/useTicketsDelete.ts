@@ -1,5 +1,4 @@
 import { AIR_SERVICES } from '@/constants';
-import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
@@ -10,6 +9,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airServices/tickets/slice';
+import { useDeleteMultipleServicesTicketsMutation } from '@/services/airServices/tickets';
 
 export const useTicketDelete = () => {
   const router = useRouter();
@@ -46,7 +46,7 @@ export const useTicketDelete = () => {
   };
 
   const [deleteTicketsTrigger, deleteTicketsStatus] =
-    useDeleteTicketsMutation();
+    useDeleteMultipleServicesTicketsMutation();
 
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();

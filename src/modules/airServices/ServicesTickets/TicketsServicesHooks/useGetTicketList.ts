@@ -1,4 +1,4 @@
-import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
+import { useLazyGetServicesTicketsListQuery } from '@/services/airServices/tickets';
 import { buildQueryParams } from '@/utils/api';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -18,7 +18,7 @@ export const useGetTicketList = () => {
   );
   const dispatch = useAppDispatch();
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
-    useLazyGetTicketsQuery();
+    useLazyGetServicesTicketsListQuery();
 
   const prepareQueryParams = (params: any) => {
     const additionalParams = [

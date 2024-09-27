@@ -1,4 +1,4 @@
-import { usePutTicketsMutation } from '@/services/airServices/tickets';
+import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
@@ -32,7 +32,8 @@ export const useAssignedTickets = () => {
 
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [putTicketTrigger, putTicketStatus] =
+    useUpdateSingleServicesTicketByIdMutation();
 
   const methods: UseFormReturn<any> = useForm<any>({
     defaultValues: {

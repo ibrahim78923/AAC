@@ -1,7 +1,7 @@
 import { NextRouter, useRouter } from 'next/router';
-import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
 import { singleTicketDetailTabsDynamic } from './SingleTicketDetails.data';
 import { useRef } from 'react';
+import { useGetServicesSingleTicketDetailByIdQuery } from '@/services/airServices/tickets';
 
 export const useSingleTicketDetails = () => {
   const startTimerId = useRef(null);
@@ -17,7 +17,7 @@ export const useSingleTicketDetails = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetTicketsByIdQuery(getSingleTicketParameter, {
+    useGetServicesSingleTicketDetailByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
     });

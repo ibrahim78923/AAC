@@ -1,5 +1,4 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import { usePutSingleTicketStatusMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -11,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
+import { useUpdateSingleServicesTicketStatusMutation } from '@/services/airServices/tickets';
 
 export const useUpdateTicketStatus = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ export const useUpdateTicketStatus = () => {
 
   const isMoveBack = !!ticketId;
   const [putSingleTicketStatusTrigger, putSingleTicketStatusStatus] =
-    usePutSingleTicketStatusMutation();
+    useUpdateSingleServicesTicketStatusMutation();
 
   const updateTicketStatus = async () => {
     const updateTicketStatusTicketsParameter = {

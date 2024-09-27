@@ -1,5 +1,5 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { useGetApprovalsTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/approvals';
+import { useGetSingleServicesTicketsApprovalsListsQuery } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { useRouter } from 'next/router';
 
 export const useAllApprovals = () => {
@@ -19,7 +19,7 @@ export const useAllApprovals = () => {
     isFetching,
     isError,
     refetch,
-  }: { [key: string]: any } = useGetApprovalsTicketsQuery(
+  }: { [key: string]: any } = useGetSingleServicesTicketsApprovalsListsQuery(
     getApprovalsTicketsParameter,
     {
       refetchOnMountOrArgChange: true,

@@ -1,8 +1,8 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
 import {
-  useGetAllApprovalsTicketsQuery,
-  usePatchApprovalTicketsMutation,
-  usePostApprovalTicketsRemindersMutation,
+  useAddSingleServicesTicketsApprovalMutation,
+  useGetSingleServicesTicketsAllTypeApprovalsListQuery,
+  useUpdateSingleServicesTicketsApprovalMutation,
 } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
@@ -16,22 +16,26 @@ export const useApprovals = () => {
   const router = useRouter();
   const { ticketId } = router?.query;
 
-  const [patchApprovalTicketsTrigger] = usePatchApprovalTicketsMutation();
+  const [patchApprovalTicketsTrigger] =
+    useUpdateSingleServicesTicketsApprovalMutation();
+
   const [postApprovalTicketsRemindersTrigger] =
-    usePostApprovalTicketsRemindersMutation();
+    useAddSingleServicesTicketsApprovalMutation();
+
   const getApprovalsTicketsParameter = {
     queryParams: {
       id: ticketId,
       approvalStatus: TICKET_APPROVALS?.ALL,
     },
   };
-  const { data, isLoading, isFetching } = useGetAllApprovalsTicketsQuery(
-    getApprovalsTicketsParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    },
-  );
+  const { data, isLoading, isFetching } =
+    useGetSingleServicesTicketsAllTypeApprovalsListQuery(
+      getApprovalsTicketsParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!ticketId,
+      },
+    );
   const setApproval = (approval: any) => {
     setSelectedApproval(approval);
     setIsConfirmModalOpen(true);

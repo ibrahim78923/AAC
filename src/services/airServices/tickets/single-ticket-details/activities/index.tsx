@@ -3,7 +3,7 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 
 export const activityAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getActivityLogForSingleTickets: builder?.query({
+    getSingleServicesTicketsActivityLogs: builder?.query({
       query: (params: any) => ({
         url: END_POINTS?.ACTIVITY_LOG,
         method: 'GET',
@@ -14,4 +14,4 @@ export const activityAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetActivityLogForSingleTicketsQuery } = activityAPI;
+export const { useGetSingleServicesTicketsActivityLogsQuery } = activityAPI;

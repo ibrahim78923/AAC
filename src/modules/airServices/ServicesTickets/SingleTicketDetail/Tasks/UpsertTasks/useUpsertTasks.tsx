@@ -11,10 +11,6 @@ import {
   successSnackbar,
 } from '@/utils/api';
 import { useRouter } from 'next/router';
-import {
-  usePatchTaskByIdMutation,
-  usePostTaskByIdMutation,
-} from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useEffect, useState } from 'react';
 import {
@@ -33,6 +29,10 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets-tasks/slice';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
+import {
+  useAddSingleServicesTasksByIdMutation,
+  useUpdateSingleServicesTasksByIdMutation,
+} from '@/services/airServices/tickets/single-ticket-details/tasks';
 
 const { EDIT_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 
@@ -53,12 +53,14 @@ export const useUpsertTasks = () => {
   const [form, setForm] = useState<any>([]);
 
   const [postTicketTasksTrigger, postTicketTasksStatus] =
-    usePostTaskByIdMutation();
+    useAddSingleServicesTasksByIdMutation();
 
   const [patchTicketTasksTrigger, patchTicketTasksStatus] =
-    usePatchTaskByIdMutation();
+    useUpdateSingleServicesTasksByIdMutation();
+
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
+
   const [postAttachmentTrigger, postAttachmentStatus] =
     usePostDynamicFormAttachmentsMutation();
 

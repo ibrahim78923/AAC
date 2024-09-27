@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { usePostTicketsTimeMutation } from '@/services/airServices/tickets/single-ticket-details/details';
+
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -23,6 +23,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/utils/dateTime';
+import { useAddSingleServicesTicketsTasksTimeMutation } from '@/services/airServices/tickets/single-ticket-details/details';
 
 export const useAddTime = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -30,7 +31,7 @@ export const useAddTime = (props: any) => {
   const [form, setForm] = useState<any>([]);
 
   const [postTicketsTimeTrigger, postTicketStatus] =
-    usePostTicketsTimeMutation();
+    useAddSingleServicesTicketsTasksTimeMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();

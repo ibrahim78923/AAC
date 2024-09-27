@@ -9,11 +9,6 @@ import {
 } from './UpsertTicket.data';
 
 import { useEffect, useState } from 'react';
-import {
-  useGetTicketsByIdQuery,
-  usePostTicketsMutation,
-  usePutTicketsMutation,
-} from '@/services/airServices/tickets';
 
 import {
   errorSnackbar,
@@ -38,6 +33,11 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
 import { isoDateString } from '@/utils/dateTime';
+import {
+  useAddSingleServicesTicketMutation,
+  useGetServicesSingleTicketDetailByIdQuery,
+  useUpdateSingleServicesTicketByIdMutation,
+} from '@/services/airServices/tickets';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
@@ -60,8 +60,10 @@ export const useUpsertTicket = () => {
 
   const [form, setForm] = useState<any>([]);
 
-  const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [postTicketTrigger, postTicketStatus] =
+    useAddSingleServicesTicketMutation();
+  const [putTicketTrigger, putTicketStatus] =
+    useUpdateSingleServicesTicketByIdMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -94,13 +96,11 @@ export const useUpsertTicket = () => {
       ticketId,
     },
   };
-  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
-    getSingleTicketParameter,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetServicesSingleTicketDetailByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
-    },
-  );
+    });
 
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertTicketValidationSchema?.(ticketId, form)),

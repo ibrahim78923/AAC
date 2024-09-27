@@ -3,7 +3,7 @@ import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
 import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
-import { useLazyGetExportTicketsQuery } from '@/services/airServices/tickets';
+import { useLazyGetServicesTicketsListAsExportQuery } from '@/services/airServices/tickets';
 import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
@@ -12,7 +12,7 @@ export const useHeader = () => {
   const dispatch = useAppDispatch();
 
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
-    useLazyGetExportTicketsQuery();
+    useLazyGetServicesTicketsListAsExportQuery();
 
   const setTicketAction = (
     ticketActionQuery: string,

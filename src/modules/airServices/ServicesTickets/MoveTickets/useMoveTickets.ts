@@ -5,7 +5,7 @@ import {
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePutTicketsMutation } from '@/services/airServices/tickets';
+import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
@@ -36,7 +36,8 @@ export const useMoveTickets = () => {
 
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [putTicketTrigger, putTicketStatus] =
+    useUpdateSingleServicesTicketByIdMutation();
 
   const methods = useForm<any>({
     defaultValues: moveTicketsDefaultValue,

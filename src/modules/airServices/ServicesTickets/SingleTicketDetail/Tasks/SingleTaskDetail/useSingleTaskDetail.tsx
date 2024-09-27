@@ -6,10 +6,10 @@ import {
   overviewDataArray,
   validationSchema,
 } from './SingleTaskDetail.data';
-import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-tasks/slice';
+import { useUpdateSingleServicesTasksByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 
 export const useSingleTaskDetail = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,8 @@ export const useSingleTaskDetail = () => {
 
   const { handleSubmit, reset } = method;
 
-  const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
+  const [patchMutation, { isLoading }] =
+    useUpdateSingleServicesTasksByIdMutation();
 
   const overviewData = overviewDataArray(isPortalOpen?.data);
 

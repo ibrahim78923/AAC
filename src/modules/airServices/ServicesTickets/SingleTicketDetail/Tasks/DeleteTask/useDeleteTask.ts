@@ -1,4 +1,4 @@
-import { useDeleteTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { useDeleteServicesTicketTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetTicketTasksList } from '../../../TicketsServicesHooks/useGetTicketTasksList';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -10,7 +10,8 @@ import {
 } from '@/redux/slices/airServices/tickets-tasks/slice';
 
 export const useDeleteTask = () => {
-  const [deleteTaskTrigger, deleteTaskStatus] = useDeleteTaskMutation();
+  const [deleteTaskTrigger, deleteTaskStatus] =
+    useDeleteServicesTicketTaskMutation();
 
   const { getTicketTasksListData, page } = useGetTicketTasksList();
 

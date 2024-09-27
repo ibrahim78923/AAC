@@ -7,8 +7,8 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
-  usePostTicketsTimeMutation,
-  usePutTicketsTimeMutation,
+  useAddSingleServicesTicketsTasksTimeMutation,
+  useUpdateSingleServicesTicketsTasksTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
@@ -30,9 +30,9 @@ export const useStopWatch = (props: any) => {
   const theme = useTheme();
 
   const [putTicketsTimeTrigger, putTicketsTimeStatus] =
-    usePutTicketsTimeMutation();
+    useUpdateSingleServicesTicketsTasksTimeMutation();
   const [postTicketsTimeTrigger, postTicketsTimeStatus] =
-    usePostTicketsTimeMutation();
+    useAddSingleServicesTicketsTasksTimeMutation();
 
   const router = useRouter();
   const { ticketId } = router?.query;

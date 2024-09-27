@@ -9,10 +9,6 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  usePatchBulkUpdateTicketsMutation,
-  usePostAddReplyToBulkUpdateMutation,
-} from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   emptySelectedTicketLists,
@@ -22,6 +18,10 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { PAGINATION } from '@/config';
+import {
+  useSendReplyToServicesTicketsBulkUpdateMutation,
+  useUpdateBulkServicesTicketsMutation,
+} from '@/services/airServices/tickets';
 
 export const useTicketBulkUpdate = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +39,7 @@ export const useTicketBulkUpdate = () => {
 
   const theme: any = useTheme();
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
-    usePatchBulkUpdateTicketsMutation();
+    useUpdateBulkServicesTicketsMutation();
 
   const methodsBulkUpdateForm: any = useForm({
     resolver: yupResolver(
@@ -50,7 +50,7 @@ export const useTicketBulkUpdate = () => {
 
   const { handleSubmit, reset } = methodsBulkUpdateForm;
   const [postAddReplyToBulkUpdateTrigger, postAddReplyToBulkUpdateStatus] =
-    usePostAddReplyToBulkUpdateMutation();
+    useSendReplyToServicesTicketsBulkUpdateMutation();
 
   const submitReply = async (formData: { [key: string]: any }) => {
     const emailFormData = new FormData();

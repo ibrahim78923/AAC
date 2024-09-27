@@ -3,7 +3,7 @@ import {
   setTicketsTasksListsTotalRecords,
 } from '@/redux/slices/airServices/tickets-tasks/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useLazyGetTaskByIdQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { useLazyGetServicesTicketsTaskListsQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { useRouter } from 'next/router';
 
 export const useGetTicketTasksList = () => {
@@ -19,7 +19,7 @@ export const useGetTicketTasksList = () => {
   const dispatch = useAppDispatch();
 
   const [lazyGetTicketsTasksTrigger, lazyGetTicketsTasksStatus] =
-    useLazyGetTaskByIdQuery();
+    useLazyGetServicesTicketsTaskListsQuery();
 
   const getTicketTasksListData = async (currentPage = page) => {
     const queryParams = {

@@ -1,5 +1,5 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { usePatchApprovalTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
+import { useUpdateSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ export const useRequestConfirmForm = (props: ConfirmModalPropsI) => {
   } = props;
 
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
-    usePatchApprovalTicketsMutation();
+    useUpdateSingleServicesTicketsApprovalMutation();
 
   const methods = useForm({
     defaultValues: {

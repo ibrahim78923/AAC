@@ -8,11 +8,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertRelatedTicket.data';
 import { useEffect } from 'react';
-import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
-import {
-  useAddChildTicketsMutation,
-  usePutChildTicketsMutation,
-} from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -23,6 +19,11 @@ import {
 } from '@/redux/slices/airServices/related-tickets/slice';
 import { isoDateString } from '@/utils/dateTime';
 import { useGetRelatedTicketList } from '../../../TicketsServicesHooks/useGetRelatedTicketList';
+import {
+  useAddSingleServicesRelatedTicketsMutation,
+  useUpdateSingleServicesRelatedTicketByIdMutation,
+} from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import { useGetServicesSingleTicketDetailByIdQuery } from '@/services/airServices/tickets';
 
 export const useUpsertRelatedTicket = () => {
   const { getChildTicketsListData } = useGetRelatedTicketList();
@@ -44,9 +45,9 @@ export const useUpsertRelatedTicket = () => {
   const { ticketId } = router?.query;
   const theme: Theme = useTheme();
   const [postChildTicketTrigger, postChildTicketStatus] =
-    useAddChildTicketsMutation();
+    useAddSingleServicesRelatedTicketsMutation();
   const [putChildTicketTrigger, putChildTicketStatus] =
-    usePutChildTicketsMutation();
+    useUpdateSingleServicesRelatedTicketByIdMutation();
 
   const getSingleTicketParameter = {
     pathParam: {
@@ -55,7 +56,7 @@ export const useUpsertRelatedTicket = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetTicketsByIdQuery(getSingleTicketParameter, {
+    useGetServicesSingleTicketDetailByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!childTicketId,
     });

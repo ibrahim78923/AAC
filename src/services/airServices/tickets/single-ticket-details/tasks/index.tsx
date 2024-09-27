@@ -5,7 +5,7 @@ const TAG = 'TASK';
 
 export const taskAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getTaskById: builder?.query({
+    getServicesTicketsTaskLists: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TASK}`,
         method: 'GET',
@@ -13,17 +13,7 @@ export const taskAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    patchTaskById: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.UPDATE_TASK}`,
-        method: 'PATCH',
-        params: apiDataParameter?.queryParams,
-        body: apiDataParameter?.reqBody ?? {},
-      }),
-      invalidatesTags: [TAG],
-    }),
-
-    postTaskById: builder?.mutation({
+    addSingleServicesTasksById: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TASK}`,
         method: 'POST',
@@ -32,63 +22,28 @@ export const taskAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    deleteTask: builder?.mutation({
+    updateSingleServicesTasksById: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_TASK}`,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+        body: apiDataParameter?.reqBody ?? {},
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteServicesTicketTask: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.DELETE_TASKS}`,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
-    getDepartmentDropdownList: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.departments;
-      },
-    }),
-    getUsersDropdownList: builder?.query({
-      query: ({ params }) => ({
-        url: `${END_POINTS?.DROPDOWN_ALL_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-    }),
-    getDepartmentDropdownListForTicketTasks: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.departments;
-      },
-    }),
-    getUsersDropdownListForTicketTasks: builder?.query({
-      query: ({ params }) => ({
-        url: `${END_POINTS?.DROPDOWN_ALL_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-    }),
   }),
 });
 
 export const {
-  useLazyGetTaskByIdQuery,
-  usePatchTaskByIdMutation,
-  usePostTaskByIdMutation,
-  useDeleteTaskMutation,
-  useLazyGetDepartmentDropdownListQuery,
-  useLazyGetUsersDropdownListQuery,
-  useLazyGetDepartmentDropdownListForTicketTasksQuery,
-  useLazyGetUsersDropdownListForTicketTasksQuery,
+  useLazyGetServicesTicketsTaskListsQuery,
+  useAddSingleServicesTasksByIdMutation,
+  useUpdateSingleServicesTasksByIdMutation,
+  useDeleteServicesTicketTaskMutation,
 } = taskAPI;

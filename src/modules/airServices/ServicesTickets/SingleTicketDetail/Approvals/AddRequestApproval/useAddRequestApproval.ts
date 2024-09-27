@@ -1,7 +1,4 @@
-import {
-  useLazyGetUsersDropdownListForTicketsApprovalsQuery,
-  usePostApprovalTicketsMutation,
-} from '@/services/airServices/tickets/single-ticket-details/approvals';
+import { useAddSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -14,6 +11,7 @@ import {
 } from './AddRequestApproval.data';
 import useAuth from '@/hooks/useAuth';
 import { AddApprovalsPropsI } from '../Approvals.interface';
+import { useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
 
 export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
   const { setIsDrawerOpen } = props;
@@ -21,7 +19,7 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
   const { user }: any = useAuth();
   const { ticketId } = router?.query;
   const [postApprovalTicketsTrigger, postApprovalTicketsStatus] =
-    usePostApprovalTicketsMutation();
+    useAddSingleServicesTicketsApprovalMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(addRequestApprovalValidationSchema),
@@ -59,7 +57,8 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
   };
 
   const apiQueryApprover =
-    useLazyGetUsersDropdownListForTicketsApprovalsQuery();
+    useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery();
+
   const addRequestApprovalFormFields =
     addRequestApprovalFormFieldsDynamic(apiQueryApprover);
 

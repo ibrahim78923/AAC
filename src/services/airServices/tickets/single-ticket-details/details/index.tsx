@@ -2,59 +2,26 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKET_DETAILS';
-const TAG_THREE = 'DROPDOWN_AGENT';
-const TAG_SIX = 'DROPDOWN_CATEGORIES';
-const TAG_FIVE = 'DROPDOWN_TASK';
-const TAG_FOUR = 'TICKET_TIME_ENTRIES';
+const TAG_TIME_ENTRIES = 'TICKET_TIME_ENTRIES';
 
 const ticketsDetailsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getTicketsDetailsById: builder?.query({
+    getSingleServicesTicketsDetailsForEditById: builder?.query({
       query: (getSingleTicketParameter: any) => ({
         url: `${END_POINTS?.TICKET_DETAILS}/${getSingleTicketParameter?.pathParam?.ticketId}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    getAgentDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getCategoriesDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.servicecategories;
-      },
-      providesTags: [TAG_SIX],
-    }),
-    putTickets: builder?.mutation({
-      query: (putTicketParameter: any) => ({
-        url: `${END_POINTS?.TICKET}/{id}`,
-        method: 'PUT',
-        body: putTicketParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    postTicketsTime: builder?.mutation({
+    addSingleServicesTicketsTasksTime: builder?.mutation({
       query: (postTicketTimeParameter: any) => ({
         url: `${END_POINTS?.TICKET_TIME_ENTRIES}`,
         method: 'POST',
         body: postTicketTimeParameter?.body,
       }),
-      invalidatesTags: [TAG_FOUR],
+      invalidatesTags: [TAG_TIME_ENTRIES],
     }),
-    getTaskByIdDropDown: builder?.query({
+    getSingleServicesTicketsTaskListDropDown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_TASK}`,
         method: 'GET',
@@ -63,25 +30,24 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_FIVE],
     }),
-    getTicketsTimeEntriesById: builder?.query({
+    getSingleServicesTicketsTimeEntriesList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TICKET_TIME_LIST}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      providesTags: [TAG_FOUR],
+      providesTags: [TAG_TIME_ENTRIES],
     }),
-    putTicketsTime: builder?.mutation({
+    updateSingleServicesTicketsTasksTime: builder?.mutation({
       query: (putTicketTimeParameter: any) => ({
         url: `${END_POINTS?.TICKET_UPDATE_TIME_ENTRIES}`,
         method: 'PATCH',
         body: putTicketTimeParameter?.body,
       }),
-      invalidatesTags: [TAG_FOUR],
+      invalidatesTags: [TAG_TIME_ENTRIES],
     }),
-    editTicketsDetails: builder?.mutation({
+    editSingleServicesTicketsDetailsById: builder?.mutation({
       query: (putTicketParameter: any) => ({
         url: `${END_POINTS?.TICKET}/{id}`,
         method: 'PUT',
@@ -89,29 +55,7 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getAgentDropdownForEditTicketDetails: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getCategoriesDropdownForEditTicketDetails: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.servicecategories;
-      },
-      providesTags: [TAG_SIX],
-    }),
-    getServiceCatalogCategoriesDropdownForEditTicketDetails: builder?.query({
+    getServiceTicketsCatalogCategoriesDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.SERVICES_CATEGORIES}`,
         method: 'GET',
@@ -125,17 +69,11 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetTicketsDetailsByIdQuery,
-  useLazyGetTicketsDetailsByIdQuery,
-  useLazyGetAgentDropdownQuery,
-  usePutTicketsMutation,
-  useLazyGetCategoriesDropdownQuery,
-  usePostTicketsTimeMutation,
-  useLazyGetTaskByIdDropDownQuery,
-  useGetTicketsTimeEntriesByIdQuery,
-  usePutTicketsTimeMutation,
-  useEditTicketsDetailsMutation,
-  useLazyGetAgentDropdownForEditTicketDetailsQuery,
-  useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
-  useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
+  useGetSingleServicesTicketsDetailsForEditByIdQuery,
+  useAddSingleServicesTicketsTasksTimeMutation,
+  useUpdateSingleServicesTicketsTasksTimeMutation,
+  useLazyGetSingleServicesTicketsTaskListDropDownQuery,
+  useGetSingleServicesTicketsTimeEntriesListQuery,
+  useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery,
+  useEditSingleServicesTicketsDetailsByIdMutation,
 } = ticketsDetailsAPI;

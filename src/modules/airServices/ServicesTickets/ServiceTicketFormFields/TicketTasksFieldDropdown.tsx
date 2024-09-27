@@ -1,14 +1,14 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { PAGINATION } from '@/config';
-import { useLazyGetTaskByIdDropDownQuery } from '@/services/airServices/tickets/single-ticket-details/details';
+import { useLazyGetSingleServicesTicketsTaskListDropDownQuery } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 
 export const TicketTasksFieldDropdown = () => {
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
 
-  const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
+  const apiQueryTask = useLazyGetSingleServicesTicketsTaskListDropDownQuery();
 
   return (
     <RHFAutocompleteAsync
