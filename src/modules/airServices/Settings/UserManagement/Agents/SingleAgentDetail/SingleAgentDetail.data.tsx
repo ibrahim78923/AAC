@@ -21,7 +21,7 @@ export const getSingleAgentsTabsData = [
     hasNoPermissions: true,
   },
   {
-    _id: 2,
+    _id: 3,
     name: 'Assets',
     id: 'assets',
     component: Assets,
@@ -29,7 +29,7 @@ export const getSingleAgentsTabsData = [
     hasNoPermissions: true,
   },
   {
-    _id: 2,
+    _id: 4,
     name: 'Software',
     id: 'software',
     component: Software,

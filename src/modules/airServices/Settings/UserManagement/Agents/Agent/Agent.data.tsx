@@ -143,7 +143,7 @@ export const agentsListsColumnsFunction = (
     id: 'email',
     header: 'Email',
     isSortable: true,
-    Cell: (info: any) => info?.getValue(),
+    Cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: { departmentData: any }) => row?.departmentData?.name,

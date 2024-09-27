@@ -1,3 +1,4 @@
+import { TruncateText } from '@/components/TruncateText';
 import { Typography } from '@mui/material';
 
 export const tasksColumnsDynamic: any = () => {
@@ -18,14 +19,18 @@ export const tasksColumnsDynamic: any = () => {
       id: 'title',
       isSortable: true,
       header: 'Task Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
+      ),
     },
   ];
 };

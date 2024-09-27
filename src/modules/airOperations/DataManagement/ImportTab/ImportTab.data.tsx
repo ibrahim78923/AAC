@@ -45,14 +45,18 @@ export const importTabColumns = [
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,

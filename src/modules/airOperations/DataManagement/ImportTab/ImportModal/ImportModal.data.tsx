@@ -161,7 +161,7 @@ export const importDataField = (productOptions: any) => [
     componentProps: {
       name: 'importDeals',
       label: 'Import Deals',
-      fileType: 'XL and CSV (max 2.44 MB)',
+      fileType: 'CSV only (max 2.44 MB)',
       accept: { 'text/csv': ['.csv'] },
     },
     component: RHFDropZone,

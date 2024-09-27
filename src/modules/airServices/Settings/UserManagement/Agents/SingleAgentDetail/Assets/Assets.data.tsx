@@ -1,3 +1,4 @@
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
@@ -23,7 +24,7 @@ export const inventoryListsColumnsDynamic: any = (router: any): any => [
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -32,36 +33,50 @@ export const inventoryListsColumnsDynamic: any = (router: any): any => [
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.name?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => info?.getValue()?.locationName ?? '--',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.locationName?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
     id: 'UsedBy',
     isSortable: true,
     header: 'Used By',
-    cell: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+    cell: (info: any) => (
+      <TruncateText
+        text={fullName(
+          info?.getValue()?.firstName?.toLowerCase(),
+          info?.getValue()?.lastName?.toLowerCase(),
+        )}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.departmentDetails,
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.name?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.impact,
     id: 'impact',
     isSortable: true,
     header: 'Impact',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.assetLifeExpiry,

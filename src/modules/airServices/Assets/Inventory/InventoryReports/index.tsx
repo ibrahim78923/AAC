@@ -167,6 +167,7 @@ export const InventoryReports = () => {
                           name={'status'}
                           placeholder={'Select Option'}
                           size="small"
+                          disableClearable
                           options={inventoryTableFilterOptions}
                           disabled={loading}
                           getOptionLabel={(option: AutocompleteOptionsI) =>

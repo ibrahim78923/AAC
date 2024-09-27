@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetDepartmentDropdownListQuery,
+  useLazyGetDepartmentDropdownListForAgentsQuery,
   useLazyGetPermissionsRoleForUpsertAgentQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
@@ -93,7 +93,7 @@ export const useUpsertAgent = (props: IAgentsProps) => {
 
   const { handleSubmit, reset } = method;
 
-  const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
+  const departmentDropdown = useLazyGetDepartmentDropdownListForAgentsQuery();
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   useEffect(() => {

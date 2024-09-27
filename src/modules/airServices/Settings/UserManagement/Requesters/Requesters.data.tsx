@@ -140,9 +140,7 @@ export const requestersList: any = (
     id: 'email',
     isSortable: true,
     header: 'Email',
-    Cell: (info: any) => {
-      info?.getValue();
-    },
+    Cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -166,7 +164,7 @@ export const requestersList: any = (
             color: color,
           }}
         >
-          <TruncateText text={info?.getValue()} />
+          <TruncateText text={info?.getValue()?.toLowerCase()} />
         </Typography>
       );
     },

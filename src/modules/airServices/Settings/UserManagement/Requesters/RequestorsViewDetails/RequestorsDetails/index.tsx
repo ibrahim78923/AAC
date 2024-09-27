@@ -9,12 +9,13 @@ import {
 } from '@mui/material';
 import UpsertRequesters from '../../UpsertRequesters';
 import { RequestedTickets } from '../RequestedTickets';
-import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
+import { fullName, generateImage } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { useRequesterDetails } from './useRequesterDetails';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
 
 export const RequestorsDetails = () => {
   const {
@@ -79,7 +80,14 @@ export const RequestorsDetails = () => {
                     color="slateBlue.main"
                     fontWeight={600}
                   >
-                    {fullName(data?.data?.firstName, data?.data?.lastName)}
+                    {
+                      <TruncateText
+                        text={fullName(
+                          data?.data?.firstName?.toLowerCase(),
+                          data?.data?.lastName?.toLowerCase(),
+                        )}
+                      />
+                    }
                   </Typography>
                   <Typography variant="body3" fontWeight={500}>
                     {' '}
@@ -125,7 +133,7 @@ export const RequestorsDetails = () => {
               Job Title
             </Typography>
             <Typography variant="body2" sx={{ flex: '1' }} />
-            {truncateText(data?.data?.jobTitle)}
+            {<TruncateText text={data?.data?.jobTitle?.toLowerCase()} />}
           </Box>
           <Box
             display={'flex'}

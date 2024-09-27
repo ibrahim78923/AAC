@@ -1,5 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
-import { ARRAY_INDEX, PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
+import { PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
 
 export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
   [PURCHASE_ORDER_REPORT_STATUS?.ALL]: 'allPurchaseOrder',
@@ -138,14 +138,9 @@ export const purchaseOrderReportsTableColumns = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.purchaseDetails[ARRAY_INDEX?.ZERO]?.total,
+    accessorFn: (row: any) => row?.subTotal,
     id: 'totalCost',
     header: 'Total Cost (£)',
-    cell: (info: any) =>
-      info?.getValue() !== undefined ? (
-        <TruncateText text={info?.getValue()} />
-      ) : (
-        '---'
-      ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
 ];

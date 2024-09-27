@@ -5,7 +5,7 @@ import {
 } from './AgentFilter.data';
 
 import {
-  useLazyGetDepartmentDropdownListQuery,
+  useLazyGetDepartmentDropdownListForAgentsQuery,
   useLazyGetPermissionsRoleForUpsertAgentQuery,
 } from '@/services/airServices/settings/user-management/agents';
 import useAuth from '@/hooks/useAuth';
@@ -58,7 +58,7 @@ export const useAgentFilter = (props: IAgentsProps) => {
     reset?.();
     setAgentFilterDrawerOpen(false);
   };
-  const apiQueryDepartment = useLazyGetDepartmentDropdownListQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownListForAgentsQuery();
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   const agentFilterFormFields = agentFilterFields(

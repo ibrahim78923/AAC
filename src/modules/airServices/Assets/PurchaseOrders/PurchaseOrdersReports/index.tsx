@@ -176,6 +176,7 @@ export const PurchaseOrdersReports = () => {
                           name={'status'}
                           placeholder={'Select Option'}
                           size="small"
+                          disableClearable
                           options={purchaseOrderTableFilterOptions}
                           disabled={loading}
                           getOptionLabel={(option: AutocompleteOptionsI) =>

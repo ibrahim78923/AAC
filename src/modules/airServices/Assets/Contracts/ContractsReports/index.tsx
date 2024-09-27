@@ -175,6 +175,7 @@ export const ContractsReports = () => {
                           name={'contracts'}
                           placeholder={'All Contracts'}
                           size="small"
+                          disableClearable
                           disabled={loading}
                           options={contractsTypeOptions}
                           getOptionLabel={(option: any) => option?.label}
