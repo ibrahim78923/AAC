@@ -62,6 +62,7 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
             variant={'outlined'}
             color={'inherit'}
             onClick={onClose}
+            disabled={patchChildAssetTypeStatus?.isLoading}
           >
             Cancel
           </Button>

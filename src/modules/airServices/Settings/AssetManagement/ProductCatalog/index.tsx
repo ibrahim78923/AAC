@@ -22,6 +22,7 @@ export const ProductCatalog = () => {
     setPage,
     setPageLimit,
     theme,
+    getProductCatalogListData,
   } = useProductCatalog();
 
   return (
@@ -93,6 +94,10 @@ export const ProductCatalog = () => {
             setPage={setPage}
             setPageLimit={setPageLimit}
             onPageChange={(page: number) => setPage(page)}
+            errorProps={{
+              canRefresh: true,
+              refresh: getProductCatalogListData,
+            }}
           />
         </PermissionsGuard>
       </Box>

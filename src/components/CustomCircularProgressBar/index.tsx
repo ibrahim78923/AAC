@@ -15,6 +15,7 @@ export const CustomCircularProgressBar = (
     progressColor,
     value = 50,
     percentage = 50,
+    ...others
   } = props;
 
   return (
@@ -27,14 +28,14 @@ export const CustomCircularProgressBar = (
           }}
           size={size}
           thickness={thickness}
-          {...props}
+          {...others}
           value={100}
         />
         <CircularProgress
           variant="determinate"
           size={size}
           thickness={thickness}
-          {...props}
+          {...others}
           value={percentage}
           sx={{
             color: progressColor,

@@ -143,7 +143,7 @@ export const feedbackSurveyValidationSchema: any = (
   Yup?.object()?.shape({
     surveyTitle: Yup?.string()?.max(30)?.required('Required'),
     description: Yup?.string()?.max(1000)?.required('Required'),
-    surveyDuration: Yup?.date()?.nullable(),
+    surveyDuration: Yup?.date()?.nullable()?.required('Required'),
     customerSupportLinkType: Yup?.string(),
     sendSurveyPeople: Yup?.array()?.when('customerSupportLinkType', {
       is: (type: string) =>

@@ -35,20 +35,18 @@ export default function DefaultFields() {
               borderRadius={3}
               border={`2px solid ${theme?.palette?.custom?.off_white_three}`}
             >
-              <Grid container xs={12} overflow="scroll">
-                <Grid container rowSpacing={1.8} columnSpacing={3}>
-                  {predefinedAssetTypeDataArray?.map((form: any) => (
-                    <Grid item xs={12} md={form?.md} key={form.id}>
-                      <form.component
-                        {...form?.componentProps}
-                        size={'small'}
-                        disabled
-                      >
-                        {form?.heading ? form?.heading : null}
-                      </form.component>
-                    </Grid>
-                  ))}
-                </Grid>
+              <Grid container rowSpacing={1.8} columnSpacing={3}>
+                {predefinedAssetTypeDataArray?.map((form: any) => (
+                  <Grid item xs={12} md={form?.md} key={form.id}>
+                    <form.component
+                      {...form?.componentProps}
+                      size={'small'}
+                      disabled
+                    >
+                      {form?.heading ? form?.heading : null}
+                    </form.component>
+                  </Grid>
+                ))}
               </Grid>
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
                 <RHFDropZone name={'fileUrl'} disabled />

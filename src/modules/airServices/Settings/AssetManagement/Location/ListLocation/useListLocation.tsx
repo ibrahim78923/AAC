@@ -5,9 +5,12 @@ import { useRouter } from 'next/router';
 export const useListLocation = () => {
   const router = useRouter();
 
-  const { data, isLoading, isFetching, isError } = useGetLocationQuery(null, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isFetching, isError, refetch } = useGetLocationQuery(
+    null,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   const [collapseItem, setIsCollapse] = useState<undefined | number>();
   const handleCollapse = (item: number) => {
@@ -36,5 +39,6 @@ export const useListLocation = () => {
     setDeleteRecord,
     router,
     isError,
+    refetch,
   };
 };

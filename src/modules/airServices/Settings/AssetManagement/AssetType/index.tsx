@@ -38,6 +38,7 @@ export const AssetType = () => {
     childDetails,
     setDefaultFields,
     defaultFields,
+    refetch,
   } = useAssetType();
 
   return (
@@ -61,7 +62,7 @@ export const AssetType = () => {
       {isLoading || isFetching ? (
         <SkeletonTable />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState canRefresh refresh={refetch} />
       ) : !!data?.data?.length ? (
         <Box borderRadius={3} p={2} mt={2} bgcolor={'grey.400'}>
           <Box

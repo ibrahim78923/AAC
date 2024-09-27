@@ -68,12 +68,10 @@ export const useProductCatalog = () => {
     getProductCatalogListData();
   }, [search, page, pageLimit]);
 
-  const getProductListsDataExport = async (type: any) => {
+  const getProductListsDataExport = async (exportType: any) => {
     const getProductCatalogExportParam = {
-      exportType: type,
-      page,
-      limit: pageLimit,
-      search,
+      exportType,
+      meta: false,
     };
 
     const getProductCatalogExportParameter = {
@@ -83,9 +81,13 @@ export const useProductCatalog = () => {
       const response: any = await lazyGetExportProductCatalogTrigger(
         getProductCatalogExportParameter,
       )?.unwrap();
-      downloadFile(response, 'productCatalogLists', EXPORT_FILE_TYPE?.[type]);
+      downloadFile(
+        response,
+        'productCatalogLists',
+        EXPORT_FILE_TYPE?.[exportType],
+      );
       successSnackbar(
-        `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
+        `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[exportType]}`,
       );
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

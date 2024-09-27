@@ -33,7 +33,7 @@ export const useUpsertSurveyResponse = (props: {
   const [
     patchSingleSurveyQuestionsAnswerForResponseTrigger,
     patchSingleSurveyQuestionsAnswerForResponseStatus,
-  ] = usePatchSingleSurveyQuestionsAnswerForResponseMutation?.();
+  ] = usePatchSingleSurveyQuestionsAnswerForResponseMutation?.<any>();
 
   const [
     patchSingleSurveyDropoutAnswerForResponseTrigger,
@@ -102,7 +102,6 @@ export const useUpsertSurveyResponse = (props: {
         delete question?.updatedAt;
       }
     });
-
     const apiDataParameter = {
       body: {
         questions: allQuestion?.current?.sections?.reduce(
@@ -123,7 +122,6 @@ export const useUpsertSurveyResponse = (props: {
       errorSnackbar(error?.data?.message);
     }
   };
-
   const submitSurveyResponseDropout = async () => {
     const apiDataParameter = {
       queryParams: {

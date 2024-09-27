@@ -30,7 +30,7 @@ export default function useContractType() {
     meta: true,
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess } =
+  const { data, isLoading, isFetching, isError, isSuccess, refetch } =
     useGetSettingsContractTypeListQuery(params, {
       refetchOnMountOrArgChange: true,
     });
@@ -74,5 +74,6 @@ export default function useContractType() {
     deleteModalOpen,
     handleDeleteBtn,
     deleteContractTypeStatus,
+    refetch,
   };
 }

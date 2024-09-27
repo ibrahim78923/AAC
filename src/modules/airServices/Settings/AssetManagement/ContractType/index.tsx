@@ -25,6 +25,7 @@ export default function ContractType() {
     deleteModalOpen,
     handleDeleteBtn,
     deleteContractTypeStatus,
+    refetch,
   } = useContractType();
 
   return (
@@ -66,6 +67,7 @@ export default function ContractType() {
           setPage={setPage}
           setPageLimit={setPageLimit}
           onPageChange={(page: any) => setPage(page)}
+          errorProps={{ canRefresh: true, refresh: refetch }}
         />
       </Box>
 

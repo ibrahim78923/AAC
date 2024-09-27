@@ -33,6 +33,7 @@ export const UpsertAsset = (props: any) => {
         justifyContent={'space-between'}
         alignItems={'center'}
         mb={1}
+        component="div"
       >
         <Typography variant={'h3'}>
           {isUpsertModalOpen?.data ? 'Update' : 'Add'} Vendor

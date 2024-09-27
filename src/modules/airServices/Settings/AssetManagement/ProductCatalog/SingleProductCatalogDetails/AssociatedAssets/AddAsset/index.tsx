@@ -28,6 +28,7 @@ export const AddAsset = (props: any) => {
         justifyContent={'space-between'}
         alignItems={'center'}
         mb={1}
+        component="div"
       >
         <Typography variant={'h3'}>Add Asset</Typography>
         <CloseIcon

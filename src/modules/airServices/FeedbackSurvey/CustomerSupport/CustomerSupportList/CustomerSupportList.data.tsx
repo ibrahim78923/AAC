@@ -1,5 +1,5 @@
 import { NextRouter } from 'next/router';
-import { Checkbox, Chip, LinearProgress, Typography } from '@mui/material';
+import { Checkbox, Chip, LinearProgress } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
 import { AIR_SERVICES, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
@@ -8,6 +8,7 @@ import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { TruncateText } from '@/components/TruncateText';
 
 export const surveyDataTypes = {
   customerSupport: 'customer-support',
@@ -97,15 +98,15 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Survey',
       cell: (info: any) => (
-        <Typography
-          variant="body2"
-          textTransform={'capitalize'}
-          color="primary"
-          sx={{ cursor: 'pointer' }}
-          onClick={() => handleTitleClick(info?.row?.original)}
-        >
-          {info?.getValue()?.toLowerCase() ?? '---'}
-        </Typography>
+        <TruncateText
+          boxProps={{
+            sx: { cursor: 'pointer', color: 'primary.main' },
+            onClick: () => handleTitleClick(info?.row?.original),
+          }}
+          customTooltipProps={{ placement: 'top-start' }}
+          size={25}
+          text={info?.getValue()}
+        />
       ),
     },
     {

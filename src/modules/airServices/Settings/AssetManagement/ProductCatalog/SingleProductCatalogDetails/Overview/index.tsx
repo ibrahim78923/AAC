@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { Fragment } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -18,7 +19,7 @@ export const Overview = () => {
       </Typography>
       <Box bgcolor={'primary.lighter'} borderRadius={2} p={2} my={2}>
         {dataArray?.map((item: any) => (
-          <Box key={item} display={'flex'}>
+          <Box key={uuidv4()} display={'flex'}>
             <Typography
               variant={'body2'}
               fontWeight={500}
@@ -28,14 +29,24 @@ export const Overview = () => {
             >
               {Object?.keys?.(item)?.[0]}:
             </Typography>
-            <Typography
-              variant={'body2'}
-              p={2}
-              color={'grey.900'}
-              fontWeight={500}
-            >
-              {item?.[Object?.keys?.(item)?.[0]]}
-            </Typography>
+            {item?.Description ? (
+              <Typography
+                variant={'body2'}
+                p={2}
+                color={'grey.900'}
+                fontWeight={500}
+                dangerouslySetInnerHTML={{ __html: item?.Description }}
+              />
+            ) : (
+              <Typography
+                variant={'body2'}
+                p={2}
+                color={'grey.900'}
+                fontWeight={500}
+              >
+                {item?.[Object?.keys?.(item)?.[0]]}
+              </Typography>
+            )}
           </Box>
         ))}
       </Box>

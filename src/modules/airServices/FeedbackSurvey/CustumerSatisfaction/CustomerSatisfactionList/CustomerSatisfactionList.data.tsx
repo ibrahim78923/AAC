@@ -110,7 +110,15 @@ export const customerSupportListColumn = (
             }
           />
           &nbsp;&nbsp;&nbsp;
-          <TruncateText text={info?.getValue()} />
+          <TruncateText
+            boxProps={{
+              sx: { cursor: 'pointer', color: 'primary.main' },
+              onClick: () => handleTitleClick(info?.row?.original),
+            }}
+            customTooltipProps={{ placement: 'top-start' }}
+            size={25}
+            text={info?.getValue()}
+          />
         </Box>
       ),
     },

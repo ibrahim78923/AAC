@@ -27,6 +27,7 @@ export const Vendor = () => {
     getNewVendorDataExport,
     isDrawerOpen,
     setIsDrawerOpen,
+    refetch,
   } = useVendor();
 
   return (
@@ -96,6 +97,7 @@ export const Vendor = () => {
           pageLimit={vendorData?.data?.meta?.limit}
           totalRecords={vendorData?.data?.meta?.total}
           onPageChange={(page: any) => setPage(page)}
+          errorProps={{ canRefresh: true, refresh: refetch }}
         />
       </PermissionsGuard>
       <Box>

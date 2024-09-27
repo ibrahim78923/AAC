@@ -25,10 +25,8 @@ export default function useAssetType() {
     meta: false,
   };
 
-  const { data, isLoading, isFetching, isError } = useGetAssetTypeFieldsQuery(
-    params,
-    { refetchOnMountOrArgChange: true },
-  );
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetAssetTypeFieldsQuery(params, { refetchOnMountOrArgChange: true });
 
   return {
     theme,
@@ -47,5 +45,6 @@ export default function useAssetType() {
     childDetails,
     setDefaultFields,
     defaultFields,
+    refetch,
   };
 }

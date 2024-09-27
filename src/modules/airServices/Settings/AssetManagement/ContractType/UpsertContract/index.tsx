@@ -55,6 +55,10 @@ export default function UpsertContract({ openDialog, setOpenDialog }: any) {
             variant={'outlined'}
             color={'inherit'}
             onClick={onClose}
+            disabled={
+              postContractTypeStatus?.isLoading ||
+              patchContractTypeStatus?.isLoading
+            }
           >
             Cancel
           </Button>
