@@ -1,9 +1,9 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 import { DELETE_DASHBOARD_SUCCESS } from '../Dashboard.data';
+import { useDeleteServicesDashboardSingleDashboardMutation } from '@/services/airServices/dashboard';
 
 export const useDeleteDashboard = (
   props: ManageDashboardPortalComponentPropsI,
@@ -19,7 +19,7 @@ export const useDeleteDashboard = (
   const [
     deleteSingleServicesDashboardTrigger,
     deleteSingleServicesDashboardStatus,
-  ] = useDeleteDynamicServicesDashboardMutation();
+  ] = useDeleteServicesDashboardSingleDashboardMutation();
 
   const deleteDashboard = async () => {
     const apiDataParameter = {

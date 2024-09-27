@@ -1,12 +1,12 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { useLazyGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
+import { useLazyGetServicesDashboardDashboardNameDropdownListQuery } from '@/services/airServices/dashboard';
 import { truncateText } from '@/utils/avatarUtils';
 import { pxToRem } from '@/utils/getFontValue';
 import { Box, Chip, Typography } from '@mui/material';
 
 export const DashboardListFieldDropdown = (props: any) => {
   const apiQueryDashboardList =
-    useLazyGetDashboardNameListDropdownListForDashboardQuery?.();
+    useLazyGetServicesDashboardDashboardNameDropdownListQuery?.();
   const { disabled } = props;
   return (
     <RHFAutocompleteAsync

@@ -1,48 +1,27 @@
 import {
-  RHFAutocompleteAsync,
   RHFRadioGroup,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { MANAGE_ACCESS_TYPES, REPORT_TYPES } from '@/constants/strings';
-import { pxToRem } from '@/utils/getFontValue';
+import { REPORT_TYPES } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   SpecialUsersFieldsI,
-  SpecificUsersAccessColumnsI,
-  SpecificUsersAccessFormFieldsDynamicI,
   UpsertServicesDashboardDefaultValueI,
-  UsersDropdownOptionI,
 } from './UpsertDashboard.interface';
 import { RecentActivities } from '../RecentActivities';
 import { TopPerformer } from '../TopPerformer';
 import { Announcement } from '../Announcement';
 import { AgentAvailability } from '../AgentAvailability';
 import { TicketBased } from '../TicketBased';
+import { SpecificUsers } from './SpecificUsers';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
 
-export const MANAGE_DASHBOARD_ACCESS_TYPES = {
-  PRIVATE_TO_OWNER: MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL,
-  EVERYONE: MANAGE_ACCESS_TYPES?.EVERYONE_CAPITAL,
-  EVERYONE_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
-  EVERYONE_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
-  EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
-  ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
-  SPECIFIC_USER_AND_TEAMS: MANAGE_ACCESS_TYPES?.SPECIFIC_USERS,
-  SPECIFIC_USER_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
-  SPECIFIC_USER_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
-};
+const { SERVICES_DASHBOARD_NAME_MAX_CHARACTERS } = CHARACTERS_LIMIT;
 
 export const SERVICES_DASHBOARD_WIDGETS: any = {
   TICKETS_OVERVIEW_BY_STATE_AND_STATUS: 'TICKETS_OVERVIEW_BY_STATE_AND_STATUS',
@@ -115,7 +94,13 @@ export const AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS = {
 
 export const createDashboardValidationSchema = () => {
   return Yup?.object()?.shape({
-    name: Yup?.string()?.trim()?.required('Name is required'),
+    name: Yup?.string()
+      ?.trim()
+      ?.required('Name is required')
+      ?.max(
+        SERVICES_DASHBOARD_NAME_MAX_CHARACTERS,
+        `Maximum limit is ${SERVICES_DASHBOARD_NAME_MAX_CHARACTERS}`,
+      ),
     access: Yup?.string()?.required('Access is required'),
     reports: Yup?.array(),
     specialUsers: Yup?.mixed()
@@ -212,7 +197,6 @@ export const createDashboardDefaultValue = (
 };
 
 export const upsertServiceDashboardFormFieldsDynamic = (
-  apiQueryUsers: any,
   fields: SpecialUsersFieldsI[],
 ) => [
   {
@@ -291,120 +275,10 @@ export const upsertServiceDashboardFormFieldsDynamic = (
         {
           value: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
           label: 'Only Specific users',
-          filter: (
-            <>
-              <RHFAutocompleteAsync
-                label=""
-                name="specialUsers"
-                fullWidth
-                required
-                apiQuery={apiQueryUsers}
-                multiple
-                size="small"
-                placeholder="Select users"
-                getOptionLabel={(option: UsersDropdownOptionI) =>
-                  `${option?.firstName} ${option?.lastName}`
-                }
-              />
-              <TableContainer
-                sx={{
-                  maxHeight: pxToRem(400),
-                  border: '1px solid',
-                  borderColor: 'custom.off_white_three',
-                  borderRadius: 2,
-                }}
-              >
-                <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
-                  <TableHead>
-                    <TableRow>
-                      {specificUsersAccessColumns?.map(
-                        (column: SpecificUsersAccessColumnsI) => (
-                          <TableCell key={column?._id}>
-                            {column?.label}
-                          </TableCell>
-                        ),
-                      )}
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {fields?.map((item: any, index: number) => {
-                      return (
-                        <TableRow key={item?.id}>
-                          {specificUsersAccessFormFieldsDynamic?.(
-                            'permissionsUsers',
-                            index,
-                          )?.map(
-                            (
-                              singleField:
-                                | SpecificUsersAccessFormFieldsDynamicI
-                                | any,
-                            ) => (
-                              <TableCell
-                                key={singleField?.id}
-                                align={singleField?.align}
-                              >
-                                {singleField?.data}
-                              </TableCell>
-                            ),
-                          )}
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          ),
+          filter: <SpecificUsers fields={fields} />,
         },
       ],
     },
     component: RHFRadioGroup,
-  },
-];
-
-export const specificUsersAccessColumns = [
-  { _id: 'name', label: 'Name' },
-  { _id: 'viewAndEdit', label: 'View and Edit' },
-  { _id: 'viewOnly', label: 'View Only' },
-];
-
-export const specificUsersAccessFormFieldsDynamic = (
-  name: string,
-  index: number,
-) => [
-  {
-    id: 1,
-    data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
-  },
-  {
-    id: 2,
-    align: 'center',
-    data: (
-      <RHFRadioGroup
-        name={`${name}.${index}.permission`}
-        size="small"
-        options={[
-          {
-            value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
-          },
-        ]}
-      />
-    ),
-  },
-  {
-    id: 3,
-    align: 'center',
-    data: (
-      <RHFRadioGroup
-        name={`${name}.${index}.permission`}
-        size="small"
-        options={[
-          {
-            value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
-          },
-        ]}
-      />
-    ),
   },
 ];

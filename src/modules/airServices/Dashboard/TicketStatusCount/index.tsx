@@ -2,14 +2,14 @@ import { Box, Grid, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { ticketDashboardCardsData } from './TicketStatusCount.data';
 import { useTicketStatusCount } from './useTicketStatusCount';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
 export const TicketStatusCount = () => {
   const { data, isLoading, isFetching, isError, refetch } =
     useTicketStatusCount();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isLoading || isFetching) return <SkeletonCard hasThirdSkeleton={false} />;
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
@@ -29,7 +29,7 @@ export const TicketStatusCount = () => {
           >
             <Box>
               <Avatar
-                alt=""
+                alt={item?.label}
                 src={item?.icon?.src}
                 sx={{ width: 60, height: 60 }}
               />

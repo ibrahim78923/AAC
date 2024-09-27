@@ -1,18 +1,10 @@
 import {
-  useGetSingleAnnouncementOnDashboardQuery,
-  useLazyGetUsersDropdownListForDashboardQuery,
-  usePostAnnouncementMutation,
-  useSendServiceDashboardViaEmailOnceMutation,
-  useUpdateServicesAnnouncementOnDashboardMutation,
-} from '@/services/airServices/dashboard';
-import {
   errorSnackbar,
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, useWatch } from 'react-hook-form';
-
 import {
   DATE_DIFFERENCE,
   upsertAnnouncementDefaultValues,
@@ -23,9 +15,15 @@ import { useEffect } from 'react';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import { ANNOUNCEMENTS_VISIBILITY, ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import { otherDateFormat } from '@/utils/dateTime';
+import {
+  useAddServicesDashboardSingleAnnouncementMutation,
+  useGetServicesDashboardSingleAnnouncementDetailsQuery,
+  useSendServicesDashboardViaEmailOnceMutation,
+  useUpdateServicesDashboardSingleAnnouncementMutation,
+} from '@/services/airServices/dashboard';
 
 export const useUpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
@@ -41,17 +39,17 @@ export const useUpsertAnnouncement = (
   const { handleSubmit, reset, control } = methods;
 
   const [postAnnouncementTrigger, postAnnouncementStatus] =
-    usePostAnnouncementMutation();
+    useAddServicesDashboardSingleAnnouncementMutation();
 
   const [
     updateServicesAnnouncementOnDashboardTrigger,
     updateServicesAnnouncementOnDashboardStatus,
-  ] = useUpdateServicesAnnouncementOnDashboardMutation();
+  ] = useUpdateServicesDashboardSingleAnnouncementMutation();
 
   const [
     sendServiceDashboardViaEmailOnceTrigger,
     sendServiceDashboardViaEmailOnceStatus,
-  ] = useSendServiceDashboardViaEmailOnceMutation();
+  ] = useSendServicesDashboardViaEmailOnceMutation();
 
   const sendEmailOnce = async (formData: any) => {
     const emailFormData = new FormData();
@@ -68,10 +66,7 @@ export const useUpsertAnnouncement = (
 
     try {
       await sendServiceDashboardViaEmailOnceTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Email sent successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    } catch (error: any) {}
   };
 
   const apiDataParameter = {
@@ -80,7 +75,7 @@ export const useUpsertAnnouncement = (
     },
   };
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetSingleAnnouncementOnDashboardQuery?.(apiDataParameter, {
+    useGetServicesDashboardSingleAnnouncementDetailsQuery?.(apiDataParameter, {
       refetchOnMountOrArgChange: true,
       skip: !isPortalOpen?.data?._id,
     });
@@ -125,8 +120,8 @@ export const useUpsertAnnouncement = (
       addMember: filterEmptyValues?.addMember?.map(
         (item: AutocompleteAsyncOptionsI) => item?._id,
       ),
-      startDate: dayjs(new Date(data?.startDate))?.format(DATE_FORMAT?.API),
-      endDate: dayjs(new Date(data?.endDate))?.format(DATE_FORMAT?.API),
+      startDate: otherDateFormat(new Date(data?.startDate), DATE_FORMAT?.API),
+      endDate: otherDateFormat(new Date(data?.endDate), DATE_FORMAT?.API),
       productId,
     };
 
@@ -199,9 +194,7 @@ export const useUpsertAnnouncement = (
     );
   }, [data, reset]);
 
-  const apiQueryUsers = useLazyGetUsersDropdownListForDashboardQuery();
   const upsertAnnouncementFormFields = upsertAnnouncementFormFieldsDynamic(
-    apiQueryUsers,
     startDateWatch,
     visibilityWatch,
   );

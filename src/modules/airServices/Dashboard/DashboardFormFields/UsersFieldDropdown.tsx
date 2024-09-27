@@ -1,10 +1,10 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { useLazyGetDashboardUserAccessListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
+import { useLazyGetServicesDashboardUsersListDropdownForAccessQuery } from '@/services/airServices/dashboard';
 
 export const UsersFieldDropdown = () => {
   const apiQueryUsers =
-    useLazyGetDashboardUserAccessListDropdownListForDashboardQuery?.();
+    useLazyGetServicesDashboardUsersListDropdownForAccessQuery?.();
 
   return (
     <RHFAutocompleteAsync

@@ -21,10 +21,17 @@ export const CustomCommonDialog = (props: any) => {
     handleCancelButton = closePortal,
     cancelButtonText = 'Cancel',
     submitButtonText = 'Submit',
+    showActionButtons = true,
+    dialogMaxWidth = 'sm',
   } = props;
 
   return (
-    <Dialog open={isPortalOpen} onClose={closePortal} maxWidth={'sm'} fullWidth>
+    <Dialog
+      open={isPortalOpen}
+      onClose={closePortal}
+      maxWidth={dialogMaxWidth}
+      fullWidth
+    >
       <DialogTitle>
         <Box
           display={'flex'}
@@ -44,27 +51,29 @@ export const CustomCommonDialog = (props: any) => {
         </Box>
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions sx={{ paddingTop: `0rem !important` }}>
-        <LoadingButton
-          className="small"
-          type="button"
-          variant="outlined"
-          color="secondary"
-          onClick={handleCancelButton}
-          disabled={disabledCancelButton}
-        >
-          {cancelButtonText}
-        </LoadingButton>
-        <LoadingButton
-          className="small"
-          type="submit"
-          variant="contained"
-          onClick={handleSubmitButton}
-          loading={showSubmitLoader}
-        >
-          {submitButtonText}
-        </LoadingButton>
-      </DialogActions>
+      {showActionButtons && (
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
+          <LoadingButton
+            className="small"
+            type="button"
+            variant="outlined"
+            color="secondary"
+            onClick={handleCancelButton}
+            disabled={disabledCancelButton}
+          >
+            {cancelButtonText}
+          </LoadingButton>
+          <LoadingButton
+            className="small"
+            type="submit"
+            variant="contained"
+            onClick={handleSubmitButton}
+            loading={showSubmitLoader}
+          >
+            {submitButtonText}
+          </LoadingButton>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

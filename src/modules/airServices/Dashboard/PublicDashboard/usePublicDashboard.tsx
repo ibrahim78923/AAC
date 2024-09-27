@@ -1,4 +1,5 @@
-import { useGetPublicSingleServicesDashboardQuery } from '@/services/airServices/dashboard';
+import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+import { useGetServicesDashboardPublicSingleServicesDashboardQuery } from '@/services/airServices/dashboard';
 import { useRouter } from 'next/router';
 
 export const usePublicDashboard = () => {
@@ -10,7 +11,7 @@ export const usePublicDashboard = () => {
     createdBy,
     accountId,
     organizationId,
-    filterBy = 'status',
+    filterBy = TICKET_GRAPH_TYPES?.STATUS,
     departmentId = null,
   } = router?.query;
 
@@ -37,10 +38,13 @@ export const usePublicDashboard = () => {
   };
 
   const { data, isLoading, isFetching, isError } =
-    useGetPublicSingleServicesDashboardQuery?.(apiDataParameter, {
-      refetchOnMountOrArgChange: true,
-      skip,
-    });
+    useGetServicesDashboardPublicSingleServicesDashboardQuery?.(
+      apiDataParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip,
+      },
+    );
 
   return {
     data,

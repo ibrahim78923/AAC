@@ -1,16 +1,20 @@
 import { Box, Typography } from '@mui/material';
 import { CustomChart } from '@/components/Chart';
-import { pieChartDataOptions, pieChartHeader } from './AgentAvailability.data';
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { useAgentAvailability } from './useAgentAvailability';
 import NoData from '@/components/NoData';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { pxToRem } from '@/utils/getFontValue';
+import { DepartmentFieldDropdown } from '../DashboardFormFields/DepartmentsFieldDropdown';
 
 export const AgentAvailability = (props: any) => {
-  const { data, isPreviewMode } = props;
-  const { departmentDropdown, methods, theme, pieChartSeries } =
-    useAgentAvailability(props);
+  const { isPreviewMode } = props;
+  const {
+    methods,
+    pieChartOptions,
+    pieChartSeries,
+    agentAvailabilityCount,
+    noAgentAvailable,
+  } = useAgentAvailability(props);
 
   return (
     <Box
@@ -32,25 +36,7 @@ export const AgentAvailability = (props: any) => {
             Agent Availability
           </Typography>
           <FormProvider methods={methods}>
-            <RHFAutocompleteAsync
-              disabled={isPreviewMode}
-              name="departmentId"
-              size="small"
-              sx={{
-                minWidth: pxToRem(200),
-                '.MuiInputBase-input': {
-                  padding: `${pxToRem(2)} !important`,
-                },
-                '.MuiFormHelperText-root': {
-                  display: 'none',
-                },
-                '& .MuiOutlinedInput-root ': {
-                  height: pxToRem(36),
-                },
-              }}
-              placeholder="All Departments"
-              apiQuery={departmentDropdown}
-            />
+            <DepartmentFieldDropdown disabled={isPreviewMode} />
           </FormProvider>
         </Box>
         <Box
@@ -60,35 +46,28 @@ export const AgentAvailability = (props: any) => {
           flexWrap={'wrap'}
           my={2}
         >
-          {pieChartHeader(theme, data?.agentAvailability?.data)?.map(
-            (department) => (
-              <Box key={department?.title}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  {department?.icon}
-                  <Typography variant="body3" color={'slateBlue.main'}>
-                    {department?.title}
-                  </Typography>
-                </Box>
-                <Typography variant="h4" color={'slateBlue.main'}>
-                  {department?.titleNumber}
+          {agentAvailabilityCount?.map((department) => (
+            <Box key={department?.title}>
+              <Box display="flex" alignItems="center" gap={1}>
+                {department?.icon}
+                <Typography variant="body3" color={'slateBlue.main'}>
+                  {department?.title}
                 </Typography>
               </Box>
-            ),
-          )}
+              <Typography variant="h4" color={'slateBlue.main'}>
+                {department?.count}
+              </Typography>
+            </Box>
+          ))}
         </Box>
       </>
       <Box>
-        {pieChartHeader(theme, data?.agentAvailability?.data)?.every(
-          (department) => department?.titleNumber === 0,
-        ) ? (
+        {noAgentAvailable ? (
           <NoData message={'No data is available'} height={'100%'} />
         ) : (
           pieChartSeries?.length > SELECTED_ARRAY_LENGTH?.ZERO && (
             <CustomChart
-              options={{
-                ...pieChartDataOptions(theme),
-                labels: ['Available', 'Not Available'],
-              }}
+              options={pieChartOptions}
               series={pieChartSeries}
               type="pie"
               height={212}

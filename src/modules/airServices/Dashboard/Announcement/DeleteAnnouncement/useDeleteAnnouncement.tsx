@@ -1,6 +1,6 @@
-import { useDeleteServicesAnnouncementOnDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
+import { useDeleteServicesDashboardSingleAnnouncementMutation } from '@/services/airServices/dashboard';
 
 export const useDeleteAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
@@ -9,7 +9,7 @@ export const useDeleteAnnouncement = (
   const [
     deleteServicesAnnouncementOnDashboardTrigger,
     deleteServicesAnnouncementOnDashboardStatus,
-  ] = useDeleteServicesAnnouncementOnDashboardMutation();
+  ] = useDeleteServicesDashboardSingleAnnouncementMutation();
 
   const deleteAnnouncement = async () => {
     const apiDataParameter = {

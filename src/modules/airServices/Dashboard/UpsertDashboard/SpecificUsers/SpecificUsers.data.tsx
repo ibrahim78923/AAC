@@ -1,5 +1,5 @@
 import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../UpsertDashboard.data';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../../Dashboard.data';
 
 const { EDIT_AND_VIEW, ONLY_VIEW } = MANAGE_DASHBOARD_ACCESS_TYPES;
 

@@ -1,9 +1,9 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { ManageDashboardFilterFormDefaultValuesDynamicI } from './ManageDashboardFilter.interface';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../UpsertDashboard/UpsertDashboard.data';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { DashboardNameFieldDropdown } from '../DashboardFormFields/DashboardNameFieldDropdown';
 import { DashboardOwnersFieldDropdown } from '../DashboardFormFields/DashboardOwnersFieldDropdown';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
 
 const accessRightsOptions = [
   {

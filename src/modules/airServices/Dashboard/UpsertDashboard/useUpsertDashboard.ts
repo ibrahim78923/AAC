@@ -9,16 +9,9 @@ import {
   createDashboardDefaultValue,
   createDashboardValidationSchema,
   dashboardWidgetsData,
-  MANAGE_DASHBOARD_ACCESS_TYPES,
   upsertServiceDashboardFormFieldsDynamic,
 } from './UpsertDashboard.data';
 import { useRouter } from 'next/router';
-import {
-  useAddSingleServicesDashboardMutation,
-  useGetSingleServicesDashboardQuery,
-  useLazyGetDashboardUserAccessListDropdownListForDashboardQuery,
-  useUpdateSingleServicesDashboardMutation,
-} from '@/services/airServices/dashboard';
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -27,6 +20,12 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
+import {
+  useAddServicesDashboardSingleDashboardMutation,
+  useGetServicesDashboardSingleDashboardDetailsQuery,
+  useUpdateServicesDashboardSingleDashboardMutation,
+} from '@/services/airServices/dashboard';
 
 export const useUpsertDashboard = () => {
   const router = useRouter();
@@ -53,18 +52,21 @@ export const useUpsertDashboard = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetSingleServicesDashboardQuery(getSingleTicketParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!dashboardId,
-    });
+    useGetServicesDashboardSingleDashboardDetailsQuery(
+      getSingleTicketParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!dashboardId,
+      },
+    );
 
   const [addSingleServicesDashboardTrigger, addSingleServicesDashboardStatus] =
-    useAddSingleServicesDashboardMutation();
+    useAddServicesDashboardSingleDashboardMutation();
 
   const [
     updateSingleServicesDashboardTrigger,
     updateSingleServicesDashboardStatus,
-  ] = useUpdateSingleServicesDashboardMutation();
+  ] = useUpdateServicesDashboardSingleDashboardMutation();
 
   const specificUserWatch = useWatch({
     control,
@@ -234,11 +236,8 @@ export const useUpsertDashboard = () => {
     setValue('dashboardWidgets', newItems);
   };
 
-  const apiQueryUsers =
-    useLazyGetDashboardUserAccessListDropdownListForDashboardQuery?.();
-
   const upsertServiceDashboardFormFields =
-    upsertServiceDashboardFormFieldsDynamic?.(apiQueryUsers, fields);
+    upsertServiceDashboardFormFieldsDynamic?.(fields);
 
   useEffect(() => {
     reset(() => createDashboardDefaultValue(data?.data?.dashboard));

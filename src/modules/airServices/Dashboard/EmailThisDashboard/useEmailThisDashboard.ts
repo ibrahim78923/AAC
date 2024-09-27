@@ -7,15 +7,16 @@ import {
   sendDashboardViaEmailFormFieldsDynamic,
 } from './EmailThisDashboard.data';
 import {
-  useSendServiceDashboardViaEmailMutation,
-  useSendServiceDashboardViaEmailOnceMutation,
-} from '@/services/airServices/dashboard';
-import {
   errorSnackbar,
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
 import { useEffect } from 'react';
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import {
+  useSendServicesDashboardRecurringViaEmailMutation,
+  useSendServicesDashboardViaEmailOnceMutation,
+} from '@/services/airServices/dashboard';
 
 export const useEmailThisDashboard = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -29,17 +30,17 @@ export const useEmailThisDashboard = (props: any) => {
   const [
     sendServiceDashboardViaEmailTrigger,
     sendServiceDashboardViaEmailStatus,
-  ] = useSendServiceDashboardViaEmailMutation();
+  ] = useSendServicesDashboardRecurringViaEmailMutation();
 
   const [
     sendServiceDashboardViaEmailOnceTrigger,
     sendServiceDashboardViaEmailOnceStatus,
-  ] = useSendServiceDashboardViaEmailOnceMutation();
+  ] = useSendServicesDashboardViaEmailOnceMutation();
 
   const isRecurringWatch = useWatch({
     control,
     name: 'isRecurring',
-    defaultValue: '',
+    defaultValue: EMAIL_SEND_TYPE?.ONCE,
   });
 
   const watchScheduleOption = useWatch({
@@ -74,7 +75,10 @@ export const useEmailThisDashboard = (props: any) => {
   };
   const sendEmailOnce = async (formData: any) => {
     const emailFormData = new FormData();
-    emailFormData?.append('recipients', formData?.email);
+    const recipients = formData?.email?.map(
+      (user: AutocompleteAsyncOptionsI) => user?.email,
+    );
+    emailFormData?.append('recipients', recipients);
     emailFormData?.append('subject', formData?.emailSubject);
     !!formData?.message && emailFormData?.append('html', formData?.message);
     formData?.attachments !== null &&
@@ -86,7 +90,7 @@ export const useEmailThisDashboard = (props: any) => {
 
     try {
       await sendServiceDashboardViaEmailOnceTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Email sent successfully');
+      successSnackbar('Dashboard share successfully via Email');
       closeDrawer?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

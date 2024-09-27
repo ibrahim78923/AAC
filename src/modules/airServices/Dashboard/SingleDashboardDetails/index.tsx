@@ -11,6 +11,7 @@ export const SingleDashboardDetails = () => {
     return (
       <ApiErrorState message="No Dashboard Found" height="90vh">
         <Button
+          className="small"
           variant="contained"
           onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
         >

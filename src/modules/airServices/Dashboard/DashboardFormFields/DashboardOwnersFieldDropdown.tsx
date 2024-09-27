@@ -1,25 +1,35 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetDashboardOwnersDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
+import { useLazyGetServicesDashboardDashboardOwnersDropdownListQuery } from '@/services/airServices/dashboard';
 
-export const DashboardOwnersFieldDropdown = () => {
+export const DashboardOwnersFieldDropdown = (props: any) => {
+  const {
+    name = 'owner',
+    label = 'Owner',
+    placeholder = 'Select owner',
+    multiple = false,
+    required = false,
+    moreQueryParams = {},
+  } = props;
+
   const auth = useAuth();
   const { _id: productId }: any = auth?.product ?? {};
 
   const apiQueryOwner =
-    useLazyGetDashboardOwnersDropdownListForDashboardQuery?.();
+    useLazyGetServicesDashboardDashboardOwnersDropdownListQuery?.();
 
   return (
     <RHFAutocompleteAsync
-      label="Owner"
-      name="owner"
-      placeholder="Select owner"
+      name={name}
+      label={label}
+      placeholder={placeholder}
       fullWidth
-      required
+      required={required}
       apiQuery={apiQueryOwner}
+      multiple={multiple}
       size="small"
-      externalParams={{ productId }}
+      externalParams={{ productId, ...moreQueryParams }}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`
       }

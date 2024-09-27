@@ -10,10 +10,10 @@ import {
   DOWNLOAD_FILE_TYPE,
   FULL_NAME_OF_WEEK,
   NUMBER_OF_DAYS,
-  SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
+import { DashboardOwnersFieldDropdown } from '../DashboardFormFields/DashboardOwnersFieldDropdown';
 
 export const EMAIL_SEND_SCHEDULE = {
   DAILY: 'DAILY',
@@ -28,6 +28,8 @@ export const EMAIL_SEND_TYPE = {
 
 const { DAILY, MONTHLY, WEEKLY } = EMAIL_SEND_SCHEDULE;
 
+//TODO: recurring email condition will be handled in future
+
 export const isRecurringOptions = [
   {
     value: EMAIL_SEND_TYPE?.ONCE,
@@ -36,6 +38,7 @@ export const isRecurringOptions = [
   {
     value: EMAIL_SEND_TYPE?.RECURRING,
     label: 'Yes, this is recurring email',
+    disabled: true,
   },
 ];
 
@@ -71,22 +74,9 @@ export const monthlyOptions = NUMBER_OF_DAYS;
 export const createEmailThisDashboardValidationSchema: any =
   Yup?.object()?.shape({
     isRecurring: Yup?.string()?.required('Type is required'),
-    email: Yup?.array()
-      ?.nullable()
-      ?.of(Yup?.string())
-      ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
-        if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
-          return false;
-        }
-        return value?.every(
-          (email) => Yup?.string()?.email()?.isValidSync(email),
-        );
-      }),
+    email: Yup?.array()?.min(1, 'Recipient is required'),
     emailSubject: Yup?.string()?.trim()?.required('Subject is required'),
-    emailName: Yup?.string()
-      ?.trim()
-      ?.email('Enter valid emails')
-      ?.required('Subject is required'),
+    emailName: Yup?.string()?.trim()?.email('Enter valid emails'),
     message: Yup?.string()?.trim(),
     fileType: Yup?.mixed()?.nullable(),
     schedule: Yup?.mixed()
@@ -129,8 +119,8 @@ export const createEmailThisDashboardValidationSchema: any =
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
-  isRecurring: '',
-  email: null,
+  isRecurring: EMAIL_SEND_TYPE?.ONCE,
+  email: [],
   emailSubject: '',
   message: '',
   fileType: null,
@@ -174,12 +164,9 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
               label: 'Internal recipients',
               placeholder: 'Enter recipients and press enter',
               required: true,
-              freeSolo: true,
-              options: [],
               multiple: true,
-              isOptionEqualToValue: () => {},
             },
-            component: RHFAutocomplete,
+            component: DashboardOwnersFieldDropdown,
           },
         ]
       : [

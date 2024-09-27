@@ -26,7 +26,8 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
           justifyContent={'space-between'}
           alignItems={'center'}
           flexWrap={'wrap'}
-          p={2}
+          px={2}
+          py={1}
           borderBottom={'1px solid'}
           color="custom.off_white"
         >
@@ -40,26 +41,28 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
             <ViewDetailSharedIcon />
           </IconButton>
         </Box>
-        {!!data?.announcements?.annoucements?.length ? (
-          <Box height={'40vh'} overflow={'auto'}>
-            {data?.announcements?.annoucements?.map(
-              (announcement: any, index: number) => (
-                <Fragment key={announcement?._id}>
-                  <AnnouncementCard
-                    data={announcement}
-                    index={index}
-                    userDetails={{
-                      userAvatar: announcement?.userAvatar,
-                      userName: announcement?.userName,
-                    }}
-                  />
-                </Fragment>
-              ),
-            )}
-          </Box>
-        ) : (
-          <NoData height={'100%'} />
-        )}
+        <Box flex={1}>
+          {!!data?.announcements?.annoucements?.length ? (
+            <>
+              {data?.announcements?.annoucements
+                ?.slice?.(0, 5)
+                ?.map((announcement: any, index: number) => (
+                  <Fragment key={announcement?._id}>
+                    <AnnouncementCard
+                      data={announcement}
+                      index={index}
+                      userDetails={{
+                        userAvatar: announcement?.userAvatar,
+                        userName: announcement?.userName,
+                      }}
+                    />
+                  </Fragment>
+                ))}
+            </>
+          ) : (
+            <NoData height={'100%'} />
+          )}
+        </Box>
         <Box textAlign={'center'}>
           <Button
             className="small"

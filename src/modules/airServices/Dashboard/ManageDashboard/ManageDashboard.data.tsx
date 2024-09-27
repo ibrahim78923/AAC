@@ -9,7 +9,6 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import { AntSwitch } from '@/components/AntSwitch';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../UpsertDashboard/UpsertDashboard.data';
 import {
   ManageDashboardIsPortalOpenI,
   ManageDashboardTableRowI,
@@ -17,6 +16,7 @@ import {
 import { Dispatch, SetStateAction } from 'react';
 import { uiDateFormat } from '@/utils/dateTime';
 import { UserInfo } from '@/components/UserInfo';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
 
 export const MANAGE_ACCESS_TYPES_API_MAPPED = {
   [MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER]: 'Private to owner',
@@ -106,7 +106,7 @@ export const manageDashboardsDataColumnsDynamic = (
     cell: (info: any) => (
       <UserInfo
         name={fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-        nameInitital={fullNameInitial(
+        nameInitial={fullNameInitial(
           info?.getValue()?.firstName,
           info?.getValue()?.lastName,
         )}
@@ -189,19 +189,20 @@ export const manageDashboardsDataColumnsDynamic = (
         <PermissionsGuard
           permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
         >
-          {user?._id === info?.row?.original?.ownerDetails?._id && (
-            <CancelRoundedIcon
-              color="error"
-              sx={{ fontSize: '24px', cursor: 'pointer' }}
-              onClick={() =>
-                setIsPortalOpen({
-                  isOpen: true,
-                  isDelete: true,
-                  data: info?.row?.original,
-                })
-              }
-            />
-          )}
+          {user?._id === info?.row?.original?.ownerDetails?._id &&
+            !info?.row?.original?.isDefault && (
+              <CancelRoundedIcon
+                color="error"
+                sx={{ fontSize: '24px', cursor: 'pointer' }}
+                onClick={() =>
+                  setIsPortalOpen({
+                    isOpen: true,
+                    isDelete: true,
+                    data: info?.row?.original,
+                  })
+                }
+              />
+            )}
         </PermissionsGuard>
       </Box>
     ),

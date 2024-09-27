@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import {
-  useChangeDefaultServicesDashboardMutation,
+  useChangeServicesDashboardSingleDashboardDefaultStatusMutation,
   useLazyGetServicesDashboardListQuery,
 } from '@/services/airServices/dashboard';
 import { buildQueryParams, errorSnackbar } from '@/utils/api';
@@ -39,7 +39,7 @@ export const useManageDashboard = () => {
   const [
     changeDefaultServicesDashboardTrigger,
     changeDefaultServicesDashboardStatus,
-  ] = useChangeDefaultServicesDashboardMutation?.();
+  ] = useChangeServicesDashboardSingleDashboardDefaultStatusMutation?.();
 
   const getDashboardListData = async (currentPage = page) => {
     const additionalParams = [

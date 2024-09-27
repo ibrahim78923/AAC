@@ -1,4 +1,4 @@
-import { useGetPublicDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
+import { useGetServicesDashboardPublicDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
 import { useRouter } from 'next/router';
 
 export const usePublicTicketStatusCount = () => {
@@ -14,7 +14,7 @@ export const usePublicTicketStatusCount = () => {
   };
 
   const { data, isLoading, isFetching, isError, error } =
-    useGetPublicDashboardCardsTicketsQuery(apiDataParameter, {
+    useGetServicesDashboardPublicDashboardCardsTicketsQuery(apiDataParameter, {
       refetchOnMountOrArgChange: true,
       skip,
     });

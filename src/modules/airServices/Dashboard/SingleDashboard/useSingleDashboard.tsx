@@ -1,4 +1,3 @@
-import { useGetSingleServicesDashboardQuery } from '@/services/airServices/dashboard';
 import { useRef, useState } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
@@ -6,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import useAuth from '@/hooks/useAuth';
+import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
 
 export const useSingleDashboard = (props: any) => {
   const { dashboardId } = props;
@@ -40,7 +40,7 @@ export const useSingleDashboard = (props: any) => {
   };
 
   const lazyGetSingleServicesDashboardStatus =
-    useGetSingleServicesDashboardQuery?.(apiDataParameter, {
+    useGetServicesDashboardSingleDashboardDetailsQuery?.(apiDataParameter, {
       refetchOnMountOrArgChange: true,
     });
 

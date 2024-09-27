@@ -1,10 +1,10 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { useLazyGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
+import { useLazyGetServicesDashboardDashboardNameDropdownListQuery } from '@/services/airServices/dashboard';
 
 export const DashboardNameFieldDropdown = () => {
   const apiQueryDashboardName =
-    useLazyGetDashboardNameListDropdownListForDashboardQuery();
+    useLazyGetServicesDashboardDashboardNameDropdownListQuery();
 
   return (
     <RHFAutocompleteAsync
