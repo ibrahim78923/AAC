@@ -116,6 +116,14 @@ const ChatBox = ({
           messageId: item?._id,
           isRead: true,
           groupId: activeChatId,
+          ...(chatMode === 'groupChat' && {
+            ownerDetails: {
+              firstName: user?.firstName,
+              lastName: user?.lastName,
+              avatar: user?.avatar,
+              _id: user?._id,
+            },
+          }),
         });
       }
     }

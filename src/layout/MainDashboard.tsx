@@ -525,6 +525,10 @@ const DashboardLayout = ({ children, window }: any) => {
           if (chat?._id === payload?.data?.chatId) {
             return {
               ...chat,
+              lastMessage: {
+                ...chat?.lastMessage,
+                updatedAt: payload?.updatedAt,
+              },
               content: payload?.data?.content,
               ...(filteredParticipants[0]?._id === chat?.ownerId &&
                 activeChatId !== chat?._id && {
@@ -558,6 +562,12 @@ const DashboardLayout = ({ children, window }: any) => {
           if (chat?._id === payload?.chatId) {
             return {
               ...chat,
+              lastMessage: {
+                ...chat?.lastMessage,
+                updatedAt: payload?.updatedAt,
+              },
+
+
               content: payload?.content,
               ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
                 payload?.ownerId &&
@@ -566,6 +576,7 @@ const DashboardLayout = ({ children, window }: any) => {
                 }),
               ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
                 payload?.ownerId &&
+
                 activeChatId !== payload?.groupDetail?._id && {
                   updatedAt: payload?.updatedAt,
                 }),

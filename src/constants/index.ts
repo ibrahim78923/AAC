@@ -656,3 +656,7 @@ export const PRODUCT_EXTERNAl_LINKS = {
   ORG_ADMIN: '',
   COMMON_FEATURES: '',
 };
+
+export const bypassPermissionsDictionary: any = {
+  'service-customer-portal-report-an-issues': true,
+};

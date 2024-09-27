@@ -559,6 +559,8 @@ export const EMAILS_MARKETING_SETTINGS = {
   CREATE_EMAIL_SETTINGS: '/emails-marketing/create-email-identities',
   EMAIL_VERIFY_OTP_SETTINGS: '/emails-marketing/verify-email-identities',
   UPDATE_EMAIL_IDENTITIES: '/emails-marketing/update-email-identities',
+  DELETE_EMAIL_IDENTITIES: '/emails-marketing/delete-email-identities',
+  RESEND_EMAIL_OTP: '/emails-marketing/resend-code',
 };
 
 export const superAdminBillingInvoices = {

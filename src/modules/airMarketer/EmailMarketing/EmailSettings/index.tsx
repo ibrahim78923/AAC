@@ -1,7 +1,23 @@
-import { DeleteIcon, FilterrIcon, PlusIcon } from '@/assets/icons';
+import {
+  ArrowDropDown,
+  FilterrIcon,
+  PlusIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button, Typography, Stack, useTheme, Grid } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Stack,
+  useTheme,
+  Grid,
+  MenuItem,
+  Menu,
+  CircularProgress,
+  Tooltip,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
   columns,
@@ -16,24 +32,49 @@ import { LoadingButton } from '@mui/lab';
 import CommonModal from '@/components/CommonModal';
 import OTPInput from 'react-otp-input';
 import {
+  useDeleteEmailSettingsMutation,
   useEmailSettingsLatestIdentitiesMutation,
   useEmailSettingsVerifyOTPMutation,
   useGetEmailSettingsIdentitiesQuery,
   usePostEmailSettingsMutation,
+  useResendEmailOTPMutation,
 } from '@/services/airMarketer/email-settings';
 import { PAGINATION } from '@/config';
-import { API_STATUS } from '@/constants';
+import { API_STATUS, indexNumbers } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import Filters from './Filters';
+import { defaultValues, validationSchema } from './Filters/Filters.data';
 
 const EmailSettings = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [emailSettingSearch, setEmailSettingSearch] = useState('');
 
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [filtersData, setFiltersData] = useState<any>();
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // Filters methods and operations ++
+  const methodsFilters: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
+
+  const { handleSubmit: handelSubmitFilters } = methodsFilters;
+  const onSubmitFilters = async (values: any) => {
+    setFiltersData({ ...filtersData, ...values });
+    setIsOpenFilter(false);
+  };
+  // Filters methods and operations --
+
   const { data, status, refetch } = useGetEmailSettingsIdentitiesQuery({
     params: {
       page: page,
       limit: pageLimit,
+      ...(filtersData?.email?.email && { email: filtersData?.email?.email }),
       ...(emailSettingSearch.length > 0 && { search: emailSettingSearch }),
     },
   });
@@ -42,9 +83,11 @@ const EmailSettings = () => {
   const [verifyOTPModal, setVerifyOTPModal] = useState(false);
   const [currentEmailAddress, setCurrentEmailAddress] = useState('');
 
+  const [activeEmailState, setActiveEmailState] = useState('');
+
   const theme = useTheme();
 
-  const [selectedRecords, setSelectedRecords] = useState([]);
+  const [selectedRecords, setSelectedRecords] = useState<any>([]);
 
   const methods: any = useForm({
     resolver: yupResolver(linkNewEmailValidationSchema?.()),
@@ -53,8 +96,12 @@ const EmailSettings = () => {
 
   const [postEmailSettings, { isLoading: loadingPostEmailSettings }] =
     usePostEmailSettingsMutation();
+  const [deleteEmailSettings, { isLoading: loadingDeleteEmailSettings }] =
+    useDeleteEmailSettingsMutation();
   const [emailSettingsVerifyOTP, { isLoading: loadingEmailSettingsVerifyOTP }] =
     useEmailSettingsVerifyOTPMutation();
+  const [resendEmailOTP, { isLoading: loadingResendEmailOTP }] =
+    useResendEmailOTPMutation();
 
   const { handleSubmit, reset } = methods;
   const [otp, setOtp] = useState('');
@@ -63,6 +110,38 @@ const EmailSettings = () => {
     setOtp(value);
   };
 
+  const resendOTP = async ({ emailState }: any) => {
+    try {
+      await resendEmailOTP({
+        email: emailState ? emailState : activeEmailState,
+      })?.unwrap();
+      enqueueSnackbar('Request Successful', {
+        variant: 'success',
+      });
+      if (emailState) {
+        setCurrentEmailAddress(emailState);
+        handleClose();
+        setVerifyOTPModal(true);
+      }
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
+  const deleteEmail = async () => {
+    try {
+      await deleteEmailSettings({
+        id: selectedRecords.map((item: any) => item?._id),
+      })?.unwrap();
+      enqueueSnackbar('Request Successful', {
+        variant: 'success',
+      });
+      setIsDeleteModalOpen(false);
+      setSelectedRecords([]);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
   const handleSubmitOTP = async () => {
     try {
       await emailSettingsVerifyOTP({
@@ -74,6 +153,7 @@ const EmailSettings = () => {
       });
       setCurrentEmailAddress('');
       setVerifyOTPModal(false);
+      setSelectedRecords([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -89,6 +169,7 @@ const EmailSettings = () => {
       enqueueSnackbar('Request Successful', {
         variant: 'success',
       });
+      setActiveEmailState(values?.email);
       setCurrentEmailAddress(values?.email);
       setAddNewEmailModal(false);
       setVerifyOTPModal(true);
@@ -111,11 +192,23 @@ const EmailSettings = () => {
     updateIdentities();
   }, []);
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handelActionResendOTP = () => {
+    resendOTP({ emailState: selectedRecords[indexNumbers?.ZERO]?.email });
+  };
+
   return (
     <Box>
       <Stack direction={{ sm: 'row' }} justifyContent="space-between" px={1.5}>
         <Typography variant="h4">Email Settings</Typography>
-
         <Box
           sx={{
             display: 'flex',
@@ -148,28 +241,69 @@ const EmailSettings = () => {
         }}
       >
         <Button
-          startIcon={
-            <DeleteIcon
-              color={
-                selectedRecords.length < 1
-                  ? theme?.palette?.grey[400]
-                  : theme?.palette?.grey[500]
-              }
-            />
-          }
-          className="small"
           variant="outlined"
           color="inherit"
+          className="small"
+          disabled={selectedRecords?.length < 1}
           sx={{
-            width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+            width: { xs: '100%', sm: 'auto', md: 'auto', lg: '112px' },
           }}
-          disabled={selectedRecords.length < 1}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
         >
-          Delete
+          Actions
+          <ArrowDropDown />
         </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          {selectedRecords[indexNumbers?.ZERO]?.status === 'PENDING' && (
+            <MenuItem
+              onClick={handelActionResendOTP}
+              disabled={selectedRecords?.length > 1}
+            >
+              Resend OTP &nbsp;{' '}
+              {loadingResendEmailOTP && <CircularProgress size={15} />}
+            </MenuItem>
+          )}
+          <MenuItem
+            onClick={() => {
+              setIsDeleteModalOpen(true);
+              handleClose;
+            }}
+          >
+            Delete
+          </MenuItem>
+        </Menu>
+
+        <Tooltip title={'Refresh Filter'}>
+          <Button
+            className="small"
+            variant="outlined"
+            color="inherit"
+            sx={{
+              width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+            }}
+            onClick={() => {
+              reset(), setFiltersData({});
+            }}
+          >
+            <RefreshTasksIcon />
+          </Button>
+        </Tooltip>
+
         <Button
           className="small"
           startIcon={<FilterrIcon />}
+          onClick={() => setIsOpenFilter(true)}
           variant="outlined"
           color="inherit"
           sx={{
@@ -315,29 +449,68 @@ const EmailSettings = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '10px',
-                mt: 2,
-                justifyContent: 'flex-end',
+                mt: 3,
+                justifyContent: 'space-between',
               }}
             >
-              <Button
-                variant="outlined"
-                color="inherit"
-                onClick={() => setVerifyOTPModal(false)}
+              <Box
+                sx={{
+                  color: theme?.palette?.primary?.main,
+                  fontWeight: '500',
+                  fontSize: '14px',
+                }}
+                onClick={resendOTP}
               >
-                Cancel
-              </Button>
-              <LoadingButton
-                loading={loadingEmailSettingsVerifyOTP}
-                variant="contained"
-                onClick={handleSubmitOTP}
-                disabled={otp?.length < 4}
+                Resend OTP
+              </Box>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
               >
-                Submit
-              </LoadingButton>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  onClick={() => setVerifyOTPModal(false)}
+                >
+                  Cancel
+                </Button>
+                <LoadingButton
+                  loading={loadingEmailSettingsVerifyOTP}
+                  variant="contained"
+                  onClick={handleSubmitOTP}
+                  disabled={otp?.length < 4}
+                >
+                  Submit
+                </LoadingButton>
+              </Box>
             </Box>
           </Box>
         </>
       </CommonModal>
+
+      <AlertModals
+        message={`Are you sure you want to delete ${
+          selectedRecords.length > 1 ? 'these' : 'this'
+        }  ${selectedRecords.length > 1 ? 'records' : 'record'} ?`}
+        type={ALERT_MODALS_TYPE?.DELETE}
+        open={isDeleteModalOpen}
+        handleClose={() => setIsDeleteModalOpen(false)}
+        handleSubmitBtn={deleteEmail}
+        loading={loadingDeleteEmailSettings}
+        // disableCancelBtn={deleteAttachmentStatus?.isLoading}
+      />
+
+      <Filters
+        handleSubmit={handelSubmitFilters}
+        onSubmit={onSubmitFilters}
+        methods={methodsFilters}
+        isOpenDrawer={isOpenFilter}
+        onClose={() => setIsOpenFilter(false)}
+      />
     </Box>
   );
 };

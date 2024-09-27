@@ -1,5 +1,5 @@
+import { UserDefault } from '@/assets/images';
 import { RHFTextField } from '@/components/ReactHookForm';
-import { IMG_URL } from '@/config';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
@@ -102,12 +102,13 @@ export const columns = (
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Image
-            src={`${IMG_URL}${info?.row?.original?.createdByAvatar?.url}`}
+            src={UserDefault}
             alt="user"
             width={20}
             height={20}
             style={{ borderRadius: '50%', overflow: 'hidden' }}
           />
+
           {info.row.original?.username}
         </Box>
       ),

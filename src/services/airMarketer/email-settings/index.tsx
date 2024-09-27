@@ -22,6 +22,24 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    resendEmailOTP: builder.mutation({
+      query: ({ email }: any) => {
+        return {
+          url: `${EMAILS_MARKETING_SETTINGS?.RESEND_EMAIL_OTP}?email=${email}`,
+          method: 'POST',
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    deleteEmailSettings: builder.mutation({
+      query: ({ id }: any) => {
+        return {
+          url: `${EMAILS_MARKETING_SETTINGS?.DELETE_EMAIL_IDENTITIES}?ids=${id}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: TAG,
+    }),
     emailSettingsVerifyOTP: builder.mutation({
       query: ({ code, email }: any) => {
         return {
@@ -40,6 +58,16 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    getAllEmailsIdentitiesAsync: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${EMAILS_MARKETING_SETTINGS?.EMAIL_SETTINGS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.emailIdentitiesSES;
+      },
+    }),
   }),
 });
 
@@ -48,4 +76,7 @@ export const {
   usePostEmailSettingsMutation,
   useEmailSettingsVerifyOTPMutation,
   useEmailSettingsLatestIdentitiesMutation,
+  useDeleteEmailSettingsMutation,
+  useResendEmailOTPMutation,
+  useLazyGetAllEmailsIdentitiesAsyncQuery,
 } = emailTemplatesApi;
