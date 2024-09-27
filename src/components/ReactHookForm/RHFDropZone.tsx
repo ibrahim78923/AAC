@@ -31,6 +31,7 @@ export default function RHFDropZone({
     setValue,
     getValues,
     watch,
+    trigger,
     formState: { errors },
   }: any = useFormContext();
   const theme = useTheme();
@@ -83,6 +84,7 @@ export default function RHFDropZone({
         setFileList(
           multiple ? acceptedFiles : [acceptedFiles[indexNumbers?.ZERO]],
         );
+        trigger(name);
       }
     },
     [setValue, name, multiple, maxSize],

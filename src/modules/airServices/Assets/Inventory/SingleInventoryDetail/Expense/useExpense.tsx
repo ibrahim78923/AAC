@@ -9,10 +9,10 @@ import {
 } from './Expense.data';
 import { PAGINATION } from '@/config';
 import {
-  useDeleteInventoryExpenseMutation,
-  useGetInventoryExpenseQuery,
-  usePatchInventoryExpenseMutation,
-  usePostInventoryExpenseMutation,
+  usePostAirServicesAssetsInventoryExpenseMutation,
+  useGetAirServicesAssetsInventoryExpenseQuery,
+  usePatchAirServicesAssetsInventoryExpenseMutation,
+  useDeleteAirServicesAssetsInventoryExpenseMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -47,7 +47,7 @@ export const useExpense = () => {
   const UPDATE_EXPENSE = 'Add New Expense';
 
   const { data, isLoading, isSuccess, isFetching, isError, refetch } =
-    useGetInventoryExpenseQuery(params);
+    useGetAirServicesAssetsInventoryExpenseQuery(params);
 
   const expenseData = data?.data?.expenses;
   const metaData = data?.data?.meta;
@@ -75,10 +75,10 @@ export const useExpense = () => {
   };
 
   const [postExpenseTrigger, postExpenseProgress] =
-    usePostInventoryExpenseMutation();
+    usePostAirServicesAssetsInventoryExpenseMutation();
 
   const [patchExpenseTrigger, patchExpenseProgress] =
-    usePatchInventoryExpenseMutation();
+    usePatchAirServicesAssetsInventoryExpenseMutation();
 
   const isLoadingExpense = postExpenseProgress?.isLoading;
 
@@ -137,7 +137,7 @@ export const useExpense = () => {
   };
 
   const [deleteExpense, { isLoading: deleteLoading }] =
-    useDeleteInventoryExpenseMutation();
+    useDeleteAirServicesAssetsInventoryExpenseMutation();
 
   const handleDelete = async () => {
     try {

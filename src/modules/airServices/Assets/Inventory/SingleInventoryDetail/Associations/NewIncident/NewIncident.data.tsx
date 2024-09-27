@@ -34,8 +34,8 @@ export const newIncidentValidationSchema = (form: any) => {
       ?.trim()
       ?.required('Subject is required')
       ?.max(
-        GLOBAL_CHARACTERS_LIMIT?.SUBJECT,
-        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.SUBJECT}`,
+        GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT}`,
       ),
     description: Yup?.string()
       ?.trim()

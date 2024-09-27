@@ -1,4 +1,4 @@
-import { useGetSingleInventoryOverviewQuery } from '@/services/airServices/assets/inventory/single-inventory-details/overview';
+import { useGetAirServicesAssetsSingleInventoryOverviewQuery } from '@/services/airServices/assets/inventory/single-inventory-details/overview';
 import { useSearchParams } from 'next/navigation';
 import { overviewDataArray } from './Overview.data';
 import { ARRAY_INDEX } from '@/constants/strings';
@@ -8,7 +8,7 @@ export const useOverview = () => {
   const inventoryId = searchParams?.get('inventoryId');
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetSingleInventoryOverviewQuery(inventoryId, {
+    useGetAirServicesAssetsSingleInventoryOverviewQuery(inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
     });

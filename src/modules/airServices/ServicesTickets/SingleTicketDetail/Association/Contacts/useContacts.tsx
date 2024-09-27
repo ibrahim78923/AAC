@@ -10,9 +10,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
-  useGetAssociateTicketsQuery,
-  usePostContactMutation,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesContactMutation,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -56,7 +56,7 @@ export default function useContacts({ setIsDrawerOpen }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
@@ -71,9 +71,10 @@ export default function useContacts({ setIsDrawerOpen }: any) {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
-  const [postContactTrigger, postContactStatus] = usePostContactMutation();
+  const [postContactTrigger, postContactStatus] =
+    usePostAirServicesContactMutation();
 
   const onSubmit = async (data: any) => {
     const body = new FormData();

@@ -5,14 +5,14 @@ const TAG = 'ASSETS_INVENTORY_PURCHASE_ORDER';
 
 export const InventoryPurchaseOrderAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getInventoryPurchaseOrder: builder?.query({
+    getAirServicesAssetInventoryPurchaseOrder: builder?.query({
       query: (id: any) => ({
         url: `${END_POINTS?.ASSETS_INVENTORY_PURCHASE_ORDER}?id=${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    deleteInventoryPurchaseOrder: builder?.mutation({
+    deleteAirServicesAssetInventoryPurchaseOrder: builder?.mutation({
       query: (params: any) => ({
         url: END_POINTS?.DELETE_INVENTORY_PURCHASE_ORDER,
         method: 'PATCH',
@@ -24,6 +24,6 @@ export const InventoryPurchaseOrderAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetInventoryPurchaseOrderQuery,
-  useDeleteInventoryPurchaseOrderMutation,
+  useGetAirServicesAssetInventoryPurchaseOrderQuery,
+  useDeleteAirServicesAssetInventoryPurchaseOrderMutation,
 } = InventoryPurchaseOrderAPI;

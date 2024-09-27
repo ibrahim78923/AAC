@@ -1,6 +1,6 @@
 import {
-  useDeleteInventoryPurchaseOrderMutation,
-  useGetInventoryPurchaseOrderQuery,
+  useGetAirServicesAssetInventoryPurchaseOrderQuery,
+  useDeleteAirServicesAssetInventoryPurchaseOrderMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/purchase-order';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
@@ -16,13 +16,16 @@ export const usePurchaseOrders = () => {
   const router = useRouter();
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetInventoryPurchaseOrderQuery(router?.query?.inventoryId, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!router?.query?.inventoryId,
-    });
+    useGetAirServicesAssetInventoryPurchaseOrderQuery(
+      router?.query?.inventoryId,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!router?.query?.inventoryId,
+      },
+    );
 
   const [deleteInventoryPurchaseOrder, deleteIsLoading] =
-    useDeleteInventoryPurchaseOrderMutation();
+    useDeleteAirServicesAssetInventoryPurchaseOrderMutation();
 
   const handleDelete = async () => {
     try {

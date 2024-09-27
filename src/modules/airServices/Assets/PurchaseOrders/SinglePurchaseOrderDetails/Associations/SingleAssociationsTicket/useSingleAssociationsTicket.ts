@@ -1,5 +1,5 @@
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import { usePostAirServicesRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
@@ -16,7 +16,7 @@ export const useSingleAssociationsTicket = (props: any) => {
   const [disassociateModal, setDisassociateModal] = useState(false);
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const handleSubmitDissociate = async () => {
     const postRemoveAssociateTicketsParameter = {

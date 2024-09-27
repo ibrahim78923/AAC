@@ -7,8 +7,8 @@ import {
 } from './Assets.data';
 import { useRouter } from 'next/router';
 import {
-  useGetAssociateTicketsQuery,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect, useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -51,7 +51,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   // Asset
   const setAssetId = (id: any) => {
@@ -82,7 +82,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
     isFetching: isFetchingAssets,
     isError: isErrorAssets,
     isSuccess: isSuccessAssets,
-  } = useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+  } = useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
     refetchOnMountOrArgChange: true,
   });
 
@@ -141,7 +141,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
     isFetching: isFetchingOrder,
     isError: isErrorOrder,
     isSuccess: isSuccessOrder,
-  } = useGetAssociateTicketsQuery(associateTicketsOrderParameter, {
+  } = useGetAirServicesAssociateTicketsQuery(associateTicketsOrderParameter, {
     refetchOnMountOrArgChange: true,
   });
 

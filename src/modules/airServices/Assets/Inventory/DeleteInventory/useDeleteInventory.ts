@@ -1,4 +1,4 @@
-import { useDeleteInventoryMutation } from '@/services/airServices/assets/inventory';
+import { useDeleteAirServicesAssetsInventoryMutation } from '@/services/airServices/assets/inventory';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -18,7 +18,7 @@ export const useDeleteInventory = (props: DeleteInventoryI) => {
   } = props;
 
   const [deleteInventoryTrigger, deleteInventoryStatus] =
-    useDeleteInventoryMutation();
+    useDeleteAirServicesAssetsInventoryMutation();
 
   const router = useRouter();
 

@@ -10,10 +10,12 @@ import {
   successSnackbar,
 } from '@/utils/api';
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
-import { usePostTicketsMutation } from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import {
+  usePostAirServicesRemoveAssociateTicketsMutation,
+  usePostServicesInventoryAssociationTicketsMutation,
+} from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -37,7 +39,8 @@ export const useNewIncident = (props: {
   const router = useRouter();
   const { inventoryId } = router?.query;
 
-  const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
+  const [postTicketTrigger, postTicketStatus] =
+    usePostServicesInventoryAssociationTicketsMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -196,7 +199,7 @@ export const useNewIncident = (props: {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const associateIncident = async (ticketId: string) => {
     const body = {

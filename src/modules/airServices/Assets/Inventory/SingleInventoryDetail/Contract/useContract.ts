@@ -1,6 +1,6 @@
 import {
-  useDeleteInventoryContractsMutation,
-  useGetInventoryContractsQuery,
+  useGetAirServicesAssetsInventoryContractsQuery,
+  useDeleteAirServicesAssetsInventoryContractsMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/contract';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
@@ -16,13 +16,13 @@ export const useContract = () => {
   const router = useRouter();
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetInventoryContractsQuery(router?.query?.inventoryId, {
+    useGetAirServicesAssetsInventoryContractsQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
     });
 
   const [deleteInventoryContracts, deleteIsLoading] =
-    useDeleteInventoryContractsMutation();
+    useDeleteAirServicesAssetsInventoryContractsMutation();
 
   const handleDelete = async () => {
     try {

@@ -37,7 +37,12 @@ export default function RHFAutocompleteAsync({
   const [open, setOpen] = useState(false);
   const [trigger, { data, isLoading, isFetching }]: any = apiQuery;
   const triggerDebounce = debounce((newInputValue) => {
-    trigger({ params: { [queryKey]: newInputValue, ...externalParams } });
+    trigger({
+      params: {
+        [queryKey]: newInputValue?.length ? newInputValue : undefined,
+        ...externalParams,
+      },
+    });
   }, debounceTime);
 
   const onChanged = (e: any, newValue: any, onChange: any) => {

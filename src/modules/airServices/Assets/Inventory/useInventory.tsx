@@ -11,8 +11,8 @@ import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
-  useLazyGetInventoryQuery,
-  useLazyGetExportInventoryQuery,
+  useLazyGetAirServicesAssetsInventoryQuery,
+  useLazyGetAirServicesAssetsExportInventoryQuery,
 } from '@/services/airServices/assets/inventory';
 import { downloadFile } from '@/utils/file';
 import usePath from '@/hooks/usePath';
@@ -50,9 +50,10 @@ export const useInventory = () => {
   }, []);
 
   const [lazyGetInventoryTrigger, lazyGetInventoryStatus] =
-    useLazyGetInventoryQuery<any>();
+    useLazyGetAirServicesAssetsInventoryQuery<any>();
 
-  const [lazyGetExportInventoryTrigger] = useLazyGetExportInventoryQuery();
+  const [lazyGetExportInventoryTrigger] =
+    useLazyGetAirServicesAssetsExportInventoryQuery();
 
   const product = useMemo(() => getActiveAccountSession(), []);
   const companyIdStorage = product?.company?._id;
@@ -92,7 +93,7 @@ export const useInventory = () => {
       const response: any = await lazyGetExportInventoryTrigger(
         getInventoryParameter,
       )?.unwrap();
-      downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
+      downloadFile(response, 'Inventory List', EXPORT_FILE_TYPE?.[type]);
       successSnackbar('File Exported Successfully!');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

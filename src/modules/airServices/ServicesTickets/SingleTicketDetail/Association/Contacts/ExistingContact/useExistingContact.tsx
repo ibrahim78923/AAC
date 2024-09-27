@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
 import { useAddContactsColumns } from './ExistingContact.data';
-import { useGetAssociatesContactsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesContactsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export default function useExistingContact({ setSelected, selected }: any) {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -17,7 +17,7 @@ export default function useExistingContact({ setSelected, selected }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesContactsQuery(getAssociatesContactsParameter, {
+    useGetAirServicesAssociatesContactsQuery(getAssociatesContactsParameter, {
       refetchOnMountOrArgChange: true,
     });
 

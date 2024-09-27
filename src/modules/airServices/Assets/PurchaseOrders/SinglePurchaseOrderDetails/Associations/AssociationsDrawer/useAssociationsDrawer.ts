@@ -3,7 +3,7 @@ import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import { usePostAirServicesRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 export const useAssociationsDrawer = (props: any) => {
@@ -20,7 +20,7 @@ export const useAssociationsDrawer = (props: any) => {
     useLazyGetTicketsQuery();
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const tickets = lazyGetTicketsStatus?.data?.data;
   const metaData = lazyGetTicketsStatus?.data?.data?.meta;

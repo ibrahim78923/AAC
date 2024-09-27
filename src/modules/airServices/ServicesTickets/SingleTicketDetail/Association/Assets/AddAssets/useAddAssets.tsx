@@ -1,5 +1,5 @@
 import { getAddAssetsColumns } from './AddAssets.data';
-import { useGetAssociatesAssetsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesAssetsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useMemo, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { getActiveAccountSession } from '@/utils';
@@ -21,7 +21,7 @@ export default function useAddAssets({ setSelected, selected }: any) {
     },
   };
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesAssetsQuery(getAssociatesAssetsParameter, {
+    useGetAirServicesAssociatesAssetsQuery(getAssociatesAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 

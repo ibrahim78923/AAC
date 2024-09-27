@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { addAssociationsButtonDynamic } from './Associations.data';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
-  useGetAssociateTicketsQuery,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 
 const useAssociations = () => {
@@ -23,7 +23,7 @@ const useAssociations = () => {
   const associationsInventoryId = router?.query?.inventoryId;
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const handleMouseOver = (itemId: null | string) => {
     setHoveredItemId(itemId);
@@ -41,7 +41,7 @@ const useAssociations = () => {
     data: dataAssets,
     isLoading: isLoadingAssets,
     isFetching: isFetchingAssets,
-  } = useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+  } = useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
     refetchOnMountOrArgChange: true,
     skip: !!!associationsInventoryId,
   });

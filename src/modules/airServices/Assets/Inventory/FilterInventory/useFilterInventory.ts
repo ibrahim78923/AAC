@@ -6,10 +6,10 @@ import {
 import { useForm } from 'react-hook-form';
 import usePath from '@/hooks/usePath';
 import {
-  useLazyGetAssetTypeQuery,
-  useLazyGetAssetsInventoryDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetUsersDropdownQuery,
+  useLazyGetAirServicesAssetsInventoryAssetTypeQuery,
+  useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery,
+  useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery,
+  useLazyGetAirServicesAssetsInventoryUsersDropdownQuery,
 } from '@/services/airServices/assets/inventory';
 import { FilterInventoryI } from './FilterInventory.interface';
 
@@ -65,11 +65,16 @@ export const useFilterInventory = (props: FilterInventoryI) => {
     setIsDrawerOpen?.(false);
   };
 
-  const apiQueryAssetType = useLazyGetAssetTypeQuery();
-  const apiQueryUsers = useLazyGetUsersDropdownQuery();
-  const apiQueryDepartment = useLazyGetAssetsInventoryDepartmentDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-  const apiQueryUsersCreatedBy = useLazyGetUsersDropdownQuery();
+  const apiQueryAssetType =
+    useLazyGetAirServicesAssetsInventoryAssetTypeQuery();
+  const apiQueryUsers =
+    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
+  const apiQueryDepartment =
+    useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery();
+  const apiQueryLocations =
+    useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery();
+  const apiQueryUsersCreatedBy =
+    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
 
   const inventoryFilterFormFieldsData = inventoryFilterFormFieldsDataFunction(
     apiQueryDepartment,

@@ -10,9 +10,9 @@ import {
 import { drawerInitialState } from '../Association.data';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
-  useGetAssociateTicketsQuery,
-  usePostCompanyMutation,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesCompanyMutation,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -55,7 +55,7 @@ export default function useCompanies({ setIsDrawerOpen }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
@@ -70,9 +70,10 @@ export default function useCompanies({ setIsDrawerOpen }: any) {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
-  const [postCompanyTrigger, postCompanyStatus] = usePostCompanyMutation();
+  const [postCompanyTrigger, postCompanyStatus] =
+    usePostAirServicesCompanyMutation();
 
   const onSubmit = async (data: any) => {
     const body = new FormData();

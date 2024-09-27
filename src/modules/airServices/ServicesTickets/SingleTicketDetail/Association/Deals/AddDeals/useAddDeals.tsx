@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
 import { useAddDealsColumns } from './AddDeals.data';
-import { useGetAssociatesDealsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesDealsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export default function useAddDeals({ setSelected, selected }: any) {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -17,7 +17,7 @@ export default function useAddDeals({ setSelected, selected }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesDealsQuery(getAssociatesDealsParameter, {
+    useGetAirServicesAssociatesDealsQuery(getAssociatesDealsParameter, {
       refetchOnMountOrArgChange: true,
     });
 

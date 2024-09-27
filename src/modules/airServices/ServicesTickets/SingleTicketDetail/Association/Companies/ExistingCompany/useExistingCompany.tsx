@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
-import { useGetAssociatesCompanyQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesCompanyQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useAddCompanyColumns } from './ExistingCompany.data';
 
 export default function useExistingCompany({ setSelected, selected }: any) {
@@ -17,9 +17,12 @@ export default function useExistingCompany({ setSelected, selected }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesCompanyQuery(postTicketsAssociatesCompanyParameter, {
-      refetchOnMountOrArgChange: true,
-    });
+    useGetAirServicesAssociatesCompanyQuery(
+      postTicketsAssociatesCompanyParameter,
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const addCompanyColumns = useAddCompanyColumns({
     setSelected,

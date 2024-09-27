@@ -8,35 +8,36 @@ const {
   DELETE_INVENTORY_EXPENSE,
 } = END_POINTS;
 const TAG = 'INVENTORY_EXPENSE';
-export const inventoryExpense = baseAPI.injectEndpoints({
+
+export const inventoryExpense = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getInventoryExpense: builder.query({
+    getAirServicesAssetsInventoryExpense: builder?.query({
       query: (params: any) => ({
-        url: `${GET_INVENTORY_EXPENSE}`,
+        url: GET_INVENTORY_EXPENSE,
         method: 'GET',
         params,
       }),
       providesTags: [TAG],
     }),
-    postInventoryExpense: builder.mutation({
+    postAirServicesAssetsInventoryExpense: builder?.mutation({
       query: (body: any) => ({
-        url: `${INVENTORY_EXPENSE}`,
+        url: INVENTORY_EXPENSE,
         method: 'POST',
         body,
       }),
       invalidatesTags: [TAG],
     }),
-    patchInventoryExpense: builder.mutation({
+    patchAirServicesAssetsInventoryExpense: builder?.mutation({
       query: (body: any) => ({
-        url: `${PATCH_INVENTORY_EXPENSE}`,
+        url: PATCH_INVENTORY_EXPENSE,
         method: 'PATCH',
         body,
       }),
       invalidatesTags: [TAG],
     }),
-    deleteInventoryExpense: builder.mutation({
+    deleteAirServicesAssetsInventoryExpense: builder?.mutation({
       query: (params: any) => {
-        const deleteId = params?.ids.join('&ids=');
+        const deleteId = params?.ids?.join('&ids=');
         return {
           url: `${DELETE_INVENTORY_EXPENSE}/{ids}?ids=${deleteId}`,
           method: 'DELETE',
@@ -48,8 +49,8 @@ export const inventoryExpense = baseAPI.injectEndpoints({
 });
 
 export const {
-  usePostInventoryExpenseMutation,
-  useGetInventoryExpenseQuery,
-  usePatchInventoryExpenseMutation,
-  useDeleteInventoryExpenseMutation,
+  usePostAirServicesAssetsInventoryExpenseMutation,
+  useGetAirServicesAssetsInventoryExpenseQuery,
+  usePatchAirServicesAssetsInventoryExpenseMutation,
+  useDeleteAirServicesAssetsInventoryExpenseMutation,
 } = inventoryExpense;

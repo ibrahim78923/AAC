@@ -10,13 +10,13 @@ import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
-  useGetAddToInventoryByIdQuery,
-  useLazyGetAssetTypeInventoryDropdownQuery,
-  useLazyGetAssetsInventoryDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetUsersDropdownQuery,
-  usePatchAddToInventoryMutation,
-  usePostInventoryMutation,
+  useGetAirServicesAssetsInventoryAddToInventoryByIdQuery,
+  useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery,
+  useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery,
+  useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery,
+  useLazyGetAirServicesAssetsInventoryUsersDropdownQuery,
+  usePatchAirServicesAssetsInventoryAddToInventoryMutation,
+  usePostAirServicesAssetsInventoryMutation,
 } from '@/services/airServices/assets/inventory';
 import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
 import {
@@ -49,9 +49,9 @@ export const useUpsertInventory = () => {
   const { inventoryId } = router?.query;
 
   const [patchAddToInventoryTrigger, patchAddToInventoryStatus] =
-    usePatchAddToInventoryMutation();
+    usePatchAirServicesAssetsInventoryAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
-    usePostInventoryMutation();
+    usePostAirServicesAssetsInventoryMutation();
 
   const getSingleInventoryDetailsParameter = {
     pathParam: {
@@ -60,10 +60,13 @@ export const useUpsertInventory = () => {
   };
 
   const { data, isLoading, isFetching, isError }: any =
-    useGetAddToInventoryByIdQuery(getSingleInventoryDetailsParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!inventoryId,
-    });
+    useGetAirServicesAssetsInventoryAddToInventoryByIdQuery(
+      getSingleInventoryDetailsParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!inventoryId,
+      },
+    );
 
   const methods = useForm({
     resolver: yupResolver(UpsertInventoryValidationSchema?.(form)),
@@ -266,11 +269,14 @@ export const useUpsertInventory = () => {
 
   const { _id: productId } = auth?.product;
 
-  const apiQueryAssetType = useLazyGetAssetTypeInventoryDropdownQuery();
+  const apiQueryAssetType =
+    useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery();
   const apiQueryDepartmentType =
-    useLazyGetAssetsInventoryDepartmentDropdownQuery();
-  const apiQueryLocationType = useLazyGetLocationsDropdownQuery();
-  const apiQueryUsedByType = useLazyGetUsersDropdownQuery();
+    useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery();
+  const apiQueryLocationType =
+    useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery();
+  const apiQueryUsedByType =
+    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
 
   const upsertInventoryFormFieldsOne =
     upsertInventoryFormFieldsFirst(apiQueryAssetType);

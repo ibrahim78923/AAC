@@ -5,7 +5,7 @@ const TAG = 'ASSETS_INVENTORY_SOFTWARE';
 
 export const InventoryAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getInventorySoftware: builder?.query({
+    getAirServicesAssetInventorySoftware: builder?.query({
       query: (id: any) => ({
         url: `${END_POINTS?.ASSETS_INVENTORY_SOFTWARE}/${id}`,
         method: 'GET',
@@ -13,7 +13,7 @@ export const InventoryAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    deleteInventorySoftware: builder?.mutation({
+    deleteAirServicesAssetInventorySoftware: builder?.mutation({
       query: ({ body }: any) => ({
         url: END_POINTS?.REMOVE_SOFTWARE_INSTALLATION,
         method: 'PATCH',
@@ -25,6 +25,6 @@ export const InventoryAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetInventorySoftwareQuery,
-  useDeleteInventorySoftwareMutation,
+  useGetAirServicesAssetInventorySoftwareQuery,
+  useDeleteAirServicesAssetInventorySoftwareMutation,
 } = InventoryAPI;
