@@ -15,8 +15,8 @@ export const DeleteConversation = (props: any) => {
       type={ALERT_MODALS_TYPE?.DELETE}
       message="Do you want to delete the conversation ? "
       open={selectedConversationType?.isDelete}
-      handleClose={() => closeDeleteModal?.()}
-      handleSubmitBtn={() => deleteConversation?.()}
+      handleClose={closeDeleteModal}
+      handleSubmitBtn={deleteConversation}
       loading={deleteTicketConversationStatus?.isLoading}
       disableCancelBtn={deleteTicketConversationStatus?.isLoading}
     />

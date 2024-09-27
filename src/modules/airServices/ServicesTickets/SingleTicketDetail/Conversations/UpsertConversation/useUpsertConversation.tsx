@@ -6,8 +6,8 @@ import {
 } from './UpsertConversation.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useEditTicketConversationNoteMutation,
-  usePostConversationMutation,
+  useAddServicesTicketsSingleConversationMutation,
+  useUpdateServicesTicketSingleConversationNoteMutation,
 } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
@@ -37,9 +37,10 @@ export const useUpsertConversation = (
   const { ticketId } = router?.query;
 
   const [postConversationTrigger, postConversationStatus] =
-    usePostConversationMutation();
+    useAddServicesTicketsSingleConversationMutation();
   const [editTicketConversationNoteTrigger, editTicketConversationNoteStatus] =
-    useEditTicketConversationNoteMutation();
+    useUpdateServicesTicketSingleConversationNoteMutation();
+
   const [postAttachmentsTrigger, postAttachmentsStatus] =
     usePostAttachmentsMutation();
   const methods = useForm<any>({

@@ -1,4 +1,3 @@
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { ConversationCard } from './ConversationCard';
 import { useConversations } from './useConversations';
 import NoData from '@/components/NoData';
@@ -12,6 +11,7 @@ import { DeleteConversation } from './DeleteConversation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import ApiErrorState from '@/components/ApiErrorState';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
 export const Conversations = () => {
   const {
@@ -26,12 +26,39 @@ export const Conversations = () => {
     isError,
   }: any = useConversations();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isLoading || isFetching)
+    return <SkeletonCard gridSize={{ md: 12 }} outerPadding={{ x: 2, y: 3 }} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+  if (!!!data?.data?.length)
+    return (
+      <NoData message="There are no conversation available">
+        <PermissionsGuard
+          permissions={
+            Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ADD_CONVERSATION
+          }
+        >
+          <SingleDropdownButton
+            dropdownOptions={addConversationDropdownButton}
+            dropdownName={'ADD'}
+            btnVariant="contained"
+            color="primary"
+            endIcon={<></>}
+            startIcon={<PlusSharedColorIcon />}
+          />
+        </PermissionsGuard>
+      </NoData>
+    );
 
   return (
     <>
-      {!!!data?.data?.length ? (
-        <NoData message="There are no conversation available">
+      <>
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={2}
+        >
+          <PageTitledHeader title={'Conversation'} />
           <PermissionsGuard
             permissions={
               Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ADD_CONVERSATION
@@ -39,55 +66,27 @@ export const Conversations = () => {
           >
             <SingleDropdownButton
               dropdownOptions={addConversationDropdownButton}
-              dropdownName={'ADD'}
+              dropdownName={'Add Conversation'}
               btnVariant="contained"
               color="primary"
               endIcon={<></>}
               startIcon={<PlusSharedColorIcon />}
+              menuSxProps={{ '.MuiPaper-root': { width: pxToRem(190) } }}
             />
           </PermissionsGuard>
-        </NoData>
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
-      ) : (
-        <>
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            flexWrap={'wrap'}
-            gap={2}
-          >
-            <PageTitledHeader title={'Conversation'} />
-            <PermissionsGuard
-              permissions={
-                Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ADD_CONVERSATION
-              }
-            >
-              <SingleDropdownButton
-                dropdownOptions={addConversationDropdownButton}
-                dropdownName={'Add Conversation'}
-                btnVariant="contained"
-                color="primary"
-                endIcon={<></>}
-                startIcon={<PlusSharedColorIcon />}
-                menuSxProps={{ '.MuiPaper-root': { width: pxToRem(190) } }}
+        </Box>
+        <Box maxHeight={'50vh'} overflow={'auto'}>
+          {data?.data?.map((conversation: any) => (
+            <Fragment key={conversation?._id}>
+              <ConversationCard
+                data={conversation}
+                setSelectedConversationType={setSelectedConversationType}
               />
-            </PermissionsGuard>
-          </Box>
-          <Box maxHeight={'50vh'} overflow={'auto'}>
-            {data?.data?.map((conversation: any) => (
-              <Fragment key={conversation?._id}>
-                <ConversationCard
-                  data={conversation}
-                  setSelectedConversationType={setSelectedConversationType}
-                />
-              </Fragment>
-            ))}
-          </Box>
-        </>
-      )}
+            </Fragment>
+          ))}
+        </Box>
+      </>
       {selectedConversationType?.isOpen && openConversationTypeContext()}
-
       {selectedConversationType?.isDelete && (
         <DeleteConversation
           isDrawerOpen={selectedConversationType?.isDelete}

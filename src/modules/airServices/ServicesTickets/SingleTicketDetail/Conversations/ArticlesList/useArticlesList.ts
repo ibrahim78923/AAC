@@ -1,9 +1,8 @@
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
-import useAuth from '@/hooks/useAuth';
-import { useGetAllArticlesForConversationQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { ARTICLE_STATUS } from '@/constants/strings';
+import { useGetServicesTicketsConversationPublishedArticlesListQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
+import { getActiveAccountSession } from '@/utils';
+import { useMemo, useState } from 'react';
 
 export const useArticlesList = (props: any) => {
   const { setIsModalOpen } = props;
@@ -11,11 +10,9 @@ export const useArticlesList = (props: any) => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
 
-  const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
 
-  const router = useRouter();
   const getAllArticlesForConversationParameter = {
     queryParams: {
       page,
@@ -27,7 +24,7 @@ export const useArticlesList = (props: any) => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetAllArticlesForConversationQuery(
+    useGetServicesTicketsConversationPublishedArticlesListQuery(
       getAllArticlesForConversationParameter,
       {
         refetchOnMountOrArgChange: true,
@@ -43,7 +40,6 @@ export const useArticlesList = (props: any) => {
     isLoading,
     isFetching,
     isError,
-    router,
     setPage,
     setPageLimit,
     setSearch,

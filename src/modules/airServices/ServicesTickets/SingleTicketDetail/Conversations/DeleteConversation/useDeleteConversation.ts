@@ -1,11 +1,11 @@
-import { useDeleteTicketConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
+import { useDeleteServicesTicketSingleConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteConversation = (props: any) => {
   const { selectedConversationType, setIsDrawerOpen, refetch } = props;
 
   const [deleteTicketConversationTrigger, deleteTicketConversationStatus] =
-    useDeleteTicketConversationMutation();
+    useDeleteServicesTicketSingleConversationMutation();
 
   const deleteConversation = async () => {
     const deleteApiParameter = {
@@ -18,7 +18,7 @@ export const useDeleteConversation = (props: any) => {
         await deleteTicketConversationTrigger(deleteApiParameter)?.unwrap();
 
       successSnackbar(response?.message);
-      setIsDrawerOpen?.({});
+      closeDeleteModal?.();
       refetch?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

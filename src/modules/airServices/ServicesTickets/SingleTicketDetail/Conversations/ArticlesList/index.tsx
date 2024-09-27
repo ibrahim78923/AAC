@@ -1,21 +1,17 @@
 import Search from '@/components/Search';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useArticlesList } from './useArticlesList';
 import NoData from '@/components/NoData';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import CustomPagination from '@/components/CustomPagination';
 import { AIR_SERVICES } from '@/constants';
 import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/strings';
-import CloseIcon from '@mui/icons-material/Close';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import Link from 'next/link';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+
+const { UPSERT_ARTICLE } = AIR_SERVICES ?? {};
 
 export const ArticlesList = (props: any) => {
   const { isModalOpen, setArticleResponse } = props;
@@ -24,7 +20,6 @@ export const ArticlesList = (props: any) => {
     isLoading,
     isFetching,
     isError,
-    router,
     setPage,
     setPageLimit,
     setSearch,
@@ -33,51 +28,35 @@ export const ArticlesList = (props: any) => {
   } = useArticlesList(props);
 
   return (
-    <Dialog
-      open={isModalOpen?.isOpen}
-      onClose={() => closeModal?.()}
-      maxWidth={'sm'}
-      fullWidth
-    >
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-          mb={1.5}
-        >
-          <Typography variant="h4" color="slateBlue.main">
-            Article
-          </Typography>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => closeModal?.()}
-          />
-        </Box>
-      </DialogTitle>
-      <DialogContent>
+    <>
+      <CustomCommonDialog
+        isPortalOpen={isModalOpen?.isOpen}
+        closePortal={closeModal}
+        dialogTitle="Article"
+      >
         <Box my={1}>
           <Search label="Search Here" setSearchBy={setSearch} width={'100%'} />
         </Box>
-        <Button
-          disableElevation
-          variant="text"
-          color="inherit"
-          startIcon={<AddCircleIcon color="primary" />}
-          onClick={() =>
-            router?.push({ pathname: AIR_SERVICES?.UPSERT_ARTICLE })
-          }
-          size="small"
-          className="small"
-        >
-          Add New Article
-        </Button>
+        <Link href={UPSERT_ARTICLE}>
+          <Button
+            disableElevation
+            variant="text"
+            color="inherit"
+            startIcon={<AddCircleIcon color="primary" />}
+            size="small"
+            className="small"
+          >
+            Add New Article
+          </Button>
+        </Link>
         {isLoading || isFetching ? (
-          <SkeletonTable />
+          <SkeletonCard
+            gridSize={{ md: 12 }}
+            hasCircularSkeleton={false}
+            flexDirection="column"
+          />
         ) : isError ? (
-          <ApiErrorState canRefresh refresh={() => refetch?.()} />
+          <ApiErrorState canRefresh refresh={refetch} />
         ) : !!data?.data?.articles?.length ? (
           <>
             {data?.data?.articles?.map((article: any) => (
@@ -145,7 +124,7 @@ export const ArticlesList = (props: any) => {
         ) : (
           <NoData message="No article found" />
         )}
-      </DialogContent>
-    </Dialog>
+      </CustomCommonDialog>
+    </>
   );
 };

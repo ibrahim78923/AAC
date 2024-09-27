@@ -3,11 +3,10 @@ import {
   formatFileSize,
   fullName,
   fullNameInitial,
-  generateImage,
   truncateText,
 } from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import {
   EditBlackIcon,
   ShortcutSharpLeftIcon,
@@ -18,6 +17,8 @@ import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { otherDateFormat } from '@/utils/dateTime';
+import { UserInfo } from '@/components/UserInfo';
+import { LogInfo } from '@/components/LogInfo';
 
 export const ConversationCard = (props: any) => {
   const { data, setSelectedConversationType } = props;
@@ -35,72 +36,46 @@ export const ConversationCard = (props: any) => {
         gap={2}
         justifyContent={'space-between'}
         flexWrap={'wrap'}
-        alignItems={'center'}
       >
-        <Box display={'flex'} flex={0.33} gap={1} alignItems={'center'}>
-          <Avatar
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: 'primary.light',
+        <Box flex={0.7}>
+          <UserInfo
+            isNameCapital={false}
+            nameProps={{
+              fontWeight: 'fontWeightMedium',
+              color: 'primary.main',
+              variant: 'body2',
             }}
-            src={generateImage(data?.performedBy?.avatar?.url)}
-          >
-            <Typography
-              variant="body2"
-              textTransform={'uppercase'}
-              color="slateBlue.main"
-            >
-              {fullNameInitial(
-                data?.performedBy?.firstName,
-                data?.performedBy?.lastName,
-              )}
-            </Typography>
-          </Avatar>
-          <Box>
-            <Typography variant="body1" color="primary" fontWeight={600}>
-              {fullName(data?.performedBy?.firstName)}
-              <Typography
-                variant="body2"
-                component={'span'}
-                color="slateBlue.main"
-                fontWeight={600}
-              >
-                {' '}
-                {`${CONVERSATION_TYPE_MODIFY[data?.type]?.description}`}{' '}
-              </Typography>
-              {data?.recipients?.join?.(' ')}
-            </Typography>
-            <Typography variant="body3" fontWeight={400} color={'grey.900'}>
-              {otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.UI)}
-            </Typography>
-          </Box>
-        </Box>
-        <Box
-          display={'flex'}
-          flex={0.33}
-          flexWrap={'wrap'}
-          alignItems={'center'}
-          justifyContent={'center'}
-          gap={1}
-        >
-          <Avatar
-            src={generateImage(data?.attachment?.fileUrl)}
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: 'primary.light',
-            }}
+            avatarSize={{ height: 40, width: 40 }}
+            name={
+              <LogInfo
+                performer={fullName(
+                  data?.performedBy?.firstName,
+                  data?.performedBy?.lastName,
+                )}
+                logType={`${CONVERSATION_TYPE_MODIFY[data?.type]?.description}`}
+                log={data?.recipients?.join?.(' ')}
+              />
+            }
+            email={otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.UI)}
+            avatarSrc={data?.performedBy?.avatar?.url}
+            nameInitial={fullNameInitial(
+              data?.performedBy?.firstName,
+              data?.performedBy?.lastName,
+            )}
           />
-          <Box>
-            <Typography variant="body2" color="slateBlue.main">
-              {truncateText(data?.attachment?.orignalName)}
-            </Typography>
-            <Typography variant="body3" color="grey.500">
-              {formatFileSize(data?.attachment?.fileSize)}
-            </Typography>
-          </Box>
         </Box>
+        {!!data?.attachment?._id && (
+          <Box flex={0.33}>
+            <UserInfo
+              nameInitial={fullNameInitial(data?.attachment?.orignalName)}
+              name={truncateText(data?.attachment?.orignalName, 10)}
+              avatarSrc={data?.attachment?.fileUrl}
+              email={formatFileSize(data?.attachment?.fileSize)}
+              isNameCapital={false}
+              avatarSize={{ height: 35, width: 35 }}
+            />
+          </Box>
+        )}
         <Box display={'flex'} flex={0.33} justifyContent={'flex-end'} gap={1.5}>
           <PermissionsGuard
             permissions={[
@@ -165,7 +140,7 @@ export const ConversationCard = (props: any) => {
             ]}
           >
             {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
-              <DeleteIcon
+              <Delete
                 onClick={() =>
                   setSelectedConversationType({
                     ...data,
@@ -184,7 +159,12 @@ export const ConversationCard = (props: any) => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <Box mt={1.5} fontWeight={600} maxHeight={'15vh'} overflow={'auto'}>
+      <Box
+        mt={1.5}
+        fontWeight={'fontWeightSmall'}
+        maxHeight={'15vh'}
+        overflow={'auto'}
+      >
         <Box dangerouslySetInnerHTML={{ __html: data?.html }}></Box>
       </Box>
     </Box>

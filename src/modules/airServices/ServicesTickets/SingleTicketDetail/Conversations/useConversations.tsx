@@ -1,5 +1,5 @@
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
-import { useGetConversationQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
+import { useGetServicesTicketsConversationListQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { useRouter } from 'next/router';
 import { Discuss } from './Discuss';
 import {
@@ -22,7 +22,7 @@ export const useConversations = () => {
   };
 
   const { data, isFetching, isLoading, refetch, isError } =
-    useGetConversationQuery(queryParams, {
+    useGetServicesTicketsConversationListQuery(queryParams, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
     });

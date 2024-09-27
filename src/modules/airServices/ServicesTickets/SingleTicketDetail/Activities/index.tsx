@@ -7,6 +7,7 @@ import NoData from '@/components/NoData';
 import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
 import { TruncateText } from '@/components/TruncateText';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { LogInfo } from '@/components/LogInfo';
 
 export const Activities = () => {
   const {
@@ -63,21 +64,11 @@ export const Activities = () => {
                 ></IconButton>
               </Box>
               <Box>
-                <Box display={'flex'} gap={0.3}>
-                  <Typography
-                    variant="body2"
-                    color="primary"
-                    textTransform={'capitalize'}
-                  >
-                    {activity?.performedByName?.toLowerCase()}
-                  </Typography>
-                  <Typography variant="body2" color="secondary">
-                    has {activity?.activityType?.toLowerCase()}
-                  </Typography>
-                  <Typography variant="body2" color="primary">
-                    <TruncateText text={activity?.moduleName} />
-                  </Typography>
-                </Box>
+                <LogInfo
+                  performer={activity?.performedByName?.toLowerCase()}
+                  logType={`has ${activity?.activityType?.toLowerCase()}`}
+                  log={<TruncateText text={activity?.moduleName} />}
+                />
                 <Box display={'flex'} gap={1}>
                   <Typography variant="body2" color="textPrimary">
                     {uiDateFormat(activity?.createdAt)}

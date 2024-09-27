@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useGetCannedResponsesForConversationQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
-import { useRouter } from 'next/router';
+import { useGetServicesTicketsConversationCannedResponsesListsQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { useState } from 'react';
 
 export const useCannedResponsesList = (props: any) => {
@@ -9,7 +8,6 @@ export const useCannedResponsesList = (props: any) => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
 
-  const router = useRouter();
   const getCannedResponsesForConversationParameter = {
     queryParams: {
       page,
@@ -19,7 +17,7 @@ export const useCannedResponsesList = (props: any) => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetCannedResponsesForConversationQuery(
+    useGetServicesTicketsConversationCannedResponsesListsQuery(
       getCannedResponsesForConversationParameter,
       {
         refetchOnMountOrArgChange: true,
@@ -35,7 +33,6 @@ export const useCannedResponsesList = (props: any) => {
     isLoading,
     isFetching,
     isError,
-    router,
     setPage,
     setPageLimit,
     setSearch,
