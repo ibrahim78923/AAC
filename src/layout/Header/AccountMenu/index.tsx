@@ -40,6 +40,7 @@ const AccountMenu = () => {
 
   const findModulePermissionKey = async (product: any, id: string) => {
     const payload = { account: id };
+    handleClose();
     try {
       const response = await PostAuthAccountSelect(payload)?.unwrap();
 

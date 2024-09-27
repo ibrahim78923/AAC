@@ -575,11 +575,6 @@ const DashboardLayout = ({ children, window }: any) => {
                 }),
               ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
                 payload?.ownerId &&
-                activeChatId !== payload?.groupDetail?._id && {
-                  updatedAt: payload?.updatedAt,
-                }),
-              ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
-                payload?.ownerId &&
                 activeChatId !== payload?.groupDetail?._id && { unread: true }),
             };
           }
