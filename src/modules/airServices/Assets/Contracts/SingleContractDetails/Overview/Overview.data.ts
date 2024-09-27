@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
+import { splitCapitalizedWords } from '@/utils/api';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 
@@ -37,7 +38,10 @@ export const overviewData = ({
     heading: 'Items and Cost Details',
     detailsData: [
       { name: 'Software', detail: contractItemData?.serviceName ?? '--' },
-      { name: 'Pricing Model', detail: contractItemData?.priceModel ?? '--' },
+      {
+        name: 'Pricing Model',
+        detail: splitCapitalizedWords(contractItemData?.priceModel) ?? '--',
+      },
       { name: 'Cost', detail: contractItemData?.cost ?? '--' },
       { name: 'Count', detail: contractItemData?.count ?? '--' },
       { name: 'Comments', detail: contractItemData?.comments ?? '--' },

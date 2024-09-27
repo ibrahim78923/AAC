@@ -1,13 +1,13 @@
 import { SCHEMA_KEYS } from '@/constants/strings';
 import {
-  useLazyGetAssetTypeQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
-  useLazyGetUsersListDropdownQuery,
+  useLazyGetAgentsDropDownInWorkflowQuery,
+  useLazyGetAssetTypeInWorkflowQuery,
+  useLazyGetDepartmentDropdownInWorkflowQuery,
+  useLazyGetLocationsDropdownInWorkflowQuery,
+  useLazyGetRequesterDropdownInWorkflowQuery,
+  useLazyGetUsersListDropdownInWorkflowQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useGetSchemaKeysQuery } from '@/services/common-APIs';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
 import { useFieldArray } from 'react-hook-form';
 
@@ -34,12 +34,12 @@ export const useSubWorkflowConditions = (props: any) => {
       removeParent(index);
     }
   };
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const requestersApiQuery = useLazyGetRequesterDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-  const apiAssetType = useLazyGetAssetTypeQuery();
-  const apiUsersListDropdown = useLazyGetUsersListDropdownQuery();
+  const agentApiQuery = useLazyGetAgentsDropDownInWorkflowQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownInWorkflowQuery();
+  const requestersApiQuery = useLazyGetRequesterDropdownInWorkflowQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownInWorkflowQuery();
+  const apiAssetType = useLazyGetAssetTypeInWorkflowQuery();
+  const apiUsersListDropdown = useLazyGetUsersListDropdownInWorkflowQuery();
   return {
     fields,
     append,

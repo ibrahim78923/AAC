@@ -13,7 +13,6 @@ import { NextRouter, useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   ARRAY_INDEX,
-  CATALOG_SERVICE_TYPES,
   MODULE_TYPE,
   TICKET_STATUS,
   TICKET_TYPE,
@@ -50,9 +49,8 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   }, [companyId]);
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const categoryType = servicesDetails?.data?.serviceType;
+  const categoryType = servicesDetails?.data?.assetType;
 
-  const searchStringLowerCase = categoryType?.toLowerCase();
   const checkPermission =
     getPortalPermissions?.customerPortalPermissions?.includes(
       AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
@@ -60,7 +58,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
 
   const methodRequest = useForm<any>({
     resolver: yupResolver(
-      placeRequestValidationSchema?.(searchStringLowerCase, checkPermission),
+      placeRequestValidationSchema?.(categoryType, checkPermission),
     ),
     defaultValues: placeRequestDefaultValues,
   });
@@ -69,13 +67,14 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     methodRequest;
 
   const onSubmitRequest = async (data: any) => {
-    const addItemToDescription =
-      categoryType?.toLowerCase() ===
-      CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
-        ? `${servicesDetails?.data?.description} No of item ${data?.noOfItem}`
-        : servicesDetails?.data?.description;
+    const addItemToDescription = categoryType
+      ? `${servicesDetails?.data?.description} No of item ${data?.noOfItem}`
+      : servicesDetails?.data?.description;
 
     const placeRequestData = new FormData();
+    if (categoryType) {
+      placeRequestData?.append('NoOfItem', data?.noOfItem);
+    }
     if (checkPermission) {
       placeRequestData?.append('requester', data?.requestor?._id);
     }
@@ -135,7 +134,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
 
   const catalogRequestFormField = placeRequest(
     apiQueryRequester,
-    searchStringLowerCase,
+    categoryType,
     requestForSomeOne,
     checkPermission,
   );
@@ -151,7 +150,6 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     catalogRequestFormField,
     requestForSomeOne,
     handleClose,
-    searchStringLowerCase,
     reset,
     postTicketStatus,
     checkPermission,

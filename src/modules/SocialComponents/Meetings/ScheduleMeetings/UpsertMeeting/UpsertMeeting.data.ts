@@ -12,6 +12,7 @@ import { timeZone } from '@/constants/time-zone';
 import { capitalizeFirstWord, timeFormatter } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const schemaTypes = {
   allDay: 'allDay',
@@ -116,7 +117,12 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
 };
 export const upsertMeetingSchema: any = (router: any) =>
   Yup?.object()?.shape({
-    title: Yup?.string()?.required('Required'),
+    title: Yup?.string()
+      ?.required('Required')
+      ?.max(
+        CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_TITLE_MAX_CHARACTERS,
+        `Title should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_TITLE_MAX_CHARACTERS} characters`,
+      ),
     allDay: Yup?.boolean(),
     timeZone: Yup?.mixed()?.required('Required'),
     startDate: Yup?.date()?.required('Required'),
@@ -221,7 +227,12 @@ export const upsertMeetingSchema: any = (router: any) =>
         otherwise: (schema: any) => schema?.notRequired(),
       },
     ),
-    description: Yup?.string()?.required('Required'),
+    description: Yup?.string()
+      ?.required('Required')
+      ?.max(
+        CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_AGENDA_MAX_CHARACTERS,
+        `Description should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_AGENDA_MAX_CHARACTERS} characters`,
+      ),
     meetingType: Yup?.mixed()?.nullable()?.required('Required'),
     location: Yup?.mixed()
       ?.nullable()

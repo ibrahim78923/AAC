@@ -7,8 +7,8 @@ import { MODULE_TYPE } from '@/constants/strings';
 
 export const useActivity = () => {
   const theme = useTheme();
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const contractId = useSearchParams()?.get('contractId');
 

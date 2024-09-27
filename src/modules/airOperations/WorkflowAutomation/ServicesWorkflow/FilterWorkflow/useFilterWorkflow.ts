@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export const useFilterWorkflow = (props: any) => {
   const { handleWorkflow, setIsDrawerOpen } = props;
-  const [buttonCalled, setButtonCalled] = useState(false);
+  const [buttonCalled, setButtonCalled] = useState<boolean>(false);
   const methods = useForm({
     resolver: yupResolver(filterWorkflowsValidationSchema),
     defaultValues,

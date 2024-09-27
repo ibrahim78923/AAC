@@ -1,8 +1,8 @@
 import {
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
+  useLazyGetAgentsDropDownInWorkflowQuery,
+  useLazyGetCategoriesDropdownInWorkflowQuery,
+  useLazyGetDepartmentDropdownInWorkflowQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
@@ -30,9 +30,9 @@ export const useWorkflowActionExecuted = (props: any) => {
       setValue(`actions.${index}.value`, null);
     });
   }, [operatorsOption]);
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const agentApiQuery = useLazyGetAgentsDropDownInWorkflowQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownInWorkflowQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownInWorkflowQuery();
   return {
     fields,
     append,

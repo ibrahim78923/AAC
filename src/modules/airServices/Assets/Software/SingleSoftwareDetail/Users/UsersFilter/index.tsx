@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import { FilterIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';

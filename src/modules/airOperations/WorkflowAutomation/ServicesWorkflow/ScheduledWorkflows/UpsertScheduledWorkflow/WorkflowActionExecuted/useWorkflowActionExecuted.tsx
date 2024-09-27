@@ -1,10 +1,10 @@
 import {
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetUsersListDropdownQuery,
+  useLazyGetAgentsDropDownInWorkflowQuery,
+  useLazyGetCategoriesDropdownInWorkflowQuery,
+  useLazyGetDepartmentDropdownInWorkflowQuery,
+  useLazyGetLocationsDropdownInWorkflowQuery,
+  useLazyGetUsersListDropdownInWorkflowQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
@@ -32,11 +32,11 @@ export const useWorkflowActionExecuted = (props: any) => {
       setValue(`actions.${index}.fieldValue`, null);
     });
   }, [operatorsOption]);
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-  const apiUsersListDropdown = useLazyGetUsersListDropdownQuery();
+  const agentApiQuery = useLazyGetAgentsDropDownInWorkflowQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownInWorkflowQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownInWorkflowQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownInWorkflowQuery();
+  const apiUsersListDropdown = useLazyGetUsersListDropdownInWorkflowQuery();
 
   return {
     fields,

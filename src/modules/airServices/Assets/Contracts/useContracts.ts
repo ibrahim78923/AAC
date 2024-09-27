@@ -15,13 +15,13 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 export const useContracts = () => {
   const theme = useTheme();
   const [selectedContractList, setSelectedContractList] = useState([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const router = useRouter();
   const [contractFilterLists, setContractFilterLists] = useState({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
 
   const [lazyGetContractTrigger, lazyGetContractStatus]: any =
     useLazyGetContractQuery();

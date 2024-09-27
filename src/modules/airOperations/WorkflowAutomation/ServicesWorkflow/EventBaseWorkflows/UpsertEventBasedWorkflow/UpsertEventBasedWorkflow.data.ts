@@ -8,6 +8,7 @@ import {
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -62,19 +63,37 @@ export const actionsAssetOptions = [
 ];
 
 export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
 });
 
 export const eventBasedWorkflowSchema = Yup.object().shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
   type: Yup?.string(),
-  description: Yup?.string(),
+  description: Yup?.string()?.max(
+    CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS,
+    `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS} characters`,
+  ),
   runType: Yup?.mixed()?.nullable()?.required('Required'),
   module: Yup?.string()?.required('Required'),
   events: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
-      name: Yup?.string()?.required('Required'),
+      name: Yup?.string()
+        ?.required('Required')
+        ?.max(
+          CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS,
+          `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS} characters`,
+        ),
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(

@@ -4,6 +4,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { TIME_PERIODS } from '@/constants/strings';
+import { UsersFilterDataI } from './UsersFilter.interface';
 
 export const dropdownOptions = [
   TIME_PERIODS?.NONE,
@@ -14,7 +15,7 @@ export const dropdownOptions = [
   TIME_PERIODS?.PREVIOUS_MONTH,
 ];
 
-export const userDefaultValues = (data: any) => {
+export const userDefaultValues = (data: UsersFilterDataI) => {
   return {
     name: data?.name ?? '',
     department: data?.department ?? null,

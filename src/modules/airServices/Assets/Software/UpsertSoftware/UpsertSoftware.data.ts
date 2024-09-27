@@ -9,17 +9,33 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const upsertSoftwareFormValidationSchema: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    name: Yup?.string()?.trim()?.required('Name is required'),
-    description: Yup?.string(),
+    name: Yup?.string()
+      ?.trim()
+      ?.required('Name is required')
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_NAME_MAX_CHARACTERS,
+        `Name should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_NAME_MAX_CHARACTERS} characters`,
+      ),
+    description: Yup?.string()?.max(
+      CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DESCRIPTION_MAX_CHARACTERS,
+      `Description should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DESCRIPTION_MAX_CHARACTERS} characters`,
+    ),
     type: Yup?.mixed()?.nullable()?.required('Type is required'),
     status: Yup?.mixed()?.nullable()?.required('Status is required'),
-    publisher: Yup?.string(),
-    category: Yup?.string(),
+    publisher: Yup?.string()?.max(
+      CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_PUBLISHER_MAX_CHARACTERS,
+      `Publisher should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_PUBLISHER_MAX_CHARACTERS} characters`,
+    ),
+    category: Yup?.string()?.max(
+      CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_CATEGORY_MAX_CHARACTERS,
+      `Category should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_CATEGORY_MAX_CHARACTERS} characters`,
+    ),
     ...formSchema,
   });
 };

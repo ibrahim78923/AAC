@@ -14,32 +14,26 @@ export const useInstallationDetail = () => {
   const [searchBy, setSearchBy] = useState<string>('');
   const searchParams = useSearchParams();
   const deviceId = searchParams?.get?.('softwareId');
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [lazyGetExportInstallationTrigger] =
     useLazyGetExportInstallationQuery();
   const getInstallationListDataExport = async (type: string) => {
-    const getInstallationParam = new URLSearchParams();
-    getInstallationParam?.append('page', page + '');
-    getInstallationParam?.append('limit', pageLimit + '');
-    getInstallationParam?.append('deviceId', deviceId + '');
-    getInstallationParam?.append('search', searchBy + '');
-    getInstallationParam?.append('exportType', type);
-    const getInstallationExportParameter = {
-      queryParams: getInstallationParam,
+    const queryParams = {
+      exportType: type,
     };
+    const getContractExportParameter = {
+      queryParams,
+    };
+
     try {
       const response: any = await lazyGetExportInstallationTrigger(
-        getInstallationExportParameter,
+        getContractExportParameter,
       )?.unwrap();
       downloadFile(response, 'Software Devices List', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar(
-        response?.data?.message ?? `Installation Exported Successfully`,
-      );
-      setActiveCheck([]);
+      successSnackbar('File Exported successfully');
     } catch (error: any) {
-      errorSnackbar(error?.data?.message ?? `Installation Not Exported`);
-      setActiveCheck([]);
+      errorSnackbar(error?.data?.message);
     }
   };
   const [

@@ -5,16 +5,15 @@ import {
 } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { PAGINATION } from '@/config';
-import { CATALOG_SERVICE_TYPES, ROLES } from '@/constants/strings';
+import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const placeRequestValidationSchema = (
-  searchStringLowerCase: string,
+  categoryType: string,
   checkPermission: string,
 ) =>
   Yup?.object()?.shape({
-    ...(searchStringLowerCase ===
-      CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase() && {
+    ...(categoryType && {
       noOfItem: Yup?.number()
         ?.positive('Greater than zero')
         ?.typeError('Not a number'),
@@ -39,33 +38,29 @@ export const placeRequestDefaultValues = {
   requestor: null,
   requesterEmail: '',
   requesterName: '',
-  noOfItem: 0,
+  noOfItem: 1,
   requestForSomeOneElse: false,
 };
 
 export const placeRequest = (
   apiQueryRequester?: any,
-  searchStringLowerCase?: string,
+  categoryType?: string,
   requestForSomeOne?: boolean,
   checkPermission?: string,
 ) => {
   const formFields = [
-    ...(searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
+    ...(!!categoryType
       ? [
           {
             id: 3,
             componentProps: {
               name: 'noOfItem',
               label: 'No of item',
-              fullWidth: true,
               required: true,
               type: 'number',
-              inputProps: {
-                min: 0,
-              },
             },
             component: RHFTextField,
-            md: 5,
+            md: 2,
           },
         ]
       : []),

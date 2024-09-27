@@ -24,7 +24,7 @@ export const useContractDetail = () => {
   useEffect(() => {
     handleSoftwareContract();
   }, [getSoftwareContractTrigger, contractParams?.toString()]);
-  const softwareContractData = data?.data;
+  const softwareContractData = data?.data?.contracts;
   const softwareContractMeta = data?.data?.meta;
 
   return {

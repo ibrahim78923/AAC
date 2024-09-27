@@ -15,6 +15,7 @@ import {
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const dropdownDummy = [
   {
@@ -173,7 +174,13 @@ export const upsertContractFormDefaultValuesFunction: any = (
 };
 
 export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
-  contractName: Yup?.string()?.trim()?.required('Contract name is required'),
+  contractName: Yup?.string()
+    ?.trim()
+    ?.required('Contract name is required')
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_NAME_MAX_CHARACTERS,
+      `Contract name should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_NAME_MAX_CHARACTERS} characters`,
+    ),
   contractNumber: Yup?.string(),
   type: Yup?.mixed()?.nullable()?.required('Required'),
   cost: Yup?.number()
@@ -236,7 +243,10 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
                 ?.required('count is required')
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
-              comments: Yup?.string(),
+              comments: Yup?.string()?.max(
+                CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
+                `Comments should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
+              ),
             }),
           )
           ?.min(1, 'At least one item is required');

@@ -10,6 +10,7 @@ import {
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { monthFormatter, timeFormatter } from '@/utils/api';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -59,15 +60,33 @@ export const actionsAssetOptions = [
 ];
 
 export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
 });
 export const scheduledWorkflowSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
-  description: Yup?.string(),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
+  description: Yup?.string()?.max(
+    CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS,
+    `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS} characters`,
+  ),
   runType: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
-      name: Yup?.string()?.required('Required'),
+      name: Yup?.string()
+        ?.required('Required')
+        ?.max(
+          CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS,
+          `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS} characters`,
+        ),
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(

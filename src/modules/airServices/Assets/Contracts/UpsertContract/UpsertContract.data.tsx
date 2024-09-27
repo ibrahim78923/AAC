@@ -20,6 +20,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { DATE_FORMAT } from '@/constants';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -177,7 +178,12 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    contractName: Yup?.string()?.required('Required'),
+    contractName: Yup?.string()
+      ?.required('Required')
+      ?.max(
+        CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_NAME_MAX_CHARACTERS,
+        `Max ${CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_NAME_MAX_CHARACTERS} characters`,
+      ),
     contractNumber: Yup?.string(),
     type: Yup?.mixed()?.nullable()?.required('Required'),
     associateAssets: Yup?.mixed()
@@ -253,7 +259,10 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
           priceModel: Yup?.mixed()?.nullable(),
           cost: Yup?.number(),
           count: Yup?.number(),
-          comments: Yup?.string(),
+          comments: Yup?.string()?.max(
+            CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
+            `Max ${CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
+          ),
         }),
       )
       ?.when('type', {

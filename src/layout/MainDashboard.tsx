@@ -567,7 +567,6 @@ const DashboardLayout = ({ children, window }: any) => {
                 updatedAt: payload?.updatedAt,
               },
 
-
               content: payload?.content,
               ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
                 payload?.ownerId &&
@@ -576,7 +575,6 @@ const DashboardLayout = ({ children, window }: any) => {
                 }),
               ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
                 payload?.ownerId &&
-
                 activeChatId !== payload?.groupDetail?._id && {
                   updatedAt: payload?.updatedAt,
                 }),

@@ -15,10 +15,10 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getExportSoftwareUsers: builder?.query({
-      query: (params: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.GET_SOFTWARE_USER}`,
         method: 'GET',
-        params,
+        params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
