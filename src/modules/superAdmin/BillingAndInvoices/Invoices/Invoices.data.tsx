@@ -1,4 +1,4 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Avatar, Box, Checkbox, Tooltip, Typography } from '@mui/material';
 import { styles } from './Invoices.style';
 import {
   RHFAutocompleteAsync,
@@ -13,6 +13,7 @@ import {
 } from '@/services/superAdmin/billing-invoices';
 import { IMG_URL } from '@/config';
 import { useLazyGetOrganizationsListQuery } from '@/services/common-APIs';
+import { useTheme } from '@emotion/react';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -20,6 +21,7 @@ export const columns = (
   isChecked: any,
   isGetRowValues: any,
 ) => {
+  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row?.Id,
@@ -80,18 +82,54 @@ export const columns = (
       id: 'Products/Suite',
       isSortable: true,
       header: 'Products/Suite',
-      cell: (info: any) => (
-        <>
-          {info?.row?.original?.plans?.products?.map((data: any) => (
-            <Typography variant="subtitle2" key={uuidv4()}>
-              {data?.name}{' '}
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.plans?.products;
+        const tooltipTitle = (
+          <Box>
+            {planProducts?.map((data: any) => (
+              <Typography key={uuidv4()} variant="h6">
+                {data?.name}
+              </Typography>
+            ))}
+          </Box>
+        );
+        return (
+          <>
+            {info?.row?.original?.plans?.isCRM ? (
+              <>
+                <Tooltip title={tooltipTitle}>
+                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                    {info?.row?.original?.plans?.name}
+                  </Typography>{' '}
+                  &nbsp;
+                  <Typography
+                    variant="body3"
+                    fontSize={'11px'}
+                    style={{
+                      background: theme?.palette?.primary?.main,
+                      color: 'white',
+                      padding: '2px 6px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    CRM
+                  </Typography>
+                </Tooltip>
+              </>
+            ) : (
+              info?.row?.original?.plans?.products?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))
+            )}
+            <br />
+            <Typography variant="body3">
+              {info?.row?.original?.details?.plantypes} plan
             </Typography>
-          ))}
-          <Typography variant="body3">
-            {info?.row?.original?.details?.plantypes} plan
-          </Typography>
-        </>
-      ),
+          </>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.billingDate?.substring(0, 10),

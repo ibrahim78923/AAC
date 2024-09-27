@@ -114,6 +114,7 @@ const GoalTab = ({
                     ...item?.componentProps,
                     name: item?.componentProps?.label,
                     size: 'small',
+                    disabled: true,
                   })}
               </Grid>
             ))}

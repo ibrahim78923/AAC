@@ -8,6 +8,7 @@ import {
   Avatar,
   Dialog,
   DialogContent,
+  Tooltip,
 } from '@mui/material';
 import { ViewInvoicesI } from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
@@ -18,9 +19,12 @@ import dayjs from 'dayjs';
 import { IMG_URL } from '@/config';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { v4 as uuidv4 } from 'uuid';
+import { useTheme } from '@emotion/react';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
+  const theme = useTheme();
+
   const dataArray = [invoiceData];
 
   const planPrice = invoiceData?.plans?.planPrice;
@@ -59,16 +63,56 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.product,
-      id: 'product',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info.getValue()}
+      accessorFn: (row: any) => row?.plantypes,
+      id: 'plantypes',
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.products;
+        const tooltipTitle = (
+          <Box>
+            {planProducts?.map((data: any) => (
+              <Typography key={uuidv4()} variant="h6">
+                {data?.name}
+              </Typography>
+            ))}
           </Box>
-          <Box>{invoiceData?.products?.[ARRAY_INDEX?.ZERO]?.name ?? '---'}</Box>
-        </>
-      ),
+        );
+        return (
+          <>
+            {info?.row?.original?.plans?.isCRM ? (
+              <>
+                <Tooltip title={tooltipTitle}>
+                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                    {info?.row?.original?.plans?.name}
+                  </Typography>{' '}
+                  &nbsp;
+                  <Typography
+                    variant="body3"
+                    fontSize={'11px'}
+                    style={{
+                      background: theme?.palette?.primary?.main,
+                      color: 'white',
+                      padding: '2px 6px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    CRM
+                  </Typography>
+                </Tooltip>
+              </>
+            ) : (
+              info?.row?.original?.products?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))
+            )}
+
+            <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+              {info.getValue()}
+            </Box>
+          </>
+        );
+      },
       header: 'Product/Suite',
       isSortable: true,
     },

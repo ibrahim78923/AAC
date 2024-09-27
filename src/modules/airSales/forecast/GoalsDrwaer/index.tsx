@@ -26,7 +26,8 @@ const GoalsFilterDrawer = (props: any) => {
   const onSubmit = async (values: any) => {
     const filter: any = {};
     if (values?.CloseDate) {
-      filter.endDate = dayjs(values?.CloseDate).format(DATE_FORMAT?.API);
+      filter.from = dayjs(values?.CloseDate[0])?.format(DATE_FORMAT?.API);
+      filter.to = dayjs(values?.CloseDate[1])?.format(DATE_FORMAT?.API);
     }
 
     if (values?.pipeline) {

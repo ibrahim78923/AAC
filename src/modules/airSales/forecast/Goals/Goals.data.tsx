@@ -211,6 +211,7 @@ export const manageTableColumns: any = (
       isSortable: true,
       cell: (info: any) => (
         <Typography
+          variant="body2"
           sx={{
             cursor: 'pointer',
             padding: '4px 8px',

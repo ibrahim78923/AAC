@@ -55,6 +55,31 @@ export const forecastApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getForecastDealStageStats: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_STATS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getForecastDealStagesUser: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_DEAL_STAGES_USER}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getForecastDealStagesTeam: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_DEAL_STAGES_TEAM}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -65,4 +90,7 @@ export const {
   useGetSingleForecastGoalsQuery,
   usePostGoalMutation,
   usePatchGoalMutation,
+  useGetForecastDealStageStatsQuery,
+  useGetForecastDealStagesUserQuery,
+  useGetForecastDealStagesTeamQuery,
 } = forecastApi;

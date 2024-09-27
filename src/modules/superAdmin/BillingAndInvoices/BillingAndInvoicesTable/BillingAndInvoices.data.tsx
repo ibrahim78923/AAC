@@ -105,6 +105,19 @@ export const Columns = (
               <>
                 <Tooltip title={tooltipTitle}>
                   <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                    {info?.row?.original?.plans?.name}
+                  </Typography>{' '}
+                  &nbsp;
+                  <Typography
+                    variant="body3"
+                    fontSize={'11px'}
+                    style={{
+                      background: theme?.palette?.primary?.main,
+                      color: 'white',
+                      padding: '2px 6px',
+                      borderRadius: '5px',
+                    }}
+                  >
                     CRM
                   </Typography>
                 </Tooltip>
