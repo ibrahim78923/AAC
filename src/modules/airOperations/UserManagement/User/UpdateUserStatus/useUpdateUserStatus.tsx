@@ -4,14 +4,14 @@ import {
   setIsSwitchDisabled,
 } from '@/redux/slices/airOperations/users/slice';
 import { useAppDispatch } from '@/redux/store';
-import { useUpdateProductUserForOperationMutation } from '@/services/airOperations/user-management/user';
+import { useUpdateOperationsUserManagementSingleProductUserMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar } from '@/utils/api';
 
 export const useUpdateUserStatus = (props: any) => {
   const { currentId } = props;
   const dispatch = useAppDispatch();
   const [changeSingleUserStatusTrigger] =
-    useUpdateProductUserForOperationMutation?.();
+    useUpdateOperationsUserManagementSingleProductUserMutation?.();
 
   const changeOperationUserStatus = async (e: any) => {
     const body = {

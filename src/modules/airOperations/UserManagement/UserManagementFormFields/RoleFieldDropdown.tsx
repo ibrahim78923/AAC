@@ -1,7 +1,7 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetPermissionsRoleForUpsertOperationUserQuery } from '@/services/airOperations/user-management/user';
+import { useLazyGetOperationsUserManagementPermissionsRolesDropdownQuery } from '@/services/airOperations/user-management/user';
 import { getActiveAccountSession } from '@/utils';
 import { useMemo } from 'react';
 
@@ -12,7 +12,8 @@ export const RoleFieldDropdown = (props: any) => {
   const productId = auth?.product?._id ?? {};
   const organizationId = auth?.user?.organization?._id ?? {};
   const companyId = product?.company?._id ?? {};
-  const roleApiQuery = useLazyGetPermissionsRoleForUpsertOperationUserQuery?.();
+  const roleApiQuery =
+    useLazyGetOperationsUserManagementPermissionsRolesDropdownQuery?.();
 
   return (
     <RHFAutocompleteAsync

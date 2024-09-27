@@ -4,16 +4,15 @@ import {
   setReportsListsTotalRecords,
 } from '@/redux/slices/airOperations/reports/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useLazyGetAllServicesReportsListQuery } from '@/services/airOperations/reports/services-reports';
 import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
 import {
   REPORTS_BASE_MODULE,
   TAB_CHANGED_FILTERED,
 } from '../ReportLists/ReportLists.data';
+import { useLazyGetOperationsReportsListQuery } from '@/services/airOperations/reports';
 
 export const useGetReportLists = () => {
-  const apiQuery = useLazyGetAllServicesReportsListQuery();
   const router = useRouter();
   const page = useAppSelector((state) => state?.operationsReportsLists?.page);
   const pageLimit = useAppSelector(
@@ -37,7 +36,8 @@ export const useGetReportLists = () => {
 
   const dispatch = useAppDispatch();
 
-  const [lazyGetReportsListTrigger, lazyGetReportsListStatus]: any = apiQuery;
+  const [lazyGetReportsListTrigger, lazyGetReportsListStatus]: any =
+    useLazyGetOperationsReportsListQuery();
 
   const getReportsList = async (
     currentPage = page,

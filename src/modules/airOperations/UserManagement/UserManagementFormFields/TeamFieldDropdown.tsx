@@ -1,10 +1,10 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { useLazyGetTeamDropdownForOperationUserListQuery } from '@/services/airOperations/user-management/user';
+import { useLazyGetOperationsUserManagementTeamsDropdownQuery } from '@/services/airOperations/user-management/user';
 
 export const TeamFieldDropdown = (props: any) => {
   const { disabled = false } = props;
-  const teamApiQuery = useLazyGetTeamDropdownForOperationUserListQuery?.();
+  const teamApiQuery = useLazyGetOperationsUserManagementTeamsDropdownQuery?.();
 
   return (
     <RHFAutocompleteAsync

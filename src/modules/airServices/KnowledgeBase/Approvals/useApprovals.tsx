@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import {
-  useLazyGetUnapprovedArticlesQuery,
-  usePostArticleApprovalMutation,
+  useChangeServicesKnowledgeBaseArticleApprovalMutation,
+  useLazyGetServicesKnowledgeBaseUnapprovedArticlesListQuery,
 } from '@/services/airServices/knowledge-base/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
@@ -11,10 +11,10 @@ export const useApprovals = () => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
   const [lazyGetUnapprovedArticlesTrigger, lazyGetUnapprovedArticlesStatus] =
-    useLazyGetUnapprovedArticlesQuery();
+    useLazyGetServicesKnowledgeBaseUnapprovedArticlesListQuery();
 
   const [postArticleApprovalTrigger, postArticleApprovalStatus] =
-    usePostArticleApprovalMutation();
+    useChangeServicesKnowledgeBaseArticleApprovalMutation();
 
   const getArticlesForApprovalsListData = async (
     currentPage: number = page,

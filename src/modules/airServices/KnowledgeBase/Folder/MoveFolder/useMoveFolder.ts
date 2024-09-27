@@ -5,7 +5,7 @@ import {
   moveFolderDefaultValues,
   moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
-import { usePatchArticleMutation } from '@/services/airServices/knowledge-base/articles';
+import { useUpdateServicesKnowledgeBaseSingleArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { MoveFolderFormFieldsI } from './MoveFolder.interface';
@@ -25,7 +25,8 @@ export const useMoveFolder = () => {
     (state) => state?.servicesKnowledgeBase?.selectedArticlesList,
   );
 
-  const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
+  const [patchArticleTrigger, patchArticleStatus] =
+    useUpdateServicesKnowledgeBaseSingleArticleMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(moveFolderValidationSchema),

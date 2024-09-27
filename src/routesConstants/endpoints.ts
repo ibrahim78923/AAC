@@ -526,6 +526,7 @@ export const END_POINTS = {
   SHARE_TICKET: '/ticket/share-ticket',
   GET_PUBLIC_DASHBOARD_CARDS_TICKETS:
     '/air-services-dashboard/dashboard-tickets-customer-portal',
+  OPERATIONS_TEAM: '/teams',
 };
 
 export const LEAD_CAPTURE_FORM = {

@@ -1,11 +1,11 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
+import { useLazyGetOperationsReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
 
 export const ReportOwnerFieldDropdown = (props: any) => {
   const { required = true, label = 'Owner Name' } = props;
   const reportOwnerApiQuery =
-    useLazyGetReportsOwnersDropdownListForReportsQuery?.();
+    useLazyGetOperationsReportsOwnersDropdownListForReportsQuery?.();
 
   return (
     <RHFAutocompleteAsync

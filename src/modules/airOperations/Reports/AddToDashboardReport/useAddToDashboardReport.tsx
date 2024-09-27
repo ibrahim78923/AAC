@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, REPORT_TYPE } from '@/constants/strings';
-import { useAddReportsToDashboardMutation } from '@/services/airOperations/reports';
+import { useAddOperationsReportsToMultipleDashboardMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormReturn, useForm } from 'react-hook-form';
@@ -21,7 +21,7 @@ export const useAddToDashboardReport = () => {
   const id = router?.query?.id;
 
   const [addReportsToDashboardTrigger, addReportsToDashboardStatus] =
-    useAddReportsToDashboardMutation();
+    useAddOperationsReportsToMultipleDashboardMutation();
 
   const { getReportsList, page } = useGetReportLists();
   const dispatch = useAppDispatch();

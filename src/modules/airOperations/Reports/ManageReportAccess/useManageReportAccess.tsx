@@ -17,7 +17,6 @@ import {
   manageReportAccessValidationSchema,
 } from './ManageReportAccess.data';
 import { useEffect } from 'react';
-import { useManageReportAccessMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ManageAccessReportFormFieldsI } from './ManageReportAccess.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
@@ -29,10 +28,11 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
+import { useManageOperationsReportAccessLevelMutation } from '@/services/airOperations/reports';
 
 export const useManageReportAccess = () => {
   const [manageReportAccessTrigger, manageReportAccessStatus] =
-    useManageReportAccessMutation();
+    useManageOperationsReportAccessLevelMutation();
 
   const { getReportsList, page } = useGetReportLists();
   const dispatch = useAppDispatch();

@@ -1,5 +1,5 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import { useCloneReportsMutation } from '@/services/airOperations/reports';
+import { useCloneOperationsReportsMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PAGINATION } from '@/config';
@@ -12,7 +12,8 @@ import {
 
 export const useCloneReport = () => {
   const { getReportsList, page } = useGetReportLists();
-  const [cloneReportsTrigger, cloneReportsStatus] = useCloneReportsMutation();
+  const [cloneReportsTrigger, cloneReportsStatus] =
+    useCloneOperationsReportsMutation();
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(

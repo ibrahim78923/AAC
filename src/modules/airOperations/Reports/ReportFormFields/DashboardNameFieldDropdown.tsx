@@ -1,11 +1,12 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery } from '@/services/airOperations/reports';
+import { useLazyGetOperationsReportsDashboardListsDropdownQuery } from '@/services/airOperations/reports';
 import { useRouter } from 'next/router';
 
 export const DashboardNameFieldDropdown = () => {
   const apiQueryServicesDashboard =
-    useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery();
+    useLazyGetOperationsReportsDashboardListsDropdownQuery();
+
   const router = useRouter();
   const id = router?.query?.id;
 

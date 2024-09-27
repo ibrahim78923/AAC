@@ -3,7 +3,7 @@ import {
   setUsersListsTotalRecords,
 } from '@/redux/slices/airOperations/users/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useLazyGetProductUserListForOperationQuery } from '@/services/airOperations/user-management/user';
+import { useLazyGetOperationsUserManagementProductUserListsQuery } from '@/services/airOperations/user-management/user';
 import {
   LazyQueryTrigger,
   UseLazyQueryLastPromiseInfo,
@@ -14,7 +14,7 @@ export const useGetUserLists = () => {
     lazyGetProductUserListForOperationTrigger,
     lazyGetProductUserListForOperationStatus,
   ]: [LazyQueryTrigger<any>, any, UseLazyQueryLastPromiseInfo<any>] =
-    useLazyGetProductUserListForOperationQuery?.();
+    useLazyGetOperationsUserManagementProductUserListsQuery?.();
 
   const dispatch = useAppDispatch();
 

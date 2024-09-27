@@ -1,8 +1,8 @@
-import { useGetSingleFolderByIdQuery } from '@/services/airServices/knowledge-base/articles';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '../../Header/Header.data';
 import { setIsPortalOpen } from '@/redux/slices/airServices/knowledge-base/slice';
 import { ALL_FOLDER } from '../Folder.data';
+import { useGetServicesKnowledgeBaseSingleFolderByIdQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const useSingleFolderDetail = () => {
   const dispatch = useAppDispatch();
@@ -23,10 +23,13 @@ export const useSingleFolderDetail = () => {
     isFetching,
     isError,
     refetch,
-  }: { [key: string]: any } = useGetSingleFolderByIdQuery(apiDataParameter, {
-    refetchOnMountOrArgChange: true,
-    skip: skipApiCall,
-  });
+  }: { [key: string]: any } = useGetServicesKnowledgeBaseSingleFolderByIdQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: skipApiCall,
+    },
+  );
 
   const setPortalAction = (actionType: any) => {
     dispatch(

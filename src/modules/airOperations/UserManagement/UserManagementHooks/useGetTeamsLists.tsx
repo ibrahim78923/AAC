@@ -1,6 +1,6 @@
 import { setTeamListsTotalRecords } from '@/redux/slices/airOperations/teams/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useLazyGetTeamListForOperationQuery } from '@/services/airOperations/user-management/user';
+import { useLazyGetOperationsUserManagementTeamListsQuery } from '@/services/airOperations/user-management/user';
 import {
   LazyQueryTrigger,
   UseLazyQueryLastPromiseInfo,
@@ -11,7 +11,7 @@ export const useGetTeamsLists = () => {
     lazyGetTeamListForOperationTrigger,
     lazyGetTeamListForOperationStatus,
   ]: [LazyQueryTrigger<any>, any, UseLazyQueryLastPromiseInfo<any>] =
-    useLazyGetTeamListForOperationQuery?.();
+    useLazyGetOperationsUserManagementTeamListsQuery?.();
 
   const dispatch = useAppDispatch();
 

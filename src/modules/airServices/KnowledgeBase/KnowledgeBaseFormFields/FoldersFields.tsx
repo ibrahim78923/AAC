@@ -1,6 +1,6 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetFoldersDropdownQuery } from '@/services/airServices/knowledge-base/articles';
+import { useLazyGetServicesKnowledgeBaseFoldersDropdownForMoveArticlesQuery } from '@/services/airServices/knowledge-base/articles';
 import { getActiveAccountSession } from '@/utils';
 import { useMemo } from 'react';
 
@@ -11,15 +11,16 @@ export const FoldersFields = (props: any) => {
   const companyId = product?.company?._id ?? {};
   const { _id: userId } = auth?.user ?? {};
   const { _id: organizationId } = auth?.user?.organization ?? {};
-  const apiQueryFolder = useLazyGetFoldersDropdownQuery();
+  const apiQueryFolder =
+    useLazyGetServicesKnowledgeBaseFoldersDropdownForMoveArticlesQuery();
 
   return (
     <RHFAutocompleteAsync
-      fullWidth
       name="folder"
       label={label}
-      size="small"
       placeholder="Select a Folder"
+      size="small"
+      fullWidth
       sx={{ pb: 1.2 }}
       apiQuery={apiQueryFolder}
       required

@@ -1,9 +1,5 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  usePostFolderMutation,
-  useUpdateFolderForArticlesMutation,
-} from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   FOLDER_ACTIONS_CONSTANT,
@@ -14,6 +10,10 @@ import { UpsertFolderFormFieldsI } from './UpsertFolder.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/knowledge-base/slice';
 import { useGetFoldersApi } from '../../KnowledgeBaseHooks/useGetFoldersApi';
+import {
+  useAddServicesKnowledgeBaseSingleFolderMutation,
+  useUpdateServicesKnowledgeBaseSingleFolderMutation,
+} from '@/services/airServices/knowledge-base/articles';
 
 const { EDIT_FOLDER } = FOLDER_ACTIONS_CONSTANT ?? {};
 
@@ -39,9 +39,10 @@ export const useUpsertFolder = () => {
 
   const { handleSubmit, reset } = methods;
 
-  const [postFolderTrigger, postFolderStatus] = usePostFolderMutation();
+  const [postFolderTrigger, postFolderStatus] =
+    useAddServicesKnowledgeBaseSingleFolderMutation();
   const [updateFolderForArticlesTrigger, updateFolderForArticlesStatus] =
-    useUpdateFolderForArticlesMutation();
+    useUpdateServicesKnowledgeBaseSingleFolderMutation();
 
   const onSubmit = async (data: UpsertFolderFormFieldsI) => {
     const body = {

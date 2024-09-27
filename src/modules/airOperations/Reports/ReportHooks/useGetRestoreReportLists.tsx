@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { REPORTS_BASE_MODULE } from '../RestoreReportsListTableView/RestoreReportsListTableView.data';
-import { useLazyRestoreGenericReportsListQuery } from '@/services/airOperations/reports';
+import { useLazyGetOperationsRestoreReportsListQuery } from '@/services/airOperations/reports';
 
 export const useGetRestoreReportLists = () => {
   const router = useRouter();
@@ -30,7 +30,7 @@ export const useGetRestoreReportLists = () => {
   const [
     lazyGetRestoreReportsListTrigger,
     lazyGetRestoreReportsListStatus,
-  ]: any = useLazyRestoreGenericReportsListQuery?.();
+  ]: any = useLazyGetOperationsRestoreReportsListQuery?.();
 
   const getRestoreReportsList = async (
     currentPage = page,

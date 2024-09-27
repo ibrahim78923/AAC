@@ -1,4 +1,3 @@
-import { useLazyGetArticlesQuery } from '@/services/airServices/knowledge-base/articles';
 import { buildQueryParams } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -10,6 +9,7 @@ import { ALL_FOLDER } from '../Folder/Folder.data';
 import { useMemo } from 'react';
 import { getActiveAccountSession } from '@/utils';
 
+import { useLazyGetServicesKnowledgeBaseArticlesListQuery } from '@/services/airServices/knowledge-base/articles';
 export const useGetArticlesApi = () => {
   const dispatch = useAppDispatch();
   const product = useMemo(() => getActiveAccountSession(), []);
@@ -27,12 +27,13 @@ export const useGetArticlesApi = () => {
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
+
   const filterArticlesList = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.filterArticlesList,
   );
 
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
-    useLazyGetArticlesQuery();
+    useLazyGetServicesKnowledgeBaseArticlesListQuery();
 
   const getArticlesListData = async (currentPage: number = page) => {
     const additionalParams = [

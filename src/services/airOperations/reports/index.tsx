@@ -1,101 +1,125 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const salesReportsApi = baseAPI?.injectEndpoints({
+const {
+  GET_GENERIC_REPORTS,
+  EXPORT_GENERIC_REPORTS,
+  GET_RESTORE_GENERIC_REPORTS_LIST,
+  AUTH_ACCOUNTS,
+  GET_SINGLE_GENERIC_REPORT_DETAIL,
+  DROPDOWN_USERS,
+  GET_AIR_SERVICES_DASHBOARD_LIST,
+  TICKET_NEW_EMAIL,
+  UPDATE_GENERIC_REPORTS_ACTION,
+  CLONE_GENERIC_REPORTS,
+  UPDATE_LINK_DASHBOARDS_REPORTS_ACTION,
+  RESTORE_DELETED_GENERIC_REPORTS,
+  SOFT_DELETE_GENERIC_REPORTS,
+  HARD_DELETE_GENERIC_REPORTS,
+} = END_POINTS ?? {};
+
+const operationsGenericReportsApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    deleteRestoreReportPermanently: builder?.mutation({
+    getOperationsReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.HARD_DELETE_GENERIC_REPORTS}`,
-        method: 'DELETE',
+        url: GET_GENERIC_REPORTS,
+        method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
-    deleteReportTemporary: builder?.mutation({
+    exportOperationsReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.SOFT_DELETE_GENERIC_REPORTS}`,
-        method: 'PATCH',
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    restoreDeletedReport: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.RESTORE_DELETED_GENERIC_REPORTS}`,
-        method: 'PATCH',
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    exportReportsList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.EXPORT_GENERIC_REPORTS,
+        url: EXPORT_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
     }),
-    addReportToFavoriteList: builder?.mutation({
+    getOperationsRestoreReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    renameReports: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    addReportsToDashboard: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_LINK_DASHBOARDS_REPORTS_ACTION,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    cloneReports: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.CLONE_GENERIC_REPORTS,
-        method: 'PATCH',
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    changeReportOwner: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    manageReportAccess: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    emailReports: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
-        method: 'POST',
-        body: apiDataParameter?.body,
-      }),
-    }),
-    getAllGenericReportsList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_GENERIC_REPORTS,
+        url: GET_RESTORE_GENERIC_REPORTS_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
-    getReportsOwnersDropdownListForReports: builder?.query({
+    deleteOperationsMultipleReportsPermanently: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: HARD_DELETE_GENERIC_REPORTS,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    deleteOperationsMultipleReportsTemporary: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: SOFT_DELETE_GENERIC_REPORTS,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    restoreOperationsTemporaryDeletedReport: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: RESTORE_DELETED_GENERIC_REPORTS,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    changeOperationsReportsFavoriteStatus: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    renameOperationsReports: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    addOperationsReportsToMultipleDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: UPDATE_LINK_DASHBOARDS_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    cloneOperationsReports: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: CLONE_GENERIC_REPORTS,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    changeOperationsReportOwner: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    manageOperationsReportAccessLevel: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    emailOperationsReports: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: TICKET_NEW_EMAIL,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
+    getOperationsReportsOwnersDropdownListForReports: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        url: DROPDOWN_USERS,
         method: 'GET',
         params,
       }),
@@ -103,16 +127,9 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
-    restoreGenericReportsList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_RESTORE_GENERIC_REPORTS_LIST,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
-    getServicesDashboardDropdownListToAddReportsToDashboard: builder?.query({
+    getOperationsReportsDashboardListsDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        url: GET_AIR_SERVICES_DASHBOARD_LIST,
         method: 'GET',
         params,
       }),
@@ -120,29 +137,9 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.dynamicdashboards;
       },
     }),
-    getSalesDashboardDropdownListToAddReportsToDashboard: builder?.query({
+    getOperationsReportsUserListDropdownForAccessManagement: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.salesDashboards;
-      },
-    }),
-    getMarketingDashboardDropdownListToAddReportsToDashboard: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.MARKETING_DASHBOARD_LISTS_DROPDOWN}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.dynamicdashboards ?? [];
-      },
-    }),
-    getUserAccessListDropdownListForReportsAccessManagement: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        url: DROPDOWN_USERS,
         method: 'GET',
         params,
       }),
@@ -150,16 +147,16 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
-    getSingleGenericReportDetail: builder?.query({
+    getOperationsSingleReportDetailsForDownload: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_SINGLE_GENERIC_REPORT_DETAIL,
+        url: GET_SINGLE_GENERIC_REPORT_DETAIL,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
     getAuthAccountsForOperationsReports: builder.query({
       query: () => ({
-        url: `${END_POINTS?.AUTH_ACCOUNTS}`,
+        url: AUTH_ACCOUNTS,
         method: 'GET',
       }),
     }),
@@ -167,25 +164,22 @@ const salesReportsApi = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useDeleteRestoreReportPermanentlyMutation,
-  useRestoreDeletedReportMutation,
-  useDeleteReportTemporaryMutation,
-  useLazyExportReportsListQuery,
-  useAddReportToFavoriteListMutation,
-  useRenameReportsMutation,
-  useAddReportsToDashboardMutation,
-  useCloneReportsMutation,
-  useManageReportAccessMutation,
-  useChangeReportOwnerMutation,
-  useEmailReportsMutation,
-  useLazyGetAllGenericReportsListQuery,
-  useLazyGetReportsOwnersDropdownListForReportsQuery,
-  useRestoreGenericReportsListQuery,
-  useLazyRestoreGenericReportsListQuery,
-  useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery,
-  useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
-  useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
-  useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
-  useGetSingleGenericReportDetailQuery,
+  useLazyGetOperationsReportsListQuery,
+  useLazyExportOperationsReportsListQuery,
+  useLazyGetOperationsRestoreReportsListQuery,
+  useDeleteOperationsMultipleReportsPermanentlyMutation,
+  useDeleteOperationsMultipleReportsTemporaryMutation,
+  useRestoreOperationsTemporaryDeletedReportMutation,
+  useChangeOperationsReportsFavoriteStatusMutation,
+  useRenameOperationsReportsMutation,
+  useAddOperationsReportsToMultipleDashboardMutation,
+  useCloneOperationsReportsMutation,
+  useChangeOperationsReportOwnerMutation,
+  useManageOperationsReportAccessLevelMutation,
+  useEmailOperationsReportsMutation,
+  useLazyGetOperationsReportsOwnersDropdownListForReportsQuery,
+  useLazyGetOperationsReportsDashboardListsDropdownQuery,
+  useLazyGetOperationsReportsUserListDropdownForAccessManagementQuery,
+  useGetOperationsSingleReportDetailsForDownloadQuery,
   useGetAuthAccountsForOperationsReportsQuery,
-} = salesReportsApi;
+} = operationsGenericReportsApi;

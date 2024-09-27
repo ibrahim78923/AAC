@@ -1,16 +1,18 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
+import { useLazyGetServicesKnowledgeBaseUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const AuthorsFields = () => {
-  const apiQueryAuthor = useLazyGetUsersDropdownListForAuthorsQuery();
+  const apiQueryAuthor =
+    useLazyGetServicesKnowledgeBaseUsersDropdownListForAuthorsQuery();
+
   return (
     <RHFAutocompleteAsync
-      fullWidth
       name="authorId"
       label="Author"
-      size="small"
       placeholder="Select an author"
+      size="small"
+      fullWidth
       externalParams={{ admin: true }}
       apiQuery={apiQueryAuthor}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) =>

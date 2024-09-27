@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteTeamUsersMutation } from '@/services/airOperations/user-management/user';
+import { useDeleteOperationsUserManagementSingleTeamMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetTeamsLists } from '../../UserManagementHooks/useGetTeamsLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -11,7 +11,7 @@ import {
 
 export const useDeleteTeam = () => {
   const [deleteTeamUsersTrigger, deleteTeamUsersStatus] =
-    useDeleteTeamUsersMutation();
+    useDeleteOperationsUserManagementSingleTeamMutation();
 
   const { getOperationTeamList, page } = useGetTeamsLists?.();
 

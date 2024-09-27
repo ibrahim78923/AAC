@@ -1,5 +1,5 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import { useChangeReportOwnerMutation } from '@/services/airOperations/reports';
+import { useChangeOperationsReportOwnerMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
@@ -16,7 +16,7 @@ import { PAGINATION } from '@/config';
 
 export const useChangeReportOwner = () => {
   const [changeReportOwnerTrigger, changeReportOwnerStatus] =
-    useChangeReportOwnerMutation();
+    useChangeOperationsReportOwnerMutation();
 
   const { getReportsList, page } = useGetReportLists();
 

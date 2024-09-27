@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useDeleteReportTemporaryMutation } from '@/services/airOperations/reports';
+import { useDeleteOperationsMultipleReportsTemporaryMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -11,7 +11,7 @@ import {
 
 export const useDeleteReport = () => {
   const [deleteReportTemporaryTrigger, deleteReportTemporaryStatus] =
-    useDeleteReportTemporaryMutation();
+    useDeleteOperationsMultipleReportsTemporaryMutation();
 
   const { getReportsList, page } = useGetReportLists();
   const dispatch = useAppDispatch();

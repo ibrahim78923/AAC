@@ -1,18 +1,21 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const { GET_KNOWLEDGE_INSIGHTS, GET_KNOWLEDGE_INSIGHTS_DETAILS } =
+  END_POINTS ?? {};
+
 export const knowledgeInsightsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getKnowledgeInsights: builder?.query({
+    getServicesKnowledgeBaseKnowledgeInsightsList: builder?.query({
       query: (getKnowledgeInsightsParameters: any) => ({
-        url: END_POINTS?.GET_KNOWLEDGE_INSIGHTS,
+        url: GET_KNOWLEDGE_INSIGHTS,
         method: 'GET',
         params: getKnowledgeInsightsParameters?.queryParams,
       }),
     }),
-    getKnowledgeInsightsDetails: builder?.query({
+    getServicesKnowledgeBaseSingleKnowledgeInsightsDetails: builder?.query({
       query: (getKnowledgeInsightsDetailsParameters: any) => ({
-        url: `${END_POINTS?.GET_KNOWLEDGE_INSIGHTS_DETAILS}`,
+        url: GET_KNOWLEDGE_INSIGHTS_DETAILS,
         method: 'GET',
         params: getKnowledgeInsightsDetailsParameters?.queryParams,
       }),
@@ -21,8 +24,6 @@ export const knowledgeInsightsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetKnowledgeInsightsDetailsQuery,
-  useGetKnowledgeInsightsQuery,
-  useLazyGetKnowledgeInsightsQuery,
-  useLazyGetKnowledgeInsightsDetailsQuery,
+  useGetServicesKnowledgeBaseKnowledgeInsightsListQuery,
+  useGetServicesKnowledgeBaseSingleKnowledgeInsightsDetailsQuery,
 } = knowledgeInsightsAPI;

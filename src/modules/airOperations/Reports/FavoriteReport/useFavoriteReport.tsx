@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useAddReportToFavoriteListMutation } from '@/services/airOperations/reports';
+import { useChangeOperationsReportsFavoriteStatusMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -27,7 +27,7 @@ export const useFavoriteReport = (props: any) => {
   };
 
   const [addReportToFavoriteListTrigger, addReportToFavoriteListStatus]: any =
-    useAddReportToFavoriteListMutation?.();
+    useChangeOperationsReportsFavoriteStatusMutation?.();
 
   const addReportToFavorite = async (e: any, id: string) => {
     const body = {

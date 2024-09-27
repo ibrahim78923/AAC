@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useRestoreDeletedReportMutation } from '@/services/airOperations/reports';
+import { useRestoreOperationsTemporaryDeletedReportMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetRestoreReportLists } from '../ReportHooks/useGetRestoreReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -11,7 +11,8 @@ import {
 
 export const useRestoreReport = () => {
   const [restoreDeletedReportTrigger, restoreDeletedReportStatus] =
-    useRestoreDeletedReportMutation();
+    useRestoreOperationsTemporaryDeletedReportMutation();
+
   const { getRestoreReportsList, page } = useGetRestoreReportLists();
 
   const dispatch = useAppDispatch();

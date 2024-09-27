@@ -1,4 +1,3 @@
-import { useDeleteFolderForArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   setIsPortalClose,
@@ -6,6 +5,7 @@ import {
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { ALL_FOLDER } from '../Folder.data';
+import { useDeleteServicesKnowledgeBaseSingleFolderMutation } from '@/services/airServices/knowledge-base/articles';
 
 export const useDeleteFolder = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ export const useDeleteFolder = () => {
   );
 
   const [deleteFolderForArticleTrigger, deleteFolderForArticleStatus] =
-    useDeleteFolderForArticleMutation();
+    useDeleteServicesKnowledgeBaseSingleFolderMutation();
 
   const deleteFolder = async () => {
     const apiDataParameter = {

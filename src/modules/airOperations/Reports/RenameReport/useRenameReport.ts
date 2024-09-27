@@ -2,7 +2,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
-import { useRenameReportsMutation } from '@/services/airOperations/reports';
+import { useRenameOperationsReportsMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { RenameReportFormFieldsI } from './RenameReport.interface';
 import {
@@ -16,7 +16,8 @@ import { PAGINATION } from '@/config';
 
 export const useRenameReport = () => {
   const [renameReportsTrigger, renameReportsStatus] =
-    useRenameReportsMutation();
+    useRenameOperationsReportsMutation();
+
   const { getReportsList, page } = useGetReportLists();
   const dispatch = useAppDispatch();
 

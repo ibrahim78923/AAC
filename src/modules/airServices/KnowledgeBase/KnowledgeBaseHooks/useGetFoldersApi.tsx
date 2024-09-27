@@ -1,5 +1,5 @@
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetArticlesFoldersForFilterQuery } from '@/services/airServices/knowledge-base/articles';
+import { useLazyGetServicesKnowledgeBaseFoldersListForFilterQuery } from '@/services/airServices/knowledge-base/articles';
 import { getActiveAccountSession } from '@/utils';
 import { useMemo } from 'react';
 
@@ -13,7 +13,7 @@ export const useGetFoldersApi = () => {
   const [
     lazyGetArticlesFoldersForFilterTrigger,
     lazyGetArticlesFoldersForFilterStatus,
-  ] = useLazyGetArticlesFoldersForFilterQuery();
+  ] = useLazyGetServicesKnowledgeBaseFoldersListForFilterQuery();
 
   const getArticlesFolderListForFilterData = async () => {
     const apiDataParameter = {

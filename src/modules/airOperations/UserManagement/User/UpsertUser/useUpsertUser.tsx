@@ -8,9 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import {
-  useAddProductUserForOperationMutation,
-  useGetSingleProductUserDetailForOperationQuery,
-  useUpdateProductUserForOperationMutation,
+  useAddOperationsUserManagementSingleProductUserMutation,
+  useGetOperationsUserManagementSingleProductUserDetailsQuery,
+  useUpdateOperationsUserManagementSingleProductUserMutation,
 } from '@/services/airOperations/user-management/user';
 import {
   UpsertUserFormI,
@@ -47,12 +47,12 @@ export const useUpsertUser = () => {
   const [
     updateProductUserForOperationTrigger,
     updateProductUserForOperationStatus,
-  ]: any = useUpdateProductUserForOperationMutation?.();
+  ]: any = useUpdateOperationsUserManagementSingleProductUserMutation?.();
 
   const [
     addProductUserForOperationTrigger,
     addProductUserForOperationStatus,
-  ]: any = useAddProductUserForOperationMutation?.();
+  ]: any = useAddOperationsUserManagementSingleProductUserMutation?.();
 
   const [igVerificationTrigger, igVerificationStatus] =
     useAuthCompanyVerificationMutation();
@@ -69,13 +69,14 @@ export const useUpsertUser = () => {
     isFetching,
     isError,
     refetch,
-  }: { [key: string]: any } = useGetSingleProductUserDetailForOperationQuery(
-    getSingleUserApiParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!userId,
-    },
-  );
+  }: { [key: string]: any } =
+    useGetOperationsUserManagementSingleProductUserDetailsQuery(
+      getSingleUserApiParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!userId,
+      },
+    );
 
   const methods = useForm<any>({
     defaultValues: upsertUserDefaultValues(),

@@ -3,7 +3,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airOperations/reports/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useLazyExportReportsListQuery } from '@/services/airOperations/reports';
+import { useLazyExportOperationsReportsListQuery } from '@/services/airOperations/reports';
 import {
   REPORTS_BASE_MODULE,
   TAB_CHANGED_FILTERED,
@@ -15,7 +15,8 @@ import { EXPORT_FILE_TYPE } from '@/constants/strings';
 
 export const useExportReport = () => {
   const [lazyExportReportsListTrigger, lazyExportReportsListStatus]: any =
-    useLazyExportReportsListQuery?.();
+    useLazyExportOperationsReportsListQuery?.();
+
   const dispatch = useAppDispatch();
   const router = useRouter();
   const isPortalOpen = useAppSelector(

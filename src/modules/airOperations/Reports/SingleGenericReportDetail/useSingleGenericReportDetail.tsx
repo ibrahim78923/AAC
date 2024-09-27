@@ -1,4 +1,4 @@
-import { useGetSingleGenericReportDetailQuery } from '@/services/airOperations/reports';
+import { useGetOperationsSingleReportDetailsForDownloadQuery } from '@/services/airOperations/reports';
 import { htmlToPdfConvert } from '@/utils/file';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
@@ -14,7 +14,7 @@ export const useSingleGenericReportDetail = () => {
     },
   };
 
-  const singleReportApi = useGetSingleGenericReportDetailQuery(
+  const singleReportApi = useGetOperationsSingleReportDetailsForDownloadQuery(
     apiDataParameter,
     {
       refetchOnMountOrArgChange: true,

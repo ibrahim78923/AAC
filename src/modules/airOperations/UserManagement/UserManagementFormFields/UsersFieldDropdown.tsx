@@ -1,9 +1,10 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { useLazyGetProductTeamUserListDropdownQuery } from '@/services/airOperations/user-management/user';
+import { useLazyGetOperationsUserManagementProductUsersListDropdownQuery } from '@/services/airOperations/user-management/user';
 
 export const UsersFieldDropdown = () => {
-  const apiQueryProductUsers = useLazyGetProductTeamUserListDropdownQuery();
+  const apiQueryProductUsers =
+    useLazyGetOperationsUserManagementProductUsersListDropdownQuery();
 
   return (
     <RHFAutocompleteAsync

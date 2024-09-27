@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useDeleteRestoreReportPermanentlyMutation } from '@/services/airOperations/reports';
+import { useDeleteOperationsMultipleReportsPermanentlyMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetRestoreReportLists } from '../ReportHooks/useGetRestoreReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -13,7 +13,7 @@ export const useDeleteReportPermanently = () => {
   const [
     deleteRestoreReportPermanentlyTrigger,
     deleteRestoreReportPermanentlyStatus,
-  ] = useDeleteRestoreReportPermanentlyMutation();
+  ] = useDeleteOperationsMultipleReportsPermanentlyMutation();
 
   const { getRestoreReportsList, page } = useGetRestoreReportLists();
 

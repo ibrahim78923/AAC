@@ -5,7 +5,7 @@ import {
   emailReportDefaultValues,
   emailReportValidationSchema,
 } from './EmailReport.data';
-import { useEmailReportsMutation } from '@/services/airOperations/reports';
+import { useEmailOperationsReportsMutation } from '@/services/airOperations/reports';
 import useAuth from '@/hooks/useAuth';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { AIR_OPERATIONS } from '@/constants';
@@ -21,7 +21,8 @@ export const useNewEmailDrawer = () => {
   const { user }: any = useAuth();
   const router = useRouter();
   const id = router?.query?.id;
-  const [emailReportsTrigger, emailReportsStatus] = useEmailReportsMutation();
+  const [emailReportsTrigger, emailReportsStatus] =
+    useEmailOperationsReportsMutation();
 
   const dispatch = useAppDispatch();
 

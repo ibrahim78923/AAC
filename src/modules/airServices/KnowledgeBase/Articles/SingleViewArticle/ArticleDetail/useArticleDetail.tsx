@@ -1,10 +1,11 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
+
 import { Theme, useTheme } from '@mui/material';
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { sideData } from './ArticleDetail.data';
+import { useLazyGetServicesKnowledgeBaseSingleArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const useArticleDetail = () => {
   const theme: Theme = useTheme();
@@ -13,7 +14,7 @@ export const useArticleDetail = () => {
 
   const auth: any = useAuth();
   const [lazyGetArticleByIdTrigger, lazyGetArticleByIdStatus] =
-    useLazyGetArticleByIdQuery();
+    useLazyGetServicesKnowledgeBaseSingleArticleByIdQuery();
 
   const { _id: companyId } =
     auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};

@@ -3,11 +3,6 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { NextRouter, useRouter } from 'next/router';
 import { Theme, useTheme } from '@mui/material';
 import {
-  useGetArticleByIdQuery,
-  usePatchArticleMutation,
-  usePostArticleMutation,
-} from '@/services/airServices/knowledge-base/articles';
-import {
   upsertArticleDefaultValues,
   upsertArticleFormFieldsDynamic,
   upsertArticleValidationSchema,
@@ -19,6 +14,11 @@ import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 import useAuth from '@/hooks/useAuth';
 import { isoDateString } from '@/utils/dateTime';
+import {
+  useAddServicesKnowledgeBaseSingleArticleMutation,
+  useGetServicesKnowledgeBaseSingleArticleByIdQuery,
+  useUpdateServicesKnowledgeBaseSingleArticleMutation,
+} from '@/services/airServices/knowledge-base/articles';
 
 export const useUpsertArticle: any = () => {
   const router: NextRouter = useRouter();
@@ -29,8 +29,10 @@ export const useUpsertArticle: any = () => {
   const { _id: companyId } =
     auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};
 
-  const [postArticleTrigger, postArticleStatus] = usePostArticleMutation();
-  const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
+  const [postArticleTrigger, postArticleStatus] =
+    useAddServicesKnowledgeBaseSingleArticleMutation();
+  const [patchArticleTrigger, patchArticleStatus] =
+    useUpdateServicesKnowledgeBaseSingleArticleMutation();
 
   const getSingleArticleParameter = {
     pathParam: {
@@ -40,10 +42,13 @@ export const useUpsertArticle: any = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch }: any =
-    useGetArticleByIdQuery(getSingleArticleParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!articleId,
-    });
+    useGetServicesKnowledgeBaseSingleArticleByIdQuery(
+      getSingleArticleParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!articleId,
+      },
+    );
 
   const methods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
     UpsertArticlesFormFieldsI | any

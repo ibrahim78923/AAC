@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { AIR_SERVICES } from '@/constants';
-import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
+import { useDeleteServicesKnowledgeBaseMultipleArticlesMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -28,7 +28,7 @@ export const useDeleteArticles = () => {
   const { getArticlesListData, page } = useGetArticlesApi?.();
 
   const [deleteArticleTrigger, deleteArticleStatus] =
-    useDeleteArticleMutation();
+    useDeleteServicesKnowledgeBaseMultipleArticlesMutation();
   const router = useRouter();
   const isMoveBack = !!router?.query?.articleId;
 

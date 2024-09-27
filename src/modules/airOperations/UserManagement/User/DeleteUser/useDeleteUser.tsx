@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useDeleteProductUsersForOperationMutation } from '@/services/airOperations/user-management/user';
+import { useDeleteOperationsUserManagementMultipleProductUsersMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetUserLists } from '../../UserManagementHooks/useGetUserLists';
@@ -13,7 +13,7 @@ export const useDeleteUser = () => {
   const [
     deleteProductUsersForOperationTrigger,
     deleteProductUsersForOperationStatus,
-  ] = useDeleteProductUsersForOperationMutation();
+  ] = useDeleteOperationsUserManagementMultipleProductUsersMutation();
 
   const { getOperationUsersList, page } = useGetUserLists();
 

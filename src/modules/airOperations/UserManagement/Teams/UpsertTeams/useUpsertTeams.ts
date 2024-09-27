@@ -6,9 +6,9 @@ import {
   upsertTeamValidationSchema,
 } from './UpsertTeams.data';
 import {
-  useGetTeamsByIdForOperationQuery,
-  usePatchTeamUsersForOperationMutation,
-  usePostCreateTeamForOperationMutation,
+  useAddOperationsUserManagementSingleTeamMutation,
+  useGetOperationsUserManagementSingleTeamDetailsByIdQuery,
+  useUpdateOperationsUserManagementSingleTeamMutation,
 } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
@@ -30,16 +30,19 @@ export const useUpsertTeams = () => {
   const { handleSubmit, reset } = methods;
 
   const { data, isLoading, isFetching, isError, refetch }: any =
-    useGetTeamsByIdForOperationQuery(isPortalOpen?.data?._id, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!isPortalOpen?.data?._id,
-    });
+    useGetOperationsUserManagementSingleTeamDetailsByIdQuery(
+      isPortalOpen?.data?._id,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!isPortalOpen?.data?._id,
+      },
+    );
 
   const [patchTeamUsersForOperationTrigger, patchTeamUsersForOperationStatus] =
-    usePatchTeamUsersForOperationMutation();
+    useUpdateOperationsUserManagementSingleTeamMutation();
 
   const [postCreateTeamForOperationTrigger, postCreateTeamForOperationStatus] =
-    usePostCreateTeamForOperationMutation();
+    useAddOperationsUserManagementSingleTeamMutation();
 
   const submit = async (data: UpsertTeamsFormI) => {
     const { userAccounts, ...rest } = data;
