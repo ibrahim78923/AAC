@@ -23,11 +23,11 @@ import useProductFeature from './useProductFeature';
 import { styles } from './ProductFeature.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS } from '@/constants/permission-keys';
-import { CommonAPIS } from '@/services/common-APIs';
 
 const ProductFeature = () => {
   const theme = useTheme();
   const {
+    productsDropdownList,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
@@ -55,9 +55,6 @@ const ProductFeature = () => {
   } = useProductFeature();
 
   const ProductFeatureTableColumns = columns(setRowId, rowId, theme);
-
-  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
-  const products = useLazyGetDropdownProductsQuery();
 
   return (
     <Box
@@ -187,24 +184,26 @@ const ProductFeature = () => {
         <>
           <FormProvider methods={methodsAddFeature}>
             <Grid container spacing={4}>
-              {addProductFeatureFormData(products)?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={item?.componentProps?.name}
-                >
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {addProductFeatureFormData(productsDropdownList)?.map(
+                (item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </>
@@ -223,24 +222,26 @@ const ProductFeature = () => {
         <>
           <FormProvider methods={methodsEditFeature}>
             <Grid container spacing={4}>
-              {editProductFeatureFormData(products)?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={item?.componentProps?.name}
-                >
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {editProductFeatureFormData(productsDropdownList)?.map(
+                (item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </>

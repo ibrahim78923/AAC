@@ -14,7 +14,7 @@ import useAuth from '@/hooks/useAuth';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import {
   useGetContactsListQuery,
-  useLazyGetContactsStatusQuery,
+  useLazyGetContactsStatusDropdownQuery,
   useLazyGetLifeCycleStagesQuery,
 } from '@/services/common-APIs';
 import { useTheme } from '@mui/material';
@@ -29,7 +29,7 @@ const useContactsEditorDrawer = ({
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
   const contactOwnerData = useLazyGetOrganizationUsersQuery();
-  const contactStatusData = useLazyGetContactsStatusQuery();
+  const contactStatusData = useLazyGetContactsStatusDropdownQuery();
   const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
 
   const [postContacts, { isLoading: postContactLoading }] =

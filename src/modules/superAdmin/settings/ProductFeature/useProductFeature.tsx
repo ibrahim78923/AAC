@@ -12,10 +12,12 @@ import {
   useGetProductFeatureQuery,
   usePostProductFeatureMutation,
   useUpdateProductFeatureMutation,
+  useLazyGetProductsListQuery,
 } from '@/services/superAdmin/settings/product-feature';
 import { PAGINATION } from '@/config';
 
 const useProductFeature = () => {
+  const productsDropdownList = useLazyGetProductsListQuery();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [rowId, setRowId] = useState(null);
@@ -164,6 +166,7 @@ const useProductFeature = () => {
   };
 
   return {
+    productsDropdownList,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,

@@ -207,6 +207,45 @@ export const contactsAPI = baseAPI.injectEndpoints({
       },
       providesTags: ['CONTACTS'],
     }),
+
+    getContactsStatusList: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.CONTACT_STATUS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.conatactStatus;
+      },
+      providesTags: ['CONTACTS_STATUS'],
+    }),
+
+    getContactsLifeCycleStages: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.LIFECYCLE_STAGES}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.lifecycleStages;
+      },
+      providesTags: ['LIFECYCLE_STAGE'],
+    }),
+
+    getContactsOwnerList: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.id}/users`,
+        method: 'GET',
+        params: {
+          meta: params?.meta,
+          search: params?.search,
+        },
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['CONTACT_OWNER'],
+    }),
   }),
 });
 
@@ -234,4 +273,7 @@ export const {
   useLazyGetUpdatedLifeCycleQuery,
   useLazyGetContactsStatusUpdatedQuery,
   useLazyGetContactDropdownListQuery,
+  useLazyGetContactsStatusListQuery,
+  useLazyGetContactsLifeCycleStagesQuery,
+  useLazyGetContactsOwnerListQuery,
 } = contactsAPI;

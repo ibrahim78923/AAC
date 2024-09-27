@@ -55,6 +55,18 @@ export const settingsProductFeaturesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getProductsList: builder.query({
+      query: ({ params }) => ({
+        url: SUPER_ADMIN_SETTINGS?.PRODUCTS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['SETTINGS_PRODUCT_FEATURES', 'PRODUCTS'],
+    }),
   }),
 });
 
@@ -65,4 +77,5 @@ export const {
   useUpdateProductFeatureMutation,
   usePostProductFeatureMutation,
   useDeleteProductFeatureMutation,
+  useLazyGetProductsListQuery,
 } = settingsProductFeaturesAPI;

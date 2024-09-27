@@ -5,12 +5,12 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import {
-  useLazyGetLifeCycleStagesQuery,
-  useLazyGetContactsStatusQuery,
-} from '@/services/common-APIs';
-import { usePostContactsMutation } from '@/services/commonFeatures/contacts';
+  useLazyGetContactsLifeCycleStagesQuery,
+  useLazyGetContactsOwnerListQuery,
+  useLazyGetContactsStatusListQuery,
+  usePostContactsMutation,
+} from '@/services/commonFeatures/contacts';
 import {
   contactsDefaultValues,
   contactsValidationSchema,
@@ -26,9 +26,9 @@ import { filteredEmptyValues } from '@/utils/api';
 const useCreateContacts = (handleRefresh: any) => {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
-  const contactOwnerData = useLazyGetOrganizationUsersQuery();
-  const contactStatusData = useLazyGetContactsStatusQuery();
-  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
+  const contactOwnerData = useLazyGetContactsOwnerListQuery();
+  const contactStatusData = useLazyGetContactsStatusListQuery();
+  const lifeCycleStagesData = useLazyGetContactsLifeCycleStagesQuery();
 
   // custom fields ++
   const [form, setForm] = useState<any>([]);

@@ -11,12 +11,10 @@ import dayjs from 'dayjs';
 import {
   useGetContactByIdQuery,
   useUpdateContactMutation,
+  useLazyGetContactsStatusListQuery,
+  useLazyGetContactsLifeCycleStagesQuery,
+  useLazyGetContactsOwnerListQuery,
 } from '@/services/commonFeatures/contacts';
-import {
-  useLazyGetLifeCycleStagesQuery,
-  useLazyGetContactsStatusQuery,
-} from '@/services/common-APIs';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -29,9 +27,9 @@ const useDetails = () => {
   const router = useRouter();
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
-  const contactOwnerData = useLazyGetOrganizationUsersQuery();
-  const contactStatusData = useLazyGetContactsStatusQuery();
-  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
+  const contactOwnerData = useLazyGetContactsOwnerListQuery();
+  const contactStatusData = useLazyGetContactsStatusListQuery();
+  const lifeCycleStagesData = useLazyGetContactsLifeCycleStagesQuery();
   const {
     data: dataGetContactById,
     isLoading: loadingContactById,

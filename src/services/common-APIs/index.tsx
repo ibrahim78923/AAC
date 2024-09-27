@@ -270,7 +270,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['lifeCycle'],
     }),
 
-    getContactsStatus: builder.query({
+    getContactsStatusDropdown: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.CONTACT_STATUS}`,
         method: 'GET',
@@ -279,7 +279,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.conatactStatus;
       },
-      providesTags: ['ContactsStatus'],
+      providesTags: ['CONTACTS_STATUS'],
     }),
 
     getDealPipeLine: builder.query({
@@ -381,7 +381,7 @@ export const {
   useLazyGetProductCategoriesQuery,
   useGetActiveProductsQuery,
   useLazyGetLifeCycleStagesQuery,
-  useLazyGetContactsStatusQuery,
+  useLazyGetContactsStatusDropdownQuery,
   useLazyGetDealPipeLineQuery,
   useLazyGetDealsQuery,
   useLazyGetCompanyContactsListQuery,
