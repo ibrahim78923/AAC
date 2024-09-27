@@ -15,6 +15,7 @@ import { createTemplateFiltersDataArray } from './TemplateForm.data';
 import { Info } from '@mui/icons-material';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const TemplateForm = ({ templateType }: any) => {
   const {
@@ -30,6 +31,7 @@ const TemplateForm = ({ templateType }: any) => {
     Details,
     form,
     getDynamicFieldsStatus,
+    editData,
   } = useTemplateForm();
 
   return (
@@ -87,6 +89,17 @@ const TemplateForm = ({ templateType }: any) => {
                       </Box>
                     </Box>
                   )}
+
+                  {item?.componentProps?.name === 'attachment' &&
+                    editData !== undefined && (
+                      <Box my={2}>
+                        <AttachFileCard
+                          data={{}}
+                          onDelete={() => {}}
+                          permissionKey={[]}
+                        />
+                      </Box>
+                    )}
                 </Grid>
               ))}
               {getDynamicFieldsStatus.isLoading ? (

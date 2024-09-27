@@ -6,6 +6,14 @@ const DASHBOARD_TAG = ['WHATSAPP_BROADCAST', 'DASHBOARD_INSIGHTS'];
 
 export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
+    getWhatsAppDashboardInsights: builder.query({
+      query: () => ({
+        url: WHATSAPP_MARKETING?.GET_WHATSAPP_MARKETING_DASHBOARD,
+        method: 'GET',
+      }),
+      providesTags: DASHBOARD_TAG,
+    }),
+
     getWhatsAppBroadcats: builder.query({
       query: (params: any) => ({
         url: WHATSAPP_MARKETING?.GET_WHATSAPP_MARKETING_BROADCAST,
@@ -73,6 +81,7 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
 });
 
 export const {
+  useGetWhatsAppDashboardInsightsQuery,
   useDeleteWhatsAppBroadcastMutation,
   useUpdateWhatsappBroadcastMutation,
   usePostWhatsappBroadcastMutation,

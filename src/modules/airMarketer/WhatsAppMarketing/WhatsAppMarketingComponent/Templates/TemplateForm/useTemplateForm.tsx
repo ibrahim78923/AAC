@@ -185,6 +185,7 @@ const useTemplateForm = () => {
     Details,
     form,
     getDynamicFieldsStatus,
+    editData,
   };
 };
 

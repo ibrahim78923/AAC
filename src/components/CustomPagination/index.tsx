@@ -11,7 +11,7 @@ import {
 import { styles } from './CustomPagination.style';
 import { PAGINATION } from '@/config';
 
-const CustomPagination = (props: any) => {
+const CustomPagination = (props?: any) => {
   const {
     count = PAGINATION?.PAGE_COUNT,
     rowsPerPageOptions = PAGINATION?.ROWS_PER_PAGE,

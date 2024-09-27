@@ -39,7 +39,6 @@ const useUpdateQuote = () => {
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
   const { data: dataGetDeals } = useGetDealsQuery({
     page: page,
@@ -109,8 +108,11 @@ const useUpdateQuote = () => {
   const detailsValues = watchDetail();
   const singleQuote = dataGetQuoteById?.data;
 
+  const [productsArray, setProductsArray] = useState([]);
+
   useEffect(() => {
     if (singleQuote) {
+      setProductsArray(singleQuote?.products);
       const { dealId, template, name, expiryDate, notes, termsAndConditions } =
         singleQuote;
       const dateObject: any = new Date(expiryDate);
@@ -403,6 +405,8 @@ const useUpdateQuote = () => {
     isModalOpen,
     setIsModalOpen,
     handleDeleteSubmitBtn,
+    productsArray,
+    setProductsArray,
   };
 };
 export default useUpdateQuote;

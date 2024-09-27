@@ -28,7 +28,7 @@ const AttachmentsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer?.type]}
         isOk={true}
         footer={
-          openDrawer === GENERIC_UPSERT_FORM_CONSTANT?.VIEW ? false : true
+          openDrawer?.type === GENERIC_UPSERT_FORM_CONSTANT?.VIEW ? false : true
         }
         submitHandler={handleSubmit(onSubmit)}
         isLoading={loadingPostAttachment}

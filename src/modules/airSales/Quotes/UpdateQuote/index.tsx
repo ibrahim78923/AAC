@@ -45,6 +45,8 @@ const UpdateQuote = () => {
     selectedCompanyIds,
     loadingSubmit,
     updateBuyerInfoLoading,
+    productsArray,
+    setProductsArray,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -61,6 +63,7 @@ const UpdateQuote = () => {
     selectedBuyerContactIds: selectedBuyerContactIds,
     handleCompanyChange: handleCompanyChange,
     selectedCompanyIds: selectedCompanyIds,
+    productsArray: productsArray,
   };
   const steps = updateQuoteSteps(stepsArgs);
 
@@ -171,6 +174,9 @@ const UpdateQuote = () => {
         <FormCreateProduct
           open={isOpenFormCreateProduct}
           onClose={handleCloseFormCreateProduct}
+          dataGetQuoteById={dataGetQuoteById}
+          productsArray={productsArray}
+          setProductsArray={setProductsArray}
         />
       )}
     </>

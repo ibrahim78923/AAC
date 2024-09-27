@@ -695,6 +695,7 @@ export const SUPER_ADMIN_DASHBOARD = {
 };
 
 export const WHATSAPP_MARKETING = {
+  GET_WHATSAPP_MARKETING_DASHBOARD: '/whatsapp-marketing/dashboard-insights',
   CONNECT_PHONE_NUMBER: '/whatsapp-marketing/connect-number',
   GET_IS_PHONE_CONNECTED: '/whatsapp-marketing/connected-number',
   GET_WHATSAPP_MARKETING_BROADCAST: '/whatsapp-marketing/broadcast',

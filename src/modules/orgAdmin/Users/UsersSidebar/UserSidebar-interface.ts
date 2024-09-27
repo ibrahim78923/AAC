@@ -6,10 +6,8 @@ export interface UsersSidebarProps {
   employeeFilter: any;
   setEmployeeFilter: (filter: any) => void;
   resetFilter: () => void;
-  handleEmpListPaginationChange: (
-    event: React.ChangeEvent<unknown>,
-    page: number,
-  ) => void;
+  handleEmpListPaginationChange: any;
+  employeeMetaData: any;
 }
 
 export interface FilterUserProps {

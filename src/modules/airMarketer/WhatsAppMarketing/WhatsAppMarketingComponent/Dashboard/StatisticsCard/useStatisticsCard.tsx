@@ -4,22 +4,9 @@ import { Theme, useTheme } from '@mui/material';
 const useStatisticsCard = (whatsappAnalytics: any) => {
   const theme = useTheme<Theme>();
 
-  const series = [
-    {
-      name: 'Received',
-      data: [20, 10, 45, 58, 47, 56, 45, 58, 48, 57, 40, 60],
-    },
-    {
-      name: 'Sent',
-      data: [10, 41, 36, 26, 45, 35, 41, 36, 26, 45, 55, 70],
-    },
-    {
-      name: 'Failed',
-      data: [15, 25, 30, 20, 35, 30, 25, 30, 20, 35, 40, 50],
-    },
-  ];
+  const series = [{ name: 'Received' }, { name: 'Sent' }, { name: 'Failed' }];
 
-  const updatedSeries = series?.map((serie) => {
+  const updatedSeries: any = series?.map((serie) => {
     if (serie?.name === STATICTICS_STATUS?.RECIEVED) {
       return {
         ...serie,

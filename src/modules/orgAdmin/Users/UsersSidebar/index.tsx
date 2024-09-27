@@ -39,6 +39,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
     setEmployeeFilter,
     resetFilter,
     handleEmpListPaginationChange,
+    employeeMetaData,
   } = props;
 
   const {
@@ -51,7 +52,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
     theme,
   } = useUsersSidebar();
 
-  const { employeeMetaData, employeeListLoading } = useUsers();
+  const { employeeListLoading } = useUsers();
   const { handleUserSwitchChange } = useUserManagement();
 
   return (

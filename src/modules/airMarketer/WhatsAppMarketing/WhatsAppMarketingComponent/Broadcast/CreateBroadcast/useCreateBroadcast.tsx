@@ -144,6 +144,7 @@ const useCreateBroadcast = () => {
           (item: any) => `${item?.firstName} ${item?.lastName}`,
         ),
       };
+      delete editBradcastData?.attachment;
       reset(() => broadcastDefaultValues(editBradcastData, form));
       setIsSchedule(
         getWhatsappBroadcatsById?.data?.schedualDate ? true : false,
@@ -166,6 +167,12 @@ const useCreateBroadcast = () => {
   }, [getWhatsappBroadcatsById?.data, reset, form, type]);
 
   const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
+
+  const editAttachmentObject = {
+    fileSize: getWhatsappBroadcatsById?.data?.attachment?.size,
+    fileUrl: getWhatsappBroadcatsById?.data?.attachment?.fieldname,
+    orignalName: getWhatsappBroadcatsById?.data?.attachment?.originalname,
+  };
 
   const onSubmit = async (data: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -318,6 +325,7 @@ const useCreateBroadcast = () => {
     previewName,
     selectedRec,
     formFields,
+    editAttachmentObject,
     isSchedule,
     onSubmit,
     methods,

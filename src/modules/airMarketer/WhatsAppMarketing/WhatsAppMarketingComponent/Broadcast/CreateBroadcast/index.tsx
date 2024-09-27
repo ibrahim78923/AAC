@@ -33,6 +33,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { componentMap } from '@/utils/dynamic-forms';
 import { generateImage } from '@/utils/avatarUtils';
 import { indexNumbers } from '@/constants';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const CreateBroadcast = () => {
   const {
@@ -63,6 +64,7 @@ const CreateBroadcast = () => {
     form,
     detailsMsg,
     getDynamicFieldsStatus,
+    editAttachmentObject,
     handleSaveAsDraft,
   } = useCreateBroadcast();
 
@@ -204,6 +206,17 @@ const CreateBroadcast = () => {
                               disablePast
                               required
                               minDateTime={dayjs()}
+                            />
+                          </Box>
+                        )}
+
+                      {item?.componentProps?.name === 'attachment' &&
+                        type !== DRAWER_TYPES?.ADD && (
+                          <Box my={2}>
+                            <AttachFileCard
+                              data={editAttachmentObject}
+                              onDelete={() => {}}
+                              permissionKey={[]}
                             />
                           </Box>
                         )}
