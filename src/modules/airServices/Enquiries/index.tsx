@@ -60,7 +60,7 @@ const Enquiries = () => {
               color="secondary"
               sx={{ ml: 2 }}
               onClick={() => {
-                openFilterModal;
+                openFilterModal();
               }}
             >
               Filter
@@ -94,7 +94,7 @@ const Enquiries = () => {
 
       {isModalOpen?.filterOpen && (
         <Filters
-          isModalOpen={isModalOpen?.filterOpen}
+          isModalOpen={isModalOpen}
           onClose={closeModal}
           setFilter={setFilter}
         />

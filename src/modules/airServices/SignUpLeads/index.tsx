@@ -6,7 +6,7 @@ import { Grid } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useSignUpLeads from './useSignUpLeads';
 
-export default function SignUpLeads() {
+export const SignUpLeads = () => {
   const {
     setSearchBy,
     data,
@@ -60,4 +60,5 @@ export default function SignUpLeads() {
       </Grid>
     </>
   );
-}
+};
+export default SignUpLeads;
