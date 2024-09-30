@@ -487,7 +487,8 @@ const ChoosePlan = () => {
                                     const isFeatureIncluded =
                                       planFeature?.planProductFeatures?.some(
                                         (row) =>
-                                          row?.featureId === feature?._id,
+                                          row?.featureId?.toString() ===
+                                          feature?._id?.toString(),
                                       );
                                     if (isFeatureIncluded) {
                                       return (
@@ -500,8 +501,8 @@ const ChoosePlan = () => {
                                             {
                                               planFeature?.planProductFeatures?.find(
                                                 (row: any) =>
-                                                  row?.featureId ===
-                                                  feature?._id,
+                                                  row?.featureId?.toString() ===
+                                                  feature?._id?.toString(),
                                               )?.dealsAssociationsDetail
                                             }
                                           </p>

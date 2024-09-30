@@ -540,7 +540,6 @@ const DashboardLayout = ({ children, window }: any) => {
           }
           return chat;
         });
-
         dispatch(setUpdateChatContactsActions(updatedChatContacts));
       }
 

@@ -82,6 +82,7 @@ const ContactsCard = ({
       enqueueSnackbar('Success', {
         variant: 'success',
       });
+      selectedValues([]);
       dispatch(
         setChatContacts({
           ...cardData?.item,
@@ -89,12 +90,7 @@ const ContactsCard = ({
           isPinned: response?.data?.isPinned,
         }),
       );
-      selectedValues([]);
-    } catch (error: any) {
-      enqueueSnackbar('An error occurred', {
-        variant: 'error',
-      });
-    }
+    } catch (error: any) {}
   };
 
   const handleCurrentUserSelect = () => {
