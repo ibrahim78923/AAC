@@ -19,10 +19,13 @@ export default function useFilters({ setFilter, onClose }: IChildModalState) {
     onClose?.();
   };
 
+  const statusOptions = ['Done', 'Pending'];
+
   return {
     handleSubmit,
     submitEnquiriesFilters,
     resetEnquiriesFilters,
     methods,
+    statusOptions,
   };
 }

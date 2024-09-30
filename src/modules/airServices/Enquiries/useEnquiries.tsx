@@ -1,8 +1,8 @@
 import { PAGINATION } from '@/config';
 import { ChangeEvent, useMemo, useState } from 'react';
 import {
-  useGetEnquiriesQuery,
-  usePatchEnquiriesMutation,
+  useGetServicesEnquiriesQuery,
+  usePatchServicesEnquiriesMutation,
 } from '@/services/airServices/enquiries';
 import {
   getEnquiriesActionDropdown,
@@ -49,10 +49,13 @@ export default function useEnquiries() {
   };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetEnquiriesQuery({ params }, { refetchOnMountOrArgChange: true });
+    useGetServicesEnquiriesQuery(
+      { params },
+      { refetchOnMountOrArgChange: true },
+    );
 
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
-    usePatchEnquiriesMutation();
+    usePatchServicesEnquiriesMutation();
 
   const handleStatusChange = async (
     info: IInfo,

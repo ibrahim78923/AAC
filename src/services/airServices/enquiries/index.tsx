@@ -3,9 +3,9 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'AIR_SERVICES_ENQUIRIES';
 
-export const enquiriesAPI = baseAPI.injectEndpoints({
+export const airServicesEnquiriesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getEnquiries: builder.query({
+    getServicesEnquiries: builder.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.ENQUIRIES,
         method: 'GET',
@@ -14,15 +14,15 @@ export const enquiriesAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    deleteEnquiries: builder?.mutation({
-      query: (deleteEnquiriesParameter: any) => ({
-        url: `${END_POINTS?.ENQUIRIES}/${deleteEnquiriesParameter?.queryParams}`,
+    deleteServicesEnquiries: builder?.mutation({
+      query: (deleteServicesEnquiriesParameter: any) => ({
+        url: `${END_POINTS?.ENQUIRIES}/${deleteServicesEnquiriesParameter?.queryParams}`,
         method: 'DELETE',
       }),
       invalidatesTags: [TAG],
     }),
 
-    patchEnquiries: builder?.mutation({
+    patchServicesEnquiries: builder?.mutation({
       query: (patchEnquiriesParameter: any) => ({
         url: `${END_POINTS?.ENQUIRIES}/${patchEnquiriesParameter?.queryParams}`,
         method: 'PATCH',
@@ -31,7 +31,7 @@ export const enquiriesAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    postRequester: builder?.mutation({
+    postServicesRequester: builder?.mutation({
       query: (body: any) => ({
         url: END_POINTS?.ADD_REQUESTER,
         method: 'POST',
@@ -40,7 +40,7 @@ export const enquiriesAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    postTicket: builder?.mutation({
+    postServicesTicket: builder?.mutation({
       query: (body: any) => ({
         url: END_POINTS?.TICKET,
         method: 'POST',
@@ -52,9 +52,9 @@ export const enquiriesAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetEnquiriesQuery,
-  useDeleteEnquiriesMutation,
-  usePatchEnquiriesMutation,
-  usePostRequesterMutation,
-  usePostTicketMutation,
-} = enquiriesAPI;
+  useGetServicesEnquiriesQuery,
+  useDeleteServicesEnquiriesMutation,
+  usePatchServicesEnquiriesMutation,
+  usePostServicesRequesterMutation,
+  usePostServicesTicketMutation,
+} = airServicesEnquiriesAPI;

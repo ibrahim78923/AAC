@@ -4,7 +4,7 @@ import useDeleteEnquiry from './useDeleteEnquiry';
 import { IChildModalState } from '../Enquiries.interface';
 
 export const DeleteEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
-  const { deleteEnquiry, deleteEnquiriesStatus } = useDeleteEnquiry({
+  const { deleteServicesEnquiry, deleteEnquiriesStatus } = useDeleteEnquiry({
     isModalOpen,
     onClose,
   });
@@ -16,7 +16,7 @@ export const DeleteEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
       message="Are you sure you want to delete the selected enquiries?"
       open={isModalOpen?.deleteOpen}
       handleClose={() => onClose?.()}
-      handleSubmitBtn={deleteEnquiry}
+      handleSubmitBtn={deleteServicesEnquiry}
       loading={deleteEnquiriesStatus?.isLoading}
       disableCancelBtn={deleteEnquiriesStatus?.isLoading}
     />

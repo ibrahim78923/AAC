@@ -19,8 +19,6 @@ import {
 import { ChangeEvent } from 'react';
 import { TruncateText } from '@/components/TruncateText';
 
-export const statusOptions = ['Done', 'Pending'];
-
 export const getEnquiriesActionDropdown = ({
   enquiriesSelected,
   setIsModalOpen,

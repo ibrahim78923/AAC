@@ -2,8 +2,6 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import React from 'react';
-
-import { statusOptions } from '../Enquiries.data';
 import useFilters from './useFilters';
 import { IChildModalState } from '../Enquiries.interface';
 
@@ -17,6 +15,7 @@ export default function Filters({
     submitEnquiriesFilters,
     resetEnquiriesFilters,
     methods,
+    statusOptions,
   } = useFilters({ setFilter, onClose });
 
   return (
@@ -37,6 +36,7 @@ export default function Filters({
             <RHFAutocomplete
               name={'status'}
               label={'Status'}
+              size={'small'}
               placeholder={'Status'}
               options={statusOptions}
             />
