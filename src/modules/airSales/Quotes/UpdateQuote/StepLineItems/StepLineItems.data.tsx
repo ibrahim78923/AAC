@@ -4,12 +4,16 @@ import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
 import { capitalizeFirstLetters } from '@/utils';
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
+import useStepLineItems from './useStepLineItems';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 export const lineItemsColumns: any = (
   handleAction: any,
   handleDeleteDeals: any,
+  handleQuantityChange: any,
 ) => {
+  const { router, producttUpdateType } = useStepLineItems();
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -45,12 +49,12 @@ export const lineItemsColumns: any = (
                 className="small"
                 color="inherit"
                 variant="outlined"
-                // onClick={() => {
-                //   handleQuantityChange({
-                //     productId: info?.row?.original?._id,
-                //     quantity: info?.getValue() - 1,
-                //   });
-                // }}
+                onClick={() =>
+                  handleQuantityChange(
+                    info?.row?.original,
+                    producttUpdateType?.decrement_quantity,
+                  )
+                }
               >
                 <RemoveCircleOutline />
               </Button>
@@ -66,12 +70,12 @@ export const lineItemsColumns: any = (
                 className="small"
                 color="inherit"
                 variant="outlined"
-                // onClick={() => {
-                //   handleQuantityChange({
-                //     productId: info?.row?.original?.productId,
-                //     quantity: info?.getValue() + 1,
-                //   });
-                // }}
+                onClick={() =>
+                  handleQuantityChange(
+                    info?.row?.original,
+                    producttUpdateType?.increment_quantity,
+                  )
+                }
               >
                 <AddCircleOutline />
               </Button>
@@ -93,12 +97,12 @@ export const lineItemsColumns: any = (
                 className="small"
                 color="inherit"
                 variant="outlined"
-                // onClick={() => {
-                //   handleQuantityChange({
-                //     productId: info?.row?.original?._id,
-                //     unitDiscount: info?.getValue() - 1,
-                //   });
-                // }}
+                onClick={() =>
+                  handleQuantityChange(
+                    info?.row?.original,
+                    producttUpdateType?.decrement_discount,
+                  )
+                }
               >
                 <RemoveCircleOutline />
               </Button>
@@ -114,12 +118,12 @@ export const lineItemsColumns: any = (
                 className="small"
                 color="inherit"
                 variant="outlined"
-                // onClick={() => {
-                //   handleQuantityChange({
-                //     productId: info?.row?.original?.productId,
-                //     unitDiscount: info?.getValue() + 1,
-                //   });
-                // }}
+                onClick={() =>
+                  handleQuantityChange(
+                    info?.row?.original,
+                    producttUpdateType?.increment_discount,
+                  )
+                }
               >
                 <AddCircleOutline />
               </Button>
@@ -134,12 +138,13 @@ export const lineItemsColumns: any = (
       isSortable: true,
       header: 'Total Additional Price',
       cell: (info: any) =>
-        !info?.row?.original?.additionalQuantity
+        info?.row?.original?.additionalQuantity !== indexNumbers?.ZERO
           ? `£ ${
               info?.row?.original?.unitPrice *
-              info?.row?.original?.additionalQuantity
+                info?.row?.original?.additionalQuantity -
+              info?.row?.original?.unitDiscount
             }`
-          : `£23`,
+          : `£0`,
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -167,9 +172,7 @@ export const lineItemsColumns: any = (
           </Box>
           <Box
             sx={styles?.actionBtn}
-            onClick={() => {
-              handleAction(info?.getValue(), 'edit');
-            }}
+            onClick={() => router?.push(AIR_SALES?.SETTINGS)}
           >
             <EditYellowBgIcon />
           </Box>

@@ -46,7 +46,6 @@ const UpdateQuote = () => {
     loadingSubmit,
     updateBuyerInfoLoading,
     productsArray,
-    setProductsArray,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -176,7 +175,6 @@ const UpdateQuote = () => {
           onClose={handleCloseFormCreateProduct}
           dataGetQuoteById={dataGetQuoteById}
           productsArray={productsArray}
-          setProductsArray={setProductsArray}
         />
       )}
     </>

@@ -203,11 +203,7 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       key: 'lineItems',
       label: 'Line Items',
       component: (
-        <StepLineItems
-          // data={params?.data?.deal?.productsIds || []}
-          openCreateProduct={params?.openCreateProduct}
-          productsArray={params?.productsArray}
-        />
+        <StepLineItems openCreateProduct={params?.openCreateProduct} />
       ),
     },
     {

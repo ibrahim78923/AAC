@@ -8,6 +8,8 @@ import {
   useGetTaxCalculationsQuery,
 } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
+import { usePutSubmitQuoteMutation } from '@/services/airSales/quotes';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useStepLineItems = (openCreateProduct?: any) => {
   const theme = useTheme();
@@ -23,7 +25,15 @@ const useStepLineItems = (openCreateProduct?: any) => {
     quoteId = router?.query?.data;
   }
 
+  const producttUpdateType = {
+    increment_discount: 'disc_inc',
+    decrement_discount: 'disc_dec',
+    increment_quantity: 'quant_inc',
+    decrement_quantity: 'quant_dec',
+  };
+
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
+  const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
   const { data: productsData } = useGetQuoteByIdQuery({
     id: quoteId,
@@ -104,6 +114,50 @@ const useStepLineItems = (openCreateProduct?: any) => {
     openCreateProduct();
   };
 
+  const handleQuantityChange = async (data: any, type: string) => {
+    if (data) {
+      const productRespParams = { ...data };
+      switch (type) {
+        case producttUpdateType?.decrement_quantity:
+          productRespParams.additionalQuantity = data?.additionalQuantity - 1;
+          break;
+        case producttUpdateType?.increment_quantity:
+          productRespParams.additionalQuantity = data?.additionalQuantity + 1;
+          break;
+        case producttUpdateType?.decrement_discount:
+          productRespParams.unitDiscount = data?.unitDiscount - 1;
+          break;
+        case producttUpdateType?.increment_discount:
+          productRespParams.unitDiscount = data?.unitDiscount + 1;
+          break;
+        default:
+          break;
+      }
+
+      const updatedProducts = productsData?.data?.products.filter(
+        (product: any) => product.productId !== data.productId,
+      );
+      updatedProducts.push(productRespParams);
+
+      const submitQuotesPayload = {
+        id: dataGetQuoteById?.data?._id,
+        status: 'DRAFT',
+        products: updatedProducts,
+        dealAmount: dataGetQuoteById?.data?.dealAmount,
+        subTotal: 0,
+        invoiceDiscount: 0,
+        RedeemedDiscount: 0,
+        tax: 0,
+        total: 0,
+      };
+
+      await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
+      enqueueSnackbar('Product updated Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    }
+  };
+
   // const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
   return {
@@ -123,6 +177,10 @@ const useStepLineItems = (openCreateProduct?: any) => {
     FinalTotal,
     handleDeleteDeals,
     handleAction,
+    productsData,
+    handleQuantityChange,
+    producttUpdateType,
+    router,
   };
 };
 

@@ -22,7 +22,6 @@ import {
   useLazyGetProductCatagoriesUpdatedQuery,
   useGetProductsByIdQuery,
   usePostProductMutation,
-  // useUpdateProductByIdMutation,
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -31,8 +30,7 @@ import { PRODUCTS_TYPE } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const FormCreateProduct = (props: any) => {
-  const { open, onClose, productsArray, setProductsArray, dataGetQuoteById } =
-    props;
+  const { open, onClose, productsArray, dataGetQuoteById } = props;
   const theme = useTheme();
   const params = useSearchParams();
   const actionType = params.get('type');
@@ -42,14 +40,11 @@ const FormCreateProduct = (props: any) => {
   const [postProduct, { isLoading: loadingProductPost }] =
     usePostProductMutation();
 
-  // const [updateProductById] = useUpdateProductByIdMutation();
   const productCatagories = useLazyGetProductCatagoriesUpdatedQuery();
   const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
   const { data: productByIdData, isLoading: productByIdLoading } =
     useGetProductsByIdQuery({ id: productId }, { skip: !productId });
-
-  // const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(productsValidationSchema),
@@ -60,88 +55,6 @@ const FormCreateProduct = (props: any) => {
   const { handleSubmit, reset, watch } = methods;
 
   const watchProduct = watch('productType');
-  // need after some time
-
-  // const onSubmit = async (values: any) => {
-  //   delete values.productType;
-  //   values.category = values?.category?._id;
-  //   const formData = new FormData();
-  //   Object.entries(values)?.forEach(([key, value]: any) => {
-  //     if (value !== undefined && value !== null && value !== '') {
-  //       formData?.append(key, value);
-  //     }
-  //   });
-
-  //   if (actionType === DRAWER_TYPES?.EDIT) {
-  //     try {
-  //       await updateProductById({ id: productId, body: formData })?.unwrap()
-  //       // .then((res: any) => {
-  //       //   const associationBody = {
-  //       //     dealId: Quotenew?.data?.dealId,
-  //       //     product: {
-  //       //       productId: res?.data?._id,
-  //       //       quantity: 1,
-  //       //     },
-  //       //   };
-  //       //   createAssociationQuote({ body: associationBody })?.unwrap();
-  //       //   enqueueSnackbar('Product Updated Successfully', {
-  //       //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //       //   });
-  //       // });
-  //     } catch (err: any) {
-  //       enqueueSnackbar('Error while edit product', {
-  //         variant: NOTISTACK_VARIANTS?.ERROR,
-  //       });
-  //     }
-  //   } else if (actionType === DRAWER_TYPES?.CREATE) {
-  //     try {
-  //       const res:any = postProduct({ body: formData });
-  //       res.data.additionalQuantity = 0;
-  //       res.data.unitDiscount = 0;
-  //       console.log(res?.data, 'res?.data');
-
-  //       // setProductsArray([...productsArray, res?.data]);
-  //       // const submitQuotesPayload = {
-  //       //   id: dataGetQuoteById?.data?._id,
-  //       //   status: 'DRAFT',
-  //       //   products: [...productsArray, res?.data],
-  //       //   dealAmount: dataGetQuoteById?.data?.dealAmount,
-  //       //   subTotal: 0,
-  //       //   invoiceDiscount: 0,
-  //       //   RedeemedDiscount: 0,
-  //       //   tax: 0,
-  //       //   total: 0
-  //       // }
-  //       // console.log('submitQuotesPayload', submitQuotesPayload);
-
-  //       // putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
-  //       // enqueueSnackbar('Product added Successfully', {
-  //       //   variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //       // });
-  //       // reset();
-  //       // }
-  //       // .then((res: any) => {
-  //       //   const associationBody = {
-  //       //     dealId: Quotenew?.data?.dealId,
-  //       //     product: {
-  //       //       productId: res?.data?._id,
-  //       //       quantity: 1,
-  //       //     },
-  //       //   };
-  //       //   createAssociationQuote({ body: associationBody })?.unwrap();
-  //       //   enqueueSnackbar('Product added Successfully', {
-  //       //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //       //   });
-  //       //   reset();
-  //       // });
-  //     } catch (err: any) {
-  //       enqueueSnackbar('Error while creating product', {
-  //         variant: NOTISTACK_VARIANTS?.ERROR,
-  //       });
-  //     }
-  //   }
-  //   onClose();
-  // };
 
   const onSubmit = async (values: any) => {
     try {
@@ -157,11 +70,23 @@ const FormCreateProduct = (props: any) => {
         const res: any = await postProduct({ body: formData })?.unwrap();
 
         if (res) {
-          setProductsArray([...productsArray, res?.data]);
+          const productRespParams = {
+            name: res?.data?.name,
+            sku: res?.data?.sku,
+            productId: res?.data?._id,
+            quantity: 0,
+            additionalQuantity: 0,
+            unitDiscount: 0,
+            purchasePrice: res?.data?.purchasePrice,
+            unitPrice: res?.data?.unitPrice,
+            category: res?.data?.category?._id,
+            additionalProductPriceSum: 0,
+          };
+
           const submitQuotesPayload = {
             id: dataGetQuoteById?.data?._id,
             status: 'DRAFT',
-            products: [...productsArray, res?.data],
+            products: [...productsArray, productRespParams],
             dealAmount: dataGetQuoteById?.data?.dealAmount,
             subTotal: 0,
             invoiceDiscount: 0,
@@ -182,12 +107,11 @@ const FormCreateProduct = (props: any) => {
       enqueueSnackbar('Error while creating product', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-      onClose();
     }
   };
 
   useEffect(() => {
-    if (actionType === 'edit' || actionType === 'view') {
+    if (actionType === 'view') {
       if (productByIdData?.data) {
         const fieldsData = productByIdData?.data;
         reset({
@@ -205,12 +129,13 @@ const FormCreateProduct = (props: any) => {
       reset({
         productType: PRODUCTS_TYPE?.NEW_PRODUCT,
         name: '',
+        purchasePrice: '',
+        unitPrice: '',
         sku: '',
-        category: '',
+        category: null,
         description: '',
         isActive: false,
-        unitPrice: null,
-        purchasePrice: null,
+        image: '',
       });
     }
   }, [productId, actionType, reset, productByIdData?.data]);

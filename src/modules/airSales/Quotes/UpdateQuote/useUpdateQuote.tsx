@@ -406,7 +406,6 @@ const useUpdateQuote = () => {
     setIsModalOpen,
     handleDeleteSubmitBtn,
     productsArray,
-    setProductsArray,
   };
 };
 export default useUpdateQuote;

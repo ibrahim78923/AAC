@@ -193,7 +193,7 @@ const useCreateBroadcast = () => {
     };
 
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
-      payloadData.contactGroupId = [];
+      payloadData.contactGroupIds = [];
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
       payloadData.recipients = selectedRec
@@ -201,7 +201,7 @@ const useCreateBroadcast = () => {
           (item: any) => item?.contacts?.map((contact: any) => contact?._id),
         )
         ?.flat();
-      payloadData.contactGroupId = selectedRec?.map((item: any) => item?._id);
+      payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
     }
     if (isSchedule) {
       payloadData.schedualDate = data?.schedualDate;

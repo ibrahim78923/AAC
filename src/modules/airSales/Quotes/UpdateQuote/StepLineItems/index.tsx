@@ -13,7 +13,6 @@ import { AddCircleSmallIcon, InfoIconBlueBg } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import useStepLineItems from './useStepLineItems';
-import { indexNumbers } from '@/constants';
 import {
   discountsData,
   lineItemsColumns,
@@ -21,7 +20,7 @@ import {
 } from './StepLineItems.data';
 
 const StepLineItems = (props: any) => {
-  const { openCreateProduct, productsArray } = props;
+  const { openCreateProduct } = props;
 
   const {
     search,
@@ -40,6 +39,8 @@ const StepLineItems = (props: any) => {
     totalPercentage,
     handleAction,
     handleDeleteDeals,
+    productsData,
+    handleQuantityChange,
   } = useStepLineItems(openCreateProduct);
 
   return (
@@ -81,8 +82,12 @@ const StepLineItems = (props: any) => {
           </Stack>
 
           <TanstackTable
-            columns={lineItemsColumns(handleAction, handleDeleteDeals)}
-            data={productsArray?.length > indexNumbers?.ZERO && productsArray}
+            columns={lineItemsColumns(
+              handleAction,
+              handleDeleteDeals,
+              handleQuantityChange,
+            )}
+            data={productsData?.data?.products}
           />
         </Grid>
 

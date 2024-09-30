@@ -66,18 +66,18 @@ const SettingSales = () => {
             aria-label="Vertical tabs example"
             sx={styles?.tabsStyle(theme)}
           >
-            <Tab label="Deals Pipelines" />
             <Tab label="Sales Product" />
+            <Tab label="Deals Pipelines" />
             <Tab label="Roles and Rights" />
             <Tab label="User Management" />
             <Tab label="Notifications" />
             <Tab label="Forecast" />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <DealPipelines />
+            <SalesProduct />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <SalesProduct />
+            <DealPipelines />
           </TabPanel>
           <TabPanel value={value} index={2}>
             <RolesRight />

@@ -94,6 +94,7 @@ export const AIR_SALES = {
   SALES_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard'),
   MANAGE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/manage'),
   CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
+  SETTINGS: '/air-sales/settings',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {

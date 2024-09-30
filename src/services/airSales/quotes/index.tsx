@@ -222,7 +222,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
     putSubmitQuote: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${END_POINTS?.QUOTE_SUBMIT}`,
+        url: `${END_POINTS?.QUOTE_SUBMIT_RECORD}`,
         method: 'PUT',
         body,
       }),
