@@ -25,6 +25,7 @@ export const UpsertSoftware = (props: UpsertSoftwareI) => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     form,
+    productId,
   } = useUpsertSoftware(props);
 
   return (
@@ -63,11 +64,13 @@ export const UpsertSoftware = (props: UpsertSoftwareI) => {
         ) : (
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {upsertSoftwareFormFields(userQuery)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
+              {upsertSoftwareFormFields(userQuery, productId)?.map(
+                (item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Grid>
+                ),
+              )}
               {form?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
                   {componentMap[item?.component] &&

@@ -55,7 +55,7 @@ export const upsertSoftwareFormDefaultValues = (data?: any, form?: any) => {
   };
 };
 
-export const upsertSoftwareFormFields = (userQuery: any) => [
+export const upsertSoftwareFormFields = (userQuery: any, productId: any) => [
   {
     id: 1,
     componentProps: {
@@ -137,6 +137,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
       placeholder: 'Select User',
       fullWidth: true,
       apiQuery: userQuery,
+      externalParams: { productId },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
     },

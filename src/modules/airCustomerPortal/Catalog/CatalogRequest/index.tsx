@@ -2,7 +2,13 @@ import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import useCatalogRequest from './useCatalogRequest';
-import { Box, DialogContent, DialogTitle, Grid } from '@mui/material';
+import {
+  Box,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { CatalogRequestI } from './CatalogRequest.interface';
@@ -36,10 +42,9 @@ export const CatalogRequest = (props: CatalogRequestI) => {
           <Typography variant="h4" color="slateBlue.main">
             Item Request
           </Typography>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => handleClose?.()}
-          />
+          <IconButton onClick={() => handleClose?.()}>
+            <CloseIcon />
+          </IconButton>
         </Box>
       </DialogTitle>
 

@@ -5,7 +5,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { ApprovalCard } from '../ApprovalCard';
 import NoData from '@/components/NoData';
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { RequestConfirmForm } from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Approvals/RequestConfirmForm';
+import { RequestApprovalForm } from '../RequestApprovalForm';
 
 const PendingForApprovals = () => {
   const {
@@ -46,7 +46,7 @@ const PendingForApprovals = () => {
       ) : (
         <NoData />
       )}
-      <RequestConfirmForm
+      <RequestApprovalForm
         isConfirmModalOpen={isConfirmModalOpen}
         setIsConfirmModalOpen={setIsConfirmModalOpen}
         selectedApproval={selectedApproval}

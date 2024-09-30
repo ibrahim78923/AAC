@@ -3,11 +3,11 @@ import { useApprovalDetail } from './useApprovalDetail';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { ApprovalCard } from '../ApprovalCard';
 import { ARRAY_INDEX, TICKET_APPROVALS } from '@/constants/strings';
-import { RequestConfirmForm } from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Approvals/RequestConfirmForm';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { DetailCard } from './DetailCard';
 import { ApprovalsDataI } from '../AllApprovals/AllApprovals.interface';
+import { RequestApprovalForm } from '../RequestApprovalForm';
 
 export const ApprovalDetail = () => {
   const {
@@ -65,7 +65,7 @@ export const ApprovalDetail = () => {
       )}
 
       {isConfirmModalOpen && (
-        <RequestConfirmForm
+        <RequestApprovalForm
           isConfirmModalOpen={isConfirmModalOpen}
           setIsConfirmModalOpen={setIsConfirmModalOpen}
           selectedApproval={selectedApproval}

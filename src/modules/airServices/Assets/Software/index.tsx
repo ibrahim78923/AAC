@@ -3,7 +3,7 @@ import { columns } from './Software.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
-import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
+import { PageTitledHeader } from '@/components/PageTitledHeader/index';
 import SoftwareFilter from './SoftwareFilter';
 import { SoftwareAssignCategory } from './SoftwareAssignCategory';
 import { UpsertSoftware } from './UpsertSoftware';

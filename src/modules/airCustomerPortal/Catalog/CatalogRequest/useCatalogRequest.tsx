@@ -67,10 +67,6 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     methodRequest;
 
   const onSubmitRequest = async (data: any) => {
-    const addItemToDescription = categoryType
-      ? `${servicesDetails?.data?.description} No of item ${data?.noOfItem}`
-      : servicesDetails?.data?.description;
-
     const placeRequestData = new FormData();
     if (categoryType) {
       placeRequestData?.append('NoOfItem', data?.noOfItem);
@@ -86,7 +82,6 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     placeRequestData?.append('serviceId', serviceId as string);
     placeRequestData?.append('moduleType', MODULE_TYPE?.CUSTOMER_PORTAL);
     placeRequestData?.append('ticketType', TICKET_TYPE?.SR);
-    placeRequestData?.append('description', addItemToDescription);
     placeRequestData?.append('userId', sessionUserId || '');
     placeRequestData?.append(
       'companyId',

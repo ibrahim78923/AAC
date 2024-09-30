@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface AllApprovalsPropsI {
   approvalStatus: string;
 }
@@ -39,4 +41,12 @@ export interface ApprovalCardPropsI {
   showButton?: boolean;
   setApproval?: (arg: any) => void;
   openApprovalDetail?: (arg: any) => void;
+}
+
+export interface ConfirmModalPropsI {
+  isConfirmModalOpen: boolean;
+  setIsConfirmModalOpen: Dispatch<SetStateAction<boolean>>;
+  selectedApproval: any;
+  setSelectedApproval: Dispatch<SetStateAction<any>>;
+  refetch?: any;
 }

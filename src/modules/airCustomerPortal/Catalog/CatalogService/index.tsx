@@ -1,5 +1,4 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { CatalogRequest } from '../CatalogRequest';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';

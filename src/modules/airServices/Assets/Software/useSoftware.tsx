@@ -45,7 +45,6 @@ export const useSoftware = () => {
     setSoftwareData,
     openAssignModal,
     setOpenAssignModal,
-    searchValue,
     setSearchValue,
     setPage,
     setPageLimit,
