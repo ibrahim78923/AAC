@@ -15,8 +15,8 @@ import {
   addedInventoryItemsFormFieldsFunction,
 } from './AddedInventoryItems.data';
 import {
-  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
-  useLazyGetLocationsDropdownForPurchaseOrderQuery,
+  useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery,
+  useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { ADDED_INVENTORY_METHODS } from '../AddItemsToInventory.data';
 
@@ -24,8 +24,9 @@ export const AddedInventoryItems: any = (props: any) => {
   const { fields, getValues, append, name } = props;
 
   const apiQueryDepartment =
-    useLazyGetDepartmentDropdownForPurchaseOrderQuery?.();
-  const apiQueryLocation = useLazyGetLocationsDropdownForPurchaseOrderQuery?.();
+    useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery?.();
+  const apiQueryLocation =
+    useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery?.();
 
   return (
     <>
@@ -65,6 +66,7 @@ export const AddedInventoryItems: any = (props: any) => {
           <Button
             type="button"
             color="secondary"
+            className="small"
             onClick={() => {
               append(
                 Array?.from(

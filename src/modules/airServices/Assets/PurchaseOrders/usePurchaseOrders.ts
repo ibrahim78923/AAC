@@ -5,8 +5,8 @@ import { PAGINATION } from '@/config';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import {
-  useLazyGetExportPurchaseOrderListQuery,
-  useLazyGetPurchaseOrderListQuery,
+  useLazyGetAirServicesAssetsExportPurchaseOrderListQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderListQuery,
 } from '@/services/airServices/assets/purchase-orders';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { purchaseOrderColumnsFunction } from './PurchaseOrders.data';
@@ -31,10 +31,10 @@ const usePurchaseOrders = () => {
   };
 
   const [lazyGetPurchaseOrderListTrigger, lazyGetPurchaseOrderListStatus] =
-    useLazyGetPurchaseOrderListQuery<any>();
+    useLazyGetAirServicesAssetsPurchaseOrderListQuery<any>();
 
   const [lazyGetExportPurchaseOrderListTrigger] =
-    useLazyGetExportPurchaseOrderListQuery();
+    useLazyGetAirServicesAssetsExportPurchaseOrderListQuery();
 
   const getPurchaseOrderListData = async (currentPage: any = page) => {
     const additionalParams = [

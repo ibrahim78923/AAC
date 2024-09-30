@@ -35,10 +35,12 @@ export const UpsertInventoryValidationSchema: any = (form?: any) => {
         `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
       ),
     assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
-    description: Yup?.string()?.max(
-      GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
-      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
-    ),
+    description: Yup?.string()
+      ?.trim()
+      ?.test('is-not-empty', 'Description is Required', (value) => {
+        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        return strippedContent !== '';
+      }),
     impact: Yup?.mixed()?.nullable(),
     department: Yup?.mixed()?.nullable(),
     assetLifeExpiry: Yup?.date()?.nullable(),
@@ -205,7 +207,7 @@ export const upsertInventoryFormFieldsSecond = (
       apiQuery: apiQueryUsedByType,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option.lastName}`,
-      externalParams: { productId },
+      externalParams: { productId, requester: true, admin: true },
     },
     component: RHFAutocompleteAsync,
     md: 6,

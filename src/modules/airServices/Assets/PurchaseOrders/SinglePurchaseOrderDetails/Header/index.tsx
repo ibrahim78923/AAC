@@ -39,6 +39,7 @@ export const Header = (props: any) => {
                 <Button
                   color="secondary"
                   variant="outlined"
+                  className="small"
                   onClick={() => {
                     handleReceived?.();
                   }}
@@ -51,6 +52,7 @@ export const Header = (props: any) => {
                 <Button
                   color="secondary"
                   variant="outlined"
+                  className="small"
                   onClick={() => handleAddToInventory?.()}
                   disabled={
                     data?.data?.status === PURCHASE_ORDER_STATUS?.CLOSED ||
@@ -63,8 +65,9 @@ export const Header = (props: any) => {
             )}
 
           {data?.data?.status !== PURCHASE_ORDER_STATUS?.OPEN && (
-            <Button color="secondary" variant="outlined">
-              {data?.data?.status ?? '----'}
+            <Button color="secondary" variant="outlined" className="small">
+              {data?.data?.status?.toLowerCase()?.split('_')?.join(' ') ??
+                '----'}
             </Button>
           )}
 

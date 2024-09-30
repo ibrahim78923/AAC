@@ -2,9 +2,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ASSETS_RECEIVED';
+
 export const assetReceivedApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getAssetsReceived: builder?.query({
+    getAirServicesAssetsPurchaseOrderAssetsReceived: builder?.query({
       query: (params) => ({
         url: END_POINTS?.ASSETS_RECEIVED,
         method: 'GET',
@@ -12,7 +13,8 @@ export const assetReceivedApi = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getPurchaseOrderById: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderPurchaseOrderById: builder?.query({
       query: (purchaseOrderId) => ({
         url: `${END_POINTS?.ASSETS_PURCHASEORDER_DETAIL}/${purchaseOrderId}`,
         method: 'GET',
@@ -22,5 +24,7 @@ export const assetReceivedApi = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useLazyGetAssetsReceivedQuery, useGetPurchaseOrderByIdQuery } =
-  assetReceivedApi;
+export const {
+  useLazyGetAirServicesAssetsPurchaseOrderAssetsReceivedQuery,
+  useGetAirServicesAssetsPurchaseOrderPurchaseOrderByIdQuery,
+} = assetReceivedApi;

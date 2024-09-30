@@ -8,7 +8,6 @@ import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import dayjs from 'dayjs';
 import { RequestApprovalForm } from './RequestApprovalForm';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
@@ -38,6 +37,7 @@ export const Approvals = () => {
     sendReminderForPurchaseOrderApproval,
     postPurchaseOrderApprovalRemindersStatus,
   } = useApprovals();
+
   return (
     <>
       {lazyGetApprovalRequestsStatus?.isFetching ? (
@@ -53,6 +53,7 @@ export const Approvals = () => {
             >
               <Button
                 variant="outlined"
+                className={'small'}
                 sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
                 startIcon={<AddCircleIcon />}
                 onClick={() => setOpenDialog(true)}
@@ -65,6 +66,7 @@ export const Approvals = () => {
               <Box textAlign={'end'}>
                 <Button
                   variant="contained"
+                  className={'small'}
                   onClick={() => setOpenDialog(true)}
                   startIcon={<AddCircleIcon />}
                 >
@@ -161,7 +163,13 @@ export const Approvals = () => {
                       )}
                     {user?._id !== item?.approverId &&
                       !approvalStatus?.includes(item?.approvalStatus) && (
-                        <Fragment>
+                        <Box
+                          display={'flex'}
+                          gap={2}
+                          alignItems={'center'}
+                          justifyContent={'flex-end'}
+                          flexWrap={'wrap'}
+                        >
                           <CancelRequest approvalId={item?._id} />
                           <LoadingButton
                             loading={
@@ -175,10 +183,11 @@ export const Approvals = () => {
                             onClick={() =>
                               sendReminderForPurchaseOrderApproval?.()
                             }
+                            className={'small'}
                           >
                             Send Reminder
                           </LoadingButton>
-                        </Fragment>
+                        </Box>
                       )}
                   </Grid>
                 </Grid>

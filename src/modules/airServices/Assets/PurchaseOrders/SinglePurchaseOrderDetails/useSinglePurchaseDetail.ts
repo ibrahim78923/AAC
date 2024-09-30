@@ -4,7 +4,7 @@ import {
   singlePurchaseDetailActionDropdownFunction,
   singlePurchaseDetailStatusDropdownFunction,
 } from './SinglePurchaseDetail.data';
-import { usePutPurchaseOrderStatusMutation } from '@/services/airServices/assets/purchase-orders';
+import { usePutAirServicesAssetsPurchaseOrderStatusMutation } from '@/services/airServices/assets/purchase-orders';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSinglePurchaseDetail = () => {
@@ -14,7 +14,8 @@ export const useSinglePurchaseDetail = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
 
-  const [putPurchaseOrderStatusTrigger] = usePutPurchaseOrderStatusMutation();
+  const [putPurchaseOrderStatusTrigger] =
+    usePutAirServicesAssetsPurchaseOrderStatusMutation();
 
   const { purchaseOrderId }: any = router?.query;
 

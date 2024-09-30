@@ -1,25 +1,31 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+
 const TAG = 'REQUEST_APPROVAL';
+
 export const approvalsAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
-    postRequestApproval: builder?.mutation({
-      query: (params: any) => ({
-        url: `${END_POINTS?.REQUEST_APPROVAL}`,
-        method: 'POST',
-        params,
+    postAirServicesAssetsPurchaseOrderApprovalRequestApproval:
+      builder?.mutation({
+        query: (params: any) => ({
+          url: END_POINTS?.REQUEST_APPROVAL,
+          method: 'POST',
+          params,
+        }),
+        invalidatesTags: [TAG],
       }),
-      invalidatesTags: [TAG],
-    }),
-    patchRequestApproval: builder?.mutation({
-      query: (params: any) => ({
-        url: `${END_POINTS?.PATCH_APPROVAL_STATUS}`,
-        method: 'PATCH',
-        params,
+
+    patchAirServicesAssetsPurchaseOrderApprovalRequestApproval:
+      builder?.mutation({
+        query: (params: any) => ({
+          url: END_POINTS?.PATCH_APPROVAL_STATUS,
+          method: 'PATCH',
+          params,
+        }),
+        invalidatesTags: [TAG],
       }),
-      invalidatesTags: [TAG],
-    }),
-    getApprovalRequests: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderApprovalApprovalRequests: builder?.query({
       query: (params: any) => ({
         url: `${END_POINTS?.REQUEST_APPROVALS_LIST}/${params?.purchaseOrderId}`,
         method: 'GET',
@@ -27,19 +33,33 @@ export const approvalsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    postPurchaseOrderApprovalReminders: builder?.mutation({
+
+    postAirServicesAssetsPurchaseOrderApprovalReminders: builder?.mutation({
       query: () => ({
         url: END_POINTS?.SEND_PURCHASE_APPROVAL_REMINDER,
         method: 'POST',
       }),
       invalidatesTags: [TAG],
     }),
+
+    getAirServicesAssetsPurchaseOrderApprovalAgents: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_USERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
 export const {
-  usePostRequestApprovalMutation,
-  usePatchRequestApprovalMutation,
-  useLazyGetApprovalRequestsQuery,
-  usePostPurchaseOrderApprovalRemindersMutation,
+  usePostAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation,
+  usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation,
+  useLazyGetAirServicesAssetsPurchaseOrderApprovalApprovalRequestsQuery,
+  usePostAirServicesAssetsPurchaseOrderApprovalRemindersMutation,
+  useLazyGetAirServicesAssetsPurchaseOrderApprovalAgentsQuery,
 } = approvalsAPI;

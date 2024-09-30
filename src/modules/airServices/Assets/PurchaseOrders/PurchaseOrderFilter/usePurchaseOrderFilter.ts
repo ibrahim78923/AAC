@@ -1,6 +1,6 @@
 import {
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetVendorDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
 } from '@/services/airServices/assets/purchase-orders';
 import {
   purchaseOrderFilterFieldsDynamic,
@@ -52,8 +52,10 @@ export const usePurchaseOrderFilter = (props: any) => {
     setIsDrawerOpen?.(false);
   };
 
-  const departmentDropdown = useLazyGetDepartmentDropdownQuery();
-  const vendorDropdown = useLazyGetVendorDropdownQuery();
+  const departmentDropdown =
+    useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery();
+  const vendorDropdown =
+    useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery();
 
   const purchaseOrderFilterFormFieldsData = purchaseOrderFilterFieldsDynamic(
     vendorDropdown,

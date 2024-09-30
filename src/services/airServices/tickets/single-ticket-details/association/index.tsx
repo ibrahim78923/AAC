@@ -173,6 +173,16 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
         body: postTicketParameter?.body,
       }),
     }),
+
+    // Purchase Order Association
+    getServicesPurchaseOrderAssociationTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.TICKET,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -195,4 +205,5 @@ export const {
   useLazyGetAirServicesContactOwnerUsersDropdownQuery,
   useLazyGetServicesInventoryAssociationExitingTicketsQuery,
   usePostServicesInventoryAssociationTicketsMutation,
+  useLazyGetServicesPurchaseOrderAssociationTicketsQuery,
 } = ticketsAssociationAPI;

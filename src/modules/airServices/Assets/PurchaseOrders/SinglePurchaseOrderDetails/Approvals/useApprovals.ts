@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useSearchParams } from 'next/navigation';
 import {
-  useLazyGetApprovalRequestsQuery,
-  usePostPurchaseOrderApprovalRemindersMutation,
+  useLazyGetAirServicesAssetsPurchaseOrderApprovalApprovalRequestsQuery,
+  usePostAirServicesAssetsPurchaseOrderApprovalRemindersMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { useTheme } from '@mui/material';
 import useAuth from '@/hooks/useAuth';
@@ -21,11 +21,11 @@ export const useApprovals = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const [lazyGetApprovalRequestsTrigger, lazyGetApprovalRequestsStatus]: any =
-    useLazyGetApprovalRequestsQuery();
+    useLazyGetAirServicesAssetsPurchaseOrderApprovalApprovalRequestsQuery();
   const [
     postPurchaseOrderApprovalRemindersTrigger,
     postPurchaseOrderApprovalRemindersStatus,
-  ] = usePostPurchaseOrderApprovalRemindersMutation();
+  ] = usePostAirServicesAssetsPurchaseOrderApprovalRemindersMutation();
 
   const approvalsList =
     lazyGetApprovalRequestsStatus?.data?.data?.purchaseapprovals;

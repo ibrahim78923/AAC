@@ -11,7 +11,7 @@ export const AttachmentForm = (props: any) => {
       <LoadingButton
         type="submit"
         fullWidth
-        size="small"
+        className="small"
         variant="contained"
         sx={{ mt: 2 }}
         loading={postAttachmentsStatus?.isLoading}

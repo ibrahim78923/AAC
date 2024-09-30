@@ -20,14 +20,13 @@ export const SinglePurchaseOrderDetail = () => {
 
   return (
     <>
-      <>
-        <Header
-          dropdownOptions={singlePurchaseDetailActionDropdown}
-          statusDropdownOptions={singlePurchaseDetailStatusDropdown}
-          handleReceived={() => setIsADrawerOpen(true)}
-          handleAddToInventory={() => setIsDrawerOpen(true)}
-        />
-      </>
+      <Header
+        dropdownOptions={singlePurchaseDetailActionDropdown}
+        statusDropdownOptions={singlePurchaseDetailStatusDropdown}
+        handleReceived={() => setIsADrawerOpen(true)}
+        handleAddToInventory={() => setIsDrawerOpen(true)}
+      />
+
       <SinglePurchaseOrderDetailTabs />
 
       {isDeleteModalOpen && (

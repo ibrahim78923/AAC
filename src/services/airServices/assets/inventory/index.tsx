@@ -100,13 +100,6 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getAttachmentToInventory: builder?.query({
-      query: (getAttachmentToInventoryParameter: any) => ({
-        url: `${END_POINTS?.ATTACHMENT_INVENTORY}/${getAttachmentToInventoryParameter?.pathParam?.inventoryId}`,
-        method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
     getAirServicesAssetsInventoryAssetTypeInventoryDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.ASSET_TYPE_DROPDOWN,
@@ -129,6 +122,5 @@ export const {
   useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery,
   usePatchAirServicesAssetsInventoryAddToInventoryMutation,
   useGetAirServicesAssetsInventoryAddToInventoryByIdQuery,
-  useGetAttachmentToInventoryQuery,
   useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery,
 } = inventoryAPI;

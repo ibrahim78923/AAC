@@ -1,21 +1,23 @@
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import { modalBillingData } from './OverviewBilling.data';
 import { styles } from './OverviewBilling.style';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const OverviewBilling = ({
   purchaseOrderDetailData,
   purchaseOrderData,
 }: any) => {
-  const purchaseOrderDetail = purchaseOrderDetailData?.[0];
+  const purchaseOrderDetail = purchaseOrderDetailData?.[ARRAY_INDEX?.ZERO];
   const subTotal = purchaseOrderData?.subTotal || 0;
   const discount = purchaseOrderData?.discount || 0;
   const taxRate = purchaseOrderData?.taxRate || 0;
   const shipping = purchaseOrderData?.shipping || 0;
-  const total =
+  const total = (
     subTotal -
     (subTotal * discount) / 100 +
     (subTotal * taxRate) / 100 +
-    shipping;
+    shipping
+  )?.toFixed(2);
 
   return (
     <Box

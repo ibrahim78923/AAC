@@ -6,8 +6,8 @@ import SkeletonForm from '../Skeletons/SkeletonForm';
 import ApiErrorState from '../ApiErrorState';
 import NoData from '../NoData';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
-import { AddCircleIcon } from '@/assets/icons';
 import { AttachmentsPropsI } from './Attachments.interface';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const Attachments = (props: AttachmentsPropsI) => {
   const {
@@ -43,6 +43,7 @@ export const Attachments = (props: AttachmentsPropsI) => {
             <Box mb={2} textAlign={'end'}>
               <Button
                 variant="outlined"
+                className="small"
                 onClick={() => attachFileHandler?.()}
                 startIcon={<AddCircleIcon />}
               >

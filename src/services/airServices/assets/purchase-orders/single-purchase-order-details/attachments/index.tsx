@@ -1,35 +1,20 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'ATTACHMENT';
+const TAG = 'ATTACHMENTS';
+
 export const getAttachmentAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
-    getAttachment: builder.query({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.GET_ATTACHMENT}/${id}`,
-        method: 'GET',
-        // params: params,
-      }),
-      providesTags: [TAG],
-    }),
-    postAttachment: builder.mutation({
-      query: ({ body }: any) => ({
-        url: `${END_POINTS?.POST_ATTACHMENT}`,
+    postAirServicesPurchaseOrderDetailsAttachments: builder?.mutation({
+      query: (postAttachmentParameter: any) => ({
+        url: END_POINTS?.POST_ATTACHMENT,
         method: 'POST',
-        body: body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    patchAttachment: builder.mutation({
-      query: ({ _id, body }: { _id: any; body: any }) => ({
-        url: `${END_POINTS?.EDIT_ATTACHMENT}/${_id}`,
-        method: 'PATCH',
-        body,
+        body: postAttachmentParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
   }),
 });
 
-export const { useGetAttachmentQuery, usePostAttachmentMutation } =
+export const { usePostAirServicesPurchaseOrderDetailsAttachmentsMutation } =
   getAttachmentAPI;

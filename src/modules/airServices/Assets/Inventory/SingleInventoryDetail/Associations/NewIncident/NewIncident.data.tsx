@@ -43,11 +43,7 @@ export const newIncidentValidationSchema = (form: any) => {
       ?.test('is-not-empty', 'Description is Required', (value) => {
         const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
         return strippedContent !== '';
-      })
-      ?.max(
-        GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
-        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
-      ),
+      }),
     category: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.nullable()?.required('Status is required'),
     priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),

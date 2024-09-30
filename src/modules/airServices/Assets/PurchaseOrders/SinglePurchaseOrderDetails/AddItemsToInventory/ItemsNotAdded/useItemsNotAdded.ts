@@ -1,4 +1,4 @@
-import { usePostAssetPurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
+import { usePostAirServicesAssetsPurchaseOrderDetailsMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 
@@ -9,7 +9,7 @@ export const useItemsNotAdded = (props: any) => {
   const { purchaseOrderId } = router?.query;
 
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
-    usePostAssetPurchaseOrderMutation();
+    usePostAirServicesAssetsPurchaseOrderDetailsMutation();
 
   const submitNewInventory = async () => {
     const addedInventoryList = isModalOpen?.formData?.inventoryData?.map(

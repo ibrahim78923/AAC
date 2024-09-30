@@ -12,6 +12,7 @@ import {
   useLazyGetAirServicesAssetsInventoryUsersDropdownQuery,
 } from '@/services/airServices/assets/inventory';
 import { FilterInventoryI } from './FilterInventory.interface';
+import useAuth from '@/hooks/useAuth';
 
 export const useFilterInventory = (props: FilterInventoryI) => {
   const {
@@ -22,6 +23,10 @@ export const useFilterInventory = (props: FilterInventoryI) => {
   } = props;
 
   const router = useRouter();
+
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
 
   const methods: any = useForm({
     defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),
@@ -82,6 +87,7 @@ export const useFilterInventory = (props: FilterInventoryI) => {
     apiQueryUsers,
     apiQueryAssetType,
     apiQueryUsersCreatedBy,
+    productId,
   );
 
   return {

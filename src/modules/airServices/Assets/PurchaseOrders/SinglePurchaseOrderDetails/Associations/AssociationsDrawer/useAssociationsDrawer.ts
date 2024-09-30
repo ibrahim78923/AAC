@@ -1,9 +1,11 @@
 import { PAGINATION } from '@/config';
-import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostAirServicesRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import {
+  usePostAirServicesRemoveAssociateTicketsMutation,
+  useLazyGetServicesPurchaseOrderAssociationTicketsQuery,
+} from '@/services/airServices/tickets/single-ticket-details/association';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 export const useAssociationsDrawer = (props: any) => {
@@ -17,7 +19,7 @@ export const useAssociationsDrawer = (props: any) => {
   const [search, setSearch] = useState<any>('');
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
-    useLazyGetTicketsQuery();
+    useLazyGetServicesPurchaseOrderAssociationTicketsQuery();
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostAirServicesRemoveAssociateTicketsMutation();
@@ -32,9 +34,11 @@ export const useAssociationsDrawer = (props: any) => {
     getTicketsParam?.append('page', page + '');
     getTicketsParam?.append('limit', pageLimit + '');
     getTicketsParam?.append('search', search);
+
     const getTicketsParameter = {
       queryParams: getTicketsParam,
     };
+
     try {
       await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       setSelectedTicketList([]);

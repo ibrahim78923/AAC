@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Chip, Typography, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { useAssociationsDrawer } from './useAssociationsDrawer';
 import CustomPagination from '@/components/CustomPagination';
@@ -27,6 +27,7 @@ export const AssociationsDrawer = (props: any) => {
     onSubmit,
     postRemoveAssociateTicketsStatus,
   } = useAssociationsDrawer(props);
+
   return (
     <div>
       <CommonDrawer
@@ -99,14 +100,16 @@ export const AssociationsDrawer = (props: any) => {
                       />
                       <Typography>{item?.subject}</Typography>
                     </Box>
-                    <Button
+
+                    <Chip
+                      label={item?.status?.toLowerCase()}
                       sx={{
-                        backgroundColor: theme?.palette?.primary?.light,
-                        borderRadius: '1rem',
+                        color: 'primary.main',
+                        backgroundColor: 'primary.light',
+                        textTransform: 'capitalize',
+                        fontWeight: 700,
                       }}
-                    >
-                      {item?.status}
-                    </Button>
+                    />
                   </Box>
                 ))
               ) : (

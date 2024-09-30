@@ -1,10 +1,11 @@
-import { usePatchRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
+import { usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { approvalStatus } from '../Approvals.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useCancelRequest = () => {
   const [patchRequestApprovalTrigger, patchRequestApprovalStatus] =
-    usePatchRequestApprovalMutation();
+    usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation();
+
   const onCancel = async (approvalId: any) => {
     const params = new URLSearchParams();
     params?.append('id', approvalId);
@@ -16,6 +17,7 @@ export const useCancelRequest = () => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   return {
     onCancel,
     patchRequestApprovalStatus,

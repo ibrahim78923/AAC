@@ -1,10 +1,10 @@
 import {
-  useGetAllAssetsListForAddInventoryQuery,
-  useGetPurchaseOrderByIdForAddToInventoryQuery,
-  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
-  useLazyGetLocationsDropdownForPurchaseOrderQuery,
-  usePatchAddToPurchaseOrderMutation,
-  usePostAssetPurchaseOrderMutation,
+  useGetAirServicesAssetsPurchaseOrderAllAssetsListQuery,
+  useGetAirServicesAssetsPurchaseOrderDetailsByIdQuery,
+  useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery,
+  useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery,
+  usePatchAirServicesAssetsPurchaseOrderDetailsAddToPurchaseOrderMutation,
+  usePostAirServicesAssetsPurchaseOrderDetailsMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { useRouter } from 'next/router';
 import {
@@ -26,11 +26,11 @@ export const useAddItemsToInventory = (props: any) => {
   const [isConfirmModalOpen, setIsConfirmModal] = useState<any>({});
 
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
-    usePostAssetPurchaseOrderMutation();
+    usePostAirServicesAssetsPurchaseOrderDetailsMutation();
   const [
     patchAddToExistingInventoryTrigger,
     patchAddToExistingInventoryStatus,
-  ] = usePatchAddToPurchaseOrderMutation();
+  ] = usePatchAirServicesAssetsPurchaseOrderDetailsAddToPurchaseOrderMutation();
 
   const router = useRouter();
   const { purchaseOrderId } = router?.query;
@@ -40,7 +40,7 @@ export const useAddItemsToInventory = (props: any) => {
   };
 
   const addToItemsInventoryDetails: any =
-    useGetPurchaseOrderByIdForAddToInventoryQuery?.(
+    useGetAirServicesAssetsPurchaseOrderDetailsByIdQuery?.(
       addItemsToInventoryParameter,
       {
         refetchOnMountOrArgChange: true,
@@ -78,14 +78,15 @@ export const useAddItemsToInventory = (props: any) => {
     },
   };
 
-  const allAssets = useGetAllAssetsListForAddInventoryQuery?.(
+  const allAssets = useGetAirServicesAssetsPurchaseOrderAllAssetsListQuery?.(
     allAssetsApiDataParameter,
     { refetchOnMountOrArgChange: true },
   );
 
   const apiQueryDepartment =
-    useLazyGetDepartmentDropdownForPurchaseOrderQuery?.();
-  const apiQueryLocation = useLazyGetLocationsDropdownForPurchaseOrderQuery?.();
+    useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery?.();
+  const apiQueryLocation =
+    useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery?.();
 
   const addItemsToInventoryCountFormFields =
     addItemsToInventoryCountFormFieldsDynamic?.(

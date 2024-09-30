@@ -1,4 +1,4 @@
-import { useGetPurchaseOrderOverviewQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/overview';
+import { useGetAirServicesPurchaseOrderOverviewQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/overview';
 import { useTheme } from '@mui/material';
 import jsPDF from 'jspdf';
 import { useRouter } from 'next/router';
@@ -15,7 +15,7 @@ export const useOverview = () => {
   const router = useRouter();
   const purchaseOrderId = router?.query?.purchaseOrderId;
   const { data, isLoading, isFetching, isError } =
-    useGetPurchaseOrderOverviewQuery(purchaseOrderId, {
+    useGetAirServicesPurchaseOrderOverviewQuery(purchaseOrderId, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
     });

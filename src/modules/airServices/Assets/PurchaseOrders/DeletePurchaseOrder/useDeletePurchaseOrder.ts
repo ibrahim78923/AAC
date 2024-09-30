@@ -1,5 +1,6 @@
 import { AIR_SERVICES } from '@/constants';
-import { useDeletePurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { useDeleteAirServicesAssetsPurchaseOrderPurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 
@@ -18,10 +19,13 @@ export const useDeletePurchaseOrder = (props: any) => {
   const router = useRouter();
 
   const [deletePurchaseOrderTrigger, deletePurchaseOrderStatus] =
-    useDeletePurchaseOrderMutation();
+    useDeleteAirServicesAssetsPurchaseOrderPurchaseOrderMutation();
+
   const deletePurchaseOrder = async () => {
     try {
-      await deletePurchaseOrderTrigger(purchaseOrderData?.[0]?._id)?.unwrap();
+      await deletePurchaseOrderTrigger(
+        purchaseOrderData?.[ARRAY_INDEX?.ZERO]?._id,
+      )?.unwrap();
       successSnackbar('Purchase Order Deleted Successfully!');
       closePurchaseOrderDeleteModal?.();
       canMoveBack && router?.push(AIR_SERVICES?.PURCHASE_ORDER);
@@ -37,6 +41,7 @@ export const useDeletePurchaseOrder = (props: any) => {
     setPurchaseOrderData?.([]);
     setDeleteModalOpen?.(false);
   };
+
   return {
     deletePurchaseOrder,
     deletePurchaseOrderStatus,

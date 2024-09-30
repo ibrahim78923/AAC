@@ -80,10 +80,10 @@ export const validationSchema: any = Yup?.object()?.shape({
   ownerId: Yup?.mixed()?.nullable()?.required('Owner is required'),
   description: Yup?.string()
     ?.trim()
-    ?.max(
-      GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
-      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
-    ),
+    ?.test('is-not-empty', 'Description is Required', (value) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
   industry: Yup?.string(),
   type: Yup?.string(),
   city: Yup?.string()

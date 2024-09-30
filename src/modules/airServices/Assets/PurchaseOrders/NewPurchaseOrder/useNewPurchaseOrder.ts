@@ -9,12 +9,12 @@ import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import {
-  useGetPurchaseOrderByIdQuery,
-  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
-  useLazyGetLocationsDropdownForPurchaseOrderQuery,
-  useLazyGetVendorDropdownForPurchaseOrderQuery,
-  usePatchPurchaseOrderMutation,
-  usePostPurchaseOrderMutation,
+  useGetAirServicesAssetsPurchaseOrderByIdQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
+  usePatchAirServicesAssetsPurchaseOrderMutation,
+  usePostAirServicesAssetsPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
 import {
   errorSnackbar,
@@ -42,9 +42,9 @@ const useNewPurchaseOrders = () => {
   const { purchaseOrderId } = router?.query;
 
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
-    usePostPurchaseOrderMutation();
+    usePostAirServicesAssetsPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
-    usePatchPurchaseOrderMutation();
+    usePatchAirServicesAssetsPurchaseOrderMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -72,13 +72,11 @@ const useNewPurchaseOrders = () => {
     getDynamicFormData();
   }, []);
 
-  const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
-    purchaseOrderId,
-    {
+  const singlePurchaseOrder: any =
+    useGetAirServicesAssetsPurchaseOrderByIdQuery(purchaseOrderId, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
-    },
-  );
+    });
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading ||
     postPurchaseOrderStatus?.isLoading ||
@@ -90,9 +88,11 @@ const useNewPurchaseOrders = () => {
   });
 
   const apiQueryDepartment =
-    useLazyGetDepartmentDropdownForPurchaseOrderQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownForPurchaseOrderQuery();
-  const apiQueryVendor: any = useLazyGetVendorDropdownForPurchaseOrderQuery();
+    useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery();
+  const apiQueryLocations =
+    useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery();
+  const apiQueryVendor: any =
+    useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery();
 
   const { watch, reset } = methods;
   const vendorValue = watch('vendor');

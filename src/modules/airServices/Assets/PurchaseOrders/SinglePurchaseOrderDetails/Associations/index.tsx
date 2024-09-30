@@ -1,11 +1,11 @@
 import NoData from '@/components/NoData';
 import { Box, Button, useTheme } from '@mui/material';
-import { AddCircleIcon } from '@/assets/icons';
 import { AssociationsDrawer } from './AssociationsDrawer';
 import { SingleAssociationsTicket } from './SingleAssociationsTicket';
 import { useAssociations } from './useAssociations';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const Associations = () => {
   const theme: any = useTheme();
@@ -34,6 +34,7 @@ export const Associations = () => {
                     color: theme?.palette?.primary?.main,
                   }}
                   variant="outlined"
+                  className="small"
                   startIcon={<AddCircleIcon />}
                   onClick={() => setOpenDrawer(true)}
                 >
@@ -51,6 +52,7 @@ export const Associations = () => {
                   backgroundColor: theme?.palette?.primary?.light,
                   color: theme?.palette?.primary?.main,
                 }}
+                className="small"
                 onClick={() => setOpenDrawer(true)}
                 variant="outlined"
                 startIcon={<AddCircleIcon />}

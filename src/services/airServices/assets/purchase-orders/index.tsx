@@ -8,9 +8,9 @@ const TAG_FIVE = 'PURCHASE_ORDER';
 
 export const purchaseOrderAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getDepartmentDropdown: builder?.query({
+    getAirServicesAssetsPurchaseOrderDepartmentDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        url: END_POINTS?.DROPDOWN_DEPARTMENT,
         method: 'GET',
         params,
       }),
@@ -19,9 +19,10 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
-    getLocationsDropdown: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderLocationsDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        url: END_POINTS?.DROPDOWN_LOCATION,
         method: 'GET',
         params,
       }),
@@ -30,9 +31,10 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_TWO],
     }),
-    getVendorDropdown: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderVendorDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.VENDOR_DROPDOWN}`,
+        url: END_POINTS?.VENDOR_DROPDOWN,
         method: 'GET',
         params,
       }),
@@ -41,9 +43,10 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
-    getVendorProductsDropdown: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderVendorProductsDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.VENDOR_PRODUCT_DROPDOWN}`,
+        url: END_POINTS?.VENDOR_PRODUCT_DROPDOWN,
         method: 'GET',
         params,
       }),
@@ -52,34 +55,39 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
-    getPurchaseOrderById: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderById: builder?.query({
       query: (purchaseOrderId: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER}/${purchaseOrderId}`,
         method: 'GET',
       }),
       providesTags: [TAG_FIVE],
     }),
-    postPurchaseOrder: builder?.mutation({
+
+    postAirServicesAssetsPurchaseOrder: builder?.mutation({
       query: (postPurchaseOrderParameter: any) => ({
-        url: `${END_POINTS?.PURCHASE_ORDER}`,
+        url: END_POINTS?.PURCHASE_ORDER,
         method: 'POST',
         body: postPurchaseOrderParameter?.body,
       }),
     }),
-    patchPurchaseOrder: builder?.mutation({
+
+    patchAirServicesAssetsPurchaseOrder: builder?.mutation({
       query: (patchPurchaseOrderParameter: any) => ({
-        url: `${END_POINTS?.PURCHASE_ORDER}`,
+        url: END_POINTS?.PURCHASE_ORDER,
         method: 'PATCH',
         body: patchPurchaseOrderParameter?.body,
       }),
     }),
-    deletePurchaseOrder: builder?.mutation({
+
+    deleteAirServicesAssetsPurchaseOrderPurchaseOrder: builder?.mutation({
       query: (id: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER}/${id}`,
         method: 'DELETE',
       }),
     }),
-    getPurchaseOrderList: builder.query({
+
+    getAirServicesAssetsPurchaseOrderList: builder.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER_LIST}`,
         method: 'GET',
@@ -87,7 +95,8 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG_FIVE],
     }),
-    putPurchaseOrderStatus: builder?.mutation({
+
+    putAirServicesAssetsPurchaseOrderStatus: builder?.mutation({
       query: (params: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER_STATUS}`,
         method: 'PUT',
@@ -95,7 +104,8 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_FIVE],
     }),
-    getExportPurchaseOrderList: builder?.query({
+
+    getAirServicesAssetsExportPurchaseOrderList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER_LIST}`,
         method: 'GET',
@@ -103,77 +113,28 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
         responseHandler: (response: any) => response?.blob(),
       }),
     }),
-    getPurchaseOrderStatusById: builder?.query({
+
+    getAirServicesAssetsPurchaseOrderStatusById: builder?.query({
       query: (purchaseOrderId: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER}/${purchaseOrderId}`,
         method: 'GET',
       }),
       providesTags: [TAG_FIVE],
     }),
-    getVendorProductsDropdownForPurchaseOrder: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.VENDOR_PRODUCT_DROPDOWN}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.vendorproductcatalogs;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getVendorDropdownForPurchaseOrder: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.VENDOR_DROPDOWN}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getDepartmentDropdownForPurchaseOrder: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.departments;
-      },
-      providesTags: [TAG_FOUR],
-    }),
-    getLocationsDropdownForPurchaseOrder: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-      providesTags: [TAG_TWO],
-    }),
   }),
 });
 
 export const {
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetVendorDropdownQuery,
-  useLazyGetVendorProductsDropdownQuery,
-  usePostPurchaseOrderMutation,
-  usePatchPurchaseOrderMutation,
-  useLazyGetPurchaseOrderByIdQuery,
-  useGetPurchaseOrderByIdQuery,
-  useDeletePurchaseOrderMutation,
-  useGetPurchaseOrderListQuery,
-  usePutPurchaseOrderStatusMutation,
-  useLazyGetPurchaseOrderListQuery,
-  useLazyGetExportPurchaseOrderListQuery,
-  useGetPurchaseOrderStatusByIdQuery,
-  useLazyGetVendorProductsDropdownForPurchaseOrderQuery,
-  useLazyGetVendorDropdownForPurchaseOrderQuery,
-  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
-  useLazyGetLocationsDropdownForPurchaseOrderQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderVendorProductsDropdownQuery,
+  usePostAirServicesAssetsPurchaseOrderMutation,
+  usePatchAirServicesAssetsPurchaseOrderMutation,
+  useGetAirServicesAssetsPurchaseOrderByIdQuery,
+  useDeleteAirServicesAssetsPurchaseOrderPurchaseOrderMutation,
+  usePutAirServicesAssetsPurchaseOrderStatusMutation,
+  useLazyGetAirServicesAssetsPurchaseOrderListQuery,
+  useLazyGetAirServicesAssetsExportPurchaseOrderListQuery,
+  useGetAirServicesAssetsPurchaseOrderStatusByIdQuery,
 } = purchaseOrderAPI;

@@ -15,7 +15,7 @@ import {
   itemsDetailsColumnsList,
   upsertPurchaseOrderItemDetailsDynamic,
 } from './ItemsDetails.data';
-import { useLazyGetVendorProductsDropdownQuery } from '@/services/airServices/assets/purchase-orders';
+import { useLazyGetAirServicesAssetsPurchaseOrderVendorProductsDropdownQuery } from '@/services/airServices/assets/purchase-orders';
 import ItemBilling from './ItemBilling';
 import { pxToRem } from '@/utils/getFontValue';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -25,7 +25,8 @@ const ItemsDetails = (props: any) => {
   const { fields, append, vendorId, watch, remove, control } =
     useItemsDetails(props);
 
-  const apiQueryVendorProducts: any = useLazyGetVendorProductsDropdownQuery();
+  const apiQueryVendorProducts: any =
+    useLazyGetAirServicesAssetsPurchaseOrderVendorProductsDropdownQuery();
 
   return (
     <>

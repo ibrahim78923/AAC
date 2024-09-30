@@ -6,7 +6,9 @@ import {
   PrimaryReceivedIcon,
   PrimaryRequestIcon,
 } from '@/assets/icons';
+
 export const approvalStatus = ['APPROVED', 'REJECTED', 'CANCELED'];
+
 export const approvalsStatusObj = (
   status: any,
   approverId: any,

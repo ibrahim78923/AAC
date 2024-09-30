@@ -28,7 +28,8 @@ export const getFormFields = ({
       fullWidth: true,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       accept: {
-        'image/*': ['.png', '.jpg'],
+        'image/png': ['.png', '.PNG'],
+        'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
       },
     },
     component: RHFDropZone,

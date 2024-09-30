@@ -5,7 +5,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { Typography } from '@mui/material';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
@@ -16,7 +15,14 @@ import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
-  description: yup?.string()?.trim()?.required('Description is required'),
+  description: yup
+    ?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    )
+    ?.required('Description is required'),
   quantity: yup
     ?.number()
     ?.nullable()
@@ -126,16 +132,6 @@ export const newPurchaseFieldsFunction = (
   locationApiQuery: any,
   vendorApiQuery: any,
 ) => [
-  {
-    id: 10,
-    componentProps: {
-      color: 'slateBlue.main',
-      variant: 'h5',
-    },
-    heading: 'Purchase Details',
-    md: 12,
-    component: Typography,
-  },
   {
     id: 1,
     component: RHFTextField,

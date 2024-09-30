@@ -9,7 +9,9 @@ export const styles = {
     boxShadow: 1,
     flexWrap: 'wrap',
   }),
+
   cardDetail: { display: 'flex', alignItems: 'center' },
+
   cardLine: (theme: any) => ({
     my: { sm: 0, xs: 1 },
     height: '1.875rem',
@@ -18,5 +20,6 @@ export const styles = {
     color: theme?.palette?.custom?.main,
     fontWeight: 400,
   }),
+
   cardText: { pl: '1rem', pr: '3rem' },
 };

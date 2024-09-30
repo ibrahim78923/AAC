@@ -1,4 +1,4 @@
-import { useGetPurchaseOrderStatusByIdQuery } from '@/services/airServices/assets/purchase-orders';
+import { useGetAirServicesAssetsPurchaseOrderStatusByIdQuery } from '@/services/airServices/assets/purchase-orders';
 import { useRouter } from 'next/router';
 
 export const useHeader = () => {
@@ -7,7 +7,7 @@ export const useHeader = () => {
   const { purchaseOrderId } = router?.query;
 
   const { data, isLoading, isFetching }: any =
-    useGetPurchaseOrderStatusByIdQuery(purchaseOrderId, {
+    useGetAirServicesAssetsPurchaseOrderStatusByIdQuery(purchaseOrderId, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
     });
