@@ -1,17 +1,14 @@
 import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useDetailCard } from './useDetailCard';
-import {
-  formatFileSize,
-  fullName,
-  fullNameInitial,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
 import { uiDateFormat } from '@/utils/dateTime';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 export const DetailCard = (props: { data: any }) => {
   const { data } = props;
+
   const { attachFile } = useDetailCard();
   const theme = useTheme();
   const ticketDetail = data?.data?.[ARRAY_INDEX?.ZERO];
@@ -19,7 +16,7 @@ export const DetailCard = (props: { data: any }) => {
   return (
     <Box
       border="2px solid"
-      borderRadius={1}
+      borderRadius={2}
       paddingY={2}
       borderColor="custom.off_white_three"
     >
@@ -73,8 +70,8 @@ export const DetailCard = (props: { data: any }) => {
                 sx={{ wordBreak: 'break-all' }}
                 color="slateBlue.main"
               >
-                {!!ticketDetail?.requesterEmail
-                  ? ticketDetail?.requesterEmail
+                {!!!ticketDetail?.requesterDetails
+                  ? ticketDetail?.requesterEmail ?? '---'
                   : ticketDetail?.requesterDetails?.email ?? '---'}
               </Typography>
             </Box>
@@ -133,7 +130,23 @@ export const DetailCard = (props: { data: any }) => {
               />
             </Box>
           </Box>
-          <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
+          {!!ticketDetail?.noOfItems ? (
+            <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
+              <Typography
+                variant="body2"
+                fontWeight={'fontWeightMedium'}
+                color="slateBlue.main"
+              >
+                Requested Items
+              </Typography>
+              <Typography variant="body2" color="slateBlue.main">
+                {ticketDetail?.noOfItems ?? 0}
+              </Typography>
+            </Box>
+          ) : (
+            <></>
+          )}
+          <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
             <Typography
               variant="body2"
               fontWeight={'fontWeightMedium'}
@@ -142,22 +155,13 @@ export const DetailCard = (props: { data: any }) => {
               Attachments:
             </Typography>
             {attachFile?.data?.length ? (
-              <UserInfo
-                boxProps={{ marginBottom: 1.5 }}
-                nameInitial={fullNameInitial(
-                  attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
-                )}
-                name={truncateText(
-                  attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
-                )}
-                avatarSrc={attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileUrl}
-                email={formatFileSize(
-                  attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileSize,
-                )}
-                nameProps={{
-                  color: 'slateBlue.main',
-                }}
-                isNameCapital={false}
+              <AttachFileCard
+                size={{ variant: 'circular' }}
+                hasStyling={false}
+                canDelete={false}
+                data={attachFile?.data?.[ARRAY_INDEX?.ZERO]}
+                onDelete={() => {}}
+                permissionKey={[]}
               />
             ) : (
               <Typography

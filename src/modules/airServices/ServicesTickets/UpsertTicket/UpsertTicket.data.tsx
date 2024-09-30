@@ -24,13 +24,22 @@ import { AssetFieldDropdown } from '../ServiceTicketFormFields/AssetFieldDropdow
 import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
 export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
     requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
-    subject: Yup?.string()?.trim()?.required('Subject is required'),
+    subject: Yup?.string()
+      ?.trim()
+      ?.required('Subject is required')
+      ?.max(
+        SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS}`,
+      ),
     description: Yup?.string()
       ?.trim()
       ?.required('Description is required')
@@ -56,7 +65,6 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
-
     ...formSchema,
   });
 };

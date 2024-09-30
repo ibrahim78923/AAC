@@ -5,7 +5,7 @@ import { TableCell, TableRow, styled, tableCellClasses } from '@mui/material';
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses?.head}`]: {
     color: theme?.palette?.blue?.main,
-    fontSize: '14px',
+    fontSize: '13px',
     lineHeight: '18px',
     borderBottom: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     borderTop: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
@@ -27,7 +27,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 
   [`&.${tableCellClasses?.body}`]: {
-    fontSize: '13px',
+    fontSize: '12px',
     color: theme?.palette?.custom?.main,
     lineHeight: '18px',
     fontFamily: theme?.typography?.fontFamily,

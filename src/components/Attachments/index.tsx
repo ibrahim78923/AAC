@@ -17,6 +17,8 @@ export const Attachments = (props: AttachmentsPropsI) => {
     canAttachFile = false,
     attachFileHandler,
     children = <NoData message="No attachments found" height="100%" />,
+    hasStyling = true,
+    canDelete = true,
   } = props;
   const {
     deleteModal,
@@ -64,6 +66,8 @@ export const Attachments = (props: AttachmentsPropsI) => {
                     setDeleteModal({ open: true, id: singleAttachment?._id })
                   }
                   permissionKey={permissionKey}
+                  hasStyling={hasStyling}
+                  canDelete={canDelete}
                 />
               </Grid>
             ))}

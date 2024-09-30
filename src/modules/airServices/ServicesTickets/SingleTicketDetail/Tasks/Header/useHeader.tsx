@@ -2,10 +2,17 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { actionsDropdownForTicketTasksListsDynamic } from './Header.data';
 import { setIsPortalOpen } from '@/redux/slices/airServices/tickets-tasks/slice';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
+import { useLazyGetServicesTicketsTaskListAsExportQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { downloadFile } from '@/utils/file';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 
 const { CREATE_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 
 export const useHeader = () => {
+  const [lazyGetServicesTicketsTaskListAsExportTrigger] =
+    useLazyGetServicesTicketsTaskListAsExportQuery();
+
   const dispatch = useAppDispatch();
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTicketTasks?.isPortalOpen,
@@ -33,10 +40,36 @@ export const useHeader = () => {
   const openCreateNewTicketTasksPortal = () =>
     setTicketTasksAction(CREATE_TICKET_TASKS);
 
+  const getTicketsTasksListExported = async (type: any) => {
+    const queryParams = {
+      exportType: type,
+    };
+
+    const getTicketsParameter = {
+      queryParams,
+    };
+
+    try {
+      const response =
+        await lazyGetServicesTicketsTaskListAsExportTrigger(
+          getTicketsParameter,
+        )?.unwrap();
+      downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`Tickets Exported successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const exportAsCsv = () => getTicketsTasksListExported?.(EXPORT_TYPE?.CSV);
+  const exportAsXls = () => getTicketsTasksListExported?.(EXPORT_TYPE?.XLS);
+
   return {
     selectedTicketTasksLists,
     actionsDropdownForTicketTasksLists,
     isPortalOpen,
     openCreateNewTicketTasksPortal,
+    exportAsCsv,
+    exportAsXls,
   };
 };

@@ -3,7 +3,6 @@ import { useForm, useWatch } from 'react-hook-form';
 import {
   useEditSingleServicesTicketsDetailsByIdMutation,
   useGetSingleServicesTicketsDetailsForEditByIdQuery,
-  useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -84,7 +83,7 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control } = methods;
+  const { handleSubmit, reset, getValues, control, watch } = methods;
 
   const watchForTicketType = useWatch({
     control,
@@ -221,13 +220,9 @@ export const useEditTicketDetails = () => {
     }
   };
 
-  const apiQueryServicesCategory =
-    useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery?.();
-
   const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
     watchForTicketType,
-    apiQueryServicesCategory,
-    getValues,
+    watch,
     data?.data?.[ARRAY_INDEX?.ZERO],
   );
 

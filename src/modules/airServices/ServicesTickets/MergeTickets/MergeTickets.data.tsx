@@ -91,7 +91,7 @@ export const mergeTicketsFormFieldsDynamic = (
   watchForTicketSelection: any,
   apiQueryTicketByRequester: any,
   apiQueryTicketBySubject: any,
-  getValues: any,
+  watch: any,
 ) => {
   return [
     {
@@ -119,8 +119,8 @@ export const mergeTicketsFormFieldsDynamic = (
             id: 4,
             component: Typography,
             heading: `${
-              !!getValues('requester')?._id
-                ? `The requester id is ${getValues('requester')
+              !!watch('requester')?._id
+                ? `The requester id is ${watch('requester')
                     ?._id}. Paste this in below search field`
                 : ``
             }`,

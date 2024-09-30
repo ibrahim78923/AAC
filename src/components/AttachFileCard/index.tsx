@@ -1,5 +1,5 @@
 import { Avatar, Box, IconButton, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close } from '@mui/icons-material';
 import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
@@ -10,25 +10,44 @@ import {
 import { AttachFileCardPropsI } from './AttachFileCard.interface';
 
 export const AttachFileCard = (props: AttachFileCardPropsI) => {
-  const { data, onDelete, permissionKey, size } = props;
-  const { theme, cross, setCross } = useAttachFileCard();
+  const {
+    data,
+    onDelete,
+    permissionKey = [],
+    size,
+    hasStyling = true,
+    canDelete = true,
+  } = props;
+  const { cross, setCross } = useAttachFileCard();
+
   return (
     <Box
       display={'flex'}
       alignItems={'center'}
       flexWrap={'wrap'}
-      border={`1px solid ${theme?.palette?.grey?.[700]}`}
+      {...(hasStyling
+        ? {
+            border: `1px solid`,
+            borderColor: 'custom.off_white_three',
+            sx: { ':hover': { cursor: 'pointer', boxShadow: 1 } },
+            padding: 1,
+            onMouseEnter: () => setCross(true),
+            onMouseLeave: () => setCross(false),
+          }
+        : {})}
+      {...(canDelete
+        ? {
+            onMouseEnter: () => setCross(true),
+            onMouseLeave: () => setCross(false),
+          }
+        : {})}
       borderRadius={2}
       gap={1}
-      padding={1}
-      sx={{ ':hover': { cursor: 'pointer', boxShadow: 1 } }}
-      onMouseEnter={() => setCross(true)}
-      onMouseLeave={() => setCross(false)}
     >
       <Avatar
         src={getImageByType(data, data?.fileUrl)}
         alt="file-preview"
-        sx={{ width: size?.width ?? 45, height: size?.height ?? 45 }}
+        sx={{ width: size?.width ?? 35, height: size?.height ?? 35 }}
         variant={size?.variant ?? 'rounded'}
       />
       <Box
@@ -39,12 +58,17 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
         flexWrap={'wrap'}
       >
         <Box>
-          <Typography variant="h6" color="slateBlue.main" whiteSpace={'nowrap'}>
+          <Typography
+            variant="body2"
+            color="slateBlue.main"
+            whiteSpace={'nowrap'}
+          >
             {truncateText(data?.orignalName)}
           </Typography>
           <Typography
             variant="body3"
-            color={theme?.palette?.grey?.[900]}
+            color={'grey.900'}
+            component={'div'}
             whiteSpace={'nowrap'}
           >
             {formatFileSize(data?.fileSize)}
@@ -64,9 +88,7 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
               }}
               onClick={onDelete}
             >
-              <CloseIcon
-                sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
-              />
+              <Close sx={{ color: 'common.white', fontSize: '14px' }} />
             </IconButton>
           )}
         </PermissionsGuard>

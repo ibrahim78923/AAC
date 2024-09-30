@@ -11,6 +11,8 @@ export const Header = () => {
     actionsDropdownForTicketTasksLists,
     openCreateNewTicketTasksPortal,
     isPortalOpen,
+    exportAsCsv,
+    exportAsXls,
   } = useHeader();
 
   return (
@@ -21,6 +23,8 @@ export const Header = () => {
         createPermissionKey={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_TASK]}
         handleAction={openCreateNewTicketTasksPortal}
         hasExport
+        handleExcelExport={exportAsXls}
+        handleCsvExport={exportAsCsv}
         exportPermissionKey={[
           AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EXPORT_TASK,
         ]}

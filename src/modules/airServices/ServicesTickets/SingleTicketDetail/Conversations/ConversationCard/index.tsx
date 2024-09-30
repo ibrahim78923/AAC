@@ -67,6 +67,7 @@ export const ConversationCard = (props: any) => {
             <AttachFileCard
               size={{ width: 35, height: 35 }}
               hasStyling={false}
+              canDelete={false}
               data={data?.attachment}
               onDelete={() => {}}
               permissionKey={[]}

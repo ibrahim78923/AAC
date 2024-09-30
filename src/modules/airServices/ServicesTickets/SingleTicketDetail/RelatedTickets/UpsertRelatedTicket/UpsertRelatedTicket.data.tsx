@@ -20,11 +20,20 @@ import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/Depart
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldDropdown';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
 export const upsertTicketValidationSchema = (childTicketId: string) => {
   return Yup?.object()?.shape({
     requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
-    subject: Yup?.string()?.trim()?.required('Subject is required'),
+    subject: Yup?.string()
+      ?.trim()
+      ?.required('Subject is required')
+      ?.max(
+        SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS}`,
+      ),
     description: Yup?.string()
       ?.trim()
       ?.required('Description is required')

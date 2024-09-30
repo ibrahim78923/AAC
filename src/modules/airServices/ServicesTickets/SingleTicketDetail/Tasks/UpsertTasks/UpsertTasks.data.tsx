@@ -16,6 +16,9 @@ import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/Depart
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 const statusOptions = [TO_DO, IN_PROGRESS, DONE];
@@ -44,7 +47,13 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    title: Yup?.string()?.trim()?.required('Title is Required'),
+    title: Yup?.string()
+      ?.trim()
+      ?.required('Title is Required')
+      ?.max(
+        SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS}`,
+      ),
     description: Yup?.string()
       ?.trim()
       ?.required('Description is Required')

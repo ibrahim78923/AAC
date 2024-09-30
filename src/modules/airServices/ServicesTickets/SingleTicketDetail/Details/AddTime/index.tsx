@@ -25,7 +25,7 @@ export const AddTime = (props: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
-      onClose={() => closeDrawer?.()}
+      onClose={closeDrawer}
       title="Add Time"
       submitHandler={handleSubmit(onSubmit)}
       footer

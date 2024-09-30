@@ -44,7 +44,7 @@ export const EditTicketDetails = () => {
       isFetching ||
       getDynamicFieldsStatus?.isLoading ||
       getDynamicFieldsStatus?.isFetching ? (
-        <SkeletonForm />
+        <SkeletonForm gridSize={{ md: 4 }} length={8} />
       ) : getDynamicFieldsStatus?.isError || isError ? (
         <ApiErrorState
           canRefresh
@@ -80,6 +80,7 @@ export const EditTicketDetails = () => {
               </Grid>
               <Box textAlign={'end'} p={2}>
                 <LoadingButton
+                  className="small"
                   variant={'outlined'}
                   type="button"
                   color="inherit"
@@ -92,6 +93,7 @@ export const EditTicketDetails = () => {
                   Cancel
                 </LoadingButton>
                 <LoadingButton
+                  className="small"
                   variant={'contained'}
                   type={'submit'}
                   sx={{ ml: 2 }}

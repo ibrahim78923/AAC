@@ -37,7 +37,7 @@ export const useMergedTickets = () => {
     resolver: yupResolver(mergeTicketsFormValidationSchema),
   });
 
-  const { handleSubmit, reset, control, clearErrors, getValues } =
+  const { handleSubmit, reset, control, clearErrors, watch } =
     mergedTicketsFormMethod;
 
   const watchForTicketSelection: any = useWatch({
@@ -89,7 +89,7 @@ export const useMergedTickets = () => {
     watchForTicketSelection,
     apiQueryTicketByRequester,
     apiQueryTicketBySubject,
-    getValues,
+    watch,
   );
 
   return {

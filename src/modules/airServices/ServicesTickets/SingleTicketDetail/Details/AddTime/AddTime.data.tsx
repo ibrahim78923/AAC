@@ -19,11 +19,11 @@ export const addTimeFormValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    task: Yup?.mixed()?.nullable()?.required('Task is Required'),
-    agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
-    hours: Yup?.string()?.trim()?.required('Hours is Required'),
+    task: Yup?.mixed()?.nullable()?.required('Task is required'),
+    agent: Yup?.mixed()?.nullable()?.required('Agent is required'),
+    hours: Yup?.string()?.trim()?.required('Hours is required'),
     status: Yup?.mixed()?.nullable(),
-    on: Yup?.date()?.required('On is Required'),
+    on: Yup?.date()?.required('On is required'),
     note: Yup?.mixed()?.nullable(),
     ...formSchema,
   });

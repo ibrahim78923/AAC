@@ -137,7 +137,7 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Assigned to',
       cell: (info: any) => (
-        <Typography variant="body2" textTransform={'capitalize'}>
+        <Typography variant="body3" textTransform={'capitalize'}>
           {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
         </Typography>
       ),
@@ -148,7 +148,7 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'State',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue() ?? '---'}
         </Typography>
       ),
@@ -159,7 +159,7 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),
@@ -170,7 +170,7 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Priority',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),
@@ -208,7 +208,7 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Impact',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),

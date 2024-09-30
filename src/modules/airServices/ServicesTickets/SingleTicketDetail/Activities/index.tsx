@@ -38,6 +38,22 @@ export const Activities = () => {
     );
 
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+  if (!!!data?.data?.activitylogs?.length)
+    return (
+      <>
+        <Typography variant="h5" color={'slateBlue.main'} my={1}>
+          Activities
+        </Typography>
+        <Box
+          border={'1px solid'}
+          borderColor={'custom.off_white'}
+          borderRadius={2}
+          p={2}
+        >
+          <NoData height="40vh" message="No activities found" />
+        </Box>
+      </>
+    );
 
   return (
     <>
@@ -50,39 +66,35 @@ export const Activities = () => {
         borderRadius={2}
         p={2}
       >
-        {!!data?.data?.activitylogs?.length ? (
-          data?.data?.activitylogs?.map((activity: any) => (
-            <Box key={activity?._id} mb={2} display={'flex'} gap={2}>
-              <Box>
-                <IconButton
-                  disabled
-                  color="primary"
-                  sx={{
-                    border: `1px solid`,
-                    borderColor: 'primary.main',
-                  }}
-                ></IconButton>
-              </Box>
-              <Box>
-                <LogInfo
-                  performer={activity?.performedByName?.toLowerCase()}
-                  logType={`has ${activity?.activityType?.toLowerCase()}`}
-                  log={<TruncateText text={activity?.moduleName} />}
-                />
-                <Box display={'flex'} gap={1}>
-                  <Typography variant="body2" color="textPrimary">
-                    {uiDateFormat(activity?.createdAt)}
-                  </Typography>
-                  <Typography variant="body2" color="textPrimary">
-                    {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
-                  </Typography>
-                </Box>
+        {data?.data?.activitylogs?.map((activity: any) => (
+          <Box key={activity?._id} mb={2} display={'flex'} gap={2}>
+            <Box>
+              <IconButton
+                disabled
+                color="primary"
+                sx={{
+                  border: `1px solid`,
+                  borderColor: 'primary.main',
+                }}
+              ></IconButton>
+            </Box>
+            <Box>
+              <LogInfo
+                performer={activity?.performedByName?.toLowerCase()}
+                logType={`has ${activity?.activityType?.toLowerCase()}`}
+                log={<TruncateText text={activity?.moduleName} />}
+              />
+              <Box display={'flex'} gap={1}>
+                <Typography variant="body2" color="textPrimary">
+                  {uiDateFormat(activity?.createdAt)}
+                </Typography>
+                <Typography variant="body2" color="textPrimary">
+                  {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
+                </Typography>
               </Box>
             </Box>
-          ))
-        ) : (
-          <NoData height="40vh" />
-        )}
+          </Box>
+        ))}
       </Box>
       <CustomPagination
         count={data?.data?.meta?.pages}

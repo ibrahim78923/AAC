@@ -1,13 +1,9 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import { TICKET_TYPE } from '@/constants/strings';
 import {
@@ -26,6 +22,7 @@ import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldD
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
 import { localeDateTime } from '@/utils/dateTime';
+import { ServicesFieldDropdown } from '../../../ServiceTicketFormFields/ServicesFieldDropdown';
 
 export const editTicketDetailsValidationSchema = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -90,8 +87,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
 
 export const editTicketDetailsFormFieldsDynamic = (
   watchForTicketType?: any,
-  apiQueryServicesCategory?: any,
-  getValues?: any,
+  watch?: any,
   data?: any,
 ) => [
   {
@@ -173,17 +169,9 @@ export const editTicketDetailsFormFieldsDynamic = (
         {
           id: 17,
           componentProps: {
-            name: 'service',
-            label: 'Service',
-            fullWidth: true,
-            required: watchForTicketType?._id === TICKET_TYPE?.SR,
-            apiQuery: apiQueryServicesCategory,
-            placeholder: 'Choose Service',
-            externalParams: { categoryId: getValues('category')?._id },
-            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-              option?.itemName,
+            categoryId: watch('category')?._id,
           },
-          component: RHFAutocompleteAsync,
+          component: ServicesFieldDropdown,
         },
       ]
     : []),
