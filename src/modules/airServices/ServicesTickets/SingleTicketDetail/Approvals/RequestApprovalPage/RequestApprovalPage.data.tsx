@@ -1,7 +1,5 @@
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
-import { AllApprovals } from './AllApprovals';
-import RequestApproval from './RequestApproval';
-import RequestReceivedApproval from './RequestReceivedApproval';
+import { AllApprovals } from '../AllApprovals';
 
 export const singleTicketDetailApprovalsTabsDynamic = (props: any) => {
   const { setApproval, updateRequestApprovalStatus } = props;
@@ -23,7 +21,7 @@ export const singleTicketDetailApprovalsTabsDynamic = (props: any) => {
       name: 'Request sent for approval',
       id: 'request_sent_for_approval',
       tabPermissions: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-      component: RequestApproval,
+      component: AllApprovals,
       componentProps: {
         setApproval: (item: any) => setApproval?.(item),
         updateRequestApprovalStatus: (item: any) =>
@@ -35,7 +33,7 @@ export const singleTicketDetailApprovalsTabsDynamic = (props: any) => {
       name: 'Request received for approval',
       id: 'request_received_for_approval',
       tabPermissions: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
-      component: RequestReceivedApproval,
+      component: AllApprovals,
       componentProps: {
         setApproval: (item: any) => setApproval?.(item),
         updateRequestApprovalStatus: (item: any) =>

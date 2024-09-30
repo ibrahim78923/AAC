@@ -189,6 +189,7 @@ export const ALERT_MODALS_TYPE = {
   WARNING: 'warning',
   INFO: 'Information',
   RESTORE: 'Restore',
+  REMINDER: 'reminder',
 };
 
 export const CATALOG_SERVICE_TYPES = {

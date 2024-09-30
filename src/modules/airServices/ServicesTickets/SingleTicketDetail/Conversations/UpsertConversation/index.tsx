@@ -77,7 +77,7 @@ export const UpsertConversation = (
               <>
                 <Typography
                   variant="body1"
-                  fontWeight={500}
+                  fontWeight={'fontWeightSmall'}
                   color="slateBlue.main"
                   my={2}
                 >

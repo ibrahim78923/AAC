@@ -1,21 +1,20 @@
-import { TICKET_APPROVALS } from '@/constants/strings';
 import { useUpdateSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { ConfirmModalPropsI } from '../Approvals.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
 
-export const useRequestConfirmForm = (props: ConfirmModalPropsI) => {
-  const {
-    setIsConfirmModalOpen,
-    selectedApproval,
-    setSelectedApproval,
-    refetch,
-  } = props;
-
+export const useUpdateRequestStatus = () => {
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
     useUpdateSingleServicesTicketsApprovalMutation();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketApprovals?.isPortalOpen,
+  );
 
   const methods = useForm({
     defaultValues: {
@@ -23,7 +22,7 @@ export const useRequestConfirmForm = (props: ConfirmModalPropsI) => {
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        reason: Yup?.string()?.trim()?.required('Required'),
+        reason: Yup?.string()?.trim()?.required('Remark is required'),
       }),
     ),
   });
@@ -33,29 +32,28 @@ export const useRequestConfirmForm = (props: ConfirmModalPropsI) => {
     const patchParameterData = {
       queryParams: {
         reason: data?.reason,
-        id: selectedApproval?._id,
-        ticketId: selectedApproval?.ticketId,
-        approvalStatus: selectedApproval?.state,
+        id: isPortalOpen?.data?._id,
+        ticketId: isPortalOpen?.data?.ticketId,
+        approvalStatus: isPortalOpen?.data?.state,
       },
     };
-    const toastMessage =
-      selectedApproval?.state === TICKET_APPROVALS?.APPROVE
-        ? 'Request approved successfully'
-        : 'Request rejected successfully';
+
     try {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
-      successSnackbar?.(toastMessage);
+      successSnackbar?.(
+        `Request ${isPortalOpen?.data?.state?.toLowerCase()} successfully`,
+      );
       setModalClose?.();
-      refetch?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
   const setModalClose = () => {
     reset();
-    setSelectedApproval?.({});
-    setIsConfirmModalOpen(false);
+    dispatch(setIsPortalClose());
   };
+
+  const dialogType = isPortalOpen?.data?.state;
 
   return {
     handleSubmit,
@@ -64,5 +62,7 @@ export const useRequestConfirmForm = (props: ConfirmModalPropsI) => {
     setModalClose,
     submitRequestConfirm,
     patchApprovalTicketsStatus,
+    dialogType,
+    isPortalOpen,
   };
 };

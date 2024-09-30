@@ -1,5 +1,4 @@
 import { useAddSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -10,17 +9,20 @@ import {
   addRequestApprovalFormDefaultValues,
 } from './AddRequestApproval.data';
 import useAuth from '@/hooks/useAuth';
-import { AddApprovalsPropsI } from '../Approvals.interface';
-import { useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
 
-export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
-  const { setIsDrawerOpen } = props;
+export const useAddRequestApproval = () => {
   const router = useRouter();
   const { user }: any = useAuth();
   const { ticketId } = router?.query;
   const [postApprovalTicketsTrigger, postApprovalTicketsStatus] =
     useAddSingleServicesTicketsApprovalMutation();
+  const dispatch = useAppDispatch();
 
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketApprovals?.isPortalOpen,
+  );
   const methods = useForm<any>({
     resolver: yupResolver(addRequestApprovalValidationSchema),
     defaultValues: addRequestApprovalFormDefaultValues,
@@ -47,20 +49,15 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      onClose?.();
     }
   };
 
   const onClose = () => {
     reset();
-    setIsDrawerOpen(false);
+    dispatch(setIsPortalClose());
   };
 
-  const apiQueryApprover =
-    useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery();
-
-  const addRequestApprovalFormFields =
-    addRequestApprovalFormFieldsDynamic(apiQueryApprover);
+  const addRequestApprovalFormFields = addRequestApprovalFormFieldsDynamic();
 
   return {
     methods,
@@ -69,5 +66,6 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
     onSubmit,
     addRequestApprovalFormFields,
     postApprovalTicketsStatus,
+    isPortalOpen,
   };
 };

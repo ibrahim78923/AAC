@@ -1,5 +1,6 @@
 import { ReceivedFileIcon, SharedIcon } from '@/assets/icons';
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
+import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -85,8 +86,11 @@ export const setUserDetails = (
   const avatar = generateImage(data?.requesterDetails?.avatar?.url);
   return { name, nameInitial, avatar };
 };
+const { CANCEL_TICKET_APPROVAL, SEND_REMINDER_TICKET_APPROVAL } =
+  TICKET_APPROVALS_ACTIONS_CONSTANT ?? {};
+
 export const ticketsApprovalDropdownFunction = (
-  getUpdateStatus?: any,
+  setApproval?: any,
   data?: any,
 ) => [
   {
@@ -94,7 +98,11 @@ export const ticketsApprovalDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     title: 'Send Reminder',
     handleClick: (closeMenu: any) => {
-      getUpdateStatus?.({ ...data, state: TICKET_APPROVALS?.REMINDER });
+      setApproval?.({
+        ...data,
+        state: TICKET_APPROVALS?.REMINDER,
+        action: SEND_REMINDER_TICKET_APPROVAL,
+      });
       closeMenu?.();
     },
   },
@@ -103,7 +111,11 @@ export const ticketsApprovalDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     title: 'Cancel Approval',
     handleClick: (closeMenu: any) => {
-      getUpdateStatus?.({ ...data, state: TICKET_APPROVALS?.CANCEL });
+      setApproval?.({
+        ...data,
+        state: TICKET_APPROVALS?.CANCEL,
+        action: CANCEL_TICKET_APPROVAL,
+      });
       closeMenu?.();
     },
   },

@@ -1,11 +1,9 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useAddRequestApproval } from './useAddRequestApproval';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AddApprovalsPropsI } from '../Approvals.interface';
 
-export const AddRequestApproval = (props: AddApprovalsPropsI) => {
-  const { isDrawerOpen } = props;
+export const AddRequestApproval = () => {
   const {
     methods,
     handleSubmit,
@@ -13,32 +11,31 @@ export const AddRequestApproval = (props: AddApprovalsPropsI) => {
     onSubmit,
     addRequestApprovalFormFields,
     postApprovalTicketsStatus,
-  } = useAddRequestApproval(props);
+    isPortalOpen,
+  } = useAddRequestApproval();
 
   return (
     <CommonDrawer
-      footer
-      isDrawerOpen={isDrawerOpen}
-      onClose={() => onClose()}
+      isDrawerOpen={isPortalOpen?.isOpen}
+      onClose={onClose}
       title="Send for Approvals"
       okText="Send"
       isOk
-      submitHandler={() => handleSubmit(onSubmit)()}
+      footer
+      submitHandler={handleSubmit(onSubmit)}
       isLoading={postApprovalTicketsStatus?.isLoading}
       isDisabled={postApprovalTicketsStatus?.isLoading}
       disabledCancelBtn={postApprovalTicketsStatus?.isLoading}
     >
-      <Box mt={1}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {addRequestApprovalFormFields?.map((item: any) => (
-              <Grid item xs={12} key={item?._id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </Box>
+      <FormProvider methods={methods}>
+        <Grid container spacing={2}>
+          {addRequestApprovalFormFields?.map((item: any) => (
+            <Grid item xs={12} key={item?._id}>
+              <item.component {...item?.componentProps} size={'small'} />
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
     </CommonDrawer>
   );
 };

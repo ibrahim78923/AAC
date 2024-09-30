@@ -50,10 +50,10 @@ export const approvalsTicketsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useLazyAddSingleServicesTicketsApprovalQuery,
   useGetSingleServicesTicketsAllTypeApprovalsListQuery,
   useGetSingleServicesTicketsApprovalsListsQuery,
   useAddSingleServicesTicketsApprovalMutation,
   useUpdateSingleServicesTicketsApprovalMutation,
-  useSendSingleServicesTicketsApprovalReminderQuery,
+  useSendSingleServicesTicketsApprovalReminderMutation,
+  useLazyGetSingleServicesTicketsAllTypeApprovalsListQuery,
 } = approvalsTicketsAPI;

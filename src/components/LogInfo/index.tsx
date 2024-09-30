@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 
 export const LogInfo = (props: any) => {
-  const { performer, logType, log } = props;
+  const { performer, logType, log, logProps } = props;
   return (
     <Box display={'flex'} gap={0.3} alignItems={'center'} flexWrap={'wrap'}>
       <Typography
@@ -20,6 +20,7 @@ export const LogInfo = (props: any) => {
         fontWeight={'fontWeightSmall'}
         variant="body2"
         color="primary"
+        {...logProps}
       >
         {log}
       </Typography>

@@ -171,6 +171,6 @@ export const splitCapitalizedWords = (str: string) => {
     ?.join(' ');
 };
 
-export const capitalizeFirstWord = (str: string) => {
-  return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
+export const capitalizeFirstWord = (str: string = '---') => {
+  return str?.charAt(0)?.toUpperCase() + str?.slice?.(1)?.toLowerCase();
 };

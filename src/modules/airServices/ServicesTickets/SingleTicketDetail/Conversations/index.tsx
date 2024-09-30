@@ -28,7 +28,9 @@ export const Conversations = () => {
 
   if (isLoading || isFetching)
     return <SkeletonCard gridSize={{ md: 12 }} outerPadding={{ x: 2, y: 3 }} />;
+
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+
   if (!!!data?.data?.length)
     return (
       <NoData message="There are no conversation available">
@@ -75,7 +77,7 @@ export const Conversations = () => {
             />
           </PermissionsGuard>
         </Box>
-        <Box maxHeight={'50vh'} overflow={'auto'}>
+        <Box maxHeight={'80vh'} overflow={'auto'}>
           {data?.data?.map((conversation: any) => (
             <Fragment key={conversation?._id}>
               <ConversationCard

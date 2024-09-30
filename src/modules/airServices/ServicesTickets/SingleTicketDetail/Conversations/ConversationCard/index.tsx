@@ -1,10 +1,5 @@
 import { DATE_TIME_FORMAT } from '@/constants';
-import {
-  formatFileSize,
-  fullName,
-  fullNameInitial,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import {
@@ -19,6 +14,7 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import { otherDateFormat } from '@/utils/dateTime';
 import { UserInfo } from '@/components/UserInfo';
 import { LogInfo } from '@/components/LogInfo';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 export const ConversationCard = (props: any) => {
   const { data, setSelectedConversationType } = props;
@@ -37,8 +33,9 @@ export const ConversationCard = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Box flex={0.7}>
+        <Box flex={1}>
           <UserInfo
+            boxProps={{ alignItems: 'normal' }}
             isNameCapital={false}
             nameProps={{
               fontWeight: 'fontWeightMedium',
@@ -54,6 +51,7 @@ export const ConversationCard = (props: any) => {
                 )}
                 logType={`${CONVERSATION_TYPE_MODIFY[data?.type]?.description}`}
                 log={data?.recipients?.join?.(' ')}
+                logProps={{ sx: { wordBreak: 'break-all' } }}
               />
             }
             email={otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.UI)}
@@ -65,18 +63,17 @@ export const ConversationCard = (props: any) => {
           />
         </Box>
         {!!data?.attachment?._id && (
-          <Box flex={0.33}>
-            <UserInfo
-              nameInitial={fullNameInitial(data?.attachment?.orignalName)}
-              name={truncateText(data?.attachment?.orignalName, 10)}
-              avatarSrc={data?.attachment?.fileUrl}
-              email={formatFileSize(data?.attachment?.fileSize)}
-              isNameCapital={false}
-              avatarSize={{ height: 35, width: 35 }}
+          <Box flex={0.3}>
+            <AttachFileCard
+              size={{ width: 35, height: 35 }}
+              hasStyling={false}
+              data={data?.attachment}
+              onDelete={() => {}}
+              permissionKey={[]}
             />
           </Box>
         )}
-        <Box display={'flex'} flex={0.33} justifyContent={'flex-end'} gap={1.5}>
+        <Box display={'flex'} flex={0.25} justifyContent={'flex-end'} gap={1.5}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_REPLY,

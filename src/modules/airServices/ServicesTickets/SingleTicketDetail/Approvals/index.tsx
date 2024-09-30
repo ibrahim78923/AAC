@@ -1,67 +1,18 @@
-import NoData from '@/components/NoData';
-import RequestApprovalPage from './RequestApprovalPage';
-import { Button } from '@mui/material';
-import { PlusSharedColorIcon } from '@/assets/icons';
-import { AddRequestApproval } from './AddRequestApproval';
+import { Header } from './Header';
+import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { useApprovals } from './useApprovals';
-import { RequestConfirmForm } from './RequestConfirmForm';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const Approvals = () => {
-  const {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    isConfirmModalOpen,
-    setIsConfirmModalOpen,
-    selectedApproval,
-    setSelectedApproval,
-    setApproval,
-    data,
-    isLoading,
-    isFetching,
-    updateRequestApprovalStatus,
-  }: any = useApprovals();
-
-  if (isLoading || isFetching) return <SkeletonForm />;
+  const { handleTabChange, singleTicketDetailApprovalsTabs } = useApprovals();
 
   return (
     <>
-      {!!data?.data?.length ? (
-        <RequestApprovalPage
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          selectedApproval={selectedApproval}
-          setSelectedApproval={setSelectedApproval}
-          setApproval={(item: any) => setApproval?.(item)}
-          updateRequestApprovalStatus={(item: any): any =>
-            updateRequestApprovalStatus?.(item)
-          }
-        />
-      ) : (
-        <NoData message="No approvals found">
-          <Button
-            variant="contained"
-            onClick={() => setIsDrawerOpen(true)}
-            startIcon={<PlusSharedColorIcon />}
-          >
-            Request Approval
-          </Button>
-        </NoData>
-      )}
-      {isDrawerOpen && (
-        <AddRequestApproval
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-        />
-      )}
-      {isConfirmModalOpen && (
-        <RequestConfirmForm
-          isConfirmModalOpen={isConfirmModalOpen}
-          setIsConfirmModalOpen={setIsConfirmModalOpen}
-          selectedApproval={selectedApproval}
-          setSelectedApproval={setSelectedApproval}
-        />
-      )}
+      <Header />
+      <PermissionsTabs
+        spacing={0.3}
+        tabsDataArray={singleTicketDetailApprovalsTabs}
+        handleTabChange={handleTabChange}
+      />
     </>
   );
 };
