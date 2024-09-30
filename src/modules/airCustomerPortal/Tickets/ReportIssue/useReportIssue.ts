@@ -5,9 +5,7 @@ import {
 } from './ReportIssue.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useLazyGetRequesterDropdownQuery } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
 import {
   ARRAY_INDEX,
   PORTAL_TICKET_FIELDS,
@@ -15,22 +13,24 @@ import {
   TICKET_STATUS,
   TICKET_TYPE,
 } from '@/constants/strings';
-import { ReportIssuePropsI } from './ReportIssue.interface';
+import {
+  useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
+  useLazyGetAllArticlesQuery,
+  useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery,
+  usePostReportAnIssueTicketsMutation,
+} from '@/services/airCustomerPortal/Tickets';
 import {
   getActiveAccountSession,
   getCustomerPortalPermissions,
   getCustomerPortalStyling,
   getSession,
 } from '@/utils';
-import {
-  useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
-  useLazyGetAllArticlesQuery,
-} from '@/services/airCustomerPortal/Tickets';
-import { useEffect, useMemo } from 'react';
-import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 import useAuth from '@/hooks/useAuth';
+import { ReportIssuePropsI } from './ReportIssue.interface';
+import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 export const useReportIssue = (props: ReportIssuePropsI) => {
   const { setIsPortalOpen } = props;
@@ -60,7 +60,8 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     );
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownByCompanyIdQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery();
 
   const methods = useForm<any>({
     resolver: yupResolver(
@@ -72,7 +73,7 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
   const { handleSubmit, reset, watch } = methods;
 
   const [postReportAnIssueTrigger, postReportAnIssueStatus] =
-    usePostReportAnIssueMutation();
+    usePostReportAnIssueTicketsMutation();
   const [getArticleTrigger, getArticleStatus] = useLazyGetAllArticlesQuery();
   const subjectValue = watch('subject');
   const handleArticle = async () => {

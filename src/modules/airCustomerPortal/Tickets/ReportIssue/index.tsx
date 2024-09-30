@@ -3,6 +3,7 @@ import {
   Box,
   Chip,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -135,66 +136,60 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                 })}
               </Grid>
             </Grid>
-            <Box
-              display={'flex'}
-              justifyContent={'flex-end'}
-              alignItems={'center'}
-              gap={1}
-              mt={'0.625rem'}
-            >
-              <LoadingButton
-                variant="outlined"
-                className="small"
-                onClick={() => closePortal?.()}
-                disabled={postReportAnIssueStatus?.isLoading}
-                sx={(theme) => ({
-                  borderColor:
-                    portalStyles?.btnSecondary ||
-                    customizePortalDefaultValues(theme)?.btnSecondary,
-                  color:
-                    portalStyles?.btnSecondary ||
-                    customizePortalDefaultValues(theme)?.btnSecondary,
-                  '&:hover': {
-                    borderColor:
-                      portalStyles?.btnSecondary ||
-                      customizePortalDefaultValues(theme)?.btnSecondary,
-                    color:
-                      portalStyles?.btnSecondary ||
-                      customizePortalDefaultValues(theme)?.btnSecondary,
-                  },
-                })}
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                variant="contained"
-                className="small"
-                sx={(theme) => ({
-                  bgcolor:
-                    portalStyles?.btnPrimary ||
-                    customizePortalDefaultValues(theme)?.btnPrimary,
-                  color: 'common.white',
-                  '&:hover': {
-                    bgcolor:
-                      portalStyles?.btnPrimary ||
-                      customizePortalDefaultValues(theme)?.btnPrimary,
-                    color: 'common.white',
-                  },
-                  '&.Mui-disabled': {
-                    bgcolor:
-                      portalStyles?.btnPrimary ||
-                      customizePortalDefaultValues(theme)?.btnPrimary,
-                  },
-                })}
-                type="submit"
-                disabled={postReportAnIssueStatus?.isLoading}
-                loading={postReportAnIssueStatus?.isLoading}
-              >
-                Submit
-              </LoadingButton>
-            </Box>
           </FormProvider>
         </DialogContent>
+        <DialogActions>
+          <LoadingButton
+            variant="outlined"
+            className="small"
+            onClick={() => closePortal?.()}
+            disabled={postReportAnIssueStatus?.isLoading}
+            sx={(theme) => ({
+              borderColor:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              '&:hover': {
+                borderColor:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+                color:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+              },
+            })}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            className="small"
+            sx={(theme) => ({
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+              '&:hover': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+              },
+              '&.Mui-disabled': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+              },
+            })}
+            onClick={handleSubmit(onSubmit)}
+            disabled={postReportAnIssueStatus?.isLoading}
+            loading={postReportAnIssueStatus?.isLoading}
+          >
+            Submit
+          </LoadingButton>
+        </DialogActions>
       </Dialog>
     </>
   );

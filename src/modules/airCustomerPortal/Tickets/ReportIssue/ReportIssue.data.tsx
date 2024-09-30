@@ -7,6 +7,7 @@ import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButto
 
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { ROLE } from '@/constants/strings';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 import * as Yup from 'yup';
@@ -14,11 +15,29 @@ import * as Yup from 'yup';
 export const reportIssueFormValidationSchema = (checkPermission: any) =>
   Yup?.object()?.shape({
     requesterEmail: !!checkPermission
-      ? Yup?.string()
-      : Yup?.string()?.email()?.required('Required'),
+      ? Yup?.string()?.max(
+          GLOBAL_CHARACTERS_LIMIT?.EMAIL,
+          `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL}`,
+        )
+      : Yup?.string()
+          ?.max(
+            GLOBAL_CHARACTERS_LIMIT?.EMAIL,
+            `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL}`,
+          )
+          ?.email()
+          ?.required('Required'),
     requesterName: !!checkPermission
-      ? Yup?.string()
-      : Yup?.string()?.max(30)?.trim()?.required('Required'),
+      ? Yup?.string()?.max(
+          GLOBAL_CHARACTERS_LIMIT?.NAME,
+          `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT}`,
+        )
+      : Yup?.string()
+          ?.max(
+            GLOBAL_CHARACTERS_LIMIT?.NAME,
+            `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT}`,
+          )
+          ?.trim()
+          ?.required('Required'),
     requester: Yup?.mixed()
       ?.nullable()
       ?.when('requesterEmail', {
@@ -26,8 +45,20 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
         then: (schema: any) => schema?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),
-    subject: Yup?.string()?.max(100)?.trim()?.required('Required'),
-    description: Yup?.string()?.max(1000)?.trim()?.required('Required'),
+    subject: Yup?.string()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.SUBJECT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.SUBJECT}`,
+      )
+      ?.trim()
+      ?.required('Required'),
+    description: Yup?.string()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+      )
+      ?.trim()
+      ?.required('Required'),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
   });
@@ -56,7 +87,7 @@ export const reportIssueFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryRequester,
-      externalParams: { limit: 50, role: ROLE?.ORG_REQUESTER },
+      externalParams: { limit: 500, role: ROLE?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       placeholder: 'Add Requester',
@@ -132,7 +163,6 @@ export const newTicketsDropdownDynamic = (
   {
     id: 2,
     title: 'Request a service',
-
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       router?.push({
         pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,

@@ -117,6 +117,24 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postReportAnIssueTickets: builder?.mutation({
+      query: (postReportAnIssueParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'POST',
+        body: postReportAnIssueParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAllRequestersDropdownCustomerPortalTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.REQUESTER_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+    }),
   }),
 });
 
@@ -134,6 +152,8 @@ export const {
   usePostReplyForCustomerTicketConversationMutation,
   useGetConversationForCustomerSingleTicketQuery,
   useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
+  useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery,
+  usePostReportAnIssueTicketsMutation,
   useLazyGetAllArticlesQuery,
   useLazyGetUserDropdownForCPQuery,
   useShareTicketMutation,
