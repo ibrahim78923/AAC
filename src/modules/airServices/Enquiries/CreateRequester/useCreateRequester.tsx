@@ -1,4 +1,4 @@
-import { usePostServicesRequesterMutation } from '@/services/airServices/enquiries';
+import { usePostServicesEnquiriesRequesterMutation } from '@/services/airServices/enquiries';
 import { ARRAY_INDEX, ROLE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
@@ -9,7 +9,7 @@ export default function useCreateRequester({
   onClose,
 }: IChildModalState) {
   const [postRequesterTrigger, postRequesterStatus] =
-    usePostServicesRequesterMutation();
+    usePostServicesEnquiriesRequesterMutation();
 
   const data = isModalOpen?.data?.[ARRAY_INDEX?.ZERO];
 

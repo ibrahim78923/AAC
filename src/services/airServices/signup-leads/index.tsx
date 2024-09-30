@@ -3,9 +3,9 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'AIR_SERVICES_SIGN_UP_LEADS';
 
-export const signUpLeadsAPI = baseAPI.injectEndpoints({
+export const serviceSignUpLeadsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getSignUpLeads: builder.query({
+    getServiceSignUpLeads: builder.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.SIGN_UP_LEADS,
         method: 'GET',
@@ -16,4 +16,4 @@ export const signUpLeadsAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetSignUpLeadsQuery } = signUpLeadsAPI;
+export const { useGetServiceSignUpLeadsQuery } = serviceSignUpLeadsAPI;

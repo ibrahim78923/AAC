@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
 import { getSignUpLeadsColumns } from './SignUpLeads.data';
-import { useGetSignUpLeadsQuery } from '@/services/airServices/signup-leads';
+import { useGetServiceSignUpLeadsQuery } from '@/services/airServices/signup-leads';
 
 export default function useSignUpLeads() {
   const [searchBy, setSearchBy] = useState('');
@@ -16,7 +16,10 @@ export default function useSignUpLeads() {
   };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetSignUpLeadsQuery({ params }, { refetchOnMountOrArgChange: true });
+    useGetServiceSignUpLeadsQuery(
+      { params },
+      { refetchOnMountOrArgChange: true },
+    );
 
   const signUpLeadsColumns = getSignUpLeadsColumns();
 

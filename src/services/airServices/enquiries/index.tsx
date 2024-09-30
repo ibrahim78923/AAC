@@ -31,7 +31,7 @@ export const airServicesEnquiriesAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    postServicesRequester: builder?.mutation({
+    postServicesEnquiriesRequester: builder?.mutation({
       query: (body: any) => ({
         url: END_POINTS?.ADD_REQUESTER,
         method: 'POST',
@@ -40,7 +40,7 @@ export const airServicesEnquiriesAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    postServicesTicket: builder?.mutation({
+    postServicesEnquiriesTicket: builder?.mutation({
       query: (body: any) => ({
         url: END_POINTS?.TICKET,
         method: 'POST',
@@ -55,6 +55,6 @@ export const {
   useGetServicesEnquiriesQuery,
   useDeleteServicesEnquiriesMutation,
   usePatchServicesEnquiriesMutation,
-  usePostServicesRequesterMutation,
-  usePostServicesTicketMutation,
+  usePostServicesEnquiriesRequesterMutation,
+  usePostServicesEnquiriesTicketMutation,
 } = airServicesEnquiriesAPI;

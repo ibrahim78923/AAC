@@ -8,7 +8,7 @@ import {
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostChangePasswordMutation } from '@/services/airServices/settings/account-settings/account-details';
+import { usePostServiceAccountDetailChangePasswordMutation } from '@/services/airServices/settings/account-settings/account-details';
 import { IChangePasswordData } from './ChangePassword.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
@@ -22,7 +22,7 @@ export const useChangePassword = () => {
   });
 
   const [postChangePasswordTrigger, postChangePasswordProgress] =
-    usePostChangePasswordMutation();
+    usePostServiceAccountDetailChangePasswordMutation();
 
   const isSubmit = async (data: IChangePasswordData) => {
     const payload = {

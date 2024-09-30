@@ -2,9 +2,9 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ACCOUNT_DETAILS';
-export const AccountDetailAPI = baseAPI?.injectEndpoints({
+export const ServiceAccountDetailAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    postChangePassword: builder?.mutation({
+    postServiceAccountDetailChangePassword: builder?.mutation({
       query: (payload: any) => ({
         url: `${END_POINTS?.POST_CHANGE_PASSWORD}`,
         method: 'POST',
@@ -12,14 +12,14 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getProfileDetail: builder?.query({
+    getServiceAccountDetailProfileDetail: builder?.query({
       query: (param: any) => ({
         url: `${END_POINTS?.PROFILE_DETAIL}/${param}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    patchProfileDetail: builder?.mutation({
+    patchServiceAccountDetailProfileDetail: builder?.mutation({
       query: (param: any) => ({
         url: `${END_POINTS?.PROFILE_DETAIL}/${param?.id}`,
         method: 'PATCH',
@@ -27,7 +27,7 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchProfileAvatar: builder?.mutation({
+    patchServiceAccountDetailProfileAvatar: builder?.mutation({
       query: (param: any) => ({
         url: `${END_POINTS?.PROFILE_DETAIL}/${param?.id}/avatar?removeAvatar=${param?.removeAvatar}`,
         method: 'PATCH',
@@ -35,7 +35,7 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getCompanyAccountsById: builder.query({
+    getServiceAccountDetailCompanyAccountsById: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.POST_COMPANY_ACCOUNT}/${id}`,
         method: 'GET',
@@ -46,9 +46,9 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  usePostChangePasswordMutation,
-  useGetProfileDetailQuery,
-  usePatchProfileDetailMutation,
-  usePatchProfileAvatarMutation,
-  useGetCompanyAccountsByIdQuery,
-} = AccountDetailAPI;
+  usePostServiceAccountDetailChangePasswordMutation,
+  useGetServiceAccountDetailProfileDetailQuery,
+  usePatchServiceAccountDetailProfileDetailMutation,
+  usePatchServiceAccountDetailProfileAvatarMutation,
+  useGetServiceAccountDetailCompanyAccountsByIdQuery,
+} = ServiceAccountDetailAPI;

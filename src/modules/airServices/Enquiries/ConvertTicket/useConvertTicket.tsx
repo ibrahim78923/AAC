@@ -1,7 +1,7 @@
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import {
   usePatchServicesEnquiriesMutation,
-  usePostServicesTicketMutation,
+  usePostServicesEnquiriesTicketMutation,
 } from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
@@ -11,7 +11,8 @@ export default function useConvertTicket({
   isModalOpen,
   onClose,
 }: IChildModalState) {
-  const [postTicketTrigger, postTicketStatus] = usePostServicesTicketMutation();
+  const [postTicketTrigger, postTicketStatus] =
+    usePostServicesEnquiriesTicketMutation();
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
     usePatchServicesEnquiriesMutation();
 

@@ -1,5 +1,5 @@
 import useAuth from '@/hooks/useAuth';
-import { usePatchProfileAvatarMutation } from '@/services/airServices/settings/account-settings/account-details';
+import { usePatchServiceAccountDetailProfileAvatarMutation } from '@/services/airServices/settings/account-settings/account-details';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
@@ -17,7 +17,7 @@ export const useHeader = () => {
   };
 
   const [patchProfileAvatarTrigger, patchProfileAvatarStatus] =
-    usePatchProfileAvatarMutation();
+    usePatchServiceAccountDetailProfileAvatarMutation();
   const isSubmit = async (file: any) => {
     const reportAnIssueData = new FormData();
     reportAnIssueData?.append('avatar', file);

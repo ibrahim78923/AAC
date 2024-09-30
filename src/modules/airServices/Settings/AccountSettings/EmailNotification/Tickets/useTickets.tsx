@@ -1,6 +1,6 @@
 import {
-  useGetEmailNotificationQuery,
-  usePatchEmailNotificationMutation,
+  useGetServicesAccountSettingsEmailNotificationQuery,
+  usePatchServicesAccountSettingsEmailNotificationMutation,
 } from '@/services/airServices/settings/account-settings/email-notification';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useMemo, useState } from 'react';
@@ -14,14 +14,16 @@ export default function useTickets() {
   const product = useMemo(() => getActiveAccountSession(), []);
   const accountId = product?._id;
 
-  const { data, isLoading, isFetching, isError } = useGetEmailNotificationQuery(
-    {
-      accountId,
-    },
-    { skip: !accountId, refetchOnMountOrArgChange: true },
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetServicesAccountSettingsEmailNotificationQuery(
+      {
+        accountId,
+      },
+      { skip: !accountId, refetchOnMountOrArgChange: true },
+    );
 
-  const [patchEmailTrigger] = usePatchEmailNotificationMutation();
+  const [patchEmailTrigger] =
+    usePatchServicesAccountSettingsEmailNotificationMutation();
 
   const onSwitchChange = async (_id: string) => {
     setSwitchLoading({ ...switchLoading, [_id]: true });
