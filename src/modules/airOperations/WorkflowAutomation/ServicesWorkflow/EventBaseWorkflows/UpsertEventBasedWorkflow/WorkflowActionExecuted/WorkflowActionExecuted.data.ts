@@ -47,6 +47,7 @@ export const actionsData = ({
   apiQueryCategories,
   apiQueryLocations,
   apiUsersListDropdown,
+  productId,
 }: any) => {
   const moduleTypeOptions = watch('module');
 
@@ -124,6 +125,8 @@ export const actionsData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+        externalParams:
+          selectedLabel === optionsConstant?.usedBy ? { productId } : undefined,
         getOptionLabel:
           selectedLabel === optionsConstant?.agent ||
           selectedLabel === optionsConstant?.usedBy

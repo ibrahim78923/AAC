@@ -14,7 +14,6 @@ import { LoadingButton } from '@mui/lab';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
-import { Theme } from '@mui/material';
 
 export const CatalogRequest = (props: CatalogRequestI) => {
   const { open } = props;
@@ -79,7 +78,17 @@ export const CatalogRequest = (props: CatalogRequestI) => {
               variant="contained"
               type="submit"
               loading={postTicketStatus?.isLoading}
-              sx={(theme: Theme) => ({
+              sx={(theme) => ({
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+                '&:hover': {
+                  bgcolor:
+                    portalStyles?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                  color: 'common.white',
+                },
                 '&.Mui-disabled': {
                   bgcolor:
                     portalStyles?.btnPrimary ||

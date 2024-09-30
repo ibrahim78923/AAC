@@ -49,7 +49,7 @@ export const catalogAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_THREE],
     }),
-    updateSingleServicesTicketsApprovalCustomerPortal: builder?.mutation({
+    updateTicketsApprovalCustomerPortal: builder?.mutation({
       query: (patchApprovalTicketsParameters: any) => ({
         url: END_POINTS?.UPDATE_APPROVAL_TICKETS,
         method: 'PATCH',
@@ -67,5 +67,5 @@ export const {
   useGetServiceCatalogCategoriesDetailsQuery,
   useLazyGetRequesterDropdownQuery,
   usePostTicketsMutation,
-  updateSingleServicesTicketsApprovalCustomerPortal,
+  updateTicketsApprovalCustomerPortal,
 } = catalogAPI;

@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { ConfirmModalPropsI } from '../AllApprovals/AllApprovals.interface';
-import { updateSingleServicesTicketsApprovalCustomerPortal } from '@/services/airCustomerPortal/catalog';
+import { updateTicketsApprovalCustomerPortal } from '@/services/airCustomerPortal/catalog';
 
 export const useRequestApprovalForm = (props: ConfirmModalPropsI) => {
   const {
@@ -15,7 +15,7 @@ export const useRequestApprovalForm = (props: ConfirmModalPropsI) => {
   } = props;
 
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
-    updateSingleServicesTicketsApprovalCustomerPortal();
+    updateTicketsApprovalCustomerPortal();
 
   const methods = useForm({
     defaultValues: {

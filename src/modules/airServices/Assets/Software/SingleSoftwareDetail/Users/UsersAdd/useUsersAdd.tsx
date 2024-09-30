@@ -14,10 +14,14 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { UsersAddFormDataI } from './UsersAdd.interface';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
 const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
+
   const methods: any = useForm({
     resolver: yupResolver(addUserValidationSchema),
     defaultValues: addUserDefaultValues(),
@@ -56,6 +60,7 @@ const useUsersAdd = () => {
   const addUserDataFormFieldsAddUser = addUserData(
     userDropdown,
     contractDropdown,
+    productId,
   );
 
   return {

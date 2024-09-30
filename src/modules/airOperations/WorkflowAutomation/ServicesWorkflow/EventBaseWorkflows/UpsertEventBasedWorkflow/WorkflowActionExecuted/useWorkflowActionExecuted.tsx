@@ -1,3 +1,4 @@
+import useAuth from '@/hooks/useAuth';
 import {
   useLazyGetAgentsDropDownInWorkflowQuery,
   useLazyGetCategoriesDropdownInWorkflowQuery,
@@ -16,6 +17,8 @@ export const useWorkflowActionExecuted = (props: any) => {
     name: 'actions',
   });
   const theme = useTheme();
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
 
   const handleDelete = (index: number) => {
     if (fields?.length === 1) {
@@ -49,5 +52,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     apiQueryCategories,
     apiQueryLocations,
     apiUsersListDropdown,
+    productId,
   };
 };

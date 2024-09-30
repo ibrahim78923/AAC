@@ -1,4 +1,5 @@
 import { SCHEMA_KEYS } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 import {
   useLazyGetAssetTypeInWorkflowQuery,
   useLazyGetDepartmentDropdownInWorkflowQuery,
@@ -13,6 +14,9 @@ import { useFieldArray } from 'react-hook-form';
 
 export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent } = props;
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
+
   const params = {
     collectionName: SCHEMA_KEYS?.TICKETS,
   };
@@ -51,5 +55,6 @@ export const useSubWorkflowConditions = (props: any) => {
     apiQueryLocations,
     apiAssetType,
     apiUsersListDropdown,
+    productId,
   };
 };

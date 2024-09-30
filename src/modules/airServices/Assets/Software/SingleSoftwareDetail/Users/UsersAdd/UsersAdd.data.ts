@@ -11,7 +11,11 @@ export const addUserDefaultValues = () => {
   };
 };
 
-export const addUserData = (userDropdown: any, contractDropdown: any) => [
+export const addUserData = (
+  userDropdown: any,
+  contractDropdown: any,
+  productId: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -20,6 +24,7 @@ export const addUserData = (userDropdown: any, contractDropdown: any) => [
       fullWidth: true,
       placeholder: 'Select User',
       apiQuery: userDropdown,
+      externalParams: { productId },
       required: true,
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,

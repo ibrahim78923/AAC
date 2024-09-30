@@ -3,7 +3,7 @@ import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Attachment = () => {
-  const router = useRouter();
+  const router: any = useRouter();
   const { contractId } = router?.query;
   return (
     <>

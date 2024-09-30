@@ -1,6 +1,5 @@
 import { pxToRem } from '@/utils/getFontValue';
 import { Box, Chip, Grid, Typography } from '@mui/material';
-import React from 'react';
 
 export const ContractReportsCard = ({ contractReportsCardData }: any) => {
   return (
