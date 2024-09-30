@@ -1,5 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'CUSTOMER_PORTAL_KNOWLEDGE_BASE';
 
@@ -36,6 +37,48 @@ export const knowledgeBaseAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
+    getAllAssociateAssetsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CUSTOMER_PORTAL_ASSET_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+      providesTags: [TAG],
+    }),
+    getAllCustomerPortalArticlesDropdown: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_ALL_ARTICLES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) =>
+        response?.data?.articles?.map((article: any) => ({
+          title: article?.title,
+          _id: article?._id,
+          folderId: article?.folder?._id,
+        })),
+      providesTags: [TAG],
+    }),
+    postReportAnIssueCustomerPortalArticles: builder?.mutation({
+      query: (postReportAnIssueParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'POST',
+        body: postReportAnIssueParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAllRequestersDropdownCustomerPortalArticles: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.REQUESTER_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+    }),
   }),
 });
 
@@ -44,4 +87,8 @@ export const {
   useGetAllKnowledgeBaseArticleQuery,
   useGetSingleKnowledgeBaseArticleQuery,
   usePostArticleFeedbackMutation,
+  useLazyGetAllAssociateAssetsDropdownQuery,
+  useLazyGetAllCustomerPortalArticlesDropdownQuery,
+  usePostReportAnIssueCustomerPortalArticlesMutation,
+  useLazyGetAllRequestersDropdownCustomerPortalArticlesQuery,
 } = knowledgeBaseAPI;

@@ -43,6 +43,7 @@ export const ChartEditor = (props: ChartEditorI) => {
     xAxisType,
     chartType,
     disableTemplate,
+    productId,
   } = useChartEditor(props);
 
   return (
@@ -132,6 +133,7 @@ export const ChartEditor = (props: ChartEditorI) => {
                     placeholder="Select Option"
                     externalParams={{
                       meta: false,
+                      id: productId,
                     }}
                   />
                 </Box>
@@ -179,6 +181,7 @@ export const ChartEditor = (props: ChartEditorI) => {
                     placeholder="Select Option"
                     externalParams={{
                       meta: false,
+                      id: productId,
                     }}
                   />
                 </Box>

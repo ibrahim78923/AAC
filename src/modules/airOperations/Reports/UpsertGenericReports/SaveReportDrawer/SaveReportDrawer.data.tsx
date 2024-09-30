@@ -144,6 +144,7 @@ export const reportsDataArray = (
   newDashboardFields: SpecialUsersFieldsI[],
   sharedWithFields: SpecialUsersFieldsI[],
   id: any,
+  productId: any,
 ) => [
   {
     id: 7578,
@@ -189,6 +190,7 @@ export const reportsDataArray = (
           placeholder="Select Option"
           externalParams={{
             meta: false,
+            id: productId,
           }}
         />
         <TableContainer
@@ -304,6 +306,7 @@ export const reportsDataArray = (
           placeholder="Select Option"
           externalParams={{
             meta: false,
+            id: productId,
           }}
         />
         <TableContainer

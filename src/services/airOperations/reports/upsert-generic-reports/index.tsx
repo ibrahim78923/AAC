@@ -84,8 +84,8 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     usersDropdown: builder.query({
-      query: () => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}?productId=${params?.id}`,
         method: 'GET',
       }),
       transformResponse: (response: any) => {

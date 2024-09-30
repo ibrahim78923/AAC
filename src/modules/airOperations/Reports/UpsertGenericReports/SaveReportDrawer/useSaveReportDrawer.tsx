@@ -26,9 +26,13 @@ import {
   usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const { form, reportId, metricType, data, handleMoveBack } = props;
+
+  const auth: any = useAuth();
+  const productId = auth?.product?._id;
 
   const router: any = useRouter();
   const { id } = router?.query;
@@ -73,6 +77,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     newDashboardFields,
     sharedWithFields,
     id,
+    productId,
   );
 
   const [

@@ -8,9 +8,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
-import { ReportIssue } from '../Tickets/ReportIssue';
 import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { ReportIssue } from './ReportIssue';
 
 export const KnowledgeBase = () => {
   const {

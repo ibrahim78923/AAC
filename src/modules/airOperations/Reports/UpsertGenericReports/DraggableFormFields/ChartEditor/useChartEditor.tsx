@@ -17,6 +17,7 @@ import { ChartEditorI } from './ChartEditor.interface';
 import { useDispatch } from 'react-redux';
 import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
+import useAuth from '@/hooks/useAuth';
 
 export const useChartEditor = (props: ChartEditorI) => {
   const {
@@ -31,6 +32,8 @@ export const useChartEditor = (props: ChartEditorI) => {
 
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
+  const auth: any = useAuth();
+  const productId = auth?.product?._id;
   const disableTemplate = useAppSelector(
     (state) => state?.genericReport?.disableTemplate,
   );
@@ -153,5 +156,6 @@ export const useChartEditor = (props: ChartEditorI) => {
     xAxisType,
     chartType,
     disableTemplate,
+    productId,
   };
 };
