@@ -1,4 +1,4 @@
-import { LEAD_CAPTURE_FORM } from '@/routesConstants/endpoints';
+import { END_POINTS, LEAD_CAPTURE_FORM } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'LEAD_CAPTURE_FORM';
@@ -118,6 +118,30 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
+    getCustomersDropdownList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['CONTACTS'],
+    }),
+
+    getCustomersGroupDropdownList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_GROUPS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contactgroups;
+      },
+      providesTags: ['CONTACT_GROUPS'],
+    }),
   }),
 });
 
@@ -135,4 +159,6 @@ export const {
   useGetRestoreFormsQuery,
   usePatchRestoreFormMutation,
   useDeleteFormPermanentMutation,
+  useLazyGetCustomersDropdownListQuery,
+  useLazyGetCustomersGroupDropdownListQuery,
 } = leadCaptureFormsAPI;

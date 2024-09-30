@@ -1,7 +1,6 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import { DATE_FORMAT, EQuickLinksType } from '@/constants';
+import { EQuickLinksType } from '@/constants';
 import { Checkbox } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const quickLinksFilterFiltersDataArray = (selectProductOptions: any) => [
   {
@@ -117,6 +116,7 @@ export const columns: any = (
             ? 'Org Admin'
             : info?.cell?.row?.original?.productName,
     },
+
     {
       accessorFn: (row: any) => `${row?.parent} / ${row?.name}`,
       id: 'parent',
@@ -124,19 +124,17 @@ export const columns: any = (
       header: 'Module/Sub Module Name',
       cell: (info: any) => info?.getValue(),
     },
-    {
-      accessorFn: (row: any) => row?.createdAt,
-      id: 'createdAt',
-      isSortable: true,
-      header: 'Created at',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
-    },
+
     {
       accessorFn: (row: any) => row?.url,
       id: 'url',
       isSortable: true,
       header: 'URL',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const url = info?.getValue();
+        const urlWithoutQueryParams = url?.split('?')[0];
+        return <>{urlWithoutQueryParams}</>;
+      },
     },
   ];
 };
