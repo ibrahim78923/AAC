@@ -78,12 +78,7 @@ export const validationSchema: any = Yup?.object()?.shape({
     ),
   profilePicture: Yup?.mixed()?.nullable(),
   ownerId: Yup?.mixed()?.nullable()?.required('Owner is required'),
-  description: Yup?.string()
-    ?.trim()
-    ?.test('is-not-empty', 'Description is Required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
-      return strippedContent !== '';
-    }),
+  description: Yup?.string()?.trim(),
   industry: Yup?.string(),
   type: Yup?.string(),
   city: Yup?.string()

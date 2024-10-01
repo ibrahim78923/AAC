@@ -30,6 +30,7 @@ export const UpsertWorkloadSchedule = () => {
         canMovedBack
         moveBack={() => moveBack?.()}
       />
+
       <FormProvider
         methods={method}
         onSubmit={handleSubmit(submitWorkloadSchedule)}
@@ -44,23 +45,25 @@ export const UpsertWorkloadSchedule = () => {
               sx={{ pt: `${item?.p} !important` }}
             >
               <item.component {...item?.componentProps} size={'small'}>
-                {item?.heading ? item?.heading : null}
+                {item?.heading && item?.heading}
               </item.component>
             </Grid>
           ))}
         </Grid>
+
         <Box
           display={'flex'}
           alignItems={'center'}
           justifyContent={'flex-end'}
           flexWrap={'wrap'}
           gap={2}
-          mt={{ xs: 0.5, md: 4 }}
+          mt={4}
         >
           <LoadingButton
             type="button"
             variant="outlined"
             color="secondary"
+            className={'small'}
             disabled={
               patchWorkloadScheduleStatus?.isLoading ||
               postWorkloadScheduleStatus?.isLoading
@@ -72,6 +75,7 @@ export const UpsertWorkloadSchedule = () => {
           <LoadingButton
             type="submit"
             variant="contained"
+            className={'small'}
             loading={
               patchWorkloadScheduleStatus?.isLoading ||
               postWorkloadScheduleStatus?.isLoading

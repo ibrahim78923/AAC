@@ -1,10 +1,10 @@
 import { Box, Button, Skeleton } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { AIR_SERVICES } from '@/constants';
 import { useHeader } from './useHeader';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
+import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
 
 export const Header = (props: any) => {
   const {
@@ -72,13 +72,13 @@ export const Header = (props: any) => {
           )}
 
           {data?.data?.status === PURCHASE_ORDER_STATUS?.OPEN && (
-            <SingleDropdownButton
+            <PublicSingleDropdownButton
               dropdownOptions={statusDropdownOptions}
               dropdownName={PURCHASE_ORDER_STATUS?.OPEN}
             />
           )}
 
-          <SingleDropdownButton dropdownOptions={dropdownOptions} />
+          <PublicSingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>
       </Box>
       <br />

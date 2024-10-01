@@ -3,8 +3,8 @@ import { awardFormDefaultValue, awardPointsSchema } from './AwardPoints.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
-  useAddAwardPointsMutation,
-  useGetAwardPointsQuery,
+  useAddAirServicesSettingsLeaderBoardAwardPointsMutation,
+  useGetAirServicesSettingsLeaderBoardAwardPointsQuery,
 } from '@/services/airServices/settings/agent-performance-management/leader-board/award-points';
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -17,9 +17,10 @@ export const useAwardPoints = () => {
   const { palette }: any = useTheme();
 
   const [addAwardPointsTrigger, addAwardPointsStatus] =
-    useAddAwardPointsMutation();
+    useAddAirServicesSettingsLeaderBoardAwardPointsMutation();
 
-  const { data, isLoading, isFetching } = useGetAwardPointsQuery({});
+  const { data, isLoading, isFetching } =
+    useGetAirServicesSettingsLeaderBoardAwardPointsQuery({});
 
   const awardCardBorderColors = [
     palette?.info?.main,

@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useAddAgentLevelsMutation,
-  useGetAgentLevelsQuery,
+  useAddAirServicesSettingsLeaderBoardAgentLevelsMutation,
+  useGetAirServicesSettingsLeaderBoardAgentLevelsQuery,
 } from '@/services/airServices/settings/agent-performance-management/leader-board/agent-levels';
 import {
   agentLevelsFormDefaultValue,
@@ -12,25 +12,27 @@ import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useAgentLevelsPoints = () => {
   const router = useRouter();
   const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
-    useAddAgentLevelsMutation();
+    useAddAirServicesSettingsLeaderBoardAgentLevelsMutation();
 
-  const { data, isLoading, isFetching } = useGetAgentLevelsQuery({});
+  const { data, isLoading, isFetching } =
+    useGetAirServicesSettingsLeaderBoardAgentLevelsQuery({});
 
   const agentLevelsPointsMethod: any = useForm({
     defaultValues: agentLevelsFormDefaultValue?.(),
     resolver: yupResolver(agentLevelsPointsSchema),
   });
 
-  const { reset } = agentLevelsPointsMethod;
+  const { reset, handleSubmit } = agentLevelsPointsMethod;
 
-  const handleSubmit = async (values: any) => {
+  const onSubmit = async (values: any) => {
     try {
       await addAgentLevelsPointsTrigger(values)?.unwrap();
-      successSnackbar('Agent levels points added successfully!');
+      successSnackbar('Agent Levels Points Added Successfully!');
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
@@ -38,11 +40,12 @@ export const useAgentLevelsPoints = () => {
   };
 
   useEffect(() => {
-    reset(() => agentLevelsFormDefaultValue(data?.data?.[0]));
+    reset(() => agentLevelsFormDefaultValue(data?.data?.[ARRAY_INDEX?.ZERO]));
   }, [data, reset]);
 
   return {
     agentLevelsPointsMethod,
+    onSubmit,
     handleSubmit,
     data,
     isLoading,

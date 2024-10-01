@@ -23,7 +23,9 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { DepartmentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AssetFieldDropdown';
-import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
 export const newIncidentValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -34,8 +36,8 @@ export const newIncidentValidationSchema = (form: any) => {
       ?.trim()
       ?.required('Subject is required')
       ?.max(
-        GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT,
-        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT}`,
+        SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS}`,
       ),
     description: Yup?.string()
       ?.trim()
@@ -55,12 +57,7 @@ export const newIncidentValidationSchema = (form: any) => {
     plannedEndDate: Yup?.date()
       ?.nullable()
       ?.required('Planned End Date is Required'),
-    plannedEffort: Yup?.string()
-      ?.trim()
-      ?.max(
-        GLOBAL_CHARACTERS_LIMIT?.NAME,
-        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
-      ),
+    plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
     ...formSchema,

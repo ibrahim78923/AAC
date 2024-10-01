@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+
 const AwardCard = (props: any) => {
   return (
     <Box

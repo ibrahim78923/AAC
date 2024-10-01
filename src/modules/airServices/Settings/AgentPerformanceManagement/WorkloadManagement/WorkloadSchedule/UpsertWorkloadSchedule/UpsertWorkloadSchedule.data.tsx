@@ -4,27 +4,27 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants';
-import { ROLES } from '@/constants/strings';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { errorSnackbar } from '@/utils/api';
 import { RemoveRedEyeOutlined } from '@mui/icons-material';
-
 import { Box, Typography } from '@mui/material';
 import * as Yup from 'yup';
 
-export const upsertWorkloadScheduleDefaultValues = (data?: any) => {
-  return {
-    name: data?.name ?? '',
-    description: data?.description ?? '',
-    businessHoursId: data?.bussinessHoursDetails ?? null,
-    agentsId: data?.agentsList ?? [],
-  };
-};
+export const upsertWorkloadScheduleDefaultValues = (data?: any) => ({
+  name: data?.name ?? '',
+  description: data?.description ?? '',
+  businessHoursId: data?.bussinessHoursDetails ?? null,
+  agentsId: data?.agentsList ?? [],
+});
 
 export const upsertWorkloadScheduleValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()
     ?.trim()
     ?.required('Name is required')
-    ?.max(30, 'Name up to 30 characters'),
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
   description: Yup?.string()?.trim(),
   businessHoursId: Yup?.mixed()?.nullable(),
   agentsId: Yup?.mixed()?.nullable(),
@@ -35,6 +35,7 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
   apiQueryBusinessHours: any,
   getValues: any,
   router: any,
+  productId: any,
 ) => [
   {
     _id: 1,
@@ -43,7 +44,6 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
       name: 'name',
       label: 'Name',
       required: true,
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -53,7 +53,6 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
     componentProps: {
       name: 'description',
       label: 'Description',
-      fullWidth: true,
       style: { height: 200 },
     },
     component: RHFEditor,
@@ -64,7 +63,6 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
     componentProps: {
       name: 'businessHoursId',
       label: 'Business Hours',
-      fullWidth: true,
       apiQuery: apiQueryBusinessHours,
       placeholder: 'Choose Business Hour',
     },
@@ -125,11 +123,10 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
     componentProps: {
       name: 'agentsId',
       label: 'Add Users',
-      fullWidth: true,
       multiple: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      externalParams: { admin: true, productId },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

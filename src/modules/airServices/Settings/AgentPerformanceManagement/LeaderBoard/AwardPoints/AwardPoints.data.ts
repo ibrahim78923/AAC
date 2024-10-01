@@ -11,34 +11,34 @@ import * as yup from 'yup';
 export const awardPointsSchema = yup?.object()?.shape({
   fast: yup
     ?.number()
-    ?.positive('Positive number required')
-    ?.required('Required')
-    ?.typeError('Positive number required'),
+    ?.positive('Must be greater then 0')
+    ?.required('Fast is required')
+    ?.typeError('Must be greater then 0'),
   onTime: yup
     ?.number()
-    ?.positive('Positive number required')
-    ?.required('Required')
-    ?.typeError('Positive number required'),
+    ?.positive('Must be greater then 0')
+    ?.required('On-Time is required')
+    ?.typeError('Must be greater then 0'),
   late: yup
     ?.number()
     ?.negative('Negative number required')
-    ?.required('Required')
-    ?.typeError('Positive number required'),
+    ?.required('Late is required')
+    ?.typeError('Must be greater then 0'),
   firstCallResolution: yup
     ?.number()
-    ?.positive('Positive number required')
-    ?.required('Required')
-    ?.typeError('Positive number required'),
+    ?.positive('Must be greater then 0')
+    ?.required('First Call is required')
+    ?.typeError('Must be greater then 0'),
   happyCustomer: yup
     ?.number()
-    ?.positive('Positive number required')
-    ?.required('Required')
-    ?.typeError('Positive number required'),
+    ?.positive('Must be greater then 0')
+    ?.required('Happy Customer is required')
+    ?.typeError('Must be greater then 0'),
   unHappyCustomer: yup
     ?.number()
     ?.negative('Negative number required')
-    ?.required('Required')
-    ?.typeError('Positive number required'),
+    ?.required('Unhappy is required')
+    ?.typeError('Must be greater then 0'),
 });
 
 export const awardFormDefaultValue = (data?: any) => {

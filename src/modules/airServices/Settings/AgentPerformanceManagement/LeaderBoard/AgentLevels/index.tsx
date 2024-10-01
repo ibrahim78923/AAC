@@ -9,6 +9,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 const AgentLevels = () => {
   const {
     agentLevelsPointsMethod,
+    onSubmit,
     handleSubmit,
     isLoading,
     isFetching,
@@ -21,7 +22,7 @@ const AgentLevels = () => {
   return (
     <FormProvider
       methods={agentLevelsPointsMethod}
-      onSubmit={agentLevelsPointsMethod?.handleSubmit?.(handleSubmit)}
+      onSubmit={handleSubmit?.(onSubmit)}
     >
       <Typography fontWeight={600} pb={1.2}>
         Agent Levels
@@ -29,6 +30,7 @@ const AgentLevels = () => {
       <Typography variant="subtitle2" fontWeight={500} color="custom.main">
         Set points to be achieved by an agent to reach a level
       </Typography>
+
       <Grid item container xs={12} md={10} lg={7} mt={2.4} spacing={2}>
         {agentLevelCardData?.map?.((card: any) => (
           <Grid item xs={12} key={card?.points}>
@@ -51,6 +53,7 @@ const AgentLevels = () => {
           variant="outlined"
           color="inherit"
           onClick={() => router?.back()}
+          className={'small'}
         >
           Cancel
         </LoadingButton>
@@ -59,6 +62,7 @@ const AgentLevels = () => {
           disableElevation
           type="submit"
           variant="contained"
+          className={'small'}
         >
           Save
         </LoadingButton>
