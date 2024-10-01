@@ -7,11 +7,9 @@ export const DeleteDashboard = (
   props: ManageDashboardPortalComponentPropsI,
 ) => {
   const { isPortalOpen } = props;
-  const {
-    deleteDashboard,
-    deleteSingleServicesDashboardStatus,
-    closeDashboardDeleteModal,
-  } = useDeleteDashboard(props);
+
+  const { deleteDashboard, closeDashboardDeleteModal, apiCallInProgress } =
+    useDeleteDashboard(props);
 
   return (
     <>
@@ -21,8 +19,8 @@ export const DeleteDashboard = (
         open={isPortalOpen?.isDelete as boolean}
         handleClose={closeDashboardDeleteModal}
         handleSubmitBtn={deleteDashboard}
-        loading={deleteSingleServicesDashboardStatus?.isLoading}
-        disableCancelBtn={deleteSingleServicesDashboardStatus?.isLoading}
+        loading={apiCallInProgress}
+        disableCancelBtn={apiCallInProgress}
       />
     </>
   );

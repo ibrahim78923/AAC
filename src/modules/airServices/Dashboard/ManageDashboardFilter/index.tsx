@@ -8,24 +8,25 @@ import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageD
 export const ManageDashboardFilter = (
   props: ManageDashboardPortalComponentPropsI,
 ) => {
-  const { isPortalOpen, setIsPortalOpen } = props;
+  const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
     onSubmit,
     resetDashboardFilterForm,
     dashboardFilterFormFields,
+    closePortal,
   } = useManageDashboardFilter(props);
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isFilter as boolean}
-        onClose={() => setIsPortalOpen?.({})}
+        onClose={closePortal}
         okText={'apply'}
         title={'Filters'}
         submitHandler={handleSubmit(onSubmit)}
-        cancelBtnHandler={() => resetDashboardFilterForm?.()}
+        cancelBtnHandler={resetDashboardFilterForm}
         isOk
         cancelText={'Reset'}
         footer

@@ -35,7 +35,7 @@ export const RecentActivitiesCard = (props: any) => {
           <Typography variant="body2" color="slateBlue.main">
             has {data?.activityType?.toLowerCase()}
           </Typography>
-          <Typography color="custom.bright" variant="body2">
+          <Typography color="custom.bright" variant="body2" component={'div'}>
             <TruncateText text={data?.moduleName} size={35} isCapital={false} />
           </Typography>
         </Box>

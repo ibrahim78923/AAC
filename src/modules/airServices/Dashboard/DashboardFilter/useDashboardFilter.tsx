@@ -5,28 +5,31 @@ import { dashboardDropdownActionsDynamic } from './DashboardFilter.data';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 
+const { SINGLE_DASHBOARD, MANAGE_DASHBOARD } = AIR_SERVICES ?? {};
+
 export const useDashboardFilter = (props: any) => {
   const { apiLoader } = props;
   const router = useRouter();
   const auth: any = useAuth();
   const { user }: any = auth;
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
+  const apiCallInProgress = apiLoader?.isLoading || apiLoader?.isFetching;
+  const dashboardName = apiLoader?.data?.data?.dashboard?.name?.toLowerCase();
+  const dashboardId = apiLoader?.data?.data?.dashboard?._id;
+  const moveToManageDashboard = () => router?.push(MANAGE_DASHBOARD);
 
   const copyEmail = () => {
     if (apiLoader?.isError) {
       errorSnackbar('Dashboard link not found.');
       return;
     }
-    if (!apiLoader?.data?.data?.dashboard?._id) {
+    if (!dashboardId) {
       errorSnackbar('Dashboard link not found.');
       return;
     }
-    const emailToCopy = `${window?.location
-      ?.origin}${AIR_SERVICES?.SINGLE_DASHBOARD}${
-      !!apiLoader?.data?.data?.dashboard?._id
-        ? `?dashboardId=${apiLoader?.data?.data?.dashboard?._id}`
-        : ''
-    }`;
+    const emailToCopy = `${window?.location?.origin}${SINGLE_DASHBOARD}?dashboardId=${dashboardId}`;
     navigator?.clipboard?.writeText(emailToCopy);
     successSnackbar('Link has been copied successfully.');
   };
@@ -42,5 +45,8 @@ export const useDashboardFilter = (props: any) => {
     setIsDrawerOpen,
     router,
     user,
+    apiCallInProgress,
+    dashboardName,
+    moveToManageDashboard,
   };
 };

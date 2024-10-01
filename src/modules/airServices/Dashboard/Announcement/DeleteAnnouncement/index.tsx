@@ -9,8 +9,8 @@ export const DeleteAnnouncement = (
   const { isPortalOpen } = props;
   const {
     deleteAnnouncement,
-    deleteServicesAnnouncementOnDashboardStatus,
     closeAnnouncementDeleteModal,
+    apiCallInProgress,
   } = useDeleteAnnouncement(props);
 
   return (
@@ -19,12 +19,10 @@ export const DeleteAnnouncement = (
         message={'Are you sure you want to delete announcement ?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={isPortalOpen?.isDelete as boolean}
-        handleClose={() => closeAnnouncementDeleteModal?.()}
-        handleSubmitBtn={() => deleteAnnouncement?.()}
-        loading={deleteServicesAnnouncementOnDashboardStatus?.isLoading}
-        disableCancelBtn={
-          deleteServicesAnnouncementOnDashboardStatus?.isLoading
-        }
+        handleClose={closeAnnouncementDeleteModal}
+        handleSubmitBtn={deleteAnnouncement}
+        loading={apiCallInProgress}
+        disableCancelBtn={apiCallInProgress}
       />
     </>
   );

@@ -33,9 +33,13 @@ export const useDeleteAnnouncement = (
     setIsPortalOpen?.({});
   };
 
+  const apiCallInProgress =
+    deleteServicesAnnouncementOnDashboardStatus?.isLoading;
+
   return {
     deleteAnnouncement,
     deleteServicesAnnouncementOnDashboardStatus,
     closeAnnouncementDeleteModal,
+    apiCallInProgress,
   };
 };

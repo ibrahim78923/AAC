@@ -2,25 +2,28 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useManageDashboard } from './useManageDashboard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
+const { CREATE_DASHBOARD, VIEW_DASHBOARD } =
+  AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
+
 export const ManageDashboard = () => {
   const {
-    router,
     setPage,
     setPageLimit,
     setSearch,
     lazyGetDashboardStatus,
     renderPortalComponent,
     isPortalOpen,
-    setIsPortalOpen,
     manageDashboardsDataColumns,
     getDashboardListData,
     page,
+    moveToDashboard,
+    moveToCreateDashboard,
+    openFilterPortal,
   } = useManageDashboard();
 
   return (
@@ -28,16 +31,12 @@ export const ManageDashboard = () => {
       <PageTitledHeader
         title={'Manage Dashboards'}
         canMovedBack
-        moveBack={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+        moveBack={moveToDashboard}
         addTitle={'Create Dashboard'}
-        createPermissionKey={[
-          AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD,
-        ]}
-        handleAction={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
+        createPermissionKey={[CREATE_DASHBOARD]}
+        handleAction={moveToCreateDashboard}
       />
-      <PermissionsGuard
-        permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
-      >
+      <PermissionsGuard permissions={[VIEW_DASHBOARD]}>
         <Box
           border={'1px solid'}
           borderColor={'custom.off_white_three'}
@@ -57,7 +56,7 @@ export const ManageDashboard = () => {
               variant="outlined"
               color="secondary"
               startIcon={<FilterSharedIcon />}
-              onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
+              onClick={openFilterPortal}
             >
               Filter
             </Button>

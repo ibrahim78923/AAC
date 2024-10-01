@@ -5,18 +5,21 @@ import { DashboardNameFieldDropdown } from '../DashboardFormFields/DashboardName
 import { DashboardOwnersFieldDropdown } from '../DashboardFormFields/DashboardOwnersFieldDropdown';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
 
+const { PRIVATE_TO_OWNER, EVERYONE, SPECIFIC_USER_AND_TEAMS } =
+  MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
+
 const accessRightsOptions = [
   {
     label: 'Private to owner',
-    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
+    _id: PRIVATE_TO_OWNER,
   },
   {
     label: 'Everyone',
-    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
+    _id: EVERYONE,
   },
   {
     label: 'Special user',
-    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+    _id: SPECIFIC_USER_AND_TEAMS,
   },
 ];
 
@@ -47,8 +50,8 @@ export const manageDashboardsFilterFormFieldsDynamic = () => [
     componentProps: {
       fullWidth: true,
       name: 'accessRights',
-      label: 'Access Rights',
-      placeholder: 'Select Access Rights',
+      label: 'Access rights',
+      placeholder: 'Select access rights',
       options: accessRightsOptions,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },

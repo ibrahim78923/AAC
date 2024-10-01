@@ -16,6 +16,9 @@ import {
   ManageDashboardPortalComponentPropsI,
 } from './ManageDashboard.interface';
 import useAuth from '@/hooks/useAuth';
+import { AIR_SERVICES } from '@/constants';
+
+const { DASHBOARD, CREATE_DASHBOARD } = AIR_SERVICES ?? {};
 
 export const useManageDashboard = () => {
   const router: NextRouter = useRouter();
@@ -28,8 +31,8 @@ export const useManageDashboard = () => {
 
   const auth: any = useAuth();
 
-  const { user } = auth;
-  const { _id: productId } = auth?.product;
+  const { user } = auth ?? {};
+  const productId = auth?.product?._id ?? {};
 
   const overallPermissions = getActivePermissionsSession();
 
@@ -48,6 +51,7 @@ export const useManageDashboard = () => {
       ['search', search],
       ['productId', productId],
     ];
+
     const getDashboardParam: URLSearchParams = buildQueryParams(
       additionalParams,
       dashboardFilterLists,
@@ -104,6 +108,7 @@ export const useManageDashboard = () => {
     }
     return <></>;
   };
+
   const manageDashboardsDataColumns = manageDashboardsDataColumnsDynamic?.(
     setIsPortalOpen,
     changeDefaultDashboard,
@@ -111,6 +116,12 @@ export const useManageDashboard = () => {
     overallPermissions,
     user,
   );
+
+  const moveToDashboard = () => router?.push(DASHBOARD);
+  const moveToCreateDashboard = () => router?.push(CREATE_DASHBOARD);
+  const openFilterPortal = () =>
+    setIsPortalOpen({ isOpen: true, isFilter: true });
+
   return {
     router,
     setPage,
@@ -123,5 +134,8 @@ export const useManageDashboard = () => {
     manageDashboardsDataColumns,
     getDashboardListData,
     page,
+    moveToDashboard,
+    moveToCreateDashboard,
+    openFilterPortal,
   };
 };

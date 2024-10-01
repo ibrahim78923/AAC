@@ -3,18 +3,12 @@ import { CustomChart } from '@/components/Chart';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAgentAvailability } from './useAgentAvailability';
 import NoData from '@/components/NoData';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { DepartmentFieldDropdown } from '../DashboardFormFields/DepartmentsFieldDropdown';
 
 export const AgentAvailability = (props: any) => {
   const { isPreviewMode } = props;
-  const {
-    methods,
-    pieChartOptions,
-    pieChartSeries,
-    agentAvailabilityCount,
-    noAgentAvailable,
-  } = useAgentAvailability(props);
+  const { methods, pieChartOptions, pieChartSeries, agentAvailabilityCount } =
+    useAgentAvailability(props);
 
   return (
     <Box
@@ -62,17 +56,15 @@ export const AgentAvailability = (props: any) => {
         </Box>
       </>
       <Box>
-        {noAgentAvailable ? (
-          <NoData message={'No data is available'} height={'100%'} />
+        {!!pieChartSeries?.length ? (
+          <CustomChart
+            options={pieChartOptions}
+            series={pieChartSeries}
+            type="pie"
+            height={212}
+          />
         ) : (
-          pieChartSeries?.length > SELECTED_ARRAY_LENGTH?.ZERO && (
-            <CustomChart
-              options={pieChartOptions}
-              series={pieChartSeries}
-              type="pie"
-              height={212}
-            />
-          )
+          <NoData message={'No agent is available'} height={'100%'} />
         )}
       </Box>
     </Box>

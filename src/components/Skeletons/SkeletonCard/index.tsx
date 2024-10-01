@@ -10,6 +10,7 @@ export const SkeletonCard = (props: any) => {
     flexDirection = 'row',
     gridSize,
     circularSkeletonSize,
+    isCircular = 'circular',
   } = props;
 
   return (
@@ -31,7 +32,7 @@ export const SkeletonCard = (props: any) => {
             {hasCircularSkeleton && (
               <Skeleton
                 animation="wave"
-                variant={'circular'}
+                variant={isCircular}
                 width={
                   flexDirection === FLEX_DIRECTION?.COLUMN
                     ? circularSkeletonSize?.width ?? 50

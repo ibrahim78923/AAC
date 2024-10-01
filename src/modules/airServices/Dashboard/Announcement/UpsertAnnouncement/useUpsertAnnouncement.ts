@@ -25,12 +25,15 @@ import {
   useUpdateServicesDashboardSingleAnnouncementMutation,
 } from '@/services/airServices/dashboard';
 
+const { ZERO } = ARRAY_INDEX ?? {};
+const { SPECIFIC_USERS } = ANNOUNCEMENTS_VISIBILITY ?? {};
+
 export const useUpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
 ) => {
   const { setIsPortalOpen, isPortalOpen, getSingleDashboardData } = props;
   const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
+  const { _id: productId } = auth?.product ?? {};
 
   const methods: any = useForm({
     resolver: yupResolver(upsertAnnouncementValidationSchema),
@@ -85,10 +88,10 @@ export const useUpsertAnnouncement = (
     name: 'startDate',
     defaultValue: null,
   });
+
   const emailsRecipients = (emailRecipientsData: any) => {
     const addMembersEmail =
-      emailRecipientsData?.visibility?._id ===
-        ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS &&
+      emailRecipientsData?.visibility?._id === SPECIFIC_USERS &&
       !!emailRecipientsData?.notifyMembers
         ? emailRecipientsData?.addMember?.map(
             (member: AutocompleteAsyncOptionsI) => member?.email,
@@ -189,15 +192,17 @@ export const useUpsertAnnouncement = (
   });
 
   useEffect(() => {
-    reset(() =>
-      upsertAnnouncementDefaultValues(data?.data?.[ARRAY_INDEX?.ZERO]),
-    );
+    reset(() => upsertAnnouncementDefaultValues(data?.data?.[ZERO]));
   }, [data, reset]);
 
   const upsertAnnouncementFormFields = upsertAnnouncementFormFieldsDynamic(
     startDateWatch,
     visibilityWatch,
   );
+  const apiCallInProgress =
+    postAnnouncementStatus?.isLoading ||
+    updateServicesAnnouncementOnDashboardStatus?.isLoading ||
+    sendServiceDashboardViaEmailOnceStatus?.isLoading;
 
   return {
     upsertAnnouncementFormFields,
@@ -212,5 +217,6 @@ export const useUpsertAnnouncement = (
     isError,
     refetch,
     sendServiceDashboardViaEmailOnceStatus,
+    apiCallInProgress,
   };
 };

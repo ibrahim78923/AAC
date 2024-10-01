@@ -23,7 +23,7 @@ export const DepartmentFieldDropdown = (props: any) => {
           height: pxToRem(36),
         },
       }}
-      placeholder="All Departments"
+      placeholder="All departments"
       apiQuery={apiQueryDepartment}
     />
   );

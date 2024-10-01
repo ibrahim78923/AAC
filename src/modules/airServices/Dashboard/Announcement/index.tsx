@@ -27,7 +27,7 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
           alignItems={'center'}
           flexWrap={'wrap'}
           px={2}
-          py={1}
+          py={0.5}
           borderBottom={'1px solid'}
           color="custom.off_white"
         >
@@ -60,7 +60,7 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
                 ))}
             </>
           ) : (
-            <NoData height={'100%'} />
+            <NoData height={'100%'} message="No announcements found" />
           )}
         </Box>
         <Box textAlign={'center'}>

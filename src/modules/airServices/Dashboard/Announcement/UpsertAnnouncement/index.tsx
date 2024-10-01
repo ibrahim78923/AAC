@@ -7,6 +7,8 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
+const { EDIT, NEW } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
+
 export const UpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
 ) => {
@@ -17,13 +19,11 @@ export const UpsertAnnouncement = (
     methods,
     handleClose,
     handleSubmit,
-    postAnnouncementStatus,
-    updateServicesAnnouncementOnDashboardStatus,
     isLoading,
     isFetching,
     isError,
     refetch,
-    sendServiceDashboardViaEmailOnceStatus,
+    apiCallInProgress,
   } = useUpsertAnnouncement(props);
 
   return (
@@ -31,36 +31,20 @@ export const UpsertAnnouncement = (
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isUpsert as boolean}
         onClose={handleClose}
-        title={`${
-          !!isPortalOpen?.data?._id
-            ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
-            : GENERIC_UPSERT_FORM_CONSTANT?.NEW
-        } Announcements`}
-        submitHandler={() => handleSubmit(submit)()}
+        title={`${!!isPortalOpen?.data?._id ? EDIT : NEW} Announcements`}
+        submitHandler={handleSubmit(submit)}
         footer
         isOk
         okText={'Announce'}
-        isLoading={
-          postAnnouncementStatus?.isLoading ||
-          updateServicesAnnouncementOnDashboardStatus?.isLoading ||
-          sendServiceDashboardViaEmailOnceStatus?.isLoading
-        }
-        isDisabled={
-          postAnnouncementStatus?.isLoading ||
-          updateServicesAnnouncementOnDashboardStatus?.isLoading ||
-          sendServiceDashboardViaEmailOnceStatus?.isLoading
-        }
-        disabledCancelBtn={
-          postAnnouncementStatus?.isLoading ||
-          updateServicesAnnouncementOnDashboardStatus?.isLoading ||
-          sendServiceDashboardViaEmailOnceStatus?.isLoading
-        }
+        isLoading={apiCallInProgress}
+        isDisabled={apiCallInProgress}
+        disabledCancelBtn={apiCallInProgress}
       >
         <Box mt={1}>
           {isLoading || isFetching ? (
             <SkeletonForm />
           ) : isError ? (
-            <ApiErrorState canRefresh refresh={() => refetch?.()} />
+            <ApiErrorState canRefresh refresh={refetch} />
           ) : (
             <FormProvider methods={methods}>
               <Grid container spacing={1}>

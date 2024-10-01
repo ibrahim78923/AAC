@@ -1,5 +1,8 @@
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
+const { VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD } =
+  AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
+
 export const dashboardDropdownActionsDynamic = (
   setIsDrawerOpen: any,
   copyEmail: any,
@@ -11,7 +14,7 @@ export const dashboardDropdownActionsDynamic = (
       copyEmail();
       closeMenu?.();
     },
-    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD],
+    permissionKey: [VIEW_MANAGE_DASHBOARD],
   },
   {
     id: 2,
@@ -20,6 +23,6 @@ export const dashboardDropdownActionsDynamic = (
       setIsDrawerOpen(true);
       closeMenu?.();
     },
-    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD],
+    permissionKey: [SHARE_DASHBOARD],
   },
 ];

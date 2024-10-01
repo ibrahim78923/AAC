@@ -7,6 +7,8 @@ import { PAGINATION } from '@/config';
 import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 import { filteredEmptyValues } from '@/utils/api';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+
 export const useManageDashboardFilter = (
   props: ManageDashboardPortalComponentPropsI,
 ) => {
@@ -33,14 +35,14 @@ export const useManageDashboardFilter = (
       return;
     }
 
-    setPage?.(PAGINATION?.CURRENT_PAGE);
+    setPage?.(CURRENT_PAGE);
     setDashboardFilterLists?.(dashboardFilteredFields);
     closeDashboardFilterForm();
   };
 
   const closeDashboardFilterForm = () => {
     reset();
-    setIsPortalOpen?.({});
+    closePortal?.();
   };
 
   const resetDashboardFilterForm = async () => {
@@ -48,6 +50,10 @@ export const useManageDashboardFilter = (
       setDashboardFilterLists?.({});
     }
     reset();
+    closePortal?.();
+  };
+
+  const closePortal = () => {
     setIsPortalOpen?.({});
   };
 
@@ -59,5 +65,6 @@ export const useManageDashboardFilter = (
     onSubmit,
     resetDashboardFilterForm,
     dashboardFilterFormFields,
+    closePortal,
   };
 };

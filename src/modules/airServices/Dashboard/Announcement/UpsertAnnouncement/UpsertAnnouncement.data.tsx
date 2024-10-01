@@ -18,25 +18,22 @@ import { DashboardOwnersFieldDropdown } from '../../DashboardFormFields/Dashboar
 const {
   SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS,
   SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS,
-} = CHARACTERS_LIMIT;
+} = CHARACTERS_LIMIT ?? {};
+
+const { EVERYONE, ALL_AGENT, SPECIFIC_USERS } = ANNOUNCEMENTS_VISIBILITY ?? {};
 
 export const announcementsVisibilityOptions = [
   {
-    _id: ANNOUNCEMENTS_VISIBILITY?.EVERYONE,
-    label:
-      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ANNOUNCEMENTS_VISIBILITY?.EVERYONE],
+    _id: EVERYONE,
+    label: ANNOUNCEMENTS_VISIBILITY_MAPPED?.[EVERYONE],
   },
   {
-    _id: ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT,
-    label:
-      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT],
+    _id: ALL_AGENT,
+    label: ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ALL_AGENT],
   },
   {
-    _id: ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS,
-    label:
-      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[
-        ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
-      ],
+    _id: SPECIFIC_USERS,
+    label: ANNOUNCEMENTS_VISIBILITY_MAPPED?.[SPECIFIC_USERS],
   },
 ];
 
@@ -64,7 +61,7 @@ export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
       );
     }),
   addMember: Yup?.array()?.when('visibility', {
-    is: (value: any) => value?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS,
+    is: (value: any) => value?._id === SPECIFIC_USERS,
     then: () => Yup?.array()?.min(1, 'Member is required'),
     otherwise: () => Yup?.array(),
   }),
@@ -175,7 +172,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     },
     md: 12,
   },
-  ...(visibilityWatch?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
+  ...(visibilityWatch?._id === SPECIFIC_USERS
     ? [
         {
           id: 8,

@@ -38,7 +38,7 @@ export const useAgentAvailability = (props: any) => {
     handleSubmit(onsubmit)();
   }, [watchDepartment?._id]);
 
-  const pieChartSeries = [
+  const pieChartSeriesData = [
     data?.agentAvailability?.data?.availableAgents || 0,
     data?.agentAvailability?.data?.unAvailableAgents || 0,
   ];
@@ -52,15 +52,14 @@ export const useAgentAvailability = (props: any) => {
     data?.agentAvailability?.data,
   );
 
-  const noAgentAvailable = agentAvailabilityCountDynamic(
-    data?.agentAvailability?.data,
-  )?.every((department) => department?.count === 0);
+  const pieChartSeries = pieChartSeriesData?.filter(
+    (agent: any) => agent !== 0,
+  );
 
   return {
     methods,
-    pieChartSeries,
     pieChartOptions,
+    pieChartSeries,
     agentAvailabilityCount,
-    noAgentAvailable,
   };
 };
