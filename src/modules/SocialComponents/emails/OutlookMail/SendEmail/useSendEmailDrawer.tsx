@@ -27,6 +27,8 @@ import {
   SetAutocompleteValuesI,
   SetValueI,
 } from './sendEmail.interface';
+import { useDispatch } from 'react-redux';
+import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 
 const useSendEmailDrawer = ({
   setOpenDrawer,
@@ -34,6 +36,8 @@ const useSendEmailDrawer = ({
   emailSettingsData,
 }: any) => {
   const theme = useTheme();
+
+  const dispatch = useDispatch();
 
   const [isReplaceTemplate, setIsReplaceTemplate] = useState(false);
 
@@ -188,12 +192,14 @@ const useSendEmailDrawer = ({
         reset();
         setOpenDrawer(false);
         setAutocompleteValues([]);
+        dispatch(setCurrentForwardAttachments([]));
         setIsSendLater(false);
       }
     } else {
       reset();
       setOpenDrawer(false);
       setAutocompleteValues([]);
+      dispatch(setCurrentForwardAttachments([]));
       setIsSendLater(false);
     }
   };
@@ -315,7 +321,7 @@ const useSendEmailDrawer = ({
             }px ">
             ${values?.description} 
             <br> 
-            <div style="font-size:16px;" >${
+            <div id='SIGNATURE' style="font-size:16px;" >${
               emailSettingsData?.data?.emailSettings?.signature ?? ''
             }</div> 
             </div>` || '<p></p>',

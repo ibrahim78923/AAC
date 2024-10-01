@@ -34,9 +34,12 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import useSendEmailDrawer from './useSendEmailDrawer';
-import { CREATE_EMAIL_TYPES, indexNumbers } from '@/constants';
+import {
+  CREATE_EMAIL_TYPES,
+  DATE_TIME_FORMAT,
+  indexNumbers,
+} from '@/constants';
 import { useAppSelector } from '@/redux/store';
-import { UnixDateFormatter } from '@/utils/dateTime';
 import { styles } from '../../Email.styles';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
@@ -154,7 +157,7 @@ const SendEmailDrawer = (props: any) => {
             case CREATE_EMAIL_TYPES?.REPLY:
               return 'Reply';
             case CREATE_EMAIL_TYPES?.REPLY_ALL:
-              return 'Reply all';
+              return 'Reply';
             default:
               return '';
           }
@@ -432,7 +435,7 @@ const SendEmailDrawer = (props: any) => {
               </Box>
             )}
           </FormProvider>
-          {drawerType !== CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+          {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
             <Box mt={2}>
               <Box
                 sx={{
@@ -448,16 +451,19 @@ const SendEmailDrawer = (props: any) => {
                 <Box>
                   <Typography variant="body3">
                     <strong>Sent :</strong>{' '}
-                    <UnixDateFormatter
-                      timestamp={currentEmailAssets?.others?.sent}
-                      timeZone="Asia/Karachi"
-                    ></UnixDateFormatter>
+                    <>
+                      {dayjs(currentEmailAssets?.others?.sent)?.format(
+                        DATE_TIME_FORMAT?.DMYhmma,
+                      )}
+                    </>
                   </Typography>
                 </Box>
                 <Box>
                   <Typography variant="body3">
-                    <strong>To :</strong>
-                    {currentEmailAssets?.others?.to}
+                    <strong>To : </strong>
+                    {Array.isArray(currentEmailAssets?.others?.to)
+                      ? currentEmailAssets.others.to.join(', ')
+                      : ''}
                   </Typography>
                 </Box>
                 <Box>

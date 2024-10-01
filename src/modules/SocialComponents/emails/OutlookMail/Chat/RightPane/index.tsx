@@ -463,9 +463,14 @@ const RightPane = ({
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
-                                                to: `<>`,
+                                                to: obj?.toRecipients.map(
+                                                  (item: any) =>
+                                                    item?.emailAddress?.address,
+                                                ),
                                                 subject: obj?.subject,
-                                                body: obj?.body?.content,
+                                                body: removeSignatureDiv(
+                                                  obj?.body?.content,
+                                                ),
                                                 attachments: obj?.attachments,
                                               },
                                             }),
@@ -757,6 +762,18 @@ const RecipientsBoxWrapper = ({ data = [], label }: any) => {
       </Typography>
     </Box>
   );
+};
+
+const removeSignatureDiv = (htmlContent: string) => {
+  if (!htmlContent) return htmlContent;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+
+  const signatureDiv = doc.getElementById('SIGNATURE');
+  if (signatureDiv) {
+    signatureDiv.remove();
+  }
+  return doc.body.innerHTML;
 };
 
 export default RightPane;
