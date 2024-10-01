@@ -32,6 +32,7 @@ const Contracts = () => {
     theme,
     getContractListData,
     page,
+    refetch,
   }: any = useContracts();
   return (
     <>
@@ -131,6 +132,7 @@ const Contracts = () => {
             isError={lazyGetContractStatus?.isError}
             isSuccess={lazyGetContractStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
+            errorProps={{ canRefresh: true, refresh: refetch }}
             isPagination
           />
         </PermissionsGuard>

@@ -21,10 +21,11 @@ export const Overview = () => {
     isError,
     fieldsOverviewData,
     data,
+    refetch,
   } = useOverview();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>

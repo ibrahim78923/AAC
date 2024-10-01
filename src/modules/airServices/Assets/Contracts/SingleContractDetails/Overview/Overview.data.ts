@@ -12,11 +12,14 @@ export const overviewData = ({
     id: '1',
     heading: 'General Details',
     detailsData: [
-      { name: 'Contact Number', detail: contractData?.contractNumber ?? '--' },
-      { name: 'Vendor', detail: contractData?.vendor?.name ?? '--' },
-      { name: 'Type', detail: contractData?.contractTypeData?.name ?? '--' },
-      { name: 'Status', detail: contractData?.status ?? '--' },
-      { name: 'Cost', detail: contractData?.cost ?? '--' },
+      { name: 'Contact Number', detail: contractData?.contractNumber ?? '---' },
+      { name: 'Vendor', detail: contractData?.vendor?.name ?? '---' },
+      { name: 'Type', detail: contractData?.contractTypeData?.name ?? '---' },
+      {
+        name: 'Status',
+        detail: splitCapitalizedWords(contractData?.status) ?? '---',
+      },
+      { name: 'Cost', detail: contractData?.cost ?? '---' },
       {
         name: 'Approver',
         detail: `${approverName?.firstName ?? '---'} ${
@@ -29,7 +32,7 @@ export const overviewData = ({
           `${dayjs(contractData?.startDate)?.format(
             DATE_FORMAT?.UI,
           )} to ${dayjs(contractData?.endDate)?.format(DATE_FORMAT?.UI)}` ??
-          '--',
+          '---',
       },
     ],
   },
@@ -37,23 +40,35 @@ export const overviewData = ({
     id: '2',
     heading: 'Items and Cost Details',
     detailsData: [
-      { name: 'Software', detail: contractItemData?.serviceName ?? '--' },
+      { name: 'Software', detail: contractItemData?.serviceName ?? '---' },
       {
         name: 'Pricing Model',
-        detail: splitCapitalizedWords(contractItemData?.priceModel) ?? '--',
+        detail: splitCapitalizedWords(contractItemData?.priceModel) ?? '---',
       },
-      { name: 'Cost', detail: contractItemData?.cost ?? '--' },
-      { name: 'Count', detail: contractItemData?.count ?? '--' },
-      { name: 'Comments', detail: contractItemData?.comments ?? '--' },
-      { name: 'Billing Cycle', detail: contractData?.billingCycle ?? '--' },
+      { name: 'Cost', detail: contractItemData?.cost ?? '---' },
+      { name: 'Count', detail: contractItemData?.count ?? '---' },
+      {
+        name: 'Comments',
+        detail:
+          contractItemData?.comments === ''
+            ? '---'
+            : contractItemData?.comments,
+      },
+      {
+        name: 'Billing Cycle',
+        detail: splitCapitalizedWords(contractData?.billingCycle) ?? '---',
+      },
     ],
   },
   {
     id: '3',
     heading: 'Software License Properties',
     detailsData: [
-      { name: 'License Type', detail: contractData?.licenseType ?? '--' },
-      { name: 'License Key', detail: contractData?.licenseKey ?? '--' },
+      {
+        name: 'License Type',
+        detail: splitCapitalizedWords(contractData?.licenseType) ?? '---',
+      },
+      { name: 'License Key', detail: contractData?.licenseKey ?? '---' },
     ],
   },
 ];

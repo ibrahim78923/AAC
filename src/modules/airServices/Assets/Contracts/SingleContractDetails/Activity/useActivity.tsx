@@ -21,7 +21,7 @@ export const useActivity = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetSingleContractsActivityLogQuery(getSingleContractActivityParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!contractId,
@@ -35,5 +35,6 @@ export const useActivity = () => {
     data,
     setPage,
     setPageLimit,
+    refetch,
   };
 };

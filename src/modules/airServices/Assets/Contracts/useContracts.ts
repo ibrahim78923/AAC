@@ -72,6 +72,8 @@ export const useContracts = () => {
     getContractListData();
   }, [search, page, pageLimit, contractFilterLists]);
 
+  const refetch = () => getContractListData?.(page);
+
   const handleAddNewContractClick = () => {
     router?.push({
       pathname: AIR_SERVICES?.UPSERT_CONTRACT,
@@ -102,5 +104,6 @@ export const useContracts = () => {
     contractFilterLists,
     theme,
     page,
+    refetch,
   };
 };

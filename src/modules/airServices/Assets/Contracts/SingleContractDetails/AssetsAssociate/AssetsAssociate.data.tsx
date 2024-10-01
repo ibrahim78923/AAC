@@ -1,5 +1,6 @@
 import { TruncateText } from '@/components/TruncateText';
 import { CALENDAR_FORMAT } from '@/constants';
+import { capitalizeFirstWord } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 
@@ -7,20 +8,26 @@ export const assetsAssociateColumns: any = [
   {
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
     header: 'Name',
   },
   {
     accessorFn: (row: any) => row?.assetType?.name,
     id: 'assetType',
     header: 'Asset Type',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.location?.locationName,
     id: 'location',
     header: 'Location',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.usedBy,
@@ -37,13 +44,15 @@ export const assetsAssociateColumns: any = [
     accessorFn: (row: any) => row?.department?.name,
     id: 'department',
     header: 'Department',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.impact,
     id: 'impact',
     header: 'Impact',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => capitalizeFirstWord(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.assetLifeExpiry,

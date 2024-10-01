@@ -7,11 +7,11 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 
 export const ContractHistory = () => {
-  const { contractHistory, isLoading, isFetching, isError } =
+  const { contractHistory, isLoading, isFetching, isError, refetch } =
     useContractHistory();
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState />;
+  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
   return (
     <Grid container>
       <Grid item xs={12} md={10.5}>

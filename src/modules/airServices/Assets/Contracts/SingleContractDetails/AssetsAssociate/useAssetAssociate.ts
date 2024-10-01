@@ -7,7 +7,7 @@ export const useAssetAssociate = () => {
   const contractId = searchParams?.get('contractId');
   const [
     getContractTrigger,
-    { data, isLoading, isFetching, isError, isSuccess },
+    { data, isLoading, isFetching, isError, isSuccess, refetch },
   ]: any = useLazyGetSingleContractListQuery();
   useEffect(() => {
     const handleContract = async () => {
@@ -23,5 +23,6 @@ export const useAssetAssociate = () => {
     isError,
     isSuccess,
     associatedAssetArray,
+    refetch,
   };
 };
