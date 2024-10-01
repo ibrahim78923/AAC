@@ -1,5 +1,5 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
+import { TruncateText } from '@/components/TruncateText';
 import { DeleteForever } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
@@ -12,7 +12,12 @@ export const getVendorsColumns = (
     id: 'vendorName',
     isSortable: true,
     header: 'Vendor Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.price,

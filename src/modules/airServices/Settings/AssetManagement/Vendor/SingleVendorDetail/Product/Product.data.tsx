@@ -1,6 +1,7 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { DeleteForever } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 export const productColumns = (
   setUpsertProductModal: any,
@@ -14,7 +15,10 @@ export const productColumns = (
     isSortable: true,
     header: 'Product Name',
     cell: (info: any) => (
-      <Typography fontWeight={600}> {info?.getValue()}</Typography>
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
     ),
   },
   {

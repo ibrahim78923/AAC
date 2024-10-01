@@ -9,14 +9,26 @@ import {
   modeOfProcurementOption,
   productCatalogStatusOption,
 } from '../ProductCatalog.data';
+import {
+  CHARACTERS_LIMIT,
+  GLOBAL_CHARACTERS_LIMIT,
+} from '@/constants/validation';
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()
     ?.trim()
     ?.required('Name is required')
-    ?.max(30, 'Name up to 30 characters'),
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
   assetType: Yup?.mixed()?.nullable()?.required('Asset Type is required'),
-  manufacturer: Yup?.string()?.trim(),
+  manufacturer: Yup?.string()
+    ?.trim()
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_SETTING_PRODUCT_CATALOG_MANUFACTURER_MAX_CHARACTERS,
+      `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_PRODUCT_CATALOG_MANUFACTURER_MAX_CHARACTERS}`,
+    ),
   status: Yup?.mixed()?.nullable()?.required('Status is required'),
   modeOfProcurement: Yup?.mixed()?.nullable(),
   description: Yup?.string()?.trim(),

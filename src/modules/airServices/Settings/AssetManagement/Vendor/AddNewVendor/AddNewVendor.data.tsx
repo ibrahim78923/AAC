@@ -1,6 +1,10 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { VALIDATION_CONSTANT } from '@/constants';
 import {
+  CHARACTERS_LIMIT,
+  GLOBAL_CHARACTERS_LIMIT,
+} from '@/constants/validation';
+import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
@@ -13,10 +17,16 @@ export const newVendorValidationSchema = (form: any) => {
     name: Yup?.string()
       ?.trim()
       ?.required('Name is required')
-      ?.max(30, 'Name up to 30 characters'),
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.NAME,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+      ),
     contactName: Yup?.string()
       ?.trim()
-      ?.max(30, 'Contact Name up to 30 characters'),
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.NAME,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+      ),
     phone: Yup?.string()
       ?.trim()
       ?.test(
@@ -41,13 +51,49 @@ export const newVendorValidationSchema = (form: any) => {
           return true;
         },
       ),
-    email: Yup?.string()?.trim()?.email('Please provide valid email'),
-    description: Yup?.string()?.trim(),
-    address: Yup?.string()?.trim()?.max(500, 'Address up to 500 characters'),
-    country: Yup?.string()?.trim()?.max(30, 'Country up to 30 characters'),
-    state: Yup?.string()?.trim()?.max(30, 'State up to 30 characters'),
-    city: Yup?.string()?.trim()?.max(30, 'City up to 30 characters'),
-    zipCode: Yup?.string()?.trim()?.max(30, 'Zip Code up to 30 characters'),
+    email: Yup?.string()
+      ?.trim()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.EMAIL,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL}`,
+      )
+      ?.email('Please provide valid email'),
+    description: Yup?.string()
+      ?.trim()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+      ),
+    address: Yup?.string()
+      ?.trim()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.ADDRESS,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.ADDRESS}`,
+      ),
+    country: Yup?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_COUNTRY_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_COUNTRY_MAX_CHARACTERS}`,
+      ),
+    state: Yup?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_STATE_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_STATE_MAX_CHARACTERS}`,
+      ),
+    city: Yup?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_CITY_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_CITY_MAX_CHARACTERS}`,
+      ),
+    zipCode: Yup?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_ZIP_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_VENDOR_ZIP_MAX_CHARACTERS}`,
+      ),
     ...formSchema,
   });
 };
