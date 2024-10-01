@@ -2,7 +2,6 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
-  FOLDER_ACTIONS_CONSTANT,
   upsertFolderFormDefaultValues,
   upsertFolderValidationSchema,
 } from './UpsertFolder.data';
@@ -14,8 +13,9 @@ import {
   useAddServicesKnowledgeBaseSingleFolderMutation,
   useUpdateServicesKnowledgeBaseSingleFolderMutation,
 } from '@/services/airServices/knowledge-base/articles';
+import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 
-const { EDIT_FOLDER } = FOLDER_ACTIONS_CONSTANT ?? {};
+const { EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 
 export const useUpsertFolder = () => {
   const { getArticlesFolderListForFilterData } = useGetFoldersApi?.();
@@ -90,6 +90,7 @@ export const useUpsertFolder = () => {
 
   const showLoader =
     postFolderStatus?.isLoading || updateFolderForArticlesStatus?.isLoading;
+
   return {
     methods,
     handleSubmit,

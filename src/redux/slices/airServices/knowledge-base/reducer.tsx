@@ -62,6 +62,7 @@ const setSelectedFolderReducer = (state: any, action: any) => {
   state.selectedFolder = action?.payload?.selectedFolder;
   state.page = action?.payload?.page;
   state.IsSelectedFolderChange = true;
+  state.filterArticlesList = {};
 };
 
 const canDisableFolderSelectionsReducer = (state: any, action: any) => {

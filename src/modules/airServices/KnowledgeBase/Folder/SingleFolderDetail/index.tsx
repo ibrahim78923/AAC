@@ -9,6 +9,9 @@ import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS } from '@/
 import { TruncateText } from '@/components/TruncateText';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
+const { CREATE_FOLDER } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
+
 export const SingleFolderDetail = () => {
   const {
     data,
@@ -50,7 +53,7 @@ export const SingleFolderDetail = () => {
         alignItems={'center'}
         gap={2}
       >
-        <Typography variant="body2" flex={1}>
+        <Typography variant="body2" flex={1} component={'div'}>
           <TruncateText
             text={!!data?.data?.description ? data?.data?.description : '---'}
             size={100}
@@ -58,11 +61,7 @@ export const SingleFolderDetail = () => {
           />
         </Typography>
 
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_FOLDER,
-          ]}
-        >
+        <PermissionsGuard permissions={[CREATE_FOLDER]}>
           <Box display={'flex'} gap={2} alignItems={'center'}>
             <Box sx={{ cursor: 'pointer' }} onClick={openUpsertFolderPortal}>
               <EditGreyIcon />

@@ -8,7 +8,6 @@ import {
 } from '@/components/ReactHookForm';
 import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import {
   ARTICLE_STATUS,
@@ -24,6 +23,22 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { pxToRem } from '@/utils/getFontValue';
 import { ArticlesAttachment } from '../ArticlesAttachment';
 
+const { ATTACHMENT, CREATE_ARTICLE, SAVE_AS_DRAFT, PUBLISH_NOW } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
+const { EDIT_ARTICLE } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
+const { AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE } = Permissions ?? {};
+const {
+  EDIT,
+  WRITE,
+  CANCEL,
+  SAVE,
+  SAVE_AS_DRAFT: DRAFT_SAVE,
+  SEND_FOR_APPROVAL,
+  PUBLISH_NOW: PUBLISH_NOW_DRAWER,
+} = GENERIC_UPSERT_FORM_CONSTANT ?? {};
+const { PUBLISHED, DRAFT } = ARTICLE_STATUS ?? {};
+
 export const UpsertArticle = () => {
   const {
     methods,
@@ -32,7 +47,6 @@ export const UpsertArticle = () => {
     theme,
     newArticleFields,
     articleId,
-    router,
     postArticleStatus,
     patchArticleStatus,
     isLoading,
@@ -40,6 +54,7 @@ export const UpsertArticle = () => {
     cancelBtnHandler,
     isError,
     refetch,
+    moveToHome,
   } = useUpsertArticle();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -47,23 +62,15 @@ export const UpsertArticle = () => {
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
-    <PermissionsGuard
-      permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}
-    >
+    <PermissionsGuard permissions={AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}>
       <FormProvider methods={methods}>
         <Grid container sx={{ borderRadius: '12px' }} spacing={1}>
           <Grid item xs={12} lg={9} pr={{ lg: 2.4 }}>
             <PageTitledHeader
-              title={`${
-                articleId
-                  ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
-                  : GENERIC_UPSERT_FORM_CONSTANT?.WRITE
-              }
+              title={`${articleId ? EDIT : WRITE}
               an article`}
               canMovedBack
-              moveBack={() => {
-                router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
-              }}
+              moveBack={moveToHome}
             />
             <RHFTextField
               name="title"
@@ -82,12 +89,8 @@ export const UpsertArticle = () => {
                 required
               />
             </Box>
-            <PermissionsGuard
-              permissions={[
-                AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
-              ]}
-            >
-              <RHFDropZone name="attachments" fullWidth />
+            <PermissionsGuard permissions={[ATTACHMENT]}>
+              <RHFDropZone name="attachments" fullWidth label="Attachment" />
               <ArticlesAttachment />
             </PermissionsGuard>
             <br />
@@ -126,19 +129,14 @@ export const UpsertArticle = () => {
                 <PermissionsGuard
                   permissions={
                     needApprovals
-                      ? [
-                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
-                        ]
+                      ? [CREATE_ARTICLE]
                       : articleId
-                        ? [
-                            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-                          ]
-                        : [
-                            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.SAVE_AS_DRAFT,
-                          ]
+                        ? [EDIT_ARTICLE]
+                        : [SAVE_AS_DRAFT]
                   }
                 >
                   <LoadingButton
+                    className="small"
                     variant="outlined"
                     type="button"
                     disabled={
@@ -146,36 +144,19 @@ export const UpsertArticle = () => {
                       patchArticleStatus?.isLoading
                     }
                     fullWidth
-                    onClick={() =>
-                      cancelBtnHandler(
-                        needApprovals ? '' : ARTICLE_STATUS?.DRAFT,
-                      )
-                    }
+                    onClick={() => cancelBtnHandler(needApprovals ? '' : DRAFT)}
                   >
-                    {needApprovals
-                      ? GENERIC_UPSERT_FORM_CONSTANT?.CANCEL
-                      : articleId
-                        ? GENERIC_UPSERT_FORM_CONSTANT?.SAVE
-                        : GENERIC_UPSERT_FORM_CONSTANT?.SAVE_AS_DRAFT}
+                    {needApprovals ? CANCEL : articleId ? SAVE : DRAFT_SAVE}
                   </LoadingButton>
                 </PermissionsGuard>
                 <PermissionsGuard
-                  permissions={
-                    needApprovals
-                      ? [
-                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
-                        ]
-                      : [
-                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.PUBLISH_NOW,
-                        ]
-                  }
+                  permissions={needApprovals ? [CREATE_ARTICLE] : [PUBLISH_NOW]}
                 >
                   <LoadingButton
+                    className="small"
                     type="button"
                     onClick={() =>
-                      methods?.handleSubmit?.(upsertArticleSubmit)(
-                        ARTICLE_STATUS?.PUBLISHED,
-                      )
+                      methods?.handleSubmit?.(upsertArticleSubmit)(PUBLISHED)
                     }
                     fullWidth
                     loading={
@@ -184,9 +165,7 @@ export const UpsertArticle = () => {
                     }
                     variant="contained"
                   >
-                    {needApprovals
-                      ? GENERIC_UPSERT_FORM_CONSTANT?.SEND_FOR_APPROVAL
-                      : GENERIC_UPSERT_FORM_CONSTANT?.PUBLISH_NOW}
+                    {needApprovals ? SEND_FOR_APPROVAL : PUBLISH_NOW_DRAWER}
                   </LoadingButton>
                 </PermissionsGuard>
               </Box>

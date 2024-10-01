@@ -9,8 +9,9 @@ export const FoldersFields = (props: any) => {
   const auth: any = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const companyId = product?.company?._id ?? {};
-  const { _id: userId } = auth?.user ?? {};
-  const { _id: organizationId } = auth?.user?.organization ?? {};
+  const userId = auth?.user?._id ?? {};
+  const organizationId = auth?.user?.organization?._id ?? {};
+
   const apiQueryFolder =
     useLazyGetServicesKnowledgeBaseFoldersDropdownForMoveArticlesQuery();
 
@@ -18,7 +19,7 @@ export const FoldersFields = (props: any) => {
     <RHFAutocompleteAsync
       name="folder"
       label={label}
-      placeholder="Select a Folder"
+      placeholder="Select a folder"
       size="small"
       fullWidth
       sx={{ pb: 1.2 }}

@@ -9,6 +9,9 @@ import { resetComponentState } from '@/redux/slices/airServices/knowledge-base/s
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/redux/store';
 
+const { ARTICLE_LIST_VIEW } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
+
 export const Articles = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -25,11 +28,7 @@ export const Articles = () => {
         </Grid>
         <Grid item xs={12} lg={9} xl={10.25}>
           <SingleFolderDetail />
-          <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.ARTICLE_LIST_VIEW,
-            ]}
-          >
+          <PermissionsGuard permissions={[ARTICLE_LIST_VIEW]}>
             <Header />
             <br />
             <ArticlesLists />

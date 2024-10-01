@@ -7,6 +7,10 @@ import * as Yup from 'yup';
 import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
 import { ApprovalsFields, FoldersFields } from '../../KnowledgeBaseFormFields';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS } =
+  CHARACTERS_LIMIT ?? {};
 
 export const upsertArticleDefaultValues = (
   articleData?: UpsertArticlesFormDefaultValuesI,
@@ -27,7 +31,13 @@ export const upsertArticleDefaultValues = (
 };
 
 export const upsertArticleValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.trim()?.required('Title is required'),
+  title: Yup?.string()
+    ?.trim()
+    ?.required('Title is required')
+    ?.max(
+      SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS,
+      `Maximum characters limit is ${SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS}`,
+    ),
   details: Yup?.string()
     ?.trim()
     ?.required('Description is required')

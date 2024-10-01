@@ -28,80 +28,81 @@ const ApprovalCard = (props: ApprovalCardI) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        textTransform: 'capitalize',
         flexWrap: 'wrap',
-        p: 1.6,
+        p: 1.5,
         boxShadow: `0rem 0.125rem 0.25rem -0.125rem ${theme?.palette?.custom?.transparent_dark_blue}, 0rem 0.25rem 0.5rem -0.125rem ${theme?.palette?.custom?.transparent_dark_blue}`,
         borderRadius: 4,
-        gap: 1,
+        gap: 2,
+        mb: 1.5,
       }}
     >
-      <Box>
+      <Box flex={1}>
         <Typography
           color={'primary.main'}
           fontWeight={'fontWeightSmall'}
-          variant="h5"
+          variant="body2"
+          sx={{ wordBreak: 'break-all' }}
+          component={'div'}
         >
-          <TruncateText
-            text={title?.toLowerCase()}
-            boxProps={{
-              component: 'span',
-            }}
-          />
+          <TruncateText text={title?.toLowerCase()} />
         </Typography>
-        <Typography
-          variant="body3"
-          color="slateBlue.main"
-          fontWeight={'fontWeightMedium'}
-          component={'span'}
-        >
-          folder:
-        </Typography>
-        <Typography
-          variant="body3"
-          fontWeight={'fontWeightMedium'}
-          color="slateBlue.main"
-          component={'span'}
-        >
-          <TruncateText
-            text={folder?.toLowerCase()}
-            boxProps={{
-              component: 'span',
-            }}
-          />
-        </Typography>
+        <Box display={'flex'} gap={0.2} flexWrap={'wrap'}>
+          <Typography
+            variant="body3"
+            color="slateBlue.main"
+            fontWeight={'fontWeightMedium'}
+            component={'div'}
+          >
+            Folder:
+          </Typography>
+          <Typography
+            variant="body3"
+            fontWeight={'fontWeightMedium'}
+            color="slateBlue.main"
+            component={'div'}
+          >
+            <TruncateText text={folder?.toLowerCase()} />
+          </Typography>
+        </Box>
       </Box>
-      <Box>
+      <Box flex={0.5}>
         <Typography
           variant="body3"
           color="slateBlue.main"
           fontWeight={'fontWeightMedium'}
           component={'p'}
         >
-          author
+          Author
         </Typography>
         <Typography
           variant="body3"
           fontWeight={'fontWeightSmall'}
           color="slateBlue.main"
+          textTransform={'capitalize'}
         >
           {author}
         </Typography>
       </Box>
-      <Chip
-        label={
-          isLoading ? <LinearProgress sx={{ width: pxToRem(70) }} /> : 'Approve'
-        }
-        sx={{
-          backgroundColor: 'blue.main',
-          color: 'common.white',
-          '&:hover': {
+      <Box flex={0.3} textAlign={'end'}>
+        <Chip
+          label={
+            isLoading ? (
+              <LinearProgress sx={{ width: pxToRem(70) }} />
+            ) : (
+              'Approve'
+            )
+          }
+          sx={{
             backgroundColor: 'blue.main',
-          },
-        }}
-        disabled={disabled}
-        onClick={() => sendApproval?.()}
-      />
+            color: 'common.white',
+            '&:hover': {
+              backgroundColor: 'blue.main',
+            },
+          }}
+          disabled={disabled}
+          onClick={() => sendApproval?.()}
+        />
+      </Box>
     </Box>
   );
 };

@@ -9,6 +9,7 @@ import {
 } from '../SingleViewArticle.interface';
 import { UpdateArticle } from '../UpdateArticle';
 import { TruncateText } from '@/components/TruncateText';
+import { Fragment } from 'react';
 
 export const ArticleDetail = () => {
   const {
@@ -19,9 +20,10 @@ export const ArticleDetail = () => {
     showError,
     getSingleArticle,
     articleDetails,
+    isApiCalled,
   } = useArticleDetail();
 
-  if (!data?.data?._id)
+  if (isApiCalled)
     return (
       <Box height={'100vh'}>
         <SkeletonForm />;
@@ -45,7 +47,7 @@ export const ArticleDetail = () => {
           <TruncateText text={data?.data?.title?.toLowerCase()} />
         </Typography>
         <Box
-          sx={{ wordBreak: 'break-all' }}
+          sx={{ wordBreak: 'break-all', overflow: 'auto' }}
           dangerouslySetInnerHTML={{ __html: data?.data?.details }}
         ></Box>
         {!!articleId && (
@@ -63,6 +65,8 @@ export const ArticleDetail = () => {
                 recordId={articleId as string}
                 size={{ width: '100%', height: '100%' }}
                 permissionKey={[]}
+                hasStyling={false}
+                canDelete={false}
               />
             </Box>
           </>
@@ -81,7 +85,7 @@ export const ArticleDetail = () => {
         <>
           {articleDetails?.map((item: SingleViewArticleSideDataI) => {
             return (
-              <>
+              <Fragment key={item?._id}>
                 <Typography
                   variant="body2"
                   fontWeight={'fontWeightSmall'}
@@ -115,7 +119,7 @@ export const ArticleDetail = () => {
                   ))}
                 </Grid>
                 <Divider sx={{ my: 2 }} />
-              </>
+              </Fragment>
             );
           })}
         </>
