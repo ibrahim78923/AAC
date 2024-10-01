@@ -12,6 +12,7 @@ import {
   FeedbackSurveySectionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 export const feedbackTypes = {
   createSurvey: 'createSurvey',
   saveQuestion: 'saveQuestion',
@@ -141,8 +142,22 @@ export const feedbackSurveyValidationSchema: any = (
   router: NextRouter,
 ) =>
   Yup?.object()?.shape({
-    surveyTitle: Yup?.string()?.max(30)?.required('Required'),
-    description: Yup?.string()?.max(1000)?.required('Required'),
+    surveyTitle: Yup?.string()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_FEEDBACK_SURVEY_TITLE_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_FEEDBACK_SURVEY_TITLE_MAX_CHARACTERS}`,
+      )
+      ?.required('Required'),
+    description: Yup?.string()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DESCRIPTION_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DESCRIPTION_MAX_CHARACTERS}`,
+      )
+      ?.required('Required'),
+    displayName: Yup?.string()?.max(
+      CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DISPLAY_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DISPLAY_NAME_MAX_CHARACTERS}`,
+    ),
     surveyDuration: Yup?.date()?.nullable()?.required('Required'),
     customerSupportLinkType: Yup?.string(),
     sendSurveyPeople: Yup?.array()?.when('customerSupportLinkType', {

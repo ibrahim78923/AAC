@@ -1,9 +1,21 @@
 import { RHFTextField } from '@/components/ReactHookForm';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import * as Yup from 'yup';
 
 export const AssetTypeFormValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Name is required'),
-  description: Yup?.string()?.trim(),
+  name: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    )
+    ?.required('Name is required'),
+  description: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+    ),
 });
 
 export const AssetFieldFormDefaultValues: any = (data?: any) => {
