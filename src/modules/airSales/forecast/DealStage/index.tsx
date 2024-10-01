@@ -65,6 +65,7 @@ const DealStage = () => {
     DealTeamDataIsFetching,
     DealTeamDataIsError,
     DealTeamDataIsSuccess,
+    pipelineIsLoading,
   } = useDealStage();
   const router = useRouter();
   return (
@@ -147,7 +148,9 @@ const DealStage = () => {
                           lg: 'space-around',
                         }}
                       >
-                        {DealStatsIsLoading || DealStatsIsFetching ? (
+                        {DealStatsIsLoading ||
+                        DealStatsIsFetching ||
+                        pipelineIsLoading ? (
                           <Skeleton
                             variant="rectangular"
                             width={130}
@@ -199,7 +202,9 @@ const DealStage = () => {
                       key={uuidv4()}
                       justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
                     >
-                      {DealStatsIsLoading || DealStatsIsFetching ? (
+                      {DealStatsIsLoading ||
+                      DealStatsIsFetching ||
+                      pipelineIsLoading ? (
                         <Skeleton
                           variant="rectangular"
                           width={80}
@@ -325,9 +330,9 @@ const DealStage = () => {
                 setTableRowValues,
                 getDealStageUserData?.stages,
               )}
-              data={getDealStageUserData?.goals?.goals}
+              data={getDealStageUserData?.goals?.goals ?? []}
               isPagination
-              isLoading={DealUserDataIsLoading}
+              isLoading={DealUserDataIsLoading || pipelineIsLoading}
               isError={DealUserDataIsError}
               isFetching={DealUserDataIsFetching}
               isSuccess={DealUserDataIsSuccess}
@@ -364,7 +369,9 @@ const DealStage = () => {
                           lg: 'space-around',
                         }}
                       >
-                        {DealStatsIsLoading || DealStatsIsFetching ? (
+                        {DealStatsIsLoading ||
+                        DealStatsIsFetching ||
+                        pipelineIsLoading ? (
                           <Skeleton
                             variant="rectangular"
                             width={130}
@@ -416,7 +423,9 @@ const DealStage = () => {
                       key={uuidv4()}
                       justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
                     >
-                      {DealStatsIsLoading || DealStatsIsFetching ? (
+                      {DealStatsIsLoading ||
+                      DealStatsIsFetching ||
+                      pipelineIsLoading ? (
                         <Skeleton
                           variant="rectangular"
                           width={80}
@@ -542,9 +551,9 @@ const DealStage = () => {
                 setTableRowValues,
                 getDealStageTeamData?.stages,
               )}
-              data={getDealStageTeamData?.goals?.goals}
+              data={getDealStageTeamData?.goals?.goals ?? []}
               isPagination
-              isLoading={DealTeamDataIsLoading}
+              isLoading={DealTeamDataIsLoading || pipelineIsLoading}
               isError={DealTeamDataIsError}
               isFetching={DealTeamDataIsFetching}
               isSuccess={DealTeamDataIsSuccess}

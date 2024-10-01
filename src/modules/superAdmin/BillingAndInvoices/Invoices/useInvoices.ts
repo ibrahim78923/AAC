@@ -123,7 +123,6 @@ const useInvoices = () => {
     allInvoicesTableData,
     isLoading,
     isGetRowValues,
-    searchByClientName,
     setSearchByClientName,
     handleRefresh,
     setPage,

@@ -81,22 +81,25 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
             {info?.row?.original?.plans?.isCRM ? (
               <>
                 <Tooltip title={tooltipTitle}>
-                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
-                    {info?.row?.original?.plans?.name}
-                  </Typography>{' '}
-                  &nbsp;
-                  <Typography
-                    variant="body3"
-                    fontSize={'11px'}
-                    style={{
-                      background: theme?.palette?.primary?.main,
-                      color: 'white',
-                      padding: '2px 6px',
-                      borderRadius: '5px',
-                    }}
-                  >
-                    CRM
-                  </Typography>
+                  <>
+                    <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                      {info?.row?.original?.plans?.name}
+                    </Typography>{' '}
+                    &nbsp;
+                    <Typography
+                      variant="body3"
+                      fontSize={'11px'}
+                      style={{
+                        background: theme?.palette?.primary?.main,
+                        color: 'white',
+                        padding: '2px 6px',
+                        borderRadius: '5px',
+                        width: 'fit-content',
+                      }}
+                    >
+                      CRM
+                    </Typography>
+                  </>
                 </Tooltip>
               </>
             ) : (

@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import {
   useGetPlanTypeQuery,
-  useGetProductsQuery,
+  useGetProductsBilingInvoicesQuery,
 } from '@/services/superAdmin/billing-invoices';
 import { IMG_URL } from '@/config';
 import { useLazyGetOrganizationsListQuery } from '@/services/common-APIs';
@@ -98,22 +98,25 @@ export const columns = (
             {info?.row?.original?.plans?.isCRM ? (
               <>
                 <Tooltip title={tooltipTitle}>
-                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
-                    {info?.row?.original?.plans?.name}
-                  </Typography>{' '}
-                  &nbsp;
-                  <Typography
-                    variant="body3"
-                    fontSize={'11px'}
-                    style={{
-                      background: theme?.palette?.primary?.main,
-                      color: 'white',
-                      padding: '2px 6px',
-                      borderRadius: '5px',
-                    }}
-                  >
-                    CRM
-                  </Typography>
+                  <>
+                    <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                      {info?.row?.original?.plans?.name}
+                    </Typography>{' '}
+                    &nbsp;
+                    <Typography
+                      variant="body3"
+                      fontSize={'11px'}
+                      style={{
+                        background: theme?.palette?.primary?.main,
+                        color: 'white',
+                        padding: '2px 6px',
+                        borderRadius: '5px',
+                        width: 'fit-content',
+                      }}
+                    >
+                      CRM
+                    </Typography>
+                  </>
                 </Tooltip>
               </>
             ) : (
@@ -187,7 +190,7 @@ export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
 
 export const FilterInvoiceFiltersDataArray = () => {
   const organizations = useLazyGetOrganizationsListQuery();
-  const { data: productData } = useGetProductsQuery<any>({});
+  const { data: productData } = useGetProductsBilingInvoicesQuery<any>({});
 
   const productSuite = productData?.data?.map((product: any) => ({
     value: product?._id,

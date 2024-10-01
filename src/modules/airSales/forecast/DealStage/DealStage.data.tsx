@@ -106,7 +106,7 @@ export const manageTableColumns: any = (
             <LinearProgress
               sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
               variant="determinate"
-              value={50}
+              value={info?.getValue()}
             />
 
             <Typography
@@ -115,7 +115,8 @@ export const manageTableColumns: any = (
               textAlign={'right'}
               mt={0.5}
             >
-              £{info?.getValue()} of £ {info?.row?.original?.target}
+              £{info?.row?.original?.totalAmountAchieved} of £{' '}
+              {info?.row?.original?.target}
             </Typography>
           </Box>
         </Stack>
@@ -294,10 +295,10 @@ export const manageTableColumns: any = (
             return (
               <Stack direction="row" gap={2} alignItems="center">
                 <Box>
-                  <Typography>£ {stageData?.numberOfDeals}</Typography>
+                  <Typography>£ {stageData?.totalAmount}</Typography>
                   <Box display="flex" gap={0.5}>
                     <Typography fontSize="12px" fontWeight={600}>
-                      {stageData?.totalAmount} Deals
+                      {stageData?.numberOfDeals} Deals
                     </Typography>
                   </Box>
                 </Box>

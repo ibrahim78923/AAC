@@ -25,7 +25,6 @@ const BillingAndInvoicesTable = () => {
     getRowValues,
     isChecked,
     setIsChecked,
-    searchByClientName,
     setSearchByClientName,
     isViewDetailOpen,
     setIsViewDeailOpen,
@@ -128,7 +127,6 @@ const BillingAndInvoicesTable = () => {
                 ]}
               >
                 <Search
-                  searchBy={searchByClientName}
                   setSearchBy={setSearchByClientName}
                   label="Search by company"
                   size="small"

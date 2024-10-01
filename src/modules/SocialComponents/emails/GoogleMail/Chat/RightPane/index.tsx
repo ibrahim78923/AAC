@@ -398,7 +398,7 @@ const RightPane = () => {
                                                 to: ` ${obj?.payload?.headers?.find(
                                                   (header: { name: string }) =>
                                                     header?.name ===
-                                                    Gmail_CONST?.FROM,
+                                                    Gmail_CONST?.TO,
                                                 )?.value}
                                     ${'>'}`,
                                                 subject:
@@ -475,7 +475,7 @@ const RightPane = () => {
                                                 to: ` ${obj?.payload?.headers?.find(
                                                   (header: { name: string }) =>
                                                     header?.name ===
-                                                    Gmail_CONST?.FROM,
+                                                    Gmail_CONST?.TO,
                                                 )?.value}
                                     ${'>'}`,
                                                 subject:
@@ -575,7 +575,7 @@ const RightPane = () => {
                                                 to: ` ${obj?.payload?.headers?.find(
                                                   (header: { name: string }) =>
                                                     header?.name ===
-                                                    Gmail_CONST?.FROM,
+                                                    Gmail_CONST?.TO,
                                                 )?.value}
                                     ${'>'}`,
                                                 subject:

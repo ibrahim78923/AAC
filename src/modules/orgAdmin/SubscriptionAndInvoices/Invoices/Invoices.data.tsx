@@ -4,7 +4,7 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import {
   useGetPlanTypesQuery,
-  useGetProductsQuery,
+  useGetProductsPlanManagementQuery,
 } from '@/services/superAdmin/plan-mangement';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
@@ -52,22 +52,24 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
           <>
             {info?.row?.original?.plans?.isCRM ? (
               <Tooltip title={tooltipTitle}>
-                <Typography variant="body3" sx={{ cursor: 'pointer' }}>
-                  {info?.row?.original?.plans?.name}
-                </Typography>
-                &nbsp;
-                <Typography
-                  variant="body3"
-                  fontSize={'11px'}
-                  style={{
-                    background: theme?.palette?.primary?.main,
-                    color: 'white',
-                    padding: '2px 6px',
-                    borderRadius: '5px',
-                  }}
-                >
-                  CRM
-                </Typography>
+                <>
+                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                    {info?.row?.original?.plans?.name}
+                  </Typography>
+                  &nbsp;
+                  <Typography
+                    variant="body3"
+                    fontSize={'11px'}
+                    style={{
+                      background: theme?.palette?.primary?.main,
+                      color: 'white',
+                      padding: '2px 6px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    CRM
+                  </Typography>
+                </>
               </Tooltip>
             ) : (
               <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
@@ -145,7 +147,7 @@ export const FilterInvoiceDefaultValues = {
 };
 
 export const FilterInvoiceFiltersDataArray = () => {
-  const { data } = useGetProductsQuery({});
+  const { data } = useGetProductsPlanManagementQuery({});
   const productsOptions: { value: number; label: string } = data?.data?.map(
     (products: any) => {
       return {

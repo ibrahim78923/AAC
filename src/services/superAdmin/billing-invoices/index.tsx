@@ -11,7 +11,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['bilingInvoices'],
     }),
-    getProducts: builder.query({
+    getProductsBilingInvoices: builder.query({
       query: () => ({
         url: `${superAdminBillingInvoices.GET_PRODUCTS}`,
         method: 'GET',
@@ -27,7 +27,7 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       providesTags: ['getPlanType'],
     }),
 
-    getOrganizations: builder.query({
+    getOrganizationsBilingInvoices: builder.query({
       query: () => ({
         url: `${superAdminBillingInvoices.GET_ORGANIZATION}`,
         method: 'GET',
@@ -100,9 +100,9 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
 export const {
   usePostBilingInvoicesMutation,
   useGetBilingInvoicesQuery,
-  useGetProductsQuery,
+  useGetProductsBilingInvoicesQuery,
   useGetPlanTypeQuery,
-  useGetOrganizationsQuery,
+  useGetOrganizationsBilingInvoicesQuery,
   useGetPlanIdQuery,
   usePatchBilingInvoicesMutation,
   useGetBillingHistoryQuery,

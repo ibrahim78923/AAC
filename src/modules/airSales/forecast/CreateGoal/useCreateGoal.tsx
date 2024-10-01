@@ -333,7 +333,7 @@ export const useCreateGoal = () => {
         isTeam: teamDurationForm?.userTeam === RADIO_VALUE?.USER ? false : true,
         startDate: startDate,
         endDate: endDate,
-        unit: 'USD',
+        unit: 'pound',
         year: dayjs()?.year().toString(),
       };
 

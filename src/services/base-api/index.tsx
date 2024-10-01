@@ -194,6 +194,12 @@ export const TAGS = [
   'CONTACTS_STATUS',
   'LIFECYCLE_STAGE',
   'CONTACT_OWNER',
+  'PLAN_MANAGEMENT',
+  'PlanTypes',
+  'getProducts',
+  'getPlanType',
+  'bilingInvoices',
+  'ORGANIZATIONS',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

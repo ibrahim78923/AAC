@@ -39,7 +39,8 @@ const useDealStage = () => {
     setAnchorEl(event?.currentTarget);
   };
 
-  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
+  const { data: dealPipelineData, isLoading: pipelineIsLoading } =
+    useGetDealPipeLineQuery({ meta: false });
 
   const statsParams = {
     pipeline: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
@@ -126,6 +127,7 @@ const useDealStage = () => {
     DealTeamDataIsFetching,
     DealTeamDataIsError,
     DealTeamDataIsSuccess,
+    pipelineIsLoading,
   };
 };
 

@@ -9,7 +9,7 @@ import {
 import { RHFAutocompleteAsync, RHFSelect } from '@/components/ReactHookForm';
 import {
   useGetPlanTypeQuery,
-  useGetProductsQuery,
+  useGetProductsBilingInvoicesQuery,
 } from '@/services/superAdmin/billing-invoices';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
@@ -104,22 +104,25 @@ export const Columns = (
             {info?.row?.original?.isCRM ? (
               <>
                 <Tooltip title={tooltipTitle}>
-                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
-                    {info?.row?.original?.plans?.name}
-                  </Typography>{' '}
-                  &nbsp;
-                  <Typography
-                    variant="body3"
-                    fontSize={'11px'}
-                    style={{
-                      background: theme?.palette?.primary?.main,
-                      color: 'white',
-                      padding: '2px 6px',
-                      borderRadius: '5px',
-                    }}
-                  >
-                    CRM
-                  </Typography>
+                  <>
+                    <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                      {info?.row?.original?.plans?.name}
+                    </Typography>{' '}
+                    &nbsp;
+                    <Typography
+                      variant="body3"
+                      fontSize={'11px'}
+                      style={{
+                        background: theme?.palette?.primary?.main,
+                        color: 'white',
+                        padding: '2px 6px',
+                        borderRadius: '5px',
+                        width: 'fit-content',
+                      }}
+                    >
+                      CRM
+                    </Typography>
+                  </>
                 </Tooltip>
               </>
             ) : (
@@ -238,7 +241,7 @@ export const validationSchema = Yup?.object()?.shape({
 export const dataArray = () => {
   const organizations = useLazyGetOrganizationsListQuery();
 
-  const { data: productData } = useGetProductsQuery<any>({
+  const { data: productData } = useGetProductsBilingInvoicesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
   });

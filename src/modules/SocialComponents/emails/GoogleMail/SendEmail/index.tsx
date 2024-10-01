@@ -179,7 +179,7 @@ const SendEmailDrawer = (props: any) => {
                     size="small"
                     required={false}
                     disabled
-                    value={currentGmailAssets?.from || ''}
+                    value={currentGmailAssets?.others?.to || ''}
                   />
                 </Grid>
               ) : (
@@ -228,28 +228,34 @@ const SendEmailDrawer = (props: any) => {
                   />
                 </Grid>
               )}
+              {drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
+                <>
+                  <Grid item xs={4}>
+                    <RHFCheckbox name="ccChecked" label="CC" />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <RHFCheckbox name="bccChecked" label="BCC" />
+                  </Grid>
+                </>
+              )}
 
-              <Grid item xs={4}>
-                <RHFCheckbox name="ccChecked" label="CC" />
-              </Grid>
-              <Grid item xs={4}>
-                <RHFCheckbox name="bccChecked" label="BCC" />
-              </Grid>
-              {watchEmailsForm[0] && (
-                <Grid item xs={12}>
-                  <RHFTextField
-                    name="cc"
-                    label="CC"
-                    size="small"
-                    disabled={currentGmailAssets?.others?.Cc}
-                  />
-                </Grid>
-              )}
-              {watchEmailsForm[1] && (
-                <Grid item xs={12}>
-                  <RHFTextField name="bcc" label="BCC" size="small" />
-                </Grid>
-              )}
+              {watchEmailsForm[0] &&
+                drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
+                  <Grid item xs={12}>
+                    <RHFTextField
+                      name="cc"
+                      label="CC"
+                      size="small"
+                      disabled={currentGmailAssets?.others?.Cc}
+                    />
+                  </Grid>
+                )}
+              {watchEmailsForm[1] &&
+                drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
+                  <Grid item xs={12}>
+                    <RHFTextField name="bcc" label="BCC" size="small" />
+                  </Grid>
+                )}
               <Grid item md={6}>
                 {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ? (
                   <RHFTextField name="subject" label="Subject" size="small" />

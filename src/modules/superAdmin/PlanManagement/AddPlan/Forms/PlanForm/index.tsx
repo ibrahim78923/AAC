@@ -118,7 +118,18 @@ const AddPlanForm = ({
                   <RHFMultiSearchableSelect
                     size="small"
                     name={planLabelRender}
-                    label={planNameRender}
+                    label={
+                      selectProductSuite == IMPORT_ACTION_TYPE?.PRODUCT ? (
+                        'Product'
+                      ) : (
+                        <>
+                          Suite{' '}
+                          <span style={{ color: theme?.palette?.error?.main }}>
+                            *
+                          </span>
+                        </>
+                      )
+                    }
                     options={productsOptions}
                     required={true}
                     defaultValues={planForm?.suite}
@@ -160,7 +171,12 @@ const AddPlanForm = ({
               {item?.componentProps.name == selectProductSuites?.planTypeId &&
                 selectProductSuite === selectProductSuites?.crm && (
                   <>
-                    <label style={{ marginTop: '20px' }}>Name</label>
+                    <label style={{ marginTop: '20px' }}>
+                      Name{' '}
+                      <span style={{ color: theme?.palette?.error?.main }}>
+                        *
+                      </span>
+                    </label>
                     <Autocomplete
                       value={crmValue}
                       onChange={(event, newValue) => {

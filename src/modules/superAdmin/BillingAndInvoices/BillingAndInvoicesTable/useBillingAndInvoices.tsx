@@ -74,7 +74,6 @@ const useBillingAndInvoices = () => {
     isGetRowValues,
     setIsChecked,
     isChecked,
-    searchByClientName,
     setSearchByClientName,
     isViewDetailOpen,
     setIsViewDeailOpen,
