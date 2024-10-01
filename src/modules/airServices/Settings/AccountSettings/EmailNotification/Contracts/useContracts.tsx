@@ -8,7 +8,7 @@ import { ISwitchLoadingState } from '../EmailNotification.interface';
 
 import { getActiveAccountSession } from '@/utils';
 
-export default function useContracts() {
+export const useContracts = () => {
   const [switchLoading, setSwitchLoading] = useState<ISwitchLoadingState>({});
 
   const product = useMemo(() => getActiveAccountSession(), []);
@@ -56,4 +56,5 @@ export default function useContracts() {
     onSwitchChange,
     data,
   };
-}
+};
+export default useContracts;

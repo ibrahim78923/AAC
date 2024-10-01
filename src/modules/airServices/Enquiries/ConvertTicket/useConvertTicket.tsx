@@ -7,10 +7,10 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export default function useConvertTicket({
+export const useConvertTicket = ({
   isModalOpen,
   onClose,
-}: IChildModalState) {
+}: IChildModalState) => {
   const [postTicketTrigger, postTicketStatus] =
     usePostServicesEnquiriesTicketMutation();
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
@@ -50,4 +50,5 @@ export default function useConvertTicket({
   };
 
   return { handleCreateRequester, postTicketStatus, patchEnquiriesStatus };
-}
+};
+export default useConvertTicket;

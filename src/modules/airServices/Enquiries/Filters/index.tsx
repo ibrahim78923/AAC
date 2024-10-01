@@ -5,11 +5,11 @@ import React from 'react';
 import useFilters from './useFilters';
 import { IChildModalState } from '../Enquiries.interface';
 
-export default function Filters({
+export const Filters = ({
   isModalOpen,
   onClose,
   setFilter,
-}: IChildModalState) {
+}: IChildModalState) => {
   const {
     handleSubmit,
     submitEnquiriesFilters,
@@ -45,4 +45,5 @@ export default function Filters({
       </FormProvider>
     </CommonDrawer>
   );
-}
+};
+export default Filters;

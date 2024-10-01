@@ -15,7 +15,7 @@ import { IEnquiry, IInfo, IModalState } from './Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { getActiveAccountSession } from '@/utils';
 
-export default function useEnquiries() {
+export const useEnquiries = () => {
   const [enquiriesSelected, setEnquiriesSelected] = useState<IEnquiry[]>([]);
   const [searchBy, setSearchBy] = useState('');
   const [filter, setFilter] = useState('');
@@ -125,4 +125,6 @@ export default function useEnquiries() {
     closeModal,
     openFilterModal,
   };
-}
+};
+
+export default useEnquiries;

@@ -4,10 +4,10 @@ import { IChildModalState } from '../Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useDeleteServicesEnquiriesMutation } from '@/services/airServices/enquiries';
 
-export default function useDeleteEnquiry({
+export const useDeleteEnquiry = ({
   isModalOpen,
   onClose,
-}: IChildModalState) {
+}: IChildModalState) => {
   const [deleteEnquiriesTrigger, deleteEnquiriesStatus] =
     useDeleteServicesEnquiriesMutation();
 
@@ -30,4 +30,5 @@ export default function useDeleteEnquiry({
   };
 
   return { deleteServicesEnquiry, deleteEnquiriesStatus };
-}
+};
+export default useDeleteEnquiry;

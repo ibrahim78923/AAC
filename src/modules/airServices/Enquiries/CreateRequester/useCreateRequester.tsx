@@ -4,10 +4,10 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export default function useCreateRequester({
+export const useCreateRequester = ({
   isModalOpen,
   onClose,
-}: IChildModalState) {
+}: IChildModalState) => {
   const [postRequesterTrigger, postRequesterStatus] =
     usePostServicesEnquiriesRequesterMutation();
 
@@ -33,4 +33,5 @@ export default function useCreateRequester({
     }
   };
   return { handleCreateRequester, postRequesterStatus };
-}
+};
+export default useCreateRequester;

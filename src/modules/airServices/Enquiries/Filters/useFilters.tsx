@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { IChildModalState } from '../Enquiries.interface';
 
-export default function useFilters({ setFilter, onClose }: IChildModalState) {
+export const useFilters = ({ setFilter, onClose }: IChildModalState) => {
   const methods = useForm({
     defaultValues: { status: '' },
   });
@@ -28,4 +28,5 @@ export default function useFilters({ setFilter, onClose }: IChildModalState) {
     methods,
     statusOptions,
   };
-}
+};
+export default useFilters;

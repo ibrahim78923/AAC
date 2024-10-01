@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { getSignUpLeadsColumns } from './SignUpLeads.data';
 import { useGetServiceSignUpLeadsQuery } from '@/services/airServices/signup-leads';
 
-export default function useSignUpLeads() {
+export const useSignUpLeads = () => {
   const [searchBy, setSearchBy] = useState('');
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -34,4 +34,5 @@ export default function useSignUpLeads() {
     setPageLimit,
     setPage,
   };
-}
+};
+export default useSignUpLeads;

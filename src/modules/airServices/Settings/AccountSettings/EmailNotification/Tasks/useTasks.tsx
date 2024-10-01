@@ -8,7 +8,7 @@ import { ISwitchLoadingState } from '../EmailNotification.interface';
 
 import { getActiveAccountSession } from '@/utils';
 
-export default function useTasks() {
+export const useTasks = () => {
   const [switchLoading, setSwitchLoading] = useState<ISwitchLoadingState>({});
 
   const product = useMemo(() => getActiveAccountSession(), []);
@@ -56,4 +56,5 @@ export default function useTasks() {
     onSwitchChange,
     data,
   };
-}
+};
+export default useTasks;

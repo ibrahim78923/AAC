@@ -8,13 +8,13 @@ import {
 
 import { useCallback, useEffect, useMemo } from 'react';
 import {
-  useGetCustomerPortalPermissionsQuery,
-  usePatchCustomerPortalStylingsMutation,
+  useGetServicesAccountDetailsCustomerPortalPermissionsQuery,
+  usePatchServicesAccountDetailsCustomerPortalStylingsMutation,
 } from '@/services/airServices/settings/account-settings/customer-portal-settings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { getActiveAccountSession } from '@/utils';
 
-export default function useCustomizePortal() {
+export const useCustomizePortal = () => {
   const theme: Theme = useTheme();
 
   const product = useMemo(() => getActiveAccountSession(), []);
@@ -27,10 +27,13 @@ export default function useCustomizePortal() {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetCustomerPortalPermissionsQuery(apiDataParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!organizationCompanyAccountId,
-    });
+    useGetServicesAccountDetailsCustomerPortalPermissionsQuery(
+      apiDataParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!organizationCompanyAccountId,
+      },
+    );
 
   const methods = useForm({
     defaultValues: customizePortalDefaultValues(
@@ -67,7 +70,7 @@ export default function useCustomizePortal() {
   const [
     patchCustomerPortalStylingsTrigger,
     patchCustomerPortalStylingsStatus,
-  ] = usePatchCustomerPortalStylingsMutation();
+  ] = usePatchServicesAccountDetailsCustomerPortalStylingsMutation();
 
   const onSubmit = async (data: any) => {
     if (!organizationCompanyAccountId) return;
@@ -111,4 +114,6 @@ export default function useCustomizePortal() {
     refetch,
     patchCustomerPortalStylingsStatus,
   };
-}
+};
+
+export default useCustomizePortal;

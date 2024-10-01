@@ -8,10 +8,7 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 
-export default function useViewEnquiry({
-  isModalOpen,
-  onClose,
-}: IChildModalState) {
+export const useViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
   const [trigger, status] = usePostNewEmailMutation();
 
   const methods = useForm({
@@ -57,4 +54,6 @@ export default function useViewEnquiry({
   };
 
   return { methods, handleSubmit, onSubmit, status };
-}
+};
+
+export default useViewEnquiry;
