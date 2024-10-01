@@ -19,7 +19,7 @@ export const columns: any = [
     accessorFn: (row: any) => row?.clickThroughRate,
     id: 'clickThroughRate',
     isSortable: false,
-    header: 'Click Through Rate',
+    header: 'Click through rate',
     cell: (info: any) => info?.getValue(),
   },
 
@@ -27,7 +27,7 @@ export const columns: any = [
     accessorFn: (row: any) => row?.deliverRate,
     id: 'deliverRate',
     isSortable: false,
-    header: 'Deliver Rate',
+    header: 'Deliver rate',
     cell: (info: any) => info?.getValue(),
   },
 

@@ -1,17 +1,18 @@
 import { Card, Typography, Grid, Box, useTheme } from '@mui/material';
-
 import { ctaViewsData } from './CtaViews.data';
-
 import { v4 as uuidv4 } from 'uuid';
 
 const CtaViews = () => {
   const theme = useTheme();
   return (
-    <Card style={{ minHeight: '400px' }}>
-      <Box p={1.6} sx={{ backgroundColor: theme?.palette?.grey[700] }}>
+    <Card>
+      <Box p={1.6}>
+        {/* sx={{ backgroundColor: theme?.palette?.grey[700] }} */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
-            <Typography variant="h6">Widget</Typography>
+            <Typography variant="h6" fontWeight={600}>
+              CTA total Views and Ads submissions
+            </Typography>
             <Typography
               variant="body3"
               sx={{ color: theme?.palette?.grey[900] }}
@@ -21,39 +22,28 @@ const CtaViews = () => {
           </Box>
         </Box>
       </Box>
-      <Box my={2} mt={3} mx={2} minHeight="280px">
-        <Grid
-          container
-          spacing={2}
-          alignItems="center"
-          justifyContent="center"
-          minHeight="280px"
-        >
+      <Box my={2} mt={3} mx={2}>
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
           {ctaViewsData?.map((widgetData: any) => (
-            <Grid item sm={4} xs={12} key={uuidv4()}>
-              <Card sx={{ minHeight: '84px', p: 1 }}>
+            <Grid item sm={6} xs={12} key={uuidv4()}>
+              <Card
+                sx={{
+                  py: '25px',
+                  px: '12px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
                 <Typography
-                  sx={{
-                    fontSize: 14,
-                    textAlign: 'center',
-                    fontWeight: 600,
-                    color: theme.palette?.slateBlue?.main,
-                  }}
-                  color="text.secondary"
-                  gutterBottom
-                  mt={1}
+                  fontWeight={500}
+                  color={theme.palette?.grey[600]}
+                  variant="body2"
                 >
                   {widgetData?.dealName}
                 </Typography>
 
-                <Typography
-                  variant="h5"
-                  sx={{
-                    mb: 1.5,
-                    color: theme?.palette?.primary?.main,
-                    textAlign: 'center',
-                  }}
-                >
+                <Typography variant="h5" color={theme?.palette?.primary?.main}>
                   {widgetData?.totalCtaViews}
                 </Typography>
               </Card>

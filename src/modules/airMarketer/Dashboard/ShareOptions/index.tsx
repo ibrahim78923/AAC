@@ -1,6 +1,5 @@
-import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
+import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-
 import useShareOptions from './useShareOptions';
 import Email from '../Email';
 
@@ -15,19 +14,16 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
     openDropDown,
     handleShowEmailDashboard,
   } = useShareOptions();
-  const theme = useTheme();
+
   return (
     <>
       <div>
         <Button
+          className="small"
+          color="inherit"
+          variant="outlined"
           onClick={handleClickActions}
-          sx={{
-            border: `1px solid ${theme?.palette?.custom?.dark}`,
-            color: theme?.palette?.custom?.main,
-            width: { sm: '112px', xs: '100%' },
-            height: '36px',
-            marginRight: '10px',
-          }}
+          sx={{ width: { sm: '112px', xs: '100%' } }}
         >
           Actions
           <ArrowDropDown />

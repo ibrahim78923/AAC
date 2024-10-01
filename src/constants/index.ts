@@ -606,6 +606,13 @@ export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
   FORECAST_CATEGORY_REPORTS: 'Forecast_Category_Reports',
 };
 
+export const AIR_MARKETER_DASHBOARD_REPORTS_TYPES = {
+  NEW_CONTACTS_AND_CUSTOMERS: 'New_Contacts_and_Customers',
+  CTA_TOTAL_VIEWS_AND_ADS_SUBMISSIONS: 'CTA_Total_Views_and_Ads_Submissions',
+  TOTAL_MARKETING_EMAIL: 'Total_Marketing_Email',
+  LEAD_CAPTURED_FORMS: 'Lead_Captured_Forms',
+};
+
 export const PRODUCT_LABELS = {
   AIR_SALES: 'Air Sales',
   AIR_SERVICES: 'Air Services',
