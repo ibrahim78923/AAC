@@ -69,7 +69,7 @@ const AddGroupModal = ({
     setParticipants(updatedParticipantsIds);
   };
 
-  const getColumns = columns(
+  const getColumns: any = columns(
     handleRemoveParticipant,
     groupAdmins,
     setGroupAdmins,
@@ -210,7 +210,6 @@ const AddGroupModal = ({
                 name={`participant`}
                 fullWidth
                 multiple
-                externalParams={{}}
                 apiQuery={apiQueryUsers}
                 size="small"
                 placeholder="Select user"

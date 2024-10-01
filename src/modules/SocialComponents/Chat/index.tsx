@@ -166,6 +166,7 @@ const Chat = () => {
       },
       (response: any) => {
         if (response) {
+          setSearchTerm('');
           handleClose();
           setLoadingCreatingUser(false);
           enqueueSnackbar('New chat created', {

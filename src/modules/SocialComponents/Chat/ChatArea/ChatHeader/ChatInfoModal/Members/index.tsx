@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import { setActiveConversation } from '@/redux/slices/chat/slice';
 import { LoadingButton } from '@mui/lab';
 import { getSession } from '@/utils';
+import { IMG_URL } from '@/config';
 
 const Members = () => {
   const dispatch = useDispatch();
@@ -101,7 +102,17 @@ const Members = () => {
           {dataToShow?.map((item: any) => (
             <Box sx={styles?.boxMemberCard} key={uuidv4()}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Image src={UserDefault} alt="user" width={24} height={24} />
+                <Image
+                  src={
+                    item?.avatar?.url
+                      ? `${IMG_URL}${item?.avatar?.url}`
+                      : UserDefault
+                  }
+                  alt="user"
+                  width={24}
+                  height={24}
+                  style={{ borderRadius: '50%' }}
+                />
                 <Typography variant="body3" sx={{ fontWeight: '500' }}>
                   {item?.firstName} {item?.lastName}
                 </Typography>
