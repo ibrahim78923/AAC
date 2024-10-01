@@ -1,7 +1,7 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import { useNewEmailDrawer } from './useEmailReport';
+import { useEmailReport } from './useEmailReport';
 import { emailReportFormFields } from './EmailReport.data';
 import { LoadingButton } from '@mui/lab';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
@@ -15,7 +15,7 @@ export const EmailReport = () => {
     emailReportsStatus,
     downloadPath,
     isPortalOpen,
-  } = useNewEmailDrawer();
+  } = useEmailReport();
 
   return (
     <CommonDrawer

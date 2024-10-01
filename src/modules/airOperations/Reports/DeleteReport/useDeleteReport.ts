@@ -9,6 +9,8 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+
 export const useDeleteReport = () => {
   const [deleteReportTemporaryTrigger, deleteReportTemporaryStatus] =
     useDeleteOperationsMultipleReportsTemporaryMutation();
@@ -30,9 +32,7 @@ export const useDeleteReport = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };

@@ -16,6 +16,10 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+const { ZERO } = ARRAY_INDEX ?? {};
+const { ADD_TO_EXISTING } = REPORT_TYPE ?? {};
+
 export const useAddToDashboardReport = () => {
   const router = useRouter();
   const id = router?.query?.id;
@@ -40,9 +44,7 @@ export const useAddToDashboardReport = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
@@ -65,11 +67,11 @@ export const useAddToDashboardReport = () => {
   ) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ZERO]?._id,
       },
       body: {
         linkDashboard: {
-          action: REPORT_TYPE?.ADD_TO_EXISTING,
+          action: ADD_TO_EXISTING,
           existingDashboards: formData?.dashboard?.map(
             (dashboard: AutocompleteAsyncOptionsI) => dashboard?._id,
           ),

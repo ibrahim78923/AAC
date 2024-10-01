@@ -6,10 +6,13 @@ import { useLazyGetServicesTicketsTaskListAsExportQuery } from '@/services/airSe
 import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
+import { useRouter } from 'next/router';
 
 const { CREATE_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 
 export const useHeader = () => {
+  const router = useRouter();
+  const ticketId = router?.query?.ticketId;
   const [lazyGetServicesTicketsTaskListAsExportTrigger] =
     useLazyGetServicesTicketsTaskListAsExportQuery();
 
@@ -43,6 +46,8 @@ export const useHeader = () => {
   const getTicketsTasksListExported = async (type: any) => {
     const queryParams = {
       exportType: type,
+      meta: false,
+      ticketId,
     };
 
     const getTicketsParameter = {
@@ -54,7 +59,7 @@ export const useHeader = () => {
         await lazyGetServicesTicketsTaskListAsExportTrigger(
           getTicketsParameter,
         )?.unwrap();
-      downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
+      downloadFile(response, 'TicketTasksLists', EXPORT_FILE_TYPE?.[type]);
       successSnackbar(`Tickets Exported successfully`);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

@@ -1,15 +1,15 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useSingleGenericReportDetail } from './useSingleGenericReportDetail';
 import { Box, Grid } from '@mui/material';
-import {
-  REPORTS_WIDGETS,
-  REPORTS_WIDGET_COMPONENT,
-} from '@/modules/airServices/Dashboard/ReportsWidgets/ReportsWidgets.data';
 import { createElement } from 'react';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
+import {
+  REPORTS_WIDGETS,
+  REPORTS_WIDGET_COMPONENT,
+} from '../ReportsWidgets/ReportsWidgets.data';
 
 export const SingleGenericReportDetail = () => {
   const {

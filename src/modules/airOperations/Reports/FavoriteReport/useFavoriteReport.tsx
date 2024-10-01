@@ -6,6 +6,9 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { setPage } from '@/redux/slices/airOperations/reports/slice';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+const { ONE } = SELECTED_ARRAY_LENGTH ?? {};
+
 export const useFavoriteReport = (props: any) => {
   const { reportId } = props;
 
@@ -18,10 +21,7 @@ export const useFavoriteReport = (props: any) => {
   );
 
   const refetchApi = async () => {
-    const newPage =
-      totalRecords === SELECTED_ARRAY_LENGTH?.ONE
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+    const newPage = totalRecords === ONE ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };

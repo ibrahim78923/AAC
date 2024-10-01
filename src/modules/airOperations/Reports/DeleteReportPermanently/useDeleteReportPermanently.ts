@@ -9,6 +9,7 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/restore-reports/slice';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
 export const useDeleteReportPermanently = () => {
   const [
     deleteRestoreReportPermanentlyTrigger,
@@ -33,9 +34,7 @@ export const useDeleteReportPermanently = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedRestoreReportsList?.length === totalRecords
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+      selectedRestoreReportsList?.length === totalRecords ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getRestoreReportsList?.(newPage);
   };

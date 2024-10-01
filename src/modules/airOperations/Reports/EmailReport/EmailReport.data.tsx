@@ -11,11 +11,13 @@ import { FILE_MAX_SIZE } from '@/config';
 import { EmailReportDataDefaultValuesI } from './EmailReport.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
+const { ZERO } = SELECTED_ARRAY_LENGTH ?? {};
+
 export const emailReportValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.array()
     ?.of(Yup?.string())
     ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
-      if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
+      if (!value || value?.length === ZERO) {
         return false;
       }
       return value?.every(

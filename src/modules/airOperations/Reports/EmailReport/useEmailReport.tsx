@@ -17,7 +17,10 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airOperations/reports/slice';
 
-export const useNewEmailDrawer = () => {
+const { ZERO } = ARRAY_INDEX ?? {};
+const { SINGLE_GENERIC_REPORTS_DETAILS } = AIR_OPERATIONS ?? {};
+
+export const useEmailReport = () => {
   const { user }: any = useAuth();
   const router = useRouter();
   const id = router?.query?.id;
@@ -73,9 +76,9 @@ export const useNewEmailDrawer = () => {
 
   const downloadPath = () =>
     router?.push({
-      pathname: AIR_OPERATIONS?.SINGLE_GENERIC_REPORTS_DETAILS,
+      pathname: SINGLE_GENERIC_REPORTS_DETAILS,
       query: {
-        reportId: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
+        reportId: selectedReportsList?.[ZERO]?._id,
         redirect: router?.pathname,
         id,
       },

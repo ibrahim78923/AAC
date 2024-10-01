@@ -14,6 +14,9 @@ import {
 } from '@/redux/slices/airOperations/reports/slice';
 import { PAGINATION } from '@/config';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+const { ZERO } = ARRAY_INDEX ?? {};
+
 export const useChangeReportOwner = () => {
   const [changeReportOwnerTrigger, changeReportOwnerStatus] =
     useChangeOperationsReportOwnerMutation();
@@ -36,9 +39,7 @@ export const useChangeReportOwner = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
@@ -60,7 +61,7 @@ export const useChangeReportOwner = () => {
   const submitChangeOwner = async (formData: ChangeReportOwnerFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ZERO]?._id,
       },
       body: {
         owner: formData?.owner?._id,

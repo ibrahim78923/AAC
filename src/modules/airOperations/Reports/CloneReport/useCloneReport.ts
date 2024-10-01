@@ -10,6 +10,9 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+const { ZERO } = ARRAY_INDEX ?? {};
+
 export const useCloneReport = () => {
   const { getReportsList, page } = useGetReportLists();
   const [cloneReportsTrigger, cloneReportsStatus] =
@@ -30,9 +33,7 @@ export const useCloneReport = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
@@ -40,7 +41,7 @@ export const useCloneReport = () => {
   const cloneReport = async () => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ZERO]?._id,
       },
     };
 

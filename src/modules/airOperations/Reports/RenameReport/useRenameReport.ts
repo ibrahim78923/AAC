@@ -14,6 +14,9 @@ import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PAGINATION } from '@/config';
 
+const { CURRENT_PAGE } = PAGINATION ?? {};
+const { ZERO } = ARRAY_INDEX ?? {};
+
 export const useRenameReport = () => {
   const [renameReportsTrigger, renameReportsStatus] =
     useRenameOperationsReportsMutation();
@@ -35,9 +38,7 @@ export const useRenameReport = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords
-        ? PAGINATION?.CURRENT_PAGE
-        : page;
+      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
@@ -56,7 +57,7 @@ export const useRenameReport = () => {
   const onSubmit = async (formData: RenameReportFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ZERO]?._id,
       },
       body: {
         name: formData?.name,
