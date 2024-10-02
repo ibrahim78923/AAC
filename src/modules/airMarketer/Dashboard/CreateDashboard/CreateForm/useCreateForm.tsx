@@ -17,9 +17,9 @@ import {
 import { getSession } from '@/utils';
 import {
   useGetMarketingDashboardByIdQuery,
-  useGetMarketingDashboardUserAccessListDropdownListForDashboardQuery,
   usePostMarketingDashboardMutation,
   useUpdateMarketingDashboardMutation,
+  useLazyGetMarketingDashboardUserAccessListDropdownListForDashboardQuery,
 } from '@/services/airMarketer/dasboard';
 
 const useCreateForm = (formType: any) => {
@@ -181,7 +181,7 @@ const useCreateForm = (formType: any) => {
   });
 
   const apiQueryUsers =
-    useGetMarketingDashboardUserAccessListDropdownListForDashboardQuery?.({});
+    useLazyGetMarketingDashboardUserAccessListDropdownListForDashboardQuery?.();
 
   const handleChangeAccessValue = (event: any) => {
     setAccessValue(event?.target?.value);

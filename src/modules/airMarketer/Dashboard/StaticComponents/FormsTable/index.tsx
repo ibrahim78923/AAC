@@ -5,22 +5,19 @@ const FormsTable = () => {
   const theme = useTheme();
   return (
     <Card>
-      <Box p={1.6} sx={{ backgroundColor: theme?.palette?.grey[700] }}>
+      <Box p={1.6}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
-            <Typography variant="h6">Forms</Typography>
-            <Typography
-              variant="body3"
-              sx={{ color: theme?.palette?.grey[900] }}
-            >
+            <Typography variant="h5" fontWeight={500}>
+              Forms
+            </Typography>
+            <Typography variant="body3" color={theme?.palette?.grey[900]}>
               Date range In last 30 days
             </Typography>
           </Box>
         </Box>
       </Box>
-      <Box pb={3}>
-        <Table />
-      </Box>
+      <Table />
     </Card>
   );
 };

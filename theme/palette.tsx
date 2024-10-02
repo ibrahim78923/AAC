@@ -173,7 +173,20 @@ const CUSTOM_COLORS = {
   success_light: '#ECFFF1',
   light_grey: '#5C5C5C',
   light_purple: '#ff808059',
+  linkedin_linear_color1: '#4875B4',
+  linkedin_linear_color2: '#4A89E1',
+  twitter_linear_color1: '#03A9F4',
+  twitter_linear_color2: '#45C5FF',
+  instagram_linear_color1: '#E63190',
+  instagram_linear_color2: '#FF45A7',
+  facebook_linear_color1: ' #334C8C',
+  facebook_linear_color2: '#2A55C0',
+  youtube_linear_color1: '#FF2F2F',
+  youtube_linear_color2: '#FF5353',
+  success_text: '#4CAD00',
+  danger_text: '#D40101',
 };
+
 const GRAPH = {
   cyan: 'blue',
   Tropical_Rain_Forest: '#0AADC7',
@@ -204,7 +217,6 @@ const COMMON = {
   graph: { ...GRAPH, contrastText: '#fff' },
   grey: GREY,
   gradients: GRADIENTS,
-
   divider: GREY[400],
   action: {
     hover: GREY[400],

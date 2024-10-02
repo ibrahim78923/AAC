@@ -1,7 +1,5 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { capitalizeFirstLetters } from '@/utils';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
@@ -103,21 +101,18 @@ export const columns: any = (columnsProps: any) => {
       header: 'Actions',
       cell: (info: any) => (
         <Stack direction="row" gap={1}>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              router?.push({
+                pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                query: { id: info?.row?.original?._id, type: 'view' },
+              });
+            }}
           >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                router?.push({
-                  pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id, type: 'view' },
-                });
-              }}
-            >
-              <ViewEyeIcon />
-            </Box>
-          </PermissionsGuard>
+            <ViewEyeIcon />
+          </Box>
+
           {(info?.row?.original?.permissions !== 'VIEW_ONLY' ||
             currentUser === info?.row?.original?.createdBy) && (
             <Box
@@ -134,23 +129,17 @@ export const columns: any = (columnsProps: any) => {
           )}
           {currentUser === info?.row?.original?.createdBy &&
             !info?.row?.original?.isDefault && (
-              <PermissionsGuard
-                permissions={[
-                  AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD,
-                ]}
+              <Box
+                sx={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setIsDeleteModalOpen({
+                    isToggle: true,
+                    id: info?.row?.original?._id,
+                  });
+                }}
               >
-                <Box
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    setIsDeleteModalOpen({
-                      isToggle: true,
-                      id: info?.row?.original?._id,
-                    });
-                  }}
-                >
-                  <DeleteCrossIcon />
-                </Box>
-              </PermissionsGuard>
+                <DeleteCrossIcon />
+              </Box>
             )}
         </Stack>
       ),

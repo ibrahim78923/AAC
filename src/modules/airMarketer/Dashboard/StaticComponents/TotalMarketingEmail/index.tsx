@@ -20,9 +20,7 @@ const TotalMarketingEmail = () => {
           </Box>
         </Box>
       </Box>
-      <Box pb={3}>
-        <Table />
-      </Box>
+      <Table />
     </Card>
   );
 };

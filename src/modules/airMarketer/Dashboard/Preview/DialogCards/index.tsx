@@ -5,9 +5,10 @@ import { styles } from './DialogCards.style';
 import { CloseModalIcon } from '@/assets/icons';
 import { NotSelectedItemImage } from '@/assets/images';
 import { AIR_MARKETER_DASHBOARD_REPORTS_TYPES } from '@/constants';
-import CtaViews from '../../CtaViews';
-import ContactCustomerGraph from '../../ContactCustomerGraph';
-import TotalMarketingEmail from '../../TotalMarketingEmail';
+import CtaViews from '../../StaticComponents/CtaViews';
+import ContactCustomerGraph from '../../StaticComponents/ContactCustomerGraph';
+import TotalMarketingEmail from '../../StaticComponents/TotalMarketingEmail';
+import FormsTable from '../../StaticComponents/FormsTable';
 
 const DialogCards = ({ open, setOpen, selectedReports }: any) => {
   const displayDashboardWidgets = (selectedWidget: any) => {
@@ -21,11 +22,7 @@ const DialogCards = ({ open, setOpen, selectedReports }: any) => {
           case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.TOTAL_MARKETING_EMAIL:
             return <TotalMarketingEmail key={report} />;
           case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.LEAD_CAPTURED_FORMS:
-            return (
-              <Typography key={report} variant="h6">
-                Under construction.....
-              </Typography>
-            );
+            return <FormsTable key={report} />;
           default:
             return null;
         }

@@ -97,6 +97,10 @@ export const dashboardReportsData = [
     label: 'Form Submissions',
     value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.LEAD_CAPTURED_FORMS,
   },
+  {
+    label: 'Profile Statistics',
+    value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.PROFILE_STATS,
+  },
 ];
 
 export const createFormOptions = {

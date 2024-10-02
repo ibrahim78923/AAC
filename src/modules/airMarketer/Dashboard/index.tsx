@@ -1,8 +1,8 @@
 import { Button, Grid, Skeleton, Stack, Typography } from '@mui/material';
-import TotalMarketingEmail from './TotalMarketingEmail';
-import FormsTable from './FormsTable';
-import ContactCustomerGraph from './ContactCustomerGraph';
-import CtaViews from './CtaViews';
+import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
+import FormsTable from './StaticComponents/FormsTable';
+import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
+import CtaViews from './StaticComponents/CtaViews';
 import ManageDashboardOptions from './ManageDashboardOptions';
 import ShareOptions from './ShareOptions';
 import useDashboard from './useDashboard';

@@ -295,3 +295,9 @@ export { default as TotalCallsImage } from './modules/airCallCenter/Dashboard/Pe
 export { default as AirCustomerPortalLogo } from './modules/airCustomerPortal/customer-portal-logo.png';
 export { default as AirCustomerPortalProfile } from './modules/airCustomerPortal/customer-portal-profile.png';
 export { default as AirCustomerPortalDashboard } from './modules/airCustomerPortal/customer-portal-dashboard.png';
+
+export { default as StatsFacebookImage } from './modules/airMarketer/Dashboard/facebook-icon.png';
+export { default as StatsInstagramImage } from './modules/airMarketer/Dashboard/instagram-icon.png';
+export { default as StatsTwitterImage } from './modules/airMarketer/Dashboard/twitter-icon.png';
+export { default as StatsLinkedinImage } from './modules/airMarketer/Dashboard/linkedin-icon.png';
+export { default as StatsYoutubeImage } from './modules/airMarketer/Dashboard/youtube-icon.png';

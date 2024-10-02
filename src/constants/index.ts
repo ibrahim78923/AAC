@@ -611,6 +611,7 @@ export const AIR_MARKETER_DASHBOARD_REPORTS_TYPES = {
   CTA_TOTAL_VIEWS_AND_ADS_SUBMISSIONS: 'CTA_Total_Views_and_Ads_Submissions',
   TOTAL_MARKETING_EMAIL: 'Total_Marketing_Email',
   LEAD_CAPTURED_FORMS: 'Lead_Captured_Forms',
+  PROFILE_STATS: 'Profile_Stats',
 };
 
 export const PRODUCT_LABELS = {

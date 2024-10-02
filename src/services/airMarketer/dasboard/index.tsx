@@ -95,7 +95,7 @@ export const {
   useUpdateMarketingDashboardMutation,
   useDeleteMarketingDashboardMutation,
   useUpdateDefaultMarketingDashboardMutation,
-  useGetMarketingDashboardUserAccessListDropdownListForDashboardQuery,
+  useLazyGetMarketingDashboardUserAccessListDropdownListForDashboardQuery,
 
   useGetDealsCreatedQuery,
 } = marketerDashboardApi;

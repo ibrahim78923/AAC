@@ -3,9 +3,11 @@ import { Card, Typography, Box, Stack } from '@mui/material';
 import { NotSelectedItemImage } from '@/assets/images';
 import { AIR_MARKETER_DASHBOARD_REPORTS_TYPES } from '@/constants';
 import { styles } from './DetailsView.style';
-import CtaViews from '../../CtaViews';
-import TotalMarketingEmail from '../../TotalMarketingEmail';
-import ContactCustomerGraph from '../../ContactCustomerGraph';
+import ContactCustomerGraph from '../../StaticComponents/ContactCustomerGraph';
+import CtaViews from '../../StaticComponents/CtaViews';
+import TotalMarketingEmail from '../../StaticComponents/TotalMarketingEmail';
+import FormsTable from '../../StaticComponents/FormsTable';
+import { ProfileStatistics } from '../../StaticComponents/ProfileStatistics';
 
 const DetailsView = ({ selectedReports }: any) => {
   const displayDashboardWidgets = (selectedWidget: any) => {
@@ -19,11 +21,9 @@ const DetailsView = ({ selectedReports }: any) => {
           case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.TOTAL_MARKETING_EMAIL:
             return <TotalMarketingEmail key={report} />;
           case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.LEAD_CAPTURED_FORMS:
-            return (
-              <Typography key={report} variant="h6">
-                Under construction.....
-              </Typography>
-            );
+            return <FormsTable key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.PROFILE_STATS:
+            return <ProfileStatistics key={report} />;
           default:
             return null;
         }
