@@ -1,7 +1,7 @@
 import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   useLazyAssetTypeDropdownQuery,
   useLazyCategoriesDropdownQuery,
@@ -47,6 +47,19 @@ export const useChartEditor = (props: ChartEditorI) => {
     'xAxisType',
   ]);
   const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
+
+  useEffect(() => {
+    if (!draggedItemData) {
+      setValue('xAxis', null);
+      setValue('xAxisType', []);
+    }
+  }, [chartType]);
+
+  useEffect(() => {
+    if (!draggedItemData) {
+      setValue('xAxisType', []);
+    }
+  }, [xAxisData]);
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();

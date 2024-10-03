@@ -189,8 +189,7 @@ export const reportsDataArray = (
           }
           placeholder="Select Option"
           externalParams={{
-            meta: false,
-            id: productId,
+            productId: productId,
           }}
         />
         <TableContainer
@@ -305,8 +304,7 @@ export const reportsDataArray = (
           }
           placeholder="Select Option"
           externalParams={{
-            meta: false,
-            id: productId,
+            productId: productId,
           }}
         />
         <TableContainer

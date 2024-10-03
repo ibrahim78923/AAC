@@ -57,7 +57,6 @@ export default function useUpsertGenericReports() {
   });
 
   const { watch, setValue } = methods;
-  const chartType = watch('chartType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(MODAL_INITIAL_STATES);
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
@@ -71,13 +70,6 @@ export default function useUpsertGenericReports() {
     setValue('tableTitle', draggedItemData?.title ?? 'Report Table');
     dispatch(setColumnsData(draggedItemData?.tableColumns ?? []));
   }, [draggedItemData]);
-
-  useEffect(() => {
-    if (!draggedItemData) {
-      setValue('xAxis', null);
-      setValue('xAxisType', []);
-    }
-  }, [chartType]);
 
   const getModalState = (draggedItem: any) => {
     const newModal: any = {

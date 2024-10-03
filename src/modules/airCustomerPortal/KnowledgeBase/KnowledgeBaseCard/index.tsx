@@ -5,6 +5,7 @@ import { AIR_CUSTOMER_PORTAL, DATE_FORMAT } from '@/constants';
 import { KnowledgeBaseCardI } from './KnowledgeBaseCard.interface';
 import { truncateText } from '@/utils/avatarUtils';
 import { NextRouter, useRouter } from 'next/router';
+import { TruncateText } from '@/components/TruncateText';
 
 export const KnowledgeBaseCard = (props: KnowledgeBaseCardI) => {
   const { folderId, name, createdBy, createdDate } = props;
@@ -37,7 +38,7 @@ export const KnowledgeBaseCard = (props: KnowledgeBaseCardI) => {
         <FolderIcon />
       </Avatar>
       <Typography variant="h5" color="slateBlue.main">
-        {truncateText(name)}
+        {<TruncateText text={name?.toLowerCase()} />}
       </Typography>
       <Typography variant="body2" color="slateBlue.main">
         Created By: {truncateText(createdBy)}

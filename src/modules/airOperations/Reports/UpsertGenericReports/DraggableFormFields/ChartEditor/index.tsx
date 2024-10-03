@@ -96,6 +96,9 @@ export const ChartEditor = (props: ChartEditorI) => {
               CHARTS?.DONUT_CHART,
             ]}
             getOptionLabel={(option: chartTypeI) => option}
+            isOptionEqualToValue={(option: any, newValue: any) =>
+              option === newValue
+            }
             required
           />
           {(chartType === CHARTS?.BAR_CHART ||
@@ -113,6 +116,9 @@ export const ChartEditor = (props: ChartEditorI) => {
                   disabled={disableTemplate}
                   options={xAxesDataArray[metricType]}
                   getOptionLabel={(option: xAxisOptionsI) => option?.label}
+                  isOptionEqualToValue={(option: any, newValue: any) =>
+                    option?.value === newValue?.value
+                  }
                 />
               </Box>
               {xAxisData?.ref && (
@@ -132,8 +138,12 @@ export const ChartEditor = (props: ChartEditorI) => {
                     }
                     placeholder="Select Option"
                     externalParams={{
-                      meta: false,
-                      id: productId,
+                      ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
+                        meta: false,
+                      }),
+                      ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
+                        productId: productId,
+                      }),
                     }}
                   />
                 </Box>
@@ -161,6 +171,9 @@ export const ChartEditor = (props: ChartEditorI) => {
                   disabled={disableTemplate}
                   options={xAxesDataArray[metricType]}
                   getOptionLabel={(option: xAxisOptionsI) => option?.label}
+                  isOptionEqualToValue={(option: any, newValue: any) =>
+                    option?.value === newValue?.value
+                  }
                 />
               </Box>
               {xAxisData?.ref && (
@@ -180,8 +193,12 @@ export const ChartEditor = (props: ChartEditorI) => {
                     }
                     placeholder="Select Option"
                     externalParams={{
-                      meta: false,
-                      id: productId,
+                      ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
+                        meta: false,
+                      }),
+                      ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
+                        productId: productId,
+                      }),
                     }}
                   />
                 </Box>

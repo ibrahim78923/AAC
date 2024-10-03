@@ -85,8 +85,9 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
     }),
     usersDropdown: builder.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}?productId=${params?.id}`,
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
@@ -129,6 +130,16 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    ticketRequesterDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TICKET_BY_REQUESTER}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -146,4 +157,5 @@ export const {
   useLazySalesDropdownQuery,
   useLazyDashboardDropdownQuery,
   useLazyContractTypeDropdownQuery,
+  useLazyTicketRequesterDropdownQuery,
 } = UpsertGenericReportApi;

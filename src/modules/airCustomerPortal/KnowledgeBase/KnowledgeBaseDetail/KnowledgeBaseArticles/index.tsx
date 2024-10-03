@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { truncateText } from '@/utils/avatarUtils';
 import { KnowledgeBaseArticlesI } from './KnowledgeBaseArticles.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
   const { modifiedDate, purposeDescription, articleId, articlesTitle } = props;
@@ -35,7 +36,9 @@ export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
           alignItems={{ xs: 'center', lg: 'flex-start' }}
           flexDirection={'column'}
         >
-          <Typography variant="h6">{truncateText(articlesTitle)}</Typography>
+          <Typography variant="h6">
+            {<TruncateText text={articlesTitle?.toLowerCase()} />}
+          </Typography>
           <Typography color="secondary">Modified on: {modifiedDate}</Typography>
         </Box>
         <Box

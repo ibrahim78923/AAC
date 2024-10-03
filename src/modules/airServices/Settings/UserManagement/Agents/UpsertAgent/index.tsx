@@ -47,10 +47,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
       ) : getDynamicFieldsStatus?.isError ? (
         <ApiErrorState />
       ) : (
-        <FormProvider
-          methods={method}
-          onSubmit={handleSubmit(handleUpsertAgentSubmit)}
-        >
+        <>
           <DialogTitle>
             <Box
               display={'flex'}
@@ -71,23 +68,28 @@ export const UpsertAgent = (props: IAgentsProps) => {
             </Box>
           </DialogTitle>
           <DialogContent>
-            <Grid container spacing={1}>
-              {upsertAgentFormFields?.map((form: any) => (
-                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                  <form.component {...form?.componentProps} size="small" />
-                </Grid>
-              ))}
-              {form?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  {componentMap[item?.component] &&
-                    createElement(componentMap[item?.component], {
-                      ...item?.componentProps,
-                      name: item?.componentProps?.label,
-                      size: 'small',
-                    })}
-                </Grid>
-              ))}
-            </Grid>
+            <FormProvider
+              methods={method}
+              onSubmit={handleSubmit(handleUpsertAgentSubmit)}
+            >
+              <Grid container spacing={1}>
+                {upsertAgentFormFields?.map((form: any) => (
+                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                    <form.component {...form?.componentProps} size="small" />
+                  </Grid>
+                ))}
+                {form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
           </DialogContent>
           <DialogActions>
             <LoadingButton
@@ -123,7 +125,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
               {!!selectedAgentList?.length ? 'Update' : 'Save'}
             </LoadingButton>
           </DialogActions>
-        </FormProvider>
+        </>
       )}
     </Dialog>
   );
