@@ -76,6 +76,19 @@ const ChatBox = ({
       {
         updateReaction: isReactionExists > 0 ? true : false,
         messageId: item?._id,
+        ...(chatMode === 'groupChat' && {
+          groupId: activeChatId,
+        }),
+        ...(chatMode === 'groupChat' && {
+          ownerDetails: {
+            firstName:
+              item?.ownerDetail?.firstName || item?.ownerDetails?.firstName,
+            lastName:
+              item?.ownerDetail?.lastName || item?.ownerDetails?.lastName,
+            avatar: item?.ownerDetail?.avatar || item?.ownerDetails?.avatar,
+            _id: item?.ownerDetail?._id || item?.ownerDetails?._id,
+          },
+        }),
         reaction: {
           userId: user?._id,
           userReaction: emoji,
@@ -129,7 +142,7 @@ const ChatBox = ({
         });
       }
     }
-  }, [item]);
+  }, []);
 
   useEffect(() => {
     dispatch(

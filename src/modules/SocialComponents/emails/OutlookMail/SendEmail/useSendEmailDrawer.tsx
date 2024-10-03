@@ -263,7 +263,6 @@ const useSendEmailDrawer = ({
             'content',
             values?.description?.length ? values?.description : ' ',
           );
-
           if (values?.cc?.length) {
             formDataSend.append('cc', values?.cc);
           }

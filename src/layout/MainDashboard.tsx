@@ -25,6 +25,7 @@ import {
 import Header from './Header';
 
 import {
+  setActiveConversation,
   setChangeChat,
   setChatContacts,
   setChatMessages,
@@ -455,6 +456,9 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
 
   const [socket, setSocket] = useState<any>();
   useEffect(() => {
@@ -592,6 +596,28 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
 
+    const handleOnRemovedFromGrp = (payload: any) => {
+      if (payload) {
+        const updatedChatContacts = chatContacts?.map((chat: any) => {
+          if (chat?._id === payload?.payload?.groupId) {
+            return {
+              ...chat,
+              isRemoved: true,
+            };
+          }
+          return chat;
+        });
+
+        if (activeConversation?._id === payload?.payload?.groupId) {
+          dispatch(
+            setActiveConversation({ ...activeConversation, isRemoved: true }),
+          );
+        }
+
+        dispatch(setUpdateChatContactsActions(updatedChatContacts));
+      }
+    };
+
     const handleTypingStart = (payload: any) => {
       if (
         activeChatId === payload?.chatId ||
@@ -605,6 +631,10 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
 
+    const handleGroupReceived = (payload: any) => {
+      dispatch(setChatContacts(payload?.data));
+    };
+
     const handleTypingStop = () => {
       dispatch(setTypingUserData({}));
     };
@@ -615,6 +645,8 @@ const DashboardLayout = ({ children, window }: any) => {
         CHAT_SOCKETS?.ON_GRP_MESSAGE_RECEIVED,
         handleOnGrpMessageReceived,
       );
+      socket.on(CHAT_SOCKETS?.ON_REMOVED_FROM_GRP, handleOnRemovedFromGrp);
+      socket.on(CHAT_SOCKETS?.ON_NEW_GRP, handleGroupReceived);
       socket.on(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
       socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
     }
@@ -625,6 +657,8 @@ const DashboardLayout = ({ children, window }: any) => {
           CHAT_SOCKETS?.ON_GRP_MESSAGE_RECEIVED,
           handleOnGrpMessageReceived,
         );
+        socket.off(CHAT_SOCKETS?.ON_NEW_GRP, handleGroupReceived);
+        socket.off(CHAT_SOCKETS?.ON_REMOVED_FROM_GRP, handleOnRemovedFromGrp);
         socket.off(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
         socket.off(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
       }

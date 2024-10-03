@@ -463,7 +463,8 @@ const RightPane = ({
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
-                                                to: obj?.toRecipients.map(
+                                                to: obj?.toRecipients?.map(
+
                                                   (item: any) =>
                                                     item?.emailAddress?.address,
                                                 ),

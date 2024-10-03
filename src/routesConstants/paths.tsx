@@ -337,6 +337,8 @@ export const CHAT_SOCKETS = {
   SOCKET_ERROR_OCCURED: 'socket-error-occured',
   ON_MESSAGE_RECEIVED: 'on-message-received',
   ON_GRP_MESSAGE_RECEIVED: 'on-group-message',
+  ON_REMOVED_FROM_GRP: 'on-removed-from-group',
+  ON_NEW_GRP: 'on-added-to-group',
   UPDATE_MESSAGE: 'update-message',
   ON_MESSAGE_UPDATE: 'on-message-update',
   ON_TYPING_START: 'on-typing-start',
