@@ -113,11 +113,11 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
 };
 
 export const billingData = [
-  { label: 'subTotal (£)', name: 'subTotal' },
-  { label: 'discount (%)', name: 'discount' },
+  { label: 'Sub Total (£)', name: 'subTotal' },
+  { label: 'Discount (%)', name: 'discount' },
   { label: 'Tax rate (%)', name: 'taxRatio' },
-  { label: 'shipping (£)', name: 'shipping' },
-  { label: 'total (£)', name: 'total' },
+  { label: 'Shipping (£)', name: 'shipping' },
+  { label: 'Total (£)', name: 'total' },
 ];
 
 export const itemsDetailsColumnsList = [

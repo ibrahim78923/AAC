@@ -66,6 +66,10 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
             postRemoveAssociateTicketsStatus?.isLoading ||
             postContactStatus?.isLoading
           }
+          disabledCancelBtn={
+            postRemoveAssociateTicketsStatus?.isLoading ||
+            postContactStatus?.isLoading
+          }
         >
           <FormProvider methods={methods}>
             <RHFRadioGroup

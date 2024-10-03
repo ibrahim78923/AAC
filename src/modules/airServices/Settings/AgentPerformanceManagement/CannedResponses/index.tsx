@@ -4,7 +4,6 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FolderLargePrimaryIcon, FolderLargeYellowIcon } from '@/assets/icons';
 import { CreateNewFolder } from './CreateNewFolder';
 import Search from '@/components/Search';
-import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { useCannedResponses } from './useCannedResponses';
 import CustomPagination from '@/components/CustomPagination';
@@ -39,37 +38,35 @@ export const CannedResponses = () => {
 
   return (
     <>
-      <Box mb={2}>
-        <PageTitledHeader
-          title="Canned Responses"
-          canMovedBack
-          moveBack={() =>
-            router?.push(AIR_SERVICES?.AGENT_PERFORMANCE_MANAGEMENT_SETTINGS)
-          }
-        />
-      </Box>
-      <Box mb={2}>
+      <PageTitledHeader
+        title={'Canned Responses'}
+        canMovedBack
+        moveBack={() =>
+          router?.push(AIR_SERVICES?.AGENT_PERFORMANCE_MANAGEMENT_SETTINGS)
+        }
+      />
+
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+        ]}
+      >
+        <Search label={'Search Here'} setSearchBy={setSearch} />
+      </PermissionsGuard>
+
+      <Grid container spacing={3} mt={1}>
         <PermissionsGuard
           permissions={[
-            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
           ]}
         >
-          <Search size="small" label="Search Here" setSearchBy={setSearch} />
-        </PermissionsGuard>
-      </Box>
-      <Grid container spacing={3}>
-        <Grid item lg={4} sm={6} xs={12}>
-          <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
-            ]}
-          >
+          <Grid item lg={4} sm={6} xs={12}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              gap=".7rem"
+              gap={1}
               height="12rem"
               border="0.06rem solid"
               borderColor="grey.700"
@@ -98,8 +95,9 @@ export const CannedResponses = () => {
                 Add New
               </Typography>
             </Box>
-          </PermissionsGuard>
-        </Grid>
+          </Grid>
+        </PermissionsGuard>
+
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS,
@@ -123,20 +121,27 @@ export const CannedResponses = () => {
             cannedResponses?.map((response: any) => (
               <Grid item lg={4} sm={6} xs={12} key={response?._id}>
                 <Box
-                  height="12rem"
-                  border="0.06rem solid"
-                  overflow="hidden"
-                  borderColor="grey.700"
-                  borderRadius=".5rem"
+                  height={'12rem'}
+                  border={'0.06rem solid'}
+                  borderColor={'grey.700'}
+                  borderRadius={'.5rem'}
                   sx={{ cursor: 'pointer' }}
                   position={'relative'}
+                  p={2}
+                  onClick={() =>
+                    router?.push({
+                      pathname: `${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
+                        response?.folderName,
+                      )}`,
+                      query: { id: response?._id },
+                    })
+                  }
                 >
                   <Box
                     display="flex"
                     justifyContent="end"
-                    p={1}
                     position={'absolute'}
-                    right={0}
+                    right={10}
                   >
                     {response?.perDefine ? (
                       <LockedIcon />
@@ -159,29 +164,37 @@ export const CannedResponses = () => {
                   </Box>
 
                   <Box
-                    display="flex"
-                    justifyContent="center"
-                    p={{ sm: 2, xs: 1 }}
-                    flexDirection="column"
-                    component={Link}
-                    href={`${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
-                      response?.folderName,
-                    )}?id=${response?._id}`}
+                    display={'flex'}
+                    justifyContent={'center'}
+                    flexDirection={'column'}
+                    height={'100%'}
                   >
                     <Box>
-                      {!response?.isDeletedAble ? (
+                      {response?.perDefine ? (
                         <FolderLargePrimaryIcon />
                       ) : (
                         <FolderLargeYellowIcon />
                       )}
                     </Box>
-                    <Typography fontWeight={700} color="blue.dark" mt={1}>
+
+                    <Typography
+                      fontWeight={700}
+                      color="blue.dark"
+                      mt={1}
+                      textTransform={'capitalize'}
+                    >
                       {response?.folderName}
                     </Typography>
+
                     <Typography
                       fontWeight={500}
                       variant="body2"
                       color="custom.main"
+                      height={'100%'}
+                      overflow={'auto'}
+                      textTransform={
+                        response?.perDefine ? 'capitalize' : 'none'
+                      }
                       sx={{
                         textOverflow: 'break-all',
                         wordBreak: 'break-all',
@@ -190,7 +203,7 @@ export const CannedResponses = () => {
                         WebkitBoxOrient: 'vertical',
                       }}
                     >
-                      {response?.description}
+                      {response?.description ?? 'No Description'}
                     </Typography>
                   </Box>
                 </Box>

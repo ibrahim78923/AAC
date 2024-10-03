@@ -5,9 +5,10 @@ import {
   selectAgentSchema,
 } from './SelectAgentsModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { useEffect } from 'react';
 import { successSnackbar } from '@/utils/api';
+import { useLazyGetAirServicesSettingsCannedResponseAgentsQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import useAuth from '@/hooks/useAuth';
 
 export const useSelectAgentsModal = (props: any) => {
   const {
@@ -18,13 +19,20 @@ export const useSelectAgentsModal = (props: any) => {
     setValue,
   } = props;
 
-  const apiQueryAgents = useLazyGetAgentsQuery();
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+
+  const apiQueryAgents =
+    useLazyGetAirServicesSettingsCannedResponseAgentsQuery();
   const method = useForm({
     defaultValues: selectAgentDefaultValues(agentsDetails),
     resolver: yupResolver(selectAgentSchema),
   });
+
   const { watch, reset }: any = method;
-  const agents = watch(CANNED_RESPONSES?.AGENTS);
+  const selectedAgentsList = watch(CANNED_RESPONSES?.AGENTS);
+
   const mergeUniqueObjects = (agentsDetails: any, agents: any) => {
     const uniqueAgents = new Map();
     agentsDetails?.forEach((agent: any) => {
@@ -41,21 +49,25 @@ export const useSelectAgentsModal = (props: any) => {
 
     return mergedAgents;
   };
+
   const onSubmit = () => {
-    setAgentsResponses(mergeUniqueObjects(agentsDetails, agents));
+    setAgentsResponses(mergeUniqueObjects(agentsDetails, selectedAgentsList));
     successSnackbar('Agents Selected!');
     closeSelectAgentsModal();
   };
+
   useEffect(() => {
     reset(selectAgentDefaultValues(agentsDetails));
   }, [openSelectAgentsModal]);
+
   return {
     method,
     onSubmit,
-    agents,
+    selectedAgentsList,
     openSelectAgentsModal,
     closeSelectAgentsModal,
     apiQueryAgents,
     setValue,
+    productId,
   };
 };

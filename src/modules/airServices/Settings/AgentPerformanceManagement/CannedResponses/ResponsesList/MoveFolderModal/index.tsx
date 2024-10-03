@@ -53,6 +53,7 @@ export const MoveFolderModal = (props: any) => {
                 <CloseModalIcon />
               </Box>
             </DialogTitle>
+
             <DialogContent>
               <Grid container gap={1.4}>
                 <Grid item xs={12}>
@@ -60,7 +61,7 @@ export const MoveFolderModal = (props: any) => {
                     name="folder"
                     label="Folder Name"
                     size="small"
-                    placeholder="select"
+                    placeholder="Select Folder"
                     apiQuery={apiQueryFolders}
                     getOptionLabel={(option: any) => option?.folderName}
                     required
@@ -68,6 +69,7 @@ export const MoveFolderModal = (props: any) => {
                 </Grid>
               </Grid>
             </DialogContent>
+
             <DialogActions sx={{ pt: '0 !important' }}>
               <Box
                 pt="0 !important"
@@ -80,15 +82,17 @@ export const MoveFolderModal = (props: any) => {
                     closeMoveFolderModal();
                     method?.reset();
                   }}
-                  variant="outlined"
-                  color="secondary"
+                  variant={'outlined'}
+                  color={'secondary'}
+                  className={'small'}
                 >
                   Cancel
                 </LoadingButton>
                 <LoadingButton
                   loading={isLoading}
-                  type="submit"
-                  variant="contained"
+                  type={'submit'}
+                  variant={'contained'}
+                  className={'small'}
                 >
                   Move
                 </LoadingButton>

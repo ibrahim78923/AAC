@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { addResponseDataArray, stringAvatar } from './AddResponseForm.data';
+import { addResponseDataArray } from './AddResponseForm.data';
 import { SelectAgentsModal } from './SelectAgentsModal';
 import { useAddResponseForm } from './useAddResponseForm';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -17,14 +17,15 @@ import {
 } from '@/constants/strings';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const AddResponseForm = (props: any) => {
   const {
     methodsAddResponseForm,
     handleSubmit,
     submitAddResponse,
-    agents,
-    setAgents,
+    selectedAgentsList,
+    setSelectedAgentsList,
     setOpenSelectAgentsModal,
     openSelectAgentsModal,
     open,
@@ -55,6 +56,9 @@ export const AddResponseForm = (props: any) => {
         isLoading={
           postResponseStatus?.isLoading || patchResponseStatus?.isLoading
         }
+        disabledCancelBtn={
+          postResponseStatus?.isLoading || patchResponseStatus?.isLoading
+        }
         footer
         okText={`${
           editableObj
@@ -72,31 +76,47 @@ export const AddResponseForm = (props: any) => {
                 setOpenSelectAgentsModal,
                 hasAttachment,
               )?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
+                <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                   {item?.componentProps?.avatarGroup &&
-                    !!agents?.length &&
+                    !!selectedAgentsList?.length &&
                     availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS && (
                       <Grid item xs={12}>
                         <AvatarGroup
                           max={4}
                           sx={{ justifyContent: 'flex-end' }}
-                          total={agents?.length}
+                          total={selectedAgentsList?.length}
                         >
-                          {agents?.map((avatar: any) => (
+                          {selectedAgentsList?.map((selectedAgent: any) => (
                             <Tooltip
-                              key={avatar?._id}
-                              title={`${avatar?.firstName} ${avatar?.lastName}`}
+                              title={fullName(
+                                selectedAgent?.firstName,
+                                selectedAgent?.lastName,
+                              )}
+                              key={selectedAgent?._id}
                             >
                               <Avatar
-                                key={avatar?.id}
-                                sx={{ color: 'grey.600', fontWeight: 500 }}
-                                alt={`${avatar?.firstName} ${avatar?.lastName}`}
-                                src={avatar?.attachments}
-                                {...stringAvatar(
-                                  `${avatar?.firstName} ${avatar?.lastName}`,
+                                sx={{
+                                  bgcolor: 'primary.main',
+                                  width: 28,
+                                  height: 28,
+                                }}
+                                variant={'circular'}
+                                src={generateImage(
+                                  selectedAgent?.avatar?.url ??
+                                    selectedAgent?.avatar,
                                 )}
-                              />
+                              >
+                                <Typography
+                                  variant={'body2'}
+                                  textTransform={'uppercase'}
+                                >
+                                  {fullNameInitial(
+                                    selectedAgent?.firstName,
+                                    selectedAgent?.lastName,
+                                  )}
+                                </Typography>
+                              </Avatar>
                             </Tooltip>
                           ))}
                         </AvatarGroup>
@@ -104,6 +124,7 @@ export const AddResponseForm = (props: any) => {
                     )}
                 </Grid>
               ))}
+
               <Grid item xs={12}>
                 {!!editableObj && (
                   <>
@@ -113,8 +134,7 @@ export const AddResponseForm = (props: any) => {
                       color="slateBlue.main"
                       mb={2}
                     >
-                      {' '}
-                      Attachments{' '}
+                      Attachments
                     </Typography>
                     <Box maxHeight={'20vh'}>
                       <Attachments
@@ -132,11 +152,12 @@ export const AddResponseForm = (props: any) => {
             </Grid>
           </FormProvider>
         </Box>
+
         <SelectAgentsModal
           openSelectAgentsModal={openSelectAgentsModal}
           closeSelectAgentsModal={() => setOpenSelectAgentsModal(false)}
-          setAgentsResponses={setAgents}
-          agentsDetails={agents}
+          setAgentsResponses={setSelectedAgentsList}
+          agentsDetails={selectedAgentsList}
           setValue={setValue}
         />
       </CommonDrawer>

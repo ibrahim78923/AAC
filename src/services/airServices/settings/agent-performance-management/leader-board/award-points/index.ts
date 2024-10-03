@@ -7,7 +7,7 @@ export const leaderBoardAwardPointsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     addAirServicesSettingsLeaderBoardAwardPoints: builder?.mutation({
       query: (body: any) => ({
-        url: `${END_POINTS?.LEADER_BOARD_ADD_AWARD_POINTS}`,
+        url: END_POINTS?.LEADER_BOARD_ADD_AWARD_POINTS,
         method: 'POST',
         body,
       }),
@@ -15,7 +15,7 @@ export const leaderBoardAwardPointsAPI = baseAPI?.injectEndpoints({
     }),
     getAirServicesSettingsLeaderBoardAwardPoints: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.LEADER_BOARD_GET_AWARD_POINTS}`,
+        url: END_POINTS?.LEADER_BOARD_GET_AWARD_POINTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),

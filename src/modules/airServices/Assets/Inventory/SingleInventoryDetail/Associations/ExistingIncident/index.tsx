@@ -44,6 +44,7 @@ export const ExistingIncident: React.FC<{
       isOk
       cancelText={'Cancel'}
       isLoading={isLoading}
+      disabledCancelBtn={isLoading}
       footer
       submitHandler={handleSubmit}
     >

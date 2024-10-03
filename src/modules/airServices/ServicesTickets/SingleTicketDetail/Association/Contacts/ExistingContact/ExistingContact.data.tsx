@@ -54,7 +54,7 @@ export const useAddContactsColumns = ({
     accessorFn: (row: any) => row?._id,
     id: 'contactID',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
+      <Typography variant={'body3'} textTransform={'capitalize'}>
         #PBR - {info?.getValue()?.slice(-3)}
       </Typography>
     ),
@@ -84,7 +84,7 @@ export const useAddContactsColumns = ({
     isSortable: true,
     header: 'Job Title',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
+      <Typography variant={'body3'} textTransform={'capitalize'}>
         {info?.getValue()?.toLowerCase() ?? '---'}
       </Typography>
     ),

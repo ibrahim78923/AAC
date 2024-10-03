@@ -102,7 +102,7 @@ export const getAssociateContactsColumns: any = ({ setModalId }: any) => {
       id: '_id',
       header: 'Contact ID',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           #PBR - {info?.getValue()?.slice(-3)}
         </Typography>
       ),
@@ -140,7 +140,7 @@ export const getAssociateContactsColumns: any = ({ setModalId }: any) => {
       isSortable: true,
       header: 'Job Title',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),

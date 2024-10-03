@@ -41,15 +41,14 @@ export const ResponsesList = () => {
 
   return (
     <>
-      <Box>
-        <PageTitledHeader
-          title={`Canned Response > ${convertToTitleCase(
-            router?.query?.response,
-          )} Responses`}
-          canMovedBack
-          moveBack={() => router?.push(AIR_SERVICES?.CANNED_RESPONSE_SETTINGS)}
-        />
-      </Box>
+      <PageTitledHeader
+        title={`Canned Response > ${convertToTitleCase(
+          router?.query?.response,
+        )} Responses`}
+        canMovedBack
+        moveBack={() => router?.push(AIR_SERVICES?.CANNED_RESPONSE_SETTINGS)}
+      />
+
       <Box
         borderRadius={3}
         border="0.06rem solid"
@@ -105,6 +104,7 @@ export const ResponsesList = () => {
                           <AddBoxRoundedIcon sx={{ color: 'custom.white' }} />
                         }
                         disableElevation
+                        className={'small'}
                         onClick={() => {
                           setOpenAddResponseDrawer(true);
                           setSelectedData([]);

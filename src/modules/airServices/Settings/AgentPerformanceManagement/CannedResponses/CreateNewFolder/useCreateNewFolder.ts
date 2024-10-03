@@ -1,14 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  createNewFolderDefaultValues,
   createNewFolderSchema,
   upsertFolderDefaultValuesFunction,
 } from './CreateNewFolder.data';
 import { useEffect } from 'react';
 import {
-  usePatchCannedResponseMutation,
-  usePostCannedResponsesMutation,
+  usePatchAirServicesSettingsCannedResponseMutation,
+  usePostAirServicesSettingsCannedResponsesMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ICannedResponsesProps } from '../CannedResponses.interface';
@@ -18,17 +17,19 @@ export const useCreateNewFolder = (props: ICannedResponsesProps) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;
 
   const method = useForm({
-    defaultValues: createNewFolderDefaultValues,
+    defaultValues: upsertFolderDefaultValuesFunction(
+      openCreateNewFolderModal?.editData,
+    ),
     resolver: yupResolver(createNewFolderSchema),
   });
 
   const [postCannedResponseTrigger, postCannedResponseStatus] =
-    usePostCannedResponsesMutation();
+    usePostAirServicesSettingsCannedResponsesMutation();
 
   const [patchCannedResponseTrigger, patchCannedResponseStatus] =
-    usePatchCannedResponseMutation();
+    usePatchAirServicesSettingsCannedResponseMutation();
 
-  const { reset } = method;
+  const { reset, handleSubmit } = method;
 
   const onSubmit = async (data: any) => {
     const postCannedResponseParameter = {
@@ -75,6 +76,7 @@ export const useCreateNewFolder = (props: ICannedResponsesProps) => {
   return {
     method,
     onSubmit,
+    handleSubmit,
     openCreateNewFolderModal,
     closeCreateNewFolderModal,
     postCannedResponseStatus,

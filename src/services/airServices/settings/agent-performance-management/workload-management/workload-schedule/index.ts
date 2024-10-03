@@ -14,6 +14,7 @@ export const workloadScheduleAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
     getAirServicesSettingsWorkloadScheduleById: builder?.query({
       query: (getSingleWorkloadScheduleParameter: any) => ({
         url: `${END_POINTS?.GET_SINGLE_WORKLOAD_SCHEDULE_DETAILS}`,
@@ -22,6 +23,7 @@ export const workloadScheduleAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
     postAirServicesSettingsWorkloadSchedule: builder?.mutation({
       query: (postWorkloadScheduleParameter: any) => ({
         url: END_POINTS?.ADD_WORKLOAD_SCHEDULE,
@@ -30,6 +32,7 @@ export const workloadScheduleAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
     patchAirServicesSettingsWorkloadSchedule: builder?.mutation({
       query: (patchWorkloadScheduleParameter: any) => ({
         url: END_POINTS?.EDIT_WORKLOAD_SCHEDULE,
@@ -38,6 +41,7 @@ export const workloadScheduleAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
     deleteAirServicesSettingsWorkloadSchedule: builder?.mutation({
       query: (deleteWorkloadScheduleParameter: any) => ({
         url: END_POINTS?.DELETE_WORKLOAD_SCHEDULE,
@@ -46,6 +50,7 @@ export const workloadScheduleAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
     getAirServicesSettingsWorkloadAgentDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.DROPDOWN_USERS,
@@ -57,9 +62,10 @@ export const workloadScheduleAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+
     getAirServicesSettingsBusinessHourDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.GET_BUSINESS_HOUR}`,
+        url: END_POINTS?.GET_BUSINESS_HOUR,
         method: 'GET',
         params,
       }),

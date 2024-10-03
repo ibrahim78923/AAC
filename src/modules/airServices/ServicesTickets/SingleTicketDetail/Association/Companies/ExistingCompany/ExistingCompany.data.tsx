@@ -77,7 +77,7 @@ export const useAddCompanyColumns = ({
     isSortable: true,
     header: 'Company Owner',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
+      <Typography variant={'body3'} textTransform={'capitalize'}>
         {info?.getValue()?.toLowerCase() ?? '---'}
       </Typography>
     ),

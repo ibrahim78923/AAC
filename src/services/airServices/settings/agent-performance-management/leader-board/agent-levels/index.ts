@@ -7,7 +7,7 @@ export const leaderBoardAgentLevelsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     addAirServicesSettingsLeaderBoardAgentLevels: builder?.mutation({
       query: (body: any) => ({
-        url: `${END_POINTS?.LEADER_BOARD_ADD_AGENT_LEVELS}`,
+        url: END_POINTS?.LEADER_BOARD_ADD_AGENT_LEVELS,
         method: 'POST',
         body,
       }),
@@ -16,7 +16,7 @@ export const leaderBoardAgentLevelsAPI = baseAPI?.injectEndpoints({
 
     getAirServicesSettingsLeaderBoardAgentLevels: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.LEADER_BOARD_GET_AGENT_LEVELS}`,
+        url: END_POINTS?.LEADER_BOARD_GET_AGENT_LEVELS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),

@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
 import { splitCapitalizedWords } from '@/utils/api';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const TYPE_VALUES = {
   ASSETS: 'assets',
@@ -67,7 +68,7 @@ export const getAssociateAssetsColumns: any = ({
       isSortable: true,
       header: 'Used By',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {fullName(
             info?.getValue()?.firstName?.toLowerCase(),
             info?.getValue()?.lastName?.toLowerCase(),
@@ -88,7 +89,7 @@ export const getAssociateAssetsColumns: any = ({
                 color={styleFunction?.[info?.getValue()]?.color}
                 sx={{
                   color: styleFunction?.[info?.getValue()]?.color,
-                  fontSize: '14px',
+                  fontSize: pxToRem(12),
                 }}
               />
             }
@@ -151,7 +152,7 @@ export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
       id: 'orderNumber',
       header: 'Order Number',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase()}
         </Typography>
       ),
@@ -190,7 +191,7 @@ export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
       header: 'Status',
       isSortable: true,
       cell: (info: any) => (
-        <Typography variant={'body2'} whiteSpace={'nowrap'}>
+        <Typography variant={'body3'} whiteSpace={'nowrap'}>
           {splitCapitalizedWords(info?.getValue())}
         </Typography>
       ),

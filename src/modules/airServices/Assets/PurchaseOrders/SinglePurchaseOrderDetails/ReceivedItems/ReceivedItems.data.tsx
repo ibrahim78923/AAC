@@ -56,7 +56,7 @@ export const itemDetailFormFieldsFunction = (
   return [
     {
       id: 1,
-      data: <Typography variant="body1">{item?.itemName}</Typography>,
+      data: <Typography variant="body3">{item?.itemName}</Typography>,
     },
     {
       id: 2,
@@ -72,11 +72,11 @@ export const itemDetailFormFieldsFunction = (
     },
     {
       id: 3,
-      data: <Typography variant="body1">{item?.quantity}</Typography>,
+      data: <Typography variant="body3">{item?.quantity}</Typography>,
     },
     {
       id: 4,
-      data: <Typography variant="body1">{item?.pending}</Typography>,
+      data: <Typography variant="body3">{item?.pending}</Typography>,
     },
   ];
 };

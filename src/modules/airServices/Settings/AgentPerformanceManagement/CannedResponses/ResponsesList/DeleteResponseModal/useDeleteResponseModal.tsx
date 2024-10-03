@@ -1,4 +1,4 @@
-import { useDeleteResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { useDeleteAirServicesSettingsCannedAddResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
@@ -7,7 +7,9 @@ export default function useDeleteResponseModal({
   setSelectedData,
   setDeleteModal,
 }: any) {
-  const [deleteResponsesTrigger, { isLoading }] = useDeleteResponsesMutation();
+  const [deleteResponsesTrigger, { isLoading }] =
+    useDeleteAirServicesSettingsCannedAddResponsesMutation();
+
   const deleteResponses = async () => {
     const deleteParams = new URLSearchParams();
     selectedData?.forEach(

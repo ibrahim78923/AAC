@@ -67,7 +67,7 @@ export const useAddDealsColumns = ({
     isSortable: true,
     header: 'Deal Pipeline',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
+      <Typography variant={'body3'} textTransform={'capitalize'}>
         {info?.getValue()?.toLowerCase() ?? '---'}
       </Typography>
     ),

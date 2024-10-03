@@ -5,10 +5,10 @@ import {
   addResponseDefaultValues,
   addResponseValidationSchema,
 } from './AddResponseForm.data';
-import { CANNED_RESPONSES } from '@/constants/strings';
+import { ARRAY_INDEX, CANNED_RESPONSES } from '@/constants/strings';
 import {
-  usePatchResponseMutation,
-  usePostResponseMutation,
+  usePatchAirServicesSettingsCannedAddResponseMutation,
+  usePostAirServicesSettingsCannedAddResponseMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
@@ -18,27 +18,36 @@ import { IErrorResponse } from '@/types/shared/ErrorResponse';
 export const useAddResponseForm = (props: any) => {
   const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
     props;
+
   const searchParams = useSearchParams();
   const cannedResponseId: any = searchParams.get('id');
-  const editableObj = selectedData?.[0];
-  const [postResponseTrigger, postResponseStatus] = usePostResponseMutation();
+
+  const editableObj = selectedData?.[ARRAY_INDEX?.ZERO];
+
+  const [postResponseTrigger, postResponseStatus] =
+    usePostAirServicesSettingsCannedAddResponseMutation();
   const [patchResponseTrigger, patchResponseStatus] =
-    usePatchResponseMutation();
+    usePatchAirServicesSettingsCannedAddResponseMutation();
+
   const [openSelectAgentsModal, setOpenSelectAgentsModal] = useState(false);
   const [hasAttachment, setHasAttachment] = useState(false);
-  const [agents, setAgents] = useState<any>([]);
+  const [selectedAgentsList, setSelectedAgentsList] = useState<any>([]);
+
   const methodsAddResponseForm = useForm<any>({
     resolver: yupResolver(addResponseValidationSchema),
     defaultValues: addResponseDefaultValues(folderName),
   });
+
   const { handleSubmit, watch, reset, setValue } = methodsAddResponseForm;
   const availableForChanged = watch(CANNED_RESPONSES?.AVAILABLE_FOR);
+
   const closeDrawer = () => {
     setDrawerOpen(false);
-    setAgents([]);
+    setSelectedAgentsList([]);
     setSelectedData([]);
     reset();
   };
+
   const submitAddResponse = async (data: any) => {
     delete data?.folder;
     if (!data?.fileUrl) {
@@ -50,13 +59,13 @@ export const useAddResponseForm = (props: any) => {
     );
     upsertResponseFormData?.append('folderId', cannedResponseId);
     if (availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS) {
-      if (!!!agents?.length) {
+      if (!!!selectedAgentsList?.length) {
         errorSnackbar('Please select Agents');
         return;
       }
       upsertResponseFormData?.append(
         'agents',
-        agents?.map((agent: any) => agent?._id),
+        selectedAgentsList?.map((agent: any) => agent?._id),
       );
     }
     if (availableForChanged === CANNED_RESPONSES?.MY_SELF) {
@@ -81,6 +90,7 @@ export const useAddResponseForm = (props: any) => {
       errorSnackbar(errorResponse?.data?.message);
     }
   };
+
   const submitUpdateResponse = async (data: any) => {
     const responseParameter = {
       body: data,
@@ -94,17 +104,19 @@ export const useAddResponseForm = (props: any) => {
       errorSnackbar(errorResponse?.data?.message);
     }
   };
+
   useEffect(() => {
     setOpenSelectAgentsModal(false);
     reset(addResponseDefaultValues(folderName, editableObj));
-    setAgents(editableObj?.agentDetails);
+    setSelectedAgentsList(editableObj?.agentDetails);
   }, [open]);
+
   return {
     methodsAddResponseForm,
     handleSubmit,
     submitAddResponse,
-    agents,
-    setAgents,
+    selectedAgentsList,
+    setSelectedAgentsList,
     setOpenSelectAgentsModal,
     openSelectAgentsModal,
     open,

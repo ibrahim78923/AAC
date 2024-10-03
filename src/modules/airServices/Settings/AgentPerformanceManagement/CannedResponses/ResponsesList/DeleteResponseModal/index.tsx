@@ -23,6 +23,7 @@ export const DeleteResponseModal = ({
         handleClose={() => setDeleteModal(false)}
         handleSubmitBtn={deleteResponses}
         loading={isLoading}
+        disableCancelBtn={isLoading}
       />
     </>
   );

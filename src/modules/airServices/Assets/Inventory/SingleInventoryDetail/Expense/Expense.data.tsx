@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
-import { Box, Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFDatePicker,
@@ -140,7 +140,11 @@ export const addExpenseColumnsFunction = (
     id: 'type',
     isSortable: true,
     header: 'Expense Type',
-    cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
+    cell: (info: any) => (
+      <Typography variant={'body3'} fontWeight={700}>
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.cost,

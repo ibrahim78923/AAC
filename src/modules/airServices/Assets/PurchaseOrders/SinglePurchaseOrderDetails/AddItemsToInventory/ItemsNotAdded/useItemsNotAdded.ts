@@ -39,6 +39,7 @@ export const useItemsNotAdded = (props: any) => {
     ];
     const postPurchaseOrderParameter = {
       body: {
+        purcahseId: purchaseOrderId,
         inventoryData: sendInventoryItem,
       },
     };

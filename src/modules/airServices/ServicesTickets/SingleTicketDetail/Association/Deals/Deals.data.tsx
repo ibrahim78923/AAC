@@ -24,7 +24,7 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       header: 'Deal Owner',
       isSortable: true,
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {fullName(
             info?.getValue()?.firstName?.toLowerCase(),
             info?.getValue()?.lastName?.toLowerCase(),
@@ -48,7 +48,7 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       isSortable: true,
       header: 'Deal Stage',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),
@@ -59,7 +59,7 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       isSortable: true,
       header: 'Deal Pipeline',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {info?.getValue()?.toLowerCase() ?? '---'}
         </Typography>
       ),

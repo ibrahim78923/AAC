@@ -6,6 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import { CANNED_RESPONSES } from '@/constants/strings';
 import * as Yup from 'yup';
+
 const availableForOptions = [
   {
     label: 'My Self',
@@ -50,32 +51,27 @@ export const addResponseDataArray = (
     componentProps: {
       name: 'title',
       label: 'Responses Title',
-      fullWidth: true,
       required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
-    id: 5,
+    id: 2,
     componentProps: {
       name: 'message',
       label: 'Message',
-      fullWidth: true,
       required: true,
       style: {
         height: '12rem',
       },
     },
     component: RHFEditor,
-    md: 12,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       name: 'availableFor',
       label: 'Available for:',
-      fullWidth: true,
       avatarGroup: true,
       options: availableForOptions,
       required: true,
@@ -86,34 +82,23 @@ export const addResponseDataArray = (
       },
     },
     component: RHFRadioGroup,
-    md: 12,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
       name: 'folder',
       label: 'Folder',
-      fullWidth: true,
       disabled: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
-    id: 2,
+    id: 5,
     componentProps: {
       name: 'fileUrl',
       label: 'Attach a file',
-      fullWidth: true,
       disabled: hasAttachment,
     },
     component: RHFDropZone,
-    md: 12,
   },
 ];
-
-export const stringAvatar = (name: string) => {
-  return {
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  };
-};

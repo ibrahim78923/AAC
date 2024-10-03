@@ -161,7 +161,7 @@ export const getAssociateCompanyColumns: any = ({ setModalId }: any) => {
       isSortable: true,
       header: 'Company Owner',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
+        <Typography variant={'body3'} textTransform={'capitalize'}>
           {fullName(
             info?.getValue()?.firstName?.toLowerCase(),
             info?.getValue()?.lastName?.toLowerCase(),

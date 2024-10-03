@@ -1,9 +1,5 @@
 import NoData from '@/components/NoData';
-import {
-  approvalStatus,
-  approvalsStatusObj,
-  stringAvatar,
-} from './Approvals.data';
+import { approvalStatus, approvalsStatusObj } from './Approvals.data';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import dayjs from 'dayjs';
@@ -18,7 +14,7 @@ import { useApprovals } from './useApprovals';
 import { Fragment } from 'react';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CancelRequest } from './CancelRequest';
-import { generateImage } from '@/utils/avatarUtils';
+import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { LoadingButton } from '@mui/lab';
 
 export const Approvals = () => {
@@ -95,25 +91,26 @@ export const Approvals = () => {
                     mb={{ xs: 2, md: 'unset' }}
                   >
                     <Avatar
-                      alt={`${
-                        user?._id !== item?.approverId
-                          ? item?.approverName
-                          : item?.createdName
-                      }`}
-                      sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
+                      sx={{
+                        bgcolor: 'primary.main',
+                        width: 28,
+                        height: 28,
+                      }}
+                      variant={'circular'}
                       src={generateImage(
                         user?._id !== item?.approverId
                           ? item?.approverByImg
                           : item?.createdByImg,
                       )}
-                      {...stringAvatar(
-                        `${
+                    >
+                      <Typography variant={'body2'} textTransform={'uppercase'}>
+                        {fullNameInitial(
                           user?._id !== item?.approverId
                             ? item?.approverName
-                            : item?.createdName
-                        }`,
-                      )}
-                    />
+                            : item?.createdName,
+                        )}
+                      </Typography>
+                    </Avatar>
                     <Box>
                       <Typography variant="body1" fontWeight={500}>
                         {`${
