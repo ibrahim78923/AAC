@@ -17,7 +17,7 @@ import CustomLabel from '@/components/CustomLabel';
 import {
   usePostEmailMarketingTemplatesMutation,
   usePostEmailWithTemplatesMutation,
-  useUpdateEmailTemplatesMutation,
+  useUpdatePostEmailTemplatesMutation,
 } from '@/services/airMarketer/emailTemplates';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
@@ -88,8 +88,8 @@ const FormBuilder = ({
     usePostEmailMarketingTemplatesMutation();
   const [postEmailWithTemplates, { isLoading: loadingPostEmailTemplate }] =
     usePostEmailWithTemplatesMutation();
-  const [updateEmailTemplate, { isLoading: loadingUpdateTemplate }] =
-    useUpdateEmailTemplatesMutation();
+  const [updatePostEmailTemplate, { isLoading: loadingUpdateTemplate }] =
+    useUpdatePostEmailTemplatesMutation();
 
   const handelPostTemplate = async (values: any) => {
     const payload = {
@@ -130,7 +130,7 @@ const FormBuilder = ({
 
     if (isEditMode) {
       try {
-        await updateEmailTemplate({
+        await updatePostEmailTemplate({
           body: payload,
           id: templateId,
         })?.unwrap();
@@ -406,6 +406,15 @@ const FormBuilder = ({
                     style={{ height: 600 }}
                     placeholder="Enter Email Text"
                     disabled={false}
+                    toolbar={{
+                      container: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ align: [] }],
+                        [{ color: [] }, { background: [] }],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['link', 'image'],
+                      ],
+                    }}
                   />
                 </Box>
               </FormProvider>

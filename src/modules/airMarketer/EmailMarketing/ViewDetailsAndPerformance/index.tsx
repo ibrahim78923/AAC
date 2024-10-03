@@ -10,6 +10,7 @@ import { PencilEditIcon } from '@/assets/icons';
 import CreateNewEmail from '../CreateNewEmail';
 import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import EmailReadability from './EmailReadability';
 
 const ViewDetailsAndPerformance = ({
   openViewDetails,
@@ -126,6 +127,9 @@ const ViewDetailsAndPerformance = ({
               </Grid>
               <Grid item sm={12}>
                 <Emailhealth data={data?.data} />
+              </Grid>
+              <Grid item sm={12}>
+                <EmailReadability data={data?.data} />
               </Grid>
             </Grid>
           </Box>

@@ -220,7 +220,7 @@ export const statusTag = (val: any, theme: any) => {
 };
 
 export const calculatePercentage = (value: number, total: number): number => {
-  if (total === 0) {
+  if (total === 0 || total === undefined) {
     return 0;
   }
   return (value / total) * 100;

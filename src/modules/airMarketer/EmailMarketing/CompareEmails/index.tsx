@@ -238,6 +238,9 @@ const EmailView = ({ id }: EmailViewPropsI) => {
     { skip: id ? false : true },
   );
 
+  console.log('data', data);
+  console.log(calculatePercentage(data?.data?.open, data?.data?.total));
+
   return (
     <>
       {status === 'pending' ? (
@@ -344,7 +347,7 @@ const EmailView = ({ id }: EmailViewPropsI) => {
                     <EmailCardProgress
                       title={'Click -Through Rate'}
                       value={calculatePercentage(
-                        data?.data?.bounce,
+                        data?.data?.click,
                         data?.data?.total,
                       )}
                     />
@@ -358,7 +361,7 @@ const EmailView = ({ id }: EmailViewPropsI) => {
                     <EmailCardProgress
                       title={'Blocked'}
                       value={calculatePercentage(
-                        data?.data?.rejected?.length,
+                        data?.data?.complaint,
                         data?.data?.total,
                       )}
                     />
@@ -375,13 +378,22 @@ const EmailView = ({ id }: EmailViewPropsI) => {
               <Box sx={{ mt: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item md={6}>
-                    <ReadabilityCards title={'Read'} value={0} />
+                    <ReadabilityCards
+                      title={'Read'}
+                      value={calculatePercentage(
+                        data?.data?.open,
+                        data?.data?.total,
+                      )}
+                    />
                   </Grid>
                   <Grid item md={6}>
-                    <ReadabilityCards title={'Skimmed'} value={0} />
-                  </Grid>
-                  <Grid item md={6}>
-                    <ReadabilityCards title={'Glanced'} value={0} />
+                    <ReadabilityCards
+                      title={'Unread'}
+                      value={calculatePercentage(
+                        data?.data?.unread,
+                        data?.data?.total,
+                      )}
+                    />
                   </Grid>
                 </Grid>
               </Box>
@@ -440,6 +452,7 @@ const ReadabilityCards = ({ title, value }: any) => {
   const bgColorToRender: any = {
     Read: theme?.palette?.primary?.main,
     Skimmed: theme?.palette?.warning?.main,
+    Unread: theme?.palette?.warning?.main,
     Glanced: theme?.palette?.secondary?.main,
   };
   return (

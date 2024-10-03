@@ -22,11 +22,12 @@ import CommonModal from '@/components/CommonModal';
 import {
   useLazyGetAllMarketingTeamsQuery,
   useLazyGetAllMarketingUsersQuery,
+  useUpdateEmailTemplatesMutation,
 } from '@/services/airMarketer/emailMarketing';
 import { getActiveProductSession } from '@/utils';
 import { PAGINATION } from '@/config';
 import { MANAGE_ACCESS_VISIBLE } from '@/constants';
-import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+
 import { LoadingButton } from '@mui/lab';
 
 const ManageAccess = ({

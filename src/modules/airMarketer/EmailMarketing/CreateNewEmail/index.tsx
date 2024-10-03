@@ -7,6 +7,7 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Skeleton,
   TextField,
   Typography,
   useTheme,
@@ -22,6 +23,7 @@ import CustomLabel from '@/components/CustomLabel';
 import {
   RHFDateTimePicker,
   RHFEditor,
+  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { EMAIL_ENUMS, indexNumbers } from '@/constants';
@@ -36,6 +38,7 @@ import { usePostEmailTemplatesMutation } from '@/services/airMarketer/emailMarke
 import { enqueueSnackbar } from 'notistack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
+import { useGetEmailSettingsIdentitiesQuery } from '@/services/airMarketer/email-settings';
 
 const CreateNewEmail = ({ edit, data }: any) => {
   const {
@@ -165,8 +168,8 @@ const CreateNewEmail = ({ edit, data }: any) => {
       formDataSend.append('to', autocompleteValues?.join(', '));
       formDataSend.append('subject', values?.subject);
       formDataSend.append('content', values?.description ?? ' ');
-      formDataSend.append('from', values?.from ?? ' ');
-      formDataSend.append('status', status);
+      formDataSend.append('from', values?.from?.email ?? ' ');
+      formDataSend.append('status', status ? status : EMAIL_ENUMS?.SCHEDULED);
       if (values?.cc && values?.cc?.length > 0) {
         formDataSend.append('cc', values?.cc);
       }
@@ -231,6 +234,16 @@ const CreateNewEmail = ({ edit, data }: any) => {
     }
   };
 
+  const { data: emailsRecords, isLoading } = useGetEmailSettingsIdentitiesQuery(
+    {
+      params: {
+        page: 1,
+        limit: '1000',
+        status: 'VERIFIED',
+      },
+    },
+  );
+
   return (
     <>
       <Box sx={styles?.createNewEmailWrap}>
@@ -257,9 +270,35 @@ const CreateNewEmail = ({ edit, data }: any) => {
       >
         <FormProvider {...methodsDealsTasks} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={12} lg={7}>
-              <RHFTextField name="from" label="From" size="small" />
-            </Grid>
+            {isLoading ? (
+              <Grid item xs={12} sm={12} md={12} lg={7}>
+                <Skeleton
+                  variant="rounded"
+                  sx={{ height: '20px', width: '30%' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  sx={{ height: '45px', marginTop: '10px' }}
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={12} sm={12} md={12} lg={7}>
+                <RHFSelect
+                  name="from"
+                  label="From"
+                  select={true}
+                  size="small"
+                  required={true}
+                >
+                  {emailsRecords?.data?.emailIdentitiesSES.map((item: any) => (
+                    <option key={item?.id} value={item?.email}>
+                      {item?.email}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </Grid>
+            )}
+
             <Grid item xs={12} sm={12} md={12} lg={7}>
               <MultiTextField
                 label={'To'}
@@ -325,11 +364,30 @@ const CreateNewEmail = ({ edit, data }: any) => {
             )}
 
             <Grid item xs={12} sm={12} md={12} lg={7}>
-              <RHFTextField name="subject" label="Subject" size="small" />
+              <RHFTextField
+                name="subject"
+                label="Subject"
+                size="small"
+                required={true}
+              />
             </Grid>
 
             <Grid item xs={12}>
-              <RHFEditor name="description" label={'Message'} />
+              <RHFEditor
+                name="description"
+                label={'Message'}
+                placeholder="Enter Email Text"
+                disabled={false}
+                toolbar={{
+                  container: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ align: [] }],
+                    [{ color: [] }, { background: [] }],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['link', 'image'],
+                  ],
+                }}
+              />
             </Grid>
             {isSendLater && (
               <Grid item xs={12}>

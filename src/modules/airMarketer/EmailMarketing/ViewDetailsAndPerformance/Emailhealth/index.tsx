@@ -14,7 +14,7 @@ const Emailhealth = ({ data }: any) => {
           <Grid item sm={6}>
             <ProgressCustom
               title="Number of block email"
-              value={calculatePercentage(data?.rejected?.length, data?.total)}
+              value={calculatePercentage(data?.complaint, data?.total)}
             />
           </Grid>
         </Grid>

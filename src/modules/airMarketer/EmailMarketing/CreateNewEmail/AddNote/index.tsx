@@ -12,7 +12,7 @@ import {
 import Image from 'next/image';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { SendPrimaryIcon, SmileIcon } from '@/assets/icons';
-import { AvatarImage, EmailMockupImage } from '@/assets/images';
+import { AvatarImage } from '@/assets/images';
 import { getSession } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { IMG_URL } from '@/config';
@@ -108,13 +108,27 @@ const AddANote = ({
       zIndex={13000}
     >
       <>
-        <Box sx={styles?.subjectWrapper}>
-          <SubjectComp title="To" value="CustomerCare@Airapplecart.com" />
-          <SubjectComp title="From" value="Mr.RobertFox413@Gmail.com" />
-          <SubjectComp title="Subject" value="Business Consultant" />
-        </Box>
+        {edit && (
+          <>
+            <Box sx={styles?.subjectWrapper}>
+              <SubjectComp
+                title="To"
+                value={notesDataArray?.to?.map((item: any) => item)}
+              />
+              <SubjectComp title="From" value={notesDataArray?.from} />
+              <SubjectComp title="Subject" value={notesDataArray?.subject} />
+            </Box>
 
-        <Image src={EmailMockupImage} alt="" style={{ paddingTop: '15px' }} />
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: '500' }}
+              mt={0.8}
+              mb={2.4}
+              dangerouslySetInnerHTML={{ __html: notesDataArray?.message }}
+            ></Typography>
+          </>
+        )}
+
         {notesData?.map((item: any) => (
           <>
             <Box key={uuidv4()}>
