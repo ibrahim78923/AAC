@@ -8,9 +8,11 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import useProfileStatistics from './useProfileStatistics';
+import PinIcon from '@/assets/icons/shared/pin-icon';
 
 export const ProfileStatistics = () => {
-  const { cardsArray, theme, cardFooterColors } = useProfileStatistics();
+  const { cardsArray, theme, cardFooterColors, handlePinClick } =
+    useProfileStatistics();
 
   return (
     <Box>
@@ -22,12 +24,43 @@ export const ProfileStatistics = () => {
       >
         Profile Statistics
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row', overflowX: 'scroll' }}>
-        {cardsArray?.map((card) => (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          overflowX: 'scroll',
+          gap: '24px',
+        }}
+      >
+        {cardsArray?.map((card, index) => (
           <Card
             key={card?.title}
-            sx={{ minWidth: '240px', marginRight: '16px', borderRadius: '8px' }}
+            sx={{
+              minWidth: '240px',
+              minHeight: '136px',
+              borderRadius: '8px',
+              position: 'relative',
+              '&:hover .pin-icon': {
+                display: 'block',
+              },
+            }}
           >
+            <Stack
+              direction="row"
+              justifyContent="end"
+              p={0.5}
+              className="pin-icon"
+              sx={{
+                cursor: 'pointer',
+                display: 'none',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+              }}
+              onClick={() => handlePinClick(index)}
+            >
+              <PinIcon />
+            </Stack>
             <CardContent sx={{ px: '10px', py: '16px' }}>
               <Stack direction="row" gap={1} alignItems="center">
                 <Image src={card?.icon} height={42} width={45} alt="icon" />

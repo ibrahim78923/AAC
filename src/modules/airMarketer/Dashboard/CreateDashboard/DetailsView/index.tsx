@@ -8,6 +8,8 @@ import CtaViews from '../../StaticComponents/CtaViews';
 import TotalMarketingEmail from '../../StaticComponents/TotalMarketingEmail';
 import FormsTable from '../../StaticComponents/FormsTable';
 import { ProfileStatistics } from '../../StaticComponents/ProfileStatistics';
+import SmsMarketingGraph from '../../StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from '../../StaticComponents/WhatsappMarketingGraph';
 
 const DetailsView = ({ selectedReports }: any) => {
   const displayDashboardWidgets = (selectedWidget: any) => {
@@ -24,6 +26,10 @@ const DetailsView = ({ selectedReports }: any) => {
             return <FormsTable key={report} />;
           case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.PROFILE_STATS:
             return <ProfileStatistics key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.SMS_MARKETING_GRAPH:
+            return <SmsMarketingGraph key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.WHATSAPP_MARKETING_GRAPH:
+            return <WhatsappMarketingGraph key={report} />;
           default:
             return null;
         }

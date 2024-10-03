@@ -101,7 +101,11 @@ const CreateDashboardOptions = (props: any) => {
         )}
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button
-            sx={{ color: theme?.palette?.grey[500], margin: '8px' }}
+            sx={{
+              color: theme?.palette?.grey[500],
+              margin: '8px',
+              width: '100%',
+            }}
             onClick={handelNavigate}
             variant="outlined"
             color="inherit"

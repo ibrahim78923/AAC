@@ -612,6 +612,8 @@ export const AIR_MARKETER_DASHBOARD_REPORTS_TYPES = {
   TOTAL_MARKETING_EMAIL: 'Total_Marketing_Email',
   LEAD_CAPTURED_FORMS: 'Lead_Captured_Forms',
   PROFILE_STATS: 'Profile_Stats',
+  SMS_MARKETING_GRAPH: 'SMS_Marketing_Graph',
+  WHATSAPP_MARKETING_GRAPH: 'Whatsapp_Marketing_Graph',
 };
 
 export const PRODUCT_LABELS = {

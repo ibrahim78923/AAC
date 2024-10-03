@@ -11,7 +11,7 @@ import {
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Manage.data';
 import { AlertModals } from '@/components/AlertModals';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+import useDashboard from '../useDashboard';
 
 const Manage = () => {
   const {
@@ -34,6 +34,7 @@ const Manage = () => {
     theme,
     router,
   } = useManage();
+  const { handelNavigate } = useDashboard();
 
   const columnsProps = {
     setIsDeleteModalOpen: setIsDeleteModalOpen,
@@ -50,7 +51,13 @@ const Manage = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Stack direction={{ sm: 'row' }} justifyContent="space-between">
-            <Stack direction="row" gap={1} alignItems="center">
+            <Stack
+              sx={{ cursor: 'pointer' }}
+              onClick={() => router?.back()}
+              direction="row"
+              gap={1}
+              alignItems="center"
+            >
               <ArrowLeft />
               <Typography variant="h3">Manage Dashboards</Typography>
             </Stack>
@@ -58,7 +65,7 @@ const Manage = () => {
               startIcon={<PlusIcon />}
               variant="contained"
               className="small"
-              onClick={() => router.push(AIR_MARKETER?.CREATE_DASHBOARD)}
+              onClick={handelNavigate}
             >
               Create Dashboard
             </Button>

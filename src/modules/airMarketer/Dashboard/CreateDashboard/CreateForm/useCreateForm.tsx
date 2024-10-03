@@ -28,6 +28,7 @@ const useCreateForm = (formType: any) => {
   const currentUser = user?._id;
   const selectedDashboardId = router?.query?.id;
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
+
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
 

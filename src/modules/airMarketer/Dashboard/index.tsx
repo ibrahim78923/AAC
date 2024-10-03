@@ -9,6 +9,9 @@ import useDashboard from './useDashboard';
 import NoData from '@/components/NoData';
 import { PlusIcon } from '@/assets/icons';
 import { capitalizeFirstLetters } from '@/utils';
+import { ProfileStatistics } from './StaticComponents/ProfileStatistics';
+import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 
 const Dashboard = () => {
   const {
@@ -70,17 +73,26 @@ const Dashboard = () => {
           </NoData>
         ) : (
           <>
-            <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
-              <ContactCustomerGraph />
+            <Grid item xs={12}>
+              <ProfileStatistics />
             </Grid>
             <Grid item xs={12} lg={6}>
               <CtaViews />
             </Grid>
-            <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
+            <Grid item xs={12} lg={6}>
+              <ContactCustomerGraph />
+            </Grid>
+            <Grid item xs={12} lg={6}>
               <TotalMarketingEmail />
             </Grid>
             <Grid item xs={12} lg={6}>
               <FormsTable />
+            </Grid>
+            <Grid item xs={12}>
+              <SmsMarketingGraph />
+            </Grid>
+            <Grid item xs={12}>
+              <WhatsappMarketingGraph />
             </Grid>
           </>
         )}

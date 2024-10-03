@@ -249,27 +249,41 @@ const CreateForm = ({ formType }: any) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Stack direction="row" justifyContent="end" gap={1}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <Button
                   className="small"
                   variant="outlined"
                   onClick={() => router?.back()}
                   color="inherit"
                 >
-                  Cancel
+                  Back
                 </Button>
-                {formType !== DRAWER_TYPES?.VIEW && (
-                  <LoadingButton
-                    variant="contained"
+                <Stack direction="row" justifyContent="end" gap={1}>
+                  <Button
                     className="small"
-                    type="submit"
-                    loading={
-                      postSalesDashboardLoading || loadingUpdateDashboard
-                    }
+                    variant="outlined"
+                    onClick={() => router?.back()}
+                    color="inherit"
                   >
-                    {formType === DRAWER_TYPES?.EDIT ? 'Update' : 'Save'}
-                  </LoadingButton>
-                )}
+                    Cancel
+                  </Button>
+                  {formType !== DRAWER_TYPES?.VIEW && (
+                    <LoadingButton
+                      variant="contained"
+                      className="small"
+                      type="submit"
+                      loading={
+                        postSalesDashboardLoading || loadingUpdateDashboard
+                      }
+                    >
+                      {formType === DRAWER_TYPES?.EDIT ? 'Update' : 'Save'}
+                    </LoadingButton>
+                  )}
+                </Stack>
               </Stack>
             </Grid>
           </Grid>

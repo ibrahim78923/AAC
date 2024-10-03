@@ -101,6 +101,14 @@ export const dashboardReportsData = [
     label: 'Profile Statistics',
     value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.PROFILE_STATS,
   },
+  {
+    label: 'SMS Marketing',
+    value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.SMS_MARKETING_GRAPH,
+  },
+  {
+    label: 'Whatsapp Marketing',
+    value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.WHATSAPP_MARKETING_GRAPH,
+  },
 ];
 
 export const createFormOptions = {

@@ -4,7 +4,7 @@ import { capitalizeFirstLetters } from '@/utils';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { SwitchBtn } from '@/components/SwitchButton';
-import { AIR_SALES } from '@/routesConstants/paths';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
 
 export const columns: any = (columnsProps: any) => {
@@ -105,7 +105,7 @@ export const columns: any = (columnsProps: any) => {
             sx={{ cursor: 'pointer' }}
             onClick={() => {
               router?.push({
-                pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
                 query: { id: info?.row?.original?._id, type: 'view' },
               });
             }}
@@ -119,7 +119,7 @@ export const columns: any = (columnsProps: any) => {
               sx={{ cursor: 'pointer' }}
               onClick={() => {
                 router?.push({
-                  pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                  pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
                   query: { id: info?.row?.original?._id, type: 'edit' },
                 });
               }}

@@ -6,10 +6,11 @@ import {
   StatsYoutubeImage,
 } from '@/assets/images';
 import { useTheme } from '@mui/material';
+import { useState } from 'react';
 
 const useProfileStatistics = () => {
   const theme = useTheme();
-  const cardsArray = [
+  const initialCardsArray = [
     {
       icon: StatsLinkedinImage,
       title: 'Linkedin',
@@ -41,6 +42,16 @@ const useProfileStatistics = () => {
       percentage: 3.5,
     },
   ];
+
+  const [cardsArray, setCardsArray] = useState(initialCardsArray);
+
+  const handlePinClick = (index: number) => {
+    const newCards = [...cardsArray];
+    const [pinnedCard] = newCards.splice(index, 1);
+    newCards.unshift(pinnedCard);
+    setCardsArray(newCards);
+  };
+
   const cardFooterColors = (name: string) => {
     switch (name) {
       case 'Linkedin':
@@ -69,9 +80,10 @@ const useProfileStatistics = () => {
   };
 
   return {
+    cardFooterColors,
+    handlePinClick,
     cardsArray,
     theme,
-    cardFooterColors,
   };
 };
 
