@@ -11,11 +11,11 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
-import { API_STATUS, EMAIL_DATE_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
+import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
-import dayjs from 'dayjs';
+
 import {
   setActiveGmailRecord,
   setGmailCurrentPage,
@@ -264,132 +264,148 @@ const MailList = ({
                 {dataArray && (
                   <>
                     {dataArray?.length > 0 ? (
-                      dataArray?.map((item: any) => (
-                        <>
-                          <Box
-                            key={uuidv4()}
-                            sx={styles?.card(theme)}
-                            style={{
-                              background:
-                                activeGmailRecord?.id === item?.id
-                                  ? theme?.palette?.grey[100]
-                                  : theme?.palette?.common?.white,
-                            }}
-                          >
-                            <Checkbox
-                              checked={selectedGmailRecords?.some(
-                                (email: any) => email?.id === item?.id,
-                              )}
-                              onChange={() => handleCheckboxClick(item)}
-                            />
-                            <Box onClick={() => handelMailClick(item)}>
-                              {gmailTabType?.name ===
-                              EMAIL_TABS_TYPES?.SCHEDULE ? (
-                                <Typography
-                                  variant="h6"
-                                  sx={{
-                                    fontWeight: item?.readMessage ? 700 : '',
-                                    color: theme?.palette?.success?.main,
-                                  }}
-                                >
-                                  {'['} Scheduled {']'}
-                                </Typography>
-                              ) : (
-                                <Typography
-                                  variant="h6"
-                                  sx={{
-                                    fontWeight: item?.readMessage ? 700 : '',
-                                    wordBreak: 'break-all',
-                                  }}
-                                >
-                                  {' '}
-                                  {item?.name}{' '}
-                                </Typography>
-                              )}
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  width: '19vw',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                  fontWeight: item?.readMessage ? 400 : 700,
-                                }}
-                              >
-                                {gmailTabType?.name?.toLowerCase() ===
-                                EMAIL_TABS_TYPES?.DRAFT ? (
-                                  <>
-                                    <span
-                                      style={{
-                                        color: theme?.palette?.error?.main,
-                                      }}
-                                    >
-                                      [DRAFT]
-                                    </span>{' '}
-                                    {item?.toRecipients?.map((item: any) => (
-                                      <>{item?.emailAddress?.address}; </>
-                                    ))}
-                                  </>
-                                ) : (
-                                  <>{item?.from?.emailAddress?.name ?? ''} </>
+                      dataArray?.map((item: any) => {
+                        const options: any = {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          second: 'numeric',
+                          hour12: true,
+                        };
+                        const localDateTime = new Date(
+                          item?.internalDate * 1,
+                        ).toLocaleString('en-US', {
+                          timeZone: 'Asia/Karachi',
+                          ...options,
+                        });
+
+                        return (
+                          <>
+                            <Box
+                              key={uuidv4()}
+                              sx={styles?.card(theme)}
+                              style={{
+                                background:
+                                  activeGmailRecord?.id === item?.id
+                                    ? theme?.palette?.grey[100]
+                                    : theme?.palette?.common?.white,
+                              }}
+                            >
+                              <Checkbox
+                                checked={selectedGmailRecords?.some(
+                                  (email: any) => email?.id === item?.id,
                                 )}
-                              </Typography>
-                              <Box
-                                display={'flex'}
-                                justifyContent={'space-between'}
-                                alignItems={'center'}
-                                pr={2}
-                              >
+                                onChange={() => handleCheckboxClick(item)}
+                              />
+                              <Box onClick={() => handelMailClick(item)}>
+                                {gmailTabType?.name ===
+                                EMAIL_TABS_TYPES?.SCHEDULE ? (
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      fontWeight: item?.readMessage ? 700 : '',
+                                      color: theme?.palette?.success?.main,
+                                    }}
+                                  >
+                                    {'['} Scheduled {']'}
+                                  </Typography>
+                                ) : (
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      fontWeight: item?.readMessage ? 700 : '',
+                                      wordBreak: 'break-all',
+                                    }}
+                                  >
+                                    {' '}
+                                    {item?.name}{' '}
+                                  </Typography>
+                                )}
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    width: '19vw',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    fontWeight: item?.readMessage ? 400 : 700,
+                                  }}
+                                >
+                                  {gmailTabType?.name?.toLowerCase() ===
+                                  EMAIL_TABS_TYPES?.DRAFT ? (
+                                    <>
+                                      <span
+                                        style={{
+                                          color: theme?.palette?.error?.main,
+                                        }}
+                                      >
+                                        [DRAFT]
+                                      </span>{' '}
+                                      {item?.toRecipients?.map((item: any) => (
+                                        <>{item?.emailAddress?.address}; </>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <>{item?.from?.emailAddress?.name ?? ''} </>
+                                  )}
+                                </Typography>
+                                <Box
+                                  display={'flex'}
+                                  justifyContent={'space-between'}
+                                  alignItems={'center'}
+                                  pr={2}
+                                >
+                                  <Typography
+                                    variant="body3"
+                                    sx={{
+                                      fontWeight: item?.readMessage ? 700 : 600,
+                                      wordBreak: 'break-all',
+                                    }}
+                                    color={'primary'}
+                                    margin={'8px 0px'}
+                                  >
+                                    {item?.subject === 'undefined'
+                                      ? '(No subject)'
+                                      : item?.subject}
+                                  </Typography>
+
+                                  {hasNonEmptyFilename(item?.attchImages) && (
+                                    <PaperClipIcon
+                                      color={theme?.palette?.primary?.main}
+                                    />
+                                  )}
+                                </Box>
+
                                 <Typography
                                   variant="body3"
+                                  margin={'3px 0px'}
                                   sx={{
-                                    fontWeight: item?.readMessage ? 700 : 600,
+                                    display: '-webkit-box',
+                                    WebkitBoxOrient: 'vertical',
+                                    WebkitLineClamp: 3,
+                                    overflow: 'hidden',
                                     wordBreak: 'break-all',
+                                    textOverflow: 'ellipsis',
                                   }}
-                                  color={'primary'}
-                                  margin={'8px 0px'}
                                 >
-                                  {item?.subject === 'undefined'
-                                    ? '(No subject)'
-                                    : item?.subject}
+                                  {decodeHtmlEntities(item?.snippet ?? '---')}
                                 </Typography>
-
-                                {hasNonEmptyFilename(item?.attchImages) && (
-                                  <PaperClipIcon
-                                    color={theme?.palette?.primary?.main}
-                                  />
-                                )}
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    color: theme?.palette?.grey[900],
+                                    fontSize: '12px',
+                                  }}
+                                >
+                                  {localDateTime}
+                                </Typography>
                               </Box>
-
-                              <Typography
-                                variant="body3"
-                                margin={'3px 0px'}
-                                sx={{
-                                  display: '-webkit-box',
-                                  WebkitBoxOrient: 'vertical',
-                                  WebkitLineClamp: 3,
-                                  overflow: 'hidden',
-                                  wordBreak: 'break-all',
-                                  textOverflow: 'ellipsis',
-                                }}
-                              >
-                                {decodeHtmlEntities(item?.snippet ?? '---')}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: theme?.palette?.grey[900],
-                                  fontSize: '12px',
-                                }}
-                              >
-                                {dayjs(item?.date).format(
-                                  EMAIL_DATE_FORMAT?.DATE_FORMAT,
-                                )}
-                              </Typography>
                             </Box>
-                          </Box>
-                        </>
-                      ))
+                          </>
+                        );
+                      })
                     ) : (
                       <>No record found</>
                     )}

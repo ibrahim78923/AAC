@@ -1,5 +1,5 @@
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
-import { DATE_TIME_FORMAT, goalsStatus, indexNumbers } from '@/constants';
+import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
 import { isNullOrEmpty } from '@/utils';
 import {
   Box,
@@ -209,29 +209,7 @@ export const manageTableColumns: any = (
       id: 'status',
       header: 'status',
       isSortable: true,
-      cell: (info: any) => (
-        <Typography
-          variant="body2"
-          sx={{
-            cursor: 'pointer',
-            padding: '4px 8px',
-            borderRadius: '25px',
-            width: 'fit-content',
-            backgroundColor: `${
-              info?.getValue() === goalsStatus?.expired
-                ? theme?.palette?.custom?.light_purple
-                : theme?.palette?.custom?.light_yellow_bg
-            }`,
-            color: `${
-              info?.getValue() === goalsStatus?.expired
-                ? theme?.palette?.error?.main
-                : theme?.palette?.warning?.main
-            }`,
-          }}
-        >
-          {info?.getValue()}
-        </Typography>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

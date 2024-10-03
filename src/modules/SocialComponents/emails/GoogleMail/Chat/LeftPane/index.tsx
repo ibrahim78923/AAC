@@ -237,7 +237,7 @@ const LeftPane = () => {
               )
               ?.value?.replace(/ -\d{4}$/, '') || '';
           const readMessage = lastMessage?.labelIds?.includes('UNREAD');
-
+          const internalDate = lastMessage?.internalDate;
           return {
             id,
             to,
@@ -251,6 +251,7 @@ const LeftPane = () => {
             readMessage,
             messageId,
             attchImages,
+            internalDate,
           };
         })
         .flat();

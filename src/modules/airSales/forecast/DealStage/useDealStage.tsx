@@ -43,7 +43,7 @@ const useDealStage = () => {
     useGetDealPipeLineQuery({ meta: false });
 
   const statsParams = {
-    pipeline: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
+    pipelines: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
     isTeam: alignment === 'UserDealStage' ? false : true,
   };
 

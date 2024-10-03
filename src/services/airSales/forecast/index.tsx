@@ -80,6 +80,43 @@ export const forecastApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getDealsPipelineForecast: builder.query({
+      query: ({ meta }) => ({
+        url: `${END_POINTS?.DEAL_PIPELINE}?meta=${meta}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    postForecast: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.FORECAST}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    getForecast: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.FORECAST}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    patchForecast: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.FORECAST}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    deleteForecast: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${END_POINTS?.FORECAST}/${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -93,4 +130,9 @@ export const {
   useGetForecastDealStageStatsQuery,
   useGetForecastDealStagesUserQuery,
   useGetForecastDealStagesTeamQuery,
+  useGetDealsPipelineForecastQuery,
+  usePostForecastMutation,
+  useGetForecastQuery,
+  usePatchForecastMutation,
+  useDeleteForecastMutation,
 } = forecastApi;

@@ -51,8 +51,13 @@ const Login = () => {
   const [authLogin, { isLoading }] = useAuthLoginMutation();
   let res: any;
   const onSubmit = async (credentials: any) => {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const credentialsWithTimeZone = {
+      ...credentials,
+      timezone,
+    };
     try {
-      res = await authLogin(credentials)?.unwrap();
+      res = await authLogin(credentialsWithTimeZone)?.unwrap();
       login(res);
     } catch (error: any) {
       const errMsg = res?.message;

@@ -528,6 +528,7 @@ export const END_POINTS = {
   GET_PUBLIC_DASHBOARD_CARDS_TICKETS:
     '/air-services-dashboard/dashboard-tickets-customer-portal',
   OPERATIONS_TEAM: '/teams',
+  FORECAST: '/forecasts',
 };
 
 export const LEAD_CAPTURE_FORM = {

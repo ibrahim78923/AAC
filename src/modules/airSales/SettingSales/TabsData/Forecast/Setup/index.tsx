@@ -11,12 +11,13 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
+  Skeleton,
   TextField,
   Theme,
   Typography,
   useTheme,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -24,23 +25,89 @@ import {
   DeleteCrossDisableIcon,
   DeleteCrossIcon,
   DragIcon,
+  EditPenIcon,
+  TickCircleIcon,
 } from '@/assets/icons';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SetupDefaultValues, SetupValidationSchema } from './Setup.data';
+import {
+  useDeleteForecastMutation,
+  useGetDealsPipelineForecastQuery,
+  useGetForecastQuery,
+  usePatchForecastMutation,
+  usePostForecastMutation,
+} from '@/services/airSales/forecast';
+import { enqueueSnackbar } from 'notistack';
+import { isNullOrEmpty } from '@/utils';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { successSnackbar } from '@/utils/api';
 
 const Setup = () => {
   const theme = useTheme<Theme>();
+
+  const { data: DealsPipelineForecastData } = useGetDealsPipelineForecastQuery({
+    meta: false,
+  });
+
+  const productsOptions = DealsPipelineForecastData?.data?.map(
+    (product: any) => ({
+      value: product?._id,
+      label: product?.name,
+    }),
+  );
 
   const methods: any = useForm({
     resolver: yupResolver(SetupValidationSchema),
     defaultValues: SetupDefaultValues,
   });
 
+  const { watch: watchRadioValue } = methods;
+  const PipelineValue = watchRadioValue('Pipeline');
+
+  const { data: getForecastData, isLoading: getForecastIsLoading } =
+    useGetForecastQuery(
+      { id: PipelineValue },
+      { skip: isNullOrEmpty(PipelineValue) },
+    );
+
+  const selectedPipeline = DealsPipelineForecastData?.data?.find(
+    (pipeline: any) => pipeline?._id === PipelineValue,
+  );
+  let stages: any = [];
+  if (selectedPipeline) {
+    stages = selectedPipeline?.stages;
+  }
+
   const initialRows: any = [];
 
   const [rows, setRows] = useState(initialRows);
+
+  useEffect(() => {
+    if (getForecastData?.data) {
+      const mappedRows = getForecastData?.data.map((item: any) => ({
+        ...item,
+        category: item.name,
+        stages: item.stages.map((stage: any) => stage._id),
+        isEditing: false,
+        isDropdown: true,
+        options: stages.map((stage: any) => ({
+          value: stage._id,
+          label: stage.name,
+        })),
+      }));
+      setRows(mappedRows);
+    } else {
+      setRows(initialRows);
+    }
+  }, [getForecastData]);
+
+  const lifeCycleStagesOptions =
+    stages?.map((stage: any) => ({
+      value: stage?._id,
+      label: stage?.name,
+    })) || [];
 
   const handleAddRow = () => {
     setRows((prevRows: any) => [
@@ -49,22 +116,55 @@ const Setup = () => {
         category: '',
         stages: [],
         isDropdown: true,
-        options: ['Option 1', 'Option 2', 'Option 3'],
+        options: lifeCycleStagesOptions,
         isEditing: true,
       },
     ]);
   };
+  const [deleteForecast, { isLoading: isLoadingDelete }] =
+    useDeleteForecastMutation();
 
-  const handleDeleteRow = (index: any) => {
-    setRows((prevRows: any) =>
-      prevRows.filter((_: any, i: any) => i !== index),
-    );
+  const handleDeleteRow = async (index: any, id: any) => {
+    if (isNullOrEmpty(id)) {
+      setRows((prevRows: any) =>
+        prevRows.filter((_: any, i: any) => i !== index),
+      );
+    } else {
+      try {
+        await deleteForecast({ ids: id }).unwrap();
+        successSnackbar('Record Deleted Successfully');
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      }
+    }
   };
 
+  const [postForecast, { isLoading }] = usePostForecastMutation();
+
   const handleSelectChange = (event: any, index: any) => {
+    const selectedIds = event?.target?.value;
     const updatedRows = [...rows];
-    updatedRows[index].stages = event?.target?.value;
+    updatedRows[index].stages = selectedIds;
     setRows(updatedRows);
+  };
+
+  const handlePostForecast = async (index: any) => {
+    const payload = {
+      name: rows[index]?.category,
+      pipeline: PipelineValue,
+      stages: rows[index]?.stages,
+    };
+
+    try {
+      await postForecast({ body: payload })?.unwrap();
+      enqueueSnackbar('Forecast added successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message[ARRAY_INDEX?.ZERO], {
+        variant: 'error',
+      });
+    }
   };
 
   const handleCategoryChange = (event: any, index: any) => {
@@ -79,42 +179,27 @@ const Setup = () => {
     setRows(updatedRows);
   };
 
+  const [patchForecast, { isLoading: isPatchLoading }] =
+    usePatchForecastMutation();
+
+  const handlePatchForecast = async (index: any) => {
+    const payload = {
+      name: rows[index]?.category,
+      stages: rows[index]?.stages,
+    };
+
+    try {
+      await patchForecast({ id: rows[index]?._id, body: payload }).unwrap();
+      enqueueSnackbar('Forecast updated successfully', { variant: 'success' });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message[ARRAY_INDEX?.ZERO], {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <>
-      <Typography variant="h6" color={theme?.palette?.grey[800]}>
-        Forecast Deal Amount
-      </Typography>
-      <Typography variant="body1" color={theme?.palette?.grey[800]}>
-        Choose how deal amounts are displayed on the forecast view and related
-        reports.
-      </Typography>
-
-      <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} my={1}>
-            <RHFSelect name="dealAmount" label="" select={true} size="small">
-              <option value="default">Total Amount</option>
-              <option value="default">Weighted Amount </option>
-            </RHFSelect>
-          </Grid>
-        </Grid>
-
-        <Typography variant="h6" color={theme?.palette?.grey[800]} mt={1}>
-          Forecast period
-        </Typography>
-        <Typography variant="body1" color={theme?.palette?.grey[800]}>
-          Choose the time period you'll use for revenue goals and forecast
-          submissions.
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} mt={1}>
-            <RHFSelect name="Period" label="" select={true} size="small">
-              <option value="default">Monthly</option>
-              <option value="default">Quartly </option>
-            </RHFSelect>
-          </Grid>
-        </Grid>
-      </FormProvider>
       <Typography variant="body1" color={theme?.palette?.grey[800]}>
         Deal pipeline settings for the forecast tool. These settings apply to
         the selected pipeline.
@@ -128,21 +213,29 @@ const Setup = () => {
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} my={1}>
+          <Grid item xs={12} md={6} mt={1}>
             <FormProvider methods={methods}>
               <RHFSelect
-                name="SelectPipeline"
+                name="Pipeline"
                 label="Select Pipeline"
                 select={true}
                 size="small"
+                required={true}
               >
-                <option value="default">sales pipeline</option>
-                <option value="default">marketing pipeline </option>
+                {productsOptions?.map((option: any) => (
+                  <option key={uuidv4()} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
               </RHFSelect>
             </FormProvider>
           </Grid>
         </Grid>
-
+        {isNullOrEmpty(PipelineValue) && (
+          <Typography variant="body1" color={theme?.palette?.error?.main}>
+            Please select pipeline to see the forecast Category.
+          </Typography>
+        )}
         <Typography variant="body1" color={theme?.palette?.grey[600]} mt={2}>
           Group your deals into forecast categories based on their deal stage.
           Users can override this mapping by assigning forecast categories
@@ -178,161 +271,253 @@ const Setup = () => {
             </Grid>
           </Grid>
 
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            }}
-          >
-            <Grid item xs={12} md={3} my={2}>
-              <Typography
-                variant="body1"
-                display={'flex'}
-                alignItems={'center'}
-              >
-                Not forecasted
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8} my={2}>
-              <Typography
-                variant="body3"
-                mt={3}
+          {!isNullOrEmpty(PipelineValue) && (
+            <>
+              <Grid
+                container
+                spacing={2}
                 sx={{
-                  backgroundColor: theme?.palette?.custom?.blush_pink,
-                  width: 'fit-content',
-                  borderRadius: '15px',
-                  padding: '3px 5px',
-                  border: `1px solid ${theme?.palette?.error?.main}`,
-                  color: theme?.palette?.error?.main,
+                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
                 }}
               >
-                Closed Lost
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={1}
-              my={2}
-              sx={{ textAlign: 'right', paddingRight: '8px' }}
-            >
-              <DeleteCrossDisableIcon />
-            </Grid>
-          </Grid>
-          {rows?.map((item: any, index: any) => (
-            <Box
-              key={uuidv4()}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                borderBottom: `1px solid #e0e0e0`,
-                flexWrap: 'wrap',
-              }}
-            >
-              <Box>
-                <DragIcon />
-              </Box>
-              <Box
-                sx={{ flex: 1, display: 'flex', alignItems: 'center', my: 2 }}
-              >
-                {item?.isEditing ? (
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    placeholder="Enter Category"
-                    value={item?.category}
-                    onChange={(event) => handleCategoryChange(event, index)}
-                    onBlur={() => toggleEditMode(index)} // Toggle edit mode when focus is lost
-                    autoFocus // Keep focus when adding a new row
-                    sx={{ mr: 1 }}
-                  />
-                ) : (
+                <Grid item xs={12} md={3} my={2}>
                   <Typography
                     variant="body1"
-                    sx={{ mr: 1, cursor: 'pointer' }}
-                    onClick={() => toggleEditMode(index)} // Enable editing on click
+                    display={'flex'}
+                    alignItems={'center'}
                   >
-                    {item?.category || 'New Category'}
+                    Not forecasted
                   </Typography>
-                )}
-              </Box>
-              <Box sx={{ flex: 3, my: 2 }}>
-                {item?.isDropdown && (
-                  <FormControl fullWidth variant="outlined" size="small">
-                    <InputLabel>Select deals stages</InputLabel>
-                    <Select
-                      multiple
-                      value={item?.stages}
-                      onChange={(event) => handleSelectChange(event, index)}
-                      input={<OutlinedInput label="Select deals stages" />}
-                      renderValue={(selected) => (
-                        <Box
-                          sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}
-                        >
-                          {selected?.map((value: any) => (
-                            <Chip key={uuidv4()} label={value} />
-                          ))}
-                        </Box>
-                      )}
-                    >
-                      {item?.options?.map((stage: any) => (
-                        <MenuItem key={uuidv4()} value={stage}>
-                          <Checkbox
-                            checked={item?.stages?.indexOf(stage) > -1}
-                          />
-                          <ListItemText primary={stage} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-              </Box>
-              <IconButton onClick={() => handleDeleteRow(index)}>
-                <DeleteCrossIcon />
-              </IconButton>
-            </Box>
-          ))}
+                </Grid>
+                <Grid item xs={12} md={8} my={2}>
+                  <Typography
+                    variant="body3"
+                    mt={3}
+                    sx={{
+                      backgroundColor: theme?.palette?.custom?.blush_pink,
+                      width: 'fit-content',
+                      borderRadius: '15px',
+                      padding: '3px 5px',
+                      border: `1px solid ${theme?.palette?.error?.main}`,
+                      color: theme?.palette?.error?.main,
+                    }}
+                  >
+                    Closed Lost
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={1}
+                  my={2}
+                  sx={{ textAlign: 'right', paddingRight: '8px' }}
+                >
+                  <DeleteCrossDisableIcon />
+                </Grid>
+              </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={3} my={2}>
-              <Typography
-                variant="body1"
-                display={'flex'}
-                alignItems={'center'}
-              >
-                Closed won
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8} my={2}>
-              <Typography
-                variant="body3"
+              <Grid
+                container
+                spacing={2}
                 sx={{
-                  backgroundColor: theme?.palette?.custom?.pale_mint,
-                  width: 'fit-content',
-                  borderRadius: '15px',
-                  padding: '3px 5px',
-                  border: `1px solid ${theme?.palette?.success?.main}`,
-                  color: theme?.palette?.success?.main,
+                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
                 }}
               >
-                Closed won
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={1}
-              my={2}
-              sx={{ textAlign: 'right', paddingRight: '8px' }}
-            >
-              <DeleteCrossDisableIcon />
-            </Grid>
-          </Grid>
+                <Grid item xs={12} md={3} my={2}>
+                  <Typography
+                    variant="body1"
+                    display={'flex'}
+                    alignItems={'center'}
+                  >
+                    Closed won
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={8} my={2}>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      backgroundColor: theme?.palette?.custom?.pale_mint,
+                      width: 'fit-content',
+                      borderRadius: '15px',
+                      padding: '3px 5px',
+                      border: `1px solid ${theme?.palette?.success?.main}`,
+                      color: theme?.palette?.success?.main,
+                    }}
+                  >
+                    Closed won
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={1}
+                  my={2}
+                  sx={{ textAlign: 'right', paddingRight: '8px' }}
+                >
+                  <DeleteCrossDisableIcon />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={3} my={2}>
+                  <Typography
+                    variant="body1"
+                    display={'flex'}
+                    alignItems={'center'}
+                  >
+                    Closed New
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={8} my={2}>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      backgroundColor: theme?.palette?.custom?.light_yellow_bg,
+                      width: 'fit-content',
+                      borderRadius: '15px',
+                      padding: '3px 5px',
+                      border: `1px solid ${theme?.palette?.warning?.main}`,
+                      color: theme?.palette?.warning?.main,
+                    }}
+                  >
+                    Closed New
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={1}
+                  my={2}
+                  sx={{ textAlign: 'right', paddingRight: '8px' }}
+                >
+                  <DeleteCrossDisableIcon />
+                </Grid>
+              </Grid>
+            </>
+          )}
+
+          {isLoading ||
+          getForecastIsLoading ||
+          isPatchLoading ||
+          isLoadingDelete ? (
+            <>
+              {rows?.length
+                ? rows?.map(() => (
+                    <Skeleton
+                      key={uuidv4()}
+                      variant="rounded"
+                      width={'100%'}
+                      height={60}
+                      sx={{ my: '20px' }}
+                    />
+                  ))
+                : [...Array(3)]?.map(() => (
+                    <Skeleton
+                      key={uuidv4()}
+                      variant="rounded"
+                      width={'100%'}
+                      height={60}
+                      sx={{ my: '20px' }}
+                    />
+                  ))}
+            </>
+          ) : (
+            rows?.map((item: any, index: any) => (
+              <Box
+                key={uuidv4()}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  borderBottom: `1px solid #e0e0e0`,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <Box>
+                  <DragIcon />
+                </Box>
+                <Box
+                  sx={{ flex: 1, display: 'flex', alignItems: 'center', my: 2 }}
+                >
+                  {item?.isEditing ? (
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      placeholder="Enter Category"
+                      value={item?.category}
+                      onChange={(event) => handleCategoryChange(event, index)}
+                      onBlur={() => toggleEditMode(index)}
+                      autoFocus
+                      sx={{ mr: 1 }}
+                    />
+                  ) : (
+                    <Typography
+                      variant="body1"
+                      sx={{ mr: 1, cursor: 'pointer' }}
+                      onClick={() => toggleEditMode(index)}
+                    >
+                      {item?.category || 'New Category'}
+                    </Typography>
+                  )}
+                </Box>
+                <Box sx={{ flex: 3, my: 2 }}>
+                  {item?.isDropdown && (
+                    <FormControl fullWidth variant="outlined" size="small">
+                      <InputLabel>Select deals stages</InputLabel>
+                      <Select
+                        multiple
+                        value={item?.stages}
+                        onChange={(event) => handleSelectChange(event, index)}
+                        input={<OutlinedInput label="Select deals stages" />}
+                        renderValue={(selected) => (
+                          <Box
+                            sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}
+                          >
+                            {selected?.map((id: any) => {
+                              const selectedStage = item?.options?.find(
+                                (stage: any) => stage.value === id,
+                              );
+                              return (
+                                <Chip key={id} label={selectedStage?.label} />
+                              );
+                            })}
+                          </Box>
+                        )}
+                      >
+                        {item?.options?.map((stage: any) => (
+                          <MenuItem key={stage.value} value={stage.value}>
+                            <Checkbox
+                              checked={item?.stages?.indexOf(stage.value) > -1}
+                            />
+                            <ListItemText primary={stage.label} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                </Box>
+                <IconButton onClick={() => handleDeleteRow(index, item?._id)}>
+                  <DeleteCrossIcon />
+                </IconButton>
+                {item?._id ? (
+                  <IconButton onClick={() => handlePatchForecast(index)}>
+                    <EditPenIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={() => handlePostForecast(index)}>
+                    <TickCircleIcon />
+                  </IconButton>
+                )}
+              </Box>
+            ))
+          )}
         </Box>
       </Box>
 
-      <Button onClick={handleAddRow} sx={{ mt: 2, color: 'black' }}>
+      <Button
+        onClick={handleAddRow}
+        disabled={isNullOrEmpty(PipelineValue)}
+        sx={{ mt: 2, color: 'black' }}
+      >
         <AddCircleBlackIcon /> &nbsp; Add Category
       </Button>
     </>

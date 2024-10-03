@@ -200,6 +200,7 @@ export const TAGS = [
   'getPlanType',
   'bilingInvoices',
   'ORGANIZATIONS',
+  'FORECAST',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [
