@@ -1,19 +1,22 @@
 import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import useShareOptions from './useShareOptions';
-import Email from '../Email';
+import EmailThisDashboard from '../EmailThisDashboard';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const ShareOptions = ({ setIsShowEditDashboard }: any) => {
+const ShareOptions = ({ selectedDashboard }: any) => {
   const {
     handleClickActions,
     isShowDrawer,
-    handleShowCopyUrl,
-    handleCloseDrawer,
+    setIsShowDrawer,
     handleCloseMenuOptions,
     anchorEl,
     openDropDown,
     handleShowEmailDashboard,
-  } = useShareOptions();
+    router,
+    copyUrl,
+  } = useShareOptions(selectedDashboard);
 
   return (
     <>
@@ -39,7 +42,7 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
           onClose={handleCloseMenuOptions}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={handleShowCopyUrl}>Copy URL</MenuItem>
+          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
 
           <MenuItem onClick={handleShowEmailDashboard}>
             Email this dashboard
@@ -47,7 +50,13 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
 
           <MenuItem
             onClick={() => {
-              setIsShowEditDashboard(true);
+              router?.push({
+                pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
+                query: {
+                  id: selectedDashboard?.dashboard?._id,
+                  type: DRAWER_TYPES?.EDIT,
+                },
+              });
             }}
           >
             Edit
@@ -55,7 +64,10 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
         </Menu>
       </div>
       {isShowDrawer && (
-        <Email isOpenDrawer={isShowDrawer} onClose={handleCloseDrawer} />
+        <EmailThisDashboard
+          isOpenDrawer={isShowDrawer}
+          setIsDrawerOpen={setIsShowDrawer}
+        />
       )}
     </>
   );

@@ -20,7 +20,6 @@ import { REPORT_TYPES } from '@/constants/strings';
 const Dashboard = () => {
   const {
     AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS,
-    setIsShowEditDashboard,
     setSelectedDashboard,
     dashboardListLoading,
     dashboardNotFound,
@@ -57,10 +56,7 @@ const Dashboard = () => {
 
             <Stack direction={{ sm: 'row' }} gap={1}>
               {!dashboardNotFound && (
-                <Actions
-                  setIsShowEditDashboard={setIsShowEditDashboard}
-                  selectedDashboard={dashboardsData}
-                />
+                <Actions selectedDashboard={dashboardsData} />
               )}
               <CreateDashboardOptions
                 listData={dropdownOptions}

@@ -15,7 +15,6 @@ const useDashboard = () => {
 
   const [isShowCreateDashboardForm, setIsShowCreateDashboardForm] =
     useState(false);
-  const [isShowEditDashboard, setIsShowEditDashboard] = useState(false);
   const [selectedDashboard, setSelectedDashboard] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -60,10 +59,8 @@ const useDashboard = () => {
     AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS,
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,
-    setIsShowEditDashboard,
     setSelectedDashboard,
     dashboardListLoading,
-    isShowEditDashboard,
     dashboardListArray,
     dashboardNotFound,
     selectedDashboard,

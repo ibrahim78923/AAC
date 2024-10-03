@@ -16,11 +16,10 @@ import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 const Dashboard = () => {
   const {
     dashboardListLoading,
-    dropdownOptions,
-    setIsShowEditDashboard,
+    setSelectedDashboard,
     dashboardNotFound,
     dashboardLoading,
-    setSelectedDashboard,
+    dropdownOptions,
     dashboardsData,
     handelNavigate,
   } = useDashboard();
@@ -51,7 +50,7 @@ const Dashboard = () => {
 
             <Stack direction={{ sm: 'row' }} gap={1}>
               {!dashboardNotFound && (
-                <ShareOptions setIsShowEditDashboard={setIsShowEditDashboard} />
+                <ShareOptions selectedDashboard={dashboardsData} />
               )}
               <ManageDashboardOptions
                 listData={dropdownOptions}

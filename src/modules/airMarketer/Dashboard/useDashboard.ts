@@ -7,6 +7,7 @@ import { getSession } from '@/utils';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { AIR_MARKETER } from '../../../routesConstants/paths';
+
 const useDashboard = () => {
   const router = useRouter();
   const { user }: any = getSession();
@@ -14,9 +15,8 @@ const useDashboard = () => {
 
   const [isShowCreateDashboardForm, setIsShowCreateDashboardForm] =
     useState(false);
-  const [isShowEditDashboard, setIsShowEditDashboard] = useState(false);
-  const [selectedDashboard, setSelectedDashboard] = useState('');
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [selectedDashboard, setSelectedDashboard] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const params = {
@@ -49,10 +49,8 @@ const useDashboard = () => {
   return {
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,
-    setIsShowEditDashboard,
     dashboardListLoading,
     setSelectedDashboard,
-    isShowEditDashboard,
     selectedDashboard,
     dashboardNotFound,
     handelNavigate,

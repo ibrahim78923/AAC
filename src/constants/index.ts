@@ -616,6 +616,13 @@ export const AIR_MARKETER_DASHBOARD_REPORTS_TYPES = {
   WHATSAPP_MARKETING_GRAPH: 'Whatsapp_Marketing_Graph',
 };
 
+export const AIR_MARKETER_DASHBOARD = {
+  SINGLE_DASHBOARD: `/air-marketer/dashboard`,
+};
+export const AIR_SALES_DASHBOARD = {
+  SINGLE_DASHBOARD: `/air-sales/dashboard`,
+};
+
 export const PRODUCT_LABELS = {
   AIR_SALES: 'Air Sales',
   AIR_SERVICES: 'Air Services',

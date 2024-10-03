@@ -62,7 +62,6 @@ export const marketerDashboardApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
-
     getMarketingDashboardUserAccessListDropdownListForDashboard: builder?.query(
       {
         query: ({ params }: any) => ({
@@ -75,6 +74,20 @@ export const marketerDashboardApi = baseAPI.injectEndpoints({
         },
       },
     ),
+    sendMarketerDashboardRecurringViaEmail: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.DASHBOARD_EMAIL,
+        method: 'POST',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    sendMarketerDashboardViaEmailOnce: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.TICKET_NEW_EMAIL,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
 
     getDealsCreated: builder.query({
       query: ({ params }: any) => ({
@@ -96,6 +109,7 @@ export const {
   useDeleteMarketingDashboardMutation,
   useUpdateDefaultMarketingDashboardMutation,
   useLazyGetMarketingDashboardUserAccessListDropdownListForDashboardQuery,
-
+  useSendMarketerDashboardRecurringViaEmailMutation,
+  useSendMarketerDashboardViaEmailOnceMutation,
   useGetDealsCreatedQuery,
 } = marketerDashboardApi;

@@ -1,6 +1,10 @@
+import { AIR_MARKETER_DASHBOARD } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-const useShareOptions = () => {
+const useShareOptions = (selectedDashboard: any) => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isShowDrawer, setIsShowDrawer] = useState(false);
   const handleCloseDrawer = () => {
@@ -14,17 +18,15 @@ const useShareOptions = () => {
 
   const openDropDown = Boolean(anchorEl);
 
-  const handleClickActions = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleShowCopyUrl = () => {
     setIsShowCopyUrl(true);
+    handleCloseMenuOptions();
   };
 
   const handleShowEmailDashboard = () => {
     setIsShowEmailDashboard(true);
     setIsShowDrawer(true);
+    handleCloseMenuOptions();
   };
 
   const handleShowEditDashboard = () => {
@@ -33,6 +35,22 @@ const useShareOptions = () => {
 
   const handleCloseMenuOptions = () => {
     setAnchorEl(null);
+  };
+
+  const handleClickActions = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const copyUrl = () => {
+    if (!selectedDashboard) {
+      handleCloseMenuOptions();
+      errorSnackbar('Dashboard link not found.');
+      return;
+    }
+    const emailToCopy = `${window?.location?.origin}${AIR_MARKETER_DASHBOARD?.SINGLE_DASHBOARD}?dashboardId=${selectedDashboard?.dashboard?._id}`;
+    navigator?.clipboard?.writeText(emailToCopy);
+    handleCloseMenuOptions();
+    successSnackbar('Link has been copied successfully.');
   };
 
   return {
@@ -53,6 +71,8 @@ const useShareOptions = () => {
     setIsShowDrawer,
     setIsShowEmailDashboard,
     setIsShowEditDashboard,
+    router,
+    copyUrl,
   };
 };
 
