@@ -5,6 +5,7 @@ import {
   IFormUser,
   IUpsertRolesAndRightFormData,
 } from './UpsertRolesAndRight.interface';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const TITLE_FORM_USER: IFormUser = {
   [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add User Role',
@@ -19,8 +20,21 @@ export const BUTTON_TITLE_FORM_USER: IFormUser = {
 };
 
 export const upsertRolesAndRightValidationSchema = yup?.object()?.shape({
-  name: yup?.string()?.trim()?.required('Name is required'),
-  description: yup?.string()?.trim(),
+  name: yup
+    ?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `The maximum character limit of name is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    )
+    ?.required('Name is required'),
+  description: yup
+    ?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+      `The maximum character limit of description is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+    ),
 });
 
 export const upsertRolesAndRightDefaultValues = (

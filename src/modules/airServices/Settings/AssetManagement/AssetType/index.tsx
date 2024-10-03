@@ -247,6 +247,7 @@ export const AssetType = () => {
                 <Button
                   variant={'outlined'}
                   color={'secondary'}
+                  className="small"
                   startIcon={
                     <AddIcon
                       sx={{

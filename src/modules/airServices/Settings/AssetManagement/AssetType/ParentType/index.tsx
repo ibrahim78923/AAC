@@ -60,6 +60,7 @@ export default function ParentType({ parentDetails, setParentDetails }: any) {
             variant={'outlined'}
             color={'inherit'}
             onClick={onClose}
+            className="small"
             disabled={
               postAssetTypeStatus?.isLoading || patchAssetTypeStatus?.isLoading
             }
@@ -69,6 +70,7 @@ export default function ParentType({ parentDetails, setParentDetails }: any) {
           <LoadingButton
             type={'submit'}
             variant={'contained'}
+            className="small"
             disabled={
               postAssetTypeStatus?.isLoading || patchAssetTypeStatus?.isLoading
             }

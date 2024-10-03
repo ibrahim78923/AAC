@@ -76,7 +76,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                           required
                         />
                         <RHFTextField
-                          name="requesterName"
+                          name="name"
                           label="Requester Name"
                           placeholder="Enter Requester Name"
                           size="small"

@@ -146,7 +146,12 @@ export const operationsRolesAndRightColumnsDynamic = (
     id: 'name',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => <TruncateText text={info?.getValue()} />,
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
+    ),
   },
   {
     accessorFn: (row: IRolesAndRightColumns) => row?.createdAt,

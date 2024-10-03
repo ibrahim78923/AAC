@@ -83,6 +83,7 @@ export const UpsertProduct = (props: any) => {
               }
               variant="outlined"
               color="secondary"
+              className="small"
               onClick={handleCancel}
             >
               Cancel
@@ -90,6 +91,7 @@ export const UpsertProduct = (props: any) => {
             <LoadingButton
               type="submit"
               variant="contained"
+              className="small"
               disabled={
                 editData?._id
                   ? putProductVendorProgress?.isLoading

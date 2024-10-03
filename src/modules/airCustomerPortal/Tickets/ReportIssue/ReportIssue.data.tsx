@@ -26,7 +26,7 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
           )
           ?.email()
           ?.required('Required'),
-    requesterName: !!checkPermission
+    name: !!checkPermission
       ? Yup?.string()?.max(
           GLOBAL_CHARACTERS_LIMIT?.NAME,
           `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL_SUBJECT}`,
@@ -66,6 +66,7 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
 export const reportIssueFormDefaultValues = () => {
   return {
     requesterEmail: '',
+    name: '',
     requester: null,
     subject: '',
     description: '',

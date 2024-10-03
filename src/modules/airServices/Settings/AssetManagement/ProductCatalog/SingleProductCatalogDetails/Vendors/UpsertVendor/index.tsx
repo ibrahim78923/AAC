@@ -56,6 +56,7 @@ export const UpsertAsset = (props: any) => {
                 type={'button'}
                 variant={'outlined'}
                 color={'secondary'}
+                className="small"
                 sx={{ mr: 2 }}
                 onClick={() =>
                   setIsUpsertModalOpen?.({ open: false, data: null })
@@ -69,6 +70,7 @@ export const UpsertAsset = (props: any) => {
               <LoadingButton
                 type={'submit'}
                 variant={'contained'}
+                className="small"
                 disabled={
                   postVendorStatus?.isLoading || patchVendorStatus?.isLoading
                 }

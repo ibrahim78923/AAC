@@ -28,6 +28,7 @@ export const Vendors = () => {
           startIcon={<PlusSharedColorIcon />}
           variant={'contained'}
           color={'primary'}
+          className="small"
           onClick={() => setIsUpsertModalOpen?.({ open: true, id: '' })}
         >
           Add Vendor

@@ -61,6 +61,7 @@ const UpsertLocation = () => {
           <LoadingButton
             variant="outlined"
             color="secondary"
+            className="small"
             onClick={handleCancel}
             disabled={
               postLocationStatus?.isLoading ||
@@ -83,6 +84,7 @@ const UpsertLocation = () => {
             }
             variant="contained"
             type="submit"
+            className="small"
           >
             Save
           </LoadingButton>

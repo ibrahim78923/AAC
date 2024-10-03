@@ -49,6 +49,7 @@ export const AddAsset = (props: any) => {
                 type={'button'}
                 variant={'outlined'}
                 color={'secondary'}
+                className="small"
                 sx={{ mr: 2 }}
                 onClick={() => setAddModalOpen?.(false)}
                 disabled={postAssociatedAssetStatus?.isLoading}
@@ -58,6 +59,7 @@ export const AddAsset = (props: any) => {
               <LoadingButton
                 type={'submit'}
                 variant={'contained'}
+                className="small"
                 disabled={postAssociatedAssetStatus?.isLoading}
                 loading={postAssociatedAssetStatus?.isLoading}
               >

@@ -100,6 +100,7 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
       reportAnIssueData?.append('requester', data?.requester?._id);
     } else {
       reportAnIssueData?.append('requesterEmail', data?.requesterEmail);
+      reportAnIssueData?.append('name', data?.name);
     }
     reportAnIssueData?.append('subject', data?.subject);
     reportAnIssueData?.append('description', data?.description);

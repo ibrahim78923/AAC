@@ -57,6 +57,7 @@ export default function DefaultFields() {
               <LoadingButton
                 variant="outlined"
                 color="secondary"
+                className="small"
                 onClick={() => moveBack?.()}
               >
                 Back

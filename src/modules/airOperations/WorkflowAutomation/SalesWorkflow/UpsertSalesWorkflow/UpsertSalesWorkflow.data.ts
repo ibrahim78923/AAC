@@ -14,11 +14,17 @@ import {
   timeFormatter,
 } from '@/utils/api';
 import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 export const salesSaveSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
 });
 export const salesSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_SALES_WORKFLOW_TITLE_MAX_CHARACTERS,
+      `The maximum character limit of title is ${CHARACTERS_LIMIT?.OPERATIONS_SALES_WORKFLOW_TITLE_MAX_CHARACTERS}`,
+    )
+    ?.required('Required'),
   description: Yup?.string(),
   schedule: Yup?.string()?.when('type', {
     is: (type: any) => type === workflowTypes?.scheduled,

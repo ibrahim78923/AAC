@@ -28,6 +28,7 @@ export const AssociatedAssets = () => {
           startIcon={<PlusSharedColorIcon />}
           color={'primary'}
           variant={'contained'}
+          className="small"
           onClick={() => setAddModalOpen?.(true)}
         >
           Add Asset
