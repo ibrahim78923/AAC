@@ -14,8 +14,11 @@ import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/s
 
 export const useAddRequestApproval = () => {
   const router = useRouter();
-  const { user }: any = useAuth();
-  const { ticketId } = router?.query;
+  const auth: any = useAuth();
+  const userId = auth?.user?._id;
+
+  const ticketId = router?.query?.ticketId as string;
+
   const [postApprovalTicketsTrigger, postApprovalTicketsStatus] =
     useAddSingleServicesTicketsApprovalMutation();
   const dispatch = useAppDispatch();
@@ -31,7 +34,7 @@ export const useAddRequestApproval = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
-    if (data?.subject?._id === user?._id) {
+    if (data?.subject?._id === userId) {
       errorSnackbar('You can not send approval to yourself');
       return;
     }
@@ -58,6 +61,7 @@ export const useAddRequestApproval = () => {
   };
 
   const addRequestApprovalFormFields = addRequestApprovalFormFieldsDynamic();
+  const apiCallInProgress = postApprovalTicketsStatus?.isLoading;
 
   return {
     methods,
@@ -65,7 +69,7 @@ export const useAddRequestApproval = () => {
     onClose,
     onSubmit,
     addRequestApprovalFormFields,
-    postApprovalTicketsStatus,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

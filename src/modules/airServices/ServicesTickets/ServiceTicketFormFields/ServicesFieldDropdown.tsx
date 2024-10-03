@@ -3,7 +3,7 @@ import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookF
 import { useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery } from '@/services/airServices/tickets/single-ticket-details/details';
 
 export const ServicesFieldDropdown = (props: any) => {
-  const { categoryId } = props;
+  const { categoryId, disabled = false } = props;
   const apiQueryServicesCategory =
     useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery?.();
 
@@ -15,6 +15,7 @@ export const ServicesFieldDropdown = (props: any) => {
       fullWidth
       size="small"
       required
+      disabled={disabled}
       apiQuery={apiQueryServicesCategory}
       externalParams={{ categoryId }}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) => option?.itemName}

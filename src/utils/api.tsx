@@ -41,31 +41,16 @@ export const filteredEmptyValues = (data = {}) => {
 export const buildQueryParams = (
   additionalParams: any,
   filterLists: any = {},
-  neglectKeysInLoop: any = [],
   extraFilters: any = [],
 ) => {
   const getQueryParam = new URLSearchParams();
 
   Object?.entries(filterLists || {})?.forEach(([key, value]: any) => {
-    if (neglectKeysInLoop?.includes(key)) return;
     if (value instanceof Date)
       return getQueryParam?.append(key, isoDateString(value));
     if (typeof value === 'string') return getQueryParam?.append(key, value);
     getQueryParam?.append(key, value?._id);
   });
-
-  addDateTimeParam(
-    getQueryParam,
-    'plannedEndDate',
-    filterLists?.plannedEndDate,
-    filterLists?.plannedEndTime,
-  );
-  addDateTimeParam(
-    getQueryParam,
-    'plannedStartDate',
-    filterLists?.plannedStartDate,
-    filterLists?.plannedStartTime,
-  );
 
   additionalParams?.forEach(([key, value]: any) => {
     getQueryParam?.append(key, value);

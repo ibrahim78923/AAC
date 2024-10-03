@@ -15,23 +15,6 @@ import { RequesterFieldDropdown } from '../ServiceTicketFormFields/RequesterFiel
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
 import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFieldDropdown';
 
-export const sendIdOptions: string[] = [
-  'ticketType',
-  'department',
-  'requester',
-  'agent',
-  'status',
-  'category',
-  'department',
-];
-
-export const neglectKeysInLoop: string[] = [
-  'plannedEndDate',
-  'plannedEndTime',
-  'plannedStartDate',
-  'plannedStartTime',
-];
-
 export const ticketsFilterFormFieldsDefaultValues = (
   data?: TicketsFilterDataDefaultValuesI,
 ) => {

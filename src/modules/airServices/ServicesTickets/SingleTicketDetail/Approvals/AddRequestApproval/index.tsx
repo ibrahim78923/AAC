@@ -10,8 +10,8 @@ export const AddRequestApproval = () => {
     onClose,
     onSubmit,
     addRequestApprovalFormFields,
-    postApprovalTicketsStatus,
     isPortalOpen,
+    apiCallInProgress,
   } = useAddRequestApproval();
 
   return (
@@ -23,9 +23,9 @@ export const AddRequestApproval = () => {
       isOk
       footer
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postApprovalTicketsStatus?.isLoading}
-      isDisabled={postApprovalTicketsStatus?.isLoading}
-      disabledCancelBtn={postApprovalTicketsStatus?.isLoading}
+      isLoading={apiCallInProgress}
+      isDisabled={apiCallInProgress}
+      disabledCancelBtn={apiCallInProgress}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>

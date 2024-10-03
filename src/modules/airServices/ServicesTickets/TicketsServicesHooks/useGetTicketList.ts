@@ -1,6 +1,5 @@
 import { useLazyGetServicesTicketsListQuery } from '@/services/airServices/tickets';
 import { buildQueryParams } from '@/utils/api';
-import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
@@ -27,11 +26,7 @@ export const useGetTicketList = () => {
       ['limit', pageLimit + ''],
       ['search', search],
     ];
-    const ticketsParam = buildQueryParams(
-      additionalParams,
-      params?.filtered,
-      neglectKeysInLoop,
-    );
+    const ticketsParam = buildQueryParams(additionalParams, params?.filtered);
     return ticketsParam;
   };
 

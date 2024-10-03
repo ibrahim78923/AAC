@@ -41,6 +41,7 @@ export const TicketsTableView = () => {
         }}
         incrementPageClick={increment}
         decrementPageClick={decrement}
+        noDataTableText="No tickets found"
       />
     </>
   );

@@ -4,12 +4,14 @@ import { PAGINATION } from '@/config';
 import { MODULE_TYPE } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
 
+const { TICKETS } = MODULE_TYPE ?? {};
+const { CURRENT_PAGE, PAGE_LIMIT } = PAGINATION ?? {};
+
 export const useActivities = () => {
   const router: NextRouter = useRouter();
-  const { ticketId } = router?.query;
-  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
-
-  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const ticketId = router?.query?.ticketId as string;
+  const [page, setPage] = useState<number>(CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGE_LIMIT);
 
   const { data, isLoading, isError, isFetching, refetch } =
     useGetSingleServicesTicketsActivityLogsQuery(
@@ -17,7 +19,7 @@ export const useActivities = () => {
         page,
         limit: pageLimit,
         moduleId: ticketId,
-        module: MODULE_TYPE?.TICKETS,
+        module: TICKETS,
       },
       {
         refetchOnMountOrArgChange: true,
@@ -25,13 +27,16 @@ export const useActivities = () => {
       },
     );
 
+  const activityData = data?.data?.activitylogs ?? [];
+  const apiCallInProgress = isLoading || isFetching;
+
   return {
-    isLoading,
     isError,
     setPageLimit,
     setPage,
-    isFetching,
     data,
     refetch,
+    activityData,
+    apiCallInProgress,
   };
 };

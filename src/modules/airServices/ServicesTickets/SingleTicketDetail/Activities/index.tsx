@@ -11,16 +11,16 @@ import { LogInfo } from '@/components/LogInfo';
 
 export const Activities = () => {
   const {
-    isLoading,
     isError,
     setPageLimit,
     setPage,
-    isFetching,
     data,
     refetch,
+    activityData,
+    apiCallInProgress,
   } = useActivities();
 
-  if (isLoading || isFetching)
+  if (apiCallInProgress)
     return (
       <Box
         border={'1px solid'}
@@ -38,7 +38,7 @@ export const Activities = () => {
     );
 
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-  if (!!!data?.data?.activitylogs?.length)
+  if (!!!activityData?.length)
     return (
       <>
         <Typography variant="h5" color={'slateBlue.main'} my={1}>
@@ -66,7 +66,7 @@ export const Activities = () => {
         borderRadius={2}
         p={2}
       >
-        {data?.data?.activitylogs?.map((activity: any) => (
+        {activityData?.map((activity: any) => (
           <Box key={activity?._id} mb={2} display={'flex'} gap={2}>
             <Box>
               <IconButton
