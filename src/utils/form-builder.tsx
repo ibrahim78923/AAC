@@ -1,4 +1,6 @@
+import { BASE_URL } from '@/config';
 import { fieldTypes } from '@/constants/form-builder';
+import { LEAD_CAPTURE_FORM } from '@/routesConstants/endpoints';
 
 export function convertObjectToCSS(obj: any) {
   if (obj === null || typeof obj !== 'object') {
@@ -14,9 +16,16 @@ export function convertObjectToCSS(obj: any) {
     .join(' ');
 }
 
-export const generateFormHtml = (fields: [], styling: any = {}) => {
+export const generateFormHtml = (
+  formId: string,
+  fields: [],
+  styling: any = {},
+) => {
+  const endPointAddView = `${BASE_URL}${LEAD_CAPTURE_FORM?.ADD_VIEW_FORM}?id=${formId}`;
+  const endPointAddEntrance = `${BASE_URL}${LEAD_CAPTURE_FORM?.ADD_FORM_ENTRANCE}?id=${formId}`;
+
   const html = `
-    <form method="get">
+    <form method="POST" action="" enctype="multipart/form-data">
       ${fields
         .map((field: any) => {
           const requiredAttr = field?.required === 'true' ? 'required' : '';
@@ -164,6 +173,53 @@ export const generateFormHtml = (fields: [], styling: any = {}) => {
     </head>
     <body>
       ${html}
+
+      <script>
+        const fetchResource = (endPoint) => {
+          fetch(endPoint, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            if (response.ok) {
+              console.log('Resource updated successfully!');
+            } else {
+              console.error('Error updating resource:', response.status);
+            }
+          })
+          .catch(error => {
+            console.error('Fetch error:', error);
+          });
+        }
+
+        const fetchAddViewForm = () => {
+          const url = '${endPointAddView}';
+          fetchResource(url);
+        }
+
+        const fetchAddEntranceForm = () => {
+          const url = '${endPointAddEntrance}';
+          fetchResource(url);
+        }
+
+        fetchAddViewForm();
+
+        function handleInput(event) {
+          if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
+            fetchAddEntranceForm();
+            document.getElementsByTagName("form")[0].removeEventListener("input", handleInput);
+          }
+        }
+
+        window.onload = function() {
+          const form = document.getElementsByTagName("form")[0];
+          if (form) { 
+            form.addEventListener("input", handleInput);
+          }
+        };
+      </script>
     </body>
   </html>`;
 

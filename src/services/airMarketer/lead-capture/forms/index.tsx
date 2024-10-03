@@ -142,6 +142,33 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       },
       providesTags: ['CONTACT_GROUPS'],
     }),
+
+    getPublicFormFields: builder.query({
+      query: ({ params }) => ({
+        url: LEAD_CAPTURE_FORM?.FETCH_FORM_FIELDS_PUBLIC,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+
+    putAddViewForm: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.ADD_VIEW_FORM}?id=${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+
+    putAddEntranceForm: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.ADD_FORM_ENTRANCE}?id=${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -161,4 +188,7 @@ export const {
   useDeleteFormPermanentMutation,
   useLazyGetCustomersDropdownListQuery,
   useLazyGetCustomersGroupDropdownListQuery,
+  useGetPublicFormFieldsQuery,
+  usePutAddViewFormMutation,
+  usePutAddEntranceFormMutation,
 } = leadCaptureFormsAPI;

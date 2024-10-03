@@ -95,6 +95,7 @@ const useCreateForm = () => {
         if (response) {
           setFormHtml(
             generateFormHtml(
+              response?.data?.form?._id,
               response?.data?.fields,
               response?.data?.form?.styling,
             ),

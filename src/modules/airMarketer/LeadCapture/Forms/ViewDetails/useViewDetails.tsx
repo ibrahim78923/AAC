@@ -27,12 +27,13 @@ const useViewDetails = () => {
   };
 
   const { data: dataGetFormById, isLoading: loadingGetForm } =
-    useGetManageFieldByIdQuery({ id: formId });
+    useGetManageFieldByIdQuery({ id: formId }, { skip: !formId });
 
   useEffect(() => {
     if (dataGetFormById) {
       setHtmlTemplate(
         generateFormHtml(
+          dataGetFormById?.data?.form?._id,
           dataGetFormById?.data?.fields,
           dataGetFormById?.data?.form?.styling,
         ),

@@ -228,7 +228,7 @@ export const uploadDocumentData = (
             apiQuery: orgTeamsData,
             multiple: true,
             getOptionLabel: (option: any) => `${option?.name}`,
-            externalParams: { meta: false },
+            externalParams: { meta: false, onlyMyTeams: true },
           },
           component: RHFAutocompleteAsync,
           md: 12,

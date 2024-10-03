@@ -122,7 +122,7 @@ export const createFolderData = (
                     apiQuery: orgTeamsData,
                     multiple: true,
                     getOptionLabel: (option: any) => `${option?.name}`,
-                    externalParams: { meta: false },
+                    externalParams: { meta: false, onlyMyTeams: true },
                   },
                   component: RHFAutocompleteAsync,
                   md: 12,

@@ -546,6 +546,9 @@ export const LEAD_CAPTURE_FORM = {
   GET_RESTORE_FORMS: '/lead-capture-form/get-lead-capture-soft-deleted-forms',
   DELETE_FORM_PERMANENT: '/lead-capture-form/permanent-delete-forms',
   PATCH_RESTORE_FORM: '/lead-capture-form/restore-deleted-forms',
+  FETCH_FORM_FIELDS_PUBLIC: '/lead-capture-form/fetch-form-fields',
+  ADD_VIEW_FORM: '/lead-capture-form/add-view-form',
+  ADD_FORM_ENTRANCE: '/lead-capture-form/add-form-entrance',
 };
 
 export const EMAILS_MARKETING = {
