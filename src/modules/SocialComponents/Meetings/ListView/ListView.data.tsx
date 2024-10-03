@@ -63,7 +63,7 @@ export const listViewDetails = (
       const { firstName, lastName } = info?.row?.original?.userDetails || {};
       return (
         <Typography
-          variant="body2"
+          variant="body3"
           textTransform={'capitalize'}
           component={'span'}
         >

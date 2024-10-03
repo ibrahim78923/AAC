@@ -11,20 +11,13 @@ import {
 } from '@/services/airCustomerPortal/catalog';
 import { NextRouter, useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  ARRAY_INDEX,
-  MODULE_TYPE,
-  TICKET_STATUS,
-  TICKET_TYPE,
-} from '@/constants/strings';
+import { MODULE_TYPE, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import {
-  getActiveAccountSession,
   getCustomerPortalPermissions,
   getCustomerPortalStyling,
-  getSession,
 } from '@/utils';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -32,21 +25,9 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;
   const router: NextRouter = useRouter();
   const { serviceId } = router?.query;
-
-  const product = useMemo(() => getActiveAccountSession(), []);
   const getPortalPermissions = getCustomerPortalPermissions();
-  const session: any = getSession();
-  const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.company?._id;
-  const sessionUserId = session?.user?._id;
 
   const { companyId } = router?.query;
-  const decryptedId = useMemo(() => {
-    const id = Array.isArray(companyId)
-      ? companyId[ARRAY_INDEX?.ZERO]
-      : companyId;
-    return atob(id ?? '');
-  }, [companyId]);
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const categoryType = servicesDetails?.data?.assetType;
@@ -69,7 +50,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const onSubmitRequest = async (data: any) => {
     const placeRequestData = new FormData();
     if (categoryType) {
-      placeRequestData?.append('NoOfItem', data?.noOfItem);
+      placeRequestData?.append('numberOfItems', data?.noOfItem);
     }
     if (checkPermission) {
       placeRequestData?.append('requester', data?.requestor?._id);
@@ -77,19 +58,18 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     if (!checkPermission) {
       placeRequestData?.append('requesterEmail', data?.requesterEmail);
     }
+    if (!checkPermission) {
+      placeRequestData?.append('name', data?.requesterName);
+    }
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
     placeRequestData?.append('subject', servicesDetails?.data?.itemName);
+    placeRequestData?.append('description', servicesDetails?.data?.description);
     placeRequestData?.append('serviceId', serviceId as string);
     placeRequestData?.append('moduleType', MODULE_TYPE?.CUSTOMER_PORTAL);
     placeRequestData?.append('ticketType', TICKET_TYPE?.SR);
-    placeRequestData?.append('userId', sessionUserId || '');
     placeRequestData?.append(
-      'companyId',
-      decryptedId || companyIdStorage || sessionId || '',
-    );
-    placeRequestData?.append(
-      'organization',
-      getPortalPermissions?.organizationId || '',
+      'category',
+      servicesDetails?.data?.categoryDetails?._id,
     );
 
     const postTicketParameter = {

@@ -67,14 +67,6 @@ export const installationTableColumns = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.version,
-      id: 'version',
-      header: 'Version',
-      cell: (info: any) => (
-        <TruncateText text={info?.getValue()?.toLowerCase()} />
-      ),
-    },
-    {
       accessorFn: (row: any) => row?.userDetail,
       id: 'userDetail',
       header: 'User',

@@ -84,7 +84,7 @@ export const columns = (
       <Typography
         component="span"
         textTransform={'capitalize'}
-        variant={'body2'}
+        variant={'body3'}
         onClick={() =>
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,

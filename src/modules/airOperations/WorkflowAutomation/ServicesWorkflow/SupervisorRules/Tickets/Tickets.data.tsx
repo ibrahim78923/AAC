@@ -35,7 +35,7 @@ export const EventBaseWorkflowActionsDropdown = (
         return;
       }
       handleActionClick('edit');
-      close?.(false);
+      close?.();
     },
   },
   {
@@ -47,7 +47,7 @@ export const EventBaseWorkflowActionsDropdown = (
     handleClick: (close: any) => {
       handleActionClick('clone');
       handleCloneWorkflow();
-      close?.(false);
+      close?.();
     },
   },
   {
@@ -58,7 +58,7 @@ export const EventBaseWorkflowActionsDropdown = (
     ],
     handleClick: (close: any) => {
       handleActionClick?.('delete');
-      close?.(false);
+      close?.();
     },
   },
 ];

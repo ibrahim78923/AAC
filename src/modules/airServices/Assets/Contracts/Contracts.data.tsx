@@ -67,7 +67,7 @@ export const contractsListsColumnsFunction = (
     cell: (info: any) => (
       <Typography
         component="span"
-        variant={'body2'}
+        variant={'body3'}
         textTransform={'capitalize'}
         onClick={() =>
           router?.push({
@@ -91,7 +91,7 @@ export const contractsListsColumnsFunction = (
     isSortable: false,
     cell: (info: any) => (
       <Typography
-        variant={'body2'}
+        variant={'body3'}
         textTransform={'capitalize'}
         component={'span'}
       >
@@ -106,7 +106,7 @@ export const contractsListsColumnsFunction = (
     header: 'Status',
     cell: (info: any) => (
       <Typography
-        variant={'body2'}
+        variant={'body3'}
         textTransform={'capitalize'}
         component={'span'}
       >

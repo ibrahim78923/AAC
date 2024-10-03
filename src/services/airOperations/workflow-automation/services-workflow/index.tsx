@@ -17,6 +17,22 @@ const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, TEST_WORKFLOW } =
 
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
+    getServicesWorkflowList: builder?.query({
+      query: (params: any) => ({
+        url: `${OPERATION?.OPERATION_WORKFLOW}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    changeStatusServicesWorkflow: builder?.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${OPERATION?.STATUS_WORKFLOW}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     postServicesWorkflow: builder?.mutation({
       query: (body: any) => ({
         url: `${OPERATION_WORKFLOW}`,
@@ -159,6 +175,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
+  useLazyGetServicesWorkflowListQuery,
   usePostServicesWorkflowMutation,
   useGetByIdWorkflowQuery,
   useDeleteServicesWorkflowMutation,
@@ -174,4 +191,5 @@ export const {
   useLazyGetUsersListDropdownInWorkflowQuery,
   useLazyGetAgentDropdownInWorkflowQuery,
   useLazyGetAgentsDropDownInWorkflowQuery,
+  useChangeStatusServicesWorkflowMutation,
 } = servicesWorkflowAPI;

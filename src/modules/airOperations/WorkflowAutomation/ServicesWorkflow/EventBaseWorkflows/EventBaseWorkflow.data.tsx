@@ -28,9 +28,9 @@ export const EventBaseWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
-    handleClick: (close: (arg: boolean) => void) => {
+    handleClick: (close: any) => {
       handleActionClick('edit');
-      close?.(false);
+      close?.();
     },
   },
   {
@@ -39,10 +39,10 @@ export const EventBaseWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CLONE_WORKFLOW,
     ],
-    handleClick: (close: (arg: boolean) => void) => {
+    handleClick: (close: any) => {
       handleActionClick('clone');
       handleCloneWorkflow();
-      close?.(false);
+      close?.();
     },
   },
   {
@@ -51,9 +51,9 @@ export const EventBaseWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.DELETE,
     ],
-    handleClick: (close: (arg: boolean) => void) => {
+    handleClick: (close: any) => {
       handleActionClick?.('delete');
-      close?.(false);
+      close?.();
     },
   },
 ];
