@@ -3,11 +3,9 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  useTheme,
 } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
-import { useState } from 'react';
 import {
   IContentArrayItem,
   ICustomizationsDataItem,
@@ -15,29 +13,17 @@ import {
 } from '../CustomizePortal.interface';
 import { LoadingButton } from '@mui/lab';
 import { customizePortalDefaultValues } from '../CustomizePortal.data';
+import { useCustomizations } from './useCustomizations';
 
-const Customizations = (props: ICustomizationsProps) => {
-  const { reset, customizationsDataArray, patchCustomerPortalStylingsStatus } =
-    props;
-
-  const theme = useTheme();
-
-  const [expanded, setExpanded] = useState<{ [key: number]: boolean }>(
-    customizationsDataArray.reduce(
-      (acc, curr) => {
-        acc[curr?._id] = true;
-        return acc;
-      },
-      {} as { [key: number]: boolean },
-    ),
-  );
-
-  const handleAccordionChange = (panel: number) => () => {
-    setExpanded((prevState) => ({
-      ...prevState,
-      [panel]: !prevState[panel],
-    }));
-  };
+export const Customizations = (props: ICustomizationsProps) => {
+  const {
+    customizationsDataArray,
+    expanded,
+    handleAccordionChange,
+    patchCustomerPortalStylingsStatus,
+    theme,
+    reset,
+  } = useCustomizations(props);
 
   return (
     <>

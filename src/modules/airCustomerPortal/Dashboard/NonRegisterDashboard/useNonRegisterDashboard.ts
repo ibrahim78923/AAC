@@ -1,6 +1,6 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
-import { useGetNonRegisterDashboardQuery } from '@/services/airCustomerPortal/Dashboard/NonRegisterDashboard';
+import { useGetCustomerPortalDashboardNonRegisterDashboardQuery } from '@/services/airCustomerPortal/Dashboard/NonRegisterDashboard';
 import { useTheme } from '@mui/material';
 
 export const useNonRegisterDashboard = () => {
@@ -12,7 +12,8 @@ export const useNonRegisterDashboard = () => {
     return push(KNOWLEDGE_BASE);
   };
 
-  const { data, isLoading, isFetching } = useGetNonRegisterDashboardQuery(null);
+  const { data, isLoading, isFetching } =
+    useGetCustomerPortalDashboardNonRegisterDashboardQuery(null);
   const articlesData = data?.data?.articles;
 
   return {

@@ -3,16 +3,18 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'NON_REGISTER_DASHBOARD';
 
-export const nonRegisterDashboardAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
-    getNonRegisterDashboard: builder?.query({
-      query: () => ({
-        url: `${END_POINTS?.GET_ALL_ARTICLES}`,
-        method: 'GET',
+export const customerPortalDashboardNonRegisterDashboardAPI =
+  baseAPI?.injectEndpoints({
+    endpoints: (builder) => ({
+      getCustomerPortalDashboardNonRegisterDashboard: builder?.query({
+        query: () => ({
+          url: `${END_POINTS?.GET_ALL_ARTICLES}`,
+          method: 'GET',
+        }),
+        providesTags: [TAG],
       }),
-      providesTags: [TAG],
     }),
-  }),
-});
+  });
 
-export const { useGetNonRegisterDashboardQuery } = nonRegisterDashboardAPI;
+export const { useGetCustomerPortalDashboardNonRegisterDashboardQuery } =
+  customerPortalDashboardNonRegisterDashboardAPI;

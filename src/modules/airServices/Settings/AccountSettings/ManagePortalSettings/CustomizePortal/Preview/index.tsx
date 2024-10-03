@@ -141,6 +141,7 @@ const Preview = (props: IPreviewProps) => {
             >
               <Button
                 variant={'outlined'}
+                className="small"
                 sx={{
                   '&.Mui-disabled': {
                     borderColor: btnSecondary,
@@ -159,6 +160,7 @@ const Preview = (props: IPreviewProps) => {
               </Button>
               <Button
                 variant={'contained'}
+                className="small"
                 sx={{
                   '&.Mui-disabled': {
                     bgcolor: btnPrimary,
