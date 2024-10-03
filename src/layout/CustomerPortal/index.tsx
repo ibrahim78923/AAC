@@ -37,7 +37,7 @@ const CustomerPortalLayout = ({
   const {
     theme,
     user,
-    logout,
+    customerLogoutHandler,
     companyId,
     customerPortalRoutes,
     routerPathName,
@@ -159,7 +159,7 @@ const CustomerPortalLayout = ({
                   <List>
                     <ListItem
                       sx={{ padding: '6px 0px 6px 0px' }}
-                      onClick={logout}
+                      onClick={customerLogoutHandler}
                     >
                       <ListItemButton
                         sx={customerPortalStyles?.logoutButtonStyles(
@@ -204,7 +204,7 @@ const CustomerPortalLayout = ({
       routerPathName,
       companyId,
       theme,
-      logout,
+      customerLogoutHandler,
       user,
       customerPortalStyling,
       reducedOpacityBgColor,
