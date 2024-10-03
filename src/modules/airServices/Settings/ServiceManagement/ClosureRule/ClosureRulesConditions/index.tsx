@@ -3,64 +3,38 @@ import { IClosureRuleProps } from '../ClosureRule.interface';
 
 export const ClosureRulesConditions = (props: IClosureRuleProps) => {
   const {
-    resolveIncident,
     closeIncident,
-    serviceResolveIncident,
-    serviceCloseIncident,
     closeIncidentData,
+    resolveIncident,
     resolveIncidentData,
-    serviceCloseData,
+    serviceResolveIncident,
     serviceResolveData,
+    serviceCloseIncident,
+    serviceCloseData,
   } = props;
+
+  const renderConditions = (condition: boolean | undefined, data: any[]) => {
+    if (!condition || !data) return null;
+    return data?.map((item: any) => (
+      <Grid item xs={12} md={item?.md} key={item?.id}>
+        <item.component {...item?.componentProps} />
+      </Grid>
+    ));
+  };
 
   return (
     <Box mt={1}>
       <Grid container>
-        {closeIncident && (
-          <>
-            {closeIncidentData?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} />
-              </Grid>
-            ))}
-          </>
-        )}
+        {renderConditions(closeIncident || false, closeIncidentData)}
       </Grid>
-
       <Grid container>
-        {resolveIncident && (
-          <>
-            {resolveIncidentData?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} />
-              </Grid>
-            ))}
-          </>
-        )}
+        {renderConditions(resolveIncident || false, resolveIncidentData)}
       </Grid>
-
       <Grid container>
-        {serviceResolveIncident && (
-          <>
-            {serviceResolveData?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} />
-              </Grid>
-            ))}
-          </>
-        )}
+        {renderConditions(serviceResolveIncident || false, serviceResolveData)}
       </Grid>
-
       <Grid container>
-        {serviceCloseIncident && (
-          <>
-            {serviceCloseData?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} />
-              </Grid>
-            ))}
-          </>
-        )}
+        {renderConditions(serviceCloseIncident || false, serviceCloseData)}
       </Grid>
     </Box>
   );

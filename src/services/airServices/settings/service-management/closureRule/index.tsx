@@ -5,17 +5,18 @@ const TAG = 'CLOSURE_RULES';
 
 export const closureRulesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    postClosureRule: builder?.mutation({
+    postAirServicesSettingsServiceClosureRule: builder?.mutation({
       query: (postClosureRoleParameter: any) => ({
-        url: `${END_POINTS?.POST_CLOSURE_RULES}`,
+        url: END_POINTS?.POST_CLOSURE_RULES,
         method: 'POST',
         body: postClosureRoleParameter,
       }),
       invalidatesTags: [TAG],
     }),
-    getClosureRules: builder?.query({
+
+    getAirServicesSettingsServiceClosureRules: builder?.query({
       query: () => ({
-        url: `${END_POINTS?.GET_CLOSURE_RULES}`,
+        url: END_POINTS?.GET_CLOSURE_RULES,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -23,5 +24,7 @@ export const closureRulesAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { usePostClosureRuleMutation, useGetClosureRulesQuery } =
-  closureRulesAPI;
+export const {
+  usePostAirServicesSettingsServiceClosureRuleMutation,
+  useGetAirServicesSettingsServiceClosureRulesQuery,
+} = closureRulesAPI;
