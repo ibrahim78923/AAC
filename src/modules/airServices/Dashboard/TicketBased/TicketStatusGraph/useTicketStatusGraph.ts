@@ -1,7 +1,8 @@
 import { MONTH_NAMES } from '@/constants/strings';
 import { useTheme } from '@mui/material';
 
-export const useTicketStatusGraph = ({ chartData }: any) => {
+export const useTicketStatusGraph = (props: any) => {
+  const { chartData } = props;
   const theme = useTheme();
 
   const groupedData = chartData?.statusStats?.reduce((acc: any, curr: any) => {

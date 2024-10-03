@@ -1,22 +1,29 @@
 import { Box, Grid, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { ticketDashboardCardsData } from './PublicTicketStatusCount.data';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { usePublicTicketStatusCount } from './usePublicTicketStatusCount';
+import { TicketStatusCountImage } from '@/assets/images';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
 export const PublicTicketStatusCount = () => {
-  const { data, isLoading, isFetching, isError, skip, error } =
-    usePublicTicketStatusCount();
+  const {
+    data,
+    isError,
+    skip,
+    error,
+    apiCallInProgress,
+    ticketDashboardCards,
+    refetch,
+  } = usePublicTicketStatusCount();
 
-  if (skip) return <ApiErrorState />;
-  if (!data && !error) return <SkeletonTable />;
-  if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
+  if (skip) return <ApiErrorState canRefresh refresh={refetch} />;
+  if (!data && !error) return <SkeletonCard hasThirdSkeleton={false} />;
+  if (apiCallInProgress) return <SkeletonCard hasThirdSkeleton={false} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <Grid container spacing={3}>
-      {ticketDashboardCardsData(data?.data)?.map((item: any) => (
+      {ticketDashboardCards?.map((item: any) => (
         <Grid key={item?.id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
           <Box
             display={'flex'}
@@ -31,14 +38,23 @@ export const PublicTicketStatusCount = () => {
           >
             <Box>
               <Avatar
-                alt=""
-                src={item?.icon?.src}
-                sx={{ width: 60, height: 60 }}
+                alt={item?.label}
+                src={TicketStatusCountImage?.src}
+                sx={{
+                  width: 60,
+                  height: 60,
+                  backgroundColor: item?.color,
+                  p: 1,
+                }}
               />
             </Box>
             <Box>
-              <Typography variant="h3">{item?.count}</Typography>
-              <Typography variant="body1">{item?.label}</Typography>
+              <Typography variant="h3" color="slateBlue.main">
+                {item?.count}
+              </Typography>
+              <Typography variant="body1" color="slateBlue.main">
+                {item?.label}
+              </Typography>
             </Box>
           </Box>
         </Grid>

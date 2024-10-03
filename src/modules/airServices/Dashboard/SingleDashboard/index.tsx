@@ -3,53 +3,40 @@ import { Box } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { useSingleDashboard } from './useSingleDashboard';
-import { AIR_SERVICES } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { DashboardFilter } from '../DashboardFilter';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DashboardWidgets } from '../DashboardsWidgets';
 import { DownloadDashboard } from '../DownloadDashboard';
 
+const { VIEW_MANAGE_DASHBOARD } = AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
+
 export const SingleDashboard = (props: any) => {
   const { isPreviewMode = false, isDetailMode = false } = props;
-
   const {
     lazyGetSingleServicesDashboardStatus,
     ticketType,
     setTicketType,
     departmentId,
     setDepartmentId,
-    router,
     methods,
     downloadRef,
+    moveToDashboard,
+    dashboardName,
   } = useSingleDashboard(props);
 
   return (
     <>
-      <PermissionsGuard
-        permissions={[
-          AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
-        ]}
-      >
+      <PermissionsGuard permissions={[VIEW_MANAGE_DASHBOARD]}>
         <Box>
           {isDetailMode ? (
             <PageTitledHeader
-              title={
-                lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard
-                  ?.name ?? '---'
-              }
+              title={dashboardName}
               canMovedBack
-              moveBack={() =>
-                router?.push({
-                  pathname: AIR_SERVICES?.DASHBOARD,
-                })
-              }
+              moveBack={moveToDashboard}
             >
               <DownloadDashboard
-                name={
-                  lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard
-                    ?.name
-                }
+                name={dashboardName}
                 downloadRef={downloadRef}
               />
             </PageTitledHeader>

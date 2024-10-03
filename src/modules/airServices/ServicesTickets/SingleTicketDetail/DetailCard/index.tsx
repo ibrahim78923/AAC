@@ -1,7 +1,7 @@
 import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useDetailCard } from './useDetailCard';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
 import { uiDateFormat } from '@/utils/dateTime';
 import { AttachFileCard } from '@/components/AttachFileCard';
@@ -130,7 +130,8 @@ export const DetailCard = (props: { data: any }) => {
               />
             </Box>
           </Box>
-          {!!ticketDetail?.noOfItems ? (
+          {ticketDetail?.ticketType === TICKET_TYPE?.SR &&
+          !!ticketDetail?.numberOfItems ? (
             <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
               <Typography
                 variant="body2"
@@ -140,7 +141,7 @@ export const DetailCard = (props: { data: any }) => {
                 Requested Items
               </Typography>
               <Typography variant="body2" color="slateBlue.main">
-                {ticketDetail?.noOfItems ?? 0}
+                {ticketDetail?.numberOfItems ?? 0}
               </Typography>
             </Box>
           ) : (

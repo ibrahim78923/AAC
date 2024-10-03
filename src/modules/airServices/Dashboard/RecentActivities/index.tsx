@@ -8,7 +8,7 @@ import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboa
 export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
+  const recentActivitiesData = data?.recentActivities;
   return (
     <Box
       borderRadius={3}
@@ -30,9 +30,9 @@ export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
         </Typography>
       </Box>
       <Box flex={1}>
-        {data?.recentActivities?.length ? (
+        {recentActivitiesData?.length ? (
           <>
-            {data?.recentActivities?.map((item: any) => (
+            {recentActivitiesData?.map((item: any) => (
               <Fragment key={item?._id}>
                 <RecentActivitiesCard data={item} />
               </Fragment>
@@ -57,7 +57,7 @@ export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
         <RecentActivitiesList
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-          data={data}
+          data={recentActivitiesData}
         />
       )}
     </Box>

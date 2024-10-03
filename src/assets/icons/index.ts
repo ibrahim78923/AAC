@@ -572,3 +572,4 @@ export { default as DeleteCrossDisableIcon } from './shared/delete-cross-disable
 export { default as CustomerLogoutIcon } from './modules/airCustomerPortal/logout';
 export { default as TickCirclePrimary } from './modules/SocialComponents/documents/tick-circle-primary';
 export { default as MoveFolderIcon } from './modules/SocialComponents/documents/move-folder-icon';
+export { default as RecentActivitiesIcon } from './shared/recent-activities-icon';

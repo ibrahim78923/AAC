@@ -1,8 +1,8 @@
 import { CustomChart } from '@/components/Chart';
 import { useTicketStatusGraph } from './useTicketStatusGraph';
 
-export const TicketStatusGraph = ({ chartData }: any) => {
-  const { options, seriesData } = useTicketStatusGraph({ chartData });
+export const TicketStatusGraph = (props: any) => {
+  const { options, seriesData } = useTicketStatusGraph(props);
 
   return (
     <CustomChart

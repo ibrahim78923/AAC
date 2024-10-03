@@ -1,13 +1,13 @@
 import { Box, Typography } from '@mui/material';
 
 export const LogInfo = (props: any) => {
-  const { performer, logType, log, logProps } = props;
+  const { performer, logType, log, logProps, logColor = 'primary' } = props;
   return (
     <Box display={'flex'} gap={0.3} alignItems={'center'} flexWrap={'wrap'}>
       <Typography
         variant="body2"
         fontWeight={'fontWeightSmall'}
-        color="primary"
+        color={logColor}
         textTransform={'capitalize'}
       >
         {performer?.toLowerCase()}
@@ -19,7 +19,7 @@ export const LogInfo = (props: any) => {
         component={'div'}
         fontWeight={'fontWeightSmall'}
         variant="body2"
-        color="primary"
+        color={logColor}
         {...logProps}
       >
         {log}

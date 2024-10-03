@@ -1,7 +1,8 @@
 import { pxToRem } from '@/utils/getFontValue';
 import { useMediaQuery, useTheme } from '@mui/material';
 
-export const useTicketPriorityGraph = ({ chartData }: any) => {
+export const useTicketPriorityGraph = (props: any) => {
+  const { chartData } = props;
   const theme: any = useTheme();
   const pirorityCounts: { [key: string]: number } = {
     LOW: 0,
@@ -46,7 +47,6 @@ export const useTicketPriorityGraph = ({ chartData }: any) => {
     },
   };
 
-  // Aggregate counts based on pirority
   chartData?.pirorityStats?.forEach((entry: any) => {
     const { count, pirority } = entry;
     if (pirority) {
@@ -54,7 +54,6 @@ export const useTicketPriorityGraph = ({ chartData }: any) => {
     }
   });
 
-  // Extract counts for each pirority in the order required for the chart
   const radialBarChartData = [
     pirorityCounts?.LOW,
     pirorityCounts?.MEDIUM,

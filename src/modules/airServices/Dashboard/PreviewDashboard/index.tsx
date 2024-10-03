@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { SingleDashboard } from '../SingleDashboard';
 import NoData from '@/components/NoData';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
@@ -25,7 +25,7 @@ export const PreviewDashboard = (
         }
         showActionButtons={false}
       >
-        <Grid container spacing={3} p={2}>
+        <Box>
           {isPortalOpen?.isDynamicPreview ? (
             <SingleDashboard
               dashboardId={{ _id: isPortalOpen?.data?._id }}
@@ -34,7 +34,7 @@ export const PreviewDashboard = (
           ) : isPortalOpen?.isStaticView ? (
             <Grid container spacing={3} p={2}>
               {!!!isPortalOpen?.data?.length ? (
-                <NoData />
+                <NoData message="No widgets found" />
               ) : (
                 isPortalOpen?.data?.map((item: any) => (
                   <Grid item xs={12} md={6} key={item}>
@@ -51,9 +51,9 @@ export const PreviewDashboard = (
               )}
             </Grid>
           ) : (
-            <NoData />
+            <NoData message="No widgets found" />
           )}
-        </Grid>
+        </Box>
       </CustomCommonDialog>
     </>
   );

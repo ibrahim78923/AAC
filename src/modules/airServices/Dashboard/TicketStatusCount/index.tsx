@@ -1,21 +1,21 @@
 import { Box, Grid, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { ticketDashboardCardsData } from './TicketStatusCount.data';
 import { useTicketStatusCount } from './useTicketStatusCount';
 import ApiErrorState from '@/components/ApiErrorState';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { TicketStatusCountImage } from '@/assets/images';
 
 export const TicketStatusCount = () => {
-  const { data, isLoading, isFetching, isError, refetch } =
+  const { isError, refetch, apiCallInProgress, ticketDashboardCards } =
     useTicketStatusCount();
 
-  if (isLoading || isFetching) return <SkeletonCard hasThirdSkeleton={false} />;
+  if (apiCallInProgress) return <SkeletonCard hasThirdSkeleton={false} />;
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
-    <Grid container spacing={3}>
-      {ticketDashboardCardsData(data?.data)?.map((item: any) => (
-        <Grid key={item?.id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
+    <Grid container spacing={2}>
+      {ticketDashboardCards?.map((item: any) => (
+        <Grid key={item?.id} item xs={12} md={4} lg={3}>
           <Box
             display={'flex'}
             alignItems={'center'}
@@ -30,13 +30,22 @@ export const TicketStatusCount = () => {
             <Box>
               <Avatar
                 alt={item?.label}
-                src={item?.icon?.src}
-                sx={{ width: 60, height: 60 }}
+                src={TicketStatusCountImage?.src}
+                sx={{
+                  width: 60,
+                  height: 60,
+                  backgroundColor: item?.color,
+                  p: 1,
+                }}
               />
             </Box>
             <Box>
-              <Typography variant="h3">{item?.count}</Typography>
-              <Typography variant="body1">{item?.label}</Typography>
+              <Typography variant="h3" color="slateBlue.main">
+                {item?.count}
+              </Typography>
+              <Typography variant="body1" color="slateBlue.main">
+                {item?.label}
+              </Typography>
             </Box>
           </Box>
         </Grid>

@@ -1,12 +1,12 @@
 import {
   BeginnerAwardImage,
-  DocImage,
+  DocPreviewImage,
   ExpertAwardImage,
   IntermediateAwardImage,
   MasterAwardImage,
-  PdfImage,
+  PdfPreviewImage,
   ProfessionalAwardImage,
-  XlsImage,
+  XlsPreviewImage,
 } from '@/assets/images';
 import { AGENT_LEVELS, ATTACHMENT_FILE_TYPE } from './strings';
 
@@ -19,9 +19,9 @@ export const AGENT_LEVELS_IMAGES = {
 };
 
 export const FILE_TYPE_BASED_IMAGES = {
-  [ATTACHMENT_FILE_TYPE?.PDF]: PdfImage,
-  [ATTACHMENT_FILE_TYPE?.XLS]: XlsImage,
-  [ATTACHMENT_FILE_TYPE?.CSV]: XlsImage,
-  [ATTACHMENT_FILE_TYPE?.DOC]: DocImage,
-  [ATTACHMENT_FILE_TYPE?.DOCX]: DocImage,
+  [ATTACHMENT_FILE_TYPE?.PDF]: PdfPreviewImage,
+  [ATTACHMENT_FILE_TYPE?.XLS]: XlsPreviewImage,
+  [ATTACHMENT_FILE_TYPE?.CSV]: XlsPreviewImage,
+  [ATTACHMENT_FILE_TYPE?.DOC]: DocPreviewImage,
+  [ATTACHMENT_FILE_TYPE?.DOCX]: DocPreviewImage,
 };

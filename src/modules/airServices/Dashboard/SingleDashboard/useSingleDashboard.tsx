@@ -6,15 +6,20 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import useAuth from '@/hooks/useAuth';
 import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
+import { AIR_SERVICES } from '@/constants';
+
+const { DASHBOARD } = AIR_SERVICES ?? {};
+const { STATUS } = TICKET_GRAPH_TYPES ?? {};
 
 export const useSingleDashboard = (props: any) => {
   const { dashboardId } = props;
   const downloadRef = useRef(null);
   const router: NextRouter = useRouter();
-  const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
+  const [ticketType, setTicketType] = useState(STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
+
   const auth: any = useAuth();
-  const { _id: productId } = auth?.product ?? {};
+  const productId = auth?.product?._id ?? {};
 
   const methods = useForm({
     defaultValues: { dashboardId: null },
@@ -44,6 +49,14 @@ export const useSingleDashboard = (props: any) => {
       refetchOnMountOrArgChange: true,
     });
 
+  const moveToDashboard = () =>
+    router?.push({
+      pathname: DASHBOARD,
+    });
+
+  const dashboardName =
+    lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.name;
+
   return {
     lazyGetSingleServicesDashboardStatus,
     ticketType,
@@ -53,5 +66,7 @@ export const useSingleDashboard = (props: any) => {
     router,
     methods,
     downloadRef,
+    moveToDashboard,
+    dashboardName,
   };
 };
