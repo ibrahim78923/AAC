@@ -16,9 +16,16 @@ import {
   specificUsersAccessFormFieldsDynamic,
 } from './SpecificUsers.data';
 import { UsersFieldDropdown } from '../../DashboardFormFields/UsersFieldDropdown';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 export const SpecificUsers = (props: any) => {
-  const { fields } = props;
+  const { name } = props;
+  const { control } = useFormContext();
+  const { fields } = useFieldArray({
+    control,
+    name,
+  });
+
   return (
     <>
       <UsersFieldDropdown />

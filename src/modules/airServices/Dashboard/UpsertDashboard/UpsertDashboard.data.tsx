@@ -8,10 +8,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { REPORT_TYPES } from '@/constants/strings';
 import * as Yup from 'yup';
-import {
-  SpecialUsersFieldsI,
-  UpsertServicesDashboardDefaultValueI,
-} from './UpsertDashboard.interface';
+import { UpsertServicesDashboardDefaultValueI } from './UpsertDashboard.interface';
 import { RecentActivities } from '../RecentActivities';
 import { TopPerformer } from '../TopPerformer';
 import { Announcement } from '../Announcement';
@@ -21,7 +18,17 @@ import { SpecificUsers } from './SpecificUsers';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
 
-const { SERVICES_DASHBOARD_NAME_MAX_CHARACTERS } = CHARACTERS_LIMIT;
+const { SERVICES_DASHBOARD_NAME_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
+const { SET_DEFAULT_DASHBOARD } = AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
+const { STATIC } = REPORT_TYPES ?? {};
+
+const {
+  SPECIFIC_USER_AND_TEAMS,
+  EVERYONE,
+  PRIVATE_TO_OWNER,
+  EVERYONE_EDIT_AND_VIEW,
+  EVERYONE_ONLY_VIEW,
+} = MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
 
 export const SERVICES_DASHBOARD_WIDGETS: any = {
   TICKETS_OVERVIEW_BY_STATE_AND_STATUS: 'TICKETS_OVERVIEW_BY_STATE_AND_STATUS',
@@ -33,63 +40,57 @@ export const SERVICES_DASHBOARD_WIDGETS: any = {
   ANNOUNCEMENTS: 'ANNOUNCEMENTS',
 };
 
+const {
+  TICKETS_OVERVIEW_BY_STATE_AND_STATUS,
+  GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS,
+  RECENT_ACTIVITIES,
+  AGENT_AVAILABILITY,
+  TOP_PERFORMER,
+  ANNOUNCEMENTS,
+} = SERVICES_DASHBOARD_WIDGETS ?? {};
+
 export const SERVICES_DASHBOARD_WIDGETS_API_MAPPED = {
-  [SERVICES_DASHBOARD_WIDGETS?.TICKETS_OVERVIEW_BY_STATE_AND_STATUS]:
-    'Tickets Overview by Status',
-  [SERVICES_DASHBOARD_WIDGETS?.GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]:
+  [TICKETS_OVERVIEW_BY_STATE_AND_STATUS]: 'Tickets Overview by Status',
+  [GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]:
     'Tickets by Statuses and Priority',
-  [SERVICES_DASHBOARD_WIDGETS?.RECENT_ACTIVITIES]: 'Recent Activities',
-  [SERVICES_DASHBOARD_WIDGETS?.AGENT_AVAILABILITY]: 'Agent Availability',
-  [SERVICES_DASHBOARD_WIDGETS?.TOP_PERFORMER]: 'Top Performer',
-  [SERVICES_DASHBOARD_WIDGETS?.ANNOUNCEMENTS]: 'Announcements',
+  [RECENT_ACTIVITIES]: 'Recent Activities',
+  [AGENT_AVAILABILITY]: 'Agent Availability',
+  [TOP_PERFORMER]: 'Top Performer',
+  [ANNOUNCEMENTS]: 'Announcements',
 };
 
 export const dashboardWidgetsData = [
   {
-    value:
-      SERVICES_DASHBOARD_WIDGETS?.GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS,
+    value: GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS,
     label:
       SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[
-        SERVICES_DASHBOARD_WIDGETS?.GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS
+        GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS
       ],
   },
   {
-    value: SERVICES_DASHBOARD_WIDGETS?.RECENT_ACTIVITIES,
-    label:
-      SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[
-        SERVICES_DASHBOARD_WIDGETS?.RECENT_ACTIVITIES
-      ],
+    value: RECENT_ACTIVITIES,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[RECENT_ACTIVITIES],
   },
   {
-    value: SERVICES_DASHBOARD_WIDGETS?.AGENT_AVAILABILITY,
-    label:
-      SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[
-        SERVICES_DASHBOARD_WIDGETS?.AGENT_AVAILABILITY
-      ],
+    value: AGENT_AVAILABILITY,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[AGENT_AVAILABILITY],
   },
   {
-    value: SERVICES_DASHBOARD_WIDGETS?.TOP_PERFORMER,
-    label:
-      SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[
-        SERVICES_DASHBOARD_WIDGETS?.TOP_PERFORMER
-      ],
+    value: TOP_PERFORMER,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[TOP_PERFORMER],
   },
   {
-    value: SERVICES_DASHBOARD_WIDGETS?.ANNOUNCEMENTS,
-    label:
-      SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[
-        SERVICES_DASHBOARD_WIDGETS?.ANNOUNCEMENTS
-      ],
+    value: ANNOUNCEMENTS,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[ANNOUNCEMENTS],
   },
 ];
 
 export const AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS = {
-  [SERVICES_DASHBOARD_WIDGETS?.GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]:
-    TicketBased,
-  [SERVICES_DASHBOARD_WIDGETS?.RECENT_ACTIVITIES]: RecentActivities,
-  [SERVICES_DASHBOARD_WIDGETS?.AGENT_AVAILABILITY]: AgentAvailability,
-  [SERVICES_DASHBOARD_WIDGETS?.TOP_PERFORMER]: TopPerformer,
-  [SERVICES_DASHBOARD_WIDGETS?.ANNOUNCEMENTS]: Announcement,
+  [GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]: TicketBased,
+  [RECENT_ACTIVITIES]: RecentActivities,
+  [AGENT_AVAILABILITY]: AgentAvailability,
+  [TOP_PERFORMER]: TopPerformer,
+  [ANNOUNCEMENTS]: Announcement,
 };
 
 export const createDashboardValidationSchema = () => {
@@ -99,20 +100,19 @@ export const createDashboardValidationSchema = () => {
       ?.required('Name is required')
       ?.max(
         SERVICES_DASHBOARD_NAME_MAX_CHARACTERS,
-        `Maximum limit is ${SERVICES_DASHBOARD_NAME_MAX_CHARACTERS}`,
+        `Maximum characters limit is ${SERVICES_DASHBOARD_NAME_MAX_CHARACTERS}`,
       ),
     access: Yup?.string()?.required('Access is required'),
     reports: Yup?.array(),
     specialUsers: Yup?.mixed()
       ?.nullable()
       ?.when('access', {
-        is: (value: any) =>
-          value === MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+        is: (value: any) => value === SPECIFIC_USER_AND_TEAMS,
         then: () => Yup?.array()?.min(1, 'User is required'),
         otherwise: (schema: any) => schema?.notRequired(''),
       }),
     permissions: Yup?.string()?.when('access', {
-      is: (value: any) => value === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
+      is: (value: any) => value === EVERYONE,
       then: () => Yup?.string()?.required('Permission is required'),
       otherwise: (schema: any) => schema?.notRequired(''),
     }),
@@ -125,8 +125,7 @@ export const createDashboardValidationSchema = () => {
         }),
       )
       ?.when('access', {
-        is: (value: any) =>
-          value === MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+        is: (value: any) => value === SPECIFIC_USER_AND_TEAMS,
         then: () => {
           return Yup?.array()?.of(
             Yup?.object()?.shape({
@@ -145,21 +144,18 @@ export const filterAndConcatWidgets = (
   arrayToFilter: any,
   arrayToConcat: any,
 ) => {
-  const widgetValuesSet = new Set(
-    arrayToFilter
-      ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
-      ?.map((obj: any) => obj?.name),
+  const staticReports = arrayToFilter?.filter(
+    (item: any) => item?.type === STATIC,
   );
+  const widgetValuesSet = new Set(staticReports?.map((obj: any) => obj?.name));
   const filteredArrayToConcat = arrayToConcat?.filter(
     (obj: any) => !widgetValuesSet?.has(obj?.value),
   );
 
-  const mapAsOptions = arrayToFilter
-    ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
-    ?.map((item: any) => ({
-      value: item?.name,
-      label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[item?.name],
-    }));
+  const mapAsOptions = staticReports?.map((item: any) => ({
+    value: item?.name,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[item?.name],
+  }));
   const modifiedArray = [...mapAsOptions, ...filteredArrayToConcat];
   return modifiedArray;
 };
@@ -172,7 +168,7 @@ export const createDashboardDefaultValue = (
     isDefault: data?.isDefault ?? false,
     reports: data?.reports?.length
       ? data?.reports
-          ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
+          ?.filter((item: any) => item?.type === STATIC)
           ?.map((item: any) => item?.name)
       : [],
     specialUsers: data?.specialUsers?.length
@@ -186,19 +182,48 @@ export const createDashboardDefaultValue = (
         }))
       : [],
     access: data?.access ?? '',
-    permissions:
-      data?.access === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE
-        ? data?.permissions
-        : '',
+    permissions: data?.access === EVERYONE ? data?.permissions : '',
     dashboardWidgets: data?.reports?.length
       ? filterAndConcatWidgets(data?.reports, dashboardWidgetsData)
       : dashboardWidgetsData,
   };
 };
 
-export const upsertServiceDashboardFormFieldsDynamic = (
-  fields: SpecialUsersFieldsI[],
-) => [
+export const accessDashboardOptions = [
+  {
+    value: PRIVATE_TO_OWNER,
+    label: 'Private to owner',
+  },
+  {
+    value: EVERYONE,
+    label: 'Everyone',
+    filter: (
+      <Box px={3}>
+        <RHFRadioGroup
+          name="permissions"
+          row={false}
+          options={[
+            {
+              value: EVERYONE_EDIT_AND_VIEW,
+              label: 'Everyone can edit and view',
+            },
+            {
+              value: EVERYONE_ONLY_VIEW,
+              label: 'Everyone can view',
+            },
+          ]}
+        />
+      </Box>
+    ),
+  },
+  {
+    value: SPECIFIC_USER_AND_TEAMS,
+    label: 'Only Specific users',
+    filter: <SpecificUsers name="permissionsUsers" />,
+  },
+];
+
+export const upsertServiceDashboardFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -221,17 +246,18 @@ export const upsertServiceDashboardFormFieldsDynamic = (
     },
     heading: (
       <>
-        <Typography variant="h6" fontWeight={600} color="slateblue.main">
+        <Typography
+          variant="h6"
+          fontWeight={'fontWeightMedium'}
+          color="slateblue.main"
+        >
           Who can access this dashboard?
           <Typography color={'error.main'} component="span">
+            {' '}
             *
           </Typography>
         </Typography>
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
-          ]}
-        >
+        <PermissionsGuard permissions={[SET_DEFAULT_DASHBOARD]}>
           <RHFSwitch name="isDefault" label="Set as default" />
         </PermissionsGuard>
       </>
@@ -244,40 +270,7 @@ export const upsertServiceDashboardFormFieldsDynamic = (
     componentProps: {
       name: 'access',
       row: false,
-      options: [
-        {
-          value: MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
-          label: 'Private to owner',
-        },
-        {
-          value: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
-          label: 'Everyone',
-          filter: (
-            <Box px={3}>
-              <RHFRadioGroup
-                name="permissions"
-                row={false}
-                options={[
-                  {
-                    value:
-                      MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW,
-                    label: 'Everyone can edit and view',
-                  },
-                  {
-                    value: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_ONLY_VIEW,
-                    label: 'Everyone can view',
-                  },
-                ]}
-              />
-            </Box>
-          ),
-        },
-        {
-          value: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
-          label: 'Only Specific users',
-          filter: <SpecificUsers fields={fields} />,
-        },
-      ],
+      options: accessDashboardOptions,
     },
     component: RHFRadioGroup,
   },

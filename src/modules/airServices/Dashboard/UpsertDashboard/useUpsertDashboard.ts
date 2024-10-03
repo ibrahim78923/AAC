@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   MultiCheckboxOptionI,
   UpsertServicesDashboardDefaultValueI,
@@ -27,10 +27,13 @@ import {
   useUpdateServicesDashboardSingleDashboardMutation,
 } from '@/services/airServices/dashboard';
 
+const { PRIVATE_TO_OWNER, EVERYONE_EDIT_AND_VIEW, SPECIFIC_USER_AND_TEAMS } =
+  MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
+
 export const useUpsertDashboard = () => {
   const router = useRouter();
-  const { dashboardId } = router?.query;
-  const { action } = router?.query;
+  const dashboardId = router?.query?.dashboardId;
+  const action = router?.query?.action;
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
 
   const methods = useForm<any>({
@@ -40,16 +43,13 @@ export const useUpsertDashboard = () => {
 
   const { handleSubmit, reset, setValue, control, getValues } = methods;
 
-  const { fields } = useFieldArray<any>({
-    control,
-    name: 'permissionsUsers',
-  });
-
   const getSingleTicketParameter = {
     queryParams: {
       dashboardId,
     },
   };
+  const goToManageDashboard = () =>
+    router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
 
   const { data, isLoading, isFetching, isError, refetch } =
     useGetServicesDashboardSingleDashboardDetailsQuery(
@@ -131,22 +131,21 @@ export const useUpsertDashboard = () => {
   const submitCreateDashboardFilterForm = async (
     formData: UpsertServicesDashboardDefaultValueI,
   ) => {
-    const filterFormData = filteredEmptyValues(formData);
     const body = {
-      ...filterFormData,
+      name: formData?.name,
+      isDefault: formData?.isDefault,
+      access: formData?.access,
       permissions:
-        filterFormData?.access ===
-        MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER
-          ? MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW
-          : filterFormData?.permissions,
+        formData?.access === PRIVATE_TO_OWNER
+          ? EVERYONE_EDIT_AND_VIEW
+          : formData?.permissions,
       reports: formData?.reports?.map((item: any) => ({
         type: REPORT_TYPES?.STATIC,
         visibility: true,
         name: item,
       })),
       specialUsers:
-        filterFormData?.access ===
-        MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS
+        formData?.access === SPECIFIC_USER_AND_TEAMS
           ? formData?.permissionsUsers?.map((user: any) => ({
               userId: user?.userId,
               permission: user?.permission,
@@ -154,23 +153,21 @@ export const useUpsertDashboard = () => {
           : [{}],
     };
 
-    delete body?.everyoneAccess;
-    delete body?.permissionsUsers;
-    delete body?.dashboardWidgets;
+    const filterFormData = filteredEmptyValues(body);
 
     if (!!dashboardId) {
-      submitUpdateDashboardFilterForm(body);
+      submitUpdateDashboardFilterForm(filterFormData);
       return;
     }
 
     const apiDataParameter = {
-      body,
+      body: filterFormData,
     };
 
     try {
       await addSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Dashboard created successfully!');
-      router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
+      goToManageDashboard?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -191,7 +188,7 @@ export const useUpsertDashboard = () => {
     try {
       await updateSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Dashboard updated successfully!');
-      router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
+      goToManageDashboard?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -237,11 +234,15 @@ export const useUpsertDashboard = () => {
   };
 
   const upsertServiceDashboardFormFields =
-    upsertServiceDashboardFormFieldsDynamic?.(fields);
+    upsertServiceDashboardFormFieldsDynamic?.();
 
   useEffect(() => {
     reset(() => createDashboardDefaultValue(data?.data?.dashboard));
   }, [data, reset]);
+
+  const apiCallInProgress =
+    addSingleServicesDashboardStatus?.isLoading ||
+    updateSingleServicesDashboardStatus?.isLoading;
 
   return {
     methods,
@@ -261,5 +262,7 @@ export const useUpsertDashboard = () => {
     isPortalOpen,
     setIsPortalOpen,
     refetch,
+    apiCallInProgress,
+    goToManageDashboard,
   };
 };

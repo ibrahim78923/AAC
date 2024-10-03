@@ -8,7 +8,6 @@ import {
 import { CheckboxCheckedIcon, CheckboxIcon, DragIcon } from '@/assets/icons';
 import { Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
-import { v4 as uuidv4 } from 'uuid';
 
 interface RHFMultiCheckboxOptionI {
   value: string;
@@ -79,7 +78,7 @@ export const RHFMultiCheckboxDraggable = (
                     {options?.map(
                       (option: RHFMultiCheckboxOptionI, index: number) => (
                         <Draggable
-                          key={uuidv4()}
+                          key={option?.value}
                           draggableId={option?.value}
                           index={index}
                         >
@@ -98,7 +97,6 @@ export const RHFMultiCheckboxDraggable = (
                             >
                               <DragIcon />
                               <FormControlLabel
-                                key={uuidv4()}
                                 control={
                                   <Checkbox
                                     checked={field?.value?.some(

@@ -13,8 +13,8 @@ export const DashboardOwnersFieldDropdown = (props: any) => {
     moreQueryParams = {},
   } = props;
 
-  const auth = useAuth();
-  const { _id: productId }: any = auth?.product ?? {};
+  const auth: any = useAuth();
+  const productId: any = auth?.product?._id ?? {};
 
   const apiQueryOwner =
     useLazyGetServicesDashboardDashboardOwnersDropdownListQuery?.();

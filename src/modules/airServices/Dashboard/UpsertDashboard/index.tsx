@@ -1,8 +1,7 @@
-import { DashboardMockImage } from '@/assets/images';
+import { NoDashboardWidgetImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from './UpsertDashboard.data';
-import { styles } from './UpsertDashboard.styles';
 import { PreviewDashboard } from '../PreviewDashboard';
 import { DragDropContext } from 'react-beautiful-dnd';
 import dynamic from 'next/dynamic';
@@ -13,7 +12,6 @@ import {
   TICKET_GRAPH_TYPES,
 } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { UpsertServiceDashboardFormFieldsDynamicI } from './UpsertDashboard.interface';
 import { createElement } from 'react';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -21,11 +19,16 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { Visibility } from '@mui/icons-material';
 import NoData from '@/components/NoData';
 import { useUpsertDashboard } from './useUpsertDashboard';
+import { pxToRem } from '@/utils/getFontValue';
 
 const RHFMultiCheckboxDraggable = dynamic(
   () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
   { ssr: false },
 );
+
+const { EDIT, CREATE, UPDATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
+const { EDIT: EDIT_DASHBOARD } = DASHBOARD ?? {};
+const { PRIORITY } = TICKET_GRAPH_TYPES ?? {};
 
 export const UpsertDashboard = () => {
   const {
@@ -34,11 +37,8 @@ export const UpsertDashboard = () => {
     reportsWatch,
     onDragEnd,
     action,
-    router,
     handleSubmit,
     upsertServiceDashboardFormFields,
-    addSingleServicesDashboardStatus,
-    updateSingleServicesDashboardStatus,
     isLoading,
     isFetching,
     isError,
@@ -46,53 +46,65 @@ export const UpsertDashboard = () => {
     isPortalOpen,
     setIsPortalOpen,
     refetch,
+    apiCallInProgress,
+    goToManageDashboard,
   } = useUpsertDashboard();
 
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
     <>
+      <PageTitledHeader
+        title={`${action === EDIT_DASHBOARD ? EDIT : CREATE} Dashboard`}
+        canMovedBack
+        moveBack={goToManageDashboard}
+      />
       <FormProvider
         methods={methods}
         onSubmit={handleSubmit(submitCreateDashboardFilterForm)}
       >
-        <PageTitledHeader
-          title={`${
-            action === DASHBOARD?.EDIT
-              ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
-              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
-          } Dashboard`}
-          canMovedBack
-          moveBack={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
-        />
-        <Grid container spacing={3} sx={styles()?.createDashboardContainer}>
-          <Grid item xl={6} xs={12}>
-            <Grid container spacing={2}>
-              {upsertServiceDashboardFormFields?.map(
-                (form: UpsertServiceDashboardFormFieldsDynamicI) => (
-                  <Grid key={form?.id} item xs={12} md={form?.md}>
-                    <form.component {...form?.componentProps} size="small">
-                      {form?.heading ? form?.heading : null}
-                    </form.component>
-                  </Grid>
-                ),
-              )}
-            </Grid>
-            <br />
-            <Typography variant="h6" fontWeight={600} color="slateblue.main">
-              Use the checkboxes to remove/add any report you want
-            </Typography>
-            <Box sx={styles()?.multiCheckboxContainer}>
-              <DragDropContext onDragEnd={onDragEnd}>
-                <RHFMultiCheckboxDraggable
-                  name="reports"
-                  options={dashboardWidgetsWatch}
-                />
-              </DragDropContext>
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xl={6}
+            xs={12}
+            display={'flex'}
+            flexDirection={'column'}
+            maxHeight={'100%'}
+          >
+            <Box flexGrow={1}>
+              <Grid container spacing={2}>
+                {upsertServiceDashboardFormFields?.map(
+                  (form: UpsertServiceDashboardFormFieldsDynamicI) => (
+                    <Grid key={form?.id} item xs={12} md={form?.md}>
+                      <form.component {...form?.componentProps} size="small">
+                        {form?.heading ? form?.heading : null}
+                      </form.component>
+                    </Grid>
+                  ),
+                )}
+              </Grid>
+              <Typography
+                variant="h6"
+                mt={1}
+                fontWeight={'fontWeightMedium'}
+                color="slateBlue.main"
+              >
+                Use the checkboxes to remove/add any report you want
+              </Typography>
+              <Box>
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <RHFMultiCheckboxDraggable
+                    name="reports"
+                    options={dashboardWidgetsWatch}
+                  />
+                </DragDropContext>
+              </Box>
             </Box>
-            <Box display="flex" justifyContent="flex-end">
+            <Box textAlign={'right'}>
               <Button
+                className="small"
                 variant="text"
                 onClick={() =>
                   setIsPortalOpen({
@@ -107,63 +119,77 @@ export const UpsertDashboard = () => {
               </Button>
             </Box>
           </Grid>
-          <Grid item xl={6} xs={12}>
-            <Box sx={styles(reportsWatch)?.detailsViewBox}>
-              <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
+          <Grid item xl={6} xs={12} overflow={'auto'}>
+            <Box
+              border="1px solid"
+              borderColor="custom.off_white_three"
+              p={2}
+              borderRadius={2}
+              overflow={'auto'}
+            >
+              <Typography
+                variant="subtitle1"
+                textAlign="center"
+                color="slateBlue.main"
+                pb={2}
+              >
                 Details view
               </Typography>
-
               {!!!reportsWatch?.length ? (
-                <NoData image={DashboardMockImage} message="" />
+                <NoData
+                  image={NoDashboardWidgetImage}
+                  message="You have not selected any dashboard"
+                />
               ) : (
-                <Grid
-                  container
-                  spacing={3}
+                <Box
                   p={2}
                   maxHeight={'70vh'}
                   minHeight={'70vh'}
                   overflow={'auto'}
+                  minWidth={pxToRem(600)}
                 >
                   {reportsWatch?.map((item: any) => (
-                    <Grid item xs={12} key={item}>
+                    <Box key={item} my={2}>
                       {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item] &&
                         createElement(
                           AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item],
                           {
-                            ticketType: TICKET_GRAPH_TYPES?.PRIORITY,
+                            ticketType: PRIORITY,
                             isPreviewMode: true,
                           },
                         )}
-                    </Grid>
+                    </Box>
                   ))}
-                </Grid>
+                </Box>
               )}
             </Box>
           </Grid>
         </Grid>
-        <Box display="flex" gap="0.6rem" justifyContent="flex-end">
+        <Box
+          display="flex"
+          gap={1}
+          py={2}
+          mt={2}
+          justifyContent="flex-end"
+          borderTop="1px solid"
+          borderColor="custom.off_white_three"
+        >
           <LoadingButton
+            className="small"
             variant="outlined"
             color="secondary"
-            onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
-            disabled={
-              addSingleServicesDashboardStatus?.isLoading ||
-              updateSingleServicesDashboardStatus?.isLoading
-            }
+            onClick={goToManageDashboard}
+            disabled={apiCallInProgress}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             type="submit"
-            disabled={
-              addSingleServicesDashboardStatus?.isLoading ||
-              updateSingleServicesDashboardStatus?.isLoading
-            }
+            disabled={apiCallInProgress}
           >
-            {action === DASHBOARD?.EDIT
-              ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
+            {action === EDIT_DASHBOARD ? UPDATE : CREATE}
           </LoadingButton>
         </Box>
       </FormProvider>

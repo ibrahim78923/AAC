@@ -1,4 +1,5 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import useAuth from '@/hooks/useAuth';
 import { useLazyGetServicesDashboardDashboardNameDropdownListQuery } from '@/services/airServices/dashboard';
 import { truncateText } from '@/utils/avatarUtils';
 import { pxToRem } from '@/utils/getFontValue';
@@ -8,7 +9,8 @@ export const DashboardListFieldDropdown = (props: any) => {
   const apiQueryDashboardList =
     useLazyGetServicesDashboardDashboardNameDropdownListQuery?.();
   const { disabled } = props;
-
+  const auth: any = useAuth();
+  const productId: any = auth?.product?._id ?? {};
   return (
     <RHFAutocompleteAsync
       disabled={disabled}
@@ -28,6 +30,7 @@ export const DashboardListFieldDropdown = (props: any) => {
       }}
       placeholder="Dashboards"
       apiQuery={apiQueryDashboardList}
+      externalParams={{ productId }}
       renderOption={(option: any) => (
         <Box
           display={'flex'}

@@ -304,3 +304,4 @@ export { default as StatsInstagramImage } from './modules/airMarketer/Dashboard/
 export { default as StatsTwitterImage } from './modules/airMarketer/Dashboard/twitter-icon.png';
 export { default as StatsLinkedinImage } from './modules/airMarketer/Dashboard/linkedin-icon.png';
 export { default as StatsYoutubeImage } from './modules/airMarketer/Dashboard/youtube-icon.png';
+export { default as NoDashboardWidgetImage } from './modules/airServices/Dashboard/no-dashboard-widget.svg';

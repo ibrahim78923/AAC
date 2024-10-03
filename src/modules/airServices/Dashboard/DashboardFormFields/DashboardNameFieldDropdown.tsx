@@ -9,8 +9,8 @@ export const DashboardNameFieldDropdown = () => {
   const apiQueryDashboardName =
     useLazyGetServicesDashboardDashboardNameDropdownListQuery();
 
-  const auth = useAuth();
-  const { _id: productId }: any = auth?.product ?? {};
+  const auth: any = useAuth();
+  const productId: any = auth?.product?._id ?? {};
 
   return (
     <RHFAutocompleteAsync
