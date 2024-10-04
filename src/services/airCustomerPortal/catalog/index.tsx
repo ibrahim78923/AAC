@@ -58,6 +58,36 @@ export const catalogAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_THREE],
     }),
+    getCustomerPortalCatalogTicketApprovalDetailsById: builder?.query({
+      query: (getTicketApprovalDetailsParameter: any) => ({
+        url: `${END_POINTS?.GET_TICKET_APPROVAL_DETAILS}`,
+        method: 'GET',
+        params: getTicketApprovalDetailsParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getCustomerPortalCatalogPendingForApprovalsTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_TICKETS_PENDING_FOR_APPROVAL}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getCustomerPortalCatalogTicketDetailsById: builder?.query({
+      query: (getTicketDetailsParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${getTicketDetailsParameter?.pathParams?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    getCustomerPortalCatalogApprovalTicketsById: builder?.query({
+      query: (getSingleTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${getSingleTicketParameter?.pathParam?.ticketId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -67,5 +97,9 @@ export const {
   useGetServiceCatalogCategoriesDetailsQuery,
   useLazyGetRequesterDropdownQuery,
   usePostTicketsMutation,
-  updateTicketsApprovalCustomerPortal,
+  useUpdateTicketsApprovalCustomerPortalMutation,
+  useGetCustomerPortalCatalogApprovalTicketsByIdQuery,
+  useGetCustomerPortalCatalogTicketApprovalDetailsByIdQuery,
+  useGetCustomerPortalCatalogTicketDetailsByIdQuery,
+  useGetCustomerPortalCatalogPendingForApprovalsTicketsQuery,
 } = catalogAPI;
