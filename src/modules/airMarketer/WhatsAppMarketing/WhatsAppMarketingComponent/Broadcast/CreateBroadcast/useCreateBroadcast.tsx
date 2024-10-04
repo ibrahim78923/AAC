@@ -196,16 +196,12 @@ const useCreateBroadcast = () => {
       payloadData.contactGroupIds = [];
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
-      payloadData.recipients = selectedRec
-        ?.map(
-          (item: any) => item?.contacts?.map((contact: any) => contact?._id),
-        )
-        ?.flat();
       payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
     }
     if (isSchedule) {
       payloadData.schedualDate = data?.schedualDate;
     }
+    delete payloadData?.recipients;
     const filteredEmptyData = filteredEmptyValues(payloadData);
 
     const customFields: any = {};
@@ -260,8 +256,8 @@ const useCreateBroadcast = () => {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
       }
       delete body?.customFields;
-      Object.keys(body).forEach((key) => {
-        formData.append(key, body[key]);
+      Object?.keys(body)?.forEach((key) => {
+        formData?.append(key, body[key]);
       });
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();
@@ -277,8 +273,12 @@ const useCreateBroadcast = () => {
 
   const submitUpdateTemplate = async (data: any) => {
     const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, JSON?.stringify(data[key]));
+    if (data?.customFields) {
+      formData?.append('customFields', JSON?.stringify(data?.customFields));
+    }
+    delete data?.customFields;
+    Object?.keys(data)?.forEach((key) => {
+      formData?.append(key, data[key]);
     });
 
     const updateWhatsappBroadcastParameter = {
@@ -297,8 +297,8 @@ const useCreateBroadcast = () => {
 
   const flattenContactsData = (data: any[]) => {
     return data?.reduce((acc: any[], item: any) => {
-      if (item?.contacts) {
-        return [...acc, ...item?.contacts];
+      if (item?.recipients) {
+        return [...acc, ...item?.recipients];
       } else {
         return [...acc, item];
       }

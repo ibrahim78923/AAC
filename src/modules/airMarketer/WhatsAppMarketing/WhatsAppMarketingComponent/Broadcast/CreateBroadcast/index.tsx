@@ -156,8 +156,7 @@ const CreateBroadcast = () => {
                             }}
                           >
                             {selectedRec?.map((item: any) => {
-                              const contacts = item?.contacts || [item];
-
+                              const contacts = item?.recipients || [item];
                               return contacts?.map((contact: any) => (
                                 <Avatar
                                   key={uuidv4()}

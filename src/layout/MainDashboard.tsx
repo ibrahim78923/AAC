@@ -55,6 +55,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
 import { AIR_CUSTOMER_PORTAL, indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { SOCKETS_EVENTS } from '@/constants/strings';
 
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
@@ -595,6 +596,7 @@ const DashboardLayout = ({ children, window }: any) => {
         }
       }
     };
+    const handleRecieveNotification = () => {};
 
     const handleOnRemovedFromGrp = (payload: any) => {
       if (payload) {
@@ -649,6 +651,9 @@ const DashboardLayout = ({ children, window }: any) => {
       socket.on(CHAT_SOCKETS?.ON_NEW_GRP, handleGroupReceived);
       socket.on(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
       socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+
+      // socket for send notifications
+      socket.on(SOCKETS_EVENTS?.NOTIFICATION_EVENT, handleRecieveNotification);
     }
     return () => {
       if (socket) {
@@ -661,6 +666,12 @@ const DashboardLayout = ({ children, window }: any) => {
         socket.off(CHAT_SOCKETS?.ON_REMOVED_FROM_GRP, handleOnRemovedFromGrp);
         socket.off(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
         socket.off(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+
+        // socket off for send notifications
+        socket.off(
+          SOCKETS_EVENTS?.NOTIFICATION_EVENT,
+          handleRecieveNotification,
+        );
       }
     };
   }, [activeChatId, chatContacts, dispatch, socket]);

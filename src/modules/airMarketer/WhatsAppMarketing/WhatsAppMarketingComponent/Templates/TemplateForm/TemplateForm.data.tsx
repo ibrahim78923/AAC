@@ -1,8 +1,4 @@
-import {
-  RHFAutocomplete,
-  RHFDropZone,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -27,7 +23,7 @@ export const newCreateTemplateDefaultValues = (data?: any, form?: any) => {
   const initialValues: any = dynamicFormInitialValue(data, form);
   return {
     name: data?.name ?? '',
-    category: data?.category ?? '',
+    category: data?.category ?? 'Marketing',
     detail: data?.detail ?? '',
     attachment: data?.attachment ?? '',
     ...initialValues,
@@ -51,11 +47,10 @@ export const createTemplateFiltersDataArray = () => {
       componentProps: {
         name: 'category',
         label: 'Category',
-        placeholder: 'Select Category',
         required: true,
-        options: ['Authentication', 'Utility', 'Marketing'],
+        disabled: true,
       },
-      component: RHFAutocomplete,
+      component: RHFTextField,
       md: 12,
     },
     {

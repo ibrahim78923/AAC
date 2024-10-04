@@ -37,6 +37,10 @@ export const TICKET_STATUS = {
   SHARE_WITH_ME: 'SHARE_WITH_ME',
 };
 
+export const SOCKETS_EVENTS = {
+  NOTIFICATION_EVENT: 'NOTIFICATION_EVENT',
+};
+
 export const TICKET_PRIORITY = {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',

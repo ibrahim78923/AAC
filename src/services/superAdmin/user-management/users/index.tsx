@@ -50,25 +50,6 @@ export const usersApi: any = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
-
-    // updateUserProfile: builder.mutation({
-    //   query: ({ id, ...values }: any) => {
-    //     return {
-    //       url: `${END_POINTS?.ADD_USER}/${id}`,
-    //       method: 'PATCH',
-    //       params: values,
-    //     };
-    //   },
-    //   invalidatesTags: ['USERS'],
-    // }),
-
-    deleteUsers: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `/${id}`,
-        method: 'GET',
-      }),
-      invalidatesTags: ['USERS'],
-    }),
   }),
 });
 
@@ -77,8 +58,6 @@ export const {
   usePostUsersMutation,
   useGetUsersQuery,
   useLazyGetUsersQuery,
-  useDeleteUsersMutation,
   useGetUsersByIdQuery,
   useGetSuperAdminRolesQuery,
-  // useUpdateUserProfileMutation,
 } = usersApi;

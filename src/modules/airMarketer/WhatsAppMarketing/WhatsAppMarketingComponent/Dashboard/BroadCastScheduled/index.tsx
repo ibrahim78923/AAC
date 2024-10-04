@@ -46,44 +46,50 @@ const ScheduledSMS = (props: any) => {
           <SkeletonTable />
         ) : (
           <Box className="cardWrapper">
-            {broadcastsData?.map((item: any) => {
-              return (
-                <Card sx={{ my: 1 }} key={uuidv4()}>
-                  <CardContent>
-                    <CardHeader item={item} statusTag={statusTag} />
-                    <Typography variant="body2" color="text.secondary">
-                      {item?.detail}
-                    </Typography>
-                    <Stack
-                      direction={{ sx: 'column', sm: 'row' }}
-                      justifyContent="space-between"
-                    >
-                      <Typography>
-                        <Typography
-                          component="span"
-                          sx={{ color: theme?.palette?.primary?.main }}
-                        >
-                          Created:
-                        </Typography>
-                        {dayjs(item?.createdAt).format(DATE_FORMAT?.UI)}
+            {broadcastsData?.length > 0 ? (
+              broadcastsData?.map((item: any) => {
+                return (
+                  <Card sx={{ my: 1 }} key={uuidv4()}>
+                    <CardContent>
+                      <CardHeader item={item} statusTag={statusTag} />
+                      <Typography variant="body2" color="text.secondary">
+                        {item?.detail}
                       </Typography>
-                      <Typography>
-                        <Typography
-                          component="span"
-                          sx={{ color: theme?.palette?.primary?.main }}
-                        >
-                          Recipients:
+                      <Stack
+                        direction={{ sx: 'column', sm: 'row' }}
+                        justifyContent="space-between"
+                      >
+                        <Typography>
+                          <Typography
+                            component="span"
+                            sx={{ color: theme?.palette?.primary?.main }}
+                          >
+                            Created:
+                          </Typography>
+                          {dayjs(item?.createdAt).format(DATE_FORMAT?.UI)}
                         </Typography>
-                        {item?.recipients?.length < 10
-                          ? `0${item?.recipients?.length}`
-                          : item?.recipients?.length}{' '}
-                        Contacts
-                      </Typography>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                        <Typography>
+                          <Typography
+                            component="span"
+                            sx={{ color: theme?.palette?.primary?.main }}
+                          >
+                            Recipients:
+                          </Typography>
+                          {item?.recipients?.length < 10
+                            ? `0${item?.recipients?.length}`
+                            : item?.recipients?.length}{' '}
+                          Contacts
+                        </Typography>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                );
+              })
+            ) : (
+              <Typography variant="h6" color={theme?.palette?.grey[500]}>
+                No Broadcast Found
+              </Typography>
+            )}
           </Box>
         )}
       </Box>

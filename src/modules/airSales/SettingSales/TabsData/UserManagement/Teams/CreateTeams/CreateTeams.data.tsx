@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from '@/utils/api';
 import * as Yup from 'yup';
 
 export const teamsValidationSchema = Yup.object().shape({
-  name: Yup.string().required('Field is Required'),
+  name: Yup.string()?.trim()?.required('Field is Required'),
   userAccounts: Yup.array()
     .of(Yup.string())
     .min(1, 'At least one member is required')

@@ -15,7 +15,6 @@ import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import useBroadcastDetails from '../useBroadcastDetails';
 import Image from 'next/image';
-import { generateImage } from '@/utils/avatarUtils';
 
 const BroadcastDetailsTab = ({
   isLoading,
@@ -44,7 +43,10 @@ const BroadcastDetailsTab = ({
               <Image
                 height={150}
                 width={500}
-                src={generateImage(broadcastDetails?.attachment?.url)}
+                src={
+                  broadcastDetails?.template[0]?.types?.['twilio/media']
+                    ?.media[0]
+                }
                 alt="broadcast_image"
               />
             </Box>

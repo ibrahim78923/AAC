@@ -9,6 +9,10 @@ export const styles = {
       '.cardWrapper': {
         overflowY: 'scroll',
         height: '340px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
       },
 
       '.scheduledSMSHeader': {

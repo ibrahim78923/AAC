@@ -15,7 +15,7 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { STATUS_CONTANTS } from '@/constants/strings';
+import { AGENT_REQUEST_STATUS, STATUS_CONTANTS } from '@/constants/strings';
 import { getActiveAccountSession } from '@/utils';
 
 export const broadCastValidationSchema = (
@@ -59,9 +59,15 @@ export const broadcastDefaultValues = (data?: any, form?: any) => {
 };
 
 export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
+  const one = 1;
   const ActiveAccount = getActiveAccountSession();
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const templateList = useLazyGetAllWhatsAppTemplateListQuery();
+  const approvedTemplates = templateList[one]?.data?.filter(
+    (template: any) =>
+      template.approvalStatus === AGENT_REQUEST_STATUS?.APPROVED?.toLowerCase(),
+  );
+  templateList[one].data = approvedTemplates;
 
   return [
     {

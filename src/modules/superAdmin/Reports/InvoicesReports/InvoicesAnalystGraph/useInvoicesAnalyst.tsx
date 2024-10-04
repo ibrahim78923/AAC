@@ -38,7 +38,7 @@ const useInvoicesAnalyst = () => {
   });
 
   const customizeData = (organizations: any) => {
-    return organizations?.map((item: any) => ({
+    return organizations?.data?.map((item: any) => ({
       label: item?.name,
       value: item?._id,
     }));

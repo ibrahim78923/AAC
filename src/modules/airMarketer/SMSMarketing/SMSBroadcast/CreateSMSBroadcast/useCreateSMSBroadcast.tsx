@@ -34,6 +34,7 @@ const useCreateSMSBroadcast = () => {
   const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
+  const [detailsMsg, setDetailMsg] = useState();
   const [isSchedule, setIsSchedule] = useState(false);
   const { getIsPhoneConnected } = useSMSMarketing();
 
@@ -87,7 +88,7 @@ const useCreateSMSBroadcast = () => {
 
   useEffect(() => {
     setValue('detail', templateData?.detail);
-  }, [templateData?.detail]);
+  }, [templateData?.detail, setValue, detailsMsg]);
 
   const initialValues: any = dynamicFormInitialValue(
     getSmsBroadcatsById?.data,
@@ -113,6 +114,7 @@ const useCreateSMSBroadcast = () => {
             : null,
       };
       reset(() => defaultValues(fieldsToSet, form, getIsPhoneConnected));
+      setDetailMsg(data?.detail);
       setRecipientType(
         data?.groupDetails?.length > 0
           ? SMS_MARKETING_CONSTANTS?.GROUP
@@ -127,7 +129,7 @@ const useCreateSMSBroadcast = () => {
       );
       setIsSchedule(data?.schedualDate ? true : false);
     }
-  }, [getSmsBroadcatsById, type, setValue]);
+  }, [getSmsBroadcatsById, type, setValue, detailsMsg]);
 
   const onSubmit = async (values: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -147,14 +149,8 @@ const useCreateSMSBroadcast = () => {
       payloadData.sendNow = true;
     }
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
-      // payloadData.contactGroupId = [];
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
-      // payloadData.recipients = selectedRec
-      //   ?.map(
-      //     (item: any) => item?.contacts?.map((contact: any) => contact?._id),
-      //   )
-      //   ?.flat();
       payloadData.recipients = [];
       payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
     }
@@ -263,6 +259,7 @@ const useCreateSMSBroadcast = () => {
     theme,
     type,
     form,
+    detailsMsg,
   };
 };
 

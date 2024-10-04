@@ -129,7 +129,11 @@ const useUpdateQuote = () => {
     try {
       putSubmitQuote({
         id: quoteId,
-        body: { id: quoteId, status: quoteStatus?.draft },
+        body: {
+          id: quoteId,
+          status: quoteStatus?.draft,
+          products: productsArray,
+        },
       });
       enqueueSnackbar('Save as draft submit later', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,

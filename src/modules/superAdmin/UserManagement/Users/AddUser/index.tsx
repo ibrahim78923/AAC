@@ -144,14 +144,7 @@ const AddUser = ({
                           ? true
                           : false
                       }
-                    >
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
+                    />
                   )}
                   {isToggled && (
                     <Grid item container spacing={2} mt={1}>

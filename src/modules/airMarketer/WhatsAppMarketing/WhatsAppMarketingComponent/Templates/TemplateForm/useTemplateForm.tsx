@@ -6,10 +6,7 @@ import {
   createTemplateValidationSchema,
   newCreateTemplateDefaultValues,
 } from './TemplateForm.data';
-import {
-  usePostWhatsappTemplateMutation,
-  useUpdateWhatsappTemplateMutation,
-} from '@/services/airMarketer/whatsappMarketing/templates';
+import { usePostWhatsappTemplateMutation } from '@/services/airMarketer/whatsappMarketing/templates';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -30,7 +27,6 @@ import { indexNumbers } from '@/constants';
 const useTemplateForm = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { editData }: any = router?.query;
   const [form, setForm] = useState<any>([]);
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
@@ -57,21 +53,12 @@ const useTemplateForm = () => {
     getDynamicFormData();
   }, []);
 
-  let editRecordData = [];
-  if (editData) {
-    editRecordData = JSON?.parse(editData);
-  }
-
   const templateMethods = useForm({
     resolver: yupResolver(createTemplateValidationSchema?.(form)),
     defaultValues: newCreateTemplateDefaultValues?.(),
   });
 
-  const { handleSubmit, watch, reset } = templateMethods;
-
-  useEffect(() => {
-    reset(() => newCreateTemplateDefaultValues(editRecordData, form));
-  }, [editRecordData?._id, reset, form]);
+  const { handleSubmit, watch } = templateMethods;
 
   const TemplateName = watch('name');
   const Category = watch('category');
@@ -79,9 +66,6 @@ const useTemplateForm = () => {
 
   const [postWhatsappTemplate, { isLoading: postTemplateLoading }] =
     usePostWhatsappTemplateMutation();
-
-  const [updateWhatsappTemplate, { isLoading: updateTemplateLoading }] =
-    useUpdateWhatsappTemplateMutation();
 
   const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
 
@@ -130,11 +114,6 @@ const useTemplateForm = () => {
         body.customFields = customFields;
       }
 
-      if (!!editRecordData?._id) {
-        submitUpdateTemplate(body);
-        return;
-      }
-
       const formData = new FormData();
       if (body?.customFields) {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
@@ -152,26 +131,6 @@ const useTemplateForm = () => {
     }
   };
 
-  const submitUpdateTemplate = async (data: any) => {
-    const formData = new FormData();
-    Object?.keys(data)?.forEach((key) => {
-      formData?.append(key, JSON?.stringify(data[key]));
-    });
-
-    const updateWhatsappTemplateParameter = {
-      id: editRecordData?._id,
-      body: formData,
-    };
-
-    try {
-      await updateWhatsappTemplate(updateWhatsappTemplateParameter)?.unwrap();
-      successSnackbar('Template Updated Successfully!');
-      router?.back();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
-
   return {
     router,
     theme,
@@ -180,12 +139,10 @@ const useTemplateForm = () => {
     onSubmit,
     TemplateName,
     postTemplateLoading,
-    updateTemplateLoading,
     Category,
     Details,
     form,
     getDynamicFieldsStatus,
-    editData,
   };
 };
 

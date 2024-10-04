@@ -1,13 +1,12 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { DeleteIcon, EditPenBorderedIcon } from '@/assets/icons';
-import { DATE_FORMAT, TASK_TYPE } from '@/constants';
+import { DeleteIcon } from '@/assets/icons';
+import { DATE_FORMAT } from '@/constants';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import { capitalizeFirstLetter } from '@/utils/api';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const columns = ({ setDeleteTemplateModal, router }: any) => {
+export const columns = ({ setDeleteTemplateModal }: any) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -22,6 +21,14 @@ export const columns = ({ setDeleteTemplateModal, router }: any) => {
       isSortable: false,
       header: 'Description',
       cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.approvalStatus,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) =>
+        info?.getValue() ? capitalizeFirstLetter(info?.getValue()) : 'N/A',
     },
     {
       accessorFn: (row: any) => row?.category,
@@ -42,56 +49,27 @@ export const columns = ({ setDeleteTemplateModal, router }: any) => {
       accessorFn: (row: any) => row._id,
       id: '_id',
       cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: '10px' }}>
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_SMS_MARKETING_PERMISSIONS.EDIT_TEMPLATE]}
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SMS_MARKETING_PERMISSIONS.DELETE_TEMPLATE]}
+        >
+          <Button
+            sx={{
+              background: '',
+              padding: '0',
+              minWidth: '30px',
+              height: '30px',
+              borderRadius: '50%',
+            }}
+            onClick={() =>
+              setDeleteTemplateModal({
+                isOpen: true,
+                id: info?.row?.original?._id,
+              })
+            }
           >
-            <Button
-              sx={{
-                background: '',
-                padding: '0',
-                minWidth: '30px',
-                height: '30px',
-                borderRadius: '50%',
-              }}
-              onClick={() =>
-                router?.push({
-                  pathname: AIR_MARKETER?.WHATSAPP_MARKETING_CREATE_TEMPLATE,
-                  query: {
-                    editData: JSON?.stringify(info?.row?.original),
-                    type: TASK_TYPE?.EDIT_TASK,
-                  },
-                })
-              }
-            >
-              <EditPenBorderedIcon size={20} />
-            </Button>
-          </PermissionsGuard>
-
-          <PermissionsGuard
-            permissions={[
-              AIR_MARKETER_SMS_MARKETING_PERMISSIONS.DELETE_TEMPLATE,
-            ]}
-          >
-            <Button
-              sx={{
-                background: '',
-                padding: '0',
-                minWidth: '30px',
-                height: '30px',
-                borderRadius: '50%',
-              }}
-              onClick={() =>
-                setDeleteTemplateModal({
-                  isOpen: true,
-                  id: info?.row?.original?._id,
-                })
-              }
-            >
-              <DeleteIcon />
-            </Button>
-          </PermissionsGuard>
-        </Box>
+            <DeleteIcon />
+          </Button>
+        </PermissionsGuard>
       ),
       header: 'Actions',
       isSortable: false,

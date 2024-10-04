@@ -59,6 +59,7 @@ const CreateSMSBroadcast = () => {
     type,
     form,
     getDynamicFieldsStatus,
+    detailsMsg,
   } = useCreateSMSBroadcast();
 
   return (
@@ -308,7 +309,11 @@ const CreateSMSBroadcast = () => {
                   Details
                 </Typography>
                 <Box sx={styles?.previewDetails}>
-                  <Box dangerouslySetInnerHTML={{ __html: detailsText }} />
+                  <Box
+                    dangerouslySetInnerHTML={{
+                      __html: detailsText ?? detailsMsg,
+                    }}
+                  />
                 </Box>
               </Grid>
               <Grid item xs={12}>
