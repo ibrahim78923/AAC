@@ -56,6 +56,7 @@ import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
 import { AIR_CUSTOMER_PORTAL, indexNumbers, PRODUCT_LABELS } from '@/constants';
 import { SOCKETS_EVENTS } from '@/constants/strings';
+import { setNotifications } from '@/redux/slices/notifications/notifications';
 
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
@@ -596,7 +597,9 @@ const DashboardLayout = ({ children, window }: any) => {
         }
       }
     };
-    const handleRecieveNotification = () => {};
+    const handleRecieveNotification = (payload: any) => {
+      dispatch(setNotifications(payload));
+    };
 
     const handleOnRemovedFromGrp = (payload: any) => {
       if (payload) {

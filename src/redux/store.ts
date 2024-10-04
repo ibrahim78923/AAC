@@ -24,11 +24,13 @@ import operationsRestoreReportsListsSlice from './slices/airOperations/restore-r
 import operationsUsersSlice from './slices/airOperations/users/slice';
 import operationsTeamSlice from './slices/airOperations/teams/slice';
 import servicesTicketApprovalsSlice from './slices/airServices/tickets-approvals/slice';
+import notificationsSlice from './slices/notifications/notifications';
 
 const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
     chat: chatSlice,
+    notifications: notificationsSlice,
     email: emailSlice,
     gmail: gmailSlice,
     outlook: outlookSlice,
