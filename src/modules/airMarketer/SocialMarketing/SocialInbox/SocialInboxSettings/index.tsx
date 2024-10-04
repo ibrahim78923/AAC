@@ -58,9 +58,7 @@ const SocialInboxSettings = () => {
 
           {tabComponents?.map((Component, index) => (
             <TabPanel key={uuidv4()} value={Number(tabValue)} index={index}>
-              <Box sx={styles?.tabsPanel(theme)}>
-                {!tabValue ? <SkeletonForm /> : <Component />}
-              </Box>
+              <Box>{!tabValue ? <SkeletonForm /> : <Component />}</Box>
             </TabPanel>
           ))}
         </Box>

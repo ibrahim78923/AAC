@@ -43,7 +43,7 @@ const Notification = () => {
 
           <Box display="flex" gap={2} flexDirection="column">
             {notificationList?.map((item: any) => (
-              <>
+              <Box key={uuidv4()}>
                 {item?.title === SETTINGS_CONSTANTS?.EMAIL && (
                   <Typography
                     variant="h6"
@@ -96,7 +96,7 @@ const Notification = () => {
                     />
                   </Box>
                 </PermissionsGuard>
-              </>
+              </Box>
             ))}
           </Box>
         </Box>

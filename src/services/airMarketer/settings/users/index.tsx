@@ -1,7 +1,7 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
-const SETTING_USERS = 'SETTINGS_USERS_MANAGEMENT';
+const TAG = ['SETTINGS_USERS_MANAGEMENT'];
 
 export const ProductUsersApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +11,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: [SETTING_USERS],
+      providesTags: TAG,
     }),
     getAvailedUsers: builder.query({
       query: (params: any) => ({
@@ -19,7 +19,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: [SETTING_USERS],
+      providesTags: TAG,
     }),
 
     getproductUsersById: builder.query({
@@ -29,7 +29,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: [SETTING_USERS],
+      providesTags: TAG,
     }),
 
     postPoductUser: builder.mutation({
@@ -40,7 +40,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: [SETTING_USERS],
+      invalidatesTags: TAG,
     }),
 
     updateProductsUsers: builder.mutation({
@@ -51,7 +51,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: [SETTING_USERS],
+      invalidatesTags: TAG,
     }),
 
     deleteProductUser: builder.mutation({
@@ -59,7 +59,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PRODUCTS_USERS}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [SETTING_USERS],
+      invalidatesTags: TAG,
     }),
   }),
 });

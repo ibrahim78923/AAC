@@ -7,14 +7,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { ViewTeamsPropsI } from '../Teams.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import { useGetTeamsByIdQuery } from '@/services/airMarketer/settings/teams';
+import { useGetMarketerTeamsByIdQuery } from '@/services/airMarketer/settings/teams';
 
 const ViewTeams = (props: ViewTeamsPropsI) => {
   const theme = useTheme();
   const { isTeamDrawer, setIsTeamDrawer, teamId } = props;
 
   const { data: teamDataById, isLoading: teamByIdLoading } =
-    useGetTeamsByIdQuery(teamId, { skip: !teamId });
+    useGetMarketerTeamsByIdQuery(teamId, { skip: !teamId });
   const teamData = teamDataById?.data;
 
   return (

@@ -1,6 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['RECEIVER_BANK_ACCOUNT'];
 export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getReceiverBankAccounts: builder.query({
@@ -9,7 +9,7 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['RECEIVER_BANK_ACCOUNT'],
+      providesTags: TAG,
     }),
 
     getReceiverBankAccountsById: builder.query({
@@ -17,7 +17,7 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['RECEIVER_BANK_ACCOUNT'],
+      providesTags: TAG,
     }),
 
     postReceiverBankAccount: builder.mutation({
@@ -26,7 +26,7 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
+      invalidatesTags: TAG,
     }),
 
     updateReceiverBankAccount: builder.mutation({
@@ -35,7 +35,7 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
+      invalidatesTags: TAG,
     }),
 
     deleteReceiverBankAccount: builder.mutation({
@@ -44,7 +44,7 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
         method: 'DELETE',
         body: body,
       }),
-      invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
+      invalidatesTags: TAG,
     }),
   }),
 });

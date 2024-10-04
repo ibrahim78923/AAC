@@ -12,10 +12,10 @@ import {
   ContactStatusvalidationSchema,
 } from './ContactStatus.data';
 import {
-  useDeleteContactStatusMutation,
-  useGetContactStatusQuery,
-  usePostContactStatusMutation,
-  useUpdateContactStatusMutation,
+  usePostContactStatusOrgadminMutation,
+  useGetContactStatusOrgadminQuery,
+  useUpdateContactStatusOrgadminMutation,
+  useDeleteContactStatusOrgadminMutation,
 } from '@/services/orgAdmin/settings/contact-status';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
@@ -30,7 +30,7 @@ const useContactStatus = () => {
   const [editData, setEditData] = useState<any>({});
   const [isModalHeading, setIsModalHeading] = useState('Create');
   const [postContactStatus, { isLoading: loadingAddStatus }] =
-    usePostContactStatusMutation();
+    usePostContactStatusOrgadminMutation();
 
   // GET CONTACT STATUS LIST
   const paginationParams = {
@@ -49,12 +49,15 @@ const useContactStatus = () => {
     isError,
     isFetching,
     isSuccess,
-  } = useGetContactStatusQuery({ ...searchPayLoad, ...paginationParams });
+  } = useGetContactStatusOrgadminQuery({
+    ...searchPayLoad,
+    ...paginationParams,
+  });
 
   const [deleteContactStatus, { isLoading: loadingDelete }] =
-    useDeleteContactStatusMutation();
+    useDeleteContactStatusOrgadminMutation();
   const [updateContactStatus, { isLoading: loadingUpdateContactStatus }] =
-    useUpdateContactStatusMutation();
+    useUpdateContactStatusOrgadminMutation();
 
   const theme = useTheme<Theme>();
 

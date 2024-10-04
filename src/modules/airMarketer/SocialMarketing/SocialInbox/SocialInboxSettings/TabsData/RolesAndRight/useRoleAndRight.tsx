@@ -33,7 +33,7 @@ const useRoleAndRight: any = () => {
     id: '',
   });
 
-  const { useGetPermissionsRolesQuery } = airMarketerRolesAndRightsAPI;
+  const { useGetMarketerPermissionsRolesQuery } = airMarketerRolesAndRightsAPI;
   const organizationId = user?.organization?._id;
   const organizationCompanyAccountId = activeAccount?.company?._id;
   const productId = activeProduct?._id;
@@ -51,7 +51,7 @@ const useRoleAndRight: any = () => {
     data: getPermissions,
     isLoading,
     isSuccess,
-  } = useGetPermissionsRolesQuery(permissionParams);
+  } = useGetMarketerPermissionsRolesQuery(permissionParams);
 
   const handleChange = () => {
     setExpanded(!expanded);

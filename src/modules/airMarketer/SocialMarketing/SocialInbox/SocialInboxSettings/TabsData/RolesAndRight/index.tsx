@@ -13,7 +13,6 @@ const RolesRight = () => {
   const {
     handleCloseDrawer,
     setIsDraweropen,
-    // setIsOpenDelete,
     setFilterValues,
     setCheckedRows,
     getPermissions,
@@ -82,7 +81,6 @@ const RolesRight = () => {
           <ActionButton
             checkedRows={checkedRows}
             setIsDraweropen={setIsDraweropen}
-            // setIsOpenDelete={setIsOpenDelete}
           />
         </Stack>
         <Grid>
@@ -105,9 +103,7 @@ const RolesRight = () => {
       {isDraweropen?.isToggle && (
         <AddRoleDrawer
           isDrawerOpen={isDraweropen}
-          // setIsDraweropen
           onClose={handleCloseDrawer}
-          // getPermissionsData={getPermissions}
           setCheckedRows={setCheckedRows}
         />
       )}

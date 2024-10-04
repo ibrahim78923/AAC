@@ -10,9 +10,9 @@ import {
   useGetProductsUsersQuery,
 } from '@/services/airMarketer/settings/users';
 import {
-  useGetTeamsByIdQuery,
-  usePostTeamsMutation,
-  useUpdateTeamsMutation,
+  useGetMarketerTeamsByIdQuery,
+  usePostMarketerTeamsMutation,
+  useUpdateMarketerTeamsMutation,
 } from '@/services/airMarketer/settings/teams';
 const useCreateTeams = (teamId: string, setIsAddTeam: any, drawerType: any) => {
   const ActiveProduct = getActiveProductSession();
@@ -25,7 +25,7 @@ const useCreateTeams = (teamId: string, setIsAddTeam: any, drawerType: any) => {
     useGetProductsUsersQuery(productUserParams);
 
   const { data: teamDataById, isLoading: teamByIdLoading } =
-    useGetTeamsByIdQuery(teamId, { skip: !teamId });
+    useGetMarketerTeamsByIdQuery(teamId, { skip: !teamId });
 
   const availableUsersParams = {
     teamId: teamDataById?.data?._id,
@@ -36,9 +36,10 @@ const useCreateTeams = (teamId: string, setIsAddTeam: any, drawerType: any) => {
     useGetAvailedUsersQuery(availableUsersParams, {
       skip: !teamDataById?.data?._id,
     });
-  const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
+  const [postTeams, { isLoading: postTeamLoading }] =
+    usePostMarketerTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
-    useUpdateTeamsMutation();
+    useUpdateMarketerTeamsMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(teamsValidationSchema),

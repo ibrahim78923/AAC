@@ -1,6 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['SETTINGS_DEAL_PIPELINE'];
 export const DealPipelineAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsPipeline: builder.query({
@@ -8,14 +8,14 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.DEAL_PIPELINE}?meta=${meta}${query}`,
         method: 'GET',
       }),
-      providesTags: ['SETTINGS_DEAL_PIPELINE'],
+      providesTags: TAG,
     }),
     getDealsPipelineById: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.DEAL_PIPELINE}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['SETTINGS_DEAL_PIPELINE'],
+      providesTags: TAG,
     }),
     postDealsPipeline: builder.mutation({
       query: ({ body }: any) => ({
@@ -23,7 +23,7 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
+      invalidatesTags: TAG,
     }),
     updateDealsPipeline: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -31,14 +31,14 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
+      invalidatesTags: TAG,
     }),
     deleteDealsPipeline: builder?.mutation({
       query: ({ ids }) => ({
         url: `${END_POINTS?.DEAL_PIPELINE}?ids=${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
+      invalidatesTags: TAG,
     }),
   }),
 });

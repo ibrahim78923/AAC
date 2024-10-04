@@ -20,17 +20,17 @@ const useAddRole = () => {
   const disabled = query?.type === DRAWER_TYPES?.VIEW;
 
   const {
-    useLazyGetPermissionsRolesByIdQuery,
-    usePostPermissionRoleMutation,
-    useGetProductsPermissionsQuery,
-    useUpdateRoleRightsMutation,
+    useLazyGetPermissionsRolesByIdOrgadminQuery,
+    usePostPermissionRoleOrgadminMutation,
+    useGetProductsPermissionsOrgadminQuery,
+    useUpdateRoleRightsOrgadminMutation,
   } = rolesAndRightsAPI;
 
   const [postPermissionRole, { isLoading: loadingAddRole }] =
-    usePostPermissionRoleMutation();
+    usePostPermissionRoleOrgadminMutation();
 
   const [trigger, { data: viewPerdetails }] =
-    useLazyGetPermissionsRolesByIdQuery();
+    useLazyGetPermissionsRolesByIdOrgadminQuery();
 
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
@@ -130,7 +130,7 @@ const useAddRole = () => {
   };
 
   const { data: productPermissionsData, isLoading: loadingProduct } =
-    useGetProductsPermissionsQuery(
+    useGetProductsPermissionsOrgadminQuery(
       {
         productId: productVal?._id,
       },
@@ -138,7 +138,7 @@ const useAddRole = () => {
     );
 
   const [updateRoleRights, { isLoading: loadingUpdateRole }] =
-    useUpdateRoleRightsMutation();
+    useUpdateRoleRightsOrgadminMutation();
 
   const onSubmit = async (values: any) => {
     values.status = values.status ? 'ACTIVE' : 'INACTIVE';

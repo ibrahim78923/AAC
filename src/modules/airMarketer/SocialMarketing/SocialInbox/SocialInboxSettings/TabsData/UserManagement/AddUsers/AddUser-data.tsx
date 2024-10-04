@@ -157,9 +157,9 @@ export const dataArray = () => {
         select: true,
       },
       options: [
-        { value: 'United Kingdom', label: '(GMT-11:00) London' },
-        { value: 'United Kingdom', label: '(GMT-11:00) London' },
-        { value: 'United Kingdom', label: '(GMT-11:00) London' },
+        { value: 'UnitedKingdom', label: '(GMT-11:00) London' },
+        { value: 'Pakistan', label: '(GMT-11:00) Pakistan' },
+        { value: 'Isl', label: '(GMT-11:00) ISL' },
       ],
       component: RHFSelect,
       md: 12,
