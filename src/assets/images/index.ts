@@ -55,7 +55,6 @@ export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
 export { default as UserRequesterImage } from '../images/shared/user-requester.png';
-
 export { default as AvatarConversationImage } from '../../assets/images/shared/avatar-conversation-image.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
@@ -79,8 +78,6 @@ export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avat
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
-
-export { default as DashboardMockImage } from './modules/airServices/Dashboard/dashboard-mock-image.png';
 export { default as DashboardPrototypeImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
@@ -122,17 +119,7 @@ export { default as FacebookDropdownImage } from './shared/facebookDropdown.png'
 export { default as InstagramDropdownImage } from './shared/instagramDropdown.png';
 export { default as FacebookLogo } from './shared/facebookLogo.png';
 export { default as InstagramLogo } from './shared/instagramLogo.png';
-export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
-export { default as ClipboardTickImage } from './modules/airServices/Dashboard/clipboard-tick-dashboard-image.png';
-export { default as FirstAidKitImage } from './modules/airServices/Dashboard/first-aid-kit-image.png';
-export { default as SecondAidKitImage } from './modules/airServices/Dashboard/second-aid-kit-image.png';
-export { default as ThirdAidKitImage } from './modules/airServices/Dashboard/third-aid-kit-image.png';
-export { default as FourAidKitImage } from './modules/airServices/Dashboard/four-aid-kit-image.png';
-export { default as FiveAidKitImage } from './modules/airServices/Dashboard/five-aid-kit-image.png';
 export { default as ProfileImage } from './modules/airServices/Settings/Requestors/profile-image.png';
-export { default as CustomerWowChampionImage } from './modules/airServices/Dashboard/customer-wow-champion-image.png';
-export { default as MostValuablePlayerImage } from './modules/airServices/Dashboard/most-valuable-player-image.png';
-export { default as DashboardAvatarImage } from './modules/airServices/Dashboard/avatar-image.png';
 export { default as ItemStatusImage } from './modules/airServices/Assets/item-status-image.png';
 export { default as TotalItemImage } from './modules/airServices/Assets/total-item-image.png';
 export { default as ItemToInventoryImage } from './modules/airServices/Assets/item-to-inventory.png';
@@ -219,7 +206,6 @@ export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
 export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';
 // settings -> performance management leader board
 export { default as PowerDailerImage } from './modules/airCallCenter/powerDailer/power-dailer.png';
-
 export { default as MostValuableBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/most-valuable-badge-image.png';
 export { default as ChampionBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/champion-badge-image.png';
 export { default as WizardBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/wizard-badge-image.png';
@@ -231,37 +217,29 @@ export { default as MasterAwardImage } from './modules/airServices/Settings/agen
 export { default as ExpertAwardImage } from './modules/airServices/Settings/agentPerformanceManagement/expert-award-image.png';
 export { default as BudgetScheduleMockImage } from './modules/paidAds/budget-schedule-mock.png';
 export { default as AudienceMockImage } from './modules/paidAds/audience-mock.png';
-
 export { default as WorkFlowAutomationImage } from './modules/HeaderAndSidebar/workflow-automation.png';
 export { default as IntegrationsImage } from './modules/HeaderAndSidebar/integrations.png';
-
 export { default as DataManagementImage } from './modules/HeaderAndSidebar/data-management.png';
 export { default as ProfileUserManagementImage } from './modules/HeaderAndSidebar/profile-user-management.png';
 export { default as WhatsappMarketingImage } from './modules/HeaderAndSidebar/whatsapp-marketing.png';
 export { default as CampaignImage } from './modules/HeaderAndSidebar/campaigns.png';
-
 export { default as LeadCaptureImage } from './modules/HeaderAndSidebar/lead-capture.png';
-
 export { default as SocialMarketingImage } from './modules/HeaderAndSidebar/social-marketing.png';
 export { default as PaidAdsImage } from './modules/HeaderAndSidebar/paid-ads.png';
 export { default as SmsMarketingImage } from './modules/HeaderAndSidebar/sms-marketing.png';
 export { default as EmailMarketingImage } from './modules/HeaderAndSidebar/email-marketing.png';
-
 export { default as EmailMockupImage } from './modules/airMarketer/EmailMarketing/email-mockup.png';
 export { default as ViewDetailsImage } from './modules/airMarketer/EmailMarketing/viewdetails.png';
 export { default as TemplateOneImage } from './modules/airMarketer/EmailMarketing/EmailTemplates/templateOne.png';
 export { default as TemplateTwoImage } from './modules/airMarketer/EmailMarketing/EmailTemplates/templateTwo.png';
-
 export { default as GiftCongratsImage } from './modules/loyaltyProgram/GiftCards/gift-card-congrats-image.png';
 export { default as GiftScanImage } from './modules/loyaltyProgram/GiftCards/Gift-scan-image.png';
 export { default as VoucherImage } from './shared/voucher-image.png';
 export { default as ExportModalImage } from './shared/export-modal-image.png';
-
 export { default as TaskAvatarImage } from './modules/airMarketer/Campaigns/task-avatar.png';
 export { default as CampaignAvatarImage } from './modules/airMarketer/Campaigns/campaign-avatar.png';
 export { default as YouTubeAvatarImage } from './modules/airMarketer/Campaigns/youtube-avatar.png';
 export { default as CatalogAddImage } from './modules/airCustomerPortal/catalog/catalog-add-image.png';
-
 export { default as GiftCardImage } from './modules/HeaderAndSidebar/gift.png';
 export { default as LoyaltyImage } from './modules/HeaderAndSidebar/loyalty.png';
 export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png';
@@ -304,4 +282,4 @@ export { default as StatsInstagramImage } from './modules/airMarketer/Dashboard/
 export { default as StatsTwitterImage } from './modules/airMarketer/Dashboard/twitter-icon.png';
 export { default as StatsLinkedinImage } from './modules/airMarketer/Dashboard/linkedin-icon.png';
 export { default as StatsYoutubeImage } from './modules/airMarketer/Dashboard/youtube-icon.png';
-export { default as NoDashboardWidgetImage } from './modules/airServices/Dashboard/no-dashboard-widget.svg';
+export { default as NoDashboardWidgetImage } from './modules/airServices/Dashboard/no-dashboard-widget-image.svg';

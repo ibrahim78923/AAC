@@ -19,19 +19,20 @@ import useAuth from '@/hooks/useAuth';
 import { AIR_SERVICES } from '@/constants';
 
 const { DASHBOARD, CREATE_DASHBOARD } = AIR_SERVICES ?? {};
+const { CURRENT_PAGE, PAGE_LIMIT } = PAGINATION ?? {};
 
 export const useManageDashboard = () => {
   const router: NextRouter = useRouter();
   const [dashboardFilterLists, setDashboardFilterLists] = useState({});
-  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
   const [isPortalOpen, setIsPortalOpen] =
     useState<ManageDashboardIsPortalOpenI>({});
 
   const auth: any = useAuth();
 
-  const { user } = auth ?? {};
+  const user = auth?.user ?? {};
   const productId = auth?.product?._id ?? {};
 
   const overallPermissions = getActivePermissionsSession();
@@ -109,6 +110,11 @@ export const useManageDashboard = () => {
     return <></>;
   };
 
+  const handleSearch = (data: any) => {
+    setPage(CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const manageDashboardsDataColumns = manageDashboardsDataColumnsDynamic?.(
     setIsPortalOpen,
     changeDefaultDashboard,
@@ -123,19 +129,17 @@ export const useManageDashboard = () => {
     setIsPortalOpen({ isOpen: true, isFilter: true });
 
   return {
-    router,
     setPage,
     setPageLimit,
-    setSearch,
     lazyGetDashboardStatus,
     renderPortalComponent,
     isPortalOpen,
-    setIsPortalOpen,
     manageDashboardsDataColumns,
     getDashboardListData,
     page,
     moveToDashboard,
     moveToCreateDashboard,
     openFilterPortal,
+    handleSearch,
   };
 };

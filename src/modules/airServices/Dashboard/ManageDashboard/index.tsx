@@ -14,7 +14,6 @@ export const ManageDashboard = () => {
   const {
     setPage,
     setPageLimit,
-    setSearch,
     lazyGetDashboardStatus,
     renderPortalComponent,
     isPortalOpen,
@@ -24,6 +23,7 @@ export const ManageDashboard = () => {
     moveToDashboard,
     moveToCreateDashboard,
     openFilterPortal,
+    handleSearch,
   } = useManageDashboard();
 
   return (
@@ -50,7 +50,7 @@ export const ManageDashboard = () => {
             flexWrap={'wrap'}
             p={2}
           >
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
             <Button
               className="small"
               variant="outlined"

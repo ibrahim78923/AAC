@@ -14,18 +14,20 @@ const { CREATE_FOLDER } =
 
 export const SingleFolderDetail = () => {
   const {
-    data,
-    isLoading,
-    isFetching,
+    showLoader,
+    folderDataName,
+    folderDataDescription,
     isError,
     refetch,
     openUpsertFolderPortal,
     openDeleteFolderPortal,
-    selectedFolder,
+    selectedFolderId,
   } = useSingleFolderDetail();
 
-  if (selectedFolder?._id === ALL_FOLDER) return <></>;
-  if (isLoading || isFetching) return <SkeletonForm length={1} height="10vh" />;
+  if (selectedFolderId === ALL_FOLDER) return <></>;
+
+  if (showLoader) return <SkeletonForm length={1} height="10vh" />;
+
   if (isError)
     return (
       <>
@@ -39,7 +41,7 @@ export const SingleFolderDetail = () => {
     <Box maxHeight={'20vh'} overflow="auto" mb={1}>
       <Typography variant="h4" component={'div'}>
         <TruncateText
-          text={data?.data?.name?.toLowerCase()}
+          text={folderDataName?.toLowerCase()}
           size={45}
           boxProps={{
             textTransform: 'capitalize',
@@ -55,7 +57,7 @@ export const SingleFolderDetail = () => {
       >
         <Typography variant="body2" flex={1} component={'div'}>
           <TruncateText
-            text={!!data?.data?.description ? data?.data?.description : '---'}
+            text={!!folderDataDescription ? folderDataDescription : '---'}
             size={100}
             boxProps={{ my: 0.5, color: 'grey.900' }}
           />

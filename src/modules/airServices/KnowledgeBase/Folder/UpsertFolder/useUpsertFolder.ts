@@ -11,30 +11,56 @@ import { setIsPortalClose } from '@/redux/slices/airServices/knowledge-base/slic
 import { useGetFoldersApi } from '../../KnowledgeBaseHooks/useGetFoldersApi';
 import {
   useAddServicesKnowledgeBaseSingleFolderMutation,
+  useGetServicesKnowledgeBaseSingleFolderByIdQuery,
   useUpdateServicesKnowledgeBaseSingleFolderMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+import { useEffect } from 'react';
+import { ALL_FOLDER } from '../Folder.data';
 
-const { EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
+const { EDIT_FOLDER, ADD_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 
 export const useUpsertFolder = () => {
   const { getArticlesFolderListForFilterData } = useGetFoldersApi?.();
-
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
-  const dispatch = useAppDispatch();
+
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.isPortalOpen,
   );
 
-  const setEditDefaultValues =
-    isPortalOpen?.action === EDIT_FOLDER ? selectedFolder : undefined;
+  const apiDataParameter = {
+    queryParams: {
+      id: selectedFolder?._id,
+    },
+  };
+
+  const skipApiCall =
+    isPortalOpen?.action === ADD_FOLDER ||
+    !!!selectedFolder?._id ||
+    selectedFolder?._id === ALL_FOLDER;
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetServicesKnowledgeBaseSingleFolderByIdQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: skipApiCall,
+    },
+  );
+
+  const dispatch = useAppDispatch();
 
   const methods: UseFormReturn<UpsertFolderFormFieldsI> =
     useForm<UpsertFolderFormFieldsI>({
       resolver: yupResolver(upsertFolderValidationSchema),
-      defaultValues: upsertFolderFormDefaultValues?.(setEditDefaultValues),
+      defaultValues: upsertFolderFormDefaultValues?.(),
     });
 
   const { handleSubmit, reset } = methods;
@@ -88,8 +114,14 @@ export const useUpsertFolder = () => {
     dispatch(setIsPortalClose());
   };
 
-  const showLoader =
+  useEffect(() => {
+    reset(() => upsertFolderFormDefaultValues(data?.data));
+  }, [data, reset]);
+
+  const apiCallInProgress =
     postFolderStatus?.isLoading || updateFolderForArticlesStatus?.isLoading;
+
+  const showLoader = isLoading || isFetching;
 
   return {
     methods,
@@ -101,5 +133,10 @@ export const useUpsertFolder = () => {
     isPortalOpen,
     selectedFolder,
     showLoader,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    apiCallInProgress,
   };
 };

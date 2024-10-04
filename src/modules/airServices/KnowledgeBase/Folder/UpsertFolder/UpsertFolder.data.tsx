@@ -3,25 +3,11 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { UpsertFolderFormDefaultValuesI } from './UpsertFolder.interface';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
-import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 
 const {
   SERVICES_KNOWLEDGE_BASE_FOLDER_NAME_MAX_CHARACTERS,
   SERVICES_KNOWLEDGE_BASE_FOLDER_DESCRIPTION_MAX_CHARACTERS,
 } = CHARACTERS_LIMIT ?? {};
-
-const { ADD_FOLDER, EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
-
-export const SET_DRAWER_CONSTANTS = {
-  [EDIT_FOLDER]: {
-    title: 'Edit Folder',
-    buttonText: 'Update',
-  },
-  [ADD_FOLDER]: {
-    title: 'Add Folder',
-    buttonText: 'Create',
-  },
-};
 
 export const FOLDER_VISIBILITY = {
   ALL: 'ALL',

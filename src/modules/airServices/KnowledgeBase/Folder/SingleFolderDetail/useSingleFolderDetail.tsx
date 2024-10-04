@@ -8,16 +8,19 @@ const { EDIT_FOLDER, DELETE_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 
 export const useSingleFolderDetail = () => {
   const dispatch = useAppDispatch();
+
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
+
+  const selectedFolderId = selectedFolder?._id;
+
   const apiDataParameter = {
     queryParams: {
-      id: selectedFolder?._id,
+      id: selectedFolderId,
     },
   };
-  const skipApiCall =
-    !!!selectedFolder?._id || selectedFolder?._id === ALL_FOLDER;
+  const skipApiCall = !!!selectedFolderId || selectedFolderId === ALL_FOLDER;
 
   const {
     data,
@@ -45,14 +48,18 @@ export const useSingleFolderDetail = () => {
   const openUpsertFolderPortal = () => setPortalAction(EDIT_FOLDER);
   const openDeleteFolderPortal = () => setPortalAction(DELETE_FOLDER);
 
+  const showLoader = isLoading || isFetching;
+  const folderDataName = data?.data?.name;
+  const folderDataDescription = data?.data?.description;
+
   return {
-    data,
-    isLoading,
-    isFetching,
+    showLoader,
+    folderDataName,
+    folderDataDescription,
     isError,
     refetch,
     openUpsertFolderPortal,
     openDeleteFolderPortal,
-    selectedFolder,
+    selectedFolderId,
   };
 };

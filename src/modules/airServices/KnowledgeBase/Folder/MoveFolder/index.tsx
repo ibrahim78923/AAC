@@ -8,11 +8,11 @@ export const MoveFolder = () => {
   const {
     methods,
     submitMoveFolder,
-    patchArticleStatus,
     handleSubmit,
     closeMoveFolderModal,
     moveFolderFormFields,
     isPortalOpen,
+    apiCallInProgress,
   } = useMoveFolder();
 
   return (
@@ -21,14 +21,14 @@ export const MoveFolder = () => {
       closePortal={closeMoveFolderModal}
       dialogTitle="Move to other folder"
       submitButtonText="Move"
-      showSubmitLoader={patchArticleStatus?.isLoading}
-      disabledCancelButton={patchArticleStatus?.isLoading}
+      showSubmitLoader={apiCallInProgress}
+      disabledCancelButton={apiCallInProgress}
       handleSubmitButton={handleSubmit(submitMoveFolder)}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
           {moveFolderFormFields?.map((item: ReactHookFormFieldsI) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
+            <Grid item xs={12} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>
           ))}
