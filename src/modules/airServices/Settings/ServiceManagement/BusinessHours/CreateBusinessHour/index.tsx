@@ -4,28 +4,19 @@ import {
   FormProvider,
   RHFAutocomplete,
   RHFEditor,
-  RHFRadioGroup,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { WorkingHoursFieldArray } from './WorkingHoursFieldArray';
 import dayjs from 'dayjs';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  holidaysDropDownData,
-  holidaysListsColumn,
-  importHolidaysDropDown,
-  selectWorkingHours,
-  serviceHour,
-  weekDays,
-} from './CreateBusinessHour.data';
+import { weekDays } from './CreateBusinessHour.data';
 import { DateFilter } from './DateFilter';
 import Search from '@/components/Search';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { LoadingButton } from '@mui/lab';
 import { AddHoliday } from './AddHoliday';
 import { useCreateBusinessHour } from './useCreateBusinessHour';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, TIME_FORMAT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Fragment } from 'react';
@@ -36,16 +27,9 @@ export const CreateBusinessHour = () => {
     businessHourMethod,
     control,
     watch,
-    setValue,
     onSubmitRequest,
-    buttonName,
-    setButtonName,
     getHolidaysStatus,
     setHolidaysData,
-    page,
-    pageLimit,
-    setPage,
-    setPageLimit,
     dateRange,
     setDateRange,
     setSearch,
@@ -55,20 +39,18 @@ export const CreateBusinessHour = () => {
     businessHourId,
     loadingStatus,
     singleBusinessHour,
+    tableColumns,
+    holidaysDataOptions,
   } = useCreateBusinessHour();
+
   return (
     <>
-      <Box
-        borderBottom="0.06rem solid"
-        borderColor="custom.light_lavender_gray"
-        mb={2.5}
-      >
-        <PageTitledHeader
-          title="Business Hours"
-          canMovedBack
-          moveBack={() => router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS)}
-        />
-      </Box>
+      <PageTitledHeader
+        title="Business Hours"
+        canMovedBack
+        moveBack={() => router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS)}
+      />
+
       <FormProvider methods={businessHourMethod} onSubmit={onSubmitRequest}>
         <Grid container spacing={3}>
           <Grid item lg={6} xs={12}>
@@ -78,33 +60,35 @@ export const CreateBusinessHour = () => {
               borderRadius={2}
               p={2.5}
             >
-              {singleBusinessHour?.isLoading ? (
+              {loadingStatus ? (
                 <SkeletonForm />
               ) : (
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <RHFTextField
-                      name="name"
-                      label="Name"
-                      size="small"
+                      name={'name'}
+                      label={'Name'}
+                      size={'small'}
                       required
-                      disabled={singleBusinessHour?.data?.data?.perDefined}
+                      disabled={singleBusinessHour?.data?.data?.perDefine}
                     />
                   </Grid>
+
                   <Grid item xs={12}>
                     <RHFEditor
-                      name="description"
-                      label="Description"
-                      style={{ height: '12.3rem' }}
+                      name={'description'}
+                      label={'Description'}
+                      style={{ height: '12rem' }}
                     />
                   </Grid>
+
                   <Grid item xs={12}>
                     <RHFAutocomplete
-                      name="timeZone"
+                      name={'timeZone'}
                       required
-                      label="Time Zone"
+                      label={'Time Zone'}
                       options={timeZone}
-                      size="small"
+                      size={'small'}
                       getOptionLabel={(option: any) => option?.label}
                     />
                   </Grid>
@@ -112,241 +96,185 @@ export const CreateBusinessHour = () => {
               )}
             </Box>
           </Grid>
+
           <Grid item lg={6} xs={12}>
             <Box
-              border="0.06rem solid"
-              borderColor="custom.light_lavender_gray"
+              border={'0.06rem solid'}
+              borderColor={'custom.light_lavender_gray'}
               borderRadius={2}
               p={2.5}
+              height={'100%'}
             >
-              {singleBusinessHour?.isLoading ? (
+              {loadingStatus ? (
                 <SkeletonForm />
               ) : (
-                <Box>
+                <>
                   <Typography
-                    variant="formTopHeading"
-                    color="blue.dull_blue"
-                    mb={2}
+                    variant={'formTopHeading'}
+                    color={'blue.dull_blue'}
                   >
                     Service Hours
                   </Typography>
-                  <RHFRadioGroup name="serviceHours" options={serviceHour} />
-                  {watch('serviceHours') === selectWorkingHours ? (
-                    <Box mt={2} height={339} overflow="scroll">
-                      {weekDays?.map((day) => {
-                        const fieldValue = watch(day);
-                        return (
-                          <Fragment key={day}>
-                            <Box
-                              key={day}
-                              mb={2}
-                              p=".67rem 1rem"
-                              border="0.06rem solid"
-                              borderColor="custom.light_lavender_gray"
-                              borderRadius={2}
-                              display="flex"
-                              alignItems="center"
-                              gap={2}
-                            >
-                              <RHFSwitch
-                                name={day + '.switch'}
-                                sx={{ textTransform: 'capitalize' }}
-                                label={day}
-                              />
-                              {fieldValue?.timings?.map(
-                                (time: any, index: number) => (
-                                  <Typography
-                                    key={time?.id ?? day}
-                                    variant="body2"
-                                    color="grey.0"
-                                    sx={{
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      display: '-webkit-box',
-                                      WebkitLineClamp: '1',
-                                      WebkitBoxOrient: 'vertical',
-                                    }}
-                                  >
-                                    {!!time?.startTime &&
-                                      dayjs(new Date(time?.startTime))?.format(
-                                        'h:mm A',
-                                      )}
-                                    {!!time?.endTime &&
-                                      `-${dayjs(
-                                        new Date(time?.endTime),
-                                      )?.format('h:mm A')}`}{' '}
-                                    {!!time?.endTime &&
-                                      index !==
-                                        fieldValue?.timings?.length - 1 &&
-                                      ', '}
-                                  </Typography>
-                                ),
-                              )}
-                            </Box>
-                            {fieldValue?.switch && (
-                              <WorkingHoursFieldArray
-                                name={day + '.timings'}
-                                control={control}
-                              />
+
+                  <Box mt={2} height={400} overflow={'auto'}>
+                    {weekDays?.map((day) => {
+                      const fieldValue = watch(day);
+
+                      return (
+                        <Fragment key={day}>
+                          <Box
+                            mb={2}
+                            p={'1rem 2rem'}
+                            border={'0.06rem solid'}
+                            borderColor={'custom.light_lavender_gray'}
+                            borderRadius={2}
+                            display="flex"
+                            alignItems="center"
+                            gap={2}
+                          >
+                            <RHFSwitch
+                              name={day + '.switch'}
+                              sx={{ textTransform: 'capitalize' }}
+                              label={day}
+                            />
+
+                            {fieldValue?.timings?.map(
+                              (time: any, index: number) => (
+                                <Typography
+                                  key={time?.id ?? day}
+                                  variant={'body2'}
+                                  color={'grey.0'}
+                                  sx={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: '1',
+                                    WebkitBoxOrient: 'vertical',
+                                  }}
+                                >
+                                  {!!time?.startTime &&
+                                    dayjs(new Date(time?.startTime))?.format(
+                                      TIME_FORMAT?.UI,
+                                    )}
+                                  {!!time?.endTime &&
+                                    `-${dayjs(new Date(time?.endTime))?.format(
+                                      TIME_FORMAT?.UI,
+                                    )}`}
+                                  {!!time?.endTime &&
+                                    index !== fieldValue?.timings?.length - 1 &&
+                                    ','}
+                                </Typography>
+                              ),
                             )}
-                          </Fragment>
-                        );
-                      })}
-                    </Box>
-                  ) : (
-                    <Box mt={2} height={339} overflow="scroll">
-                      <Typography
-                        variant="formTopHeading"
-                        color="blue.dull_blue"
-                        my={2}
-                      >
-                        Important Holidays
-                      </Typography>
-                      <Box my={2}>
-                        <RHFAutocomplete
-                          name="importHolidays"
-                          options={Object.keys(holidaysDropDownData)}
-                          size="small"
-                        />
-                      </Box>
-                      <Typography color="blue.dull_blue" my={2}>
-                        Important: importing will only add this year’s holydays
-                        to the list.. The list will not be automatically updates
-                        next year
-                      </Typography>
-                      <Box
-                        display="flex"
-                        justifyContent="flex-end"
-                        mt="4rem"
-                        gap={2}
-                      >
-                        <Button
-                          onClick={() => setValue('serviceHours', 'SELECTED')}
-                          variant="outlined"
-                          color="secondary"
-                        >
-                          Cancel
-                        </Button>
-                        <LoadingButton
-                          loading={getHolidaysStatus?.isFetching}
-                          onClick={() => setButtonName(watch('importHolidays'))}
-                          variant="contained"
-                          disableElevation
-                        >
-                          Import
-                        </LoadingButton>
-                      </Box>
-                    </Box>
-                  )}
-                </Box>
+                          </Box>
+
+                          {fieldValue?.switch && (
+                            <WorkingHoursFieldArray
+                              name={day + '.timings'}
+                              control={control}
+                            />
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </Box>
+                </>
               )}
             </Box>
           </Grid>
         </Grid>
-        <Box overflow="auto" mt={2}>
+
+        <Box
+          mt={2}
+          bgcolor={'grey.200'}
+          p={2}
+          display={'flex'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          gap={2}
+        >
+          <DateFilter dateRange={dateRange} setDateRange={setDateRange} />
+
           <Box
-            component="span"
-            position="relative"
-            display="block"
-            minWidth={850}
-            pt={3}
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            gap={2}
           >
-            <Grid
-              container
-              bgcolor="grey.200"
-              position="absolute"
-              zIndex={10}
-              top={0}
-            >
-              <Grid item xs={4} px={2} pt={2}>
-                <DateFilter dateRange={dateRange} setDateRange={setDateRange} />
-              </Grid>
-              <Grid item xs={8} pt={1} px={2}>
-                <Box
-                  display="flex"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                  gap={2}
-                >
-                  <Box>
-                    <Search
-                      size="small"
-                      label="Search"
-                      setSearchBy={setSearch}
-                    />
-                  </Box>
-                  {watch('serviceHours') === selectWorkingHours && (
-                    <SingleDropdownButton
-                      dropdownOptions={importHolidaysDropDown(setButtonName)}
-                      dropdownName={`${
-                        buttonName ? buttonName : 'Import Holidays'
-                      }`}
-                      variant="contained"
-                      color="primary"
-                      component={LoadingButton}
-                      loading={getHolidaysStatus?.isFetching}
-                      sx={{
-                        bgcolor: 'primary.light',
-                        color: 'primary.main',
-                        '&: hover': { bgcolor: 'primary.light' },
-                      }}
-                      disableElevation
-                    />
-                  )}
-                  <Button
-                    variant="contained"
-                    disableElevation
-                    onClick={() => setOpenAddHolidayModal(true)}
-                  >
-                    Add
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-            <TanstackTable
-              columns={holidaysListsColumn(setHolidaysData)}
-              data={manipulatedHolidaysData}
-              isFetching={
-                getHolidaysStatus?.isFetching || singleBusinessHour?.isLoading
-              }
-              isError={getHolidaysStatus?.isError}
-              isSuccess={getHolidaysStatus?.isSuccess || true}
-              currentPage={page}
-              count={Math.ceil(manipulatedHolidaysData?.length / pageLimit)}
-              pageLimit={pageLimit}
-              totalRecords={manipulatedHolidaysData?.length}
-              onPageChange={(page: number) => setPage(page)}
-              setPage={setPage}
-              setPageLimit={setPageLimit}
-              isPagination
+            <Search
+              size={'small'}
+              label={'Search here'}
+              setSearchBy={setSearch}
+              backgroundColor={'common.white'}
             />
+
+            <RHFAutocomplete
+              name={'importHolidays'}
+              options={holidaysDataOptions}
+              size={'small'}
+              sx={{
+                width: 200,
+                '& .MuiFormControl-root': {
+                  display: 'block',
+                },
+              }}
+              placeholder={'Import Holidays'}
+              isOptionEqualToValue={(option: any, newValue: any) =>
+                option === newValue
+              }
+            />
+
+            <Button
+              variant={'contained'}
+              disableElevation
+              onClick={() => setOpenAddHolidayModal(true)}
+              className={'small'}
+            >
+              Add
+            </Button>
           </Box>
         </Box>
-        <Box display="flex" gap={2} justifyContent="flex-end" mt={8}>
+
+        <TanstackTable
+          columns={tableColumns}
+          data={manipulatedHolidaysData}
+          isLoading={loadingStatus}
+          isFetching={loadingStatus}
+          isError={getHolidaysStatus?.isError}
+        />
+
+        <Box display="flex" gap={2} justifyContent={'flex-end'} mt={3}>
           <LoadingButton
-            variant="outlined"
-            color="secondary"
+            variant={'outlined'}
+            color={'inherit'}
             onClick={() => {
               router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
             }}
+            className={'small'}
+            disabled={loadingStatus}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
-            variant="contained"
-            type="submit"
+            variant={'contained'}
+            type={'submit'}
+            className={'small'}
             loading={loadingStatus}
           >
             {businessHourId ? 'Update' : 'Save'}
           </LoadingButton>
         </Box>
       </FormProvider>
-      <AddHoliday
-        setHolidaysData={setHolidaysData}
-        openAddHolidayModal={openAddHolidayModal}
-        setOpenAddHolidayModal={setOpenAddHolidayModal}
-        businessHourId={businessHourId}
-      />
+
+      {openAddHolidayModal && (
+        <AddHoliday
+          setHolidaysData={setHolidaysData}
+          openAddHolidayModal={openAddHolidayModal}
+          setOpenAddHolidayModal={setOpenAddHolidayModal}
+          businessHourId={businessHourId}
+        />
+      )}
     </>
   );
 };

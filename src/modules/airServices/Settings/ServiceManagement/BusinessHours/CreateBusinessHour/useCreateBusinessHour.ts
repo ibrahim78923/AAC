@@ -4,17 +4,17 @@ import {
   businessHourDefaultValues,
   businessHourValidationSchema,
   holidaysDropDownData,
+  holidaysListsColumn,
 } from './CreateBusinessHour.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useGetBusinessHourByIdQuery,
-  useLazyGetHolidaysQuery,
-  usePatchBusinessHourMutation,
-  usePostBusinessHourMutation,
+  useGetAirServicesSettingsServiceBusinessHourByIdQuery,
+  useLazyGetAirServicesSettingsServiceBusinessHourHolidaysQuery,
+  usePatchAirServicesSettingsServiceBusinessHourMutation,
+  usePostAirServicesSettingsServiceBusinessHourMutation,
 } from '@/services/airServices/settings/service-management/business-hours';
 import { AIR_SERVICES } from '@/constants';
 import { useEffect, useState } from 'react';
-import { PAGINATION } from '@/config';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -24,6 +24,7 @@ export const useCreateBusinessHour = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const businessHourId = searchParams.get('id');
+
   const [buttonName, setButtonName] = useState<string>('');
   const [openAddHolidayModal, setOpenAddHolidayModal] =
     useState<boolean>(false);
@@ -31,28 +32,38 @@ export const useCreateBusinessHour = () => {
   const [manipulatedHolidaysData, setManipulatedHolidaysData] = useState<any>(
     [],
   );
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
   const [dateRange, setDateRange] = useState<any>([
     {
-      startDate: new Date('2022-01-01'),
-      endDate: dayjs()?.add(2, 'year'),
+      startDate: dayjs()?.startOf('month')?.toDate(),
+      endDate: dayjs()?.endOf('month')?.toDate(),
       key: 'selection',
     },
   ]);
+
   const [postBusinessHourTrigger, postBusinessHourStatus] =
-    usePostBusinessHourMutation();
+    usePostAirServicesSettingsServiceBusinessHourMutation();
   const [patchBusinessHourTrigger, patchBusinessHourStatus] =
-    usePatchBusinessHourMutation();
-  const singleBusinessHour = useGetBusinessHourByIdQuery(businessHourId, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!businessHourId,
-  });
+    usePatchAirServicesSettingsServiceBusinessHourMutation();
+
+  const singleBusinessHour =
+    useGetAirServicesSettingsServiceBusinessHourByIdQuery(businessHourId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!businessHourId,
+    });
+
+  const [lazyGetHolidaysTrigger, getHolidaysStatus] =
+    useLazyGetAirServicesSettingsServiceBusinessHourHolidaysQuery();
+
   const loadingStatus =
-    patchBusinessHourStatus?.isLoading || postBusinessHourStatus?.isLoading;
-  const [lazyGetHolidaysTrigger, getHolidaysStatus] = useLazyGetHolidaysQuery();
+    patchBusinessHourStatus?.isLoading ||
+    postBusinessHourStatus?.isLoading ||
+    getHolidaysStatus?.isFetching ||
+    getHolidaysStatus?.isLoading ||
+    singleBusinessHour?.isLoading;
+
   const holidays = getHolidaysStatus?.data?.data?.holidays;
+
   const getHolidaysListData = async (country: any) => {
     errorSnackbar('Importing can cause loss of Added or Deleted Holidays Data');
     const getHolidaysParam = new URLSearchParams();
@@ -70,8 +81,9 @@ export const useCreateBusinessHour = () => {
     defaultValues: businessHourDefaultValues(),
     resolver: yupResolver(businessHourValidationSchema),
   });
-  const { control, watch, setValue, handleSubmit, reset }: any =
-    businessHourMethod;
+
+  const { control, watch, handleSubmit, reset }: any = businessHourMethod;
+
   const onSubmitRequest = handleSubmit(async (data: any) => {
     if (!holidaysData?.length) {
       errorSnackbar('Please Import or Add Holidays Before Submitting');
@@ -117,6 +129,7 @@ export const useCreateBusinessHour = () => {
       errorSnackbar(errorResponse?.data?.message);
     }
   });
+
   const submitUpdateBusinessHour = async (data: any) => {
     const patchBusinessHourParameter = {
       body: { ...data, id: businessHourId },
@@ -131,11 +144,13 @@ export const useCreateBusinessHour = () => {
       errorSnackbar(errorResponse?.data?.message);
     }
   };
+
   useEffect(() => {
     if (buttonName) {
       getHolidaysListData(holidaysDropDownData?.[buttonName]);
     }
   }, [buttonName]);
+
   useEffect(() => {
     if (holidays?.length) {
       setHolidaysData(
@@ -143,6 +158,7 @@ export const useCreateBusinessHour = () => {
       );
     }
   }, [holidays]);
+
   useEffect(() => {
     setManipulatedHolidaysData(holidaysData);
     const filteredData = holidaysData?.filter(
@@ -159,27 +175,29 @@ export const useCreateBusinessHour = () => {
     });
     setManipulatedHolidaysData(dateFilteredData);
   }, [holidaysData, search, dateRange]);
+
   useEffect(() => {
     if (singleBusinessHour?.data) {
       reset(() => businessHourDefaultValues(singleBusinessHour?.data?.data));
       setHolidaysData(singleBusinessHour?.data?.data?.holidays);
     }
   }, [singleBusinessHour?.data, reset]);
+
+  useEffect(() => {
+    setButtonName(watch('importHolidays'));
+  }, [watch('importHolidays')]);
+
+  const tableColumns = holidaysListsColumn(setHolidaysData);
+  const holidaysDataOptions = Object.keys(holidaysDropDownData);
+
   return {
     router,
     businessHourMethod,
     control,
     watch,
-    setValue,
     onSubmitRequest,
-    buttonName,
-    setButtonName,
     getHolidaysStatus,
     setHolidaysData,
-    setPageLimit,
-    setPage,
-    pageLimit,
-    page,
     dateRange,
     setDateRange,
     setSearch,
@@ -189,5 +207,7 @@ export const useCreateBusinessHour = () => {
     businessHourId,
     loadingStatus,
     singleBusinessHour,
+    tableColumns,
+    holidaysDataOptions,
   };
 };

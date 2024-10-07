@@ -1,17 +1,20 @@
-import { useDeleteBusinessHourMutation } from '@/services/airServices/settings/service-management/business-hours';
+import { useDeleteAirServicesSettingsServiceBusinessHourMutation } from '@/services/airServices/settings/service-management/business-hours';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 
 export const useDeleteBusinessHour = (props: any) => {
   const { id, handleActionClose } = props;
+
   const [openBusinessHour, setOpenBusinessHour] = useState(false);
+
   const closeBusinessHourDeleteModal = () => {
     setOpenBusinessHour?.(false);
     handleActionClose();
   };
+
   const [deleteBusinessHourTrigger, { isLoading }] =
-    useDeleteBusinessHourMutation();
+    useDeleteAirServicesSettingsServiceBusinessHourMutation();
 
   const deleteBusinessHour = async () => {
     const deleteParams = new URLSearchParams();
@@ -29,6 +32,7 @@ export const useDeleteBusinessHour = (props: any) => {
       closeBusinessHourDeleteModal?.();
     }
   };
+
   return {
     setOpenBusinessHour,
     openBusinessHour,

@@ -1,33 +1,27 @@
 import * as yup from 'yup';
-import { Typography } from '@mui/material';
 import { DeleteHolidayModal } from './DeleteHolidayModal';
 import dayjs from 'dayjs';
 import { timeZone } from '@/constants/time-zone';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { TIME_FORMAT } from '@/constants';
+
 export const holidaysListsColumn: any = (setHolidaysData: any) => [
   {
     accessorFn: (row: { date: string }) => row?.date,
     id: 'date',
-    header: '',
-    cell: (info: any) => (
-      <Typography variant="body4" color="blue.dull_blue">
-        {String(info?.getValue())}
-      </Typography>
-    ),
+    header: 'Date',
+    cell: (info: any) => String(info?.getValue()),
   },
   {
     accessorFn: (row: { name: string }) => row?.name,
     id: 'name',
-    header: '',
-    cell: (info: any) => (
-      <Typography variant="body4" color="blue.dull_blue">
-        {info?.getValue()}
-      </Typography>
-    ),
+    header: 'Holiday Name',
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: { uuid: string }) => row?.uuid,
     id: 'uuid',
-    header: '',
+    header: 'Action',
     cell: (info: any) => (
       <DeleteHolidayModal
         setHolidaysData={setHolidaysData}
@@ -46,32 +40,14 @@ export const weekDays = [
   'saturday',
   'sunday',
 ];
+
 export const holidaysDropDownData: any = {
   'Holidays in UK': 'GB',
   'Holidays in USA': 'US',
   'Holidays in UAE': 'AE',
   'Holidays in Pakistan': 'PK',
 };
-export const importHolidaysDropDown = (setButtonName: any) =>
-  Object.keys(holidaysDropDownData)?.map((item: any) => ({
-    id: item,
-    title: item,
-    handleClick: (close: () => void) => {
-      setButtonName(item);
-      close();
-    },
-  }));
-export const serviceHour = [
-  {
-    label: '24 hrs x days',
-    value: '24/7',
-  },
-  {
-    label: 'Select working days/hours',
-    value: 'SELECTED',
-  },
-];
-export const selectWorkingHours = 'SELECTED';
+
 const getDefaultTimings = (value: any) => {
   if (value) {
     const hasNonNullTimings = value?.some(
@@ -125,50 +101,41 @@ const dayTimingsValidationSchema: any = yup?.object()?.shape({
   switch: yup?.boolean(),
   timings: yup?.array()?.of(
     yup?.object()?.shape({
-      startTime: yup
-        ?.string()
-        ?.nullable()
-        ?.test(
-          'start_time_test',
-          'Start time should follow end time',
-          function (value) {
-            const { endTime } = this?.parent;
-            return isSameOrBeforeFunc(value, endTime);
-          },
-        ),
+      startTime: yup?.string()?.nullable(),
       endTime: yup
         ?.string()
         ?.nullable()
-        ?.test(
-          'end_time_test',
-          'End time must be After start time',
-          function (value) {
-            const { startTime } = this?.parent;
-            return isSameOrBeforeFunc(startTime, value);
-          },
-        ),
+        ?.test('end_time_test', 'After start time', function (value) {
+          const { startTime } = this?.parent;
+          return isSameOrBeforeFunc(startTime, value);
+        }),
     }),
   ),
 });
+
 const isSameOrBeforeFunc = (startTime: any, endTime: any) => {
   if (startTime || endTime) {
-    const startTimeObj = dayjs?.(startTime, 'HH:mm');
-    const endTimeObj = dayjs?.(endTime, 'HH:mm');
+    const startTimeObj = dayjs?.(startTime, TIME_FORMAT?.TH);
+    const endTimeObj = dayjs?.(endTime, TIME_FORMAT?.TH);
     return (
       endTimeObj?.isAfter?.(startTimeObj) && !endTimeObj?.isSame?.(startTimeObj)
     );
   }
   return true;
 };
+
 export const businessHourValidationSchema: any = yup?.object()?.shape({
   name: yup
     ?.string()
-    ?.required('Required')
-    ?.min(3, 'At least 3 characters Required')
-    ?.max(20, 'Must not exceed 20 characters'),
+    ?.required('Name is required')
+    ?.min(3, 'At least 3 characters required')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
   description: yup?.string(),
-  timeZone: yup?.mixed()?.required('Required'),
-  serviceHours: yup?.string()?.required('Required'),
+  timeZone: yup?.mixed()?.required('Time Zone is Required'),
+  serviceHours: yup?.string()?.required('Service Hours are Required'),
   importHolidays: yup?.string(),
   monday: dayTimingsValidationSchema,
   tuesday: dayTimingsValidationSchema,

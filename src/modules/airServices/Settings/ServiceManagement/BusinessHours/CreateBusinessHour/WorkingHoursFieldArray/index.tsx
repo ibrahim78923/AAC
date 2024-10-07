@@ -6,7 +6,7 @@ import { useFieldArray } from 'react-hook-form';
 export const WorkingHoursFieldArray = ({ control, name }: any) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: name,
+    name,
   });
 
   return (

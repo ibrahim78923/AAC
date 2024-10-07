@@ -4,9 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   Grid,
-  Typography,
 } from '@mui/material';
 import {
   FormProvider,
@@ -43,21 +41,21 @@ export const AddHoliday = (props: any) => {
             },
           }}
         >
-          <FormProvider methods={method} onSubmit={onSubmitRequest}>
-            <DialogTitle
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                pb: 2.4,
-              }}
-            >
-              <Typography variant="h4" color="primary?.main">
-                Add Public Holiday
-              </Typography>
-            </DialogTitle>
-            <DialogContent>
-              <Grid container gap={2.4}>
+          <DialogTitle
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              color: 'primary.main',
+              mb: 1,
+            }}
+          >
+            Add Public Holiday
+          </DialogTitle>
+
+          <DialogContent>
+            <FormProvider methods={method} onSubmit={onSubmitRequest}>
+              <Grid container gap={2}>
                 <Grid item xs={12}>
                   <RHFTextField
                     name="name"
@@ -73,40 +71,44 @@ export const AddHoliday = (props: any) => {
                     disablePast
                     required
                     size="small"
-                    fullWidth={true}
+                    fullWidth
                   />
                 </Grid>
               </Grid>
-            </DialogContent>
-            <Divider />
-            <DialogActions>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  gap: 2,
+            </FormProvider>
+          </DialogContent>
+
+          <DialogActions>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 2,
+              }}
+            >
+              <LoadingButton
+                onClick={() => {
+                  setOpenAddHolidayModal(false);
+                  reset();
                 }}
+                variant="outlined"
+                color="secondary"
+                disabled={postHolidayStatus?.isLoading}
+                className={'small'}
               >
-                <LoadingButton
-                  onClick={() => {
-                    setOpenAddHolidayModal(false);
-                    reset();
-                  }}
-                  variant="outlined"
-                  color="secondary"
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  loading={postHolidayStatus?.isLoading}
-                  type="submit"
-                  variant="contained"
-                >
-                  Add
-                </LoadingButton>
-              </Box>
-            </DialogActions>
-          </FormProvider>
+                Cancel
+              </LoadingButton>
+              <LoadingButton
+                loading={postHolidayStatus?.isLoading}
+                type="submit"
+                variant="contained"
+                className={'small'}
+                onClick={() => onSubmitRequest?.()}
+              >
+                Add
+              </LoadingButton>
+            </Box>
+          </DialogActions>
         </Dialog>
       )}
     </>
