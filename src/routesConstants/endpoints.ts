@@ -246,6 +246,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   CHANGE_PASSWORD: '/auth/change-password',
+  SET_PASSWORD: '/auth/set-password',
   AGENT_REJECT_REQUEST: '/agent/reject-request',
   APPROVED_REQUEST: '/agent/approve-request',
   ADD_SOFTWARE_USERS: '/assets/add-software-users',

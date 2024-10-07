@@ -99,6 +99,13 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['auth'],
     }),
+    setPassword: builder.mutation({
+      query: (payload: any) => ({
+        url: END_POINTS?.SET_PASSWORD,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
   }),
 });
 
@@ -116,4 +123,5 @@ export const {
   useAuthCompanyVerificationMutation,
   useChangePasswordMutation,
   useGetEmailCheckQuery,
+  useSetPasswordMutation,
 } = authAPI;

@@ -9,7 +9,7 @@ import {
   useSignUpMutation,
 } from '@/services/auth';
 import { debouncedSearch } from '@/utils';
-import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
+import { useGetProductsBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
@@ -96,7 +96,7 @@ const useSignup = () => {
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
     useAuthCompanyVerificationMutation();
 
-  const { data: productData } = useGetProductsQuery<any>({
+  const { data: productData } = useGetProductsBilingInvoicesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
   });

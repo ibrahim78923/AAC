@@ -276,6 +276,8 @@ export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
   SALE_SITE: 'https://airapplecart.co.uk/',
+  RESET_PASSWORD: '/reset-password',
+  SET_PASSWORD: '/set-password',
 };
 
 export const Quick_Links_Routes = {
