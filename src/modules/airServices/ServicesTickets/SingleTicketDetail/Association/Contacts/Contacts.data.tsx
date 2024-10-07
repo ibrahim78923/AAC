@@ -5,9 +5,8 @@ import { Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
-import { VALIDATION_CONSTANT } from '@/constants';
 import { UserInfo } from '@/components/UserInfo';
-import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 
 export const validationSchema = Yup?.object()?.shape({
   email: Yup?.string()
@@ -40,28 +39,20 @@ export const validationSchema = Yup?.object()?.shape({
   dateOfBirth: Yup?.date()?.nullable(),
   phoneNumber: Yup?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   whatsAppNumber: Yup?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   jobTitle: Yup?.string()
     ?.trim()
     ?.max(

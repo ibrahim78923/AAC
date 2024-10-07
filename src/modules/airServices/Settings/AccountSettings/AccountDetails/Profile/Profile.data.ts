@@ -1,9 +1,8 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 
 const option = ['English'];
 export const profileValidationSchema: any = Yup?.object()?.shape({
@@ -23,28 +22,20 @@ export const profileValidationSchema: any = Yup?.object()?.shape({
     ),
   workPhoneNumber: Yup?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   mobileNumber: Yup?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   jobTitle: Yup?.string()
     ?.trim()
     ?.max(

@@ -57,13 +57,6 @@ export const DATE_TIME_FORMAT = {
   FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
 };
 
-export const VALIDATION_CONSTANT = {
-  PHONE_NUMBER: {
-    regex: /^\+44[0-9]{10}$/,
-    message: 'Only UK phone number',
-  },
-};
-
 export const ERROR_PAGES = {
   NOT_FOUND: '/404',
   NOT_ACCESS: '/403',

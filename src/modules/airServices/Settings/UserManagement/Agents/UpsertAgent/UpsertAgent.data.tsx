@@ -5,12 +5,12 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
-import { VALIDATION_CONSTANT } from '@/constants';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { REGEX } from '@/constants/validation';
 
 export const validationSchemaAgentFields: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -26,16 +26,12 @@ export const validationSchemaAgentFields: any = (form: any) => {
     phoneNumber: yup
       ?.string()
       ?.trim()
-      ?.test(
-        'is-valid-phone',
-        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-        function (value) {
-          if (value) {
-            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-          }
-          return true;
-        },
-      ),
+      ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+        if (value) {
+          return REGEX?.PHONE_NUMBER?.test(value);
+        }
+        return true;
+      }),
     departmentId: yup?.mixed()?.nullable(),
     permissionsRole: yup?.mixed()?.nullable(),
     timezone: yup?.mixed()?.nullable(),

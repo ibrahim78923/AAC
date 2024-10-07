@@ -3,8 +3,8 @@ import {
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
+import { REGEX } from '@/constants/validation';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -25,16 +25,12 @@ export const upsertRequestersValidationSchema: any = (form: any) => {
     jobTitle: Yup?.string()?.trim(),
     phoneNumber: Yup?.string()
       ?.trim()
-      ?.test(
-        'is-valid-phone',
-        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-        function (value) {
-          if (value) {
-            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-          }
-          return true;
-        },
-      ),
+      ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+        if (value) {
+          return REGEX?.PHONE_NUMBER?.test(value);
+        }
+        return true;
+      }),
     ...formSchema,
   });
 };

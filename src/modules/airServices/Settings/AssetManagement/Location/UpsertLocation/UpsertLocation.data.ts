@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-import { VALIDATION_CONSTANT } from '@/constants';
 import {
   CHARACTERS_LIMIT,
   GLOBAL_CHARACTERS_LIMIT,
+  REGEX,
 } from '@/constants/validation';
 
 export const LOCATION_TYPE = {
@@ -32,16 +32,12 @@ export const validationSchemaAddNewLocation = yup?.object()?.shape({
   phone: yup
     ?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   address: yup?.object()?.shape({
     addressLine1: yup
       ?.string()

@@ -1,8 +1,8 @@
 import { RHFTextField } from '@/components/ReactHookForm';
-import { VALIDATION_CONSTANT } from '@/constants';
 import {
   CHARACTERS_LIMIT,
   GLOBAL_CHARACTERS_LIMIT,
+  REGEX,
 } from '@/constants/validation';
 import {
   dynamicFormInitialValue,
@@ -29,28 +29,20 @@ export const newVendorValidationSchema = (form: any) => {
       ),
     phone: Yup?.string()
       ?.trim()
-      ?.test(
-        'is-valid-phone',
-        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-        function (value) {
-          if (value) {
-            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-          }
-          return true;
-        },
-      ),
+      ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+        if (value) {
+          return REGEX?.PHONE_NUMBER?.test(value);
+        }
+        return true;
+      }),
     mobiles: Yup?.string()
       ?.trim()
-      ?.test(
-        'is-valid-phone',
-        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-        function (value) {
-          if (value) {
-            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-          }
-          return true;
-        },
-      ),
+      ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+        if (value) {
+          return REGEX?.PHONE_NUMBER?.test(value);
+        }
+        return true;
+      }),
     email: Yup?.string()
       ?.trim()
       ?.max(
