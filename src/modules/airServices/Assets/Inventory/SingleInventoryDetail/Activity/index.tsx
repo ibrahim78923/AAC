@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material';
 import NoData from '@/components/NoData';
 import { ActivityTimeline } from './ActivityTimeline';
-import { NoAssociationFoundImage } from '@/assets/images';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { useActivity } from './useActivity';
@@ -43,10 +42,7 @@ export const Activity = () => {
                 />
               ))
             ) : (
-              <NoData
-                image={NoAssociationFoundImage}
-                message={'There is no activity'}
-              />
+              <NoData message={'There is no activity'} />
             )}
           </Grid>
           <Grid item xs={12} md={1}></Grid>

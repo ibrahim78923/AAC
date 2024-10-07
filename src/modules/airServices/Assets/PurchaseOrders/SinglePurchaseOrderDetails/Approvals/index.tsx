@@ -7,7 +7,6 @@ import { RequestApprovalForm } from './RequestApprovalForm';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
-import { NoAssociationFoundImage } from '@/assets/images';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import { useApprovals } from './useApprovals';
@@ -42,7 +41,6 @@ export const Approvals = () => {
         <Fragment>
           {approvalsList?.length <= 0 ? (
             <NoData
-              image={NoAssociationFoundImage}
               message={
                 'Make Approved Purchases by sending the order to your stakeholders for approval'
               }

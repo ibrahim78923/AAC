@@ -1,6 +1,5 @@
 import { Grid } from '@mui/material';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
 import { Timeline } from './Timeline';
 import { useContractHistory } from './useContractHistory';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
@@ -24,10 +23,7 @@ export const ContractHistory = () => {
             />
           ))
         ) : (
-          <NoData
-            image={NoAssociationFoundImage}
-            message={'There is no activity'}
-          />
+          <NoData message={'There is no activity'} />
         )}
       </Grid>
     </Grid>

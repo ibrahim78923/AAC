@@ -9,7 +9,6 @@ import {
 import { Fragment } from 'react';
 import Search from '@/components/Search';
 import NoData from '@/components/NoData';
-import { AssociationsImage } from '@/assets/images';
 import useProfile from './useProfile';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
@@ -133,7 +132,7 @@ export const Profile = ({ selected, setSelected }: any) => {
               <CircularProgress />
             </Box>
           ) : !usersExtra?.length ? (
-            <NoData message="No data is available" image={AssociationsImage} />
+            <NoData message="No data is available" />
           ) : (
             usersExtra?.map((item: any) => (
               <Box

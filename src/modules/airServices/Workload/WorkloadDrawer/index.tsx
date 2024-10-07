@@ -24,7 +24,6 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from '../UpdateWorkloadTask';
 import NoData from '@/components/NoData';
-import { AssociationsImage } from '@/assets/images';
 import useWorkloadDrawer from './useWorkloadDrawer';
 import {
   fullNameInitial,
@@ -243,7 +242,7 @@ const WorkloadDrawer = ({
           ) : isError ? (
             <ApiErrorState />
           ) : !dataArray?.length ? (
-            <NoData message="No data is available" image={AssociationsImage} />
+            <NoData message="No data is available" />
           ) : (
             <Fragment>
               {dataArray?.map((item: any) => (

@@ -1,13 +1,12 @@
 import { Box } from '@mui/material';
 import { RHFAutocompleteAsync, FormProvider } from '@/components/ReactHookForm';
-import useUsersAdd from '../UsersAdd/useUsersAdd';
 import { UseFormReturn } from 'react-hook-form';
 
 const UsersAllocate: React.FC<{
   methods: UseFormReturn<any>;
   onSubmit: (data: any) => void;
-}> = ({ methods, onSubmit }) => {
-  const { contractDropdown } = useUsersAdd();
+  contractDropdown: any;
+}> = ({ methods, onSubmit, contractDropdown }) => {
   return (
     <FormProvider methods={methods} onSubmit={methods?.handleSubmit(onSubmit)}>
       <Box maxWidth={'sm'}>

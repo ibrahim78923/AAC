@@ -8,7 +8,6 @@ import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
-import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
 import { AlertModals } from '@/components/AlertModals';
 import GroupIcon from '@mui/icons-material/Group';
@@ -147,11 +146,7 @@ const RolesCards = ({
           ))
         ) : (
           <Grid item xs={12}>
-            <NoData
-              message={'No data is available'}
-              image={AssociationsImage}
-              height={'50vh'}
-            />
+            <NoData message={'No data is available'} height={'50vh'} />
           </Grid>
         )}
 

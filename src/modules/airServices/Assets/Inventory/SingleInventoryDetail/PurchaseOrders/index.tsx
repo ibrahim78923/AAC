@@ -1,7 +1,6 @@
 import NoData from '@/components/NoData';
 import { Box, Typography } from '@mui/material';
 import { InventoryCard } from '@/components/InventoryCard/index';
-import { PurchaseImage } from '@/assets/images';
 import { usePurchaseOrders } from './usePurchaseOrders';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -68,10 +67,7 @@ export const PurchaseOrder = () => {
           </Box>
         ))
       ) : (
-        <NoData
-          image={PurchaseImage}
-          message={'No purchase order associated'}
-        />
+        <NoData message={'No purchase order associated'} />
       )}
     </PermissionsGuard>
   );

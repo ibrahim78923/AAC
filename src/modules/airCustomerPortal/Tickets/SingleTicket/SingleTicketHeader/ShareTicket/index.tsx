@@ -30,7 +30,7 @@ export const ShareTicket = (props: any) => {
           mb={1.5}
         >
           <Typography variant="h4" color="slateBlue.main">
-            Item Request
+            Share
           </Typography>
           <CloseIcon
             sx={{ color: 'custom.darker', cursor: 'pointer' }}

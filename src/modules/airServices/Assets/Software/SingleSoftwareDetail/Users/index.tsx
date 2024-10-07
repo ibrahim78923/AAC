@@ -35,6 +35,7 @@ export const Users = () => {
     removeLoading,
     setFilterValues,
     filterValues,
+    contractDropdown,
   } = useUsers();
 
   return (
@@ -93,7 +94,11 @@ export const Users = () => {
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
-            <UsersAllocate methods={methods} onSubmit={allocateSubmit} />
+            <UsersAllocate
+              methods={methods}
+              onSubmit={allocateSubmit}
+              contractDropdown={contractDropdown}
+            />
           )}
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && (
             <UsersDeallocate />

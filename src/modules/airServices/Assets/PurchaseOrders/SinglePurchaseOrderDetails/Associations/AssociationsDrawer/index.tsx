@@ -6,7 +6,6 @@ import { useAssociationsDrawer } from './useAssociationsDrawer';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
 
 export const AssociationsDrawer = (props: any) => {
   const theme: any = useTheme();
@@ -113,11 +112,7 @@ export const AssociationsDrawer = (props: any) => {
                   </Box>
                 ))
               ) : (
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
-                  height="40vh"
-                />
+                <NoData message={'No data is available'} height="40vh" />
               )
             ) : (
               <SkeletonTable />

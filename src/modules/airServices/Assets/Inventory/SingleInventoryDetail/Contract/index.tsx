@@ -1,7 +1,6 @@
 import NoData from '@/components/NoData';
 import { Typography } from '@mui/material';
 import { InventoryCard } from '@/components/InventoryCard/index';
-import { ContractImage } from '@/assets/images';
 import { useContract } from './useContract';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -57,10 +56,7 @@ export const Contract = () => {
           </InventoryCard>
         ))
       ) : (
-        <NoData
-          image={ContractImage}
-          message={'There are no active contract available'}
-        />
+        <NoData message={'There are no active contract available'} />
       )}
     </PermissionsGuard>
   );

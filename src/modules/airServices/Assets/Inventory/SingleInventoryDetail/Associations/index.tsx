@@ -6,7 +6,6 @@ import NoData from '@/components/NoData';
 import { chipColor } from './Associations.data';
 import { ExistingIncident } from './ExistingIncident';
 import { NewIncident } from './NewIncident';
-import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -40,10 +39,7 @@ export const Associations = () => {
   return (
     <Fragment>
       {dataAssets?.length <= 0 ? (
-        <NoData
-          image={NoAssociationFoundImage}
-          message={'There are no associations'}
-        >
+        <NoData message={'There are no associations'}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,

@@ -1,6 +1,5 @@
 import NoData from '@/components/NoData';
 import { InventoryCard } from '@/components/InventoryCard/index';
-import { ExpenseImage } from '@/assets/images';
 import { useSoftware } from './useSoftware';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -46,7 +45,7 @@ export const Software = () => {
           </Box>
         ))
       ) : (
-        <NoData image={ExpenseImage} message={'No Software found'} />
+        <NoData message={'No Software found'} />
       )}
     </PermissionsGuard>
   );
