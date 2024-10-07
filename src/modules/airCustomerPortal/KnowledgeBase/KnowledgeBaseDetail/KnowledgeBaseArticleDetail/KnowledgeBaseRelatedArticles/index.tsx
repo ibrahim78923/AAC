@@ -43,7 +43,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
             (item: any) =>
               item?._id !== singleArticleId && (
                 <Box
-                  key={item?.id}
+                  key={item?._id}
                   display="flex"
                   alignItems="center"
                   p={1}

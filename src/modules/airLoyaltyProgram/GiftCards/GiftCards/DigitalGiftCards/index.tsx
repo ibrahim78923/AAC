@@ -6,6 +6,7 @@ import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
+import { data } from './DigitalGiftCards.data';
 
 export const DigitalGiftCards = () => {
   const {
@@ -91,8 +92,7 @@ export const DigitalGiftCards = () => {
         >
           <TanstackTable
             columns={digitalGiftCardColumns}
-            data={lazyGetDigitalGiftCardListStatus?.data?.data}
-            isLoading={lazyGetDigitalGiftCardListStatus?.isLoading}
+            data={data}
             currentPage={
               lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.page
             }
@@ -105,9 +105,6 @@ export const DigitalGiftCards = () => {
             }
             setPage={setPage}
             setPageLimit={setPageLimit}
-            isFetching={lazyGetDigitalGiftCardListStatus?.isFetching}
-            isError={lazyGetDigitalGiftCardListStatus?.isError}
-            isSuccess={lazyGetDigitalGiftCardListStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
             isPagination
           />

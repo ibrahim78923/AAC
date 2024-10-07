@@ -1,13 +1,7 @@
+import { UserInfo } from '@/components/UserInfo';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const TRANSACTIONS_ACTIONS = {
-  ADD: 'add',
-  EXPORT: 'export',
-  IMPORT: 'import',
-  FILTER: 'filter',
-};
 export const transactionTableData = [
   {
     id: 1,
@@ -57,13 +51,10 @@ export const UserList: any = [
     header: 'Card Recipient',
     isSortable: true,
     cell: (info: any) => (
-      <>
-        <Typography variant="body4">
-          {info?.row?.original?.cardRecipientEmail}
-        </Typography>
-        <br />
-        <Typography variant="body4">{info?.getValue()}</Typography>
-      </>
+      <UserInfo
+        name={info?.getValue()}
+        email={info?.row?.original?.cardRecipientEmail}
+      />
     ),
   },
   {
@@ -74,31 +65,10 @@ export const UserList: any = [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.shop,
-    id: 'shop',
-    isSortable: true,
-    header: 'Shop',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.giftCardType,
-    id: 'giftCardType',
-    isSortable: true,
-    header: 'Gift Card Type',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
     accessorFn: (row: any) => row?.date,
     id: 'date',
     isSortable: true,
-    header: 'Date',
+    header: 'Redeemed',
     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
-  },
-  {
-    accessorFn: (row: any) => row?.channel,
-    id: 'channel',
-    isSortable: true,
-    header: 'Channel',
-    cell: (info: any) => info?.getValue(),
   },
 ];

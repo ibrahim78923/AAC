@@ -1,35 +1,15 @@
-import {
-  RHFAutocomplete,
-  RHFDateRangePicker,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-const optionsVisibleType = ['Hello', 'Hello'];
-const optionsVisibleShop = ['Shop 1', 'Shop 2'];
-const optionsVisibleChannel = ['Channel 1', 'Channel 2'];
+import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
 export const defaultValues = {
-  type: null,
   dateRange: {
     startDate: null,
     endDate: null,
     key: 'selection',
   },
-  shop: null,
+  recipient: '',
   minAmount: '',
   maxAmount: '',
-  channel: null,
 };
 export const transactionFilterData = [
-  {
-    id: 1,
-    componentProps: {
-      name: 'type',
-      label: 'Type',
-      options: optionsVisibleType,
-      placeholder: 'Select',
-    },
-    component: RHFAutocomplete,
-    md: 12,
-  },
   {
     id: 2,
     componentProps: {
@@ -41,14 +21,13 @@ export const transactionFilterData = [
     md: 12,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
-      name: 'shop',
-      label: 'Shop',
-      options: optionsVisibleShop,
-      placeholder: 'Select',
+      name: 'recipient',
+      label: 'Recipient',
+      placeholder: 'Enter Recipient',
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
     md: 12,
   },
   {
@@ -69,17 +48,6 @@ export const transactionFilterData = [
       placeholder: 'Enter Maximum Amount',
     },
     component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 6,
-    componentProps: {
-      name: 'channel',
-      label: 'Channel',
-      options: optionsVisibleChannel,
-      placeholder: 'Select Channel',
-    },
-    component: RHFAutocomplete,
     md: 12,
   },
 ];

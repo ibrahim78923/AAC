@@ -3,11 +3,6 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
-import { successSnackbar } from '@/utils/api';
-import { TRANSACTIONS_ACTIONS } from './Transactions.data';
-import { AddTransaction } from './AddTransaction';
-import { ExportModal } from '@/components/ExportModal';
-import { TransactionFilter } from './TransactionFilter';
 
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
@@ -16,7 +11,7 @@ export const useTransaction = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [openDrawer, setOpenDrawer] = useState<any>({});
+  const [openDrawer, setOpenDrawer] = useState<any>(false);
   const transactionParams = {
     page,
     limit,
@@ -38,54 +33,13 @@ export const useTransaction = () => {
     handleTransaction();
   }, [page, limit, search]);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const exportFile = () => {
-    setOpen(false);
-    successSnackbar('File Exported Successfully');
-  };
-
-  const setTransactionDrawerContent = () => {
-    if (openDrawer?.type === TRANSACTIONS_ACTIONS?.ADD) {
-      return (
-        <AddTransaction openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
-      );
-    }
-    if (openDrawer?.type === TRANSACTIONS_ACTIONS?.EXPORT) {
-      return (
-        <ExportModal
-          open={openDrawer}
-          handleClose={() => setOpenDrawer('')}
-          onSubmit={() => exportFile()}
-        />
-      );
-    }
-    if (openDrawer?.type === TRANSACTIONS_ACTIONS?.FILTER) {
-      return (
-        <TransactionFilter
-          openDrawer={openDrawer}
-          setOpenDrawer={setOpenDrawer}
-        />
-      );
-    }
-    return <></>;
-  };
-
   return {
     theme,
     router,
     search,
     setSearch,
-    handleClick,
     open,
     setOpen,
-    handleClose,
     page,
     setPage,
     limit,
@@ -98,6 +52,5 @@ export const useTransaction = () => {
     meta,
     openDrawer,
     setOpenDrawer,
-    setTransactionDrawerContent,
   };
 };
