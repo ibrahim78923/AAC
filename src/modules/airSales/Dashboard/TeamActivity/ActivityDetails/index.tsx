@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Stack, Typography, useTheme } from '@mui/material';
 import { teamActivityData } from '@/mock/modules/airSales/Dashboard/TeamActivity';
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
@@ -13,8 +13,14 @@ const ActivityDetails = ({ data }: any) => {
     <>
       {activitDetails?.map((teamData: any) => {
         return (
-          <Grid container key={uuidv4()} p={1}>
-            <Grid item sm={1}>
+          <>
+            <Stack
+              key={uuidv4()}
+              direction={{ sm: 'row', sx: 'column' }}
+              alignItems={{ sm: 'center', xs: 'left' }}
+              gap={2}
+              pb={2}
+            >
               <Avatar
                 src={generateImage(teamData?.userDetails?.avatar?.url)}
                 sx={{ color: theme?.palette?.grey[900], fontSize: '15px' }}
@@ -22,30 +28,36 @@ const ActivityDetails = ({ data }: any) => {
                 {`${teamData?.userDetails?.firstName?.charAt(0)?.toUpperCase()}
                 ${teamData?.userDetails?.lastName?.charAt(0)?.toUpperCase()}`}
               </Avatar>
-            </Grid>
-            <Grid item sm={11}>
-              <Typography
-                sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
-                variant="body4"
-              >
-                {teamData?.userDetails?.firstName}{' '}
-                {teamData?.userDetails?.lastName}
-              </Typography>
-              <Typography variant="body4">
-                {` ${teamData?.activityType} `}
-              </Typography>
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: '600',
+                    color: theme?.palette?.common?.black,
+                  }}
+                  variant="body4"
+                >
+                  {teamData?.userDetails?.firstName}{' '}
+                  {teamData?.userDetails?.lastName}
+                </Typography>
+                <Typography variant="body4">
+                  {` ${teamData?.activityType} `}
+                </Typography>
 
-              <Typography
-                variant="body4"
-                sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
-              >
-                {`${teamData?.moduleName} `}
-              </Typography>
-              <Typography variant="body4">
-                at {dayjs(teamData?.updatedAt)?.format(DATE_FORMAT?.UI)}{' '}
-              </Typography>
-            </Grid>
-          </Grid>
+                <Typography
+                  variant="body4"
+                  sx={{
+                    fontWeight: '600',
+                    color: theme?.palette?.common?.black,
+                  }}
+                >
+                  {`${teamData?.moduleName} `}
+                </Typography>
+                <Typography variant="body4">
+                  at {dayjs(teamData?.updatedAt)?.format(DATE_FORMAT?.UI)}{' '}
+                </Typography>
+              </Box>
+            </Stack>
+          </>
         );
       })}
     </>

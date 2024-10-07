@@ -28,7 +28,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
           className="small"
           variant="outlined"
           color="inherit"
-          sx={{ width: '112px' }}
+          sx={{ minWidth: '112px', width: '100%' }}
         >
           Actions
           <ArrowDropDown />
