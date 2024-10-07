@@ -1,4 +1,4 @@
-import { getSession } from '@/utils';
+import { getActiveProductSession, getSession } from '@/utils';
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
@@ -38,6 +38,7 @@ export const userValidationSchema: any = Yup?.object()?.shape({
 
 export const dataArray = () => {
   const { user }: any = getSession();
+  const ActiveProduct = getActiveProductSession();
   const rolesByCompanyId = useLazyGetCompanyAccountsRolesListQuery();
   const teamsList = useLazyGetTeamsListQuery();
 
@@ -120,7 +121,10 @@ export const dataArray = () => {
         placeholder: 'Select role',
         apiQuery: rolesByCompanyId,
         getOptionLabel: (option: any) => option?.name,
-        externalParams: { organizationId: user?.organization?._id },
+        externalParams: {
+          organizationId: user?.organization?._id,
+          productId: ActiveProduct?._id,
+        },
         queryKey: 'organizationId',
       },
       component: RHFAutocompleteAsync,
