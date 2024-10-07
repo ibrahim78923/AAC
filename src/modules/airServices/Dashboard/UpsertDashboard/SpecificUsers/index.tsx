@@ -7,16 +7,14 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import {
-  SpecificUsersAccessColumnsI,
-  SpecificUsersAccessFormFieldsDynamicI,
-} from '../UpsertDashboard.interface';
+import { SpecificUsersAccessFormFieldsDynamicI } from '../UpsertDashboard.interface';
 import {
   specificUsersAccessColumns,
   specificUsersAccessFormFieldsDynamic,
 } from './SpecificUsers.data';
 import { UsersFieldDropdown } from '../../DashboardFormFields/UsersFieldDropdown';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const SpecificUsers = (props: any) => {
   const { name } = props;
@@ -41,7 +39,7 @@ export const SpecificUsers = (props: any) => {
           <TableHead>
             <TableRow>
               {specificUsersAccessColumns?.map(
-                (column: SpecificUsersAccessColumnsI) => (
+                (column: AutocompleteOptionsI) => (
                   <TableCell key={column?._id}>{column?.label}</TableCell>
                 ),
               )}

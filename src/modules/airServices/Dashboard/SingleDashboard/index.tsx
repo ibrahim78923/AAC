@@ -8,6 +8,7 @@ import { DashboardFilter } from '../DashboardFilter';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DashboardWidgets } from '../DashboardsWidgets';
 import { DownloadDashboard } from '../DownloadDashboard';
+import { ApiStatusSuspense } from './ApiStatusSuspense';
 
 const { VIEW_MANAGE_DASHBOARD } = AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
 
@@ -23,6 +24,8 @@ export const SingleDashboard = (props: any) => {
     downloadRef,
     moveToDashboard,
     dashboardName,
+    reportsList,
+    apiSuspenstState,
   } = useSingleDashboard(props);
 
   return (
@@ -56,17 +59,31 @@ export const SingleDashboard = (props: any) => {
           <Box ref={downloadRef}>
             <TicketStatusCount />
             <br />
-            <DashboardWidgets
-              lazyGetSingleServicesDashboardStatus={
-                lazyGetSingleServicesDashboardStatus
-              }
-              isPreviewMode={isPreviewMode}
-              isDetailMode={isDetailMode}
-              ticketType={ticketType}
-              setTicketType={setTicketType}
-              departmentId={departmentId}
-              setDepartmentId={setDepartmentId}
-            />
+            {apiSuspenstState || !!!reportsList?.length ? (
+              <ApiStatusSuspense
+                lazyGetSingleServicesDashboardStatus={
+                  lazyGetSingleServicesDashboardStatus
+                }
+                reportsList={reportsList}
+                isPreviewMode={isPreviewMode}
+                isDetailMode={isDetailMode}
+              />
+            ) : (
+              <DashboardWidgets
+                reportsList={reportsList}
+                apiData={lazyGetSingleServicesDashboardStatus?.data?.data}
+                refetchApi={lazyGetSingleServicesDashboardStatus?.refetch}
+                lazyGetSingleServicesDashboardStatus={
+                  lazyGetSingleServicesDashboardStatus
+                }
+                isPreviewMode={isPreviewMode}
+                isDetailMode={isDetailMode}
+                ticketType={ticketType}
+                setTicketType={setTicketType}
+                departmentId={departmentId}
+                setDepartmentId={setDepartmentId}
+              />
+            )}
           </Box>
         </Box>
       </PermissionsGuard>

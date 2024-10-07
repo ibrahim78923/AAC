@@ -1,10 +1,5 @@
+import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { ReactNode } from 'react';
-
-export interface AutoCompleteLabelI {
-  name: string;
-  id: string;
-  description?: string;
-}
 
 export interface SpecialUsersFieldsI {
   id: string;
@@ -16,6 +11,7 @@ export interface ReportsI {
   name: string;
   type: string;
 }
+
 export interface UpsertServicesDashboardDefaultValueI {
   name: string;
   isDefault: boolean;
@@ -26,17 +22,6 @@ export interface UpsertServicesDashboardDefaultValueI {
   permissions: string;
 }
 
-export interface UsersDropdownOptionI {
-  firstName: string;
-  lastName: string;
-  _id: string;
-  [key: string]: any;
-}
-
-export interface SpecificUsersAccessColumnsI {
-  label: string;
-  _id: string;
-}
 export interface SpecificUsersAccessFormFieldsDynamicI {
   id: number;
   data: any;
@@ -65,18 +50,5 @@ export interface ComponentProps {
   externalParams?: {
     productId: string;
   };
-  getOptionLabel?: (option: UsersDropdownOptionI) => string;
-}
-
-export interface UpsertServiceDashboardFormFieldsDynamicI {
-  id: number;
-  md?: number;
-  componentProps: ComponentProps;
-  component: React.ComponentType<any>;
-  heading?: ReactNode;
-}
-
-export interface MultiCheckboxOptionI {
-  label: string;
-  value?: string;
+  getOptionLabel?: (option: AutocompleteAsyncOptionsI) => string;
 }

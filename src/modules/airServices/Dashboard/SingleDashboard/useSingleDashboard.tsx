@@ -56,7 +56,11 @@ export const useSingleDashboard = (props: any) => {
 
   const dashboardName =
     lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.name;
-
+  const reportsList =
+    lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports;
+  const apiSuspenstState =
+    lazyGetSingleServicesDashboardStatus?.isLoading ||
+    lazyGetSingleServicesDashboardStatus?.isFetching;
   return {
     lazyGetSingleServicesDashboardStatus,
     ticketType,
@@ -68,5 +72,7 @@ export const useSingleDashboard = (props: any) => {
     downloadRef,
     moveToDashboard,
     dashboardName,
+    reportsList,
+    apiSuspenstState,
   };
 };

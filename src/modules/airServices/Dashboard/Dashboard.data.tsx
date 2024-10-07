@@ -1,4 +1,9 @@
 import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
+import { TicketBased } from './TicketBased';
+import { RecentActivities } from './RecentActivities';
+import { AgentAvailability } from './AgentAvailability';
+import { TopPerformer } from './TopPerformer';
+import { Announcement } from './Announcement';
 
 export const NO_DEFAULT_DASHBOARD = 'No Default Dashboard found!';
 export const DELETE_DASHBOARD_SUCCESS = 'Success';
@@ -14,3 +19,63 @@ export const MANAGE_DASHBOARD_ACCESS_TYPES = {
   SPECIFIC_USER_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
   SPECIFIC_USER_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
 };
+
+export const SERVICES_DASHBOARD_WIDGETS: any = {
+  GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS:
+    'GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS',
+  RECENT_ACTIVITIES: 'RECENT_ACTIVITIES',
+  AGENT_AVAILABILITY: 'AGENT_AVAILABILITY',
+  TOP_PERFORMER: 'TOP_PERFORMER',
+  ANNOUNCEMENTS: 'ANNOUNCEMENTS',
+};
+
+const {
+  GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS,
+  RECENT_ACTIVITIES,
+  AGENT_AVAILABILITY,
+  TOP_PERFORMER,
+  ANNOUNCEMENTS,
+} = SERVICES_DASHBOARD_WIDGETS ?? {};
+
+export const SERVICES_DASHBOARD_WIDGETS_API_MAPPED = {
+  [GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]:
+    'Tickets by Statuses and Priority',
+  [RECENT_ACTIVITIES]: 'Recent Activities',
+  [AGENT_AVAILABILITY]: 'Agent Availability',
+  [TOP_PERFORMER]: 'Top Performer',
+  [ANNOUNCEMENTS]: 'Announcements',
+};
+
+export const AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS = {
+  [GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]: TicketBased,
+  [RECENT_ACTIVITIES]: RecentActivities,
+  [AGENT_AVAILABILITY]: AgentAvailability,
+  [TOP_PERFORMER]: TopPerformer,
+  [ANNOUNCEMENTS]: Announcement,
+};
+
+export const dashboardWidgetsData = [
+  {
+    value: GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS,
+    label:
+      SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[
+        GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS
+      ],
+  },
+  {
+    value: RECENT_ACTIVITIES,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[RECENT_ACTIVITIES],
+  },
+  {
+    value: AGENT_AVAILABILITY,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[AGENT_AVAILABILITY],
+  },
+  {
+    value: TOP_PERFORMER,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[TOP_PERFORMER],
+  },
+  {
+    value: ANNOUNCEMENTS,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[ANNOUNCEMENTS],
+  },
+];

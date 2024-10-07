@@ -1,14 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import {
-  MultiCheckboxOptionI,
-  UpsertServicesDashboardDefaultValueI,
-} from './UpsertDashboard.interface';
-import { DropResult } from 'react-beautiful-dnd';
+import { UpsertServicesDashboardDefaultValueI } from './UpsertDashboard.interface';
 import {
   createDashboardDefaultValue,
   createDashboardValidationSchema,
-  dashboardWidgetsData,
   upsertServiceDashboardFormFieldsDynamic,
 } from './UpsertDashboard.data';
 import { useRouter } from 'next/router';
@@ -20,12 +15,16 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../Dashboard.data';
+import {
+  MANAGE_DASHBOARD_ACCESS_TYPES,
+  dashboardWidgetsData,
+} from '../Dashboard.data';
 import {
   useAddServicesDashboardSingleDashboardMutation,
   useGetServicesDashboardSingleDashboardDetailsQuery,
   useUpdateServicesDashboardSingleDashboardMutation,
 } from '@/services/airServices/dashboard';
+import { fullName } from '@/utils/avatarUtils';
 
 const { PRIVATE_TO_OWNER, EVERYONE_EDIT_AND_VIEW, SPECIFIC_USER_AND_TEAMS } =
   MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
@@ -48,6 +47,7 @@ export const useUpsertDashboard = () => {
       dashboardId,
     },
   };
+
   const goToManageDashboard = () =>
     router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
 
@@ -80,6 +80,12 @@ export const useUpsertDashboard = () => {
     defaultValue: dashboardWidgetsData,
   });
 
+  const reportsWatch = useWatch({
+    control,
+    name: 'reports',
+    defaultValue: [],
+  });
+
   const setPermissions = () => {
     const permissionUser = getValues('permissionsUsers');
 
@@ -99,7 +105,7 @@ export const useUpsertDashboard = () => {
           return {
             ...item,
             ...mappedUser,
-            name: `${mappedUser?.firstName} ${mappedUser?.lastName}`,
+            name: fullName(mappedUser?.firstName, mappedUser?.lastName),
             permission: item?.permission ?? '',
           };
         }
@@ -115,7 +121,7 @@ export const useUpsertDashboard = () => {
       )
       ?.map((item: any) => ({
         ...item,
-        name: `${item?.firstName} ${item?.lastName}`,
+        name: fullName(item?.firstName, item?.lastName),
         userId: item?._id,
         permission: item?.permission ?? '',
       }));
@@ -194,45 +200,6 @@ export const useUpsertDashboard = () => {
     }
   };
 
-  const reportsWatch = useWatch({
-    control,
-    name: 'reports',
-    defaultValue: [],
-  });
-
-  const alignArrays = (
-    firstArray: MultiCheckboxOptionI[],
-    secondArray: any[],
-  ) => {
-    const dragAndDropAlignment = secondArray?.reduce((acc: any, item: any) => {
-      if (firstArray?.includes(item?.value)) {
-        acc?.push(item?.value);
-      }
-      return acc;
-    }, []);
-    return dragAndDropAlignment;
-  };
-
-  const reorder = <T>(list: T[], startIndex: number, endIndex: number): T[] => {
-    const result = Array?.from(list);
-    const [removed] = result?.splice(startIndex, 1);
-    result?.splice(endIndex, 0, removed);
-    return result;
-  };
-
-  const onDragEnd = ({ destination, source }: DropResult) => {
-    if (!destination) return;
-
-    const newItems = reorder(
-      dashboardWidgetsWatch,
-      source?.index,
-      destination?.index,
-    );
-    const dragAndDropAlignment = alignArrays(reportsWatch, newItems);
-    setValue('reports', dragAndDropAlignment);
-    setValue('dashboardWidgets', newItems);
-  };
-
   const upsertServiceDashboardFormFields =
     upsertServiceDashboardFormFieldsDynamic?.();
 
@@ -248,13 +215,9 @@ export const useUpsertDashboard = () => {
     methods,
     submitCreateDashboardFilterForm,
     reportsWatch,
-    onDragEnd,
     action,
-    router,
     handleSubmit,
     upsertServiceDashboardFormFields,
-    addSingleServicesDashboardStatus,
-    updateSingleServicesDashboardStatus,
     isLoading,
     isFetching,
     isError,
@@ -264,5 +227,6 @@ export const useUpsertDashboard = () => {
     refetch,
     apiCallInProgress,
     goToManageDashboard,
+    setValue,
   };
 };

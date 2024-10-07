@@ -36,3 +36,14 @@ export interface ReactHookFormFieldsI {
   gridLength?: number;
   [key: string]: any;
 }
+
+export interface CheckboxOptionsI {
+  label: string;
+  value: string;
+}
+
+export interface RHFMultiCheckboxDraggablePropsI {
+  name: string;
+  options: CheckboxOptionsI[];
+  [key: string]: any;
+}
