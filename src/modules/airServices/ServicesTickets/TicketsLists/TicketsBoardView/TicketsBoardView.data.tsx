@@ -3,58 +3,7 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
 } from '@/constants/permission-keys';
-import { TICKETS_ACTION_CONSTANTS } from '../../TicketsListHeader/TicketListHeader.data';
-
-export const STATUSES = {
-  OPEN: 'OPEN',
-  RESOLVED: 'RESOLVED',
-  PENDING: 'PENDING',
-  CLOSED: 'CLOSED',
-};
-
-export const ticketInfoCardAppearanceColor = (appearance: string) => {
-  const New = 'new';
-  const Overdue = 'Overdue';
-
-  let color;
-
-  switch (appearance) {
-    case New:
-      color = 'success';
-      break;
-
-    case Overdue:
-      color = 'info';
-      break;
-
-    default:
-      color = 'error';
-      break;
-  }
-  return color;
-};
-
-export const ticketInfoCardPriorityColor = (priority: string) => {
-  const Low = 'LOW';
-  const Medium = 'MEDIUM';
-
-  let color;
-
-  switch (priority) {
-    case Low:
-      color = 'success';
-      break;
-
-    case Medium:
-      color = 'warning';
-      break;
-
-    default:
-      color = 'error';
-      break;
-  }
-  return color;
-};
+import { TICKETS_ACTION_CONSTANTS } from '../TicketsListHeader/TicketListHeader.data';
 
 export const singleTicketBoardViewDropdownOptionsDynamic = (
   setTicketAction: any,
@@ -82,4 +31,15 @@ export const singleTicketBoardViewDropdownOptionsDynamic = (
       },
     },
   ];
+};
+
+export const RENDER_COLOR: any = {
+  Resolved: 'warning.main',
+  Pending: 'error.main',
+  Closed: 'success.main',
+  Open: 'info.main',
+  new: 'success.main',
+  Overdue: 'info.main',
+  LOW: 'success',
+  MEDIUM: 'warning',
 };

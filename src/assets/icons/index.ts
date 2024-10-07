@@ -65,12 +65,8 @@ export { default as ExportIcon } from './shared/export-icon';
 export { default as MicIcon } from './shared/mic-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as CustomizeIcon } from './shared/customize-icon';
-export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
-export { default as ViewDetailSharedIcon } from './modules/airServices/Tickets/view-detail-shared-icon';
-export { default as ViewDetailVuesaxIcon } from './modules/airServices/Tickets/view-details-vuesax-icon';
-export { default as ViewDetailKababMenuIcon } from './modules/airServices/Tickets/view-details-kababmenu-icon';
-export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/view-details-meeting-icon';
-export { default as ViewDetailDocumentTextIcon } from './modules/airServices/Tickets/view-detail-document-text-icon';
+export { default as ViewDetailSharedIcon } from './modules/airServices/Tickets/view-detail-shared-icon'; //use
+export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/view-details-meeting-icon'; //use
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
 export { default as EditWhiteBGPenIcon } from './shared/edit-pen-white-bg-icon';

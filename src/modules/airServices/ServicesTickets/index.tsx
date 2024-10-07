@@ -7,24 +7,24 @@ import { TableBoardView } from './TicketsLists/TicketsBoardView';
 import { TicketsTableView } from './TicketsLists/TicketsTableView';
 import { useServicesTickets } from './useServicesTickets';
 
+const { TICKETS_LIST_VIEW, BOARD_VIEW } =
+  AIR_SERVICES_TICKETS_TICKET_LISTS ?? {};
+const { BOARD } = VIEW_TYPES ?? {};
+
 const ServicesTickets = () => {
-  const { router } = useServicesTickets();
+  const { viewType } = useServicesTickets();
 
   return (
     <>
       <Header />
       <TicketsListHeader />
       <br />
-      {router?.query?.viewType === VIEW_TYPES?.BOARD ? (
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW]}
-        >
+      {viewType === BOARD ? (
+        <PermissionsGuard permissions={[BOARD_VIEW]}>
           <TableBoardView />
         </PermissionsGuard>
       ) : (
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW]}
-        >
+        <PermissionsGuard permissions={[TICKETS_LIST_VIEW]}>
           <TicketsTableView />
         </PermissionsGuard>
       )}

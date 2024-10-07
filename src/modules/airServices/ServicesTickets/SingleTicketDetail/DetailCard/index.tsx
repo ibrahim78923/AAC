@@ -1,17 +1,18 @@
 import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useDetailCard } from './useDetailCard';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
 import { uiDateFormat } from '@/utils/dateTime';
 import { AttachFileCard } from '@/components/AttachFileCard';
 
-export const DetailCard = (props: { data: any }) => {
-  const { data } = props;
+const { ZERO } = ARRAY_INDEX ?? {};
 
+export const DetailCard = (props: any) => {
+  const { data } = props;
   const { attachFile } = useDetailCard();
   const theme = useTheme();
-  const ticketDetail = data?.data?.[ARRAY_INDEX?.ZERO];
+  const ticketDetail = data?.data?.[ZERO];
 
   return (
     <Box
@@ -41,10 +42,14 @@ export const DetailCard = (props: { data: any }) => {
                 ticketDetail?.requesterDetails?.firstName,
                 ticketDetail?.requesterDetails?.lastName,
               )}
-              name={fullName(
-                ticketDetail?.requesterDetails?.firstName,
-                ticketDetail?.requesterDetails?.lastName,
-              )}
+              name={
+                !!!ticketDetail?.requesterDetails
+                  ? fullName(ticketDetail?.name) ?? '---'
+                  : fullName(
+                      ticketDetail?.requesterDetails?.firstName,
+                      ticketDetail?.requesterDetails?.lastName,
+                    ) ?? '---'
+              }
               avatarSrc={ticketDetail?.requesterDetails?.avatar?.url}
               nameProps={{
                 color: 'slateBlue.main',
@@ -130,23 +135,6 @@ export const DetailCard = (props: { data: any }) => {
               />
             </Box>
           </Box>
-          {ticketDetail?.ticketType === TICKET_TYPE?.SR &&
-          !!ticketDetail?.numberOfItems ? (
-            <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
-              <Typography
-                variant="body2"
-                fontWeight={'fontWeightMedium'}
-                color="slateBlue.main"
-              >
-                Requested Items
-              </Typography>
-              <Typography variant="body2" color="slateBlue.main">
-                {ticketDetail?.numberOfItems ?? 0}
-              </Typography>
-            </Box>
-          ) : (
-            <></>
-          )}
           <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
             <Typography
               variant="body2"
@@ -160,9 +148,7 @@ export const DetailCard = (props: { data: any }) => {
                 size={{ variant: 'circular' }}
                 hasStyling={false}
                 canDelete={false}
-                data={attachFile?.data?.[ARRAY_INDEX?.ZERO]}
-                onDelete={() => {}}
-                permissionKey={[]}
+                data={attachFile?.data?.[ZERO]}
               />
             ) : (
               <Typography

@@ -1,18 +1,25 @@
-import { CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 
 export const DataRecordCount = (props: any) => {
-  const { isCountLoading = false, totalCount = 0, recordName } = props;
+  const {
+    isCountLoading = false,
+    totalCount = 0,
+    recordName,
+    color = 'secondary.main',
+  } = props;
 
   return (
-    <Typography variant={'h5'}>
+    <Box display={'flex'} alignItems={'center'} pb={0.5} px={2} gap={1}>
+      <Typography variant="h6" color={color}>
+        {recordName}
+      </Typography>
       <Typography
-        variant={'body1'}
-        component={'span'}
-        bgcolor={'secondary.main'}
-        borderRadius={1}
-        p={0.4}
+        variant="body2"
+        bgcolor={color}
         color={'common.white'}
-        mr={0.5}
+        px={0.5}
+        ml={1}
+        borderRadius={1}
       >
         {isCountLoading ? (
           <CircularProgress size={18} />
@@ -22,7 +29,6 @@ export const DataRecordCount = (props: any) => {
           totalCount
         )}
       </Typography>
-      {recordName}
-    </Typography>
+    </Box>
   );
 };

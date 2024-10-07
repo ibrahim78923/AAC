@@ -119,14 +119,22 @@ export const ticketsListsColumnDynamic: any = (
       header: 'Requester',
       cell: (info: any) => (
         <UserInfo
-          nameInitial={fullNameInitial(
-            info?.getValue()?.firstName,
-            info?.getValue()?.lastName,
-          )}
-          name={fullName(
-            info?.getValue()?.firstName,
-            info?.getValue()?.lastName,
-          )}
+          nameInitial={
+            !!!info?.getValue()
+              ? fullNameInitial(info?.row?.original?.name)
+              : fullNameInitial(
+                  info?.getValue()?.firstName,
+                  info?.getValue()?.lastName,
+                )
+          }
+          name={
+            !!!info?.getValue()
+              ? fullName(info?.row?.original?.name)
+              : fullName(
+                  info?.getValue()?.firstName,
+                  info?.getValue()?.lastName,
+                )
+          }
           avatarSrc={info?.row?.original?.requesterDetails?.avatar?.url}
         />
       ),

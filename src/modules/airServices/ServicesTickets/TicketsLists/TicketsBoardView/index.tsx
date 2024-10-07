@@ -1,14 +1,14 @@
 import { Grid, Box } from '@mui/material';
-import TicketInfoBoardHeader from './TicketInfoBoardHeader';
 import { TicketInfoCard } from './TicketInfoCard';
 import { Fragment } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
-import { AssociationsImage } from '@/assets/images';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
 import { TicketBoardViewPropsI } from '../TicketsLists.interface';
+import { DataRecordCount } from '@/components/DataRecordCount';
+import { RENDER_COLOR } from './TicketsBoardView.data';
 
 export const TableBoardView = (props: TicketBoardViewPropsI) => {
   const { setTicketAction, setSelectedTicketList } = props;
@@ -31,7 +31,7 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
   if (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching)
     return <SkeletonTable />;
   if (!!!lazyGetTicketsStatus?.data?.data?.tickets?.length)
-    return <NoData message="No data is available" image={AssociationsImage} />;
+    return <NoData message="No ticket found" />;
 
   return (
     <>
@@ -48,8 +48,19 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
             )?.length || 0;
           return (
             <Grid item xs={3} sx={{ minWidth: '400px' }} key={head?.heading}>
-              <TicketInfoBoardHeader title={head?.heading} total={totalCount} />
-              <Box height={'100%'} overflow={'auto'} bgcolor={'grey.400'} p={2}>
+              <DataRecordCount
+                totalCount={totalCount}
+                recordName={head?.heading}
+                color={RENDER_COLOR?.[head?.heading]}
+              />
+              <Box
+                height={'100%'}
+                overflow={'auto'}
+                bgcolor={'grey.400'}
+                p={2}
+                borderTop={'3px solid'}
+                borderColor={RENDER_COLOR?.[head?.heading]}
+              >
                 {lazyGetTicketsStatus?.data?.data?.tickets?.map(
                   (item: any) =>
                     head?.be === item?.status && (

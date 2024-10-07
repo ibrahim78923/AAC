@@ -39,6 +39,9 @@ import {
   useUpdateSingleServicesTicketByIdMutation,
 } from '@/services/airServices/tickets';
 
+const { ZERO } = ARRAY_INDEX ?? {};
+const { EDIT_TICKET } = TICKETS_ACTION_CONSTANTS ?? {};
+
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
   const { getTicketsListData } = useGetTicketList();
@@ -50,11 +53,15 @@ export const useUpsertTicket = () => {
     (state) => state?.servicesTickets?.isPortalOpen,
   );
 
-  const ticketId =
-    isPortalOpen?.action === TICKETS_ACTION_CONSTANTS?.EDIT_TICKET
-      ? selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id
+  const hasRequesterId =
+    isPortalOpen?.action === EDIT_TICKET
+      ? selectedTicketLists?.[ZERO]?.requester
       : '';
 
+  const ticketId =
+    isPortalOpen?.action === EDIT_TICKET
+      ? selectedTicketLists?.[ZERO]?._id
+      : '';
   const router = useRouter();
   const theme: any = useTheme();
 
@@ -103,16 +110,18 @@ export const useUpsertTicket = () => {
     });
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(upsertTicketValidationSchema?.(ticketId, form)),
+    resolver: yupResolver(
+      upsertTicketValidationSchema?.(ticketId, form, hasRequesterId),
+    ),
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
   const { handleSubmit, reset, getValues } = methods;
 
+  const ticketDetailsData = data?.data?.[ZERO];
+
   useEffect(() => {
-    reset(() =>
-      upsertTicketDefaultValuesFunction(data?.data?.[ARRAY_INDEX?.ZERO], form),
-    );
+    reset(() => upsertTicketDefaultValuesFunction(ticketDetailsData, form));
   }, [data, reset, form]);
 
   const submitUpsertTicket = async (formData: any) => {
@@ -169,7 +178,13 @@ export const useUpsertTicket = () => {
       }
 
       const upsertTicketFormData = new FormData();
-      upsertTicketFormData?.append('requester', newFormData?.requester?._id);
+      newFormData?.requester?._id &&
+        upsertTicketFormData?.append('requester', newFormData?.requester?._id);
+      newFormData?.requesterEmail &&
+        upsertTicketFormData?.append(
+          'requesterEmail',
+          newFormData?.requesterEmail,
+        );
       upsertTicketFormData?.append('subject', newFormData?.subject);
       !!newFormData?.description &&
         upsertTicketFormData?.append('description', newFormData?.description);
@@ -209,11 +224,11 @@ export const useUpsertTicket = () => {
         );
       upsertTicketFormData?.append(
         'moduleType',
-        data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? MODULE_TYPE?.TICKETS,
+        ticketDetailsData?.moduleType ?? MODULE_TYPE?.TICKETS,
       );
       upsertTicketFormData?.append(
         'ticketType',
-        data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
+        ticketDetailsData?.ticketType ?? TICKET_TYPE?.INC,
       );
 
       if (body?.customFields) {
@@ -236,16 +251,13 @@ export const useUpsertTicket = () => {
       successSnackbar('Ticket Added Successfully');
       onClose?.();
       await getTicketsListData();
-    } catch (e: any) {
-      errorSnackbar(e?.data?.message);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
   const submitUpdateTicket = async (formData: any) => {
-    formData?.append(
-      'isChildTicket',
-      data?.data?.[ARRAY_INDEX?.ZERO]?.isChildTicket,
-    );
+    formData?.append('isChildTicket', ticketDetailsData?.isChildTicket);
     formData?.append('id', ticketId);
 
     const putTicketParameter = {
@@ -268,7 +280,10 @@ export const useUpsertTicket = () => {
     dispatch(setIsPortalClose());
   };
 
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
+    ticketId,
+    hasRequesterId,
+  );
 
   return {
     router,
