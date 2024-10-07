@@ -130,6 +130,8 @@ const Manage = () => {
         <Filters
           isOpenDrawer={isOpenFilterDrawer}
           onClose={() => setIsOpenFilterDrawer(false)}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
         />
       )}
 
