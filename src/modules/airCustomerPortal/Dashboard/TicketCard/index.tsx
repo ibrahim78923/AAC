@@ -4,6 +4,7 @@ import LinearProgress, {
 } from '@mui/material/LinearProgress';
 import { FirstAidKitIcon } from '@/assets/icons';
 import { TicketCardI } from './TicketCard.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const TicketCard = (props: TicketCardI) => {
   const { totalCount, data } = props;
@@ -38,9 +39,7 @@ export const TicketCard = (props: TicketCardI) => {
           <Typography variant="h3" fontWeight={700} color="blue.main">
             {data?.count}
           </Typography>
-          <Typography fontSize={'0.75rem'} color="blue.light">
-            {data?.label}
-          </Typography>
+          <TruncateText text={data?.label?.toLowerCase()} />
         </Box>
       </Box>
       <LinearProgress

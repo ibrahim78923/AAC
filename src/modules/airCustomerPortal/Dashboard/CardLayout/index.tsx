@@ -1,5 +1,6 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { CardLayoutI } from './CardLayout.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const CardLayout = ({
   title,
@@ -19,9 +20,7 @@ export const CardLayout = ({
         mb={0.5}
         justifyContent={'space-between'}
       >
-        <Typography fontWeight={600} color="grey.800">
-          {title}
-        </Typography>
+        <TruncateText text={title?.toLowerCase()} />
         {btnPosition !== 'center' && (
           <Button variant="text" onClick={() => btnClick(title)}>
             {buttonText}

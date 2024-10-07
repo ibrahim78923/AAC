@@ -73,6 +73,7 @@ export const Customizations = (props: ICustomizationsProps) => {
           onClick={() => reset(() => customizePortalDefaultValues?.(theme))}
           variant={'outlined'}
           color={'secondary'}
+          className="small"
           disabled={patchCustomerPortalStylingsStatus?.isLoading}
         >
           Reset
@@ -80,6 +81,7 @@ export const Customizations = (props: ICustomizationsProps) => {
         <LoadingButton
           type={'submit'}
           variant={'contained'}
+          className="small"
           loading={patchCustomerPortalStylingsStatus?.isLoading}
         >
           Apply
