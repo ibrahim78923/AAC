@@ -13,11 +13,11 @@ import {
   resetPasswordDataArray,
   resetPasswordDefaultValues,
   resetPasswordValidationSchema,
-} from './setPassword.data';
+} from './SetPassword.data';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
-import { styles } from './setPassword.style';
+import { styles } from './SetPassword.style';
 import { useSetPasswordMutation } from '@/services/auth';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
