@@ -9,17 +9,16 @@ import {
   reportListsActionDropdownDynamic,
 } from './ReportListsHeader.data';
 import { PAGINATION } from '@/config';
-import {
-  PERMISSIONS_REPORTS,
-  REPORTS_BASE_MODULE,
-} from '../ReportLists/ReportLists.data';
+import { PERMISSIONS_REPORTS } from '../ReportLists/ReportLists.data';
 import { AIR_OPERATIONS } from '@/constants';
 
-const { FILTER_REPORT } = REPORT_LISTS_ACTION_CONSTANTS;
+const { FILTER_REPORT } = REPORT_LISTS_ACTION_CONSTANTS ?? {};
 
 export const useReportListsHeader = () => {
   const router: NextRouter = useRouter();
   const id = router?.query?.id;
+  const baseModule = router?.query?.baseModule;
+
   const isPortalOpen = useAppSelector(
     (state) => state?.operationsReportsLists?.isPortalOpen,
   );
@@ -34,8 +33,7 @@ export const useReportListsHeader = () => {
 
   const dispatch = useAppDispatch();
 
-  const permission =
-    PERMISSIONS_REPORTS?.[`${router?.pathname}${tabValue + ''}`];
+  const permission = PERMISSIONS_REPORTS?.[`${baseModule}${tabValue + ''}`];
 
   const editReportPath = (reportId: string) => {
     router?.push({
@@ -43,7 +41,7 @@ export const useReportListsHeader = () => {
       query: {
         id,
         reportId: reportId,
-        moduleName: REPORTS_BASE_MODULE?.[router?.pathname as string],
+        moduleName: baseModule,
       },
     });
   };
@@ -77,8 +75,8 @@ export const useReportListsHeader = () => {
 
   const onRestoreClick = () => {
     router?.push({
-      pathname: `${router?.pathname}/restore`,
-      query: { id },
+      pathname: AIR_OPERATIONS?.RESTORE_REPORTS_LIST,
+      query: { id, baseModule },
     });
   };
 

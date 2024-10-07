@@ -6,14 +6,13 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
-import {
-  REPORTS_BASE_MODULE,
-  TAB_CHANGED_FILTERED,
-} from '../ReportLists/ReportLists.data';
+import { TAB_CHANGED_FILTERED } from '../ReportLists/ReportLists.data';
 import { useLazyGetOperationsReportsListQuery } from '@/services/airOperations/reports';
 
 export const useGetReportLists = () => {
   const router = useRouter();
+  const baseModule = router?.query?.baseModule;
+
   const page = useAppSelector((state) => state?.operationsReportsLists?.page);
   const pageLimit = useAppSelector(
     (state) => state?.operationsReportsLists?.pageLimit,
@@ -48,9 +47,7 @@ export const useGetReportLists = () => {
       ['limit', pageLimit + ''],
       ['search', search],
       ...(!!filter?.length ? [...TAB_CHANGED_FILTERED?.[tabValue]] : []),
-      ...(!!router?.pathname
-        ? [['baseModule', REPORTS_BASE_MODULE?.[router?.pathname as string]]]
-        : []),
+      ...(!!baseModule ? [['baseModule', baseModule]] : []),
     ];
 
     const getReportParam: URLSearchParams = buildQueryParams(

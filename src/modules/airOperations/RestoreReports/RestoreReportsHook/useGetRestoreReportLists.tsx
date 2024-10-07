@@ -5,11 +5,11 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { REPORTS_BASE_MODULE } from '../RestoreReportsListTableView/RestoreReportsListTableView.data';
 import { useLazyGetOperationsRestoreReportsListQuery } from '@/services/airOperations/reports';
 
 export const useGetRestoreReportLists = () => {
   const router = useRouter();
+  const baseModule = router?.query?.baseModule;
 
   const page = useAppSelector(
     (state) => state?.operationsRestoreReportsLists?.page,
@@ -40,9 +40,7 @@ export const useGetRestoreReportLists = () => {
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
-      ...(!!router?.pathname
-        ? [['baseModule', REPORTS_BASE_MODULE?.[router?.pathname as string]]]
-        : []),
+      ...(!!baseModule ? [['baseModule', baseModule]] : []),
     ];
 
     const getReportParam: URLSearchParams = buildQueryParams(

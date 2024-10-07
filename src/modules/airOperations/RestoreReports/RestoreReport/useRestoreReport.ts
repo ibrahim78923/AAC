@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useRestoreOperationsTemporaryDeletedReportMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useGetRestoreReportLists } from '../ReportHooks/useGetRestoreReportLists';
+import { useGetRestoreReportLists } from '../RestoreReportsHook/useGetRestoreReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedRestoreReportsList,

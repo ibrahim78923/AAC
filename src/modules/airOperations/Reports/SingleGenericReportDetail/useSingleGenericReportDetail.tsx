@@ -33,6 +33,14 @@ export const useSingleGenericReportDetail = () => {
     setIsDownloading(false);
   };
 
+  const moveBack = () =>
+    router?.push({
+      pathname: router?.query?.redirect as string,
+      query: {
+        id: router?.query?.id,
+        baseModule: router?.query?.baseModule,
+      },
+    });
   return {
     reportWidgets,
     reportResults,
@@ -41,5 +49,6 @@ export const useSingleGenericReportDetail = () => {
     router,
     singleReportApi,
     isDownloading,
+    moveBack,
   };
 };

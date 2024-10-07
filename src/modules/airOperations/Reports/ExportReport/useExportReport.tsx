@@ -4,10 +4,7 @@ import {
 } from '@/redux/slices/airOperations/reports/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useLazyExportOperationsReportsListQuery } from '@/services/airOperations/reports';
-import {
-  REPORTS_BASE_MODULE,
-  TAB_CHANGED_FILTERED,
-} from '../ReportLists/ReportLists.data';
+import { TAB_CHANGED_FILTERED } from '../ReportLists/ReportLists.data';
 import { useRouter } from 'next/router';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
@@ -19,6 +16,7 @@ export const useExportReport = () => {
 
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const baseModule = router?.query?.baseModule;
   const isPortalOpen = useAppSelector(
     (state) => state?.operationsReportsLists?.isPortalOpen,
   );
@@ -38,9 +36,7 @@ export const useExportReport = () => {
     const additionalParams = [
       ['exportType', type],
       ...(!!filter?.length ? [...TAB_CHANGED_FILTERED?.[tabValue]] : []),
-      ...(!!router?.pathname
-        ? [['baseModule', REPORTS_BASE_MODULE?.[router?.pathname as string]]]
-        : []),
+      ...(!!router?.pathname ? [['baseModule', baseModule]] : []),
     ];
 
     const getReportParam: URLSearchParams = buildQueryParams(additionalParams);

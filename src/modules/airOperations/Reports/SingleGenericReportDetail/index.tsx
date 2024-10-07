@@ -17,9 +17,9 @@ export const SingleGenericReportDetail = () => {
     reportResults = {},
     downloadReport,
     reportRef,
-    router,
     singleReportApi,
     isDownloading,
+    moveBack,
   } = useSingleGenericReportDetail?.();
 
   if (singleReportApi?.isLoading || singleReportApi?.isFetching)
@@ -33,19 +33,14 @@ export const SingleGenericReportDetail = () => {
         <PageTitledHeader
           title={reportWidgets?.name}
           canMovedBack
-          moveBack={() =>
-            router?.push({
-              pathname: router?.query?.redirect as string,
-              query: { id: router?.query?.id },
-            })
-          }
+          moveBack={moveBack}
         >
           <LoadingButton
             className="small"
             variant="contained"
             disabled={isDownloading}
             loading={isDownloading}
-            onClick={() => downloadReport?.()}
+            onClick={downloadReport}
           >
             Download PDF
           </LoadingButton>

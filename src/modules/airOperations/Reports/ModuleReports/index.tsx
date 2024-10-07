@@ -1,15 +1,16 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { useSalesReports } from './useSalesReports';
+import { useModuleReports } from './useModuleReports';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
-import { AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS } from '@/constants/permission-keys';
+import { CREATE_REPORT_PERMISSIONS } from './ModuleReports.data';
 
-export const SalesReports = () => {
+export const ModuleReports = () => {
   const {
-    salesReportsListTabs,
+    moduleReportsListTabs,
     handleTabChange,
     moveToCreateReport,
     moveBack,
-  } = useSalesReports();
+    baseModule,
+  } = useModuleReports();
 
   return (
     <>
@@ -19,14 +20,11 @@ export const SalesReports = () => {
         moveBack={moveBack}
         addTitle="Create report"
         handleAction={moveToCreateReport}
-        createPermissionKey={[
-          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
-          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
-        ]}
+        createPermissionKey={CREATE_REPORT_PERMISSIONS?.[baseModule] ?? []}
       />
       <PermissionsTabs
         spacing={0.3}
-        tabsDataArray={salesReportsListTabs}
+        tabsDataArray={moduleReportsListTabs}
         handleTabChange={handleTabChange}
       />
     </>

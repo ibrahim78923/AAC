@@ -24,6 +24,8 @@ export const useEmailReport = () => {
   const { user }: any = useAuth();
   const router = useRouter();
   const id = router?.query?.id;
+  const baseModule = router?.query?.baseModule;
+
   const [emailReportsTrigger, emailReportsStatus] =
     useEmailOperationsReportsMutation();
 
@@ -81,6 +83,7 @@ export const useEmailReport = () => {
         reportId: selectedReportsList?.[ZERO]?._id,
         redirect: router?.pathname,
         id,
+        baseModule,
       },
     });
 

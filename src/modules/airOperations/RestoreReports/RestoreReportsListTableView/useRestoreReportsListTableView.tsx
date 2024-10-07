@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useGetRestoreReportLists } from '../ReportHooks/useGetRestoreReportLists';
+import { useGetRestoreReportLists } from '../RestoreReportsHook/useGetRestoreReportLists';
 import {
   setPage,
   setPageDecrement,
