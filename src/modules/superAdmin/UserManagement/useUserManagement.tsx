@@ -7,7 +7,7 @@ import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { NOTISTACK_VARIANTS, PRODUCT_USER_STATUS } from '@/constants/strings';
-import { useUpdateRoleRightsMutation } from '@/services/orgAdmin/roles-and-rights';
+import { useUpdateRoleRightsOrgadminMutation } from '@/services/orgAdmin/roles-and-rights';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -87,7 +87,7 @@ const useUserManagement = () => {
     }
   };
 
-  const [updateRoleRights] = useUpdateRoleRightsMutation();
+  const [updateRoleRights] = useUpdateRoleRightsOrgadminMutation();
 
   const handleRolesSwitchChange = async (e: any, id: string) => {
     const status =
