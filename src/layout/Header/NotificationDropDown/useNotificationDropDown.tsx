@@ -4,12 +4,8 @@ import {
 } from '@/services/commonFeatures/notifications';
 
 const useNotificationDropDown = () => {
-  const notificationPras = {
-    page: 1,
-    limit: 10,
-  };
   const { data: notificationsList, isLoading: getNotificationLoading } =
-    useGetNotificationsQuery(notificationPras);
+    useGetNotificationsQuery({});
 
   const [seenNotification] = useSeenNotificationMutation();
 

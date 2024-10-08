@@ -56,6 +56,7 @@ const useContactsEditorDrawer = ({
           dateOfJoining,
         } = contactRecord;
         return {
+          contactType: CONTACT_TYPE?.NEW_CONTACT,
           firstName,
           lastName,
           email,
@@ -114,7 +115,7 @@ const useContactsEditorDrawer = ({
             .then((res) => {
               if (res) {
                 setOpenDrawer(false);
-                enqueueSnackbar(` Companies updated Successfully`, {
+                enqueueSnackbar(`Contact updated Successfully`, {
                   variant: NOTISTACK_VARIANTS?.SUCCESS,
                 });
               }
@@ -131,7 +132,7 @@ const useContactsEditorDrawer = ({
                 }).unwrap();
                 setOpenDrawer(false);
                 reset();
-                enqueueSnackbar(` Companies added Successfully`, {
+                enqueueSnackbar(`Contact added Successfully`, {
                   variant: NOTISTACK_VARIANTS?.SUCCESS,
                 });
               }

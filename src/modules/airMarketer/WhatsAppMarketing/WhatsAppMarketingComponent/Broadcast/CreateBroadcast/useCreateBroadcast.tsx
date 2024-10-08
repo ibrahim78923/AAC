@@ -98,6 +98,10 @@ const useCreateBroadcast = () => {
   const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
   const templateData = watch('templateId');
   const [detailsMsg, setDetailMsg] = useState(templateData?.detail);
+  const avatarFileUrl = {
+    fileUrl: templateData?.imageUrl,
+    orignalName: 'Attachment',
+  };
 
   const processString = (input: any) => {
     const regex = /\[(.*?)\]/g;
@@ -191,33 +195,29 @@ const useCreateBroadcast = () => {
       detail: cleanedDetailsText,
       variables: variableValues,
     };
-
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
-      payloadData.contactGroupIds = [];
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
       payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
+      delete payloadData.recipients;
     }
+
     if (isSchedule) {
       payloadData.schedualDate = data?.schedualDate;
     }
-    delete payloadData?.recipients;
+
     const filteredEmptyData = filteredEmptyValues(payloadData);
 
     const customFields: any = {};
     const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
 
     try {
       dynamicAttachmentsPost({
         form,
         data,
-        attachmentPromises,
         customFields,
         postAttachmentTrigger,
       });
-
-      await Promise?.all(attachmentPromises);
 
       const customFieldKeys = new Set(
         form?.map((field: any) => field?.componentProps?.label),
@@ -297,8 +297,8 @@ const useCreateBroadcast = () => {
 
   const flattenContactsData = (data: any[]) => {
     return data?.reduce((acc: any[], item: any) => {
-      if (item?.recipients) {
-        return [...acc, ...item?.recipients];
+      if (item?.contacts) {
+        return [...acc, ...item?.contacts];
       } else {
         return [...acc, item];
       }
@@ -338,6 +338,7 @@ const useCreateBroadcast = () => {
     detailsMsg,
     createStatus,
     setCreateStatus,
+    avatarFileUrl,
   };
 };
 

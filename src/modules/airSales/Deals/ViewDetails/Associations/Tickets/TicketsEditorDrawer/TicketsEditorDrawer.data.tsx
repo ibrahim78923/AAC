@@ -5,9 +5,8 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { PAGINATION } from '@/config';
 import { TICKETS_TYPE } from '@/constants';
-import { ROLES } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const ticketsValidationSchema: any = Yup?.object()?.shape({
@@ -46,6 +45,7 @@ export const ticketsDefaultValues: any = {
 };
 
 export const ticketsDataArray = (addTicketFormParams: any) => {
+  const ActiveProduct = getActiveProductSession();
   const { apiQueryRequester, apiQueryCategories } = addTicketFormParams;
 
   return [
@@ -58,8 +58,8 @@ export const ticketsDataArray = (addTicketFormParams: any) => {
         required: true,
         apiQuery: apiQueryRequester,
         externalParams: {
-          limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-          role: ROLES?.ORG_REQUESTER,
+          productId: ActiveProduct?._id,
+          requester: true,
         },
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,

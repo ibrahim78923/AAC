@@ -66,6 +66,7 @@ const CreateBroadcast = () => {
     getDynamicFieldsStatus,
     editAttachmentObject,
     handleSaveAsDraft,
+    avatarFileUrl,
   } = useCreateBroadcast();
 
   return (
@@ -156,7 +157,7 @@ const CreateBroadcast = () => {
                             }}
                           >
                             {selectedRec?.map((item: any) => {
-                              const contacts = item?.recipients || [item];
+                              const contacts = item?.contacts || [item];
                               return contacts?.map((contact: any) => (
                                 <Avatar
                                   key={uuidv4()}
@@ -191,6 +192,13 @@ const CreateBroadcast = () => {
                               />
                             </Grid>
                           ))}
+                          <Grid item xs={12}>
+                            <AttachFileCard
+                              data={avatarFileUrl}
+                              onDelete={() => {}}
+                              permissionKey={[]}
+                            />
+                          </Grid>
                         </Grid>
                       )}
                       {item?.componentProps?.name ===

@@ -16,6 +16,7 @@ import { Info } from '@mui/icons-material';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const TemplateForm = ({ templateType }: any) => {
   const {
@@ -30,6 +31,8 @@ const TemplateForm = ({ templateType }: any) => {
     Details,
     form,
     getDynamicFieldsStatus,
+    editRecordData,
+    avatarFileUrl,
   } = useTemplateForm();
 
   return (
@@ -88,6 +91,18 @@ const TemplateForm = ({ templateType }: any) => {
                       </Box>
                     </Box>
                   )}
+
+                  {item?.componentProps?.name ===
+                    SMS_BROADCAST_CONSTANTS?.ATTACHMENT &&
+                    !!editRecordData?.imageUrl && (
+                      <Box my={2}>
+                        <AttachFileCard
+                          data={avatarFileUrl}
+                          onDelete={() => {}}
+                          permissionKey={[]}
+                        />
+                      </Box>
+                    )}
                 </Grid>
               ))}
               {getDynamicFieldsStatus.isLoading ? (

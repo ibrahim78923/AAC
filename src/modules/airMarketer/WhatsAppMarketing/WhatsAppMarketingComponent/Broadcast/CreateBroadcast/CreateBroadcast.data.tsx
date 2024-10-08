@@ -1,5 +1,4 @@
 import {
-  RHFDropZone,
   RHFTextField,
   RHFEditor,
   RHFAutocompleteAsync,
@@ -140,19 +139,6 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
         fullWidth: true,
         required: true,
         disabled: true,
-      },
-    },
-    {
-      id: '06',
-      component: RHFDropZone,
-      md: 12,
-      title: 'Attachment',
-      componentProps: {
-        name: 'attachment',
-        label: 'Attachment',
-        fullWidth: true,
-        multiline: true,
-        rows: '4',
       },
     },
   ];

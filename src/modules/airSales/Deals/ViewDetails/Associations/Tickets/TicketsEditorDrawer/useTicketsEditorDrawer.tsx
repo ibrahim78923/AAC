@@ -5,8 +5,8 @@ import {
   ticketsValidationSchema,
 } from './TicketsEditorDrawer.data';
 import {
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetCategoriesDropdownForServicesTicketsQuery,
+  useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery,
 } from '@/services/airServices/tickets';
 import { useLazyGetAllTicketsQuery } from '@/services/common-APIs';
 import { usePostAssociationMutation } from '@/services/commonFeatures/contacts/associations';
@@ -110,8 +110,10 @@ const useTicketsEditorDrawer = (setOpenDrawer: any, viewData: any) => {
   };
 
   const ticketsList = useLazyGetAllTicketsQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery();
+  const apiQueryCategories =
+    useLazyGetCategoriesDropdownForServicesTicketsQuery();
 
   return {
     handleSubmit,

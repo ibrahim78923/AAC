@@ -50,7 +50,7 @@ const NotificationDropdown = () => {
 
   useEffect(() => {
     dispatch(setNotifications(notificationsList?.data?.notificationslogs));
-  }, [notificationsList?.data?.notificationslogs]);
+  }, [notificationsList?.data?.notificationslogs, useAppSelector, dispatch]);
 
   return (
     <div>

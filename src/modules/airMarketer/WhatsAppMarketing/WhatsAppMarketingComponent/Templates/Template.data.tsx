@@ -1,12 +1,17 @@
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { DeleteIcon } from '@/assets/icons';
-import { DATE_FORMAT } from '@/constants';
+import { DeleteIcon, EditBlackIcon } from '@/assets/icons';
+import { DATE_FORMAT, TASK_TYPE } from '@/constants';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import { SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { capitalizeFirstLetter } from '@/utils/api';
-import { Button } from '@mui/material';
+import { Box, useTheme, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
 
 export const columns = ({ setDeleteTemplateModal }: any) => {
+  const theme = useTheme();
+  const navigate = useRouter();
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -27,8 +32,20 @@ export const columns = ({ setDeleteTemplateModal }: any) => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) =>
-        info?.getValue() ? capitalizeFirstLetter(info?.getValue()) : 'N/A',
+      cell: (info: any) => (
+        <Typography
+          variant="body3"
+          color={
+            info?.getValue() === SMS_BROADCAST_CONSTANTS?.APPROVED
+              ? theme?.palette?.primary?.main
+              : info?.getValue() === SMS_BROADCAST_CONSTANTS?.REJECTED
+                ? theme?.palette?.error?.main
+                : theme?.palette?.warning?.main
+          }
+        >
+          {info?.getValue() ? capitalizeFirstLetter(info?.getValue()) : 'N/A'}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.category,
@@ -49,27 +66,53 @@ export const columns = ({ setDeleteTemplateModal }: any) => {
       accessorFn: (row: any) => row._id,
       id: '_id',
       cell: (info: any) => (
-        <PermissionsGuard
-          permissions={[AIR_MARKETER_SMS_MARKETING_PERMISSIONS.DELETE_TEMPLATE]}
-        >
-          <Button
-            sx={{
-              background: '',
-              padding: '0',
-              minWidth: '30px',
-              height: '30px',
-              borderRadius: '50%',
-            }}
-            onClick={() =>
-              setDeleteTemplateModal({
-                isOpen: true,
-                id: info?.row?.original?._id,
-              })
-            }
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SMS_MARKETING_PERMISSIONS.EDIT_TEMPLATE]}
           >
-            <DeleteIcon />
-          </Button>
-        </PermissionsGuard>
+            <Box
+              sx={{
+                cursor: 'pointer',
+                background: theme?.palette?.grey?.[400],
+                padding: '5px',
+                borderRadius: '50%',
+              }}
+              onClick={() =>
+                navigate?.push({
+                  pathname: AIR_MARKETER?.WHATSAPP_MARKETING_CREATE_TEMPLATE,
+                  query: {
+                    editData: JSON?.stringify(info?.row?.original),
+                    type: TASK_TYPE?.EDIT_TASK,
+                  },
+                })
+              }
+            >
+              <EditBlackIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SMS_MARKETING_PERMISSIONS.DELETE_TEMPLATE,
+            ]}
+          >
+            <Box
+              sx={{
+                cursor: 'pointer',
+                background: theme?.palette?.grey?.[400],
+                padding: '5px',
+                borderRadius: '50%',
+              }}
+              onClick={() => {
+                setDeleteTemplateModal({
+                  isOpen: true,
+                  id: info?.row?.original?.sid,
+                });
+              }}
+            >
+              <DeleteIcon />
+            </Box>
+          </PermissionsGuard>
+        </Box>
       ),
       header: 'Actions',
       isSortable: false,
