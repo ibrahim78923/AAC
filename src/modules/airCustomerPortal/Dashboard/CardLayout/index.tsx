@@ -22,7 +22,11 @@ export const CardLayout = ({
       >
         <TruncateText text={title?.toLowerCase()} />
         {btnPosition !== 'center' && (
-          <Button variant="text" onClick={() => btnClick(title)}>
+          <Button
+            variant="text"
+            className="small"
+            onClick={() => btnClick(title)}
+          >
             {buttonText}
           </Button>
         )}
@@ -30,7 +34,12 @@ export const CardLayout = ({
       <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
       {btnPosition === 'center' && (
         <Box textAlign={'center'}>
-          <Button variant="text" fullWidth onClick={() => btnClick(title)}>
+          <Button
+            variant="text"
+            className="small"
+            fullWidth
+            onClick={() => btnClick(title)}
+          >
             {buttonText}
           </Button>
         </Box>

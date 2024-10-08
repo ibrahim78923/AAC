@@ -12,6 +12,7 @@ import ViewEnquiry from './ViewEnquiry';
 import { DeleteEnquiry } from './DeleteEnquiry';
 import ConvertTicket from './ConvertTicket';
 import CreateRequester from './CreateRequester';
+import { Permissions } from '@/constants/permissions';
 
 const Enquiries = () => {
   const {
@@ -45,11 +46,14 @@ const Enquiries = () => {
         </Grid>
 
         <Grid item xs={12} md={6} textAlign={'end'}>
-          <SingleDropdownButton
-            dropdownOptions={enquiriesActionDropdown}
-            disabled={!!!enquiriesSelected?.length}
-          />
-
+          <PermissionsGuard
+            permissions={Permissions?.AIR_SERVICES_ENQUIRIES_ACTIONS}
+          >
+            <SingleDropdownButton
+              dropdownOptions={enquiriesActionDropdown}
+              disabled={!!!enquiriesSelected?.length}
+            />
+          </PermissionsGuard>
           <PermissionsGuard
             permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.SEARCH_AND_FILTER]}
           >
