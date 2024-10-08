@@ -1238,3 +1238,7 @@ export const NUMBER_OF_DAYS = [
   '29',
   '30',
 ];
+
+export const EMAIL_SUBJECT = {
+  LEAD_CAPTURE_FORM: 'Lead Capture Form',
+};

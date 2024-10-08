@@ -5,15 +5,17 @@ import { formFields } from './SendEmailDrawer.data';
 import useSendEmailDrawer from './useSendEmailDrawer';
 
 const SendEmailDrawer = (props: any) => {
-  const { open, onClose } = props;
+  const { open, onClose, selectedRow } = props;
   const {
     customersData,
     customersGroupData,
     methods,
+    reset,
     watchIsCustomers,
     watchIsCustomersGroup,
     handleFormSubmit,
-  } = useSendEmailDrawer();
+    loadingPostEmail,
+  } = useSendEmailDrawer(onClose, selectedRow);
 
   const getFormFields = formFields(
     !!watchIsCustomers,
@@ -25,13 +27,17 @@ const SendEmailDrawer = (props: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={open}
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+        reset();
+      }}
       title={'Send To'}
       okText={'Send'}
       footer={true}
       isOk={true}
       submitHandler={handleFormSubmit}
-      // isLoading={loading}
+      isDisabled={!watchIsCustomersGroup && !watchIsCustomers}
+      isLoading={loadingPostEmail}
     >
       <Box sx={{ paddingTop: '1rem' }}>
         <FormProvider methods={methods}>

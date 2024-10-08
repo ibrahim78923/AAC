@@ -1,12 +1,15 @@
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import {
   useGetPublicFormFieldsQuery,
   usePutAddViewFormMutation,
   usePutAddEntranceFormMutation,
+  usePostFormSubmissionsMutation,
 } from '@/services/airMarketer/lead-capture/forms';
-import { useEffect, useState } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export default function useForm() {
+export default function useFormHook() {
   const searchParams = useSearchParams();
   const formId = searchParams.get('id');
 
@@ -34,34 +37,54 @@ export default function useForm() {
     }
   };
 
-  const handleInput = (event: any) => {
-    if (
-      !hasFormInteracted &&
-      (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA')
-    ) {
-      handleAddEntranceForm();
+  const methods = useForm({});
+  const { handleSubmit, reset, watch } = methods;
+  const watchAllFields = watch();
+
+  // Monitor form interaction and trigger `handleAddEntranceForm` only once
+  useEffect(() => {
+    if (!hasFormInteracted && Object.keys(watchAllFields).length > 0) {
       setHasFormInteracted(true);
+      handleAddEntranceForm();
+    }
+  }, [watchAllFields, hasFormInteracted]);
+
+  const [postFormSubmission] = usePostFormSubmissionsMutation();
+
+  const handlerOnSubmit = async (values: any) => {
+    const domain = typeof window !== 'undefined' ? window.location.origin : '';
+
+    const payload: any = {
+      formId,
+      type: 'public',
+      domain,
+    };
+
+    const submission: any = {};
+
+    Object.keys(values).forEach((key) => {
+      if (values[key]) {
+        submission[key] = values[key];
+      }
+    });
+
+    payload.submission = submission;
+
+    try {
+      await postFormSubmission({ body: payload })?.unwrap();
+      successSnackbar('Form submit successfully');
+      reset();
+    } catch (error: any) {
+      errorSnackbar('An error occured');
     }
   };
-
-  useEffect(() => {
-    const form = document.getElementsByTagName('form')[0];
-
-    if (form && !hasFormInteracted) {
-      form.addEventListener('input', handleInput);
-    }
-
-    // Cleanup event listener when component unmounts
-    return () => {
-      if (form) {
-        form.removeEventListener('input', handleInput);
-      }
-    };
-  }, [hasFormInteracted]);
 
   return {
     data,
     isLoading,
     isFetching,
+    methods,
+    handleSubmit,
+    handlerOnSubmit,
   };
 }

@@ -1,13 +1,23 @@
 import React from 'react';
 import PageHeader from './PageHeader';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid, Button } from '@mui/material';
 import { styles } from './Form.styles';
-import useForm from './useForm';
-import FormField from './FormField';
+import useFormHook from './useForm';
 import Loader from '@/components/Loader';
+import { formFieldsData } from './Form.data';
+import { FormProvider } from '@/components/ReactHookForm';
 
 export default function Form() {
-  const { data, isLoading, isFetching } = useForm();
+  const {
+    data,
+    isLoading,
+    isFetching,
+    methods,
+    handleSubmit,
+    handlerOnSubmit,
+  } = useFormHook();
+  const fieldsData = data ? data?.data?.fields : [];
+  const formFields = formFieldsData(fieldsData);
 
   return (
     <>
@@ -29,20 +39,40 @@ export default function Form() {
               fontSize: data?.data?.form?.styling?.body?.fontSize ?? '16px',
             }}
           >
-            <form
-              autoComplete="off"
-              method="POST"
-              action={''}
-              encType="multipart/form-data"
+            <FormProvider
+              methods={methods}
+              onSubmit={handleSubmit(handlerOnSubmit)}
             >
-              {data?.data?.fields?.map((field: any) => (
-                <FormField
-                  key={field?._id}
-                  field={field}
-                  buttonStyle={data?.data?.form?.styling?.button}
-                />
-              ))}
-            </form>
+              <Grid container spacing={'20px'}>
+                {formFields?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ))}
+                <Grid item xs={12}>
+                  <Button
+                    type={'submit'}
+                    variant={'contained'}
+                    className={'small'}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </FormProvider>
           </Box>
         </Box>
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { formStatus } from '@/constants/form-builder';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_MARKETER, PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
 import { generateFormHtml } from '@/utils/form-builder';
 import {
   styleFormDefaultValues,
@@ -15,6 +15,7 @@ import {
   useGetManageFieldByIdQuery,
   usePostManageFieldsMutation,
 } from '@/services/airMarketer/lead-capture/forms';
+import { FE_BASE_URL } from '@/config';
 
 const useCreateForm = () => {
   const theme = useTheme<Theme>();
@@ -26,6 +27,7 @@ const useCreateForm = () => {
 
   const [formName, setFormName] = useState('');
   const [formHtml, setFormHtml] = useState<string>('');
+  const [formURL, setFormURL] = useState<string>('');
   const [fields, setFields] = useState<any>([]);
   const [formStyling, setFormStyling] = useState<any>({});
   useEffect(() => {
@@ -99,6 +101,10 @@ const useCreateForm = () => {
               response?.data?.fields,
               response?.data?.form?.styling,
             ),
+          );
+
+          setFormURL(
+            `${FE_BASE_URL}${PUBLIC_LEAD_CAPTURE?.FORM}?id=${response?.data?.form?._id}`,
           );
           handleOpenAlertCreatedForm();
         }
@@ -194,6 +200,7 @@ const useCreateForm = () => {
     loadingDraft,
     loadingPublished,
     formHtml,
+    formURL,
     isStylingDrawerOpen,
     handleOpenStylingDrawer,
     handleCloseStylingDrawer,

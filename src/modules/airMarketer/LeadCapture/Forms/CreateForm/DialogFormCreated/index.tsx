@@ -33,6 +33,7 @@ const DialogFormCreated = ({
   setShowExportText,
   showExportText,
   formHtml,
+  formURL,
 }: any) => {
   const router = useRouter();
   const ExportFormMethods = useForm({
@@ -134,9 +135,7 @@ const DialogFormCreated = ({
               Link
             </Typography>
             <Box sx={styles?.createdLink}>
-              <Typography variant="body2">
-                http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/
-              </Typography>
+              <Typography variant="body2">{formURL}</Typography>
               <Tooltip
                 open={isCopiedURL}
                 title="Copied"
@@ -151,11 +150,7 @@ const DialogFormCreated = ({
                     top: '13px',
                     cursor: 'pointer',
                   }}
-                  onClick={() =>
-                    handleCopyLink(
-                      'http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/',
-                    )
-                  }
+                  onClick={() => handleCopyLink(`${formURL}`)}
                 >
                   <CopyIcon />
                 </Box>

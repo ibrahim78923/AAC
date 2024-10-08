@@ -45,7 +45,7 @@ const CreateForm = () => {
     handleCloseAlertCreatedForm,
     showExportText,
     setShowExportText,
-
+    formURL,
     formHtml,
     handleBackToAllForms,
     mode,
@@ -202,6 +202,7 @@ const CreateForm = () => {
         showExportText={showExportText}
         setShowExportText={setShowExportText}
         formHtml={formHtml}
+        formURL={formURL}
       />
     </>
   );

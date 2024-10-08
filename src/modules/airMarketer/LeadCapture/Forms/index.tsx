@@ -153,6 +153,7 @@ const Forms = () => {
       <SendEmailDrawer
         open={openSendEmailDrawer}
         onClose={() => setOpenSendEmailDrawer(false)}
+        selectedRow={selectedRow}
       />
     </>
   );

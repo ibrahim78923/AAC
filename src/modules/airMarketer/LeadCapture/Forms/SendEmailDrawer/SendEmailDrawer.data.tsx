@@ -38,6 +38,7 @@ export const formFields = (
       componentProps: {
         name: 'isCustomers',
         label: 'Customers',
+        disabled: isCustomersGroup,
       },
       component: RHFCheckbox,
     },
@@ -65,6 +66,7 @@ export const formFields = (
       componentProps: {
         name: 'isCustomersGroup',
         label: 'Customers Group',
+        disabled: isCustomers,
       },
       component: RHFCheckbox,
     },

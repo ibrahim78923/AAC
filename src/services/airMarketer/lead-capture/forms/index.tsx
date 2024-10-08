@@ -158,7 +158,7 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
         method: 'PUT',
         body: body,
       }),
-      invalidatesTags: [TAG],
+      invalidatesTags: ['LEADCAPTURE_FORM_VIEW'],
     }),
 
     putAddEntranceForm: builder.mutation({
@@ -167,7 +167,16 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
         method: 'PUT',
         body: body,
       }),
-      invalidatesTags: [TAG],
+      invalidatesTags: ['LEADCAPTURE_FORM_ENTRANCE'],
+    }),
+
+    postLeadCaptureFormSendEmail: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.CONVERSATION_EMAIL,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['LEADCAPTURE_FORM_SENDEMAIL'],
     }),
   }),
 });
@@ -191,4 +200,5 @@ export const {
   useGetPublicFormFieldsQuery,
   usePutAddViewFormMutation,
   usePutAddEntranceFormMutation,
+  usePostLeadCaptureFormSendEmailMutation,
 } = leadCaptureFormsAPI;
