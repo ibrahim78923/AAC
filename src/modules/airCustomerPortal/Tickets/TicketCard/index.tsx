@@ -32,6 +32,7 @@ export const TicketsCard = (props: TicketCardPropsI) => {
           pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
           query: {
             id: ticket?._id,
+            ticketNo: ticket?.ticketIdNumber,
             ...(!!companyId && { companyId }),
           },
         });

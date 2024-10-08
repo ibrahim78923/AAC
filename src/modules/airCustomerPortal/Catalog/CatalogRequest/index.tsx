@@ -67,6 +67,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
             flexWrap={'wrap'}
           >
             <LoadingButton
+              className="small"
               variant="outlined"
               color="secondary"
               onClick={handleClose}
@@ -75,6 +76,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
               cancel
             </LoadingButton>
             <LoadingButton
+              className="small"
               variant="contained"
               type="submit"
               loading={postTicketStatus?.isLoading}

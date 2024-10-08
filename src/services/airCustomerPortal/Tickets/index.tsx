@@ -7,6 +7,7 @@ const TAG_TWO = 'CUSTOMER_TICKET_CONVERSATION';
 const TAG_THREE = 'DROPDOWN_ALL_ASSETS';
 const TAG_FOUR = 'KNOWLEDGE_BASE_ARTICLES';
 const TAG_FIVE = 'DROPDOWN_USERS';
+const TAG_SIX = 'DROPDOWN_REQUESTER';
 
 export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -135,6 +136,17 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data?.users;
       },
     }),
+    getRequesterDropdownForShareTicket: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 
@@ -157,4 +169,5 @@ export const {
   useLazyGetAllArticlesQuery,
   useLazyGetUserDropdownForCPQuery,
   useShareTicketMutation,
+  useLazyGetRequesterDropdownForShareTicketQuery,
 } = ticketsAPI;

@@ -1,4 +1,6 @@
 import { RHFAutocompleteAsync, RHFCheckbox } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
+import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const shareTicketValidationSchema = Yup.object().shape({
@@ -24,7 +26,10 @@ export const shareTicket = (userDropdown: any) => [
       fullWidth: true,
       apiQuery: userDropdown,
       required: true,
-      externalParams: { admin: true, requester: true },
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_REQUESTER,
+      },
       getOptionLabel: (option: any) =>
         `${option?.firstName}  ${option?.lastName}`,
       multiple: true,

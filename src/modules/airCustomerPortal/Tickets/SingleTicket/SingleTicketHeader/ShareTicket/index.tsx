@@ -56,6 +56,7 @@ export const ShareTicket = (props: any) => {
             flexWrap={'wrap'}
           >
             <LoadingButton
+              className="small"
               variant="outlined"
               color="secondary"
               onClick={handleClose}
@@ -64,6 +65,7 @@ export const ShareTicket = (props: any) => {
               cancel
             </LoadingButton>
             <LoadingButton
+              className="small"
               variant="contained"
               type="submit"
               loading={shareTicketProgress?.isLoading}

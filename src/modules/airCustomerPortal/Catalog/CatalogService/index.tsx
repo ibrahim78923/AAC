@@ -92,6 +92,7 @@ const CatalogService = () => {
             gap={2}
           >
             <LoadingButton
+              className="small"
               variant="outlined"
               color="secondary"
               onClick={() =>
@@ -101,6 +102,7 @@ const CatalogService = () => {
               Cancel
             </LoadingButton>
             <LoadingButton
+              className="small"
               variant="contained"
               onClick={() => setOpen?.(true)}
               sx={(theme: Theme) => ({
