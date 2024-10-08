@@ -9,11 +9,13 @@ import {
 } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 
-export const defaultValues = {
-  status: '',
-  assignedTo: null,
-  campaignId: null,
-  taskType: '',
+export const defaultValues = (data: any) => {
+  return {
+    status: data?.status || '',
+    assignedTo: data?.assignedTo || null,
+    campaignId: data?.campaignId || null,
+    taskType: data?.taskType || '',
+  };
 };
 
 export const dataArray = () => {

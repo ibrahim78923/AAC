@@ -21,6 +21,7 @@ const useEditTask = ({
 }: any) => {
   const theme = useTheme();
   const CAMPAIGN_ID = 'campaignId';
+
   const [postCampaignTask, { isLoading: postTaskLoading }] =
     usePostCampaignTaskMutation();
 
@@ -82,6 +83,11 @@ const useEditTask = ({
     onClose();
   };
 
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
+
   return {
     loadingCampaignTasks,
     updateTaskLoading,
@@ -91,6 +97,7 @@ const useEditTask = ({
     onSubmit,
     methods,
     theme,
+    handleClose,
   };
 };
 export default useEditTask;

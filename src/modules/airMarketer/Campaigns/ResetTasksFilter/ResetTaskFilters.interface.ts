@@ -7,14 +7,9 @@ export interface TaskFiltersI {
   endDate: string;
 }
 export interface ResetTasksFilterI {
-  setCurrentTabVal: (value: number) => void;
-  setIsOpen: (value: boolean) => void;
-  setTaskFilters: (value: TaskFiltersI) => void;
-  setIsFiltersOpen: (value: boolean) => void;
   isOpen: boolean;
-  taskFilters: TaskFiltersI;
-  reset: () => void;
-  isFilterOpen: boolean;
+  setIsOpen: (value: boolean) => void;
+  setCurrentTabVal: (value: number) => void;
 }
 
 interface DeleteDrawer {

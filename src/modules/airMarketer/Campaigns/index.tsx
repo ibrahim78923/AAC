@@ -20,17 +20,12 @@ const Campaigns = () => {
   const {
     setIsResetTaskFilter,
     isResetTaskFilter,
-    resetTasksFilters,
     setCreateCampaign,
     setCurrentTabVal,
     createCampaign,
-    setTaskFilters,
     compareMethods,
     currentTabVal,
-    setIsFilters,
     setIsCompare,
-    taskFilters,
-    isFilters,
     isCompare,
     theme,
     selectedRows,
@@ -163,14 +158,9 @@ const Campaigns = () => {
 
       {isResetTaskFilter && (
         <ResetTasksFilter
-          setCurrentTabVal={setCurrentTabVal}
-          setIsOpen={setIsResetTaskFilter}
-          setTaskFilters={setTaskFilters}
-          setIsFiltersOpen={setIsFilters}
           isOpen={isResetTaskFilter}
-          taskFilters={taskFilters}
-          reset={resetTasksFilters}
-          isFilterOpen={isFilters}
+          setIsOpen={setIsResetTaskFilter}
+          setCurrentTabVal={setCurrentTabVal}
         />
       )}
 

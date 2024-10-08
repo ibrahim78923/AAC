@@ -25,6 +25,7 @@ export const validationSchema = Yup?.object().shape({
   campaignId: Yup?.object()?.required('Field is Required'),
   assignedTo: Yup?.object()?.required('Field is Required'),
   note: Yup?.string()?.required('Field is Required'),
+  time: Yup?.date()?.required('Field is Required'),
 });
 
 export const defaultValues = {

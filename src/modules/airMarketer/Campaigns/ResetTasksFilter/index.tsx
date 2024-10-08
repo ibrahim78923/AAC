@@ -6,20 +6,19 @@ import useResetTasksFilter from './useResetTasksFilter';
 import { ResetTasksFilterI } from './ResetTaskFilters.interface';
 
 const ResetTasksFilter = (props: ResetTasksFilterI) => {
+  const { isOpen, setIsOpen, setCurrentTabVal } = props;
+
   const {
-    isOpen,
-    setIsOpen,
-    setCurrentTabVal,
-    setTaskFilters,
-    taskFilters,
+    handleSubmit,
+    onSubmit,
+    methods,
     reset,
-    setIsFiltersOpen,
-    isFilterOpen,
-  } = props;
-  const { handleSubmit, onSubmit, methods } = useResetTasksFilter(
+    taskFilters,
+    setIsFilters,
+    isFilters,
     setTaskFilters,
-    setIsFiltersOpen,
-  );
+  } = useResetTasksFilter();
+
   const { selectedButton, handleActiveButton, setSelectedButton } =
     useDrawerComponents({
       setIsOpen,
@@ -27,14 +26,14 @@ const ResetTasksFilter = (props: ResetTasksFilterI) => {
       setCurrentTabVal,
       taskFilters,
       reset,
-      setIsFiltersOpen,
-      isFilterOpen,
+      setIsFilters,
+      isFilters,
       setTaskFilters,
     });
 
   const handleCloseDrawer = () => {
-    if (isFilterOpen) {
-      setIsFiltersOpen(false);
+    if (isFilters) {
+      setIsFilters(false);
     } else {
       setIsOpen(false);
     }
@@ -43,14 +42,14 @@ const ResetTasksFilter = (props: ResetTasksFilterI) => {
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}
-      title={isFilterOpen ? 'Filters' : 'Tasks'}
-      okText={isFilterOpen ? 'Filter' : 'Apply'}
+      title={isFilters ? 'Filters' : 'Tasks'}
+      okText={isFilters ? 'Filter' : 'Apply'}
       isOk={true}
-      footer={isFilterOpen ? true : false}
+      footer={isFilters ? true : false}
       onClose={handleCloseDrawer}
       submitHandler={handleSubmit(onSubmit)}
     >
-      {!isFilterOpen && (
+      {!isFilters && (
         <ButtonGroup variant="outlined" aria-label="Basic button group">
           <Button
             className="small"

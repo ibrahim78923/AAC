@@ -54,31 +54,9 @@ const useCampaigns = () => {
     organization: organizationId,
   });
 
-  // collapse menu task filters start here
-  const [isFilters, setIsFilters] = useState(false);
-  const [taskFilters, setTaskFilters] = useState({
-    campaignId: '',
-    assignedTo: '',
-    status: '',
-    taskType: '',
-    startDate: '',
-    endDate: '',
-  });
-
   useEffect(() => {
     setSelectedRows([]);
   }, [currentTabVal]);
-
-  const resetTasksFilters = () => {
-    setTaskFilters({
-      campaignId: '',
-      assignedTo: '',
-      status: '',
-      taskType: '',
-      startDate: '',
-      endDate: '',
-    });
-  };
 
   const compareMethods = useForm<any>({
     defaultValues: compareInitialVals,
@@ -195,14 +173,9 @@ const useCampaigns = () => {
     postCampaignsSaveView,
     postCampaignsSaveViewLoading,
     saveViewCampaignsData,
-    resetTasksFilters,
     setCurrentTabVal,
     compareMethods,
-    setTaskFilters,
     currentTabVal,
-    setIsFilters,
-    taskFilters,
-    isFilters,
     UserListData,
     userListData,
     organizationId,

@@ -33,12 +33,12 @@ export const validationSchema = (form: any) => {
     campaignId: Yup?.object()?.required('Field is Required'),
     assignedTo: Yup?.object()?.required('Field is Required'),
     note: Yup?.string()?.required('Field is Required'),
-    time: Yup?.date()
-      ?.required('Field is Required')
-      ?.test('is-future-time', 'Time must be in the future', function (value) {
-        const currentDate = new Date();
-        return value && value > currentDate;
-      }),
+    time: Yup?.date()?.required('Field is Required'),
+    // commented for future use
+    // ?.test('is-future-time', 'Time must be in the future', function (value) {
+    //   const currentDate = new Date();
+    //   return value && value > currentDate;
+    // }),
     ...formSchema,
   });
 };
