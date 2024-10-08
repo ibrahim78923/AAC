@@ -28,31 +28,10 @@ import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
-export const upsertTicketValidationSchema = (
-  ticketId?: string,
-  form?: any,
-  hasRequesterId?: string,
-) => {
+export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
-
   return Yup?.object()?.shape({
-    ...(ticketId && hasRequesterId
-      ? {
-          requester: Yup?.mixed()
-            ?.nullable()
-            ?.required('Requester is required'),
-        }
-      : !hasRequesterId && !ticketId
-        ? {
-            requester: Yup?.mixed()
-              ?.nullable()
-              ?.required('Requester is required'),
-          }
-        : {
-            requesterEmail: Yup?.string()
-              ?.email()
-              ?.required('Requester email is required'),
-          }),
+    requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
     subject: Yup?.string()
       ?.trim()
       ?.required('Subject is required')
@@ -94,7 +73,6 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
 
   return {
     requester: data?.requesterDetails ?? null,
-    requesterEmail: data?.requesterEmail ?? '',
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.categoryDetails ?? null,
@@ -120,37 +98,12 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     ...initialValues,
   };
 };
-export const upsertTicketFormFieldsDynamic = (
-  ticketId?: string,
-  hasRequesterId?: string,
-) => {
+export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
   return [
-    ...(ticketId && hasRequesterId
-      ? [
-          {
-            id: 1,
-            component: RequesterFieldDropdown,
-          },
-        ]
-      : !ticketId && !hasRequesterId
-        ? [
-            {
-              id: 1,
-              component: RequesterFieldDropdown,
-            },
-          ]
-        : [
-            {
-              id: 1.2,
-              componentProps: {
-                name: 'requesterEmail',
-                label: 'Requester Email',
-                fullWidth: true,
-                required: true,
-              },
-              component: RHFTextField,
-            },
-          ]),
+    {
+      id: 1,
+      component: RequesterFieldDropdown,
+    },
     {
       id: 2,
       componentProps: {

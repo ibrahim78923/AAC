@@ -1,5 +1,6 @@
 import { CustomChips } from '@/components/CustomChips';
 import { COLLECTION_NAME, FIELD_TYPE } from '@/constants/strings';
+import { camelCaseToTitleCase } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
@@ -56,7 +57,7 @@ const tableCellData = (info: any, column: any) => {
 
 const header = (column: any) => (
   <Typography variant="body2" fontWeight={600} textTransform={'capitalize'}>
-    {column?.fieldName}
+    {camelCaseToTitleCase(column?.fieldName, 'Id')}
   </Typography>
 );
 

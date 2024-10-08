@@ -11,15 +11,19 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import {
   useSendServicesDashboardRecurringViaEmailMutation,
   useSendServicesDashboardViaEmailOnceMutation,
 } from '@/services/airServices/dashboard';
+import { AIR_SERVICES } from '@/constants';
+import { getActiveAccountSession } from '@/utils';
 
 export const useEmailThisDashboard = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, apiLoader } = props;
+  const account = useMemo(() => getActiveAccountSession(), []);
+
   const methods: any = useForm({
     resolver: yupResolver(createEmailThisDashboardValidationSchema),
     defaultValues: createEmailThisDashboardDefaultValues,
@@ -49,6 +53,27 @@ export const useEmailThisDashboard = (props: any) => {
     defaultValue: null,
   });
 
+  const createPublicDashboardLink = () => {
+    const dashboardData = apiLoader?.data?.data?.dashboard;
+    const dashboardQuery = apiLoader?.originalArgs;
+    const createParams = new URLSearchParams();
+    createParams?.append('dashboardId', dashboardData?._id);
+    createParams?.append('companyId', dashboardData?.companyId);
+    createParams?.append('organizationId', dashboardData?.organizationId);
+    createParams?.append('productId', dashboardData?.productId);
+    createParams?.append('createdBy', dashboardData?.createdBy);
+    !!dashboardQuery?.queryParams?.departmentId &&
+      createParams?.append(
+        'departmentId',
+        dashboardQuery?.queryParams?.departmentId,
+      );
+    createParams?.append('filterBy', dashboardQuery?.queryParams?.filterBy);
+    createParams?.append('accountId', account?._id);
+    const apiDataQuery = createParams?.toString();
+    const link = `${window?.location?.origin}/${AIR_SERVICES?.SERVICES_PUBLIC_DASHBOARD}?${apiDataQuery}`;
+    return link;
+  };
+
   useEffect(() => {
     clearErrors?.('');
   }, [isRecurringWatch]);
@@ -73,6 +98,7 @@ export const useEmailThisDashboard = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const sendEmailOnce = async (formData: any) => {
     const emailFormData = new FormData();
     const recipients = formData?.email?.map(
@@ -116,5 +142,6 @@ export const useEmailThisDashboard = (props: any) => {
     handleSubmit,
     submitEmail,
     sendServiceDashboardViaEmailOnceStatus,
+    createPublicDashboardLink,
   };
 };

@@ -13,6 +13,7 @@ const { VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD, VIEW_DASHBOARD } =
 const { AIR_SERVICES_MANAGE_DASHBOARD } = Permissions ?? {};
 
 export const DashboardFilter = (props: any) => {
+  const { apiLoader } = props;
   const {
     dashboardDropdownActions,
     isDrawerOpen,
@@ -77,6 +78,7 @@ export const DashboardFilter = (props: any) => {
         <EmailThisDashboard
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+          apiLoader={apiLoader}
         />
       )}
     </>

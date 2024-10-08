@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { createElement } from 'react';
 import {
   REPORTS_WIDGETS,
@@ -6,22 +6,43 @@ import {
 } from './ReportsWidgets.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
+import { TruncateText } from '@/components/TruncateText';
 
 export const ReportsWidgets = (props: any) => {
   const { reportWidgets, reportResults } = props;
+  if (!!!reportWidgets?.name && !!!reportWidgets?.widgets?.length) return;
   return (
-    <>
-      <br />
-      <PageTitledHeader title={reportWidgets?.name}></PageTitledHeader>
+    <Box
+      border={'1px solid'}
+      borderColor={'primary.main'}
+      my={3}
+      p={2}
+      borderRadius={2}
+    >
+      {!!reportWidgets?.name && (
+        <PageTitledHeader
+          title={
+            <TruncateText
+              text={reportWidgets?.name}
+              retainTextLeft={`Report Name :${'  '}`}
+              size={40}
+            />
+          }
+          titleColor="primary.main"
+          titleVariant="h5"
+          titleProps={{ fontWeight: 'fontWeightBold' }}
+          outerMarginBottom={2}
+        />
+      )}
       <Grid container spacing={2}>
         {reportWidgets?.widgets?.map((item: any, index: any) => (
           <Grid
             item
             xs={12}
             lg={
-              item?.type === REPORTS_WIDGETS?.TEMPLATE_TEXT
-                ? MUI_GRID_LENGTH?.SIX
-                : MUI_GRID_LENGTH?.TWELVE
+              item?.type === REPORTS_WIDGETS?.TEXT_FIELD
+                ? MUI_GRID_LENGTH?.TWELVE
+                : MUI_GRID_LENGTH?.SIX
             }
             key={item?._id}
           >
@@ -40,6 +61,6 @@ export const ReportsWidgets = (props: any) => {
           </Grid>
         ))}
       </Grid>
-    </>
+    </Box>
   );
 };

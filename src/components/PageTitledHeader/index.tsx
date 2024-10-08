@@ -4,6 +4,7 @@ import { ExportButton } from '../ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeaderPropsI } from './PageTitledHeader.interface';
+import { Variant } from '@mui/material/styles/createTypography';
 
 export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
   const {
@@ -24,7 +25,12 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
     importPermissionKey,
     children,
     disableAddButton,
+    titleColor = 'slateBlue.main',
+    titleVariant = 'pageTitle',
+    outerMarginBottom = 1,
+    titleProps = {},
   } = props;
+
   return (
     <>
       <Box
@@ -33,6 +39,7 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
         gap={1}
+        mb={outerMarginBottom}
       >
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {canMovedBack && (
@@ -44,7 +51,11 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
               }}
             />
           )}
-          <Typography variant="pageTitle" color="slateBlue.main">
+          <Typography
+            variant={titleVariant as Variant}
+            color={titleColor}
+            {...titleProps}
+          >
             {title}
           </Typography>
         </Box>
@@ -92,7 +103,6 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
           )}
         </Box>
       </Box>
-      <br />
     </>
   );
 };

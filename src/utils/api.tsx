@@ -139,9 +139,10 @@ export const monthFormatter = (monthString: any) => {
   return new Date(2000, monthIndex, 1);
 };
 
-export const camelCaseToTitleCase = (camelStr: string) =>
+export const camelCaseToTitleCase = (camelStr: string, filterWord?: string) =>
   camelStr
     ?.split(/(?=[A-Z])/)
+    ?.filter((word: string) => !filterWord || word !== filterWord)
     ?.map(
       (word: string) =>
         word?.charAt(ARRAY_INDEX?.ZERO)?.toUpperCase() + word?.slice?.(1),

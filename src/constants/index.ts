@@ -174,6 +174,7 @@ export const AIR_SERVICES = {
   ASSET_TYPE_DEFAULT_FIELDS: `/air-services/settings/asset-management/asset-type/default-fields`,
   ASSET_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/asset-type/create-fields`,
   CONTACT_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/contract-types/create-fields`,
+  SERVICES_PUBLIC_DASHBOARD: `dynamic-dashboard/download`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

@@ -53,11 +53,6 @@ export const useUpsertTicket = () => {
     (state) => state?.servicesTickets?.isPortalOpen,
   );
 
-  const hasRequesterId =
-    isPortalOpen?.action === EDIT_TICKET
-      ? selectedTicketLists?.[ZERO]?.requester
-      : '';
-
   const ticketId =
     isPortalOpen?.action === EDIT_TICKET
       ? selectedTicketLists?.[ZERO]?._id
@@ -110,9 +105,7 @@ export const useUpsertTicket = () => {
     });
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(
-      upsertTicketValidationSchema?.(ticketId, form, hasRequesterId),
-    ),
+    resolver: yupResolver(upsertTicketValidationSchema?.(ticketId, form)),
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
@@ -178,13 +171,7 @@ export const useUpsertTicket = () => {
       }
 
       const upsertTicketFormData = new FormData();
-      newFormData?.requester?._id &&
-        upsertTicketFormData?.append('requester', newFormData?.requester?._id);
-      newFormData?.requesterEmail &&
-        upsertTicketFormData?.append(
-          'requesterEmail',
-          newFormData?.requesterEmail,
-        );
+      upsertTicketFormData?.append('requester', newFormData?.requester?._id);
       upsertTicketFormData?.append('subject', newFormData?.subject);
       !!newFormData?.description &&
         upsertTicketFormData?.append('description', newFormData?.description);
@@ -280,10 +267,7 @@ export const useUpsertTicket = () => {
     dispatch(setIsPortalClose());
   };
 
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
-    ticketId,
-    hasRequesterId,
-  );
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
 
   return {
     router,

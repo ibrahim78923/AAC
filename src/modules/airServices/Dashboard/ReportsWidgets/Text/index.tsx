@@ -1,13 +1,15 @@
-import { truncateText } from '@/utils/avatarUtils';
-import { Box, Typography } from '@mui/material';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { TruncateText } from '@/components/TruncateText';
+import { Box } from '@mui/material';
 
 export const Text = (props: any) => {
   const { title, description } = props;
   return (
     <>
-      <Typography variant="h3" fontWeight={600} color="slateBlue.main" my={2}>
-        {truncateText(title, 40)}
-      </Typography>
+      <PageTitledHeader
+        title={<TruncateText text={title} />}
+        titleVariant="h5"
+      />
       <Box maxHeight={'20vh'} overflow={'auto'}>
         <Box
           sx={{ wordBreak: 'break-all' }}

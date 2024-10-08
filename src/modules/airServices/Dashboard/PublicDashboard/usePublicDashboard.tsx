@@ -37,7 +37,7 @@ export const usePublicDashboard = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, error } =
     useGetServicesDashboardPublicSingleServicesDashboardQuery?.(
       apiDataParameter,
       {
@@ -45,6 +45,8 @@ export const usePublicDashboard = () => {
         skip,
       },
     );
+
+  const isApiCalled = !data && !error;
 
   return {
     data,
@@ -54,5 +56,6 @@ export const usePublicDashboard = () => {
     skip,
     filterBy,
     departmentId,
+    isApiCalled,
   };
 };
