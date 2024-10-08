@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect } from 'react';
-import { useGetUserLists } from '../../UserManagementHooks/useGetUserLists';
+import { useGetUserLists } from '../UserHook/useGetUserLists';
 import { operationUsersListColumnsDynamic } from './UserList.data';
 import {
   setPage,

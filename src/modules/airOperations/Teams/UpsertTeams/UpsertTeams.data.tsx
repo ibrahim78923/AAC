@@ -1,7 +1,7 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { UpsertTeamsFormDefaultValuesI } from './UpsertTeams.interface';
-import { UsersFieldDropdown } from '../../UserManagementFormFields/UsersFieldDropdown';
+import { UsersFieldDropdown } from '../TeamsFormFields/UsersFieldDropdown';
 
 export const upsertTeamValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Name is required'),

@@ -8,7 +8,7 @@ import {
   setPageDecrement,
 } from '@/redux/slices/airOperations/teams/slice';
 import { operationsTeamsListColumnDynamic } from './TeamsList.data';
-import { useGetTeamsLists } from '../../UserManagementHooks/useGetTeamsLists';
+import { useGetTeamsLists } from '../TeamsHook/useGetTeamsLists';
 
 export const useTeamsList = () => {
   const {

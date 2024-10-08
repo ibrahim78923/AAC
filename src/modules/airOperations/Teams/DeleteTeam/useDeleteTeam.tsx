@@ -2,7 +2,7 @@ import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteOperationsUserManagementSingleTeamMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useGetTeamsLists } from '../../UserManagementHooks/useGetTeamsLists';
+import { useGetTeamsLists } from '../TeamsHook/useGetTeamsLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setIsPortalClose,

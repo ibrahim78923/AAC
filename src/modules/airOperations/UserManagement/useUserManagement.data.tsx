@@ -1,6 +1,6 @@
 import { Permissions } from '@/constants/permissions';
-import { Teams } from './Teams';
-import { User } from './User';
+import { Teams } from '../Teams';
+import { User } from '../User';
 
 export const userManagementTabsDataDynamic = () => {
   return [

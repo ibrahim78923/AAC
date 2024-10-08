@@ -2,8 +2,8 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { UpsertUserFormDefaultValuesI } from './UpsertUser.interface';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { RoleFieldDropdown } from '../../UserManagementFormFields/RoleFieldDropdown';
-import { TeamFieldDropdown } from '../../UserManagementFormFields/TeamFieldDropdown';
+import { RoleFieldDropdown } from '../UserFormFields/RoleFieldDropdown';
+import { TeamFieldDropdown } from '../UserFormFields/TeamFieldDropdown';
 
 export const userLanguage: AutocompleteOptionsI[] = [
   {

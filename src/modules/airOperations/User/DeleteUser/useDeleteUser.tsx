@@ -2,7 +2,7 @@ import { PAGINATION } from '@/config';
 import { useDeleteOperationsUserManagementMultipleProductUsersMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useGetUserLists } from '../../UserManagementHooks/useGetUserLists';
+import { useGetUserLists } from '../UserHook/useGetUserLists';
 import {
   emptySelectedUsersLists,
   setIsPortalClose,
