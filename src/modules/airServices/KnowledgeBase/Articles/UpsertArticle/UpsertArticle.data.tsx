@@ -128,6 +128,7 @@ export const upsertArticleFormFieldsDynamic = (needApprovals: boolean) => [
             label: 'Review Date',
             sx: { pb: 1.2 },
             textFieldProps: { readOnly: true },
+            disablePast: true,
           },
         },
       ]

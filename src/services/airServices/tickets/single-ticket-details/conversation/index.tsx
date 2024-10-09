@@ -1,8 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG_TWO = 'TICKETS_CONVERSATION';
-
 const {
   GET_RESPONSES_LIST,
   GET_ALL_ARTICLES,
@@ -29,12 +27,11 @@ export const conversationAPI: any = baseAPI?.injectEndpoints({
       }),
     }),
     getServicesTicketsConversationList: builder?.query({
-      query: (params: any) => ({
+      query: (apiDataParameter: any) => ({
         url: GET_CONVERSATION_EMAIL,
         method: 'GET',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
-      providesTags: [TAG_TWO],
     }),
     addServicesTicketsSingleConversation: builder?.mutation({
       query: ({ body }: any) => ({
@@ -63,7 +60,7 @@ export const conversationAPI: any = baseAPI?.injectEndpoints({
 export const {
   useGetServicesTicketsConversationCannedResponsesListsQuery,
   useGetServicesTicketsConversationPublishedArticlesListQuery,
-  useGetServicesTicketsConversationListQuery,
+  useLazyGetServicesTicketsConversationListQuery,
   useAddServicesTicketsSingleConversationMutation,
   useUpdateServicesTicketSingleConversationNoteMutation,
   useDeleteServicesTicketSingleConversationMutation,

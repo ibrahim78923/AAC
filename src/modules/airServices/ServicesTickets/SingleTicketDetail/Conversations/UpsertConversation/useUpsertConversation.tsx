@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import {
+  NOTE,
   upsertConversationFormDefaultValues,
   upsertConversationFormFieldsDynamic,
   upsertConversationFormValidationSchema,
@@ -15,39 +16,58 @@ import useAuth from '@/hooks/useAuth';
 import {
   MODULE_TYPE,
   TICKET_CONVERSATIONS_CONTENT_TYPE,
-  TICKET_CONVERSATIONS_RESPONSE_TYPE,
 } from '@/constants/strings';
 import { ArticlesList } from '../ArticlesList';
-import { useState } from 'react';
 import { CannedResponsesList } from '../CannedResponsesList';
 import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { findAttributeValues } from '@/utils/file';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
-import { OpenConversationTypeContextPropsI } from '../Conversation.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  setIsPortalClose,
+  setIsResponsePortalClose,
+} from '@/redux/slices/airServices/ticket-conversation/slice';
+import {
+  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT,
+  TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT,
+} from '../Conversations.data';
+import { useGetTicketConversationList } from '../../../TicketsServicesHooks/useGetTicketConversationList';
 
-export const useUpsertConversation = (
-  props: OpenConversationTypeContextPropsI,
-) => {
-  const [selectedResponseType, setSelectedResponseType] = useState<any>({});
-  const { setIsDrawerOpen, selectedConversationType, refetch } = props;
+export const useUpsertConversation = () => {
+  const { getTicketConversationListData } = useGetTicketConversationList?.();
+
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketConversation?.isPortalOpen,
+  );
+
+  const isResponsePortalOpen = useAppSelector(
+    (state) => state?.servicesTicketConversation?.isResponsePortalOpen,
+  );
+
   const theme = useTheme();
   const router = useRouter();
   const { user }: any = useAuth();
   const { ticketId } = router?.query;
 
+  const portalAction = isPortalOpen?.action;
+
   const [postConversationTrigger, postConversationStatus] =
     useAddServicesTicketsSingleConversationMutation();
+
   const [editTicketConversationNoteTrigger, editTicketConversationNoteStatus] =
     useUpdateServicesTicketSingleConversationNoteMutation();
 
   const [postAttachmentsTrigger, postAttachmentsStatus] =
     usePostAttachmentsMutation();
+
   const methods = useForm<any>({
     defaultValues: upsertConversationFormDefaultValues?.({
-      conversationType: selectedConversationType?.conversationType,
+      conversationType: portalAction?.includes(NOTE) ? NOTE : portalAction,
       from: user?.email,
-      ...selectedConversationType,
+      action: portalAction,
+      ...isPortalOpen?.data,
     }),
     resolver: yupResolver(upsertConversationFormValidationSchema),
   });
@@ -61,20 +81,15 @@ export const useUpsertConversation = (
       'href',
       'articleId',
     );
+
     const conversationFormData = new FormData();
     conversationFormData?.append(
       'recipients',
       [formData?.recipients]?.toString(),
     );
 
-    conversationFormData?.append(
-      'subject',
-      selectedConversationType?.conversationType,
-    );
-    conversationFormData?.append(
-      'type',
-      selectedConversationType?.conversationType,
-    );
+    conversationFormData?.append('subject', formData?.type?.toUpperCase());
+    conversationFormData?.append('type', formData?.type?.toUpperCase());
     conversationFormData?.append('html', formData?.html);
     conversationFormData?.append('recordId', ticketId as string);
     !!articleIds?.length &&
@@ -82,7 +97,9 @@ export const useUpsertConversation = (
     formData?.attachments !== null &&
       conversationFormData?.append('attachments', formData?.attachments);
 
-    if (selectedConversationType?.isEdit) {
+    if (
+      portalAction === TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.EDIT_NOTE
+    ) {
       editConversation?.({ ...formData, articleIds });
       return;
     }
@@ -94,10 +111,9 @@ export const useUpsertConversation = (
     try {
       const response =
         await postConversationTrigger(apiDataParameter)?.unwrap();
-      reset?.();
-      closeConversationDrawer?.();
-      refetch?.();
       successSnackbar(response?.message);
+      closePortal?.();
+      await getTicketConversationListData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -105,16 +121,17 @@ export const useUpsertConversation = (
 
   const editConversation = async (formData: any) => {
     const body = {
-      id: selectedConversationType?._id,
+      id: isPortalOpen?.data?._id,
       html: formData?.html,
       recordId: ticketId,
       recipients: [formData?.recipients],
-      type: selectedConversationType?.conversationType,
-      subject: selectedConversationType?.conversationType,
+      type: formData?.type?.toUpperCase(),
+      subject: formData?.type?.toUpperCase(),
       ...(!!formData?.articleIds?.length
         ? { articlesIds: formData?.articleIds }
         : {}),
     };
+
     const apiDataParameter = {
       body,
     };
@@ -122,17 +139,17 @@ export const useUpsertConversation = (
     try {
       await editTicketConversationNoteTrigger(apiDataParameter)?.unwrap();
       if (formData?.attachments !== null) await submitAttachment?.(formData);
-      reset?.();
-      closeConversationDrawer?.();
-      refetch?.();
       successSnackbar('Conversation updated successfully');
+      closePortal?.();
+      await getTicketConversationListData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
-  const closeConversationDrawer = () => {
-    setIsDrawerOpen?.({});
+
+  const closePortal = () => {
     reset?.();
+    dispatch(setIsPortalClose());
   };
 
   const setArticleResponse = (article: any, articleType: any) => {
@@ -145,51 +162,34 @@ export const useUpsertConversation = (
       </a> <br/>`;
 
     setValue?.('html', `${getValues?.('html')} ${htmlContent}`);
-    setSelectedResponseType({});
+    dispatch(setIsResponsePortalClose());
   };
 
   const setCannedResponse = (cannedResponse: any) => {
     setValue?.('html', `${getValues?.('html')} ${cannedResponse?.message}`);
-    setSelectedResponseType({});
+    dispatch(setIsResponsePortalClose());
   };
 
-  const openResponseTypeModal = () => {
-    if (
-      selectedResponseType?.type === TICKET_CONVERSATIONS_RESPONSE_TYPE?.ARTICLE
-    ) {
-      return (
-        <ArticlesList
-          isModalOpen={selectedResponseType}
-          setIsModalOpen={setSelectedResponseType}
-          setArticleResponse={(item: any, articleType: any) =>
-            setArticleResponse?.(item, articleType)
-          }
-        />
-      );
-    }
-    if (
-      selectedResponseType?.type ===
-      TICKET_CONVERSATIONS_RESPONSE_TYPE?.CANNED_RESPONSES
-    ) {
-      return (
-        <CannedResponsesList
-          isModalOpen={selectedResponseType}
-          setIsModalOpen={setSelectedResponseType}
-          setCannedResponse={(item: any) => setCannedResponse?.(item)}
-        />
-      );
-    }
-    return null;
+  const ticketsConversationResponsePortalActionComponent = {
+    [TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT?.ARTICLE_REPONSE]: (
+      <ArticlesList
+        setArticleResponse={(item: any, articleType: any) =>
+          setArticleResponse?.(item, articleType)
+        }
+      />
+    ),
+    [TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT?.CANNED_RESPONSE]: (
+      <CannedResponsesList
+        setCannedResponse={(item: any) => setCannedResponse?.(item)}
+      />
+    ),
   };
 
   const submitAttachment = async (data: any) => {
     const attachmentFormData = new FormData();
 
     attachmentFormData?.append('fileUrl', data?.attachments);
-    attachmentFormData?.append(
-      'recordId',
-      selectedConversationType?._id as string,
-    );
+    attachmentFormData?.append('recordId', isPortalOpen?.data?._id as string);
     attachmentFormData?.append('module', MODULE_TYPE?.TICKET);
 
     const postAttachmentParameter = {
@@ -198,26 +198,26 @@ export const useUpsertConversation = (
 
     try {
       await postAttachmentsTrigger(postAttachmentParameter)?.unwrap();
-      successSnackbar('Attachment Added Successfully!');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    } catch (error: any) {}
   };
-  const upsertConversationFormFields = upsertConversationFormFieldsDynamic?.(
-    selectedConversationType,
-    setSelectedResponseType,
-  );
+
+  const upsertConversationFormFields =
+    upsertConversationFormFieldsDynamic?.(portalAction);
+
+  const apiCallInProgress =
+    postConversationStatus?.isLoading ||
+    editTicketConversationNoteStatus?.isLoading ||
+    postAttachmentsStatus?.isLoading;
+
   return {
     submitUpsertConversation,
     handleSubmit,
-    postConversationStatus,
-    closeConversationDrawer,
+    closePortal,
     methods,
     upsertConversationFormFields,
-    selectedResponseType,
-    setSelectedResponseType,
-    openResponseTypeModal,
-    editTicketConversationNoteStatus,
-    postAttachmentsStatus,
+    isPortalOpen,
+    apiCallInProgress,
+    isResponsePortalOpen,
+    ticketsConversationResponsePortalActionComponent,
   };
 };

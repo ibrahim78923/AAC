@@ -10,10 +10,8 @@ import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
-const { CANNED_RESPONSE_SETTINGS } = AIR_SERVICES ?? {};
-
 export const CannedResponsesList = (props: any) => {
-  const { isModalOpen, setCannedResponse } = props;
+  const { setCannedResponse } = props;
   const {
     data,
     isLoading,
@@ -21,21 +19,23 @@ export const CannedResponsesList = (props: any) => {
     isError,
     setPage,
     setPageLimit,
-    setSearch,
     closeModal,
     refetch,
-  } = useCannedResponsesList(props);
+    isResponsePortalOpen,
+    handleSearch,
+  } = useCannedResponsesList();
 
   return (
     <CustomCommonDialog
-      isPortalOpen={isModalOpen?.isOpen}
+      isPortalOpen={isResponsePortalOpen?.isOpen}
       closePortal={closeModal}
       dialogTitle="Canned Response"
+      showActionButtons={false}
     >
       <Box my={1}>
-        <Search label="Search Here" setSearchBy={setSearch} width={'100%'} />
+        <Search label="Search Here" setSearchBy={handleSearch} width={'100%'} />
       </Box>
-      <Link href={CANNED_RESPONSE_SETTINGS}>
+      <Link href={AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}>
         <Button
           disableElevation
           variant="text"

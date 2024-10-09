@@ -1,11 +1,16 @@
 import { PAGINATION } from '@/config';
 import { ARTICLE_STATUS } from '@/constants/strings';
+import { setIsResponsePortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetServicesTicketsConversationPublishedArticlesListQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { getActiveAccountSession } from '@/utils';
 import { useMemo, useState } from 'react';
 
-export const useArticlesList = (props: any) => {
-  const { setIsModalOpen } = props;
+export const useArticlesList = () => {
+  const dispatch = useAppDispatch();
+  const isResponsePortalOpen = useAppSelector(
+    (state) => state?.servicesTicketConversation?.isResponsePortalOpen,
+  );
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
@@ -32,7 +37,12 @@ export const useArticlesList = (props: any) => {
     );
 
   const closeModal = () => {
-    setIsModalOpen?.('');
+    dispatch(setIsResponsePortalClose());
+  };
+
+  const handleSearch = (searchValue: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
   };
 
   return {
@@ -45,5 +55,7 @@ export const useArticlesList = (props: any) => {
     setSearch,
     closeModal,
     refetch,
+    isResponsePortalOpen,
+    handleSearch,
   };
 };

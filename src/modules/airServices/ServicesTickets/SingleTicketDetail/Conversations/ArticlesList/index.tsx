@@ -11,10 +11,8 @@ import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import Link from 'next/link';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 
-const { UPSERT_ARTICLE } = AIR_SERVICES ?? {};
-
 export const ArticlesList = (props: any) => {
-  const { isModalOpen, setArticleResponse } = props;
+  const { setArticleResponse } = props;
   const {
     data,
     isLoading,
@@ -22,22 +20,28 @@ export const ArticlesList = (props: any) => {
     isError,
     setPage,
     setPageLimit,
-    setSearch,
     closeModal,
     refetch,
-  } = useArticlesList(props);
+    isResponsePortalOpen,
+    handleSearch,
+  } = useArticlesList();
 
   return (
     <>
       <CustomCommonDialog
-        isPortalOpen={isModalOpen?.isOpen}
+        isPortalOpen={isResponsePortalOpen?.isOpen}
         closePortal={closeModal}
         dialogTitle="Article"
+        showActionButtons={false}
       >
         <Box my={1}>
-          <Search label="Search Here" setSearchBy={setSearch} width={'100%'} />
+          <Search
+            label="Search Here"
+            setSearchBy={handleSearch}
+            width={'100%'}
+          />
         </Box>
-        <Link href={UPSERT_ARTICLE}>
+        <Link href={AIR_SERVICES?.UPSERT_ARTICLE}>
           <Button
             disableElevation
             variant="text"

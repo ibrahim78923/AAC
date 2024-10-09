@@ -7,7 +7,10 @@ import {
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
-import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
+import {
+  TICKET_CONVERSATION_ACTIONS,
+  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT,
+} from '../Conversations.data';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
@@ -17,14 +20,14 @@ import { LogInfo } from '@/components/LogInfo';
 import { AttachFileCard } from '@/components/AttachFileCard';
 
 export const ConversationCard = (props: any) => {
-  const { data, setSelectedConversationType } = props;
+  const { data, setAction } = props;
   return (
     <Box
       border={'3px solid'}
       borderColor={'custom.off_white_three'}
       p={2}
       borderRadius={2}
-      my={2}
+      mb={2}
       boxShadow={1}
     >
       <Box
@@ -49,7 +52,7 @@ export const ConversationCard = (props: any) => {
                   data?.performedBy?.firstName,
                   data?.performedBy?.lastName,
                 )}
-                logType={`${CONVERSATION_TYPE_MODIFY[data?.type]?.description}`}
+                logType={TICKET_CONVERSATION_ACTIONS?.[data?.type]}
                 log={data?.recipients?.join?.(' ')}
                 logProps={{ sx: { wordBreak: 'break-all' } }}
               />
@@ -69,8 +72,6 @@ export const ConversationCard = (props: any) => {
               hasStyling={false}
               canDelete={false}
               data={data?.attachment}
-              onDelete={() => {}}
-              permissionKey={[]}
             />
           </Box>
         )}
@@ -82,11 +83,10 @@ export const ConversationCard = (props: any) => {
           >
             <Box
               onClick={() =>
-                setSelectedConversationType({
-                  ...data,
-                  conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
-                  isOpen: true,
-                })
+                setAction?.(
+                  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.REPLY,
+                  data,
+                )
               }
               sx={{ cursor: 'pointer' }}
             >
@@ -101,11 +101,10 @@ export const ConversationCard = (props: any) => {
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() =>
-                setSelectedConversationType({
-                  ...data,
-                  conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
-                  isOpen: true,
-                })
+                setAction?.(
+                  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.FORWARD,
+                  data,
+                )
               }
             >
               <ShortcutSharpRightIcon />
@@ -120,12 +119,10 @@ export const ConversationCard = (props: any) => {
               <Box
                 sx={{ cursor: 'pointer' }}
                 onClick={() =>
-                  setSelectedConversationType({
-                    ...data,
-                    conversationType: data?.type,
-                    isOpen: true,
-                    isEdit: true,
-                  })
+                  setAction?.(
+                    TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.EDIT_NOTE,
+                    data,
+                  )
                 }
               >
                 <EditBlackIcon />
@@ -140,10 +137,10 @@ export const ConversationCard = (props: any) => {
             {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
               <Delete
                 onClick={() =>
-                  setSelectedConversationType({
-                    ...data,
-                    isDelete: true,
-                  })
+                  setAction?.(
+                    TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.DELETE_NOTE,
+                    data,
+                  )
                 }
                 sx={{
                   color: 'custom.main',

@@ -25,6 +25,7 @@ import operationsUsersSlice from './slices/airOperations/users/slice';
 import operationsTeamSlice from './slices/airOperations/teams/slice';
 import servicesTicketApprovalsSlice from './slices/airServices/tickets-approvals/slice';
 import notificationsSlice from './slices/notifications/notifications';
+import servicesTicketConversationSlice from './slices/airServices/ticket-conversation/slice';
 
 const store = configureStore({
   reducer: {
@@ -53,6 +54,7 @@ const store = configureStore({
     operationsUsersLists: operationsUsersSlice,
     operationsTeam: operationsTeamSlice,
     servicesTicketApprovals: servicesTicketApprovalsSlice,
+    servicesTicketConversation: servicesTicketConversationSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

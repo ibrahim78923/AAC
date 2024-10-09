@@ -6,7 +6,9 @@ import {
 import {
   setApprovalStatus,
   setIsPortalClose,
+  resetComponentState,
 } from '@/redux/slices/airServices/tickets-approvals/slice';
+import { useEffect } from 'react';
 
 export const useApprovals = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +19,13 @@ export const useApprovals = () => {
     dispatch(setApprovalStatus<any>(TAB_CHANGED_FILTERED?.[tabValue]));
     dispatch(setIsPortalClose?.());
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetComponentState());
+    };
+  }, []);
+
   return {
     handleTabChange,
     singleTicketDetailApprovalsTabs,

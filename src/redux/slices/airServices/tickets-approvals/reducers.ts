@@ -18,6 +18,7 @@ const resetApprovalStatusReducer = (state: any) => {
 
 const resetComponentStateReducers = (state: any) => {
   state.isPortalOpen = approvalStatusInitialState;
+  state.approvalStatus = isPortalOpenInitialState;
 };
 
 export const servicesTicketApprovalsReducersList = {

@@ -1,93 +1,62 @@
 import {
-  RHFAutocomplete,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  ARRAY_INDEX,
-  TICKET_CONVERSATIONS_RESPONSE_TYPE,
-  TICKET_CONVERSATIONS_TYPE,
-} from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import * as Yup from 'yup';
-import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
-import { Box, IconButton } from '@mui/material';
-import { ArticleModalIcon, CannedResponseModalIcon } from '@/assets/icons';
-import { CustomTooltip } from '@/components/CustomTooltip';
+import { TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT } from '../Conversations.data';
+import { ConversationResponseType } from '../ConversationResponseType';
+
+const canPopulateRecipients = [
+  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.EDIT_NOTE,
+  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.REPLY,
+];
+
+export const NOTE = 'Note';
 
 export const upsertConversationFormDefaultValues = (data?: any) => {
   return {
-    type: data?.conversationType
-      ? {
-          _id: data?.conversationType,
-          label: data?.conversationType,
-        }
-      : null,
-    recipients:
-      data?.isEdit ||
-      data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
-        ? data?.recipients?.[ARRAY_INDEX?.ZERO]
-        : '',
+    type: data?.conversationType ?? '',
+    recipients: canPopulateRecipients?.includes(data?.action)
+      ? data?.recipients?.[ARRAY_INDEX?.ZERO]
+      : '',
     html:
-      data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
+      data?.conversationType ===
+      TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.REPLY
         ? ''
-        : data?.html
-          ? data?.html
-          : '',
+        : data?.html ?? '',
     attachments: null,
     from: data?.from ?? '',
   };
 };
 
 export const upsertConversationFormValidationSchema = Yup?.object()?.shape({
-  type: Yup?.mixed()?.nullable()?.required(''),
+  type: Yup?.string()?.trim()?.required(''),
   recipients: Yup?.string()
     ?.email('Invalid email format')
     ?.required('Recipient is required'),
   html: Yup?.string()
     ?.trim()
-    ?.required('Description is Required')
-    ?.test('is-not-empty', 'Description is Required', (value) => {
+    ?.required('Description is required')
+    ?.test('is-not-empty', 'Description is required', (value) => {
       const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
       return strippedContent !== '';
     }),
 });
 
-export const conversationTypesOptions = [
-  {
-    _id: TICKET_CONVERSATIONS_TYPE?.NOTE,
-    label: TICKET_CONVERSATIONS_TYPE?.NOTE,
-  },
-  {
-    _id: TICKET_CONVERSATIONS_TYPE?.FORWARD,
-    label: TICKET_CONVERSATIONS_TYPE?.FORWARD,
-  },
-  {
-    _id: TICKET_CONVERSATIONS_TYPE?.REPLY,
-    label: TICKET_CONVERSATIONS_TYPE?.REPLY,
-  },
-];
-
-export const upsertConversationFormFieldsDynamic = (
-  selectedConversationType?: any,
-  setSelectedResponseType?: any,
-) => [
+export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
   {
     id: 1,
     componentProps: {
       name: 'type',
-      label:
-        CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.conversationType]
-          ?.label,
+      label: portalAction?.includes(NOTE) ? NOTE : portalAction,
       fullWidth: true,
       disabled: true,
-      options: conversationTypesOptions,
-      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
   },
-  ...(selectedConversationType?.conversationType !==
-  TICKET_CONVERSATIONS_TYPE?.NOTE
+  ...(!portalAction?.includes(NOTE)
     ? [
         {
           id: 2,
@@ -106,9 +75,7 @@ export const upsertConversationFormFieldsDynamic = (
     id: 3,
     componentProps: {
       name: 'recipients',
-      label: `${CONVERSATION_TYPE_MODIFY?.[
-        selectedConversationType?.conversationType
-      ]?.recipients}`,
+      label: portalAction?.includes(NOTE) ? 'Notify to' : `${portalAction} to`,
       fullWidth: true,
       required: true,
     },
@@ -127,44 +94,7 @@ export const upsertConversationFormFieldsDynamic = (
   },
   {
     id: 6,
-    componentProps: {},
-    component: Box,
-    children: (
-      <Box
-        display={'flex'}
-        gap={0.5}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        justifyContent={'flex-end'}
-      >
-        <CustomTooltip title="add canned response">
-          <IconButton
-            onClick={() =>
-              setSelectedResponseType?.({
-                type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.CANNED_RESPONSES,
-                isOpen: true,
-              })
-            }
-            sx={{ cursor: 'pointer' }}
-          >
-            <CannedResponseModalIcon />
-          </IconButton>
-        </CustomTooltip>
-        <CustomTooltip title="add article">
-          <IconButton
-            onClick={() =>
-              setSelectedResponseType?.({
-                type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.ARTICLE,
-                isOpen: true,
-              })
-            }
-            sx={{ cursor: 'pointer' }}
-          >
-            <ArticleModalIcon />
-          </IconButton>
-        </CustomTooltip>
-      </Box>
-    ),
+    component: ConversationResponseType,
   },
   {
     id: 5,

@@ -2,19 +2,19 @@ import { AlertModals } from '@/components/AlertModals';
 import { useDeleteConversation } from './useDeleteConversation';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-export const DeleteConversation = (props: any) => {
-  const { selectedConversationType } = props;
+export const DeleteConversation = () => {
   const {
     deleteTicketConversationStatus,
     deleteConversation,
     closeDeleteModal,
-  } = useDeleteConversation(props);
+    isPortalOpen,
+  } = useDeleteConversation();
 
   return (
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}
       message="Do you want to delete the conversation ? "
-      open={selectedConversationType?.isDelete}
+      open={isPortalOpen?.isOpen}
       handleClose={closeDeleteModal}
       handleSubmitBtn={deleteConversation}
       loading={deleteTicketConversationStatus?.isLoading}

@@ -27,7 +27,7 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
     disableAddButton,
     titleColor = 'slateBlue.main',
     titleVariant = 'pageTitle',
-    outerMarginBottom = 1,
+    outerMarginBottom = 2,
     titleProps = {},
   } = props;
 
