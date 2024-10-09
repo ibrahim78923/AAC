@@ -5,29 +5,18 @@ import {
   Button,
   Checkbox,
   Container,
-  InputAdornment,
   Toolbar,
   Typography,
 } from '@mui/material';
-import {
-  CheckboxCheckedIcon,
-  CheckboxIcon,
-  EditInputIcon,
-} from '@/assets/icons';
-import { CheckBox } from '@mui/icons-material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { tableEditorData } from './TableEditor.data';
 import { useTableEditor } from './useTableEditor';
 import { TableEditorI, tableFieldsI } from './TableEditor.interface';
 export const TableEditor = (props: TableEditorI) => {
-  const { setValue, handleCancel, metricType } = props;
+  const { handleCancel, metricType, methods } = props;
   const {
-    editValue,
-    setEditValue,
-    setEdit,
-    edit,
     handleSave,
     setColumnObject,
-    tableTitle,
     columnsData,
     setColumnField,
     disableTemplate,
@@ -45,30 +34,7 @@ export const TableEditor = (props: TableEditorI) => {
             name={'tableTitle'}
             size="small"
             label="Title"
-            disabled={edit || disableTemplate}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
-                  {edit ? (
-                    <Box
-                      onClick={() => {
-                        setEdit(false), setValue === editValue;
-                      }}
-                    >
-                      <EditInputIcon />
-                    </Box>
-                  ) : (
-                    <Box
-                      onClick={() => {
-                        setEdit(true), setEditValue(tableTitle);
-                      }}
-                    >
-                      <CheckBox />
-                    </Box>
-                  )}
-                </InputAdornment>
-              ),
-            }}
+            disabled={disableTemplate}
           />
           <Box display={'flex'} alignItems={'center'} gap={1} mt={1}>
             <Typography variant="h4">Edit Properties</Typography>
@@ -129,8 +95,8 @@ export const TableEditor = (props: TableEditorI) => {
           <Button
             variant="contained"
             className="small"
-            onClick={handleSave}
-            disabled={!columnsData?.length || !tableTitle}
+            onClick={methods?.handleSubmit(handleSave)}
+            disabled={!columnsData?.length}
           >
             Save
           </Button>

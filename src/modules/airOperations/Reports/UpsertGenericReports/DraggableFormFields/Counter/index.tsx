@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useCounter } from './useCounter';
 import { CounterI } from './Counter.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const Counter = (props: CounterI) => {
   const { draggedItemData, handleCancel } = props;
@@ -13,7 +14,7 @@ export const Counter = (props: CounterI) => {
       p={1}
       width={'50%'}
     >
-      <Typography variant="h5">{draggedItemData?.title}</Typography>
+      <TruncateText text={draggedItemData?.title} />
       <Box p={10}>
         <Typography
           display={'flex'}

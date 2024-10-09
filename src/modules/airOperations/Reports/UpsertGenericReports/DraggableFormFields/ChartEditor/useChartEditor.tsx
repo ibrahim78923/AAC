@@ -1,7 +1,7 @@
 import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   useLazyAssetTypeDropdownQuery,
   useLazyCategoriesDropdownQuery,
@@ -28,10 +28,9 @@ export const useChartEditor = (props: ChartEditorI) => {
     setDraggedItemData,
     draggedItemData,
     watch,
+    reset,
   } = props;
 
-  const [edit, setEdit] = useState(true);
-  const [editValue, setEditValue] = useState();
   const auth: any = useAuth();
   const productId = auth?.product?._id;
   const disableTemplate = useAppSelector(
@@ -79,10 +78,10 @@ export const useChartEditor = (props: ChartEditorI) => {
     dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
     setValue('chartType', '');
-    setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
     setDraggedItemData(null);
     successSnackbar('Chart Added');
+    reset();
   };
 
   const assetTypeDropdown = useLazyAssetTypeDropdownQuery();
@@ -159,12 +158,7 @@ export const useChartEditor = (props: ChartEditorI) => {
 
   return {
     handleSave,
-    edit,
-    setEdit,
-    editValue,
-    setEditValue,
     singleFieldDropdown,
-    chartTitle,
     xAxisData,
     xAxisType,
     chartType,

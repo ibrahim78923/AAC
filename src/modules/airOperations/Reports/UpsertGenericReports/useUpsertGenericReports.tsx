@@ -3,6 +3,7 @@ import {
   defaultValues,
   fieldsList,
   templateList,
+  validationSchema,
 } from './UpsertGenericReports.data';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -31,6 +32,7 @@ import {
   setShowTemplate,
 } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function useUpsertGenericReports() {
   const dispatch = useDispatch();
@@ -53,10 +55,11 @@ export default function useUpsertGenericReports() {
   const singleReport = (data as any)?.data?.genericReport;
 
   const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
     defaultValues: defaultValues(),
   });
 
-  const { watch, setValue } = methods;
+  const { watch, setValue, reset } = methods;
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(MODAL_INITIAL_STATES);
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
@@ -65,9 +68,9 @@ export default function useUpsertGenericReports() {
     setValue('chartType', draggedItemData?.chartType ?? '');
     setValue('xAxis', draggedItemData?.xAxis ?? null);
     setValue('subFilter', draggedItemData?.subFilter ?? false);
-    setValue('chartTitle', draggedItemData?.title ?? 'Report Chart');
-    setValue('textTitle', draggedItemData?.title ?? 'Report Text');
-    setValue('tableTitle', draggedItemData?.title ?? 'Report Table');
+    draggedItemData?.title && setValue('chartTitle', draggedItemData?.title);
+    draggedItemData?.title && setValue('textTitle', draggedItemData?.title);
+    draggedItemData?.title && setValue('tableTitle', draggedItemData?.title);
     dispatch(setColumnsData(draggedItemData?.tableColumns ?? []));
   }, [draggedItemData]);
 
@@ -145,13 +148,11 @@ export default function useUpsertGenericReports() {
     dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
     dispatch(setColumnsData([]));
-    setValue('tableTitle', 'Report Table');
     dispatch(setEditorState(EditorState.createEmpty()));
-    setValue('textTitle', 'Report Text');
     setValue('chartType', '');
-    setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
     setDraggedItemData(null);
+    reset();
   };
 
   const handleChooseTemplate = () => {
@@ -279,18 +280,18 @@ export default function useUpsertGenericReports() {
     switch (moduleName) {
       case GENERIC_REPORT_MODULES?.SERVICES:
         return router?.push({
-          pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
-          query: { id },
+          pathname: AIR_OPERATIONS?.REPORTS_LIST,
+          query: { id, baseModule: GENERIC_REPORT_MODULES?.SERVICES },
         });
       case GENERIC_REPORT_MODULES?.SALES:
         return router?.push({
-          pathname: AIR_OPERATIONS?.SALES_REPORTS,
-          query: { id },
+          pathname: AIR_OPERATIONS?.REPORTS_LIST,
+          query: { id, baseModule: GENERIC_REPORT_MODULES?.SALES },
         });
       case GENERIC_REPORT_MODULES?.MARKETING:
         return router?.push({
-          pathname: AIR_OPERATIONS?.MARKETING_REPORTS,
-          query: { id },
+          pathname: AIR_OPERATIONS?.REPORTS_LIST,
+          query: { id, baseModule: GENERIC_REPORT_MODULES?.MARKETING },
         });
       default:
         return [];
@@ -323,5 +324,6 @@ export default function useUpsertGenericReports() {
     isError,
     refetch,
     dispatch,
+    reset,
   };
 }

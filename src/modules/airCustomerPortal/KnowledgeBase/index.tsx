@@ -22,7 +22,7 @@ export const KnowledgeBase = () => {
     isError,
     setSearch,
     newTicketsDropdown,
-    sessionUserId,
+    auth,
     refetch,
     customerPortalStyling,
     reportAnIssuePermission,
@@ -31,7 +31,7 @@ export const KnowledgeBase = () => {
   return (
     <>
       <PageTitledHeader title={'Knowledge Base'}>
-        {!sessionUserId ? (
+        {!auth?.isAuthenticated ? (
           reportAnIssuePermission && (
             <Button
               variant="contained"

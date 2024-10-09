@@ -19,8 +19,7 @@ import {
 import { useAppSelector } from '@/redux/store';
 
 export const useTextEditor = (props: TextEditorI) => {
-  const { setModal, form, setForm, setValue, setDraggedItemData, watch } =
-    props;
+  const { setModal, form, setForm, reset, setDraggedItemData, watch } = props;
   const dispatch = useDispatch();
   const color = useAppSelector((state) => state?.genericReport?.color);
   const fontSize = useAppSelector((state) => state?.genericReport?.fontSize);
@@ -28,8 +27,6 @@ export const useTextEditor = (props: TextEditorI) => {
     (state) => state?.genericReport?.editorState,
   );
   const [saveDisable, setSaveDisable] = useState(true);
-  const [edit, setEdit] = useState(true);
-  const [editValue, setEditValue] = useState();
   const textTitle = watch('textTitle');
 
   useEffect(() => {
@@ -225,10 +222,10 @@ export const useTextEditor = (props: TextEditorI) => {
     getTextFromEditorHTML();
     dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
-    setValue('textTitle', 'Report Text');
     dispatch(setEditorState(EditorState.createEmpty()));
     setDraggedItemData(null);
     successSnackbar('Text Added');
+    reset();
   };
 
   return {
@@ -238,10 +235,6 @@ export const useTextEditor = (props: TextEditorI) => {
     onFontSizeChange,
     saveDisable,
     textTitle,
-    setEditValue,
-    editValue,
-    setEdit,
-    edit,
     color,
     fontSize,
   };

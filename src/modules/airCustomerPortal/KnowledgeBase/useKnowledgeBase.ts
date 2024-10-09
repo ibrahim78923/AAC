@@ -10,6 +10,7 @@ import {
 } from '@/utils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import useAuth from '@/hooks/useAuth';
 
 export const useKnowledgeBase = () => {
   const router: NextRouter = useRouter();
@@ -23,7 +24,7 @@ export const useKnowledgeBase = () => {
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.company?._id;
-  const sessionUserId = session?.user?._id;
+  const auth = useAuth();
 
   const { companyId } = router?.query;
   const decryptedId = useMemo(() => {
@@ -36,7 +37,6 @@ export const useKnowledgeBase = () => {
   const apiDataParameter = {
     queryParams: {
       search,
-      userId: sessionUserId,
       companyId: decryptedId || companyIdStorage || sessionId,
       organizationId: customerPortalPermissions?.organizationId,
     },
@@ -69,7 +69,7 @@ export const useKnowledgeBase = () => {
     setSearch,
     newTicketsDropdown,
     refetch,
-    sessionUserId,
+    auth,
     customerPortalStyling,
     reportAnIssuePermission,
   };

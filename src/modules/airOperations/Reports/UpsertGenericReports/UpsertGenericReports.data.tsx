@@ -10,6 +10,8 @@ import {
   GENERIC_REPORT_MODULES,
   REPORT_TYPE,
 } from '@/constants/strings';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import * as Yup from 'yup';
 
 export const defaultValues = () => {
   return {
@@ -20,6 +22,31 @@ export const defaultValues = () => {
     xAxisType: [],
   };
 };
+
+export const validationSchema = Yup?.object()?.shape({
+  chartTitle: Yup?.string()
+    ?.trim()
+    ?.required('Chart Title is required')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  tableTitle: Yup?.string()
+    ?.trim()
+    ?.required('Table Title is required')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  textTitle: Yup?.string()
+    ?.trim()
+    ?.required('Text Title is required')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+});
+
 export const fieldsList = [
   {
     id: '0',

@@ -36,6 +36,7 @@ export const UpsertGenericReports = () => {
     isError,
     refetch,
     dispatch,
+    reset,
   } = useUpsertGenericReports();
   const { text, table, chart, counter } = modal || {};
 
@@ -136,6 +137,8 @@ export const UpsertGenericReports = () => {
               isFetching={isFetching}
               isError={isError}
               refetch={refetch}
+              methods={methods}
+              reset={reset}
             />
           </Grid>
         </Grid>

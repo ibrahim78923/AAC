@@ -23,6 +23,8 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { DroppableAreaI } from './DroppableArea.interface';
 import ApiErrorState from '@/components/ApiErrorState';
 import { setShowTemplate } from '@/redux/slices/genericReport/genericReportSlice';
+import { TruncateText } from '@/components/TruncateText';
+import { truncateText } from '@/utils/avatarUtils';
 
 export default function DroppableArea(props: DroppableAreaI) {
   const {
@@ -146,14 +148,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                                 alignItems={'center'}
                                 p={1}
                               >
-                                <Typography
-                                  color="secondary"
-                                  variant="h5"
-                                  overflow={'scroll'}
-                                  width={'55%'}
-                                >
-                                  {item?.title}
-                                </Typography>
+                                <TruncateText text={item?.title} />
                                 <Box
                                   display={'flex'}
                                   justifyContent={'center'}
@@ -201,14 +196,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                                 justifyContent={'space-between'}
                                 alignItems={'center'}
                               >
-                                <Typography
-                                  color="secondary"
-                                  variant="h5"
-                                  overflow={'scroll'}
-                                  width={'70%'}
-                                >
-                                  {item?.title}
-                                </Typography>
+                                <TruncateText text={item?.title} />
                                 <Box
                                   display={'flex'}
                                   justifyContent={'center'}
@@ -226,9 +214,15 @@ export default function DroppableArea(props: DroppableAreaI) {
                                   </IconButton>
                                 </Box>
                               </Box>
-                              <div
+
+                              <Box
+                                sx={{
+                                  wordWrap: 'break-word',
+                                  overflowWrap: 'break-word',
+                                  whiteSpace: 'normal',
+                                }}
                                 dangerouslySetInnerHTML={{
-                                  __html: item?.component,
+                                  __html: truncateText(item?.component, 600),
                                 }}
                               />
                             </Box>
@@ -252,14 +246,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                                 justifyContent={'space-between'}
                                 alignItems={'center'}
                               >
-                                <Typography
-                                  color="secondary"
-                                  variant="h5"
-                                  overflow={'scroll'}
-                                  width={'80%'}
-                                >
-                                  {item?.title}
-                                </Typography>
+                                <TruncateText text={item?.title} />
                                 <Box
                                   display={'flex'}
                                   justifyContent={'center'}
@@ -302,14 +289,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                                 justifyContent={'space-between'}
                                 alignItems={'center'}
                               >
-                                <Typography
-                                  color="secondary"
-                                  variant="h5"
-                                  overflow={'scroll'}
-                                  width={'80%'}
-                                >
-                                  {item?.title}
-                                </Typography>
+                                <TruncateText text={item?.title} />
                                 <Box
                                   display={'flex'}
                                   justifyContent={'center'}
@@ -354,7 +334,7 @@ export default function DroppableArea(props: DroppableAreaI) {
                   watch={watch}
                 />
               )}
-              {modal?.text && <Text />}
+              {modal?.text && <Text watch={watch} />}
               {modal?.table && <Table watch={watch} />}
               {modal?.counter && (
                 <Counter

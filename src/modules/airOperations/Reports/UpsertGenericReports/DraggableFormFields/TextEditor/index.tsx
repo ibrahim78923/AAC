@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  InputAdornment,
-  Toolbar,
-} from '@mui/material';
+import { Box, Button, ButtonGroup, Container, Toolbar } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useTextEditor } from './useTextEditor';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
@@ -18,22 +11,15 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { TEXT_FORMATE } from '@/constants/strings';
 import { TextEditorI } from './TextEditor.interface';
 import { RHFTextField } from '@/components/ReactHookForm';
-import { CheckBox } from '@mui/icons-material';
-import { EditInputIcon } from '@/assets/icons';
 
 export const TextEditor = (props: TextEditorI) => {
-  const { handleCancel, setValue } = props;
+  const { handleCancel, methods } = props;
   const {
     handleSave,
     applyTextStyle,
     onColorChange,
     onFontSizeChange,
     saveDisable,
-    textTitle,
-    setEditValue,
-    editValue,
-    setEdit,
-    edit,
     color,
     fontSize,
   } = useTextEditor(props);
@@ -46,35 +32,7 @@ export const TextEditor = (props: TextEditorI) => {
       />
       <Box flex="1" overflow="scroll">
         <Container>
-          <RHFTextField
-            name={'textTitle'}
-            size="small"
-            label="Title"
-            disabled={edit}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
-                  {edit ? (
-                    <Box
-                      onClick={() => {
-                        setEdit(false), setValue === editValue;
-                      }}
-                    >
-                      <EditInputIcon />
-                    </Box>
-                  ) : (
-                    <Box
-                      onClick={() => {
-                        setEdit(true), setEditValue(textTitle);
-                      }}
-                    >
-                      <CheckBox />
-                    </Box>
-                  )}
-                </InputAdornment>
-              ),
-            }}
-          />
+          <RHFTextField name={'textTitle'} size="small" label="Title" />
           <Box
             display="flex"
             p={1}
@@ -192,8 +150,8 @@ export const TextEditor = (props: TextEditorI) => {
           <Button
             variant="contained"
             className="small"
-            disabled={saveDisable || !textTitle}
-            onClick={handleSave}
+            disabled={saveDisable}
+            onClick={methods?.handleSubmit(handleSave)}
           >
             Save
           </Button>

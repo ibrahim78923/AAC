@@ -1,6 +1,7 @@
 import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import { Box, Typography } from '@mui/material';
 import { ChartI } from './Chart.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const Chart = (props: ChartI) => {
   const { allChartComponents, setCalendarFilter, watch } = props;
@@ -18,7 +19,7 @@ export const Chart = (props: ChartI) => {
             justifyContent={'space-between'}
             alignItems={'center'}
           >
-            <Typography variant="h6">{chartTitle}</Typography>
+            <TruncateText text={chartTitle} />
             {subFilter && (
               <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
             )}

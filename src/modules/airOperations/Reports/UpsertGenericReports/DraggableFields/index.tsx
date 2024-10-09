@@ -34,6 +34,8 @@ export default function DraggableFields(props: DraggableFieldsI) {
     isFetching,
     isError,
     refetch,
+    methods,
+    reset,
   } = props;
 
   const {
@@ -248,6 +250,8 @@ export default function DraggableFields(props: DraggableFieldsI) {
                   setDraggedItemData={setDraggedItemData}
                   draggedItemData={draggedItemData}
                   watch={watch}
+                  methods={methods}
+                  reset={reset}
                 />
               )}
 
@@ -260,6 +264,8 @@ export default function DraggableFields(props: DraggableFieldsI) {
                   setDraggedItemData={setDraggedItemData}
                   setValue={setValue}
                   watch={watch}
+                  methods={methods}
+                  reset={reset}
                 />
               )}
               {modal?.table && (
@@ -273,6 +279,8 @@ export default function DraggableFields(props: DraggableFieldsI) {
                   metricType={metricType}
                   draggedItemData={draggedItemData}
                   watch={watch}
+                  methods={methods}
+                  reset={reset}
                 />
               )}
             </>

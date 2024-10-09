@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/utils/dateTime';
 import { UserInfo } from '@/components/UserInfo';
@@ -28,11 +27,14 @@ export const exportTabColumns = [
       const url = new URL(info?.row?.original?.fileName);
       const fileName = url?.pathname?.replace(/^\//, '');
       return (
-        <Typography variant="body2" color={'primary'}>
-          <a href={url?.href} download={fileName}>
-            {<TruncateText text={fileName?.toLowerCase()} />}
-          </a>
-        </Typography>
+        <a href={url?.href} download={fileName}>
+          {
+            <TruncateText
+              text={fileName?.toLowerCase()}
+              boxProps={{ color: 'primary.main' }}
+            />
+          }
+        </a>
       );
     },
   },

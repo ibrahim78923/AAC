@@ -68,10 +68,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
             </Box>
           </DialogTitle>
           <DialogContent>
-            <FormProvider
-              methods={method}
-              onSubmit={handleSubmit(handleUpsertAgentSubmit)}
-            >
+            <FormProvider methods={method}>
               <Grid container spacing={1}>
                 {upsertAgentFormFields?.map((form: any) => (
                   <Grid item xs={12} md={form?.gridLength} key={form?.id}>
@@ -110,6 +107,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
               type="submit"
               variant="contained"
               className="small"
+              onClick={handleSubmit(handleUpsertAgentSubmit)}
               disabled={
                 patchAgentStatus?.isLoading ||
                 postAgentStatus?.isLoading ||

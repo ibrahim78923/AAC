@@ -89,7 +89,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     sharedWithSpecificUserWatch,
     newDashboardSpecificUserWatch,
   ] = watch([
-    ADD_TO?.ADD_TO_DASHBOARD,
+    ADD_TO?.SHARED_WITH,
     ADD_TO?.ADD_TO_DASHBOARD,
     ADD_TO?.ADD_TO_NEW_CONDITION_TWO,
     ADD_TO?.SPECIFIC_USERS_CONDITION_ONE,
