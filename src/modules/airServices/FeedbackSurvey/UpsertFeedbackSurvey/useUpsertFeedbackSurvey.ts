@@ -118,7 +118,7 @@ export const useUpsertFeedbackSurvey = () => {
     if (isNaN(date)) {
       return;
     } else {
-      return date?.toISOString();
+      return isoDateString(date);
     }
   };
   const newSurvey = [

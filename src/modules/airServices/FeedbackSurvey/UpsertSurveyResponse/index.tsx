@@ -10,6 +10,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_TYPES,
   GENERIC_UPSERT_FORM_CONSTANT,
 } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -39,7 +40,11 @@ export const UpsertSurveyResponse: React.FC<{
   if (lazyGetSingleSurveyForResponseStatus?.isError) return <ApiErrorState />;
   if (
     lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
-      ?.status !== FEEDBACK_STATUS?.PUBLISHED
+      ?.status !== FEEDBACK_STATUS?.PUBLISHED ||
+    (lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
+      ?.surveyType === FEEDBACK_SURVEY_TYPES?.CUSTOMER_SATISFACTION &&
+      !lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
+        ?.isDefault)
   )
     return <NoData message="No survey found" />;
 

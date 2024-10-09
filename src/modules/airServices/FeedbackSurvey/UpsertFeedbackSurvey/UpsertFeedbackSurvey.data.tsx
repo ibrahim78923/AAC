@@ -62,7 +62,7 @@ export const feedbackSurveyValues = (data: FeedbackSurveyI | null) => {
     surveyDuration: data?.surveyDuration
       ? localeDateTime(data?.surveyDuration)
       : null,
-    display: !!data?.displayName ?? false,
+    display: data?.displayName ? true : false,
     displayName: data?.displayName ?? '',
     customerSupportLinkType: data?.customerSupportLinkType ?? 'viaEmail',
     sendSurveyPeople:
