@@ -7,6 +7,7 @@ import {
 import { ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
 import { fullName } from '@/utils/avatarUtils';
+import { DealPipelineStagesDropdown } from '../DealPipelineStagesDropdown';
 const setPriorityOption = ['Low', 'Medium', 'High'];
 const setBillOption = [
   'monthly',
@@ -47,10 +48,8 @@ export const actionsExecutedFields = (
           placeholder: 'Select Deal Pipeline',
         });
     } else if (watchKey === actionName?.setDealStage) {
-      (component = RHFAutocompleteAsync),
+      (component = DealPipelineStagesDropdown),
         (componentProps = {
-          apiQuery: stagesDropdown,
-          externalParams: { limit: 100 },
           placeholder: 'Select Stage',
         });
     } else if (watchKey === actionName?.setAmount) {

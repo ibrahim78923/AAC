@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
 import { UseFormWatch } from 'react-hook-form';
+import { DealPipelineStagesDropdown } from '../DealPipelineStagesDropdown';
 
 export const conditionTypeOptions = [
   { label: 'Match ALL condition in this group', value: 'AND' },
@@ -119,14 +120,10 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          apiQuery: stagesDropdown,
-          externalParams: { limit: 100 },
-          placeholder: 'Select Deal Stage',
-        };
+        component = DealPipelineStagesDropdown;
       } else {
         component = Box;
+        0;
       }
     } else if (
       watchKey === conditionNames?.closeDate ||
