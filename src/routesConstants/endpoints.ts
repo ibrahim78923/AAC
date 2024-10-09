@@ -572,6 +572,9 @@ export const EMAILS_MARKETING_SETTINGS = {
   DELETE_EMAIL_IDENTITIES: '/emails-marketing/delete-email-identities',
   RESEND_EMAIL_OTP: '/emails-marketing/resend-code',
 };
+export const EMAILS_MARKETING_REPORTS = {
+  EMAIL_REPORTS: '/emails-marketing/email-reports',
+};
 
 export const superAdminBillingInvoices = {
   GET_ORG_PLAN: '/super-admin/get-all-orgplans?',

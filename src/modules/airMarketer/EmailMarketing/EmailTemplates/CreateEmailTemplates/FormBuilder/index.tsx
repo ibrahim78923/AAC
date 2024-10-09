@@ -320,7 +320,12 @@ const FormBuilder = ({
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <Grid item xs={6}>
-                      <RHFTextField name="from" label="From" size="small" />
+                      <RHFTextField
+                        name="from"
+                        label="From"
+                        size="small"
+                        required={true}
+                      />
                     </Grid>
                   </Grid>
 
@@ -389,7 +394,12 @@ const FormBuilder = ({
                   )}
 
                   <Grid item xs={6}>
-                    <RHFTextField name="subject" label="Subject" size="small" />
+                    <RHFTextField
+                      name="subject"
+                      label="Subject"
+                      size="small"
+                      required={true}
+                    />
                   </Grid>
                 </Grid>
               </FormProvider>

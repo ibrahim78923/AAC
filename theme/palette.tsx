@@ -185,6 +185,9 @@ const CUSTOM_COLORS = {
   youtube_linear_color2: '#FF5353',
   success_text: '#4CAD00',
   danger_text: '#D40101',
+  light_slate_blue: '#7ED4EE',
+  light_graph_purple: '#B889F4',
+  light_graph_red: '#F56686',
 };
 
 const GRAPH = {
