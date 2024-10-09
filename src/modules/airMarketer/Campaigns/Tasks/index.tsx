@@ -58,6 +58,7 @@ const Tasks = () => {
     compaignsTasksData,
     setStatusVariant,
   };
+
   return (
     <>
       <Box

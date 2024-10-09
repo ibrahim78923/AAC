@@ -1,5 +1,5 @@
 export interface AlertModalsPropsI {
-  message: string;
+  message: string | React.ReactNode;
   type: string;
   open: boolean;
   handleClose?: () => void;

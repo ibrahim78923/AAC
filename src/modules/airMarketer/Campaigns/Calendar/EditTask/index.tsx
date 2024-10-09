@@ -15,8 +15,6 @@ interface EditTaskProps {
   createTask: { isToggle: boolean };
   isType: string;
   initialValueProps?: typeof defaultValues;
-  setCreateTask: (value: any) => void;
-  clickedDate: Date;
 }
 
 export default function EditTask({
@@ -24,8 +22,6 @@ export default function EditTask({
   createTask,
   isType,
   initialValueProps = defaultValues,
-  setCreateTask,
-  clickedDate,
 }: EditTaskProps) {
   const {
     handleSubmit,
@@ -38,11 +34,9 @@ export default function EditTask({
     theme,
     handleClose,
   } = useEditTask({
-    onClose,
     initialValueProps,
-    setCreateTask,
+    onClose,
     createTask,
-    clickedDate,
   });
 
   return (

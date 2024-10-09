@@ -10,7 +10,7 @@ import {
   useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
 import { useEffect, useState } from 'react';
-import { indexNumbers } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -21,13 +21,9 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { errorSnackbar, filteredEmptyValues } from '@/utils/api';
+import dayjs from 'dayjs';
 
-const useEditTask = ({
-  // initialValueProps,
-  setIsOpenEditTaskDrawer,
-  selectedRec,
-  isType,
-}: any) => {
+const useEditTask = ({ setIsOpenEditTaskDrawer, selectedRec, isType }: any) => {
   const theme = useTheme();
   const CAMPAIGN_ID = 'campaignId';
   const [form, setForm] = useState<any>([]);
@@ -87,12 +83,12 @@ const useEditTask = ({
   const onSubmit = async (data: any) => {
     data.assignedTo = data?.assignedTo?._id;
     data.campaignId = data?.campaignId?._id;
-    const filteredEmptyData = filteredEmptyValues(data);
+    data.dueDate = dayjs(data?.dueDate)?.format(DATE_FORMAT?.API);
 
+    const filteredEmptyData = filteredEmptyValues(data);
     const customFields: any = {};
     const body: any = {};
     const attachmentPromises: Promise<any>[] = [];
-
     try {
       dynamicAttachmentsPost({
         form,

@@ -47,7 +47,7 @@ const Calendar = () => {
     monthsArray,
     setIsDelete,
     currentDate,
-    clickedDate,
+    // clickedDate,
     yearsArray,
     createTask,
     isDelete,
@@ -351,8 +351,6 @@ const Calendar = () => {
         <EditTask
           createTask={createTask}
           isType={createTask?.type}
-          setCreateTask={setCreateTask}
-          clickedDate={clickedDate}
           onClose={() => {
             setCreateTask({ ...createTask, isToggle: false });
           }}
