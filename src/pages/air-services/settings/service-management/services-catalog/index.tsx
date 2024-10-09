@@ -1,6 +1,6 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { ServicesCatalog } from '@/modules/airServices/Settings/ServiceManagement/ServicesCatalog';
+import ServicesCatalog from '@/modules/airServices/Settings/ServiceManagement/ServicesCatalog';
 
 const ServicesCatalogPage = () => {
   return <ServicesCatalog />;

@@ -1,25 +1,32 @@
 import { ROLES } from '@/constants/strings';
 import {
-  useGetCategoriesAgentDropdownQuery,
-  useGetCategoriesRequesterDropdownQuery,
-  usePatchServiceCatalogMutation,
+  useGetAirServicesSettingsServicesAllUsersDropdownListQuery,
+  useGetAirServicesSettingsServicesRequesterDropdownQuery,
+  usePatchAirServicesSettingsServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useState } from 'react';
-import { IServicesProps } from '../../Services.interface';
+import { SyntheticEvent, useState } from 'react';
 
-const useVisibilityAction = (props: IServicesProps) => {
+const useVisibility = (props: any) => {
   const { handleCloseVisibility, setAnchorEl, id } = props;
 
   const [selectedAgentCheckboxes, setSelectedAgentCheckboxes] = useState<any>(
     [],
   );
+  const [expandedAccordion, setExpandedAccordion] = useState<string | false>(
+    false,
+  );
+
+  const handleAccordionChange =
+    (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
+      setExpandedAccordion(isExpanded ? panel : false);
+    };
   const [selectedRequestorCheckboxes, setSelectedRequestorCheckboxes] =
     useState<any>([]);
 
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
-    usePatchServiceCatalogMutation();
+    usePatchAirServicesSettingsServiceCatalogMutation();
 
   const handleSubmit = async () => {
     const moveToCategoryData: any = {};
@@ -55,13 +62,19 @@ const useVisibilityAction = (props: IServicesProps) => {
     setAnchorEl?.(false);
   };
 
-  const apiQueryRequester = useGetCategoriesRequesterDropdownQuery({
-    params: { limit: 50, role: ROLES?.ORG_REQUESTER },
-  });
+  const apiQueryRequester =
+    useGetAirServicesSettingsServicesRequesterDropdownQuery(
+      {
+        params: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      },
+      { refetchOnMountOrArgChange: true },
+    );
 
-  const apiQueryAgent = useGetCategoriesAgentDropdownQuery({
-    params: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
-  });
+  const apiQueryAgent =
+    useGetAirServicesSettingsServicesAllUsersDropdownListQuery(
+      {},
+      { refetchOnMountOrArgChange: true },
+    );
 
   return {
     selectedAgentCheckboxes,
@@ -72,7 +85,9 @@ const useVisibilityAction = (props: IServicesProps) => {
     apiQueryAgent,
     apiQueryRequester,
     patchServiceCatalogTriggerStatus,
+    expandedAccordion,
+    handleAccordionChange,
   };
 };
 
-export default useVisibilityAction;
+export default useVisibility;

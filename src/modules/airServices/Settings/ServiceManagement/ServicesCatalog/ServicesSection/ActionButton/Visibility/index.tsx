@@ -5,12 +5,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import { Box, Checkbox, Skeleton, Typography } from '@mui/material';
-import useVisibilityAction from './useVisibilityAction';
+import { Box, Checkbox, CircularProgress, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { IServicesProps } from '../../Services.interface';
+import useVisibility from './useVisibility';
+import { fullName } from '@/utils/avatarUtils';
 
-export const VisibilityAction = (props: IServicesProps) => {
+export default function Visibility(props: any) {
   const { openVisibilityE1, handleCloseVisibility, anchorEl } = props;
 
   const {
@@ -22,38 +22,57 @@ export const VisibilityAction = (props: IServicesProps) => {
     apiQueryAgent,
     apiQueryRequester,
     patchServiceCatalogTriggerStatus,
-  } = useVisibilityAction(props);
+    expandedAccordion,
+    handleAccordionChange,
+  } = useVisibility(props);
 
   return (
     <Menu
       id="basic-menu"
       anchorEl={anchorEl}
-      open={openVisibilityE1 as boolean}
+      open={openVisibilityE1}
       onClose={handleCloseVisibility}
       MenuListProps={{
         'aria-labelledby': 'basic-button',
       }}
+      anchorOrigin={{ vertical: 'center', horizontal: 'left' }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      sx={{
+        '& .MuiPaper-root': {
+          borderRadius: 3,
+          maxWidth: 380,
+          width: '100%',
+        },
+      }}
     >
-      <Accordion key="agent-accordion">
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="agent-panel-content"
-          id="agent-panel-header"
-        >
-          <Typography>Agent Visibility</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            mr: '4rem',
-            overflow: 'auto !important',
-            maxHeight: '150px',
-          }}
-        >
-          {apiQueryAgent?.isLoading || apiQueryAgent?.isFetching ? (
-            <Skeleton variant={'rounded'} height={60} />
-          ) : (
-            <>
-              <Typography>
+      {apiQueryAgent?.isLoading || apiQueryAgent?.isFetching ? (
+        <Box width={'100%'} textAlign={'center'} p={2}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <Accordion
+            expanded={expandedAccordion === 'agent-accordion'}
+            onChange={handleAccordionChange('agent-accordion')}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="agent-panel-content"
+              id="agent-panel-header"
+            >
+              <Typography>Agent Visibility</Typography>
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{
+                mr: '4rem',
+                overflow: 'auto !important',
+                maxHeight: '150px',
+              }}
+            >
+              <Typography variant={'body2'}>
                 <Checkbox
                   sx={{ ml: '1rem' }}
                   checked={
@@ -93,47 +112,43 @@ export const VisibilityAction = (props: IServicesProps) => {
                           );
                     }}
                   />
-                  <Typography>
-                    {agent?.firstName}
-                    {agent?.lastName}
+                  <Typography variant={'body2'} textTransform={'capitalize'}>
+                    {fullName(agent?.firstName, agent?.lastName)}
                   </Typography>
                 </MenuItem>
               ))}
-            </>
-          )}
-        </AccordionDetails>
-        <Box textAlign={'end'} mr={4}>
-          <LoadingButton
-            variant="contained"
-            size="small"
-            onClick={handleSubmit}
-            loading={patchServiceCatalogTriggerStatus?.isLoading}
-          >
-            Save
-          </LoadingButton>
-        </Box>
-      </Accordion>
+            </AccordionDetails>
+            <Box textAlign={'end'} mr={4}>
+              <LoadingButton
+                variant={'contained'}
+                className={'small'}
+                onClick={handleSubmit}
+                loading={patchServiceCatalogTriggerStatus?.isLoading}
+              >
+                Save
+              </LoadingButton>
+            </Box>
+          </Accordion>
 
-      <Accordion key="requestor-accordion">
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="agent-panel-content"
-          id="agent-panel-header"
-        >
-          <Typography>Requestor Visibility</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            mr: '4rem',
-            overflow: 'auto !important',
-            maxHeight: '150px',
-          }}
-        >
-          {apiQueryRequester?.isLoading || apiQueryRequester?.isFetching ? (
-            <Skeleton variant={'rounded'} height={60} />
-          ) : (
-            <>
-              <Typography>
+          <Accordion
+            expanded={expandedAccordion === 'requestor-accordion'}
+            onChange={handleAccordionChange('requestor-accordion')}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="requestor-panel-content"
+              id="requestor-panel-header"
+            >
+              <Typography>Requestor Visibility</Typography>
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{
+                mr: '4rem',
+                overflow: 'auto !important',
+                maxHeight: '150px',
+              }}
+            >
+              <Typography variant={'body2'}>
                 <Checkbox
                   sx={{ ml: '1rem' }}
                   checked={
@@ -175,26 +190,24 @@ export const VisibilityAction = (props: IServicesProps) => {
                           );
                     }}
                   />
-                  <Typography>
-                    {requestor?.firstName}
-                    {requestor?.lastName}
+                  <Typography variant={'body2'} textTransform={'capitalize'}>
+                    {fullName(requestor?.firstName, requestor?.lastName)}
                   </Typography>
                 </MenuItem>
               ))}
-            </>
-          )}
-        </AccordionDetails>
-        <Box textAlign={'end'} mr={4}>
-          <LoadingButton
-            variant="contained"
-            size="small"
-            type="button"
-            onClick={handleSubmit}
-          >
-            Save
-          </LoadingButton>
-        </Box>
-      </Accordion>
+            </AccordionDetails>
+            <Box textAlign={'end'} mr={4}>
+              <LoadingButton
+                variant={'contained'}
+                className={'small'}
+                onClick={handleSubmit}
+              >
+                Save
+              </LoadingButton>
+            </Box>
+          </Accordion>
+        </>
+      )}
     </Menu>
   );
-};
+}

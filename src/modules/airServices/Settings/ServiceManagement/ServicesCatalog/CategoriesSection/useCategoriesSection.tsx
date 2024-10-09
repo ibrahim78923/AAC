@@ -3,17 +3,21 @@ import { useForm } from 'react-hook-form';
 import {
   addServiceCatalogDefaultValues,
   addServiceCatalogValidationSchema,
-} from './AddServiceCatalog.data';
-import { usePostServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+} from './CategoriesSection.data';
+import { usePostAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { IServicesProps } from '../Services.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useRouter } from 'next/router';
+import { useTheme } from '@mui/material';
 
-const useAddServiceCatalog = (prop: IServicesProps) => {
-  const { open, setOpen } = prop;
+const useCategoriesSection = (props: any) => {
+  const { setOpen } = props;
+
+  const router: any = useRouter();
+  const theme: any = useTheme();
 
   const [postServiceCatalogTrigger, postServiceCatalogTriggerStatus] =
-    usePostServiceCatalogMutation();
+    usePostAirServicesSettingsServiceCatalogMutation();
 
   const methodAdd = useForm({
     resolver: yupResolver(addServiceCatalogValidationSchema),
@@ -27,13 +31,12 @@ const useAddServiceCatalog = (prop: IServicesProps) => {
       await postServiceCatalogTrigger({
         body: data,
       })?.unwrap();
-      successSnackbar('Service Add Successfully');
+      successSnackbar('Service Added Successfully!');
       handleClose?.();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
-    setOpen?.(false);
   };
 
   const handleClose = () => {
@@ -42,13 +45,14 @@ const useAddServiceCatalog = (prop: IServicesProps) => {
   };
 
   return {
+    router,
+    theme,
     methodAdd,
     handleSubmit,
     onSubmit,
-    open,
     handleClose,
     postServiceCatalogTriggerStatus,
   };
 };
 
-export default useAddServiceCatalog;
+export default useCategoriesSection;

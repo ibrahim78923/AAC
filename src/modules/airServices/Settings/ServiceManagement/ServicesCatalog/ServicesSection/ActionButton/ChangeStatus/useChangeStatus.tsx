@@ -4,25 +4,27 @@ import {
   changeStatusDefaultValues,
   changeStatusValidationSchema,
 } from './ChangeStatus.data';
-import { usePatchServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { usePatchAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { IServicesProps } from '../Services.interface';
 
-const useChangeStatus = (prop: IServicesProps) => {
-  const { openStatus, setOpenStatus, id } = prop;
+const useChangeStatus = (prop: any) => {
+  const { setOpenStatus, dataProp } = prop;
 
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
-    usePatchServiceCatalogMutation();
+    usePatchAirServicesSettingsServiceCatalogMutation();
+
   const methodChangeStatus = useForm({
     resolver: yupResolver(changeStatusValidationSchema),
     defaultValues: changeStatusDefaultValues,
   });
+
   const { handleSubmit } = methodChangeStatus;
+
   const onSubmit = async (data: any) => {
     const moveToCategoryData = {
       status: data?.status,
-      ids: id?.selectedCheckboxes,
+      ids: dataProp?.selectedCheckboxes,
     };
 
     const body = moveToCategoryData;
@@ -30,12 +32,15 @@ const useChangeStatus = (prop: IServicesProps) => {
     const patchServiceCatalogParameter = { body };
     try {
       await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
-
-      successSnackbar('Service Status Updated ');
+      successSnackbar('Service Status Updated');
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
+    handleClose?.();
+  };
+
+  const handleClose = () => {
     setOpenStatus?.(false);
   };
 
@@ -43,9 +48,8 @@ const useChangeStatus = (prop: IServicesProps) => {
     methodChangeStatus,
     handleSubmit,
     onSubmit,
-    openStatus,
-    setOpenStatus,
     patchServiceCatalogTriggerStatus,
+    handleClose,
   };
 };
 export default useChangeStatus;

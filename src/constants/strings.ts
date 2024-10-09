@@ -1245,3 +1245,8 @@ export const NUMBER_OF_DAYS = [
 export const EMAIL_SUBJECT = {
   LEAD_CAPTURE_FORM: 'Lead Capture Form',
 };
+
+export const SERVICE_CATALOG_STATUSES = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
+};

@@ -1,22 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  moveToCategoryDefaultValues,
-  moveToCategoryValidationSchema,
-} from './MoveToCategory.data';
-import {
-  useLazyGetCategoriesDropdownQuery,
-  usePatchServiceCatalogMutation,
+  useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery,
+  usePatchAirServicesSettingsServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { IServicesProps } from '../Services.interface';
+import {
+  moveToCategoryDefaultValues,
+  moveToCategoryValidationSchema,
+} from './MoveToCategory.data';
 
-const useMoveToCategory = (prop: IServicesProps) => {
+export default function useMoveToCategory(props: any) {
+  const { setOpen, dataProp, setSelectedCheckboxes } = props;
+
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
-    usePatchServiceCatalogMutation();
-
-  const { open, setOpen, id, setSelectedCheckboxes } = prop;
+    usePatchAirServicesSettingsServiceCatalogMutation();
 
   const methodAdd = useForm({
     resolver: yupResolver(moveToCategoryValidationSchema),
@@ -28,31 +27,36 @@ const useMoveToCategory = (prop: IServicesProps) => {
   const onSubmit = async (data: any) => {
     const moveToCategoryData = {
       serviceCategory: data?.category?._id,
-      ids: id?.selectedCheckboxes,
+      ids: dataProp?.selectedCheckboxes,
     };
     const body = moveToCategoryData;
 
     const patchServiceCatalogParameter = { body };
     try {
       await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
-
-      successSnackbar('Service Move Successfully!');
+      successSnackbar('Service Moved Successfully!');
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
-    setOpen?.(false);
+
+    handleClose?.();
     setSelectedCheckboxes?.([]);
   };
-  const apiQueryCategroy = useLazyGetCategoriesDropdownQuery();
+
+  const handleClose = () => {
+    setOpen?.(false);
+  };
+
+  const apiQueryCategory =
+    useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery();
+
   return {
     methodAdd,
     handleSubmit,
     onSubmit,
-    open,
-    setOpen,
-    apiQueryCategroy,
+    apiQueryCategory,
     patchServiceCatalogTriggerStatus,
+    handleClose,
   };
-};
-export default useMoveToCategory;
+}

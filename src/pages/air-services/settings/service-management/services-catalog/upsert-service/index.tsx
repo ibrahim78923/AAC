@@ -1,8 +1,9 @@
 import Layout from '@/layout';
-import { UpsertService } from '@/modules/airServices/Settings/ServiceManagement/ServicesCatalog/Services/UpsertService';
 import { Permissions } from '@/constants/permissions';
+import UpsertServices from '@/modules/airServices/Settings/ServiceManagement/ServicesCatalog/UpsertServices';
+
 const UpsertServicePage = () => {
-  return <UpsertService />;
+  return <UpsertServices />;
 };
 
 export default UpsertServicePage;

@@ -1,15 +1,13 @@
 import { RHFRadioGroup } from '@/components/ReactHookForm';
-
+import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 import * as Yup from 'yup';
+
 export const changeStatusValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  published: Yup?.string(),
-  draft: Yup?.string(),
+  status: Yup?.string()?.required('Status is required'),
 });
+
 export const changeStatusDefaultValues = {
   status: '',
-  published: '',
-  draft: '',
 };
 
 export const changeStatusData = [
@@ -17,20 +15,18 @@ export const changeStatusData = [
     id: 1,
     componentProps: {
       name: 'status',
-      fullWidth: true,
       defaultValue: 'all',
       options: [
         {
-          value: 'PUBLISHED',
+          value: SERVICE_CATALOG_STATUSES?.PUBLISHED,
           label: 'Published',
         },
         {
-          value: 'DRAFT',
+          value: SERVICE_CATALOG_STATUSES?.DRAFT,
           label: 'Draft',
         },
       ],
     },
     component: RHFRadioGroup,
-    md: 12,
   },
 ];

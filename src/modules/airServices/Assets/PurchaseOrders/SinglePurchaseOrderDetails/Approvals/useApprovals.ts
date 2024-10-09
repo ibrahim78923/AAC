@@ -56,7 +56,7 @@ export const useApprovals = () => {
   const sendReminderForPurchaseOrderApproval = async () => {
     try {
       await postPurchaseOrderApprovalRemindersTrigger({})?.unwrap();
-      successSnackbar('Reminder Send Successfully');
+      successSnackbar('Reminder Sent Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

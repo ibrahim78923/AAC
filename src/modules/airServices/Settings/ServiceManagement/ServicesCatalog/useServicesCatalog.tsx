@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-
 import {
-  useGetServiceCatalogCategoriesQuery,
-  useGetServiceCatalogQuery,
+  useGetAirServicesSettingsServiceCatalogCategoriesQuery,
+  useGetAirServicesSettingsServiceCatalogQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { PAGINATION } from '@/config';
-const useServices = () => {
+
+const useServicesCatalog = () => {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -30,10 +30,8 @@ const useServices = () => {
     isSuccess,
     isLoading: categoriesIsLoading,
     isFetching: categoriesIsFetching,
-  } = useGetServiceCatalogCategoriesQuery(
-    {
-      param,
-    },
+  } = useGetAirServicesSettingsServiceCatalogCategoriesQuery(
+    { param },
     {
       refetchOnMountOrArgChange: true,
     },
@@ -51,18 +49,19 @@ const useServices = () => {
       categoryId,
     },
   };
-  const { data, isLoading, isFetching } = useGetServiceCatalogQuery(
-    getServiceCatalogCategoriesParameter,
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const { data, isLoading, isFetching } =
+    useGetAirServicesSettingsServiceCatalogQuery(
+      getServiceCatalogCategoriesParameter,
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const results = data?.data;
   const paginationData = Categories?.data?.meta;
 
   const isAnyCheckboxSelected = () => {
-    return selectedCheckboxes.length > 0;
+    return selectedCheckboxes?.length > 0;
   };
 
   return {
@@ -88,4 +87,4 @@ const useServices = () => {
   };
 };
 
-export default useServices;
+export default useServicesCatalog;
