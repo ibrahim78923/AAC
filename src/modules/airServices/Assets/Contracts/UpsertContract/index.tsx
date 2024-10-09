@@ -116,8 +116,7 @@ export const UpsertContract = () => {
                   color="slateBlue.main"
                   my={2}
                 >
-                  {' '}
-                  Attachments{' '}
+                  Attachments
                 </Typography>
                 <Box maxHeight={'20vh'}>
                   <Attachments
@@ -143,6 +142,7 @@ export const UpsertContract = () => {
               <Box></Box>
               <Box display={'flex'} gap={2} alignItems={'center'}>
                 <LoadingButton
+                  className="small"
                   variant="outlined"
                   type="button"
                   color="secondary"
@@ -156,6 +156,7 @@ export const UpsertContract = () => {
                   Cancel
                 </LoadingButton>
                 <LoadingButton
+                  className="small"
                   loading={
                     postContractStatus?.isLoading ||
                     putContractStatus?.isLoading ||

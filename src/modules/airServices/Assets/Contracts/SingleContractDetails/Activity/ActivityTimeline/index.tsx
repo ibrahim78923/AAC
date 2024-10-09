@@ -1,7 +1,8 @@
 import Typography from '@mui/material/Typography';
-import { Box, Divider, IconButton } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { useActivity } from '../useActivity';
 import { DATE_FORMAT } from '@/constants';
+import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import dayjs from 'dayjs';
 
 export const ActivityTimeline = ({ activityData }: any) => {
@@ -19,18 +20,16 @@ export const ActivityTimeline = ({ activityData }: any) => {
         <Typography variant="body3" sx={{ flex: 0.15 }}>
           {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
         </Typography>
-        <IconButton
-          disabled
-          color="primary"
-          sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
-        ></IconButton>
+        <Box mt={0.2}>
+          <PanoramaFishEyeIcon color="primary" fontSize="small" />
+        </Box>
         <Typography variant="body2" sx={{ flex: 0.8 }}>
           <Typography variant="body2" color="primary" marginRight={0.3}>
             {activityData?.performedBy?.firstName +
               ' ' +
               activityData?.performedBy?.lastName}
           </Typography>
-          {activityData?.activity}{' '}
+          {activityData?.activity}
         </Typography>
       </Box>
       <Box

@@ -8,6 +8,7 @@ import {
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
 import {
+  ARRAY_INDEX,
   BILLING_CYCLE,
   CONTRACT_STATUS,
   CONTRACT_TYPES,
@@ -168,7 +169,7 @@ export const upsertContractFormDefaultValuesFunction: any = (
     billingCycle: data?.billingCycle ?? softwareLicense?.billingCycle,
     licenseType: data?.licenseType ?? softwareLicense?.licenseType,
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
-    software: data?.[0] ?? softwareLicense?.software,
+    software: data?.[ARRAY_INDEX?.ZERO] ?? softwareLicense?.software,
     attachFile: null,
   };
 };

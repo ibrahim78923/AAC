@@ -1,5 +1,13 @@
 import UsersTable from './UsersTable';
-import { Box } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
@@ -10,11 +18,15 @@ import UsersRemove from './UsersRemove';
 import UsersAllocate from './UsersAllocate';
 import UsersDeallocate from './UsersDeallocate';
 import useUsers from './useUsers';
-import UserActionModal from './UserActionModal';
-import { EXPORT_TYPE, SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
+import {
+  EXPORT_TYPE,
+  SOFTWARE_USER_ACTIONS_CLICK,
+  SOFTWARE_USER_ACTIONS_TYPES,
+} from '@/constants/strings';
 import { LoadingButton } from '@mui/lab';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
+import { Close } from '@mui/icons-material';
 
 export const Users = () => {
   const {
@@ -73,8 +85,7 @@ export const Users = () => {
         </Box>
       </Box>
       {actionModalOpen && (
-        <UserActionModal
-          handleClose={userActionDropdownCloseHandler}
+        <Dialog
           open={
             actionModalOpen &&
             (selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE ||
@@ -83,38 +94,49 @@ export const Users = () => {
                   SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE) &&
                 usersData?.length <= 1))
           }
-          selectedItem={
-            selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
-              ? 'Add Device'
-              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-                ? 'Deallocate Contract '
-                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-                  ? 'Remove Contract'
-                  : 'Add Device'
-          }
+          onClose={userActionDropdownCloseHandler}
+          maxWidth="sm"
+          fullWidth
         >
-          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
-            <UsersAllocate
-              methods={methods}
-              onSubmit={allocateSubmit}
-              contractDropdown={contractDropdown}
-            />
-          )}
-          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && (
-            <UsersDeallocate />
-          )}
-          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
-            <UsersRemove />
-          )}
+          <DialogTitle>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              gap={1}
+              flexWrap={'wrap'}
+              mb={1.5}
+            >
+              <Typography variant="h4" color="slateBlue.main">
+                {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
+                  ? SOFTWARE_USER_ACTIONS_CLICK?.DEALLOCATE_CONTRACT
+                  : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+                    ? SOFTWARE_USER_ACTIONS_CLICK?.REMOVE_CONTRACT
+                    : SOFTWARE_USER_ACTIONS_CLICK?.ADD_DEVICE}
+              </Typography>
+              <IconButton onClick={userActionDropdownCloseHandler}>
+                <Close color="secondary" />
+              </IconButton>
+            </Box>
+          </DialogTitle>
 
-          <Box
-            display={'flex'}
-            justifyContent={'flex-end'}
-            alignItems={'center'}
-            gap={2}
-            marginTop={2}
-          >
+          <DialogContent>
+            {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
+              <UsersAllocate
+                methods={methods}
+                onSubmit={allocateSubmit}
+                contractDropdown={contractDropdown}
+              />
+            )}
+            {selectedActionTitle ===
+              SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && <UsersDeallocate />}
+            {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
+              <UsersRemove />
+            )}
+          </DialogContent>
+          <DialogActions sx={{ paddingTop: `0rem !important` }}>
             <LoadingButton
+              className="small"
               onClick={userActionDropdownCloseHandler}
               variant="outlined"
               color="secondary"
@@ -123,6 +145,7 @@ export const Users = () => {
               No
             </LoadingButton>
             <LoadingButton
+              className="small"
               variant="contained"
               disabled={deAllocateLoading || allocateLoading || removeLoading}
               loading={deAllocateLoading || allocateLoading || removeLoading}
@@ -134,8 +157,8 @@ export const Users = () => {
             >
               Yes
             </LoadingButton>
-          </Box>
-        </UserActionModal>
+          </DialogActions>
+        </Dialog>
       )}
 
       <br />

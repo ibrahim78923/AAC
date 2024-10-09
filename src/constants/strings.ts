@@ -378,6 +378,9 @@ export const SOFTWARE_USER_ACTIONS_TYPES = {
 
 export const SOFTWARE_USER_ACTIONS_CLICK = {
   CLOSE_MENU: 'closeMenu',
+  ADD_DEVICE: 'Add Device',
+  DEALLOCATE_CONTRACT: 'Deallocate Contract',
+  REMOVE_CONTRACT: 'Remove Contract',
 };
 export const TASK_STATUS = {
   TO_DO: 'Todo',

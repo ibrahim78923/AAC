@@ -24,8 +24,8 @@ import { AllocateSubmitI, SoftwareUserDataI } from './Users.interface';
 const useUsers = () => {
   const [usersData, setUsersData] = useState<SoftwareUserDataI[]>([]);
   const [actionModalOpen, setActionModalOpen] = useState<boolean>(false);
-  const [selectedActionTitle, setSelectedActionTitle] = useState('');
-  const [search, setSearch] = useState('');
+  const [selectedActionTitle, setSelectedActionTitle] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -44,6 +44,7 @@ const useUsers = () => {
     getUserListTrigger,
     { data: getSoftwareUsers, isLoading, isFetching, isSuccess, isError },
   ] = useLazyGetSoftwareUsersDetailsQuery();
+
   const handleGetUser = async () => {
     const getUserListParam = new URLSearchParams();
     getUserListParam?.append('page', page?.toString());

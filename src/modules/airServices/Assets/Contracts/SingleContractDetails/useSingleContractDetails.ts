@@ -12,8 +12,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { CONTRACT_STATUS } from '@/constants/strings';
 
 export const useSingleContractDetails = () => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [terminateModalOpen, setTerminateModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [terminateModalOpen, setTerminateModalOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const { contractId } = router?.query;

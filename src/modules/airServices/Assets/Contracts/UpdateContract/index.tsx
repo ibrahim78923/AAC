@@ -94,8 +94,7 @@ export const UpdateContract = () => {
                   color="slateBlue.main"
                   mb={2}
                 >
-                  {' '}
-                  Attachments{' '}
+                  Attachments
                 </Typography>
                 <Box maxHeight={'20vh'}>
                   <Attachments
@@ -117,9 +116,9 @@ export const UpdateContract = () => {
               alignItems={'center'}
               justifyContent={'space-between'}
             >
-              <Box></Box>
               <Box display={'flex'} gap={2} alignItems={'center'}>
                 <LoadingButton
+                  className="small"
                   variant="outlined"
                   type="button"
                   color="secondary"
@@ -130,6 +129,7 @@ export const UpdateContract = () => {
                 </LoadingButton>
 
                 <LoadingButton
+                  className="small"
                   variant="contained"
                   type="submit"
                   loading={patchAddToContractStatus?.isLoading}

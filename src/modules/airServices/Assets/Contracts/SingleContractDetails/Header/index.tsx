@@ -58,6 +58,7 @@ export const Header = (props: any) => {
                   variant="outlined"
                   color="secondary"
                   onClick={handleSubmitForApprove}
+                  className="small"
                 >
                   approve
                 </Button>
@@ -65,6 +66,7 @@ export const Header = (props: any) => {
                   variant="outlined"
                   color="secondary"
                   onClick={handleClickOpen}
+                  className="small"
                 >
                   Reject
                 </Button>

@@ -3,8 +3,10 @@ import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import {
   Box,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -24,20 +26,20 @@ export const RejectStatus = (props: any) => {
       <DialogTitle>
         <Box
           display={'flex'}
-          gap={1}
           alignItems={'center'}
-          flexWrap={'wrap'}
           justifyContent={'space-between'}
+          gap={1}
+          flexWrap={'wrap'}
+          mb={1.5}
         >
           <Typography variant="h4">Rejected</Typography>
-          <Close
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={handleClose}
-          />
+          <IconButton onClick={handleClose}>
+            <Close sx={{ color: 'custom.darker' }} />
+          </IconButton>
         </Box>
       </DialogTitle>
 
-      <DialogContent sx={{ mt: 1 }}>
+      <DialogContent>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <RHFTextField
             multiline
@@ -46,16 +48,9 @@ export const RejectStatus = (props: any) => {
             label="Reason For Rejection"
             required
           />
-
-          <Box
-            display={'flex'}
-            gap={1}
-            alignItems={'center'}
-            flexWrap={'wrap'}
-            justifyContent={'flex-end'}
-            mt={1}
-          >
+          <DialogActions sx={{ paddingTop: `0rem !important` }}>
             <LoadingButton
+              className="small"
               variant="outlined"
               color="inherit"
               onClick={handleClose}
@@ -64,13 +59,14 @@ export const RejectStatus = (props: any) => {
               Cancel
             </LoadingButton>
             <LoadingButton
+              className="small"
               loading={patchContractRejectStatus?.isLoading}
               variant="contained"
               type="submit"
             >
               Submit
             </LoadingButton>
-          </Box>
+          </DialogActions>
         </FormProvider>
       </DialogContent>
     </Dialog>

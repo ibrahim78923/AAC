@@ -15,7 +15,7 @@ export const ContractHistory = () => {
     <Grid container>
       <Grid item xs={12} md={10.5}>
         {!!contractHistory?.length ? (
-          contractHistory?.map((singleActivity: any, index: any) => (
+          contractHistory?.map((singleActivity: any, index: number) => (
             <Timeline
               data={singleActivity}
               key={singleActivity?._id || index}

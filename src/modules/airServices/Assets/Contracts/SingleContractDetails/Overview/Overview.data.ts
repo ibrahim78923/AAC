@@ -28,11 +28,9 @@ export const overviewData = ({
       },
       {
         name: 'Validity',
-        detail:
-          `${dayjs(contractData?.startDate)?.format(
-            DATE_FORMAT?.UI,
-          )} to ${dayjs(contractData?.endDate)?.format(DATE_FORMAT?.UI)}` ??
-          '---',
+        detail: `${dayjs(contractData?.startDate)?.format(
+          DATE_FORMAT?.UI,
+        )} to ${dayjs(contractData?.endDate)?.format(DATE_FORMAT?.UI)}`,
       },
     ],
   },

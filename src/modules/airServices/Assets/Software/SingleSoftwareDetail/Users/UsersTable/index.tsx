@@ -1,4 +1,3 @@
-import React from 'react';
 import { usersTableColumns } from './UsersTable.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useUsers from '../useUsers';
