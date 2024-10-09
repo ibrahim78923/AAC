@@ -1,5 +1,6 @@
 import { baseAPI } from '@/services/base-api';
 import { SUPER_ADMIN_SETTINGS } from '@/routesConstants/paths';
+import { END_POINTS } from '@/routesConstants/endpoints';
 
 const TAG = ['SETTINGS_PRODUCT_FEATURES'];
 export const settingsProductFeaturesAPI = baseAPI.injectEndpoints({
@@ -7,15 +8,6 @@ export const settingsProductFeaturesAPI = baseAPI.injectEndpoints({
     getProductFeature: builder.query({
       query: ({ params }) => ({
         url: SUPER_ADMIN_SETTINGS?.PRODUCT_FEATURES,
-        method: 'GET',
-        params: params,
-      }),
-      providesTags: TAG,
-    }),
-
-    getProducts: builder.query({
-      query: (params) => ({
-        url: SUPER_ADMIN_SETTINGS?.PRODUCTS,
         method: 'GET',
         params: params,
       }),
@@ -56,26 +48,25 @@ export const settingsProductFeaturesAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
-    getProductsList: builder.query({
+    getProductFeatureProductList: builder.query({
       query: ({ params }) => ({
-        url: SUPER_ADMIN_SETTINGS?.PRODUCTS,
+        url: END_POINTS?.DROPDOWN_PRODUCTS,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: ['SETTINGS_PRODUCT_FEATURES', 'PRODUCTS'],
+      providesTags: ['AAC_PRODUCTS'],
     }),
   }),
 });
 
 export const {
   useGetProductFeatureQuery,
-  useGetProductsQuery,
   useGetProductFeatureByIdQuery,
   useUpdateProductFeatureMutation,
   usePostProductFeatureMutation,
   useDeleteProductFeatureMutation,
-  useLazyGetProductsListQuery,
+  useLazyGetProductFeatureProductListQuery,
 } = settingsProductFeaturesAPI;

@@ -34,7 +34,7 @@ export const addProductFeatureFormData = (products: any) => {
         placeholder: 'Select product',
         apiQuery: products,
         getOptionLabel: (option: any) => option?.name,
-        externalParams: { status: 'active' },
+        externalParams: { meta: false },
         required: true,
         multiple: true,
       },

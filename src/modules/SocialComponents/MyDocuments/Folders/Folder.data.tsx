@@ -211,7 +211,7 @@ export const uploadDocumentData = (
             multiple: true,
             getOptionLabel: (option: any) =>
               `${option?.firstName} ${option?.lastName}`,
-            externalParams: { id: orgId },
+            externalParams: { id: orgId, meta: false },
           },
           component: RHFAutocompleteAsync,
           md: 12,
