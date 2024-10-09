@@ -21,7 +21,7 @@ const PurchaseOrder = () => {
     setPage,
     setPageLimit,
     page,
-    setSearchValue,
+    handleSearch,
     lazyGetPurchaseOrderListStatus,
     purchaseOrderColumns,
     getPurchaseOrderListDataExport,
@@ -56,7 +56,7 @@ const PurchaseOrder = () => {
             getPurchaseOrderListDataExport?.(EXPORT_TYPE?.CSV)
           }
           deleteButtonDisabled={!!!purchaseOrderData?.length}
-          setSearchValue={setSearchValue}
+          setSearchValue={handleSearch}
           onFilterClick={() => setIsDrawerOpen?.(true)}
           onDeleteClick={() => onDeleteClick?.()}
         />

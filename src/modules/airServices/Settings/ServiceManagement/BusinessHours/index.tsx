@@ -36,6 +36,8 @@ export const BusinessHours = () => {
         moveBack={() => router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
       />
 
+      <br />
+
       <Grid container spacing={3}>
         <Grid
           item
@@ -157,6 +159,7 @@ export const BusinessHours = () => {
           )}
         </PermissionsGuard>
       </Grid>
+
       {openModal?.delete && (
         <AlertModals
           message={'Are you sure you want to delete this Business Hour?'}

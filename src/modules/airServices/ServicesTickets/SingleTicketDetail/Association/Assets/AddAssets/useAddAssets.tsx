@@ -31,6 +31,11 @@ export default function useAddAssets({ setSelected, selected }: any) {
     associatesAssetList: data?.data?.inventories,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
     addAssetsColumns,
     data,
@@ -40,6 +45,6 @@ export default function useAddAssets({ setSelected, selected }: any) {
     isSuccess,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
   };
 }

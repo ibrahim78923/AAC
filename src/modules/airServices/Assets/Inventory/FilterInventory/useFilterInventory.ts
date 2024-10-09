@@ -13,6 +13,7 @@ import {
 } from '@/services/airServices/assets/inventory';
 import { FilterInventoryI } from './FilterInventory.interface';
 import useAuth from '@/hooks/useAuth';
+import { PAGINATION } from '@/config';
 
 export const useFilterInventory = (props: FilterInventoryI) => {
   const {
@@ -46,7 +47,7 @@ export const useFilterInventory = (props: FilterInventoryI) => {
       setInventoryFilterLists?.(inventoryFilteredFields);
       return;
     }
-    setPage?.(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setInventoryFilterLists?.(inventoryFilteredFields);
     closeInventoryFilterForm();
   };

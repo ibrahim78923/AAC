@@ -13,7 +13,7 @@ export const AssociationsDrawer = (props: any) => {
     lazyGetTicketsStatus,
     metaData,
     search,
-    setSearch,
+    handleSearch,
     pageLimit,
     setPageLimit,
     page,
@@ -49,7 +49,7 @@ export const AssociationsDrawer = (props: any) => {
             label="Search"
             width="100%"
             searchBy={search}
-            setSearchBy={setSearch}
+            setSearchBy={handleSearch}
             sx={{ width: '100%' }}
           />
           <Box sx={{ height: '66vh', mt: 1 }}>

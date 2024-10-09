@@ -7,6 +7,7 @@ import {
   purchaseOrderFilterFormDefaultValues,
 } from './PurchaseOrderFilter.data';
 import { useForm } from 'react-hook-form';
+import { PAGINATION } from '@/config';
 
 export const usePurchaseOrderFilter = (props: any) => {
   const {
@@ -34,7 +35,7 @@ export const usePurchaseOrderFilter = (props: any) => {
       setPurchaseOrderFilter?.(purchaseOrderFilteredFields);
       return;
     }
-    setPage(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setPurchaseOrderFilter?.(purchaseOrderFilteredFields);
     closePurchaseOrderFilterForm();
   };

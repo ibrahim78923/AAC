@@ -33,11 +33,11 @@ export const AssetsReceived = () => {
         purchaseOrderIdData?.data?.orderName && (
           <>
             <Box mb={2}>
-              <Typography variant="h4">
+              <Typography variant={'h4'} textTransform={'capitalize'}>
                 {purchaseOrderIdData?.data?.orderName}
               </Typography>
               <Typography
-                variant="body2"
+                variant={'body2'}
                 color={theme?.palette?.custom?.main}
                 fontWeight={500}
               >
@@ -56,21 +56,30 @@ export const AssetsReceived = () => {
                 <Box key={item?._id} sx={styles?.assetsCard(theme)}>
                   <Box sx={styles?.cardDetail}>
                     <Typography
-                      variant="body2"
+                      variant={'body2'}
                       fontWeight={600}
+                      textTransform={'uppercase'}
                       sx={styles?.cardText}
                     >
-                      #ASSET-{item?._id?.slice(-2)?.toUpperCase()}
+                      #ASSET-{item?._id?.slice(-3)?.toUpperCase()}
                     </Typography>
                     <Box sx={styles?.cardLine(theme)} />
                   </Box>
                   <Box sx={styles?.cardDetail}>
-                    <Typography variant="body3" sx={styles?.cardText}>
+                    <Typography
+                      variant="body3"
+                      sx={styles?.cardText}
+                      textTransform={'capitalize'}
+                    >
                       {item?.assetName}
                     </Typography>
                   </Box>
                   <Box sx={styles?.cardLine(theme)} />
-                  <Typography variant="body3" sx={styles?.cardText}>
+                  <Typography
+                    variant="body3"
+                    sx={styles?.cardText}
+                    textTransform={'capitalize'}
+                  >
                     Location:- {item?.locationName}
                   </Typography>
                 </Box>

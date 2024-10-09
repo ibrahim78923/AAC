@@ -26,6 +26,11 @@ export default function useAddPurchaseOrder({ setSelected, selected }: any) {
     associatesOrderList: data?.data?.purchases,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
     addOrderColumns,
     data,
@@ -35,6 +40,6 @@ export default function useAddPurchaseOrder({ setSelected, selected }: any) {
     isSuccess,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
   };
 }

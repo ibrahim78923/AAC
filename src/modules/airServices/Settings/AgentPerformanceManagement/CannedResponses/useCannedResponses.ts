@@ -52,6 +52,11 @@ export const useCannedResponses = () => {
     getCannedResponsesListData();
   }, [search, page, pageLimit]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const convertToHyphenCase = (str: string): string => {
     return str
       ?.split(' ')
@@ -87,7 +92,7 @@ export const useCannedResponses = () => {
     setOpenModal,
     openModal,
     search,
-    setSearch,
+    handleSearch,
     cannedResponses,
     lazyGetCannedResponsesStatus,
     setPageLimit,

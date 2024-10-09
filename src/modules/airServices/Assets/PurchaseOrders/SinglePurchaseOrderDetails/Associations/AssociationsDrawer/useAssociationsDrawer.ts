@@ -33,6 +33,7 @@ export const useAssociationsDrawer = (props: any) => {
 
     getTicketsParam?.append('page', page + '');
     getTicketsParam?.append('limit', pageLimit + '');
+    getTicketsParam?.append('metaData', true + '');
     getTicketsParam?.append('search', search);
 
     const getTicketsParameter = {
@@ -74,10 +75,15 @@ export const useAssociationsDrawer = (props: any) => {
     getValueTicketsListData();
   }, [search, page, pageLimit]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
     lazyGetTicketsStatus,
     search,
-    setSearch,
+    handleSearch,
     pageLimit,
     setPageLimit,
     page,

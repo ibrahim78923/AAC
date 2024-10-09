@@ -82,6 +82,11 @@ const usePurchaseOrders = () => {
     getPurchaseOrderListData();
   }, [searchValue, page, pageLimit, purchaseOrderFilter]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchValue(data);
+  };
+
   const purchaseOrderColumns = purchaseOrderColumnsFunction(
     purchaseOrderData,
     setPurchaseOrderData,
@@ -113,7 +118,7 @@ const usePurchaseOrders = () => {
     page,
     pageLimit,
     searchValue,
-    setSearchValue,
+    handleSearch,
     lazyGetPurchaseOrderListStatus,
     purchaseOrderColumns,
     getPurchaseOrderListDataExport,

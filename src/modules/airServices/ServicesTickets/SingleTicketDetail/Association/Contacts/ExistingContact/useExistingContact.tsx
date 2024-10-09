@@ -27,8 +27,13 @@ export default function useExistingContact({ setSelected, selected }: any) {
     associatesContactsList: data?.data?.contacts,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
-    setSearch,
+    handleSearch,
     addContactsColumns,
     data,
     isLoading,

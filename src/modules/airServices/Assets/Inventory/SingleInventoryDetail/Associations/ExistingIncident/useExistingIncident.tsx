@@ -61,6 +61,11 @@ export const useExistingIncident = (props: {
     getValueTicketsListData();
   }, [searchBy, page, pageLimit]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
+
   const [postRemoveAssociateTicketsTrigger, { isLoading }] =
     usePostAirServicesRemoveAssociateTicketsMutation();
 
@@ -97,7 +102,7 @@ export const useExistingIncident = (props: {
   return {
     handleSubmit,
     searchBy,
-    setSearchBy,
+    handleSearch,
     theme,
     checkboxValues,
     handleCheckboxChange,

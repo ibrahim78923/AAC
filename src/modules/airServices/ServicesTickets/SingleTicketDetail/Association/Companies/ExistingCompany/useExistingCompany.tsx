@@ -30,8 +30,13 @@ export default function useExistingCompany({ setSelected, selected }: any) {
     associatesCompanyList: data?.data?.companies,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
-    setSearch,
+    handleSearch,
     addCompanyColumns,
     data,
     isLoading,

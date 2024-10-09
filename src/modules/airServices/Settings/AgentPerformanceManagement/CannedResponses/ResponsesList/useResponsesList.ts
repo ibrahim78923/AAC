@@ -47,6 +47,11 @@ export const useResponsesList = () => {
     }
   }, [search, page, pageLimit, cannedResponseId]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const handleActionClick = (ActionType: string) => {
     if (ActionType === CANNED_RESPONSES?.DELETE) {
       return setDeleteModal(true);
@@ -101,7 +106,7 @@ export const useResponsesList = () => {
     router,
     handleActionClick,
     tableColumns,
-    setSearch,
+    handleSearch,
     responsesList,
     responsesListMetaData,
     lazyGetResponsesListStatus,

@@ -32,7 +32,7 @@ export const ResponsesList = () => {
     router,
     handleActionClick,
     tableColumns,
-    setSearch,
+    handleSearch,
     responsesList,
     responsesListMetaData,
     lazyGetResponsesListStatus,
@@ -65,7 +65,7 @@ export const ResponsesList = () => {
                         AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
                       ]}
                     >
-                      <Search label="Search Here" setSearchBy={setSearch} />
+                      <Search label="Search Here" setSearchBy={handleSearch} />
                     </PermissionsGuard>
                   </Box>
                 </Grid>

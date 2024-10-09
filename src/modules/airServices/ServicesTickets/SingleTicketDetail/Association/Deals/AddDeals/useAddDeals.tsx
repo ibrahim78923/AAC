@@ -27,8 +27,13 @@ export default function useAddDeals({ setSelected, selected }: any) {
     associatesDealsList: data?.data?.deals,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
-    setSearch,
+    handleSearch,
     addDealsColumns,
     data,
     isSuccess,

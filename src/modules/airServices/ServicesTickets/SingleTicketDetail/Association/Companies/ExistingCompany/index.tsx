@@ -5,7 +5,7 @@ import useExistingCompany from './useExistingCompany';
 
 export default function ExistingCompany({ setSelected, selected }: any) {
   const {
-    setSearch,
+    handleSearch,
     addCompanyColumns,
     data,
     isLoading,
@@ -18,7 +18,7 @@ export default function ExistingCompany({ setSelected, selected }: any) {
 
   return (
     <Stack direction={'column'} spacing={2}>
-      <Search label="Search Here" width="100%" setSearchBy={setSearch} />
+      <Search label="Search Here" width="100%" setSearchBy={handleSearch} />
       <TanstackTable
         columns={addCompanyColumns}
         data={data?.data?.companies}

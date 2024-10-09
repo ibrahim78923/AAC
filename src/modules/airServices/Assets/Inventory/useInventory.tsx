@@ -103,6 +103,11 @@ export const useInventory = () => {
     getInventoryListData();
   }, [search, page, pageLimit, inventoryFilterLists]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const handleAddInventory = () => {
     router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
   };
@@ -181,7 +186,7 @@ export const useInventory = () => {
     setPage,
     setPageLimit,
     search,
-    setSearch,
+    handleSearch,
     inventoryListsColumnsPersist,
     getInventoryListData,
     theme,

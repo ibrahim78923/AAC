@@ -183,6 +183,14 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
+    // Get Products List
+    getAirServicesAssociateTicketsProducts: builder.query({
+      query: () => ({
+        url: END_POINTS?.AUTH_ACCOUNTS,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -206,4 +214,5 @@ export const {
   useLazyGetServicesInventoryAssociationExitingTicketsQuery,
   usePostServicesInventoryAssociationTicketsMutation,
   useLazyGetServicesPurchaseOrderAssociationTicketsQuery,
+  useGetAirServicesAssociateTicketsProductsQuery,
 } = ticketsAssociationAPI;
