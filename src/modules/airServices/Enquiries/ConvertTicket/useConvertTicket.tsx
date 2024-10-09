@@ -35,6 +35,7 @@ export const useConvertTicket = ({
     formData?.append('subject', data?.query);
     formData?.append('moduleType', MODULE_TYPE?.TICKETS);
     formData?.append('ticketType', TICKET_TYPE?.EQ);
+    formData?.append('name', data?.name);
     formData?.append('requesterEmail', data?.email);
 
     try {

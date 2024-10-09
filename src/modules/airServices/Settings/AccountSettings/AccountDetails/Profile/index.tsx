@@ -36,6 +36,7 @@ export const Profile = (props: IPropsAccountDetails) => {
       <Box display={'flex'} justifyContent={'end'} gap={1}>
         <LoadingButton
           variant="outlined"
+          className="small"
           color={'inherit'}
           onClick={handleCancel}
           disabled={isLoading}
@@ -45,6 +46,7 @@ export const Profile = (props: IPropsAccountDetails) => {
         <LoadingButton
           disabled={isLoading}
           loading={isLoading}
+          className="small"
           variant="contained"
           type="submit"
         >

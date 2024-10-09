@@ -54,6 +54,7 @@ export const ViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
         <DialogActions>
           <LoadingButton
             variant={'outlined'}
+            className="small"
             color={'inherit'}
             onClick={() => onClose?.()}
             disabled={status?.isLoading}
@@ -62,6 +63,7 @@ export const ViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
           </LoadingButton>
           <LoadingButton
             variant={'contained'}
+            className="small"
             type={'submit'}
             loading={status?.isLoading}
             disabled={status?.isLoading}

@@ -27,6 +27,7 @@ export const Header = () => {
           {reportAnIssuePermission && (
             <Button
               onClick={handleOpenModal}
+              className="small"
               variant="contained"
               sx={(theme: any) => ({
                 bgcolor:
