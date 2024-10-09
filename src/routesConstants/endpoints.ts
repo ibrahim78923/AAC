@@ -488,6 +488,8 @@ export const END_POINTS = {
   GET_STATS: '/goals/stats',
   GET_DEAL_STAGES_USER: '/goals/users/stage',
   GET_DEAL_STAGES_TEAM: '/goals/teams/stage',
+  GET_FORECAST_CATEGORY_USER: '/goals/users/forecast',
+  GET_FORECAST_CATEGORY_TEAM: '/goals/teams/forecast',
   DELETE_SERVICES_DASHBOARD: `/dynamic-dashboard/delete-dashboards`,
   SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,
   RESTORE_DELETED_GENERIC_REPORTS: `/generic-reports/restore-deleted-generic-reports`,

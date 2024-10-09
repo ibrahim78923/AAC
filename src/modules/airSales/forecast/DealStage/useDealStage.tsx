@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { indexNumbers } from '@/constants';
-import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import {
+  useGetDealPipeLineForecastQuery,
   useGetForecastDealStageStatsQuery,
   useGetForecastDealStagesTeamQuery,
   useGetForecastDealStagesUserQuery,
@@ -40,7 +40,7 @@ const useDealStage = () => {
   };
 
   const { data: dealPipelineData, isLoading: pipelineIsLoading } =
-    useGetDealPipeLineQuery({ meta: false });
+    useGetDealPipeLineForecastQuery({ meta: false });
 
   const statsParams = {
     pipelines: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
@@ -60,7 +60,7 @@ const useDealStage = () => {
     page: page,
     limit: pageLimit,
     search: search,
-    pipeline: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
+    pipelines: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
   };
 
   const {
@@ -120,7 +120,6 @@ const useDealStage = () => {
     DealUserDataIsSuccess,
     setPageLimit,
     setPage,
-    search,
     setSearch,
     getDealStageTeamData,
     DealTeamDataIsLoading,

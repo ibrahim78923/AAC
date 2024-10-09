@@ -20,7 +20,7 @@ export const forecastFilterArray = () => {
   return [
     {
       componentProps: {
-        name: 'pipeline',
+        name: 'pipelines',
         label: 'Pipeline',
         fullWidth: true,
         select: true,

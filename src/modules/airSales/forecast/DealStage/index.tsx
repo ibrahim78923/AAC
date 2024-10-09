@@ -58,7 +58,6 @@ const DealStage = () => {
     DealUserDataIsSuccess,
     setPageLimit,
     setPage,
-    search,
     setSearch,
     getDealStageTeamData,
     DealTeamDataIsLoading,
@@ -249,7 +248,6 @@ const DealStage = () => {
             <Search
               placeholder="Search by name"
               size="small"
-              searchBy={search}
               setSearchBy={setSearch}
             />
             <Box display="flex" gap={1} flexWrap="wrap">
@@ -467,12 +465,7 @@ const DealStage = () => {
             flexDirection={{ xs: 'column', sm: 'row' }}
             gap={1}
           >
-            <Search
-              placeholder="Search"
-              size="small"
-              searchBy={search}
-              setSearchBy={setSearch}
-            />
+            <Search placeholder="Search" size="small" setSearchBy={setSearch} />
             <Box display="flex" gap={1} flexWrap="wrap">
               <Stack
                 direction={{ xs: 'row' }}

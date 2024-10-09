@@ -33,7 +33,7 @@ const useRestoreCompanies = () => {
   const deletedCompaniesParams = {
     page: page,
     limit: pageLimit,
-    search: filterValues?.search ?? undefined,
+    search: search ?? undefined,
     dateStart: filterValues?.date[startedDate]
       ? dayjs(filterValues?.date[startedDate])?.format(DATE_FORMAT?.API)
       : undefined,

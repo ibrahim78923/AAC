@@ -30,8 +30,8 @@ const GoalsFilterDrawer = (props: any) => {
       filter.to = dayjs(values?.CloseDate[1])?.format(DATE_FORMAT?.API);
     }
 
-    if (values?.pipeline) {
-      filter.pipeline = values?.pipeline;
+    if (values?.pipelines) {
+      filter.pipelines = values?.pipelines;
     }
     setFilterValues(filter);
     setIsFilterDrawer(false);

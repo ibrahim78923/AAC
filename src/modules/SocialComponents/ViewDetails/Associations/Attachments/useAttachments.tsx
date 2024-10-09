@@ -64,7 +64,6 @@ const useAttachments = (companyId: any) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
     setSearchName,
     openDrawer,
     setOpenDrawer,

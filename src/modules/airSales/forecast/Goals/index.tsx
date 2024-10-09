@@ -43,7 +43,6 @@ const Goals = () => {
     isError,
     isSuccess,
     isFetching,
-    search,
     setSearch,
     handleDelete,
     loadingDelete,
@@ -128,7 +127,6 @@ const Goals = () => {
             <Search
               placeholder="Search by Name"
               size="small"
-              searchBy={search}
               setSearchBy={setSearch}
             />
             <Box display="flex" gap={1} flexWrap="wrap">
@@ -243,7 +241,6 @@ const Goals = () => {
             <Search
               placeholder="Search by Name"
               size="small"
-              searchBy={search}
               setSearchBy={setSearch}
             />
             <Box display="flex" gap={1} flexWrap="wrap">

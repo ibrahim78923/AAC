@@ -117,6 +117,30 @@ export const forecastApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getForecastCategoryUser: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_FORECAST_CATEGORY_USER}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getForecastCategoryTeam: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_FORECAST_CATEGORY_TEAM}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getDealPipeLineForecast: builder.query({
+      query: ({ ...params }: any) => ({
+        url: `${END_POINTS?.DEALS_PIPELINE}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -135,4 +159,7 @@ export const {
   useGetForecastQuery,
   usePatchForecastMutation,
   useDeleteForecastMutation,
+  useGetForecastCategoryUserQuery,
+  useGetForecastCategoryTeamQuery,
+  useGetDealPipeLineForecastQuery,
 } = forecastApi;

@@ -53,7 +53,7 @@ const useCompanies = () => {
   const {
     useGetAllCompaniesQuery,
     useDeleteCompaniesMutation,
-    useGetCustomizeColumnsQuery,
+    useGetCustomizeColumnsCompaniesQuery,
     useGetCompaniesViewsQuery,
   } = companiesAPI;
 
@@ -125,7 +125,7 @@ const useCompanies = () => {
     type: 'companies',
   };
   const { data: getCustomizeColumns } =
-    useGetCustomizeColumnsQuery(columnsParams);
+    useGetCustomizeColumnsCompaniesQuery(columnsParams);
 
   const activeColumns = getCustomizeColumns?.data?.columns?.filter(
     (column: any) => column?.active === true,

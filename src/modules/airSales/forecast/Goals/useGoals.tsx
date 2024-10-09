@@ -107,7 +107,6 @@ const useGoals = () => {
     isError,
     isSuccess,
     isFetching,
-    search,
     setSearch,
     handleDelete,
     loadingDelete,

@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material';
 import {
-  useGetCustomizeColumnsQuery,
-  usePutCustomizedColumnsMutation,
+  useGetCustomizeColumnsCompaniesQuery,
+  usePutCustomizedColumnsCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { getSession } from '@/utils';
 import { useEffect, useState } from 'react';
@@ -19,7 +19,7 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
     type: 'companies',
   };
   const { data: getCustomizeColumns } =
-    useGetCustomizeColumnsQuery(columnsParams);
+    useGetCustomizeColumnsCompaniesQuery(columnsParams);
   const columnsData = getCustomizeColumns?.data?.columns;
 
   const [order, setOrder] = useState(columnsData);
@@ -32,7 +32,7 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
   };
 
   const [putCustomizedColumns, { isLoading }] =
-    usePutCustomizedColumnsMutation();
+    usePutCustomizedColumnsCompaniesMutation();
 
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
