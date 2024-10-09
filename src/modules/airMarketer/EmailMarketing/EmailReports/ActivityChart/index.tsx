@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 
@@ -6,23 +7,29 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 });
 
 const ActivityChart = ({ emailWidgetsData }: any) => {
+  const theme = useTheme();
   const [chartData, setChartData] = useState<any>(null);
 
   const total = emailWidgetsData?.total;
   const read = (emailWidgetsData?.open / total) * 100;
   const unread = (emailWidgetsData?.unread / total) * 100;
-  const delivered = (emailWidgetsData?.delivered / total) * 100;
+  const unDelivered =
+    ((emailWidgetsData?.send - emailWidgetsData?.delivered) / total) * 100;
 
   useEffect(() => {
     setChartData({
-      series: [delivered, read, unread],
+      series: [read, unread, unDelivered],
       options: {
         chart: {
           width: 380,
           type: 'pie',
         },
-        labels: ['Delivered', 'Read', 'Unread'],
-        colors: ['#B889F4', '#38CAB5', '#7ED4EE'],
+        labels: ['Read', 'Unread', 'UnDelivered'],
+        colors: [
+          theme?.palette?.primary?.main,
+          theme?.palette?.custom?.light_slate_blue,
+          theme?.palette?.custom?.light_grey_bg,
+        ],
         legend: {
           position: 'bottom',
           horizontalAlign: 'center',

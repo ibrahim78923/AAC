@@ -103,7 +103,7 @@ export const columns = (
           {calculatePercentage(
             info?.row?.original?.open,
             info?.row?.original?.total,
-          )}{' '}
+          ).toFixed()}{' '}
           %
         </Typography>
       ),

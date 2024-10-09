@@ -163,7 +163,9 @@ const ContactsCard = ({
 
   const contactImageToShow =
     chatMode === CHAT_TYPES?.GROUP_CHAT
-      ? UserDefault
+      ? cardData?.item?.groupImage?.url
+        ? `${IMG_URL}${cardData?.item?.groupImage?.url}`
+        : UserDefault
       : filteredParticipants[0]?.avatar?.url
         ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
         : UserDefault;

@@ -168,7 +168,7 @@ const CreateNewEmail = ({ edit, data }: any) => {
       formDataSend.append('to', autocompleteValues?.join(', '));
       formDataSend.append('subject', values?.subject);
       formDataSend.append('content', values?.description ?? ' ');
-      formDataSend.append('from', values?.from?.email ?? ' ');
+      formDataSend.append('from', values?.from ?? ' ');
       formDataSend.append('status', status ? status : EMAIL_ENUMS?.SCHEDULED);
       if (values?.cc && values?.cc?.length > 0) {
         formDataSend.append('cc', values?.cc);

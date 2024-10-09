@@ -383,7 +383,7 @@ const EmailView = ({ id }: EmailViewPropsI) => {
                       value={calculatePercentage(
                         data?.data?.open,
                         data?.data?.total,
-                      )}
+                      )?.toFixed(0)}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -392,7 +392,7 @@ const EmailView = ({ id }: EmailViewPropsI) => {
                       value={calculatePercentage(
                         data?.data?.unread,
                         data?.data?.total,
-                      )}
+                      )?.toFixed(0)}
                     />
                   </Grid>
                 </Grid>

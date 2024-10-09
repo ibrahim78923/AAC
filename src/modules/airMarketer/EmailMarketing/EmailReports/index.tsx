@@ -1,4 +1,11 @@
-import { Box, Grid, Skeleton, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  IconButton,
+  Skeleton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import PerformanceChart from './PerformanceChart';
 import ActivityChart from './ActivityChart';
 import { styles } from './styles';
@@ -7,19 +14,62 @@ import { DocumentDownloadIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
 import { useGetEmailMarketingReportsQuery } from '@/services/airMarketer/emailReports';
+import { useState } from 'react';
+import CommonModal from '@/components/CommonModal';
 
 const EmailReports = () => {
-  const { data, isLoading } = useGetEmailMarketingReportsQuery({ params: {} });
-
-  const emailWidgetsData = data?.data?.emailEngagement[0];
-  const performanceData = data?.data?.performance;
+  const theme = useTheme();
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
   return (
     <Box>
       <Box sx={styles?.emailReportsWrap}>
         <Typography variant="h3">Email Analytics</Typography>
       </Box>
-      <Box sx={styles?.recipientEngagement}>
+
+      <WidgetsAndGraphs
+        setIsDownloadModalOpen={setIsDownloadModalOpen}
+        isDownload
+      />
+
+      <CommonModal
+        open={isDownloadModalOpen}
+        handleClose={() => setIsDownloadModalOpen(false)}
+        handleCancel={() => setIsDownloadModalOpen(false)}
+        title="Email Analytics"
+        footer={false}
+        cancelIcon={false}
+        width={'85vw'}
+        background={theme?.palette?.primary?.light}
+      >
+        <WidgetsAndGraphs setIsDownloadModalOpen={setIsDownloadModalOpen} />
+        <IconButton
+          sx={{
+            position: 'absolute',
+            top: '2px',
+            right: '10px',
+          }}
+        >
+          <DocumentDownloadIcon width={'55'} />
+        </IconButton>
+      </CommonModal>
+    </Box>
+  );
+};
+
+const WidgetsAndGraphs = ({ setIsDownloadModalOpen, isDownload }: any) => {
+  const theme = useTheme();
+
+  const { data, isLoading } = useGetEmailMarketingReportsQuery({ params: {} });
+  const emailWidgetsData = data?.data?.emailEngagement[0];
+  const performanceData = data?.data?.performance;
+
+  return (
+    <>
+      <Box
+        sx={styles?.recipientEngagement}
+        style={{ background: theme?.palette?.common?.white }}
+      >
         <Typography variant="h4">Recipient Engagement</Typography>
         {isLoading ? (
           <WidgetsLoading />
@@ -35,20 +85,28 @@ const EmailReports = () => {
               AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS.DOWNLOAD_REPORTS,
             ]}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <DocumentDownloadIcon />
-              <Typography
-                variant="h4"
-                sx={{ fontWeight: 400, color: '#38CAB5' }}
+            {isDownload && (
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                onClick={() => setIsDownloadModalOpen(true)}
               >
-                Download Reports
-              </Typography>
-            </Box>
+                <DocumentDownloadIcon />
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 400, color: '#38CAB5' }}
+                >
+                  Download Reports
+                </Typography>
+              </Box>
+            )}
           </PermissionsGuard>
         </Box>
         <Grid container spacing={2}>
           <Grid item md={8} xs={12}>
-            <Box sx={styles?.performaceWrap}>
+            <Box
+              sx={styles?.performaceWrap}
+              style={{ background: theme?.palette?.common?.white }}
+            >
               <Typography variant="h3" sx={{ fontWeight: 700 }}>
                 Performance
               </Typography>
@@ -60,7 +118,10 @@ const EmailReports = () => {
             </Box>
           </Grid>
           <Grid item md={4} xs={12}>
-            <Box sx={styles?.performaceWrap}>
+            <Box
+              sx={styles?.performaceWrap}
+              style={{ background: theme?.palette?.common?.white }}
+            >
               <Typography variant="h3" sx={{ fontWeight: 700 }}>
                 Activity
               </Typography>
@@ -73,7 +134,7 @@ const EmailReports = () => {
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 };
 

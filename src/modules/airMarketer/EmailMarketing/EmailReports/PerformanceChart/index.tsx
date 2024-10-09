@@ -13,15 +13,16 @@ const PerformanceChart = (performanceData: any) => {
 
   useEffect(() => {
     if (Array.isArray(data) && data.length > 0) {
-      const sentData = data.map((entry) => entry?.delivered || 0);
-      const openedData = data.map((entry) => entry?.open || 0);
-      const unreadData = data.map((entry) => entry?.unread || 0);
-      const blockedData = data.map((entry) => entry?.complaint || 0);
-      const categories = data.map((entry) => entry?._id || '');
+      const sentData = data?.map((entry) => entry?.send || 0);
+      const openedData = data?.map((entry) => entry?.open || 0);
+      const unreadData = data?.map((entry) => entry?.unread || 0);
+      const blockedData = data?.map((entry) => entry?.complaint || 0);
+
+      const categories = data?.map((entry) => entry?._id || '');
 
       setChartData({
         series: [
-          { name: 'Delivered', data: sentData },
+          { name: 'Sent', data: sentData },
           { name: 'Opened', data: openedData },
           { name: 'Unread', data: unreadData },
           { name: 'Blocked', data: blockedData },
