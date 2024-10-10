@@ -217,6 +217,7 @@ export const TAGS = [
   'ENQUIRIES',
   'AAC_PRODUCTS',
   'SETTINGS_NEWS_EVENTS',
+  'CONTACT_TASKS',
   'DEALS_PIPELINE',
   'CONTACTS_LISTS',
   'lifeCycle',

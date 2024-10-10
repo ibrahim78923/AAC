@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
+import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import {
-  useDeleteTasksMutation,
-  useGetTasksQuery,
-  useGetContactsQuery,
-} from '@/services/commonFeatures/contacts';
+  useDeleteContactTasksMutation,
+  useGetContactTasksQuery,
+} from '@/services/commonFeatures/contacts/tasks';
 import { enqueueSnackbar } from 'notistack';
 
 const useTasks = (contactId: string) => {
@@ -43,7 +43,7 @@ const useTasks = (contactId: string) => {
   }
 
   const { data: dataGetContactTasks, isLoading: loadingGetTasks } =
-    useGetTasksQuery({
+    useGetContactTasksQuery({
       params: {
         recordType: 'contacts',
         recordId: contactId,
@@ -87,7 +87,8 @@ const useTasks = (contactId: string) => {
 
   // Delete Tasks
   const [openTaskDeleteModal, setOpenTaskDeleteModal] = useState(false);
-  const [deleteTasks, { isLoading: loadingDelete }] = useDeleteTasksMutation();
+  const [deleteTasks, { isLoading: loadingDelete }] =
+    useDeleteContactTasksMutation();
   const handleOpenModalDelete = () => {
     handleCloseActionMenu();
     setOpenTaskDeleteModal(true);

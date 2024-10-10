@@ -170,7 +170,7 @@ export const styles = {
           display: 'flex',
           maxWidth: '273px',
           width: '100%',
-          '&:not(:first-child):not(:last-child)': {
+          '&:not(:first-of-type):not(:last-child)': {
             py: '14px',
           },
           '& .react-datepicker__month-text': {

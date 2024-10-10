@@ -141,15 +141,6 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
-    getTasks: builder.query({
-      query: ({ params }: any) => ({
-        url: END_POINTS?.TASK_MANAGEMENT,
-        method: 'GET',
-        params: params,
-      }),
-      providesTags: ['TASKS'],
-    }),
-
     // Re-assign
     patchContactTask: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -160,16 +151,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['TASKS'],
     }),
 
-    // Delete Tasks
-    deleteTasks: builder.mutation({
-      query: (ids: any) => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}/${ids}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['TASKS'],
-    }),
-
-    getCustomizeColumns: builder.query({
+    getContactCustomizeColumns: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
@@ -178,7 +160,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
-    putCustomizedColumns: builder.mutation({
+    putContactCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
@@ -261,15 +243,12 @@ export const {
   useGetDeletedContactsQuery,
   useRestoreContactMutation,
   useDeleteContactPermanentMutation,
-  useGetTasksQuery,
   usePatchContactTaskMutation,
-  useDeleteTasksMutation,
   useGetLifeCycleQuery,
   useGetAllUserTeamsQuery,
-  // useLazyGetLifeCycleQuery,
   useGetContactsStatusQuery,
-  useGetCustomizeColumnsQuery,
-  usePutCustomizedColumnsMutation,
+  useGetContactCustomizeColumnsQuery,
+  usePutContactCustomizedColumnsMutation,
   useLazyGetUpdatedLifeCycleQuery,
   useLazyGetContactsStatusUpdatedQuery,
   useLazyGetContactDropdownListQuery,

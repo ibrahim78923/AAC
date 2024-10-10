@@ -10,8 +10,8 @@ import {
   useGetContactsViewQuery,
   useDeleteContactMutation,
   useUpdateContactOwnerMutation,
-  useGetCustomizeColumnsQuery,
-  usePutCustomizedColumnsMutation,
+  useGetContactCustomizeColumnsQuery,
+  usePutContactCustomizedColumnsMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
@@ -273,7 +273,7 @@ const useContactsSaleSite = () => {
   // Customize Columns
   const [isCustomize, setIsCustomize] = useState(false);
   const { data: getCustomizeColumns, isLoading: loadingGetColumns } =
-    useGetCustomizeColumnsQuery({ type: 'contacts' });
+    useGetContactCustomizeColumnsQuery({ type: 'contacts' });
   const columnsData = getCustomizeColumns?.data?.columns;
   const [selecttedColumns, setSelectedColumns] = useState([]);
   useEffect(() => {
@@ -312,13 +312,13 @@ const useContactsSaleSite = () => {
     setSelectedColumns(newColumns);
   };
 
-  const [putCustomizedColumns, { isLoading: loadingPostColumns }] =
-    usePutCustomizedColumnsMutation();
+  const [putContactCustomizedColumns, { isLoading: loadingPostColumns }] =
+    usePutContactCustomizedColumnsMutation();
 
   const handleUpdateColumns = async () => {
     if (selecttedColumns?.length > 0) {
       try {
-        await putCustomizedColumns({
+        await putContactCustomizedColumns({
           body: {
             userId: user?._id,
             type: 'contacts',

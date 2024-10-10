@@ -99,7 +99,6 @@ export const restoreTableColumns: any = (
                 mr: '6px',
                 fontSize: '14px',
               }}
-              alt={info?.getValue()}
               src={`${IMG_URL}${imgUrl}`}
             >
               {firstName?.charAt(0)}
@@ -135,7 +134,6 @@ export const restoreTableColumns: any = (
                 mr: '6px',
                 fontSize: '14px',
               }}
-              alt={info?.getValue()}
               src={`${IMG_URL}${imgUrl}`}
             >
               {`${firstName?.charAt(0)}${lastName?.charAt(0)}`}

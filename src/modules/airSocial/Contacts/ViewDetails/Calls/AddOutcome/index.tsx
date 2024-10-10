@@ -24,7 +24,7 @@ const AddOutcome = ({
       <FormProvider methods={methods}>
         <Grid container spacing={'22px'}>
           {outcomesDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
