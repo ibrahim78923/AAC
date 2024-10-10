@@ -1,20 +1,14 @@
 export const styles = {
   scheduledSMSCardStyle: (theme: any) => {
     return {
+      height: '432px',
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
-      padding: '1rem',
-      height: 'auto',
-
+      padding: '8px',
       '.cardWrapper': {
+        height: '350px',
         overflowY: 'scroll',
-        height: '340px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
       },
-
       '.scheduledSMSHeader': {
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -28,10 +22,12 @@ export const styles = {
     return {
       background: theme?.palette?.grey[400],
       alignItems: 'center',
+      fontSize: '14px',
+      fontWeight: '500',
       width: 'fit-content',
       borderRadius: '30px',
       display: 'flex',
-      p: '8px 16px',
+      p: '6px 12px',
       gap: 1,
       mr: 1,
     };

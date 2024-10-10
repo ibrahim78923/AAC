@@ -163,7 +163,7 @@ const useTemplateForm = () => {
     });
     formData?.append('templateSid', editRecordData?.sid);
 
-    if (!!editRecordData?.imageUrl) {
+    if (!!editRecordData?.imageUrl && !data?.attachment) {
       formData?.append('imageUrl', editRecordData?.imageUrl);
     }
 

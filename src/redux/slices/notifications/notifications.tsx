@@ -16,7 +16,7 @@ const notificationsSlice = createSlice({
       if (Array.isArray(action?.payload)) {
         state.notificationsData = action?.payload;
       } else {
-        state.notificationsData.push(action?.payload);
+        state.notificationsData?.unshift(action?.payload);
       }
     },
   },

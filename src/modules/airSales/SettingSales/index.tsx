@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
   Theme,
+  Grid,
 } from '@mui/material';
 
 import RolesRight from './TabsData/RolesAndRight';
@@ -59,38 +60,44 @@ const SettingSales = () => {
             display: { xs: 'block', md: 'flex' },
           }}
         >
-          <Tabs
-            orientation={tabsOrientation}
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            sx={styles?.tabsStyle(theme)}
-          >
-            <Tab label="Sales Product" />
-            <Tab label="Deals Pipelines" />
-            <Tab label="Roles and Rights" />
-            <Tab label="User Management" />
-            <Tab label="Notifications" />
-            <Tab label="Forecast" />
-          </Tabs>
-          <TabPanel value={value} index={0}>
-            <SalesProduct />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <DealPipelines />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <RolesRight />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <UserManagement />
-          </TabPanel>
-          <TabPanel value={value} index={4}>
-            <Notification />
-          </TabPanel>
-          <TabPanel value={value} index={5}>
-            <Forecast />
-          </TabPanel>
+          <Grid container>
+            <Grid item xs={12} md={3} xl={2}>
+              <Tabs
+                orientation={tabsOrientation}
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                sx={styles?.tabsStyle(theme)}
+              >
+                <Tab label="Sales Product" />
+                <Tab label="Deals Pipelines" />
+                <Tab label="Roles and Rights" />
+                <Tab label="User Management" />
+                <Tab label="Notifications" />
+                <Tab label="Forecast" />
+              </Tabs>
+            </Grid>
+            <Grid item xs={12} md={9} xl={10}>
+              <TabPanel value={value} index={0}>
+                <SalesProduct />
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <DealPipelines />
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <RolesRight />
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                <UserManagement />
+              </TabPanel>
+              <TabPanel value={value} index={4}>
+                <Notification />
+              </TabPanel>
+              <TabPanel value={value} index={5}>
+                <Forecast />
+              </TabPanel>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </Box>

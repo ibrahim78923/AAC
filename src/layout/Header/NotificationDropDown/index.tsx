@@ -37,10 +37,6 @@ const NotificationDropdown = () => {
   const isOpenPopover = Boolean(openPopver);
   const { notificationsList, getNotificationLoading, handleSeenNotification } =
     useNotificationDropDown();
-  const newNotificationsLength =
-    notificationsList?.data?.notificationslogs?.filter((item: any) => {
-      return item?.seen === false;
-    });
 
   const notificationsData = useAppSelector(
     (state) => state.notifications.notificationsData,
@@ -51,6 +47,10 @@ const NotificationDropdown = () => {
   useEffect(() => {
     dispatch(setNotifications(notificationsList?.data?.notificationslogs));
   }, [notificationsList?.data?.notificationslogs, useAppSelector, dispatch]);
+
+  const newNotificationsLength = notificationsData?.filter((item: any) => {
+    return item?.seen === false;
+  });
 
   return (
     <div>
@@ -66,7 +66,6 @@ const NotificationDropdown = () => {
         }
       </Box>
       <Popover
-        // id={id}
         open={isOpenPopover}
         anchorEl={openPopver}
         onClose={handleClose}

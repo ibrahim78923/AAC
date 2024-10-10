@@ -6,9 +6,12 @@ const useViewDetails = () => {
   const theme = useTheme();
   const selecetdDealId = useSearchParams()?.get('id');
 
-  const { data: dealsDetailsData, isLoading } = useGetDealsActionPreviewQuery({
-    id: selecetdDealId,
-  });
+  const { data: dealsDetailsData, isLoading } = useGetDealsActionPreviewQuery(
+    {
+      id: selecetdDealId,
+    },
+    { skip: !selecetdDealId },
+  );
 
   const viewDeal = dealsDetailsData?.data;
 

@@ -45,11 +45,13 @@ const Teams = () => {
       <Box>
         <Box
           sx={{
-            marginTop: '1rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
             marginBottom: '1rem',
+            gap: '1rem',
+            width: '100%',
           }}
-          display="flex"
-          justifyContent="space-between"
         >
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_TEAM]}>
             <Search
@@ -60,23 +62,31 @@ const Teams = () => {
               setSearchBy={setSearchBy}
             />
           </PermissionsGuard>
-          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.CREATE_TEAMS]}>
-            <Button
-              className="small"
-              onClick={() => {
-                setIsAddTeam({
-                  isToggle: true,
-                  type: 'add',
-                });
-              }}
-              startIcon={<AddWhiteBgIcon />}
-              variant="contained"
-            >
-              Create Team
-            </Button>
-          </PermissionsGuard>
-        </Box>
 
+          <Box
+            display="flex"
+            flexWrap={'wrap'}
+            gap={1}
+            sx={{ width: { xs: '100%', md: 'auto' } }}
+          >
+            <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.CREATE_TEAMS]}>
+              <Button
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
+                className="small"
+                onClick={() => {
+                  setIsAddTeam({
+                    isToggle: true,
+                    type: 'add',
+                  });
+                }}
+                startIcon={<AddWhiteBgIcon />}
+                variant="contained"
+              >
+                Create Team
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
         <Grid sx={{ paddingTop: '1rem' }}>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.TEAM_LIST]}>
             <TanstackTable

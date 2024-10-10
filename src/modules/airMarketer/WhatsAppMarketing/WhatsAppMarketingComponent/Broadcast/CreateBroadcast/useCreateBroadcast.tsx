@@ -261,7 +261,7 @@ const useCreateBroadcast = () => {
       });
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();
-      successSnackbar('Broadcast Created Successfully');
+      successSnackbar(`Broadcast ${createStatus} Successfully`);
       router?.back();
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
@@ -339,6 +339,7 @@ const useCreateBroadcast = () => {
     createStatus,
     setCreateStatus,
     avatarFileUrl,
+    templateData,
   };
 };
 

@@ -64,9 +64,9 @@ const CreateBroadcast = () => {
     form,
     detailsMsg,
     getDynamicFieldsStatus,
-    editAttachmentObject,
     handleSaveAsDraft,
     avatarFileUrl,
+    templateData,
   } = useCreateBroadcast();
 
   return (
@@ -134,14 +134,7 @@ const CreateBroadcast = () => {
                         }
                         {...item?.componentProps}
                         size={'small'}
-                      >
-                        {item?.componentProps?.select &&
-                          item?.options?.map((option: any) => (
-                            <option key={uuidv4()} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))}
-                      </item.component>
+                      />
                       {item?.componentProps?.name ===
                         SMS_BROADCAST_CONSTANTS?.RECIPIENTS && (
                         <Box sx={{ display: 'flex' }}>
@@ -192,13 +185,15 @@ const CreateBroadcast = () => {
                               />
                             </Grid>
                           ))}
-                          <Grid item xs={12}>
-                            <AttachFileCard
-                              data={avatarFileUrl}
-                              onDelete={() => {}}
-                              permissionKey={[]}
-                            />
-                          </Grid>
+                          {templateData?.imageUrl && (
+                            <Grid item xs={12}>
+                              <AttachFileCard
+                                data={avatarFileUrl}
+                                onDelete={() => {}}
+                                permissionKey={[]}
+                              />
+                            </Grid>
+                          )}
                         </Grid>
                       )}
                       {item?.componentProps?.name ===
@@ -213,17 +208,6 @@ const CreateBroadcast = () => {
                               disablePast
                               required
                               minDateTime={dayjs()}
-                            />
-                          </Box>
-                        )}
-
-                      {item?.componentProps?.name === 'attachment' &&
-                        type !== DRAWER_TYPES?.ADD && (
-                          <Box my={2}>
-                            <AttachFileCard
-                              data={editAttachmentObject}
-                              onDelete={() => {}}
-                              permissionKey={[]}
                             />
                           </Box>
                         )}
@@ -325,7 +309,7 @@ const CreateBroadcast = () => {
                   selectedRec?.length === indexNumbers?.ZERO ? true : false
                 }
               >
-                Send Now
+                {!isSchedule ? 'Send Now' : 'Send Later'}
               </LoadingButton>
             </Grid>
           </Grid>

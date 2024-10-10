@@ -49,7 +49,7 @@ export const broadcastDefaultValues = (data?: any, form?: any) => {
     name: data?.name ?? '',
     campaignId: data?.campaignId ?? null,
     templateId: data?.templateId ?? null,
-    recipients: data?.recipients ?? '',
+    recipients: data?.recipients ? 'Select' : '',
     detail: data?.detail ?? '',
     attachment: data?.attachment ?? '',
     schedualDate: null,

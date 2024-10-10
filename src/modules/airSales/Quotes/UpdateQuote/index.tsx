@@ -103,7 +103,11 @@ const UpdateQuote = () => {
                   {activeStep !== 2 && activeStep !== 3 && (
                     <LoadingButton
                       variant="contained"
-                      onClick={handleUpdateDetails}
+                      onClick={
+                        activeStep === 1
+                          ? handleUpdateDetails
+                          : handleFormSubmit
+                      }
                       disabled={!disabledSaveAndContinueBtn}
                       loading={updateBuyerInfoLoading}
                     >

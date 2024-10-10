@@ -1,4 +1,3 @@
-import React from 'react';
 import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
@@ -27,6 +26,9 @@ export const AllDealColumns = ({
     DEAL_NAME: 'name',
     DEAL_CLOSEDATE: 'closeDate',
     DEAL_CREATEDAT: 'createdAt',
+    CONTACTED_PERSON:
+      'contactedPerson.name contactedPerson.email contactedPerson.profileImage',
+    AMOUNT: 'amount',
   };
 
   const activeColumnsData = (attribute: any, info: any) => {
@@ -89,6 +91,12 @@ export const AllDealColumns = ({
           </Typography>
         </Box>
       );
+    } else if (attribute === DEAL_ATTRIBUTES?.CONTACTED_PERSON) {
+      return (
+        <Typography variant="body3">
+          {info?.row?.original?.contactedPerson?.name ?? 'N/A'}
+        </Typography>
+      );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CLOSEDATE) {
       const closeDate = info?.row?.original?.closeDate;
       const formattedDate =
@@ -100,6 +108,8 @@ export const AllDealColumns = ({
       return (
         dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.UI) ?? 'N/A'
       );
+    } else if (attribute === DEAL_ATTRIBUTES?.AMOUNT) {
+      return `£ ${info?.row?.original?.amount}`;
     } else {
       return info?.row?.original[attribute] ?? 'N/A';
     }

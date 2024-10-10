@@ -14,7 +14,7 @@ const Forecast = () => {
           padding: '1rem',
         }}
       >
-        <Typography variant="h4" mb={2}>
+        <Typography variant="h3" mb={2}>
           Forecast
         </Typography>
         <Setup />

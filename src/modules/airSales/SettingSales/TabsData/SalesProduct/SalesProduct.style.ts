@@ -15,9 +15,7 @@ export const styles = {
     flexWrap: 'wrap',
     marginTop: '1rem',
     marginBottom: '1rem',
-    '@media (max-width: 500px)': {
-      marginTop: '15px',
-    },
+    gap: '8px',
   },
 
   actionBtn: (theme: any) => {
