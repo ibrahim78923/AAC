@@ -8,12 +8,7 @@ export default SettingsPage;
 
 SettingsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout
-      permissions={
-        Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT ||
-        Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT
-      }
-    >
+    <Layout permissions={Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT}>
       {page}
     </Layout>
   );

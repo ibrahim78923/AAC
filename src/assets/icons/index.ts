@@ -70,8 +70,6 @@ export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
 export { default as EditWhiteBGPenIcon } from './shared/edit-pen-white-bg-icon';
-
-// More exports from here
 export { default as SubTabIcon } from './shared/sub-tab-icon';
 export { default as ListIcon } from './shared/list-icon';
 export { default as ResetIcon } from './shared/reset-icon';
@@ -347,7 +345,6 @@ export { default as RevertIcon } from './shared/revert-icon';
 export { default as EditInputIcon } from './shared/edit-input-icon';
 export { default as DesignPenIcon } from './shared/design-pen-icon';
 export { default as IncTicketIcon } from './shared/inc-ticket-icon';
-
 export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
 export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
 export { default as TextIcon } from './modules/airMarketer/LeadCapture/text';
@@ -364,8 +361,6 @@ export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAu
 export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';
 export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
 export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
-
-export { default as FilterLinesIcon } from './modules/loyaltyProgram/Transactions/filter-lines-icon';
 export { default as PmToolsIcon } from './shared/pm-tools-icon';
 export { default as HardwareIcon } from './shared/hardware-icon';
 export { default as SoftwareCatalogIcon } from './shared/software-catalog-icon';
@@ -419,13 +414,11 @@ export { default as ArrowAlertPopupIcon } from './shared/arrow-alert-popup-icon'
 export { default as ExportCloudIcon } from './shared/export-cloud-icon';
 export { default as FeaturedIcon } from './modules/airMarketer/EmailMarketing/featured-icon';
 export { default as SendPrimaryIcon } from './shared/send-primary-icon';
-
 export { default as CallMissedIcon } from './modules/airCallCenter/CallMetrices/call-missed';
 export { default as CallCompletedIcon } from './modules/airCallCenter/CallMetrices/call-completed';
 export { default as CallSuccessfulCallbackIcon } from './modules/airCallCenter/CallMetrices/call-successful-callback';
 export { default as CallUnSuccessfulCallbackIcon } from './modules/airCallCenter/CallMetrices/call-unsuccessful-callback';
 export { default as CallAbandonedRingingIcon } from './modules/airCallCenter/CallMetrices/call-abandoned-ringing';
-
 export { default as PlayIcon } from './shared/play';
 export { default as PauseIcon } from './shared/pause';
 export { default as NotesIcon } from './shared/notes';
