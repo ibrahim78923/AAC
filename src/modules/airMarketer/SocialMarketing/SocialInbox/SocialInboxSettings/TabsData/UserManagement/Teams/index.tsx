@@ -42,90 +42,88 @@ const Teams = () => {
 
   return (
     <>
-      <Box>
-        <Box
-          sx={{
-            marginTop: '1rem',
-            marginBottom: '1rem',
-          }}
-          display="flex"
-          justifyContent="space-between"
+      <Box
+        sx={{ marginBottom: '1rem' }}
+        display="flex"
+        flexWrap="wrap"
+        justifyContent="space-between"
+        gap={1}
+      >
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_TEAMS]}
         >
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_TEAMS]}
-          >
-            <Search
-              size="small"
-              searchBy={searchBy}
-              width="260px"
-              label={'Search here'}
-              setSearchBy={setSearchBy}
-            />
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.CREATE_TEAM]}
-          >
-            <Button
-              className="small"
-              onClick={() => {
-                setIsAddTeam({
-                  isToggle: true,
-                  type: 'add',
-                });
-              }}
-              startIcon={<AddWhiteBgIcon />}
-              variant="contained"
-            >
-              Create Team
-            </Button>
-          </PermissionsGuard>
-        </Box>
-
-        <Grid sx={{ paddingTop: '1rem' }}>
-          <TanstackTable
-            columns={columnsTeams(columnsProps)}
-            data={teamsData?.data?.userTeams}
-            isPagination
-            onPageChange={(page: any) => setPage(page)}
-            setPage={setPage}
-            setPageLimit={setLimit}
-            count={teamsData?.data?.meta?.pages}
-            pageLimit={teamsData?.data?.meta?.limit}
-            totalRecords={teamsData?.data?.meta?.total}
-            isLoading={teamsDataLoading}
-            isSuccess={isSuccess}
-            currentPage={teamsData?.data?.meta?.page}
+          <Search
+            size="small"
+            searchBy={searchBy}
+            width="260px"
+            label={'Search here'}
+            setSearchBy={setSearchBy}
           />
-        </Grid>
-        <ViewTeams
-          isTeamDrawer={isTeamDrawer}
-          setIsTeamDrawer={setIsTeamDrawer}
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.CREATE_TEAM]}
+        >
+          <Button
+            className="small"
+            onClick={() => {
+              setIsAddTeam({
+                isToggle: true,
+                type: 'add',
+              });
+            }}
+            startIcon={<AddWhiteBgIcon />}
+            variant="contained"
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+          >
+            Create Team
+          </Button>
+        </PermissionsGuard>
+      </Box>
+
+      <Grid sx={{ paddingTop: '1rem' }}>
+        <TanstackTable
+          columns={columnsTeams(columnsProps)}
+          data={teamsData?.data?.userTeams}
+          isPagination
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setLimit}
+          count={teamsData?.data?.meta?.pages}
+          pageLimit={teamsData?.data?.meta?.limit}
+          totalRecords={teamsData?.data?.meta?.total}
+          isLoading={teamsDataLoading}
+          isSuccess={isSuccess}
+          currentPage={teamsData?.data?.meta?.page}
+        />
+      </Grid>
+      <ViewTeams
+        isTeamDrawer={isTeamDrawer}
+        setIsTeamDrawer={setIsTeamDrawer}
+        teamId={teamId}
+      />
+
+      {isAddTeam?.isToggle && (
+        <CreateTeams
+          isAddTeam={isAddTeam}
+          setIsAddTeam={setIsAddTeam}
           teamId={teamId}
         />
+      )}
 
-        {isAddTeam?.isToggle && (
-          <CreateTeams
-            isAddTeam={isAddTeam}
-            setIsAddTeam={setIsAddTeam}
-            teamId={teamId}
-          />
-        )}
-
-        {isOpenDelete && (
-          <AlertModals
-            message={'Are you sure you want to delete this team?'}
-            type={'delete'}
-            open={isOpenDelete}
-            submitBtnText="Delete"
-            cancelBtnText="Cancel"
-            loading={deleteTeamLoading}
-            handleClose={() => setIsOpenDelete(false)}
-            handleSubmitBtn={() => {
-              handleDeleteTeam(teamId);
-            }}
-          />
-        )}
-      </Box>
+      {isOpenDelete && (
+        <AlertModals
+          message={'Are you sure you want to delete this team?'}
+          type={'delete'}
+          open={isOpenDelete}
+          submitBtnText="Delete"
+          cancelBtnText="Cancel"
+          loading={deleteTeamLoading}
+          handleClose={() => setIsOpenDelete(false)}
+          handleSubmitBtn={() => {
+            handleDeleteTeam(teamId);
+          }}
+        />
+      )}
     </>
   );
 };

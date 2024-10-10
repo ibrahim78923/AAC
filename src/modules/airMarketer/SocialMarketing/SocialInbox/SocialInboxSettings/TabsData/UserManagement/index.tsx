@@ -14,7 +14,7 @@ const Users = () => {
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
           borderRadius: '8px',
-          boxShadow: '0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A',
+          boxShadow: `0px 1px 2px 0px ${theme?.palette?.custom?.dark_shade_green}, 0px 1px 3px 0px ${theme?.palette?.custom?.shade_grey}`,
           padding: '1rem',
         }}
       >
@@ -25,7 +25,7 @@ const Users = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">User Management</Typography>
+          <Typography variant="h3">User Management</Typography>
         </Box>
         <Box sx={{ width: '100%' }}>
           <CommonTabs
