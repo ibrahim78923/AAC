@@ -170,6 +170,11 @@ const useUsers = () => {
     }
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const contractDropdown = useLazyGetContractDropdownListQuery();
   return {
     userActionClickHandler,
@@ -182,7 +187,7 @@ const useUsers = () => {
     selectedActionTitle,
     setUsersData,
     search,
-    setSearch,
+    handleSearch,
     getSoftwareUsers,
     setPage,
     setLimit,

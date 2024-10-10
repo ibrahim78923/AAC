@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { useDeleteServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -10,6 +11,7 @@ export const useTicketsHeader = (props: WorkflowListHeaderI) => {
     totalRecords,
     page,
     setPage,
+    setSearch,
   } = props;
 
   const [deleteTrigger, deleteStatus] = useDeleteServicesWorkflowMutation();
@@ -28,8 +30,14 @@ export const useTicketsHeader = (props: WorkflowListHeaderI) => {
       errorSnackbar();
     }
   };
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
   return {
     handleDelete,
     deleteStatus,
+    handleSearch,
   };
 };

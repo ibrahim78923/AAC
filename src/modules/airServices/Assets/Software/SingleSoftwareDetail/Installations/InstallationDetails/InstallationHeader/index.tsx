@@ -10,13 +10,14 @@ import { InstallationHeaderI } from './InstallationHeader.interface';
 const DELETE_MESSAGE = 'Are you sure you want to delete selected Device?';
 
 export const InstallationHeader: React.FC<InstallationHeaderI> = (props) => {
-  const { activeCheck, setSearchBy, getInstallationListDataExport } = props;
+  const { activeCheck, getInstallationListDataExport } = props;
   const {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
     isLoading,
     handleOpenDelete,
+    handleSearch,
   } = useInstallationHeader(props);
   return (
     <>
@@ -28,7 +29,7 @@ export const InstallationHeader: React.FC<InstallationHeaderI> = (props) => {
         gap={2}
       >
         <Box>
-          <Search label="Search Here" setSearchBy={setSearchBy} />
+          <Search label="Search Here" setSearchBy={handleSearch} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button

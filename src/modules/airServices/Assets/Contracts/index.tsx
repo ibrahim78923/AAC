@@ -24,7 +24,7 @@ const Contracts = () => {
     lazyGetContractStatus,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
     selectedContractList,
     setSelectedContractList,
     contractFilterLists,
@@ -63,7 +63,7 @@ const Contracts = () => {
               AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <PermissionsGuard

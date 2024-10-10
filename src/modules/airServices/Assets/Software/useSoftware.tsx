@@ -32,6 +32,11 @@ export const useSoftware = () => {
   const assetsSoftwares = data?.data?.assetssoftwares;
   const paginationData = data?.data?.meta;
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchValue(data);
+  };
+
   return {
     router,
     isError,
@@ -45,7 +50,6 @@ export const useSoftware = () => {
     setSoftwareData,
     openAssignModal,
     setOpenAssignModal,
-    setSearchValue,
     setPage,
     setPageLimit,
     paginationData,
@@ -55,5 +59,6 @@ export const useSoftware = () => {
     filterValues,
     theme,
     refetch,
+    handleSearch,
   };
 };

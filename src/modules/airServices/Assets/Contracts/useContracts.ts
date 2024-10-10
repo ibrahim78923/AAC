@@ -85,6 +85,10 @@ export const useContracts = () => {
     lazyGetContractStatus?.data?.data?.contracts,
     router,
   );
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -96,7 +100,7 @@ export const useContracts = () => {
     lazyGetContractStatus,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
     selectedContractList,
     setSelectedContractList,
     getContractListData,

@@ -14,7 +14,7 @@ export const ContractsDetails = () => {
     setPage,
     limit,
     setLimit,
-    setSearchBy,
+    handleSearch,
     router,
     isLoading,
     isFetching,
@@ -35,7 +35,7 @@ export const ContractsDetails = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search label="Search Here" setSearchBy={setSearchBy} />
+        <Search label="Search Here" setSearchBy={handleSearch} />
         <Button
           startIcon={<PlusSharedColorIcon />}
           color="primary"

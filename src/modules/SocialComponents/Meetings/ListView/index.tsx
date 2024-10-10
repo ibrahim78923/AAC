@@ -13,7 +13,7 @@ import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-k
 export const ListView = () => {
   const {
     meetings,
-    setSearch,
+    handleSearch,
     theme,
     setDeleteModal,
     deleteModal,
@@ -65,7 +65,7 @@ export const ListView = () => {
               SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SEARCH_RECORD,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[

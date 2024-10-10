@@ -3,9 +3,10 @@ import { useRemoveInstallationMutation } from '@/services/airServices/assets/sof
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { InstallationHeaderI } from './InstallationHeader.interface';
+import { PAGINATION } from '@/config';
 
 export const useInstallationHeader = (props: InstallationHeaderI) => {
-  const { activeCheck, setActiveCheck } = props;
+  const { activeCheck, setActiveCheck, setPage, setSearchBy } = props;
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [removeDeviceTrigger, { isLoading }] = useRemoveInstallationMutation();
   const searchParams = useSearchParams();
@@ -30,11 +31,16 @@ export const useInstallationHeader = (props: InstallationHeaderI) => {
   const handleOpenDelete = () => {
     setDeleteModal(true);
   };
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
   return {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
     isLoading,
     handleOpenDelete,
+    handleSearch,
   };
 };

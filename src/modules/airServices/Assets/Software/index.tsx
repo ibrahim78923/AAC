@@ -25,7 +25,7 @@ const Software = () => {
     setSoftwareData,
     openAssignModal,
     setOpenAssignModal,
-    setSearchValue,
+    handleSearch,
     setPage,
     setPageLimit,
     paginationData,
@@ -69,7 +69,7 @@ const Software = () => {
               AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearchValue} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
           <Box
             display={'flex'}

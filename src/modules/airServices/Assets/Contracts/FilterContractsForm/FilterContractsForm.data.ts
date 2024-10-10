@@ -80,25 +80,28 @@ const expiryOptions = [
 
 export const contractsFilterFormDefaultValues = (data?: any) => {
   return {
-    contractType: data?.contractType ?? { _id: 'All', label: 'All' },
+    contractType: data?.contractType ?? null,
     status: data?.status ?? null,
     vendor: data?.vendor ?? null,
     expiry: data?.expiry ?? null,
   };
 };
 
-export const contractsFilterFormFieldsDynamic = (apiQueryVendor: any) => [
+export const contractsFilterFormFieldsDynamic = (
+  apiQueryVendor: any,
+  apiContractType: any,
+) => [
   {
     id: 1,
     componentProps: {
       name: 'contractType',
       label: 'Contract Type',
       fullWidth: true,
-      placeholder: 'All',
-      options: contractTypeOptions,
-      getOptionLabel: (option: any) => option?.label,
+      placeholder: 'Select Contract Type',
+      apiQuery: apiContractType,
+      externalParams: { meta: false },
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2,

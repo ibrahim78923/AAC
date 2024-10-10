@@ -38,7 +38,7 @@ export const Users = () => {
     actionModalOpen,
     userActionDropdownCloseHandler,
     selectedActionTitle,
-    setSearch,
+    handleSearch,
     setUsersData,
     methods,
     allocateSubmit,
@@ -62,7 +62,7 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={handleSearch} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton

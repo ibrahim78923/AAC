@@ -3,31 +3,30 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useSingleRewardsDetails } from './useSingleRewardsDetails';
-import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
+import { SingleRewardDetailsPropsI } from '../Rewards.interface';
 
-export const SingleRewardDetails = (props: any) => {
-  const { isRewardDetailsOpen, setIsRewardDetailsOpen } = props;
+export const SingleRewardDetails = (props: SingleRewardDetailsPropsI) => {
+  const { setIsRewardDetailsOpen } = props;
   const {
     singleRewardDetailsColumns,
-    setSearch,
     setPageLimit,
     setPage,
     lazyGetAllLoyaltyPhysicalRewardsListStatus,
-  } = useSingleRewardsDetails?.(props);
+    refetch,
+    handleSearch,
+  } = useSingleRewardsDetails?.();
 
   return (
     <>
       <PageTitledHeader
-        title={`${LOYALTY_REWARDS_TYPE_MAPPED?.[
-          isRewardDetailsOpen?.rewardType
-        ]}`}
+        title={'Redeemed Transactions'}
         canMovedBack
         moveBack={() =>
           setIsRewardDetailsOpen?.({ isOpen: false, rewardType: '' })
         }
       />
       <Box>
-        <Search label="Search Here" setSearchBy={setSearch} />
+        <Search label="Search Here" setSearchBy={handleSearch} />
         <Box mt={'0.75rem'}>
           <TanstackTable
             columns={singleRewardDetailsColumns}
@@ -54,6 +53,7 @@ export const SingleRewardDetails = (props: any) => {
             isError={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isError}
             isSuccess={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
+            errorProps={{ canRefresh: true, refresh: refetch }}
             isPagination
           />
         </Box>

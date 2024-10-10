@@ -3,14 +3,11 @@ import { singleRewardDetailsColumnsDynamic } from './SingleRewardsDetails.data';
 import { PAGINATION } from '@/config';
 import { useLazyGetAllLoyaltyPhysicalRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards/physical';
 
-export const useSingleRewardsDetails = (props: any) => {
-  const { isRewardDetailsOpen } = props;
-  const singleRewardDetailsColumns = singleRewardDetailsColumnsDynamic?.(
-    isRewardDetailsOpen?.rewardType,
-  );
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
+export const useSingleRewardsDetails = () => {
+  const singleRewardDetailsColumns = singleRewardDetailsColumnsDynamic?.();
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
   const [
     lazyGetAllLoyaltyPhysicalRewardsListTrigger,
     lazyGetAllLoyaltyPhysicalRewardsListStatus,
@@ -35,11 +32,19 @@ export const useSingleRewardsDetails = (props: any) => {
     getAllLoyaltyPhysicalRewardsList?.();
   }, [page, search, pageLimit]);
 
+  const refetch = () => getAllLoyaltyPhysicalRewardsList?.();
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
     singleRewardDetailsColumns,
-    setSearch,
     setPage,
     setPageLimit,
     lazyGetAllLoyaltyPhysicalRewardsListStatus,
+    refetch,
+    handleSearch,
   };
 };

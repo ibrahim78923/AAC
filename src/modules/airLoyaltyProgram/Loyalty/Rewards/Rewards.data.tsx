@@ -1,12 +1,11 @@
-import { Avatar, Box, Chip, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import { Circle } from '@mui/icons-material';
-import {
-  LOYALTY_REWARDS_STATUS,
-  LOYALTY_REWARDS_TYPE,
-} from '@/constants/strings';
+import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
-import { generateImage, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
+import { UserInfo } from '@/components/UserInfo';
+import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 
 export const LOYALTY_REWARDS_STATUS_PILL: any = {
   [LOYALTY_REWARDS_STATUS?.ACTIVE]: {
@@ -21,33 +20,20 @@ export const LOYALTY_REWARDS_STATUS_PILL: any = {
   },
 };
 
-export const loyaltyAllRewardColumnDynamic: any = (
+export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
   overallPermissions: any,
 ) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
-    header: 'Title',
+    header: 'Reward Title',
     isSortable: true,
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        {info?.row?.original?.rewardType ===
-          LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD && (
-          <Avatar
-            src={generateImage(info?.row?.original?.rewardAttachment?.fileUrl)}
-            alt={info?.row?.original?.icon?.name}
-          />
-        )}
-        <Typography
-          variant="body4"
-          sx={{
-            color: 'blue.dull_blue',
-          }}
-        >
-          {truncateText(info?.getValue())}
-        </Typography>
-      </Box>
+      <UserInfo
+        name={fullName(info?.row?.original?.icon?.name)}
+        avatarSrc={info?.row?.original?.rewardAttachment?.fileUrl}
+      />
     ),
   },
   {
@@ -131,5 +117,28 @@ export const loyaltyAllRewardColumnDynamic: any = (
     isSortable: true,
     header: 'Cost',
     cell: (info: any) => info?.getValue() ?? '---',
+  },
+  {
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
+    isSortable: true,
+    header: 'Created at',
+    cell: (info: any) => info?.getValue() ?? '---',
+  },
+  {
+    accessorFn: (row: any) => row?.actions,
+    id: 'actions',
+    isSortable: true,
+    header: 'Action',
+    cell: () => (
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ cursor: 'pointer' }}>
+          <EditPenIcon />
+        </Box>
+        <Box sx={{ cursor: 'pointer' }}>
+          <DeleteCrossIcon />
+        </Box>
+      </Box>
+    ),
   },
 ];

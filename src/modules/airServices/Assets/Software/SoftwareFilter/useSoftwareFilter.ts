@@ -4,6 +4,7 @@ import {
   SoftwareFilterI,
   SoftwareFilterValues,
 } from './SoftwareFilter.interface';
+import { PAGINATION } from '@/config';
 
 export const useSoftwareFilter = (props: SoftwareFilterI) => {
   const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
@@ -26,7 +27,7 @@ export const useSoftwareFilter = (props: SoftwareFilterI) => {
       onClose();
       return;
     }
-    setPage?.(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setFilterValues?.(softwareFiltered);
     setIsOpenFilterDrawer?.(false);
   };

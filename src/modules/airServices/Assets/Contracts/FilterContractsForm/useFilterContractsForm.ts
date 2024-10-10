@@ -3,7 +3,11 @@ import {
   contractsFilterFormDefaultValues,
   contractsFilterFormFieldsDynamic,
 } from './FilterContractsForm.data';
-import { useLazyGetVendorDropdownQuery } from '@/services/airServices/assets/contracts';
+import {
+  useLazyGetContractTypeListQuery,
+  useLazyGetVendorDropdownQuery,
+} from '@/services/airServices/assets/contracts';
+import { PAGINATION } from '@/config';
 
 export const useFilterContractsForm = (props: any) => {
   const {
@@ -12,6 +16,7 @@ export const useFilterContractsForm = (props: any) => {
     contractFilterLists,
     setPage,
   } = props;
+  const apiContractType = useLazyGetContractTypeListQuery();
 
   const methods = useForm({
     defaultValues: contractsFilterFormDefaultValues(contractFilterLists),
@@ -34,7 +39,7 @@ export const useFilterContractsForm = (props: any) => {
       closeInventoryFilterForm();
       return;
     }
-    setPage?.(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setContractFilterLists?.(contractFilteredFields);
     closeInventoryFilterForm();
     setIsDrawerOpen?.(false);
@@ -52,8 +57,10 @@ export const useFilterContractsForm = (props: any) => {
     setIsDrawerOpen?.(false);
   };
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
-  const contractsFilterFormFields =
-    contractsFilterFormFieldsDynamic(apiQueryVendor);
+  const contractsFilterFormFields = contractsFilterFormFieldsDynamic(
+    apiQueryVendor,
+    apiContractType,
+  );
   return {
     methods,
     handleSubmit,
