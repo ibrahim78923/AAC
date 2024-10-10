@@ -10,7 +10,7 @@ import useRoles from './useRoles';
 export const Roles = () => {
   const {
     router,
-    setSearchValue,
+    handleSearch,
     permissionsRoleStatus,
     setPage,
     setPageLimit,
@@ -42,11 +42,7 @@ export const Roles = () => {
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.SEARCH_ROLES,
           ]}
         >
-          <Search
-            label="Search Here"
-            setSearchBy={setSearchValue}
-            size="small"
-          />
+          <Search label="Search Here" setSearchBy={handleSearch} size="small" />
         </PermissionsGuard>
       </Box>
 

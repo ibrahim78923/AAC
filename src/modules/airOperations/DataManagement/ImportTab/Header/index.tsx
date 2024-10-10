@@ -10,7 +10,7 @@ import { LoadingButton } from '@mui/lab';
 
 export const Header = (props: HeaderI) => {
   const {
-    setSearch,
+    handleSearch,
     setIsOpenFilterDrawer,
     isOpenFilterDrawer,
     setFilterValues,
@@ -33,7 +33,7 @@ export const Header = (props: HeaderI) => {
         ]}
       >
         <Box mb={1}>
-          <Search label="Search Here" setSearchBy={setSearch} size="small" />
+          <Search label="Search Here" setSearchBy={handleSearch} size="small" />
         </Box>
       </PermissionsGuard>
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>

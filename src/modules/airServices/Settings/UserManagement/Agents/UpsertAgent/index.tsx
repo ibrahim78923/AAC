@@ -104,7 +104,6 @@ export const UpsertAgent = (props: IAgentsProps) => {
               Cancel
             </LoadingButton>
             <LoadingButton
-              type="submit"
               variant="contained"
               className="small"
               onClick={handleSubmit(handleUpsertAgentSubmit)}

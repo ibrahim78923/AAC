@@ -22,6 +22,11 @@ export default function useRoles() {
   const [permissionsRoleTrigger, permissionsRoleStatus] =
     useLazyGetPermissionsRoleQuery();
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchValue(data);
+  };
+
   const rolesListData = async (currentPage: any = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
@@ -48,7 +53,7 @@ export default function useRoles() {
 
   return {
     router,
-    setSearchValue,
+    handleSearch,
     permissionsRoleStatus,
     setPage,
     setPageLimit,

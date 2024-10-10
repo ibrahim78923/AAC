@@ -28,7 +28,7 @@ export interface ImportTabI {
   setPage: (page: any) => void;
   pageLimit: number;
   setPageLimit: (limit: any) => void;
-  setSearch: (search: string) => void;
+  handleSearch: (data: any) => void;
   data: ImportTabResponseData | undefined;
   isFetching: boolean;
   isError: boolean;

@@ -25,7 +25,7 @@ export const Requesters = () => {
     isAgentConvert,
     setIsAgentConvert,
     isDrawerOpen,
-    setSearch,
+    handleSearch,
     setIsDrawerOpen,
     getRequestersListData,
     page,
@@ -47,7 +47,7 @@ export const Requesters = () => {
           selectedRequestersList={selectedRequestersList}
           setSelectedRequestersList={setSelectedRequestersList}
           requestersDropdownOptions={requestersDropdownOptions}
-          setSearch={setSearch}
+          handleSearch={handleSearch}
           setIsDrawerOpen={setIsDrawerOpen}
         />
         <Box mt={3}>

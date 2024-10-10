@@ -3,6 +3,7 @@ import { defaultValues } from './Filter.data';
 import { FilterI } from './Filter.interface';
 import { useLazyGetExportUsersDropdownListQuery } from '@/services/airOperations/data-management/export';
 import useAuth from '@/hooks/useAuth';
+import { PAGINATION } from '@/config';
 
 export const useFilter = (props: FilterI) => {
   const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
@@ -29,7 +30,7 @@ export const useFilter = (props: FilterI) => {
       onClose();
       return;
     }
-    setPage?.(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setFilterValues?.(softwareFiltered);
     setIsOpenFilterDrawer?.(false);
   };

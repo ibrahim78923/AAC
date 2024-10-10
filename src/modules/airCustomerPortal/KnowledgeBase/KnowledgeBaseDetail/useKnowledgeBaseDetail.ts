@@ -8,7 +8,7 @@ import { getActiveAccountSession, getSession } from '@/utils';
 
 export const useKnowledgeBaseDetail = () => {
   const router = useRouter();
-  const [searchValue, SetSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
 
@@ -36,6 +36,11 @@ export const useKnowledgeBaseDetail = () => {
     });
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchValue(data);
+  };
+
   const params = {
     page: page,
     limit: pageLimit,
@@ -56,7 +61,7 @@ export const useKnowledgeBaseDetail = () => {
 
   return {
     handleKnowledgeBase,
-    SetSearchValue,
+    handleSearch,
     setPage,
     setPageLimit,
     articlesData,

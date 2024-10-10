@@ -28,7 +28,7 @@ export interface ExportTabI {
   setPage: any;
   pageLimit: number;
   setPageLimit: any;
-  setSearch: (search: string) => void;
+  handleSearch: (search: any) => void;
   data: ExportTabResponseData | undefined;
   isFetching: boolean;
   isError: boolean;

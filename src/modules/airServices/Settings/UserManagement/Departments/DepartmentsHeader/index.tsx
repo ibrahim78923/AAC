@@ -9,7 +9,7 @@ import { AIR_SERVICES } from '@/constants';
 import { IDepartmentsProps } from '../Departments.interface';
 
 export const DepartmentsHeader = (props: IDepartmentsProps) => {
-  const { setSearch, setOpenUpsertModal, setSelectedDepartment } = props;
+  const { handleSearch, setOpenUpsertModal, setSelectedDepartment } = props;
   const router = useRouter();
   return (
     <Box
@@ -41,7 +41,7 @@ export const DepartmentsHeader = (props: IDepartmentsProps) => {
           <Search
             size="small"
             placeholder="Search Here"
-            setSearchBy={setSearch}
+            setSearchBy={handleSearch}
           />
         </PermissionsGuard>
         <PermissionsGuard

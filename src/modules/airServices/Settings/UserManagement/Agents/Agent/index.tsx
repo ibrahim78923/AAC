@@ -15,7 +15,7 @@ const Agent = () => {
   const {
     agentListsColumns,
     dropdownOptions,
-    setSearchValue,
+    handleSearch,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
     isAgentModalOpen,
@@ -50,7 +50,7 @@ const Agent = () => {
           >
             <Search
               label="Search Here"
-              setSearchBy={setSearchValue}
+              setSearchBy={handleSearch}
               size="small"
             />
           </PermissionsGuard>

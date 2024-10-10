@@ -45,6 +45,11 @@ export const useAgent = () => {
     }
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchValue(data);
+  };
+
   useEffect(() => {
     getAgentsListData();
   }, [searchValue, page, pageLimit, filterAgentData]);
@@ -65,7 +70,7 @@ export const useAgent = () => {
   return {
     agentListsColumns,
     dropdownOptions,
-    setSearchValue,
+    handleSearch,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
     isAgentModalOpen,

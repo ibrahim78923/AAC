@@ -27,6 +27,11 @@ export const useExportTab: () => ExportTabI = () => {
       dayjs(filterValues?.createdDate)?.format(CALENDAR_FORMAT?.YMD),
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const params = {
     page,
     limit: pageLimit,
@@ -65,7 +70,7 @@ export const useExportTab: () => ExportTabI = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    setSearch,
+    handleSearch,
     data,
     isFetching,
     isError,

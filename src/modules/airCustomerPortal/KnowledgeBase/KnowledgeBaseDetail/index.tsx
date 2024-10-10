@@ -14,7 +14,7 @@ import { truncateText } from '@/utils/avatarUtils';
 export const KnowledgeBaseDetail = () => {
   const {
     handleKnowledgeBase,
-    SetSearchValue,
+    handleSearch,
     setPage,
     setPageLimit,
     articlesData,
@@ -54,7 +54,7 @@ export const KnowledgeBaseDetail = () => {
         moveBack={handleKnowledgeBase}
       />
       <Box>
-        <Search label="Search Here" setSearchBy={SetSearchValue} size="small" />
+        <Search label="Search Here" setSearchBy={handleSearch} size="small" />
       </Box>
       <br />
       {isLoading || isFetching ? (
