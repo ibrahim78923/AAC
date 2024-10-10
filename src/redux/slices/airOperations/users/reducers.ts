@@ -1,7 +1,4 @@
-import {
-  isPortalOpenInitialState,
-  isSwitchDisabledInitialState,
-} from './slice';
+import { isPortalOpenInitialState } from './slice';
 import { PAGINATION } from '@/config';
 
 const setPageReducer = (state: any, action: any) => {
@@ -43,28 +40,8 @@ const emptySelectedUsersListsReducer = (state: any) => {
   state.selectedUsersLists = [];
 };
 
-const setTotalCountLoadingReducer = (state: any) => {
-  state.isTotalCountLoading = true;
-};
-
-const resetTotalCountLoadingReducer = (state: any) => {
-  state.isTotalCountLoading = false;
-};
-
-const setTotalCountReducer = (state: any, action: any) => {
-  state.totalCount = action?.payload;
-};
-
 const setUsersListsTotalRecordsReducer = (state: any, action: any) => {
   state.totalRecords = action?.payload;
-};
-
-const setIsSwitchDisabledReducer = (state: any, action: any) => {
-  state.isSwitchDisabled = action?.payload;
-};
-
-const resetIsSwitchDisabledReducer = (state: any) => {
-  state.isSwitchDisabled = isSwitchDisabledInitialState;
 };
 
 const resetComponentStateReducers = (state: any) => {
@@ -74,9 +51,6 @@ const resetComponentStateReducers = (state: any) => {
   state.selectedUsersLists = [];
   state.isPortalOpen = isPortalOpenInitialState;
   state.totalRecords = PAGINATION?.TOTAL_RECORDS;
-  state.totalCount = PAGINATION?.TOTAL_RECORDS;
-  state.isTotalCountLoading = true;
-  state.isSwitchDisabled = isSwitchDisabledInitialState;
 };
 
 export const operationsUsersReducersList = {
@@ -89,11 +63,6 @@ export const operationsUsersReducersList = {
   setIsPortalCloseReducer,
   setSelectedUsersListsReducer,
   emptySelectedUsersListsReducer,
-  setTotalCountLoadingReducer,
-  resetTotalCountLoadingReducer,
-  setTotalCountReducer,
   setUsersListsTotalRecordsReducer,
-  setIsSwitchDisabledReducer,
-  resetIsSwitchDisabledReducer,
   resetComponentStateReducers,
 };

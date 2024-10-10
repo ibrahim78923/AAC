@@ -4,6 +4,16 @@ import { UpsertUserFormDefaultValuesI } from './UpsertUser.interface';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { RoleFieldDropdown } from '../UserFormFields/RoleFieldDropdown';
 import { TeamFieldDropdown } from '../UserFormFields/TeamFieldDropdown';
+import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+
+const {
+  OPERATIONS_USER_FIRST_NAME_MAX_CHARACTERS,
+  OPERATIONS_USER_LAST_NAME_MAX_CHARACTERS,
+  OPERATIONS_USER_ADDRESS_MAX_CHARACTERS,
+  OPERATIONS_USER_JOB_TITLE_MAX_CHARACTERS,
+} = CHARACTERS_LIMIT ?? {};
 
 export const userLanguage: AutocompleteOptionsI[] = [
   {
@@ -13,18 +23,50 @@ export const userLanguage: AutocompleteOptionsI[] = [
 ];
 
 export const TITLE_FORM_USER = {
-  ADD: 'Add User',
-  EDIT: 'Edit User',
-  VIEW: 'View User',
+  [OPERATIONS_USERS_ACTIONS_CONSTANT?.ADD_OPERATIONS_USERS]: 'Add User',
+  [OPERATIONS_USERS_ACTIONS_CONSTANT?.EDIT_OPERATIONS_USERS]: 'Edit User',
+  [OPERATIONS_USERS_ACTIONS_CONSTANT?.OPERATIONS_USERS_DETAIL]: 'View User',
+};
+
+export const SUBMIT_BUTTON_TEXT = {
+  [OPERATIONS_USERS_ACTIONS_CONSTANT?.ADD_OPERATIONS_USERS]:
+    GENERIC_UPSERT_FORM_CONSTANT?.ADD,
+  [OPERATIONS_USERS_ACTIONS_CONSTANT?.EDIT_OPERATIONS_USERS]:
+    GENERIC_UPSERT_FORM_CONSTANT?.EDIT,
+  [OPERATIONS_USERS_ACTIONS_CONSTANT?.OPERATIONS_USERS_DETAIL]:
+    GENERIC_UPSERT_FORM_CONSTANT?.SAVE,
 };
 
 export const upsertUserValidationSchema = Yup.object().shape({
-  firstName: Yup?.string()?.trim()?.required('First Name is required'),
-  lastName: Yup?.string()?.trim()?.required('Last Name is required'),
-  address: Yup?.string()?.trim()?.required('Address is required'),
+  firstName: Yup?.string()
+    ?.trim()
+    ?.required('First name is required')
+    ?.max(
+      OPERATIONS_USER_FIRST_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${OPERATIONS_USER_FIRST_NAME_MAX_CHARACTERS}`,
+    ),
+  lastName: Yup?.string()
+    ?.trim()
+    ?.required('Last name is required')
+    ?.max(
+      OPERATIONS_USER_LAST_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${OPERATIONS_USER_LAST_NAME_MAX_CHARACTERS}`,
+    ),
+  address: Yup?.string()
+    ?.trim()
+    ?.required('Address is required')
+    ?.max(
+      OPERATIONS_USER_ADDRESS_MAX_CHARACTERS,
+      `Maximum characters limit is ${OPERATIONS_USER_ADDRESS_MAX_CHARACTERS}`,
+    ),
   email: Yup?.string()?.email('Invalid email')?.required('Email is required'),
   phoneNumber: Yup?.string()?.trim(),
-  jobTitle: Yup?.string()?.trim(),
+  jobTitle: Yup?.string()
+    ?.trim()
+    ?.max(
+      OPERATIONS_USER_JOB_TITLE_MAX_CHARACTERS,
+      `Maximum characters limit is ${OPERATIONS_USER_JOB_TITLE_MAX_CHARACTERS}`,
+    ),
   role: Yup?.mixed()?.nullable()?.required('Role is required'),
   team: Yup?.mixed()?.nullable()?.required('Team is required'),
   language: Yup?.mixed()?.nullable(),
@@ -62,8 +104,8 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     id: 1,
     componentProps: {
       name: 'firstName',
-      label: 'First Name',
-      placeholder: 'Enter First Name',
+      label: 'First name',
+      placeholder: 'Enter first name',
       required: true,
       fullWidth: true,
     },
@@ -71,11 +113,10 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
   },
   {
     id: 3,
-
     componentProps: {
       name: 'lastName',
-      label: 'Last Name',
-      placeholder: 'Enter Last Name',
+      label: 'Last name',
+      placeholder: 'Enter last name',
       fullWidth: true,
       required: true,
     },
@@ -83,11 +124,10 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
   },
   {
     id: 4,
-
     componentProps: {
       name: 'address',
       label: 'Address',
-      placeholder: 'Enter Address',
+      placeholder: 'Enter address',
       fullWidth: true,
       required: true,
     },
@@ -95,11 +135,10 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
   },
   {
     id: 5,
-
     componentProps: {
       name: 'email',
       label: 'Email',
-      placeholder: 'Enter Email',
+      placeholder: 'Enter email',
       fullWidth: true,
       required: true,
       disabled: disableEmailField,
@@ -108,22 +147,20 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
   },
   {
     id: 6,
-
     componentProps: {
       name: 'phoneNumber',
-      label: 'Phone Number',
-      placeholder: 'Enter Phone Number',
+      label: 'Phone number',
+      placeholder: 'Enter phone number',
       fullWidth: true,
     },
     component: RHFTextField,
   },
   {
     id: 7,
-
     componentProps: {
       name: 'jobTitle',
-      label: 'Job Title',
-      placeholder: 'Enter Job Title',
+      label: 'Job title',
+      placeholder: 'Enter job title',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -141,7 +178,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     componentProps: {
       name: 'language',
       label: 'Language',
-      placeholder: 'Select Language',
+      placeholder: 'Select language',
       fullWidth: true,
       options: userLanguage,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
@@ -152,8 +189,8 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     id: 11,
     componentProps: {
       name: 'facebookUrl',
-      label: 'Facebook Url',
-      placeholder: 'Enter Facebook Url',
+      label: 'Facebook url',
+      placeholder: 'Enter facebook url',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -162,8 +199,8 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     id: 12,
     componentProps: {
       name: 'linkedInUrl',
-      label: 'LinkedIn Url',
-      placeholder: 'Enter linkedIn Url',
+      label: 'LinkedIn url',
+      placeholder: 'Enter linkedIn url',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -172,8 +209,8 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     id: 13,
     componentProps: {
       name: 'twitterUrl',
-      label: 'Twitter Url',
-      placeholder: 'Enter Twitter Url',
+      label: 'Twitter url',
+      placeholder: 'Enter twitter url',
       fullWidth: true,
     },
     component: RHFTextField,

@@ -10,7 +10,6 @@ export const operationUsersListColumnsDynamic = (
   selectedUserList: any,
   setSelectedUserList: (user: any) => void,
   totalUsers = [],
-  isSwitchDisabled: any,
 ) => [
   {
     accessorFn: (row: UserTableRowI) => row?._id,
@@ -105,8 +104,6 @@ export const operationUsersListColumnsDynamic = (
       <UpdateUserStatus
         currentId={info?.row?.original?._id}
         currentStatus={info?.getValue()}
-        disabled={isSwitchDisabled?.disabled}
-        loaderId={isSwitchDisabled?._id}
       />
     ),
   },

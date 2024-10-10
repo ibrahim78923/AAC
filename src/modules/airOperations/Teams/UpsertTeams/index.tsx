@@ -12,8 +12,6 @@ const UpsertTeams = () => {
     methods,
     handleSubmit,
     submit,
-    postCreateTeamForOperationStatus,
-    patchTeamUsersForOperationStatus,
     handleClose,
     upsertTeamFormFields,
     isLoading,
@@ -21,6 +19,7 @@ const UpsertTeams = () => {
     isError,
     refetch,
     isPortalOpen,
+    apiCallInProgress,
   } = useUpsertTeams();
 
   return (
@@ -40,18 +39,9 @@ const UpsertTeams = () => {
           ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
           : GENERIC_UPSERT_FORM_CONSTANT?.ADD
       }
-      isLoading={
-        postCreateTeamForOperationStatus?.isLoading ||
-        patchTeamUsersForOperationStatus?.isLoading
-      }
-      isDisabled={
-        postCreateTeamForOperationStatus?.isLoading ||
-        patchTeamUsersForOperationStatus?.isLoading
-      }
-      disabledCancelBtn={
-        postCreateTeamForOperationStatus?.isLoading ||
-        patchTeamUsersForOperationStatus?.isLoading
-      }
+      isLoading={apiCallInProgress}
+      isDisabled={apiCallInProgress}
+      disabledCancelBtn={apiCallInProgress}
     >
       {isLoading || isFetching ? (
         <SkeletonForm />
@@ -61,7 +51,7 @@ const UpsertTeams = () => {
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {upsertTeamFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
+              <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}

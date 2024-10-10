@@ -1,6 +1,6 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useUserList } from './useUserList';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 
 export const UserList = () => {
   const {
@@ -15,7 +15,7 @@ export const UserList = () => {
     isApiCalled,
   } = useUserList();
 
-  if (isApiCalled) return <SkeletonTable />;
+  if (isApiCalled) return <SkeletonTanStackTable />;
 
   return (
     <TanstackTable

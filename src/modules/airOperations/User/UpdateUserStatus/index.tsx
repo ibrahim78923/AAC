@@ -2,22 +2,20 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
 import { useUpdateUserStatus } from './useUpdateUserStatus';
 
-export const UpdateUserStatus = (props: any) => {
-  const {
-    currentStatus,
-    currentId = '',
-    loaderId = '',
-    disabled = false,
-  } = props;
+const { ACTIVE } = PRODUCT_USER_STATUS ?? {};
 
-  const { changeOperationUserStatus } = useUpdateUserStatus(props);
+export const UpdateUserStatus = (props: any) => {
+  const { currentStatus } = props;
+
+  const { changeOperationUserStatus, changeSingleUserStatusStatus } =
+    useUpdateUserStatus(props);
 
   return (
     <AntSwitch
-      checked={currentStatus === PRODUCT_USER_STATUS?.ACTIVE}
+      checked={currentStatus === ACTIVE}
       onChange={changeOperationUserStatus}
-      isLoading={disabled && loaderId === currentId}
-      disabled={disabled}
+      isLoading={changeSingleUserStatusStatus?.isLoading}
+      disabled={changeSingleUserStatusStatus?.isLoading}
     />
   );
 };

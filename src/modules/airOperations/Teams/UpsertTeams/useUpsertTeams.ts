@@ -97,6 +97,10 @@ export const useUpsertTeams = () => {
 
   const upsertTeamFormFields = upsertTeamFormFieldsDynamic();
 
+  const apiCallInProgress =
+    postCreateTeamForOperationStatus?.isLoading ||
+    patchTeamUsersForOperationStatus?.isLoading;
+
   return {
     methods,
     handleSubmit,
@@ -110,5 +114,6 @@ export const useUpsertTeams = () => {
     isError,
     refetch,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

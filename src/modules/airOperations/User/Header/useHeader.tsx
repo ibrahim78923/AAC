@@ -7,8 +7,6 @@ import {
 import { PAGINATION } from '@/config';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
 
-const { ADD_OPERATIONS_USERS } = OPERATIONS_USERS_ACTIONS_CONSTANT;
-
 export const useHeader = () => {
   const dispatch = useAppDispatch();
 
@@ -39,7 +37,8 @@ export const useHeader = () => {
   const actionsDropdownForOperationUser =
     actionsDropdownForOperationUserDynamic?.(setAction, selectedUsersLists);
 
-  const openAddUserPortal = () => setAction(ADD_OPERATIONS_USERS);
+  const openAddUserPortal = () =>
+    setAction(OPERATIONS_USERS_ACTIONS_CONSTANT?.ADD_OPERATIONS_USERS);
 
   return {
     actionsDropdownForOperationUser,

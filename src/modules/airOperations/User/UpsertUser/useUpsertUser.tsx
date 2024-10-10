@@ -26,8 +26,6 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airOperations/users/slice';
 
-const { ZERO } = ARRAY_INDEX;
-
 const { EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
   OPERATIONS_USERS_ACTIONS_CONSTANT;
 
@@ -42,7 +40,7 @@ export const useUpsertUser = () => {
     (state) => state?.operationsUsersLists?.selectedUsersLists,
   );
 
-  const userId = selectedUsersLists?.[ZERO]?._id;
+  const userId = selectedUsersLists?.[ARRAY_INDEX?.ZERO]?._id;
 
   const [
     updateProductUserForOperationTrigger,
@@ -131,7 +129,7 @@ export const useUpsertUser = () => {
       };
       await igVerificationTrigger({ email })?.unwrap();
       successSnackbar('User added successfully');
-      closeOperationUserForm?.();
+      closePortal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -148,7 +146,7 @@ export const useUpsertUser = () => {
     try {
       await updateProductUserForOperationTrigger?.(apiDataParameter)?.unwrap();
       successSnackbar('User updated successfully');
-      closeOperationUserForm?.();
+      closePortal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -156,7 +154,7 @@ export const useUpsertUser = () => {
   const disableEmailField = isPortalOpen?.action === EDIT_OPERATIONS_USERS;
   const upsertUserFormFields = upsertUserFormFieldsDynamic?.(disableEmailField);
 
-  const closeOperationUserForm = () => {
+  const closePortal = () => {
     reset?.();
     dispatch(emptySelectedUsersLists());
     dispatch(setIsPortalClose());
@@ -166,6 +164,11 @@ export const useUpsertUser = () => {
     reset(() => upsertUserDefaultValues(data?.data));
   }, [data, reset]);
 
+  const apiCallInProgress =
+    addProductUserForOperationStatus?.isLoading ||
+    updateProductUserForOperationStatus?.isLoading ||
+    igVerificationStatus?.isLoading;
+
   return {
     upsertUserFormFields,
     handleSubmit,
@@ -173,7 +176,7 @@ export const useUpsertUser = () => {
     methods,
     addProductUserForOperationStatus,
     updateProductUserForOperationStatus,
-    closeOperationUserForm,
+    closePortal,
     submitButtonHandler,
     isLoading,
     isFetching,
@@ -181,5 +184,6 @@ export const useUpsertUser = () => {
     refetch,
     igVerificationStatus,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

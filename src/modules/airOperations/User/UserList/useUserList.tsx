@@ -25,10 +25,6 @@ export const useUserList = () => {
     (state) => state?.operationsUsersLists?.selectedUsersLists,
   );
 
-  const isSwitchDisabled = useAppSelector(
-    (state) => state?.operationsUsersLists?.isSwitchDisabled,
-  );
-
   const handleSetPage = (newPage: any) => {
     dispatch(setPage(newPage));
   };
@@ -60,7 +56,6 @@ export const useUserList = () => {
     selectedUsersLists,
     setSelectedUserList,
     totalUsers,
-    isSwitchDisabled,
   );
 
   const isApiCalled =

@@ -1,6 +1,6 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useTeamsList } from './useTeamsList';
+import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
 
 export const TeamsList = () => {
   const {
@@ -15,7 +15,7 @@ export const TeamsList = () => {
     isApiCalled,
   } = useTeamsList();
 
-  if (isApiCalled) return <SkeletonTable />;
+  if (isApiCalled) return <SkeletonTanStackTable />;
 
   return (
     <TanstackTable

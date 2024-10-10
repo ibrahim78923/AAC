@@ -11,15 +11,15 @@ export const RoleFieldDropdown = (props: any) => {
   const auth: any = useAuth();
   const productId = auth?.product?._id ?? {};
   const organizationId = auth?.user?.organization?._id ?? {};
-  const companyId = product?.company?._id ?? {};
+  const organizationCompanyAccountId = product?.company?._id ?? {};
   const roleApiQuery =
     useLazyGetOperationsUserManagementPermissionsRolesDropdownQuery?.();
 
   return (
     <RHFAutocompleteAsync
       name="role"
-      label="Assign Role"
-      placeholder="Select Role"
+      label="Assign role"
+      placeholder="Select role"
       fullWidth
       required
       disabled={disabled}
@@ -28,7 +28,7 @@ export const RoleFieldDropdown = (props: any) => {
       externalParams={{
         productId,
         organizationId,
-        companyId,
+        organizationCompanyAccountId,
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
       }}
     />
