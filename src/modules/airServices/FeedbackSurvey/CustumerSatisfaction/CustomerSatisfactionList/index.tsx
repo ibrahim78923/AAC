@@ -19,7 +19,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
   props,
 ) => {
   const {
-    setSearch,
+    handleSearch,
     activeCheck,
     setActiveCheck,
     page,
@@ -52,7 +52,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
         gap={1}
         flexWrap="wrap"
       >
-        <Search label="Search here" setSearchBy={setSearch} />
+        <Search label="Search here" setSearchBy={handleSearch} />
         <Box display="flex" gap={1} flexWrap="wrap">
           <PermissionsGuard
             permissions={

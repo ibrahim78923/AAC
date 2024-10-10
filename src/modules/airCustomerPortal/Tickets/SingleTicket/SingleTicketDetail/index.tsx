@@ -160,7 +160,8 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                     CHECK_SURVEY_SUBMISSION_STATUS?.SUBMITTED
                   }
                 >
-                  Take a Survey
+                  {lazyGetSingleDefaultSurveyForCustomerTicketsStatus?.data
+                    ?.data?.displayName || 'Take a Survey'}
                 </LoadingButton>
               </Box>
             )

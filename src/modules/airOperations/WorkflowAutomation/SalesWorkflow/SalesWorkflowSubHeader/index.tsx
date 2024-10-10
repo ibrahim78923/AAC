@@ -14,7 +14,7 @@ export const SalesWorkflowSubHeader: React.FC<SalesWorkflowSubHeaderI> = (
     isFilterOpen,
     setIsFilterOpen,
     salesWorkflowActionDropdown,
-    setSearch,
+    handleSearch,
     disabledActionButton,
     onSubmit,
     loading,
@@ -33,7 +33,7 @@ export const SalesWorkflowSubHeader: React.FC<SalesWorkflowSubHeaderI> = (
             AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
           ]}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={handleSearch} />
         </PermissionsGuard>
         <Box
           display={'flex'}

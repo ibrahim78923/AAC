@@ -13,7 +13,7 @@ import { Permissions } from '@/constants/permissions';
 export const RolesAndRight = () => {
   const {
     operationsRolesAndRightColumns,
-    setSearch,
+    handleSearch,
     setPageLimit,
     setPage,
     lazyGetPermissionsRoleForOperationsStatus,
@@ -64,7 +64,7 @@ export const RolesAndRight = () => {
             <Box>
               <Search
                 label="Search Here"
-                setSearchBy={setSearch}
+                setSearchBy={handleSearch}
                 size="small"
               />
             </Box>

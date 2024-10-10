@@ -68,6 +68,11 @@ export const useProductCatalog = () => {
     getProductCatalogListData();
   }, [search, page, pageLimit]);
 
+  const handleSearch = (searchValue: string) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
+  };
+
   const getProductListsDataExport = async (exportType: any) => {
     const getProductCatalogExportParam = {
       exportType,
@@ -118,7 +123,6 @@ export const useProductCatalog = () => {
   const productListsColumn = productListsColumnDynamic(router);
   return {
     search,
-    setSearch,
     getProductListsDataExport,
     productListsColumn,
     productListActionComponent,
@@ -131,5 +135,6 @@ export const useProductCatalog = () => {
     setPage,
     setPageLimit,
     theme,
+    handleSearch,
   };
 };

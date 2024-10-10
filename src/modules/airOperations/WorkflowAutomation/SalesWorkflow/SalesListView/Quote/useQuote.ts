@@ -44,6 +44,10 @@ export const useQuote = () => {
       errorSnackbar(response?.error?.data?.message);
     }
   };
+  const handleSearch = (searchValue: string) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
+  };
   const actionDropdown = salesWorkflowActionDropdownDynamic(
     activeCheck,
     setOpenDelete,
@@ -139,7 +143,7 @@ export const useQuote = () => {
   return {
     isFilterOpen,
     setIsFilterOpen,
-    setSearch,
+    handleSearch,
     openDelete,
     setOpenDelete,
     tableColumns,

@@ -23,7 +23,7 @@ export const Vendor = () => {
     isSuccess,
     setPageLimit,
     setPage,
-    setSearch,
+    handleSearch,
     getNewVendorDataExport,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -72,7 +72,7 @@ export const Vendor = () => {
             AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
           ]}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={handleSearch} />
         </PermissionsGuard>
       </Box>
 

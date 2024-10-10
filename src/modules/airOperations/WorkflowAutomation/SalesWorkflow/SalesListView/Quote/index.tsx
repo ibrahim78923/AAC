@@ -7,7 +7,7 @@ export const Quote = () => {
   const {
     isFilterOpen,
     setIsFilterOpen,
-    setSearch,
+    handleSearch,
     openDelete,
     setOpenDelete,
     tableColumns,
@@ -32,7 +32,7 @@ export const Quote = () => {
     <>
       <SalesWorkflowSubHeader
         disabledActionButton={!!!activeCheck?.length}
-        setSearch={setSearch}
+        handleSearch={handleSearch}
         salesWorkflowActionDropdown={actionDropdown}
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}

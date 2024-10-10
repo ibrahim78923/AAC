@@ -39,6 +39,10 @@ export const useVendor = () => {
 
   const [lazyGetExportNewVendorTrigger] = useLazyGetExportNewVendorQuery();
 
+  const handleSearch = (searchValue: string) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
+  };
   const getNewVendorDataExport = async (exportType: any) => {
     const getNewVendorExportParam = {
       exportType,
@@ -73,7 +77,7 @@ export const useVendor = () => {
     isSuccess,
     setPageLimit,
     setPage,
-    setSearch,
+    handleSearch,
     getNewVendorDataExport,
     isDrawerOpen,
     setIsDrawerOpen,

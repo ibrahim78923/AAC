@@ -47,6 +47,10 @@ export const useCustomerSupportList = (props: { status?: string }) => {
       errorSnackbar(response?.error?.data?.message);
     }
   };
+  const handleSearch = (searchValue: string) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
+  };
   const singleSurvey = activeCheck?.[ARRAY_INDEX?.ZERO];
   const handleFeedbackList = async () => {
     const queryParams = {
@@ -144,7 +148,7 @@ export const useCustomerSupportList = (props: { status?: string }) => {
   const feedbackTableData = data?.data?.feedbackSurvey;
   const meta = data?.data?.meta;
   return {
-    setSearch,
+    handleSearch,
     activeCheck,
     setActiveCheck,
     page,

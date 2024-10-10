@@ -11,7 +11,7 @@ import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants
 
 export const ProductCatalog = () => {
   const {
-    setSearch,
+    handleSearch,
     getProductListsDataExport,
     productListsColumn,
     productListActionComponent,
@@ -70,7 +70,7 @@ export const ProductCatalog = () => {
           ]}
         >
           <Box px={2}>
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </Box>
         </PermissionsGuard>
         <Box marginY={3} />
