@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { styles } from './styles';
-import { BackArrowIcon } from '@/assets/icons';
+import { BackArrowIcon, InfoBlueIcon } from '@/assets/icons';
 import { useEffect, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
 import CustomLabel from '@/components/CustomLabel';
@@ -91,6 +91,19 @@ const FormBuilder = ({
   const [updatePostEmailTemplate, { isLoading: loadingUpdateTemplate }] =
     useUpdatePostEmailTemplatesMutation();
 
+  const [isToValid, setisToValid] = useState(false);
+  const [toStateDep, setToStateDep] = useState(1);
+  useEffect(() => {
+    if (
+      autocompleteValues?.length === 0 ||
+      autocompleteValues?.length === undefined
+    ) {
+      null;
+    } else {
+      setisToValid(false);
+    }
+  }, [autocompleteValues, toStateDep]);
+
   const handelPostTemplate = async (values: any) => {
     const payload = {
       name: titleValue,
@@ -98,37 +111,59 @@ const FormBuilder = ({
     };
 
     if (isSend) {
-      const formDataSend = new FormData();
-      formDataSend.append(
-        'to',
-        autocompleteValues ? autocompleteValues.join(',') : '',
-      );
-      formDataSend.append('subject', values?.subject);
-      formDataSend.append('content', editorValue);
-      formDataSend.append('from', values?.from);
-      formDataSend.append('status', EMAIL_ENUMS?.SENT);
+      setToStateDep(toStateDep + 1);
+      if (autocompleteValues?.length === 0) {
+        setisToValid(true);
+      } else {
+        setisToValid(false);
+        const formDataSend = new FormData();
+        formDataSend.append(
+          'to',
+          autocompleteValues ? autocompleteValues.join(',') : '',
+        );
+        formDataSend.append('subject', values?.subject);
+        formDataSend.append('content', editorValue);
+        formDataSend.append('from', values?.from);
+        formDataSend.append('status', EMAIL_ENUMS?.SENT);
 
-      if (values?.cc?.length) {
-        formDataSend.append('cc', values?.cc);
-      }
-      if (values?.bcc?.length) {
-        formDataSend.append('bcc', values?.bcc);
-      }
-      try {
-        await postEmailWithTemplates({
-          body: formDataSend,
-        })?.unwrap();
-        enqueueSnackbar('Email send successfully', {
-          variant: 'success',
-        });
-      } catch (error: any) {
-        enqueueSnackbar('Something went wrong!', {
-          variant: 'error',
-        });
+        if (values?.cc?.length) {
+          formDataSend.append('cc', values?.cc);
+        }
+        if (values?.bcc?.length) {
+          formDataSend.append('bcc', values?.bcc);
+        }
+        try {
+          await postEmailWithTemplates({
+            body: formDataSend,
+          })?.unwrap();
+          enqueueSnackbar('Email send successfully', {
+            variant: 'success',
+          });
+
+          // update after send
+          try {
+            await updatePostEmailTemplate({
+              body: payload,
+              id: templateId,
+            })?.unwrap();
+            enqueueSnackbar('Template updated successfully', {
+              variant: 'success',
+            });
+            router.push(`${AIR_MARKETER?.EMAIL_TEMPLATES}`);
+          } catch (error: any) {
+            enqueueSnackbar('Something went wrong!', {
+              variant: 'error',
+            });
+          }
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong!', {
+            variant: 'error',
+          });
+        }
       }
     }
 
-    if (isEditMode) {
+    if (!isSend && isEditMode) {
       try {
         await updatePostEmailTemplate({
           body: payload,
@@ -358,17 +393,46 @@ const FormBuilder = ({
                             value={inputValue}
                             onChange={handleInputChange}
                             helperText={
-                              isValidEmails ? (
-                                params.inputProps?.value?.length > 1 ? (
-                                  <Typography fontSize={12}>
-                                    Press enter to add email
-                                  </Typography>
-                                ) : null
-                              ) : (
-                                <Typography color={theme?.palette?.error?.main}>
-                                  Email you entered is not valid
-                                </Typography>
-                              )
+                              <>
+                                {isToValid ? (
+                                  <>
+                                    <Typography
+                                      component={'span'}
+                                      color={theme?.palette?.error?.main}
+                                      sx={{ display: 'block', mt: -1, ml: -1 }}
+                                    >
+                                      Field is Required
+                                    </Typography>
+                                  </>
+                                ) : (
+                                  <>
+                                    {isValidEmails ? (
+                                      params.inputProps?.value?.length > 1 ? (
+                                        <Typography
+                                          fontSize={13}
+                                          color={
+                                            theme?.palette?.custom?.dodger_blue
+                                          }
+                                          sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '5px',
+                                          }}
+                                        >
+                                          <InfoBlueIcon size={'16'} /> Press
+                                          enter to add email
+                                        </Typography>
+                                      ) : null
+                                    ) : (
+                                      <Typography
+                                        color={theme?.palette?.error?.main}
+                                      >
+                                        Email you entered is not valid
+                                      </Typography>
+                                    )}
+                                  </>
+                                )}
+                              </>
                             }
                           />
                         </>

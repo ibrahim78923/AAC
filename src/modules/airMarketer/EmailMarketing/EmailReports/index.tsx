@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Grid,
   IconButton,
   Skeleton,
@@ -14,12 +15,27 @@ import { DocumentDownloadIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
 import { useGetEmailMarketingReportsQuery } from '@/services/airMarketer/emailReports';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
+import { htmlToPngConvert } from '@/utils/file';
 
 const EmailReports = () => {
   const theme = useTheme();
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = async () => {
+    setIsLoading(true);
+    try {
+      await htmlToPngConvert(chartRef, 'white', 'Email Analytics');
+    } finally {
+      setIsLoading(false);
+      setIsDownloadModalOpen(false);
+    }
+  };
 
   return (
     <Box>
@@ -42,16 +58,35 @@ const EmailReports = () => {
         width={'85vw'}
         background={theme?.palette?.primary?.light}
       >
-        <WidgetsAndGraphs setIsDownloadModalOpen={setIsDownloadModalOpen} />
-        <IconButton
-          sx={{
-            position: 'absolute',
-            top: '2px',
-            right: '10px',
-          }}
-        >
-          <DocumentDownloadIcon width={'55'} />
-        </IconButton>
+        <Box ref={chartRef}>
+          <WidgetsAndGraphs setIsDownloadModalOpen={setIsDownloadModalOpen} />
+        </Box>
+
+        {isLoading ? (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '25px',
+              right: '25px',
+            }}
+          >
+            <CircularProgress size={25} />
+          </Box>
+        ) : (
+          <IconButton
+            sx={{
+              position: 'absolute',
+              top: '2px',
+              right: '10px',
+            }}
+            onClick={() => {
+              setIsLoading(true);
+              handlePrint();
+            }}
+          >
+            <DocumentDownloadIcon width={'55'} />
+          </IconButton>
+        )}
       </CommonModal>
     </Box>
   );

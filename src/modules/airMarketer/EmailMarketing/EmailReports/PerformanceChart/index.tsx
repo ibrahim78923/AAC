@@ -17,20 +17,27 @@ const PerformanceChart = (performanceData: any) => {
       const openedData = data?.map((entry) => entry?.open || 0);
       const unreadData = data?.map((entry) => entry?.unread || 0);
       const blockedData = data?.map((entry) => entry?.complaint || 0);
+      const unDeliveredData = data?.map(
+        (entry) => entry?.send - entry?.delivered || 0,
+      );
 
       const categories = data?.map((entry) => entry?._id || '');
 
       setChartData({
         series: [
           { name: 'Sent', data: sentData },
-          { name: 'Opened', data: openedData },
           { name: 'Unread', data: unreadData },
+          { name: 'Opened', data: openedData },
+          { name: 'Undelivered', data: unDeliveredData },
           { name: 'Blocked', data: blockedData },
         ],
         options: {
           chart: {
             type: 'bar',
             height: 350,
+            toolbar: {
+              show: false,
+            },
           },
           plotOptions: {
             bar: {
@@ -41,8 +48,9 @@ const PerformanceChart = (performanceData: any) => {
           },
           colors: [
             theme?.palette?.primary?.main,
-            theme?.palette?.custom?.light_slate_blue,
             theme?.palette?.custom?.light_graph_purple,
+            theme?.palette?.custom?.light_slate_blue,
+            theme?.palette?.grey[500],
             theme?.palette?.custom?.light_graph_red,
           ],
           dataLabels: {
@@ -87,7 +95,7 @@ const PerformanceChart = (performanceData: any) => {
             position: 'top',
             horizontalAlign: 'right',
             floating: false,
-            offsetY: 15,
+            offsetY: 1,
           },
         },
       });

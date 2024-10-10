@@ -24,15 +24,22 @@ const ActivityChart = ({ emailWidgetsData }: any) => {
           width: 380,
           type: 'pie',
         },
-        labels: ['Read', 'Unread', 'UnDelivered'],
+        labels: ['Read', 'Unread', 'Undelivered'],
         colors: [
           theme?.palette?.primary?.main,
           theme?.palette?.custom?.light_slate_blue,
-          theme?.palette?.custom?.light_grey_bg,
+          theme?.palette?.grey[500],
         ],
         legend: {
           position: 'bottom',
           horizontalAlign: 'center',
+        },
+        tooltip: {
+          y: {
+            formatter: (val: number) => {
+              return `${val?.toFixed(1)}%`;
+            },
+          },
         },
         responsive: [
           {
