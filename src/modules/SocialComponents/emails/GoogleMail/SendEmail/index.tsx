@@ -228,19 +228,21 @@ const SendEmailDrawer = (props: any) => {
                   />
                 </Grid>
               )}
-              {drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
-                <>
-                  <Grid item xs={4}>
-                    <RHFCheckbox name="ccChecked" label="CC" />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <RHFCheckbox name="bccChecked" label="BCC" />
-                  </Grid>
-                </>
-              )}
+              {drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ||
+                (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+                  <>
+                    <Grid item xs={4}>
+                      <RHFCheckbox name="ccChecked" label="CC" />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <RHFCheckbox name="bccChecked" label="BCC" />
+                    </Grid>
+                  </>
+                ))}
 
               {watchEmailsForm[0] &&
-                drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
+                (drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ||
+                  drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) && (
                   <Grid item xs={12}>
                     <RHFTextField
                       name="cc"
@@ -251,7 +253,8 @@ const SendEmailDrawer = (props: any) => {
                   </Grid>
                 )}
               {watchEmailsForm[1] &&
-                drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
+                (drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ||
+                  drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) && (
                   <Grid item xs={12}>
                     <RHFTextField name="bcc" label="BCC" size="small" />
                   </Grid>

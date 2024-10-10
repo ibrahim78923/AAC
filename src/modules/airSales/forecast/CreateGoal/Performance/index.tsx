@@ -86,10 +86,9 @@ const Performance = ({
           mb={2}
         >
           <Grid item xs={12} sm={7}>
-            <Typography variant="h6"> Team Goal </Typography>
+            <Typography variant="h6"> Goal </Typography>
             <Typography variant="body2">
-              Set Goals and pipelines for each team selected, use the dropdown
-              menu below to to switch teams
+              Set Goals and pipelines for each user/team selected.
             </Typography>
           </Grid>
 
@@ -177,7 +176,12 @@ const Performance = ({
             fullWidth
             placeholder=" £"
             value={modalInputValue}
-            onChange={(e) => setModalInputValue(e.target.value)}
+            onChange={(e) => {
+              const value = parseFloat(e?.target?.value);
+              if (value > 0 || e?.target?.value === '') {
+                setModalInputValue(e?.target?.value);
+              }
+            }}
             sx={{
               '& input': {
                 height: '12px',

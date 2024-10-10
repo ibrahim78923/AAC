@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Stack, Button, List, ListItemButton } from '@mui/material';
 import {
   PrimaryCalendarIcon,
@@ -30,6 +30,12 @@ const SwitchableDatepicker = ({
   const [isRangePicker, setIsRangePicker] = useState(false);
   const [startDate, setStartDate]: any = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  // Sync the component's internal state with the new dateValue when refreshed
+  useEffect(() => {
+    setStartDate(dateValue ? dateValue[0] : null);
+    setEndDate(dateValue ? dateValue[1] : null);
+  }, [dateValue]);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,

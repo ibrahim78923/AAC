@@ -274,10 +274,7 @@ const LeftPane = () => {
       toDate: '',
       fromDate: '',
     });
-    setDatePickerVal({
-      startedDate: new Date(),
-      endedDate: new Date(),
-    });
+    setDatePickerVal(new Date());
     refetch();
   };
 

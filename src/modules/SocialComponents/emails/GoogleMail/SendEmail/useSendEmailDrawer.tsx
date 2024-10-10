@@ -88,7 +88,7 @@ const useSendEmailDrawer = ({
         <b> sent </b> : ${currentGmailAssets?.others?.sent}<br>
          <b> subject </b> : ${currentGmailAssets?.others?.subject}<br>
          <b> to </b> : ${currentGmailAssets?.others?.to}  <br>  <br>
-         ${currentForwardMessage}
+         ${removeSignatureDiv(currentForwardMessage)}
         
            <br>
         `,
@@ -219,7 +219,7 @@ const useSendEmailDrawer = ({
           font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
           ${values?.description} 
           <br> 
-          <div style="font-size:16px;" >${
+          <div id='SIGNATURE' style="font-size:16px;" >${
             emailSettingsData?.data?.emailSettings?.signature ?? ''
           }</div> 
           </div>` || '<p></p>',
@@ -282,7 +282,7 @@ const useSendEmailDrawer = ({
           font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
           ${values?.description} 
           <br> 
-          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+          <div id='SIGNATURE' style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
           </div>` || '<p></p>',
         );
         formDataReply.append(
@@ -335,7 +335,7 @@ const useSendEmailDrawer = ({
           font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
           ${values?.description} 
           <br> 
-          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+         <div id='SIGNATURE' style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
           </div>` || '<p></p>',
         );
 
@@ -434,5 +434,16 @@ function base64ToBlob(base64: any, contentType: any) {
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: contentType });
 }
+const removeSignatureDiv = (htmlContent: string) => {
+  if (!htmlContent) return htmlContent;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+
+  const signatureDiv = doc.getElementById('SIGNATURE');
+  if (signatureDiv) {
+    signatureDiv.remove();
+  }
+  return doc.body.innerHTML;
+};
 
 export default useSendEmailDrawer;
