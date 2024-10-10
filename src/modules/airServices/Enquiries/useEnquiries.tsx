@@ -106,6 +106,11 @@ export const useEnquiries = () => {
     });
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
+
   return {
     setSearchBy,
     isModalOpen,
@@ -124,6 +129,7 @@ export const useEnquiries = () => {
     setEnquiriesSelected,
     closeModal,
     openFilterModal,
+    handleSearch,
   };
 };
 

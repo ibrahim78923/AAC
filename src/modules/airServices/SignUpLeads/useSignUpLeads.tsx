@@ -22,6 +22,10 @@ export const useSignUpLeads = () => {
     );
 
   const signUpLeadsColumns = getSignUpLeadsColumns();
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
 
   return {
     setSearchBy,
@@ -33,6 +37,7 @@ export const useSignUpLeads = () => {
     isSuccess,
     setPageLimit,
     setPage,
+    handleSearch,
   };
 };
 export default useSignUpLeads;

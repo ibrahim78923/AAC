@@ -8,7 +8,6 @@ import useSignUpLeads from './useSignUpLeads';
 
 export const SignUpLeads = () => {
   const {
-    setSearchBy,
     data,
     signUpLeadsColumns,
     isLoading,
@@ -17,6 +16,7 @@ export const SignUpLeads = () => {
     isSuccess,
     setPageLimit,
     setPage,
+    handleSearch,
   } = useSignUpLeads();
 
   return (
@@ -29,7 +29,7 @@ export const SignUpLeads = () => {
               AIR_SERVICES_SIGNUP_LEADS_PERMISSION?.SIGNUP_LEADS_SEARCH,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearchBy} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
         </Grid>
 

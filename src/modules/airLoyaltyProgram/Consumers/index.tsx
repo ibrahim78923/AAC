@@ -1,29 +1,34 @@
-import ConsumersIcon from '@/assets/icons/modules/loyaltyProgram/Consumers/consumers-icon';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
-import { useState } from 'react';
+import { ConsumerData, getConsumerColumns } from './Consumer.data';
+import { useConsumer } from './useConsumer';
+import { ConsumersCustomizeIcon } from '@/assets/icons';
 
 export const Consumers = () => {
-  const [search, setSearch] = useState('');
+  const { handleSearch } = useConsumer();
   return (
     <Box>
       <PageTitledHeader title={'Consumers'} />
       <Box display={'flex'} justifyContent={'space-between'}>
-        <Search
-          label="Search Here"
-          width={'16.25rem'}
-          size="small"
-          setSearchBy={setSearch}
-          searchBy={search}
-        />
+        <Search label={'Search'} setSearchBy={handleSearch} size={'small'} />
+
         <Button
           className="small"
           variant="outlined"
-          startIcon={<ConsumersIcon />}
+          color="inherit"
+          startIcon={<ConsumersCustomizeIcon />}
         >
           Customize
         </Button>
+      </Box>
+      <Box mt={3}>
+        <TanstackTable
+          data={ConsumerData()}
+          columns={getConsumerColumns()}
+          isPagination
+        />
       </Box>
     </Box>
   );

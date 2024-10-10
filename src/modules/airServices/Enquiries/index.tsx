@@ -16,7 +16,6 @@ import { Permissions } from '@/constants/permissions';
 
 const Enquiries = () => {
   const {
-    setSearchBy,
     isModalOpen,
     data,
     enquiriesColumns,
@@ -31,6 +30,7 @@ const Enquiries = () => {
     enquiriesSelected,
     closeModal,
     openFilterModal,
+    handleSearch,
   } = useEnquiries();
 
   return (
@@ -41,7 +41,7 @@ const Enquiries = () => {
           <PermissionsGuard
             permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.SEARCH_AND_FILTER]}
           >
-            <Search label="Search Here" setSearchBy={setSearchBy} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
         </Grid>
 
