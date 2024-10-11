@@ -476,7 +476,6 @@ const DashboardLayout = ({ children, window }: any) => {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
           },
         });
-
         setSocket(res);
         dispatch(setSocketConnection({ isConnected: true, socket: res }));
       }

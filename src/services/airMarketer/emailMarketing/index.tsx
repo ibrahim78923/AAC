@@ -11,6 +11,17 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    getEmailMarketingListAsExport: builder?.query({
+      query: (params: any) => ({
+        url: `${EMAILS_MARKETING?.EMAIL_MARKETING}`,
+        method: 'GET',
+        params: params,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      providesTags: TAG,
+    }),
+
     getEmailMarketingById: builder.query({
       query: ({ params }: any) => ({
         url: `${EMAILS_MARKETING?.EMAIL_MARKETING_BY_ID}`,
@@ -125,4 +136,6 @@ export const {
   useLazyGetAllEmailsAsyncQuery,
   useLazyGetAllMarketingUsersQuery,
   useLazyGetAllMarketingTeamsQuery,
+
+  useLazyGetEmailMarketingListAsExportQuery,
 } = emailTemplatesApi;
