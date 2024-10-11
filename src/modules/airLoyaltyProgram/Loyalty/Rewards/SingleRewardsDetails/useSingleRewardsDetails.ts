@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
 import { singleRewardDetailsColumnsDynamic } from './SingleRewardsDetails.data';
 import { PAGINATION } from '@/config';
-import { useLazyGetAllLoyaltyPhysicalRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards/physical';
+import { useLazyGetLoyaltyRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
 
 export const useSingleRewardsDetails = () => {
   const singleRewardDetailsColumns = singleRewardDetailsColumnsDynamic?.();
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
-  const [
-    lazyGetAllLoyaltyPhysicalRewardsListTrigger,
-    lazyGetAllLoyaltyPhysicalRewardsListStatus,
-  ]: any = useLazyGetAllLoyaltyPhysicalRewardsListQuery?.();
+  const [lazyGetRewardsListTrigger, lazyGetRewardsListStatus]: any =
+    useLazyGetLoyaltyRewardsListQuery?.();
 
-  const getAllLoyaltyPhysicalRewardsList = async () => {
+  const getRewardsList = async () => {
     const apiDataParameter = {
       queryParams: {
         page,
@@ -22,17 +20,15 @@ export const useSingleRewardsDetails = () => {
       },
     };
     try {
-      await lazyGetAllLoyaltyPhysicalRewardsListTrigger?.(
-        apiDataParameter,
-      )?.unwrap();
+      await lazyGetRewardsListTrigger?.(apiDataParameter)?.unwrap();
     } catch (error: any) {}
   };
 
   useEffect(() => {
-    getAllLoyaltyPhysicalRewardsList?.();
+    getRewardsList?.();
   }, [page, search, pageLimit]);
 
-  const refetch = () => getAllLoyaltyPhysicalRewardsList?.();
+  const refetch = () => getRewardsList?.();
 
   const handleSearch = (data: any) => {
     setPage(PAGINATION?.CURRENT_PAGE);
@@ -43,7 +39,7 @@ export const useSingleRewardsDetails = () => {
     singleRewardDetailsColumns,
     setPage,
     setPageLimit,
-    lazyGetAllLoyaltyPhysicalRewardsListStatus,
+    lazyGetRewardsListStatus,
     refetch,
     handleSearch,
   };

@@ -38,30 +38,30 @@ const AddDevice = () => {
         Add Device
       </Button>
       {isAddDeviceModalOpen && (
-        <FormProvider
-          methods={methods}
-          onSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
+        <Dialog
+          open={isAddDeviceModalOpen}
+          onClose={handleCloseModal}
+          fullWidth
         >
-          <Dialog
-            open={isAddDeviceModalOpen}
-            onClose={handleCloseModal}
-            fullWidth
+          <DialogTitle>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              gap={1}
+              mb={-1.5}
+              flexWrap={'wrap'}
+            >
+              <Typography variant="h3">Add Device</Typography>
+              <IconButton onClick={handleCloseModal}>
+                <Close color="secondary" />
+              </IconButton>
+            </Box>
+          </DialogTitle>
+          <FormProvider
+            methods={methods}
+            onSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
           >
-            <DialogTitle>
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-                gap={1}
-                flexWrap={'wrap'}
-                mb={1.5}
-              >
-                <Typography variant="h3">Add Device</Typography>
-                <IconButton onClick={handleCloseModal}>
-                  <Close color="secondary" />
-                </IconButton>
-              </Box>
-            </DialogTitle>
             <DialogContent>
               <RHFAutocompleteAsync
                 name="device"
@@ -96,8 +96,8 @@ const AddDevice = () => {
                 Add
               </LoadingButton>
             </DialogActions>
-          </Dialog>
-        </FormProvider>
+          </FormProvider>
+        </Dialog>
       )}
     </>
   );

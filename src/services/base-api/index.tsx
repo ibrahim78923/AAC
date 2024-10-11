@@ -229,6 +229,7 @@ export const TAGS = [
   'CAMPAIGNS_LISTS',
   'BROADCAST',
   'DASHBOARD_INSIGHTS',
+  'LOYALTY_REWARDS',
   'VOUCHERS',
 ];
 
