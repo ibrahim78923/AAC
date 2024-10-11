@@ -1520,12 +1520,11 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS = {
 };
 
 export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
-  VIEW_DETAILS: 'loyalty-program-voucher-view-details',
-  ADD_VOUCHER: 'loyalty-program-voucher-add',
-  APPLY_FILTERS: 'loyalty-program-voucher-apply-filters',
-  PRINT: 'loyalty-program-voucher-print',
-  ACTIVE_DEACTIVATE_VOUCHERS: 'loyalty-program-voucher-active-deactive',
-  SEARCH: 'loyalty-program-voucher-search',
+  VIEW_DETAILS: 'Loyalty-vouchers-view-details',
+  ADD_VOUCHER: 'Loyalty-vouchers-add',
+  APPLY_FILTERS: 'Loyalty-vouchers-apply-filters',
+  ACTIVE_DEACTIVATE_VOUCHERS: 'Loyalty-vouchers-active-inactive',
+  EDIT_DELETE: 'Loyalty-Vouchers-Edit/delete',
 };
 
 export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {

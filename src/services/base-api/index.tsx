@@ -229,6 +229,7 @@ export const TAGS = [
   'CAMPAIGNS_LISTS',
   'BROADCAST',
   'DASHBOARD_INSIGHTS',
+  'VOUCHERS',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

@@ -29,17 +29,17 @@ export const useFilters = (props: any) => {
     }
     setPage?.(1);
     setFilterValues?.(softwareFiltered);
-    setFiltersOpen?.(false);
+    setFiltersOpen?.({});
   };
 
   const clearFilter = () => {
     reset?.();
     setFilterValues?.(null);
-    setFiltersOpen?.(false);
+    setFiltersOpen?.({});
   };
   const onClose = () => {
     reset?.();
-    setFiltersOpen?.(false);
+    setFiltersOpen?.({});
   };
   return {
     filtersOpen,

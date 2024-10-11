@@ -6,6 +6,8 @@ import {
   addVouchersRadioButtonsFormFields,
 } from './AddVouchers.data';
 import { useAddVouchers } from './useAddVouchers';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { Fragment } from 'react';
 
 export const AddVouchers = (props: any) => {
   const {
@@ -18,14 +20,15 @@ export const AddVouchers = (props: any) => {
     watch,
     postVouchersStatus,
     randomString,
+    activeFromValue,
   } = useAddVouchers(props);
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={addVouchersOpen}
-        onClose={() => setAddVouchersOpen?.(false)}
-        okText={'Create'}
-        title={'Create voucher'}
+        isDrawerOpen={addVouchersOpen?.upsert}
+        onClose={() => setAddVouchersOpen?.({})}
+        okText={addVouchersOpen?.id ? 'Update' : 'Create'}
+        title={addVouchersOpen?.id ? 'Update voucher' : 'Create voucher'}
         submitHandler={() => handleSubmit(submitAddVouchersForm)()}
         isOk
         isLoading={postVouchersStatus?.isLoading}
@@ -36,50 +39,62 @@ export const AddVouchers = (props: any) => {
           methods={methods}
           onSubmit={handleSubmit(submitAddVouchersForm)}
         >
-          <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-            {addVouchersFormFieldsDataFunction?.(apiQueryOrganizations)?.map(
-              (form: any) => {
+          <Grid container spacing={2}>
+            {addVouchersFormFieldsDataFunction?.(
+              apiQueryOrganizations,
+              activeFromValue,
+            )?.map((form, index) => {
+              if (index === ARRAY_INDEX?.THREE) {
                 return (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
-                  </Grid>
+                  <Fragment key={form?.id}>
+                    <Grid item xs={12} md={form?.gridLength}>
+                      <form.component {...form?.componentProps} size="small" />
+                    </Grid>
+                    <Grid item xs={12} textAlign="center">
+                      OR
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        disableElevation
+                        onClick={randomString}
+                      >
+                        Generate Code
+                      </Button>
+                    </Grid>
+                  </Fragment>
                 );
-              },
-            )}
-            <Grid item xs={12} textAlign="center">
-              OR
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                disableElevation
-                onClick={randomString}
-              >
-                Generate Code
-              </Button>
-            </Grid>
+              }
+              return (
+                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <form.component {...form?.componentProps} size="small" />
+                </Grid>
+              );
+            })}
+
             {addVouchersRadioButtonsFormFields?.map((form: any, index) => {
               return (
-                <>
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                <Fragment key={form?.id}>
+                  <Grid item xs={12} md={form?.gridLength}>
                     <form.component {...form?.componentProps} size="small" />
                   </Grid>
                   {watch(form?.componentProps?.name) ===
-                    form?.componentProps?.options?.[1]?.value && (
+                    form?.componentProps?.options?.[ARRAY_INDEX?.ONE]
+                      ?.value && (
                     <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                       {form?.conditionalComponentOne}
                     </Grid>
                   )}
                   {watch(form?.componentProps?.name) ===
-                    form?.componentProps?.options?.[0]?.value &&
-                    index === 3 && (
+                    form?.componentProps?.options?.[ARRAY_INDEX?.ZERO]?.value &&
+                    index === ARRAY_INDEX?.THREE && (
                       <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                         {form?.conditionalComponentTwo}
                       </Grid>
                     )}
-                </>
+                </Fragment>
               );
             })}
           </Grid>

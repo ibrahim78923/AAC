@@ -1,165 +1,119 @@
-import {
-  Box,
-  Chip,
-  CircularProgress,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box, Chip, IconButton, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { AntSwitch } from '@/components/AntSwitch';
-import Link from 'next/link';
-import { AIR_LOYALTY_PROGRAM, DATE_TIME_FORMAT } from '@/constants';
-import { EyeIcon } from '@/assets/icons';
-import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { EditYellowBGPenIcon, TrashIcon } from '@/assets/icons';
 import { VOUCHERS_STATUS } from '@/constants/strings';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 import dayjs from 'dayjs';
-import { truncateText } from '@/utils/avatarUtils';
+import { UserInfo } from '@/components/UserInfo';
 
 export const vouchersColumns = (
-  onSwitchChange: any,
-  switchLoading: any,
-  handlePrintVoucher: any,
-  router: any,
-) => [
-  {
-    accessorFn: (row: any) => row?.information,
-    id: 'information',
-    header: 'Information',
-    isSortable: true,
-    cell: (info: any) => (
-      <Box
-        sx={{ display: 'flex', gap: '8px' }}
-        component={Link}
-        href={`${AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST}`}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body4" color="blue.dull_blue">
-            {truncateText(info?.row?.original?.name) ?? '---'}
+  handleVoucherClick: any,
+  handleEditVoucher: any,
+  handleDeleteVoucher: any,
+  checkActionPermissions: any,
+) => {
+  const columns = [
+    {
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      header: 'Vouchers',
+      isSortable: true,
+      cell: (info: any) => (
+        <UserInfo
+          name={info?.getValue()}
+          optionDetail={info?.row?.original?.voucherCode}
+          avatarSrc={info?.row?.original?.avatar}
+          nameInitial={info?.getValue()?.slice(0, 2)}
+          handleBoxClick={() => handleVoucherClick(info?.row?.original)}
+          boxProps={{ sx: { cursor: 'pointer' } }}
+          nameProps={{ fontWeight: 700 }}
+          avatarSize={{ width: 40, height: 40, variant: 'circular' }}
+        />
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.voucherLimitValue,
+      id: 'voucherLimitValue',
+      header: 'Vouchers usage',
+      isSortable: true,
+      cell: (info: any) => (
+        <Box display={'flex'}>
+          <Typography fontSize={'0.9rem'}>
+            {info?.getValue()?.voucherValue ?? '0'} /{' '}
           </Typography>
-          <Typography variant="body3" color="custom.light">
-            {truncateText(info?.row?.original?.description) ?? '---'}
+          <Typography fontSize={'0.9rem'}>
+            {info?.getValue() ?? 'Unlimited'}
           </Typography>
         </Box>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.voucherUsage,
-    id: 'voucherUsage',
-    header: 'Vouchers usage',
-    isSortable: true,
-    cell: (info: any) => (
-      <Box display={'flex'}>
-        <Typography fontSize={'0.9rem'}>
-          {info?.row?.original?.voucherValue ?? '---'}
-        </Typography>
-        {'/'}
-        <Typography fontSize={'0.9rem'}>
-          {info?.row?.original?.voucherLimitValue ?? '---'}
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => (
-      <Chip
-        sx={{
-          backgroundColor:
-            info?.getValue() === VOUCHERS_STATUS?.EXPIRED
-              ? 'custom.color.lighter'
-              : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                ? 'success.lighter'
-                : 'custom.error_lighter',
-
-          color:
-            info?.getValue() === VOUCHERS_STATUS?.EXPIRED
-              ? 'custom.main'
-              : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                ? 'success.main'
-                : 'error.main',
-          fontSize: '0.8rem',
-        }}
-        icon={
-          <FiberManualRecordIcon
-            color={
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <Chip
+          sx={({ palette }: any) => ({
+            backgroundColor:
               info?.getValue() === VOUCHERS_STATUS?.EXPIRED
-                ? 'secondary'
+                ? `${palette?.warning?.main}1A`
                 : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                  ? 'success'
-                  : 'error'
-            }
-            sx={{ fontSize: '0.7rem' }}
-          />
-        }
-        label={info?.getValue() ?? '---'}
-      />
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.createdAt,
-    id: 'createdAt',
-    isSortable: true,
-    header: 'Created at',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.YMDHM) ?? '---',
-  },
-  {
-    accessorFn: (row: any) => row?.actions,
-    id: 'actions',
-    isSortable: true,
-    header: 'Actions',
-    cell: (info: any) => (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <PermissionsGuard
-          permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.PRINT]}
-        >
-          <IconButton
-            onClick={() => handlePrintVoucher(info?.row?.original?._id)}
-          >
-            <LocalPrintshopRoundedIcon />
-          </IconButton>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS]}
-        >
-          <IconButton
-            onClick={() =>
-              router?.push(AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST)
-            }
-          >
-            <EyeIcon />
-          </IconButton>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[
-            AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ACTIVE_DEACTIVATE_VOUCHERS,
-          ]}
-        >
-          {switchLoading[info?.row?.original?._id] ? (
-            <CircularProgress size={20} sx={{ ml: 0.5 }} />
-          ) : (
-            <AntSwitch
-              disabled={
-                info?.row?.original?.status === VOUCHERS_STATUS?.EXPIRED
-                  ? true
-                  : false
+                  ? palette?.success?.lighter
+                  : palette?.custom?.error_lighter,
+
+            color:
+              info?.getValue() === VOUCHERS_STATUS?.EXPIRED
+                ? palette?.warning?.main
+                : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
+                  ? palette?.success?.main
+                  : palette?.error?.main,
+            fontSize: '0.8rem',
+          })}
+          icon={
+            <FiberManualRecordIcon
+              color={
+                info?.getValue() === VOUCHERS_STATUS?.EXPIRED
+                  ? 'warning'
+                  : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
+                    ? 'success'
+                    : 'error'
               }
-              onChange={() => onSwitchChange(info?.row?.original)}
-              checked={
-                info?.row?.original?.status === VOUCHERS_STATUS?.ACTIVE
-                  ? true
-                  : false
-              }
+              sx={{ fontSize: '0.7rem' }}
             />
-          )}
-        </PermissionsGuard>
-      </Box>
-    ),
-  },
-];
+          }
+          label={info?.getValue() ?? '---'}
+        />
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
+      isSortable: true,
+      header: 'Created at',
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.YMDHM) ?? '---',
+    },
+  ];
+
+  if (checkActionPermissions) {
+    columns.push({
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
+      isSortable: true,
+      header: 'Actions',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton onClick={() => handleEditVoucher(info?.row?.original)}>
+            <EditYellowBGPenIcon />
+          </IconButton>
+          <IconButton onClick={() => handleDeleteVoucher(info?.row?.original)}>
+            <TrashIcon />
+          </IconButton>
+        </Box>
+      ),
+    });
+  }
+
+  return columns;
+};
