@@ -8,6 +8,7 @@ import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
 import { TruncateText } from '@/components/TruncateText';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { LogInfo } from '@/components/LogInfo';
+import { fullName } from '@/utils/avatarUtils';
 
 export const Activities = () => {
   const {
@@ -80,7 +81,7 @@ export const Activities = () => {
             </Box>
             <Box>
               <LogInfo
-                performer={activity?.performedByName?.toLowerCase()}
+                performer={fullName(activity?.performedByName)}
                 logType={`has ${activity?.activityType?.toLowerCase()}`}
                 log={<TruncateText text={activity?.moduleName} />}
               />

@@ -1,13 +1,15 @@
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
+  resetSelectedFolder,
   setIsPortalClose,
-  setSelectedFolder,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { ALL_FOLDER } from '../Folder.data';
 import { useDeleteServicesKnowledgeBaseSingleFolderMutation } from '@/services/airServices/knowledge-base/articles';
+import { useGetFoldersApi } from '../../KnowledgeBaseHooks/useGetFoldersApi';
 
 export const useDeleteFolder = () => {
+  const { getArticlesFolderListForFilterData } = useGetFoldersApi?.();
+
   const dispatch = useAppDispatch();
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.isPortalOpen,
@@ -29,8 +31,9 @@ export const useDeleteFolder = () => {
     try {
       await deleteFolderForArticleTrigger(apiDataParameter)?.unwrap();
       successSnackbar?.('Folder deleted successfully!');
+      await getArticlesFolderListForFilterData?.();
+      dispatch(resetSelectedFolder());
       closeFolderDeleteModal?.();
-      dispatch(setSelectedFolder<any>({ _id: ALL_FOLDER }));
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

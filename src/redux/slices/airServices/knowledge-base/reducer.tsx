@@ -65,6 +65,13 @@ const setSelectedFolderReducer = (state: any, action: any) => {
   state.filterArticlesList = {};
 };
 
+const resetSelectedFolderReducer = (state: any) => {
+  state.selectedFolder = selectedFolderInitialState;
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.IsSelectedFolderChange = true;
+  state.filterArticlesList = {};
+};
+
 const canDisableFolderSelectionsReducer = (state: any, action: any) => {
   state.canDisableFolderSelection = action?.payload;
 };
@@ -105,4 +112,5 @@ export const servicesKnowledgeBaseReducersList = {
   refetchArticlesListReducer,
   hasSingleArticleApiErrorReducer,
   resetComponentStateReducers,
+  resetSelectedFolderReducer,
 };

@@ -49,6 +49,7 @@ export const useManageDashboardFilter = (
     if (!!Object?.keys(dashboardFilterLists ?? {})?.length) {
       setDashboardFilterLists?.({});
     }
+    setPage?.(CURRENT_PAGE);
     reset();
     closePortal?.();
   };

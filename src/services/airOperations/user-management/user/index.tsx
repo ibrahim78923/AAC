@@ -6,7 +6,7 @@ const TAG_TEAM = 'TEAM_LIST';
 
 const { PRODUCTS_USERS, OPERATIONS_TEAM, PERMISSIONS_ROLE } = END_POINTS ?? {};
 
-export const userManagementAPI = baseAPI?.injectEndpoints({
+export const operationsUsersManagementAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getOperationsUserManagementProductUserLists: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -142,4 +142,4 @@ export const {
   useLazyGetOperationsUserManagementProductUsersListDropdownQuery,
   useLazyGetOperationsUserManagementPermissionsRolesDropdownQuery,
   useLazyGetOperationsUserManagementTeamsDropdownQuery,
-} = userManagementAPI;
+} = operationsUsersManagementAPI;

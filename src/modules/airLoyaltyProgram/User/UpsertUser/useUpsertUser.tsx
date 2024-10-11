@@ -8,52 +8,54 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import {
-  useAddOperationsUserManagementSingleProductUserMutation,
-  useGetOperationsUserManagementSingleProductUserDetailsQuery,
-  useUpdateOperationsUserManagementSingleProductUserMutation,
-} from '@/services/airOperations/user-management/user';
-import {
   UpsertUserFormI,
   UserManagementResponseI,
 } from './UpsertUser.interface';
-import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
+import { LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT } from '../User.data';
 import {
   emptySelectedUsersLists,
   setIsPortalOpen,
   setIsPortalClose,
-} from '@/redux/slices/airOperations/users/slice';
+} from '@/redux/slices/airLoyaltyProgram/users/slice';
+import {
+  useAddLoyaltyProgramUserManagementSingleProductUserMutation,
+  useGetLoyaltyProgramUserManagementSingleProductUserDetailsQuery,
+  useUpdateLoyaltyProgramUserManagementSingleProductUserMutation,
+  useVerifyLoyaltyProgramUserManagementUserViaIgMutation,
+} from '@/services/airLoyaltyProgram/user';
 
-const { EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
-  OPERATIONS_USERS_ACTIONS_CONSTANT;
+const { EDIT_LOYALTY_PROGRAM_USERS, LOYALTY_PROGRAM_USERS_DETAIL } =
+  LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT;
 
 export const useUpsertUser = () => {
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(
-    (state) => state?.operationsUsersLists?.isPortalOpen,
+    (state) => state?.loyaltyProgramUsers?.isPortalOpen,
   );
 
   const selectedUsersLists = useAppSelector(
-    (state) => state?.operationsUsersLists?.selectedUsersLists,
+    (state) => state?.loyaltyProgramUsers?.selectedUsersLists,
   );
 
   const userId = selectedUsersLists?.[ARRAY_INDEX?.ZERO]?._id;
 
   const [
-    updateProductUserForOperationTrigger,
-    updateProductUserForOperationStatus,
-  ]: any = useUpdateOperationsUserManagementSingleProductUserMutation?.();
+    updateLoyaltyProgramUserManagementSingleProductUserTrigger,
+    updateLoyaltyProgramUserManagementSingleProductUserStatus,
+  ]: any = useUpdateLoyaltyProgramUserManagementSingleProductUserMutation?.();
 
   const [
-    addProductUserForOperationTrigger,
-    addProductUserForOperationStatus,
-  ]: any = useAddOperationsUserManagementSingleProductUserMutation?.();
+    addLoyaltyProgramUserManagementSingleProductUserTrigger,
+    addLoyaltyProgramUserManagementSingleProductUserStatus,
+  ]: any = useAddLoyaltyProgramUserManagementSingleProductUserMutation?.();
 
-  const [igVerificationTrigger, igVerificationStatus] =
-    useAuthCompanyVerificationMutation();
+  const [
+    verifyLoyaltyProgramUserManagementUserViaIgTrigger,
+    verifyLoyaltyProgramUserManagementUserViaIgStatus,
+  ] = useVerifyLoyaltyProgramUserManagementUserViaIgMutation();
 
   const getSingleUserApiParameter = {
     pathParams: {
@@ -68,7 +70,7 @@ export const useUpsertUser = () => {
     isError,
     refetch,
   }: { [key: string]: any } =
-    useGetOperationsUserManagementSingleProductUserDetailsQuery(
+    useGetLoyaltyProgramUserManagementSingleProductUserDetailsQuery(
       getSingleUserApiParameter,
       {
         refetchOnMountOrArgChange: true,
@@ -84,10 +86,10 @@ export const useUpsertUser = () => {
   const { handleSubmit, reset } = methods;
 
   const submitButtonHandler = () => {
-    if (isPortalOpen?.action === OPERATIONS_USERS_DETAIL) {
+    if (isPortalOpen?.action === LOYALTY_PROGRAM_USERS_DETAIL) {
       dispatch(
         setIsPortalOpen<any>({
-          action: EDIT_OPERATIONS_USERS,
+          action: EDIT_LOYALTY_PROGRAM_USERS,
           isOpen: true,
         }),
       );
@@ -97,10 +99,10 @@ export const useUpsertUser = () => {
   };
 
   const submitUpsertUser = async (formData: UpsertUserFormI) => {
-    if (isPortalOpen?.action === OPERATIONS_USERS_DETAIL) {
+    if (isPortalOpen?.action === LOYALTY_PROGRAM_USERS_DETAIL) {
       dispatch(
         setIsPortalOpen<any>({
-          action: EDIT_OPERATIONS_USERS,
+          action: EDIT_LOYALTY_PROGRAM_USERS,
           isOpen: true,
         }),
       );
@@ -115,21 +117,22 @@ export const useUpsertUser = () => {
 
     const apiDataParameter = { body };
 
-    if (isPortalOpen?.action === EDIT_OPERATIONS_USERS) {
+    if (isPortalOpen?.action === EDIT_LOYALTY_PROGRAM_USERS) {
       submitUpdateUpsertUser(body);
       return;
     }
 
     try {
-      const response = (await addProductUserForOperationTrigger?.(
-        apiDataParameter,
-      )?.unwrap()) as UserManagementResponseI;
+      const response =
+        (await addLoyaltyProgramUserManagementSingleProductUserTrigger?.(
+          apiDataParameter,
+        )?.unwrap()) as UserManagementResponseI;
       const email = {
         email: response?.data?.data?.user?.email,
       };
       closePortal?.();
-      successSnackbar('User added successfully');
       await verifyUserViaIg(email?.email);
+      successSnackbar('User added successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -144,7 +147,9 @@ export const useUpsertUser = () => {
       },
     };
     try {
-      await updateProductUserForOperationTrigger?.(apiDataParameter)?.unwrap();
+      await updateLoyaltyProgramUserManagementSingleProductUserTrigger?.(
+        apiDataParameter,
+      )?.unwrap();
       successSnackbar('User updated successfully');
       closePortal?.();
     } catch (error: any) {
@@ -154,11 +159,13 @@ export const useUpsertUser = () => {
 
   const verifyUserViaIg = async (email?: string) => {
     try {
-      await igVerificationTrigger({ email })?.unwrap();
+      await verifyLoyaltyProgramUserManagementUserViaIgTrigger({
+        email,
+      })?.unwrap();
     } catch (error) {}
   };
 
-  const disableEmailField = isPortalOpen?.action === EDIT_OPERATIONS_USERS;
+  const disableEmailField = isPortalOpen?.action === EDIT_LOYALTY_PROGRAM_USERS;
   const upsertUserFormFields = upsertUserFormFieldsDynamic?.(disableEmailField);
 
   const closePortal = () => {
@@ -172,9 +179,9 @@ export const useUpsertUser = () => {
   }, [data, reset]);
 
   const apiCallInProgress =
-    addProductUserForOperationStatus?.isLoading ||
-    updateProductUserForOperationStatus?.isLoading ||
-    igVerificationStatus?.isLoading;
+    addLoyaltyProgramUserManagementSingleProductUserStatus?.isLoading ||
+    updateLoyaltyProgramUserManagementSingleProductUserStatus?.isLoading ||
+    verifyLoyaltyProgramUserManagementUserViaIgStatus?.isLoading;
 
   return {
     upsertUserFormFields,
