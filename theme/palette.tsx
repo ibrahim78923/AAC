@@ -188,6 +188,8 @@ const CUSTOM_COLORS = {
   light_slate_blue: '#7ED4EE',
   light_graph_purple: '#B889F4',
   light_graph_red: '#F56686',
+  error_light: '#FFEAEA',
+  warning_light: '#FFF4D3',
 };
 
 const GRAPH = {

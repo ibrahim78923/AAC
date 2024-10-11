@@ -1,51 +1,57 @@
-import { Grid } from '@mui/material';
-import { Widget } from './Widget';
-import Header from './Header';
-import DashboardTopUser from './DashboardTopUser';
-import DashboardRewards from './DashboardRewards';
-import DashboardGiftCard from './DashboardGiftCard';
-import DashboardTransaction from './DashboardTransaction';
-import DashboardLoyaltyAnalytics from './DashboardLoyaltyAnalytics';
+import { Box, Grid, Stack } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { Header } from './Header';
+import { useDashboard } from './useDashboard';
+import { Widgets } from './Widgets';
+import { TopConsumer } from './TopConsumer';
+import { Rewards } from './Rewards';
+import { GriftCards } from './GriftCards';
+import { PointsTransaction } from './PointsTransaction';
 
 export const Dashboard = () => {
+  const {
+    selectionRange,
+    setSelectionRange,
+    anchorElDate,
+    setAnchorElDate,
+    handleCloseDate,
+    handleApplyDate,
+    widgetsDataArray,
+  } = useDashboard();
+
   return (
-    <>
-      <PermissionsGuard
-        permissions={[
-          AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD,
-        ]}
-      >
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Header />
-          </Grid>
+    <PermissionsGuard
+      permissions={[AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+    >
+      <Stack spacing={3}>
+        <Header
+          selectionRange={selectionRange}
+          setSelectionRange={setSelectionRange}
+          anchorElDate={anchorElDate}
+          setAnchorElDate={setAnchorElDate}
+          handleCloseDate={handleCloseDate}
+          handleApplyDate={handleApplyDate}
+        />
 
-          <Grid item xs={12}>
-            <Widget />
-          </Grid>
+        <Widgets widgetsDataArray={widgetsDataArray} />
 
-          <Grid item xs={12}>
-            <DashboardLoyaltyAnalytics />
-          </Grid>
+        <TopConsumer topConsumerData={[]} />
 
-          <Grid item xs={12}>
-            <DashboardTopUser />
+        <Box>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={4}>
+              <Rewards />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <GriftCards />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <PointsTransaction />
+            </Grid>
           </Grid>
-
-          <Grid item xs={4}>
-            <DashboardRewards />
-          </Grid>
-          <Grid item xs={4}>
-            <DashboardGiftCard />
-          </Grid>
-          <Grid item xs={4}>
-            {' '}
-            <DashboardTransaction />
-          </Grid>
-        </Grid>
-      </PermissionsGuard>
-    </>
+        </Box>
+      </Stack>
+    </PermissionsGuard>
   );
 };

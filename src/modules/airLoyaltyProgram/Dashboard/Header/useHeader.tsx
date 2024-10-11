@@ -1,24 +1,17 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { MouseEvent, useState, useEffect } from 'react';
+import { differenceInDays, format, isSameDay } from 'date-fns';
 
-export const useHeader = () => {
-  const theme = useTheme();
-  const [selectionRange, setSelectionRange] = useState({
-    startDate: new Date(),
-    endDate: undefined,
-    key: 'selection',
-  });
+export const useHeader = (props: any) => {
+  const { selectionRange, setSelectionRange, anchorElDate, setAnchorElDate } =
+    props;
 
-  const [anchorElDate, setAnchorElDate] = useState<HTMLButtonElement | null>(
-    null,
-  );
+  const theme: any = useTheme();
 
-  const handleClickDate = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElDate(event.currentTarget);
-  };
+  const [dateLabel, setDateLabel] = useState('Today');
 
-  const handleCloseDate = () => {
-    setAnchorElDate(null);
+  const handleClickDate = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorElDate(event?.currentTarget);
   };
 
   const openDate = Boolean(anchorElDate);
@@ -28,16 +21,32 @@ export const useHeader = () => {
     setSelectionRange(ranges?.selection);
   };
 
-  return {
-    theme,
-    handleSelect,
-    idDate,
-    openDate,
-    handleCloseDate,
-    handleClickDate,
-    anchorElDate,
-    setAnchorElDate,
-    selectionRange,
-    setSelectionRange,
+  const updateButtonLabel = () => {
+    const { startDate, endDate } = selectionRange;
+    const today = new Date();
+
+    if (isSameDay(startDate, today) && isSameDay(endDate, today)) {
+      setDateLabel('Today');
+    } else if (
+      differenceInDays(today, startDate) === 1 &&
+      isSameDay(startDate, endDate)
+    ) {
+      setDateLabel('Yesterday');
+    } else if (
+      differenceInDays(endDate, startDate) === 6 &&
+      startDate.getDay() === 0
+    ) {
+      setDateLabel('This Week');
+    } else {
+      const formattedStart = format(startDate, 'MMM dd');
+      const formattedEnd = format(endDate, 'MMM dd');
+      setDateLabel(`${formattedStart} - ${formattedEnd}`);
+    }
   };
+
+  useEffect(() => {
+    updateButtonLabel();
+  }, [selectionRange]);
+
+  return { theme, handleClickDate, dateLabel, idDate, openDate, handleSelect };
 };

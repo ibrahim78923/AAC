@@ -1,86 +1,80 @@
+import { Box, Button, Divider, Popover } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Box, Button, Divider, Popover, Typography } from '@mui/material';
 import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
 import { useHeader } from './useHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-const Header = () => {
-  const {
-    theme,
-    handleSelect,
-    idDate,
-    openDate,
-    handleCloseDate,
-    handleClickDate,
-    anchorElDate,
-    selectionRange,
-  } = useHeader();
+export const Header = (props: any) => {
+  const { selectionRange, anchorElDate, handleCloseDate, handleApplyDate } =
+    props;
+
+  const { theme, handleClickDate, dateLabel, idDate, openDate, handleSelect } =
+    useHeader(props);
+
   return (
     <>
-      <PermissionsGuard
-        permissions={[AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS?.APPLY_FILTERS]}
-      >
-        <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'row'}
+      <PageTitledHeader title={'Dashboard'}>
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS?.APPLY_FILTERS,
+          ]}
         >
-          <Typography variant="h3">Dashboard</Typography>
           <Button
-            sx={{
-              background: 'white',
-              color: theme?.palette?.custom?.main,
-              '&:hover': {
-                background: theme?.palette?.grey[700],
-              },
-            }}
+            variant={'outlined'}
+            color={'inherit'}
+            className={'small'}
+            endIcon={<ArrowDropDownIcon />}
             onClick={handleClickDate}
           >
-            This Month
-            <ArrowDropDownIcon />
+            {dateLabel}
           </Button>
-        </Box>
 
-        <Popover
-          id={idDate}
-          open={openDate}
-          anchorEl={anchorElDate}
-          onClose={handleCloseDate}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          <DateRangePicker
-            rangeColors={[theme?.palette?.primary?.main]}
-            color={theme?.palette?.primary?.main}
-            ranges={[selectionRange]}
-            onChange={(ranges) => handleSelect(ranges)}
-            inputRanges={[]}
-          />
-          <Divider flexItem />
-          <Box justifyContent={'end'} display={'flex'} mb={2} mr={2} mt={1}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              sx={{ mr: '0.5rem' }}
-              onClick={handleCloseDate}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained">Apply</Button>
-          </Box>
-        </Popover>
-      </PermissionsGuard>
+          <Popover
+            id={idDate}
+            open={openDate}
+            anchorEl={anchorElDate}
+            onClose={handleCloseDate}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <DateRangePicker
+              rangeColors={[theme?.palette?.primary?.main]}
+              color={theme?.palette?.primary?.main}
+              ranges={[selectionRange]}
+              onChange={(ranges) => handleSelect(ranges)}
+              inputRanges={[]}
+            />
+
+            <Divider />
+
+            <Box justifyContent={'end'} gap={1} display={'flex'} p={2}>
+              <Button
+                variant={'outlined'}
+                color={'secondary'}
+                className={'small'}
+                onClick={handleCloseDate}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant={'contained'}
+                className={'small'}
+                onClick={handleApplyDate}
+              >
+                Apply
+              </Button>
+            </Box>
+          </Popover>
+        </PermissionsGuard>
+      </PageTitledHeader>
     </>
   );
 };
-
-export default Header;

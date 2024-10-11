@@ -391,14 +391,6 @@ export { default as FacebookTemplateIcon } from './modules/airMarketer/CreateTem
 export { default as InstagramTemplateIcon } from './modules/airMarketer/CreateTemplate/instagram';
 export { default as LinkedinTemplateIcon } from './modules/airMarketer/CreateTemplate/linkedin';
 export { default as TwitterTemplateIcon } from './modules/airMarketer/CreateTemplate/twitter';
-export { default as AddToCartDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/add-to-cart-dynamic-icon';
-export { default as SyncDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/sync-dynamic-icon';
-export { default as EarnPointsDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/earn-points-dynamic-icon';
-export { default as PointsDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/points-dynamic-icon';
-export { default as TicketsDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/tickets-dynamic-icon';
-export { default as UserDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/user-dynamic-icon';
-export { default as AddToCartMoneyDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/add-to-cart-money-dynamic-icon';
-export { default as TransactionDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/transaction-dynamic-icon';
 export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';
 export { default as DealEmailIcon } from './modules/airSales/deals/deal-email';
 export { default as DealPhoneIcon } from './modules/airSales/deals/deal-phone';
@@ -562,4 +554,10 @@ export { default as CustomerLogoutIcon } from './modules/airCustomerPortal/logou
 export { default as TickCirclePrimary } from './modules/SocialComponents/documents/tick-circle-primary';
 export { default as MoveFolderIcon } from './modules/SocialComponents/documents/move-folder-icon';
 export { default as RecentActivitiesIcon } from './shared/recent-activities-icon';
+export { default as TotalConsumerIcon } from './modules/airLoyaltyProgram/Dashboard/total-consumer-icon';
+export { default as TotalPointsEarnedIcon } from './modules/airLoyaltyProgram/Dashboard/total-points-earned-icon';
+export { default as TotalPointsRedeemedIcon } from './modules/airLoyaltyProgram/Dashboard/total-points-redeemed-icon';
+export { default as TotalAmountRedeemedIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-redeemed-icon';
+export { default as TotalAmountRewardsIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-rewards-icon';
+export { default as TotalAmountGiftCardIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-gift-card-icon';
 export { default as ConsumersCustomizeIcon } from './modules/airLoyaltyProgram/Consumers/consumers-customize-icon';

@@ -669,3 +669,9 @@ export const PRODUCT_EXTERNAl_LINKS = {
 export const bypassPermissionsDictionary: any = {
   'service-customer-portal-report-an-issues': true,
 };
+
+export const ACTIVITY_STATUS_MENU = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  EXPIRED: 'EXPIRED',
+};

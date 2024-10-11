@@ -1,4 +1,4 @@
-const SyncDynamicIcon = ({ fill = '#1F305D' }: any) => {
+const TotalPointsRedeemedIcon = ({ fill = '#1F305D' }: any) => {
   return (
     <svg
       width="24"
@@ -33,4 +33,4 @@ const SyncDynamicIcon = ({ fill = '#1F305D' }: any) => {
   );
 };
 
-export default SyncDynamicIcon;
+export default TotalPointsRedeemedIcon;
