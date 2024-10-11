@@ -84,6 +84,9 @@ export const InventoryReports = () => {
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
               }
+              onSubmitBtnDisable={
+                !getValues?.('createdDate')?.startDate && true
+              }
               cancelBtnEffect={() => setHasDate?.(false)}
               closePopOver={() => shouldDateSet?.()}
             />

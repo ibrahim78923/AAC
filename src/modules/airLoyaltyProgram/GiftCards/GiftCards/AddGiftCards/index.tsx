@@ -1,38 +1,38 @@
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useAddPhysicalGiftCard } from './useAddPhysicalGiftCard';
+import { useAddGiftCards } from './useAddGiftCards';
 
-export const AddPhysicalGiftCard = (props: any) => {
+export const AddGiftCards = (props: any) => {
   const { isPortalOpen } = props;
   const {
     handleSubmit,
-    submitAddPhysicalGiftCard,
+    onSubmit,
     methods,
-    closeAddPhysicalGiftCardForm,
-    addPhysicalGiftCardFormFields,
-    addPhysicalGiftCardStatus,
-  } = useAddPhysicalGiftCard(props);
+    closeAddGiftCardForm,
+    addGiftCardFormFields,
+    addGiftCardStatus,
+  } = useAddGiftCards(props);
+
   return (
     <Box>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isAdd}
-        onClose={closeAddPhysicalGiftCardForm}
-        title={'Add Physical Card'}
+        onClose={() => closeAddGiftCardForm?.()}
+        title={'Add Gift Card'}
         okText={'Create'}
         isOk
         cancelText={'Cancel'}
         footer
-        submitHandler={handleSubmit(submitAddPhysicalGiftCard)}
-        isLoading={addPhysicalGiftCardStatus?.isLoading}
-        isDisabled={addPhysicalGiftCardStatus?.isLoading}
-        disabledCancelBtn={addPhysicalGiftCardStatus?.isLoading}
+        submitHandler={handleSubmit(onSubmit)}
+        isLoading={addGiftCardStatus?.isLoading}
+        isDisabled={addGiftCardStatus?.isLoading}
+        disabledCancelBtn={addGiftCardStatus?.isLoading}
       >
         <Box>
-          <FormProvider methods={methods}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
-              {addPhysicalGiftCardFormFields?.map((item: any) => (
+              {addGiftCardFormFields?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

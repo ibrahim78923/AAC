@@ -1,6 +1,8 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+const optionsActive = ['Yes', 'No'];
+const optionsUpgradeable = ['Yes', 'No'];
 
-export const assignedPhysicalGiftFilterDefaultValues = (data?: any) => {
+export const giftCardDefaultValues = (data?: any) => {
   return {
     minAmount: data?.minAmount ?? '',
     maxAmount: data?.maxAmount ?? '',
@@ -8,10 +10,7 @@ export const assignedPhysicalGiftFilterDefaultValues = (data?: any) => {
     upgradeable: data?.upgradeable ?? null,
   };
 };
-
-const optionsActive = ['Yes', 'No'];
-const optionsUpgradeable = ['Yes', 'No'];
-export const assignedPhysicalGiftFilterDataArray = [
+export const giftCardFilterFromFields = [
   {
     id: 1,
     componentProps: {

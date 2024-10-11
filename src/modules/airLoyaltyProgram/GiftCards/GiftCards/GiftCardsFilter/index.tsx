@@ -1,13 +1,13 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid } from '@mui/material';
-import { digitalGiftCardFilterFromFields } from './DigitalGiftCardFilter.data';
+import { giftCardFilterFromFields } from './GiftCardsFilter.data';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useDigitalGiftCardFilter } from './useDigitalGiftCardFilter';
+import { useGiftCardFilter } from './useGiftCardsFilter';
 
-export const DigitalGiftCardFilter = (props: any) => {
+export const GiftCardFilter = (props: any) => {
   const { isPortalOpen } = props;
   const { onSubmit, closeFilterForm, resetFilterForm, methods, handleSubmit } =
-    useDigitalGiftCardFilter(props);
+    useGiftCardFilter(props);
 
   return (
     <Box>
@@ -25,7 +25,7 @@ export const DigitalGiftCardFilter = (props: any) => {
         <Box>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
-              {digitalGiftCardFilterFromFields?.map((item: any) => (
+              {giftCardFilterFromFields?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

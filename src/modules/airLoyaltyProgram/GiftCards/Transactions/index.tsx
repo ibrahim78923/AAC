@@ -2,7 +2,7 @@ import { Box, Button, useTheme } from '@mui/material';
 import { UserList, transactionTableData } from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { FilterLinesIcon } from '@/assets/icons';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { useTransaction } from './useTransaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS } from '@/constants/permission-keys';
@@ -60,7 +60,7 @@ export const Transactions = () => {
             <Button
               variant="outlined"
               color="inherit"
-              startIcon={<FilterLinesIcon />}
+              startIcon={<FilterListIcon />}
               className="small"
               onClick={() => setOpenDrawer(true)}
             >

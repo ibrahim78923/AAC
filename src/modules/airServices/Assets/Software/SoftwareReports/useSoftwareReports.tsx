@@ -36,6 +36,8 @@ export const useSoftwareReports = () => {
 
   const { handleSubmit, getValues, watch, setValue } = methods;
 
+  watch?.();
+
   const apiDataParameter = {
     queryParams: {
       moduleType: MODULE_TYPE?.SOFTWARE,

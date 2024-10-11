@@ -1,23 +1,23 @@
 import { useForm } from 'react-hook-form';
-import { digitalGiftCardDefaultValues } from './DigitalGiftCardFilter.data';
+import { giftCardDefaultValues } from './GiftCardsFilter.data';
 import { filteredEmptyValues } from '@/utils/api';
 
-export const useDigitalGiftCardFilter = (props: any) => {
-  const { filterDigitalCard, setFilterDigitalCard, setIsPortalOpen } = props;
+export const useGiftCardFilter = (props: any) => {
+  const { filterGiftCard, setFilterGiftCard, setIsPortalOpen } = props;
 
   const methods: any = useForm({
-    defaultValues: digitalGiftCardDefaultValues(filterDigitalCard),
+    defaultValues: giftCardDefaultValues(filterGiftCard),
   });
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
     const filterValues = filteredEmptyValues?.(data);
-    setFilterDigitalCard?.(filterValues);
+    setFilterGiftCard?.(filterValues);
     closeFilterForm?.();
   };
 
   const resetFilterForm = () => {
-    setFilterDigitalCard?.({});
+    setFilterGiftCard?.({});
     closeFilterForm?.();
   };
   const closeFilterForm = () => {

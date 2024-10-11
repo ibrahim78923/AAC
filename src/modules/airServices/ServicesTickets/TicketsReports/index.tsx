@@ -28,6 +28,7 @@ export const TicketsReports = () => {
     setHasDate,
     shouldDateSet,
     onDateFilterSubmit,
+    getValues,
   } = useTicketsReport();
 
   return (
@@ -51,6 +52,9 @@ export const TicketsReports = () => {
               hasButton
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
+              }
+              onSubmitBtnDisable={
+                !getValues?.('createdDate')?.startDate && true
               }
               cancelBtnEffect={() => setHasDate?.(false)}
               closePopOver={() => shouldDateSet?.()}

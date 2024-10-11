@@ -1,5 +1,15 @@
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+export const data: any = [
+  {
+    id: 6757,
+    amount: 'PKR 100.00',
+    date: 'Mar 03, 2023 - 01:30PM',
+  },
+  {
+    id: 4551,
+    amount: 'PKR 09.00',
+    date: 'Mar 03, 2023 - 01:30PM',
+  },
+];
 
 export const giftCardDetailsColumn = [
   {
@@ -7,20 +17,13 @@ export const giftCardDetailsColumn = [
     id: 'amount',
     header: 'Amount',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (info: any) => info?.shop,
-    id: 'shop',
-    header: 'Shop',
-    isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (info: any) => info?.date,
     id: 'date',
     header: 'Date',
     isSortable: true,
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
 ];
