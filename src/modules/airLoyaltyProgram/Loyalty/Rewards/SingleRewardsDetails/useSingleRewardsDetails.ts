@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { singleRewardDetailsColumnsDynamic } from './SingleRewardsDetails.data';
 import { PAGINATION } from '@/config';
-import { useLazyGetLoyaltyRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
+import { useLazyGetLoyaltyProgramRewardsDetailsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
 
 export const useSingleRewardsDetails = () => {
   const singleRewardDetailsColumns = singleRewardDetailsColumnsDynamic?.();
@@ -9,7 +9,7 @@ export const useSingleRewardsDetails = () => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
   const [lazyGetRewardsListTrigger, lazyGetRewardsListStatus]: any =
-    useLazyGetLoyaltyRewardsListQuery?.();
+    useLazyGetLoyaltyProgramRewardsDetailsListQuery?.();
 
   const getRewardsList = async () => {
     const apiDataParameter = {

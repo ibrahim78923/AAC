@@ -6,7 +6,7 @@ import {
 import {
   loyaltytransactionChannel,
   loyaltytransactionType,
-} from '../Transactions.data';
+} from '../../Transactions.data';
 
 export const filtersDefaultValues: any = (filterValue: any) => {
   return {

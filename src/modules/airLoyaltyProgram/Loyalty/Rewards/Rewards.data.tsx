@@ -1,24 +1,13 @@
-import { Box, Chip, Typography } from '@mui/material';
-import { Circle } from '@mui/icons-material';
-import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
+import { Box, Typography } from '@mui/material';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
-import { fullName } from '@/utils/avatarUtils';
-import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
-import { UserInfo } from '@/components/UserInfo';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
+import { TruncateText } from '@/components/TruncateText';
 
-export const LOYALTY_REWARDS_STATUS_PILL: any = {
-  [LOYALTY_REWARDS_STATUS?.ACTIVE]: {
-    fontColor: 'success.main',
-    bgColor: 'success.lighter',
-    iconColor: 'success',
-  },
-  [LOYALTY_REWARDS_STATUS?.EXPIRED]: {
-    fontColor: 'error.main',
-    bgColor: 'custom.error_lighter',
-    iconColor: 'error',
-  },
-};
+const MenuItemDataArray = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'INACTIVE', label: 'Inactive' },
+];
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
@@ -29,12 +18,7 @@ export const loyaltyRewardColumnDynamic: any = (
     id: 'title',
     header: 'Reward Title',
     isSortable: true,
-    cell: (info: any) => (
-      <UserInfo
-        name={fullName(info?.row?.original?.icon?.name)}
-        avatarSrc={info?.row?.original?.rewardAttachment?.fileUrl}
-      />
-    ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.requiredPoints,
@@ -48,42 +32,23 @@ export const loyaltyRewardColumnDynamic: any = (
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => (
-      <Chip
-        sx={{
-          bgcolor: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.bgColor,
-          color: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.fontColor,
-        }}
-        icon={
-          <Circle
-            color={LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.iconColor}
-            sx={{ fontSize: '0.7rem' }}
-          />
-        }
-        label={info?.getValue()}
-      />
-    ),
+    cell: (info: any) => {
+      const status = info.getValue()?.toUpperCase();
+      return (
+        <ActivityStatusMenu
+          info={info}
+          activityStatus={status}
+          MenuItemDataArray={MenuItemDataArray}
+        />
+      );
+    },
   },
   {
-    accessorFn: (row: any) => row?.redeemable,
-    id: 'totalRedeemable',
+    accessorFn: (row: any) => row?.quantity,
+    id: 'quantity',
     isSortable: true,
-    header: 'Total redeemable (quantity)',
-    cell: (info: any) => info?.getValue() ?? '---',
-  },
-  {
-    accessorFn: (row: any) => row?.vouchersDetail,
-    id: 'voucherCode',
-    isSortable: true,
-    header: 'Voucher code',
+    header: 'Quantity',
     cell: (info: any) => info?.getValue()?.voucherCode ?? '---',
-  },
-  {
-    accessorFn: (row: any) => row?.rewardType,
-    id: 'rewardType',
-    isSortable: true,
-    header: 'Reward Type',
-    cell: (info: any) => LOYALTY_REWARDS_TYPE_MAPPED?.[info?.getValue()],
   },
   {
     accessorFn: (row: any) => row?.totalRedeemed,

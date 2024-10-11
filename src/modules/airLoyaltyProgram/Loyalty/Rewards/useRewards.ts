@@ -4,7 +4,7 @@ import { getActivePermissionsSession } from '@/utils';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { loyaltyRewardColumnDynamic } from './Rewards.data';
 import { useRouter } from 'next/router';
-import { useLazyGetLoyaltyRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
+import { useLazyGetLoyaltyProgramRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
 
 export const useRewards = () => {
   const router = useRouter();
@@ -24,7 +24,7 @@ export const useRewards = () => {
   const [
     lazyGetLoyaltyRewardsListTrigger,
     lazyGetLoyaltyRewardsListStatus,
-  ]: any = useLazyGetLoyaltyRewardsListQuery?.();
+  ]: any = useLazyGetLoyaltyProgramRewardsListQuery?.();
 
   const getLoyaltyRewardsList = async () => {
     const apiDataParameter = {

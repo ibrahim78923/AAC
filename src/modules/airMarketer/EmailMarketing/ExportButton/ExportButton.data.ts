@@ -2,8 +2,8 @@ import { RHFRadioGroup, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const exportButtonValidationSchema = Yup?.object()?.shape({
-  attribute: Yup?.string(),
-  description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
+  fileFormat: Yup?.string()?.trim()?.required('Field is Required'),
+  radio: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const exportButtonFormFields = [
@@ -15,9 +15,8 @@ export const exportButtonFormFields = [
       select: true,
     },
     options: [
-      { value: 'csv', label: 'CSV' },
-      { value: 'xls', label: 'XLS' },
-      { value: 'xlsx', label: 'XLSX' },
+      { value: 'CSV', label: 'CSV' },
+      { value: 'XLS', label: 'XLS' },
     ],
     component: RHFSelect,
     md: 12,

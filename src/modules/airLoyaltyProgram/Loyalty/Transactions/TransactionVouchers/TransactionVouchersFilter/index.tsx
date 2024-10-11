@@ -1,35 +1,35 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useUpsertTransactions } from './useUpsertTransactions';
+import { useTransactionVouchersFilter } from './useTransactionVouchersFilter';
 
-const UpsertTransactions = (props: any) => {
+export const TransactionVouchersFilter = (props: any) => {
   const { isDrawerOpen } = props;
   const {
     methods,
     handleSubmit,
-    submitUpsertLoyaltyTransactions,
+    submit,
+    resetFilterForm,
+    closeFilterForm,
     transactionFilterFormFields,
-    closeLoyaltyTransactionForm,
-    postLoyaltyTransactionsStatus,
-  } = useUpsertTransactions(props);
+  } = useTransactionVouchersFilter(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen?.isUpsert}
-        onClose={() => closeLoyaltyTransactionForm()}
-        title={'Add details'}
+        isDrawerOpen={isDrawerOpen}
+        onClose={() => {
+          closeFilterForm?.();
+        }}
+        title={'Filter'}
         submitHandler={() => {
-          handleSubmit(submitUpsertLoyaltyTransactions)();
+          handleSubmit(submit)();
         }}
         footer
         isOk
-        okText={'Save'}
-        cancelText="Close"
-        isLoading={postLoyaltyTransactionsStatus?.isLoading}
-        isDisabled={postLoyaltyTransactionsStatus?.isLoading}
-        disabledCancelBtn={postLoyaltyTransactionsStatus?.isLoading}
+        okText={'Apply'}
+        cancelText={'Reset'}
+        cancelBtnHandler={() => resetFilterForm?.()}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
@@ -46,5 +46,3 @@ const UpsertTransactions = (props: any) => {
     </>
   );
 };
-
-export default UpsertTransactions;
