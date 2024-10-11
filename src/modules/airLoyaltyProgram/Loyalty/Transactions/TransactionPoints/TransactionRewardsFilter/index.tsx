@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useTransactionFilters } from './useTransactionFilters';
+import { useTransactionPointsFilter } from './useTransactionPointsFilter';
 
-export const TransactionFilters = (props: any) => {
+export const TransactionPointsFilter = (props: any) => {
   const { isDrawerOpen } = props;
   const {
     methods,
@@ -12,12 +12,12 @@ export const TransactionFilters = (props: any) => {
     resetFilterForm,
     closeFilterForm,
     transactionFilterFormFields,
-  } = useTransactionFilters(props);
+  } = useTransactionPointsFilter(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen?.isFilter}
+        isDrawerOpen={isDrawerOpen}
         onClose={() => {
           closeFilterForm?.();
         }}
