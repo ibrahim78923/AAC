@@ -111,6 +111,7 @@ export default function ActionButton(props: any) {
             setState((prevState) => ({ ...prevState, anchorEl: val }))
           }
           id={props}
+          setSelectedCheckboxes={setSelectedCheckboxes}
         />
       )}
 
@@ -121,6 +122,7 @@ export default function ActionButton(props: any) {
             setState((prevState) => ({ ...prevState, openStatus: val }))
           }
           dataProp={props}
+          setSelectedCheckboxes={setSelectedCheckboxes}
         />
       )}
     </>

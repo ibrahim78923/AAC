@@ -9,7 +9,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { SyntheticEvent, useState } from 'react';
 
 const useVisibility = (props: any) => {
-  const { handleCloseVisibility, setAnchorEl, id } = props;
+  const { handleCloseVisibility, setAnchorEl, id, setSelectedCheckboxes } =
+    props;
 
   const [selectedAgentCheckboxes, setSelectedAgentCheckboxes] = useState<any>(
     [],
@@ -29,6 +30,13 @@ const useVisibility = (props: any) => {
     usePatchAirServicesSettingsServiceCatalogMutation();
 
   const handleSubmit = async () => {
+    if (
+      (!selectedAgentCheckboxes || selectedAgentCheckboxes.length === 0) &&
+      (!selectedRequestorCheckboxes || selectedRequestorCheckboxes.length === 0)
+    ) {
+      errorSnackbar('Please Select Visibility');
+      return;
+    }
     const moveToCategoryData: any = {};
 
     if (selectedAgentCheckboxes && selectedAgentCheckboxes.length > 0) {
@@ -54,6 +62,7 @@ const useVisibility = (props: any) => {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
+    setSelectedCheckboxes?.([]);
     onClose?.();
   };
 

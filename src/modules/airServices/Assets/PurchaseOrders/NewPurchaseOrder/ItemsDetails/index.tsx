@@ -72,10 +72,10 @@ const ItemsDetails = (props: any) => {
             append({
               itemName: null,
               description: '',
-              quantity: '0',
-              costPerItem: '0',
-              taxRate: '0',
-              total: '0',
+              quantity: null,
+              costPerItem: null,
+              taxRate: null,
+              total: null,
             });
           }}
           startIcon={<AddCircleIcon />}

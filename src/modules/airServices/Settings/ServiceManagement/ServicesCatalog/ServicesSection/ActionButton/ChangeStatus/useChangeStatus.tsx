@@ -9,7 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 const useChangeStatus = (prop: any) => {
-  const { setOpenStatus, dataProp } = prop;
+  const { setOpenStatus, dataProp, setSelectedCheckboxes } = prop;
 
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchAirServicesSettingsServiceCatalogMutation();
@@ -37,6 +37,7 @@ const useChangeStatus = (prop: any) => {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
+    setSelectedCheckboxes?.([]);
     handleClose?.();
   };
 

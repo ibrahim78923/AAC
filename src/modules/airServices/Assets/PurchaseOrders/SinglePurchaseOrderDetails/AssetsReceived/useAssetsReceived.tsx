@@ -25,6 +25,7 @@ export const useAssetsReceived = () => {
     isFetching: purchaseFetching,
   } = useGetAirServicesAssetsPurchaseOrderPurchaseOrderByIdQuery(
     purchaseOrderId,
+    { refetchOnMountOrArgChange: true },
   );
 
   const [

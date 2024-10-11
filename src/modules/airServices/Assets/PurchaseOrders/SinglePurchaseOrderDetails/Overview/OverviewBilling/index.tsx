@@ -12,12 +12,10 @@ const OverviewBilling = ({
   const discount = purchaseOrderData?.discount || 0;
   const taxRate = purchaseOrderData?.taxRate || 0;
   const shipping = purchaseOrderData?.shipping || 0;
-  const total = (
-    subTotal -
-    (subTotal * discount) / 100 +
-    (subTotal * taxRate) / 100 +
-    shipping
-  )?.toFixed(2);
+
+  let total = subTotal * (1 + taxRate / 100);
+  total = total - total * (discount / 100);
+  total = (total + shipping)?.toFixed(2);
 
   return (
     <Box
@@ -33,7 +31,7 @@ const OverviewBilling = ({
         total,
       })?.map((item: any) => {
         const totalItem = [
-          purchaseOrderDetail?.[0]?.label,
+          purchaseOrderDetail?.[ARRAY_INDEX?.ZERO]?.label,
           purchaseOrderDetail?.[purchaseOrderDetail?.length - 1]?.label,
         ];
         return (
