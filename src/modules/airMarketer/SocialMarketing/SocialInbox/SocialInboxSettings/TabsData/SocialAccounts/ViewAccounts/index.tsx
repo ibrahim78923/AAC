@@ -1,15 +1,10 @@
 import React from 'react';
-
-import { Box, Grid, Typography } from '@mui/material';
-
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useViewAccounts from './useViewAccounts';
-
 import { columns } from './ViewAccounts.data';
 import { companiesData } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
-
 import { BackArrIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
@@ -21,19 +16,15 @@ const ViewAccount = ({ handleShowCard }: { handleShowCard: () => void }) => {
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '10px',
-              alignItems: 'center',
-              paddingTop: '15px',
-            }}
+          <Stack
+            onClick={handleShowCard}
+            direction="row"
+            gap={1}
+            alignItems="center"
           >
-            <Box onClick={handleShowCard}>
-              <BackArrIcon />
-            </Box>
-            <Typography variant="h4">Facebook</Typography>
-          </Box>
+            <BackArrIcon />
+            <Typography variant="h3">Facebook</Typography>
+          </Stack>
         </Grid>
         <Grid item xs={12}>
           <PermissionsGuard

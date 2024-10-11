@@ -1,11 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useForm } from 'react-hook-form';
-import {
-  useLazyGetAgentDropdownForEditTicketDetailsQuery,
-  useLazyGetTaskByIdDropDownQuery,
-  usePostTicketsTimeMutation,
-} from '@/services/airServices/tickets/single-ticket-details/details';
 
 import {
   errorSnackbar,
@@ -28,6 +22,8 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { isoDateString } from '@/utils/dateTime';
+import { useAddSingleServicesTicketsTasksTimeMutation } from '@/services/airServices/tickets/single-ticket-details/details';
 
 export const useAddTime = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -35,7 +31,7 @@ export const useAddTime = (props: any) => {
   const [form, setForm] = useState<any>([]);
 
   const [postTicketsTimeTrigger, postTicketStatus] =
-    usePostTicketsTimeMutation();
+    useAddSingleServicesTicketsTasksTimeMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -104,7 +100,7 @@ export const useAddTime = (props: any) => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
@@ -152,14 +148,7 @@ export const useAddTime = (props: any) => {
     reset();
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
-  const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
-
-  const addTimeFormFields = addTimeFormFieldsDynamic(
-    apiQueryAgent,
-    apiQueryTask,
-    ticketId,
-  );
+  const addTimeFormFields = addTimeFormFieldsDynamic();
 
   return {
     methods,

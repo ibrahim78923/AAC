@@ -21,7 +21,7 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
         responseHandler: (response: any) => response?.blob(),
       }),
     }),
-    getUsersDropdownList: builder?.query({
+    getExportUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
@@ -37,6 +37,6 @@ export const dataManagementExportAPI = baseAPI?.injectEndpoints({
 
 export const {
   useGetExportListQuery,
-  useLazyGetUsersDropdownListQuery,
+  useLazyGetExportUsersDropdownListQuery,
   useLazyExportListQuery,
 } = dataManagementExportAPI;

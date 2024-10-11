@@ -6,90 +6,123 @@ const TAG1 = 'RESPONSES_LIST';
 
 export const cannedResponsesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getCannedResponses: builder?.query({
+    getAirServicesSettingsCannedResponses: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_CANNED_RESPONSES}`,
+        url: END_POINTS?.GET_CANNED_RESPONSES,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    postCannedResponses: builder?.mutation({
+
+    postAirServicesSettingsCannedResponses: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ADD_CANNED_RESPONSES}`,
+        url: END_POINTS?.ADD_CANNED_RESPONSES,
         method: 'POST',
         body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    patchCannedResponse: builder?.mutation({
+
+    patchAirServicesSettingsCannedResponse: builder?.mutation({
       query: (patchCannedResponseParameter: any) => ({
-        url: `${END_POINTS?.UPDATE_CANNED_RESPONSES}`,
+        url: END_POINTS?.UPDATE_CANNED_RESPONSES,
         method: 'PATCH',
         body: patchCannedResponseParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    deleteCannedResponse: builder?.mutation({
+
+    deleteAirServicesSettingsCannedResponse: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.DELETE_CANNED_RESPONSES}`,
+        url: END_POINTS?.DELETE_CANNED_RESPONSES,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),
-    getResponsesList: builder?.query({
+
+    getAirServicesSettingsCannedResponseAgents: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.USERS_DROPDOWN,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG],
+    }),
+
+    getAirServicesSettingsCannedResponsesList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_RESPONSES_LIST}`,
+        url: END_POINTS?.GET_RESPONSES_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG1],
     }),
-    postResponse: builder?.mutation({
+
+    postAirServicesSettingsCannedAddResponse: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.POST_RESPONSE}`,
+        url: END_POINTS?.POST_RESPONSE,
         method: 'POST',
         body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG1],
     }),
-    patchResponse: builder?.mutation({
+
+    patchAirServicesSettingsCannedAddResponse: builder?.mutation({
       query: (patchResponseParameter: any) => ({
-        url: `${END_POINTS?.UPDATE_RESPONSE}`,
+        url: END_POINTS?.UPDATE_RESPONSE,
         method: 'PATCH',
         body: patchResponseParameter?.body,
       }),
       invalidatesTags: [TAG1],
     }),
-    moveResponses: builder?.mutation({
+
+    patchAirServicesSettingsCannedAddMoveResponses: builder?.mutation({
       query: (moveResponsesParameter: any) => ({
-        url: `${END_POINTS?.MOVE_RESPONSES}`,
+        url: END_POINTS?.MOVE_RESPONSES,
         method: 'PATCH',
         body: moveResponsesParameter?.body,
       }),
       invalidatesTags: [TAG1],
     }),
-    deleteResponses: builder?.mutation({
+
+    deleteAirServicesSettingsCannedAddResponses: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.DELETE_RESPONSES}`,
+        url: END_POINTS?.DELETE_RESPONSES,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG1],
     }),
+
+    getAirServicesSettingsCannedFolders: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_FOLDERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
 export const {
-  useGetCannedResponsesQuery,
-  useLazyGetCannedResponsesQuery,
-  useLazyGetResponsesListQuery,
-  usePostCannedResponsesMutation,
-  usePostResponseMutation,
-  usePatchResponseMutation,
-  useMoveResponsesMutation,
-  useDeleteResponsesMutation,
-  useDeleteCannedResponseMutation,
-  usePatchCannedResponseMutation,
+  useLazyGetAirServicesSettingsCannedResponsesQuery,
+  usePostAirServicesSettingsCannedResponsesMutation,
+  useDeleteAirServicesSettingsCannedResponseMutation,
+  usePatchAirServicesSettingsCannedResponseMutation,
+  useLazyGetAirServicesSettingsCannedResponseAgentsQuery,
+  useLazyGetAirServicesSettingsCannedResponsesListQuery,
+  usePostAirServicesSettingsCannedAddResponseMutation,
+  usePatchAirServicesSettingsCannedAddResponseMutation,
+  usePatchAirServicesSettingsCannedAddMoveResponsesMutation,
+  useDeleteAirServicesSettingsCannedAddResponsesMutation,
+  useLazyGetAirServicesSettingsCannedFoldersQuery,
 } = cannedResponsesAPI;

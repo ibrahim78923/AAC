@@ -14,27 +14,27 @@ const ClickPerformance = ({ data }: any) => {
           <Grid item sm={6}>
             <ProgressCustom
               title="Open rate"
-              value={calculatePercentage(data.open, data.total)}
+              value={calculatePercentage(data?.open, data?.total)}
             />
           </Grid>
           <Grid item sm={6}>
             <ProgressCustom
               title="Number of links clicked"
-              value={calculatePercentage(data.click, data.total)}
+              value={calculatePercentage(data?.click, data?.total)}
             />
           </Grid>
           <Grid item sm={6}>
             <ProgressCustom
               title="Click rate"
-              value={calculatePercentage(data.click, data.total)}
+              value={calculatePercentage(data?.click, data?.total)}
             />
           </Grid>
-          <Grid item sm={6}>
+          {/* <Grid item sm={6}>
             <ProgressCustom
               title="Click -through rate"
-              value={calculatePercentage(data.click, data.total)}
+              value={calculatePercentage(data?.click, data?.total)}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       )}
     </>

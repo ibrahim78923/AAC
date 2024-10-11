@@ -1,25 +1,19 @@
 import NoData from '@/components/NoData';
-import {
-  approvalStatus,
-  approvalsStatusObj,
-  stringAvatar,
-} from './Approvals.data';
+import { approvalStatus, approvalsStatusObj } from './Approvals.data';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import dayjs from 'dayjs';
 import { RequestApprovalForm } from './RequestApprovalForm';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
-import { NoAssociationFoundImage } from '@/assets/images';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import { useApprovals } from './useApprovals';
 import { Fragment } from 'react';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CancelRequest } from './CancelRequest';
-import { generateImage } from '@/utils/avatarUtils';
+import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { LoadingButton } from '@mui/lab';
 
 export const Approvals = () => {
@@ -38,6 +32,7 @@ export const Approvals = () => {
     sendReminderForPurchaseOrderApproval,
     postPurchaseOrderApprovalRemindersStatus,
   } = useApprovals();
+
   return (
     <>
       {lazyGetApprovalRequestsStatus?.isFetching ? (
@@ -46,13 +41,13 @@ export const Approvals = () => {
         <Fragment>
           {approvalsList?.length <= 0 ? (
             <NoData
-              image={NoAssociationFoundImage}
               message={
                 'Make Approved Purchases by sending the order to your stakeholders for approval'
               }
             >
               <Button
                 variant="outlined"
+                className={'small'}
                 sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
                 startIcon={<AddCircleIcon />}
                 onClick={() => setOpenDialog(true)}
@@ -65,6 +60,7 @@ export const Approvals = () => {
               <Box textAlign={'end'}>
                 <Button
                   variant="contained"
+                  className={'small'}
                   onClick={() => setOpenDialog(true)}
                   startIcon={<AddCircleIcon />}
                 >
@@ -93,25 +89,26 @@ export const Approvals = () => {
                     mb={{ xs: 2, md: 'unset' }}
                   >
                     <Avatar
-                      alt={`${
-                        user?._id !== item?.approverId
-                          ? item?.approverName
-                          : item?.createdName
-                      }`}
-                      sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
+                      sx={{
+                        bgcolor: 'primary.main',
+                        width: 28,
+                        height: 28,
+                      }}
+                      variant={'circular'}
                       src={generateImage(
                         user?._id !== item?.approverId
                           ? item?.approverByImg
                           : item?.createdByImg,
                       )}
-                      {...stringAvatar(
-                        `${
+                    >
+                      <Typography variant={'body2'} textTransform={'uppercase'}>
+                        {fullNameInitial(
                           user?._id !== item?.approverId
                             ? item?.approverName
-                            : item?.createdName
-                        }`,
-                      )}
-                    />
+                            : item?.createdName,
+                        )}
+                      </Typography>
+                    </Avatar>
                     <Box>
                       <Typography variant="body1" fontWeight={500}>
                         {`${
@@ -161,7 +158,13 @@ export const Approvals = () => {
                       )}
                     {user?._id !== item?.approverId &&
                       !approvalStatus?.includes(item?.approvalStatus) && (
-                        <Fragment>
+                        <Box
+                          display={'flex'}
+                          gap={2}
+                          alignItems={'center'}
+                          justifyContent={'flex-end'}
+                          flexWrap={'wrap'}
+                        >
                           <CancelRequest approvalId={item?._id} />
                           <LoadingButton
                             loading={
@@ -175,10 +178,11 @@ export const Approvals = () => {
                             onClick={() =>
                               sendReminderForPurchaseOrderApproval?.()
                             }
+                            className={'small'}
                           >
                             Send Reminder
                           </LoadingButton>
-                        </Fragment>
+                        </Box>
                       )}
                   </Grid>
                 </Grid>

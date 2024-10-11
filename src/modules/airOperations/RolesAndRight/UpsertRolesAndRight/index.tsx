@@ -76,6 +76,7 @@ export const UpsertRolesAndRight = () => {
               type={'button'}
               variant={'outlined'}
               color={'inherit'}
+              className="small"
               sx={{ mr: 2 }}
               disabled={
                 postPermissionsStatus?.isLoading ||
@@ -88,6 +89,7 @@ export const UpsertRolesAndRight = () => {
             <LoadingButton
               type={'button'}
               variant={'contained'}
+              className="small"
               onClick={() => submitButtonHandler?.()}
               disabled={
                 postPermissionsStatus?.isLoading ||

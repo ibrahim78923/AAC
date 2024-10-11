@@ -4,6 +4,7 @@ import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import * as Yup from 'yup';
 export const addGroupValidationSchema = Yup?.object()?.shape({
   groupTitle: Yup?.string()?.trim()?.required('Field is Required'),
+  image: Yup?.string()?.trim()?.required('Field is Required'),
   participant: Yup?.array()
     ?.min(1, 'At least one participant is required')
     ?.required('Field is Required'),
@@ -11,6 +12,7 @@ export const addGroupValidationSchema = Yup?.object()?.shape({
 
 export const addGroupDefaultValues = {
   groupTitle: '',
+  image: '',
   participant: [],
 };
 

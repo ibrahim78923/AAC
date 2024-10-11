@@ -1,11 +1,11 @@
-import { useGetCustomerDashboardAnnouncementsQuery } from '@/services/airCustomerPortal';
+import { useGetCustomerPortalCustomerDashboardAnnouncementsQuery } from '@/services/airCustomerPortal';
 import { useState } from 'react';
 
 export const useAnnouncements = () => {
   const [openDrawer, setDrawerOpen] = useState<boolean>(false);
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetCustomerDashboardAnnouncementsQuery(null, {
+    useGetCustomerPortalCustomerDashboardAnnouncementsQuery(null, {
       refetchOnMountOrArgChange: true,
     });
 

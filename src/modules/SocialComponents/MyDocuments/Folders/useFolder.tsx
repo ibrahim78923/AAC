@@ -3,12 +3,13 @@ import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteFilesMutation,
   useDeleteFoldersMutation,
+  useGetAllFoldersListQuery,
   useGetDocumentFileQuery,
-  useGetDocumentFolderQuery,
   usePostDocumentFilesMutation,
   usePostDocumentFolderMutation,
   useUpdateFileMutation,
   useUpdateFolderMutation,
+  usePostShareFileMutation,
 } from '@/services/commonFeatures/documents';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,6 +18,7 @@ import {
   columns,
 } from './Folder.data';
 import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 // import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { PAGINATION } from '@/config';
@@ -84,19 +86,38 @@ const useFolder: any = () => {
 
   // Get Subfolders
   const {
-    data: dataSubfolders,
-    isLoading: isLoadingSubfolders,
-    isFetching: isFetchingSubfolders,
-  } = useGetDocumentFolderQuery({
-    params: {
-      meta: false,
-      parentFolderId: folderId,
+    data: getFolderByIdData,
+    isLoading: loadingGetFolder,
+    isFetching: fetchingGetFolder,
+  } = useGetAllFoldersListQuery(
+    {
+      params: {
+        meta: false,
+        parentFolderId: folderId,
+      },
     },
-  });
-
-  const subfolderData = dataSubfolders?.data?.find(
-    (item: any) => item?._id === selectedFolderId,
+    { skip: !folderId },
   );
+  const sinngleFolderData = getFolderByIdData?.data[0];
+
+  function findFolderById(data: any, selectedFolderId: string | null) {
+    if (data && selectedFolderId) {
+      if (data._id === selectedFolderId) {
+        return data;
+      }
+
+      if (data.nestedFolders && data.nestedFolders.length > 0) {
+        for (const folder of data.nestedFolders) {
+          const foundFolder: any = findFolderById(folder, selectedFolderId);
+          if (foundFolder) {
+            return foundFolder;
+          }
+        }
+      }
+      return {};
+    }
+    return {};
+  }
 
   // Create/Update Folder
   const [postDocumentFolder, { isLoading: loadingCreateFolder }] =
@@ -116,6 +137,11 @@ const useFolder: any = () => {
   const handleCloseCreateFolderModal = () => {
     setIsOpenCreateFolderModal(false);
   };
+
+  const selectedFolderData =
+    modalHeading === MODAL_HEADING?.update
+      ? findFolderById(sinngleFolderData, selectedFolderId)
+      : null;
 
   const getDynamicFormData = async () => {
     const params = {
@@ -140,7 +166,7 @@ const useFolder: any = () => {
 
   const methodsFolder: any = useForm<any>({
     resolver: yupResolver(validationSchema(form)),
-    defaultValues: defaultValuesFolder?.(subfolderData, form),
+    defaultValues: defaultValuesFolder?.(selectedFolderData, form),
   });
 
   const {
@@ -151,7 +177,7 @@ const useFolder: any = () => {
 
   const watchCreateVisibleTo = watchCreateFolder('visibleTo');
   useEffect(() => {
-    resetFolderForm(() => defaultValuesFolder(subfolderData, form));
+    resetFolderForm(() => defaultValuesFolder(selectedFolderData, form));
   }, [selectedFolderId, resetFolderForm, form]);
 
   const onSubmit = async (values: any) => {
@@ -211,7 +237,7 @@ const useFolder: any = () => {
     } else {
       try {
         const payload = {
-          parentFolderId: folderId,
+          parentFolderId: selectedFolderId,
           ...body,
         };
         await postDocumentFolder({
@@ -328,6 +354,7 @@ const useFolder: any = () => {
   // Get Files/Documents Data
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [selectedRowData, setSelectedRowData] = useState(null);
+  const [selectedFilesUrl, setSelectedFilesUrl] = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterParams, setFilterParams] = useState({});
@@ -400,9 +427,14 @@ const useFolder: any = () => {
     }
   }, [selectedRow]);
 
-  // Generate Link
-  const [isOpenGenerateLinkModal, setIsOpenGenerateLinkModal] = useState(false);
-  const [isOpenSendEmailModal, setIsOpenSendEmailModal] = useState(false);
+  useEffect(() => {
+    const selectedFiles = getFilesData?.data?.files?.filter((item: any) =>
+      selectedRow.includes(item._id),
+    );
+    setSelectedFilesUrl(
+      selectedFiles?.map((item: any) => ({ name: item?.name, ...item?.media })),
+    );
+  }, [selectedRow]);
 
   // Delete Files
   const [deleteFiles, { isLoading: loadingDeleteFiles }] =
@@ -460,18 +492,21 @@ const useFolder: any = () => {
     searchMovePayLoad = { search: searchMoveFolder };
   }
   const {
-    data: getMoveFoldersData,
-    isLoading: loadingGetMoveFolders,
-    isFetching: fetchingGetMoveFolders,
-  } = useGetDocumentFolderQuery({
-    params: {
-      ...searchMovePayLoad,
-      ...getMoveFoldersParams,
+    data: getAllFoldersListData,
+    isLoading: loadingGetAllFolders,
+    isFetching: fetchingGetAllFolders,
+  } = useGetAllFoldersListQuery(
+    {
+      params: {
+        ...searchMovePayLoad,
+        ...getMoveFoldersParams,
+      },
     },
-  });
+    { skip: !isOpenMoveDocumentDrawer },
+  );
 
-  const moveFoldersData = (getMoveFoldersData?.data || []).filter(
-    (folder: any) => folder._id !== selectedFolderId,
+  const moveFoldersData = (getAllFoldersListData?.data || []).filter(
+    (folder: any) => folder._id !== folderId,
   );
 
   const handleSubmitMoveDocument = async () => {
@@ -525,6 +560,49 @@ const useFolder: any = () => {
     setIsOpenPreviewModal(false);
   };
 
+  // Generate Link
+  const [postShareFile, { isLoading: loadingShareFile }] =
+    usePostShareFileMutation();
+  const [isOpenGenerateLinkModal, setIsOpenGenerateLinkModal] = useState(false);
+  const methodsShareLinkForm: any = useForm({
+    resolver: yupResolver(
+      Yup?.object()?.shape({
+        recipients: Yup?.string()?.trim()?.required('Field is Required'),
+      }),
+    ),
+    defaultValues: {
+      recipients: '',
+    },
+  });
+  const { handleSubmit: handleMethod, reset: resetShareLinkForm } =
+    methodsShareLinkForm;
+
+  const handleOpenCreateLinkModal = () => {
+    setIsOpenGenerateLinkModal(true);
+  };
+  const handleCloseCreateLinkModal = () => {
+    resetShareLinkForm();
+    setIsOpenGenerateLinkModal(false);
+  };
+  const onSubmitCreateLinkForm = async (values: any) => {
+    const payload = {
+      fileId: selectedRow[0],
+      recipients: [values?.recipients],
+    };
+
+    try {
+      await postShareFile({ body: payload }).unwrap();
+      successSnackbar('File Sent Successfully!');
+      handleCloseCreateLinkModal();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+      handleCloseCreateLinkModal();
+    }
+  };
+  const handleCreateLinkSubmit = handleMethod(onSubmitCreateLinkForm);
+
+  const [isOpenSendEmailModal, setIsOpenSendEmailModal] = useState(false);
+
   const getColumns = columns(selectedRow, setSelectedRow);
 
   return {
@@ -539,13 +617,11 @@ const useFolder: any = () => {
     orgTeamsData,
     folderId,
     parentFolderName,
-
-    dataSubfolders,
+    sinngleFolderData,
+    fetchingGetFolder,
+    loadingGetFolder,
     selectedFolderId,
     handleClickSelectFolder,
-    isFetchingSubfolders,
-    isLoadingSubfolders,
-
     isOpenDelete,
     setIsOpenDelete,
     loadingDelete,
@@ -592,8 +668,13 @@ const useFolder: any = () => {
     handleClick,
     handleClose,
 
+    methodsShareLinkForm,
     isOpenGenerateLinkModal,
-    setIsOpenGenerateLinkModal,
+    handleOpenCreateLinkModal,
+    handleCloseCreateLinkModal,
+    handleCreateLinkSubmit,
+    loadingShareFile,
+
     isOpenSendEmailModal,
     setIsOpenSendEmailModal,
 
@@ -605,8 +686,8 @@ const useFolder: any = () => {
     isOpenMoveDocumentDrawer,
     handleOpenMoveDocumentDrawer,
     handleCloseMoveDocumentDrawer,
-    fetchingGetMoveFolders,
-    loadingGetMoveFolders,
+    fetchingGetAllFolders,
+    loadingGetAllFolders,
     setSearchMoveFolder,
     moveFoldersData,
     selectedMoveToFolderId,
@@ -617,6 +698,7 @@ const useFolder: any = () => {
     isOpenPreviewModal,
     handleOpenPreviewModal,
     handleClosePreviewModal,
+    selectedFilesUrl,
   };
 };
 

@@ -1,20 +1,22 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './RejectForm.data';
-import { usePatchRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
+import { usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { approvalStatus } from '../Approvals.data';
 import { useState } from 'react';
 
 export const useRejectForm = (approvalId: any) => {
   const [rejectDialog, setRejectDialog] = useState(false);
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
+
   const { handleSubmit, reset } = methods;
   const [patchRequestApprovalTrigger, patchRequestApprovalStatus] =
-    usePatchRequestApprovalMutation();
+    usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation();
 
   const onSubmit = async (data: any) => {
     const params = new URLSearchParams();
@@ -30,6 +32,7 @@ export const useRejectForm = (approvalId: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   return {
     setRejectDialog,
     rejectDialog,

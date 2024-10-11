@@ -1,5 +1,6 @@
 import { CONTACTS_CONSTANTS } from '@/constants/strings';
 import { useGetContactsListQuery } from '@/services/common-APIs';
+import { countRecentContacts } from '@/utils';
 import { Theme, useTheme } from '@mui/material';
 
 const useContacts = () => {
@@ -12,10 +13,13 @@ const useContacts = () => {
 
   const allContacts = dataGetContacts?.data?.contacts;
 
+  const recentContactsCount = countRecentContacts(allContacts);
+
   return {
     theme,
     allContacts,
     loadingGetContacts,
+    recentContactsCount,
   };
 };
 

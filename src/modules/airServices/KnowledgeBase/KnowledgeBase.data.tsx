@@ -3,13 +3,15 @@ import { Articles } from './Articles';
 import { Approvals } from './Approvals';
 import { KnowledgeInsights } from './KnowledgeInsights';
 
+const { AIR_SERVICES_KNOWLEDGE_BASE_TABS } = Permissions ?? {};
+
 export const knowledgeBaseTabsDataDynamic = () => {
   return [
     {
       _id: 1,
       name: 'Articles',
       id: 'articles',
-      tabPermissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_TABS,
+      tabPermissions: AIR_SERVICES_KNOWLEDGE_BASE_TABS,
       component: Articles,
       componentProps: {},
     },
@@ -17,7 +19,8 @@ export const knowledgeBaseTabsDataDynamic = () => {
       _id: 2,
       name: 'Approvals',
       id: 'approvals',
-      tabPermissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_TABS,
+      hasNoPermissions: true,
+      tabPermissions: [],
       component: Approvals,
       componentProps: {},
     },
@@ -25,7 +28,8 @@ export const knowledgeBaseTabsDataDynamic = () => {
       _id: 3,
       name: 'Knowledge Insights',
       id: 'knowledge_insights',
-      tabPermissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_TABS,
+      hasNoPermissions: true,
+      tabPermissions: [],
       component: KnowledgeInsights,
       componentProps: {},
     },

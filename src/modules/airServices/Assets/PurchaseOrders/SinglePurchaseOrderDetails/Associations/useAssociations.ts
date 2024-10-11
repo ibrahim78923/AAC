@@ -1,5 +1,5 @@
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { useGetAssociateTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociateTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -16,13 +16,11 @@ export const useAssociations = () => {
     },
   };
 
-  const { data, isLoading, isError, isFetching } = useGetAssociateTicketsQuery(
-    associateTicketsAssetsParameter,
-    {
+  const { data, isLoading, isError, isFetching } =
+    useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
-    },
-  );
+    });
 
   return {
     data,

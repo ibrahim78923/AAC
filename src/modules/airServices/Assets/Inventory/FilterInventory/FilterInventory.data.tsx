@@ -30,6 +30,7 @@ export const inventoryFilterFormFieldsDataFunction = (
   apiQueryUsedBy: any,
   apiQueryAssetType: any,
   apiQueryUsersCreatedBy: any,
+  productId: any,
 ) => [
   {
     id: 1,
@@ -52,10 +53,11 @@ export const inventoryFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'usedBy',
       label: 'Used By',
-      placeholder: 'Name or Email',
+      placeholder: 'Select user',
       apiQuery: apiQueryUsedBy,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
+      externalParams: { productId, requester: true, admin: true },
     },
     component: RHFAutocompleteAsync,
   },
@@ -128,6 +130,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       placeholder: 'Select user',
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
+      externalParams: { productId, admin: true },
     },
     component: RHFAutocompleteAsync,
   },

@@ -31,7 +31,7 @@ const CreateDashboardOptions = (props: any) => {
   const currentUser = user?._id;
 
   return (
-    <div>
+    <>
       <Button
         className="small"
         variant="outlined"
@@ -59,6 +59,14 @@ const CreateDashboardOptions = (props: any) => {
             <Box sx={{ display: 'grid', placeItems: 'center', p: 2 }}>
               <CircularProgress />
             </Box>
+          ) : listData?.length <= 0 ? (
+            <Typography
+              variant="body2"
+              color={theme?.palette?.grey[500]}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              No dashboard found
+            </Typography>
           ) : (
             listData?.map((dashboard: any) => (
               <MenuItem
@@ -70,6 +78,7 @@ const CreateDashboardOptions = (props: any) => {
                   justifyContent="space-between"
                   alignItems="center"
                   width={'100%'}
+                  gap={1}
                 >
                   <Typography variant="body2">
                     {capitalizeFirstLetters(dashboard?.name)}
@@ -96,16 +105,22 @@ const CreateDashboardOptions = (props: any) => {
             ))
           )}
         </PermissionsGuard>
-        <Button
-          sx={{ color: theme?.palette?.grey[500], margin: '10px' }}
-          onClick={handelNavigate}
-          variant="outlined"
-          color="inherit"
-        >
-          Manage Dashboards
-        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            sx={{
+              color: theme?.palette?.grey[500],
+              margin: '8px',
+              width: '100%',
+            }}
+            onClick={handelNavigate}
+            variant="outlined"
+            color="inherit"
+          >
+            Manage Dashboards
+          </Button>
+        </Box>
       </Menu>
-    </div>
+    </>
   );
 };
 

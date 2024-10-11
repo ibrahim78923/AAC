@@ -1,56 +1,55 @@
 import Image from 'next/image';
-
-import { Card, Typography, Box, Grid } from '@mui/material';
-
-import { styles } from './DetailsView.style';
-
+import { Card, Typography, Box, Stack } from '@mui/material';
 import { NotSelectedItemImage } from '@/assets/images';
+import { AIR_MARKETER_DASHBOARD_REPORTS_TYPES } from '@/constants';
+import { styles } from './DetailsView.style';
+import ContactCustomerGraph from '../../StaticComponents/ContactCustomerGraph';
+import CtaViews from '../../StaticComponents/CtaViews';
+import TotalMarketingEmail from '../../StaticComponents/TotalMarketingEmail';
+import FormsTable from '../../StaticComponents/FormsTable';
+import { ProfileStatistics } from '../../StaticComponents/ProfileStatistics';
+import SmsMarketingGraph from '../../StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from '../../StaticComponents/WhatsappMarketingGraph';
 
-import { isNullOrEmpty } from '@/utils';
-import CtaViews from '../../CtaViews';
-import TotalMarketingEmail from '../../TotalMarketingEmail';
-import FormsTable from '../../FormsTable';
-import ContactCustomerGraph from '../../ContactCustomerGraph';
-
-const DetailsView = ({ selectedDashoardWidget }: any) => {
+const DetailsView = ({ selectedReports }: any) => {
+  const displayDashboardWidgets = (selectedWidget: any) => {
+    if (selectedWidget?.length > 0) {
+      return selectedWidget?.map((report: any) => {
+        switch (report) {
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.NEW_CONTACTS_AND_CUSTOMERS:
+            return <ContactCustomerGraph key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.CTA_TOTAL_VIEWS_AND_ADS_SUBMISSIONS:
+            return <CtaViews key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.TOTAL_MARKETING_EMAIL:
+            return <TotalMarketingEmail key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.LEAD_CAPTURED_FORMS:
+            return <FormsTable key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.PROFILE_STATS:
+            return <ProfileStatistics key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.SMS_MARKETING_GRAPH:
+            return <SmsMarketingGraph key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.WHATSAPP_MARKETING_GRAPH:
+            return <WhatsappMarketingGraph key={report} />;
+          default:
+            return null;
+        }
+      });
+    } else {
+      return (
+        <Box sx={styles?.defaultSelectedImage}>
+          <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
+        </Box>
+      );
+    }
+  };
   return (
     <Card sx={{ height: '80vh', overflow: 'auto' }}>
-      <Typography variant="h5" mt={2} sx={{ textAlign: 'center' }} gutterBottom>
+      <Typography variant="h4" mt={2} sx={{ textAlign: 'center' }} gutterBottom>
         Details View
       </Typography>
-      <Box>
-        <Grid container p={2}>
-          {!isNullOrEmpty(selectedDashoardWidget) ? (
-            <>
-              {' '}
-              {selectedDashoardWidget?.closedAndCreatedDeals && (
-                <Grid item sm={12} mt={3}>
-                  <ContactCustomerGraph />
-                </Grid>
-              )}
-              {selectedDashoardWidget?.mettingDetails && (
-                <Grid item sm={12} mt={3}>
-                  <CtaViews />
-                </Grid>
-              )}
-              {selectedDashoardWidget?.teamActivities && (
-                <Grid item sm={12} mt={3}>
-                  <TotalMarketingEmail />
-                </Grid>
-              )}
-              {selectedDashoardWidget?.totalDeals && (
-                <Grid item sm={12} mt={3}>
-                  <FormsTable />
-                </Grid>
-              )}
-            </>
-          ) : (
-            <Grid item sm={12} sx={styles?.defaultSelectedImage} mt={3}>
-              <Image src={NotSelectedItemImage} alt="not-selected-Item"></Image>
-            </Grid>
-          )}
-        </Grid>
-      </Box>
+      <Stack direction="column" gap={2} p={2}>
+        {displayDashboardWidgets(selectedReports)}
+      </Stack>
     </Card>
   );
 };

@@ -9,7 +9,7 @@ import { AIR_SERVICES } from '@/constants';
 import { IDepartmentsProps } from '../Departments.interface';
 
 export const DepartmentsHeader = (props: IDepartmentsProps) => {
-  const { setSearch, setOpenUpsertModal, setSelectedDepartment } = props;
+  const { handleSearch, setOpenUpsertModal, setSelectedDepartment } = props;
   const router = useRouter();
   return (
     <Box
@@ -38,7 +38,11 @@ export const DepartmentsHeader = (props: IDepartmentsProps) => {
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_DEPARTMENTS,
           ]}
         >
-          <Search placeholder="Search Here" setSearchBy={setSearch} />
+          <Search
+            size="small"
+            placeholder="Search Here"
+            setSearchBy={handleSearch}
+          />
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[
@@ -48,6 +52,7 @@ export const DepartmentsHeader = (props: IDepartmentsProps) => {
           <Button
             startIcon={<PlusSharedColorIcon />}
             variant="contained"
+            className="small"
             onClick={() => {
               setOpenUpsertModal?.(true);
               setSelectedDepartment?.('');

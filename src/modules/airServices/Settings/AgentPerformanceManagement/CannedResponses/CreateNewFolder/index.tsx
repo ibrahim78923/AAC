@@ -18,12 +18,14 @@ import { ICannedResponsesProps } from '../CannedResponses.interface';
 export const CreateNewFolder = (props: ICannedResponsesProps) => {
   const {
     method,
+    handleSubmit,
     onSubmit,
     openCreateNewFolderModal,
     closeCreateNewFolderModal,
     postCannedResponseStatus,
     patchCannedResponseStatus,
   } = useCreateNewFolder(props);
+
   return (
     <Dialog
       open={openCreateNewFolderModal?.create}
@@ -52,43 +54,48 @@ export const CreateNewFolder = (props: ICannedResponsesProps) => {
           />
         </Box>
       </DialogTitle>
-      <FormProvider methods={method} onSubmit={method?.handleSubmit(onSubmit)}>
-        <DialogContent>
+
+      <DialogContent>
+        <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1.4}>
             {createNewFolderArray?.map((item: any) => (
               <Grid key={item?.id} item xs={12}>
-                <item.component {...item?.componentProps} />
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>
-        </DialogContent>
-        <DialogActions sx={{ paddingTop: `0rem !important` }}>
-          <LoadingButton
-            onClick={closeCreateNewFolderModal}
-            variant="outlined"
-            color="secondary"
-            disabled={
-              postCannedResponseStatus?.isLoading ||
-              patchCannedResponseStatus?.isLoading
-            }
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            type="submit"
-            loading={
-              postCannedResponseStatus?.isLoading ||
-              patchCannedResponseStatus?.isLoading
-            }
-            variant="contained"
-            color="primary"
-          >
-            {openCreateNewFolderModal?.editData
-              ? GENERIC_UPSERT_FORM_CONSTANT?.APPLY
-              : GENERIC_UPSERT_FORM_CONSTANT?.SUBMIT}
-          </LoadingButton>
-        </DialogActions>
-      </FormProvider>
+        </FormProvider>
+      </DialogContent>
+
+      <DialogActions sx={{ paddingTop: `0rem !important` }}>
+        <LoadingButton
+          onClick={closeCreateNewFolderModal}
+          variant="outlined"
+          color="secondary"
+          className={'small'}
+          disabled={
+            postCannedResponseStatus?.isLoading ||
+            patchCannedResponseStatus?.isLoading
+          }
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          type="submit"
+          loading={
+            postCannedResponseStatus?.isLoading ||
+            patchCannedResponseStatus?.isLoading
+          }
+          variant="contained"
+          color="primary"
+          className={'small'}
+          onClick={handleSubmit(onSubmit)}
+        >
+          {openCreateNewFolderModal?.editData
+            ? GENERIC_UPSERT_FORM_CONSTANT?.APPLY
+            : GENERIC_UPSERT_FORM_CONSTANT?.SUBMIT}
+        </LoadingButton>
+      </DialogActions>
     </Dialog>
   );
 };

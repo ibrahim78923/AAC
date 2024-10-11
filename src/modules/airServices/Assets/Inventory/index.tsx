@@ -23,7 +23,7 @@ const Inventory = () => {
     lazyGetInventoryStatus,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
     inventoryListsColumnsPersist,
     theme,
     getInventoryListData,
@@ -71,7 +71,7 @@ const Inventory = () => {
                 AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.SEARCH_AND_FILTER,
               ]}
             >
-              <Search label="Search Here" setSearchBy={setSearch} />
+              <Search label={'Search Here'} setSearchBy={handleSearch} />
             </PermissionsGuard>
           </Box>
           <Box
@@ -86,8 +86,9 @@ const Inventory = () => {
               ]}
             >
               <Button
-                color="secondary"
-                variant="outlined"
+                color={'secondary'}
+                variant={'outlined'}
+                className={'small'}
                 disabled={!!!selectedInventoryLists?.length}
                 onClick={() => {
                   setInventoryAction(INVENTORY_LIST_ACTIONS?.DELETE);
@@ -102,8 +103,9 @@ const Inventory = () => {
               ]}
             >
               <Button
-                color="secondary"
-                variant="outlined"
+                color={'secondary'}
+                variant={'outlined'}
+                className={'small'}
                 startIcon={<CustomizeSharedIcon />}
                 onClick={() =>
                   setInventoryAction(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)
@@ -118,8 +120,9 @@ const Inventory = () => {
               ]}
             >
               <Button
-                color="secondary"
-                variant="outlined"
+                color={'secondary'}
+                variant={'outlined'}
+                className={'small'}
                 startIcon={<FilterSharedIcon />}
                 onClick={() =>
                   setInventoryAction(INVENTORY_LIST_ACTIONS?.FILTER)

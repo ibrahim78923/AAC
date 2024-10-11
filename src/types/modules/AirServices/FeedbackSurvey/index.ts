@@ -58,7 +58,7 @@ export interface FeedbackSurveyI {
   updatedAt?: string;
   satisfactionSurveyLinkType: string;
   subject: string;
-  surveyDuration: string | null;
+  surveyDuration?: string | null | any;
   UUID: string;
   magicLink: string;
   customerSupportLinkType: string;
@@ -74,6 +74,7 @@ export interface FeedbackSurveyListI {
   surveyType: string;
   createdAt: string;
   magicLink?: string;
+  satisfactionSurveyLinkType?: string;
 }
 export interface FeedbackResponsesAnalysisI {
   answers: { percentage: number; text: string }[];

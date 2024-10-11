@@ -1,30 +1,60 @@
-import Typography from '@mui/material/Typography';
-import { Box, IconButton } from '@mui/material';
-import { useTheme } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
-import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+import { TIME_FORMAT } from '@/constants';
 import NoData from '@/components/NoData';
+import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
+import { TruncateText } from '@/components/TruncateText';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { LogInfo } from '@/components/LogInfo';
+import { fullName } from '@/utils/avatarUtils';
 
 export const Activities = () => {
-  const theme = useTheme();
-
   const {
-    isLoading,
     isError,
     setPageLimit,
     setPage,
-    isFetching,
     data,
     refetch,
+    activityData,
+    apiCallInProgress,
   } = useActivities();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
+  if (apiCallInProgress)
+    return (
+      <Box
+        border={'1px solid'}
+        borderColor={'custom.off_white'}
+        borderRadius={2}
+        p={2}
+      >
+        <SkeletonCard
+          gridSize={{ md: 12 }}
+          hasThirdSkeleton={false}
+          circularSkeletonSize={{ width: 25, height: 25 }}
+          outerPadding={{ x: 0, y: 0 }}
+        />
+      </Box>
+    );
 
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+  if (!!!activityData?.length)
+    return (
+      <>
+        <Typography variant="h5" color={'slateBlue.main'} my={1}>
+          Activities
+        </Typography>
+        <Box
+          border={'1px solid'}
+          borderColor={'custom.off_white'}
+          borderRadius={2}
+          p={2}
+        >
+          <NoData height="40vh" message="No activities found" />
+        </Box>
+      </>
+    );
 
   return (
     <>
@@ -37,69 +67,35 @@ export const Activities = () => {
         borderRadius={2}
         p={2}
       >
-        {!!data?.data?.activitylogs?.length ? (
-          data?.data?.activitylogs?.map((activity: any) => (
-            <Box key={activity?._id} mb={2}>
-              <Box display={'flex'}>
-                <Box>
-                  <IconButton
-                    disabled
-                    color="primary"
-                    sx={{
-                      border: `1px solid ${theme?.palette?.primary?.main}`,
-                    }}
-                  ></IconButton>
-                </Box>
-                <Box sx={{ marginLeft: 2 }}>
-                  <Typography
-                    variant="body2"
-                    color="primary"
-                    marginRight={0.3}
-                    component={'span'}
-                  >
-                    {activity?.performedByName}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="secondary"
-                    marginRight={0.3}
-                    component={'span'}
-                  >
-                    has {activity?.activityType?.toLowerCase()}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="primary"
-                    marginRight={0.3}
-                    component={'span'}
-                  >
-                    {activity?.moduleName}
-                  </Typography>
-
-                  <Box>
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      component={'span'}
-                      mr="0.625rem"
-                    >
-                      {dayjs(activity?.createdAt)?.format(DATE_FORMAT?.UI)}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textPrimary"
-                      component={'span'}
-                    >
-                      {dayjs(activity?.createdAt)?.format(TIME_FORMAT?.UI)}
-                    </Typography>
-                  </Box>
-                </Box>
+        {activityData?.map((activity: any) => (
+          <Box key={activity?._id} mb={2} display={'flex'} gap={2}>
+            <Box>
+              <IconButton
+                disabled
+                color="primary"
+                sx={{
+                  border: `1px solid`,
+                  borderColor: 'primary.main',
+                }}
+              ></IconButton>
+            </Box>
+            <Box>
+              <LogInfo
+                performer={fullName(activity?.performedByName)}
+                logType={`has ${activity?.activityType?.toLowerCase()}`}
+                log={<TruncateText text={activity?.moduleName} />}
+              />
+              <Box display={'flex'} gap={1}>
+                <Typography variant="body2" color="textPrimary">
+                  {uiDateFormat(activity?.createdAt)}
+                </Typography>
+                <Typography variant="body2" color="textPrimary">
+                  {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
+                </Typography>
               </Box>
             </Box>
-          ))
-        ) : (
-          <NoData height="40vh" />
-        )}
+          </Box>
+        ))}
       </Box>
       <CustomPagination
         count={data?.data?.meta?.pages}

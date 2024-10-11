@@ -1,14 +1,9 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
-import { DATE_FORMAT } from '@/constants';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import { TICKET_TYPE } from '@/constants/strings';
 import {
@@ -22,13 +17,14 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
+import { localeDateTime } from '@/utils/dateTime';
+import { ServicesFieldDropdown } from '../../../ServiceTicketFormFields/ServicesFieldDropdown';
 
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+const { SR } = TICKET_TYPE ?? {};
 
 export const editTicketDetailsValidationSchema = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -39,18 +35,31 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
     service: Yup?.mixed()
       ?.nullable()
       ?.when('ticketType', {
-        is: (value: any) => value?._id === TICKET_TYPE?.SR,
+        is: (value: any) => value?._id === SR,
         then: () => Yup?.mixed()?.nullable()?.required('Service is required'),
         otherwise: () => Yup?.mixed()?.nullable(),
       }),
-    status: Yup?.mixed()?.nullable()?.required('Status is Required'),
-    priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+    numberOfItems: Yup?.number()
+      ?.typeError('Not a number')
+      ?.when(['ticketType', 'service'], {
+        is: (ticketType: any, service: any) =>
+          ticketType?._id === SR && !!service?.assetType,
+        then: () =>
+          Yup?.number()
+            ?.positive('Greater than zero')
+            ?.typeError('Not a number'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
+    status: Yup?.mixed()?.nullable()?.required('Status is required'),
+    priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
     department: Yup?.mixed()?.nullable(),
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     plannedStartDate: Yup?.date()?.nullable(),
-    plannedEndDate: Yup?.date()?.nullable(),
+    plannedEndDate: Yup?.date()
+      ?.nullable()
+      ?.required('Planned end date is required'),
     plannedEffort: Yup?.string()?.trim(),
     ...formSchema,
   });
@@ -65,6 +74,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
     ...initialValues,
     category: data?.categoryDetails ?? null,
     service: data?.serviceDetails ?? null,
+    numberOfItems: data?.numberOfItems ?? 0,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
     priority: data?.pirority
       ? { _id: data?.pirority, label: data?.pirority }
@@ -79,21 +89,19 @@ export const editTicketDetailsDefaultValuesDynamic = (
         }
       : null,
     agent: data?.agentDetails ?? null,
-    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
-
-    plannedEndDate:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
-
+    plannedStartDate: !!data?.plannedStartDate
+      ? localeDateTime(data?.plannedStartDate)
+      : new Date(),
+    plannedEndDate: !!data?.plannedEndDate
+      ? localeDateTime(data?.plannedEndDate)
+      : null,
     plannedEffort: data?.plannedEffort ?? '',
   };
 };
 
 export const editTicketDetailsFormFieldsDynamic = (
   watchForTicketType?: any,
-  apiQueryServicesCategory?: any,
-  getValues?: any,
+  watch?: any,
   data?: any,
 ) => [
   {
@@ -138,18 +146,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     },
     component: RHFAutocomplete,
   },
-  {
-    id: 4,
-    componentProps: {
-      name: 'ticketType',
-      label: 'Type',
-      fullWidth: true,
-      placeholder: 'Choose ticket type',
-      options: ticketTypeOptionsDynamic?.(data?.ticketType),
-      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-    },
-    component: RHFAutocomplete,
-  },
+
   {
     id: 5,
     componentProps: {
@@ -167,25 +164,50 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: AgentFieldDropdown,
   },
   {
+    id: 4,
+    componentProps: {
+      name: 'ticketType',
+      label: 'Type',
+      fullWidth: true,
+      placeholder: 'Choose ticket type',
+      options: ticketTypeOptionsDynamic?.(data?.ticketType),
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+    },
+    component: RHFAutocomplete,
+  },
+  {
     id: 7,
+    componentProps: {
+      disabled: data?.ticketType === SR,
+    },
     component: CategoryFieldDropdown,
   },
-  ...(watchForTicketType?._id === TICKET_TYPE?.SR
+  ...(watchForTicketType?._id === SR
     ? [
         {
           id: 17,
           componentProps: {
-            name: 'service',
-            label: 'Service',
-            fullWidth: true,
-            required: watchForTicketType?._id === TICKET_TYPE?.SR,
-            apiQuery: apiQueryServicesCategory,
-            placeholder: 'Choose Service',
-            externalParams: { categoryId: getValues('category')?._id },
-            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-              option?.itemName,
+            categoryId: watch('category')?._id,
+            disabled: data?.ticketType === SR,
           },
-          component: RHFAutocompleteAsync,
+          component: ServicesFieldDropdown,
+        },
+      ]
+    : []),
+  ...(watchForTicketType?._id === SR && !!watch('service')?.assetType
+    ? [
+        {
+          id: 17.5,
+          componentProps: {
+            name: 'numberOfItems',
+            label: 'Number of items',
+            fullWidth: true,
+            required: true,
+            type: 'number',
+            disabled: data?.ticketType === SR,
+            inputProps: { min: 0 },
+          },
+          component: RHFTextField,
         },
       ]
     : []),
@@ -208,6 +230,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       label: 'Planned End Date',
       fullWidth: true,
       disablePast: true,
+      required: true,
       textFieldProps: { readOnly: true },
       ampm: false,
     },

@@ -10,6 +10,7 @@ import {
 } from '@/utils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import useAuth from '@/hooks/useAuth';
 
 export const useKnowledgeBase = () => {
   const router: NextRouter = useRouter();
@@ -23,8 +24,7 @@ export const useKnowledgeBase = () => {
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.company?._id;
-  const sessionUserId = session?.user?._id;
-  const sessionOrganizationId = session?.user?.organization?._id;
+  const auth = useAuth();
 
   const { companyId } = router?.query;
   const decryptedId = useMemo(() => {
@@ -37,9 +37,8 @@ export const useKnowledgeBase = () => {
   const apiDataParameter = {
     queryParams: {
       search,
-      userId: sessionUserId,
       companyId: decryptedId || companyIdStorage || sessionId,
-      organizationId: sessionOrganizationId,
+      organizationId: customerPortalPermissions?.organizationId,
     },
   };
 
@@ -55,9 +54,10 @@ export const useKnowledgeBase = () => {
     router,
   );
 
-  const reportAnIssuePermission = customerPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
-  );
+  const reportAnIssuePermission =
+    customerPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
+    );
 
   return {
     openReportAnIssueModal,
@@ -69,7 +69,7 @@ export const useKnowledgeBase = () => {
     setSearch,
     newTicketsDropdown,
     refetch,
-    sessionUserId,
+    auth,
     customerPortalStyling,
     reportAnIssuePermission,
   };

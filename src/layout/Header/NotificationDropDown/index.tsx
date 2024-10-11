@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   Box,
@@ -15,6 +15,9 @@ import dayjs from 'dayjs';
 import NoData from '@/components/NoData';
 import SkeletonComponent from '@/components/CardSkeletons';
 import { generateImage } from '@/utils/avatarUtils';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setNotifications } from '@/redux/slices/notifications/notifications';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
@@ -34,10 +37,20 @@ const NotificationDropdown = () => {
   const isOpenPopover = Boolean(openPopver);
   const { notificationsList, getNotificationLoading, handleSeenNotification } =
     useNotificationDropDown();
-  const newNotificationsLength =
-    notificationsList?.data?.notificationslogs?.filter((item: any) => {
-      return item?.seen === false;
-    });
+
+  const notificationsData = useAppSelector(
+    (state) => state.notifications.notificationsData,
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setNotifications(notificationsList?.data?.notificationslogs));
+  }, [notificationsList?.data?.notificationslogs, useAppSelector, dispatch]);
+
+  const newNotificationsLength = notificationsData?.filter((item: any) => {
+    return item?.seen === false;
+  });
 
   return (
     <div>
@@ -53,7 +66,6 @@ const NotificationDropdown = () => {
         }
       </Box>
       <Popover
-        // id={id}
         open={isOpenPopover}
         anchorEl={openPopver}
         onClose={handleClose}
@@ -87,51 +99,53 @@ const NotificationDropdown = () => {
               <SkeletonComponent numberOfSkeletons={5} />
             ) : (
               <Box>
-                {notificationsList?.data?.notificationslogs?.length > 0 ? (
-                  notificationsList?.data?.notificationslogs?.map(
-                    (item: any) => {
-                      return (
-                        <Box key={uuidv4()}>
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              padding: '15px 0px 15px 10px',
-                              alignItems: 'center',
-                              gap: 1,
-                              backgroundColor:
-                                !item?.seen && theme?.palette?.grey[100],
-                            }}
-                            onClick={() => handleSeenNotification(item?._id)}
-                          >
-                            <Image
-                              src={generateImage(item?.performedByAvatar?.url)}
-                              width={32}
-                              height={32}
-                              alt="notification-avatar"
-                            />
-                            <Box>
-                              <Typography
-                                variant="body2"
-                                sx={{ color: theme?.palette?.grey[600] }}
-                              >
-                                {`${item?.performedByName} updates ${item?.module}`}
-                                {item?.message}
-                              </Typography>
-                              <Typography
-                                variant="body3"
-                                sx={{ color: theme?.palette?.custom?.main }}
-                              >
-                                {dayjs(item?.createdAt)?.format(
-                                  'MMM DD [at] h:mm A',
-                                )}
-                              </Typography>
-                            </Box>
+                {notificationsData?.length > 0 ? (
+                  notificationsData?.map((item: any) => {
+                    return (
+                      <Box key={uuidv4()} mt={0.5}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            padding: '15px 0px 15px 10px',
+                            alignItems: 'center',
+                            gap: 1,
+                            borderRadius: 1,
+                            backgroundColor: !item?.seen
+                              ? theme?.palette?.grey[400]
+                              : theme?.palette?.common?.white,
+                          }}
+                          onClick={() => handleSeenNotification(item?._id)}
+                        >
+                          <Image
+                            src={generateImage(item?.performedByAvatar?.url)}
+                            width={32}
+                            height={32}
+                            alt="notification-avatar"
+                          />
+                          <Box>
+                            <Typography
+                              variant="body2"
+                              sx={{ color: theme?.palette?.grey[600] }}
+                            >
+                              {`${item?.performedByName} ${capitalizeFirstLetter(
+                                item?.activityType,
+                              )} ${capitalizeFirstLetter(item?.module)}`}
+                              {item?.message}
+                            </Typography>
+                            <Typography
+                              variant="body3"
+                              sx={{ color: theme?.palette?.custom?.main }}
+                            >
+                              {dayjs(item?.createdAt)?.format(
+                                'MMM DD [at] h:mm A',
+                              )}
+                            </Typography>
                           </Box>
-                          <Divider />
                         </Box>
-                      );
-                    },
-                  )
+                        <Divider />
+                      </Box>
+                    );
+                  })
                 ) : (
                   <NoData />
                 )}

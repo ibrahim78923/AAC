@@ -9,7 +9,7 @@ export const usersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['ACCOUNTS', 'Permissions'] || TAGS,
+      providesTags: TAGS,
     }),
 
     seenNotification: builder.mutation({
@@ -20,7 +20,7 @@ export const usersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['ACCOUNTS', 'Permissions'] || TAGS,
+      invalidatesTags: TAGS,
     }),
   }),
 });

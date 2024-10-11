@@ -1,4 +1,4 @@
-import { useGetTicketsTimeEntriesByIdQuery } from '@/services/airServices/tickets/single-ticket-details/details';
+import { useGetSingleServicesTicketsTimeEntriesListQuery } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 
 export const useViewTimeEntries = () => {
@@ -18,7 +18,7 @@ export const useViewTimeEntries = () => {
     isFetching,
     isError,
     refetch,
-  } = useGetTicketsTimeEntriesByIdQuery(apiDataParameter, {
+  } = useGetSingleServicesTicketsTimeEntriesListQuery(apiDataParameter, {
     refetchOnMountOrArgChange: true,
     skip: !!!ticketId,
   });

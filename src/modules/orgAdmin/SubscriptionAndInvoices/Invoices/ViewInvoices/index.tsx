@@ -8,16 +8,23 @@ import {
   Avatar,
   Dialog,
   DialogContent,
+  Tooltip,
 } from '@mui/material';
 import { ViewInvoicesI } from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AvatarImage } from '@/assets/images';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { IMG_URL } from '@/config';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { v4 as uuidv4 } from 'uuid';
+import { useTheme } from '@emotion/react';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
+  const theme = useTheme();
+
   const dataArray = [invoiceData];
 
   const planPrice = invoiceData?.plans?.planPrice;
@@ -56,16 +63,59 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.product,
-      id: 'product',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info.getValue()}
+      accessorFn: (row: any) => row?.plantypes,
+      id: 'plantypes',
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.products;
+        const tooltipTitle = (
+          <Box>
+            {planProducts?.map((data: any) => (
+              <Typography key={uuidv4()} variant="h6">
+                {data?.name}
+              </Typography>
+            ))}
           </Box>
-          <Box>{invoiceData?.plans?.name}</Box>
-        </>
-      ),
+        );
+        return (
+          <>
+            {info?.row?.original?.plans?.isCRM ? (
+              <>
+                <Tooltip title={tooltipTitle}>
+                  <>
+                    <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                      {info?.row?.original?.plans?.name}
+                    </Typography>{' '}
+                    &nbsp;
+                    <Typography
+                      variant="body3"
+                      fontSize={'11px'}
+                      style={{
+                        background: theme?.palette?.primary?.main,
+                        color: 'white',
+                        padding: '2px 6px',
+                        borderRadius: '5px',
+                        width: 'fit-content',
+                      }}
+                    >
+                      CRM
+                    </Typography>
+                  </>
+                </Tooltip>
+              </>
+            ) : (
+              info?.row?.original?.products?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))
+            )}
+
+            <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+              {info.getValue()}
+            </Box>
+          </>
+        );
+      },
       header: 'Product/Suite',
       isSortable: true,
     },
@@ -83,7 +133,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
       header: 'Additional Users',
       cell: () => (
         <>
-          {invoiceData?.details?.additionalUsers} * (£
+          {invoiceData?.details?.additionalUsers ?? 0} * (£
           {invoiceData?.plans?.additionalPerUserPrice}) = £
           {invoiceData?.details?.sumAdditionalUsersPrices}
         </>
@@ -96,7 +146,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
       header: 'Additional Storage',
       cell: () => (
         <>
-          {invoiceData?.details?.additionalStorage} * (£
+          {invoiceData?.details?.additionalStorage ?? 0} * (£
           {invoiceData?.plans?.additionalStoragePrice}) = £
           {invoiceData?.details?.sumAdditionalStoragePrices}
         </>
@@ -109,7 +159,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
       header: 'Discount(%)',
       cell: () => (
         <Box sx={{ fontWeight: '800' }}>
-          {invoiceData?.details?.planDiscount} %
+          {invoiceData?.details?.planDiscount ?? 0} %
         </Box>
       ),
     },
@@ -124,6 +174,32 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
     },
   ];
 
+  const handleDownload = () => {
+    const invoiceElement = document.querySelector('#invoice-data');
+    html2canvas(invoiceElement).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('portrait', 'pt', 'a4');
+      const imgWidth = 595.28;
+      const pageHeight = 841.89;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save('invoice.pdf');
+      onClose();
+    });
+  };
+
   return (
     <Dialog
       open={open}
@@ -137,7 +213,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
       }}
     >
       <DialogContent sx={{ p: '12px 24px 24px' }}>
-        <Box>
+        <Box id="invoice-data">
           <Box sx={styles?.topBar}>
             <Box sx={styles?.modalClose} onClick={onClose}>
               <CloseModalIcon />
@@ -179,35 +255,47 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
 
             <Box sx={styles?.cardRight}>
               <Box sx={styles?.userInfo}>
-                <Avatar sx={styles?.avatar} alt="" src={AvatarImage?.src}>
-                  R
-                </Avatar>
+                <Avatar
+                  alt="company logo"
+                  src={`${
+                    invoiceData?.organizations?.avatar?.url
+                      ? `${IMG_URL}${invoiceData?.organizations?.avatar?.url}`
+                      : ''
+                  }`}
+                  sx={{ marginRight: '10px' }}
+                />
+
                 <Box>
-                  <Typography sx={styles?.userName}>--</Typography>
-                  <Box sx={styles?.orgName}>
-                    {invoiceData?.organizations?.name}
+                  <Box>
+                    <Box sx={styles?.orgName}>
+                      {invoiceData?.organizations?.name}
+                    </Box>
                   </Box>
+                  {invoiceData?.organizations?.address?.composite ? (
+                    <>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.address?.composite}
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.address?.street}
+                      </Typography>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.address?.city} |{' '}
+                        {invoiceData?.organizations?.address?.state} |{' '}
+                        {invoiceData?.organizations?.address?.postalCode}
+                      </Typography>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.mobileNo ?? '---'}
+                      </Typography>
+                      <Typography variant="body3" sx={styles?.cardLeftText}>
+                        {invoiceData?.organizations?.email ?? '---'}
+                      </Typography>
+                    </>
+                  )}
                 </Box>
-              </Box>
-              <Box>
-                {invoiceData?.organizations?.address?.composite ? (
-                  <>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.address?.composite}
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.address?.street}
-                    </Typography>
-                    <Typography variant="body3" sx={styles?.cardLeftText}>
-                      {invoiceData?.organizations?.address?.city} |{' '}
-                      {invoiceData?.organizations?.address?.state} |{' '}
-                      {invoiceData?.organizations?.address?.postalCode}
-                    </Typography>
-                  </>
-                )}
               </Box>
             </Box>
           </Box>
@@ -298,7 +386,11 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
           <Divider sx={{ borderColor: 'custom.off_white_one', my: '24px' }} />
 
           <Box sx={{ textAlign: 'right' }}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownload}
+            >
               Download
             </Button>
           </Box>

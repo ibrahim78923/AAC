@@ -1,13 +1,13 @@
 import { CardLayout } from '../CardLayout';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { DocumentTextIcon } from '@/assets/icons';
 import { usePopularArticles } from './usePopularArticles';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { PopularArticlesDataI } from './PopularArticles.interface';
-import { truncateText } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { TruncateText } from '@/components/TruncateText';
 
 export const PopularArticles = () => {
   const { data, isLoading, isFetching, isError, router, refetch, companyId } =
@@ -58,9 +58,8 @@ export const PopularArticles = () => {
                     }}
                   >
                     <DocumentTextIcon />
-                    <Typography variant="body2" color={'grey.600'}>
-                      {truncateText(article?.title)}
-                    </Typography>
+
+                    <TruncateText text={article?.title?.toLowerCase()} />
                   </Box>
                 </Grid>
               ))}

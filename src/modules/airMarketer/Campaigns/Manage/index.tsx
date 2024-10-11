@@ -71,7 +71,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SEARCH_FILTER]}
         >
           <Search
-            label="Search Here"
+            label="Search by name"
             size="small"
             setSearchBy={setSearchCampaigns}
             searchBy={searchCampaigns}
@@ -229,6 +229,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
           setSelectedRows={setSelectedRows}
         />
       )}
+
       {isOpenFilter && (
         <CampaingFilters
           isOpenDrawer={isOpenFilter}

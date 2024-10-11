@@ -11,6 +11,8 @@ import {
   FeedbackSurveyI,
   FeedbackSurveySectionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 export const feedbackTypes = {
   createSurvey: 'createSurvey',
   saveQuestion: 'saveQuestion',
@@ -58,9 +60,9 @@ export const feedbackSurveyValues = (data: FeedbackSurveyI | null) => {
     surveyTitle: data?.surveyTitle ?? '',
     description: data?.description ?? '',
     surveyDuration: data?.surveyDuration
-      ? new Date(data?.surveyDuration)
+      ? localeDateTime(data?.surveyDuration)
       : null,
-    display: !!data?.displayName ?? false,
+    display: data?.displayName ? true : false,
     displayName: data?.displayName ?? '',
     customerSupportLinkType: data?.customerSupportLinkType ?? 'viaEmail',
     sendSurveyPeople:
@@ -140,9 +142,23 @@ export const feedbackSurveyValidationSchema: any = (
   router: NextRouter,
 ) =>
   Yup?.object()?.shape({
-    surveyTitle: Yup?.string()?.required('Required'),
-    description: Yup?.string()?.required('Required'),
-    surveyDuration: Yup?.date()?.nullable(),
+    surveyTitle: Yup?.string()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_FEEDBACK_SURVEY_TITLE_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_FEEDBACK_SURVEY_TITLE_MAX_CHARACTERS}`,
+      )
+      ?.required('Required'),
+    description: Yup?.string()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DESCRIPTION_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DESCRIPTION_MAX_CHARACTERS}`,
+      )
+      ?.required('Required'),
+    displayName: Yup?.string()?.max(
+      CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DISPLAY_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_FEEDBACK_DISPLAY_NAME_MAX_CHARACTERS}`,
+    ),
+    surveyDuration: Yup?.date()?.nullable()?.required('Required'),
     customerSupportLinkType: Yup?.string(),
     sendSurveyPeople: Yup?.array()?.when('customerSupportLinkType', {
       is: (type: string) =>

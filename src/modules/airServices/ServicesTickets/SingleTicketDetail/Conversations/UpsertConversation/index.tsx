@@ -4,80 +4,48 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography } from '@mui/material';
 import { useUpsertConversation } from './useUpsertConversation';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
-import { OpenConversationTypeContextPropsI } from '../Conversation.interface';
 
-export const UpsertConversation = (
-  props: OpenConversationTypeContextPropsI,
-) => {
-  const { isDrawerOpen, selectedConversationType } = props;
-
+export const UpsertConversation = () => {
   const {
     submitUpsertConversation,
     handleSubmit,
-    postConversationStatus,
-    closeConversationDrawer,
+    closePortal,
     methods,
     upsertConversationFormFields,
-    selectedResponseType,
-    openResponseTypeModal,
-    editTicketConversationNoteStatus,
-    postAttachmentsStatus,
-  } = useUpsertConversation(props);
+    isPortalOpen,
+    apiCallInProgress,
+    isResponsePortalOpen,
+    ticketsConversationResponsePortalActionComponent,
+  } = useUpsertConversation();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={() => closeConversationDrawer?.()}
-        title={
-          CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.conversationType]
-            ?.label
-        }
-        okText={
-          !!selectedConversationType?._id
-            ? `${CONVERSATION_TYPE_MODIFY?.[
-                selectedConversationType?.conversationType
-              ]?.edit}`
-            : `${CONVERSATION_TYPE_MODIFY?.[
-                selectedConversationType?.conversationType
-              ]?.add}`
-        }
+        isDrawerOpen={isPortalOpen?.isOpen}
+        onClose={closePortal}
+        title={isPortalOpen?.action}
+        okText={isPortalOpen?.action}
         footer
         isOk
-        submitHandler={() => handleSubmit(submitUpsertConversation)()}
-        isLoading={
-          postConversationStatus?.isLoading ||
-          editTicketConversationNoteStatus?.isLoading ||
-          postAttachmentsStatus?.isLoading
-        }
-        isDisabled={
-          postConversationStatus?.isLoading ||
-          editTicketConversationNoteStatus?.isLoading ||
-          postAttachmentsStatus?.isLoading
-        }
-        disabledCancelBtn={
-          postConversationStatus?.isLoading ||
-          editTicketConversationNoteStatus?.isLoading ||
-          postAttachmentsStatus?.isLoading
-        }
+        submitHandler={handleSubmit(submitUpsertConversation)}
+        isLoading={apiCallInProgress}
+        isDisabled={apiCallInProgress}
+        disabledCancelBtn={apiCallInProgress}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
               {upsertConversationFormFields?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.children ? item?.children : null}
-                  </item.component>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>
-            {!!selectedConversationType?._id && (
+            {!!isPortalOpen?.data?._id && (
               <>
                 <Typography
                   variant="body1"
-                  fontWeight={500}
+                  fontWeight={'fontWeightSmall'}
                   color="slateBlue.main"
                   my={2}
                 >
@@ -85,7 +53,7 @@ export const UpsertConversation = (
                 </Typography>
                 <Box maxHeight={'20vh'}>
                   <Attachments
-                    recordId={selectedConversationType?._id}
+                    recordId={isPortalOpen?.data?._id}
                     permissionKey={[
                       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_FARWARD,
                       AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_NOTE,
@@ -100,7 +68,10 @@ export const UpsertConversation = (
           </FormProvider>
         </Box>
       </CommonDrawer>
-      {selectedResponseType?.isOpen && openResponseTypeModal?.()}
+      {isResponsePortalOpen?.isOpen &&
+        ticketsConversationResponsePortalActionComponent?.[
+          isResponsePortalOpen?.action
+        ]}
     </>
   );
 };

@@ -1,58 +1,24 @@
 import { Box, IconButton, Popover, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { PrimaryCalendarIcon } from '@/assets/icons';
-import { Fragment, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { DateRange } from 'react-date-range';
+import useDateFilter from './useDateFilter';
 
 export const DateFilter = ({ dateRange, setDateRange }: any) => {
-  //Date Popover
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
-  const handleOpen = (event: any) => {
-    setAnchorEl(event?.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  // Date to be displayed
-  const formattedWeekSpan = `${dayjs(dateRange?.[0]?.startDate)?.format(
-    'MMM DD',
-  )} - ${dayjs(dateRange?.[0]?.endDate)?.format('MMM DD')}`;
-
-  // Previous Click
-  const handlePrevClick = () => {
-    const newDate = dayjs(dateRange?.[0]?.startDate)
-      ?.subtract(1, 'week')
-      ?.toDate();
-    setDateRange([
-      {
-        startDate: newDate,
-        endDate: dayjs(newDate)?.add(1, 'week')?.toDate(),
-        key: 'selection',
-      },
-    ]);
-  };
-
-  // Next Click
-  const handleNextClick = () => {
-    const newDate = dayjs(dateRange?.[0]?.endDate)?.toDate();
-    setDateRange([
-      {
-        startDate: newDate,
-        endDate: dayjs(newDate)?.add(1, 'week')?.toDate(),
-        key: 'selection',
-      },
-    ]);
-  };
+  const {
+    handleOpen,
+    formattedWeekSpan,
+    handlePrevClick,
+    handleNextClick,
+    open,
+    anchorEl,
+    handleClose,
+  } = useDateFilter({ dateRange, setDateRange });
 
   return (
-    <Fragment>
-      <Box display={'flex'} alignItems={'center'} pl={1}>
+    <>
+      <Box display={'flex'} alignItems={'center'}>
         <Box
           onClick={handleOpen}
           display={'flex'}
@@ -117,6 +83,6 @@ export const DateFilter = ({ dateRange, setDateRange }: any) => {
           onChange={(item: any) => setDateRange([item?.selection])}
         />
       </Popover>
-    </Fragment>
+    </>
   );
 };

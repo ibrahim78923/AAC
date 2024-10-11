@@ -1,0 +1,7 @@
+import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
+
+export const CUSTOMER_PORTAL_TICKET_CONVERSATION_ACTIONS = {
+  [TICKET_CONVERSATIONS_TYPE?.NOTE]: 'notified to',
+  [TICKET_CONVERSATIONS_TYPE?.REPLY]: 'replied to',
+  [TICKET_CONVERSATIONS_TYPE?.FORWARD]: 'forwarded to',
+};

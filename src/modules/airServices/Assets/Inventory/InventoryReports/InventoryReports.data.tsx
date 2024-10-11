@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
+import { TruncateText } from '@/components/TruncateText';
 
 export const INVENTORY_REPORT_STATUS_COUNT = {
   [INVENTORY_REPORT_STATUS?.ALL]: 'allAssest',
@@ -88,22 +89,33 @@ export const inventoryColumns = [
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
     header: 'Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) =>
-      truncateText(info?.row?.original?.locationDetails?.locationName),
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.row?.original?.locationDetails?.locationName?.toLowerCase()}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
     id: 'usedBy',
     header: 'Used By',
-    cell: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+    cell: (info: any) => (
+      <TruncateText
+        text={fullName(
+          info?.getValue()?.firstName?.toLowerCase(),
+          info?.getValue()?.lastName?.toLowerCase(),
+        )}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.assetLifeExpiry,

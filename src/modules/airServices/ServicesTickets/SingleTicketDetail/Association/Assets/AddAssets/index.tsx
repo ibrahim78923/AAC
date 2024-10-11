@@ -13,12 +13,12 @@ export default function AddAssets({ setSelected, selected }: any) {
     isSuccess,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
   } = useAddAssets({ setSelected, selected });
 
   return (
     <Stack direction={'column'} spacing={2}>
-      <Search label="Search Here" width="100%" setSearchBy={setSearch} />
+      <Search label="Search Here" width="100%" setSearchBy={handleSearch} />
       <TanstackTable
         columns={addAssetsColumns}
         data={data?.data?.inventories}

@@ -1,8 +1,19 @@
-import { RHFTextField } from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
+import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
 import { AIR_SALES_DASHBOARD_REPORTS_TYPES } from '@/constants';
+import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
+import * as Yup from 'yup';
+
+export const MANAGE_DASHBOARD_ACCESS_TYPES = {
+  PRIVATE_TO_OWNER: MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL,
+  EVERYONE: MANAGE_ACCESS_TYPES?.EVERYONE_CAPITAL,
+  EVERYONE_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
+  EVERYONE_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
+  EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
+  ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
+  SPECIFIC_USER_AND_TEAMS: MANAGE_ACCESS_TYPES?.SPECIFIC_USERS,
+  SPECIFIC_USER_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
+  SPECIFIC_USER_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
+};
 
 export const validationSchema = Yup?.object()?.shape({
   dashboardName: Yup?.string()?.trim()?.required('Field is Required'),
@@ -104,3 +115,45 @@ export const createFormOptions = {
   everyOne: 'Everyone',
   accessDashboard: 'accessDashboard',
 };
+
+export const specificUsersAccessFormFieldsDynamic = (
+  name: string,
+  index: number,
+) => [
+  {
+    id: 1,
+    data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
+  },
+  {
+    id: 2,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        fullWidth
+        options={[
+          {
+            value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    id: 3,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        fullWidth
+        options={[
+          {
+            value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
+          },
+        ]}
+      />
+    ),
+  },
+];

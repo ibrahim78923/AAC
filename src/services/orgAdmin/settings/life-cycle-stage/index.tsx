@@ -1,6 +1,6 @@
 import { settingLifeCycleStage } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['SettingLifeCycleStage'];
 export const lifeCycleStageAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postSettingLifeCycleStage: builder.mutation({
@@ -9,7 +9,7 @@ export const lifeCycleStageAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['SettingLifeCycleStage'],
+      invalidatesTags: TAG,
     }),
     getSettingLifeCycleStage: builder.query({
       query: ({ params }: any) => ({
@@ -17,7 +17,7 @@ export const lifeCycleStageAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SettingLifeCycleStage'],
+      providesTags: TAG,
     }),
     updateSettingLifeCycleStage: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -25,14 +25,14 @@ export const lifeCycleStageAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['SettingLifeCycleStage'],
+      invalidatesTags: TAG,
     }),
     deleteSettingLifeCycleStage: builder.mutation({
       query: (id) => ({
         url: `${settingLifeCycleStage.DELETE_LIFE_CYCLE_STAGE}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['SettingLifeCycleStage'],
+      invalidatesTags: TAG,
     }),
   }),
 });

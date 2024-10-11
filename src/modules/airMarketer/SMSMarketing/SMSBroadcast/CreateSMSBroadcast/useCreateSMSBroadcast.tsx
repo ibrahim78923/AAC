@@ -33,8 +33,8 @@ const useCreateSMSBroadcast = () => {
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
   const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
-  const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
+  const [detailsMsg, setDetailMsg] = useState();
   const [isSchedule, setIsSchedule] = useState(false);
   const { getIsPhoneConnected } = useSMSMarketing();
 
@@ -77,7 +77,7 @@ const useCreateSMSBroadcast = () => {
     resolver: yupResolver<any>(
       validationSchema(isSchedule, form, createStatus),
     ),
-    defaultValues: defaultValues(getIsPhoneConnected),
+    defaultValues: defaultValues({}, form, getIsPhoneConnected),
   });
 
   const { handleSubmit, reset, watch, setValue } = methods;
@@ -88,7 +88,7 @@ const useCreateSMSBroadcast = () => {
 
   useEffect(() => {
     setValue('detail', templateData?.detail);
-  }, [templateData?.detail]);
+  }, [templateData?.detail, setValue, detailsMsg]);
 
   const initialValues: any = dynamicFormInitialValue(
     getSmsBroadcatsById?.data,
@@ -113,15 +113,13 @@ const useCreateSMSBroadcast = () => {
             ? new Date(data?.schedualDate)
             : null,
       };
-      for (const key in fieldsToSet) {
-        setValue(key, fieldsToSet[key]);
-      }
+      reset(() => defaultValues(fieldsToSet, form, getIsPhoneConnected));
+      setDetailMsg(data?.detail);
       setRecipientType(
         data?.groupDetails?.length > 0
           ? SMS_MARKETING_CONSTANTS?.GROUP
           : SMS_MARKETING_CONSTANTS?.ALL,
       );
-      setSelectedContactsData(data?.recipients ?? []);
       const selectedContactsData =
         data?.groupDetails?.length === indexNumbers?.ZERO
           ? data?.recipients
@@ -131,33 +129,33 @@ const useCreateSMSBroadcast = () => {
       );
       setIsSchedule(data?.schedualDate ? true : false);
     }
-  }, [getSmsBroadcatsById, templateData?.detail, type, setValue]);
+  }, [getSmsBroadcatsById, type, setValue, detailsMsg]);
 
   const onSubmit = async (values: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
     const cleanedDetailsText = removeHtmlTags(detailsText);
-    values.senderId = getIsPhoneConnected?.data?._id;
-    values.campaignId = values?.campaignId?._id;
-    values.templateId = values?.templateId?._id;
-    values.recipients = selectedContactsData?.map((item: any) => item?._id);
-    values.status = createStatus;
+    const payloadData: any = {
+      ...values,
+      senderId: getIsPhoneConnected?.data?._id,
+      campaignId: values?.campaignId?._id,
+      templateId: values?.templateId?._id,
+      status: createStatus,
+      detail: cleanedDetailsText,
+    };
     if (isSchedule) {
-      values.schedualDate = values?.schedualDate;
+      payloadData.schedualDate = values?.schedualDate;
+    }
+    if (type === DRAWER_TYPES?.EDIT) {
+      payloadData.sendNow = true;
     }
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
-      values.contactGroupId = [];
-      values.recipients = selectedContactsData?.map((item: any) => item?._id);
+      payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
-      values.recipients = selectedContactsData
-        ?.map(
-          (item: any) => item?.contacts?.map((contact: any) => contact?._id),
-        )
-        ?.flat();
-      values.contactGroupId = selectedContactsData?.map(
-        (item: any) => item?._id,
-      );
+      payloadData.recipients = [];
+      payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
     }
-    const filteredEmptyData = filteredEmptyValues(values);
+
+    const filteredEmptyData = filteredEmptyValues(payloadData);
     const customFields: any = {};
     const body: any = {};
     const customFieldKeys = new Set(
@@ -219,8 +217,12 @@ const useCreateSMSBroadcast = () => {
 
   const flattenContactsData = (data: any[]) => {
     return data?.reduce((acc: any[], item: any) => {
-      if (item?.contacts) {
-        return [...acc, ...item?.contacts];
+      if (item?.recipients ?? item?.contacts) {
+        if (item?.recipients) {
+          return [...acc, ...item?.recipients];
+        } else {
+          return [...acc, ...item?.contacts];
+        }
       } else {
         return [...acc, item];
       }
@@ -233,11 +235,10 @@ const useCreateSMSBroadcast = () => {
 
   return {
     setIsAddContactDrawerOpen,
-    setSelectedContactsData,
+    getDynamicFieldsStatus,
     isAddContactDrawerOpen,
     updateBroadcastLoading,
     postBroadcastLoading,
-    selectedContactsData,
     flattenContactsData,
     smsBroadcastLoading,
     handleSaveAsDraft,
@@ -258,7 +259,7 @@ const useCreateSMSBroadcast = () => {
     theme,
     type,
     form,
-    getDynamicFieldsStatus,
+    detailsMsg,
   };
 };
 

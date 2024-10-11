@@ -1,6 +1,8 @@
 import { SUPER_ADMIN_DASHBOARD } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = ['SUPER_ADMIN_DASHBOARD'];
+
 export const superadminDashboardAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersStats: builder.query({
@@ -9,7 +11,7 @@ export const superadminDashboardAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SUPER_ADMIN_DASHBOARD'],
+      providesTags: TAG,
     }),
 
     getPlanStats: builder.query({
@@ -18,7 +20,7 @@ export const superadminDashboardAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SUPER_ADMIN_DASHBOARD'],
+      providesTags: TAG,
     }),
 
     getBillingDetails: builder.query({
@@ -27,7 +29,7 @@ export const superadminDashboardAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SUPER_ADMIN_DASHBOARD'],
+      providesTags: TAG,
     }),
 
     getPlanListDetails: builder.query({
@@ -36,7 +38,7 @@ export const superadminDashboardAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SUPER_ADMIN_DASHBOARD'],
+      providesTags: TAG,
     }),
 
     getEnquiriesDetails: builder.query({
@@ -45,7 +47,7 @@ export const superadminDashboardAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SUPER_ADMIN_DASHBOARD'],
+      providesTags: TAG,
     }),
   }),
 });

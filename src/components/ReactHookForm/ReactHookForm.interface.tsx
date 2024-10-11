@@ -24,7 +24,7 @@ export interface AutocompleteAsyncOptionsI {
 export interface ReactHookFormFieldsI {
   id: string | number;
   componentProps?: {
-    name: string;
+    name?: string;
     label?: string;
     placeholder?: string;
     required?: boolean;
@@ -34,5 +34,16 @@ export interface ReactHookFormFieldsI {
   component: any;
   md?: number;
   gridLength?: number;
+  [key: string]: any;
+}
+
+export interface CheckboxOptionsI {
+  label: string;
+  value: string;
+}
+
+export interface RHFMultiCheckboxDraggablePropsI {
+  name: string;
+  options: CheckboxOptionsI[];
   [key: string]: any;
 }

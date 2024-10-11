@@ -49,7 +49,11 @@ export const DepartmentCard = (props: IDepartmentsProps) => {
                 {item?.name?.slice?.(0, 2)}
               </Typography>
             </Avatar>
-            <Typography variant="h5" color="slateBlue.main">
+            <Typography
+              variant="h5"
+              color="slateBlue.main"
+              textTransform="capitalize"
+            >
               {truncateText(item?.name)}
             </Typography>
           </Box>

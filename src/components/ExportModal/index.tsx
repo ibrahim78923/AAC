@@ -21,7 +21,14 @@ import { errorSnackbar } from '@/utils/api';
 import { ExportModalPropsI } from './ExportModal.interface';
 
 export const ExportModal = (props: ExportModalPropsI) => {
-  const { open, onSubmit, handleClose } = props;
+  const {
+    open,
+    onSubmit,
+    handleClose,
+    disableCancelBtn,
+    isDisableSubmitBtn = false,
+    loading,
+  } = props;
   const [exportType, setExportType] = useState('');
   return (
     <>
@@ -87,17 +94,22 @@ export const ExportModal = (props: ExportModalPropsI) => {
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
+            className="small"
             onClick={() => {
               handleClose?.();
               setExportType?.('');
             }}
             color="secondary"
             variant="outlined"
+            disabled={disableCancelBtn}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
+            disabled={isDisableSubmitBtn}
+            loading={loading}
             onClick={() => {
               if (!!!exportType)
                 return errorSnackbar('Please select a file format to export');

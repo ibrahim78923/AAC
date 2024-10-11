@@ -1,6 +1,7 @@
-import { useDeleteWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { useDeleteServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { PAGINATION } from '@/config';
 
 export const useListHeader = (props: WorkflowListHeaderI) => {
   const {
@@ -10,8 +11,9 @@ export const useListHeader = (props: WorkflowListHeaderI) => {
     totalRecords,
     page,
     setPage,
+    setSearch,
   } = props;
-  const [deleteTrigger, deleteStatus] = useDeleteWorkflowMutation();
+  const [deleteTrigger, deleteStatus] = useDeleteServicesWorkflowMutation();
   const handleDelete = async () => {
     const deleteParams = selectedAction
       ?.map((item) => `ids=${item?._id}`)
@@ -27,8 +29,13 @@ export const useListHeader = (props: WorkflowListHeaderI) => {
       errorSnackbar();
     }
   };
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
   return {
     handleDelete,
     deleteStatus,
+    handleSearch,
   };
 };

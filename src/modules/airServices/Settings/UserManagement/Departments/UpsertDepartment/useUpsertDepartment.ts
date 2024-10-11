@@ -27,6 +27,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { useEffect, useState } from 'react';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertDepartment = (props: any) => {
   const { setOpenUpsertModal, selectedDepartment, setSelectedDepartment } =
@@ -101,6 +102,9 @@ export const useUpsertDepartment = (props: any) => {
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&

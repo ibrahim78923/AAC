@@ -1,7 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { truncateText } from '@/utils/avatarUtils';
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const purchaseOrderColumnsFunction = (
@@ -67,23 +67,20 @@ export const purchaseOrderColumnsFunction = (
       isSortable: true,
       header: 'Order Number',
       cell: (info: any) => (
-        <Typography
-          component="span"
-          variant="body2"
-          textTransform={'capitalize'}
-          onClick={() =>
-            router?.push({
-              pathname: AIR_SERVICES?.ASSETS_PURCHASE_ORDER_DETAIL,
-              query: {
-                purchaseOrderId: info?.row?.original?._id,
-              },
-            })
-          }
-          color="custom.bright"
-          sx={{ cursor: 'pointer' }}
-        >
-          {info?.getValue()?.toLowerCase() ?? '---'}
-        </Typography>
+        <TruncateText
+          text={info.getValue()?.toLowerCase()}
+          boxProps={{
+            sx: { cursor: 'pointer' },
+            color: 'custom.bright',
+            onClick: () =>
+              router?.push({
+                pathname: AIR_SERVICES?.ASSETS_PURCHASE_ORDER_DETAIL,
+                query: {
+                  purchaseOrderId: info?.row?.original?._id,
+                },
+              }),
+          }}
+        />
       ),
     },
     {
@@ -92,9 +89,7 @@ export const purchaseOrderColumnsFunction = (
       header: 'Order Name',
       isSortable: true,
       cell: (info: any) => (
-        <Typography variant="body2" textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
-        </Typography>
+        <TruncateText text={info.getValue()?.toLowerCase()} />
       ),
     },
     {
@@ -102,7 +97,9 @@ export const purchaseOrderColumnsFunction = (
       id: 'vendorId',
       isSortable: true,
       header: 'Vendor',
-      cell: (info: any) => truncateText(info?.getValue()?.name),
+      cell: (info: any) => (
+        <TruncateText text={info.getValue()?.name?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.expectedDeliveryDate,
@@ -117,9 +114,9 @@ export const purchaseOrderColumnsFunction = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Typography variant={'body2'} textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase()?.split('_')?.join(' ') ?? '---'}
-        </Typography>
+        <TruncateText
+          text={info?.getValue()?.toLowerCase()?.split('_')?.join(' ')}
+        />
       ),
     },
     {

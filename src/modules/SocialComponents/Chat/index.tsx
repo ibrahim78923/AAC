@@ -41,9 +41,8 @@ import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
 import { UserDefault } from '@/assets/images';
-import { PAGINATION } from '@/config';
+import { IMG_URL, PAGINATION } from '@/config';
 import { API_STATUS, CHAT_TYPES } from '@/constants';
-import { UserI } from './chat.interface';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -145,12 +144,13 @@ const Chat = () => {
   }, [status]);
 
   const transformedData = chatsUsersData?.data?.usercompanyaccounts?.map(
-    (item: UserI) => ({
+    (item: any) => ({
       id: item?._id,
       firstName: item?.firstName,
       lastName: item?.lastName,
       email: item?.email,
-      src: UserDefault,
+      src: item?.avatar?.url ? `${IMG_URL}${item?.avatar?.url}` : UserDefault,
+      // src: UserDefault,
     }),
   );
   const open = Boolean(anchorEl);
@@ -166,6 +166,7 @@ const Chat = () => {
       },
       (response: any) => {
         if (response) {
+          setSearchTerm('');
           handleClose();
           setLoadingCreatingUser(false);
           enqueueSnackbar('New chat created', {
@@ -328,6 +329,7 @@ const Chat = () => {
                                 <Image
                                   width={30}
                                   height={30}
+                                  style={{ borderRadius: '50%' }}
                                   src={item?.src}
                                   alt={item?.name}
                                 />

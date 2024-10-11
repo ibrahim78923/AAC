@@ -12,6 +12,7 @@ import { columns, tabsArray } from './Forms.data';
 import FormTabs from './FormTabs';
 import DeleteModal from './DeleteModal';
 import ExportModal from './ExportModal';
+import SendEmailDrawer from './SendEmailDrawer';
 
 const Forms = () => {
   const router = useRouter();
@@ -49,6 +50,8 @@ const Forms = () => {
     methodsAddForm,
     loadingAddForm,
     handleClickEdit,
+    openSendEmailDrawer,
+    setOpenSendEmailDrawer,
   } = useForms();
 
   const getColums = columns(
@@ -109,9 +112,7 @@ const Forms = () => {
             handleOpenModalDelete();
           }}
           onClickExport={handleOpenModalExport}
-          onClickSendEmail={() => {
-            alert('Send Email');
-          }}
+          onClickSendEmail={() => setOpenSendEmailDrawer(true)}
           onClickRestore={() => {
             router?.push(AIR_MARKETER?.FORM_RESTORE);
           }}
@@ -148,6 +149,12 @@ const Forms = () => {
       />
 
       <ExportModal open={openModalExport} onClose={handleCloseModalExport} />
+
+      <SendEmailDrawer
+        open={openSendEmailDrawer}
+        onClose={() => setOpenSendEmailDrawer(false)}
+        selectedRow={selectedRow}
+      />
     </>
   );
 };

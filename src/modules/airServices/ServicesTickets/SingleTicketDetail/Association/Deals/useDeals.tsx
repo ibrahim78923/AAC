@@ -3,8 +3,8 @@ import { getAssociateDealsColumns } from './Deals.data';
 import { drawerInitialState } from '../Association.data';
 import { useRouter } from 'next/router';
 import {
-  useGetAssociateTicketsQuery,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -33,7 +33,7 @@ export default function useDeals({ setIsDrawerOpen }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
@@ -51,7 +51,7 @@ export default function useDeals({ setIsDrawerOpen }: any) {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const submitHandler = async () => {
     const body = {

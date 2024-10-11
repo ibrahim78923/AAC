@@ -61,6 +61,7 @@ const EmailTemplate = () => {
           variant="contained"
           startIcon={<AddWhiteBgIcon />}
           onClick={handleMoveCreateEmail}
+          className="small"
         >
           Create New Template
         </Button>

@@ -17,12 +17,22 @@ import salesWorkflowSlice from './slices/salesWorkflow';
 import servicesWorkflowSlice from './slices/servicesWorkflow';
 import { servicesKnowledgeBaseSlice } from './slices/airServices';
 import servicesTicketsSlice from './slices/airServices/tickets/slice';
+import operationsReportsListsSlice from './slices/airOperations/reports/slice';
 import servicesRelatedTicketsSlice from './slices/airServices/related-tickets/slice';
+import servicesTicketTasksSlice from './slices/airServices/tickets-tasks/slice';
+import operationsRestoreReportsListsSlice from './slices/airOperations/restore-reports/slice';
+import operationsUsersSlice from './slices/airOperations/users/slice';
+import operationsTeamSlice from './slices/airOperations/teams/slice';
+import servicesTicketApprovalsSlice from './slices/airServices/tickets-approvals/slice';
+import notificationsSlice from './slices/notifications/notifications';
+import servicesTicketConversationSlice from './slices/airServices/ticket-conversation/slice';
+import loyaltyProgramUsersSlice from './slices/airLoyaltyProgram/users/slice';
 
 const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
     chat: chatSlice,
+    notifications: notificationsSlice,
     email: emailSlice,
     gmail: gmailSlice,
     outlook: outlookSlice,
@@ -38,7 +48,15 @@ const store = configureStore({
     servicesWorkflow: servicesWorkflowSlice,
     servicesKnowledgeBase: servicesKnowledgeBaseSlice,
     servicesTickets: servicesTicketsSlice,
+    operationsReportsLists: operationsReportsListsSlice,
     servicesRelatedTickets: servicesRelatedTicketsSlice,
+    servicesTicketTasks: servicesTicketTasksSlice,
+    operationsRestoreReportsLists: operationsRestoreReportsListsSlice,
+    operationsUsersLists: operationsUsersSlice,
+    operationsTeam: operationsTeamSlice,
+    servicesTicketApprovals: servicesTicketApprovalsSlice,
+    servicesTicketConversation: servicesTicketConversationSlice,
+    loyaltyProgramUsers: loyaltyProgramUsersSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

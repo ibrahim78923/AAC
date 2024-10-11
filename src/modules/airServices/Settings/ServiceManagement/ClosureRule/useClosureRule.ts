@@ -6,151 +6,192 @@ import {
   serviceCloseDataArray,
   serviceResolveDataArray,
 } from './ClosureRule.data';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
-  useGetClosureRulesQuery,
-  usePostClosureRuleMutation,
+  useGetAirServicesSettingsServiceClosureRulesQuery,
+  usePostAirServicesSettingsServiceClosureRuleMutation,
 } from '@/services/airServices/settings/service-management/closureRule';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useClosureRule = () => {
   const router = useRouter();
-  const { data, isLoading, isFetching, isError } =
-    useGetClosureRulesQuery(null);
 
-  const ticket = {
-    incidentClose: 0,
-    incidentResolve: 1,
-    serviceClose: 1,
-    serviceResolve: 0,
-  };
+  const { data, isLoading, isFetching, isError } =
+    useGetAirServicesSettingsServiceClosureRulesQuery(null, {
+      refetchOnMountOrArgChange: true,
+    });
+
+  const ticket = useMemo(
+    () => ({
+      incidentClose: 0,
+      incidentResolve: 1,
+      serviceClose: 1,
+      serviceResolve: 0,
+    }),
+    [],
+  );
 
   const closureRuleMethods = useForm({
     defaultValues: closureRuleDefaultValues(data?.data, ticket),
   });
 
-  const [postClosureRuleTrigger, postClosureRuleProgress] =
-    usePostClosureRuleMutation();
-
-  const isSubmit = async (data: any) => {
-    const payload = {
-      incident: [
-        {
-          associatedTasksCompleted: data?.closeIncidentAssociatedTasks,
-          timeEntryAdded: data?.closeIncidentTimeAdded,
-          childTickets: {
-            closed:
-              data?.closeIncidentClosedResolved === 'Closed' ? true : false,
-            resolved:
-              data?.closeIncidentClosedResolved === 'Either closed or resolved'
-                ? true
-                : false,
-          },
-          type: 'CLOSED_INCIDENT',
-        },
-        {
-          associatedTasksCompleted: data?.resolveIncidentAssociatedTasks,
-          timeEntryAdded: data?.resolveIncidentTimeAdded,
-          childTickets: {
-            closed:
-              data?.resolveIncidentClosedResolved === 'Closed' ? true : false,
-            resolved:
-              data?.resolveIncidentClosedResolved ===
-              'Either closed or resolved'
-                ? true
-                : false,
-          },
-          type: 'RESOLVED_INCIDENT',
-        },
-      ],
-      services: [
-        {
-          associatedTasksCompleted: data?.serviceResolveAssociatedTasks,
-          timeEntryAdded: data?.serviceResolveTimeAdded,
-          childTickets: {
-            closed:
-              data?.serviceResolveClosedResolved === 'Closed' ? true : false,
-            resolved:
-              data?.serviceResolveClosedResolved === 'Either closed or resolved'
-                ? true
-                : false,
-          },
-          type: 'RESOLVED_SERVICES',
-        },
-        {
-          associatedTasksCompleted: data?.serviceCloseAssociatedTasks,
-          timeEntryAdded: data?.serviceCloseTimeAdded,
-          childTickets: {
-            closed:
-              data?.serviceCloseClosedResolved === 'Closed' ? true : false,
-            resolved:
-              data?.serviceCloseClosedResolved === 'Either closed or resolved'
-                ? true
-                : false,
-          },
-          type: 'CLOSED_SERVICES',
-        },
-      ],
-    };
-    try {
-      const res: any = await postClosureRuleTrigger(payload)?.unwrap();
-      successSnackbar(res?.message ?? 'Saved Successfully');
-      handleBack();
-      reset();
-    } catch (error) {
-      const errorResponse = error as IErrorResponse;
-      errorSnackbar(errorResponse?.data?.message);
-    }
-  };
-
-  const handleBack = () => {
-    router?.push({
-      pathname: AIR_SERVICES?.SERVICE_MANAGEMENT,
-    });
-  };
-
-  const handleCancel = () => {
-    handleBack();
-    reset();
-  };
-
-  const { handleSubmit, reset } = closureRuleMethods;
-  const handleSubmitClosureRule = handleSubmit(isSubmit);
-
-  const closeIncident = closureRuleMethods?.watch()?.closeIncidentChildTickets;
-  const resolveIncident =
-    closureRuleMethods?.watch()?.resolveIncidentChildTickets;
-  const serviceClose = closureRuleMethods?.watch()?.serviceCloseChildTickets;
-  const serviceResolve =
-    closureRuleMethods?.watch()?.serviceResolveChildTickets;
-
-  const closeIncidentData = closeIncidentDataArray(closeIncident);
-  const resolveIncidentData = resolveIncidentDataArray(resolveIncident);
-  const serviceCloseData = serviceCloseDataArray(serviceClose);
-  const serviceResolveData = serviceResolveDataArray(serviceResolve);
+  const { handleSubmit, reset, watch, setValue } = closureRuleMethods;
 
   useEffect(() => {
-    if (closeIncident === false) {
-      closureRuleMethods?.setValue('closeIncidentClosedResolved', '');
+    reset(() => closureRuleDefaultValues(data?.data, ticket));
+  }, [data, ticket, reset]);
+
+  const [closeIncident, resolveIncident, serviceClose, serviceResolve] = watch([
+    'closeIncidentChildTickets',
+    'resolveIncidentChildTickets',
+    'serviceCloseChildTickets',
+    'serviceResolveChildTickets',
+  ]);
+
+  const closeIncidentData = useMemo(
+    () => closeIncidentDataArray(closeIncident),
+    [closeIncident],
+  );
+  const resolveIncidentData = useMemo(
+    () => resolveIncidentDataArray(resolveIncident),
+    [resolveIncident],
+  );
+  const serviceCloseData = useMemo(
+    () => serviceCloseDataArray(serviceClose),
+    [serviceClose],
+  );
+  const serviceResolveData = useMemo(
+    () => serviceResolveDataArray(serviceResolve),
+    [serviceResolve],
+  );
+
+  useEffect(() => {
+    if (closeIncident) {
+      if (!closureRuleMethods.getValues('closeIncidentClosedResolved')) {
+        setValue('closeIncidentClosedResolved', 'IncidentCloseClosed');
+      }
+    } else {
+      setValue('closeIncidentClosedResolved', '');
     }
-    if (resolveIncident === false) {
-      closureRuleMethods?.setValue('resolveIncidentClosedResolved', '');
+
+    if (resolveIncident) {
+      if (!closureRuleMethods.getValues('resolveIncidentClosedResolved')) {
+        setValue('resolveIncidentClosedResolved', 'IncidentResolveClosed');
+      }
+    } else {
+      setValue('resolveIncidentClosedResolved', '');
     }
-    if (serviceClose === false) {
-      closureRuleMethods?.setValue('serviceCloseClosedResolved', '');
+
+    if (serviceClose) {
+      if (!closureRuleMethods.getValues('serviceCloseClosedResolved')) {
+        setValue('serviceCloseClosedResolved', 'ServiceResolveClosed');
+      }
+    } else {
+      setValue('serviceCloseClosedResolved', '');
     }
-    if (serviceResolve === false) {
-      closureRuleMethods?.setValue('serviceResolveClosedResolved', '');
+
+    if (serviceResolve) {
+      if (!closureRuleMethods.getValues('serviceResolveClosedResolved')) {
+        setValue('serviceResolveClosedResolved', 'ServiceCloseClosed');
+      }
+    } else {
+      setValue('serviceResolveClosedResolved', '');
     }
-  }, [closeIncident, resolveIncident, serviceClose, serviceResolve]);
+  }, [
+    closeIncident,
+    resolveIncident,
+    serviceClose,
+    serviceResolve,
+    setValue,
+    closureRuleMethods,
+  ]);
+
+  const [postClosureRuleTrigger, postClosureRuleProgress] =
+    usePostAirServicesSettingsServiceClosureRuleMutation();
+
+  const onSubmit = useCallback(
+    async (formData: any) => {
+      const payload = {
+        incident: [
+          {
+            associatedTasksCompleted: formData?.closeIncidentAssociatedTasks,
+            timeEntryAdded: formData?.closeIncidentTimeAdded,
+            childTickets: {
+              closed:
+                formData?.closeIncidentClosedResolved === 'IncidentCloseClosed',
+              resolved:
+                formData?.closeIncidentClosedResolved === 'IncidentCloseEither',
+            },
+            type: 'CLOSED_INCIDENT',
+          },
+          {
+            associatedTasksCompleted: formData?.resolveIncidentAssociatedTasks,
+            timeEntryAdded: formData?.resolveIncidentTimeAdded,
+            childTickets: {
+              closed:
+                formData?.resolveIncidentClosedResolved ===
+                'IncidentResolveClosed',
+              resolved:
+                formData?.resolveIncidentClosedResolved ===
+                'IncidentResolveEither',
+            },
+            type: 'RESOLVED_INCIDENT',
+          },
+        ],
+        services: [
+          {
+            associatedTasksCompleted: formData?.serviceResolveAssociatedTasks,
+            timeEntryAdded: formData?.serviceResolveTimeAdded,
+            childTickets: {
+              closed:
+                formData?.serviceResolveClosedResolved === 'ServiceCloseClosed',
+              resolved:
+                formData?.serviceResolveClosedResolved === 'ServiceCloseEither',
+            },
+            type: 'RESOLVED_SERVICES',
+          },
+          {
+            associatedTasksCompleted: formData?.serviceCloseAssociatedTasks,
+            timeEntryAdded: formData?.serviceCloseTimeAdded,
+            childTickets: {
+              closed:
+                formData?.serviceCloseClosedResolved === 'ServiceResolveClosed',
+              resolved:
+                formData?.serviceCloseClosedResolved === 'ServiceResolveEither',
+            },
+            type: 'CLOSED_SERVICES',
+          },
+        ],
+      };
+      try {
+        await postClosureRuleTrigger(payload).unwrap();
+        successSnackbar('Closure Rule Added Successfully');
+        handleBack();
+        reset();
+      } catch (error) {
+        const errorResponse = error as IErrorResponse;
+        errorSnackbar(errorResponse?.data?.message);
+      }
+    },
+    [postClosureRuleTrigger, reset],
+  );
+
+  const handleBack = useCallback(() => {
+    router.push({
+      pathname: AIR_SERVICES.SERVICE_MANAGEMENT,
+    });
+  }, [router]);
+
+  const handleCancel = useCallback(() => {
+    handleBack();
+    reset();
+  }, [handleBack, reset]);
 
   return {
     closureRuleMethods,
-    handleSubmitClosureRule,
-    reset,
     closeIncidentData,
     resolveIncidentData,
     serviceCloseData,
@@ -160,5 +201,7 @@ export const useClosureRule = () => {
     handleCancel,
     isError,
     isFetching,
+    onSubmit,
+    handleSubmit,
   };
 };

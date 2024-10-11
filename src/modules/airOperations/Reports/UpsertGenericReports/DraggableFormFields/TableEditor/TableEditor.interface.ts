@@ -23,4 +23,6 @@ export interface TableEditorI {
   setDraggedItemData: Dispatch<SetStateAction<any>>;
   draggedItemData: any;
   watch: UseFormReturn<FieldValues>['watch'];
+  methods: any;
+  reset: any;
 }

@@ -19,31 +19,48 @@ import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/Category
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldDropdown';
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
-export const upsertTicketValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Requester is Required'),
-  subject: Yup?.string()?.trim()?.required('Subject is Required'),
-  description: Yup?.string()
-    ?.trim()
-    ?.required('Description is Required')
-    ?.test('is-not-empty', 'Description is Required', (value: string) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
-      return strippedContent !== '';
-    }),
-  category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Status is Required'),
-  priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
-  department: Yup?.mixed()?.nullable(),
-  source: Yup?.mixed()?.nullable(),
-  impact: Yup?.mixed()?.nullable(),
-  agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date()?.nullable(),
-  plannedEndDate: Yup?.date()?.nullable(),
-  plannedEffort: Yup?.string()?.trim(),
-  associatesAssets: Yup?.mixed()?.nullable(),
-  attachFile: Yup?.mixed()?.nullable(),
-});
+const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
+export const upsertTicketValidationSchema = (childTicketId: string) => {
+  return Yup?.object()?.shape({
+    requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+    subject: Yup?.string()
+      ?.trim()
+      ?.required('Subject is required')
+      ?.max(
+        SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS}`,
+      ),
+    description: Yup?.string()
+      ?.trim()
+      ?.required('Description is required')
+      ?.test('is-not-empty', 'Description is required', (value) => {
+        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        return strippedContent !== '';
+      }),
+    category: Yup?.mixed()?.nullable(),
+    ...(!!!childTicketId
+      ? {
+          status: Yup?.mixed()?.nullable()?.required('Status is required'),
+          priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
+          plannedEndDate: Yup?.date()
+            ?.nullable()
+            ?.required('Planned end date is required'),
+        }
+      : {}),
+    department: Yup?.mixed()?.nullable(),
+    source: Yup?.mixed()?.nullable(),
+    impact: Yup?.mixed()?.nullable(),
+    agent: Yup?.mixed()?.nullable(),
+    plannedStartDate: Yup?.date(),
+    plannedEffort: Yup?.string()?.trim(),
+    associatesAssets: Yup?.mixed()?.nullable(),
+    attachFile: Yup?.mixed()?.nullable(),
+  });
+};
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
     requester: data?.requesterDetails ?? null,
@@ -59,10 +76,10 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
-      ? new Date(data?.plannedStartDate)
+      ? localeDateTime(data?.plannedStartDate)
       : new Date(),
     plannedEndDate: !!data?.plannedEndDate
-      ? new Date(data?.plannedEndDate)
+      ? localeDateTime(data?.plannedEndDate)
       : null,
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
@@ -72,7 +89,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
   };
 };
 
-export const upsertTicketFormFieldsDynamic = () => [
+export const upsertTicketFormFieldsDynamic = (childTicketId?: string) => [
   {
     id: 1,
     component: RequesterFieldDropdown,
@@ -98,108 +115,114 @@ export const upsertTicketFormFieldsDynamic = () => [
     },
     component: RHFEditor,
   },
-  {
-    id: 4,
-    component: CategoryFieldDropdown,
-  },
-  {
-    id: 5,
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Choose Status',
-      options: ticketStatusOptions,
-      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-    },
-    component: RHFAutocomplete,
-  },
-  {
-    id: 6,
-    componentProps: {
-      name: 'priority',
-      label: 'Priority',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Choose Priority',
-      options: ticketPriorityOptions,
-      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-    },
-    component: RHFAutocomplete,
-  },
-  {
-    id: 7,
-    component: DepartmentFieldDropdown,
-  },
-  {
-    id: 8,
-    componentProps: {
-      name: 'source',
-      label: 'Source',
-      fullWidth: true,
-      placeholder: 'Choose Source',
-      options: ticketSourceOptions,
-      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-    },
-    component: RHFAutocomplete,
-  },
-  {
-    id: 9,
-    componentProps: {
-      name: 'impact',
-      label: 'Impact',
-      fullWidth: true,
-      placeholder: 'Choose Impact',
-      options: ticketImpactOptions,
-      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-    },
-    component: RHFAutocomplete,
-  },
-  {
-    id: 10,
-    component: AgentFieldDropdown,
-  },
-  {
-    id: 11,
-    componentProps: {
-      name: 'plannedStartDate',
-      label: 'Planned Start Date',
-      fullWidth: true,
-      disabled: true,
-      ampm: false,
-    },
-    component: RHFDesktopDateTimePicker,
-    md: 12,
-  },
-  {
-    id: 13,
-    componentProps: {
-      name: 'plannedEndDate',
-      label: 'Planned End Date',
-      fullWidth: true,
-      disablePast: true,
-      ampm: false,
-      textFieldProps: { readOnly: true },
-    },
-    component: RHFDesktopDateTimePicker,
-    md: 12,
-  },
-  {
-    id: 15,
-    componentProps: {
-      name: 'plannedEffort',
-      label: 'Planned Effort',
-      fullWidth: true,
-      multiple: true,
-      placeholder: 'Eg: 1h10m',
-    },
-    component: RHFTextField,
-  },
-  {
-    id: 16,
-    component: AssetFieldDropdown,
-  },
+
+  ...(!!!childTicketId
+    ? [
+        {
+          id: 4,
+          component: CategoryFieldDropdown,
+        },
+        {
+          id: 5,
+          componentProps: {
+            name: 'status',
+            label: 'Status',
+            fullWidth: true,
+            required: true,
+            placeholder: 'Choose Status',
+            options: ticketStatusOptions,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+          },
+          component: RHFAutocomplete,
+        },
+        {
+          id: 6,
+          componentProps: {
+            name: 'priority',
+            label: 'Priority',
+            fullWidth: true,
+            required: true,
+            placeholder: 'Choose Priority',
+            options: ticketPriorityOptions,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+          },
+          component: RHFAutocomplete,
+        },
+        {
+          id: 7,
+          component: DepartmentFieldDropdown,
+        },
+        {
+          id: 8,
+          componentProps: {
+            name: 'source',
+            label: 'Source',
+            fullWidth: true,
+            placeholder: 'Choose Source',
+            options: ticketSourceOptions,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+          },
+          component: RHFAutocomplete,
+        },
+        {
+          id: 9,
+          componentProps: {
+            name: 'impact',
+            label: 'Impact',
+            fullWidth: true,
+            placeholder: 'Choose Impact',
+            options: ticketImpactOptions,
+            getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+          },
+          component: RHFAutocomplete,
+        },
+        {
+          id: 10,
+          component: AgentFieldDropdown,
+        },
+        {
+          id: 11,
+          componentProps: {
+            name: 'plannedStartDate',
+            label: 'Planned Start Date',
+            fullWidth: true,
+            disabled: true,
+            ampm: false,
+          },
+          component: RHFDesktopDateTimePicker,
+          md: 12,
+        },
+        {
+          id: 13,
+          componentProps: {
+            name: 'plannedEndDate',
+            label: 'Planned End Date',
+            fullWidth: true,
+            disablePast: true,
+            required: true,
+            ampm: false,
+            textFieldProps: { readOnly: true },
+          },
+          component: RHFDesktopDateTimePicker,
+          md: 12,
+        },
+        {
+          id: 15,
+          componentProps: {
+            name: 'plannedEffort',
+            label: 'Planned Effort',
+            fullWidth: true,
+            multiple: true,
+            placeholder: 'Eg: 1h10m',
+          },
+          component: RHFTextField,
+        },
+        {
+          id: 16,
+          component: AssetFieldDropdown,
+        },
+      ]
+    : []),
   {
     id: 17,
     componentProps: {

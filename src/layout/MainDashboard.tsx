@@ -25,12 +25,14 @@ import {
 import Header from './Header';
 
 import {
+  setActiveConversation,
   setChangeChat,
   setChatContacts,
   setChatMessages,
   setIsNewMessages,
   setSocketConnection,
   setTypingUserData,
+  setUpdateChatContactsActions,
 } from '@/redux/slices/chat/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getActiveProductSession, getSession, isNullOrEmpty } from '@/utils';
@@ -52,7 +54,9 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { AIR_CUSTOMER_PORTAL, PRODUCT_LABELS } from '@/constants';
+import { AIR_CUSTOMER_PORTAL, indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { SOCKETS_EVENTS } from '@/constants/strings';
+import { setNotifications } from '@/redux/slices/notifications/notifications';
 
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
@@ -454,6 +458,9 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
 
   const [socket, setSocket] = useState<any>();
   useEffect(() => {
@@ -509,26 +516,39 @@ const DashboardLayout = ({ children, window }: any) => {
     });
   }
 
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
+
+  const currentUserId = user?._id;
+
   useEffect(() => {
     const handleOnMessageReceived = (payload: any) => {
       if (payload?.data) {
-        const currentData = chatContacts?.find(
-          (ele: any) => ele?._id === payload?.data?.chatId,
-        );
-        if (currentData) {
-          dispatch(
-            setChatContacts({
-              ...currentData,
-              lastMessage: {
-                ...currentData?.lastMessage,
-                content: payload?.data?.content,
-                updatedAt: payload?.data?.updatedAt,
-              },
-              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
-            }),
+        const updatedChatContacts = chatContacts?.map((chat: any) => {
+          const filteredParticipants = chat?.participants?.filter(
+            (participant: any) => participant?._id !== currentUserId,
           );
-        }
+          if (chat?._id === payload?.data?.chatId) {
+            return {
+              ...chat,
+              lastMessage: {
+                ...chat?.lastMessage,
+                updatedAt: payload?.updatedAt,
+              },
+              content: payload?.data?.content,
+              ...(filteredParticipants[0]?._id === chat?.ownerId &&
+                activeChatId !== chat?._id && {
+                  unReadMessagesCount: chat?.unReadMessagesCount + 1,
+                }),
+              ...(filteredParticipants[0]?._id === chat?.ownerId &&
+                activeChatId !== chat?._id && { unread: true }),
+            };
+          }
+          return chat;
+        });
+        dispatch(setUpdateChatContactsActions(updatedChatContacts));
       }
+
       if (activeChatId === payload?.data?.chatId) {
         if (payload?.data) {
           dispatch(setChatMessages(payload?.data));
@@ -538,8 +558,76 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
 
-    const handleTypingStart = (payload: any) => {
+    const handleOnGrpMessageReceived = (payload: any) => {
+      if (payload) {
+        const updatedChatContacts = chatContacts?.map((chat: any) => {
+          const filteredParticipants = chat?.participants?.filter(
+            (participant: any) => participant?._id === currentUserId,
+          );
+          if (chat?._id === payload?.chatId) {
+            return {
+              ...chat,
+              lastMessage: {
+                ...chat?.lastMessage,
+                updatedAt: payload?.updatedAt,
+              },
+
+              content: payload?.content,
+              ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
+                payload?.ownerId &&
+                activeChatId !== payload?.groupDetail?._id && {
+                  unReadMessagesCount: chat?.unReadMessagesCount + 1,
+                }),
+              ...(filteredParticipants[indexNumbers?.ZERO]?._id !==
+                payload?.ownerId &&
+                activeChatId !== payload?.groupDetail?._id && { unread: true }),
+            };
+          }
+          return chat;
+        });
+
+        dispatch(setUpdateChatContactsActions(updatedChatContacts));
+      }
+
       if (activeChatId === payload?.chatId) {
+        if (payload) {
+          dispatch(setChatMessages(payload));
+          dispatch(setChangeChat(payload));
+          dispatch(setIsNewMessages(false));
+        }
+      }
+    };
+    const handleRecieveNotification = (payload: any) => {
+      dispatch(setNotifications(payload));
+    };
+
+    const handleOnRemovedFromGrp = (payload: any) => {
+      if (payload) {
+        const updatedChatContacts = chatContacts?.map((chat: any) => {
+          if (chat?._id === payload?.payload?.groupId) {
+            return {
+              ...chat,
+              isRemoved: true,
+            };
+          }
+          return chat;
+        });
+
+        if (activeConversation?._id === payload?.payload?.groupId) {
+          dispatch(
+            setActiveConversation({ ...activeConversation, isRemoved: true }),
+          );
+        }
+
+        dispatch(setUpdateChatContactsActions(updatedChatContacts));
+      }
+    };
+
+    const handleTypingStart = (payload: any) => {
+      if (
+        activeChatId === payload?.chatId ||
+        activeChatId === payload?.groupId
+      ) {
         dispatch(
           setTypingUserData({
             userName: payload?.typingUserName,
@@ -548,20 +636,45 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
 
+    const handleGroupReceived = (payload: any) => {
+      dispatch(setChatContacts(payload?.data));
+    };
+
     const handleTypingStop = () => {
       dispatch(setTypingUserData({}));
     };
 
     if (socket) {
       socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+      socket.on(
+        CHAT_SOCKETS?.ON_GRP_MESSAGE_RECEIVED,
+        handleOnGrpMessageReceived,
+      );
+      socket.on(CHAT_SOCKETS?.ON_REMOVED_FROM_GRP, handleOnRemovedFromGrp);
+      socket.on(CHAT_SOCKETS?.ON_NEW_GRP, handleGroupReceived);
       socket.on(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
       socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+
+      // socket for send notifications
+      socket.on(SOCKETS_EVENTS?.NOTIFICATION_EVENT, handleRecieveNotification);
     }
     return () => {
       if (socket) {
         socket.off(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+        socket.off(
+          CHAT_SOCKETS?.ON_GRP_MESSAGE_RECEIVED,
+          handleOnGrpMessageReceived,
+        );
+        socket.off(CHAT_SOCKETS?.ON_NEW_GRP, handleGroupReceived);
+        socket.off(CHAT_SOCKETS?.ON_REMOVED_FROM_GRP, handleOnRemovedFromGrp);
         socket.off(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
         socket.off(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+
+        // socket off for send notifications
+        socket.off(
+          SOCKETS_EVENTS?.NOTIFICATION_EVENT,
+          handleRecieveNotification,
+        );
       }
     };
   }, [activeChatId, chatContacts, dispatch, socket]);

@@ -80,7 +80,7 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
             .then((res) => {
               if (res) {
                 onClose();
-                enqueueSnackbar(` Companies updated Successfully`, {
+                enqueueSnackbar(`Contact updated Successfully`, {
                   variant: NOTISTACK_VARIANTS?.SUCCESS,
                 });
               }
@@ -97,7 +97,7 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
                 }).unwrap();
                 onClose();
                 reset();
-                enqueueSnackbar(` Companies added Successfully`, {
+                enqueueSnackbar(`Contact added Successfully`, {
                   variant: NOTISTACK_VARIANTS?.SUCCESS,
                 });
               }

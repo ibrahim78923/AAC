@@ -11,11 +11,13 @@ import { FILE_MAX_SIZE } from '@/config';
 import { EmailReportDataDefaultValuesI } from './EmailReport.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
+const { ZERO } = SELECTED_ARRAY_LENGTH ?? {};
+
 export const emailReportValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.array()
     ?.of(Yup?.string())
     ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
-      if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
+      if (!value || value?.length === ZERO) {
         return false;
       }
       return value?.every(
@@ -23,7 +25,13 @@ export const emailReportValidationSchema = Yup?.object()?.shape({
       );
     }),
   subject: Yup?.string()?.trim()?.required('Subject is required'),
-  html: Yup?.string()?.trim()?.required('Message is required'),
+  html: Yup?.string()
+    ?.trim()
+    ?.required('Message is required')
+    ?.test('is-not-empty', 'Message is required', (value) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
   attachments: Yup?.mixed()?.nullable()?.required('Attachment is required'),
 });
 
@@ -56,7 +64,7 @@ export const emailReportFormFields: ReactHookFormFieldsI[] = [
     componentProps: {
       name: 'recipients',
       label: 'To',
-      placeholder: 'Enter Recipients and press enter',
+      placeholder: 'Enter recipients and press enter',
       required: true,
       freeSolo: true,
       options: [],
@@ -80,6 +88,7 @@ export const emailReportFormFields: ReactHookFormFieldsI[] = [
     componentProps: {
       name: 'html',
       label: 'Message',
+      placeholder: 'Type your message',
       required: true,
       style: { height: pxToRem(200) },
     },

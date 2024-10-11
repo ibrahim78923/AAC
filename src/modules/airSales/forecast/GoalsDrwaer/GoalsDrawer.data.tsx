@@ -1,15 +1,13 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import * as Yup from 'yup';
 
 export const filterValidationSchema = Yup.object().shape({
-  pipeLine: Yup.string(),
-  CloseDate: Yup.string(),
+  pipeline: Yup.string(),
 });
 
 export const filterDefaultValues = {
-  pipeLine: '',
-  CloseDate: '',
+  pipeline: '',
 };
 export const forecastFilterArray = () => {
   const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
@@ -22,7 +20,7 @@ export const forecastFilterArray = () => {
   return [
     {
       componentProps: {
-        name: 'pipeLine',
+        name: 'pipelines',
         label: 'Pipeline',
         fullWidth: true,
         select: true,
@@ -37,7 +35,7 @@ export const forecastFilterArray = () => {
         label: 'Close date',
         fullWidth: true,
       },
-      component: RHFDatePicker,
+      component: RHFSwitchableDatepicker,
       md: 12,
     },
   ];

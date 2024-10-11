@@ -12,10 +12,7 @@ import { LoadingButton } from '@mui/lab';
 import useViewEnquiry from './useViewEnquiry';
 import { IChildModalState } from '../Enquiries.interface';
 
-export default function ViewEnquiry({
-  isModalOpen,
-  onClose,
-}: IChildModalState) {
+export const ViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
   const { methods, handleSubmit, onSubmit, status } = useViewEnquiry({
     isModalOpen,
     onClose,
@@ -57,6 +54,7 @@ export default function ViewEnquiry({
         <DialogActions>
           <LoadingButton
             variant={'outlined'}
+            className="small"
             color={'inherit'}
             onClick={() => onClose?.()}
             disabled={status?.isLoading}
@@ -65,6 +63,7 @@ export default function ViewEnquiry({
           </LoadingButton>
           <LoadingButton
             variant={'contained'}
+            className="small"
             type={'submit'}
             loading={status?.isLoading}
             disabled={status?.isLoading}
@@ -75,4 +74,5 @@ export default function ViewEnquiry({
       </FormProvider>
     </Dialog>
   );
-}
+};
+export default ViewEnquiry;

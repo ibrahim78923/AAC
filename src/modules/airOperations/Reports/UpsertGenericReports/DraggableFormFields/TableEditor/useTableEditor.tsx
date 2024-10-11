@@ -15,10 +15,10 @@ export const useTableEditor = (props: TableEditorI) => {
     setForm,
     setModal,
     form,
-    setValue,
     setDraggedItemData,
     draggedItemData,
     watch,
+    reset,
   } = props;
 
   const columnsData = useAppSelector(
@@ -28,11 +28,9 @@ export const useTableEditor = (props: TableEditorI) => {
     (state) => state?.genericReport?.disableTemplate,
   );
   const dispatch = useDispatch();
-  const [edit, setEdit] = useState(true);
   const tableTitle = watch('tableTitle');
   const [columnObject, setColumnObject] = useState([]);
   const [columnField, setColumnField] = useState(columnsData);
-  const [editValue, setEditValue] = useState(tableTitle);
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -52,9 +50,9 @@ export const useTableEditor = (props: TableEditorI) => {
     dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
     dispatch(setColumnsData([]));
-    setValue('tableTitle', 'Report Table');
     setDraggedItemData(null);
     successSnackbar('Table Added');
+    reset();
   };
 
   useEffect(() => {
@@ -62,13 +60,8 @@ export const useTableEditor = (props: TableEditorI) => {
   }, [columnField]);
 
   return {
-    editValue,
-    setEditValue,
-    setEdit,
-    edit,
     handleSave,
     setColumnObject,
-    tableTitle,
     columnsData,
     setColumnField,
     disableTemplate,

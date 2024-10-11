@@ -1,83 +1,33 @@
-import { TICKET_APPROVALS } from '@/constants/strings';
+import { useAppDispatch } from '@/redux/store';
 import {
-  useGetAllApprovalsTicketsQuery,
-  usePatchApprovalTicketsMutation,
-  usePostApprovalTicketsRemindersMutation,
-} from '@/services/airServices/tickets/single-ticket-details/approvals';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+  TAB_CHANGED_FILTERED,
+  singleTicketDetailApprovalsTabsDynamic,
+} from './Approvals.data';
+import {
+  setApprovalStatus,
+  setIsPortalClose,
+  resetComponentState,
+} from '@/redux/slices/airServices/tickets-approvals/slice';
+import { useEffect } from 'react';
 
 export const useApprovals = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [selectedApproval, setSelectedApproval] = useState<any>({});
+  const dispatch = useAppDispatch();
+  const singleTicketDetailApprovalsTabs =
+    singleTicketDetailApprovalsTabsDynamic();
 
-  const router = useRouter();
-  const { ticketId } = router?.query;
-
-  const [patchApprovalTicketsTrigger] = usePatchApprovalTicketsMutation();
-  const [postApprovalTicketsRemindersTrigger] =
-    usePostApprovalTicketsRemindersMutation();
-  const getApprovalsTicketsParameter = {
-    queryParams: {
-      id: ticketId,
-      approvalStatus: TICKET_APPROVALS?.ALL,
-    },
-  };
-  const { data, isLoading, isFetching } = useGetAllApprovalsTicketsQuery(
-    getApprovalsTicketsParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    },
-  );
-  const setApproval = (approval: any) => {
-    setSelectedApproval(approval);
-    setIsConfirmModalOpen(true);
+  const handleTabChange = (tabValue: any) => {
+    dispatch(setApprovalStatus<any>(TAB_CHANGED_FILTERED?.[tabValue]));
+    dispatch(setIsPortalClose?.());
   };
 
-  const updateRequestApprovalStatus = async (approval: any) => {
-    if (approval?.state === TICKET_APPROVALS?.REMINDER) {
-      await sendReminderForTicketApproval?.();
-      return;
-    }
-    const patchParameterData = {
-      queryParams: {
-        reason: '',
-        id: approval?._id,
-        ticketId: ticketId,
-        approvalStatus: approval?.state,
-      },
+  useEffect(() => {
+    return () => {
+      dispatch(resetComponentState());
     };
-    try {
-      await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
-      successSnackbar?.('Request cancelled successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
-
-  const sendReminderForTicketApproval = async () => {
-    try {
-      await postApprovalTicketsRemindersTrigger({})?.unwrap();
-      successSnackbar('Reminder Send Successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
+  }, []);
 
   return {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    isConfirmModalOpen,
-    setIsConfirmModalOpen,
-    selectedApproval,
-    setSelectedApproval,
-    setApproval,
-    data,
-    isLoading,
-    isFetching,
-    updateRequestApprovalStatus,
+    handleTabChange,
+    singleTicketDetailApprovalsTabs,
   };
 };

@@ -1,7 +1,7 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
-const USER_MANAGEMENT = 'SETTINGS_USERS_MANAGEMENT';
+const TAG = ['SETTINGS_USERS_MANAGEMENT'];
 
 export const TeamsApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +11,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: [USER_MANAGEMENT],
+      providesTags: TAG,
     }),
 
     getTeamsUsers: builder.query({
@@ -20,7 +20,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: [USER_MANAGEMENT],
+      providesTags: TAG,
     }),
 
     getTeamsList: builder.query({
@@ -32,7 +32,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.userTeams;
       },
-      providesTags: [USER_MANAGEMENT],
+      providesTags: TAG,
     }),
 
     getTeamsById: builder.query({
@@ -42,7 +42,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: [USER_MANAGEMENT],
+      providesTags: TAG,
     }),
 
     postTeams: builder.mutation({
@@ -53,7 +53,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: [USER_MANAGEMENT],
+      invalidatesTags: TAG,
     }),
 
     updateTeams: builder.mutation({
@@ -64,7 +64,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: [USER_MANAGEMENT],
+      invalidatesTags: TAG,
     }),
 
     deleteTeams: builder.mutation({
@@ -72,7 +72,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         url: `${END_POINTS?.SALES_TEAM}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [USER_MANAGEMENT],
+      invalidatesTags: TAG,
     }),
   }),
 });

@@ -89,5 +89,6 @@ export const useTicketsReport = () => {
     setHasDate,
     shouldDateSet,
     onDateFilterSubmit,
+    getValues,
   };
 };

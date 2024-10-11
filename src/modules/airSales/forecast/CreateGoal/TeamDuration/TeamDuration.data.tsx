@@ -68,6 +68,7 @@ export const teamDurationArray = (userTeamValue: any) => {
             ? {
                 role: ROLES?.ORG_EMPLOYEE,
                 organization: organizationId,
+                status: 'ACTIVE',
               }
             : {},
 

@@ -1,5 +1,6 @@
+import { TruncateText } from '@/components/TruncateText';
 import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 
 export const SOFTWARE_STATUS_COUNT = {
   TOTAL_SOFTWARE: 'totalSoftware',
@@ -88,31 +89,40 @@ export const softwareReportsTableColumnsDynamic = () => [
     id: 'name',
     isSortable: false,
     header: 'Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.softwareManagedByDetails,
     id: 'softwareManagedByDetails',
     isSortable: false,
     header: 'Managed By',
-    cell: (info: any) =>
-      fullName(
-        info?.row?.original?.softwareManagedByDetails?.firstName,
-        info?.row?.original?.softwareManagedByDetails?.lastName,
-      ),
+    cell: (info: any) => (
+      <TruncateText
+        text={fullName(
+          info?.row?.original?.softwareManagedByDetails?.firstName?.toLowerCase(),
+          info?.row?.original?.softwareManagedByDetails?.lastName?.toLowerCase(),
+        )}
+      />
+    ),
   },
   {
-    accessorFn: (row: any) => row?.details,
-    id: 'category',
+    accessorFn: (row: any) => row?.status,
+    id: 'status',
     isSortable: false,
-    header: 'Category',
-    cell: (info: any) => truncateText(info?.getValue()?.category),
+    header: 'Status',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
 ];

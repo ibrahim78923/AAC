@@ -2,14 +2,13 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
-import { getActiveProductSession } from '@/utils';
+import { ROLES } from '@/constants/strings';
 export const defaultValues = {
   quoteStatus: '',
   createdBy: '',
 };
 
 export const dataArray = (productsAllUsers: any) => {
-  const ActiveProduct: any = getActiveProductSession();
   return [
     {
       md: 12,
@@ -33,7 +32,7 @@ export const dataArray = (productsAllUsers: any) => {
         apiQuery: productsAllUsers,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: { productId: ActiveProduct?._id },
+        externalParams: { role: ROLES?.ORG_EMPLOYEE },
       },
     },
   ];

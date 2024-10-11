@@ -15,8 +15,6 @@ interface EditTaskProps {
   createTask: { isToggle: boolean };
   isType: string;
   initialValueProps?: typeof defaultValues;
-  setCreateTask: (value: any) => void;
-  clickedDate: Date;
 }
 
 export default function EditTask({
@@ -24,8 +22,6 @@ export default function EditTask({
   createTask,
   isType,
   initialValueProps = defaultValues,
-  setCreateTask,
-  clickedDate,
 }: EditTaskProps) {
   const {
     handleSubmit,
@@ -35,18 +31,18 @@ export default function EditTask({
     updateTaskLoading,
     loadingCampaignTasks,
     CAMPAIGN_ID,
+    theme,
+    handleClose,
   } = useEditTask({
-    onClose,
     initialValueProps,
-    setCreateTask,
+    onClose,
     createTask,
-    clickedDate,
   });
 
   return (
     <CommonDrawer
       isDrawerOpen={createTask?.isToggle}
-      onClose={() => onClose(false)}
+      onClose={handleClose}
       title={isType === DRAWER_TYPES?.ADD ? 'Create Task' : 'Edit Task'}
       okText={isType === DRAWER_TYPES?.ADD ? 'Create' : 'Update'}
       isOk
@@ -99,9 +95,49 @@ export default function EditTask({
                         fontWeight={500}
                         sx={{ mt: 2 }}
                       >
-                        Due Time
+                        Due Time {''}
+                        <span style={{ color: theme?.palette?.error?.main }}>
+                          *
+                        </span>
                       </Typography>
                       <Controller
+                        name="time"
+                        control={methods?.control}
+                        rules={{
+                          validate: (value) => {
+                            const currentDate = new Date();
+                            return (
+                              (value && value > currentDate) ||
+                              'Time must be in the future'
+                            );
+                          },
+                        }}
+                        render={({ field, fieldState: { error } }) => (
+                          <>
+                            <TimePicker
+                              {...field}
+                              onChange={(newValue) => field?.onChange(newValue)}
+                              sx={{
+                                width: '100%',
+                                '& .MuiInputBase-root': {
+                                  border: '1px solid',
+                                  borderColor: error
+                                    ? theme?.palette?.error?.main
+                                    : theme?.palette?.custom?.hex_grey,
+                                },
+                                '& .MuiInputBase-input': { height: '9px' },
+                                '& .MuiPickersLayout-root': { width: '500px' },
+                              }}
+                            />
+                            {error && (
+                              <Typography variant="body1" color="error">
+                                {error.message}
+                              </Typography>
+                            )}
+                          </>
+                        )}
+                      />
+                      {/* <Controller
                         name="time"
                         control={methods?.control}
                         render={({ field }) => (
@@ -115,7 +151,7 @@ export default function EditTask({
                             }}
                           />
                         )}
-                      />
+                      /> */}
                     </LocalizationProvider>
                   )}
               </Grid>

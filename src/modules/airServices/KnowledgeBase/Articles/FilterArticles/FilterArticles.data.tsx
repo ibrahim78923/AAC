@@ -4,9 +4,11 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { FilterArticlesFormDefaultValuesI } from './FilterArticles.interface';
 import AuthorsFields from '../../KnowledgeBaseFormFields/AuthorsFields';
 
+const { DRAFT, PUBLISHED } = ARTICLE_STATUS ?? {};
+
 const statusOption: AutocompleteOptionsI[] = [
-  { _id: ARTICLE_STATUS?.DRAFT, label: ARTICLE_STATUS?.DRAFT },
-  { _id: ARTICLE_STATUS?.PUBLISHED, label: ARTICLE_STATUS?.PUBLISHED },
+  { _id: DRAFT, label: DRAFT },
+  { _id: PUBLISHED, label: PUBLISHED },
 ];
 
 export const filterArticlesDataDefaultValues = (
@@ -24,7 +26,7 @@ export const filterArticlesFormFieldsDynamic = () => [
     componentProps: {
       name: 'status',
       label: 'Status',
-      placeholder: 'Select',
+      placeholder: 'Select status',
       fullWidth: true,
       options: statusOption,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,

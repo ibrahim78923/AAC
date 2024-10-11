@@ -144,6 +144,7 @@ export const subWorkflowData = ({
   apiQueryLocations,
   apiAssetType,
   apiUsersListDropdown,
+  productId,
 }: any) => {
   const fieldValueDisable = watch(
     `groups.${index}.conditions.${subIndex}.condition`,
@@ -277,6 +278,12 @@ export const subWorkflowData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         disabled: disableField,
+        externalParams:
+          selectedOperatorsOptions === constantApiOptions?.assignTo ||
+          selectedOperatorsOptions === constantApiOptions?.usedBy ||
+          selectedOperatorsOptions === constantApiOptions?.createdBy
+            ? { productId }
+            : undefined,
         getOptionLabel:
           selectedOperatorsOptions === constantApiOptions?.location
             ? (option: any) => option?.locationName

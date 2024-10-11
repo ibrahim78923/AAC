@@ -65,6 +65,10 @@ export default function Companies({ isDrawerOpen, setIsDrawerOpen }: any) {
             postRemoveAssociateTicketsStatus?.isLoading ||
             postCompanyStatus?.isLoading
           }
+          disabledCancelBtn={
+            postRemoveAssociateTicketsStatus?.isLoading ||
+            postCompanyStatus?.isLoading
+          }
         >
           <FormProvider methods={methods}>
             <RHFRadioGroup

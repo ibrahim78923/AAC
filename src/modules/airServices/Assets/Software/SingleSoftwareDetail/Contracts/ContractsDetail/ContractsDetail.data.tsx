@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
+import { capitalizeFirstWord, splitCapitalizedWords } from '@/utils/api';
 
 export const contractsTableColumns = [
   {
@@ -8,7 +10,7 @@ export const contractsTableColumns = [
     id: 'name',
     cell: (info: any) => (
       <Box fontWeight={700} color="common.black">
-        {info?.getValue()}
+        <TruncateText text={info?.getValue()} />
       </Box>
     ),
     header: 'Contract Name',
@@ -17,7 +19,7 @@ export const contractsTableColumns = [
     accessorFn: (row: any) => row?.licenseType,
     id: 'licenseType',
     header: 'License Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => splitCapitalizedWords(info?.getValue()) ?? '---',
   },
   {
     accessorFn: (row: any) => row?.licensesCount,
@@ -29,7 +31,7 @@ export const contractsTableColumns = [
     accessorFn: (row: any) => row?.status,
     id: 'status',
     header: 'Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => capitalizeFirstWord(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.createdAt,

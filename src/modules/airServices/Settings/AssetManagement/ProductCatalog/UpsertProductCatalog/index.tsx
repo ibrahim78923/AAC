@@ -50,6 +50,7 @@ export const UpsertProductCatalog = () => {
             <LoadingButton
               variant="outlined"
               type="button"
+              className="small"
               onClick={() => moveBack?.()}
               color="secondary"
               disabled={
@@ -62,6 +63,7 @@ export const UpsertProductCatalog = () => {
             <LoadingButton
               variant="contained"
               type="submit"
+              className="small"
               disabled={
                 patchProductCatalogStatus?.isLoading ||
                 postProductCatalogStatus?.isLoading

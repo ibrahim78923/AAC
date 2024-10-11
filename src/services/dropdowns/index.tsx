@@ -23,22 +23,14 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
         url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.id}/users`,
         method: 'GET',
         params: {
+          meta: params?.meta,
           search: params?.search,
         },
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data;
       },
-      providesTags: [TAG],
-    }),
-    getProducts: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_PRODUCTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG],
+      providesTags: ['ORGANIZATION_USERS'],
     }),
 
     getFolders: builder?.query({
@@ -76,10 +68,7 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ORG_TEAMS}`,
         method: 'GET',
-        params: {
-          search: params?.search,
-          meta: params?.meta,
-        },
+        params,
       }),
       providesTags: ['ORGANIZATION_TEAMS'],
       transformResponse: (response: any) => {
@@ -92,10 +81,8 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
 export const {
   useGetOrganizationsQuery,
   useLazyGetOrganizationsQuery,
-  useLazyGetProductsQuery,
   useLazyGetFoldersQuery,
   useLazyGetAgentsQuery,
-  useGetOrganizationUsersQuery,
   useLazyGetOrganizationUsersQuery,
   useLazyGetContactDropdownQuery,
   useLazyGetOrganizationTeamsQuery,

@@ -18,7 +18,6 @@ const Tickets = ({ companyId }: any) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
     setSearchName,
     openDrawer,
     setOpenDrawer,
@@ -59,7 +58,6 @@ const Tickets = ({ companyId }: any) => {
             }}
           >
             <Search
-              searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
               size="small"

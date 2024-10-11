@@ -1,6 +1,5 @@
-import { truncateText } from '@/utils/avatarUtils';
-import { Typography } from '@mui/material';
 import { KnowledgeInsightsTableRowI } from './KnowledgeInsights.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const knowledgeInsightsColumnsDynamic = (setSelectedArticle: any) => [
   {
@@ -8,14 +7,14 @@ export const knowledgeInsightsColumnsDynamic = (setSelectedArticle: any) => [
     id: 'title',
     header: `Insights`,
     cell: (info: any) => (
-      <Typography
-        variant="body2"
-        fontWeight={'fontWeightMedium'}
-        sx={{ cursor: 'pointer' }}
-        onClick={() => setSelectedArticle(info?.row?.original)}
-      >
-        {truncateText(info?.getValue() ?? '---')}
-      </Typography>
+      <TruncateText
+        text={info?.getValue()}
+        boxProps={{
+          fontWeight: 'bold',
+          sx: { cursor: 'pointer' },
+          onClick: () => setSelectedArticle(info?.row?.original),
+        }}
+      />
     ),
   },
   {

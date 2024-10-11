@@ -6,13 +6,13 @@ import {
   settingsDefaultValues,
   settingsValidationSchema,
 } from './Settings.data';
-import { useGetCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
 import { useEffect, useMemo } from 'react';
 
 import { ISettingsDefaultValues } from './Settings.interface';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { getActiveAccountSession } from '@/utils';
+import { useGetServiceAccountDetailCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
 
 export const useSettings = () => {
   const domain = window?.location?.hostname;
@@ -23,7 +23,7 @@ export const useSettings = () => {
   const encryptedValue = btoa(companyId);
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetCompanyAccountsByIdQuery(companyId, {
+    useGetServiceAccountDetailCompanyAccountsByIdQuery(companyId, {
       refetchOnMountOrArgChange: true,
     });
   const apiKeyData = data?.data?.apiKey;

@@ -2,15 +2,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKETS';
-const TAG_TWO = 'DROPDOWN_REQUESTER';
-const TAG_THREE = 'DROPDOWN_AGENT';
-const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
-const TAG_FIVE = 'DROPDOWN_ASSOCIATE_ASSET';
-const TAG_SIX = 'DROPDOWN_CATEGORIES';
 
 export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getTickets: builder?.query({
+    getServicesTicketsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'GET',
@@ -18,14 +13,7 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getTicketsById: builder?.query({
-      query: (getSingleTicketParameter: any) => ({
-        url: `${END_POINTS?.TICKET}/${getSingleTicketParameter?.pathParam?.ticketId}`,
-        method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-    getExportTickets: builder?.query({
+    getServicesTicketsListAsExport: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'GET',
@@ -34,28 +22,35 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    postTickets: builder?.mutation({
+    getServicesSingleTicketDetailById: builder?.query({
+      query: (getSingleTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${getSingleTicketParameter?.pathParam?.ticketId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    addSingleServicesTicket: builder?.mutation({
       query: (postTicketParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'POST',
         body: postTicketParameter?.body,
       }),
     }),
-    putTickets: builder?.mutation({
+    updateSingleServicesTicketById: builder?.mutation({
       query: (putTicketParameter: any) => ({
         url: `${END_POINTS?.TICKET}/{id}`,
         method: 'PUT',
         body: putTicketParameter?.body,
       }),
     }),
-    putSingleTicketStatus: builder?.mutation({
+    updateSingleServicesTicketStatus: builder?.mutation({
       query: (putSingleTicketStatusParameter: any) => ({
         url: `${END_POINTS?.TICKET_STATUS}`,
         method: 'PUT',
         params: putSingleTicketStatusParameter?.queryParams,
       }),
     }),
-    patchBulkUpdateTickets: builder?.mutation({
+    updateBulkServicesTickets: builder?.mutation({
       query: (patchBulkUpdateTicketsParameter: any) => ({
         url: `${END_POINTS?.TICKET_BULK_UPDATE}`,
         method: 'PATCH',
@@ -63,69 +58,22 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         body: patchBulkUpdateTicketsParameter?.body,
       }),
     }),
-    deleteTickets: builder?.mutation({
+    deleteMultipleServicesTickets: builder?.mutation({
       query: (deleteTicketsParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'DELETE',
         params: deleteTicketsParameter?.queryParams,
       }),
     }),
-    getRequesterDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
-        method: 'GET',
-        params,
+    mergeServicesTickets: builder?.mutation({
+      query: (postMergeTicketParameter: any) => ({
+        url: `${END_POINTS?.MERGE_TICKET}`,
+        method: 'POST',
+        params: postMergeTicketParameter?.queryParams,
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_TWO],
+      invalidatesTags: [TAG],
     }),
-    getAgentDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getDepartmentDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.departments;
-      },
-      providesTags: [TAG_FOUR],
-    }),
-    getAssociateAssetsDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_ASSOCIATE_ASSET}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.inventories;
-      },
-      providesTags: [TAG_FIVE],
-    }),
-    getCategoriesDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.servicecategories;
-      },
-      providesTags: [TAG_SIX],
-    }),
-    getTicketByRequester: builder?.query({
+    findServicesTicketByRequester: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_TICKET_BY_REQUESTER}`,
         method: 'GET',
@@ -134,9 +82,8 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_THREE],
     }),
-    getTicketBySubject: builder?.query({
+    findServicesTicketBySubject: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_TICKET_BY_SUBJECT}`,
         method: 'GET',
@@ -146,41 +93,17 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         if (response)
           return Object?.keys(response?.data)?.length ? [response?.data] : [];
       },
-      providesTags: [TAG_THREE],
     }),
-    getTicketsSearchById: builder?.query({
+    findServicesTicketsByTicketId: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.TICKET}/${params?.ticketId}`,
         method: 'GET',
       }),
-      providesTags: [TAG],
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
     }),
-    postMergeTickets: builder?.mutation({
-      query: (postMergeTicketParameter: any) => ({
-        url: `${END_POINTS?.MERGE_TICKET}`,
-        method: 'POST',
-        params: postMergeTicketParameter?.queryParams,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    postAddReplyToBulkUpdate: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
-        method: 'POST',
-        body: apiDataParameter?.body,
-      }),
-    }),
-    getAttachmentsById: builder?.query({
-      query: (getAttachmentsByIdParameter: any) => ({
-        url: `${END_POINTS?.GET_ATTACHMENT}/${getAttachmentsByIdParameter?.pathParam?.id}`,
-        method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-    getTicketByIdForMerge: builder?.query({
+    findServicesTicketByIdForMerge: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_TICKET_BY_REQUESTER}`,
         method: 'GET',
@@ -189,32 +112,15 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_THREE],
     }),
-
-    getRequesterDropdownForTickets: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
-        method: 'GET',
-        params,
+    sendReplyToServicesTicketsBulkUpdate: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_TWO],
     }),
-    getAgentDropdownForTickets: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getDepartmentDropdownForTickets: builder?.query({
+    getDepartmentDropdownForServicesTickets: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
         method: 'GET',
@@ -223,9 +129,8 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG_FOUR],
     }),
-    getAssociateAssetsDropdownForTickets: builder?.query({
+    getAssociateAssetsDropdownForServicesTickets: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSOCIATE_ASSET}`,
         method: 'GET',
@@ -234,9 +139,8 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.inventories;
       },
-      providesTags: [TAG_FIVE],
     }),
-    getCategoriesDropdownForTickets: builder?.query({
+    getCategoriesDropdownForServicesTickets: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
         method: 'GET',
@@ -245,9 +149,8 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.servicecategories;
       },
-      providesTags: [TAG_SIX],
     }),
-    getAirServicesAllUsersAsRequestersDropdownList: builder?.query({
+    getAllUsersAsRequestersDropdownForServicesTickets: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
@@ -257,7 +160,7 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
-    getAirServicesAllAgentsUsersDropdownList: builder?.query({
+    getAllUsersAsAgentsDropdownForServicesTickets: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
@@ -270,32 +173,23 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
   }),
 });
 export const {
-  usePostTicketsMutation,
-  useGetTicketsQuery,
-  useDeleteTicketsMutation,
-  useGetTicketsByIdQuery,
-  usePutTicketsMutation,
-  useLazyGetTicketsQuery,
-  useLazyGetExportTicketsQuery,
-  usePatchBulkUpdateTicketsMutation,
-  useLazyGetRequesterDropdownQuery,
-  useLazyGetAgentDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  usePutSingleTicketStatusMutation,
-  useLazyGetTicketByRequesterQuery,
-  useLazyGetTicketBySubjectQuery,
-  useLazyGetTicketsSearchByIdQuery,
-  usePostMergeTicketsMutation,
-  useGetAttachmentsByIdQuery,
-  usePostAddReplyToBulkUpdateMutation,
-  useLazyGetTicketByIdForMergeQuery,
-  useLazyGetAgentDropdownForTicketsQuery,
-  useLazyGetAssociateAssetsDropdownForTicketsQuery,
-  useLazyGetCategoriesDropdownForTicketsQuery,
-  useLazyGetDepartmentDropdownForTicketsQuery,
-  useLazyGetRequesterDropdownForTicketsQuery,
-  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
-  useLazyGetAirServicesAllAgentsUsersDropdownListQuery,
+  useLazyGetServicesTicketsListQuery,
+  useLazyGetServicesTicketsListAsExportQuery,
+  useGetServicesSingleTicketDetailByIdQuery,
+  useAddSingleServicesTicketMutation,
+  useUpdateSingleServicesTicketByIdMutation,
+  useUpdateSingleServicesTicketStatusMutation,
+  useUpdateBulkServicesTicketsMutation,
+  useDeleteMultipleServicesTicketsMutation,
+  useMergeServicesTicketsMutation,
+  useLazyFindServicesTicketByIdForMergeQuery,
+  useLazyFindServicesTicketByRequesterQuery,
+  useLazyFindServicesTicketBySubjectQuery,
+  useLazyFindServicesTicketsByTicketIdQuery,
+  useSendReplyToServicesTicketsBulkUpdateMutation,
+  useLazyGetDepartmentDropdownForServicesTicketsQuery,
+  useLazyGetAssociateAssetsDropdownForServicesTicketsQuery,
+  useLazyGetCategoriesDropdownForServicesTicketsQuery,
+  useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery,
+  useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery,
 } = ticketsAPI;

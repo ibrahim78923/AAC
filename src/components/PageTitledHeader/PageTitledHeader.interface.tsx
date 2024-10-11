@@ -16,4 +16,8 @@ export interface PageTitledHeaderPropsI {
   importPermissionKey?: string[];
   children?: any;
   disableAddButton?: boolean;
+  titleVariant?: string;
+  titleColor?: any;
+  outerMarginBottom?: number;
+  titleProps?: any;
 }

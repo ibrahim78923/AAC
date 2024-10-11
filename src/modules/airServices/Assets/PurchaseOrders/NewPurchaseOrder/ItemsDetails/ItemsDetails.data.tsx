@@ -31,7 +31,12 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
           }}
           noOptionsCase={
             <>
-              <Link href={AIR_SERVICES?.UPSERT_PRODUCT_CATALOG}>
+              <Link
+                href={{
+                  pathname: AIR_SERVICES?.VENDOR_DETAIL,
+                  query: { vendorId },
+                }}
+              >
                 Please Add Products First
               </Link>
             </>
@@ -46,7 +51,6 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
           name={`purchaseDetails.${index}.description`}
           size="small"
           placeholder="Enter Description"
-          fullWidth={true}
           sx={{ minWidth: '12rem' }}
         />
       ),
@@ -57,7 +61,6 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
         <RHFTextField
           name={`purchaseDetails.${index}.costPerItem`}
           size="small"
-          fullWidth={true}
           sx={{ minWidth: '5rem' }}
         />
       ),
@@ -68,7 +71,6 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
         <RHFTextField
           name={`purchaseDetails.${index}.quantity`}
           size="small"
-          fullWidth={true}
           sx={{ minWidth: '12rem' }}
         />
       ),
@@ -79,19 +81,18 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
         <RHFTextField
           name={`purchaseDetails.${index}.taxRate`}
           size="small"
-          fullWidth={true}
           sx={{ minWidth: '12rem' }}
         />
       ),
     },
     {
-      id: 5,
+      id: 50,
       data: (
         <RHFTextField
           name={`purchaseDetails.${index}.total`}
           size="small"
-          fullWidth={true}
           sx={{ minWidth: '12rem' }}
+          disabled
         />
       ),
     },
@@ -112,11 +113,11 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
 };
 
 export const billingData = [
-  { label: 'subTotal ($)', name: 'subTotal' },
-  { label: 'discount (%)', name: 'discount' },
+  { label: 'Sub Total (£)', name: 'subTotal' },
+  { label: 'Discount (%)', name: 'discount' },
   { label: 'Tax rate (%)', name: 'taxRatio' },
-  { label: 'shipping ($)', name: 'shipping' },
-  { label: 'total ($)', name: 'total' },
+  { label: 'Shipping (£)', name: 'shipping' },
+  { label: 'Total (£)', name: 'total' },
 ];
 
 export const itemsDetailsColumnsList = [
@@ -125,6 +126,6 @@ export const itemsDetailsColumnsList = [
   { label: 'Cost Per Item *', value: 'costPerItem' },
   { label: 'Quantity *', value: 'quantity' },
   { label: 'Tax Rate(%) *', value: 'taxRate' },
-  { label: 'Total() *', value: 'total' },
+  { label: 'Total(£) *', value: 'total' },
   { label: 'Action', value: 'action' },
 ];

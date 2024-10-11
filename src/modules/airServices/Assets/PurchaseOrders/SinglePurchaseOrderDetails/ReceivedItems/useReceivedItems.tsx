@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
-  useGetAddToPurchaseOrderByIdForReceivedItemsQuery,
-  usePatchAddToItemMutation,
+  useGetAirServicesAssetsPurchaseOrderDetailsAddToReceivedItemsQuery,
+  usePatchAirServicesAssetsPurchaseOrderDetailsAddToItemMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -19,7 +19,7 @@ export const useReceivedItems = (props: any) => {
   const [errorOccurred, setErrorOccurred] = useState(false);
   const { purchaseOrderId } = router?.query;
   const [patchAddToItemTrigger, patchAddToItemStatus] =
-    usePatchAddToItemMutation();
+    usePatchAirServicesAssetsPurchaseOrderDetailsAddToItemMutation();
 
   const { setIsDrawerOpen } = props;
   const getSingleAddToPurchaseOrderParameter = {
@@ -29,7 +29,7 @@ export const useReceivedItems = (props: any) => {
   };
 
   const { data, isLoading, isFetching, isError }: { [key: string]: any } =
-    useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
+    useGetAirServicesAssetsPurchaseOrderDetailsAddToReceivedItemsQuery(
       getSingleAddToPurchaseOrderParameter,
       {
         refetchOnMountOrArgChange: true,

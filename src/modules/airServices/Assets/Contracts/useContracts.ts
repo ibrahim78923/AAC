@@ -15,13 +15,13 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 export const useContracts = () => {
   const theme = useTheme();
   const [selectedContractList, setSelectedContractList] = useState([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const router = useRouter();
   const [contractFilterLists, setContractFilterLists] = useState({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
 
   const [lazyGetContractTrigger, lazyGetContractStatus]: any =
     useLazyGetContractQuery();
@@ -50,17 +50,11 @@ export const useContracts = () => {
   };
 
   const getContractListDataExport = async (type: any) => {
-    const exportContractParams = new URLSearchParams();
-    Object?.entries(contractFilterLists || {})?.forEach(
-      ([key, value]: any) => exportContractParams?.append(key, value?._id),
-    );
-    exportContractParams?.append('page', page + '');
-    exportContractParams?.append('limit', pageLimit + '');
-    exportContractParams?.append('search', search);
-    exportContractParams?.append('exportType', type);
-
+    const queryParams = {
+      exportType: type,
+    };
     const getContractExportParameter = {
-      queryParams: exportContractParams,
+      queryParams,
     };
 
     try {
@@ -78,6 +72,8 @@ export const useContracts = () => {
     getContractListData();
   }, [search, page, pageLimit, contractFilterLists]);
 
+  const refetch = () => getContractListData?.(page);
+
   const handleAddNewContractClick = () => {
     router?.push({
       pathname: AIR_SERVICES?.UPSERT_CONTRACT,
@@ -89,6 +85,10 @@ export const useContracts = () => {
     lazyGetContractStatus?.data?.data?.contracts,
     router,
   );
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -100,7 +100,7 @@ export const useContracts = () => {
     lazyGetContractStatus,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
     selectedContractList,
     setSelectedContractList,
     getContractListData,
@@ -108,5 +108,6 @@ export const useContracts = () => {
     contractFilterLists,
     theme,
     page,
+    refetch,
   };
 };

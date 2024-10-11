@@ -1,22 +1,16 @@
-import { Box, Divider, Grid, Skeleton, Stack, Typography } from '@mui/material';
-import { smsStatusArray, smsStatusArrayStatic } from '../Dashboard.data';
+import { Box, Divider, Grid, Stack, Typography } from '@mui/material';
+import { smsStatusArray } from '../Dashboard.data';
 import useStatusCards from './useStatusCards';
 import { v4 as uuidv4 } from 'uuid';
+import SkeletonComponent from '@/components/CardSkeletons';
 
-const StatusCards = ({
-  whatsappAnalytics,
-  loading,
-  isDashboardData = true,
-}: any) => {
+const StatusCards = ({ whatsappAnalytics, loading }: any) => {
   const { theme } = useStatusCards();
-  const analyticData = isDashboardData
-    ? smsStatusArrayStatic
-    : smsStatusArray(whatsappAnalytics);
   return (
     <Box sx={{ p: '10px 24px' }}>
       <Grid container spacing={5}>
-        {analyticData?.map((item: any) => (
-          <Grid item xs={6} sm={4} lg={3} xl={2.4} key={uuidv4()}>
+        {smsStatusArray(whatsappAnalytics)?.map((item: any) => (
+          <Grid item xs={6} lg={3} key={uuidv4()}>
             <Stack
               direction={{ xs: 'column', md: 'row' }}
               gap={2}
@@ -24,15 +18,7 @@ const StatusCards = ({
               justifyContent="space-between"
             >
               {loading ? (
-                <Stack direction={'row'} alignItems={'center'} gap={2}>
-                  <Skeleton
-                    variant="circular"
-                    height={45}
-                    width={45}
-                    animation="wave"
-                  />
-                  <Skeleton animation="wave" width={200} height={36} />
-                </Stack>
+                <SkeletonComponent numberOfSkeletons={1} />
               ) : (
                 <>
                   <Box

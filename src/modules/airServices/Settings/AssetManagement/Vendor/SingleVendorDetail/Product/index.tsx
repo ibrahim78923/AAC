@@ -37,6 +37,7 @@ export const Product = () => {
         <Button
           color="primary"
           variant="contained"
+          className="small"
           onClick={() => {
             setUpsertProductModal(true);
           }}

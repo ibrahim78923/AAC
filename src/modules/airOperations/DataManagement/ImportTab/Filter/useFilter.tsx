@@ -1,11 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { defaultValues } from './Filter.data';
-import { useLazyGetUsersDropdownListQuery } from '@/services/airOperations/data-management/import';
+import { useLazyGetImportUsersDropdownListQuery } from '@/services/airOperations/data-management/import';
 import { FilterI } from './Filter.interface';
+import useAuth from '@/hooks/useAuth';
+import { PAGINATION } from '@/config';
 
 export const useFilter = (props: FilterI) => {
   const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
     props;
+
+  const auth: any = useAuth();
+  const productId = auth?.product?._id;
 
   const methods = useForm({
     defaultValues: defaultValues(filterValues),
@@ -25,7 +30,7 @@ export const useFilter = (props: FilterI) => {
       onClose();
       return;
     }
-    setPage?.(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setFilterValues?.(softwareFiltered);
     setIsOpenFilterDrawer?.(false);
   };
@@ -40,7 +45,7 @@ export const useFilter = (props: FilterI) => {
     reset?.();
     setIsOpenFilterDrawer?.(false);
   };
-  const userList = useLazyGetUsersDropdownListQuery();
+  const userList = useLazyGetImportUsersDropdownListQuery();
   return {
     methods,
     handleSubmit,
@@ -48,5 +53,6 @@ export const useFilter = (props: FilterI) => {
     clearFilter,
     onClose,
     userList,
+    productId,
   };
 };

@@ -4,7 +4,6 @@ import {
   CONTRACT_TYPES_CHECK,
   licenseTypeOptions,
   softwareLicense,
-  todayDate,
   upsertContractFormDefaultValuesFunction,
   upsertContractFormFieldsDataFunction,
   upsertContractFormSchemaFunction,
@@ -39,6 +38,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -120,8 +120,8 @@ export const useUpsertContract = () => {
     cost: filledFormValues?.cost ?? 0,
     vendor: filledFormValues?.vendor ?? null,
     approver: filledFormValues?.approver ?? null,
-    startDate: new Date(filledFormValues?.startDate ?? todayDate),
-    endDate: new Date(filledFormValues?.endDate ?? todayDate),
+    startDate: isoDateString(filledFormValues?.startDate),
+    endDate: isoDateString(filledFormValues?.endDate),
     autoRenew: filledFormValues?.autoRenew ?? false,
     notifyExpiry: filledFormValues?.notifyRenewal ?? false,
     notifyBefore: filledFormValues?.notifyBefore ?? '',
@@ -227,6 +227,9 @@ export const useUpsertContract = () => {
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&
@@ -251,20 +254,24 @@ export const useUpsertContract = () => {
       postContractForm?.append('cost', data?.cost);
       data?.vendor !== null &&
         postContractForm?.append('vendor', data?.vendor?._id);
-      postContractForm?.append('startDate', data?.startDate?.toISOString());
-      postContractForm?.append('endDate', data?.endDate?.toISOString());
+      postContractForm?.append('startDate', isoDateString(data?.startDate));
+      postContractForm?.append('endDate', isoDateString(data?.endDate));
       postContractForm?.append('autoRenew', data?.autoRenew);
       postContractForm?.append('notifyRenewal', data?.notifyExpiry);
       !!data?.notifyExpiry &&
         postContractForm?.append('notifyBefore', data?.notifyBefore);
       !!data?.notifyExpiry &&
         postContractForm?.append('notifyTo', data?.notifyTo?._id);
-      postContractForm?.append('software', data?.software?._id);
-      postContractForm?.append('itemsDetail', JSON.stringify(data?.itemDetail));
-      postContractForm?.append('billingCycle', data?.billingCycle?._id);
-      postContractForm?.append('licenseType', data?.licenseType?._id);
-      postContractForm?.append('licenseKey', data?.licenseKey);
-
+      if (data?.software?._id) {
+        postContractForm?.append('software', data?.software?._id);
+        postContractForm?.append(
+          'itemsDetail',
+          JSON.stringify(data?.itemDetail),
+        );
+        postContractForm?.append('billingCycle', data?.billingCycle?._id);
+        postContractForm?.append('licenseType', data?.licenseType?._id);
+        postContractForm?.append('licenseKey', data?.licenseKey);
+      }
       data?.approver !== null &&
         postContractForm?.append('approver', data?.approver?._id);
       data?.associateAssets !== null &&

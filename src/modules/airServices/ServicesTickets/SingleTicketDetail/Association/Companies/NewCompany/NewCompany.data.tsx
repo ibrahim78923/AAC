@@ -36,7 +36,8 @@ export const getFormFields = ({ contactOwner }: any) => [
       fullWidth: true,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       accept: {
-        'image/*': ['.png', '.jpg'],
+        'image/png': ['.png', '.PNG'],
+        'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
       },
     },
     component: RHFDropZone,
@@ -137,7 +138,7 @@ export const getFormFields = ({ contactOwner }: any) => [
     componentProps: {
       name: 'linkedInUrl',
       label: 'LinkedIn Company URL',
-      placeholder: 'https://www.linkedin.com/',
+      placeholder: 'https://www.linkedin.com/company/consultancyoutfit',
     },
     component: RHFTextField,
   },

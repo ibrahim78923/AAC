@@ -1,8 +1,9 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { truncateText } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { splitCapitalizedWords } from '@/utils/api';
 
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
@@ -66,6 +67,8 @@ export const contractsListsColumnsFunction = (
     cell: (info: any) => (
       <Typography
         component="span"
+        variant={'body3'}
+        textTransform={'capitalize'}
         onClick={() =>
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL,
@@ -77,7 +80,7 @@ export const contractsListsColumnsFunction = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {truncateText(info?.getValue())}
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
       </Typography>
     ),
   },
@@ -87,8 +90,12 @@ export const contractsListsColumnsFunction = (
     header: 'Type',
     isSortable: false,
     cell: (info: any) => (
-      <Typography variant={'body1'} textTransform={'capitalize'}>
-        {truncateText(info?.getValue())}
+      <Typography
+        variant={'body3'}
+        textTransform={'capitalize'}
+        component={'span'}
+      >
+        <TruncateText text={info?.getValue()} />
       </Typography>
     ),
   },
@@ -98,8 +105,12 @@ export const contractsListsColumnsFunction = (
     isSortable: false,
     header: 'Status',
     cell: (info: any) => (
-      <Typography variant={'body2'} textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
+      <Typography
+        variant={'body3'}
+        textTransform={'capitalize'}
+        component={'span'}
+      >
+        {splitCapitalizedWords(info?.getValue()) ?? '---'}
       </Typography>
     ),
   },
@@ -108,21 +119,21 @@ export const contractsListsColumnsFunction = (
     id: 'statusRenewExtend',
     isSortable: false,
     header: 'Renewal Status',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.contractNumber,
     id: 'contractNumber',
     isSortable: false,
     header: 'Contract Number',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.vendor,
     id: 'vendor',
     isSortable: false,
     header: 'Vendor',
-    cell: (info: any) => truncateText(info?.getValue()?.name),
+    cell: (info: any) => <TruncateText text={info?.getValue()?.name} />,
   },
   {
     accessorFn: (row: any) => row?.endDate,

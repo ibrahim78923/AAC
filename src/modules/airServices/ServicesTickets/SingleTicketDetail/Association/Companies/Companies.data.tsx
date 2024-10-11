@@ -1,15 +1,12 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
+import { UserInfo } from '@/components/UserInfo';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const optionsIndustry = [
   'Aerospace & Defense',
@@ -73,17 +70,49 @@ export const TYPE_VALUES = {
 
 export const validationSchema: any = Yup?.object()?.shape({
   domain: Yup?.string()?.trim()?.required('Domain is required'),
-  name: Yup?.string()?.trim(),
+  name: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.NAME,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
+    ),
   profilePicture: Yup?.mixed()?.nullable(),
   ownerId: Yup?.mixed()?.nullable()?.required('Owner is required'),
   description: Yup?.string()?.trim(),
   industry: Yup?.string(),
   type: Yup?.string(),
-  city: Yup?.string()?.trim(),
-  postalCode: Yup?.string()?.trim(),
-  address: Yup?.string()?.trim(),
-  noOfEmloyee: Yup?.number()?.nullable()?.typeError('Must be a number'),
-  totalRevenue: Yup?.number()?.nullable()?.typeError('Must be a number'),
+  city: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  postalCode: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  address: Yup?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.ADDRESS,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.ADDRESS}`,
+    ),
+  noOfEmloyee: Yup?.number()
+    ?.nullable()
+    ?.typeError('Must be a number')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
+  totalRevenue: Yup?.number()
+    ?.nullable()
+    ?.typeError('Must be a number')
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    ),
   linkedInUrl: Yup?.string()?.trim(),
 });
 
@@ -103,7 +132,7 @@ export const defaultValues = {
   linkedInUrl: '',
 };
 
-export const getAssociateCompanyColumns: any = ({ theme, setModalId }: any) => {
+export const getAssociateCompanyColumns: any = ({ setModalId }: any) => {
   return [
     {
       accessorFn: (row: any) => row,
@@ -111,22 +140,12 @@ export const getAssociateCompanyColumns: any = ({ theme, setModalId }: any) => {
       header: 'Companies Name',
       isSortable: true,
       cell: (info: any) => (
-        <Box display={'flex'} alignItems={'center'} gap={1}>
-          <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-            src={generateImage(info?.getValue()?.profilePicture?.url)}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(info?.getValue()?.name)}
-            </Typography>
-          </Avatar>
-          <Box display={'flex'} flexDirection={'column'}>
-            <Typography variant="body2">
-              {fullName(info?.getValue()?.name)}
-            </Typography>
-            {truncateText(info?.getValue()?.domain)}
-          </Box>
-        </Box>
+        <UserInfo
+          nameInitial={fullNameInitial(info?.getValue()?.name)}
+          name={fullName(info?.getValue()?.name)}
+          avatarSrc={info?.getValue()?.profilePicture?.url}
+          email={info?.getValue()?.domain}
+        />
       ),
     },
     {
@@ -142,8 +161,11 @@ export const getAssociateCompanyColumns: any = ({ theme, setModalId }: any) => {
       isSortable: true,
       header: 'Company Owner',
       cell: (info: any) => (
-        <Typography variant="body2">
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        <Typography variant={'body3'} textTransform={'capitalize'}>
+          {fullName(
+            info?.getValue()?.firstName?.toLowerCase(),
+            info?.getValue()?.lastName?.toLowerCase(),
+          )}
         </Typography>
       ),
     },

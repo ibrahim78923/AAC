@@ -61,13 +61,16 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
             type={'button'}
             variant={'outlined'}
             color={'inherit'}
+            className="small"
             onClick={onClose}
+            disabled={patchChildAssetTypeStatus?.isLoading}
           >
             Cancel
           </Button>
           <LoadingButton
             type={'submit'}
             variant={'contained'}
+            className="small"
             disabled={patchChildAssetTypeStatus?.isLoading}
             loading={patchChildAssetTypeStatus?.isLoading}
           >

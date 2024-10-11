@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { isPortalOpenInitialState } from './slice';
+import { isPortalOpenInitialState, selectedFolderInitialState } from './slice';
 
 const setPageReducer = (state: any, action: any) => {
   state.page = action?.payload;
@@ -62,6 +62,14 @@ const setSelectedFolderReducer = (state: any, action: any) => {
   state.selectedFolder = action?.payload?.selectedFolder;
   state.page = action?.payload?.page;
   state.IsSelectedFolderChange = true;
+  state.filterArticlesList = {};
+};
+
+const resetSelectedFolderReducer = (state: any) => {
+  state.selectedFolder = selectedFolderInitialState;
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.IsSelectedFolderChange = true;
+  state.filterArticlesList = {};
 };
 
 const canDisableFolderSelectionsReducer = (state: any, action: any) => {
@@ -70,6 +78,20 @@ const canDisableFolderSelectionsReducer = (state: any, action: any) => {
 
 const hasSingleArticleApiErrorReducer = (state: any, action: any) => {
   state.singleArticleApiError = action?.payload;
+};
+
+const resetComponentStateReducers = (state: any) => {
+  state.page = PAGINATION?.CURRENT_PAGE;
+  state.pageLimit = PAGINATION?.PAGE_LIMIT;
+  state.search = '';
+  state.filterArticlesList = {};
+  state.selectedArticlesList = [];
+  state.isPortalOpen = isPortalOpenInitialState;
+  state.selectedFolder = selectedFolderInitialState;
+  state.IsSelectedFolderChange = false;
+  state.canDisableFolderSelection = false;
+  state.singleArticleApiError = false;
+  state.totalRecords = PAGINATION?.TOTAL_RECORDS;
 };
 
 export const servicesKnowledgeBaseReducersList = {
@@ -89,4 +111,6 @@ export const servicesKnowledgeBaseReducersList = {
   canDisableFolderSelectionsReducer,
   refetchArticlesListReducer,
   hasSingleArticleApiErrorReducer,
+  resetComponentStateReducers,
+  resetSelectedFolderReducer,
 };

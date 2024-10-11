@@ -1,10 +1,18 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CANNED_RESPONSES } from '@/constants/strings';
-import { AvatarGroup, Box, Checkbox, Avatar, Tooltip } from '@mui/material';
+import {
+  AvatarGroup,
+  Checkbox,
+  Avatar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import dayjs from 'dayjs';
-import { stringAvatar } from './AddResponseForm/AddResponseForm.data';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { TruncateText } from '@/components/TruncateText';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+
 export const responsesTableColumns = (
   responsesData: any,
   setResponsesData: any,
@@ -61,9 +69,9 @@ export const responsesTableColumns = (
   {
     accessorFn: (row: { title: string }) => row?.title,
     id: 'title',
-    cell: (info: any) => info?.getValue(),
     header: 'Title',
     isSortable: true,
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: { createdAt: string }) => row?.createdAt,
@@ -83,31 +91,40 @@ export const responsesTableColumns = (
     header: 'Available for',
     cell: (info: any) => {
       return (
-        <Box>
+        <>
           {info?.getValue()?.availableFor ===
           CANNED_RESPONSES?.SELECT_AGENTS ? (
             <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
-              {info?.getValue()?.agents?.map((avatar: any) => (
+              {info?.getValue()?.agents?.map((agent: any) => (
                 <Tooltip
-                  key={avatar?._id}
-                  title={`${avatar?.firstName} ${avatar?.lastName}`}
+                  title={fullName(agent?.firstName, agent?.lastName)}
+                  key={agent?._id}
                 >
                   <Avatar
-                    key={avatar?.id}
-                    sx={{ color: 'grey.600', fontWeight: 500 }}
-                    alt={`${avatar?.firstName} ${avatar?.lastName}`}
-                    src={avatar?.attachments}
-                    {...stringAvatar(
-                      `${avatar?.firstName} ${avatar?.lastName}`,
-                    )}
-                  />
+                    sx={{
+                      bgcolor: 'primary.main',
+                      width: 28,
+                      height: 28,
+                    }}
+                    variant={'circular'}
+                    src={generateImage(agent?.avatar)}
+                  >
+                    <Typography variant={'body2'} textTransform={'uppercase'}>
+                      {fullNameInitial(agent?.firstName, agent?.lastName)}
+                    </Typography>
+                  </Avatar>
                 </Tooltip>
               ))}
             </AvatarGroup>
           ) : (
-            info?.getValue()?.availableFor?.replace(/_/g, ' ')
+            <TruncateText
+              text={info
+                ?.getValue()
+                ?.availableFor?.replace(/_/g, ' ')
+                ?.toLowerCase()}
+            />
           )}
-        </Box>
+        </>
       );
     },
   },

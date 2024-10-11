@@ -15,6 +15,7 @@ export const WorkflowActionExecuted = (props: any) => {
     apiQueryCategories,
     apiQueryLocations,
     apiUsersListDropdown,
+    productId,
   } = useWorkflowActionExecuted(props);
   return (
     <Box
@@ -48,6 +49,7 @@ export const WorkflowActionExecuted = (props: any) => {
               apiQueryCategories,
               apiQueryLocations,
               apiUsersListDropdown,
+              productId,
             })?.map((actionItem) => (
               <Grid
                 item

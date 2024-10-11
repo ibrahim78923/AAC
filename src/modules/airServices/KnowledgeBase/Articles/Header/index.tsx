@@ -7,6 +7,10 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { useHeader } from './useHeader';
 
+const { SEARCH_AND_FILTER } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
+const { AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS } = Permissions ?? {};
+
 export const Header = () => {
   const {
     articlesActionDropdown,
@@ -23,29 +27,19 @@ export const Header = () => {
       flexWrap={'wrap'}
       alignItems={'center'}
     >
-      <PermissionsGuard
-        permissions={[
-          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
-        ]}
-      >
+      <PermissionsGuard permissions={[SEARCH_AND_FILTER]}>
         <Search label="Search Here" setSearchBy={setArticleSearch} />
       </PermissionsGuard>
       <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
         <PermissionsGuard
-          permissions={
-            Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS
-          }
+          permissions={AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS}
         >
           <SingleDropdownButton
             disabled={!!!selectedArticlesList?.length}
             dropdownOptions={articlesActionDropdown}
           />
         </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
-          ]}
-        >
+        <PermissionsGuard permissions={[SEARCH_AND_FILTER]}>
           <Button
             className="small"
             variant="outlined"

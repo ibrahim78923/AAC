@@ -15,7 +15,7 @@ const useUsers = () => {
   });
   const [searchAccount, setSearchAccount] = useState('');
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const empListParams = {
     page: page,

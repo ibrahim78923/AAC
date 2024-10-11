@@ -1,44 +1,48 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 
+const option = ['English'];
 export const profileValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.trim()
     ?.required('First name is Required')
-    ?.max(30, 'First Name up to 30 characters'),
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_FIRST_NAME_MAX_CHARACTERS,
+      `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_FIRST_NAME_MAX_CHARACTERS} `,
+    ),
   lastName: Yup?.string()
     ?.trim()
     ?.required('Last name is Required')
-    ?.max(30, 'Last Name up to 30 characters'),
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_LAST_NAME_MAX_CHARACTERS,
+      `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_LAST_NAME_MAX_CHARACTERS} `,
+    ),
   workPhoneNumber: Yup?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   mobileNumber: Yup?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
+  jobTitle: Yup?.string()
+    ?.trim()
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_JOB_TITLE_MAX_CHARACTERS,
+      `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_JOB_TITLE_MAX_CHARACTERS} `,
     ),
-  jobTitle: Yup?.string()?.trim()?.max(30, 'Job Title up to 30 characters'),
-  language: Yup?.string()?.trim()?.max(30, 'Language up to 30 characters'),
+  language: Yup?.string()?.trim(),
   timeZone: Yup?.mixed()?.nullable(),
   facebookURL: Yup?.string()?.trim(),
   linkedinURL: Yup?.string()?.trim(),
@@ -144,8 +148,9 @@ export const profileOtherDataArray: IProfileOtherData[] = [
       label: 'Language',
       type: 'text',
       size: 'small',
+      options: option,
     },
-    component: RHFTextField,
+    component: RHFAutocomplete,
   },
   {
     _id: 5868,

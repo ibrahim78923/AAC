@@ -3,22 +3,40 @@ import {
   Box,
   Checkbox,
   LinearProgress,
+  Skeleton,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
+import { usePatchGoalMutation } from '@/services/airSales/forecast';
+import { enqueueSnackbar } from 'notistack';
+import { EditPenIcon } from '@/assets/icons';
 
-export const manageStatusData = [
-  { title: 'Goal', count: 120, divider: true },
-  { title: 'Closed Won', count: 0, divider: true },
-  { title: 'Gap', count: 120, divider: true },
-  { title: 'Forecast Submission', count: 20, divider: false },
-];
+export const manageStatusData = (data: any) => {
+  return [
+    { title: 'Goal', count: data?.totalTarget, divider: true },
+    { title: 'Closed Won', count: data?.totalAchieved, divider: true },
+    { title: 'Gap', count: data?.totalGap, divider: true },
+    {
+      title: 'Forecast Submission',
+      count: data?.totalSubmission,
+      divider: false,
+    },
+  ];
+};
 
-export const manageAccountData = [
-  { title: 'Pipeline Value', count: '0', divider: true },
-  { title: 'Pipeline Coverage', count: 0, divider: false },
-];
+export const manageAccountData = (data: any) => {
+  return [
+    { title: 'Pipeline Value', count: data?.totalAchieved, divider: true },
+    {
+      title: 'Pipeline Coverage',
+      count: data?.totalCoveragePercentage,
+      divider: false,
+    },
+  ];
+};
 
 //table data
 export const manageTableColumns: any = (
@@ -27,6 +45,7 @@ export const manageTableColumns: any = (
   setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
+  stages: any,
 ) => {
   return [
     {
@@ -36,8 +55,8 @@ export const manageTableColumns: any = (
         <Checkbox
           color="primary"
           checked={
-            info?.cell?.row?.original?.id ===
-              tableRowValues?.cell?.row?.original?.id && !isDisabled
+            info?.cell?.row?.original?._id ===
+              tableRowValues?.cell?.row?.original?._id && !isDisabled
           }
           name={info?.getValue()}
           onClick={() => {
@@ -49,15 +68,15 @@ export const manageTableColumns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
+      accessorFn: (row: any) => row?.goalName,
+      id: 'goalName',
       header: 'Name',
       isSortable: true,
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.goalOutcome,
-      id: 'goalOutcome',
+      accessorFn: (row: any) => row?.percentageAchieved,
+      id: 'percentageAchieved',
       header: (
         <Box display={'flex'} gap={1}>
           Goal Outcome
@@ -87,7 +106,7 @@ export const manageTableColumns: any = (
             <LinearProgress
               sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
               variant="determinate"
-              value={50}
+              value={info?.getValue()}
             />
 
             <Typography
@@ -96,15 +115,16 @@ export const manageTableColumns: any = (
               textAlign={'right'}
               mt={0.5}
             >
-              £{info?.getValue()} of £120
+              £{info?.row?.original?.totalAmountAchieved} of £{' '}
+              {info?.row?.original?.target}
             </Typography>
           </Box>
         </Stack>
       ),
     },
     {
-      accessorFn: (row: any) => row?.total,
-      id: 'total',
+      accessorFn: (row: any) => row?.totalAmountAchieved,
+      id: 'totalAmountAchieved',
       header: (
         <Box display={'flex'} gap={1}>
           Total
@@ -126,7 +146,7 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => `£ ${info?.getValue()}`,
     },
     {
       accessorFn: (row: any) => row?.coverageRatio,
@@ -151,49 +171,21 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.appointmentSch,
-      id: 'appointmentSch',
-      header: 'Appointmentsch',
-      isSortable: true,
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
-          <Box>
-            <Typography>{info?.getValue()}</Typography>
-
-            <Box display="flex" gap={0.5}>
-              <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.deals} Deals
-              </Typography>
-            </Box>
-          </Box>
+          <Typography sx={{ cursor: 'pointer' }}>
+            {(
+              info?.row?.original?.totalAmountAchieved /
+              info?.row?.original?.target
+            )?.toFixed(1)}
+            x
+          </Typography>
         </Stack>
       ),
     },
     {
-      accessorFn: (row: any) => row?.contactSent,
-      id: 'contactSent',
-      header: 'Contact Sent',
-      isSortable: true,
-      cell: (info: any) => (
-        <Stack direction="row" gap={2} alignItems="center">
-          <Box>
-            <Typography>{info?.getValue()}</Typography>
-
-            <Box display="flex" gap={0.5}>
-              <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.deals} Deals
-              </Typography>
-            </Box>
-          </Box>
-        </Stack>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.forecastSub,
-      id: 'forecastSub',
+      accessorFn: (row: any) => row?.submission,
+      id: 'submission',
       header: (
         <Box display={'flex'} gap={1}>
           Forecast Sub..
@@ -214,51 +206,107 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => (
-        <Stack direction="row" gap={2} alignItems="center">
-          <Box display="flex" gap={0.5}>
-            <Tooltip
-              title={
-                <Box>
-                  <Typography variant="body4">
-                    <b> Forecast Submission</b> <br />
+      cell: (info: any) => {
+        const [isEditing, setIsEditing] = useState(false);
+        const [submissionValue, setSubmissionValue] = useState(
+          info?.getValue(),
+        );
+
+        const [patchGoal, { isLoading }] = usePatchGoalMutation();
+
+        const handleEditClick = () => {
+          setIsEditing(true);
+        };
+
+        const handleInputChange = (
+          event: React.ChangeEvent<HTMLInputElement>,
+        ) => {
+          setSubmissionValue(event.target.value);
+        };
+
+        const handleBlur = async () => {
+          setIsEditing(false);
+
+          const payload = {
+            submission: submissionValue,
+          };
+
+          if (info?.row?.original?.submission != submissionValue) {
+            try {
+              await patchGoal({
+                body: payload,
+                id: info?.row?.original?._id,
+              })?.unwrap();
+              enqueueSnackbar('Forecast Submission update successfully', {
+                variant: 'success',
+              });
+            } catch (error: any) {
+              enqueueSnackbar('An error occured', {
+                variant: 'error',
+              });
+            }
+          }
+        };
+
+        return (
+          <Stack direction="row" gap={2} alignItems="center">
+            {isLoading ? (
+              <Skeleton variant="rectangular" width={100} height={30} />
+            ) : (
+              <>
+                {isEditing ? (
+                  <TextField
+                    value={submissionValue}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    size="small"
+                    autoFocus
+                    variant="outlined"
+                  />
+                ) : (
+                  <Typography sx={{ cursor: 'pointer' }}>
+                    {info?.getValue() ?? '--'}
                   </Typography>
-                  <Box display={'flex'} justifyContent={'space-between'}>
-                    <Typography variant="body4">Time Forecast</Typography>
-                    <Typography variant="body4">
-                      May 2023 <br />
-                    </Typography>
+                )}
+                {!isEditing && (
+                  <Box sx={{ cursor: 'pointer' }} onClick={handleEditClick}>
+                    <EditPenIcon />
                   </Box>
-
-                  <Box display={'flex'} justifyContent={'space-between'}>
-                    <Typography variant="body4">Total</Typography>
-                    <Typography variant="body4">
-                      N/A <br />
-                    </Typography>
-                  </Box>
-
-                  <Box display={'flex'} justifyContent={'space-between'}>
-                    <Typography variant="body4">Team Submission</Typography>
-                    <Typography variant="body4">
-                      £45.00 <br />
+                )}
+              </>
+            )}
+          </Stack>
+        );
+      },
+    },
+    ...(Array.isArray(stages)
+      ? stages?.map((stage: any) => ({
+          accessorFn: (row: any) => {
+            const stageGroup = row?.stageGroups?.find(
+              (group: any) => group?.stageId === stage?._id,
+            );
+            return stageGroup || { numberOfDeals: 0, totalAmount: 0 };
+          },
+          id: stage?._id,
+          header: stage?.name,
+          isSortable: false,
+          cell: (info: any) => {
+            const stageData = info?.getValue();
+            return (
+              <Stack direction="row" gap={2} alignItems="center">
+                <Box>
+                  <Typography>£ {stageData?.totalAmount}</Typography>
+                  <Box display="flex" gap={0.5}>
+                    <Typography fontSize="12px" fontWeight={600}>
+                      {stageData?.numberOfDeals} Deals
                     </Typography>
                   </Box>
                 </Box>
-              }
-              placement="top-end"
-              arrow
-              PopperProps={{
-                style: { width: '220px' },
-              }}
-            >
-              <Typography sx={{ cursor: 'pointer' }}>
-                {info?.getValue()}
-              </Typography>
-            </Tooltip>
-          </Box>
-        </Stack>
-      ),
-    },
+              </Stack>
+            );
+          },
+        }))
+      : []),
   ];
 };
 

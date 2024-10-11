@@ -1,6 +1,6 @@
 import { settingSalesProductCategory } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['SettingSalesProductCategories'];
 export const salesProductCategoriesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postSalesProductCategories: builder.mutation({
@@ -9,7 +9,7 @@ export const salesProductCategoriesAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['SettingSalesProductCategories'],
+      invalidatesTags: TAG,
     }),
     getSalesProductCategories: builder.query({
       query: ({ params }: any) => ({
@@ -17,7 +17,7 @@ export const salesProductCategoriesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SettingSalesProductCategories'],
+      providesTags: TAG,
     }),
     updateSalesProductCategories: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -25,7 +25,7 @@ export const salesProductCategoriesAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['SettingSalesProductCategories'],
+      invalidatesTags: TAG,
     }),
   }),
 });

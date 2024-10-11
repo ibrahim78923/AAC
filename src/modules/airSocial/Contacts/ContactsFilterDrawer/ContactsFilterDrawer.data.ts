@@ -34,7 +34,9 @@ export const FilterData = (
         placeholder: 'Select Lifecycle Stage',
         apiQuery: lifeCycleStages,
         getOptionLabel: (option: any) => option?.name,
-        externalParams: {},
+        externalParams: {
+          meta: false,
+        },
       },
     },
     {

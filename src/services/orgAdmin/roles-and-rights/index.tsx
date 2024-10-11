@@ -1,33 +1,33 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = ['PERMISSIONS'];
+
 export const rolesAndRightsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getPermissionsRoles: builder.query({
+    getPermissionsRolesOrgadmin: builder.query({
       query: (values: any) => ({
         url: END_POINTS?.GET_PERMISSIONS_ROLES,
         method: 'GET',
         params: values,
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
-    getPermissionsRolesById: builder.query({
+    getPermissionsRolesByIdOrgadmin: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
-
-    getProductsPermissions: builder.query({
+    getProductsPermissionsOrgadmin: builder.query({
       query: ({ productId }: any) => ({
         url: `${END_POINTS?.GET_PLAN_PRODUCTS_PERMISSIONS}/${productId}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
-
-    updateRoleRights: builder.mutation({
+    updateRoleRightsOrgadmin: builder.mutation({
       query: ({ id, body }: any) => {
         return {
           url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
@@ -35,10 +35,9 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: TAG,
     }),
-
-    postPermissionRole: builder.mutation({
+    postPermissionRoleOrgadmin: builder.mutation({
       query: ({ body }: any) => {
         return {
           url: END_POINTS?.GET_PERMISSIONS_ROLES,
@@ -46,16 +45,22 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: TAG,
     }),
   }),
 });
 
 export const {
-  useGetPermissionsRolesQuery,
-  useGetProductsPermissionsQuery,
-  useUpdateRoleRightsMutation,
-  useGetPermissionsRolesByIdQuery,
-  useLazyGetPermissionsRolesByIdQuery,
-  usePostPermissionRoleMutation,
+  useGetPermissionsRolesOrgadminQuery,
+  useGetProductsPermissionsOrgadminQuery,
+  useGetPermissionsRolesByIdOrgadminQuery,
+  useUpdateRoleRightsOrgadminMutation,
+  usePostPermissionRoleOrgadminMutation,
+  useLazyGetPermissionsRolesByIdOrgadminQuery,
+  // useGetPermissionsRolesQuery,
+  // useGetProductsPermissionsQuery,
+  // useUpdateRoleRightsMutation,
+  // useGetPermissionsRolesByIdQuery,
+  // useLazyGetPermissionsRolesByIdQuery,
+  // usePostPermissionRoleMutation,
 } = rolesAndRightsAPI;

@@ -1,16 +1,26 @@
 import { ReactNode } from 'react';
 import PermissionDenied from '@/components/PermisisonDenied';
 import useAuth from '@/hooks/useAuth';
+import { bypassPermissionsDictionary } from '@/constants';
 
 function checkPermissions(permissions: any, modulePermissions: any) {
   const componentPermissionsDictionary: any = {};
+
+  let bypass = false;
+
   modulePermissions?.forEach((value: any) => {
+    if (bypassPermissionsDictionary[value]) bypass = true;
     componentPermissionsDictionary[value] = true;
   });
 
+  if (bypass) return true;
+
   if (permissions?.length > 0) {
     for (const permission of permissions) {
-      if (componentPermissionsDictionary[permission]) {
+      if (
+        componentPermissionsDictionary[permission] ||
+        bypassPermissionsDictionary[permission]
+      ) {
         return true; // At least one permission is available
       }
     }

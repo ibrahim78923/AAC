@@ -1,12 +1,8 @@
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
 import { Avatar, Box, Typography } from '@mui/material';
 import { AnnouncementCardPropsI } from '../Announcements.interface';
+import { TruncateText } from '@/components/TruncateText';
 
 export const AnnouncementCard = (props: AnnouncementCardPropsI) => {
   const { data, index } = props;
@@ -26,9 +22,8 @@ export const AnnouncementCard = (props: AnnouncementCardPropsI) => {
         flexWrap={'wrap'}
         gap={1}
       >
-        <Typography fontWeight={600} color={'blue.main'}>
-          {truncateText(data?.title)}
-        </Typography>
+        <TruncateText text={data?.title?.toLowerCase()} />
+
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
             src={generateImage(data?.createdBy?.avatar?.url)}

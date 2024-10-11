@@ -7,6 +7,7 @@ export interface PermissionTabsArrayI {
   label?: string;
   disabled?: boolean;
   componentProps?: { [key: string]: any };
+  hasNoPermissions?: boolean;
 }
 
 export interface PermissionTabsPropsI {

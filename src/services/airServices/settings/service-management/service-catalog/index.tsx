@@ -2,164 +2,81 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'CATALOG';
-const TAG_TWO = 'SERVICE_CATALOG_DROPDOWN';
-const TAG_THREE = 'DROPDOWN_REQUESTER';
-const TAG_FOUR = 'DROPDOWN_AGENT';
-const TAG_FIVE = 'DROPDOWN_ASSETS';
-const transformResponse = (response: any) => {
-  if (response) return response?.data?.productcatalogs;
-};
+
 export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getServiceCatalog: builder?.query({
+    getAirServicesSettingsServiceCatalog: builder?.query({
       query: (getServiceCatalogCategoriesParameter: any) => ({
-        url: `${END_POINTS?.SERVICE_CATALOG}`,
+        url: END_POINTS?.SERVICE_CATALOG,
         method: 'GET',
         params: getServiceCatalogCategoriesParameter?.queryParam,
       }),
       providesTags: [TAG],
     }),
-    getServiceCatalogCategories: builder?.query({
+
+    getAirServicesSettingsServiceCatalogCategories: builder?.query({
       query: ({ param }: any) => ({
-        url: `${END_POINTS?.SERVICE_CATALOG_CATEGORIES}`,
+        url: END_POINTS?.SERVICE_CATALOG_CATEGORIES,
         method: 'GET',
         params: param,
       }),
       providesTags: [TAG],
     }),
-    deleteServiceCatalog: builder?.mutation({
+
+    deleteAirServicesSettingsServiceCatalog: builder?.mutation({
       query: (deleteServiceCatalogParameter: any) => ({
-        url: `${END_POINTS?.DELETE_SERVICE}`,
+        url: END_POINTS?.DELETE_SERVICE,
         method: 'DELETE',
         params: deleteServiceCatalogParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),
-    postServiceCatalog: builder?.mutation({
+
+    postAirServicesSettingsServiceCatalog: builder?.mutation({
       query: (payload: any) => ({
-        url: `${END_POINTS?.ADD_SERVICE_CATALOG}`,
-        method: 'POST',
-        body: payload?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    postAddServiceCatalog: builder?.mutation({
-      query: (payload: any) => ({
-        url: `${END_POINTS?.UPSERT_SERVICES_CATALOG}`,
+        url: END_POINTS?.ADD_SERVICE_CATALOG,
         method: 'POST',
         body: payload?.body,
       }),
       invalidatesTags: [TAG],
     }),
 
-    getAgentDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_FOUR],
-    }),
-    patchServiceCatalog: builder?.mutation({
+    patchAirServicesSettingsServiceCatalog: builder?.mutation({
       query: (putServiceCatalogParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SERVICE_CATALOG}`,
+        url: END_POINTS?.EDIT_SERVICE_CATALOG,
         method: 'PATCH',
         body: putServiceCatalogParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    getCategoriesDropdown: builder?.query({
+
+    getAirServicesSettingsServiceCategoriesDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        url: END_POINTS?.DROPDOWN_CATEGORIES,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.servicecategories;
       },
-      providesTags: [TAG_TWO],
-    }),
-    getServiceCategoriesDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.servicecategories;
-      },
-      providesTags: [TAG_TWO],
-    }),
-    getCategoriesRequesterDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getCategoriesAgentDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_FOUR],
-    }),
-    getRequesterDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
-      providesTags: [TAG_THREE],
-    }),
-    getAssetTypeForServicesDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.assettypes;
-      },
-      providesTags: [TAG_FIVE],
-    }),
-    getSoftwareDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_SOFTWARE}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.assetssoftwares;
-      },
-      providesTags: [TAG_FIVE],
-    }),
-    getProductDropdown: builder?.query({
-      query: ({ param }: any) => ({
-        url: `${END_POINTS?.GET_PRODUCT_DROPDOWN}`,
-        method: 'GET',
-        params: param,
-      }),
-      transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
-    getAirServicesAllUsersAsRequestersForServicesDropdownList: builder?.query({
+
+    getAirServicesSettingsServicesRequesterDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        url: END_POINTS?.DROPDOWN_REQUESTERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG],
+    }),
+
+    getAirServicesSettingsServicesAllUsersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_USERS,
         method: 'GET',
         params,
       }),
@@ -167,27 +84,63 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+
+    getAirServicesSettingsServicesAssetsCategoryDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_ASSET_TYPE_LIST,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assettypes;
+      },
+    }),
+
+    getAirServicesSettingsServicesProductDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.PRODUCT_CATALOG_LIST,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.productcatalogs;
+      },
+    }),
+
+    getAirServicesSettingsServicesSoftwareDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.ASSETS_SOFTWARE,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assetssoftwares;
+      },
+    }),
+
+    postAirServicesSettingsAddServiceCatalog: builder?.mutation({
+      query: (payload: any) => ({
+        url: `${END_POINTS?.UPSERT_SERVICES_CATALOG}`,
+        method: 'POST',
+        body: payload?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
 export const {
-  useGetServiceCatalogQuery,
-  useDeleteServiceCatalogMutation,
-  usePostServiceCatalogMutation,
-  usePostAddServiceCatalogMutation,
-  useGetServiceCatalogCategoriesQuery,
-  usePatchServiceCatalogMutation,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetCategoriesRequesterDropdownQuery,
-  useLazyGetCategoriesAgentDropdownQuery,
-  useGetCategoriesAgentDropdownQuery,
-  useGetCategoriesRequesterDropdownQuery,
-  useGetCategoriesDropdownQuery,
-  useLazyGetServiceCategoriesDropdownQuery,
-  useLazyGetAgentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
-  useLazyGetAssetTypeForServicesDropdownQuery,
-  useLazyGetSoftwareDropdownQuery,
-  useLazyGetProductDropdownQuery,
-  useLazyGetAirServicesAllUsersAsRequestersForServicesDropdownListQuery,
+  useGetAirServicesSettingsServiceCatalogQuery,
+  useDeleteAirServicesSettingsServiceCatalogMutation,
+  usePostAirServicesSettingsServiceCatalogMutation,
+  useGetAirServicesSettingsServiceCatalogCategoriesQuery,
+  usePatchAirServicesSettingsServiceCatalogMutation,
+  useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery,
+  useGetAirServicesSettingsServicesRequesterDropdownQuery,
+  useGetAirServicesSettingsServicesAllUsersDropdownListQuery,
+  useLazyGetAirServicesSettingsServicesAssetsCategoryDropdownQuery,
+  useLazyGetAirServicesSettingsServicesAllUsersDropdownListQuery,
+  useLazyGetAirServicesSettingsServicesProductDropdownListQuery,
+  useLazyGetAirServicesSettingsServicesSoftwareDropdownListQuery,
+  usePostAirServicesSettingsAddServiceCatalogMutation,
 } = serviceCatalogAPI;

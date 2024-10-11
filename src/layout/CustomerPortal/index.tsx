@@ -37,7 +37,7 @@ const CustomerPortalLayout = ({
   const {
     theme,
     user,
-    logout,
+    customerLogoutHandler,
     companyId,
     customerPortalRoutes,
     routerPathName,
@@ -159,7 +159,7 @@ const CustomerPortalLayout = ({
                   <List>
                     <ListItem
                       sx={{ padding: '6px 0px 6px 0px' }}
-                      onClick={logout}
+                      onClick={customerLogoutHandler}
                     >
                       <ListItemButton
                         sx={customerPortalStyles?.logoutButtonStyles(
@@ -204,7 +204,7 @@ const CustomerPortalLayout = ({
       routerPathName,
       companyId,
       theme,
-      logout,
+      customerLogoutHandler,
       user,
       customerPortalStyling,
       reducedOpacityBgColor,
@@ -215,118 +215,120 @@ const CustomerPortalLayout = ({
     typeof window !== 'undefined' ? window?.document?.body : undefined;
 
   return (
-    <Box display={'flex'}>
-      <CssBaseline />
-      <AppBar sx={customerPortalStyles?.appToolbarStyles(drawerWidth, theme)}>
-        {user ? (
-          <Header handleDrawerToggle={() => setIsMobileOpen(true)} />
-        ) : (
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'flex-end'}
-            gap={2}
-          >
-            <Link href={AUTH?.LOGIN}>
-              <Button
-                variant={'outlined'}
-                sx={{
-                  borderColor:
-                    customerPortalStyling?.btnSecondary ||
-                    customizePortalDefaultValues(theme)?.btnSecondary,
-                  color:
-                    customerPortalStyling?.btnSecondary ||
-                    customizePortalDefaultValues(theme)?.btnSecondary,
-                  '&:hover': {
+    isMounted && (
+      <Box display={'flex'}>
+        <CssBaseline />
+        <AppBar sx={customerPortalStyles?.appToolbarStyles(drawerWidth, theme)}>
+          {user ? (
+            <Header handleDrawerToggle={() => setIsMobileOpen(true)} />
+          ) : (
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'flex-end'}
+              gap={2}
+            >
+              <Link href={AUTH?.LOGIN}>
+                <Button
+                  variant={'outlined'}
+                  sx={{
                     borderColor:
                       customerPortalStyling?.btnSecondary ||
                       customizePortalDefaultValues(theme)?.btnSecondary,
                     color:
                       customerPortalStyling?.btnSecondary ||
                       customizePortalDefaultValues(theme)?.btnSecondary,
-                  },
-                }}
-                disableElevation
-              >
-                Sign In
-              </Button>
-            </Link>
-
-            {isMounted && hasPermissions && (
-              <Link
-                href={{
-                  pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
-                  ...(companyId && { query: { companyId } }),
-                }}
-              >
-                <Button
-                  variant={'contained'}
-                  sx={{
-                    bgcolor:
-                      customerPortalStyling?.btnPrimary ||
-                      customizePortalDefaultValues(theme)?.btnPrimary,
-                    color: 'common.white',
                     '&:hover': {
-                      bgcolor:
-                        customerPortalStyling?.btnPrimary ||
-                        customizePortalDefaultValues(theme)?.btnPrimary,
-                      color: 'common.white',
+                      borderColor:
+                        customerPortalStyling?.btnSecondary ||
+                        customizePortalDefaultValues(theme)?.btnSecondary,
+                      color:
+                        customerPortalStyling?.btnSecondary ||
+                        customizePortalDefaultValues(theme)?.btnSecondary,
                     },
                   }}
                   disableElevation
                 >
-                  Sign Up
+                  Sign In
                 </Button>
               </Link>
-            )}
-          </Box>
-        )}
-      </AppBar>
-      <Box
-        component={'nav'}
-        width={{ md: drawerWidth }}
-        flexShrink={{ md: 0 }}
-        aria-label={'mailbox folders'}
-      >
-        <Drawer
-          container={container}
-          variant={'temporary'}
-          open={isMobileOpen}
-          onClose={() => setIsMobileOpen(false)}
-          ModalProps={{ keepMounted: true }}
-          sx={customerPortalStyles?.mobileDrawerStyles(
-            drawerWidth,
-            customerPortalStyling || customizePortalDefaultValues(theme),
+
+              {hasPermissions && (
+                <Link
+                  href={{
+                    pathname: AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_SIGN_UP,
+                    ...(companyId && { query: { companyId } }),
+                  }}
+                >
+                  <Button
+                    variant={'contained'}
+                    sx={{
+                      bgcolor:
+                        customerPortalStyling?.btnPrimary ||
+                        customizePortalDefaultValues(theme)?.btnPrimary,
+                      color: 'common.white',
+                      '&:hover': {
+                        bgcolor:
+                          customerPortalStyling?.btnPrimary ||
+                          customizePortalDefaultValues(theme)?.btnPrimary,
+                        color: 'common.white',
+                      },
+                    }}
+                    disableElevation
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              )}
+            </Box>
           )}
-        >
-          {drawerContent}
-        </Drawer>
-        <Drawer
-          variant={'permanent'}
-          sx={customerPortalStyles?.mainDrawerStyles(
-            drawerWidth,
-            customerPortalStyling || customizePortalDefaultValues(theme),
-          )}
-          open
-        >
-          {drawerContent}
-        </Drawer>
-      </Box>
-      <Box
-        component={'main'}
-        sx={customerPortalStyles?.layoutBoxStyles(drawerWidth, theme)}
-      >
-        <Toolbar />
+        </AppBar>
         <Box
-          sx={customerPortalStyles?.layoutInnerBoxStyle(
-            theme,
-            isZeroPaddingRoutes,
-          )}
+          component={'nav'}
+          width={{ md: drawerWidth }}
+          flexShrink={{ md: 0 }}
+          aria-label={'mailbox folders'}
         >
-          {children}
+          <Drawer
+            container={container}
+            variant={'temporary'}
+            open={isMobileOpen}
+            onClose={() => setIsMobileOpen(false)}
+            ModalProps={{ keepMounted: true }}
+            sx={customerPortalStyles?.mobileDrawerStyles(
+              drawerWidth,
+              customerPortalStyling || customizePortalDefaultValues(theme),
+            )}
+          >
+            {drawerContent}
+          </Drawer>
+          <Drawer
+            variant={'permanent'}
+            sx={customerPortalStyles?.mainDrawerStyles(
+              drawerWidth,
+              customerPortalStyling || customizePortalDefaultValues(theme),
+            )}
+            open
+          >
+            {drawerContent}
+          </Drawer>
+        </Box>
+        <Box
+          component={'main'}
+          sx={customerPortalStyles?.layoutBoxStyles(drawerWidth, theme)}
+        >
+          <Toolbar />
+          <Box
+            sx={customerPortalStyles?.layoutInnerBoxStyle(
+              theme,
+              isZeroPaddingRoutes,
+            )}
+          >
+            {children}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    )
   );
 };
 

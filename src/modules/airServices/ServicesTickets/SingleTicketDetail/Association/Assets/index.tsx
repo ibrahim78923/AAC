@@ -57,6 +57,7 @@ export default function Assets({
             !selected?.length || postRemoveAssociateTicketsStatus?.isLoading
           }
           isLoading={postRemoveAssociateTicketsStatus?.isLoading}
+          disabledCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
         >
           {ticketType === TICKET_TYPE?.SR && (
             <FormProvider methods={methods}>

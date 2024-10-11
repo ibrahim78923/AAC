@@ -1,12 +1,13 @@
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { NextRouter } from 'next/router';
 import { RelatedTicketsTableRowI } from '../RelatedTickets.interface';
+import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/utils/dateTime';
 
 const TICKET_STATUS_COLOR: any = {
   [TICKET_STATUS?.OPEN]: 'info',
@@ -112,9 +113,14 @@ export const relatedTicketsListsColumnDynamic: any = (
       header: 'Name',
       cell: (info: any) => (
         <>
-          {info?.row?.original?.ticketType === TICKET_TYPE?.SR
-            ? `Request For: ${truncateText(info?.getValue())}`
-            : truncateText(info?.getValue())}
+          {info?.row?.original?.ticketType === TICKET_TYPE?.SR ? (
+            <TruncateText
+              text={info.getValue()}
+              retainTextLeft="Request For: "
+            />
+          ) : (
+            <TruncateText text={info.getValue()} />
+          )}
         </>
       ),
     },
@@ -125,9 +131,7 @@ export const relatedTicketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Due Date',
       cell: (info: any) =>
-        info?.getValue()
-          ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-          : '---',
+        info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
     },
     {
       accessorFn: (row: RelatedTicketsTableRowI) =>

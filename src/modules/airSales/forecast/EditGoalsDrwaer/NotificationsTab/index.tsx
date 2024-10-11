@@ -9,7 +9,7 @@ const NotificationsTab = ({
 
   // Define the notification options
   const notificationOptions = [
-    { label: 'Goal kick-off', value: 'goalKickoff' },
+    { label: 'Goal kick-off', value: 'goalStarted' },
     { label: 'Goal becomes Exceeded', value: 'goalExceeded' },
     { label: 'Goal becomes Achieved', value: 'goalAchieved' },
     { label: 'Goal becomes Missed', value: 'goalMissed' },

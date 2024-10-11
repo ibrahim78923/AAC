@@ -11,7 +11,7 @@ export const useUsersFilter = (props: UsersFilterI) => {
     defaultValues: userDefaultValues(filterValues),
   });
 
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const openFilterDrawer = () => {
     setIsFilterOpen(true);
   };

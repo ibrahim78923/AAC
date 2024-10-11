@@ -7,17 +7,28 @@ import ScheduledSMS from './BroadCastScheduled';
 import SMSContacts from './Contacts';
 
 import StatusCards from './StatusCards';
+import useDashboard from './useDashboard';
 
 const Dashboard = (props: any) => {
   const { setTabVal } = props;
+
+  const { getWhatsappDashboardData, getWhatsappDashboardLoading } =
+    useDashboard();
+
   return (
     <Box sx={{ padding: '20px' }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <StatusCards />
+          <StatusCards
+            loading={getWhatsappDashboardLoading}
+            whatsappAnalytics={getWhatsappDashboardData?.data}
+          />
         </Grid>
         <Grid item xs={12}>
-          <StatisticsCard />
+          <StatisticsCard
+            loading={getWhatsappDashboardLoading}
+            whatsappAnalytics={getWhatsappDashboardData?.data?.statistics}
+          />
         </Grid>
         <Grid item lg={6} xs={12}>
           <ScheduledSMS setTabVal={setTabVal} />

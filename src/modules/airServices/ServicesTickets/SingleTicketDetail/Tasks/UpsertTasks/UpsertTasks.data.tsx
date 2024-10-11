@@ -5,7 +5,7 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { TASK_STATUS } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
@@ -14,18 +14,26 @@ import {
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
+import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 const statusOptions = [TO_DO, IN_PROGRESS, DONE];
 
+const { CREATE_TICKET_TASKS, EDIT_TICKET_TASKS } =
+  TICKET_TASKS_ACTIONS_CONSTANT;
+
 export const TITLE_FORM_USER: any = {
-  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add New Task',
-  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Edit Tasks',
+  [CREATE_TICKET_TASKS]: 'Add New Task',
+  [EDIT_TICKET_TASKS]: 'Edit Tasks',
 };
 
 export const BUTTON_TITLE_FORM_USER: any = {
-  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add Task',
-  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update',
+  [CREATE_TICKET_TASKS]: 'Add Task',
+  [EDIT_TICKET_TASKS]: 'Update',
 };
 
 const notifyBeforeOption = [
@@ -39,9 +47,21 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    title: Yup?.string()?.trim()?.required('Title is Required'),
-    description: Yup?.string()?.trim()?.required('Description is Required'),
-    departmentId: Yup?.mixed()?.required('Department is Required'),
+    title: Yup?.string()
+      ?.trim()
+      ?.required('Title is Required')
+      ?.max(
+        SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS}`,
+      ),
+    description: Yup?.string()
+      ?.trim()
+      ?.required('Description is Required')
+      ?.test('is-not-empty', 'Description is Required', (value) => {
+        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        return strippedContent !== '';
+      }),
+    department: Yup?.mixed()?.required('Department is Required'),
     agent: Yup?.mixed()?.nullable(),
     notifyBefore: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.required('Status is Required'),
@@ -59,7 +79,7 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
   return {
     title: taskData?.title ?? '',
     description: taskData?.description ?? '',
-    departmentId: taskData?.departmentData ?? null,
+    department: taskData?.departmentData ?? null,
     agent: taskData?.assignedUser ?? null,
     status: taskData?.status ?? null,
     notifyBefore: !!taskData?.notifyBefore
@@ -67,8 +87,10 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
           (item: any) => item?._id === +taskData?.notifyBefore,
         )
       : null,
-    startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
-    endDate: taskData?.endDate ? new Date(taskData?.endDate) : null,
+    startDate: taskData?.startDate
+      ? localeDateTime(taskData?.startDate)
+      : new Date(),
+    endDate: taskData?.endDate ? localeDateTime(taskData?.endDate) : null,
     plannedEffort: taskData?.plannedEffort ?? '',
     ...initialValues,
   };
@@ -103,6 +125,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
   },
   {
     id: 3,
+    componentProps: { required: true },
     component: DepartmentFieldDropdown,
     md: 12,
   },
@@ -123,6 +146,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
       fullWidth: true,
       required: true,
       options: statusOptions,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     component: RHFAutocomplete,
     md: 12,

@@ -7,7 +7,6 @@ import {
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
-import { truncateText } from '@/utils/avatarUtils';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import {
@@ -17,6 +16,7 @@ import {
 } from './RolesAndRight.interface';
 import { ChangeEvent } from 'react';
 import { NextRouter } from 'next/router';
+import { TruncateText } from '@/components/TruncateText';
 
 export const actionButtonDropdownDynamic = (
   setIsPortalOpen: ((isOpen?: boolean) => void) | any,
@@ -146,7 +146,12 @@ export const operationsRolesAndRightColumnsDynamic = (
     id: 'name',
     isSortable: true,
     header: 'Role Name',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
+    ),
   },
   {
     accessorFn: (row: IRolesAndRightColumns) => row?.createdAt,
@@ -161,9 +166,10 @@ export const operationsRolesAndRightColumnsDynamic = (
     id: 'description',
     header: 'Description',
     isSortable: true,
-    cell: (info: any) => {
-      const description = truncateText(info?.getValue());
-      return description !== '' ? description : '---';
-    },
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue() == '' ? undefined : info?.getValue()}
+      />
+    ),
   },
 ];

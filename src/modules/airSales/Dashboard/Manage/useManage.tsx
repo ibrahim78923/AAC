@@ -84,6 +84,7 @@ const useManage = () => {
   const handelNavigate = () => {
     router?.push({
       pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+      query: { type: 'add' },
     });
   };
 

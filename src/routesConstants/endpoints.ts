@@ -85,6 +85,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
   QUOTE_SUBMIT: '/quote/submit',
+  QUOTE_SUBMIT_RECORD: '/quote/submit/quote-record',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
@@ -245,6 +246,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   CHANGE_PASSWORD: '/auth/change-password',
+  SET_PASSWORD: '/auth/set-password',
   AGENT_REJECT_REQUEST: '/agent/reject-request',
   APPROVED_REQUEST: '/agent/approve-request',
   ADD_SOFTWARE_USERS: '/assets/add-software-users',
@@ -480,7 +482,14 @@ export const END_POINTS = {
   SERVICE_DASHBOARD_DROPDOWN: `/dynamic-dashboard`,
   SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
   GOALS: '/goals',
+  GET_USER_GOALS: '/goals/users',
+  GET_TEAM_GOALS: '/goals/teams',
   GET_SINGLE_GOAL: '/goals/broadcast',
+  GET_STATS: '/goals/stats',
+  GET_DEAL_STAGES_USER: '/goals/users/stage',
+  GET_DEAL_STAGES_TEAM: '/goals/teams/stage',
+  GET_FORECAST_CATEGORY_USER: '/goals/users/forecast',
+  GET_FORECAST_CATEGORY_TEAM: '/goals/teams/forecast',
   DELETE_SERVICES_DASHBOARD: `/dynamic-dashboard/delete-dashboards`,
   SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,
   RESTORE_DELETED_GENERIC_REPORTS: `/generic-reports/restore-deleted-generic-reports`,
@@ -517,6 +526,12 @@ export const END_POINTS = {
     '/org-company-account/update-customer-portal-STYLING',
   DROPDOWN_ORG_TEAMS: '/dropdown/organization-all-teams',
   CUSTOMER_PORTAL_ASSET_DROPDOWN: '/dropdown/all-assets-customer-portal',
+  GET_SINGLE_AIR_SERVICES_PUBLIC_DASHBOARD: `/dynamic-dashboard/get-email-dashboard-customer-portal`,
+  SHARE_TICKET: '/ticket/share-ticket',
+  GET_PUBLIC_DASHBOARD_CARDS_TICKETS:
+    '/air-services-dashboard/dashboard-tickets-customer-portal',
+  OPERATIONS_TEAM: '/teams',
+  FORECAST: '/forecasts',
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -535,6 +550,9 @@ export const LEAD_CAPTURE_FORM = {
   GET_RESTORE_FORMS: '/lead-capture-form/get-lead-capture-soft-deleted-forms',
   DELETE_FORM_PERMANENT: '/lead-capture-form/permanent-delete-forms',
   PATCH_RESTORE_FORM: '/lead-capture-form/restore-deleted-forms',
+  FETCH_FORM_FIELDS_PUBLIC: '/lead-capture-form/fetch-form-fields',
+  ADD_VIEW_FORM: '/lead-capture-form/add-view-form',
+  ADD_FORM_ENTRANCE: '/lead-capture-form/add-form-entrance',
 };
 
 export const EMAILS_MARKETING = {
@@ -549,10 +567,15 @@ export const EMAILS_MARKETING = {
   MARKETING_TEAMS: '/teams',
 };
 export const EMAILS_MARKETING_SETTINGS = {
-  EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities?status=VERIFIED',
+  EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities',
   CREATE_EMAIL_SETTINGS: '/emails-marketing/create-email-identities',
   EMAIL_VERIFY_OTP_SETTINGS: '/emails-marketing/verify-email-identities',
   UPDATE_EMAIL_IDENTITIES: '/emails-marketing/update-email-identities',
+  DELETE_EMAIL_IDENTITIES: '/emails-marketing/delete-email-identities',
+  RESEND_EMAIL_OTP: '/emails-marketing/resend-code',
+};
+export const EMAILS_MARKETING_REPORTS = {
+  EMAIL_REPORTS: '/emails-marketing/email-reports',
 };
 
 export const superAdminBillingInvoices = {
@@ -620,17 +643,21 @@ export const ORG_ADMIN = {
   PAYMENT_METHOD: '/payment-method',
   DELETE_PAYMENT_METHOD: '/payment-method/delete',
   PAYMENT_METHOD_ID: '/payment-method/find',
+  GET_ONE_INVOICES: '/org-admin/invoices/get-one/{id}',
+  PAY_NOW_INVOICES: '/org-admin/invoices/pay-now-invoice',
 };
 
 export const COMMON_DOCUMENTS = {
   POST_DOCUMENTS_FOLDER: '/documents/folder',
   POST_DOCUMENTS_FILE: '/documents/file',
   GET_DOCUMENT_FOLDER: '/documents/folders',
+  GET_ALL_FOLDERS_LIST: '/documents/nested-folders',
   GET_DOCUMENT_FILE: '/documents/files',
   PATCH_DOCUMENT_FOLDER_ID: '/documents/folder',
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/files',
+  POST_FILE_SHARE: '/documents/file/share',
 };
 
 export const INVOICE = {
@@ -679,6 +706,7 @@ export const SUPER_ADMIN_DASHBOARD = {
 };
 
 export const WHATSAPP_MARKETING = {
+  GET_WHATSAPP_MARKETING_DASHBOARD: '/whatsapp-marketing/dashboard-insights',
   CONNECT_PHONE_NUMBER: '/whatsapp-marketing/connect-number',
   GET_IS_PHONE_CONNECTED: '/whatsapp-marketing/connected-number',
   GET_WHATSAPP_MARKETING_BROADCAST: '/whatsapp-marketing/broadcast',

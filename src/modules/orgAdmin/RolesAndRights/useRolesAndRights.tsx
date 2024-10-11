@@ -25,10 +25,12 @@ const useRolesAndRights = () => {
     product: {},
   });
 
-  const { useGetPermissionsRolesQuery, useUpdateRoleRightsMutation } =
-    rolesAndRightsAPI;
+  const {
+    useGetPermissionsRolesOrgadminQuery,
+    useUpdateRoleRightsOrgadminMutation,
+  } = rolesAndRightsAPI;
 
-  const [updateRoleRights] = useUpdateRoleRightsMutation();
+  const [updateRoleRights] = useUpdateRoleRightsOrgadminMutation();
   const permissionParams = {
     page: page,
     limit: pageLimit,
@@ -48,7 +50,7 @@ const useRolesAndRights = () => {
     data: getPermissions,
     isSuccess,
     isLoading,
-  } = useGetPermissionsRolesQuery(permissionParams, {
+  } = useGetPermissionsRolesOrgadminQuery(permissionParams, {
     skip: !user?.organization?._id,
   });
 

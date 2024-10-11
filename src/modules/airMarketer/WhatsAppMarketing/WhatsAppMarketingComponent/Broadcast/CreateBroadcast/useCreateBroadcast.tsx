@@ -42,7 +42,6 @@ const useCreateBroadcast = () => {
   const navigate = useRouter();
   const { type, id: selectedBroadCast } = navigate?.query;
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
-  const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
   const [recipientType, setRecipientType] = useState<any>(null);
   const [selectedDateVal, setSelectedDateVal] = useState<any>(null);
   const [isSchedule, setIsSchedule] = useState(false);
@@ -99,6 +98,10 @@ const useCreateBroadcast = () => {
   const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
   const templateData = watch('templateId');
   const [detailsMsg, setDetailMsg] = useState(templateData?.detail);
+  const avatarFileUrl = {
+    fileUrl: templateData?.imageUrl,
+    orignalName: 'Attachment',
+  };
 
   const processString = (input: any) => {
     const regex = /\[(.*?)\]/g;
@@ -139,14 +142,16 @@ const useCreateBroadcast = () => {
     if (type === DRAWER_TYPES?.EDIT) {
       const editBradcastData = {
         ...getWhatsappBroadcatsById?.data,
-        campaignId: getWhatsappBroadcatsById?.data?.campaign[0],
-        templateId: getWhatsappBroadcatsById?.data?.template[0],
+        campaignId:
+          getWhatsappBroadcatsById?.data?.campaign[indexNumbers?.ZERO],
+        templateId:
+          getWhatsappBroadcatsById?.data?.template[indexNumbers?.ZERO],
         recipients: getWhatsappBroadcatsById?.data?.recipients?.map(
           (item: any) => `${item?.firstName} ${item?.lastName}`,
         ),
       };
+      delete editBradcastData?.attachment;
       reset(() => broadcastDefaultValues(editBradcastData, form));
-      setSelectedContactsData(getWhatsappBroadcatsById?.data?.recipients ?? []);
       setIsSchedule(
         getWhatsappBroadcatsById?.data?.schedualDate ? true : false,
       );
@@ -164,10 +169,28 @@ const useCreateBroadcast = () => {
       setSelectedRec(
         Array?.isArray(selectedContactsData) ? selectedContactsData : [],
       );
+
+      // Set values for fields created from detailed variables
+      const templateDetailsVariables = processString(
+        getWhatsappBroadcatsById?.data?.template[indexNumbers?.ZERO]?.detail,
+      );
+
+      templateDetailsVariables?.forEach((variable: string, index: number) => {
+        setValue(
+          `field_${variable}`,
+          getWhatsappBroadcatsById?.data?.variables[index],
+        );
+      });
     }
-  }, [getWhatsappBroadcatsById?.data, reset, form, type]);
+  }, [getWhatsappBroadcatsById?.data, reset, form, type, setValue]);
 
   const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
+
+  const editAttachmentObject = {
+    fileSize: getWhatsappBroadcatsById?.data?.attachment?.size,
+    fileUrl: getWhatsappBroadcatsById?.data?.attachment?.fieldname,
+    orignalName: getWhatsappBroadcatsById?.data?.attachment?.originalname,
+  };
 
   const onSubmit = async (data: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -186,41 +209,29 @@ const useCreateBroadcast = () => {
       detail: cleanedDetailsText,
       variables: variableValues,
     };
-
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
-      payloadData.contactGroupId = [];
-      payloadData.recipients = selectedContactsData?.map(
-        (item: any) => item?._id,
-      );
+      payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
-      payloadData.recipients = selectedContactsData
-        ?.map(
-          (item: any) => item?.contacts?.map((contact: any) => contact?._id),
-        )
-        ?.flat();
-      payloadData.contactGroupId = selectedContactsData?.map(
-        (item: any) => item?._id,
-      );
+      payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
+      delete payloadData?.recipients;
     }
+
     if (isSchedule) {
       payloadData.schedualDate = data?.schedualDate;
     }
+
     const filteredEmptyData = filteredEmptyValues(payloadData);
 
     const customFields: any = {};
     const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
 
     try {
       dynamicAttachmentsPost({
         form,
         data,
-        attachmentPromises,
         customFields,
         postAttachmentTrigger,
       });
-
-      await Promise?.all(attachmentPromises);
 
       const customFieldKeys = new Set(
         form?.map((field: any) => field?.componentProps?.label),
@@ -259,12 +270,12 @@ const useCreateBroadcast = () => {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
       }
       delete body?.customFields;
-      Object.keys(body).forEach((key) => {
-        formData.append(key, body[key]);
+      Object?.keys(body)?.forEach((key) => {
+        formData?.append(key, body[key]);
       });
 
       await postWhatsappBroadcast({ body: formData })?.unwrap();
-      successSnackbar('Broadcast Created Successfully');
+      successSnackbar(`Broadcast ${createStatus} Successfully`);
       router?.back();
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
@@ -276,8 +287,12 @@ const useCreateBroadcast = () => {
 
   const submitUpdateTemplate = async (data: any) => {
     const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      formData.append(key, JSON?.stringify(data[key]));
+    if (data?.customFields) {
+      formData?.append('customFields', JSON?.stringify(data?.customFields));
+    }
+    delete data?.customFields;
+    Object?.keys(data)?.forEach((key) => {
+      formData?.append(key, data[key]);
     });
 
     const updateWhatsappBroadcastParameter = {
@@ -309,10 +324,8 @@ const useCreateBroadcast = () => {
     templateDetailsVariables,
     handleOpenContactsDrawer,
     broadcastDetailsLoading,
-    setSelectedContactsData,
     isAddContactDrawerOpen,
     updateBroadcastLoading,
-    selectedContactsData,
     postBroadcastLoading,
     flattenContactsData,
     setSelectedDateVal,
@@ -326,6 +339,7 @@ const useCreateBroadcast = () => {
     previewName,
     selectedRec,
     formFields,
+    editAttachmentObject,
     isSchedule,
     onSubmit,
     methods,
@@ -338,6 +352,8 @@ const useCreateBroadcast = () => {
     detailsMsg,
     createStatus,
     setCreateStatus,
+    avatarFileUrl,
+    templateData,
   };
 };
 

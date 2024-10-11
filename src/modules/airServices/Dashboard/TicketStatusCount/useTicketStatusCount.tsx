@@ -1,15 +1,22 @@
-import { useGetDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
+import { useGetServicesDashboardTicketsInfoCountsQuery } from '@/services/airServices/dashboard';
+import { ticketDashboardCardsData } from './TicketStatusCount.data';
 
 export const useTicketStatusCount = () => {
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetDashboardCardsTicketsQuery(null, {
+    useGetServicesDashboardTicketsInfoCountsQuery(null, {
       refetchOnMountOrArgChange: true,
     });
+
+  const apiCallInProgress = isLoading || isFetching;
+  const ticketDashboardCards = ticketDashboardCardsData(data?.data);
+
   return {
     data,
     isLoading,
     isFetching,
     isError,
     refetch,
+    apiCallInProgress,
+    ticketDashboardCards,
   };
 };

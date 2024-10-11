@@ -13,7 +13,7 @@ import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/p
 
 export const Departments = () => {
   const {
-    setSearch,
+    handleSearch,
     setPageLimit,
     setPage,
     lazyGetDepartmentStatus,
@@ -31,7 +31,7 @@ export const Departments = () => {
   return (
     <>
       <DepartmentsHeader
-        setSearch={setSearch}
+        handleSearch={handleSearch}
         setOpenUpsertModal={setOpenUpsertModal}
         setSelectedDepartment={setSelectedDepartment}
       />

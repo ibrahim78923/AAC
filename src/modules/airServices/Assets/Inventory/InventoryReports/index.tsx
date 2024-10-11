@@ -84,6 +84,9 @@ export const InventoryReports = () => {
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
               }
+              onSubmitBtnDisable={
+                !getValues?.('createdDate')?.startDate && true
+              }
               cancelBtnEffect={() => setHasDate?.(false)}
               closePopOver={() => shouldDateSet?.()}
             />
@@ -167,6 +170,7 @@ export const InventoryReports = () => {
                           name={'status'}
                           placeholder={'Select Option'}
                           size="small"
+                          disableClearable
                           options={inventoryTableFilterOptions}
                           disabled={loading}
                           getOptionLabel={(option: AutocompleteOptionsI) =>

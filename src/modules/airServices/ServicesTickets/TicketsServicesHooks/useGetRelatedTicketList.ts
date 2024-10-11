@@ -7,7 +7,7 @@ import {
   setTotalCountLoading,
 } from '@/redux/slices/airServices/related-tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useLazyGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import { useLazyGetServicesRelatedTicketsListQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { useRouter } from 'next/router';
 
 export const useGetRelatedTicketList = () => {
@@ -23,7 +23,7 @@ export const useGetRelatedTicketList = () => {
   const dispatch = useAppDispatch();
 
   const [lazyGetChildTicketsTrigger, lazyGetChildTicketsStatus] =
-    useLazyGetChildTicketsQuery();
+    useLazyGetServicesRelatedTicketsListQuery();
 
   const getChildTicketsListData = async (currentPage = page) => {
     const getChildTicketsParam = {

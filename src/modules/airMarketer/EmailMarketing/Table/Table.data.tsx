@@ -58,7 +58,7 @@ export const columns = (
       accessorFn: (row: any) => row?.subject,
       id: 'subject',
       cell: (info: any) => (
-        <Typography variant="body3" fontWeight={500}>
+        <Typography variant="body3" fontWeight={700}>
           {info?.getValue()}
         </Typography>
       ),
@@ -99,11 +99,12 @@ export const columns = (
       isSortable: true,
       header: 'Open Rate',
       cell: (info: any) => (
-        <Typography variant="body3" fontWeight={500}>
+        <Typography variant="body3" fontWeight={700}>
           {calculatePercentage(
             info?.row?.original?.open,
             info?.row?.original?.total,
-          )}
+          ).toFixed()}{' '}
+          %
         </Typography>
       ),
     },

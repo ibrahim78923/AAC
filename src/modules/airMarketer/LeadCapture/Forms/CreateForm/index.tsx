@@ -39,13 +39,13 @@ const CreateForm = () => {
     isStylingDrawerOpen,
     handleOpenStylingDrawer,
     handleCloseStylingDrawer,
-    styleFormMethods,
+    methodsFormStyling,
     handleStylingSubmit,
     openAlertCreatedForm,
     handleCloseAlertCreatedForm,
     showExportText,
     setShowExportText,
-
+    formURL,
     formHtml,
     handleBackToAllForms,
     mode,
@@ -155,7 +155,7 @@ const CreateForm = () => {
         submitHandler={handleStylingSubmit}
       >
         <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={styleFormMethods}>
+          <FormProvider methods={methodsFormStyling}>
             <Grid container spacing={4}>
               {styleFormArray?.map((item: any) => (
                 <Grid
@@ -202,6 +202,7 @@ const CreateForm = () => {
         showExportText={showExportText}
         setShowExportText={setShowExportText}
         formHtml={formHtml}
+        formURL={formURL}
       />
     </>
   );

@@ -1,5 +1,5 @@
 import { getAddAssetsColumns } from './AddAssets.data';
-import { useGetAssociatesAssetsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesAssetsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useMemo, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { getActiveAccountSession } from '@/utils';
@@ -21,7 +21,7 @@ export default function useAddAssets({ setSelected, selected }: any) {
     },
   };
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesAssetsQuery(getAssociatesAssetsParameter, {
+    useGetAirServicesAssociatesAssetsQuery(getAssociatesAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
@@ -30,6 +30,11 @@ export default function useAddAssets({ setSelected, selected }: any) {
     selected,
     associatesAssetList: data?.data?.inventories,
   });
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
 
   return {
     addAssetsColumns,
@@ -40,6 +45,6 @@ export default function useAddAssets({ setSelected, selected }: any) {
     isSuccess,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
   };
 }

@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import {
-  useDeleteCannedResponseMutation,
-  useLazyGetCannedResponsesQuery,
+  useDeleteAirServicesSettingsCannedResponseMutation,
+  useLazyGetAirServicesSettingsCannedResponsesQuery,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -26,12 +26,13 @@ export const useCannedResponses = () => {
   getCannedResponsesParam?.append('page', page + '');
   getCannedResponsesParam?.append('limit', pageLimit + '');
   getCannedResponsesParam?.append('search', search);
+
   const getCannedResponsesParameter = {
     queryParams: getCannedResponsesParam,
   };
 
   const [lazyGetCannedResponsesTrigger, lazyGetCannedResponsesStatus] =
-    useLazyGetCannedResponsesQuery();
+    useLazyGetAirServicesSettingsCannedResponsesQuery();
 
   const cannedResponses =
     lazyGetCannedResponsesStatus?.data?.data?.cannedresponses;
@@ -51,6 +52,11 @@ export const useCannedResponses = () => {
     getCannedResponsesListData();
   }, [search, page, pageLimit]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const convertToHyphenCase = (str: string): string => {
     return str
       ?.split(' ')
@@ -59,7 +65,7 @@ export const useCannedResponses = () => {
   };
 
   const [deleteCannedResponseTrigger, { isLoading }] =
-    useDeleteCannedResponseMutation();
+    useDeleteAirServicesSettingsCannedResponseMutation();
 
   const deleteCannedResponse = async () => {
     const deleteParams = new URLSearchParams();
@@ -86,7 +92,7 @@ export const useCannedResponses = () => {
     setOpenModal,
     openModal,
     search,
-    setSearch,
+    handleSearch,
     cannedResponses,
     lazyGetCannedResponsesStatus,
     setPageLimit,

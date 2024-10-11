@@ -88,6 +88,21 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    sendSalesDashboardRecurringViaEmail: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.DASHBOARD_EMAIL,
+        method: 'POST',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    sendSalesDashboardViaEmailOnce: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.TICKET_NEW_EMAIL,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -101,4 +116,6 @@ export const {
   useGetAllSalesDashboardsQuery,
   useUpdateDefaultSalesDashboardMutation,
   useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
+  useSendSalesDashboardRecurringViaEmailMutation,
+  useSendSalesDashboardViaEmailOnceMutation,
 } = salesDashboardApi;

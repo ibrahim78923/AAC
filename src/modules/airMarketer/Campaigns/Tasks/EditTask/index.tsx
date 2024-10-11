@@ -96,7 +96,7 @@ export default function EditTask({
                         fontWeight={500}
                         sx={{ mt: 2 }}
                       >
-                        Due Time{' '}
+                        Due Time
                         <span style={{ color: theme?.palette?.error?.main }}>
                           *
                         </span>

@@ -12,9 +12,10 @@ export const Attachment = () => {
   return (
     <>
       <Attachments
-        recordId={purchaseOrderId}
+        recordId={purchaseOrderId as string}
         attachFileHandler={() => setAddAttachment(true)}
         canAttachFile
+        permissionKey={[]}
       >
         <Grid
           container
@@ -27,6 +28,7 @@ export const Attachment = () => {
           </Grid>
         </Grid>
       </Attachments>
+
       {addAttachment && (
         <Dialog
           open={addAttachment}

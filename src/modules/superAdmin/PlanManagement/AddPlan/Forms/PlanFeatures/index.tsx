@@ -125,7 +125,9 @@ const PlanFeatures = ({ methods, handleSubmit, editPlan }: any) => {
             </AccordionSummary>
             <AccordionDetails>
               <Grid container>
-                {!isNullOrEmpty(productFeatures?.data?.productfeatures) ? (
+                {isLoading || isFetching ? (
+                  <Skeleton variant="rectangular" width="100%" height={150} />
+                ) : !isNullOrEmpty(productFeatures?.data?.productfeatures) ? (
                   productFeatures?.data?.productfeatures?.map((item: any) => {
                     const isChecked = selectedFeatureIds?.has(item._id);
                     return (
@@ -161,8 +163,6 @@ const PlanFeatures = ({ methods, handleSubmit, editPlan }: any) => {
                       </Grid>
                     );
                   })
-                ) : isLoading || isFetching ? (
-                  <Skeleton variant="rectangular" width="100%" height={150} />
                 ) : (
                   'No Data'
                 )}

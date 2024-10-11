@@ -21,12 +21,7 @@ import {
   teamDurationValidationSchema,
 } from './TeamDuration/TeamDuration.data';
 import { enqueueSnackbar } from 'notistack';
-import {
-  DATE_FORMAT,
-  DATE_TIME_FORMAT,
-  GOALS_YEARLY_FORMAT,
-  RADIO_VALUE,
-} from '@/constants';
+import { DATE_FORMAT, GOALS_YEARLY_FORMAT, RADIO_VALUE } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import dayjs from 'dayjs';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
@@ -212,68 +207,32 @@ export const useCreateGoal = () => {
 
         if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.QUARTERLY) {
           monthlyData = {
-            jan: monthlyData?.['q1-jan'] || '',
-            feb: monthlyData?.['q1-jan'] || '',
-            mar: monthlyData?.['q1-jan'] || '',
-            apr: monthlyData?.['q2-apr'] || '',
-            may: monthlyData?.['q2-apr'] || '',
-            jun: monthlyData?.['q2-apr'] || '',
-            jul: monthlyData?.['q3-jul'] || '',
-            aug: monthlyData?.['q3-jul'] || '',
-            sep: monthlyData?.['q3-jul'] || '',
-            oct: monthlyData?.['q4-oct'] || '',
-            nov: monthlyData?.['q4-oct'] || '',
-            dec: monthlyData?.['q4-oct'] || '',
+            Q1: monthlyData?.['q1-jan'] || '',
+            Q2: monthlyData?.['q2-apr'] || '',
+            Q3: monthlyData?.['q3-jul'] || '',
+            Q4: monthlyData?.['q4-oct'] || '',
           };
         }
 
         if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.YEARLY) {
           monthlyData = {
-            jan: monthlyData?.['jan'] || '',
-            feb: monthlyData?.['jan'] || '',
-            mar: monthlyData?.['jan'] || '',
-            apr: monthlyData?.['jan'] || '',
-            may: monthlyData?.['jan'] || '',
-            jun: monthlyData?.['jan'] || '',
-            jul: monthlyData?.['jan'] || '',
-            aug: monthlyData?.['jan'] || '',
-            sep: monthlyData?.['jan'] || '',
-            oct: monthlyData?.['jan'] || '',
-            nov: monthlyData?.['jan'] || '',
-            dec: monthlyData?.['jan'] || '',
+            Yearly: monthlyData?.['jan'] || '',
           };
         }
         if (teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.CUSTOM) {
-          const startDate = dayjs(teamDurationForm?.from);
-          const endDate = dayjs(teamDurationForm?.to);
+          const firstMonthValue =
+            Object?.values(monthlyData)[ARRAY_INDEX?.ZERO];
 
-          for (
-            let currentDate = startDate;
-            currentDate?.isBefore(endDate) || currentDate?.isSame(endDate);
-            currentDate = currentDate?.add(1, 'month')
-          ) {
-            const monthName = currentDate
-              ?.format(DATE_TIME_FORMAT?.MMM)
-              ?.toLowerCase();
-            const date = currentDate?.format(DATE_TIME_FORMAT?.DD);
-
-            monthlyData[monthName] = inputValues[row?._id]?.[date] || '';
-          }
-
-          // Delete the first entry in the months object
-          const firstKey = Object?.keys(monthlyData)[ARRAY_INDEX?.ZERO];
-          if (firstKey) {
-            delete monthlyData[firstKey];
-          }
+          monthlyData = {
+            custom: firstMonthValue,
+          };
         }
 
         return {
-          contributorId: row?._id,
+          collaboratorId: row?._id,
           pipelines:
             selectedValues[index]?.map((pipeline: any) => pipeline?.id) || [], // Set selected pipeline
-          unit: 'USD',
-          year: dayjs()?.year(),
-          months: monthlyData,
+          targets: monthlyData,
         };
       });
     };
@@ -289,22 +248,24 @@ export const useCreateGoal = () => {
         validationPassed = false;
       } else if (
         teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.CUSTOM &&
-        Object?.keys(item?.months)?.length === 0
+        Object?.keys(item?.targets)?.length === 0
       ) {
         enqueueSnackbar('Please enter target values in Months ', {
           variant: 'error',
         });
         validationPassed = false;
-      } else if (
-        teamDurationForm?.duration !== GOALS_YEARLY_FORMAT?.CUSTOM &&
-        Object?.keys(item?.months)?.length !== 12
-      ) {
-        enqueueSnackbar('Please enter target values in Months ', {
-          variant: 'error',
-        });
-        validationPassed = false;
-      } else {
-        for (const [, value] of Object.entries(item.months)) {
+      }
+      // else if (
+      //   teamDurationForm?.duration !== GOALS_YEARLY_FORMAT?.CUSTOM &&
+      //   Object?.keys(item?.targets)?.length !== 12
+      // ) {
+      //   enqueueSnackbar('Please enter target values in Months ', {
+      //     variant: 'error',
+      //   });
+      //   validationPassed = false;
+      // }
+      else {
+        for (const [, value] of Object.entries(item.targets)) {
           if (typeof value !== 'number' || isNaN(value) || value === '') {
             enqueueSnackbar('please enter all values.', {
               variant: 'error',
@@ -364,13 +325,16 @@ export const useCreateGoal = () => {
       const payload = {
         trackingMethod: describeForm?.trackingMethod,
         goalName: describeForm?.goalName,
+        calculationType: describeForm?.calculatetats,
         customFields: describeForm?.customFields,
         duration: teamDurationForm?.duration,
-        targets: performanceData,
+        collaborators: performanceData,
         notification: selectedNotifications,
         isTeam: teamDurationForm?.userTeam === RADIO_VALUE?.USER ? false : true,
         startDate: startDate,
         endDate: endDate,
+        unit: 'pound',
+        year: dayjs()?.year().toString(),
       };
 
       try {

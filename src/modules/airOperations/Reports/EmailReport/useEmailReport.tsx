@@ -5,22 +5,39 @@ import {
   emailReportDefaultValues,
   emailReportValidationSchema,
 } from './EmailReport.data';
-import { useEmailReportsMutation } from '@/services/airOperations/reports';
+import { useEmailOperationsReportsMutation } from '@/services/airOperations/reports';
 import useAuth from '@/hooks/useAuth';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
 import { EmailReportFormFieldsI } from './EmailReport.interface';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+} from '@/redux/slices/airOperations/reports/slice';
 
-export const useNewEmailDrawer = (props: ReportsListsComponentPropsI) => {
-  const { setIsPortalOpen, selectedReportLists, setSelectedReportLists } =
-    props;
+const { ZERO } = ARRAY_INDEX ?? {};
+const { SINGLE_GENERIC_REPORTS_DETAILS } = AIR_OPERATIONS ?? {};
 
+export const useEmailReport = () => {
   const { user }: any = useAuth();
   const router = useRouter();
-  const { id } = router?.query;
-  const [emailReportsTrigger, emailReportsStatus] = useEmailReportsMutation();
+  const id = router?.query?.id;
+  const baseModule = router?.query?.baseModule;
+
+  const [emailReportsTrigger, emailReportsStatus] =
+    useEmailOperationsReportsMutation();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
 
   const data = {
     sender: user?.email,
@@ -55,17 +72,18 @@ export const useNewEmailDrawer = (props: ReportsListsComponentPropsI) => {
 
   const onClose = () => {
     reset();
-    setIsPortalOpen?.({});
-    setSelectedReportLists?.([]);
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
 
   const downloadPath = () =>
     router?.push({
-      pathname: AIR_OPERATIONS?.SINGLE_GENERIC_REPORTS_DETAILS,
+      pathname: SINGLE_GENERIC_REPORTS_DETAILS,
       query: {
-        reportId: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        reportId: selectedReportsList?.[ZERO]?._id,
         redirect: router?.pathname,
         id,
+        baseModule,
       },
     });
 
@@ -76,5 +94,6 @@ export const useNewEmailDrawer = (props: ReportsListsComponentPropsI) => {
     onClose,
     emailReportsStatus,
     downloadPath,
+    isPortalOpen,
   };
 };

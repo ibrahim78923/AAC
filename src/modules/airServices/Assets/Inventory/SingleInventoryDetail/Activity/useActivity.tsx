@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-
 import { PAGINATION } from '@/config';
-import { useGetActivityLogQuery } from '@/services/airServices/assets/inventory/single-inventory-details/activity';
+import { useGetAirServicesAssetsInventoryActivityLogQuery } from '@/services/airServices/assets/inventory/single-inventory-details/activity';
 import { MODULE_TYPE } from '@/constants/strings';
 
 export const useActivity = () => {
@@ -13,7 +12,7 @@ export const useActivity = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { data, isLoading, isError, isFetching, refetch } =
-    useGetActivityLogQuery(
+    useGetAirServicesAssetsInventoryActivityLogQuery(
       {
         page,
         limit: pageLimit,

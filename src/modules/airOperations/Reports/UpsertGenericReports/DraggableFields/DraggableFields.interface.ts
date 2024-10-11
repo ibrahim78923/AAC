@@ -33,4 +33,6 @@ export interface DraggableFieldsI {
   isError: boolean;
   watch: UseFormReturn<FieldValues>['watch'];
   refetch: () => void;
+  methods: any;
+  reset: any;
 }

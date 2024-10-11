@@ -1,7 +1,7 @@
-import { DATE_TIME_FORMAT } from '@/constants';
-import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
-import { generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { uiDateFormat } from '@/utils/dateTime';
+import { UserInfo } from '@/components/UserInfo';
+import { TruncateText } from '@/components/TruncateText';
 
 export const exportTabColumns = [
   {
@@ -10,21 +10,12 @@ export const exportTabColumns = [
     isSortable: true,
     header: 'User',
     cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: 'error.lighter', width: 32, height: 32 }}
-          src={generateImage(info?.row?.original?.avatar)}
-          alt={info?.row?.original?.userFullName}
-        />
-        <Box display={'flex'} flexDirection={'column'}>
-          <Typography variant="body2" color={'grey.800'}>
-            {info?.row?.original?.userFullName ?? '---'}
-          </Typography>
-          <Typography variant="body3" color={'grey.900'}>
-            {info?.row?.original?.email ?? '---'}
-          </Typography>
-        </Box>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(info?.row?.original?.userFullName)}
+        name={fullName(info?.row?.original?.userFullName?.toLowerCase())}
+        avatarSrc={info?.row?.original?.avatar}
+        email={info?.row?.original?.email}
+      />
     ),
   },
   {
@@ -36,11 +27,14 @@ export const exportTabColumns = [
       const url = new URL(info?.row?.original?.fileName);
       const fileName = url?.pathname?.replace(/^\//, '');
       return (
-        <Typography variant="body2" color={'primary'}>
-          <a href={url?.href} download={fileName}>
-            {fileName ?? '---'}
-          </a>
-        </Typography>
+        <a href={url?.href} download={fileName}>
+          {
+            <TruncateText
+              text={fileName?.toLowerCase()}
+              boxProps={{ color: 'primary.main' }}
+            />
+          }
+        </a>
       );
     },
   },
@@ -49,28 +43,31 @@ export const exportTabColumns = [
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.noOfRecords,
     id: 'noOfRecords',
     isSortable: true,
     header: 'No of Records',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY) ?? '---',
+    cell: (info: any) => uiDateFormat(info?.getValue() ?? '---'),
   },
 ];

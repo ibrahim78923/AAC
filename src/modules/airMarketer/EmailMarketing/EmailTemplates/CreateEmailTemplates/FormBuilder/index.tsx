@@ -5,19 +5,20 @@ import {
   Button,
   Chip,
   Grid,
+  Skeleton,
   TextField,
   Typography,
   useTheme,
 } from '@mui/material';
 import { styles } from './styles';
-import { BackArrowIcon } from '@/assets/icons';
+import { BackArrowIcon, InfoBlueIcon } from '@/assets/icons';
 import { useEffect, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
 import CustomLabel from '@/components/CustomLabel';
 import {
   usePostEmailMarketingTemplatesMutation,
   usePostEmailWithTemplatesMutation,
-  useUpdateEmailTemplatesMutation,
+  useUpdatePostEmailTemplatesMutation,
 } from '@/services/airMarketer/emailTemplates';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
@@ -31,12 +32,14 @@ import {
 import {
   RHFCheckbox,
   RHFEditor,
+  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as yup from 'yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { EMAIL_ENUMS } from '@/constants';
+import { useGetEmailSettingsIdentitiesQuery } from '@/services/airMarketer/email-settings';
 
 const FormBuilder = ({
   titleValue,
@@ -88,8 +91,21 @@ const FormBuilder = ({
     usePostEmailMarketingTemplatesMutation();
   const [postEmailWithTemplates, { isLoading: loadingPostEmailTemplate }] =
     usePostEmailWithTemplatesMutation();
-  const [updateEmailTemplate, { isLoading: loadingUpdateTemplate }] =
-    useUpdateEmailTemplatesMutation();
+  const [updatePostEmailTemplate, { isLoading: loadingUpdateTemplate }] =
+    useUpdatePostEmailTemplatesMutation();
+
+  const [isToValid, setisToValid] = useState(false);
+  const [toStateDep, setToStateDep] = useState(1);
+  useEffect(() => {
+    if (
+      autocompleteValues?.length === 0 ||
+      autocompleteValues?.length === undefined
+    ) {
+      null;
+    } else {
+      setisToValid(false);
+    }
+  }, [autocompleteValues, toStateDep]);
 
   const handelPostTemplate = async (values: any) => {
     const payload = {
@@ -98,39 +114,61 @@ const FormBuilder = ({
     };
 
     if (isSend) {
-      const formDataSend = new FormData();
-      formDataSend.append(
-        'to',
-        autocompleteValues ? autocompleteValues.join(',') : '',
-      );
-      formDataSend.append('subject', values?.subject);
-      formDataSend.append('content', editorValue);
-      formDataSend.append('from', values?.from);
-      formDataSend.append('status', EMAIL_ENUMS?.SENT);
+      setToStateDep(toStateDep + 1);
+      if (autocompleteValues?.length === 0) {
+        setisToValid(true);
+      } else {
+        setisToValid(false);
+        const formDataSend = new FormData();
+        formDataSend.append(
+          'to',
+          autocompleteValues ? autocompleteValues.join(',') : '',
+        );
+        formDataSend.append('subject', values?.subject);
+        formDataSend.append('content', editorValue);
+        formDataSend.append('from', values?.from);
+        formDataSend.append('status', EMAIL_ENUMS?.SENT);
 
-      if (values?.cc?.length) {
-        formDataSend.append('cc', values?.cc);
-      }
-      if (values?.bcc?.length) {
-        formDataSend.append('bcc', values?.bcc);
-      }
-      try {
-        await postEmailWithTemplates({
-          body: formDataSend,
-        })?.unwrap();
-        enqueueSnackbar('Email send successfully', {
-          variant: 'success',
-        });
-      } catch (error: any) {
-        enqueueSnackbar('Something went wrong!', {
-          variant: 'error',
-        });
+        if (values?.cc?.length) {
+          formDataSend.append('cc', values?.cc);
+        }
+        if (values?.bcc?.length) {
+          formDataSend.append('bcc', values?.bcc);
+        }
+        try {
+          await postEmailWithTemplates({
+            body: formDataSend,
+          })?.unwrap();
+          enqueueSnackbar('Email send successfully', {
+            variant: 'success',
+          });
+
+          // update after send
+          try {
+            await updatePostEmailTemplate({
+              body: payload,
+              id: templateId,
+            })?.unwrap();
+            enqueueSnackbar('Template updated successfully', {
+              variant: 'success',
+            });
+            router.push(`${AIR_MARKETER?.EMAIL_TEMPLATES}`);
+          } catch (error: any) {
+            enqueueSnackbar('Something went wrong!', {
+              variant: 'error',
+            });
+          }
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong!', {
+            variant: 'error',
+          });
+        }
       }
     }
 
-    if (isEditMode) {
+    if (!isSend && isEditMode) {
       try {
-        await updateEmailTemplate({
+        await updatePostEmailTemplate({
           body: payload,
           id: templateId,
         })?.unwrap();
@@ -204,10 +242,20 @@ const FormBuilder = ({
     setEditorValueGet(editorValue);
   }, [editorValue]);
 
+  const { data: emailsRecords, isLoading } = useGetEmailSettingsIdentitiesQuery(
+    {
+      params: {
+        page: 1,
+        limit: '1000',
+        status: 'VERIFIED',
+      },
+    },
+  );
+
   return (
     <Box sx={styles?.wrapper}>
       <Grid container spacing={2}>
-        <Grid item lg={8}>
+        <Grid item lg={12}>
           <Box
             sx={{
               background: theme.palette?.common?.white,
@@ -319,9 +367,36 @@ const FormBuilder = ({
 
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <Grid item xs={6}>
-                      <RHFTextField name="from" label="From" size="small" />
-                    </Grid>
+                    {isLoading ? (
+                      <Grid item xs={12} sm={12} md={12} lg={7}>
+                        <Skeleton
+                          variant="rounded"
+                          sx={{ height: '20px', width: '30%' }}
+                        />
+                        <Skeleton
+                          variant="rounded"
+                          sx={{ height: '45px', marginTop: '10px' }}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12} sm={12} md={12} lg={6}>
+                        <RHFSelect
+                          name="from"
+                          label="From"
+                          select={true}
+                          size="small"
+                          required={true}
+                        >
+                          {emailsRecords?.data?.emailIdentitiesSES.map(
+                            (item: any) => (
+                              <option key={item?.id} value={item?.email}>
+                                {item?.email}
+                              </option>
+                            ),
+                          )}
+                        </RHFSelect>
+                      </Grid>
+                    )}
                   </Grid>
 
                   <Grid item xs={6}>
@@ -353,17 +428,46 @@ const FormBuilder = ({
                             value={inputValue}
                             onChange={handleInputChange}
                             helperText={
-                              isValidEmails ? (
-                                params.inputProps?.value?.length > 1 ? (
-                                  <Typography fontSize={12}>
-                                    Press enter to add email
-                                  </Typography>
-                                ) : null
-                              ) : (
-                                <Typography color={theme?.palette?.error?.main}>
-                                  Email you entered is not valid
-                                </Typography>
-                              )
+                              <>
+                                {isToValid ? (
+                                  <>
+                                    <Typography
+                                      component={'span'}
+                                      color={theme?.palette?.error?.main}
+                                      sx={{ display: 'block', mt: -1, ml: -1 }}
+                                    >
+                                      Field is Required
+                                    </Typography>
+                                  </>
+                                ) : (
+                                  <>
+                                    {isValidEmails ? (
+                                      params.inputProps?.value?.length > 1 ? (
+                                        <Typography
+                                          fontSize={13}
+                                          color={
+                                            theme?.palette?.custom?.dodger_blue
+                                          }
+                                          sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '5px',
+                                          }}
+                                        >
+                                          <InfoBlueIcon size={'16'} /> Press
+                                          enter to add email
+                                        </Typography>
+                                      ) : null
+                                    ) : (
+                                      <Typography
+                                        color={theme?.palette?.error?.main}
+                                      >
+                                        Email you entered is not valid
+                                      </Typography>
+                                    )}
+                                  </>
+                                )}
+                              </>
                             }
                           />
                         </>
@@ -389,7 +493,12 @@ const FormBuilder = ({
                   )}
 
                   <Grid item xs={6}>
-                    <RHFTextField name="subject" label="Subject" size="small" />
+                    <RHFTextField
+                      name="subject"
+                      label="Subject"
+                      size="small"
+                      required={true}
+                    />
                   </Grid>
                 </Grid>
               </FormProvider>
@@ -406,6 +515,15 @@ const FormBuilder = ({
                     style={{ height: 600 }}
                     placeholder="Enter Email Text"
                     disabled={false}
+                    toolbar={{
+                      container: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ align: [] }],
+                        [{ color: [] }, { background: [] }],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['link', 'image'],
+                      ],
+                    }}
                   />
                 </Box>
               </FormProvider>

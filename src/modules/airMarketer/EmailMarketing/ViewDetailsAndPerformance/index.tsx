@@ -8,6 +8,9 @@ import { useState } from 'react';
 import CommonModal from '@/components/CommonModal';
 import { PencilEditIcon } from '@/assets/icons';
 import CreateNewEmail from '../CreateNewEmail';
+import { DATE_TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import EmailReadability from './EmailReadability';
 
 const ViewDetailsAndPerformance = ({
   openViewDetails,
@@ -102,7 +105,9 @@ const ViewDetailsAndPerformance = ({
                   Send Date & Time
                 </Typography>
                 <Typography variant="body2" mt={2.4}>
-                  {data?.data?.createdAt}
+                  {dayjs(data?.data?.createdAt)?.format(
+                    DATE_TIME_FORMAT?.DMDHMA,
+                  )}
                 </Typography>
               </Grid>
               <Grid item sm={6}>
@@ -110,7 +115,11 @@ const ViewDetailsAndPerformance = ({
                   Reschedule
                 </Typography>
                 <Typography variant="body2" mt={2.4}>
-                  --
+                  {data?.data?.sentOn
+                    ? dayjs(data?.data?.sentOn)?.format(
+                        DATE_TIME_FORMAT?.DMDHMA,
+                      )
+                    : '--'}
                 </Typography>
               </Grid>
               <Grid item sm={12} sx={{ mt: 2 }}>
@@ -118,6 +127,9 @@ const ViewDetailsAndPerformance = ({
               </Grid>
               <Grid item sm={12}>
                 <Emailhealth data={data?.data} />
+              </Grid>
+              <Grid item sm={12}>
+                <EmailReadability data={data?.data} />
               </Grid>
             </Grid>
           </Box>

@@ -5,22 +5,10 @@ import {
   RHFCheckbox,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  Box,
-  Button,
-  Container,
-  InputAdornment,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Toolbar, Typography } from '@mui/material';
 import { useChartEditor } from './useChartEditor';
-import { CheckBox } from '@mui/icons-material';
 import { CHARTS, COLLECTION_NAME } from '@/constants/strings';
-import {
-  CheckboxCheckedIcon,
-  CheckboxIcon,
-  EditInputIcon,
-} from '@/assets/icons';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { xAxesDataArray } from './ChartEditor.data';
 import {
   ChartEditorI,
@@ -29,20 +17,16 @@ import {
 } from './ChartEditor.interface';
 
 export const ChartEditor = (props: ChartEditorI) => {
-  const { metricType, setValue, handleCancel } = props;
+  const { metricType, handleCancel, methods } = props;
 
   const {
     handleSave,
-    edit,
-    setEdit,
-    editValue,
-    setEditValue,
     singleFieldDropdown,
-    chartTitle,
     xAxisData,
     xAxisType,
     chartType,
     disableTemplate,
+    productId,
   } = useChartEditor(props);
 
   return (
@@ -58,30 +42,7 @@ export const ChartEditor = (props: ChartEditorI) => {
             name={'chartTitle'}
             size="small"
             label="Title"
-            disabled={edit || disableTemplate}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
-                  {edit ? (
-                    <Box
-                      onClick={() => {
-                        setEdit(false), setValue === editValue;
-                      }}
-                    >
-                      <EditInputIcon />
-                    </Box>
-                  ) : (
-                    <Box
-                      onClick={() => {
-                        setEdit(true), setEditValue(chartTitle);
-                      }}
-                    >
-                      <CheckBox />
-                    </Box>
-                  )}
-                </InputAdornment>
-              ),
-            }}
+            disabled={disableTemplate}
           />
           <RHFAutocomplete
             name="chartType"
@@ -95,6 +56,9 @@ export const ChartEditor = (props: ChartEditorI) => {
               CHARTS?.DONUT_CHART,
             ]}
             getOptionLabel={(option: chartTypeI) => option}
+            isOptionEqualToValue={(option: any, newValue: any) =>
+              option === newValue
+            }
             required
           />
           {(chartType === CHARTS?.BAR_CHART ||
@@ -112,6 +76,9 @@ export const ChartEditor = (props: ChartEditorI) => {
                   disabled={disableTemplate}
                   options={xAxesDataArray[metricType]}
                   getOptionLabel={(option: xAxisOptionsI) => option?.label}
+                  isOptionEqualToValue={(option: any, newValue: any) =>
+                    option?.value === newValue?.value
+                  }
                 />
               </Box>
               {xAxisData?.ref && (
@@ -131,7 +98,12 @@ export const ChartEditor = (props: ChartEditorI) => {
                     }
                     placeholder="Select Option"
                     externalParams={{
-                      meta: false,
+                      ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
+                        meta: false,
+                      }),
+                      ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
+                        productId: productId,
+                      }),
                     }}
                   />
                 </Box>
@@ -159,6 +131,9 @@ export const ChartEditor = (props: ChartEditorI) => {
                   disabled={disableTemplate}
                   options={xAxesDataArray[metricType]}
                   getOptionLabel={(option: xAxisOptionsI) => option?.label}
+                  isOptionEqualToValue={(option: any, newValue: any) =>
+                    option?.value === newValue?.value
+                  }
                 />
               </Box>
               {xAxisData?.ref && (
@@ -178,7 +153,12 @@ export const ChartEditor = (props: ChartEditorI) => {
                     }
                     placeholder="Select Option"
                     externalParams={{
-                      meta: false,
+                      ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
+                        meta: false,
+                      }),
+                      ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
+                        productId: productId,
+                      }),
                     }}
                   />
                 </Box>
@@ -203,17 +183,19 @@ export const ChartEditor = (props: ChartEditorI) => {
             gap: 1,
           }}
         >
-          <Button variant="outlined" onClick={handleCancel} color="secondary">
+          <Button
+            variant="outlined"
+            className="small"
+            onClick={handleCancel}
+            color="secondary"
+          >
             Cancel
           </Button>
           <Button
             variant="contained"
-            disabled={
-              !xAxisData ||
-              (xAxisData?.ref && !xAxisType?.length) ||
-              !chartTitle
-            }
-            onClick={() => handleSave()}
+            className="small"
+            disabled={!xAxisData || (xAxisData?.ref && !xAxisType?.length)}
+            onClick={methods?.handleSubmit(handleSave)}
           >
             Save
           </Button>

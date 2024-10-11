@@ -15,6 +15,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import * as Yup from 'yup';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { localeDateTime } from './dateTime';
 
 export const generateUniqueId = () => {
   const timestamp = Date?.now()?.toString(36);
@@ -247,7 +248,7 @@ export const dynamicFormInitialValue = (data?: any, form?: any) => {
         initialValue = data?.customFields?.[key] ?? null;
       } else if (item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER) {
         initialValue = data?.customFields?.[key]
-          ? new Date(data?.customFields?.[key])
+          ? localeDateTime(data?.customFields?.[key])
           : null;
       } else {
         initialValue = data?.customFields?.[key] ?? '';

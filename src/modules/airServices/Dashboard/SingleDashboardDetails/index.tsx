@@ -6,11 +6,13 @@ import { Button } from '@mui/material';
 
 export const SingleDashboardDetails = () => {
   const router = useRouter();
-  const { dashboardId } = router?.query;
+  const dashboardId = router?.query?.dashboardId;
+
   if (!!!dashboardId)
     return (
       <ApiErrorState message="No Dashboard Found" height="90vh">
         <Button
+          className="small"
           variant="contained"
           onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
         >

@@ -13,10 +13,13 @@ import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { PlusIcon } from '@/assets/icons';
 import useManage from './Manage/useManage';
 import { capitalizeFirstLetters } from '@/utils';
+import { createElement } from 'react';
+import { ReportsWidgets } from './ReportsWidgets';
+import { REPORT_TYPES } from '@/constants/strings';
 
 const Dashboard = () => {
   const {
-    setIsShowEditDashboard,
+    AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS,
     setSelectedDashboard,
     dashboardListLoading,
     dashboardNotFound,
@@ -26,6 +29,7 @@ const Dashboard = () => {
   } = useDashboard();
 
   const { handelNavigate } = useManage();
+
   return (
     <>
       <Grid container spacing={2}>
@@ -52,10 +56,7 @@ const Dashboard = () => {
 
             <Stack direction={{ sm: 'row' }} gap={1}>
               {!dashboardNotFound && (
-                <Actions
-                  setIsShowEditDashboard={setIsShowEditDashboard}
-                  selectedDashboard={dashboardsData}
-                />
+                <Actions selectedDashboard={dashboardsData} />
               )}
               <CreateDashboardOptions
                 listData={dropdownOptions}
@@ -88,6 +89,7 @@ const Dashboard = () => {
               </Grid>
             ) : (
               <>
+                {/* Static Components */}
                 {dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS && (
                   <Grid item xs={12} lg={6}>
                     <DealsGraph
@@ -123,6 +125,45 @@ const Dashboard = () => {
                     />
                   </Grid>
                 )}
+
+                {/* Dynamic Components */}
+                {dashboardLoading ? (
+                  <Grid item xs={12} p={1}>
+                    <SkeletonForm />
+                  </Grid>
+                ) : (
+                  dashboardsData?.dashboard?.reports?.map(
+                    (item: any, index: number) => {
+                      return item?.type === REPORT_TYPES?.STATIC ? (
+                        <Grid item xs={12} key={item?.name}>
+                          {AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS?.[
+                            item?.name
+                          ] &&
+                            createElement(
+                              AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS?.[
+                                item?.name
+                              ],
+                              {
+                                data: dashboardsData,
+                                // Add any other necessary props here
+                              },
+                            )}
+                        </Grid>
+                      ) : (
+                        <Grid item xs={12} lg={12} key={item?._id ?? index}>
+                          <ReportsWidgets
+                            reportWidgets={
+                              dashboardsData?.[`genericReports${index}`]
+                            }
+                            reportResults={
+                              dashboardsData?.[`genericReportsResult${index}`]
+                            }
+                          />
+                        </Grid>
+                      );
+                    },
+                  )
+                )}
               </>
             )}
           </>
@@ -131,4 +172,5 @@ const Dashboard = () => {
     </>
   );
 };
+
 export default Dashboard;

@@ -1,22 +1,10 @@
-import { Grid, Box, useTheme, Typography } from '@mui/material';
-
+import { Grid, Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './SaveNewViewDrawer.data';
+import { dataArray, defaultValues } from './SaveNewViewDrawer.data';
 import useCampaigns from '../useCampaigns';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import useSaveAndNewViewDrawer from './useSaveNewViewDrawer';
 
 export default function SaveNewViewDrawer({
   isOpenDrawer,
@@ -26,49 +14,13 @@ export default function SaveNewViewDrawer({
 }: any) {
   const { postCampaignsSaveView, postCampaignsSaveViewLoading } =
     useCampaigns();
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
+  const { theme, handleSubmit, onSubmit, methods } = useSaveAndNewViewDrawer(
+    initialValueProps,
+    setSelectedRows,
+    onClose,
+    postCampaignsSaveView,
+  );
 
-  const { handleSubmit } = methods;
-
-  const onSubmit = async (values: any) => {
-    const obj = {
-      ...values,
-      startDate: values?.startDate
-        ? dayjs(values?.startDate)?.format(DATE_FORMAT?.API)
-        : undefined,
-      endDate: values?.endDate
-        ? dayjs(values?.endDate)?.format(DATE_FORMAT?.API)
-        : undefined,
-    };
-
-    const filteredObj: { [key: string]: any } = Object.keys(obj).reduce(
-      (acc: { [key: string]: any }, key: string) => {
-        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
-          acc[key] = obj[key];
-        }
-        return acc;
-      },
-      {},
-    );
-    try {
-      await postCampaignsSaveView(filteredObj)?.unwrap();
-      enqueueSnackbar('View Save Successfully', {
-        variant: 'success',
-      });
-      onClose();
-      setSelectedRows([]);
-    } catch (error: any) {
-      const errMsg = error?.data?.message;
-      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
-  };
-  const theme = useTheme();
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}

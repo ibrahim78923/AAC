@@ -31,7 +31,7 @@ export const warningSnackbar = (message: any) => {
 export const filteredEmptyValues = (data = {}) => {
   const filteredObject: any = Object?.entries(data || {})
     ?.filter(
-      ([, value]: any) => value !== undefined && value != '' && value != null,
+      ([, value]: any) => value !== undefined && value !== '' && value !== null,
     )
     ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
 
@@ -41,31 +41,16 @@ export const filteredEmptyValues = (data = {}) => {
 export const buildQueryParams = (
   additionalParams: any,
   filterLists: any = {},
-  neglectKeysInLoop: any = [],
   extraFilters: any = [],
 ) => {
   const getQueryParam = new URLSearchParams();
 
   Object?.entries(filterLists || {})?.forEach(([key, value]: any) => {
-    if (neglectKeysInLoop?.includes(key)) return;
     if (value instanceof Date)
       return getQueryParam?.append(key, isoDateString(value));
     if (typeof value === 'string') return getQueryParam?.append(key, value);
     getQueryParam?.append(key, value?._id);
   });
-
-  addDateTimeParam(
-    getQueryParam,
-    'plannedEndDate',
-    filterLists?.plannedEndDate,
-    filterLists?.plannedEndTime,
-  );
-  addDateTimeParam(
-    getQueryParam,
-    'plannedStartDate',
-    filterLists?.plannedStartDate,
-    filterLists?.plannedStartTime,
-  );
 
   additionalParams?.forEach(([key, value]: any) => {
     getQueryParam?.append(key, value);
@@ -154,9 +139,10 @@ export const monthFormatter = (monthString: any) => {
   return new Date(2000, monthIndex, 1);
 };
 
-export const camelCaseToTitleCase = (camelStr: string) =>
+export const camelCaseToTitleCase = (camelStr: string, filterWord?: string) =>
   camelStr
     ?.split(/(?=[A-Z])/)
+    ?.filter((word: string) => !filterWord || word !== filterWord)
     ?.map(
       (word: string) =>
         word?.charAt(ARRAY_INDEX?.ZERO)?.toUpperCase() + word?.slice?.(1),
@@ -171,6 +157,6 @@ export const splitCapitalizedWords = (str: string) => {
     ?.join(' ');
 };
 
-export const capitalizeFirstWord = (str: string) => {
-  return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
+export const capitalizeFirstWord = (str: string = '---') => {
+  return str?.charAt(0)?.toUpperCase() + str?.slice?.(1)?.toLowerCase();
 };

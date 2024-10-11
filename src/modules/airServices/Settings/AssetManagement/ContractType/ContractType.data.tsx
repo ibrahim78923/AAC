@@ -1,6 +1,7 @@
+import { TruncateText } from '@/components/TruncateText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 export const getContractTypeColumns = (
   setOpenDialog: any,
@@ -12,9 +13,11 @@ export const getContractTypeColumns = (
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
-      <Typography variant="body2" textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
-      </Typography>
+      <TruncateText
+        text={info?.getValue()}
+        size={25}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
     ),
   },
   {
@@ -23,9 +26,11 @@ export const getContractTypeColumns = (
     isSortable: true,
     header: 'Description',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
-      </Typography>
+      <TruncateText
+        text={info?.getValue()}
+        size={30}
+        customTooltipProps={{ placement: 'bottom-start' }}
+      />
     ),
   },
   {

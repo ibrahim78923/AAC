@@ -1,16 +1,22 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box, Checkbox, Chip, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import {
+  GENERIC_UPSERT_FORM_CONSTANT,
+  REQUESTORS_STATUS,
+  WORKFLOW_TYPE,
+} from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import React from 'react';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { UserInfo } from '@/components/UserInfo';
+import { TruncateText } from '@/components/TruncateText';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: (type: string) => void,
@@ -22,9 +28,9 @@ export const EventBaseWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
-    handleClick: (close: (arg: boolean) => void) => {
+    handleClick: (close: any) => {
       handleActionClick('edit');
-      close?.(false);
+      close?.();
     },
   },
   {
@@ -33,10 +39,10 @@ export const EventBaseWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CLONE_WORKFLOW,
     ],
-    handleClick: (close: (arg: boolean) => void) => {
+    handleClick: (close: any) => {
       handleActionClick('clone');
       handleCloneWorkflow();
-      close?.(false);
+      close?.();
     },
   },
   {
@@ -45,9 +51,9 @@ export const EventBaseWorkflowActionsDropdown = (
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.DELETE,
     ],
-    handleClick: (close: (arg: boolean) => void) => {
+    handleClick: (close: any) => {
       handleActionClick?.('delete');
-      close?.(false);
+      close?.();
     },
   },
 ];
@@ -113,8 +119,15 @@ export const listsColumnsFunction = (
     header: 'Workflow Name',
     cell: (info: any) => (
       <Box display={'flex'} gap={0.3}>
-        {info?.getValue()}
-        {info?.row?.original?.draft && (
+        <Typography
+          variant="body2"
+          textTransform={'capitalize'}
+          component={'span'}
+        >
+          <TruncateText text={info?.getValue()?.toLowerCase()} />
+        </Typography>
+        {info?.row?.original?.status ===
+          GENERIC_UPSERT_FORM_CONSTANT?.DRAFT && (
           <Chip
             icon={
               <FiberManualRecordIcon
@@ -161,25 +174,17 @@ export const listsColumnsFunction = (
     isSortable: false,
     header: 'Created By',
     cell: (info: any) => (
-      <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.createdBy?.avatar?.url)}
-        >
-          <Typography variant="body3" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.row?.original?.createdBy?.firstName,
-              info?.row?.original?.createdBy?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
-          {fullName(
-            info?.row?.original?.createdBy?.firstName,
-            info?.row?.original?.createdBy?.lastName,
-          )}
-        </Typography>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(
+          info?.row?.original?.createdBy?.firstName,
+          info?.row?.original?.createdBy?.lastName,
+        )}
+        name={fullName(
+          info?.row?.original?.createdBy?.firstName,
+          info?.row?.original?.createdBy?.lastName,
+        )}
+        avatarSrc={info?.row?.original?.createdBy?.avatar?.url}
+      />
     ),
   },
   {
@@ -201,13 +206,12 @@ export const listsColumnsFunction = (
         : '';
       const typeText = capitalizedType ? capitalizedType + ' by' + ' ' : null;
       return (
-        <Typography>
-          {typeText}
-          {fullName(
+        <TruncateText
+          text={`${typeText} ${fullName(
             info?.getValue()?.user?.firstName,
             info?.getValue()?.user?.lastName,
-          )}
-        </Typography>
+          )}`}
+        />
       );
     },
   },

@@ -1,8 +1,4 @@
-import {
-  useLazyGetUsersDropdownListForTicketsApprovalsQuery,
-  usePostApprovalTicketsMutation,
-} from '@/services/airServices/tickets/single-ticket-details/approvals';
-
+import { useAddSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -13,16 +9,23 @@ import {
   addRequestApprovalFormDefaultValues,
 } from './AddRequestApproval.data';
 import useAuth from '@/hooks/useAuth';
-import { AddApprovalsPropsI } from '../Approvals.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
 
-export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
-  const { setIsDrawerOpen } = props;
+export const useAddRequestApproval = () => {
   const router = useRouter();
-  const { user }: any = useAuth();
-  const { ticketId } = router?.query;
-  const [postApprovalTicketsTrigger, postApprovalTicketsStatus] =
-    usePostApprovalTicketsMutation();
+  const auth: any = useAuth();
+  const userId = auth?.user?._id;
 
+  const ticketId = router?.query?.ticketId as string;
+
+  const [postApprovalTicketsTrigger, postApprovalTicketsStatus] =
+    useAddSingleServicesTicketsApprovalMutation();
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketApprovals?.isPortalOpen,
+  );
   const methods = useForm<any>({
     resolver: yupResolver(addRequestApprovalValidationSchema),
     defaultValues: addRequestApprovalFormDefaultValues,
@@ -31,7 +34,7 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
-    if (data?.subject?._id === user?._id) {
+    if (data?.subject?._id === userId) {
       errorSnackbar('You can not send approval to yourself');
       return;
     }
@@ -49,19 +52,16 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      onClose?.();
     }
   };
 
   const onClose = () => {
     reset();
-    setIsDrawerOpen(false);
+    dispatch(setIsPortalClose());
   };
 
-  const apiQueryApprover =
-    useLazyGetUsersDropdownListForTicketsApprovalsQuery();
-  const addRequestApprovalFormFields =
-    addRequestApprovalFormFieldsDynamic(apiQueryApprover);
+  const addRequestApprovalFormFields = addRequestApprovalFormFieldsDynamic();
+  const apiCallInProgress = postApprovalTicketsStatus?.isLoading;
 
   return {
     methods,
@@ -69,6 +69,7 @@ export const useAddRequestApproval = (props: AddApprovalsPropsI) => {
     onClose,
     onSubmit,
     addRequestApprovalFormFields,
-    postApprovalTicketsStatus,
+    isPortalOpen,
+    apiCallInProgress,
   };
 };

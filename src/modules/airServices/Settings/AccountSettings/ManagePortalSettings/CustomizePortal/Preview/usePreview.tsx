@@ -1,6 +1,6 @@
 import { IPreviewProps } from '../CustomizePortal.interface';
 
-export default function usePreview(props: IPreviewProps) {
+export const usePreview = (props: IPreviewProps) => {
   const { watch } = props;
 
   const isFileInstance = (value: any) => value instanceof File;
@@ -46,4 +46,5 @@ export default function usePreview(props: IPreviewProps) {
     isStringUrl,
     reducedOpacityBgColor,
   };
-}
+};
+export default usePreview;

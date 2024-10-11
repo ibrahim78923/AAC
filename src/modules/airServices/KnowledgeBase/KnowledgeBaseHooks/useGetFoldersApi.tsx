@@ -1,5 +1,5 @@
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetArticlesFoldersForFilterQuery } from '@/services/airServices/knowledge-base/articles';
+import { useLazyGetServicesKnowledgeBaseFoldersListForFilterQuery } from '@/services/airServices/knowledge-base/articles';
 import { getActiveAccountSession } from '@/utils';
 import { useMemo } from 'react';
 
@@ -7,13 +7,13 @@ export const useGetFoldersApi = () => {
   const auth: any = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const companyId = product?.company?._id ?? {};
-  const { _id: userId } = auth?.user;
-  const { _id: organizationId } = auth?.user?.organization;
+  const userId = auth?.user?._id ?? {};
+  const organizationId = auth?.user?.organization?._id ?? {};
 
   const [
     lazyGetArticlesFoldersForFilterTrigger,
     lazyGetArticlesFoldersForFilterStatus,
-  ] = useLazyGetArticlesFoldersForFilterQuery();
+  ] = useLazyGetServicesKnowledgeBaseFoldersListForFilterQuery();
 
   const getArticlesFolderListForFilterData = async () => {
     const apiDataParameter = {

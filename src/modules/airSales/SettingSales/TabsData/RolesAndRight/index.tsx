@@ -13,7 +13,6 @@ const RolesRight = () => {
   const {
     handleCloseDrawer,
     setIsDraweropen,
-    setIsOpenDelete,
     setFilterValues,
     setCheckedRows,
     getPermissions,
@@ -54,7 +53,13 @@ const RolesRight = () => {
               className="small"
               variant="contained"
               startIcon={<AddCircleIcon />}
-              onClick={() => setIsDraweropen({ isToggle: true, type: 'add' })}
+              onClick={() =>
+                setIsDraweropen({
+                  ...isDraweropen,
+                  isToggle: true,
+                  type: 'add',
+                })
+              }
             >
               Add New Role
             </Button>
@@ -79,7 +84,6 @@ const RolesRight = () => {
           <ActionButton
             checkedRows={checkedRows}
             setIsDraweropen={setIsDraweropen}
-            setIsOpenDelete={setIsOpenDelete}
           />
         </Stack>
         <Grid>

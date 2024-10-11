@@ -1,17 +1,17 @@
 import useAuth from '@/hooks/useAuth';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import {
-  useLazyGetLifeCycleStagesQuery,
-  useLazyGetContactsStatusQuery,
-} from '@/services/common-APIs';
+  useLazyGetContactsLifeCycleStagesQuery,
+  useLazyGetContactsOwnerListQuery,
+  useLazyGetContactsStatusListQuery,
+} from '@/services/commonFeatures/contacts';
 
 const useFilterDrawer = () => {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
 
-  const contactOwnerData = useLazyGetOrganizationUsersQuery();
-  const contactStatusData = useLazyGetContactsStatusQuery();
-  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
+  const contactOwnerData = useLazyGetContactsOwnerListQuery();
+  const contactStatusData = useLazyGetContactsStatusListQuery();
+  const lifeCycleStagesData = useLazyGetContactsLifeCycleStagesQuery();
 
   return {
     orgId,

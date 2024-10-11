@@ -2,42 +2,45 @@ import * as Yup from 'yup';
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { UpsertFolderFormDefaultValuesI } from './UpsertFolder.interface';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
-export const FOLDER_ACTIONS_CONSTANT = {
-  ADD_FOLDER: 'add-folder',
-  EDIT_FOLDER: 'edit-folder',
-};
-
-export const SET_DRAWER_CONSTANTS = {
-  [FOLDER_ACTIONS_CONSTANT?.EDIT_FOLDER]: {
-    title: 'Edit Folder',
-    buttonText: 'Update',
-  },
-  [FOLDER_ACTIONS_CONSTANT?.ADD_FOLDER]: {
-    title: 'Add Folder',
-    buttonText: 'Create',
-  },
-};
+const {
+  SERVICES_KNOWLEDGE_BASE_FOLDER_NAME_MAX_CHARACTERS,
+  SERVICES_KNOWLEDGE_BASE_FOLDER_DESCRIPTION_MAX_CHARACTERS,
+} = CHARACTERS_LIMIT ?? {};
 
 export const FOLDER_VISIBILITY = {
   ALL: 'ALL',
   ONLY_ME: 'ONLY_ME',
 };
 
+const { ALL, ONLY_ME } = FOLDER_VISIBILITY ?? {};
+
 export const folderVisibilityOptions: AutocompleteOptionsI[] = [
   {
-    _id: FOLDER_VISIBILITY?.ALL,
+    _id: ALL,
     label: 'All',
   },
   {
-    _id: FOLDER_VISIBILITY?.ONLY_ME,
+    _id: ONLY_ME,
     label: 'Only me',
   },
 ];
 
 export const upsertFolderValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Name is required'),
-  description: Yup?.string()?.trim(),
+  name: Yup?.string()
+    ?.trim()
+    ?.required('Name is required')
+    ?.max(
+      SERVICES_KNOWLEDGE_BASE_FOLDER_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${SERVICES_KNOWLEDGE_BASE_FOLDER_NAME_MAX_CHARACTERS}`,
+    ),
+  description: Yup?.string()
+    ?.trim()
+    ?.max(
+      SERVICES_KNOWLEDGE_BASE_FOLDER_DESCRIPTION_MAX_CHARACTERS,
+      `Maximum characters limit is ${SERVICES_KNOWLEDGE_BASE_FOLDER_DESCRIPTION_MAX_CHARACTERS}`,
+    ),
   visibility: Yup?.mixed()?.nullable()?.required('Visibility is required'),
 });
 
@@ -59,7 +62,7 @@ export const upsertFolderFormFields = [
     componentProps: {
       name: 'name',
       label: 'Name',
-      placeholder: 'Enter Folder Name',
+      placeholder: 'Enter folder name',
       fullWidth: true,
       required: true,
     },
@@ -71,7 +74,7 @@ export const upsertFolderFormFields = [
     componentProps: {
       name: 'description',
       label: 'Description',
-      placeholder: '#example',
+      placeholder: 'Write the description',
       fullWidth: true,
       multiline: true,
       rows: 4,
@@ -84,6 +87,7 @@ export const upsertFolderFormFields = [
     componentProps: {
       name: 'visibility',
       label: 'Visible to',
+      placeholder: 'Select the visibility',
       fullWidth: true,
       required: true,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,

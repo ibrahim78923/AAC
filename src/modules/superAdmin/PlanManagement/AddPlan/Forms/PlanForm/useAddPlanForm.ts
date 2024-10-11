@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { dataArray } from './PlanForm.data';
 import {
   useGetCrmQuery,
-  useGetProductsQuery,
+  useGetProductsPlanManagementQuery,
 } from '@/services/superAdmin/plan-mangement';
 import { DRAWER_TITLE } from '@/constants';
 import { IMPORT_ACTION_TYPE } from '@/constants/strings';
@@ -17,7 +17,7 @@ export const useAddPlanForm = (
   isFreePlan: boolean,
 ) => {
   const router = useRouter();
-  const { data } = useGetProductsQuery({});
+  const { data } = useGetProductsPlanManagementQuery({});
   const { data: getCRM } = useGetCrmQuery({});
 
   const formDefaultValuesFunction = dataArray(

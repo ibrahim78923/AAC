@@ -218,6 +218,7 @@ const useSalesEditorDrawer = ({
     handleUserSwitchChange,
     updateProductLoading,
     productsDataLoading,
+    productsById,
     productLoading,
     handleSubmit,
     salesProduct,

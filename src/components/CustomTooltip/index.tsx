@@ -1,7 +1,13 @@
 import { Tooltip } from '@mui/material';
 
 export const CustomTooltip = (props: any) => {
-  const { title = '', children, placement = 'top', ...others } = props;
+  const {
+    title = '',
+    children,
+    placement = 'top',
+    isCapital,
+    ...others
+  } = props;
   return (
     <Tooltip
       title={title}
@@ -14,6 +20,7 @@ export const CustomTooltip = (props: any) => {
             color: 'common.white',
             borderRadius: 1,
             fontWeight: 700,
+            textTransform: isCapital ? 'capitalize' : 'none',
           },
         },
         arrow: {

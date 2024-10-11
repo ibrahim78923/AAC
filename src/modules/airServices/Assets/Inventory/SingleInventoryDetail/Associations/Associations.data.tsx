@@ -19,10 +19,7 @@ export const addAssociationsButtonDynamic = (
   {
     id: 1,
     title: 'New Incident',
-    permissionKey: [
-      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
-      ,
-    ],
+    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION],
     handleClick: (closeMenu: () => void) => {
       setNewIncident?.(true);
       closeMenu();
@@ -31,10 +28,7 @@ export const addAssociationsButtonDynamic = (
   {
     id: 2,
     title: 'Existing Incident',
-    permissionKey: [
-      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
-      ,
-    ],
+    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION],
     handleClick: (closeMenu: () => void) => {
       setExistingIncident?.(true);
       closeMenu();

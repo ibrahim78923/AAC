@@ -1,93 +1,56 @@
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertFolder } from './useUpsertFolder';
-import { LoadingButton } from '@mui/lab';
-import {
-  SET_DRAWER_CONSTANTS,
-  upsertFolderFormFields,
-} from './UpsertFolder.data';
-import CloseIcon from '@mui/icons-material/Close';
+import { upsertFolderFormFields } from './UpsertFolder.data';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+
+const { EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
+const { EDIT, ADD, UPDATE, CREATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
 
 export const UpsertFolder = () => {
   const {
     methods,
     handleSubmit,
     onSubmit,
-    postFolderStatus,
     closePortal,
-    updateFolderForArticlesStatus,
     isPortalOpen,
+    showLoader,
+    isError,
+    refetch,
+    apiCallInProgress,
   } = useUpsertFolder();
 
   return (
-    <Dialog
-      open={isPortalOpen?.isOpen as boolean}
-      onClose={closePortal}
-      maxWidth={'sm'}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={isPortalOpen?.isOpen}
+      closePortal={closePortal}
+      dialogTitle={`${
+        isPortalOpen?.action === EDIT_FOLDER ? EDIT : ADD
+      } Folder`}
+      submitButtonText={isPortalOpen?.action === EDIT_FOLDER ? UPDATE : CREATE}
+      showSubmitLoader={apiCallInProgress}
+      disabledCancelButton={apiCallInProgress}
+      handleSubmitButton={handleSubmit(onSubmit)}
     >
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-          mb={1.5}
-        >
-          <Typography variant="h4" color="slateBlue.main">
-            {SET_DRAWER_CONSTANTS?.[isPortalOpen?.action]?.title}
-          </Typography>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={closePortal}
-          />
-        </Box>
-      </DialogTitle>
-      <DialogContent>
-        <FormProvider methods={methods}>
-          {upsertFolderFormFields?.map((item: ReactHookFormFieldsI) => (
+      <FormProvider methods={methods}>
+        {showLoader ? (
+          <SkeletonForm length={3} />
+        ) : isError ? (
+          <ApiErrorState canRefresh refresh={refetch} />
+        ) : (
+          upsertFolderFormFields?.map((item: ReactHookFormFieldsI) => (
             <item.component
               {...item?.componentProps}
               key={item?.id}
               size={'small'}
             />
-          ))}
-        </FormProvider>
-      </DialogContent>
-      <DialogActions sx={{ paddingTop: `0rem !important` }}>
-        <LoadingButton
-          type="button"
-          variant="outlined"
-          color="secondary"
-          onClick={closePortal}
-          disabled={
-            postFolderStatus?.isLoading ||
-            updateFolderForArticlesStatus?.isLoading
-          }
-        >
-          Cancel
-        </LoadingButton>
-        <LoadingButton
-          type="submit"
-          variant="contained"
-          onClick={handleSubmit(onSubmit)}
-          loading={
-            postFolderStatus?.isLoading ||
-            updateFolderForArticlesStatus?.isLoading
-          }
-        >
-          {SET_DRAWER_CONSTANTS?.[isPortalOpen?.action]?.buttonText}
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+          ))
+        )}
+      </FormProvider>
+    </CustomCommonDialog>
   );
 };

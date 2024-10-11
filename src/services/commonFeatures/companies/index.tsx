@@ -111,7 +111,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
       providesTags: ['COMPANY'],
     }),
 
-    getCustomizeColumns: builder.query({
+    getCustomizeColumnsCompanies: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
@@ -119,7 +119,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
-    putCustomizedColumns: builder.mutation({
+    putCustomizedColumnsCompanies: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
@@ -159,6 +159,14 @@ export const companiesAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['COMPANY'],
     }),
+    postCompaniesAttachments: builder?.mutation({
+      query: (postAttachmentParameter: any) => ({
+        url: END_POINTS?.POST_ATTACHMENT,
+        method: 'POST',
+        body: postAttachmentParameter?.body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -174,10 +182,11 @@ export const {
   useMergeCompaniesMutation,
   useChangeCompanyOwnerMutation,
   usePostCompaniesViewMutation,
-  useGetCustomizeColumnsQuery,
+  useGetCustomizeColumnsCompaniesQuery,
   useGetCompaniesViewsQuery,
-  usePutCustomizedColumnsMutation,
+  usePutCustomizedColumnsCompaniesMutation,
   useGetCompanyDealsQuery,
   useGetCompanyAssociationsQuery,
   usePostAssociationCompaniesMutation,
+  usePostCompaniesAttachmentsMutation,
 } = companiesAPI;

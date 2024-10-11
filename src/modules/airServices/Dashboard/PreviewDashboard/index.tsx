@@ -1,18 +1,9 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Typography,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box } from '@mui/material';
 import { SingleDashboard } from '../SingleDashboard';
 import NoData from '@/components/NoData';
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
-import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
-import { createElement } from 'react';
 import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
 
 export const PreviewDashboard = (
   props: ManageDashboardPortalComponentPropsI | any,
@@ -21,64 +12,30 @@ export const PreviewDashboard = (
 
   return (
     <>
-      <Dialog
-        open={isPortalOpen?.isView as boolean}
-        onClose={() => setIsPortalOpen?.({})}
-        fullWidth
-        maxWidth={'md'}
+      <CustomCommonDialog
+        isPortalOpen={isPortalOpen?.isView}
+        closePortal={() => setIsPortalOpen?.({})}
+        dialogMaxWidth={'md'}
+        dialogTitle={
+          isPortalOpen?.isStaticView
+            ? 'Preview Dashboard'
+            : isPortalOpen?.data?.name
+        }
+        showActionButtons={false}
       >
-        <DialogTitle>
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            gap={1}
-            flexWrap={'wrap'}
-            mb={1.5}
-          >
-            <Typography variant="h4" color="slateBlue.main">
-              {isPortalOpen?.isStaticView
-                ? 'Preview Dashboard'
-                : isPortalOpen?.data?.name}
-            </Typography>
-            <CloseIcon
-              sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => setIsPortalOpen?.({})}
+        <Box>
+          {isPortalOpen?.isDynamicPreview ? (
+            <SingleDashboard
+              dashboardId={{ _id: isPortalOpen?.data?._id }}
+              isPreviewMode
             />
-          </Box>
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={3} p={2}>
-            {isPortalOpen?.isDynamicPreview ? (
-              <SingleDashboard
-                dashboardId={{ _id: isPortalOpen?.data?._id }}
-                isPreviewMode
-              />
-            ) : isPortalOpen?.isStaticView ? (
-              <Grid container spacing={3} p={2}>
-                {!!!isPortalOpen?.data?.length ? (
-                  <NoData />
-                ) : (
-                  isPortalOpen?.data?.map((item: any) => (
-                    <Grid item xs={12} md={6} key={item}>
-                      {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item] &&
-                        createElement(
-                          AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item],
-                          {
-                            ticketType: TICKET_GRAPH_TYPES?.PRIORITY,
-                            isPreviewMode: true,
-                          },
-                        )}
-                    </Grid>
-                  ))
-                )}
-              </Grid>
-            ) : (
-              <NoData />
-            )}
-          </Grid>
-        </DialogContent>
-      </Dialog>
+          ) : isPortalOpen?.isStaticView ? (
+            <StaticDashboardWidgets widgets={isPortalOpen?.data} />
+          ) : (
+            <NoData message="No widgets found" />
+          )}
+        </Box>
+      </CustomCommonDialog>
     </>
   );
 };

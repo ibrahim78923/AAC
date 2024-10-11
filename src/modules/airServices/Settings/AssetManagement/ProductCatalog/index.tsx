@@ -11,7 +11,7 @@ import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants
 
 export const ProductCatalog = () => {
   const {
-    setSearch,
+    handleSearch,
     getProductListsDataExport,
     productListsColumn,
     productListActionComponent,
@@ -22,6 +22,7 @@ export const ProductCatalog = () => {
     setPage,
     setPageLimit,
     theme,
+    getProductCatalogListData,
   } = useProductCatalog();
 
   return (
@@ -69,7 +70,7 @@ export const ProductCatalog = () => {
           ]}
         >
           <Box px={2}>
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </Box>
         </PermissionsGuard>
         <Box marginY={3} />
@@ -93,6 +94,10 @@ export const ProductCatalog = () => {
             setPage={setPage}
             setPageLimit={setPageLimit}
             onPageChange={(page: number) => setPage(page)}
+            errorProps={{
+              canRefresh: true,
+              refresh: getProductCatalogListData,
+            }}
           />
         </PermissionsGuard>
       </Box>

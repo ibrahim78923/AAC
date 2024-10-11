@@ -1,8 +1,17 @@
 import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
-import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '../../Header/Header.data';
+
+const { MOVE_FOLDER, DELETE_ARTICLES } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
+const {
+  EDIT_ARTICLE,
+  DELETE,
+  MOVE_FOLDER: MOVE_FOLDER_PERMISSION,
+} = AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
+const { ZERO } = ARRAY_INDEX ?? {};
+const { ONE } = SELECTED_ARRAY_LENGTH ?? {};
 
 export const articlesActionDropdownDynamic = (
   setPortalAction: any,
@@ -13,18 +22,16 @@ export const articlesActionDropdownDynamic = (
     {
       id: 1,
       title: 'Edit',
-      permissionKey: [
-        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-      ],
+      permissionKey: [EDIT_ARTICLE],
       handleClick: (closeMenu: any) => {
-        if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        if (selectedArticlesData?.length > ONE) {
           errorSnackbar('Please select only one');
           closeMenu?.();
           return;
         }
         router?.push({
           pathname: AIR_SERVICES?.UPSERT_ARTICLE,
-          query: { articleId: selectedArticlesData?.[ARRAY_INDEX?.ZERO]?._id },
+          query: { articleId: selectedArticlesData?.[ZERO]?._id },
         });
         closeMenu();
       },
@@ -32,32 +39,28 @@ export const articlesActionDropdownDynamic = (
     {
       id: 2,
       title: 'Delete',
-      permissionKey: [
-        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
-      ],
+      permissionKey: [DELETE],
       handleClick: (closeMenu: any) => {
-        setPortalAction(KNOWLEDGE_BASE_ACTIONS_CONSTANT?.DELETE_ARTICLES);
+        setPortalAction(DELETE_ARTICLES);
         closeMenu();
       },
     },
     {
       id: 3,
       title: 'Move Folder',
-      permissionKey: [
-        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-      ],
+      permissionKey: [MOVE_FOLDER_PERMISSION],
       handleClick: (closeMenu: any) => {
-        if (selectedArticlesData?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        if (selectedArticlesData?.length > ONE) {
           errorSnackbar('Please select only one');
           closeMenu?.();
           return;
         }
-        if (!!!selectedArticlesData?.[ARRAY_INDEX?.ZERO]?.folder?.name) {
+        if (!!!selectedArticlesData?.[ZERO]?.folder?.name) {
           errorSnackbar('This articles does not have a primary folder');
           closeMenu?.();
           return;
         }
-        setPortalAction(KNOWLEDGE_BASE_ACTIONS_CONSTANT?.MOVE_FOLDER);
+        setPortalAction(MOVE_FOLDER);
         closeMenu();
       },
     },

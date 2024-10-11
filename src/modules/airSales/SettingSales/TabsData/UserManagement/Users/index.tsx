@@ -19,7 +19,6 @@ const UserTable = () => {
     setIsOpenDelete,
     anchorEl,
     open,
-    theme,
     handleClick,
     handleClose,
     deleteHandler,
@@ -44,8 +43,9 @@ const UserTable = () => {
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          marginTop: '1rem',
           marginBottom: '1rem',
+          gap: '1rem',
+          width: '100%',
         }}
       >
         <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_USER]}>
@@ -57,7 +57,12 @@ const UserTable = () => {
             size="small"
           />
         </PermissionsGuard>
-        <Box display="flex" gap={2}>
+        <Box
+          display="flex"
+          flexWrap={'wrap'}
+          gap={1}
+          sx={{ width: { xs: '100%', md: 'auto' } }}
+        >
           {checkedUser?.length > indexNumbers?.ONE ? (
             <LoadingButton
               className="small"
@@ -75,20 +80,12 @@ const UserTable = () => {
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               className="small"
+              color="inherit"
+              variant="outlined"
               aria-expanded={open ? 'true' : undefined}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
               onClick={handleClick}
               disabled={checkedUser?.length > indexNumbers?.ZERO ? false : true}
-              sx={{
-                border: `1px solid ${theme?.palette?.grey[700]}`,
-                borderRadius: '4px',
-                color: `${theme?.palette?.custom.main}`,
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0.7rem',
-                fontWeight: 500,
-                marginY: { xs: '10px', sm: '0px' },
-                width: { xs: '100%', sm: 'fit-content' },
-              }}
             >
               Actions <ArrowDropDownIcon />
             </Button>
@@ -132,15 +129,13 @@ const UserTable = () => {
                 setIsOpenDelete(true);
                 handleClose();
               }}
-              disabled={
-                checkedUser[0] === '66852793a152267199674836' ? true : false
-              }
             >
               Delete
             </MenuItem>
           </Menu>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_USER]}>
             <Button
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
               className="small"
               onClick={() => {
                 setIsAddUserDrawer({

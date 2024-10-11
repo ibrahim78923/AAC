@@ -1,32 +1,23 @@
-import PersonIcon from '@mui/icons-material/Person';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import {
+  AccessTimeFilled,
+  CheckCircleRounded,
+  Person,
+} from '@mui/icons-material';
 
-const pieChartDataOptions = (theme: any) => ({
-  colors: [theme?.palette?.success?.main, theme?.palette?.warning?.main],
-});
-
-export { pieChartDataOptions };
-export const pieChartHeader = (theme: any, pieCharts: any) => [
+export const agentAvailabilityCountDynamic = (pieCharts: any) => [
   {
     title: 'Total Agents',
-    icon: <PersonIcon style={{ color: theme?.palette?.custom?.main }} />,
-    titleNumber: pieCharts?.total,
+    icon: <Person color="secondary" />,
+    count: pieCharts?.total,
   },
   {
     title: 'Available',
-    icon: (
-      <CheckCircleRoundedIcon
-        style={{ color: theme?.palette?.success?.main }}
-      />
-    ),
-    titleNumber: pieCharts?.availableAgents,
+    icon: <CheckCircleRounded color="success" />,
+    count: pieCharts?.availableAgents,
   },
   {
     title: 'Not Available',
-    icon: (
-      <AccessTimeFilledIcon style={{ color: theme?.palette?.warning?.main }} />
-    ),
-    titleNumber: pieCharts?.unAvailableAgents,
+    icon: <AccessTimeFilled color="warning" />,
+    count: pieCharts?.unAvailableAgents,
   },
 ];

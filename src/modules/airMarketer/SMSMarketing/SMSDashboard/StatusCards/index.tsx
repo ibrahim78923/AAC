@@ -24,7 +24,7 @@ const StatusCards = ({
       ) : (
         <Grid container spacing={5}>
           {smsStatusArray?.map((item: any) => (
-            <Grid item xs={6} sm={4} lg={3} xl={2.4} key={uuidv4()}>
+            <Grid item xs={6} sm={4} lg={4} key={uuidv4()}>
               <Stack
                 direction={{ xs: 'column', md: 'row' }}
                 gap={2}

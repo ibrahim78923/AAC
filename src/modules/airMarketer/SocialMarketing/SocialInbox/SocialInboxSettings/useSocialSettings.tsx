@@ -7,12 +7,11 @@ const useSocialSettings = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isMobile = useMediaQuery('(max-width: 899px)');
-  const tabsOrientation = isMobile ? 'horizontal' : 'vertical';
+  const tabsOrientation: any = isMobile ? 'horizontal' : 'vertical';
   const tabValue = searchParams?.get('tab');
   const theme = useTheme();
 
   useEffect(() => {
-    //todo: isReady check router fields are updated client-side and ready for use
     if (router?.isReady) {
       router?.push({ query: { tab: 0 } });
     }

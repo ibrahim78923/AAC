@@ -1,3 +1,4 @@
+import { TruncateText } from '@/components/TruncateText';
 import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
 
@@ -7,7 +8,12 @@ export const getAssociatedAssetsColumns = (setIsDeleteModalOpen: any) => [
     id: 'displayName',
     isSortable: true,
     header: 'Display Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.associatedAssets?.state,

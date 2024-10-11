@@ -9,12 +9,12 @@ import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import {
-  useGetPurchaseOrderByIdQuery,
-  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
-  useLazyGetLocationsDropdownForPurchaseOrderQuery,
-  useLazyGetVendorDropdownForPurchaseOrderQuery,
-  usePatchPurchaseOrderMutation,
-  usePostPurchaseOrderMutation,
+  useGetAirServicesAssetsPurchaseOrderByIdQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery,
+  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
+  usePatchAirServicesAssetsPurchaseOrderMutation,
+  usePostAirServicesAssetsPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
 import {
   errorSnackbar,
@@ -31,6 +31,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { isoDateString } from '@/utils/dateTime';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -41,9 +42,9 @@ const useNewPurchaseOrders = () => {
   const { purchaseOrderId } = router?.query;
 
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
-    usePostPurchaseOrderMutation();
+    usePostAirServicesAssetsPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
-    usePatchPurchaseOrderMutation();
+    usePatchAirServicesAssetsPurchaseOrderMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -71,13 +72,11 @@ const useNewPurchaseOrders = () => {
     getDynamicFormData();
   }, []);
 
-  const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
-    purchaseOrderId,
-    {
+  const singlePurchaseOrder: any =
+    useGetAirServicesAssetsPurchaseOrderByIdQuery(purchaseOrderId, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
-    },
-  );
+    });
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading ||
     postPurchaseOrderStatus?.isLoading ||
@@ -89,9 +88,11 @@ const useNewPurchaseOrders = () => {
   });
 
   const apiQueryDepartment =
-    useLazyGetDepartmentDropdownForPurchaseOrderQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownForPurchaseOrderQuery();
-  const apiQueryVendor: any = useLazyGetVendorDropdownForPurchaseOrderQuery();
+    useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery();
+  const apiQueryLocations =
+    useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery();
+  const apiQueryVendor: any =
+    useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery();
 
   const { watch, reset } = methods;
   const vendorValue = watch('vendor');
@@ -120,7 +121,7 @@ const useNewPurchaseOrders = () => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
@@ -140,7 +141,14 @@ const useNewPurchaseOrders = () => {
         body.customFields = customFields;
       }
 
-      const { location, vendor, department, purchaseDetails, ...rest } = body;
+      const {
+        location,
+        vendor,
+        department,
+        purchaseDetails,
+        expectedDeliveryDate,
+        ...rest
+      } = body;
       const taxRate = rest?.taxRatio;
       delete rest?.taxRatio;
 
@@ -152,6 +160,8 @@ const useNewPurchaseOrders = () => {
           vendorId: vendor?._id,
           departmentId: department?._id,
           status: PURCHASE_ORDER_STATUS?.OPEN,
+          currency: 'Pound',
+          expectedDeliveryDate: isoDateString(expectedDeliveryDate),
           purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
             const name = purchaseDetail?.itemName?._id;
             delete purchaseDetail?.itemName;

@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useGetKnowledgeInsightsDetailsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
+import { useGetServicesKnowledgeBaseSingleKnowledgeInsightsDetailsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
 import { useState } from 'react';
 import { TicketRelatedPropsI } from './TicketRelated.interface';
 
@@ -17,10 +17,13 @@ export const useTicketRelated = (props: TicketRelatedPropsI) => {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess, error, refetch } =
-    useGetKnowledgeInsightsDetailsQuery(getKnowledgeInsightsDetailsParameters, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!selectedArticle?._id,
-    });
+    useGetServicesKnowledgeBaseSingleKnowledgeInsightsDetailsQuery(
+      getKnowledgeInsightsDetailsParameters,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!selectedArticle?._id,
+      },
+    );
 
   return {
     data,

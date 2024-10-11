@@ -12,11 +12,12 @@ import {
   useLazyGetDealOwnersListQuery,
 } from '@/services/common-APIs';
 import { ROLES } from '@/constants/strings';
-import { getSession } from '@/utils';
+import { getActiveProductSession, getSession } from '@/utils';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { indexNumbers } from '@/constants';
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -32,12 +33,12 @@ export const validationSchema = (form: any) => {
     campaignId: Yup?.object()?.required('Field is Required'),
     assignedTo: Yup?.object()?.required('Field is Required'),
     note: Yup?.string()?.required('Field is Required'),
-    time: Yup?.date()
-      ?.required('Field is Required')
-      ?.test('is-future-time', 'Time must be in the future', function (value) {
-        const currentDate = new Date();
-        return value && value > currentDate;
-      }),
+    time: Yup?.date()?.required('Field is Required'),
+    // commented for future use
+    // ?.test('is-future-time', 'Time must be in the future', function (value) {
+    //   const currentDate = new Date();
+    //   return value && value > currentDate;
+    // }),
     ...formSchema,
   });
 };
@@ -58,6 +59,9 @@ export const defaultValues = (data?: any, form?: any) => {
 export const dataArray = () => {
   const { user }: any = getSession();
   const orgId = user?.organization?._id;
+  const activeProduct = getActiveProductSession();
+  const companyAccountId =
+    activeProduct?.accounts[indexNumbers?.ZERO]?.company?._id;
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const userListData = useLazyGetDealOwnersListQuery();
   return [
@@ -94,6 +98,10 @@ export const dataArray = () => {
         fullWidth: true,
         required: true,
         getOptionLabel: (option: any) => option?.title,
+        externalParams: {
+          companyId: companyAccountId,
+        },
+        queryKey: 'companyId',
       },
       component: RHFAutocompleteAsync,
       md: 12,
@@ -117,6 +125,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'dueDate',
         label: 'Due Date',
+        minDate: new Date(),
         fullWidth: true,
         required: true,
       },

@@ -11,7 +11,7 @@ import {
 import { styles } from './CustomPagination.style';
 import { PAGINATION } from '@/config';
 
-const CustomPagination = (props: any) => {
+const CustomPagination = (props?: any) => {
   const {
     count = PAGINATION?.PAGE_COUNT,
     rowsPerPageOptions = PAGINATION?.ROWS_PER_PAGE,
@@ -45,11 +45,8 @@ const CustomPagination = (props: any) => {
             rowsPerPage={pageLimit}
             onRowsPerPageChange={(event: any) => {
               const newPageLimit = parseInt(event?.target?.value, 10);
-              const newPage =
-                Math.floor(((currentPage - 1) * pageLimit) / newPageLimit) + 1;
-
               setPageLimit?.(newPageLimit);
-              setPage?.(newPage);
+              setPage?.(PAGINATION?.CURRENT_PAGE);
             }}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}

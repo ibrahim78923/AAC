@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -24,11 +24,10 @@ const useCampaigns = () => {
   const organizationId: any = user?.organization?._id;
   const [tabVal, setTabVal] = useState<number>(0);
   const [currentTabVal, setCurrentTabVal] = useState(0);
-
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenAddAssets, setIsOpenAddAssets] = useState(false);
-
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [actionsModalDetails, setActionsModalDetails] = useState<any>({
     isClone: false,
     isOpenFilterDrawer: false,
@@ -48,35 +47,16 @@ const useCampaigns = () => {
 
   const [isCompare, setIsCompare] = useState(false);
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const userListData = useLazyGetUsersListDropdownQuery();
 
   const { data: UserListData } = useGetUsersListQuery({
     role: ROLES?.ORG_EMPLOYEE,
     organization: organizationId,
   });
-  // collapse menu task filters start here
 
-  const [isFilters, setIsFilters] = useState(false);
-  const [taskFilters, setTaskFilters] = useState({
-    campaignId: '',
-    assignedTo: '',
-    status: '',
-    taskType: '',
-    startDate: '',
-    endDate: '',
-  });
-
-  const resetTasksFilters = () => {
-    setTaskFilters({
-      campaignId: '',
-      assignedTo: '',
-      status: '',
-      taskType: '',
-      startDate: '',
-      endDate: '',
-    });
-  };
+  useEffect(() => {
+    setSelectedRows([]);
+  }, [currentTabVal]);
 
   const compareMethods = useForm<any>({
     defaultValues: compareInitialVals,
@@ -193,21 +173,16 @@ const useCampaigns = () => {
     postCampaignsSaveView,
     postCampaignsSaveViewLoading,
     saveViewCampaignsData,
-    resetTasksFilters,
     setCurrentTabVal,
     compareMethods,
-    setTaskFilters,
     currentTabVal,
-    setIsFilters,
-    taskFilters,
-    isFilters,
-    selectedRows,
-    setSelectedRows,
     UserListData,
     userListData,
     organizationId,
     createCampaign,
     setCreateCampaign,
+    selectedRows,
+    setSelectedRows,
   };
 };
 export default useCampaigns;

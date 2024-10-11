@@ -2,8 +2,8 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray } from './FilterQuotes.data';
-import { useLazyGetUsersDropdownListQuery } from '@/services/airOperations/data-management/export';
 import { FilterQuotesI } from '../Quotes.interface';
+import { useLazyGetAllUsersQuery } from '@/services/common-APIs';
 
 const FilterQuotes = ({
   open,
@@ -11,7 +11,8 @@ const FilterQuotes = ({
   methods,
   onFilterSubmit,
 }: FilterQuotesI) => {
-  const getDropdownAllUsers = useLazyGetUsersDropdownListQuery();
+  const getDropdownAllUsers = useLazyGetAllUsersQuery();
+
   return (
     <CommonDrawer
       isDrawerOpen={open}

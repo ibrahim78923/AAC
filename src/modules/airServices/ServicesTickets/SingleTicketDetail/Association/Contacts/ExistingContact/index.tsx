@@ -5,7 +5,7 @@ import useExistingContact from './useExistingContact';
 
 export default function ExistingContact({ setSelected, selected }: any) {
   const {
-    setSearch,
+    handleSearch,
     addContactsColumns,
     data,
     isLoading,
@@ -18,7 +18,7 @@ export default function ExistingContact({ setSelected, selected }: any) {
 
   return (
     <Stack direction={'column'} spacing={2}>
-      <Search label="Search Here" width="100%" setSearchBy={setSearch} />
+      <Search label="Search Here" width="100%" setSearchBy={handleSearch} />
       <TanstackTable
         columns={addContactsColumns}
         data={data?.data?.contacts}

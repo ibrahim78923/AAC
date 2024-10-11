@@ -86,6 +86,9 @@ export const PurchaseOrdersReports = () => {
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
               }
+              onSubmitBtnDisable={
+                !getValues?.('createdDate')?.startDate && true
+              }
               cancelBtnEffect={() => setHasDate?.(false)}
               closePopOver={() => shouldDateSet?.()}
             />
@@ -176,6 +179,7 @@ export const PurchaseOrdersReports = () => {
                           name={'status'}
                           placeholder={'Select Option'}
                           size="small"
+                          disableClearable
                           options={purchaseOrderTableFilterOptions}
                           disabled={loading}
                           getOptionLabel={(option: AutocompleteOptionsI) =>

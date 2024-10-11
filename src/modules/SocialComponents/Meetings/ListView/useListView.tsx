@@ -110,11 +110,16 @@ export const useListView = () => {
     });
   }, []);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
     theme,
     meetings,
     search,
-    setSearch,
+    handleSearch,
     setCardValue,
     listData,
     deleteModal,

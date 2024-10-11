@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Box, Typography } from '@mui/material';
 import useNotification from './useNotification';
 import { styles } from './Notification.style';
@@ -26,7 +25,7 @@ const Notification = () => {
         <Box
           sx={{
             border: `1px solid ${theme?.palette?.grey[700]}`,
-            padding: '2rem 1rem',
+            padding: '1rem',
             boxShadow: `0px 1px 2px 0px ${theme?.palette.custom?.dark_shade_green}`,
             borderRadius: '8px',
           }}
@@ -38,18 +37,14 @@ const Notification = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant="h4">Notifications</Typography>
+            <Typography variant="h3">Notifications</Typography>
           </Box>
 
           <Box display="flex" gap={2} flexDirection="column">
             {notificationList?.map((item: any) => (
-              <>
+              <Box key={uuidv4()}>
                 {item?.title === SETTINGS_CONSTANTS?.EMAIL && (
-                  <Typography
-                    variant="h6"
-                    fontWeight="600"
-                    sx={{ marginTop: '20px' }}
-                  >
+                  <Typography variant="h6" fontWeight="600" sx={{ my: '20px' }}>
                     Email Notification
                   </Typography>
                 )}
@@ -96,7 +91,7 @@ const Notification = () => {
                     />
                   </Box>
                 </PermissionsGuard>
-              </>
+              </Box>
             ))}
           </Box>
         </Box>

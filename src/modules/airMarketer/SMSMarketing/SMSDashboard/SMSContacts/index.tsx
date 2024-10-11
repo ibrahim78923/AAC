@@ -9,11 +9,16 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { SMSDashboardProps } from '@/modules/airMarketer/SMSMarketing/SMSDashboard/SMSDashboard-interface';
 import { generateImage } from '@/utils/avatarUtils';
+import { PAGINATION } from '@/config';
+import { countRecentContacts } from '@/utils';
 
 const SMSContacts = (props: SMSDashboardProps) => {
   const { setTabVal } = props;
   const { theme } = useSMSContacts();
   const { getContactData, contactDataLoading } = useSMSDashboard();
+  const recentContactsCount = countRecentContacts(
+    getContactData?.data?.contacts,
+  );
 
   return (
     <Box sx={styles?.SMSContactsCardStyle}>
@@ -46,7 +51,9 @@ const SMSContacts = (props: SMSDashboardProps) => {
             New Contacts:
           </Typography>
           <Typography variant="h5" fontWeight="500">
-            {getContactData?.data?.contacts?.length}
+            {recentContactsCount < PAGINATION?.PAGE_LIMIT
+              ? `0${recentContactsCount}`
+              : recentContactsCount}
           </Typography>
         </Box>
       </Stack>
@@ -55,7 +62,7 @@ const SMSContacts = (props: SMSDashboardProps) => {
           variant="subtitle2"
           sx={{ color: theme?.palette?.secondary?.main }}
         >
-          Latest Added
+          Latest Added (Past 24 hours)
         </Typography>
         <PermissionsGuard
           permissions={[

@@ -6,9 +6,10 @@ import {
   holidayValidationSchema,
 } from './AddHoliday.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usePostHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
+import { usePostAirServicesSettingsServiceBusinessHourHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const useAddHoliday = (props: any) => {
   const {
@@ -17,20 +18,25 @@ export const useAddHoliday = (props: any) => {
     setOpenAddHolidayModal,
     businessHourId,
   } = props;
+
   const method = useForm({
     defaultValues: holidayDefaultValues,
     resolver: yupResolver(holidayValidationSchema),
   });
-  const [postHolidayTrigger, postHolidayStatus] = usePostHolidayMutation();
+
+  const [postHolidayTrigger, postHolidayStatus] =
+    usePostAirServicesSettingsServiceBusinessHourHolidayMutation();
+
   const { handleSubmit, reset } = method;
   const closeHolidayModal = () => {
     setOpenAddHolidayModal(false);
     reset();
   };
+
   const onSubmitRequest = handleSubmit(async (data: any) => {
     const body = {
       ...data,
-      date: dayjs(data?.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+      date: dayjs(data?.date)?.format(CALENDAR_FORMAT?.YMD),
     };
     if (!!!businessHourId) {
       const newData = {
@@ -51,6 +57,7 @@ export const useAddHoliday = (props: any) => {
         id: businessHourId,
       },
     };
+
     try {
       await postHolidayTrigger(postHolidayParameter)?.unwrap();
       successSnackbar('Holiday Added Successfully');

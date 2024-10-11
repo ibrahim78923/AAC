@@ -8,15 +8,19 @@ import {
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { TICKET_APPROVALS } from '@/constants/strings';
-import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
 import useAuth from '@/hooks/useAuth';
+import { uiDateFormat } from '@/utils/dateTime';
+import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+
+const { REJECT_TICKET_APPROVAL, APPROVE_TICKET_APPROVAL } =
+  TICKET_APPROVALS_ACTIONS_CONSTANT ?? {};
 
 export const ApprovalCard = (props: any) => {
-  const { setApproval, data, getUpdateStatus } = props;
+  const { setApproval, data } = props;
+
   const { user }: any = useAuth();
   const ticketsApprovalDropdown = ticketsApprovalDropdownFunction(
-    getUpdateStatus,
+    setApproval,
     data,
   );
 
@@ -78,54 +82,69 @@ export const ApprovalCard = (props: any) => {
                   )?.text
                 }{' '}
                 on{' '}
-                {dayjs(
+                {uiDateFormat(
                   data?.approvalStatus === TICKET_APPROVALS?.PENDING
                     ? data?.createdAt
                     : data?.updatedAt,
-                ).format(DATE_TIME_FORMAT?.UI)}
+                )}
               </Typography>
             </Box>
           </Box>
         </Box>
         <Box textAlign={'end'}>
-          {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
-            data?.createdBy === user?._id && (
+          {data?.approvalStatus === TICKET_APPROVALS?.PENDING ? (
+            data?.createdBy === user?._id ? (
               <SingleDropdownButton
                 dropdownOptions={ticketsApprovalDropdown}
                 dropdownName={<MoreVert />}
                 hasEndIcon={false}
                 btnVariant="text"
               />
-            )}
-          {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
-            data?.recieverId === user?._id && (
-              <Box display={'flex'} gap={1} flexWrap={'wrap'}>
-                <Button
-                  variant="outlined"
-                  color="success"
-                  startIcon={
-                    APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.APPROVE]?.icon
-                  }
-                  onClick={() =>
-                    setApproval?.({ ...data, state: TICKET_APPROVALS?.APPROVE })
-                  }
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={() =>
-                    setApproval?.({ ...data, state: TICKET_APPROVALS?.REJECT })
-                  }
-                  startIcon={
-                    APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REJECT]?.icon
-                  }
-                >
-                  Reject
-                </Button>
-              </Box>
-            )}
+            ) : (
+              data?.recieverId === user?._id && (
+                <Box display={'flex'} gap={1} flexWrap={'wrap'}>
+                  <Button
+                    className="small"
+                    size="small"
+                    variant="outlined"
+                    color="success"
+                    startIcon={
+                      APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.APPROVE]?.icon
+                    }
+                    onClick={() =>
+                      setApproval?.({
+                        ...data,
+                        state: TICKET_APPROVALS?.APPROVE,
+                        action: APPROVE_TICKET_APPROVAL,
+                      })
+                    }
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    className="small"
+                    variant="outlined"
+                    color="error"
+                    size="small"
+                    onClick={() =>
+                      setApproval?.({
+                        ...data,
+                        state: TICKET_APPROVALS?.REJECT,
+                        action: REJECT_TICKET_APPROVAL,
+                      })
+                    }
+                    startIcon={
+                      APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REJECT]?.icon
+                    }
+                  >
+                    Reject
+                  </Button>
+                </Box>
+              )
+            )
+          ) : (
+            <></>
+          )}
         </Box>
       </Box>
       <Typography

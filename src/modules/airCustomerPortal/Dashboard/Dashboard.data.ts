@@ -25,6 +25,7 @@ export const dashboardWidgetsDynamic = () => [
     _id: 5,
     component: RecentTickets,
     lg: 6.5,
+
     componentProps: {},
   },
   {

@@ -23,10 +23,16 @@ import 'react-date-range/dist/theme/default.css';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from '../UpdateWorkloadTask';
-import { IMG_URL } from '@/config';
 import NoData from '@/components/NoData';
-import { AssociationsImage } from '@/assets/images';
 import useWorkloadDrawer from './useWorkloadDrawer';
+import {
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { UpdateWorkloadTicket } from '../UpdateWorkloadTicket';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -64,6 +70,8 @@ const WorkloadDrawer = ({
     handleCloseModified,
     setOnClickEvent,
     onClickEvent,
+    addPlannedTicketEffort,
+    setAddPlannedTicketEffort,
   } = useWorkloadDrawer({
     state,
     openDrawer,
@@ -80,11 +88,7 @@ const WorkloadDrawer = ({
         }}
         anchor="right"
       >
-        <Box
-          sx={{
-            width: { xs: '100vw', md: '40vw' },
-          }}
-        >
+        <Box width={{ lg: '520px', sm: '500px', xs: '100vw' }}>
           <Box display={'flex'} justifyContent={'space-between'} p={4}>
             <Box display={'flex'} gap={1}>
               <Avatar
@@ -92,10 +96,12 @@ const WorkloadDrawer = ({
                   bgcolor: 'primary.lighter',
                   color: 'primary.main',
                 }}
-                src={`${IMG_URL}${user?.avatar?.url}`}
+                src={generateImage(user?.avatar?.url)}
               >
-                {user?.firstName?.[0] ?? '-'}
-                {user?.lastName?.[0]}
+                {fullNameInitial(
+                  user?.firstName?.[ARRAY_INDEX?.ZERO],
+                  user?.lastName?.[ARRAY_INDEX?.ZERO],
+                )}
               </Avatar>
               <Box>
                 <Typography
@@ -108,7 +114,7 @@ const WorkloadDrawer = ({
                 <Typography variant="body2" fontWeight={600}>
                   Manage open and in progress work
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" component={'div'}>
                   {data?.length ?? 0} in Total
                   {state === 'UNPLANNED' ? (
                     <Chip
@@ -236,11 +242,16 @@ const WorkloadDrawer = ({
           ) : isError ? (
             <ApiErrorState />
           ) : !dataArray?.length ? (
-            <NoData message="No data is available" image={AssociationsImage} />
+            <NoData message="No data is available" />
           ) : (
             <Fragment>
               {dataArray?.map((item: any) => (
-                <Fragment key={item}>
+                <Fragment
+                  key={
+                    item?.extendedProps?.ticketIdParent ??
+                    item?.extendedProps?._id
+                  }
+                >
                   <Box
                     px={4}
                     py={2}
@@ -253,52 +264,51 @@ const WorkloadDrawer = ({
                       <Grid container gap={1} alignItems={'center'}>
                         <TicketBannerIcon />
                         <Typography
-                          variant="h6"
+                          variant={'h6'}
                           fontWeight={600}
                           display={'flex'}
                           alignItems={'center'}
                           gap={0.5}
                         >
-                          #TSK-
-                          {item?.extendedProps?.data?._id?.slice(-3) ?? '-'}
-                          {item?.extendedProps?.data?.description ? (
-                            <>
-                              <Box
-                                component={'span'}
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    item?.extendedProps?.data?.description?.slice(
-                                      0,
-                                      20,
-                                    ),
-                                }}
-                              />
-                              ...
-                            </>
-                          ) : (
-                            '-'
+                          <Typography
+                            variant={'h6'}
+                            textTransform={'uppercase'}
+                            component={'span'}
+                            fontWeight={600}
+                          >
+                            {item?.extendedProps?.taskId ??
+                              item?.extendedProps?.ticketIdNumber}
+                          </Typography>
+
+                          {truncateText(
+                            item?.extendedProps?.subject ??
+                              item?.extendedProps?.title,
                           )}
                         </Typography>
                       </Grid>
                       <Grid container alignItems={'center'} ml={3} mt={1}>
                         <Typography variant="body2" color={'custom.main'}>
-                          {item?.start?.length
-                            ? dayjs(item?.start)?.format('MM/DD/YYYY')
-                            : 'Planned Start Date Not Set'}
+                          {item?.start
+                            ? dayjs(item?.start)?.format(
+                                DATE_TIME_FORMAT?.FORMAT_24_HOUR,
+                              )
+                            : 'No Date'}
                         </Typography>
                         <HorizontalRuleIcon sx={{ color: 'custom.main' }} />
                         <Typography variant="body2" color={'custom.main'}>
-                          {item?.end?.length
-                            ? dayjs(item?.end)?.format('MM/DD/YYYY')
-                            : 'Planned End Date Not Set'}
+                          {item?.end
+                            ? dayjs(item?.end)?.format(
+                                DATE_TIME_FORMAT?.FORMAT_24_HOUR,
+                              )
+                            : 'No Date'}
                         </Typography>
                         <FiberManualRecordIcon
                           sx={{ color: 'custom.main', fontSize: '12px', mx: 1 }}
                         />
                         <Typography variant="body2" color={'custom.main'}>
-                          {item?.extendedProps?.data?.plannedEffort?.length
-                            ? item?.extendedProps?.data?.plannedEffort
-                            : 'Planned Effort Not Set'}
+                          {item?.extendedProps?.plannedEffort?.length
+                            ? item?.extendedProps?.plannedEffort
+                            : 'Effort Not Set'}
                         </Typography>
                       </Grid>
                     </Box>
@@ -310,12 +320,17 @@ const WorkloadDrawer = ({
                           borderRadius: 2,
                           boxShadow: 2,
                         }}
-                        onClick={() => {
-                          setOnClickEvent({
-                            open: true,
-                            data: item,
-                          });
-                        }}
+                        onClick={() =>
+                          item?.extendedProps?.taskId
+                            ? setOnClickEvent({
+                                open: true,
+                                data: item,
+                              })
+                            : setAddPlannedTicketEffort({
+                                open: true,
+                                data: item,
+                              })
+                        }
                       >
                         <EditGreyIcon />
                       </IconButton>
@@ -334,7 +349,14 @@ const WorkloadDrawer = ({
           openDrawer={onClickEvent?.open}
           onClose={() => setOnClickEvent({ open: null, data: null })}
           data={onClickEvent?.data}
-          edit
+        />
+      )}
+
+      {addPlannedTicketEffort?.open && (
+        <UpdateWorkloadTicket
+          openDrawer={addPlannedTicketEffort?.open}
+          onClose={() => setAddPlannedTicketEffort({ open: null, data: null })}
+          data={addPlannedTicketEffort?.data}
         />
       )}
     </Fragment>

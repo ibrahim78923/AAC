@@ -45,6 +45,7 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
             !selected?.length || postRemoveAssociateTicketsStatus?.isLoading
           }
           isLoading={postRemoveAssociateTicketsStatus?.isLoading}
+          disabledCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
         >
           <AddDeals setSelected={setSelected} selected={selected} />
         </CommonDrawer>

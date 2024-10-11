@@ -1,3 +1,4 @@
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
@@ -25,7 +26,7 @@ export const requestedTicketsColumnsDynamic: any = (router?: any) => {
             });
           }}
         >
-          {info?.getValue()}
+          {<TruncateText text={info?.getValue()} />}
         </Typography>
       ),
     },
@@ -34,7 +35,9 @@ export const requestedTicketsColumnsDynamic: any = (router?: any) => {
       id: 'subject',
       isSortable: true,
       header: 'Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
+      ),
     },
     {
       accessorFn: (row: any) => row?.plannedEndDate,
@@ -51,15 +54,23 @@ export const requestedTicketsColumnsDynamic: any = (router?: any) => {
       id: 'assignedto',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) =>
-        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+      cell: (info: any) => (
+        <TruncateText
+          text={fullName(
+            info?.getValue()?.firstName?.toLowerCase(),
+            info?.getValue()?.lastName?.toLowerCase(),
+          )}
+        />
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
+      ),
     },
   ];
 };

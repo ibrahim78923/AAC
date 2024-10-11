@@ -1,38 +1,51 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import dayjs from 'dayjs';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { Box, Typography } from '@mui/material';
-import { ROLES } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { RequesterFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/RequesterFieldDropdown';
+import { pxToRem } from '@/utils/getFontValue';
+import { CategoryFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/CategoryFieldDropdown';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { DepartmentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/DepartmentFieldDropdown';
+import { AgentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AgentFieldDropdown';
+import { AssetFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AssetFieldDropdown';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
 export const newIncidentValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
     requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
-    subject: Yup?.string()?.trim()?.required('Subject is required'),
-    description: Yup?.string()?.trim()?.required('Description is Required'),
+    subject: Yup?.string()
+      ?.trim()
+      ?.required('Subject is required')
+      ?.max(
+        SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS,
+        `Maximum characters limit is ${SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS}`,
+      ),
+    description: Yup?.string()
+      ?.trim()
+      ?.required('Description is Required')
+      ?.test('is-not-empty', 'Description is Required', (value) => {
+        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        return strippedContent !== '';
+      }),
     category: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.nullable()?.required('Status is required'),
     priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
@@ -41,9 +54,9 @@ export const newIncidentValidationSchema = (form: any) => {
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     plannedStartDate: Yup?.date(),
-    plannedStartTime: Yup?.date()?.nullable(),
-    plannedEndDate: Yup?.date()?.nullable(),
-    plannedEndTime: Yup?.date()?.nullable(),
+    plannedEndDate: Yup?.date()
+      ?.nullable()
+      ?.required('Planned End Date is Required'),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -51,75 +64,32 @@ export const newIncidentValidationSchema = (form: any) => {
   });
 };
 
-export const newIncidentsDefaultValuesFunction = (data?: any, form?: any) => {
-  const initialValues: any = dynamicFormInitialValue(data, form);
+export const newIncidentsDefaultValuesFunction = (form?: any) => {
+  const initialValues: any = dynamicFormInitialValue({}, form);
 
   return {
-    requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
-      ? data?.requesterDetails
-      : null,
-    subject: data?.subject ?? '',
-    description: data?.description ?? '',
-    category: data?.categoryDetails ?? null,
-    status: data?.status ? { _id: data?.status, label: data?.status } : null,
-    priority: data?.pirority
-      ? { _id: data?.pirority, label: data?.pirority }
-      : null,
-    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
-      ? data?.departmentDetails
-      : null,
-    source: data?.source ? { _id: data?.source, label: data?.source } : null,
-    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
-    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
-      ? data?.agentDetails
-      : null,
-    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
-    plannedStartTime:
-      typeof data?.plannedStartDate === 'string'
-        ? new Date(data?.plannedStartDate)
-        : new Date(),
-    plannedEndDate:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
-    plannedEndTime:
-      typeof data?.plannedEndDate === 'string'
-        ? new Date(data?.plannedEndDate)
-        : null,
-    plannedEffort: data?.plannedEffort ?? '',
-    associatesAssets: !!data?.associateAssets?.length
-      ? data?.associateAssetsDetails
-      : null,
+    requester: null,
+    subject: '',
+    description: '',
+    category: null,
+    status: null,
+    priority: null,
+    department: null,
+    source: null,
+    impact: null,
+    agent: null,
+    plannedStartDate: new Date(),
+    plannedEndDate: null,
+    plannedEffort: '',
+    associatesAssets: [],
     attachFile: null,
     ...initialValues,
   };
 };
-export const newIncidentFormFieldsDynamic = (
-  apiQueryRequester?: any,
-  apiQueryDepartment?: any,
-  apiQueryAgent?: any,
-  apiQueryCategory?: any,
-  apiQueryAssociateAsset?: any,
-  router?: any,
-) => [
+export const newIncidentFormFieldsDynamic = [
   {
     id: 1,
-    componentProps: {
-      name: 'requester',
-      label: 'Requester',
-      fullWidth: true,
-      required: true,
-      apiQuery: apiQueryRequester,
-      EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-      endIconClick: () => {
-        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
-      },
-      placeholder: 'Add Requester',
-    },
-    component: RHFAutocompleteAsync,
+    component: RequesterFieldDropdown,
   },
   {
     id: 2,
@@ -127,7 +97,6 @@ export const newIncidentFormFieldsDynamic = (
       name: 'subject',
       label: 'Subject',
       placeholder: 'Enter Subject',
-      fullWidth: true,
       required: true,
     },
     component: RHFTextField,
@@ -138,34 +107,24 @@ export const newIncidentFormFieldsDynamic = (
       name: 'description',
       label: 'Description',
       placeholder: 'Enter Description',
-      fullWidth: true,
       required: true,
-      style: { height: '250px' },
+      style: { height: pxToRem(250) },
     },
     component: RHFEditor,
   },
   {
     id: 4,
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      fullWidth: true,
-      apiQuery: apiQueryCategory,
-      placeholder: 'Choose Category',
-      getOptionLabel: (option: any) => option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
+    component: CategoryFieldDropdown,
   },
   {
     id: 5,
     componentProps: {
       name: 'status',
       label: 'Status',
-      fullWidth: true,
       required: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -174,34 +133,25 @@ export const newIncidentFormFieldsDynamic = (
     componentProps: {
       name: 'priority',
       label: 'Priority',
-      fullWidth: true,
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
   {
     id: 7,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      fullWidth: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Choose Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentFieldDropdown,
   },
   {
     id: 8,
     componentProps: {
       name: 'source',
       label: 'Source',
-      fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -213,23 +163,13 @@ export const newIncidentFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
+      getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
     component: RHFAutocomplete,
   },
   {
     id: 10,
-    componentProps: {
-      name: 'agent',
-      label: 'Agent',
-      fullWidth: true,
-      apiQuery: apiQueryAgent,
-      placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentFieldDropdown,
   },
   {
     id: 11,
@@ -238,20 +178,10 @@ export const newIncidentFormFieldsDynamic = (
       label: 'Planned Start Date',
       fullWidth: true,
       disabled: true,
+      ampm: false,
     },
-    component: RHFDatePicker,
-    md: 7.5,
-  },
-  {
-    id: 12,
-    componentProps: {
-      name: 'plannedStartTime',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-      disabled: true,
-    },
-    component: RHFTimePicker,
-    md: 4.5,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 13,
@@ -260,28 +190,18 @@ export const newIncidentFormFieldsDynamic = (
       label: 'Planned End Date',
       fullWidth: true,
       disablePast: true,
+      ampm: false,
+      required: true,
       textFieldProps: { readOnly: true },
     },
-    component: RHFDatePicker,
-    md: 7.5,
-  },
-  {
-    id: 14,
-    componentProps: {
-      name: 'plannedEndTime',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-      textFieldProps: { readOnly: true },
-    },
-    component: RHFTimePicker,
-    md: 4.5,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 15,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
-      fullWidth: true,
       multiple: true,
       placeholder: 'Eg: 1h10m',
     },
@@ -289,51 +209,12 @@ export const newIncidentFormFieldsDynamic = (
   },
   {
     id: 16,
-    componentProps: {
-      name: 'associatesAssets',
-      label: 'Associate Assets',
-      fullWidth: true,
-      multiple: false,
-      apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.displayName,
-      renderOption: (option: any) => (
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          width={'100%'}
-        >
-          <Box>
-            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
-              {option?.displayName}
-            </Typography>
-            <Typography variant={'body4'} color={'grey.900'}>
-              {option?.assetType}
-            </Typography>
-          </Box>
-          <Typography variant={'body4'} color={'grey.900'}>
-            EOL:
-            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
-              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
-          </Typography>
-        </Box>
-      ),
-      placeholder: 'Choose Assets',
-      EndIcon: AddCircleIcon,
-
-      endIconSx: { color: 'primary.main' },
-      endIconClick: () => {
-        router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
-      },
-    },
-    component: RHFAutocompleteAsync,
+    component: AssetFieldDropdown,
   },
   {
     id: 17,
     componentProps: {
       name: 'attachFile',
-      fullWidth: true,
     },
     component: RHFDropZone,
   },

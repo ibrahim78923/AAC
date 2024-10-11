@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import {
-  useChangeDefaultServicesDashboardMutation,
+  useChangeServicesDashboardSingleDashboardDefaultStatusMutation,
   useLazyGetServicesDashboardListQuery,
 } from '@/services/airServices/dashboard';
 import { buildQueryParams, errorSnackbar } from '@/utils/api';
-import { ManageDashboardFilter } from './ManageDashboardFilter';
+import { ManageDashboardFilter } from '../ManageDashboardFilter';
 import { PreviewDashboard } from '../PreviewDashboard';
 import { DeleteDashboard } from '../DeleteDashboard';
 import { manageDashboardsDataColumnsDynamic } from './ManageDashboard.data';
@@ -16,20 +16,24 @@ import {
   ManageDashboardPortalComponentPropsI,
 } from './ManageDashboard.interface';
 import useAuth from '@/hooks/useAuth';
+import { AIR_SERVICES } from '@/constants';
+
+const { DASHBOARD, CREATE_DASHBOARD } = AIR_SERVICES ?? {};
+const { CURRENT_PAGE, PAGE_LIMIT } = PAGINATION ?? {};
 
 export const useManageDashboard = () => {
   const router: NextRouter = useRouter();
   const [dashboardFilterLists, setDashboardFilterLists] = useState({});
-  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
   const [isPortalOpen, setIsPortalOpen] =
     useState<ManageDashboardIsPortalOpenI>({});
 
   const auth: any = useAuth();
 
-  const { user } = auth;
-  const { _id: productId } = auth?.product;
+  const user = auth?.user ?? {};
+  const productId = auth?.product?._id ?? {};
 
   const overallPermissions = getActivePermissionsSession();
 
@@ -39,7 +43,7 @@ export const useManageDashboard = () => {
   const [
     changeDefaultServicesDashboardTrigger,
     changeDefaultServicesDashboardStatus,
-  ] = useChangeDefaultServicesDashboardMutation?.();
+  ] = useChangeServicesDashboardSingleDashboardDefaultStatusMutation?.();
 
   const getDashboardListData = async (currentPage = page) => {
     const additionalParams = [
@@ -48,6 +52,7 @@ export const useManageDashboard = () => {
       ['search', search],
       ['productId', productId],
     ];
+
     const getDashboardParam: URLSearchParams = buildQueryParams(
       additionalParams,
       dashboardFilterLists,
@@ -104,6 +109,12 @@ export const useManageDashboard = () => {
     }
     return <></>;
   };
+
+  const handleSearch = (data: any) => {
+    setPage(CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const manageDashboardsDataColumns = manageDashboardsDataColumnsDynamic?.(
     setIsPortalOpen,
     changeDefaultDashboard,
@@ -111,17 +122,24 @@ export const useManageDashboard = () => {
     overallPermissions,
     user,
   );
+
+  const moveToDashboard = () => router?.push(DASHBOARD);
+  const moveToCreateDashboard = () => router?.push(CREATE_DASHBOARD);
+  const openFilterPortal = () =>
+    setIsPortalOpen({ isOpen: true, isFilter: true });
+
   return {
-    router,
     setPage,
     setPageLimit,
-    setSearch,
     lazyGetDashboardStatus,
     renderPortalComponent,
     isPortalOpen,
-    setIsPortalOpen,
     manageDashboardsDataColumns,
     getDashboardListData,
     page,
+    moveToDashboard,
+    moveToCreateDashboard,
+    openFilterPortal,
+    handleSearch,
   };
 };

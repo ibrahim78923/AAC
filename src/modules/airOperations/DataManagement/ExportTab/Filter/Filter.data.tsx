@@ -41,7 +41,7 @@ export const defaultValues = (filterValues: any) => {
   };
 };
 
-export const filterFields = (userList: any) => [
+export const filterFields = (userList: any, productId: any) => [
   {
     id: 2,
     component: RHFAutocomplete,
@@ -64,6 +64,9 @@ export const filterFields = (userList: any) => [
       apiQuery: userList,
       getOptionLabel: (option: UsersDropdownOptionsI) =>
         `${option?.firstName} ${option?.lastName}`,
+      externalParams: {
+        productId: productId,
+      },
     },
     gridLength: 12,
     component: RHFAutocompleteAsync,

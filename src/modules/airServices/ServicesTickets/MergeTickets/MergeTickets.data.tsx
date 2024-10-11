@@ -10,6 +10,8 @@ import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
+import { RequesterFieldDropdown } from '../ServiceTicketFormFields/RequesterFieldDropdown';
+import { TicketByIdFieldDropdown } from '../ServiceTicketFormFields/TicketByIdFieldDropdown';
 
 export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
   ticketSelection: Yup?.mixed()?.nullable()?.required('Required'),
@@ -87,11 +89,9 @@ const ticketSelectionOptions = [
 
 export const mergeTicketsFormFieldsDynamic = (
   watchForTicketSelection: any,
-  apiQueryRequester: any,
   apiQueryTicketByRequester: any,
   apiQueryTicketBySubject: any,
-  getValues: any,
-  apiQueryTicketById: any,
+  watch: any,
 ) => {
   return [
     {
@@ -110,27 +110,17 @@ export const mergeTicketsFormFieldsDynamic = (
           {
             id: 3,
             componentProps: {
-              name: 'requester',
               label: 'Search requester id',
-              fullWidth: true,
-              required: true,
-              apiQuery: apiQueryRequester,
-              externalParams: {
-                requester: true,
-                admin: true,
-              },
-              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-                `${option?.firstName} ${option?.lastName}`,
-              placeholder: 'Search Requester',
+              hasEndIcon: false,
             },
-            component: RHFAutocompleteAsync,
+            component: RequesterFieldDropdown,
           },
           {
             id: 4,
             component: Typography,
             heading: `${
-              !!getValues('requester')?._id
-                ? `The requester id is ${getValues('requester')
+              !!watch('requester')?._id
+                ? `The requester id is ${watch('requester')
                     ?._id}. Paste this in below search field`
                 : ``
             }`,
@@ -172,19 +162,7 @@ export const mergeTicketsFormFieldsDynamic = (
       : [
           {
             id: 5,
-            component: RHFAutocompleteAsync,
-            componentProps: {
-              name: 'searchTicketId',
-              label: 'Search ticket',
-              fullWidth: true,
-              required: true,
-              queryKey: 'ticketIdNumber',
-              apiQuery: apiQueryTicketById,
-              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-                `${option?.ticketIdNumber} ${' '} ${truncateText(
-                  option?.subject,
-                )}`,
-            },
+            component: TicketByIdFieldDropdown,
           },
         ]),
   ];

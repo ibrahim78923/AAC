@@ -5,8 +5,10 @@ import {
   setSearch,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { PAGINATION } from '@/config';
-import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '../../Header/Header.data';
 import { useRouter } from 'next/router';
+import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+
+const { FILTER_ARTICLES } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 
 export const useHeader = () => {
   const dispatch = useAppDispatch();
@@ -32,8 +34,7 @@ export const useHeader = () => {
     );
   };
 
-  const openArticleFilterPortal = () =>
-    setPortalAction(KNOWLEDGE_BASE_ACTIONS_CONSTANT?.FILTER_ARTICLES);
+  const openArticleFilterPortal = () => setPortalAction(FILTER_ARTICLES);
 
   const articlesActionDropdown = articlesActionDropdownDynamic?.(
     setPortalAction,

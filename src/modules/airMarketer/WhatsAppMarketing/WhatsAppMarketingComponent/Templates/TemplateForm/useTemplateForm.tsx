@@ -6,10 +6,7 @@ import {
   createTemplateValidationSchema,
   newCreateTemplateDefaultValues,
 } from './TemplateForm.data';
-import {
-  usePostWhatsappTemplateMutation,
-  useUpdateWhatsappTemplateMutation,
-} from '@/services/airMarketer/whatsappMarketing/templates';
+import { usePostWhatsappTemplateMutation } from '@/services/airMarketer/whatsappMarketing/templates';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -31,6 +28,7 @@ const useTemplateForm = () => {
   const theme = useTheme();
   const router = useRouter();
   const { editData }: any = router?.query;
+
   const [form, setForm] = useState<any>([]);
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
@@ -57,10 +55,15 @@ const useTemplateForm = () => {
     getDynamicFormData();
   }, []);
 
-  let editRecordData = [];
+  let editRecordData: any = [];
   if (editData) {
     editRecordData = JSON?.parse(editData);
   }
+
+  const avatarFileUrl = {
+    fileUrl: editRecordData?.imageUrl,
+    orignalName: 'Attachment',
+  };
 
   const templateMethods = useForm({
     resolver: yupResolver(createTemplateValidationSchema?.(form)),
@@ -79,9 +82,6 @@ const useTemplateForm = () => {
 
   const [postWhatsappTemplate, { isLoading: postTemplateLoading }] =
     usePostWhatsappTemplateMutation();
-
-  const [updateWhatsappTemplate, { isLoading: updateTemplateLoading }] =
-    useUpdateWhatsappTemplateMutation();
 
   const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
 
@@ -140,8 +140,8 @@ const useTemplateForm = () => {
         formData?.append('customFields', JSON?.stringify(body?.customFields));
       }
       delete body?.customFields;
-      Object.keys(body).forEach((key) => {
-        formData.append(key, data[key]);
+      Object?.keys(body)?.forEach((key) => {
+        formData?.append(key, data[key]);
       });
 
       await postWhatsappTemplate({ body: formData })?.unwrap();
@@ -154,17 +154,21 @@ const useTemplateForm = () => {
 
   const submitUpdateTemplate = async (data: any) => {
     const formData = new FormData();
+    if (data?.customFields) {
+      formData?.append('customFields', JSON?.stringify(data?.customFields));
+    }
+    delete data?.customFields;
     Object?.keys(data)?.forEach((key) => {
-      formData?.append(key, JSON?.stringify(data[key]));
+      formData?.append(key, data[key]);
     });
+    formData?.append('templateSid', editRecordData?.sid);
 
-    const updateWhatsappTemplateParameter = {
-      id: editRecordData?._id,
-      body: formData,
-    };
+    if (!!editRecordData?.imageUrl && !data?.attachment) {
+      formData?.append('imageUrl', editRecordData?.imageUrl);
+    }
 
     try {
-      await updateWhatsappTemplate(updateWhatsappTemplateParameter)?.unwrap();
+      await postWhatsappTemplate({ body: formData })?.unwrap();
       successSnackbar('Template Updated Successfully!');
       router?.back();
     } catch (error: any) {
@@ -180,11 +184,12 @@ const useTemplateForm = () => {
     onSubmit,
     TemplateName,
     postTemplateLoading,
-    updateTemplateLoading,
     Category,
     Details,
     form,
     getDynamicFieldsStatus,
+    editRecordData,
+    avatarFileUrl,
   };
 };
 

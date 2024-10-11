@@ -1,11 +1,13 @@
 import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useLazyGetExitingTicketsQuery } from '@/services/airServices/inventory/SingleInventoryDetail/Associations';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import {
+  usePostAirServicesRemoveAssociateTicketsMutation,
+  useLazyGetServicesInventoryAssociationExitingTicketsQuery,
+} from '@/services/airServices/tickets/single-ticket-details/association';
 
 export const useExistingIncident = (props: {
   openDrawer: boolean;
@@ -21,7 +23,7 @@ export const useExistingIncident = (props: {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
-    useLazyGetExitingTicketsQuery();
+    useLazyGetServicesInventoryAssociationExitingTicketsQuery();
 
   const associationsInventoryId = router?.query?.inventoryId;
 
@@ -59,8 +61,13 @@ export const useExistingIncident = (props: {
     getValueTicketsListData();
   }, [searchBy, page, pageLimit]);
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
+
   const [postRemoveAssociateTicketsTrigger, { isLoading }] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const handleSubmit = async () => {
     const checkedIds = Object?.keys(checkboxValues ?? {})?.filter(
@@ -95,7 +102,7 @@ export const useExistingIncident = (props: {
   return {
     handleSubmit,
     searchBy,
-    setSearchBy,
+    handleSearch,
     theme,
     checkboxValues,
     handleCheckboxChange,

@@ -13,14 +13,10 @@ import { useEffect } from 'react';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
-const useEditTask = ({
-  initialValueProps,
-  onClose,
-  isType,
-  createTask,
-}: any) => {
+const useEditTask = ({ initialValueProps, onClose, createTask }: any) => {
   const theme = useTheme();
   const CAMPAIGN_ID = 'campaignId';
+
   const [postCampaignTask, { isLoading: postTaskLoading }] =
     usePostCampaignTaskMutation();
 
@@ -58,8 +54,9 @@ const useEditTask = ({
     values.campaignId = values.campaignId?._id;
     values.startDate = dayjs(createTask?.startDate)?.format(DATE_FORMAT?.API);
     try {
-      if (isType === DRAWER_TYPES?.EDIT) {
+      if (createTask?.type === DRAWER_TYPES?.EDIT) {
         delete values?.campaignId;
+        delete values?.startDate;
         await updateCampaignTasks({
           id: createTask?.id,
           body: values,
@@ -82,6 +79,11 @@ const useEditTask = ({
     onClose();
   };
 
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
+
   return {
     loadingCampaignTasks,
     updateTaskLoading,
@@ -91,6 +93,7 @@ const useEditTask = ({
     onSubmit,
     methods,
     theme,
+    handleClose,
   };
 };
 export default useEditTask;

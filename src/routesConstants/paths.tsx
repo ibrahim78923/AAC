@@ -94,6 +94,7 @@ export const AIR_SALES = {
   SALES_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard'),
   MANAGE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/manage'),
   CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
+  SETTINGS: '/air-sales/settings',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -122,6 +123,8 @@ export const airMarketingCalendar = {
 const AIR_MARKETING_PAGE = '/air-marketer';
 export const AIR_MARKETER = {
   root: path(AIR_MARKETING_PAGE, '/dashboard'),
+  CREATE_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard/create'),
+  MANAGE_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard/manage'),
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
   ENGAGEMENT_ADS: path(
@@ -333,6 +336,9 @@ export const CHAT_SOCKETS = {
   ON_NEW_CHAT: 'on-new-chat',
   SOCKET_ERROR_OCCURED: 'socket-error-occured',
   ON_MESSAGE_RECEIVED: 'on-message-received',
+  ON_GRP_MESSAGE_RECEIVED: 'on-group-message',
+  ON_REMOVED_FROM_GRP: 'on-removed-from-group',
+  ON_NEW_GRP: 'on-added-to-group',
   UPDATE_MESSAGE: 'update-message',
   ON_MESSAGE_UPDATE: 'on-message-update',
   ON_TYPING_START: 'on-typing-start',
@@ -370,6 +376,11 @@ export const AIR_CALL_CENTER = {
     USER_MANAGEMENT: '/air-call-center/settings/user-management',
     PHONE_CREDITS: '/air-call-center/settings/phone-credits',
   },
+};
+
+export const PUBLIC_LEAD_CAPTURE = {
+  FORM: '/lead-capture/form',
+  CTA: '/lead-capture/cta',
 };
 
 export const quoteStatus = {

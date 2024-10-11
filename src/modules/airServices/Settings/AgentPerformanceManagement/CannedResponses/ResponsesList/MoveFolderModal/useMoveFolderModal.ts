@@ -4,10 +4,15 @@ import {
   moveFolderDefaultValues,
   moveFolderSchema,
 } from './MoveFolderModal.data';
-import { useLazyGetFoldersQuery } from '@/services/dropdowns';
-import { useMoveResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import {
+  usePatchAirServicesSettingsCannedAddMoveResponsesMutation,
+  useLazyGetAirServicesSettingsCannedFoldersQuery,
+} from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export const useMoveFolderModal = (props: any) => {
   const {
@@ -16,14 +21,33 @@ export const useMoveFolderModal = (props: any) => {
     setSelectedData,
     selectedData,
   } = props;
-  const apiQueryFolders = useLazyGetFoldersQuery();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [cannedResponseId, setCannedResponseId] = useState<any>('');
+
+  useEffect(() => {
+    if (router?.isReady) {
+      setCannedResponseId(searchParams?.get('id'));
+    }
+  }, [router?.isReady]);
+
+  const apiQueryFolders = useLazyGetAirServicesSettingsCannedFoldersQuery();
+
   const method = useForm({
     defaultValues: moveFolderDefaultValues,
     resolver: yupResolver(moveFolderSchema),
   });
   const { reset } = method;
-  const [moveResponsesTrigger, { isLoading }] = useMoveResponsesMutation();
+
+  const [moveResponsesTrigger, { isLoading }] =
+    usePatchAirServicesSettingsCannedAddMoveResponsesMutation();
+
   const onSubmit = async (data: any) => {
+    if (cannedResponseId === data?.folder?._id) {
+      errorSnackbar('Cannot move to the same folder!');
+      return;
+    }
     const upsertCannedResponseFormData = new FormData();
     upsertCannedResponseFormData?.append('folderId', data?.folder?._id);
     selectedData?.forEach(

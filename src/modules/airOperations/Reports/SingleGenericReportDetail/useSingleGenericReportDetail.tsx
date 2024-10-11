@@ -1,4 +1,4 @@
-import { useGetSingleGenericReportDetailQuery } from '@/services/airOperations/reports';
+import { useGetOperationsSingleReportDetailsForDownloadQuery } from '@/services/airOperations/reports';
 import { htmlToPdfConvert } from '@/utils/file';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
@@ -14,7 +14,7 @@ export const useSingleGenericReportDetail = () => {
     },
   };
 
-  const singleReportApi = useGetSingleGenericReportDetailQuery(
+  const singleReportApi = useGetOperationsSingleReportDetailsForDownloadQuery(
     apiDataParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -33,6 +33,14 @@ export const useSingleGenericReportDetail = () => {
     setIsDownloading(false);
   };
 
+  const moveBack = () =>
+    router?.push({
+      pathname: router?.query?.redirect as string,
+      query: {
+        id: router?.query?.id,
+        baseModule: router?.query?.baseModule,
+      },
+    });
   return {
     reportWidgets,
     reportResults,
@@ -41,5 +49,6 @@ export const useSingleGenericReportDetail = () => {
     router,
     singleReportApi,
     isDownloading,
+    moveBack,
   };
 };

@@ -30,6 +30,7 @@ import {
   getActivePermissionsSession,
   setAccountsData,
   setActiveAccountSession,
+  getSession,
 } from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
@@ -59,6 +60,7 @@ const ProductSuite = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>([]);
 
   const [loading, setLoading] = useState(false);
+  const session: any = getSession();
 
   const findModulePermissionKey = async (product: any, id: string) => {
     const payload = { account: id };
@@ -112,6 +114,12 @@ const ProductSuite = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  useEffect(() => {
+    if (session?.challengeName === 'NEW_PASSWORD_REQUIRED') {
+      router?.push(AUTH?.SET_PASSWORD);
+    }
+  }, [session]);
 
   if (accountsData?.data) {
     setAccountsData(accountsData);

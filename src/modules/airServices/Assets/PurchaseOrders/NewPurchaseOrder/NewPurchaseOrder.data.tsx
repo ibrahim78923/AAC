@@ -1,35 +1,46 @@
 import * as yup from 'yup';
 import {
-  RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { Typography } from '@mui/material';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-
-export const currencyOptions = ['Pound', 'Dollar'];
+import { localeDateTime } from '@/utils/dateTime';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
-  description: yup?.string()?.trim()?.required('Description is required'),
+  description: yup
+    ?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+      `Limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+    )
+    ?.required('Description is required'),
   quantity: yup
     ?.number()
+    ?.nullable()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Quantity is required'),
   costPerItem: yup
     ?.number()
+    ?.nullable()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Cost is required'),
   taxRate: yup
     ?.number()
+    ?.nullable()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Tax is required'),
   total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
 });
 
@@ -37,17 +48,33 @@ export const validationSchema: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return yup?.object()?.shape({
-    orderName: yup?.string()?.required('Order Name is Required'),
-    orderNumber: yup?.string()?.required('Order Number is Required'),
+    orderName: yup
+      ?.string()
+      ?.required('Order Name is Required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
+    orderNumber: yup
+      ?.string()
+      ?.required('Order Number is Required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
     vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
-    currency: yup?.mixed()?.nullable()?.required('Currency is Required'),
     department: yup?.mixed()?.nullable(),
     expectedDeliveryDate: yup
       ?.date()
       ?.nullable()
       ?.required('Delivery Date is Required'),
     location: yup?.mixed()?.nullable(),
-    termAndCondition: yup?.string(),
+    termAndCondition: yup
+      ?.string()
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+      ),
     subTotal: yup?.number(),
     taxRatio: yup?.number(),
     shipping: yup?.number(),
@@ -65,10 +92,9 @@ export const defaultValues = (data?: any, form?: any) => {
     orderName: data?.orderName ?? '',
     orderNumber: data?.orderNumber ?? '',
     vendor: data?.vendorDetails ?? null,
-    currency: data?.currency ?? null,
     department: data?.departmentDetails ?? null,
     expectedDeliveryDate: data?.expectedDeliveryDate
-      ? new Date(data?.expectedDeliveryDate)
+      ? localeDateTime(data?.expectedDeliveryDate)
       : null,
     location: data?.locationDetails ?? null,
     termAndCondition: data?.termAndCondition ?? '',
@@ -91,10 +117,10 @@ export const defaultValues = (data?: any, form?: any) => {
           {
             itemName: null,
             description: '',
-            quantity: '0',
-            costPerItem: '0',
-            taxRate: '0',
-            total: '0',
+            quantity: null,
+            costPerItem: null,
+            taxRate: null,
+            total: null,
           },
         ],
     ...initialValues,
@@ -106,16 +132,6 @@ export const newPurchaseFieldsFunction = (
   locationApiQuery: any,
   vendorApiQuery: any,
 ) => [
-  {
-    id: 10,
-    componentProps: {
-      color: 'slateBlue.main',
-      variant: 'h5',
-    },
-    heading: 'Purchase Details',
-    md: 12,
-    component: Typography,
-  },
   {
     id: 1,
     component: RHFTextField,
@@ -160,19 +176,6 @@ export const newPurchaseFieldsFunction = (
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
       },
       required: true,
-    },
-  },
-  {
-    id: 4,
-    component: RHFAutocomplete,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'currency',
-      label: 'Currency',
-      options: currencyOptions,
-      required: true,
-      placeholder: 'Select Currency',
     },
   },
   {
@@ -233,7 +236,7 @@ export const itemsDetailsList = [
   { label: 'Cost Per Item', value: 'costPerItem' },
   { label: 'Quantity', value: 'quantity' },
   { label: 'Tax Rate(%)', value: 'taxRate' },
-  { label: 'Total()', value: 'total' },
+  { label: 'Total(£)', value: 'total' },
 ];
 
 export const itemsDetailsSubList = ['itemName', 'description', 'total'];

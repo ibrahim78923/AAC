@@ -22,7 +22,6 @@ import {
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { styles } from './NewsAndEvents.style';
-import { v4 as uuidv4 } from 'uuid';
 import useNewsAndEvents from './useNewsAndEvents';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS } from '@/constants/permission-keys';
@@ -47,7 +46,6 @@ const NewsAndEvents = () => {
     isLoading,
     setPageLimit,
     setPage,
-    searchValue,
     setSearchValue,
     methodsNewsAndEventsFilters,
     handleSubmit,
@@ -92,7 +90,6 @@ const NewsAndEvents = () => {
             <Box sx={styles?.search}>
               <Search
                 label={'Search here'}
-                searchBy={searchValue}
                 setSearchBy={setSearchValue}
                 width="100%"
               />
@@ -267,7 +264,12 @@ const NewsAndEvents = () => {
           >
             <Grid container spacing={4}>
               {newsAndEventsDateFiltersDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
@@ -298,7 +300,6 @@ const NewsAndEvents = () => {
         type="delete"
         open={isNewsAndEventsDeleteModal}
         handleClose={() => setisNewsAndEventsDeleteModal(false)}
-        handleSubmit={handleDelete}
         handleSubmitBtn={handleDelete}
         loading={loadingDelete}
       />

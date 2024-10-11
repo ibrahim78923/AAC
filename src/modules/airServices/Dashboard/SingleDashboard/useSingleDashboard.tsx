@@ -1,4 +1,3 @@
-import { useGetSingleServicesDashboardQuery } from '@/services/airServices/dashboard';
 import { useRef, useState } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
@@ -6,16 +5,22 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import useAuth from '@/hooks/useAuth';
+import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
+import { AIR_SERVICES } from '@/constants';
+
+const { DASHBOARD } = AIR_SERVICES ?? {};
+const { STATUS } = TICKET_GRAPH_TYPES ?? {};
 
 export const useSingleDashboard = (props: any) => {
   const { dashboardId } = props;
   const downloadRef = useRef(null);
   const router: NextRouter = useRouter();
-  const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
+  const [ticketType, setTicketType] = useState(STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
-  const auth: any = useAuth();
 
-  const { _id: productId } = auth?.product;
+  const auth: any = useAuth();
+  const productId = auth?.product?._id ?? {};
+
   const methods = useForm({
     defaultValues: { dashboardId: null },
     resolver: yupResolver(
@@ -40,9 +45,22 @@ export const useSingleDashboard = (props: any) => {
   };
 
   const lazyGetSingleServicesDashboardStatus =
-    useGetSingleServicesDashboardQuery?.(apiDataParameter, {
+    useGetServicesDashboardSingleDashboardDetailsQuery?.(apiDataParameter, {
       refetchOnMountOrArgChange: true,
     });
+
+  const moveToDashboard = () =>
+    router?.push({
+      pathname: DASHBOARD,
+    });
+
+  const dashboardName =
+    lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.name;
+  const reportsList =
+    lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports;
+  const apiSuspenseState =
+    lazyGetSingleServicesDashboardStatus?.isLoading ||
+    lazyGetSingleServicesDashboardStatus?.isFetching;
 
   return {
     lazyGetSingleServicesDashboardStatus,
@@ -53,5 +71,9 @@ export const useSingleDashboard = (props: any) => {
     router,
     methods,
     downloadRef,
+    moveToDashboard,
+    dashboardName,
+    reportsList,
+    apiSuspenseState,
   };
 };

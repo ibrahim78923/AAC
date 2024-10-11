@@ -5,19 +5,18 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
 import {
+  ARRAY_INDEX,
   BILLING_CYCLE,
   CONTRACT_STATUS,
   CONTRACT_TYPES,
   LICENSE_TYPE,
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
-import { DATE_FORMAT } from '@/constants';
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const dropdownDummy = [
   {
@@ -158,8 +157,8 @@ export const upsertContractFormDefaultValuesFunction: any = (
     },
     vendor: data?.vendor ?? null,
     approver: data?.approver ?? null,
-    startDate: new Date(data?.startDate ?? todayDate),
-    endDate: new Date(data?.endDate ?? todayDate),
+    startDate: data?.startDate ? localeDateTime(data?.startDate) : new Date(),
+    endDate: data?.startDate ? localeDateTime(data?.endDate) : new Date(),
     autoRenew: data?.autoRenew ?? false,
     notifyExpiry: data?.notifyExpiry ?? false,
     notifyBefore: data?.notifyBefore ?? '',
@@ -170,13 +169,19 @@ export const upsertContractFormDefaultValuesFunction: any = (
     billingCycle: data?.billingCycle ?? softwareLicense?.billingCycle,
     licenseType: data?.licenseType ?? softwareLicense?.licenseType,
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
-    software: data?.[0] ?? softwareLicense?.software,
+    software: data?.[ARRAY_INDEX?.ZERO] ?? softwareLicense?.software,
     attachFile: null,
   };
 };
 
 export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
-  contractName: Yup?.string()?.trim()?.required('Contract name is required'),
+  contractName: Yup?.string()
+    ?.trim()
+    ?.required('Contract name is required')
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_NAME_MAX_CHARACTERS,
+      `Contract name should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_NAME_MAX_CHARACTERS} characters`,
+    ),
   contractNumber: Yup?.string(),
   type: Yup?.mixed()?.nullable()?.required('Required'),
   cost: Yup?.number()
@@ -239,7 +244,10 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
                 ?.required('count is required')
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
-              comments: Yup?.string(),
+              comments: Yup?.string()?.max(
+                CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
+                `Comments should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
+              ),
             }),
           )
           ?.min(1, 'At least one item is required');
@@ -253,7 +261,6 @@ export const upsertContractFormFieldsDataFunction = (
   apiQueryVendor: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
-  apiContractType: any,
 ) => [
   {
     id: 1,
@@ -282,13 +289,12 @@ export const upsertContractFormFieldsDataFunction = (
     componentProps: {
       name: 'type',
       label: 'Type',
-      apiQuery: apiContractType,
       disabled: true,
       required: true,
-      externalParams: { meta: false },
+      getOptionLabel: (option: any) => option?.name || '',
     },
     md: 6,
-    component: RHFAutocompleteAsync,
+    component: RHFAutocomplete,
   },
   {
     id: 6,

@@ -159,11 +159,12 @@ export const createSurveyFields = (
             <Button
               variant="outlined"
               color="secondary"
+              className="small"
               onClick={() => setOpenShare(true)}
             >
               Share
             </Button>
-            <Button variant="contained" onClick={handleCopy}>
+            <Button variant="contained" className="small" onClick={handleCopy}>
               Copy Link
             </Button>
           </Box>

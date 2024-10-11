@@ -17,6 +17,7 @@ export const SubWorkflowConditions = (props: any) => {
     apiQueryLocations,
     apiAssetType,
     apiUsersListDropdown,
+    productId,
   } = useSubWorkflowConditions(props);
   return (
     <>
@@ -53,6 +54,7 @@ export const SubWorkflowConditions = (props: any) => {
                     apiQueryLocations,
                     apiAssetType,
                     apiUsersListDropdown,
+                    productId,
                   })?.map((item: any) => (
                     <Grid item xs={12} md={item?.gridLength} key={item?._id}>
                       <item.component {...item?.componentProps} />

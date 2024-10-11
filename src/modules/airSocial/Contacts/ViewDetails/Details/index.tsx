@@ -49,7 +49,6 @@ const Details = () => {
     form,
     getDynamicFieldsStatus,
   } = useDetails();
-  // console.log('contactData', contactData);
 
   const detailsFormFields = detailsDataArray(
     orgId,
@@ -120,7 +119,7 @@ const Details = () => {
             }}
           >
             <MenuItem
-              disabled={contactData?.profilePicture}
+              disabled={!!contactData?.profilePicture}
               component="label"
               htmlFor="upload-photo"
             >

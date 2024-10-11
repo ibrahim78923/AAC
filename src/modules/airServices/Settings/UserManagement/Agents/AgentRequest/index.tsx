@@ -4,18 +4,14 @@ import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { LoadingButton } from '@mui/lab';
 import NoData from '@/components/NoData';
+import { TruncateText } from '@/components/TruncateText';
 
 const AgentRequest = () => {
   const {
@@ -71,13 +67,21 @@ const AgentRequest = () => {
                 </Typography>
               </Avatar>
               <Typography variant="h4" py={0.5} fontWeight={700}>
-                {fullName(
-                  item?.userDetails?.firstName,
-                  item?.userDetails?.lastName,
-                )}
+                {
+                  <TruncateText
+                    text={fullName(
+                      item?.userDetails?.firstName?.toLowerCase(),
+                      item?.userDetails?.lastName?.toLowerCase(),
+                    )}
+                  />
+                }
               </Typography>
               <Typography variant="body2" color="slateBlue.main">
-                {truncateText(item?.userDetails?.jobTitle)}
+                {
+                  <TruncateText
+                    text={item?.userDetails?.jobTitle?.toLowerCase()}
+                  />
+                }
               </Typography>
               <Typography variant="subtitle2" mb={1} color="slateBlue.main">
                 {dayjs(item?.userDetails?.createdAt)?.format(DATE_FORMAT?.UI)}
@@ -116,6 +120,7 @@ const AgentRequest = () => {
                       color={'success'}
                       disabled={patchApprovedRequestStatus?.isLoading}
                       loading={patchApprovedRequestStatus?.isLoading}
+                      className="small"
                     >
                       Approve
                     </LoadingButton>
@@ -123,6 +128,7 @@ const AgentRequest = () => {
                       onClick={() => handleOpenModal(item?._id)}
                       color={'error'}
                       disabled={patchApprovedRequestStatus?.isLoading}
+                      className="small"
                     >
                       Reject
                     </LoadingButton>

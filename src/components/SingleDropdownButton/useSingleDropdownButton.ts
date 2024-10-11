@@ -12,7 +12,10 @@ export const useSingleDropdownButton = () => {
     setAnchorEl(event?.currentTarget);
   };
 
-  const handleClose: SingleDropdownButtonCloseMenuI = () => {
+  const handleClose: SingleDropdownButtonCloseMenuI = (
+    event: React.MouseEvent<HTMLElement>,
+  ) => {
+    event?.stopPropagation();
     setAnchorEl(null);
   };
 

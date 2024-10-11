@@ -3,6 +3,8 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { UserTableDataI } from './UsersTable.interface';
+import { TruncateText } from '@/components/TruncateText';
+import { splitCapitalizedWords } from '@/utils/api';
 
 export const usersTableColumns = (
   usersData: UserTableDataI[],
@@ -55,14 +57,14 @@ export const usersTableColumns = (
   {
     accessorFn: (row: any) => row?.Name,
     id: 'Name',
-    cell: (info: any) => info?.getValue() ?? '__',
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
     header: 'Name',
     isSortable: true,
   },
   {
     accessorFn: (row: any) => row?.Department,
     id: 'Department',
-    cell: (info: any) => info?.getValue() ?? '__',
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
     header: 'Department',
     isSortable: true,
   },
@@ -71,7 +73,7 @@ export const usersTableColumns = (
     id: 'Source',
     isSortable: true,
     header: 'Source',
-    cell: (info: any) => info?.getValue() ?? '__',
+    cell: (info: any) => splitCapitalizedWords(info?.getValue()) ?? '---',
   },
   {
     accessorFn: (row: any) => row?.data?.createdAt,
@@ -99,6 +101,6 @@ export const usersTableColumns = (
     id: 'Contract',
     isSortable: true,
     header: 'Contract',
-    cell: (info: any) => info?.getValue() ?? '__',
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
 ];

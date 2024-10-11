@@ -1,6 +1,4 @@
-// form
 import { useFormContext, Controller } from 'react-hook-form';
-// @mui
 import {
   Box,
   Radio,
@@ -10,8 +8,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-
-// ----------------------------------------------------------------------
+import CustomLabel from '../CustomLabel';
 
 export default function RHFRadioButtonTwoLabel({
   name,
@@ -26,6 +23,9 @@ export default function RHFRadioButtonTwoLabel({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <Box position="relative">
+          {other?.label && (
+            <CustomLabel label={other?.label} required={other?.required} />
+          )}
           <RadioGroup {...field} row {...other}>
             <Grid container spacing={2}>
               {options?.map((option: any) => (
@@ -36,6 +36,10 @@ export default function RHFRadioButtonTwoLabel({
                     p="0.7rem 1rem"
                     pr={0}
                     borderRadius={2}
+                    height="100%"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-between"
                   >
                     <FormControlLabel
                       value={option?.value}

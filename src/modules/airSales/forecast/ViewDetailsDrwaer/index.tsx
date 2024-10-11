@@ -14,26 +14,22 @@ import { chartSetting, dataset } from './ViewDetails.data';
 import { useGetSingleForecastGoalsQuery } from '@/services/airSales/forecast';
 import { isNullOrEmpty } from '@/utils';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, goalsStatus } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
 
 const ViewDetailsDrwaer = (props: any) => {
-  const { isOpenDrawer, onClose, tableRowValues } = props;
+  const { isOpenDrawer, onClose, tableRowValues, user } = props;
   const theme = useTheme();
   const valueFormatter = (value: number | null) => `${value}mm`;
 
   const { data: getOneGoal, isLoading } = useGetSingleForecastGoalsQuery(
-    { id: tableRowValues },
+    { id: tableRowValues, user: user === 'User' ? false : true },
     { skip: isNullOrEmpty(tableRowValues) },
   );
-  const currentYear = dayjs()?.year();
+  const currentDate = dayjs();
 
-  let totalSum = 0;
-  getOneGoal?.data?.targets?.forEach((target: any) => {
-    for (const month in target?.months) {
-      totalSum += target?.months[month];
-    }
-  });
+  const endDate = dayjs(getOneGoal?.data?.endDate);
+  const remainingDays = endDate.diff(currentDate, 'day');
 
   return (
     <CommonDrawer
@@ -67,8 +63,14 @@ const ViewDetailsDrwaer = (props: any) => {
             </Typography>
             <Typography
               sx={{
-                backgroundColor: theme?.palette?.custom?.light_yellow_bg,
-                color: theme?.palette?.warning?.main,
+                backgroundColor:
+                  getOneGoal?.data?.status === goalsStatus?.expired
+                    ? theme?.palette?.custom?.light_purple
+                    : theme?.palette?.custom?.light_yellow_bg,
+                color:
+                  getOneGoal?.data?.status === goalsStatus?.expired
+                    ? theme?.palette?.error?.main
+                    : theme?.palette?.warning?.main,
                 padding: '2px 7px',
                 borderRadius: '20px',
               }}
@@ -91,9 +93,11 @@ const ViewDetailsDrwaer = (props: any) => {
                 width: '90%',
               }}
               variant="determinate"
-              value={30}
+              value={getOneGoal?.data?.percentageAchieved}
             />
-            <Typography variant="body4">30%</Typography>
+            <Typography variant="body4">
+              {getOneGoal?.data?.percentageAchieved}%
+            </Typography>
           </Box>
           <Typography
             mt={1}
@@ -132,7 +136,14 @@ const ViewDetailsDrwaer = (props: any) => {
             fontWeight={'500'}
           >
             {' '}
-            Date Range: From 01/01/{currentYear} to 12/31/{currentYear}
+            Date Range: From{' '}
+            {dayjs(getOneGoal?.data?.startDate)?.format(
+              DATE_TIME_FORMAT?.DDMMYYY,
+            )}
+            &nbsp; to &nbsp;
+            {dayjs(getOneGoal?.data?.endDate)?.format(
+              DATE_TIME_FORMAT?.DDMMYYY,
+            )}
           </Typography>
 
           <BarChart
@@ -160,7 +171,14 @@ const ViewDetailsDrwaer = (props: any) => {
               fontWeight={'500'}
             >
               {' '}
-              Date Range: From 01/01/{currentYear} to 01/31/{currentYear}
+              Date Range: From{' '}
+              {dayjs(getOneGoal?.data?.startDate)?.format(
+                DATE_TIME_FORMAT?.DDMMYYY,
+              )}
+              &nbsp; to &nbsp;
+              {dayjs(getOneGoal?.data?.endDate)?.format(
+                DATE_TIME_FORMAT?.DDMMYYY,
+              )}
             </Typography>
 
             <Grid container spacing={2} mt={1}>
@@ -176,7 +194,9 @@ const ViewDetailsDrwaer = (props: any) => {
                   REMAINING GOAL TARGET
                 </Typography>
                 <Typography variant="h5" color={theme?.palette?.grey[800]}>
-                  £ {totalSum}
+                  £{' '}
+                  {`${getOneGoal?.data?.target}` -
+                    `${getOneGoal?.data?.totalAmountAchieved}`}
                 </Typography>
               </Grid>
               <Grid
@@ -190,8 +210,17 @@ const ViewDetailsDrwaer = (props: any) => {
                 <Typography variant="body3" color={theme?.palette?.grey[900]}>
                   Days Until Due
                 </Typography>
-                <Typography variant="h5" color={theme?.palette?.grey[800]}>
-                  --
+                <Typography
+                  variant="h5"
+                  color={
+                    getOneGoal?.data?.status === goalsStatus?.expired
+                      ? theme?.palette?.error?.main
+                      : theme?.palette?.grey[800]
+                  }
+                >
+                  {getOneGoal?.data?.status === goalsStatus?.expired
+                    ? getOneGoal?.data?.status
+                    : remainingDays}
                 </Typography>
               </Grid>
               <Grid item xs={4} sx={{ padding: '13px !important' }}>
@@ -199,7 +228,7 @@ const ViewDetailsDrwaer = (props: any) => {
                   Current progress
                 </Typography>
                 <Typography variant="h5" color={theme?.palette?.grey[800]}>
-                  £ --
+                  £ {getOneGoal?.data?.totalAmountAchieved}
                 </Typography>
               </Grid>
             </Grid>
@@ -235,7 +264,7 @@ const ViewDetailsDrwaer = (props: any) => {
                 Goal Target
               </Typography>
               <Typography variant="body2" color={theme?.palette?.custom?.main}>
-                £{totalSum}
+                £{getOneGoal?.data?.target}
               </Typography>
             </Box>
             <Box
@@ -256,8 +285,8 @@ const ViewDetailsDrwaer = (props: any) => {
                   padding: '2px 8px',
                 }}
               >
-                {getOneGoal?.data?.targets
-                  ?.map((target: any) => target?.pipelines?.name)
+                {getOneGoal?.data?.pipelines
+                  ?.map((pipeline: any) => pipeline?.name)
                   ?.join(', ')}
               </Typography>
             </Box>
@@ -284,7 +313,9 @@ const ViewDetailsDrwaer = (props: any) => {
                 Start Date
               </Typography>
               <Typography variant="body2" color={theme?.palette?.custom?.main}>
-                01/01/{currentYear}
+                {dayjs(getOneGoal?.data?.startDate)?.format(
+                  DATE_TIME_FORMAT?.DDMMYYY,
+                )}
               </Typography>
             </Box>
             <Box
@@ -297,7 +328,9 @@ const ViewDetailsDrwaer = (props: any) => {
                 End Date
               </Typography>
               <Typography variant="body2" color={theme?.palette?.custom?.main}>
-                12/31/{currentYear}
+                {dayjs(getOneGoal?.data?.endDate)?.format(
+                  DATE_TIME_FORMAT?.DDMMYYY,
+                )}
               </Typography>
             </Box>
             <Box
@@ -307,7 +340,10 @@ const ViewDetailsDrwaer = (props: any) => {
               alignItems={'center'}
             >
               <Typography variant="body2">Goal Created By</Typography>
-              <Typography variant="body2">--</Typography>
+              <Typography variant="body2">
+                {getOneGoal?.data?.createdBy?.firstName}{' '}
+                {getOneGoal?.data?.createdBy?.lastName}
+              </Typography>
             </Box>
           </Box>
         </Box>

@@ -3,12 +3,12 @@ import { UpsertAnnouncement } from './UpsertAnnouncement';
 import { AnnouncementList } from './AnnouncementList';
 import { dropdownAnnouncementsOptionsDynamic } from './Announcement.data';
 import { DeleteAnnouncement } from './DeleteAnnouncement';
-import { useLazyGetSingleAnnouncementOnDashboardQuery } from '@/services/airServices/dashboard';
 import {
   AnnouncementIsPortalOpenPropsI,
   AnnouncementPortalComponentsPropsI,
 } from './Announcement.interface';
 import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
+import { useLazyGetServicesDashboardAnnouncementsListQuery } from '@/services/airServices/dashboard';
 
 export const useAnnouncement = (props: SingleDashboardComponentPropsI) => {
   const { data, getSingleDashboardData } = props;
@@ -18,7 +18,7 @@ export const useAnnouncement = (props: SingleDashboardComponentPropsI) => {
   const [
     lazyGetCustomerAnnouncementTrigger,
     lazyGetCustomerAnnouncementStatus,
-  ] = useLazyGetSingleAnnouncementOnDashboardQuery();
+  ] = useLazyGetServicesDashboardAnnouncementsListQuery();
 
   const getCustomerAnnouncementData = async () => {
     try {

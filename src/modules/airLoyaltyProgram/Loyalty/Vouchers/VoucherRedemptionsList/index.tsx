@@ -59,11 +59,7 @@ export const VoucherRedemptionsList = () => {
               flexWrap="wrap"
               gap={1.5}
             >
-              <PermissionsGuard
-                permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.SEARCH]}
-              >
-                <Search label="search" setSearchBy={setSearch} />
-              </PermissionsGuard>
+              <Search label="search" setSearchBy={setSearch} />
             </Box>
             <PermissionsGuard
               permissions={[

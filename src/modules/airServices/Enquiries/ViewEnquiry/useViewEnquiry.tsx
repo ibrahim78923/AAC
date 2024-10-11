@@ -6,17 +6,21 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
-export default function useViewEnquiry({
-  isModalOpen,
-  onClose,
-}: IChildModalState) {
+export const useViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
   const [trigger, status] = usePostNewEmailMutation();
 
   const methods = useForm({
     resolver: yupResolver(
       Yup?.object()?.shape({
-        reply: Yup?.string()?.trim()?.required('Reply is Required'),
+        reply: Yup?.string()
+          ?.trim()
+          ?.max(
+            CHARACTERS_LIMIT?.SERVICES_ENQUIRIES_VIEW_REPLY_MAX_CHARACTERS,
+            `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ENQUIRIES_VIEW_REPLY_MAX_CHARACTERS} `,
+          )
+          ?.required('Reply is Required'),
       }),
     ),
     defaultValues: {
@@ -36,7 +40,7 @@ export default function useViewEnquiry({
       'subject',
       isModalOpen?.data?.[ARRAY_INDEX?.ZERO]?.query,
     );
-    emailFormData?.append('html', data?.reply);
+    emailFormData?.append('html', `<p>${data?.reply}</p>`);
 
     try {
       await trigger(emailFormData)?.unwrap();
@@ -50,4 +54,6 @@ export default function useViewEnquiry({
   };
 
   return { methods, handleSubmit, onSubmit, status };
-}
+};
+
+export default useViewEnquiry;

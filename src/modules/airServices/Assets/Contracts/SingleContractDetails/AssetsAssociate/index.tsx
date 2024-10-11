@@ -3,8 +3,14 @@ import { useAssetAssociate } from './useAssetAssociate';
 import { assetsAssociateColumns } from './AssetsAssociate.data';
 
 export const AssetsAssociate = () => {
-  const { isLoading, isFetching, isError, isSuccess, associatedAssetArray } =
-    useAssetAssociate();
+  const {
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    associatedAssetArray,
+    refetch,
+  } = useAssetAssociate();
   return (
     <>
       <TanstackTable
@@ -14,6 +20,7 @@ export const AssetsAssociate = () => {
         isFetching={isFetching}
         isError={isError}
         isSuccess={isSuccess}
+        errorProps={{ canRefresh: true, refresh: refetch }}
       />
     </>
   );

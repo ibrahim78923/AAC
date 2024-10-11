@@ -1,9 +1,11 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { TimeFormatDuration } from '@/utils/api';
+import { splitCapitalizedWords, TimeFormatDuration } from '@/utils/api';
+import { fullName } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 export const meetingCardsDetails = (theme: any, filterMeetingData: any) => [
@@ -41,7 +43,7 @@ export const listViewDetails = (
     id: 'title',
     isSortable: false,
     header: 'Meeting Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.organizer,
@@ -50,7 +52,15 @@ export const listViewDetails = (
     header: 'Organizer',
     cell: (info: any) => {
       const { firstName, lastName } = info?.row?.original?.userDetails || {};
-      return <Typography>{`${firstName} ${lastName}`}</Typography>;
+      return (
+        <Typography
+          variant="body2"
+          textTransform={'capitalize'}
+          component={'span'}
+        >
+          <TruncateText text={fullName(firstName, lastName)} />
+        </Typography>
+      );
     },
   },
   {
@@ -58,7 +68,7 @@ export const listViewDetails = (
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => splitCapitalizedWords(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.duration,

@@ -1,4 +1,4 @@
-import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
+import { DATE_FORMAT, indexNumbers, TIME_FORMAT } from '@/constants';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import { ColumnsI } from './Tasks.interface';
@@ -108,8 +108,17 @@ export const columns = (columnsProps: ColumnsI) => {
       id: 'lastDate',
       isSortable: true,
       header: 'Last Date',
-      cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYYYT) ?? 'N/A',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: '5px' }}>
+          <span>
+            {dayjs(info?.getValue())?.format(DATE_FORMAT?.API) ?? 'N/A'}
+          </span>
+          <span>
+            {dayjs(info?.row?.original?.time)?.format(TIME_FORMAT?.API) ??
+              'N/A'}
+          </span>
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row?.note,

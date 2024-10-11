@@ -54,25 +54,31 @@ export default function useCustomerPortal() {
     getPublicCustomerPermissionsStatus,
   ] = useLazyGetPublicCustomerPermissionsQuery();
 
+  const customerLogoutHandler = () => {
+    logout();
+    localStorage?.removeItem('customerPortalPermissions');
+    localStorage?.removeItem('customerPortalStyling');
+    router?.replace(AUTH?.LOGIN);
+  };
+
   useEffect(() => {
     const fetchPermissions = async () => {
       if (!router?.isReady) return;
 
       const idToUse = decryptedId || companyIdStorage || sessionId;
       if (!idToUse) {
-        localStorage?.removeItem('customerPortalPermissions');
-        localStorage?.removeItem('customerPortalStyling');
-        return router?.replace(AUTH?.LOGIN);
+        customerLogoutHandler?.();
+        return;
       }
 
       try {
         const response = await getPublicCustomerPermissionsTrigger({
           id: idToUse,
         })?.unwrap();
-        if (response?.data?.customerPortalPermissions) {
+        if (response?.data) {
           localStorage?.setItem(
             'customerPortalPermissions',
-            JSON?.stringify(response?.data?.customerPortalPermissions),
+            JSON?.stringify(response?.data),
           );
         }
         if (response?.data?.customerPortalStyling) {
@@ -151,7 +157,7 @@ export default function useCustomerPortal() {
   return {
     theme,
     user,
-    logout,
+    customerLogoutHandler,
     companyId,
     customerPortalRoutes,
     routerPathName,

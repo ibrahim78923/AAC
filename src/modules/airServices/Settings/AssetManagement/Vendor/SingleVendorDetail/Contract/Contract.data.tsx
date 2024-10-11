@@ -1,6 +1,6 @@
-import { Typography } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { TruncateText } from '@/components/TruncateText';
 
 export const contractColumns = [
   {
@@ -9,7 +9,10 @@ export const contractColumns = [
     isSortable: true,
     header: 'Contract Name',
     cell: (info: any) => (
-      <Typography fontWeight={600}> {info?.getValue()}</Typography>
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
     ),
   },
   {
@@ -17,7 +20,12 @@ export const contractColumns = [
     id: 'contractType',
     header: 'Type',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText
+        text={info?.getValue()}
+        customTooltipProps={{ placement: 'top-start' }}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,

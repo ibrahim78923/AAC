@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useLazyGetCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 import { PAGINATION } from '@/config';
-import useAuth from '@/hooks/useAuth';
 import { allTicketsDropdownFunction, ticketStatuses } from './Tickets.data';
 import { newTicketsDropdownDynamic } from './ReportIssue/ReportIssue.data';
 import { getCustomerPortalStyling } from '@/utils';
@@ -15,9 +14,6 @@ export const useTickets = () => {
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [ticketStatus, setTicketStatus] = useState<string>('All tickets');
 
-  const { user }: any = useAuth();
-  const requesterId = user?._id;
-
   const [
     lazyGetCustomerPortalTicketsTrigger,
     lazyGetCustomerPortalTicketsStatus,
@@ -28,7 +24,7 @@ export const useTickets = () => {
     getTicketsParam?.append('page', currentPage + '');
     getTicketsParam?.append('limit', pageLimit + '');
     getTicketsParam?.append('metaData', true + '');
-    getTicketsParam?.append('requester', requesterId + '');
+    getTicketsParam?.append('customerPortal', true + '');
     ticketStatuses?.includes(ticketStatus) &&
       getTicketsParam?.append(
         'status',

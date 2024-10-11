@@ -1,4 +1,4 @@
-import { useGetAssociatesOrderQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesOrderQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useState } from 'react';
 import { PAGINATION } from '@/config';
 import { getAddPurchaseOrderColumns } from './AddPurchaseOrder.data';
@@ -16,7 +16,7 @@ export default function useAddPurchaseOrder({ setSelected, selected }: any) {
     },
   };
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesOrderQuery(getAssociatesOrderParameter, {
+    useGetAirServicesAssociatesOrderQuery(getAssociatesOrderParameter, {
       refetchOnMountOrArgChange: true,
     });
 
@@ -25,6 +25,11 @@ export default function useAddPurchaseOrder({ setSelected, selected }: any) {
     selected,
     associatesOrderList: data?.data?.purchases,
   });
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
 
   return {
     addOrderColumns,
@@ -35,6 +40,6 @@ export default function useAddPurchaseOrder({ setSelected, selected }: any) {
     isSuccess,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
   };
 }

@@ -7,15 +7,20 @@ import { MoveFolder } from '../Folder/MoveFolder';
 import FilterArticles from '../Articles/FilterArticles';
 import { DeleteArticles } from '../Articles/DeleteArticles';
 import { DeleteFolder } from '../Folder/DeleteFolder';
+import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 
-export const KNOWLEDGE_BASE_ACTIONS_CONSTANT = {
-  ADD_FOLDER: 'add-folder',
-  EDIT_FOLDER: 'edit-folder',
-  MOVE_FOLDER: 'move-folder',
-  FILTER_ARTICLES: 'filter-articles',
-  DELETE_ARTICLES: 'delete-articles',
-  DELETE_FOLDER: 'delete-folder',
-};
+const {
+  ADD_FOLDER,
+  EDIT_FOLDER,
+  MOVE_FOLDER,
+  FILTER_ARTICLES,
+  DELETE_ARTICLES,
+  DELETE_FOLDER,
+} = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
+
+const { UPSERT_ARTICLE } = AIR_SERVICES ?? {};
+const { CREATE_ARTICLE, CREATE_FOLDER } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
 
 export const createNewKnowledgeBaseDropdownOptionsDynamic = (
   setAction?: any,
@@ -24,32 +29,28 @@ export const createNewKnowledgeBaseDropdownOptionsDynamic = (
   {
     id: 1,
     title: 'Article',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
-    ],
+    permissionKey: [CREATE_ARTICLE],
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      router?.push(AIR_SERVICES?.UPSERT_ARTICLE);
+      router?.push(UPSERT_ARTICLE);
       closeMenu();
     },
   },
   {
     id: 2,
     title: 'Folder',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_FOLDER,
-    ],
+    permissionKey: [CREATE_FOLDER],
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setAction(KNOWLEDGE_BASE_ACTIONS_CONSTANT?.ADD_FOLDER);
+      setAction(ADD_FOLDER);
       closeMenu();
     },
   },
 ];
 
 export const renderPortalComponent = {
-  [KNOWLEDGE_BASE_ACTIONS_CONSTANT?.ADD_FOLDER]: <UpsertFolder />,
-  [KNOWLEDGE_BASE_ACTIONS_CONSTANT?.EDIT_FOLDER]: <UpsertFolder />,
-  [KNOWLEDGE_BASE_ACTIONS_CONSTANT?.MOVE_FOLDER]: <MoveFolder />,
-  [KNOWLEDGE_BASE_ACTIONS_CONSTANT?.FILTER_ARTICLES]: <FilterArticles />,
-  [KNOWLEDGE_BASE_ACTIONS_CONSTANT?.DELETE_ARTICLES]: <DeleteArticles />,
-  [KNOWLEDGE_BASE_ACTIONS_CONSTANT?.DELETE_FOLDER]: <DeleteFolder />,
+  [ADD_FOLDER]: <UpsertFolder />,
+  [EDIT_FOLDER]: <UpsertFolder />,
+  [MOVE_FOLDER]: <MoveFolder />,
+  [FILTER_ARTICLES]: <FilterArticles />,
+  [DELETE_ARTICLES]: <DeleteArticles />,
+  [DELETE_FOLDER]: <DeleteFolder />,
 };

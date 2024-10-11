@@ -1,34 +1,34 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['PERMISSIONS'];
 export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getPermissionsRoles: builder.query({
+    getMarketerPermissionsRoles: builder.query({
       query: (values: any) => ({
         url: END_POINTS?.GET_PERMISSIONS_ROLES,
         method: 'GET',
         params: values,
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
-    getPermissionsRolesById: builder.query({
+    getMarketerPermissionsRolesById: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.GET_PLAN_PRODUCTS_PERMISSIONS}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
-    getRolesDataById: builder.query({
+    getMarketerRolesDataById: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
-    getProductsPermissionsList: builder.query({
+    getMarketerProductsPermissionsList: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${params?.productId}`,
         method: 'GET',
@@ -36,18 +36,18 @@ export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
-    getProductsPermissions: builder.query({
+    getMarketerProductsPermissions: builder.query({
       query: ({ productId }: any) => ({
         url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
-    updateRoleRights: builder.mutation({
+    updateMarketerRoleRights: builder.mutation({
       query: ({ id, body }: any) => {
         return {
           url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
@@ -55,10 +55,10 @@ export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: TAG,
     }),
 
-    postPermissionRole: builder.mutation({
+    postMarketerPermissionRole: builder.mutation({
       query: ({ body }: any) => {
         return {
           url: END_POINTS?.GET_PERMISSIONS_ROLES,
@@ -66,17 +66,17 @@ export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: TAG,
     }),
   }),
 });
 
 export const {
-  useGetPermissionsRolesQuery,
-  useGetProductsPermissionsQuery,
-  useLazyGetProductsPermissionsListQuery,
-  useUpdateRoleRightsMutation,
-  useLazyGetPermissionsRolesByIdQuery,
-  usePostPermissionRoleMutation,
-  useGetRolesDataByIdQuery,
+  useGetMarketerPermissionsRolesQuery,
+  useGetMarketerProductsPermissionsQuery,
+  useLazyGetMarketerProductsPermissionsListQuery,
+  useUpdateMarketerRoleRightsMutation,
+  useLazyGetMarketerPermissionsRolesByIdQuery,
+  usePostMarketerPermissionRoleMutation,
+  useGetMarketerRolesDataByIdQuery,
 } = airMarketerRolesAndRightsAPI;

@@ -81,6 +81,7 @@ const useAddAccount = (
     methods,
     companyRoleParams,
     postAccountLoading,
+    productValue,
   };
 };
 

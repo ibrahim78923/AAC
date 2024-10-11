@@ -16,4 +16,6 @@ export interface TextEditorI {
   setValue: UseFormReturn<FieldValues>['setValue'];
   setDraggedItemData: Dispatch<SetStateAction<any>>;
   watch: UseFormReturn<FieldValues>['watch'];
+  methods: any;
+  reset: any;
 }

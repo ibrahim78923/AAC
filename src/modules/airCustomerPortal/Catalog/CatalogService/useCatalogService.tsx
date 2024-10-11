@@ -2,6 +2,7 @@ import { useGetServiceCatalogCategoriesDetailsQuery } from '@/services/airCustom
 import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
+import { getCustomerPortalStyling } from '@/utils';
 
 const useCatalogService = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -30,6 +31,8 @@ const useCatalogService = () => {
     },
   );
 
+  const portalStyles = getCustomerPortalStyling();
+
   return {
     open,
     setOpen,
@@ -41,6 +44,7 @@ const useCatalogService = () => {
     router,
     theme,
     companyId,
+    portalStyles,
   };
 };
 

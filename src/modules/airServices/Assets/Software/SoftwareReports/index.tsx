@@ -59,7 +59,7 @@ export const SoftwareReports = () => {
     );
 
   return (
-    <>
+    <FormProvider methods={methods}>
       <PageTitledHeader
         title={'Software Reports'}
         canMovedBack
@@ -72,7 +72,7 @@ export const SoftwareReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
         >
-          <FormProvider methods={methods}>
+          <Box>
             <RHFDateRangePicker
               name={'createdDate'}
               placeholder={'Date'}
@@ -82,10 +82,13 @@ export const SoftwareReports = () => {
               onSubmitBtnClick={(setAnchorElDate: any) =>
                 onDateFilterSubmit?.(setAnchorElDate)
               }
+              onSubmitBtnDisable={
+                !getValues?.('createdDate')?.startDate && true
+              }
               cancelBtnEffect={() => setHasDate?.(false)}
               closePopOver={() => shouldDateSet?.()}
             />
-          </FormProvider>
+          </Box>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
@@ -190,6 +193,6 @@ export const SoftwareReports = () => {
           </Box>
         </PermissionsGuard>
       )}
-    </>
+    </FormProvider>
   );
 };

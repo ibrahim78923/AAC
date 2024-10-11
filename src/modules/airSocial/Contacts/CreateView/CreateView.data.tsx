@@ -61,7 +61,9 @@ export const createViewData = (
         placeholder: 'Select Lifecycle Stage',
         apiQuery: lifeCycleStagesData,
         getOptionLabel: (option: any) => option?.name,
-        externalParams: {},
+        externalParams: {
+          meta: false,
+        },
       },
     },
     {
@@ -74,7 +76,9 @@ export const createViewData = (
         placeholder: 'Select Status',
         apiQuery: contactStatusData,
         getOptionLabel: (option: any) => option?.name,
-        externalParams: {},
+        externalParams: {
+          status: 'active',
+        },
       },
     },
     {

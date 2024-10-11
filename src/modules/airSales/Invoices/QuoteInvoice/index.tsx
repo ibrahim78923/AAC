@@ -46,17 +46,10 @@ const QuoteInvoice = ({ quoteId }: any) => {
     closeModalEmail,
     methodsSendEmail,
     loadingPostInvoice,
+    unitDiscount,
+    subtotal,
   } = useQuoteInvoice(quoteId);
 
-  const subtotal = quoteDataById?.products?.reduce(
-    (acc: any, curr: any) => acc + curr?.unitPrice * curr?.quantity,
-    0,
-  );
-
-  const unitDiscount = quoteDataById?.products?.reduce(
-    (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
-    0,
-  );
   return (
     <Box>
       <DetailCard

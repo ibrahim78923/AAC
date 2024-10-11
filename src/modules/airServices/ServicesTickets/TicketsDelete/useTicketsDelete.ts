@@ -1,5 +1,4 @@
 import { AIR_SERVICES } from '@/constants';
-import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
@@ -10,6 +9,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airServices/tickets/slice';
+import { useDeleteMultipleServicesTicketsMutation } from '@/services/airServices/tickets';
 
 export const useTicketDelete = () => {
   const router = useRouter();
@@ -29,8 +29,24 @@ export const useTicketDelete = () => {
   );
   const isMoveBack = !!ticketId;
 
+  const refetchApi = async () => {
+    if (isMoveBack) {
+      router?.push({
+        pathname: AIR_SERVICES?.TICKETS,
+      });
+      return;
+    }
+
+    const newPage =
+      selectedTicketLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage?.(newPage));
+    await getTicketsListData?.(newPage);
+  };
+
   const [deleteTicketsTrigger, deleteTicketsStatus] =
-    useDeleteTicketsMutation();
+    useDeleteMultipleServicesTicketsMutation();
 
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
@@ -44,16 +60,7 @@ export const useTicketDelete = () => {
       await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Ticket deleted successfully');
       closeTicketsDeleteModal?.();
-      isMoveBack &&
-        router?.push({
-          pathname: AIR_SERVICES?.TICKETS,
-        });
-      const newPage =
-        selectedTicketLists?.length === totalRecords
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      dispatch(setPage?.(newPage));
-      await getTicketsListData?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

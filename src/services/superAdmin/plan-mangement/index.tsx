@@ -24,7 +24,7 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['PlanTypes'],
     }),
-    getProducts: builder.query({
+    getProductsPlanManagement: builder.query({
       query: () => ({
         url: `${superAdminBillingInvoices?.GET_PRODUCTS}`,
         method: 'GET',
@@ -115,7 +115,7 @@ export const {
   useDeletePlanMangementMutation,
   useGetPlanMangementByIdQuery,
   useGetPlanTypeListQuery,
-  useGetProductsQuery,
+  useGetProductsPlanManagementQuery,
   useGetPlanTypesQuery,
   useGetProductsFeaturesQuery,
   useGetProductsFeaturesAllQuery,

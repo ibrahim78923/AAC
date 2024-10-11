@@ -1,5 +1,6 @@
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
 export const softwareColumnsDynamic = (router: any): any => [
@@ -22,7 +23,7 @@ export const softwareColumnsDynamic = (router: any): any => [
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {truncateText(info?.getValue())}
+        {<TruncateText text={info?.getValue()?.toLowerCase()} />}
       </Typography>
     ),
   },
@@ -31,55 +32,71 @@ export const softwareColumnsDynamic = (router: any): any => [
     id: 'status',
     header: 'Status',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.category,
     id: 'category',
     isSortable: true,
     header: 'Category',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.contractValue,
     id: 'contractValue',
     isSortable: true,
     header: 'Contract Value',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.managedBy,
     id: 'managedBy',
     isSortable: true,
     header: 'Managed By',
-    cell: (info: any) => fullName(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText text={fullName(info?.getValue()?.toLowerCase())} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.users,
     id: 'users',
     isSortable: true,
     header: ' Users',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.installs,
     id: 'installs',
     isSortable: true,
     header: 'Installs',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: true,
     header: 'Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.publisherName,
     id: 'publisherName',
     isSortable: true,
     header: 'Publisher',
-    cell: (info: any) => fullName(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText text={fullName(info?.getValue()?.toLowerCase())} />
+    ),
   },
 ];

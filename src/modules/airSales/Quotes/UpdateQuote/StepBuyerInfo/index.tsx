@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Grid,
@@ -13,13 +12,12 @@ import {
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import { GrayPlusIcon } from '@/assets/icons/index';
-import { CrossCircleImage } from '@/assets/images';
 import { styles } from './StepBuyerInfo.style';
-import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
 import useUpdateQuote from '../useUpdateQuote';
 import { generateImage } from '@/utils/avatarUtils';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
 const StepBuyerInfo = ({
   openAddContact,
@@ -136,20 +134,19 @@ const StepBuyerInfo = ({
                                 {item?.phoneNumber === '' ? 'N/A' : item?.email}
                               </Typography>
                             </Box>
-                            <Box sx={{ cursor: 'pointer' }}>
-                              <Image
-                                src={CrossCircleImage}
-                                alt="delIcon"
-                                onClick={() => {
-                                  setIsModalOpen({
-                                    ...isModalOpen,
-                                    contactsModal: {
-                                      isToggle: true,
-                                      id: item?._id,
-                                    },
-                                  });
-                                }}
-                              />
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                setIsModalOpen({
+                                  ...isModalOpen,
+                                  contactsModal: {
+                                    isToggle: true,
+                                    id: item?._id,
+                                  },
+                                });
+                              }}
+                            >
+                              <CancelOutlinedIcon />
                             </Box>
 
                             <Checkbox
@@ -240,20 +237,19 @@ const StepBuyerInfo = ({
                                   : item?.owner?.phoneNumber}
                               </Box>
                             </Box>
-                            <Box sx={{ cursor: 'pointer' }}>
-                              <Image
-                                src={CrossCircleImage}
-                                alt="delIcon"
-                                onClick={() => {
-                                  setIsModalOpen({
-                                    ...isModalOpen,
-                                    companyModal: {
-                                      isToggle: true,
-                                      id: item?._id,
-                                    },
-                                  });
-                                }}
-                              />
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                setIsModalOpen({
+                                  ...isModalOpen,
+                                  companyModal: {
+                                    isToggle: true,
+                                    id: item?._id,
+                                  },
+                                });
+                              }}
+                            >
+                              <CancelOutlinedIcon />
                             </Box>
                             <Box>
                               <Checkbox
@@ -283,7 +279,7 @@ const StepBuyerInfo = ({
         <AlertModals
           message="Are you sure you want to delete this?"
           type="delete"
-          open={isModalOpen?.companyModal}
+          open={isModalOpen?.companyModal?.isToggle}
           handleClose={() =>
             setIsModalOpen({
               ...isModalOpen,
@@ -298,7 +294,7 @@ const StepBuyerInfo = ({
         <AlertModals
           message="Are you sure you want to delete this?"
           type="delete"
-          open={isModalOpen?.contactsModal}
+          open={isModalOpen?.contactsModal?.isToggle}
           handleClose={() =>
             setIsModalOpen({
               ...isModalOpen,

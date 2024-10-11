@@ -5,15 +5,52 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { PRODUCTS_TYPE } from '@/constants';
 import * as Yup from 'yup';
 
-export const ProductValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  purchasePrice: Yup?.string()?.required('Field is Required'),
-  unitPrice: Yup?.string()?.required('Field is Required'),
+export const productsValidationSchema: any = Yup?.object()?.shape({
+  chooseProduct: Yup?.string()?.when('productType', ([pro]: any, field: any) =>
+    pro === PRODUCTS_TYPE?.EXT_PRODUCT
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  name: Yup?.string()?.when('productType', ([pro]: any, field: any) =>
+    pro === PRODUCTS_TYPE?.NEW_PRODUCT
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  purchasePrice: Yup?.string()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  unitPrice: Yup?.string()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  sku: Yup?.string()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
+  category: Yup?.object()
+    ?.nullable()
+    ?.when('productType', ([pro]: any, field: any) =>
+      pro === PRODUCTS_TYPE?.NEW_PRODUCT
+        ? field?.required('Field is required')
+        : field?.optional(),
+    ),
 });
 
 export const productDefaultValues = {
+  productType: 'new-products',
   name: '',
   purchasePrice: '',
   unitPrice: '',
@@ -43,6 +80,7 @@ export const addContactFields = (productCatagories: any) => {
         label: 'SKU',
         fullWidth: true,
         select: false,
+        required: true,
         placeholder: 'Enter here',
       },
       component: RHFTextField,
@@ -65,6 +103,7 @@ export const addContactFields = (productCatagories: any) => {
         name: 'category',
         label: 'Category',
         placeholder: 'Select Category',
+        required: true,
         apiQuery: productCatagories,
         getOptionLabel: (option: any) => option?.name,
       },
@@ -111,3 +150,14 @@ export const addContactFields = (productCatagories: any) => {
     },
   ];
 };
+
+export const productRadioOptions = [
+  {
+    label: 'New Products',
+    value: 'new-products',
+  },
+  {
+    label: 'Existing Products',
+    value: 'existing-products',
+  },
+];

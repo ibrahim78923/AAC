@@ -1,9 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, useWatch } from 'react-hook-form';
 import {
-  useGetTicketsDetailsByIdQuery,
-  useEditTicketsDetailsMutation,
-  useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery,
+  useEditSingleServicesTicketsDetailsByIdMutation,
+  useGetSingleServicesTicketsDetailsForEditByIdQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -28,17 +27,22 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { AIR_SERVICES } from '@/constants';
+import { isoDateString } from '@/utils/dateTime';
+
+const { ZERO } = ARRAY_INDEX ?? {};
+const { SR } = TICKET_TYPE ?? {};
 
 export const useEditTicketDetails = () => {
   const router = useRouter();
   const [form, setForm] = useState<any>([]);
+  const ticketId = router?.query?.ticketId;
 
-  const { ticketId } = router?.query;
   const [editTicketsDetailsTrigger, editTicketsDetailsStatus] =
-    useEditTicketsDetailsMutation();
+    useEditSingleServicesTicketsDetailsByIdMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
+
   const [postAttachmentTrigger, postAttachmentStatus] =
     usePostDynamicFormAttachmentsMutation();
 
@@ -70,18 +74,23 @@ export const useEditTicketDetails = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    });
+    useGetSingleServicesTicketsDetailsForEditByIdQuery(
+      getSingleTicketParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!ticketId,
+      },
+    );
+
+  const ticketDetail = data?.data?.[ZERO];
+  const moveToTicket = () => router?.push(AIR_SERVICES?.TICKETS);
 
   const methods: any = useForm<any>({
     resolver: yupResolver(editTicketDetailsValidationSchema?.(form)),
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control } = methods;
-
+  const { handleSubmit, reset, getValues, control, watch } = methods;
   const watchForTicketType = useWatch({
     control,
     name: 'ticketType',
@@ -89,17 +98,12 @@ export const useEditTicketDetails = () => {
   });
 
   useEffect(() => {
-    reset(() =>
-      editTicketDetailsDefaultValuesDynamic(
-        data?.data?.[ARRAY_INDEX?.ZERO],
-        form,
-      ),
-    );
+    reset(() => editTicketDetailsDefaultValuesDynamic(ticketDetail, form));
   }, [data, reset, form]);
 
   const onSubmit = async (formData: any) => {
     if (
-      formData?.ticketType?._id === TICKET_TYPE?.SR &&
+      formData?.ticketType?._id === SR &&
       formData?.category !== null &&
       formData?.category?._id !== formData?.service?.serviceCategory
     ) {
@@ -137,6 +141,9 @@ export const useEditTicketDetails = () => {
 
       Object?.entries(newFormData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&
@@ -164,11 +171,14 @@ export const useEditTicketDetails = () => {
       ticketDetailsData.append('ticketType', newFormData?.ticketType?._id);
       !!newFormData?.impact &&
         ticketDetailsData.append('impact', newFormData?.impact?._id);
-      newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
+      newFormData?.ticketType?._id === SR &&
         ticketDetailsData.append('serviceId', newFormData?.service?._id);
-      newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
+      newFormData?.ticketType?._id === SR &&
         ticketDetailsData.append('subject', newFormData?.service?.itemName);
-      newFormData?.ticketType?._id === TICKET_TYPE?.SR &&
+      newFormData?.ticketType?._id === SR &&
+        !!newFormData?.service?.assetType &&
+        ticketDetailsData.append('numberOfItems', newFormData?.numberOfItems);
+      newFormData?.ticketType?._id === SR &&
         ticketDetailsData.append(
           'description',
           newFormData?.service?.description,
@@ -177,22 +187,16 @@ export const useEditTicketDetails = () => {
         ticketDetailsData.append('agent', newFormData?.agent?._id);
       !!newFormData?.category &&
         ticketDetailsData.append('category', newFormData?.category?._id);
-      ticketDetailsData?.append(
-        'moduleType',
-        data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType,
-      );
+      ticketDetailsData?.append('moduleType', ticketDetail?.moduleType);
 
       !!newFormData?.plannedEndDate &&
         ticketDetailsData?.append(
           'plannedEndDate',
-          newFormData?.plannedEndDate?.toISOString(),
+          isoDateString(newFormData?.plannedEndDate),
         );
       !!newFormData?.plannedEffort &&
         ticketDetailsData.append('plannedEffort', newFormData?.plannedEffort);
-      ticketDetailsData?.append(
-        'isChildTicket',
-        data?.data?.[ARRAY_INDEX?.ZERO]?.isChildTicket,
-      );
+      ticketDetailsData?.append('isChildTicket', ticketDetail?.isChildTicket);
       ticketDetailsData?.append('id', ticketId as string);
 
       if (body?.customFields) {
@@ -208,36 +212,39 @@ export const useEditTicketDetails = () => {
 
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       successSnackbar('Ticket updated successfully');
-      router?.push(AIR_SERVICES?.TICKETS);
+      moveToTicket?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
-  const apiQueryServicesCategory =
-    useLazyGetServiceCatalogCategoriesDropdownForEditTicketDetailsQuery?.();
-
   const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
     watchForTicketType,
-    apiQueryServicesCategory,
-    getValues,
-    data?.data?.[ARRAY_INDEX?.ZERO],
+    watch,
+    ticketDetail,
   );
+  const getApiCallInProgress =
+    isLoading ||
+    isFetching ||
+    getDynamicFieldsStatus?.isLoading ||
+    getDynamicFieldsStatus?.isFetching;
+
+  const getApiCallHasError = getDynamicFieldsStatus?.isError || isError;
+
+  const ticketPostApiInProgress =
+    editTicketsDetailsStatus?.isLoading || postAttachmentStatus?.isLoading;
 
   return {
     methods,
     handleSubmit,
     onSubmit,
     ticketDetailsFormFields,
-    isLoading,
-    isFetching,
-    editTicketsDetailsStatus,
     form,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
-    isError,
     getDynamicFormData,
     refetch,
-    router,
+    ticketPostApiInProgress,
+    getApiCallInProgress,
+    moveToTicket,
+    getApiCallHasError,
   };
 };

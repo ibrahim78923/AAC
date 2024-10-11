@@ -136,6 +136,7 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                 <LoadingButton
                   onClick={() => getCustomerSurvey?.()}
                   variant="contained"
+                  className="small"
                   sx={{
                     bgcolor:
                       portalStyles?.btnPrimary ||
@@ -147,6 +148,11 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                         customizePortalDefaultValues(theme)?.btnPrimary,
                       color: 'common.white',
                     },
+                    '&.Mui-disabled': {
+                      bgcolor:
+                        portalStyles?.btnPrimary ||
+                        customizePortalDefaultValues(theme)?.btnPrimary,
+                    },
                   }}
                   disabled={
                     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus
@@ -154,7 +160,8 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                     CHECK_SURVEY_SUBMISSION_STATUS?.SUBMITTED
                   }
                 >
-                  Take a Survey
+                  {lazyGetSingleDefaultSurveyForCustomerTicketsStatus?.data
+                    ?.data?.displayName || 'Take a Survey'}
                 </LoadingButton>
               </Box>
             )

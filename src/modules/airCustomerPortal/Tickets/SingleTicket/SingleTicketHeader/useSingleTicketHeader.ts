@@ -5,8 +5,10 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 import { getCustomerPortalStyling } from '@/utils';
+import { useState } from 'react';
 
 export const useSingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
+  const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
   const { id, getSingleDefaultSurveyForCustomerTickets } = props;
   const router = useRouter();
   const { companyId } = router?.query;
@@ -46,5 +48,7 @@ export const useSingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
     updateTicketStatus,
     handleBack,
     portalStyles,
+    shareModalOpen,
+    setShareModalOpen,
   };
 };

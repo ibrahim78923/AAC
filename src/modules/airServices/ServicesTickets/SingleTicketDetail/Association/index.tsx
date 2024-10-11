@@ -1,15 +1,20 @@
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { Box, Stack } from '@mui/material';
+import { Box, CircularProgress, Stack } from '@mui/material';
 import Assets from './Assets';
 import Deals from './Deals';
 import Contacts from './Contacts';
-import { drawerInitialState, getDropdownOptions } from './Association.data';
-import { useState } from 'react';
 import Companies from './Companies';
+import useAssociation from './useAssociation';
 
 export default function Association({ ticketType }: any) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState({ ...drawerInitialState });
-  const dropdownOptions = getDropdownOptions({ setIsDrawerOpen });
+  const {
+    isDrawerOpen,
+    setIsDrawerOpen,
+    dropdownOptions,
+    isLoading,
+    isFetching,
+    hasAirSales,
+  } = useAssociation();
 
   return (
     <Stack direction={'column'} spacing={2}>
@@ -27,7 +32,18 @@ export default function Association({ ticketType }: any) {
         setIsDrawerOpen={setIsDrawerOpen}
       />
 
-      <Deals isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+      {isLoading || isFetching ? (
+        <Box textAlign={'center'}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        hasAirSales && (
+          <Deals
+            isDrawerOpen={isDrawerOpen}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
+        )
+      )}
 
       <Contacts isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
 

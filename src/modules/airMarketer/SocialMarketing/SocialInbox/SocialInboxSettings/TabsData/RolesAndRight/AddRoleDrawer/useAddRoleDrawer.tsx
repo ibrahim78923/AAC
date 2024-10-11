@@ -12,9 +12,9 @@ import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   airMarketerRolesAndRightsAPI,
-  useGetRolesDataByIdQuery,
-  usePostPermissionRoleMutation,
-  useUpdateRoleRightsMutation,
+  useGetMarketerRolesDataByIdQuery,
+  usePostMarketerPermissionRoleMutation,
+  useUpdateMarketerRoleRightsMutation,
 } from '@/services/airMarketer/settings/roles-and-rights';
 import { DrawerI } from '../RolesAndRights.interface';
 
@@ -30,16 +30,19 @@ const useAddRoleDrawer: any = (
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
-  const { useLazyGetPermissionsRolesByIdQuery } = airMarketerRolesAndRightsAPI;
+  const { useLazyGetMarketerPermissionsRolesByIdQuery } =
+    airMarketerRolesAndRightsAPI;
 
   const [postPermissionRole, { isLoading: postRoleLoading }] =
-    usePostPermissionRoleMutation();
+    usePostMarketerPermissionRoleMutation();
 
   const [trigger, { data: viewPerdetails, isLoading }] =
-    useLazyGetPermissionsRolesByIdQuery();
+    useLazyGetMarketerPermissionsRolesByIdQuery();
 
   const { data: defaultPermissions, isLoading: getRolesDataLoading } =
-    useGetRolesDataByIdQuery(isDrawerOpen?.id, { skip: !isDrawerOpen?.id });
+    useGetMarketerRolesDataByIdQuery(isDrawerOpen?.id, {
+      skip: !isDrawerOpen?.id,
+    });
 
   const defaultActivePermissions =
     defaultPermissions?.data?.permissions?.flatMap((p: any) => {
@@ -126,7 +129,7 @@ const useAddRoleDrawer: any = (
   }, [defaultPermissions]);
 
   const [updateRoleRights, { isLoading: loadingEditRole }] =
-    useUpdateRoleRightsMutation();
+    useUpdateMarketerRoleRightsMutation();
 
   const onSubmit = async (values: any) => {
     const organizationId = user?.organization?._id;

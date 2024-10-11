@@ -6,6 +6,8 @@ const TAG = 'TICKETS';
 const TAG_TWO = 'CUSTOMER_TICKET_CONVERSATION';
 const TAG_THREE = 'DROPDOWN_ALL_ASSETS';
 const TAG_FOUR = 'KNOWLEDGE_BASE_ARTICLES';
+const TAG_FIVE = 'DROPDOWN_USERS';
+const TAG_SIX = 'DROPDOWN_REQUESTER';
 
 export const ticketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -99,6 +101,52 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         })),
       providesTags: [TAG_FOUR],
     }),
+    getUserDropdownForCP: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+      providesTags: [TAG_FIVE],
+    }),
+    shareTicket: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.SHARE_TICKET}`,
+        method: 'PUT',
+        params: apiDataParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    postReportAnIssueTickets: builder?.mutation({
+      query: (postReportAnIssueParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'POST',
+        body: postReportAnIssueParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAllRequestersDropdownCustomerPortalTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.REQUESTER_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+    }),
+    getRequesterDropdownForShareTicket: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 
@@ -116,5 +164,10 @@ export const {
   usePostReplyForCustomerTicketConversationMutation,
   useGetConversationForCustomerSingleTicketQuery,
   useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
+  useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery,
+  usePostReportAnIssueTicketsMutation,
   useLazyGetAllArticlesQuery,
+  useLazyGetUserDropdownForCPQuery,
+  useShareTicketMutation,
+  useLazyGetRequesterDropdownForShareTicketQuery,
 } = ticketsAPI;

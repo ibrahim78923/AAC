@@ -2,7 +2,6 @@ import React, { createElement } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
   Grid,
   List,
@@ -18,29 +17,22 @@ import {
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import InfoIcon from '@mui/icons-material/Info';
 
 import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
 
-import {
-  FolderBlackIcon,
-  FilterrIcon,
-  RefreshTasksIcon,
-  MoveFolderIcon,
-  TickCirclePrimary,
-} from '@/assets/icons';
+import { FolderBlackIcon, FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import TanstackTable from '@/components/Table/TanstackTable';
-import { uploadDocumentData, toolTipData, filterData } from './Folder.data';
+import { uploadDocumentData, filterData } from './Folder.data';
 import useFolder from './useFolder';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 import { DOCUMENTS_TYPE, Quick_Links_Routes } from '@/constants';
 import { componentMap } from '@/utils/dynamic-forms';
@@ -49,6 +41,9 @@ import ApiErrorState from '@/components/ApiErrorState';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
 import { createFolderData, MODAL_HEADING } from '../Documents/Documents.data';
+import NoData from '@/components/NoData';
+import RenderFolder from '../components/RenderFolder';
+import { downloadFiles } from '@/utils/file';
 
 const Folders = () => {
   const {
@@ -61,14 +56,13 @@ const Folders = () => {
     orgId,
     orgUsersData,
     orgTeamsData,
-    folderId,
-    parentFolderName,
-
-    dataSubfolders,
+    // folderId,
+    // parentFolderName,
+    sinngleFolderData,
+    fetchingGetFolder,
+    loadingGetFolder,
     selectedFolderId,
     handleClickSelectFolder,
-    isFetchingSubfolders,
-    isLoadingSubfolders,
 
     isOpenDelete,
     setIsOpenDelete,
@@ -116,8 +110,13 @@ const Folders = () => {
     handleClick,
     handleClose,
 
+    methodsShareLinkForm,
     isOpenGenerateLinkModal,
-    setIsOpenGenerateLinkModal,
+    handleOpenCreateLinkModal,
+    handleCloseCreateLinkModal,
+    handleCreateLinkSubmit,
+    loadingShareFile,
+
     isOpenSendEmailModal,
     setIsOpenSendEmailModal,
 
@@ -141,6 +140,7 @@ const Folders = () => {
     isOpenPreviewModal,
     handleOpenPreviewModal,
     handleClosePreviewModal,
+    selectedFilesUrl,
   } = useFolder();
 
   const uploadDocumentFormFields = uploadDocumentData(
@@ -156,6 +156,49 @@ const Folders = () => {
     orgId,
     modalHeading,
     orgTeamsData,
+  );
+
+  const renderFolder = (folder: any) => (
+    <>
+      <ListItemButton
+        selected={selectedFolderId === folder?._id}
+        onClick={(event) => handleClickSelectFolder(event, folder?._id)}
+        sx={{
+          p: '8px 10px',
+          borderRadius: '8px',
+          '&:hover': {
+            backgroundColor: `${theme?.palette?.grey[100]}`,
+          },
+          '&.Mui-selected': {
+            backgroundColor: `${theme?.palette?.grey[400]}`,
+          },
+        }}
+      >
+        <ListItemIcon sx={{ mr: '10px' }}>
+          <FolderBlackIcon />
+        </ListItemIcon>
+        <ListItemText
+          primary={folder?.name}
+          sx={{
+            '& .MuiListItemText-primary': {
+              fontSize: '16px',
+              fontWeight: '400',
+              color: `${theme?.palette?.grey[600]}`,
+            },
+          }}
+        />
+      </ListItemButton>
+
+      {folder?.nestedFolders?.length > 0 && (
+        <List component="div" disablePadding sx={{ pl: '16px' }}>
+          {folder?.nestedFolders?.map((nestedItem: any) => (
+            <React.Fragment key={nestedItem?._id}>
+              {renderFolder(nestedItem)}
+            </React.Fragment>
+          ))}
+        </List>
+      )}
+    </>
   );
 
   return (
@@ -235,7 +278,6 @@ const Folders = () => {
                   <MenuItem
                     onClick={() => {
                       handleCloseSide();
-                      setIsOpenFolderDrawer(true);
                     }}
                   >
                     Download
@@ -273,84 +315,61 @@ const Folders = () => {
                 borderColor: theme?.palette?.custom?.pale_gray,
               }}
             />
-            <List component="nav" sx={{ padding: '0' }}>
-              <ListItemButton
-                selected={selectedFolderId === folderId}
-                onClick={(event) => handleClickSelectFolder(event, folderId)}
-                sx={{
-                  p: '8px 10px',
-                  borderRadius: '8px',
-                  '&:hover': {
-                    backgroundColor: `${theme?.palette?.grey[100]}`,
-                  },
-                  '&.Mui-selected': {
-                    backgroundColor: `${theme?.palette?.grey[400]}`,
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ mr: '10px' }}>
-                  <FolderBlackIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={parentFolderName}
+            {loadingGetFolder || fetchingGetFolder ? (
+              Array(6)
+                .fill(null)
+                .map(() => (
+                  <Box sx={{ mt: '12px' }} key={uuidv4()}>
+                    <Skeleton
+                      animation="wave"
+                      variant="rectangular"
+                      width={'100%'}
+                      height={40}
+                      sx={styles?.skeleton}
+                    />
+                  </Box>
+                ))
+            ) : (
+              <List component="nav" sx={{ padding: '0' }}>
+                <ListItemButton
+                  selected={selectedFolderId === sinngleFolderData?._id}
+                  onClick={(event) =>
+                    handleClickSelectFolder(event, sinngleFolderData?._id)
+                  }
                   sx={{
-                    '& .MuiListItemText-primary': {
-                      fontSize: '16px',
-                      fontWeight: '400',
-                      color: `${theme?.palette?.grey[600]}`,
+                    p: '8px 10px',
+                    borderRadius: '8px',
+                    '&:hover': {
+                      backgroundColor: `${theme?.palette?.grey[100]}`,
+                    },
+                    '&.Mui-selected': {
+                      backgroundColor: `${theme?.palette?.grey[400]}`,
                     },
                   }}
-                />
-              </ListItemButton>
-              {(isLoadingSubfolders || isFetchingSubfolders) &&
-                Array(6)
-                  .fill(null)
-                  .map(() => (
-                    <Box sx={{ mt: '12px' }} key={uuidv4()}>
-                      <Skeleton
-                        animation="wave"
-                        variant="rectangular"
-                        width={'100%'}
-                        height={40}
-                        sx={styles?.skeleton}
-                      />
-                    </Box>
-                  ))}
-              {!(isLoadingSubfolders || isFetchingSubfolders) &&
-                dataSubfolders?.data?.map((item: any) => (
-                  <ListItemButton
-                    key={item?._id}
-                    selected={selectedFolderId === item?._id}
-                    onClick={(event) =>
-                      handleClickSelectFolder(event, item?._id)
-                    }
+                >
+                  <ListItemIcon sx={{ mr: '10px' }}>
+                    <FolderBlackIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={sinngleFolderData?.name}
                     sx={{
-                      p: '8px 10px 8px 40px',
-                      borderRadius: '8px',
-                      '&:hover': {
-                        backgroundColor: `${theme?.palette?.grey[100]}`,
-                      },
-                      '&.Mui-selected': {
-                        backgroundColor: `${theme?.palette?.grey[400]}`,
+                      '& .MuiListItemText-primary': {
+                        fontSize: '16px',
+                        fontWeight: '400',
+                        color: `${theme?.palette?.grey[600]}`,
                       },
                     }}
-                  >
-                    <ListItemIcon sx={{ mr: '10px' }}>
-                      <FolderBlackIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item?.name}
-                      sx={{
-                        '& .MuiListItemText-primary': {
-                          fontSize: '16px',
-                          fontWeight: '400',
-                          color: `${theme?.palette?.grey[600]}`,
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                ))}
-            </List>
+                  />
+                </ListItemButton>
+                <List component="nav" sx={{ pl: '16px' }}>
+                  {sinngleFolderData?.nestedFolders?.map((item: any) => (
+                    <React.Fragment key={item?._id}>
+                      {renderFolder(item)}
+                    </React.Fragment>
+                  ))}
+                </List>
+              </List>
+            )}
           </Box>
         </Grid>
         <Grid item lg={9} md={8} sm={12} xs={12}>
@@ -452,8 +471,9 @@ const Folders = () => {
                     <MenuItem
                       onClick={() => {
                         handleClose();
-                        setIsOpenGenerateLinkModal(true);
+                        handleOpenCreateLinkModal();
                       }}
+                      disabled={selectedRow?.length > 1}
                     >
                       Create Link
                     </MenuItem>
@@ -469,6 +489,7 @@ const Folders = () => {
                     <MenuItem
                       onClick={() => {
                         handleClose();
+                        downloadFiles(selectedFilesUrl);
                       }}
                     >
                       Download
@@ -583,54 +604,33 @@ const Folders = () => {
             sx={{ width: '100%' }}
           />
           <List component="nav" sx={{ padding: '12px 0' }}>
-            {fetchingGetMoveFolders || loadingGetMoveFolders
-              ? Array(6)
-                  .fill(null)
-                  .map(() => (
-                    <Box sx={{ mt: '12px' }} key={uuidv4()}>
-                      <Skeleton
-                        animation="wave"
-                        variant="rectangular"
-                        width={'100%'}
-                        height={52}
-                        sx={styles?.skeleton}
-                      />
-                    </Box>
-                  ))
-              : moveFoldersData?.map((item: any) => (
-                  <ListItemButton
-                    key={item?._id}
-                    selected={selectedMoveToFolderId === item?._id}
-                    onClick={(event) => handleListItemClick(event, item?._id)}
-                    sx={{
-                      mt: '12px',
-                      p: '14px 20px',
-                      '&:hover': {
-                        backgroundColor: `${theme?.palette?.grey[100]}`,
-                      },
-                      '&.Mui-selected': {
-                        backgroundColor: `${theme?.palette?.grey[100]}`,
-                      },
-                    }}
-                  >
-                    <ListItemIcon sx={{ mr: '6px' }}>
-                      <MoveFolderIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item?.name}
-                      sx={{
-                        '& .MuiListItemText-primary': {
-                          fontSize: '14px',
-                          fontWeight: '400',
-                          color: `${theme?.palette?.blue?.dull_blue}`,
-                        },
-                      }}
+            {fetchingGetMoveFolders || loadingGetMoveFolders ? (
+              Array(6)
+                .fill(null)
+                .map(() => (
+                  <Box sx={{ mt: '12px' }} key={uuidv4()}>
+                    <Skeleton
+                      animation="wave"
+                      variant="rectangular"
+                      width={'100%'}
+                      height={52}
+                      sx={styles?.skeleton}
                     />
-                    {selectedMoveToFolderId === item?._id && (
-                      <TickCirclePrimary />
-                    )}
-                  </ListItemButton>
-                ))}
+                  </Box>
+                ))
+            ) : moveFoldersData?.length === 0 ? (
+              <NoData />
+            ) : (
+              moveFoldersData?.map((item: any) => (
+                <React.Fragment key={item?._id}>
+                  <RenderFolder
+                    folder={item}
+                    selectedMoveToFolderId={selectedMoveToFolderId}
+                    handleClickListItem={handleListItemClick}
+                  />
+                </React.Fragment>
+              ))
+            )}
           </List>
         </Box>
       </CommonDrawer>
@@ -693,14 +693,14 @@ const Folders = () => {
       {/* Create Link Modal */}
       <CommonModal
         open={isOpenGenerateLinkModal}
-        handleCancel={() => setIsOpenGenerateLinkModal(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        handleCancel={handleCloseCreateLinkModal}
+        handleSubmit={handleCreateLinkSubmit}
         title={'Create Link'}
         okText={'Share'}
         cancelText="Cancel"
         footerFill={false}
+        footer={true}
+        isLoading={loadingShareFile}
       >
         <Typography
           variant="h6"
@@ -713,60 +713,20 @@ const Folders = () => {
           Create a link to share this document with others and track their
           views.
         </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            fontWeight: 500,
-            color: `${theme?.palette?.grey[600]}`,
-            paddingBottom: '0.3rem',
-          }}
-        >
-          Who are you sending this to? *.
-        </Typography>
-        <TextField type="text" placeholder="Enter Name" fullWidth />
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            paddingTop: '10px',
-          }}
-        >
-          <Checkbox />
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: 400,
-              color: `${theme?.palette?.slateBlue?.main}`,
-            }}
-          >
-            Require email address to view document
-          </Typography>
-          <Tooltip placement="top" arrow title={toolTipData}>
-            <InfoIcon
-              sx={{ color: `${theme?.palette?.grey[500]}`, fontSize: '14px' }}
-            />
-          </Tooltip>
-        </Box>
-        <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="contained"
-            className="small"
-            onClick={() => {
-              setIsOpenGenerateLinkModal(false);
-              setIsOpenSendEmailModal(true);
-            }}
-          >
-            Share
-          </Button>
-        </Box>
+
+        <FormProvider methods={methodsShareLinkForm}>
+          <Grid container mt={2}>
+            <Grid item xs={12}>
+              <RHFTextField
+                name={'recipients'}
+                label={'Who are you sending this to?'}
+                placeholder={'Enter recipient email address'}
+                required
+                size={'small'}
+              />
+            </Grid>
+          </Grid>
+        </FormProvider>
       </CommonModal>
 
       {/* Send Email Modal */}

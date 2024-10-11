@@ -7,13 +7,13 @@ import { Software } from '../Software';
 import { Attachment } from '../Attachment';
 import { Overview } from '../Overview';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+
 export const singleInventoryDetailTabsData = [
   {
     _id: 1,
     id: 'overview',
     name: 'Overview',
     tabPermissions: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.OVERVIEW],
-    componentProps: {},
     component: Overview,
   },
   {
@@ -24,7 +24,6 @@ export const singleInventoryDetailTabsData = [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ASSOCIATION,
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
     ],
-    componentProps: {},
     component: Associations,
   },
   {
@@ -34,7 +33,6 @@ export const singleInventoryDetailTabsData = [
     tabPermissions: [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RESPECTIVE_PURCHASE_ORDER,
     ],
-    componentProps: {},
     component: PurchaseOrder,
   },
   {
@@ -44,7 +42,6 @@ export const singleInventoryDetailTabsData = [
     tabPermissions: [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RESPECTIVE_CONTRACTS,
     ],
-    componentProps: {},
     component: Contract,
   },
   {
@@ -57,29 +54,26 @@ export const singleInventoryDetailTabsData = [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EXPENSE_LIST_VIEW,
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_EXPENSE,
     ],
-    componentProps: {},
     component: Expense,
   },
   {
     _id: 6,
+    id: 'software',
+    name: 'Software',
+    tabPermissions: [
+      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RELATED_SOFTWARES,
+    ],
+    component: Software,
+  },
+  {
+    _id: 7,
     id: 'activity',
     name: 'Activity',
     tabPermissions: [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ACTIVITIES,
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EXPORT_ACTIVITIES,
     ],
-    componentProps: {},
     component: Activity,
-  },
-  {
-    _id: 7,
-    id: 'software',
-    name: 'Software',
-    tabPermissions: [
-      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RELATED_SOFTWARES,
-    ],
-    componentProps: {},
-    component: Software,
   },
   {
     _id: 8,
@@ -88,7 +82,6 @@ export const singleInventoryDetailTabsData = [
     tabPermissions: [
       AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ATTACHMENTS,
     ],
-    componentProps: {},
     component: Attachment,
   },
 ];

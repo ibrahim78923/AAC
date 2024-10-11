@@ -1,5 +1,4 @@
 import { PAGINATION } from '@/config';
-import { useDeleteChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -8,6 +7,7 @@ import {
   setPage,
 } from '@/redux/slices/airServices/related-tickets/slice';
 import { useGetRelatedTicketList } from '../../../TicketsServicesHooks/useGetRelatedTicketList';
+import { useDeleteMultipleServicesRelatedTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 
 export const useDeleteRelatedTicket = () => {
   const { getChildTicketsListData, page } = useGetRelatedTicketList();
@@ -26,7 +26,7 @@ export const useDeleteRelatedTicket = () => {
   );
 
   const [deleteChildTicketsTrigger, deleteChildTicketsStatus] =
-    useDeleteChildTicketsMutation();
+    useDeleteMultipleServicesRelatedTicketsMutation();
 
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();

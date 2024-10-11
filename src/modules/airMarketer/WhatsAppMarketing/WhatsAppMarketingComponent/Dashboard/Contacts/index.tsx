@@ -8,9 +8,11 @@ import { indexNumbers } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { generateImage } from '@/utils/avatarUtils';
+import { PAGINATION } from '@/config';
 
 const SMSContacts = ({ setTabVal }: any) => {
-  const { theme, allContacts, loadingGetContacts } = useContacts();
+  const { theme, allContacts, loadingGetContacts, recentContactsCount } =
+    useContacts();
 
   return (
     <Box sx={{ pr: '24px' }}>
@@ -29,11 +31,13 @@ const SMSContacts = ({ setTabVal }: any) => {
             <Box component={'span'} sx={{ color: 'primary.main' }}>
               New Contacts:
             </Box>
-            {allContacts?.length}
+            {recentContactsCount < PAGINATION?.PAGE_LIMIT
+              ? `0${recentContactsCount}`
+              : recentContactsCount}
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body2">Latest Added</Typography>
+          <Typography variant="body2">Latest Added (Past 24 hours)</Typography>
           <PermissionsGuard
             permissions={[
               AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.VIEW_CONTACT,

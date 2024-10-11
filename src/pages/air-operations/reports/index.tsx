@@ -2,9 +2,7 @@ import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { Reports } from '@/modules/airOperations/Reports';
 
-const ReportsPage = () => {
-  return <Reports />;
-};
+const ReportsPage = () => <Reports />;
 
 export default ReportsPage;
 

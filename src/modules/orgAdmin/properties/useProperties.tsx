@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useLazyGetProductsPermissionsListQuery } from '@/services/airMarketer/settings/roles-and-rights';
 import {
   useGetProductsQuery,
   useLazyGetCompanyAccountsListsQuery,
@@ -84,7 +83,6 @@ const useProperties = () => {
   const allProductList = [...(productList?.data || []), ...staticProducts];
 
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
-  const modulesList = useLazyGetProductsPermissionsListQuery();
 
   return {
     activeProduct,
@@ -94,7 +92,6 @@ const useProperties = () => {
     allProductList,
     isLoading,
     companyAccounts,
-    modulesList,
     getProductType,
     getProductIcon,
   };

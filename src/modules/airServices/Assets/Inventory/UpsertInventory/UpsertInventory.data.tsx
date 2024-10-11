@@ -8,14 +8,14 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import { ASSET_IMPACT } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { localeDateTime } from '@/utils/dateTime';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
@@ -23,15 +23,19 @@ export const assetsImpactOptions = [
   ASSET_IMPACT?.HIGH,
 ];
 
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
-
 export const UpsertInventoryValidationSchema: any = (form?: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
-    displayName: Yup?.string()?.trim()?.required('Display name is required'),
+    displayName: Yup?.string()
+      ?.trim()
+      ?.required('Display name is required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
     assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
-    description: Yup?.string(),
+    description: Yup?.string()?.trim(),
     impact: Yup?.mixed()?.nullable(),
     department: Yup?.mixed()?.nullable(),
     assetLifeExpiry: Yup?.date()?.nullable(),
@@ -52,11 +56,15 @@ export const upsertInventoryFieldsDefaultValuesFunction = (
     displayName: data?.displayName ?? '',
     assetType: data?.assetTypeDetails ?? null,
     impact: data?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry: new Date(data?.assetLifeExpiry ?? todayDate),
+    assetLifeExpiry: data?.assetLifeExpiry
+      ? localeDateTime(data?.assetLifeExpiry)
+      : new Date(),
     description: data?.description ?? '',
     location: data?.locationDetails ?? null,
     department: data?.departmentDetails ?? null,
-    assignedOn: new Date(data?.assignedOn ?? todayDate),
+    assignedOn: data?.assignedOn
+      ? localeDateTime(data?.assignedOn)
+      : new Date(),
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
     ...initialValues,
@@ -71,7 +79,6 @@ export const editInventoryDefaultValues = {
   description: '',
   location: '',
   assignedOn: '',
-  assignedOnTime: '',
   usedBy: '',
 };
 
@@ -107,6 +114,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
       label: 'Impact',
       placeholder: 'Choose Impact',
       options: assetsImpactOptions,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     component: RHFAutocomplete,
     md: 6,
@@ -194,7 +202,7 @@ export const upsertInventoryFormFieldsSecond = (
       apiQuery: apiQueryUsedByType,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option.lastName}`,
-      externalParams: { productId },
+      externalParams: { productId, requester: true, admin: true },
     },
     component: RHFAutocompleteAsync,
     md: 6,

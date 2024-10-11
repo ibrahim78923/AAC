@@ -8,7 +8,6 @@ import {
   setSelectedTicketLists,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-
 import { useRouter } from 'next/router';
 import { ticketsListsColumnDynamic } from './TicketsTableView.data';
 

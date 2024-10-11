@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './ApproveForm.data';
-import { usePatchRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
+import { usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { approvalStatus } from '../Approvals.data';
 import { useState } from 'react';
+
 export const useApproveForm = (approvalId: any) => {
   const [approveDialog, setApproveDialog] = useState(false);
   const methods: any = useForm({
@@ -15,7 +16,7 @@ export const useApproveForm = (approvalId: any) => {
   const { handleSubmit, reset } = methods;
 
   const [patchRequestApprovalTrigger, patchRequestApprovalStatus] =
-    usePatchRequestApprovalMutation();
+    usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation();
 
   const onSubmit = async (data: any) => {
     const params = new URLSearchParams();
@@ -31,6 +32,7 @@ export const useApproveForm = (approvalId: any) => {
       errorSnackbar();
     }
   };
+
   return {
     approveDialog,
     setApproveDialog,

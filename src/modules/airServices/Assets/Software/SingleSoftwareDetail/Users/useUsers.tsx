@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
 import {
-  NOTISTACK_VARIANTS,
   SOFTWARE_USER_ACTIONS_TYPES,
   EXPORT_FILE_TYPE,
   MODULE_TYPE,
@@ -11,8 +10,8 @@ import {
   useRemoveContractMutation,
   useAllocateContractMutation,
   useLazyGetExportSoftwareUsersQuery,
+  useLazyGetContractDropdownListQuery,
 } from '@/services/airServices/assets/software/single-software-detail/users';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { downloadFile } from '@/utils/file';
 import { useSearchParams } from 'next/navigation';
@@ -24,12 +23,12 @@ import { AllocateSubmitI, SoftwareUserDataI } from './Users.interface';
 
 const useUsers = () => {
   const [usersData, setUsersData] = useState<SoftwareUserDataI[]>([]);
-  const [actionModalOpen, setActionModalOpen] = useState(false);
-  const [selectedActionTitle, setSelectedActionTitle] = useState('');
-  const [search, setSearch] = useState('');
+  const [actionModalOpen, setActionModalOpen] = useState<boolean>(false);
+  const [selectedActionTitle, setSelectedActionTitle] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [filterValues, setFilterValues] = useState({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const getUserArray = usersData?.find((item) => item);
   const methods = useForm({
     resolver: yupResolver<any>(
@@ -45,6 +44,7 @@ const useUsers = () => {
     getUserListTrigger,
     { data: getSoftwareUsers, isLoading, isFetching, isSuccess, isError },
   ] = useLazyGetSoftwareUsersDetailsQuery();
+
   const handleGetUser = async () => {
     const getUserListParam = new URLSearchParams();
     getUserListParam?.append('page', page?.toString());
@@ -90,9 +90,7 @@ const useUsers = () => {
         title === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE ||
         title === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
       ) {
-        enqueueSnackbar(`Can't ${title} multiple records`, {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar(`Can't ${title} multiple records`);
       }
     }
   };
@@ -102,19 +100,22 @@ const useUsers = () => {
   };
 
   const getUserListDataExport = async (type: string) => {
-    const getUserParam = new URLSearchParams();
-    getUserParam?.append('page', page + '');
-    getUserParam?.append('limit', limit + '');
-    getUserParam?.append('id', softwareId + '');
-    getUserParam?.append('exportType', type);
+    const queryParams = {
+      exportType: type,
+      id: softwareId,
+    };
+    const getContractExportParameter = {
+      queryParams,
+    };
+
     try {
-      const response: any = await getExportUserTrigger(getUserParam)?.unwrap();
+      const response: any = await getExportUserTrigger(
+        getContractExportParameter,
+      )?.unwrap();
       downloadFile(response, 'User Data List', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar(response?.data?.message ?? `Users Exported Successfully`);
-      setUsersData([]);
+      successSnackbar('File Exported successfully');
     } catch (error: any) {
-      errorSnackbar(error?.data?.message ?? `Users Not Exported`);
-      setUsersData([]);
+      errorSnackbar(error?.data?.message);
     }
   };
   const deallocateParams = {
@@ -128,42 +129,25 @@ const useUsers = () => {
       switch (selectedActionTitle) {
         case SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE:
           try {
-            const res = await userDeallocate(deallocateParams)?.unwrap();
-            enqueueSnackbar(
-              res?.message ?? 'Contract Deallocate successfully',
-              {
-                variant: NOTISTACK_VARIANTS?.SUCCESS,
-              },
-            );
+            await userDeallocate(deallocateParams)?.unwrap();
+            successSnackbar('Contract Deallocate successfully');
             userActionDropdownCloseHandler();
             setUsersData([]);
           } catch (error: any) {
-            enqueueSnackbar(
-              error?.error?.message ?? 'Contract Not Deallocated',
-              {
-                variant: NOTISTACK_VARIANTS?.ERROR,
-              },
-            );
+            errorSnackbar(error?.error?.message);
           }
           break;
         case SOFTWARE_USER_ACTIONS_TYPES?.REMOVE:
           try {
-            const deleteRes: any = await userRemove({
+            await userRemove({
               params: deleteParams,
             });
-            enqueueSnackbar(
-              deleteRes?.data?.message && 'Users Removed Successfully',
-              {
-                variant: NOTISTACK_VARIANTS?.SUCCESS,
-              },
-            );
+            successSnackbar('Users Removed Successfully');
 
             setUsersData([]);
             userActionDropdownCloseHandler();
           } catch (error: any) {
-            enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong', {
-              variant: NOTISTACK_VARIANTS?.ERROR,
-            });
+            errorSnackbar(error?.data?.message);
           }
           break;
         default:
@@ -177,18 +161,21 @@ const useUsers = () => {
       contractId: formData?.contract?._id,
     };
     try {
-      const res = await userAllocate(allocateParams)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Contract Allocated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await userAllocate(allocateParams)?.unwrap();
+      successSnackbar('Contract Allocated successfully');
       userActionDropdownCloseHandler();
       setUsersData([]);
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? 'Contract Not Allocated', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.error?.message);
     }
   };
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
+  const contractDropdown = useLazyGetContractDropdownListQuery();
   return {
     userActionClickHandler,
     userActionDropdownCloseHandler,
@@ -200,7 +187,7 @@ const useUsers = () => {
     selectedActionTitle,
     setUsersData,
     search,
-    setSearch,
+    handleSearch,
     getSoftwareUsers,
     setPage,
     setLimit,
@@ -219,6 +206,7 @@ const useUsers = () => {
     setFilterValues,
     filterValues,
     handleGetUser,
+    contractDropdown,
   };
 };
 

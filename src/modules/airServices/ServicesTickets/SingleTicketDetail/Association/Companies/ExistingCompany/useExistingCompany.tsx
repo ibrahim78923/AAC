@@ -1,12 +1,9 @@
 import { PAGINATION } from '@/config';
-import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import { useGetAssociatesCompanyQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesCompanyQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useAddCompanyColumns } from './ExistingCompany.data';
 
 export default function useExistingCompany({ setSelected, selected }: any) {
-  const theme: any = useTheme();
-
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
@@ -20,19 +17,26 @@ export default function useExistingCompany({ setSelected, selected }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesCompanyQuery(postTicketsAssociatesCompanyParameter, {
-      refetchOnMountOrArgChange: true,
-    });
+    useGetAirServicesAssociatesCompanyQuery(
+      postTicketsAssociatesCompanyParameter,
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const addCompanyColumns = useAddCompanyColumns({
-    theme,
     setSelected,
     selected,
     associatesCompanyList: data?.data?.companies,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
-    setSearch,
+    handleSearch,
     addCompanyColumns,
     data,
     isLoading,

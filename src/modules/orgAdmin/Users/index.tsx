@@ -18,11 +18,12 @@ const Users = () => {
     setEmployeeFilter,
     resetFilter,
     handleEmpListPaginationChange,
+    employeeMetaData,
   } = useUsers();
 
   return (
     <Grid container spacing={2}>
-      <Grid item xl={3} lg={4} xs={12}>
+      <Grid item xl={3} lg={6} xs={12}>
         <UsersSidebar
           employeeDetails={employeeDetails}
           setSearchAccount={setSearchAccount}
@@ -32,9 +33,10 @@ const Users = () => {
           setEmployeeFilter={setEmployeeFilter}
           resetFilter={resetFilter}
           handleEmpListPaginationChange={handleEmpListPaginationChange}
+          employeeMetaData={employeeMetaData}
         />
       </Grid>
-      <Grid item xl={9} lg={8} xs={12}>
+      <Grid item xl={9} lg={6} xs={12}>
         {employeeDetails?.length > indexNumbers?.ZERO ? (
           <UsersDetails
             searchAccount={searchAccount}

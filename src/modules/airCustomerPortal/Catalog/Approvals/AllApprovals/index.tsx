@@ -5,8 +5,8 @@ import { ApprovalCard } from '../ApprovalCard';
 import NoData from '@/components/NoData';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { RequestConfirmForm } from '@/modules/airServices/ServicesTickets/SingleTicketDetail/Approvals/RequestConfirmForm';
 import { AllApprovalsPropsI, ApprovalsDataI } from './AllApprovals.interface';
+import { RequestApprovalForm } from '../RequestApprovalForm';
 
 const AllApprovals = (props: AllApprovalsPropsI) => {
   const {
@@ -52,7 +52,7 @@ const AllApprovals = (props: AllApprovalsPropsI) => {
         <NoData />
       )}
       {isConfirmModalOpen && (
-        <RequestConfirmForm
+        <RequestApprovalForm
           isConfirmModalOpen={isConfirmModalOpen}
           setIsConfirmModalOpen={setIsConfirmModalOpen}
           selectedApproval={selectedApproval}

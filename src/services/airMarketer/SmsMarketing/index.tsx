@@ -22,7 +22,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
       providesTags: SMS_MARKETING,
     }),
 
-    connectPhoneNumber: builder.mutation({
+    connectPhoneNumberForSmsMarketing: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CONNECT_PHONE_NUMBER}`,
         method: 'POST',
@@ -40,7 +40,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
       invalidatesTags: SMS_MARKETING,
     }),
 
-    getIsPhoneConnected: builder.query({
+    getIsPhoneConnectedForSmsMarketing: builder.query({
       query: () => ({
         url: END_POINTS?.GET_IS_PHONE_CONNECTED,
         method: 'GET',
@@ -83,8 +83,8 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
 export const {
   useGetSmsBroadcatsQuery,
   useDeleteSmsBroadcastMutation,
-  useConnectPhoneNumberMutation,
-  useGetIsPhoneConnectedQuery,
+  useConnectPhoneNumberForSmsMarketingMutation,
+  useGetIsPhoneConnectedForSmsMarketingQuery,
   useGetSmsDashboardInsightsQuery,
   usePostSmsBroadcastMutation,
   useGetSmsBroadcatsByIdQuery,

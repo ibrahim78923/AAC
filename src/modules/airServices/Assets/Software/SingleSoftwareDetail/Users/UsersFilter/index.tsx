@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import { FilterIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -27,6 +26,7 @@ export const UsersFilter: React.FC<UsersFilterI> = (props) => {
         onClick={openFilterDrawer}
         startIcon={<FilterIcon />}
         color="secondary"
+        className="small"
       >
         Filter
       </Button>

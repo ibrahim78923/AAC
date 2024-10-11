@@ -1,19 +1,20 @@
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import {
-  usePatchEnquiriesMutation,
-  usePostTicketMutation,
+  usePatchServicesEnquiriesMutation,
+  usePostServicesEnquiriesTicketMutation,
 } from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
-export default function useConvertTicket({
+export const useConvertTicket = ({
   isModalOpen,
   onClose,
-}: IChildModalState) {
-  const [postTicketTrigger, postTicketStatus] = usePostTicketMutation();
+}: IChildModalState) => {
+  const [postTicketTrigger, postTicketStatus] =
+    usePostServicesEnquiriesTicketMutation();
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
-    usePatchEnquiriesMutation();
+    usePatchServicesEnquiriesMutation();
 
   const data = isModalOpen?.data?.[ARRAY_INDEX?.ZERO];
 
@@ -34,6 +35,7 @@ export default function useConvertTicket({
     formData?.append('subject', data?.query);
     formData?.append('moduleType', MODULE_TYPE?.TICKETS);
     formData?.append('ticketType', TICKET_TYPE?.EQ);
+    formData?.append('name', data?.name);
     formData?.append('requesterEmail', data?.email);
 
     try {
@@ -49,4 +51,5 @@ export default function useConvertTicket({
   };
 
   return { handleCreateRequester, postTicketStatus, patchEnquiriesStatus };
-}
+};
+export default useConvertTicket;

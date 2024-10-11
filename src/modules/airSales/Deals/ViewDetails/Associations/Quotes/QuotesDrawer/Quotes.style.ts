@@ -7,6 +7,7 @@ export const styles = {
   }),
   company: () => ({
     display: 'flex',
+    alignItems: 'center',
   }),
   avatar: () => ({
     height: '64px',

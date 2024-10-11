@@ -33,17 +33,16 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { componentMap } from '@/utils/dynamic-forms';
 import { generateImage } from '@/utils/avatarUtils';
 import { indexNumbers } from '@/constants';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const CreateBroadcast = () => {
   const {
     handleCloseContactsDrawer,
     templateDetailsVariables,
-    setSelectedContactsData,
     broadcastDetailsLoading,
     isAddContactDrawerOpen,
     updateBroadcastLoading,
     postBroadcastLoading,
-    selectedContactsData,
     flattenContactsData,
     previewAttachment,
     setSelectedRec,
@@ -66,6 +65,8 @@ const CreateBroadcast = () => {
     detailsMsg,
     getDynamicFieldsStatus,
     handleSaveAsDraft,
+    avatarFileUrl,
+    templateData,
   } = useCreateBroadcast();
 
   return (
@@ -133,14 +134,7 @@ const CreateBroadcast = () => {
                         }
                         {...item?.componentProps}
                         size={'small'}
-                      >
-                        {item?.componentProps?.select &&
-                          item?.options?.map((option: any) => (
-                            <option key={uuidv4()} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))}
-                      </item.component>
+                      />
                       {item?.componentProps?.name ===
                         SMS_BROADCAST_CONSTANTS?.RECIPIENTS && (
                         <Box sx={{ display: 'flex' }}>
@@ -155,9 +149,8 @@ const CreateBroadcast = () => {
                               },
                             }}
                           >
-                            {selectedContactsData?.map((item: any) => {
+                            {selectedRec?.map((item: any) => {
                               const contacts = item?.contacts || [item];
-
                               return contacts?.map((contact: any) => (
                                 <Avatar
                                   key={uuidv4()}
@@ -180,7 +173,8 @@ const CreateBroadcast = () => {
                           </AvatarGroup>
                         </Box>
                       )}
-                      {item?.componentProps?.name === 'detail' && (
+                      {item?.componentProps?.name ===
+                        SMS_BROADCAST_CONSTANTS?.DETAILS && (
                         <Grid container spacing={2} mt={2}>
                           {templateDetailsVariables?.map((variable: any) => (
                             <Grid item xs={6} key={variable}>
@@ -192,6 +186,15 @@ const CreateBroadcast = () => {
                               />
                             </Grid>
                           ))}
+                          {templateData?.imageUrl && (
+                            <Grid item xs={12}>
+                              <AttachFileCard
+                                data={avatarFileUrl}
+                                onDelete={() => {}}
+                                permissionKey={[]}
+                              />
+                            </Grid>
+                          )}
                         </Grid>
                       )}
                       {item?.componentProps?.name ===
@@ -273,7 +276,7 @@ const CreateBroadcast = () => {
                   <Box sx={styles?.previewContacts}>
                     <TanstackTable
                       columns={contactsColumns}
-                      data={flattenContactsData(selectedContactsData)}
+                      data={flattenContactsData(selectedRec)}
                     />
                   </Box>
                 </Grid>
@@ -304,12 +307,10 @@ const CreateBroadcast = () => {
                 onClick={handleSubmit(onSubmit)}
                 loading={postBroadcastLoading || updateBroadcastLoading}
                 disabled={
-                  selectedContactsData?.length === indexNumbers?.ZERO
-                    ? true
-                    : false
+                  selectedRec?.length === indexNumbers?.ZERO ? true : false
                 }
               >
-                Send Now
+                {!isSchedule ? 'Send Now' : 'Send Later'}
               </LoadingButton>
             </Grid>
           </Grid>
@@ -322,8 +323,6 @@ const CreateBroadcast = () => {
           onClose={handleCloseContactsDrawer}
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
-          setSelectedContactsData={setSelectedContactsData}
-          selectedContactsData={selectedContactsData}
           setRecipientType={setRecipientType}
           recipientType={recipientType}
         />

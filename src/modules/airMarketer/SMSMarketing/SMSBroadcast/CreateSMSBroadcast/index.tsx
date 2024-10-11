@@ -35,11 +35,9 @@ import { generateImage } from '@/utils/avatarUtils';
 const CreateSMSBroadcast = () => {
   const {
     setIsAddContactDrawerOpen,
-    setSelectedContactsData,
     updateBroadcastLoading,
     isAddContactDrawerOpen,
     postBroadcastLoading,
-    selectedContactsData,
     flattenContactsData,
     smsBroadcastLoading,
     handleSaveAsDraft,
@@ -61,6 +59,7 @@ const CreateSMSBroadcast = () => {
     type,
     form,
     getDynamicFieldsStatus,
+    detailsMsg,
   } = useCreateSMSBroadcast();
 
   return (
@@ -193,7 +192,7 @@ const CreateSMSBroadcast = () => {
                               position: 'end',
                             }}
                           >
-                            {selectedContactsData?.map((item: any) => {
+                            {selectedRec?.map((item: any) => {
                               const contacts = item?.contacts || [item];
                               return contacts?.map((contact: any) => (
                                 <Avatar
@@ -310,7 +309,11 @@ const CreateSMSBroadcast = () => {
                   Details
                 </Typography>
                 <Box sx={styles?.previewDetails}>
-                  <Box dangerouslySetInnerHTML={{ __html: detailsText }} />
+                  <Box
+                    dangerouslySetInnerHTML={{
+                      __html: detailsText ?? detailsMsg,
+                    }}
+                  />
                 </Box>
               </Grid>
               <Grid item xs={12}>
@@ -326,7 +329,7 @@ const CreateSMSBroadcast = () => {
                 >
                   <TanstackTable
                     columns={contactsColumns}
-                    data={flattenContactsData(selectedContactsData)}
+                    data={flattenContactsData(selectedRec)}
                     isLoading={smsBroadcastLoading}
                   />
                 </Box>
@@ -337,6 +340,9 @@ const CreateSMSBroadcast = () => {
           <Grid
             item
             lg={12}
+            onMouseOver={() => {
+              setCreateStatus(STATUS_CONTANTS?.COMPLETED);
+            }}
             sx={{
               display: { xs: 'flex' },
               flexDirection: { sm: 'row', xs: 'column' },
@@ -378,7 +384,6 @@ const CreateSMSBroadcast = () => {
           onClose={() => setIsAddContactDrawerOpen(false)}
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
-          setSelectedContactsData={setSelectedContactsData}
           setRecipientType={setRecipientType}
           recipientType={recipientType}
         />

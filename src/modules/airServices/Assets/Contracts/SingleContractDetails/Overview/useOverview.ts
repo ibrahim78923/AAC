@@ -8,13 +8,11 @@ export const useOverview = () => {
   const searchParams = useSearchParams();
   const contractId = searchParams?.get('contractId');
 
-  const { data, isLoading, isFetching, isError } = useGetContractsOverviewQuery(
-    contractId,
-    {
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetContractsOverviewQuery(contractId, {
       refetchOnMountOrArgChange: true,
       skip: !!!contractId,
-    },
-  );
+    });
   const contractData = data?.data;
   const contractItemDataArray = !!data?.data?.itemsDetail?.length
     ? data?.data?.itemsDetail
@@ -43,5 +41,6 @@ export const useOverview = () => {
     isError,
     fieldsOverviewData,
     data,
+    refetch,
   };
 };

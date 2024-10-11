@@ -25,7 +25,7 @@ import { options } from '../../../SendEmail/SendEmailDrawer.data';
 import { emailDraftValidationsSchema } from './draft.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '@/redux/store';
-import { MailColoredIcon } from '@/assets/icons';
+import { ClearIcon, MailColoredIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -40,13 +40,20 @@ import {
   setSelectedRecords,
 } from '@/redux/slices/email/outlook/slice';
 import { useDispatch } from 'react-redux';
+import { ImageComponentAttachment } from '../index';
+import { base64ToBlob } from '../../../SendEmail/useSendEmailDrawer';
 
-const Draft = () => {
+const Draft = ({ messageDetailsData }: any) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  const [defaultValuesEmail, setDefaultValuesEmail] = useState<any>({});
+
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+
+  const [defaultAttachments, setDefaultAttachments] = useState<any>([]);
+  const [mergedAttachments, setMergedAttachments] = useState<any>([]);
 
   const handleAutocompleteChange = (_: any, newValue: string[]) => {
     setAutocompleteValues(newValue);
@@ -89,15 +96,48 @@ const Draft = () => {
     formDataSend.append('subject', values?.subject);
     formDataSend.append('content', values?.description ?? ' ');
 
-    if (values?.attachments) {
-      formDataSend.append('attachments', values?.attachments);
-    }
     if (values?.cc && values?.cc?.trim() !== '') {
       formDataSend.append('cc', values?.cc);
     }
     if (values?.bcc && values?.bcc?.trim() !== '') {
       formDataSend.append('bcc', values?.bcc);
     }
+
+    defaultAttachments?.forEach((data: any) => {
+      const base64 = data?.contentBytes;
+      const contentType = data?.contentType;
+      const fileName = data?.name;
+
+      const blob = base64ToBlob(base64, contentType);
+      const file = new File([blob], fileName, { type: contentType });
+
+      setMergedAttachments((prevAttachments: any) => [
+        ...prevAttachments,
+        file,
+      ]);
+    });
+
+    if (values?.attachments) {
+      if (Array?.isArray(values?.attachments)) {
+        values.attachments.forEach((file: File) => {
+          setMergedAttachments((prevAttachments: any) => [
+            ...prevAttachments,
+            file,
+          ]);
+        });
+      } else {
+        const singleFile = values.attachments;
+        setMergedAttachments((prevAttachments: any) => [
+          ...prevAttachments,
+          singleFile,
+        ]);
+      }
+    }
+
+    if (mergedAttachments?.length) {
+      formDataSend?.append(`attachments`, mergedAttachments);
+    }
+
     try {
       await postSendOtherEmail({
         body: formDataSend,
@@ -118,7 +158,6 @@ const Draft = () => {
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
-
       enqueueSnackbar('Email send successfully', {
         variant: 'success',
       });
@@ -129,37 +168,59 @@ const Draft = () => {
   };
 
   const activeRecordLengthCheck =
-    activeRecord && Object.keys(activeRecord)?.length;
+    defaultValuesEmail && Object.keys(defaultValuesEmail)?.length;
 
   useEffect(() => {
     reset({
       subject: activeRecordLengthCheck
-        ? activeRecord?.subject === 'undefined'
+        ? defaultValuesEmail?.subject === 'undefined'
           ? ''
-          : activeRecord?.subject
+          : defaultValuesEmail?.subject
         : '',
       template: '',
       description: activeRecordLengthCheck
-        ? activeRecord?.body?.content === 'undefined'
+        ? defaultValuesEmail?.body?.content === 'undefined'
           ? ''
-          : activeRecord?.body?.content
+          : defaultValuesEmail?.body?.content
         : '',
     });
-  }, [activeRecord]);
+  }, [defaultValuesEmail]);
+
+  useEffect(() => {
+    if (messageDetailsData?.data) {
+      setDefaultValuesEmail(messageDetailsData?.data?.value[0]);
+      setDefaultAttachments(
+        messageDetailsData?.data?.value[0]?.attachments || [],
+      );
+    }
+  }, [messageDetailsData?.data]);
 
   useEffect(() => {
     setAutocompleteValues(
       activeRecordLengthCheck
-        ? activeRecord?.toRecipients?.map(
+        ? defaultValuesEmail?.toRecipients?.map(
             (item: any) => item?.emailAddress?.address,
           )
         : [],
     );
-  }, [activeRecord]);
+  }, [defaultValuesEmail]);
+
+  useEffect(() => {
+    if (messageDetailsData?.data) {
+      setDefaultValuesEmail(messageDetailsData?.data?.value[0]);
+    }
+  }, [messageDetailsData?.data]);
+
+  const removeAttachment = (id: string) => {
+    const updatedAttachments = defaultAttachments.filter(
+      (attachment: any) => attachment.id !== id,
+    );
+    setDefaultAttachments(updatedAttachments);
+  };
 
   return (
     <Box>
-      {Object.keys(activeRecord)?.length ? (
+      {Object.keys(defaultValuesEmail)?.length ? (
         <>
           <Box sx={styles?.draftWrap}>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -251,7 +312,53 @@ const Draft = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <RHFDropZone name="attachFile" label="Attachments" />
+                  <Box sx={{ display: 'flex' }}>
+                    {defaultAttachments?.map((item: any) => {
+                      return (
+                        <>
+                          <Box
+                            sx={{
+                              borderRadius: '8px',
+                              overflow: 'hidden',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              marginRight: '10px',
+                              maxHeight: '200px',
+                              marginTop: '10px',
+                              '& img': {
+                                borderRadius: '5px',
+                                maxHeight: '100px',
+                              },
+                            }}
+                          >
+                            <ImageComponentAttachment
+                              base64={item?.contentBytes}
+                              contentType={item?.contentType}
+                              fileName={item?.name}
+                            />
+
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => removeAttachment(item?.id)}
+                            >
+                              <ClearIcon />
+                            </Box>
+                          </Box>
+                        </>
+                      );
+                    })}
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <RHFDropZone
+                    name="attachments"
+                    label="Attachments"
+                    multiple
+                    maxSize={25 * 1024 * 1024}
+                    fileType={'PNG, JPG, PDF, DOC, and CSV (max 25.00 MB)'}
+                  />
                 </Grid>
 
                 <Box

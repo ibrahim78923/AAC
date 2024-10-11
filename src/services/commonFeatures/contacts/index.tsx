@@ -141,15 +141,6 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
-    getTasks: builder.query({
-      query: ({ params }: any) => ({
-        url: END_POINTS?.TASK_MANAGEMENT,
-        method: 'GET',
-        params: params,
-      }),
-      providesTags: ['TASKS'],
-    }),
-
     // Re-assign
     patchContactTask: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -160,16 +151,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['TASKS'],
     }),
 
-    // Delete Tasks
-    deleteTasks: builder.mutation({
-      query: (ids: any) => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}/${ids}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['TASKS'],
-    }),
-
-    getCustomizeColumns: builder.query({
+    getContactCustomizeColumns: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
@@ -178,7 +160,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
-    putCustomizedColumns: builder.mutation({
+    putContactCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
@@ -207,6 +189,45 @@ export const contactsAPI = baseAPI.injectEndpoints({
       },
       providesTags: ['CONTACTS'],
     }),
+
+    getContactsStatusList: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.CONTACT_STATUS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.conatactStatus;
+      },
+      providesTags: ['CONTACTS_STATUS'],
+    }),
+
+    getContactsLifeCycleStages: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.LIFECYCLE_STAGES}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.lifecycleStages;
+      },
+      providesTags: ['LIFECYCLE_STAGE'],
+    }),
+
+    getContactsOwnerList: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.id}/users`,
+        method: 'GET',
+        params: {
+          meta: params?.meta,
+          search: params?.search,
+        },
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['CONTACT_OWNER'],
+    }),
   }),
 });
 
@@ -222,16 +243,16 @@ export const {
   useGetDeletedContactsQuery,
   useRestoreContactMutation,
   useDeleteContactPermanentMutation,
-  useGetTasksQuery,
   usePatchContactTaskMutation,
-  useDeleteTasksMutation,
   useGetLifeCycleQuery,
   useGetAllUserTeamsQuery,
-  // useLazyGetLifeCycleQuery,
   useGetContactsStatusQuery,
-  useGetCustomizeColumnsQuery,
-  usePutCustomizedColumnsMutation,
+  useGetContactCustomizeColumnsQuery,
+  usePutContactCustomizedColumnsMutation,
   useLazyGetUpdatedLifeCycleQuery,
   useLazyGetContactsStatusUpdatedQuery,
   useLazyGetContactDropdownListQuery,
+  useLazyGetContactsStatusListQuery,
+  useLazyGetContactsLifeCycleStagesQuery,
+  useLazyGetContactsOwnerListQuery,
 } = contactsAPI;

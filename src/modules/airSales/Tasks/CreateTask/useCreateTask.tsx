@@ -183,8 +183,6 @@ const useCreateTask = ({
       body.customFields = customFields;
     }
 
-    useEffect(() => {}, []);
-
     const payload = {
       ...body,
       companiesIds: companiesSelectedIds?.map((ele: any) => ele?.id),

@@ -1,7 +1,7 @@
 import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import {
   useLazyAssetTypeDropdownQuery,
   useLazyCategoriesDropdownQuery,
@@ -17,6 +17,7 @@ import { ChartEditorI } from './ChartEditor.interface';
 import { useDispatch } from 'react-redux';
 import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
+import useAuth from '@/hooks/useAuth';
 
 export const useChartEditor = (props: ChartEditorI) => {
   const {
@@ -27,10 +28,11 @@ export const useChartEditor = (props: ChartEditorI) => {
     setDraggedItemData,
     draggedItemData,
     watch,
+    reset,
   } = props;
 
-  const [edit, setEdit] = useState(true);
-  const [editValue, setEditValue] = useState();
+  const auth: any = useAuth();
+  const productId = auth?.product?._id;
   const disableTemplate = useAppSelector(
     (state) => state?.genericReport?.disableTemplate,
   );
@@ -44,6 +46,19 @@ export const useChartEditor = (props: ChartEditorI) => {
     'xAxisType',
   ]);
   const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
+
+  useEffect(() => {
+    if (!draggedItemData) {
+      setValue('xAxis', null);
+      setValue('xAxisType', []);
+    }
+  }, [chartType]);
+
+  useEffect(() => {
+    if (!draggedItemData) {
+      setValue('xAxisType', []);
+    }
+  }, [xAxisData]);
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -63,10 +78,10 @@ export const useChartEditor = (props: ChartEditorI) => {
     dispatch(setFieldData(false));
     setModal(MODAL_INITIAL_STATES);
     setValue('chartType', '');
-    setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
     setDraggedItemData(null);
     successSnackbar('Chart Added');
+    reset();
   };
 
   const assetTypeDropdown = useLazyAssetTypeDropdownQuery();
@@ -143,15 +158,11 @@ export const useChartEditor = (props: ChartEditorI) => {
 
   return {
     handleSave,
-    edit,
-    setEdit,
-    editValue,
-    setEditValue,
     singleFieldDropdown,
-    chartTitle,
     xAxisData,
     xAxisType,
     chartType,
     disableTemplate,
+    productId,
   };
 };

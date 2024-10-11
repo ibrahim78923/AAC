@@ -1,23 +1,29 @@
 import { Box, Divider, Grid, Typography } from '@mui/material';
-import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { Attachments } from '@/components/Attachments';
-import { truncateText } from '@/utils/avatarUtils';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useArticleDetail } from './useArticleDetail';
-import { styles } from './ArticleDetail.style';
 import {
   SingleViewArticleDetailArrayI,
   SingleViewArticleSideDataI,
 } from '../SingleViewArticle.interface';
-import { sideData } from './ArticleDetail.data';
 import { UpdateArticle } from '../UpdateArticle';
+import { TruncateText } from '@/components/TruncateText';
+import { Fragment } from 'react';
 
 export const ArticleDetail = () => {
-  const { theme, articleId, data, showLoader, showError, getSingleArticle } =
-    useArticleDetail();
+  const {
+    theme,
+    articleId,
+    data,
+    showLoader,
+    showError,
+    getSingleArticle,
+    articleDetails,
+    isApiCalled,
+  } = useArticleDetail();
 
-  if (!data?.data?._id)
+  if (isApiCalled)
     return (
       <Box height={'100vh'}>
         <SkeletonForm />;
@@ -37,55 +43,63 @@ export const ArticleDetail = () => {
   return (
     <Grid container spacing={1} justifyContent={'space-between'}>
       <Grid item xs={12} lg={8.9}>
-        <Typography variant="h3" fontWeight={600} color="slateBlue.main" my={2}>
-          {truncateText(data?.data?.title, 40)}
+        <Typography variant="h3" color="slateBlue.main" my={2}>
+          <TruncateText text={data?.data?.title?.toLowerCase()} />
         </Typography>
         <Box
-          sx={{ wordBreak: 'break-all' }}
+          sx={{ wordBreak: 'break-all', overflow: 'auto' }}
           dangerouslySetInnerHTML={{ __html: data?.data?.details }}
         ></Box>
         {!!articleId && (
           <>
             <Typography
               variant="body1"
-              fontWeight={500}
+              fontWeight="fontWeightMedium"
               color="slateBlue.main"
               my={2}
             >
-              {' '}
-              Attachments{' '}
+              Attachments
             </Typography>
             <Box>
               <Attachments
                 recordId={articleId as string}
                 size={{ width: '100%', height: '100%' }}
                 permissionKey={[]}
+                hasStyling={false}
+                canDelete={false}
               />
             </Box>
           </>
         )}
       </Grid>
-      <Grid item xs={12} lg={3}>
-        <Box sx={styles?.sideStyle(theme)}>
-          <Box>
-            {sideData?.(data?.data)?.map((item: SingleViewArticleSideDataI) => {
-              return (
+      <Grid
+        item
+        xs={12}
+        lg={3}
+        borderLeft={{
+          lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+          xs: ' none',
+        }}
+        borderTop={`1px solid ${theme?.palette?.custom?.off_white_three}`}
+      >
+        <>
+          {articleDetails?.map((item: SingleViewArticleSideDataI) => {
+            return (
+              <Fragment key={item?._id}>
+                <Typography
+                  variant="body2"
+                  fontWeight={'fontWeightSmall'}
+                  color="slateBlue.main"
+                  my={2}
+                >
+                  {item?.heading}
+                </Typography>
                 <Grid
                   container
                   key={item?._id}
                   flexDirection={'column'}
                   spacing={1.5}
-                  mt={2}
                 >
-                  <Grid item>
-                    <Typography
-                      variant="body2"
-                      fontWeight={500}
-                      color="slateBlue.main"
-                    >
-                      {item?.heading}
-                    </Typography>
-                  </Grid>
                   {item?.details?.map((ele: SingleViewArticleDetailArrayI) => (
                     <Grid
                       item
@@ -93,52 +107,23 @@ export const ArticleDetail = () => {
                       display={'flex'}
                       justifyContent={'space-between'}
                       alignItems={'center'}
+                      gap={2}
                     >
-                      <Typography
-                        variant="body3"
-                        color={theme?.palette?.grey?.[600]}
-                      >
+                      <Typography variant="body3" color={'grey.600'}>
                         {ele?.title}
                       </Typography>
-                      <Typography
-                        variant="body4"
-                        sx={styles?.desStyle(ele?.des, theme)}
-                      >
+                      <Typography variant="body4" color="slateBlue.main">
                         {ele?.des}
                       </Typography>
                     </Grid>
                   ))}
-                  <Box mt={1} maxHeight={100} overflow={'auto'} p={1}>
-                    {item?.keyword && (
-                      <Grid item display={'flex'} flexWrap={'wrap'} gap={1}>
-                        {!!item?.keyword?.length ? (
-                          item?.keyword?.map((item: string, index: number) => (
-                            <Typography
-                              key={index ?? item}
-                              variant="body2"
-                              sx={styles?.keywordStyle(theme)}
-                            >
-                              {
-                                <FiberManualRecordSharpIcon
-                                  fontSize={'inherit'}
-                                />
-                              }
-                              {item}
-                            </Typography>
-                          ))
-                        ) : (
-                          <Typography variant="body2"> --- </Typography>
-                        )}
-                      </Grid>
-                    )}
-                  </Box>
-                  <Divider sx={{ mt: 2 }} />
                 </Grid>
-              );
-            })}
-          </Box>
-          <UpdateArticle />
-        </Box>
+                <Divider sx={{ my: 2 }} />
+              </Fragment>
+            );
+          })}
+        </>
+        <UpdateArticle />
       </Grid>
     </Grid>
   );

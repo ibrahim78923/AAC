@@ -1,21 +1,24 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { useLazyGetUsersDropdownListForArticlesApprovalsQuery } from '@/services/airServices/knowledge-base/articles';
+import useAuth from '@/hooks/useAuth';
+import { useLazyGetServicesKnowledgeBaseUsersDropdownListForArticlesApprovalsQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const ApprovalsFields = () => {
   const apiQueryApprover =
-    useLazyGetUsersDropdownListForArticlesApprovalsQuery();
+    useLazyGetServicesKnowledgeBaseUsersDropdownListForArticlesApprovalsQuery();
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
 
   return (
     <RHFAutocompleteAsync
-      fullWidth
       name="approver"
       label="Approver"
-      required
-      size="small"
       placeholder="Select an approver"
+      size="small"
+      fullWidth
+      required
       sx={{ pb: 1.2 }}
-      externalParams={{ admin: true }}
+      externalParams={{ admin: true, productId }}
       apiQuery={apiQueryApprover}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
         `${option?.firstName} ${option?.lastName}`

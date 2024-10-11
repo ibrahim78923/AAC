@@ -17,26 +17,46 @@ import {
   manageReportAccessValidationSchema,
 } from './ManageReportAccess.data';
 import { useEffect } from 'react';
-import {
-  useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
-  useManageReportAccessMutation,
-} from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ManageAccessReportFormFieldsI } from './ManageReportAccess.interface';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { useGetReportLists } from '../ReportHooks/useGetReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { PAGINATION } from '@/config';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/reports/slice';
+import { useManageOperationsReportAccessLevelMutation } from '@/services/airOperations/reports';
 
-export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    setSelectedReportLists,
-    page,
-    getReportListData,
-    selectedReportLists,
-  } = props;
-
+export const useManageReportAccess = () => {
   const [manageReportAccessTrigger, manageReportAccessStatus] =
-    useManageReportAccessMutation();
+    useManageOperationsReportAccessLevelMutation();
+
+  const { getReportsList, page } = useGetReportLists();
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getReportsList?.(newPage);
+  };
 
   const methods: UseFormReturn<ManageAccessReportFormFieldsI> = useForm<any>({
     defaultValues: manageReportAccessDefaultValues?.(),
@@ -115,7 +135,7 @@ export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
     setPermissions();
   }, [specificUserWatch]);
 
-  const submitAssignedTicketsForm = async (formData: any) => {
+  const submitMangeAccessForm = async (formData: any) => {
     const filterFormData = filteredEmptyValues(formData);
     const body = {
       ...filterFormData,
@@ -149,7 +169,7 @@ export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
 
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         ...modifiedBody,
@@ -160,7 +180,7 @@ export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
       await manageReportAccessTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report access updated successfully');
       closeModal?.();
-      await getReportListData?.(page);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -168,22 +188,20 @@ export const useManageReportAccess = (props: ReportsListsComponentPropsI) => {
 
   const closeModal = () => {
     reset();
-    setSelectedReportLists?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
 
-  const apiQueryUsers =
-    useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery();
-
   const manageReportAccessFromFields: ReactHookFormFieldsI[] =
-    manageReportAccessFromFieldsDynamic?.(apiQueryUsers, fields);
+    manageReportAccessFromFieldsDynamic?.(fields);
 
   return {
     methods,
     handleSubmit,
-    submitAssignedTicketsForm,
+    submitMangeAccessForm,
     closeModal,
     manageReportAccessFromFields,
     manageReportAccessStatus,
+    isPortalOpen,
   };
 };

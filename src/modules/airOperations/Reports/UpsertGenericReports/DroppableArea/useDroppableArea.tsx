@@ -32,14 +32,12 @@ export const useDroppableArea = (props: DroppableAreaI) => {
         ...form,
         {
           id: uniqueId,
-          component: chartToCopy?.component,
           title: chartToCopy?.title,
           type: chartToCopy?.type,
           templateType: chartToCopy?.templateType,
           xAxis: chartToCopy?.xAxis,
           subFilter: chartToCopy?.subFilter,
           reportType: REPORT_TYPE?.CHART,
-          metric: chartToCopy?.metric,
           xAxisType: chartToCopy?.xAxisType,
         },
       ]);

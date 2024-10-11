@@ -5,7 +5,6 @@ import {
   usePostVouchersMutation,
 } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import dayjs from 'dayjs';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;
@@ -17,56 +16,28 @@ export const useAddVouchers = (props: any) => {
   const [postVouchersTrigger, postVouchersStatus] = usePostVouchersMutation();
   const randomString = () => {
     const CHARACTERS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const LENGTH = 6;
+    const LENGTH = 8;
     let result = '';
     for (let i = LENGTH; i > 0; --i)
-      result += CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+      result += CHARACTERS[Math?.floor(Math?.random() * CHARACTERS?.length)];
     setValue('voucherCode', result);
   };
   const submitAddVouchersForm = async (data: any) => {
-    const {
-      name,
-      description,
-      voucherCode,
-      assignTo,
-      vouchers,
-      redemptions,
-      time,
-      off,
-      limitPercentage,
-      limitAmount,
-      limitVouchers,
-      limitRedemptions,
-      days,
-      hours,
-      minutes,
-      seconds,
-    } = data;
     const apiData = {
-      name,
-      description,
-      voucherCode,
-      assignTo: assignTo?._id,
-      voucherLimitType: vouchers,
-      voucherLimitValue: +limitVouchers,
-      redemptionLimitType: redemptions,
-      redemptionLimitValue: +limitRedemptions,
-      timeLimitType: time,
-      voucherTimeLimit: (() => {
-        const today = dayjs(new Date());
-        const result = today
-          .add(days, 'day')
-          .add(hours, 'hour')
-          .add(minutes, 'minute')
-          .add(seconds, 'second');
-        return result;
-      })(),
-      discountType: off,
-      discountValue: limitPercentage
-        ? +limitPercentage
-        : limitAmount
-          ? +limitAmount
-          : '',
+      name: data?.name,
+      description: data?.description,
+      image: data?.image,
+      addAmountOperator: data?.addAmountOperator,
+      addAmount: +data?.addAmount,
+      percentageOff: +data?.percentageOff,
+      activeFrom: data?.activeFrom,
+      activeTo: data?.activeTo,
+      voucherCode: data?.voucherCode,
+      appliedTo: data?.appliedTo?._id,
+      voucherLimitType: data?.voucherType,
+      voucherLimitValue: +data?.limitVouchers,
+      redemptionLimitType: data?.redeemType,
+      redemptionLimitValue: +data?.limitRedemptions,
     };
     const postVouchersParameter = {
       body: apiData,
@@ -74,12 +45,13 @@ export const useAddVouchers = (props: any) => {
     try {
       await postVouchersTrigger(postVouchersParameter)?.unwrap();
       successSnackbar('Voucher added  successfully!');
-      setAddVouchersOpen?.(false);
+      setAddVouchersOpen?.({});
       reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
+  const activeFromValue = watch('activeFrom');
   return {
     addVouchersOpen,
     setAddVouchersOpen,
@@ -90,5 +62,6 @@ export const useAddVouchers = (props: any) => {
     watch,
     postVouchersStatus,
     randomString,
+    activeFromValue,
   };
 };

@@ -40,6 +40,11 @@ export const useRequesters = () => {
     }
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   useEffect(() => {
     getRequestersListData();
   }, [search, page, pageLimit]);
@@ -76,7 +81,7 @@ export const useRequesters = () => {
     lazyGetRequestersStatus,
     page,
     pageLimit,
-    setSearch,
+    handleSearch,
     getRequestersListData,
   };
 };

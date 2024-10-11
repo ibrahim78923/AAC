@@ -6,7 +6,7 @@ const TAG = 'TICKET_ASSOCIATION';
 export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     // Generic Post, Detach and GET
-    postRemoveAssociateTickets: builder?.mutation({
+    postAirServicesRemoveAssociateTickets: builder?.mutation({
       query: (postRemoveAssociateTicketsParameter: any) => ({
         url: END_POINTS?.TICKETS_ASSOCIATES,
         method: 'POST',
@@ -14,7 +14,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getAssociateTickets: builder?.query({
+    getAirServicesAssociateTickets: builder?.query({
       query: (associateTicketsParameter: any) => ({
         url: END_POINTS?.TICKETS_ASSOCIATES_GET,
         method: 'GET',
@@ -24,7 +24,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
     }),
 
     // Associate Assets
-    getAssociatesAssets: builder?.query({
+    getAirServicesAssociatesAssets: builder?.query({
       query: (postTicketsAssociatesAssetsParameter: any) => ({
         url: END_POINTS?.INVENTORY_ACTIVITY,
         method: 'GET',
@@ -34,7 +34,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
     }),
 
     // Associate Purchase Order
-    getAssociatesOrder: builder?.query({
+    getAirServicesAssociatesOrder: builder?.query({
       query: (postTicketsAssociatesOrderParameter: any) => ({
         url: END_POINTS?.PURCHASE_ORDER_LIST,
         method: 'GET',
@@ -44,7 +44,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
     }),
 
     // Associate Deals
-    getAssociatesDeals: builder?.query({
+    getAirServicesAssociatesDeals: builder?.query({
       query: (postTicketsAssociatesDealsParameter: any) => ({
         url: END_POINTS?.DEALS_LIST_VIEW,
         method: 'GET',
@@ -52,7 +52,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getDealById: builder.query({
+    getAirServicesDealById: builder.query({
       query: (getDealByIdParameter: any) => ({
         url: END_POINTS?.DEALS_ACTION_PREVIEW,
         method: 'GET',
@@ -62,7 +62,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
     }),
 
     // Associate Contacts
-    getAssociatesContacts: builder?.query({
+    getAirServicesAssociatesContacts: builder?.query({
       query: (postTicketsAssociatesContactsParameter: any) => ({
         url: END_POINTS?.CONTACTS,
         method: 'GET',
@@ -70,7 +70,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getContactOwner: builder.query({
+    getAirServicesContactOwner: builder.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.CONTACTS,
         method: 'GET',
@@ -81,7 +81,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    getLifeCycleStage: builder.query({
+    getAirServicesLifeCycleStage: builder.query({
       query: ({ params }) => ({
         url: END_POINTS?.LIFECYCLE_STAGES,
         method: 'GET',
@@ -92,7 +92,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    getStatus: builder.query({
+    getAirServicesAssociationStatus: builder.query({
       query: ({ params }) => ({
         url: END_POINTS?.CONTACT_STATUS,
         method: 'GET',
@@ -103,7 +103,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    postContact: builder?.mutation({
+    postAirServicesContact: builder?.mutation({
       query: (body: any) => ({
         url: END_POINTS?.CONTACTS,
         method: 'POST',
@@ -111,7 +111,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getTicketContactById: builder.query({
+    getAirServicesTicketContactById: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.CONTACTS}/${params?.id}`,
         method: 'GET',
@@ -120,7 +120,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
     }),
 
     // Associate Companies
-    postCompany: builder?.mutation({
+    postAirServicesCompany: builder?.mutation({
       query: (body: any) => ({
         url: END_POINTS?.COMPANY,
         method: 'POST',
@@ -128,7 +128,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getAssociatesCompany: builder?.query({
+    getAirServicesAssociatesCompany: builder?.query({
       query: (postTicketsAssociatesCompanyParameter: any) => ({
         url: END_POINTS?.COMPANY,
         method: 'GET',
@@ -136,14 +136,14 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getCompanyById: builder.query({
+    getAirServicesCompanyById: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.COMPANY_PREVIEW}/${params?.id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    getContactOwnerUsersDropdown: builder.query({
+    getAirServicesContactOwnerUsersDropdown: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.orgId}/users`,
         method: 'GET',
@@ -156,24 +156,63 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+
+    // Inventory Association
+    getServicesInventoryAssociationExitingTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.TICKET,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    postServicesInventoryAssociationTickets: builder?.mutation({
+      query: (postTicketParameter: any) => ({
+        url: END_POINTS?.TICKET,
+        method: 'POST',
+        body: postTicketParameter?.body,
+      }),
+    }),
+
+    // Purchase Order Association
+    getServicesPurchaseOrderAssociationTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.TICKET,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+
+    // Get Products List
+    getAirServicesAssociateTicketsProducts: builder.query({
+      query: () => ({
+        url: END_POINTS?.AUTH_ACCOUNTS,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
 export const {
-  usePostRemoveAssociateTicketsMutation,
-  useGetAssociateTicketsQuery,
-  useGetAssociatesAssetsQuery,
-  useGetAssociatesOrderQuery,
-  useGetAssociatesDealsQuery,
-  useGetDealByIdQuery,
-  useGetAssociatesContactsQuery,
-  useLazyGetContactOwnerQuery,
-  useLazyGetLifeCycleStageQuery,
-  useLazyGetStatusQuery,
-  usePostContactMutation,
-  useGetTicketContactByIdQuery,
-  usePostCompanyMutation,
-  useGetAssociatesCompanyQuery,
-  useGetCompanyByIdQuery,
-  useLazyGetContactOwnerUsersDropdownQuery,
+  usePostAirServicesRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  useGetAirServicesAssociatesAssetsQuery,
+  useGetAirServicesAssociatesOrderQuery,
+  useGetAirServicesAssociatesDealsQuery,
+  useGetAirServicesDealByIdQuery,
+  useGetAirServicesAssociatesContactsQuery,
+  useLazyGetAirServicesContactOwnerQuery,
+  useLazyGetAirServicesLifeCycleStageQuery,
+  useLazyGetAirServicesAssociationStatusQuery,
+  usePostAirServicesContactMutation,
+  useGetAirServicesTicketContactByIdQuery,
+  usePostAirServicesCompanyMutation,
+  useGetAirServicesAssociatesCompanyQuery,
+  useGetAirServicesCompanyByIdQuery,
+  useLazyGetAirServicesContactOwnerUsersDropdownQuery,
+  useLazyGetServicesInventoryAssociationExitingTicketsQuery,
+  usePostServicesInventoryAssociationTicketsMutation,
+  useLazyGetServicesPurchaseOrderAssociationTicketsQuery,
+  useGetAirServicesAssociateTicketsProductsQuery,
 } = ticketsAssociationAPI;

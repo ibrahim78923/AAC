@@ -5,7 +5,11 @@ import {
   useLazyGetAllCampaignsListQuery,
   useLazyGetAllTemplateListQuery,
 } from '@/services/common-APIs';
-import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
+import { getActiveAccountSession } from '@/utils';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
 export const validationSchema = (
@@ -20,7 +24,7 @@ export const validationSchema = (
   const formSchema: any = dynamicFormValidationSchema(form);
   return Yup.object().shape({
     name: Yup.string().required('Field is Required'),
-    campaignId: Yup.object().required('Field is Required'),
+    campaignId: Yup.object()?.nullable().required('Field is Required'),
     detail: Yup.string().required('Field is Required'),
     schedualDate: Yup.date()
       .nullable()
@@ -33,18 +37,27 @@ export const validationSchema = (
   });
 };
 
-export const defaultValues = (getIsPhoneConnected: any) => {
+export const defaultValues = (
+  data?: any,
+  form?: any,
+  getIsPhoneConnected?: any,
+) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
   return {
-    name: '',
+    name: data?.name ?? '',
     senderId: getIsPhoneConnected?.data?.phoneNumber,
-    campaignId: null,
-    templateId: null,
+    campaignId: data?.campaignId ?? null,
+    templateId: data?.templateId ?? null,
+    recipients: data?.recipients ? 'Select' : '',
+    detail: data?.detail ?? '',
+    attachment: data?.attachment ?? '',
     schedualDate: null,
-    detail: '',
+    ...initialValues,
   };
 };
 
 export const createBroadcast = () => {
+  const ActiveAccount = getActiveAccountSession();
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const templateList = useLazyGetAllTemplateListQuery();
 
@@ -78,6 +91,7 @@ export const createBroadcast = () => {
         required: true,
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,
+        externalParams: { companyId: ActiveAccount?.company?._id },
       },
       component: RHFAutocompleteAsync,
       md: 12,

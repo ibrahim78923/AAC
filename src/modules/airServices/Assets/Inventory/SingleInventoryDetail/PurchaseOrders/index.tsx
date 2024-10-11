@@ -1,7 +1,6 @@
 import NoData from '@/components/NoData';
 import { Box, Typography } from '@mui/material';
 import { InventoryCard } from '@/components/InventoryCard/index';
-import { PurchaseImage } from '@/assets/images';
 import { usePurchaseOrders } from './usePurchaseOrders';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -22,8 +21,11 @@ export const PurchaseOrder = () => {
     deleteIsLoading,
     refetch,
   } = usePurchaseOrders();
+
   if (isLoading || isFetching) return <SkeletonTable />;
+
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+
   return (
     <PermissionsGuard
       permissions={[
@@ -32,7 +34,7 @@ export const PurchaseOrder = () => {
     >
       {!!data?.data?.purchaseOrdersList?.length ? (
         data?.data?.purchaseOrdersList?.map((singlePurchaseOrder: any) => (
-          <div key={singlePurchaseOrder?._id}>
+          <Box key={singlePurchaseOrder?._id}>
             <InventoryCard
               openDeleteModal={openDeleteModal}
               setOpenDeleteModal={setOpenDeleteModal}
@@ -51,19 +53,21 @@ export const PurchaseOrder = () => {
                 justifyItems={'center'}
                 gap={'.3rem'}
               >
-                <Typography color={theme?.palette?.grey?.[900]}>
+                <Typography
+                  variant={'body1'}
+                  color={theme?.palette?.grey?.[900]}
+                >
                   Cost:
                 </Typography>
-                <Typography>£{singlePurchaseOrder?.subTotal}</Typography>
+                <Typography variant={'body1'}>
+                  £{singlePurchaseOrder?.subTotal}
+                </Typography>
               </Box>
             </InventoryCard>
-          </div>
+          </Box>
         ))
       ) : (
-        <NoData
-          image={PurchaseImage}
-          message={'No purchase order associated'}
-        />
+        <NoData message={'No purchase order associated'} />
       )}
     </PermissionsGuard>
   );

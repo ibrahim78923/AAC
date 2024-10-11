@@ -1,11 +1,11 @@
 import { SCHEMA_KEYS } from '@/constants/strings';
 import {
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetAgentsDropDownInWorkflowQuery,
+  useLazyGetDepartmentDropdownInWorkflowQuery,
+  useLazyGetLocationsDropdownInWorkflowQuery,
+  useLazyGetRequesterDropdownInWorkflowQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useGetSchemaKeysQuery } from '@/services/common-APIs';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
 import { useFieldArray } from 'react-hook-form';
 
@@ -32,10 +32,10 @@ export const useSubWorkflowConditions = (props: any) => {
       removeParent(index);
     }
   };
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const requestersApiQuery = useLazyGetRequesterDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const agentApiQuery = useLazyGetAgentsDropDownInWorkflowQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownInWorkflowQuery();
+  const requestersApiQuery = useLazyGetRequesterDropdownInWorkflowQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownInWorkflowQuery();
   return {
     fields,
     append,

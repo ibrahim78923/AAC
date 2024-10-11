@@ -5,14 +5,14 @@ const TAG = 'ASSETS_INVENTORY_CONTRACTS';
 
 export const InventoryContractsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getInventoryContracts: builder?.query({
+    getAirServicesAssetsInventoryContracts: builder?.query({
       query: (id: any) => ({
         url: `${END_POINTS?.ASSETS_INVENTORY_CONTRACTS}?id=${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    deleteInventoryContracts: builder?.mutation({
+    deleteAirServicesAssetsInventoryContracts: builder?.mutation({
       query: (params: any) => ({
         url: END_POINTS?.DELETE_INVENTORY_CONTRACT,
         method: 'PATCH',
@@ -24,6 +24,6 @@ export const InventoryContractsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetInventoryContractsQuery,
-  useDeleteInventoryContractsMutation,
+  useGetAirServicesAssetsInventoryContractsQuery,
+  useDeleteAirServicesAssetsInventoryContractsMutation,
 } = InventoryContractsAPI;

@@ -1,9 +1,10 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { useLazyGetDepartmentDropdownForTicketsQuery } from '@/services/airServices/tickets';
+import { useLazyGetDepartmentDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
 
 export const DepartmentFieldDropdown = (props: any) => {
   const { required = false } = props;
-  const apiQueryDepartment = useLazyGetDepartmentDropdownForTicketsQuery();
+  const apiQueryDepartment =
+    useLazyGetDepartmentDropdownForServicesTicketsQuery();
 
   return (
     <RHFAutocompleteAsync

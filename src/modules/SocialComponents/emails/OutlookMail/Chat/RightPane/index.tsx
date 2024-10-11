@@ -3,7 +3,9 @@ import {
   Box,
   Button,
   CircularProgress,
+  Grid,
   IconButton,
+  Skeleton,
   Tooltip,
   Typography,
   useTheme,
@@ -15,7 +17,6 @@ import {
   EmailReplyIcon,
   ForwardIcon,
   MailColoredIcon,
-  ReplyAllIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
@@ -206,7 +207,57 @@ const RightPane = ({
 
       {mailTabType?.displayName?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS ? (
         <>
-          <Draft />
+          {statusMessageDetailsData === 'pending' ? (
+            <Box
+              sx={{
+                borderRadius: '8px',
+                background: theme?.palette?.common?.white,
+                boxShadow: '0px 0px 5px rgba(0,0,0,0.1)',
+                padding: '24px',
+                mt: '24px',
+              }}
+            >
+              <Grid container spacing={2}>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={40}
+                  />
+                </Grid>
+                <Grid item lg={12}>
+                  <Skeleton
+                    variant="rounded"
+                    sx={{ width: '100%' }}
+                    height={100}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          ) : (
+            <Draft messageDetailsData={messageDetailsData} />
+          )}
         </>
       ) : (
         <>
@@ -342,7 +393,7 @@ const RightPane = ({
                                     <Tooltip
                                       placement="top"
                                       arrow
-                                      title={'Reply All'}
+                                      title={'Reply'}
                                     >
                                       <IconButton
                                         size="small"
@@ -385,41 +436,6 @@ const RightPane = ({
                                           );
                                         }}
                                       >
-                                        <ReplyAllIcon />
-                                      </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip
-                                      placement="top"
-                                      arrow
-                                      title={'Reply'}
-                                    >
-                                      <IconButton
-                                        size="small"
-                                        onClick={() => {
-                                          setIsOpenSendEmailDrawer(true);
-                                          setMailType(
-                                            CREATE_EMAIL_TYPES?.REPLY,
-                                          );
-                                          dispatch(
-                                            setCurrentEmailAssets({
-                                              messageId: obj?.id,
-                                              id: obj?.id,
-                                              from: obj?.sender?.emailAddress
-                                                ?.address,
-                                              others: {
-                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress?.address}
-                                                 ${'>'}`,
-                                                sent: obj?.sentDateTime,
-                                                to: `<>`,
-                                                subject: obj?.subject,
-                                                body: '',
-                                              },
-                                            }),
-                                          );
-                                        }}
-                                      >
                                         <EmailReplyIcon />
                                       </IconButton>
                                     </Tooltip>
@@ -447,9 +463,14 @@ const RightPane = ({
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
-                                                to: `<>`,
+                                                to: obj?.toRecipients?.map(
+                                                  (item: any) =>
+                                                    item?.emailAddress?.address,
+                                                ),
                                                 subject: obj?.subject,
-                                                body: obj?.body?.content,
+                                                body: removeSignatureDiv(
+                                                  obj?.body?.content,
+                                                ),
                                                 attachments: obj?.attachments,
                                               },
                                             }),
@@ -489,7 +510,7 @@ const RightPane = ({
                                             justifyContent: 'center',
                                           }}
                                         >
-                                          <ImageComponent
+                                          <ImageComponentAttachment
                                             base64={item?.contentBytes}
                                             contentType={item?.contentType}
                                             fileName={item?.name}
@@ -630,7 +651,11 @@ const RightPane = ({
   );
 };
 
-export function ImageComponent({ base64, contentType, fileName }: any) {
+export function ImageComponentAttachment({
+  base64,
+  contentType,
+  fileName,
+}: any) {
   const src = `data:${contentType};base64,${base64}`;
   const theme = useTheme();
 
@@ -737,6 +762,18 @@ const RecipientsBoxWrapper = ({ data = [], label }: any) => {
       </Typography>
     </Box>
   );
+};
+
+const removeSignatureDiv = (htmlContent: string) => {
+  if (!htmlContent) return htmlContent;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+
+  const signatureDiv = doc.getElementById('SIGNATURE');
+  if (signatureDiv) {
+    signatureDiv.remove();
+  }
+  return doc.body.innerHTML;
 };
 
 export default RightPane;

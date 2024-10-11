@@ -122,7 +122,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
     }),
 
-    getAssetType: builder?.query({
+    getAssetTypeProductCatalog: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
         method: 'GET',
@@ -159,6 +159,6 @@ export const {
   useLazyGetProductCatalogAssociatedAssetListQuery,
   usePostAssociatedAssetMutation,
   useDeleteProductCatalogAssociatedAssetMutation,
-  useLazyGetAssetTypeQuery,
+  useLazyGetAssetTypeProductCatalogQuery,
   useLazyGetVendorsCatalogQuery,
 } = productCatalogAPI;

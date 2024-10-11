@@ -1,22 +1,15 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Button } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { vouchersColumns } from './Vouchers.data';
-import {
-  VoucherCardBg,
-  VoucherCardIcon,
-  VoucherCardIconBg,
-} from '@/assets/images';
 import { useVouchers } from './useVouchers';
 import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
-import { truncateText } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
-import { CALENDAR_FORMAT } from '@/constants';
-import Image from 'next/image';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const Vouchers = () => {
   const {
@@ -24,212 +17,89 @@ export const Vouchers = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    addVouchersOpen,
-    setAddVouchersOpen,
-    filtersOpen,
-    theme,
-    setFiltersOpen,
     vouchersMetaData,
     isFetching,
     isSuccess,
     isError,
     isLoading,
     vouchers,
-    onSwitchChange,
-    switchLoading,
+    handleVoucherClick,
     setFilterValues,
     filterValues,
-    handlePrintVoucher,
-    singleVouchers,
-    router,
-    ScreenPosition,
-    ImgPosition,
+    handleEditVoucher,
+    handleDeleteVoucher,
+    isPortal,
+    setIsPortal,
+    handleDeleteSubmit,
+    checkActionPermissions,
   } = useVouchers();
   return (
     <>
-      <Grid
-        container
-        sx={{
-          '@media print': {
-            '& .printable-voucher': {
-              display: 'flex',
-              position: 'fixed',
-              top: '-1px',
-              left: '-1px',
-              zIndex: 1402,
-              overflow: 'visible',
-            },
-            '& .no-print': {
-              display: 'none',
-            },
-            '@page': {
-              size: 'portrait',
-            },
-          },
-        }}
+      <PageTitledHeader
+        title="Vouchers"
+        addTitle="Add"
+        hasStartIcon
+        createPermissionKey={[
+          AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ADD_VOUCHER,
+        ]}
+        handleAction={() => setIsPortal({ upsert: true })}
       >
-        <Grid item xs={6} className="no-print">
-          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-            Vouchers
-          </Typography>
-        </Grid>
-
-        <Grid
-          item
-          xs={6}
-          display="flex"
-          gap={1}
-          justifyContent="flex-end"
-          className="no-print"
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.APPLY_FILTERS,
+          ]}
         >
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.APPLY_FILTERS,
-            ]}
+          <Button
+            variant="outlined"
+            color="secondary"
+            startIcon={<FilterListIcon />}
+            className="small"
+            onClick={() => setIsPortal({ filter: true })}
           >
-            <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<FilterListIcon />}
-              onClick={() => setFiltersOpen(true)}
-            >
-              Filters
-            </Button>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ADD_VOUCHER,
-            ]}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddCircleIcon />}
-              onClick={() => setAddVouchersOpen(true)}
-              disableElevation
-            >
-              Add
-            </Button>
-          </PermissionsGuard>
-        </Grid>
-        <Grid item xs={12} mt={3} className="no-print">
-          <TanstackTable
-            columns={vouchersColumns(
-              onSwitchChange,
-              switchLoading,
-              handlePrintVoucher,
-              router,
-            )}
-            data={vouchers}
-            isLoading={isLoading}
-            isFetching={isFetching}
-            isError={isError}
-            isSuccess={isSuccess || true}
-            currentPage={page}
-            count={vouchersMetaData?.pages}
-            pageLimit={pageLimit}
-            totalRecords={vouchersMetaData?.total}
-            onPageChange={(page: any) => setPage(page)}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-            isPagination
-          />
-        </Grid>
-        <Grid item xs={12} display="none" className="printable-voucher">
-          <Grid
-            container
-            width={'738px'}
-            display={'flex'}
-            bgcolor={'primary.main'}
-            borderRadius={'20px'}
-          >
-            <Grid item xs={6} position="relative">
-              <Box
-                height={'308px'}
-                borderRadius={'20px 0px 0px 20px'}
-                overflow={'hidden'}
-              >
-                <Image src={VoucherCardBg} alt="CardBg" />
-              </Box>
-              <Box
-                position={'absolute'}
-                {...ScreenPosition}
-                display={'flex'}
-                flexDirection={'column'}
-                alignItems={'flex-start'}
-                padding={3}
-              >
-                <Typography color={'white'} variant="h1" mb={2}>
-                  {truncateText(singleVouchers?.name)}
-                </Typography>
-                <Typography color={'white'} variant="body1">
-                  {truncateText(singleVouchers?.description, 160)}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              bgcolor={'primary.main'}
-              borderRadius={'0px 20px 20px 0px'}
-              position={'relative'}
-            >
-              <Image
-                src={VoucherCardIconBg}
-                alt={'IconBg'}
-                style={{
-                  position: 'absolute',
-                  ...ImgPosition,
-                }}
-              />
-              <Image
-                src={VoucherCardIcon}
-                alt={'IconBg'}
-                style={{
-                  position: 'absolute',
-                  ...ImgPosition,
-                }}
-              />
-              <Box
-                position={'absolute'}
-                {...ScreenPosition}
-                display={'flex'}
-                flexDirection={'column'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                gap={1}
-                zIndex={100}
-              >
-                <Typography color={'white'} variant="h5">
-                  {singleVouchers?.voucherCode}
-                </Typography>
-                <Typography color={'white'} variant="h3">
-                  Expiry Date
-                </Typography>
-                <Typography color={'white'} variant="h6">
-                  {dayjs(singleVouchers?.voucherTimeLimit)?.format(
-                    CALENDAR_FORMAT?.YMD,
-                  )}
-                </Typography>
-                <Typography color={'white'} variant="h3">
-                  No. of Redemptions
-                </Typography>
-                <Typography color={'white'} variant="h6">
-                  04
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      <AddVouchers
-        addVouchersOpen={addVouchersOpen}
-        setAddVouchersOpen={setAddVouchersOpen}
+            Filters
+          </Button>
+        </PermissionsGuard>
+      </PageTitledHeader>
+      <TanstackTable
+        columns={vouchersColumns(
+          handleVoucherClick,
+          handleEditVoucher,
+          handleDeleteVoucher,
+          checkActionPermissions,
+        )}
+        data={vouchers}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        currentPage={page}
+        count={vouchersMetaData?.pages}
+        pageLimit={pageLimit}
+        totalRecords={vouchersMetaData?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isPagination
       />
-      {filtersOpen && (
+      {isPortal?.delete && (
+        <AlertModals
+          open={isPortal?.delete}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          handleSubmitBtn={handleDeleteSubmit}
+          handleClose={() => setIsPortal({})}
+          message="Are you sure you want to delete this voucher?"
+        />
+      )}
+      {isPortal?.upsert && (
+        <AddVouchers
+          addVouchersOpen={isPortal}
+          setAddVouchersOpen={setIsPortal}
+        />
+      )}
+      {isPortal?.filter && (
         <Filters
-          filtersOpen={filtersOpen}
-          setFiltersOpen={setFiltersOpen}
+          filtersOpen={isPortal?.filter}
+          setFiltersOpen={setIsPortal}
           setFilterValues={setFilterValues}
           filterValues={filterValues}
           setPage={setPage}

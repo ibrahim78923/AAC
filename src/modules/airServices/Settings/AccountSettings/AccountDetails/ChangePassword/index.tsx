@@ -51,11 +51,16 @@ export const ChangePassword = () => {
               <LoadingButton
                 disabled={postChangePasswordProgress?.isLoading}
                 variant="contained"
+                className="small"
                 type="submit"
               >
                 Save
               </LoadingButton>
-              <LoadingButton variant="outlined" onClick={() => reset()}>
+              <LoadingButton
+                variant="outlined"
+                className="small"
+                onClick={() => reset()}
+              >
                 cancel
               </LoadingButton>
             </Box>

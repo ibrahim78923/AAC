@@ -32,6 +32,7 @@ export const InstallationDetails = () => {
         setActiveCheck={setActiveCheck}
         setSearchBy={setSearchBy}
         getInstallationListDataExport={getInstallationListDataExport}
+        setPage={setPage}
       />
       <br />
       <TanstackTable

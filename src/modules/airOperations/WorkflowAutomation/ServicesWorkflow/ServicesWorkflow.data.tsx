@@ -13,7 +13,7 @@ export const serviceWorkflowsCardData = [
     id: 1,
     title: 'Event Base Workflows',
     description:
-      'An Event-Based Workflow is triggered when a record is added, changed, or removed in an Air Applecart services module like Tickets, Tasks, Assets, and Meetings',
+      'An Event-Based Workflow is triggered when a record is added, changed, or removed in an Air Applecart services module like Tickets, Tasks, and Assets',
     buttonTitle: 'Total work Flows: 3',
   },
   {

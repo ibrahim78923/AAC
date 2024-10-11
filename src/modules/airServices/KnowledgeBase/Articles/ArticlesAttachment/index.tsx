@@ -3,6 +3,9 @@ import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS } from '@/
 import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 
+const { ATTACHMENT } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
+
 export const ArticlesAttachment = () => {
   const router = useRouter();
   const { articleId } = router.query;
@@ -14,7 +17,7 @@ export const ArticlesAttachment = () => {
     <>
       <Typography
         variant="body1"
-        fontWeight={500}
+        fontWeight={'fontWeightMedium'}
         color="slateBlue.main"
         my={2}
       >
@@ -24,9 +27,7 @@ export const ArticlesAttachment = () => {
       <Box maxHeight={'20vh'}>
         <Attachments
           recordId={articleId as string}
-          permissionKey={[
-            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
-          ]}
+          permissionKey={[ATTACHMENT]}
         />
       </Box>
     </>

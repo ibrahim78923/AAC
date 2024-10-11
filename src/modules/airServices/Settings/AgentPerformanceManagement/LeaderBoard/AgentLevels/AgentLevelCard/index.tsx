@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Box, Typography, useTheme } from '@mui/material';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const AgentLevelCard = (props: any) => {
   const { palette }: any = useTheme();
+
   return (
     <Box
       sx={{
@@ -11,7 +13,7 @@ const AgentLevelCard = (props: any) => {
         py: 1.2,
         borderRadius: 2,
         boxShadow: 1,
-        border: `1px solid ${palette?.grey?.[0]}`,
+        border: `1px solid ${palette?.grey?.[ARRAY_INDEX?.ZERO]}`,
       }}
     >
       <Box

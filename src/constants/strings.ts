@@ -37,6 +37,10 @@ export const TICKET_STATUS = {
   SHARE_WITH_ME: 'SHARE_WITH_ME',
 };
 
+export const SOCKETS_EVENTS = {
+  NOTIFICATION_EVENT: 'NOTIFICATION_EVENT',
+};
+
 export const TICKET_PRIORITY = {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
@@ -189,6 +193,7 @@ export const ALERT_MODALS_TYPE = {
   WARNING: 'warning',
   INFO: 'Information',
   RESTORE: 'Restore',
+  REMINDER: 'reminder',
 };
 
 export const CATALOG_SERVICE_TYPES = {
@@ -373,6 +378,9 @@ export const SOFTWARE_USER_ACTIONS_TYPES = {
 
 export const SOFTWARE_USER_ACTIONS_CLICK = {
   CLOSE_MENU: 'closeMenu',
+  ADD_DEVICE: 'Add Device',
+  DEALLOCATE_CONTRACT: 'Deallocate Contract',
+  REMOVE_CONTRACT: 'Remove Contract',
 };
 export const TASK_STATUS = {
   TO_DO: 'Todo',
@@ -387,6 +395,9 @@ export const CONTRACT_ACTION = {
 export const SMS_BROADCAST_CONSTANTS = {
   RECIPIENTS: 'recipients',
   DETAILS: 'detail',
+  ATTACHMENT: 'attachment',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
 };
 
 export enum ROLES {
@@ -850,6 +861,7 @@ export const ARRAY_INDEX = {
   ZERO: 0,
   ONE: 1,
   TWO: 2,
+  THREE: 3,
 };
 
 export const PRODUCT_USER_STATUS = {
@@ -877,6 +889,7 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   PUBLISH_NOW: 'Publish Now',
   IMPORT: 'Import',
   NEXT: 'Next',
+  DRAFT: 'DRAFT',
 };
 
 export const TEXT_FORMATE: any = {
@@ -1101,6 +1114,12 @@ export const FEEDBACK_SURVEY_PATH_TYPES = {
   CUSTOMER_SUPPORT: 'customer-support',
 };
 
+export const FEEDBACK_SURVEY_LINK_TYPES = {
+  TO_ALL_AGENTS: 'toAllAgents',
+  AFTER_TICKET_CLOSE: 'afterTicketClosed',
+  AFTER_TICKET_RESOLVED: 'afterTicketResolved',
+};
+
 export const PLAN_STATUS = {
   YES: 'Yes',
   NO: 'No',
@@ -1182,4 +1201,60 @@ export const INVENTORY_REPORT_STATUS = {
 export const PORTAL_TICKET_FIELDS = {
   REQUESTER: 'requester',
   SUBJECT: 'subject',
+};
+
+export const FULL_NAME_OF_WEEK = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+
+export const NUMBER_OF_DAYS = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+];
+
+export const EMAIL_SUBJECT = {
+  LEAD_CAPTURE_FORM: 'Lead Capture Form',
+};
+
+export const SERVICE_CATALOG_STATUSES = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
+};
+export const LOYALTY_CONSUMER_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
 };

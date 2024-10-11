@@ -163,6 +163,7 @@ interface QuotesUpdateI {
   selectedBuyerContactIds: string[];
   handleCompanyChange: (ids: string[]) => void;
   selectedCompanyIds: string[];
+  productsArray?: string[];
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
   return [
@@ -202,10 +203,7 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       key: 'lineItems',
       label: 'Line Items',
       component: (
-        <StepLineItems
-          data={params?.data?.deal?.productsIds || []}
-          openCreateProduct={params?.openCreateProduct}
-        />
+        <StepLineItems openCreateProduct={params?.openCreateProduct} />
       ),
     },
     {

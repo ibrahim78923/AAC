@@ -1,25 +1,25 @@
 import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import EmailDashboard from '../Email';
 import useActionsOptions from './useActionsOptions';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
 import { DRAWER_TYPES } from '@/constants/strings';
+import EmailThisDashboard from '../EmailThisDashboard';
 
 const ActionsOptions = ({ selectedDashboard }: any) => {
   const {
     handleShowEmailDashboard,
     handleCloseMenuOptions,
     handleClickActions,
-    handleCloseDrawer,
-    handleShowCopyUrl,
+    setIsShowDrawer,
     isShowDrawer,
     openDropDown,
     anchorEl,
-  } = useActionsOptions();
-  const router = useRouter();
+    copyUrl,
+    router,
+  } = useActionsOptions(selectedDashboard);
+
   return (
     <>
       <div>
@@ -28,7 +28,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
           className="small"
           variant="outlined"
           color="inherit"
-          sx={{ width: '112px' }}
+          sx={{ minWidth: '112px', width: '100%' }}
         >
           Actions
           <ArrowDropDown />
@@ -44,7 +44,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
           onClose={handleCloseMenuOptions}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={handleShowCopyUrl}>Copy URL</MenuItem>
+          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
           <PermissionsGuard
             permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SHARE_VIA_EMAIL]}
           >
@@ -72,9 +72,9 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
         </Menu>
       </div>
       {isShowDrawer && (
-        <EmailDashboard
+        <EmailThisDashboard
           isOpenDrawer={isShowDrawer}
-          onClose={handleCloseDrawer}
+          setIsDrawerOpen={setIsShowDrawer}
         />
       )}
     </>

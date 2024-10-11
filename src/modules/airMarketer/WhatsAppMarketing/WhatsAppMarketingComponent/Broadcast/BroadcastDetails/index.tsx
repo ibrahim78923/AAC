@@ -58,7 +58,6 @@ const BroadcastDetails = () => {
         <AnalyticsTab
           statisticsData={smsBroadcastDetails?.statisticsData}
           isLoading={smsDetailsLoading}
-          isDashboardData={false}
         />
       </CommonTabs>
     </Box>

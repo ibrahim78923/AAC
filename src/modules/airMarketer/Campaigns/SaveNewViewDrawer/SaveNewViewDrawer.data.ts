@@ -27,7 +27,6 @@ export const dataArray = () => {
         name: 'name',
         label: 'Name',
         placeholder: 'Enter name',
-        fullWidth: true,
         required: true,
       },
       component: RHFTextField,
@@ -37,7 +36,6 @@ export const dataArray = () => {
       componentProps: {
         name: 'campaignStatus',
         label: 'Campaign Status',
-        fullWidth: true,
         placeholder: 'Select campaign status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
         getOptionLabel: (option: any) =>
@@ -83,12 +81,11 @@ export const dataArray = () => {
     {
       componentProps: {
         name: 'sharedWith',
-        fullWidth: true,
         row: false,
         defaultValue: 'everyone',
         options: [
           { value: 'private', label: 'Private' },
-          { value: 'specific user or team', label: 'My Team (test)' },
+          { value: 'specific user or team', label: 'My Team' },
           { value: 'everyone', label: 'Everyone' },
         ],
       },

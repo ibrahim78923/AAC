@@ -1,10 +1,17 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 import * as Yup from 'yup';
 
 const assetStateOptions = ['IN_STOCK', 'IN_TRANSIT', 'IN_USE'];
 
 export const addAssetValidationSchema = Yup?.object()?.shape({
-  displayName: Yup?.string()?.trim()?.required('Display name is required'),
+  displayName: Yup?.string()
+    ?.trim()
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_SETTING_PRODUCT_CATALOG_ASSOCIATED_ASSET_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_PRODUCT_CATALOG_ASSOCIATED_ASSET_NAME_MAX_CHARACTERS}`,
+    )
+    ?.required('Display name is required'),
   state: Yup?.string()?.required('State is required'),
 });
 

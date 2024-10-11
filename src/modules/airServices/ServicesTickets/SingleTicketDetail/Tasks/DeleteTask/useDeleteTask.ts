@@ -1,24 +1,47 @@
-import { useDeleteTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { useDeleteServicesTicketTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TicketsTasksPortalComponentPropsI } from '../Tasks.interface';
+import { useGetTicketTasksList } from '../../../TicketsServicesHooks/useGetTicketTasksList';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { PAGINATION } from '@/config';
+import {
+  emptySelectedTicketTasksLists,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airServices/tickets-tasks/slice';
 
-export const useDeleteTask = (props: TicketsTasksPortalComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    selectedTasksList,
-    setSelectedTasksLists,
-    setPage,
-    totalRecords,
-    page,
-    getTaskListData,
-  } = props;
+export const useDeleteTask = () => {
+  const [deleteTaskTrigger, deleteTaskStatus] =
+    useDeleteServicesTicketTaskMutation();
 
-  const [deleteTaskTrigger, deleteTaskStatus] = useDeleteTaskMutation();
+  const { getTicketTasksListData, page } = useGetTicketTasksList();
+
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketTasks?.isPortalOpen,
+  );
+
+  const selectedTicketTasksLists = useAppSelector(
+    (state) => state?.servicesTicketTasks?.selectedTicketTasksLists,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.servicesTicketTasks?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedTicketTasksLists?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
+    dispatch(setPage<any>(newPage));
+    await getTicketTasksListData?.();
+  };
 
   const deleteTask = async () => {
     const deleteParams = new URLSearchParams();
 
-    selectedTasksList?.forEach(
+    selectedTicketTasksLists?.forEach(
       (taskId: { _id: string }) => deleteParams?.append('ids', taskId?._id),
     );
 
@@ -30,22 +53,21 @@ export const useDeleteTask = (props: TicketsTasksPortalComponentPropsI) => {
       await deleteTaskTrigger(deleteTaskParameter)?.unwrap();
       successSnackbar('Task delete successfully');
       closeDeleteModal?.();
-      const newPage = selectedTasksList?.length === totalRecords ? 1 : page;
-      setPage?.(newPage);
-      await getTaskListData?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeDeleteModal = () => {
-    setSelectedTasksLists?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedTicketTasksLists());
+    dispatch(setIsPortalClose());
   };
 
   return {
     deleteTask,
     deleteTaskStatus,
     closeDeleteModal,
+    isPortalOpen,
   };
 };

@@ -24,7 +24,7 @@ const Contracts = () => {
     lazyGetContractStatus,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
     selectedContractList,
     setSelectedContractList,
     contractFilterLists,
@@ -32,6 +32,7 @@ const Contracts = () => {
     theme,
     getContractListData,
     page,
+    refetch,
   }: any = useContracts();
   return (
     <>
@@ -62,7 +63,7 @@ const Contracts = () => {
               AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <PermissionsGuard
@@ -75,6 +76,7 @@ const Contracts = () => {
                 color="secondary"
                 disabled={!!!selectedContractList?.length}
                 onClick={() => setIsDeleteModalOpen(true)}
+                className="small"
               >
                 Delete
               </Button>
@@ -103,6 +105,7 @@ const Contracts = () => {
                 color="secondary"
                 startIcon={<FilterSharedIcon />}
                 onClick={() => setIsDrawerOpen(true)}
+                className="small"
               >
                 Filter
               </Button>
@@ -129,6 +132,7 @@ const Contracts = () => {
             isError={lazyGetContractStatus?.isError}
             isSuccess={lazyGetContractStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
+            errorProps={{ canRefresh: true, refresh: refetch }}
             isPagination
           />
         </PermissionsGuard>

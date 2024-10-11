@@ -10,7 +10,7 @@ export const TicketAttachment = (props: any) => {
     <>
       <Typography
         variant="body1"
-        fontWeight={500}
+        fontWeight={'fontWeightSmall'}
         color="slateBlue.main"
         mb={2}
       >

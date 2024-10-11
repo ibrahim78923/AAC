@@ -217,6 +217,7 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                                 <>
                                   <LoadingButton
                                     variant="contained"
+                                    className="small"
                                     loading={
                                       (qusLoading || secLoading) &&
                                       sectionIndex === unSaveSection?.index

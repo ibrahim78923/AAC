@@ -5,7 +5,7 @@ import {
   moveFolderDefaultValues,
   moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
-import { usePatchArticleMutation } from '@/services/airServices/knowledge-base/articles';
+import { useUpdateServicesKnowledgeBaseSingleArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { MoveFolderFormFieldsI } from './MoveFolder.interface';
@@ -14,6 +14,8 @@ import {
   emptySelectedArticlesList,
   setIsPortalClose,
 } from '@/redux/slices/airServices/knowledge-base/slice';
+
+const { ZERO } = ARRAY_INDEX ?? {};
 
 export const useMoveFolder = () => {
   const dispatch = useAppDispatch();
@@ -25,26 +27,28 @@ export const useMoveFolder = () => {
     (state) => state?.servicesKnowledgeBase?.selectedArticlesList,
   );
 
-  const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
+  const selectedFolderName = selectedArticlesList?.[ZERO]?.folder?.name;
+
+  const [patchArticleTrigger, patchArticleStatus] =
+    useUpdateServicesKnowledgeBaseSingleArticleMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(moveFolderValidationSchema),
-    defaultValues: moveFolderDefaultValues?.(selectedArticlesList),
+    defaultValues: moveFolderDefaultValues?.(selectedFolderName),
   });
 
   const { reset, handleSubmit } = methods;
 
   const submitMoveFolder = async (data: MoveFolderFormFieldsI) => {
-    const isFolderSame =
-      data?.folder?._id ===
-      selectedArticlesList?.[ARRAY_INDEX?.ZERO]?.folder?._id;
+    const selectedFolderId = selectedArticlesList?.[ZERO]?.folder?._id;
+    const isFolderSame = data?.folder?._id === selectedFolderId;
     if (isFolderSame) {
       errorSnackbar('Article is already in the selected folder');
       return;
     }
     const upsertArticle = new FormData();
     upsertArticle?.append('folder', data?.folder?._id);
-    upsertArticle?.append('id', selectedArticlesList?.[ARRAY_INDEX?.ZERO]?._id);
+    upsertArticle?.append('id', selectedArticlesList?.[ZERO]?._id);
     const patchArticleParameter = {
       body: upsertArticle,
     };
@@ -64,6 +68,7 @@ export const useMoveFolder = () => {
   };
 
   const moveFolderFormFields = moveFolderFormFieldsDynamic();
+  const apiCallInProgress = patchArticleStatus?.isLoading;
 
   return {
     methods,
@@ -73,5 +78,6 @@ export const useMoveFolder = () => {
     closeMoveFolderModal,
     moveFolderFormFields,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

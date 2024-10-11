@@ -1,9 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { CreateDashboard } from '@/modules/airServices/Dashboard/CreateDashboard';
+import { UpsertDashboard } from '@/modules/airServices/Dashboard/UpsertDashboard';
 
 const UpsertServicesDashboardPage = () => {
-  return <CreateDashboard />;
+  return <UpsertDashboard />;
 };
 
 export default UpsertServicesDashboardPage;

@@ -71,8 +71,8 @@ const BroadcastHeader = (props: any) => {
             handleDateSubmit={() => {
               setFilterValues({
                 ...filterValues,
-                toDate: datePickerVal[startedDate],
-                fromDate: datePickerVal[endedDate],
+                fromDate: datePickerVal[startedDate],
+                toDate: datePickerVal[endedDate],
               });
             }}
           />

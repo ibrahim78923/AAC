@@ -37,6 +37,7 @@ export const WorkflowHeader = ({
         alignItems={'center'}
         flexWrap={'wrap'}
         gap={1}
+        mb={2}
       >
         <PageTitledHeader
           title={
@@ -52,6 +53,7 @@ export const WorkflowHeader = ({
             color="secondary"
             onClick={movePage}
             disabled={isLoadingButton}
+            className="small"
           >
             Cancel
           </LoadingButton>
@@ -65,6 +67,7 @@ export const WorkflowHeader = ({
               handleTestWorkflow();
             }}
             disabled={isLoadingButton}
+            className="small"
           >
             Test Workflow
           </LoadingButton>
@@ -77,6 +80,7 @@ export const WorkflowHeader = ({
               loading={saveWorkflowProgress?.isLoading}
               disabled={isLoadingButton}
               onClick={() => setValidation('save')}
+              className="small"
             >
               Save as Draft
             </LoadingButton>
@@ -91,6 +95,7 @@ export const WorkflowHeader = ({
             }
             disabled={isLoadingButton}
             onClick={() => setValidation('upsert')}
+            className="small"
           >
             {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}
           </LoadingButton>

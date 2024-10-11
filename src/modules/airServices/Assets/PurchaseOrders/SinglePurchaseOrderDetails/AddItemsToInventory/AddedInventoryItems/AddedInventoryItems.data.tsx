@@ -6,10 +6,10 @@ import {
 import { assetsImpactOptions } from '../AddItemsToInventory.data';
 
 export const addedInventoryItemsColumns = [
-  'itemName',
-  'impact',
-  'location',
-  'department',
+  'Item Name',
+  'Impact',
+  'Location',
+  'Department',
 ];
 
 export const addedInventoryItemsFormFieldsFunction = (

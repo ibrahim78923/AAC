@@ -1,5 +1,5 @@
 export const styles = {
-  parentBox: (width: any, theme: any) => {
+  parentBox: (width: any, theme: any, background: any) => {
     return {
       position: 'absolute' as const,
       top: '50%',
@@ -11,6 +11,7 @@ export const styles = {
       borderRadius: '20px',
       maxHeight: '90vh',
       overflow: 'hidden',
+      background: background,
       '@media (max-width:1200px)': {
         width: '60vw',
       },

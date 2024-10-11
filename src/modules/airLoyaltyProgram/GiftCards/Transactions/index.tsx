@@ -1,16 +1,13 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import {
-  TRANSACTIONS_ACTIONS,
-  UserList,
-  transactionTableData,
-} from './Transactions.data';
+import { Box, Button, useTheme } from '@mui/material';
+import { UserList, transactionTableData } from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { CirclePlusIcon, ExportIcon, FilterLinesIcon } from '@/assets/icons';
-import ImportModal from './TransactionImportDrawer';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { useTransaction } from './useTransaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { TransactionFilter } from './TransactionFilter';
 
 export const Transactions = () => {
   const theme = useTheme();
@@ -21,52 +18,13 @@ export const Transactions = () => {
     setPage,
     limit,
     setLimit,
-    isFetching,
-    isLoading,
-    isError,
-    isSuccess,
     meta,
     openDrawer,
     setOpenDrawer,
-    setTransactionDrawerContent,
   } = useTransaction();
   return (
-    <Box>
-      <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        flexWrap={'wrap'}
-        gap={1}
-      >
-        <Typography variant="h3" color="slateBlue.main">
-          Gift Card Transactions
-        </Typography>
-        <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.IMPORT,
-            ]}
-          >
-            <ImportModal />
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.ADD_TRANSACTIONS,
-            ]}
-          >
-            <Button
-              onClick={() =>
-                setOpenDrawer({ isOpen: true, type: TRANSACTIONS_ACTIONS?.ADD })
-              }
-              startIcon={<CirclePlusIcon />}
-              variant="contained"
-            >
-              Add
-            </Button>
-          </PermissionsGuard>
-        </Box>
-      </Box>
-      <br />
+    <>
+      <PageTitledHeader title={'Gift Card Transactions'} />
       <Box
         sx={{
           border: `.1rem solid ${theme?.palette?.grey[700]}`,
@@ -89,50 +47,26 @@ export const Transactions = () => {
             <Search
               label="Search Here"
               width={'16.25rem'}
+              size="small"
               setSearchBy={setSearch}
               searchBy={search}
             />
           </PermissionsGuard>
-          <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-            <PermissionsGuard
-              permissions={[
-                AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
-              ]}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
+            ]}
+          >
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<FilterListIcon />}
+              className="small"
+              onClick={() => setOpenDrawer(true)}
             >
-              <Button
-                variant="outlined"
-                color="inherit"
-                startIcon={<FilterLinesIcon />}
-                onClick={() =>
-                  setOpenDrawer({
-                    isOpen: true,
-                    type: TRANSACTIONS_ACTIONS?.FILTER,
-                  })
-                }
-              >
-                Filters
-              </Button>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[
-                AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.EXPORT,
-              ]}
-            >
-              <Button
-                variant="outlined"
-                color="inherit"
-                startIcon={<ExportIcon />}
-                onClick={() =>
-                  setOpenDrawer({
-                    isOpen: true,
-                    type: TRANSACTIONS_ACTIONS?.EXPORT,
-                  })
-                }
-              >
-                Export
-              </Button>
-            </PermissionsGuard>
-          </Box>
+              Filters
+            </Button>
+          </PermissionsGuard>
         </Box>
         <PermissionsGuard
           permissions={[
@@ -142,11 +76,6 @@ export const Transactions = () => {
           <TanstackTable
             data={transactionTableData}
             columns={UserList}
-            isLoading={isLoading}
-            isFetching={isFetching}
-            isError={isError}
-            isSuccess={isSuccess}
-            isPagination
             count={meta?.pages}
             pageLimit={limit}
             currentPage={page}
@@ -154,10 +83,16 @@ export const Transactions = () => {
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setLimit}
+            isPagination
           />
         </PermissionsGuard>
       </Box>
-      {openDrawer?.isOpen && setTransactionDrawerContent()}
-    </Box>
+      {openDrawer && (
+        <TransactionFilter
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+        />
+      )}
+    </>
   );
 };

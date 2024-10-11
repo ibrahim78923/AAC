@@ -20,6 +20,7 @@ export const validationSchema = (form: any) => {
     dealPipelineId: Yup?.object()?.required('Field is Required'),
     dealStageId: Yup?.string()?.required('Field is Required'),
     ...formSchema,
+    ownerId: Yup?.object()?.required('Field is Required'),
   });
 };
 
@@ -110,6 +111,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         name: 'ownerId',
         label: 'Deal Owner',
         placeholder: 'Select Owner',
+        required: true,
         apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,

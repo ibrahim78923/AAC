@@ -7,10 +7,10 @@ import {
   useGetGroupQuickLinksQuery,
   useUpdateQuickLinkMutation,
   useDeleteQuickLinkMutation,
+  useGetQuickLinksProductsQuery,
 } from '@/services/superAdmin/settings/quick-links';
 import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
-import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
 import { FilterValuesI } from './QuickLinks.interface';
 
 const useQuickLinks = () => {
@@ -80,8 +80,14 @@ const useQuickLinks = () => {
     }
 
     if (productId) {
-      updatedParams.productId = productId;
-      updatedParams.type = 'PRODUCT';
+      if (productId === 'ORG_ADMIN') {
+        updatedParams.type = 'ORG_ADMIN';
+      } else if (productId === 'SUPER_ADMIN') {
+        updatedParams.type = 'SUPER_ADMIN';
+      } else {
+        updatedParams.productId = productId;
+        updatedParams.type = 'PRODUCT';
+      }
     }
 
     setFilterParams((prev) => ({
@@ -130,11 +136,24 @@ const useQuickLinks = () => {
     }
   };
 
-  const { data: getActiveProducts } = useGetProductsQuery({});
-  const selectProductOptions = getActiveProducts?.data?.map((product: any) => ({
-    value: product?._id,
-    label: product?.name,
-  }));
+  const { data: getProducts } = useGetQuickLinksProductsQuery({
+    params: { status: 'active' },
+  });
+
+  const selectProductOptions = () => {
+    const staticProducts = [
+      { value: 'ORG_ADMIN', label: 'Org Admin' },
+      { value: 'SUPER_ADMIN', label: 'Super Admin' },
+    ];
+
+    const activeProducts =
+      getProducts?.data?.map((product: any) => ({
+        value: product?._id,
+        label: product?.name,
+      })) || [];
+
+    return [...staticProducts, ...activeProducts];
+  };
 
   const {
     data: dataGetGroupQuickLinks,

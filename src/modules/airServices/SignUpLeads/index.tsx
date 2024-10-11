@@ -6,9 +6,8 @@ import { Grid } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useSignUpLeads from './useSignUpLeads';
 
-export default function SignUpLeads() {
+export const SignUpLeads = () => {
   const {
-    setSearchBy,
     data,
     signUpLeadsColumns,
     isLoading,
@@ -17,6 +16,7 @@ export default function SignUpLeads() {
     isSuccess,
     setPageLimit,
     setPage,
+    handleSearch,
   } = useSignUpLeads();
 
   return (
@@ -29,7 +29,7 @@ export default function SignUpLeads() {
               AIR_SERVICES_SIGNUP_LEADS_PERMISSION?.SIGNUP_LEADS_SEARCH,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearchBy} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
         </Grid>
 
@@ -60,4 +60,5 @@ export default function SignUpLeads() {
       </Grid>
     </>
   );
-}
+};
+export default SignUpLeads;

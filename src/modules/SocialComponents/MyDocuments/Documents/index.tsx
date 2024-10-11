@@ -5,9 +5,6 @@ import {
   Checkbox,
   Grid,
   List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Menu,
   MenuItem,
   Skeleton,
@@ -23,13 +20,7 @@ import CommonModal from '@/components/CommonModal';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
 
-import {
-  FolderIcon,
-  FilterrIcon,
-  RefreshTasksIcon,
-  TickCirclePrimary,
-  MoveFolderIcon,
-} from '@/assets/icons';
+import { FolderIcon, FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
 import useDocuments from './useDocuments';
 
@@ -49,6 +40,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS } from '@/constants/permission-keys';
 import NoData from '@/components/NoData';
+import RenderFolder from '../components/RenderFolder';
 
 const Documents = () => {
   const navigate = useRouter();
@@ -91,11 +83,12 @@ const Documents = () => {
     loadingCreateFolder,
     loadingUpdate,
     isOpenMoveFolderDrawer,
-    setIsOpenMoveFolderDrawer,
+    handleOpenMoveFolderDrawer,
+    handleCloseMoveFolderDrawer,
     setSearchMoveFolder,
     moveFoldersData,
-    fetchingGetMoveFolders,
-    loadingGetMoveFolders,
+    fetchingGetAllFolders,
+    loadingGetAllFolders,
     selectedMoveToFolderId,
     handleListItemClick,
     handleSubmitMoveToFolder,
@@ -190,7 +183,7 @@ const Documents = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    setIsOpenMoveFolderDrawer(true);
+                    handleOpenMoveFolderDrawer();
                   }}
                 >
                   Move To Folder
@@ -429,11 +422,10 @@ const Documents = () => {
         </Box>
       </CommonDrawer>
 
+      {/* Move Folder Drawer */}
       <CommonDrawer
         isDrawerOpen={isOpenMoveFolderDrawer}
-        onClose={() => {
-          setIsOpenMoveFolderDrawer(false);
-        }}
+        onClose={handleCloseMoveFolderDrawer}
         title="Move to folder"
         okText="Move"
         submitHandler={handleSubmitMoveToFolder}
@@ -448,55 +440,35 @@ const Documents = () => {
             size="small"
             sx={{ width: '100%' }}
           />
+
           <List component="nav" sx={{ padding: '12px 0' }}>
-            {fetchingGetMoveFolders || loadingGetMoveFolders
-              ? Array(6)
-                  .fill(null)
-                  .map(() => (
-                    <Box sx={{ mt: '12px' }} key={uuidv4()}>
-                      <Skeleton
-                        animation="wave"
-                        variant="rectangular"
-                        width={'100%'}
-                        height={52}
-                        sx={styles?.skeleton}
-                      />
-                    </Box>
-                  ))
-              : moveFoldersData?.map((item: any) => (
-                  <ListItemButton
-                    key={item?._id}
-                    selected={selectedMoveToFolderId === item?._id}
-                    onClick={(event) => handleListItemClick(event, item?._id)}
-                    sx={{
-                      mt: '12px',
-                      p: '14px 20px',
-                      '&:hover': {
-                        backgroundColor: `${theme?.palette?.grey[100]}`,
-                      },
-                      '&.Mui-selected': {
-                        backgroundColor: `${theme?.palette?.grey[100]}`,
-                      },
-                    }}
-                  >
-                    <ListItemIcon sx={{ mr: '6px' }}>
-                      <MoveFolderIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item?.name}
-                      sx={{
-                        '& .MuiListItemText-primary': {
-                          fontSize: '14px',
-                          fontWeight: '400',
-                          color: `${theme?.palette?.blue?.dull_blue}`,
-                        },
-                      }}
+            {loadingGetAllFolders || fetchingGetAllFolders ? (
+              Array(6)
+                .fill(null)
+                .map(() => (
+                  <Box sx={{ mt: '12px' }} key={uuidv4()}>
+                    <Skeleton
+                      animation="wave"
+                      variant="rectangular"
+                      width={'100%'}
+                      height={52}
+                      sx={styles?.skeleton}
                     />
-                    {selectedMoveToFolderId === item?._id && (
-                      <TickCirclePrimary />
-                    )}
-                  </ListItemButton>
-                ))}
+                  </Box>
+                ))
+            ) : moveFoldersData?.length === 0 ? (
+              <NoData />
+            ) : (
+              moveFoldersData?.map((item: any) => (
+                <React.Fragment key={item?._id}>
+                  <RenderFolder
+                    folder={item}
+                    selectedMoveToFolderId={selectedMoveToFolderId}
+                    handleClickListItem={handleListItemClick}
+                  />
+                </React.Fragment>
+              ))
+            )}
           </List>
         </Box>
       </CommonDrawer>

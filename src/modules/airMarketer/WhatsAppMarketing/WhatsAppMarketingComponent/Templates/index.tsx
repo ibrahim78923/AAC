@@ -29,10 +29,7 @@ const Templates = () => {
     deleteTempLoading,
   } = useTemplates();
 
-  const getColumns = columns({
-    setDeleteTemplateModal,
-    router,
-  });
+  const getColumns = columns({ setDeleteTemplateModal });
 
   return (
     <>

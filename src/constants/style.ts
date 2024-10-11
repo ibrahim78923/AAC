@@ -7,3 +7,8 @@ export const MARGIN = {
   '-4px': '-4px',
   '0': '0',
 };
+
+export const FLEX_DIRECTION = {
+  ROW: 'row',
+  COLUMN: 'column',
+};

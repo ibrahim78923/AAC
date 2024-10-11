@@ -22,8 +22,8 @@ interface DrawerComponentsProps {
   methods: any;
   taskFilters: taskFilters;
   reset: () => void;
-  setIsFiltersOpen: (isOpen: boolean) => void;
-  isFilterOpen: boolean;
+  setIsFilters: (isOpen: boolean) => void;
+  isFilters: boolean;
   setTaskFilters: (filters: taskFilters) => void;
 }
 
@@ -39,8 +39,8 @@ const useDrawerComponents = ({
   methods,
   taskFilters,
   reset,
-  setIsFiltersOpen,
-  isFilterOpen,
+  setIsFilters,
+  isFilters,
   setTaskFilters,
 }: DrawerComponentsProps) => {
   const theme = useTheme();
@@ -117,10 +117,10 @@ const useDrawerComponents = ({
             deleteTaskLoading={deleteTaskLoading}
             handleDeleteModal={handleDeleteModal}
             setCurrentTabVal={setCurrentTabVal}
-            setIsFilters={setIsFiltersOpen}
+            setIsFilters={setIsFilters}
             data={compaignsTasksData}
             setIsOpen={setIsOpen}
-            isFilters={isFilterOpen}
+            isFilters={isFilters}
             loading={isLoading}
             methods={methods}
             setIsEditDrawer={setIsEditDrawer}

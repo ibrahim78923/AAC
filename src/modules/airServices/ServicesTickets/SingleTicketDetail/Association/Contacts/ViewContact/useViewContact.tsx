@@ -1,19 +1,20 @@
 import { useForm } from 'react-hook-form';
 import { getDefaultValues, getFormFields } from './ViewContact.data';
-import { useGetTicketContactByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect } from 'react';
 import useAuth from '@/hooks/useAuth';
 import {
-  useLazyGetContactOwnerQuery,
-  useLazyGetLifeCycleStageQuery,
-  useLazyGetStatusQuery,
+  useLazyGetAirServicesContactOwnerQuery,
+  useLazyGetAirServicesLifeCycleStageQuery,
+  useLazyGetAirServicesAssociationStatusQuery,
+  useGetAirServicesTicketContactByIdQuery,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export default function useViewContact({ modalId, setModalId }: any) {
-  const { data, isLoading, isFetching, isError } = useGetTicketContactByIdQuery(
-    { params: { id: modalId?.id } },
-    { refetchOnMountOrArgChange: true },
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetAirServicesTicketContactByIdQuery(
+      { params: { id: modalId?.id } },
+      { refetchOnMountOrArgChange: true },
+    );
   const defaultValues = getDefaultValues(data?.data);
 
   const methodsNewContact = useForm({
@@ -37,9 +38,9 @@ export default function useViewContact({ modalId, setModalId }: any) {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
 
-  const contactOwner = useLazyGetContactOwnerQuery();
-  const lifecycleStage = useLazyGetLifeCycleStageQuery();
-  const status = useLazyGetStatusQuery();
+  const contactOwner = useLazyGetAirServicesContactOwnerQuery();
+  const lifecycleStage = useLazyGetAirServicesLifeCycleStageQuery();
+  const status = useLazyGetAirServicesAssociationStatusQuery();
 
   const formFields = getFormFields({
     orgId,

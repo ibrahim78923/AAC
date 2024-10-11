@@ -22,7 +22,7 @@ export const ExistingIncident: React.FC<{
   const { openDrawer } = props;
   const {
     handleSubmit,
-    setSearchBy,
+    handleSearch,
     theme,
     checkboxValues,
     handleCheckboxChange,
@@ -44,11 +44,12 @@ export const ExistingIncident: React.FC<{
       isOk
       cancelText={'Cancel'}
       isLoading={isLoading}
+      disabledCancelBtn={isLoading}
       footer
       submitHandler={handleSubmit}
     >
       <Box my={1}>
-        <Search label={'Search Here'} setSearchBy={setSearchBy} fullWidth />
+        <Search label={'Search Here'} setSearchBy={handleSearch} fullWidth />
       </Box>
       {!lazyGetTicketsStatus?.isFetching ? (
         existingTicketsData?.length ? (

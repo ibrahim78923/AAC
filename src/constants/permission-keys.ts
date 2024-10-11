@@ -1520,12 +1520,11 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS = {
 };
 
 export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
-  VIEW_DETAILS: 'loyalty-program-voucher-view-details',
-  ADD_VOUCHER: 'loyalty-program-voucher-add',
-  APPLY_FILTERS: 'loyalty-program-voucher-apply-filters',
-  PRINT: 'loyalty-program-voucher-print',
-  ACTIVE_DEACTIVATE_VOUCHERS: 'loyalty-program-voucher-active-deactive',
-  SEARCH: 'loyalty-program-voucher-search',
+  VIEW_DETAILS: 'Loyalty-vouchers-view-details',
+  ADD_VOUCHER: 'Loyalty-vouchers-add',
+  APPLY_FILTERS: 'Loyalty-vouchers-apply-filters',
+  ACTIVE_DEACTIVATE_VOUCHERS: 'Loyalty-vouchers-active-inactive',
+  EDIT_DELETE: 'Loyalty-Vouchers-Edit/delete',
 };
 
 export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
@@ -1590,7 +1589,7 @@ export const AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS = {
   CHANGE_OWNER: 'operations-report-sales-all-report-change-owner',
   ADD_TO_DASHBOARD: 'operations-report-sales-all-report-add-to-dashboard',
   DELETE: 'operations-report-sales-all-report-delete',
-  MANAGE_ACCESS: 'operations-report-sales-all-report-manage-acces',
+  MANAGE_ACCESS: 'operations-report-sales-all-report-manage-access',
   CUSTOMIZE: 'operations-report-sales-all-report-customize',
   RENAME: 'operations-report-sales-all-report-rename',
   CLONE: 'operations-report-sales-all-report-clone',

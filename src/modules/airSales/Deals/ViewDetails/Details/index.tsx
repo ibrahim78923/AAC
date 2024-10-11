@@ -1,4 +1,4 @@
-import { Box, Typography, Grid, Button, Divider } from '@mui/material';
+import { Box, Typography, Grid, Divider } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import useDetails from './useDetails';
 import { detailsDataArray } from './Details.data';
@@ -56,9 +56,6 @@ const Details = (props: any) => {
                     gap: 1,
                   }}
                 >
-                  <Button className="small" variant="outlined">
-                    Cancel
-                  </Button>
                   <LoadingButton
                     className="small"
                     variant="contained"

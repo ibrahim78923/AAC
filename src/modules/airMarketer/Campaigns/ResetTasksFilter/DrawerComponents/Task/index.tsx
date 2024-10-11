@@ -52,7 +52,10 @@ const Task = ({
                   variant="outlined"
                   color="inherit"
                   className="small"
-                  onClick={reset}
+                  onClick={() => {
+                    reset();
+                    methods.reset();
+                  }}
                 >
                   <RefreshTasksIcon />
                 </Button>
@@ -81,7 +84,7 @@ const Task = ({
                 setIsOpen,
               )}
               data={data}
-              loading={loading}
+              isLoading={loading}
             />
           )}
         </>

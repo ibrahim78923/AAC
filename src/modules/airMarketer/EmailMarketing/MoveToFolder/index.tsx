@@ -14,8 +14,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import CommonModal from '@/components/CommonModal';
 import { ArrowAlertPopupIcon } from '@/assets/icons';
-import { useLazyGetEmailFoldersQuery } from '@/services/airMarketer/emailMarketing';
-import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import {
+  useLazyGetEmailFoldersQuery,
+  useUpdateEmailTemplatesMutation,
+} from '@/services/airMarketer/emailMarketing';
 import { LoadingButton } from '@mui/lab';
 
 const MoveToFolder = ({

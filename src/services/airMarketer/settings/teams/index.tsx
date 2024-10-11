@@ -1,30 +1,30 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
-const SETTING_USERS = 'SETTINGS_USERS_MANAGEMENT';
+const TAG = ['SETTINGS_USERS_MANAGEMENT'];
 
 export const TeamsApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getTeams: builder.query({
+    getMarketerTeams: builder.query({
       query: (params) => ({
         url: END_POINTS?.SALES_TEAM,
         method: 'GET',
         params: params,
       }),
-      providesTags: [SETTING_USERS],
+      providesTags: TAG,
     }),
 
-    getTeamsById: builder.query({
+    getMarketerTeamsById: builder.query({
       query: (id: any) => {
         return {
           url: `${END_POINTS?.SALES_TEAM}/${id}`,
           method: 'GET',
         };
       },
-      providesTags: [SETTING_USERS],
+      providesTags: TAG,
     }),
 
-    postTeams: builder.mutation({
+    postMarketerTeams: builder.mutation({
       query: ({ body }: any) => {
         return {
           url: END_POINTS?.SALES_TEAM,
@@ -32,10 +32,10 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: [SETTING_USERS],
+      invalidatesTags: TAG,
     }),
 
-    updateTeams: builder.mutation({
+    updateMarketerTeams: builder.mutation({
       query: ({ id, body }: any) => {
         return {
           url: `${END_POINTS?.SALES_TEAM}/${id}`,
@@ -43,23 +43,23 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: [SETTING_USERS],
+      invalidatesTags: TAG,
     }),
 
-    deleteTeams: builder.mutation({
+    deleteMarketerTeams: builder.mutation({
       query: ({ id }: any) => ({
         url: `${END_POINTS?.SALES_TEAM}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [SETTING_USERS],
+      invalidatesTags: TAG,
     }),
   }),
 });
 
 export const {
-  useGetTeamsQuery,
-  useGetTeamsByIdQuery,
-  usePostTeamsMutation,
-  useUpdateTeamsMutation,
-  useDeleteTeamsMutation,
+  useGetMarketerTeamsQuery,
+  useGetMarketerTeamsByIdQuery,
+  usePostMarketerTeamsMutation,
+  useUpdateMarketerTeamsMutation,
+  useDeleteMarketerTeamsMutation,
 } = TeamsApi;

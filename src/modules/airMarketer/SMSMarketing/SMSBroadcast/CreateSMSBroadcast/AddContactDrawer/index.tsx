@@ -16,38 +16,28 @@ const AddContactDrawer = (props: AddContactDrawerProps) => {
     onClose,
     selectedRec,
     setSelectedRec,
-    setSelectedContactsData,
     setRecipientType,
     recipientType,
   } = props;
 
-  const {
-    onSubmit,
-    handleSubmit,
-    radioVal,
-    methods,
-    allContactsData,
-    setPageLimit,
-    setPage,
-  } = useAddContactDrawer(
-    onClose,
-    setSelectedContactsData,
-    selectedRec,
-    recipientType,
-  );
+  const { radioVal, methods, allContactsData, setPageLimit, setPage } =
+    useAddContactDrawer(recipientType);
 
   useEffect(() => {
     setRecipientType(radioVal);
-  }, [radioVal]);
+    if (recipientType !== radioVal) {
+      setSelectedRec([]);
+    }
+  }, [radioVal, recipientType]);
 
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={onClose}
       title="Add Contacts"
-      okText="Add"
-      isOk={true}
-      submitHandler={handleSubmit(onSubmit)}
+      isOk={false}
+      cancelText="Reset"
+      cancelBtnHandler={() => setSelectedRec([])}
       footer
     >
       <FormProvider methods={methods}>

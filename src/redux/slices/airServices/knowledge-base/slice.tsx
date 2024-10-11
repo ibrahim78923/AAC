@@ -20,6 +20,8 @@ const {
   canDisableFolderSelectionsReducer,
   refetchArticlesListReducer,
   hasSingleArticleApiErrorReducer,
+  resetComponentStateReducers,
+  resetSelectedFolderReducer,
 } = servicesKnowledgeBaseReducersList;
 
 export const isPortalOpenInitialState = {
@@ -39,7 +41,7 @@ const servicesKnowledgeBaseInitialState = {
   filterArticlesList: {},
   selectedArticlesList: [],
   isPortalOpen: isPortalOpenInitialState,
-  totalRecords: 0,
+  totalRecords: PAGINATION?.TOTAL_RECORDS,
   selectedFolder: selectedFolderInitialState,
   IsSelectedFolderChange: false,
   canDisableFolderSelection: false,
@@ -63,9 +65,11 @@ export const servicesKnowledgeBaseSlice = createSlice({
     setSelectedArticlesList: setSelectedArticlesListReducer,
     emptyFilterArticlesList: emptyFilterArticlesListReducer,
     setSelectedFolder: setSelectedFolderReducer,
+    resetSelectedFolder: resetSelectedFolderReducer,
     canDisableFolderSelections: canDisableFolderSelectionsReducer,
     refetchArticlesList: refetchArticlesListReducer,
     hasSingleArticleApiError: hasSingleArticleApiErrorReducer,
+    resetComponentState: resetComponentStateReducers,
   },
 });
 
@@ -83,9 +87,11 @@ export const {
   setPageDecrement,
   setPageIncrement,
   setSelectedFolder,
+  resetSelectedFolder,
   canDisableFolderSelections,
   refetchArticlesList,
   hasSingleArticleApiError,
+  resetComponentState,
 } = servicesKnowledgeBaseSlice?.actions;
 
 export default servicesKnowledgeBaseSlice?.reducer;

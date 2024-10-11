@@ -11,14 +11,60 @@ import {
   Radio,
 } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { PaymentMethodIcon } from '@/assets/icons';
+import { PaymentMethodIcon, PaymentMethodVisaIcon } from '@/assets/icons';
 import { PayInvoiceI } from './PayInvoice.interface';
 import { styles } from './PayInvoice.style';
+import {
+  useGetPaymentCardQuery,
+  useGetSingleInvoicesByIdQuery,
+  usePostPayInvoiceMutation,
+} from '@/services/orgAdmin/subscription-and-invoices';
+import { isNullOrEmpty } from '@/utils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { useTheme } from '@emotion/react';
+import Loader from '@/components/Loader';
+import { enqueueSnackbar } from 'notistack';
 
-const PayInvoice: FC<PayInvoiceI> = ({ open, onClose }) => {
+const PayInvoice: FC<PayInvoiceI> = ({ open, onClose, invoiceId }) => {
+  const theme = useTheme();
   const [selectedValue, setSelectedValue] = useState('');
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event?.target?.value);
+  const handleChange = (value: any) => {
+    setSelectedValue(value?._id);
+  };
+
+  const { data } = useGetSingleInvoicesByIdQuery(
+    { id: invoiceId },
+    { skip: isNullOrEmpty(invoiceId) },
+  );
+
+  const { data: dataPaymentCard, isLoading: loadingPaymentCard } =
+    useGetPaymentCardQuery({}, { skip: isNullOrEmpty(invoiceId) });
+
+  const [postPayNow, { isLoading: PostPayNowLoading }] =
+    usePostPayInvoiceMutation();
+
+  const handleSubmit = async () => {
+    if (isNullOrEmpty(selectedValue)) {
+      enqueueSnackbar('Please select card', {
+        variant: 'error',
+      });
+    } else {
+      try {
+        await postPayNow({
+          invoiceId: invoiceId,
+          paymentId: selectedValue,
+        })?.unwrap();
+        enqueueSnackbar('Pay Successful', {
+          variant: 'success',
+        });
+        onClose();
+      } catch (error: any) {
+        enqueueSnackbar('something went wrong', {
+          variant: 'error',
+        });
+      }
+    }
   };
 
   return (
@@ -30,44 +76,67 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose }) => {
       okText={'Pay Invoice'}
       isOk={true}
       cancelText={'Canel'}
+      submitHandler={handleSubmit}
+      isLoading={PostPayNowLoading}
     >
       <Typography sx={styles?.invoiceDetailsTitle} variant="h5">
         Invoice Details
       </Typography>
       <Box sx={styles?.iRow}>
-        <Box sx={styles?.iCellHead}>Air Sales Growth Plan</Box>
-        <Box sx={styles?.iCellHead}>£ 20.00</Box>
+        <Box sx={styles?.iCellHead}>{data?.data?.details?.plantypes} Plan</Box>
+        <Box sx={styles?.iCellHead}>
+          £ {data?.data?.details?.plans?.planPrice}
+        </Box>
       </Box>
 
       <Box sx={{ mt: '8px' }}>
-        <Box sx={styles?.iCell}>Feb 02, 2023 to 02Feb, 2024</Box>
+        <Box sx={styles?.iCell}>
+          {dayjs(data?.data?.details?.billingDate)?.format(DATE_FORMAT?.UI)} to{' '}
+          {dayjs(data?.data?.details?.billingDate)
+            ?.add(1, 'month')
+            ?.format(DATE_FORMAT?.UI)}
+        </Box>
       </Box>
 
       <Box sx={{ mt: '24px' }}>
         <Box sx={styles?.iRow}>
-          <Box sx={styles?.iCell}>Per User Cost</Box>
-          <Box sx={styles?.iCellHead}>£ 45.00</Box>
+          <Box sx={styles?.iCell}>additionalUsers Cost</Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.sumAdditionalUsersPrices}
+          </Box>
         </Box>
       </Box>
 
       <Box sx={{ mt: '24px' }}>
         <Box sx={styles?.iRow}>
           <Box sx={styles?.iCell}>Sub total</Box>
-          <Box sx={styles?.iCellHead}>£ 480.00</Box>
+          <Box sx={styles?.iCellHead}>£ {data?.data?.details?.subTotal}</Box>
         </Box>
       </Box>
 
       <Box sx={{ mt: '12px' }}>
         <Box sx={styles?.iRow}>
-          <Box sx={styles?.iCell}>Vat. (20%)</Box>
-          <Box sx={styles?.iCellHead}>£ 28.00</Box>
+          <Box sx={styles?.iCell}>
+            Discount ({data?.data?.invoiceDiscount}%)
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £{' '}
+            {data?.data?.invoiceDiscount === 0
+              ? data?.data?.details?.subTotal
+              : data?.data?.details?.subTotal / data?.data?.invoiceDiscount -
+                data?.data?.details?.subTotal}
+          </Box>
         </Box>
       </Box>
 
       <Box sx={{ mt: '12px' }}>
         <Box sx={styles?.iRow}>
-          <Box sx={styles?.iCell}>Discount (10%)</Box>
-          <Box sx={styles?.iCellHead}>-£ 10.00</Box>
+          <Box sx={styles?.iCell}>Vat. ({data?.data?.tax}%)</Box>
+          <Box sx={styles?.iCellHead}>
+            £{' '}
+            {data?.data?.details?.subTotal / data?.data?.tax +
+              data?.data?.details?.subTotal}
+          </Box>
         </Box>
       </Box>
 
@@ -75,53 +144,78 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose }) => {
 
       <Box sx={styles?.iRow}>
         <Box sx={styles?.iCell}>Total</Box>
-        <Box sx={styles?.iCellHead}>£ 498.00</Box>
+        <Box sx={styles?.iCellHead}>£ {data?.data?.netAmount}</Box>
       </Box>
 
       <Divider sx={{ mt: '24px', mb: '20px', borderColor: '#D1D5DB' }} />
 
       <Box sx={styles?.iCellHead}>Primary company address</Box>
       <Box sx={{ mt: '8px' }}>
-        123 Lewis st,
+        {data?.data?.organizations?.address?.street},
         <br />
-        Cambridge, MA 11111111 <br />
-        United Kingdom, UK
+        {data?.data?.organizations?.address?.city}, <br />
+        {data?.data?.organizations?.address?.state}
       </Box>
 
       <Box sx={{ mt: '40px' }}>
         <Box sx={styles?.iCellHead}>Payment Methods</Box>
 
         <List sx={styles?.paymentMethods}>
-          {['a']?.map((value) => {
-            return (
-              <ListItem
-                key={value}
-                secondaryAction={<PaymentMethodIcon />}
-                disablePadding
-              >
-                <ListItemButton dense>
-                  <ListItemIcon>
-                    <Radio
-                      checked={selectedValue === value}
-                      onChange={handleChange}
-                      value={value}
-                      name="paymentMethod"
+          {loadingPaymentCard ? (
+            <Loader />
+          ) : (
+            dataPaymentCard?.data?.payments?.map((value: any) => {
+              return (
+                <ListItem
+                  key={value}
+                  secondaryAction={
+                    value?.brand === 'Visa' ? (
+                      <PaymentMethodVisaIcon />
+                    ) : (
+                      <PaymentMethodIcon />
+                    )
+                  }
+                  disablePadding
+                >
+                  <ListItemButton dense>
+                    <ListItemIcon>
+                      <Radio
+                        checked={selectedValue === value?._id}
+                        onChange={() => handleChange(value)}
+                        value={value}
+                        name="paymentMethod"
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <>
+                          <Box>
+                            {value?.cardHolderName}
+                            <br /> XXXX-XXXX-XXXX-{value?.last4} &nbsp;
+                            {value?.isDefault && (
+                              <span
+                                style={{
+                                  color: theme?.palette?.common?.white,
+                                  backgroundColor:
+                                    theme?.palette?.primary?.main,
+                                  width: 'fit-content',
+                                  padding: '3px 7px',
+                                  borderRadius: '5px',
+                                }}
+                              >
+                                Default
+                              </span>
+                            )}
+                            <br /> {value?.expMonth}/{value?.expYear}
+                          </Box>
+                        </>
+                      }
                     />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <>
-                        <Box>
-                          Pablo the Cat
-                          <br /> abcd-1234 1234 - 1111 <br /> 10/2020
-                        </Box>
-                      </>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+                  </ListItemButton>
+                </ListItem>
+              );
+            })
+          )}
         </List>
       </Box>
     </CommonDrawer>

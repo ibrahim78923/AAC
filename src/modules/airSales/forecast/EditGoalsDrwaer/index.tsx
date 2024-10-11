@@ -16,7 +16,6 @@ import {
   editGoalValidationSchema,
 } from './GoalTab/GoalTab.data';
 import { enqueueSnackbar } from 'notistack';
-import { ARRAY_INDEX } from '@/constants/strings';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -31,11 +30,12 @@ const EditGoalsDrwaer = (props: any) => {
     tableRowValues,
     setIsEditDrawer,
     setTableRowValues,
+    user,
   } = props;
   const [editNotificationOptions, setEditNotificationOptions] = useState();
 
   const { data: getOneGoal, isLoading } = useGetSingleForecastGoalsQuery(
-    { id: tableRowValues },
+    { id: tableRowValues, user: user === 'User' ? false : true },
     { skip: isNullOrEmpty(tableRowValues) },
   );
 
@@ -125,34 +125,8 @@ const EditGoalsDrwaer = (props: any) => {
         variant: 'error',
       });
     } else {
-      const target = {
-        contributorId:
-          getOneGoal?.data?.targets[ARRAY_INDEX?.ZERO]?.contributorId,
-        pipelines: getOneGoal?.data?.targets[ARRAY_INDEX?.ZERO]?.pipelines?.map(
-          (pipeline: any) => pipeline?._id,
-        ),
-        unit: 'USD',
-        year: 2024,
-        months: {
-          jan: values?.jan,
-          feb: values?.feb,
-          mar: values?.mar,
-          apr: values?.apr,
-          may: values?.may,
-          jun: values?.jun,
-          jul: values?.jul,
-          aug: values?.aug,
-          sep: values?.sep,
-          oct: values?.oct,
-          nov: values?.nov,
-          dec: values?.dec,
-        },
-      };
       const payload = {
-        trackingMethod: getOneGoal?.data?.trackingMethod,
-        goalName: values?.name,
-        duration: getOneGoal?.data?.duration,
-        target: target,
+        target: values?.target,
         notification: editNotificationOptions,
         customFields: body?.customFields,
       };

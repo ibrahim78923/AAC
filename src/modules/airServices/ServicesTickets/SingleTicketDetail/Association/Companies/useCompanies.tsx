@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -11,16 +10,15 @@ import {
 import { drawerInitialState } from '../Association.data';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
-  useGetAssociateTicketsQuery,
-  usePostCompanyMutation,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesCompanyMutation,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export default function useCompanies({ setIsDrawerOpen }: any) {
   const router = useRouter();
-  const theme: any = useTheme();
 
   const [selected, setSelected] = useState([]);
   const [modalId, setModalId] = useState({
@@ -57,12 +55,11 @@ export default function useCompanies({ setIsDrawerOpen }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
   const associateCompanyColumns = getAssociateCompanyColumns({
-    theme,
     setModalId,
   });
 
@@ -73,9 +70,10 @@ export default function useCompanies({ setIsDrawerOpen }: any) {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
-  const [postCompanyTrigger, postCompanyStatus] = usePostCompanyMutation();
+  const [postCompanyTrigger, postCompanyStatus] =
+    usePostAirServicesCompanyMutation();
 
   const onSubmit = async (data: any) => {
     const body = new FormData();

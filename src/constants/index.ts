@@ -54,13 +54,7 @@ export const DATE_TIME_FORMAT = {
   DD: 'DD',
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
-};
-
-export const VALIDATION_CONSTANT = {
-  PHONE_NUMBER: {
-    regex: /^\+44[0-9]{10}$/,
-    message: 'Only UK phone number',
-  },
+  FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
 };
 
 export const ERROR_PAGES = {
@@ -180,6 +174,7 @@ export const AIR_SERVICES = {
   ASSET_TYPE_DEFAULT_FIELDS: `/air-services/settings/asset-management/asset-type/default-fields`,
   ASSET_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/asset-type/create-fields`,
   CONTACT_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/contract-types/create-fields`,
+  SERVICES_PUBLIC_DASHBOARD: `dynamic-dashboard/download`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -225,12 +220,8 @@ export const AIR_OPERATIONS = {
   UPSERT_EVENT_BASED_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-event-based-workflow`,
   UPSERT_SUPERVISOR_RULES: `/air-operations/workflow-automation/services-workflow/upsert-supervisor-rules`,
   REPORTS: `/air-operations/reports`,
-  SALES_REPORTS: `/air-operations/reports/sales-reports`,
-  SERVICES_REPORTS: `/air-operations/reports/services-reports`,
-  MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
-  SALES_REPORTS_RESTORE: `/air-operations/reports/sales-reports/restore`,
-  SERVICES_REPORTS_RESTORE: `/air-operations/reports/services-reports/restore`,
-  MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
+  REPORTS_LIST: `/air-operations/reports/reports-list`,
+  RESTORE_REPORTS_LIST: `/air-operations/reports/restore-reports-list`,
   UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
   UPSERT_GENERIC_REPORTS: `/air-operations/reports/upsert-generic-reports`,
   SINGLE_GENERIC_REPORTS_DETAILS: `/air-operations/reports/single-report-view`,
@@ -247,17 +238,16 @@ export const AIR_CALL_CENTER = {
 export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
-  GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
+  GIFT_CARDS: `/air-loyalty-program/gift-cards`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
-  SINGLE_GIFT_CARD_TRANSACTION_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/transaction-details`,
+  GIFT_CARDS_DETAIL: `/air-loyalty-program/gift-cards/gift-cards-details`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
-  PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
-  EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
   TOP_USER: '/',
   UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
   ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
+  UPSERT_CONSUMER: '/air-loyalty-program/consumers/upsert-consumer',
 };
 
 export const SOCIAL_COMPONENTS = {
@@ -279,6 +269,8 @@ export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
   SALE_SITE: 'https://airapplecart.co.uk/',
+  RESET_PASSWORD: '/reset-password',
+  SET_PASSWORD: '/set-password',
 };
 
 export const Quick_Links_Routes = {
@@ -401,6 +393,7 @@ export const ORGANIZATION_DRAWER_TYPES = {
 };
 export const goalsStatus = {
   inProgress: 'In-Progress',
+  expired: 'Expired',
 };
 
 export const createGoal = {
@@ -604,6 +597,23 @@ export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
   FORECAST_CATEGORY_REPORTS: 'Forecast_Category_Reports',
 };
 
+export const AIR_MARKETER_DASHBOARD_REPORTS_TYPES = {
+  NEW_CONTACTS_AND_CUSTOMERS: 'New_Contacts_and_Customers',
+  CTA_TOTAL_VIEWS_AND_ADS_SUBMISSIONS: 'CTA_Total_Views_and_Ads_Submissions',
+  TOTAL_MARKETING_EMAIL: 'Total_Marketing_Email',
+  LEAD_CAPTURED_FORMS: 'Lead_Captured_Forms',
+  PROFILE_STATS: 'Profile_Stats',
+  SMS_MARKETING_GRAPH: 'SMS_Marketing_Graph',
+  WHATSAPP_MARKETING_GRAPH: 'Whatsapp_Marketing_Graph',
+};
+
+export const AIR_MARKETER_DASHBOARD = {
+  SINGLE_DASHBOARD: `/air-marketer/dashboard`,
+};
+export const AIR_SALES_DASHBOARD = {
+  SINGLE_DASHBOARD: `/air-sales/dashboard`,
+};
+
 export const PRODUCT_LABELS = {
   AIR_SALES: 'Air Sales',
   AIR_SERVICES: 'Air Services',
@@ -653,4 +663,14 @@ export const PRODUCT_EXTERNAl_LINKS = {
   CUSTOMER_PORTAL: '',
   ORG_ADMIN: '',
   COMMON_FEATURES: '',
+};
+
+export const bypassPermissionsDictionary: any = {
+  'service-customer-portal-report-an-issues': true,
+};
+
+export const ACTIVITY_STATUS_MENU = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  EXPIRED: 'EXPIRED',
 };

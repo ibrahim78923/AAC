@@ -13,13 +13,14 @@ const AddAccountDrawer = (props: AddAccountDrawerProps) => {
     organizationId,
     userId,
   } = props;
-  const { handleSubmit, onSubmit, methods, companyRoleParams } =
+  const { handleSubmit, onSubmit, methods, companyRoleParams, productValue } =
     useAddAccountDrawer(userId, setIsOpen, organizationId);
 
   const addAccountArrayParams = {
     companyRoleParams,
     organizationBasesProducts,
     organizationId,
+    productId: productValue?._id,
   };
 
   return (

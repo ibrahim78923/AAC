@@ -5,6 +5,6 @@ export interface ReportsTypesI {
   purpose: string;
   link: string;
   permission: string[];
-  hasAccount: boolean;
-  productId: string;
+  findAccount: { hasAccount: boolean; productId: string };
+  baseModule: string;
 }

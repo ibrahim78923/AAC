@@ -5,33 +5,36 @@ import { SingleFolderDetail } from '../Folder/SingleFolderDetail';
 import { Folder } from '../Folder';
 import { Header } from './Header';
 import { ArticlesLists } from './ArticlesList';
+import { resetComponentState } from '@/redux/slices/airServices/knowledge-base/slice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '@/redux/store';
+
+const { ARTICLE_LIST_VIEW } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
 
 export const Articles = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(resetComponentState());
+    };
+  }, []);
+
   return (
     <>
-      <PermissionsGuard
-        permissions={[
-          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.ARTICLE_LIST_VIEW,
-        ]}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} lg={3} xl={1.75}>
-            <PermissionsGuard
-              permissions={[
-                AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
-              ]}
-            >
-              <Folder />
-            </PermissionsGuard>
-          </Grid>
-          <Grid item xs={12} lg={9} xl={10.25}>
-            <SingleFolderDetail />
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={3} xl={1.75}>
+          <Folder />
+        </Grid>
+        <Grid item xs={12} lg={9} xl={10.25}>
+          <SingleFolderDetail />
+          <PermissionsGuard permissions={[ARTICLE_LIST_VIEW]}>
             <Header />
             <br />
             <ArticlesLists />
-          </Grid>
+          </PermissionsGuard>
         </Grid>
-      </PermissionsGuard>
+      </Grid>
     </>
   );
 };

@@ -5,11 +5,9 @@ import {
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
 import {
-  useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery,
-  useLazyGetTicketByIdForMergeQuery,
-  useLazyGetTicketByRequesterQuery,
-  useLazyGetTicketBySubjectQuery,
-  usePostMergeTicketsMutation,
+  useLazyFindServicesTicketByRequesterQuery,
+  useLazyFindServicesTicketBySubjectQuery,
+  useMergeServicesTicketsMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
@@ -32,13 +30,14 @@ export const useMergedTickets = () => {
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
-    usePostMergeTicketsMutation();
+    useMergeServicesTicketsMutation();
+
   const mergedTicketsFormMethod = useForm({
     defaultValues: mergeTicketsFormDefaultValue,
     resolver: yupResolver(mergeTicketsFormValidationSchema),
   });
 
-  const { handleSubmit, reset, control, clearErrors, getValues } =
+  const { handleSubmit, reset, control, clearErrors, watch } =
     mergedTicketsFormMethod;
 
   const watchForTicketSelection: any = useWatch({
@@ -83,19 +82,14 @@ export const useMergedTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
-  const apiQueryTicketByRequester = useLazyGetTicketByRequesterQuery();
-  const apiQueryTicketById = useLazyGetTicketByIdForMergeQuery();
-  const apiQueryRequester =
-    useLazyGetAirServicesAllUsersAsRequestersDropdownListQuery();
+  const apiQueryTicketBySubject = useLazyFindServicesTicketBySubjectQuery();
+  const apiQueryTicketByRequester = useLazyFindServicesTicketByRequesterQuery();
 
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,
-    apiQueryRequester,
     apiQueryTicketByRequester,
     apiQueryTicketBySubject,
-    getValues,
-    apiQueryTicketById,
+    watch,
   );
 
   return {

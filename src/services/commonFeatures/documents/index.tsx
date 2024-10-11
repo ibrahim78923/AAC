@@ -30,6 +30,15 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       providesTags: ['MyDocuments'],
     }),
 
+    getAllFoldersList: builder.query({
+      query: ({ params }) => ({
+        url: COMMON_DOCUMENTS.GET_ALL_FOLDERS_LIST,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['MyDocuments'],
+    }),
+
     getDocumentFile: builder.query({
       query: ({ params }) => ({
         url: COMMON_DOCUMENTS.GET_DOCUMENT_FILE,
@@ -69,16 +78,27 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['MyDocuments'],
     }),
+
+    postShareFile: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${COMMON_DOCUMENTS?.POST_FILE_SHARE}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['MyDocuments'],
+    }),
   }),
 });
 
 export const {
   usePostDocumentFolderMutation,
   useGetDocumentFolderQuery,
+  useGetAllFoldersListQuery,
   useUpdateFolderMutation,
   useDeleteFoldersMutation,
   usePostDocumentFilesMutation,
   useGetDocumentFileQuery,
   useDeleteFilesMutation,
   useUpdateFileMutation,
+  usePostShareFileMutation,
 } = commonDocumentsAPI;

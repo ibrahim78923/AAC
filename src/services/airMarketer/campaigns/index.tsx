@@ -1,6 +1,9 @@
 import { AIR_MARKETER } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = ['CAMPAIGNS'];
+const TAG_TASKS = ['CAMPAIGNS_TASKS'];
+
 export const socialMarketerAPI: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getCampaigns: builder.query({
@@ -9,7 +12,7 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
         method: 'GET',
         params,
       }),
-      providesTags: ['CAMPAIGNS'],
+      providesTags: TAG,
     }),
     getCampaignsById: builder.query({
       query: (id: any) => {
@@ -18,7 +21,7 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['CAMPAIGNS'],
+      providesTags: TAG,
     }),
     postCampaigns: builder.mutation({
       query: ({ body }: any) => {
@@ -28,7 +31,7 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['CAMPAIGNS'],
+      invalidatesTags: TAG,
     }),
     deleteCampaigns: builder.mutation({
       query: ({ ids }: any) => {
@@ -37,7 +40,7 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           method: 'DELETE',
         };
       },
-      invalidatesTags: ['CAMPAIGNS'],
+      invalidatesTags: TAG,
     }),
     updateCampaigns: builder.mutation({
       query: ({ body, id }: any) => {
@@ -47,7 +50,7 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['CAMPAIGNS'],
+      invalidatesTags: TAG,
     }),
     getCampaignsTasks: builder.query({
       query: (params) => ({
@@ -55,9 +58,8 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['CAMPAIGNS_TASKS'],
+      providesTags: TAG_TASKS,
     }),
-
     postCampaignTask: builder.mutation({
       query: ({ body }: any) => {
         return {
@@ -66,25 +68,22 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['CAMPAIGNS_TASKS'],
+      invalidatesTags: TAG_TASKS,
     }),
-
     getCampaignsTaskById: builder.query({
       query: (id: any) => ({
         url: `${AIR_MARKETER?.CAMPAIGNS_TASKS}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['CAMPAIGNS_TASKS'],
+      providesTags: TAG_TASKS,
     }),
-
     deleteCampaignTasks: builder.mutation({
       query: ({ ids }: any) => ({
         url: `${AIR_MARKETER?.CAMPAIGNS_TASKS}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['CAMPAIGNS_TASKS'],
+      invalidatesTags: TAG_TASKS,
     }),
-
     updateCampaignTasks: builder.mutation({
       query: ({ id, body }: any) => {
         return {
@@ -102,7 +101,7 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           method: 'POST',
         };
       },
-      invalidatesTags: ['CAMPAIGNS'],
+      invalidatesTags: TAG,
     }),
     postCampaignsSaveView: builder.mutation({
       query: (body) => {
@@ -112,14 +111,14 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['CAMPAIGNS'],
+      invalidatesTags: TAG,
     }),
     getCampaignsSaveView: builder.query({
       query: () => ({
         url: `${AIR_MARKETER?.CAMPAIGNS_SAVE_VIEW}`,
         method: 'GET',
       }),
-      providesTags: ['CAMPAIGNS'],
+      providesTags: TAG,
     }),
   }),
 });

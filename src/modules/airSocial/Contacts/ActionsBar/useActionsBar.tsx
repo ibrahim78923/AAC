@@ -5,12 +5,12 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import {
-  useLazyGetLifeCycleStagesQuery,
-  useLazyGetContactsStatusQuery,
-} from '@/services/common-APIs';
-import { usePostContactsViewMutation } from '@/services/commonFeatures/contacts';
+  usePostContactsViewMutation,
+  useLazyGetContactsOwnerListQuery,
+  useLazyGetContactsStatusListQuery,
+  useLazyGetContactsLifeCycleStagesQuery,
+} from '@/services/commonFeatures/contacts';
 import {
   createViewDefaultValues,
   createViewValidationSchema,
@@ -19,9 +19,9 @@ import {
 const useActionsBar = () => {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
-  const contactOwnerData = useLazyGetOrganizationUsersQuery();
-  const contactStatusData = useLazyGetContactsStatusQuery();
-  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
+  const contactOwnerData = useLazyGetContactsOwnerListQuery();
+  const contactStatusData = useLazyGetContactsStatusListQuery();
+  const lifeCycleStagesData = useLazyGetContactsLifeCycleStagesQuery();
 
   const [postContactsView, { isLoading: loadingCreateView }] =
     usePostContactsViewMutation();

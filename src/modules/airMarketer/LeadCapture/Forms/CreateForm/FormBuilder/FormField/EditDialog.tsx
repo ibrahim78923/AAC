@@ -299,6 +299,13 @@ const EditDialog = ({ open, onClose, field, onChange, addOption }: any) => {
               </Grid>
             </>
           )}
+          <Grid item xs={12}>
+            <Box sx={{ textAlign: 'right' }}>
+              <Button variant="contained" className="small" onClick={onClose}>
+                Save
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
       </DialogContent>
     </Dialog>

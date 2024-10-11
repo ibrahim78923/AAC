@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { truncateText } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { TruncateText } from '@/components/TruncateText';
 
 export const locationsListColumnsDynamic: any = (setIsPortalOpen: any) => [
   {
@@ -11,21 +11,21 @@ export const locationsListColumnsDynamic: any = (setIsPortalOpen: any) => [
     id: 'locationName',
     isSortable: true,
     header: 'Location Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.description,
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.destination,
     id: 'destination',
     isSortable: true,
     header: 'Destination',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.createdAt,

@@ -1,10 +1,8 @@
 import { Box, Button } from '@mui/material';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-import { giftCardDetailsColumn } from './GiftCardDetails.data';
-
+import { data, giftCardDetailsColumn } from './GiftCardDetails.data';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { ExportBlackIcon } from '@/assets/icons';
+import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { useGiftCardsDetails } from './useGiftCardDetails';
@@ -36,7 +34,8 @@ export const GiftCardsDetails = () => {
         <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
           <Button
             variant="outlined"
-            color="inherit"
+            color="secondary"
+            className="small"
             startIcon={<FilterListIcon />}
             onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
           >
@@ -45,17 +44,25 @@ export const GiftCardsDetails = () => {
           <Button
             variant="outlined"
             color="secondary"
+            className="small"
             startIcon={<ExportBlackIcon />}
             onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
           >
             Export
           </Button>
+          <Button
+            variant="contained"
+            className="small"
+            startIcon={<AddWhiteBgIcon />}
+            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          >
+            Add Transaction
+          </Button>
         </Box>
         <Box mt={2}>
           <TanstackTable
             columns={giftCardDetailsColumn}
-            data={lazyGetGiftCardDetailsListStatus?.data?.data}
-            isLoading={lazyGetGiftCardDetailsListStatus?.isLoading}
+            data={data}
             currentPage={
               lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.page
             }
@@ -68,9 +75,6 @@ export const GiftCardsDetails = () => {
             }
             setPage={setPage}
             setPageLimit={setPageLimit}
-            isFetching={lazyGetGiftCardDetailsListStatus?.isFetching}
-            isError={lazyGetGiftCardDetailsListStatus?.isError}
-            isSuccess={lazyGetGiftCardDetailsListStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
             isPagination
           />

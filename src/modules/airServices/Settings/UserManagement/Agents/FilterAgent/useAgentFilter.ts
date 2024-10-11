@@ -5,11 +5,12 @@ import {
 } from './AgentFilter.data';
 
 import {
-  useLazyGetDepartmentDropdownListQuery,
+  useLazyGetDepartmentDropdownListForAgentsQuery,
   useLazyGetPermissionsRoleForUpsertAgentQuery,
 } from '@/services/airServices/settings/user-management/agents';
 import useAuth from '@/hooks/useAuth';
 import { IAgentsProps } from '../Agents.interface';
+import { PAGINATION } from '@/config';
 
 export const useAgentFilter = (props: IAgentsProps) => {
   const {
@@ -49,7 +50,7 @@ export const useAgentFilter = (props: IAgentsProps) => {
       handleCloseDrawer();
       return;
     }
-    setPage?.(1);
+    setPage?.(PAGINATION?.CURRENT_PAGE);
     setFilterAgentData(agentFiltered);
     handleCloseDrawer();
   };
@@ -58,7 +59,7 @@ export const useAgentFilter = (props: IAgentsProps) => {
     reset?.();
     setAgentFilterDrawerOpen(false);
   };
-  const apiQueryDepartment = useLazyGetDepartmentDropdownListQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownListForAgentsQuery();
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   const agentFilterFormFields = agentFilterFields(

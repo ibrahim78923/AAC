@@ -9,7 +9,6 @@ import {
 import useScheduledSMS from './useScheduledSMS';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './ScheduledSMS.style';
-import { DotsBoldIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import useSMSDashboard from '../useSMSDashboard';
@@ -82,7 +81,7 @@ const ScheduledSMS = (props: SMSDashboardProps) => {
                         />
                         <Typography variant="body2">{item?.status}</Typography>
                       </Box>
-                      <DotsBoldIcon />
+                      {/* <DotsBoldIcon /> */}
                     </Stack>
                   </Stack>
                   <Typography

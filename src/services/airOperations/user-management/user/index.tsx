@@ -4,27 +4,93 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'USER_LIST';
 const TAG_TEAM = 'TEAM_LIST';
 
-export const userManagementAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder: any) => ({
-    getProductUserList: builder?.query({
-      query: ({ param }: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
+const { PRODUCTS_USERS, OPERATIONS_TEAM, PERMISSIONS_ROLE } = END_POINTS ?? {};
+
+export const operationsUsersManagementAPI = baseAPI?.injectEndpoints({
+  endpoints: (builder) => ({
+    getOperationsUserManagementProductUserLists: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: PRODUCTS_USERS,
         method: 'GET',
-        params: param,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    getProductUserDropdown: builder?.query({
-      query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
+    getOperationsUserManagementSingleProductUserDetails: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
         method: 'GET',
-        body,
       }),
       providesTags: [TAG],
     }),
-    getProductTeamUserListDropdown: builder?.query({
+    addOperationsUserManagementSingleProductUser: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: PRODUCTS_USERS,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    updateOperationsUserManagementSingleProductUser: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteOperationsUserManagementMultipleProductUsers: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: PRODUCTS_USERS,
+        method: 'DELETE',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+
+    getOperationsUserManagementTeamLists: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: OPERATIONS_TEAM,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG_TEAM],
+    }),
+    getOperationsUserManagementSingleTeamDetailsById: builder?.query({
+      query: (id: any) => {
+        return {
+          url: `${OPERATIONS_TEAM}/${id}`,
+          method: 'GET',
+        };
+      },
+    }),
+    addOperationsUserManagementSingleTeam: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: OPERATIONS_TEAM,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG_TEAM],
+    }),
+    updateOperationsUserManagementSingleTeam: builder.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${OPERATIONS_TEAM}/${apiDataParameter?.pathParams?.id}`,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG_TEAM],
+    }),
+    deleteOperationsUserManagementSingleTeam: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: OPERATIONS_TEAM,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+
+    getOperationsUserManagementProductUsersListDropdown: builder?.query({
       query: ({ param }: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        url: PRODUCTS_USERS,
         method: 'GET',
         params: param,
       }),
@@ -38,132 +104,9 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    getProductUserListDropdown: builder?.query({
+    getOperationsUserManagementPermissionsRolesDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-    }),
-    postProductUserList: builder?.mutation({
-      query: (postAnnouncementParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
-        method: 'POST',
-        body: postAnnouncementParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    getTeamUserList: builder?.query({
-      query: ({ param }: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
-        method: 'GET',
-        params: param,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.userTeams;
-      },
-      providesTags: [TAG_TEAM],
-    }),
-    patchProductUsers: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
-        method: 'PATCH',
-        body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    getTeamList: builder?.query({
-      query: ({ param }: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
-        method: 'GET',
-        params: param,
-      }),
-      providesTags: [TAG],
-    }),
-    deleteTeamUsers: builder?.mutation({
-      query: (deleteId: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}/${deleteId}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: [TAG],
-    }),
-    postCreateTeam: builder?.mutation({
-      query: (postAnnouncementParameter: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
-        method: 'POST',
-        body: postAnnouncementParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    getViewProductUsers: builder.query({
-      query: (id: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
-        method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-    patchTeamUsers: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}/${id}`,
-        method: 'PATCH',
-        body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    getTeamsById: builder.query({
-      query: (id: any) => {
-        return {
-          url: `${END_POINTS?.SALES_TEAM}/${id}`,
-          method: 'GET',
-        };
-      },
-      providesTags: ['TEAMS'],
-    }),
-    getProductUserListForOperation: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-      }),
-      providesTags: [TAG],
-    }),
-    getSingleProductUserDetailForOperation: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
-        method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-    addProductUserForOperation: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
-        method: 'POST',
-        body: apiDataParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    deleteProductUsers: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
-        method: 'DELETE',
-        body: apiDataParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    updateProductUserForOperation: builder.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    getPermissionsRoleForUpsertOperationUser: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.PERMISSIONS_ROLE}`,
+        url: PERMISSIONS_ROLE,
         method: 'GET',
         params,
       }),
@@ -172,9 +115,9 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    getTeamDropdownForOperationUserList: builder?.query({
+    getOperationsUserManagementTeamsDropdown: builder?.query({
       query: ({ param }: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
+        url: OPERATIONS_TEAM,
         method: 'GET',
         params: param,
       }),
@@ -182,77 +125,21 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data?.userTeams;
       },
     }),
-    getTeamListForOperation: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-      }),
-      providesTags: [TAG],
-    }),
-    getTeamsByIdForOperation: builder.query({
-      query: (id: any) => {
-        return {
-          url: `${END_POINTS?.SALES_TEAM}/${id}`,
-          method: 'GET',
-        };
-      },
-      providesTags: ['TEAMS'],
-    }),
-    patchTeamUsersForOperation: builder.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}/${apiDataParameter?.pathParams?.id}`,
-        method: 'PATCH',
-        body: apiDataParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    postCreateTeamForOperation: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
-        method: 'POST',
-        body: apiDataParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    deleteProductUsersForOperation: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
-        method: 'DELETE',
-        params: apiDataParameter?.queryParams,
-      }),
-    }),
   }),
 });
 
 export const {
-  useGetProductUserListQuery,
-  useLazyGetProductUserListDropdownQuery,
-  useGetProductUserDropdownQuery,
-  usePostProductUserListMutation,
-  useLazyGetTeamUserListQuery,
-  usePatchProductUsersMutation,
-  useGetTeamListQuery,
-  useLazyGetTeamListQuery,
-  useDeleteTeamUsersMutation,
-  usePostCreateTeamMutation,
-  useGetViewProductUsersQuery,
-  usePatchTeamUsersMutation,
-  useLazyGetTeamsByIdQuery,
-  useLazyGetProductTeamUserListDropdownQuery,
-  useLazyGetProductUserDropdownQuery,
-  useLazyGetViewProductUsersQuery,
-  useLazyGetProductUserListForOperationQuery,
-  useGetProductUserListForOperationQuery,
-  useAddProductUserForOperationMutation,
-  useDeleteProductUsersMutation,
-  useUpdateProductUserForOperationMutation,
-  useLazyGetPermissionsRoleForUpsertOperationUserQuery,
-  useGetSingleProductUserDetailForOperationQuery,
-  useLazyGetTeamDropdownForOperationUserListQuery,
-  useLazyGetTeamListForOperationQuery,
-  useGetTeamsByIdForOperationQuery,
-  usePostCreateTeamForOperationMutation,
-  usePatchTeamUsersForOperationMutation,
-  useDeleteProductUsersForOperationMutation,
-} = userManagementAPI;
+  useLazyGetOperationsUserManagementProductUserListsQuery,
+  useGetOperationsUserManagementSingleProductUserDetailsQuery,
+  useAddOperationsUserManagementSingleProductUserMutation,
+  useUpdateOperationsUserManagementSingleProductUserMutation,
+  useDeleteOperationsUserManagementMultipleProductUsersMutation,
+  useLazyGetOperationsUserManagementTeamListsQuery,
+  useGetOperationsUserManagementSingleTeamDetailsByIdQuery,
+  useAddOperationsUserManagementSingleTeamMutation,
+  useUpdateOperationsUserManagementSingleTeamMutation,
+  useDeleteOperationsUserManagementSingleTeamMutation,
+  useLazyGetOperationsUserManagementProductUsersListDropdownQuery,
+  useLazyGetOperationsUserManagementPermissionsRolesDropdownQuery,
+  useLazyGetOperationsUserManagementTeamsDropdownQuery,
+} = operationsUsersManagementAPI;

@@ -1,33 +1,32 @@
-import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
+import { Button, Menu, MenuItem, Fade } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-
 import useShareOptions from './useShareOptions';
-import Email from '../Email';
+import EmailThisDashboard from '../EmailThisDashboard';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const ShareOptions = ({ setIsShowEditDashboard }: any) => {
+const ShareOptions = ({ selectedDashboard }: any) => {
   const {
     handleClickActions,
     isShowDrawer,
-    handleShowCopyUrl,
-    handleCloseDrawer,
+    setIsShowDrawer,
     handleCloseMenuOptions,
     anchorEl,
     openDropDown,
     handleShowEmailDashboard,
-  } = useShareOptions();
-  const theme = useTheme();
+    router,
+    copyUrl,
+  } = useShareOptions(selectedDashboard);
+
   return (
     <>
       <div>
         <Button
+          className="small"
+          color="inherit"
+          variant="outlined"
           onClick={handleClickActions}
-          sx={{
-            border: `1px solid ${theme?.palette?.custom?.dark}`,
-            color: theme?.palette?.custom?.main,
-            width: { sm: '112px', xs: '100%' },
-            height: '36px',
-            marginRight: '10px',
-          }}
+          sx={{ width: { sm: '112px', xs: '100%' } }}
         >
           Actions
           <ArrowDropDown />
@@ -43,7 +42,7 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
           onClose={handleCloseMenuOptions}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={handleShowCopyUrl}>Copy URL</MenuItem>
+          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
 
           <MenuItem onClick={handleShowEmailDashboard}>
             Email this dashboard
@@ -51,7 +50,13 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
 
           <MenuItem
             onClick={() => {
-              setIsShowEditDashboard(true);
+              router?.push({
+                pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
+                query: {
+                  id: selectedDashboard?.dashboard?._id,
+                  type: DRAWER_TYPES?.EDIT,
+                },
+              });
             }}
           >
             Edit
@@ -59,7 +64,10 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
         </Menu>
       </div>
       {isShowDrawer && (
-        <Email isOpenDrawer={isShowDrawer} onClose={handleCloseDrawer} />
+        <EmailThisDashboard
+          isOpenDrawer={isShowDrawer}
+          setIsDrawerOpen={setIsShowDrawer}
+        />
       )}
     </>
   );

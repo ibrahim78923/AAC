@@ -108,15 +108,7 @@ const EmailSettingDrawer = ({
       isDrawerOpen={isOpenDrawer}
       onClose={() => setIsOpenDrawer(false)}
       title={'Email Settings'}
-      okText={
-        data?.data?.emailSettings &&
-        Object.keys(
-          data?.data?.emailSettings?.customAddress ??
-            data?.data?.emailSettings?.address,
-        )?.length
-          ? 'Update'
-          : 'Send'
-      }
+      okText={'Update'}
       isOk
       cancelText={'Cancel'}
       submitHandler={handleSubmit(onSubmit)}

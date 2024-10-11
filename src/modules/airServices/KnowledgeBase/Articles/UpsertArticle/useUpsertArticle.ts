@@ -1,12 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { NextRouter, useRouter } from 'next/router';
 import { Theme, useTheme } from '@mui/material';
-import {
-  useGetArticleByIdQuery,
-  usePatchArticleMutation,
-  usePostArticleMutation,
-} from '@/services/airServices/knowledge-base/articles';
 import {
   upsertArticleDefaultValues,
   upsertArticleFormFieldsDynamic,
@@ -15,21 +10,31 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
-import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
+import { ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
-import useAuth from '@/hooks/useAuth';
+import { isoDateString } from '@/utils/dateTime';
+import {
+  useAddServicesKnowledgeBaseSingleArticleMutation,
+  useGetServicesKnowledgeBaseSingleArticleByIdQuery,
+  useUpdateServicesKnowledgeBaseSingleArticleMutation,
+} from '@/services/airServices/knowledge-base/articles';
+import { getActiveAccountSession } from '@/utils';
+
+const { KNOWLEDGE_BASE } = AIR_SERVICES ?? {};
+const { DRAFT } = ARTICLE_STATUS ?? {};
 
 export const useUpsertArticle: any = () => {
   const router: NextRouter = useRouter();
   const theme: Theme = useTheme();
   const { articleId } = router?.query;
-  const auth: any = useAuth();
 
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
 
-  const [postArticleTrigger, postArticleStatus] = usePostArticleMutation();
-  const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
+  const [postArticleTrigger, postArticleStatus] =
+    useAddServicesKnowledgeBaseSingleArticleMutation();
+  const [patchArticleTrigger, patchArticleStatus] =
+    useUpdateServicesKnowledgeBaseSingleArticleMutation();
 
   const getSingleArticleParameter = {
     pathParam: {
@@ -39,10 +44,13 @@ export const useUpsertArticle: any = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch }: any =
-    useGetArticleByIdQuery(getSingleArticleParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!articleId,
-    });
+    useGetServicesKnowledgeBaseSingleArticleByIdQuery(
+      getSingleArticleParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!articleId,
+      },
+    );
 
   const methods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
     UpsertArticlesFormFieldsI | any
@@ -59,13 +67,15 @@ export const useUpsertArticle: any = () => {
 
   const needApprovals = methods?.watch('needsApproval');
 
+  const moveToHome = () => router?.push(KNOWLEDGE_BASE);
+
   const cancelBtnHandler = (type: string) => {
     if (type === '') {
-      router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
+      moveToHome?.();
       return;
     }
-    if (type === ARTICLE_STATUS?.DRAFT) {
-      handleSubmit?.(upsertArticleSubmit)(ARTICLE_STATUS?.DRAFT as any);
+    if (type === DRAFT) {
+      handleSubmit?.(upsertArticleSubmit)(DRAFT as any);
       return;
     }
   };
@@ -87,9 +97,8 @@ export const useUpsertArticle: any = () => {
       data?.needsApproval &&
       upsertArticle?.append('approver', data?.approver?._id);
     data?.needsApproval &&
-      upsertArticle?.append('reviewDate', data?.reviewDate?.toISOString());
-    !!data?.attachments &&
-      upsertArticle?.append('attachment', data?.attachments);
+      upsertArticle?.append('reviewDate', isoDateString(data?.reviewDate));
+    !!data?.attachments && upsertArticle?.append('fileUrl', data?.attachments);
     const postArticleParameter = {
       body: upsertArticle,
     };
@@ -101,8 +110,8 @@ export const useUpsertArticle: any = () => {
 
     try {
       await postArticleTrigger(postArticleParameter)?.unwrap();
-      successSnackbar('Article Added successfully');
-      router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
+      successSnackbar('Article added successfully');
+      moveToHome?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -115,8 +124,8 @@ export const useUpsertArticle: any = () => {
     };
     try {
       await patchArticleTrigger(patchArticleParameter)?.unwrap();
-      successSnackbar('Article Updated successfully');
-      router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
+      successSnackbar('Article updated successfully');
+      moveToHome?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -126,12 +135,11 @@ export const useUpsertArticle: any = () => {
 
   return {
     methods,
-    needApprovals,
     upsertArticleSubmit,
+    needApprovals,
     theme,
     newArticleFields,
     articleId,
-    router,
     postArticleStatus,
     patchArticleStatus,
     isLoading,
@@ -139,5 +147,6 @@ export const useUpsertArticle: any = () => {
     cancelBtnHandler,
     isError,
     refetch,
+    moveToHome,
   };
 };

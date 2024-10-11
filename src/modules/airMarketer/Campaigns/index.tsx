@@ -4,8 +4,6 @@ import useCampaigns from './useCampaigns';
 import { PlusIcon, ResetFilterIcon } from '@/assets/icons';
 import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
-import { campaignsTabs } from './Campaigns.data';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { compareCampaignArray } from './Compaigns.data';
@@ -16,26 +14,22 @@ import ResetTasksFilter from './ResetTasksFilter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import EditCampaign from './EditCampaign';
+import CommonTabs from '@/components/Tabs';
 
 const Campaigns = () => {
   const {
     setIsResetTaskFilter,
     isResetTaskFilter,
-    resetTasksFilters,
+    setCreateCampaign,
     setCurrentTabVal,
-    setTaskFilters,
-    setIsFilters,
-    setIsCompare,
-    currentTabVal,
-    taskFilters,
-    isFilters,
-    isCompare,
+    createCampaign,
     compareMethods,
+    currentTabVal,
+    setIsCompare,
+    isCompare,
     theme,
     selectedRows,
     setSelectedRows,
-    createCampaign,
-    setCreateCampaign,
   } = useCampaigns();
 
   return (
@@ -108,12 +102,12 @@ const Campaigns = () => {
         </Stack>
 
         <Box mt={1.6}>
-          <HorizontalTabs
+          <CommonTabs
+            tabsArray={['Manage', 'Calendar', 'Tasks']}
             setActiveTab={(val: number) => {
               setCurrentTabVal(val);
             }}
             defaultValue={currentTabVal}
-            tabsDataArray={campaignsTabs}
           >
             <Manage
               selectedRows={selectedRows}
@@ -121,24 +115,9 @@ const Campaigns = () => {
             />
             <Calendar />
             <Tasks />
-          </HorizontalTabs>
+          </CommonTabs>
         </Box>
       </Box>
-      {createCampaign?.isToggle && (
-        <EditCampaign
-          isOpenDrawer={createCampaign}
-          onClose={() => {
-            setCreateCampaign({
-              ...createCampaign,
-              isToggle: false,
-              type: '',
-              recId: [],
-            });
-          }}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-        />
-      )}
 
       {isCompare && (
         <CommonDrawer
@@ -179,14 +158,25 @@ const Campaigns = () => {
 
       {isResetTaskFilter && (
         <ResetTasksFilter
-          setCurrentTabVal={setCurrentTabVal}
-          setIsOpen={setIsResetTaskFilter}
-          setTaskFilters={setTaskFilters}
-          setIsFiltersOpen={setIsFilters}
           isOpen={isResetTaskFilter}
-          taskFilters={taskFilters}
-          reset={resetTasksFilters}
-          isFilterOpen={isFilters}
+          setIsOpen={setIsResetTaskFilter}
+          setCurrentTabVal={setCurrentTabVal}
+        />
+      )}
+
+      {createCampaign?.isToggle && (
+        <EditCampaign
+          isOpenDrawer={createCampaign}
+          onClose={() => {
+            setCreateCampaign({
+              ...createCampaign,
+              isToggle: false,
+              type: '',
+              recId: [],
+            });
+          }}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
         />
       )}
     </>

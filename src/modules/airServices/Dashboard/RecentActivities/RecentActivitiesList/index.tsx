@@ -5,13 +5,12 @@ import NoData from '@/components/NoData';
 
 const RecentActivitiesList = (props: any) => {
   const { data, isDrawerOpen, setIsDrawerOpen } = props;
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
+        onClose={() => setIsDrawerOpen(false)}
         title="Recent Activities"
         footer={false}
         isOk={false}
@@ -19,17 +18,17 @@ const RecentActivitiesList = (props: any) => {
       >
         <>
           <Box marginTop={1}>
-            <Typography variant="h5">Today</Typography>
+            <Typography variant="h5" color="slateBlue.main">
+              Today
+            </Typography>
           </Box>
           <Box my="0.75rem">
-            {!!data?.recentActivities?.length ? (
+            {!!data?.length ? (
               <>
-                {data?.recentActivities?.map((item: any, index: any) => (
-                  <>
-                    <Box key={item?._id} marginTop={1}>
-                      <RecentActivitiesCard data={item} index={index} />
-                    </Box>
-                  </>
+                {data?.map((item: any, index: any) => (
+                  <Box key={item?._id} marginTop={1}>
+                    <RecentActivitiesCard data={item} index={index} />
+                  </Box>
                 ))}
               </>
             ) : (

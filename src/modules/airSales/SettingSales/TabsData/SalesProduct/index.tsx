@@ -123,11 +123,14 @@ const SalesProduct = () => {
               <Button
                 id="basic-button"
                 className="small"
+                sx={{
+                  ...styles?.actionBtn(theme),
+                  width: { xs: '100%', sm: 'auto' },
+                }}
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                sx={styles?.actionBtn(theme)}
                 disabled={selectedCheckboxes?.length === 0}
                 endIcon={<ArrowDropDownIcon />}
               >

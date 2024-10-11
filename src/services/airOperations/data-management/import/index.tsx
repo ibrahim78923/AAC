@@ -13,7 +13,7 @@ export const dataManagementImportAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getUsersDropdownList: builder?.query({
+    getImportUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
@@ -27,5 +27,5 @@ export const dataManagementImportAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useGetImportListQuery, useLazyGetUsersDropdownListQuery } =
+export const { useGetImportListQuery, useLazyGetImportUsersDropdownListQuery } =
   dataManagementImportAPI;

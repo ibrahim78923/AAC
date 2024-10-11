@@ -6,6 +6,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { newIncidentFormFieldsDynamic } from './NewIncident.data';
 
 export const NewIncident: React.FC<{
   openDrawer: boolean;
@@ -16,7 +17,6 @@ export const NewIncident: React.FC<{
     handleSubmit,
     onSubmit,
     methods,
-    newIncidentFormFields,
     onClose,
     postTicketStatus,
     postRemoveAssociateTicketsStatus,
@@ -60,9 +60,13 @@ export const NewIncident: React.FC<{
         ) : (
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
-              {newIncidentFormFields?.map((item: any) => (
+              {newIncidentFormFieldsDynamic?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled={item?.componentProps?.disabled}
+                  />
                 </Grid>
               ))}
               {form?.map((item: any) => (

@@ -7,6 +7,8 @@ import { Permissions } from '@/constants/permissions';
 import { useHeader } from './useHeader';
 import { renderPortalComponent } from './Header.data';
 
+const { AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE_FOLDER } = Permissions ?? {};
+
 export const Header = () => {
   const { createNewKnowledgeBaseDropdownOptions, isPortalOpen } = useHeader();
 
@@ -14,9 +16,7 @@ export const Header = () => {
     <>
       <PageTitledHeader title="Knowledge Base">
         <PermissionsGuard
-          permissions={
-            Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE_FOLDER
-          }
+          permissions={AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE_FOLDER}
         >
           <SingleDropdownButton
             dropdownOptions={createNewKnowledgeBaseDropdownOptions}

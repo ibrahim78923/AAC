@@ -18,10 +18,10 @@ export const CustomizeTicketsColumn = () => {
     <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
-        onClose={() => onClose?.()}
+        onClose={onClose}
         okText={'Update'}
         title={'Customize Column'}
-        submitHandler={() => submit?.()}
+        submitHandler={submit}
         isOk
         footer
       >
@@ -31,7 +31,7 @@ export const CustomizeTicketsColumn = () => {
         </Typography>
         {ticketsListsColumnPersist?.slice?.(2)?.map((column: any) => (
           <Box
-            key={column?.id}
+            key={column?.header}
             display={'flex'}
             alignItems={'center'}
             flexWrap={'wrap'}

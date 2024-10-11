@@ -2,6 +2,7 @@ import { MenuItem } from '@mui/material';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteBusinessHour } from './useDeleteBusinessHour';
+
 export const DeleteBusinessHour = (props: any) => {
   const {
     setOpenBusinessHour,
@@ -10,6 +11,7 @@ export const DeleteBusinessHour = (props: any) => {
     deleteBusinessHour,
     isLoading,
   } = useDeleteBusinessHour(props);
+
   return (
     <>
       <MenuItem sx={{ pr: 5 }} onClick={() => setOpenBusinessHour(true)}>
@@ -22,6 +24,7 @@ export const DeleteBusinessHour = (props: any) => {
         handleClose={closeBusinessHourDeleteModal}
         handleSubmitBtn={deleteBusinessHour}
         loading={isLoading}
+        disableCancelBtn={isLoading}
       />
     </>
   );

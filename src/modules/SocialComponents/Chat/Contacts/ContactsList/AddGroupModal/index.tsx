@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -37,7 +37,15 @@ const AddGroupModal = ({
     defaultValues: addGroupDefaultValues,
   });
 
-  const { handleSubmit, watch, reset } = methodsAddGroup;
+  const theme = useTheme();
+
+  const {
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = methodsAddGroup;
 
   const participantIds: any = watch('participant');
   const [participants, setParticipants] = useState([]);
@@ -61,11 +69,15 @@ const AddGroupModal = ({
     setParticipants(updatedParticipantsIds);
   };
 
-  const getColumns = columns(
+  const getColumns: any = columns(
     handleRemoveParticipant,
     groupAdmins,
     setGroupAdmins,
   );
+
+  useEffect(() => {
+    setValue('image', imagePreview);
+  }, [imagePreview]);
 
   const formData = new FormData();
   const onSubmit = async (values: any) => {
@@ -162,6 +174,11 @@ const AddGroupModal = ({
               Add Photo
             </Typography>
           </label>
+          {imagePreview ? null : (
+            <Box sx={{ color: theme?.palette?.error?.main, fontSize: '14px' }}>
+              {errors?.image?.message}
+            </Box>
+          )}
         </Box>
 
         <br />
@@ -193,7 +210,6 @@ const AddGroupModal = ({
                 name={`participant`}
                 fullWidth
                 multiple
-                externalParams={{}}
                 apiQuery={apiQueryUsers}
                 size="small"
                 placeholder="Select user"

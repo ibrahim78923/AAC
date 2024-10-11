@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
 import { Tabs, Tab, Box, useTheme } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import { CommonTabsPropsI, TabPanelPropsI } from './Tabs.interface';
-
 import { styles } from './Tabs.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import Search from '../Search';
 
@@ -40,7 +36,8 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     getTabVal = () => {},
     addIcon = false,
     onAddClick = () => {},
-    activeTab = 0,
+    defaultValue = 0,
+    setActiveTab = () => {},
     headerChildren,
     isSearchBar,
     searchBarProps = {},
@@ -49,19 +46,21 @@ const CommonTabs = (props: CommonTabsPropsI) => {
 
   const theme = useTheme();
   const arrayChildren = React.Children.toArray(children);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
     getTabVal(value);
-  }, []);
+  }, [value]);
 
   useEffect(() => {
-    setValue(activeTab);
-  }, [activeTab]);
+    setValue(defaultValue);
+    setActiveTab(defaultValue);
+  }, [defaultValue]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     getTabVal(newValue);
+    setActiveTab(newValue);
   };
 
   return (
@@ -79,7 +78,6 @@ const CommonTabs = (props: CommonTabsPropsI) => {
       >
         <Tabs
           variant="scrollable"
-          defaultValue={activeTab}
           value={value}
           onChange={handleChange}
           aria-label="common tabs"
@@ -125,4 +123,5 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     </Box>
   );
 };
+
 export default CommonTabs;

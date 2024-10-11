@@ -5,7 +5,7 @@ import { WorkloadSchedule } from './WorkloadSchedule';
 export const WorkloadManagementTabs = [
   {
     _id: 1,
-    name: 'Roles And Permissions',
+    name: 'Roles and Permissions',
     id: 'rolesAndPermissions',
     tabPermissions: [
       AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_ROLES_AND_PERMISSIONS,

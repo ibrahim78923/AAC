@@ -2,11 +2,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import {
-  useGetWorkloadScheduleByIdQuery,
-  useLazyGetBusinessHourDropdownQuery,
-  useLazyGetWorkloadAgentDropdownQuery,
-  usePatchWorkloadScheduleMutation,
-  usePostWorkloadScheduleMutation,
+  useGetAirServicesSettingsWorkloadScheduleByIdQuery,
+  useLazyGetAirServicesSettingsBusinessHourDropdownQuery,
+  useLazyGetAirServicesSettingsWorkloadAgentDropdownQuery,
+  usePatchAirServicesSettingsWorkloadScheduleMutation,
+  usePostAirServicesSettingsWorkloadScheduleMutation,
 } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
@@ -18,14 +18,19 @@ import {
 import { AIR_SERVICES } from '@/constants';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertWorkloadSchedule = () => {
   const router = useRouter();
   const { workloadScheduleId } = router?.query;
+
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
+
   const [postWorkloadScheduleTrigger, postWorkloadScheduleStatus] =
-    usePostWorkloadScheduleMutation();
+    usePostAirServicesSettingsWorkloadScheduleMutation();
   const [patchWorkloadScheduleTrigger, patchWorkloadScheduleStatus] =
-    usePatchWorkloadScheduleMutation();
+    usePatchAirServicesSettingsWorkloadScheduleMutation();
 
   const getSingleWorkloadScheduleParameter = {
     queryParams: {
@@ -34,10 +39,13 @@ export const useUpsertWorkloadSchedule = () => {
   };
 
   const { data, isLoading, isFetching, isError } =
-    useGetWorkloadScheduleByIdQuery(getSingleWorkloadScheduleParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!workloadScheduleId,
-    });
+    useGetAirServicesSettingsWorkloadScheduleByIdQuery(
+      getSingleWorkloadScheduleParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!workloadScheduleId,
+      },
+    );
 
   const method = useForm<any>({
     defaultValues: upsertWorkloadScheduleDefaultValues?.(),
@@ -102,15 +110,21 @@ export const useUpsertWorkloadSchedule = () => {
   const moveBack = () => {
     router?.push(AIR_SERVICES?.WORKLOAD_MANAGEMENT_SETTINGS);
   };
-  const apiQueryAgent = useLazyGetWorkloadAgentDropdownQuery();
-  const apiQueryBusinessHours = useLazyGetBusinessHourDropdownQuery();
+
+  const apiQueryAgent =
+    useLazyGetAirServicesSettingsWorkloadAgentDropdownQuery();
+  const apiQueryBusinessHours =
+    useLazyGetAirServicesSettingsBusinessHourDropdownQuery();
+
   const upsertWorkloadScheduleFormFields =
     upsertWorkloadScheduleFormFieldsDynamic(
       apiQueryAgent,
       apiQueryBusinessHours,
       getValues,
       router,
+      productId,
     );
+
   return {
     handleSubmit,
     method,

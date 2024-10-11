@@ -56,7 +56,7 @@ const useBroadcastDetails = (broadcastDetails?: any) => {
 
   const updatedRecords = broadcastDetails?.recipients?.filter((item: any) => {
     if (filters?.search) {
-      return item?.name
+      return item?.firstName
         ?.toLowerCase()
         ?.includes(filters?.search?.toLowerCase());
     } else if (filters?.status) {

@@ -22,6 +22,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { pxToRem } from '@/utils/getFontValue';
+import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 
 const sharedWithOptionsArray = [
   { value: REPORT_TYPE?.VIEW_AND_EDIT, label: 'View and Edit' },
@@ -40,12 +41,20 @@ const addToDashboardArray = [
 
 export const reportsValidationSchema = (reportValidation: any) =>
   Yup?.object()?.shape({
-    reportName: Yup?.string()?.required('Required'),
-    sharedWith: Yup?.string()?.nullable()?.required('Required'),
-    addToDashboard: Yup?.string()?.nullable()?.required('Required'),
+    reportName: Yup?.string()
+      ?.trim()
+      ?.required('Report name is required')
+      ?.max(
+        GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+        `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+      ),
+    sharedWith: Yup?.string()?.nullable()?.required('Shared with is required'),
+    addToDashboard: Yup?.string()
+      ?.nullable()
+      ?.required('Add to dashboard is required'),
     everyoneCondition: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.EVERYONE
-        ? Yup?.string()?.nullable()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Everyone condition is required')
         : Yup?.string()?.notRequired(),
     ),
     specificUsersConditionOne: Yup?.array()?.when(() =>
@@ -81,17 +90,23 @@ export const reportsValidationSchema = (reportValidation: any) =>
     ),
     addToNewConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
-        ? Yup?.string()?.nullable()?.required('Required')
+        ? Yup?.string()
+            ?.trim()
+            ?.required('Dashboard name is required')
+            ?.max(
+              GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
+              `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
+            )
         : Yup?.string()?.notRequired(),
     ),
     addToNewConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
-        ? Yup?.string()?.nullable()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Shared with is required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardEveryoneCondition: Yup?.string()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.EVERYONE
-        ? Yup?.string()?.nullable()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Everyone condition is required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardSpecificUsersConditionOne: Yup?.array()?.when(() =>
@@ -144,6 +159,7 @@ export const reportsDataArray = (
   newDashboardFields: SpecialUsersFieldsI[],
   sharedWithFields: SpecialUsersFieldsI[],
   id: any,
+  productId: any,
 ) => [
   {
     id: 7578,
@@ -188,7 +204,7 @@ export const reportsDataArray = (
           }
           placeholder="Select Option"
           externalParams={{
-            meta: false,
+            productId: productId,
           }}
         />
         <TableContainer
@@ -303,7 +319,7 @@ export const reportsDataArray = (
           }
           placeholder="Select Option"
           externalParams={{
-            meta: false,
+            productId: productId,
           }}
         />
         <TableContainer

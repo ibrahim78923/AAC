@@ -2,16 +2,16 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { defaultValues, validationSchema } from './AttachmentForm.data';
-import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
 import { useRouter } from 'next/router';
 import { MODULE_TYPE } from '@/constants/strings';
+import { usePostAirServicesPurchaseOrderDetailsAttachmentsMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
 
 export const useAttachmentForm = (props: any) => {
   const { setAddAttachment } = props;
   const router = useRouter();
   const { purchaseOrderId } = router?.query;
   const [postAttachmentsTrigger, postAttachmentsStatus] =
-    usePostAttachmentsMutation();
+    usePostAirServicesPurchaseOrderDetailsAttachmentsMutation();
 
   const methods = useForm({
     resolver: yupResolver(validationSchema),

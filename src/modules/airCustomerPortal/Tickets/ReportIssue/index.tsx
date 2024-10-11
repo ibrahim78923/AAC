@@ -3,6 +3,7 @@ import {
   Box,
   Chip,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -13,7 +14,6 @@ import { LoadingButton } from '@mui/lab';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useReportIssue } from './useReportIssue';
 import CloseIcon from '@mui/icons-material/Close';
-import { Fragment } from 'react';
 import { PORTAL_TICKET_FIELDS } from '@/constants/strings';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
@@ -27,11 +27,11 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
     onSubmit,
     reportIssueFormFields,
     getArticleStatus,
-    checkRequesterPermission,
     handleArticleClick,
     subjectValue,
     checkArticlePermission,
     portalStyles,
+    requestorCondition,
   } = useReportIssue(props);
 
   return (
@@ -64,12 +64,8 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportIssueFormFields?.map((item: any) => {
-                  if (
-                    item?.componentProps?.name ===
-                      PORTAL_TICKET_FIELDS?.REQUESTER &&
-                    !checkRequesterPermission
-                  )
+                {reportIssueFormFields?.map((item) => {
+                  if (requestorCondition(item))
                     return (
                       <>
                         <RHFTextField
@@ -80,7 +76,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                           required
                         />
                         <RHFTextField
-                          name="requesterName"
+                          name="name"
                           label="Requester Name"
                           placeholder="Enter Requester Name"
                           size="small"
@@ -93,9 +89,10 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                     item?.componentProps?.name === PORTAL_TICKET_FIELDS?.SUBJECT
                   )
                     return (
-                      <Fragment key={item?.id}>
+                      <>
                         <item.component
                           {...item?.componentProps}
+                          key={item?.id}
                           size="small"
                         />
                         {getArticleStatus?.isLoading ||
@@ -127,7 +124,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                             </Box>
                           )
                         )}
-                      </Fragment>
+                      </>
                     );
                   return (
                     <item.component
@@ -139,59 +136,60 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                 })}
               </Grid>
             </Grid>
-            <Box
-              display={'flex'}
-              justifyContent={'flex-end'}
-              alignItems={'center'}
-              gap={1}
-              mt={'0.625rem'}
-            >
-              <LoadingButton
-                variant="outlined"
-                onClick={() => closePortal?.()}
-                disabled={postReportAnIssueStatus?.isLoading}
-                sx={(theme) => ({
-                  borderColor:
-                    portalStyles?.btnSecondary ||
-                    customizePortalDefaultValues(theme)?.btnSecondary,
-                  color:
-                    portalStyles?.btnSecondary ||
-                    customizePortalDefaultValues(theme)?.btnSecondary,
-                  '&:hover': {
-                    borderColor:
-                      portalStyles?.btnSecondary ||
-                      customizePortalDefaultValues(theme)?.btnSecondary,
-                    color:
-                      portalStyles?.btnSecondary ||
-                      customizePortalDefaultValues(theme)?.btnSecondary,
-                  },
-                })}
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                variant="contained"
-                sx={(theme) => ({
-                  bgcolor:
-                    portalStyles?.btnPrimary ||
-                    customizePortalDefaultValues(theme)?.btnPrimary,
-                  color: 'common.white',
-                  '&:hover': {
-                    bgcolor:
-                      portalStyles?.btnPrimary ||
-                      customizePortalDefaultValues(theme)?.btnPrimary,
-                    color: 'common.white',
-                  },
-                })}
-                type="submit"
-                disabled={postReportAnIssueStatus?.isLoading}
-                loading={postReportAnIssueStatus?.isLoading}
-              >
-                Submit
-              </LoadingButton>
-            </Box>
           </FormProvider>
         </DialogContent>
+        <DialogActions>
+          <LoadingButton
+            variant="outlined"
+            className="small"
+            onClick={() => closePortal?.()}
+            disabled={postReportAnIssueStatus?.isLoading}
+            sx={(theme) => ({
+              borderColor:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              '&:hover': {
+                borderColor:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+                color:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+              },
+            })}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            className="small"
+            sx={(theme) => ({
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+              '&:hover': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+              },
+              '&.Mui-disabled': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+              },
+            })}
+            onClick={handleSubmit(onSubmit)}
+            disabled={postReportAnIssueStatus?.isLoading}
+            loading={postReportAnIssueStatus?.isLoading}
+          >
+            Submit
+          </LoadingButton>
+        </DialogActions>
       </Dialog>
     </>
   );

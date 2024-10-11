@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { workloadDefaultDateRange } from '../Workload.data';
 import { useGetWorkloadQuery } from '@/services/airServices/workload';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { isoDateString } from '@/utils/dateTime';
 
 export default function useManageWorkload() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -14,15 +16,28 @@ export default function useManageWorkload() {
     workloadDefaultDateRange,
   );
 
+  const workloadParams = {
+    manage: manage,
+    startDate: !!dateRange?.[ARRAY_INDEX?.ZERO]?.startDate
+      ? isoDateString(dateRange?.[ARRAY_INDEX?.ZERO]?.startDate)
+      : undefined,
+    endDate: !!dateRange?.[ARRAY_INDEX?.ZERO]?.endDate
+      ? isoDateString(dateRange?.[ARRAY_INDEX?.ZERO]?.endDate)
+      : undefined,
+    modifiedStartDate: !!modifiedRange?.[ARRAY_INDEX?.ZERO]?.startDate
+      ? isoDateString(modifiedRange?.[ARRAY_INDEX?.ZERO]?.startDate)
+      : undefined,
+    modifiedEndDate: !!modifiedRange?.[ARRAY_INDEX?.ZERO]?.endDate
+      ? isoDateString(modifiedRange?.[ARRAY_INDEX?.ZERO]?.endDate)
+      : undefined,
+  };
+
   const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
+    { ...workloadParams },
     {
-      manage: manage,
-      startDate: dateRange?.[0]?.startDate?.toISOString(),
-      endDate: dateRange?.[0]?.endDate?.toISOString(),
-      modifiedStartDate: modifiedRange?.[0]?.startDate?.toISOString(),
-      modifiedEndDate: modifiedRange?.[0]?.endDate?.toISOString(),
+      skip: !openDrawer,
+      refetchOnMountOrArgChange: true,
     },
-    { skip: !openDrawer, refetchOnMountOrArgChange: true },
   );
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

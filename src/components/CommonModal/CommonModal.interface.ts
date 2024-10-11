@@ -16,4 +16,5 @@ export interface ModelPropsI {
   headerIcon?: any;
   width?: any;
   cancelIcon?: boolean;
+  background?: any;
 }

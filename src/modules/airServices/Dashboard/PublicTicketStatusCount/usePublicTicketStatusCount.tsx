@@ -1,0 +1,36 @@
+import { useGetServicesDashboardPublicDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
+import { useRouter } from 'next/router';
+import { ticketDashboardCardsData } from './PublicTicketStatusCount.data';
+
+export const usePublicTicketStatusCount = () => {
+  const router = useRouter();
+  const { companyId } = router?.query;
+
+  const skip = !companyId;
+
+  const apiDataParameter = {
+    queryParams: {
+      companyId,
+    },
+  };
+
+  const { data, isLoading, isFetching, isError, error, refetch } =
+    useGetServicesDashboardPublicDashboardCardsTicketsQuery(apiDataParameter, {
+      refetchOnMountOrArgChange: true,
+      skip,
+    });
+  const apiCallInProgress = isLoading || isFetching;
+  const ticketDashboardCards = ticketDashboardCardsData(data?.data);
+
+  return {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    skip,
+    error,
+    apiCallInProgress,
+    ticketDashboardCards,
+    refetch,
+  };
+};

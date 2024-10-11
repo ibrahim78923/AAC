@@ -23,10 +23,11 @@ export const Vendor = () => {
     isSuccess,
     setPageLimit,
     setPage,
-    setSearch,
+    handleSearch,
     getNewVendorDataExport,
     isDrawerOpen,
     setIsDrawerOpen,
+    refetch,
   } = useVendor();
 
   return (
@@ -71,7 +72,7 @@ export const Vendor = () => {
             AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
           ]}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={handleSearch} />
         </PermissionsGuard>
       </Box>
 
@@ -96,6 +97,7 @@ export const Vendor = () => {
           pageLimit={vendorData?.data?.meta?.limit}
           totalRecords={vendorData?.data?.meta?.total}
           onPageChange={(page: any) => setPage(page)}
+          errorProps={{ canRefresh: true, refresh: refetch }}
         />
       </PermissionsGuard>
       <Box>

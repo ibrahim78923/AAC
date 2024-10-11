@@ -35,7 +35,7 @@ const NoData = (props: NoDataPropsI) => {
           />
         </Box>
       )}
-      <Typography variant="h6" mb={2}>
+      <Typography variant="h6" mb={2} mt={1}>
         {message}
       </Typography>
       {children}

@@ -1,16 +1,17 @@
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import {
-  useLazyGetContactOwnerQuery,
-  useGetCompanyByIdQuery,
+  useLazyGetAirServicesContactOwnerQuery,
+  useGetAirServicesCompanyByIdQuery,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { getDefaultValues, getFormFields } from './ViewCompany.data';
 
 export default function useViewCompany({ modalId, setModalId }: any) {
-  const { data, isLoading, isFetching, isError } = useGetCompanyByIdQuery(
-    { params: { id: modalId?.id } },
-    { refetchOnMountOrArgChange: true },
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetAirServicesCompanyByIdQuery(
+      { params: { id: modalId?.id } },
+      { refetchOnMountOrArgChange: true },
+    );
   const defaultValues = getDefaultValues(data?.data);
 
   const methodsNewCompany = useForm({
@@ -31,7 +32,7 @@ export default function useViewCompany({ modalId, setModalId }: any) {
     });
   };
 
-  const contactOwner = useLazyGetContactOwnerQuery();
+  const contactOwner = useLazyGetAirServicesContactOwnerQuery();
 
   const formFields = getFormFields({
     contactOwner,

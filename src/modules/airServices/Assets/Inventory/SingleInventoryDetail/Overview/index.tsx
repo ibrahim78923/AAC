@@ -7,8 +7,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/utils/dateTime';
 
 export const Overview = () => {
   const { isLoading, isFetching, isError, overviewData, refetch } =
@@ -42,6 +41,7 @@ export const Overview = () => {
               p={2}
               color={'grey.900'}
               fontWeight={500}
+              textTransform={'capitalize'}
             >
               {isValidElement(value) ? (
                 value
@@ -59,9 +59,9 @@ export const Overview = () => {
                   variant={'rounded'}
                 />
               ) : isValidDate(value) ? (
-                dayjs(value)?.format(DATE_FORMAT?.UI)
+                uiDateFormat(value)
               ) : (
-                value?.toString()
+                value?.toString()?.toLowerCase()
               )}
             </Typography>
           </Box>

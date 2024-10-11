@@ -28,6 +28,7 @@ const RHFDateRangePicker = (props: any) => {
     onSubmitBtnClick,
     cancelBtnEffect,
     closePopOver,
+    onSubmitBtnDisable = false,
     ...other
   } = props;
 
@@ -148,6 +149,7 @@ const RHFDateRangePicker = (props: any) => {
                 <Box textAlign={'right'} mb={2} px={2}>
                   <Button
                     variant="contained"
+                    disabled={onSubmitBtnDisable}
                     onClick={() => onSubmitBtnClick?.(setAnchorElDate)}
                   >
                     Submit

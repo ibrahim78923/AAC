@@ -17,15 +17,15 @@ export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
   return (
     <>
       <CommonDrawer
-        title="Filters"
+        title={'Filters'}
         isDrawerOpen={isDrawerOpen}
         submitHandler={() => {
           handleSubmit?.(submitInventoryFilterForm)();
         }}
-        cancelText="Reset"
+        cancelText={'Reset'}
         isOk
         footer
-        okText="Apply"
+        okText={'Apply'}
         onClose={() => closeInventoryFilterForm?.()}
         cancelBtnHandler={() => resetInventoryFilterForm?.()}
       >
@@ -37,7 +37,7 @@ export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
           <Grid container spacing={1.5}>
             {inventoryFilterFormFieldsData?.map((form: any) => (
               <Grid item xs={12} key={form?.id}>
-                <form.component {...form?.componentProps} size="small" />
+                <form.component {...form?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>

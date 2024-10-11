@@ -34,17 +34,19 @@ export const useVendor = () => {
     isError,
     isFetching,
     isSuccess,
+    refetch,
   } = useGetVendorsListQuery({ param }, { refetchOnMountOrArgChange: true });
 
   const [lazyGetExportNewVendorTrigger] = useLazyGetExportNewVendorQuery();
 
-  const getNewVendorDataExport = async (type: any) => {
+  const handleSearch = (searchValue: string) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
+  };
+  const getNewVendorDataExport = async (exportType: any) => {
     const getNewVendorExportParam = {
-      exportType: type,
-      page,
-      limit: pageLimit,
-      search,
-      meta: true,
+      exportType,
+      meta: false,
     };
 
     const getNewVendorExportParameter = {
@@ -54,9 +56,9 @@ export const useVendor = () => {
       const response: any = await lazyGetExportNewVendorTrigger(
         getNewVendorExportParameter,
       )?.unwrap();
-      downloadFile(response, 'NewVendorLists', EXPORT_FILE_TYPE?.[type]);
+      downloadFile(response, 'NewVendorLists', EXPORT_FILE_TYPE?.[exportType]);
       successSnackbar(
-        `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
+        `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[exportType]}`,
       );
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -75,9 +77,10 @@ export const useVendor = () => {
     isSuccess,
     setPageLimit,
     setPage,
-    setSearch,
+    handleSearch,
     getNewVendorDataExport,
     isDrawerOpen,
     setIsDrawerOpen,
+    refetch,
   };
 };

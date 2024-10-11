@@ -1,12 +1,9 @@
 import { PAGINATION } from '@/config';
-import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useAddContactsColumns } from './ExistingContact.data';
-import { useGetAssociatesContactsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesAssociatesContactsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export default function useExistingContact({ setSelected, selected }: any) {
-  const theme: any = useTheme();
-
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
@@ -20,19 +17,23 @@ export default function useExistingContact({ setSelected, selected }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesContactsQuery(getAssociatesContactsParameter, {
+    useGetAirServicesAssociatesContactsQuery(getAssociatesContactsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
   const addContactsColumns = useAddContactsColumns({
-    theme,
     setSelected,
     selected,
     associatesContactsList: data?.data?.contacts,
   });
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   return {
-    setSearch,
+    handleSearch,
     addContactsColumns,
     data,
     isLoading,

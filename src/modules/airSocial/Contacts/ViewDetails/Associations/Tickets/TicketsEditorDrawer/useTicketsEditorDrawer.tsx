@@ -1,21 +1,26 @@
 import { useLazyGetAllTicketsQuery } from '@/services/common-APIs';
 import {
   // useGetTicketsByIdQuery,
-  useLazyGetAgentDropdownQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery,
+  useLazyGetAssociateAssetsDropdownForServicesTicketsQuery,
+  useLazyGetCategoriesDropdownForServicesTicketsQuery,
+  useLazyGetDepartmentDropdownForServicesTicketsQuery,
+  useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery,
 } from '@/services/airServices/tickets';
 
 const useTicketsEditorDrawer = () => {
   const ticketsList = useLazyGetAllTicketsQuery();
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const apiQueryDepartment =
+    useLazyGetDepartmentDropdownForServicesTicketsQuery();
+  const apiQueryRequester =
+    useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery();
+  const apiQueryAgent =
+    useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery();
+  const apiQueryAssociateAsset =
+    useLazyGetAssociateAssetsDropdownForServicesTicketsQuery();
+  const apiQueryCategories =
+    useLazyGetCategoriesDropdownForServicesTicketsQuery();
 
   return {
     ticketsList,

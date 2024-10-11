@@ -1,24 +1,16 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useState } from 'react';
 import { ReportIssue } from '@/modules/airCustomerPortal/Tickets/ReportIssue';
-import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
-import {
-  getCustomerPortalPermissions,
-  getCustomerPortalStyling,
-} from '@/utils';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { useHeader } from './useHeader';
 
 export const Header = () => {
-  const [openReportAnIssueModal, setOpenReportAnIssueModal] =
-    useState<boolean>(false);
-  const handleOpenModal = () => {
-    setOpenReportAnIssueModal(true);
-  };
-  const customerPortalPermissions = getCustomerPortalPermissions();
-  const reportAnIssuePermission = customerPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUBMIT_TICKET_BY_EVERYONE,
-  );
-  const customerPortalStyling = getCustomerPortalStyling();
+  const {
+    openReportAnIssueModal,
+    setOpenReportAnIssueModal,
+    handleOpenModal,
+    reportAnIssuePermission,
+    customerPortalStyling,
+  } = useHeader();
   return (
     <>
       <Box
@@ -35,6 +27,7 @@ export const Header = () => {
           {reportAnIssuePermission && (
             <Button
               onClick={handleOpenModal}
+              className="small"
               variant="contained"
               sx={(theme: any) => ({
                 bgcolor:

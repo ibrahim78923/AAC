@@ -30,17 +30,14 @@ export const BusinessHours = () => {
 
   return (
     <>
-      <Box
-        borderBottom="0.06rem solid"
-        borderColor="custom.light_lavender_gray"
-        mb={2.5}
-      >
-        <PageTitledHeader
-          title="Business Hours"
-          canMovedBack
-          moveBack={() => router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
-        />
-      </Box>
+      <PageTitledHeader
+        title="Business Hours"
+        canMovedBack
+        moveBack={() => router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
+      />
+
+      <br />
+
       <Grid container spacing={3}>
         <Grid
           item
@@ -143,6 +140,8 @@ export const BusinessHours = () => {
                       fontWeight={600}
                       color="blue.dark"
                       mt="0.7rem"
+                      textAlign={'center'}
+                      textTransform={'capitalize'}
                       sx={{
                         textOverflow: 'break-all',
                         wordBreak: 'break-all',
@@ -160,6 +159,7 @@ export const BusinessHours = () => {
           )}
         </PermissionsGuard>
       </Grid>
+
       {openModal?.delete && (
         <AlertModals
           message={'Are you sure you want to delete this Business Hour?'}

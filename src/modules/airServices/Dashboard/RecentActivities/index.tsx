@@ -8,7 +8,7 @@ import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboa
 export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
+  const recentActivitiesData = data?.recentActivities;
   return (
     <Box
       borderRadius={3}
@@ -16,25 +16,32 @@ export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
       borderColor="custom.off_white"
       maxHeight="100%"
       height={'100%'}
-      display="flex"
+      display={'flex'}
       flexDirection={'column'}
     >
-      <Box p={2}>
+      <Box
+        px={2}
+        py={1}
+        borderBottom={`1px solid`}
+        borderColor="custom.off_white"
+      >
         <Typography variant="h5" color="slateBlue.main">
           Recent Activities
         </Typography>
       </Box>
-      {data?.recentActivities?.length ? (
-        <Box height={'45vh'} overflow={'scroll'}>
-          {data?.recentActivities?.map((item: any) => (
-            <Fragment key={item?._id}>
-              <RecentActivitiesCard data={item} />
-            </Fragment>
-          ))}
-        </Box>
-      ) : (
-        <NoData message={'No recent activities found'} height={'100%'} />
-      )}
+      <Box flex={1}>
+        {recentActivitiesData?.length ? (
+          <>
+            {recentActivitiesData?.map((item: any) => (
+              <Fragment key={item?._id}>
+                <RecentActivitiesCard data={item} />
+              </Fragment>
+            ))}
+          </>
+        ) : (
+          <NoData message={'No recent activities found'} height={'100%'} />
+        )}
+      </Box>
       <Box textAlign={'center'}>
         <Button
           className="small"
@@ -50,7 +57,7 @@ export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
         <RecentActivitiesList
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-          data={data}
+          data={recentActivitiesData}
         />
       )}
     </Box>

@@ -19,7 +19,9 @@ export const RequestApprovalForm = (props: any) => {
     onSubmit,
     postRequestApprovalStatus,
     apiQueryAgents,
+    productId,
   } = useRequestApprovalForm(props);
+
   return (
     <Dialog
       open={openDialog}
@@ -57,6 +59,7 @@ export const RequestApprovalForm = (props: any) => {
               `${option?.firstName} ${option?.lastName}`
             }
             required
+            externalParams={{ productId, admin: true }}
           />
 
           <Box
@@ -71,6 +74,7 @@ export const RequestApprovalForm = (props: any) => {
               variant="outlined"
               onClick={() => setOpenDialog(false)}
               color={'secondary'}
+              className={'small'}
               disabled={postRequestApprovalStatus?.isLoading}
             >
               Cancel
@@ -79,6 +83,7 @@ export const RequestApprovalForm = (props: any) => {
               loading={postRequestApprovalStatus?.isLoading}
               variant="contained"
               type="submit"
+              className={'small'}
             >
               Request
             </LoadingButton>

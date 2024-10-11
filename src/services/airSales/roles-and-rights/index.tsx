@@ -1,6 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['PERMISSIONS'];
 export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPermissionsRoles: builder.query({
@@ -9,7 +9,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: values,
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
     getPermissionsRolesById: builder.query({
@@ -17,7 +17,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_PLAN_PRODUCTS_PERMISSIONS}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
     getRolesDataById: builder.query({
@@ -25,7 +25,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
     getProductsPermissions: builder.query({
@@ -33,7 +33,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
         method: 'GET',
       }),
-      providesTags: ['PERMISSIONS'],
+      providesTags: TAG,
     }),
 
     updateRoleRights: builder.mutation({
@@ -44,7 +44,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: TAG,
     }),
 
     postPermissionRole: builder.mutation({
@@ -55,7 +55,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: TAG,
     }),
   }),
 });

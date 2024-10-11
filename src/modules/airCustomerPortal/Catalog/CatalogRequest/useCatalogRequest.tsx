@@ -11,20 +11,13 @@ import {
 } from '@/services/airCustomerPortal/catalog';
 import { NextRouter, useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  ARRAY_INDEX,
-  CATALOG_SERVICE_TYPES,
-  MODULE_TYPE,
-  TICKET_STATUS,
-  TICKET_TYPE,
-} from '@/constants/strings';
+import { MODULE_TYPE, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import {
-  getActiveAccountSession,
   getCustomerPortalPermissions,
-  getSession,
+  getCustomerPortalStyling,
 } from '@/utils';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -32,34 +25,21 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;
   const router: NextRouter = useRouter();
   const { serviceId } = router?.query;
-
-  const product = useMemo(() => getActiveAccountSession(), []);
-  const session: any = getSession();
-  const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.company?._id;
-  const sessionUserId = session?.user?._id;
-  const sessionOrganizationId = session?.user?.organization?._id;
+  const getPortalPermissions = getCustomerPortalPermissions();
 
   const { companyId } = router?.query;
-  const decryptedId = useMemo(() => {
-    const id = Array.isArray(companyId)
-      ? companyId[ARRAY_INDEX?.ZERO]
-      : companyId;
-    return atob(id ?? '');
-  }, [companyId]);
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const categoryType = servicesDetails?.data?.serviceType;
+  const categoryType = servicesDetails?.data?.assetType;
 
-  const searchStringLowerCase = categoryType?.toLowerCase();
-  const getPortalPermissions = getCustomerPortalPermissions();
-  const checkPermission = getPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
-  );
+  const checkPermission =
+    getPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+    );
 
   const methodRequest = useForm<any>({
     resolver: yupResolver(
-      placeRequestValidationSchema?.(searchStringLowerCase, checkPermission),
+      placeRequestValidationSchema?.(categoryType, checkPermission),
     ),
     defaultValues: placeRequestDefaultValues,
   });
@@ -68,31 +48,29 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     methodRequest;
 
   const onSubmitRequest = async (data: any) => {
-    const addItemToDescription =
-      categoryType?.toLowerCase() ===
-      CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
-        ? `${servicesDetails?.data?.description} No of item ${data?.noOfItem}`
-        : servicesDetails?.data?.description;
-
     const placeRequestData = new FormData();
+    if (categoryType) {
+      placeRequestData?.append('numberOfItems', data?.noOfItem);
+    }
     if (checkPermission) {
       placeRequestData?.append('requester', data?.requestor?._id);
     }
     if (!checkPermission) {
       placeRequestData?.append('requesterEmail', data?.requesterEmail);
     }
+    if (!checkPermission) {
+      placeRequestData?.append('name', data?.requesterName);
+    }
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
     placeRequestData?.append('subject', servicesDetails?.data?.itemName);
+    placeRequestData?.append('description', servicesDetails?.data?.description);
     placeRequestData?.append('serviceId', serviceId as string);
     placeRequestData?.append('moduleType', MODULE_TYPE?.CUSTOMER_PORTAL);
     placeRequestData?.append('ticketType', TICKET_TYPE?.SR);
-    placeRequestData?.append('description', addItemToDescription);
-    placeRequestData?.append('userId', sessionUserId || '');
     placeRequestData?.append(
-      'companyId',
-      decryptedId || companyIdStorage || sessionId || '',
+      'category',
+      servicesDetails?.data?.categoryDetails?._id,
     );
-    placeRequestData?.append('organization', sessionOrganizationId || '');
 
     const postTicketParameter = {
       body: placeRequestData,
@@ -131,10 +109,12 @@ const useCatalogRequest = (props: CatalogRequestI) => {
 
   const catalogRequestFormField = placeRequest(
     apiQueryRequester,
-    searchStringLowerCase,
+    categoryType,
     requestForSomeOne,
     checkPermission,
   );
+
+  const portalStyles = getCustomerPortalStyling();
 
   return {
     methodRequest,
@@ -145,10 +125,10 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     catalogRequestFormField,
     requestForSomeOne,
     handleClose,
-    searchStringLowerCase,
     reset,
     postTicketStatus,
     checkPermission,
+    portalStyles,
   };
 };
 export default useCatalogRequest;

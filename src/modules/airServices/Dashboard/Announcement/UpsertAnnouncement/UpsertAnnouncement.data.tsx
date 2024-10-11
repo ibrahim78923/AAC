@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDatePicker,
   RHFEditor,
@@ -12,34 +11,46 @@ import { pxToRem } from '@/utils/getFontValue';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { DashboardOwnersFieldDropdown } from '../../DashboardFormFields/DashboardOwnersFieldDropdown';
+
+const {
+  SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS,
+  SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS,
+} = CHARACTERS_LIMIT ?? {};
+
+const { EVERYONE, ALL_AGENT, SPECIFIC_USERS } = ANNOUNCEMENTS_VISIBILITY ?? {};
 
 export const announcementsVisibilityOptions = [
   {
-    _id: ANNOUNCEMENTS_VISIBILITY?.EVERYONE,
-    label:
-      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ANNOUNCEMENTS_VISIBILITY?.EVERYONE],
+    _id: EVERYONE,
+    label: ANNOUNCEMENTS_VISIBILITY_MAPPED?.[EVERYONE],
   },
   {
-    _id: ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT,
-    label:
-      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ANNOUNCEMENTS_VISIBILITY?.ALL_AGENT],
+    _id: ALL_AGENT,
+    label: ANNOUNCEMENTS_VISIBILITY_MAPPED?.[ALL_AGENT],
   },
   {
-    _id: ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS,
-    label:
-      ANNOUNCEMENTS_VISIBILITY_MAPPED?.[
-        ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
-      ],
+    _id: SPECIFIC_USERS,
+    label: ANNOUNCEMENTS_VISIBILITY_MAPPED?.[SPECIFIC_USERS],
   },
 ];
 
 export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.trim()?.required('Title is required'),
-  description: Yup?.string()?.trim(),
+  title: Yup?.string()
+    ?.trim()
+    ?.required('Title is required')
+    ?.max(
+      SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS,
+      `Maximum characters limit is ${SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS}`,
+    ),
+  description: Yup?.string()
+    ?.trim()
+    ?.max(
+      SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS,
+      `Maximum characters limit is ${SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS}`,
+    ),
   notifyMembers: Yup?.boolean(),
   visibility: Yup?.mixed()?.nullable()?.required('Visibility is required'),
   additionalEmail: Yup?.array()
@@ -50,7 +61,7 @@ export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
       );
     }),
   addMember: Yup?.array()?.when('visibility', {
-    is: (value: any) => value?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS,
+    is: (value: any) => value?._id === SPECIFIC_USERS,
     then: () => Yup?.array()?.min(1, 'Member is required'),
     otherwise: () => Yup?.array(),
   }),
@@ -74,7 +85,6 @@ export const upsertAnnouncementDefaultValues = (data?: any) => {
 };
 
 export const upsertAnnouncementFormFieldsDynamic = (
-  apiQueryUsers: any,
   startDateWatch: any,
   visibilityWatch: any,
 ) => [
@@ -162,23 +172,19 @@ export const upsertAnnouncementFormFieldsDynamic = (
     },
     md: 12,
   },
-  ...(visibilityWatch?._id === ANNOUNCEMENTS_VISIBILITY?.SPECIFIC_USERS
+  ...(visibilityWatch?._id === SPECIFIC_USERS
     ? [
         {
           id: 8,
           componentProps: {
             name: 'addMember',
             label: 'Add Member',
-            fullWidth: true,
             placeholder: 'Search agents and requesters',
-            apiQuery: apiQueryUsers,
             required: true,
             multiple: true,
-            externalParams: { requester: true, admin: true },
-            getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-              `${option?.firstName} ${option?.lastName}`,
+            moreQueryParams: { requester: true, admin: true },
           },
-          component: RHFAutocompleteAsync,
+          component: DashboardOwnersFieldDropdown,
           md: 12,
         },
       ]

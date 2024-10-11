@@ -3,23 +3,28 @@ import { LoadingButton } from '@mui/lab';
 import { Box } from '@mui/material';
 import { useDownloadDashboard } from './useDownloadDashboard';
 
+const { PNG, PDF } = DOWNLOAD_FILE_TYPE ?? {};
+
 export const DownloadDashboard = (props: any) => {
   const { isDownloading, downloadReport } = useDownloadDashboard?.(props);
+
   return (
     <Box display={'flex'} flexWrap={'wrap'} gap={2} my={2}>
       <LoadingButton
+        className="small"
         variant="contained"
         disabled={isDownloading?.isLoading}
-        onClick={() => downloadReport?.(DOWNLOAD_FILE_TYPE?.PDF)}
-        loading={isDownloading?.isPng === DOWNLOAD_FILE_TYPE?.PDF}
+        onClick={() => downloadReport?.(PDF)}
+        loading={isDownloading?.isPng === PDF}
       >
         Download as PDF
       </LoadingButton>
       <LoadingButton
+        className="small"
         variant="contained"
         disabled={isDownloading?.isLoading}
-        loading={isDownloading?.isPng === DOWNLOAD_FILE_TYPE?.PNG}
-        onClick={() => downloadReport?.(DOWNLOAD_FILE_TYPE?.PNG)}
+        loading={isDownloading?.isPng === PNG}
+        onClick={() => downloadReport?.(PNG)}
       >
         Download as PNG
       </LoadingButton>

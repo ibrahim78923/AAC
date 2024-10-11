@@ -3,14 +3,14 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
-import {
-  customerSupportListColumn,
-  surveyDataTypes,
-} from './CustomerSatisfactionList.data';
+import { customerSupportListColumn } from './CustomerSatisfactionList.data';
 import { AIR_SERVICES } from '@/constants';
 import { useCustomerSatisfactionList } from './useCustomerSatisfactionList';
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import {
+  ALERT_MODALS_TYPE,
+  FEEDBACK_SURVEY_PATH_TYPES,
+} from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
@@ -19,7 +19,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
   props,
 ) => {
   const {
-    setSearch,
+    handleSearch,
     activeCheck,
     setActiveCheck,
     page,
@@ -52,7 +52,7 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
         gap={1}
         flexWrap="wrap"
       >
-        <Search label="Search here" setSearchBy={setSearch} />
+        <Search label="Search here" setSearchBy={handleSearch} />
         <Box display="flex" gap={1} flexWrap="wrap">
           <PermissionsGuard
             permissions={
@@ -72,10 +72,13 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
             <Button
               startIcon={<PlusIcon />}
               variant="contained"
+              className="small"
               onClick={() =>
                 router?.push({
                   pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
-                  query: { type: surveyDataTypes?.customerSatisfaction },
+                  query: {
+                    type: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SATISFACTION,
+                  },
                 })
               }
             >

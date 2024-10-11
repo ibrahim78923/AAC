@@ -5,30 +5,37 @@ import {
 } from './ReportIssue.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { useLazyGetRequesterDropdownQuery } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
-import { ARRAY_INDEX, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
-import { ReportIssuePropsI } from './ReportIssue.interface';
+import {
+  ARRAY_INDEX,
+  PORTAL_TICKET_FIELDS,
+  TICKET_STATUS,
+  TICKET_TYPE,
+} from '@/constants/strings';
+import {
+  useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
+  useLazyGetAllArticlesQuery,
+  useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery,
+  usePostReportAnIssueTicketsMutation,
+} from '@/services/airCustomerPortal/Tickets';
 import {
   getActiveAccountSession,
   getCustomerPortalPermissions,
   getCustomerPortalStyling,
   getSession,
 } from '@/utils';
-import {
-  useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
-  useLazyGetAllArticlesQuery,
-} from '@/services/airCustomerPortal/Tickets';
-import { useEffect, useMemo } from 'react';
-import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import useAuth from '@/hooks/useAuth';
+import { ReportIssuePropsI } from './ReportIssue.interface';
+import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 export const useReportIssue = (props: ReportIssuePropsI) => {
   const { setIsPortalOpen } = props;
   const router = useRouter();
   const { companyId } = router?.query;
+  const auth = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = useMemo(() => getSession(), []);
   const sessionId = session?.user?.companyId;
@@ -41,15 +48,18 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
   }, [companyId]);
   const getCompanyId = decryptedId || companyIdStorage || sessionId;
   const getPortalPermissions = getCustomerPortalPermissions();
-  const checkRequesterPermission = getPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
-  );
-  const checkArticlePermission = getPortalPermissions?.includes(
-    AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
-  );
+  const checkRequesterPermission =
+    getPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
+    );
+  const checkArticlePermission =
+    getPortalPermissions?.customerPortalPermissions?.includes(
+      AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
+    );
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownByCompanyIdQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery();
 
   const methods = useForm<any>({
     resolver: yupResolver(
@@ -61,7 +71,7 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
   const { handleSubmit, reset, watch } = methods;
 
   const [postReportAnIssueTrigger, postReportAnIssueStatus] =
-    usePostReportAnIssueMutation();
+    usePostReportAnIssueTicketsMutation();
   const [getArticleTrigger, getArticleStatus] = useLazyGetAllArticlesQuery();
   const subjectValue = watch('subject');
   const handleArticle = async () => {
@@ -86,14 +96,19 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
 
   const onSubmit = async (data: any) => {
     const reportAnIssueData = new FormData();
-    if (checkRequesterPermission) {
+    if (!!checkRequesterPermission && !!auth?.isAuthenticated) {
       reportAnIssueData?.append('requester', data?.requester?._id);
-    }
-    if (!checkRequesterPermission) {
+    } else {
       reportAnIssueData?.append('requesterEmail', data?.requesterEmail);
+      reportAnIssueData?.append('name', data?.name);
     }
     reportAnIssueData?.append('subject', data?.subject);
     reportAnIssueData?.append('description', data?.description);
+    !auth?.isAuthenticated &&
+      reportAnIssueData?.append(
+        'organization',
+        getPortalPermissions?.organizationId,
+      );
     reportAnIssueData?.append('status', TICKET_STATUS?.OPEN);
     !!data?.associatesAssets?.length &&
       reportAnIssueData?.append(
@@ -101,6 +116,8 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
         data?.associatesAssets?.map((asset: any) => asset?._id),
       );
     reportAnIssueData?.append('moduleType', 'CUSTOMER_PORTAL');
+    !auth?.isAuthenticated &&
+      reportAnIssueData?.append('companyId', getCompanyId);
     reportAnIssueData?.append('ticketType', TICKET_TYPE?.INC);
     data?.attachFile !== null &&
       reportAnIssueData?.append('fileUrl', data?.attachFile);
@@ -129,6 +146,12 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     getCompanyId,
   );
   const portalStyles = getCustomerPortalStyling();
+  const requestorCondition = (item: any) =>
+    (item?.componentProps?.name === PORTAL_TICKET_FIELDS?.REQUESTER &&
+      !checkRequesterPermission &&
+      !!auth?.isAuthenticated) ||
+    (item?.componentProps?.name === PORTAL_TICKET_FIELDS?.REQUESTER &&
+      !auth?.isAuthenticated);
   return {
     methods,
     postReportAnIssueStatus,
@@ -142,5 +165,6 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     subjectValue,
     checkArticlePermission,
     portalStyles,
+    requestorCondition,
   };
 };

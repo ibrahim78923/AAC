@@ -131,6 +131,7 @@ export const UpsertInventory = () => {
                 variant="outlined"
                 color="secondary"
                 onClick={() => moveBack?.()}
+                className="small"
                 disabled={
                   postAddToInventoryStatus?.isLoading ||
                   patchAddToInventoryStatus?.isLoading ||
@@ -142,6 +143,7 @@ export const UpsertInventory = () => {
               <LoadingButton
                 variant="contained"
                 type="submit"
+                className="small"
                 loading={
                   postAddToInventoryStatus?.isLoading ||
                   patchAddToInventoryStatus?.isLoading ||

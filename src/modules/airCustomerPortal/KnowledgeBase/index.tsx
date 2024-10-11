@@ -8,9 +8,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
-import { ReportIssue } from '../Tickets/ReportIssue';
 import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { ReportIssue } from './ReportIssue';
 
 export const KnowledgeBase = () => {
   const {
@@ -22,7 +22,7 @@ export const KnowledgeBase = () => {
     isError,
     setSearch,
     newTicketsDropdown,
-    sessionUserId,
+    auth,
     refetch,
     customerPortalStyling,
     reportAnIssuePermission,
@@ -31,7 +31,7 @@ export const KnowledgeBase = () => {
   return (
     <>
       <PageTitledHeader title={'Knowledge Base'}>
-        {!sessionUserId ? (
+        {!auth?.isAuthenticated ? (
           reportAnIssuePermission && (
             <Button
               variant="contained"
@@ -74,7 +74,7 @@ export const KnowledgeBase = () => {
         )}
       </PageTitledHeader>
       <Box mb={2}>
-        <Search label="Search Here" setSearchBy={setSearch} />
+        <Search label="Search Here" setSearchBy={setSearch} size="small" />
       </Box>
       {isLoading || isFetching ? (
         <SkeletonTable />

@@ -1,25 +1,33 @@
 import { EditGreyIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
-import { Box, Divider, Skeleton, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { useSingleFolderDetail } from './useSingleFolderDetail';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ALL_FOLDER } from '../Folder.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { TruncateText } from '@/components/TruncateText';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+
+const { CREATE_FOLDER } =
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
 
 export const SingleFolderDetail = () => {
   const {
-    data,
-    isLoading,
-    isFetching,
+    showLoader,
+    folderDataName,
+    folderDataDescription,
     isError,
     refetch,
     openUpsertFolderPortal,
     openDeleteFolderPortal,
-    selectedFolder,
+    selectedFolderId,
   } = useSingleFolderDetail();
 
-  if (selectedFolder?._id === ALL_FOLDER) return <></>;
-  if (isLoading || isFetching) return <Skeleton height="10vh" />;
+  if (selectedFolderId === ALL_FOLDER) return <></>;
+
+  if (showLoader) return <SkeletonForm length={1} height="10vh" />;
+
   if (isError)
     return (
       <>
@@ -30,38 +38,46 @@ export const SingleFolderDetail = () => {
       </>
     );
   return (
-    <>
-      <Typography
-        variant="h4"
-        color="slateBlue.main"
-        textTransform={'capitalize'}
-      >
-        {truncateText(data?.data?.name, 47)}
+    <Box maxHeight={'20vh'} overflow="auto" mb={1}>
+      <Typography variant="h4" component={'div'}>
+        <TruncateText
+          text={folderDataName?.toLowerCase()}
+          size={45}
+          boxProps={{
+            textTransform: 'capitalize',
+            color: 'slateBlue.main',
+          }}
+        />
       </Typography>
       <Box
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
-        flexWrap={'wrap'}
-        mb={1}
+        gap={2}
       >
-        <Typography variant="body2" my={0.5} color="grey.900">
-          {truncateText(data?.data?.description || '---', 150)}
+        <Typography variant="body2" flex={1} component={'div'}>
+          <TruncateText
+            text={!!folderDataDescription ? folderDataDescription : '---'}
+            size={100}
+            boxProps={{ my: 0.5, color: 'grey.900' }}
+          />
         </Typography>
-        <Box display={'flex'} gap={2} alignItems={'center'}>
-          <Box sx={{ cursor: 'pointer' }} onClick={openUpsertFolderPortal}>
-            <EditGreyIcon />
+
+        <PermissionsGuard permissions={[CREATE_FOLDER]}>
+          <Box display={'flex'} gap={2} alignItems={'center'}>
+            <Box sx={{ cursor: 'pointer' }} onClick={openUpsertFolderPortal}>
+              <EditGreyIcon />
+            </Box>
+            <Box>
+              <DeleteForever
+                sx={{ cursor: 'pointer' }}
+                onClick={openDeleteFolderPortal}
+              />
+            </Box>
           </Box>
-          <Box>
-            <DeleteForever
-              sx={{ cursor: 'pointer' }}
-              onClick={openDeleteFolderPortal}
-            />
-          </Box>
-        </Box>
+        </PermissionsGuard>
       </Box>
       <Divider />
-      <br />
-    </>
+    </Box>
   );
 };

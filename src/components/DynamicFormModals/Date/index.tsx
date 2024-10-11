@@ -84,11 +84,12 @@ export default function Date({ open, setOpen, form, setForm, editId }: any) {
             type={'button'}
             variant={'outlined'}
             color={'inherit'}
+            className={'small'}
             onClick={() => setOpen(false)}
           >
             Cancel
           </Button>
-          <Button type={'submit'} variant={'contained'}>
+          <Button type={'submit'} variant={'contained'} className={'small'}>
             Save
           </Button>
         </DialogActions>

@@ -1,14 +1,19 @@
 import { Box, Skeleton } from '@mui/material';
 import { TicketCard } from '../TicketCard';
 import { useTicketStatusCount } from './useTicketStatusCount';
-import { styles } from '../WelcomeCard/WelcomeCard.style';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TICKET_TYPE } from '../WelcomeCard/WelcomeCard.data';
 
 export const TicketStatusCount = () => {
-  const { ticketCardWrapper } = styles;
-  const { data, isLoading, isFetching, isError, ticketsCountsData, refetch } =
-    useTicketStatusCount();
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    ticketsCountsData,
+    refetch,
+    ticketCardWrapper,
+  } = useTicketStatusCount();
   if (isLoading || isFetching)
     return (
       <Skeleton

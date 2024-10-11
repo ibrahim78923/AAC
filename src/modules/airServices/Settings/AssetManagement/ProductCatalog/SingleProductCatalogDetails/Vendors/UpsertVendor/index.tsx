@@ -33,6 +33,7 @@ export const UpsertAsset = (props: any) => {
         justifyContent={'space-between'}
         alignItems={'center'}
         mb={1}
+        component="div"
       >
         <Typography variant={'h3'}>
           {isUpsertModalOpen?.data ? 'Update' : 'Add'} Vendor
@@ -55,6 +56,7 @@ export const UpsertAsset = (props: any) => {
                 type={'button'}
                 variant={'outlined'}
                 color={'secondary'}
+                className="small"
                 sx={{ mr: 2 }}
                 onClick={() =>
                   setIsUpsertModalOpen?.({ open: false, data: null })
@@ -68,6 +70,7 @@ export const UpsertAsset = (props: any) => {
               <LoadingButton
                 type={'submit'}
                 variant={'contained'}
+                className="small"
                 disabled={
                   postVendorStatus?.isLoading || patchVendorStatus?.isLoading
                 }

@@ -23,6 +23,7 @@ import {
   FeedbackSurveyI,
   FeedbackSurveyQuestionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertFeedbackSurvey = () => {
   const [createSurvey, setCreateSurvey] = useState<string>(
@@ -65,7 +66,8 @@ export const useUpsertFeedbackSurvey = () => {
     description: surveyData?.description,
     displayName: surveyData?.display ? surveyData?.displayName : '',
     satisfactionSurveyLinkType: surveyData?.satisfactionSurveyLinkType,
-    surveyDuration: surveyData?.surveyDuration,
+    surveyDuration: isoDateString(surveyData?.surveyDuration),
+    magicLink: `${window?.location?.origin}/survey/response?surveyId=${surveyData?.UUID}`,
     customerSupportLinkType: surveyData?.customerSupportLinkType,
     UUID: surveyData?.UUID,
     sendSurveyPeople:
@@ -84,10 +86,6 @@ export const useUpsertFeedbackSurvey = () => {
   });
   const handleCreateSurvey = async (surveyData: FeedbackSurveyI) => {
     const response: any = await createFeedbackSurveyTrigger({
-      magicLink:
-        surveyData?.customerSupportLinkType !== feedbackTypes?.viaEmail
-          ? `${window?.location?.origin}/survey/response?surveyId=${surveyData?.UUID}`
-          : '',
       ...modifiedSurveyData(surveyData),
     });
     if (response?.data?.data?._id) {
@@ -120,7 +118,7 @@ export const useUpsertFeedbackSurvey = () => {
     if (isNaN(date)) {
       return;
     } else {
-      return date?.toISOString();
+      return isoDateString(date);
     }
   };
   const newSurvey = [
@@ -141,10 +139,6 @@ export const useUpsertFeedbackSurvey = () => {
   const handleUpdateSurvey = async (data: FeedbackSurveyI) => {
     const modifiedSurvey = {
       body: {
-        magicLink:
-          data?.customerSupportLinkType !== feedbackTypes?.viaEmail
-            ? `${window?.location?.origin}/survey/response?surveyId=${data?.UUID}`
-            : '',
         ...modifiedSurveyData(data),
       },
       params: { id: surveyId },

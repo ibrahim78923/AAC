@@ -3,7 +3,6 @@ export interface AddContactDrawerProps {
   onClose: () => void;
   selectedRec: string[];
   setSelectedRec: (rec: string[]) => void;
-  setSelectedContactsData: (data: string[]) => void;
   setRecipientType: (type: string) => void;
   recipientType: string;
 }

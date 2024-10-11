@@ -8,6 +8,7 @@ import {
   useLazyGetAllUsersAndContactsDropdownQuery,
 } from '@/services/commonFeatures/meetings';
 import { useEffect } from 'react';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useAttendeePeople = (props: any) => {
   const { watch, setValue } = props;
@@ -35,7 +36,7 @@ export const useAttendeePeople = (props: any) => {
           ?.map((item: any) => item?._id)
           .filter(Boolean)
           .map((id: any) => `peoples=${encodeURIComponent(id)}`),
-        `startDate=${watchStartDate}`,
+        `startDate=${isoDateString(watchStartDate)}`,
       ].join('&'),
     };
 
@@ -47,7 +48,7 @@ export const useAttendeePeople = (props: any) => {
   };
   const handleFetchBookedMeetingSlots = async () => {
     const meetingParameter = {
-      queryParams: `startDate=${watchStartDate}`,
+      queryParams: `startDate=${isoDateString(watchStartDate)}`,
     };
 
     try {

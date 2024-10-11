@@ -3,7 +3,7 @@ import { columns } from './Software.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
-import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
+import { PageTitledHeader } from '@/components/PageTitledHeader/index';
 import SoftwareFilter from './SoftwareFilter';
 import { SoftwareAssignCategory } from './SoftwareAssignCategory';
 import { UpsertSoftware } from './UpsertSoftware';
@@ -25,7 +25,7 @@ const Software = () => {
     setSoftwareData,
     openAssignModal,
     setOpenAssignModal,
-    setSearchValue,
+    handleSearch,
     setPage,
     setPageLimit,
     paginationData,
@@ -69,7 +69,7 @@ const Software = () => {
               AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearchValue} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
           <Box
             display={'flex'}
@@ -82,6 +82,7 @@ const Software = () => {
               variant="outlined"
               disabled={!!!softwareData?.length}
               onClick={() => setOpenAssignModal?.(true)}
+              className="small"
             >
               Assign Category
             </Button>
@@ -95,6 +96,7 @@ const Software = () => {
                 variant="outlined"
                 startIcon={<FilterSharedIcon />}
                 onClick={() => setIsOpenFilterDrawer(true)}
+                className="small"
               >
                 Filter
               </Button>

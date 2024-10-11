@@ -1,7 +1,7 @@
 import { Checkbox, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, truncateText } from '@/utils/avatarUtils';
+import { fullName } from '@/utils/avatarUtils';
 import {
   SOFTWARE_STATUS,
   SOFTWARE_TYPE,
@@ -9,6 +9,7 @@ import {
 } from '@/constants/strings';
 import { SoftwareDataI } from './Software.interface';
 import { NextRouter } from 'next/router';
+import { TruncateText } from '@/components/TruncateText';
 
 export const softwareStatusOptions = [
   SOFTWARE_STATUS?.RESTRICTED,
@@ -82,6 +83,8 @@ export const columns = (
     cell: (info: any) => (
       <Typography
         component="span"
+        textTransform={'capitalize'}
+        variant={'body3'}
         onClick={() =>
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
@@ -93,7 +96,7 @@ export const columns = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {truncateText(info?.getValue())}
+        <TruncateText text={info?.getValue()?.toLowerCase()} />
       </Typography>
     ),
   },
@@ -109,7 +112,7 @@ export const columns = (
     id: 'category',
     isSortable: true,
     header: 'Category',
-    cell: (info: any) => truncateText(info?.getValue()?.category) || '---',
+    cell: (info: any) => <TruncateText text={info?.getValue()?.category} />,
   },
   {
     accessorFn: (row: any) => row?.contractValue,
@@ -123,11 +126,14 @@ export const columns = (
     id: 'managedByDetails',
     isSortable: true,
     header: 'Managed By',
-    cell: (info: any) =>
-      fullName(
-        info?.row?.original?.managedByDetails?.firstName,
-        info?.row?.original?.managedByDetails?.lastName,
-      ),
+    cell: (info: any) => (
+      <TruncateText
+        text={fullName(
+          info?.row?.original?.managedByDetails?.firstName,
+          info?.row?.original?.managedByDetails?.lastName,
+        )}
+      />
+    ),
   },
   {
     accessorFn: (row: any) => row?.users,
@@ -155,6 +161,6 @@ export const columns = (
     id: 'publisher',
     isSortable: true,
     header: <span>Publisher</span>,
-    cell: (info: any) => truncateText(info?.getValue()?.publisher) || '---',
+    cell: (info: any) => <TruncateText text={info?.getValue()?.publisher} />,
   },
 ];

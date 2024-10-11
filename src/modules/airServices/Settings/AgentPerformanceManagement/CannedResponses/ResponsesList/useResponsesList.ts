@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { responsesTableColumns } from './ResponsesList.data';
 import { CANNED_RESPONSES } from '@/constants/strings';
-import { useLazyGetResponsesListQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { useLazyGetAirServicesSettingsCannedResponsesListQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar } from '@/utils/api';
 
@@ -22,7 +22,7 @@ export const useResponsesList = () => {
   const [search, setSearch] = useState<any>('');
 
   const [lazyGetResponsesListTrigger, lazyGetResponsesListStatus] =
-    useLazyGetResponsesListQuery();
+    useLazyGetAirServicesSettingsCannedResponsesListQuery();
   const responsesList = lazyGetResponsesListStatus?.data?.data?.responses;
   const responsesListMetaData = lazyGetResponsesListStatus?.data?.data?.meta;
 
@@ -46,6 +46,11 @@ export const useResponsesList = () => {
       getResponsesListListData?.(page);
     }
   }, [search, page, pageLimit, cannedResponseId]);
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
 
   const handleActionClick = (ActionType: string) => {
     if (ActionType === CANNED_RESPONSES?.DELETE) {
@@ -101,7 +106,7 @@ export const useResponsesList = () => {
     router,
     handleActionClick,
     tableColumns,
-    setSearch,
+    handleSearch,
     responsesList,
     responsesListMetaData,
     lazyGetResponsesListStatus,

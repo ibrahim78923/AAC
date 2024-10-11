@@ -32,6 +32,7 @@ const RestoreCompanies = (props: any) => {
     isLoading,
     isSuccess,
     resetFilters,
+    setSearch,
   } = useRestoreCompanies();
 
   const columnsProps = {
@@ -78,10 +79,7 @@ const RestoreCompanies = (props: any) => {
               label="Search by Name"
               width="260px"
               size="small"
-              searchBy={filterValues?.search}
-              onChange={(e: any) => {
-                setFilterValues({ ...filterValues, search: e?.target?.value });
-              }}
+              setSearchBy={setSearch}
             />
           </Grid>
           <Grid item lg={6} md={6} sm={12} xs={12}>

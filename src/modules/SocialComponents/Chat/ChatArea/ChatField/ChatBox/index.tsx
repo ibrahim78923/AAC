@@ -76,6 +76,19 @@ const ChatBox = ({
       {
         updateReaction: isReactionExists > 0 ? true : false,
         messageId: item?._id,
+        ...(chatMode === 'groupChat' && {
+          groupId: activeChatId,
+        }),
+        ...(chatMode === 'groupChat' && {
+          ownerDetails: {
+            firstName:
+              item?.ownerDetail?.firstName || item?.ownerDetails?.firstName,
+            lastName:
+              item?.ownerDetail?.lastName || item?.ownerDetails?.lastName,
+            avatar: item?.ownerDetail?.avatar || item?.ownerDetails?.avatar,
+            _id: item?.ownerDetail?._id || item?.ownerDetails?._id,
+          },
+        }),
         reaction: {
           userId: user?._id,
           userReaction: emoji,
@@ -116,10 +129,20 @@ const ChatBox = ({
           messageId: item?._id,
           isRead: true,
           groupId: activeChatId,
+          ...(chatMode === 'groupChat' && {
+            ownerDetails: {
+              firstName:
+                item?.ownerDetail?.firstName || item?.ownerDetails?.firstName,
+              lastName:
+                item?.ownerDetail?.lastName || item?.ownerDetails?.lastName,
+              avatar: item?.ownerDetail?.avatar || item?.ownerDetails?.avatar,
+              _id: item?.ownerDetail?._id || item?.ownerDetails?._id,
+            },
+          }),
         });
       }
     }
-  }, [item]);
+  }, []);
 
   useEffect(() => {
     dispatch(
@@ -157,7 +180,9 @@ const ChatBox = ({
             src={
               item?.ownerDetail?.avatar?.url
                 ? `${IMG_URL}${item?.ownerDetail?.avatar?.url}`
-                : UserDefault
+                : item?.ownerDetails?.avatar?.url
+                  ? `${IMG_URL}${item?.ownerDetails?.avatar?.url}`
+                  : UserDefault
             }
             style={{ borderRadius: '50%' }}
             alt="avatar"
@@ -181,12 +206,14 @@ const ChatBox = ({
                 >
                   <ReplyIcon />
                   &nbsp;&nbsp;{item?.userName}replied to{' '}
-                  {item?.parentMessage?.ownerDetail?._id === user?._id ? (
+                  {item?.parentMessage?.ownerDetail?._id === user?._id ||
+                  item?.parentMessage?.ownerDetails?._id === user?._id ? (
                     'You'
                   ) : (
                     <>
-                      {item?.parentMessage?.ownerDetail?.firstName}&nbsp;
-                      {item?.parentMessage?.ownerDetail?.lastName}
+                      {item?.parentMessage?.ownerDetail?.firstName
+                        ? `${item?.parentMessage?.ownerDetail?.firstName} ${item?.parentMessage?.ownerDetail?.lastName}`
+                        : `${item?.parentMessage?.ownerDetails?.firstName} ${item?.parentMessage?.ownerDetails?.lastName}`}
                     </>
                   )}
                 </Typography>
@@ -215,8 +242,9 @@ const ChatBox = ({
                             fontWeight: '500',
                           }}
                         >
-                          {item?.ownerDetail?.firstName}&nbsp;
-                          {item?.ownerDetail?.lastName}
+                          {item?.ownerDetail?.firstName
+                            ? `${item?.ownerDetail?.firstName} ${item?.ownerDetail?.lastName}`
+                            : `${item?.ownerDetails?.firstName} ${item?.ownerDetails?.lastName}`}
                         </Typography>
                       </Box>
                     )}
@@ -386,7 +414,7 @@ const ChatBox = ({
                   variant="body3"
                   sx={{ color: theme?.palette.custom?.dim_blue }}
                 >
-                  {dayjs(item?.createdAt).format(TIME_FORMAT?.UI)}
+                  {dayjs(item?.updatedAt).format(TIME_FORMAT?.UI)}
                 </Typography>
               </Box>
             </Box>

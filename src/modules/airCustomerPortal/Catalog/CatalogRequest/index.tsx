@@ -2,11 +2,18 @@ import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import useCatalogRequest from './useCatalogRequest';
-import { Box, DialogContent, DialogTitle, Grid } from '@mui/material';
+import {
+  Box,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const CatalogRequest = (props: CatalogRequestI) => {
   const { open } = props;
@@ -17,6 +24,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
     methodRequest,
     handleClose,
     postTicketStatus,
+    portalStyles,
   } = useCatalogRequest(props);
 
   return (
@@ -33,10 +41,9 @@ export const CatalogRequest = (props: CatalogRequestI) => {
           <Typography variant="h4" color="slateBlue.main">
             Item Request
           </Typography>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => handleClose?.()}
-          />
+          <IconButton onClick={() => handleClose?.()}>
+            <CloseIcon />
+          </IconButton>
         </Box>
       </DialogTitle>
 
@@ -60,6 +67,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
             flexWrap={'wrap'}
           >
             <LoadingButton
+              className="small"
               variant="outlined"
               color="secondary"
               onClick={handleClose}
@@ -68,9 +76,27 @@ export const CatalogRequest = (props: CatalogRequestI) => {
               cancel
             </LoadingButton>
             <LoadingButton
+              className="small"
               variant="contained"
               type="submit"
               loading={postTicketStatus?.isLoading}
+              sx={(theme) => ({
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+                '&:hover': {
+                  bgcolor:
+                    portalStyles?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                  color: 'common.white',
+                },
+                '&.Mui-disabled': {
+                  bgcolor:
+                    portalStyles?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                },
+              })}
             >
               confirm
             </LoadingButton>

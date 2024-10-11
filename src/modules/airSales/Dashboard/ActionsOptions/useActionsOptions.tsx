@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { AIR_SALES_DASHBOARD } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
-const useActionsOptions = () => {
+const useActionsOptions = (selectedDashboard: any) => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isShowDrawer, setIsShowDrawer] = useState(false);
   const handleCloseDrawer = () => {
@@ -36,6 +40,18 @@ const useActionsOptions = () => {
     setAnchorEl(null);
   };
 
+  const copyUrl = () => {
+    if (!selectedDashboard) {
+      handleCloseMenuOptions();
+      errorSnackbar('Dashboard link not found.');
+      return;
+    }
+    const emailToCopy = `${window?.location?.origin}${AIR_SALES_DASHBOARD?.SINGLE_DASHBOARD}?dashboardId=${selectedDashboard?.dashboard?._id}`;
+    navigator?.clipboard?.writeText(emailToCopy);
+    handleCloseMenuOptions();
+    successSnackbar('Link has been copied successfully.');
+  };
+
   return {
     isShowDrawer,
     handleCloseDrawer,
@@ -54,6 +70,8 @@ const useActionsOptions = () => {
     setIsShowDrawer,
     setIsShowEmailDashboard,
     setIsShowEditDashboard,
+    copyUrl,
+    router,
   };
 };
 

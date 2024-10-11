@@ -2,6 +2,8 @@ import { useGetAuthAccountsForOperationsReportsQuery } from '@/services/airOpera
 import { reportsTypesDynamic } from './Reports.data';
 import { useRouter } from 'next/router';
 import { ReportsTypesI } from './Reports.interface';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const useReports = () => {
   const router = useRouter();
@@ -13,14 +15,29 @@ export const useReports = () => {
         refetchOnMountOrArgChange: true,
       },
     );
-  const reportsTypes: ReportsTypesI[] = reportsTypesDynamic(data);
+
+  const productsLists = data?.data?.reduce(
+    (acc: any, account: any) => ({
+      ...acc,
+      [account?.name]: {
+        hasAccount: account?.accounts?.length,
+        productId: account?._id,
+      },
+    }),
+    {},
+  );
+
+  const reportsTypes: ReportsTypesI[] = reportsTypesDynamic(productsLists);
+
+  const checkApiStatus = () => {
+    if (isLoading || isFetching) return <SkeletonCard />;
+    if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+    return undefined;
+  };
 
   return {
-    isLoading,
-    isError,
-    isFetching,
     reportsTypes,
     router,
-    refetch,
+    checkApiStatus,
   };
 };

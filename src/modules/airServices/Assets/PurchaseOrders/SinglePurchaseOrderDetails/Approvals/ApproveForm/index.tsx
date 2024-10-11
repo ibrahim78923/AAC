@@ -26,6 +26,7 @@ export const ApproveForm = ({ approvalId }: any) => {
       <Button
         variant="outlined"
         sx={{ mx: 2 }}
+        className={'small'}
         color="success"
         onClick={() => setApproveDialog(true)}
         startIcon={<CheckCircleIcon />}
@@ -77,6 +78,7 @@ export const ApproveForm = ({ approvalId }: any) => {
               <Button
                 variant="outlined"
                 color="inherit"
+                className={'small'}
                 onClick={() => setApproveDialog(false)}
                 disabled={patchRequestApprovalStatus?.isLoading}
               >
@@ -86,6 +88,7 @@ export const ApproveForm = ({ approvalId }: any) => {
                 loading={patchRequestApprovalStatus?.isLoading}
                 variant="contained"
                 type="submit"
+                className={'small'}
               >
                 Submit
               </LoadingButton>

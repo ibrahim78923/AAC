@@ -60,6 +60,9 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const activeReply = useAppSelector((state) => state?.chat?.activeReply);
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
   const chatMode = useAppSelector(
     (state) => state?.chat?.chatModeState?.chatModeState,
   );
@@ -94,8 +97,18 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       content: messageText,
     };
     const addMessagePayload = {
-      receiverId: activeReceiverId && activeReceiverId[0],
+      ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+        receiverId: activeReceiverId && activeReceiverId[0],
+      }),
       chatId: activeChatId && activeChatId,
+      ...(chatMode === 'groupChat' && {
+        ownerDetails: {
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          avatar: user?.avatar,
+          _id: user?._id,
+        },
+      }),
       content: messageText,
       media: imageToUpload,
       ...(imageToUpload?.length > 0 && { type: attachmentType }),
@@ -104,8 +117,18 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       }),
     };
     const addMessageReplyPayload = {
-      receiverId: activeReceiverId && activeReceiverId[0],
+      ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+        receiverId: activeReceiverId && activeReceiverId[0],
+      }),
       chatId: activeChatId && activeChatId,
+      ...(chatMode === 'groupChat' && {
+        ownerDetails: {
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          avatar: user?.avatar,
+          _id: user?._id,
+        },
+      }),
       content: messageText,
       parentMessage: activeReply?.chatId,
       media: imageToUpload,
@@ -176,229 +199,275 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
 
   const typingUserData = useAppSelector((state) => state?.chat?.typingUserData);
 
+  const onScreenUserName =
+    user?.firstName.toLowerCase() + ' ' + user?.lastName.toLowerCase();
+
   return (
-    <Box
-      sx={{
-        padding: '30px',
-        paddingTop: `${typingUserData?.userName ? '0px' : '53px'}`,
-      }}
-    >
-      {typingUserData?.userName ? (
+    <>
+      {activeConversation?.isRemoved ? (
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '5px',
+            width: '100%',
+            padding: '30px',
           }}
         >
-          <Box>
-            <Image width={40} height={40} src={UserDefault} alt="avatar" />
-          </Box>
-          <Box>
-            <Typography
-              sx={{ textTransform: 'lowercase' }}
-              variant="body3"
-              fontWeight={500}
-            >
-              {typingUserData?.userName}
+          <Box
+            sx={{
+              width: '100%',
+              height: '50px',
+              backgroundColor: theme?.palette?.grey[400],
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant="subtitle2">
+              You can't message because you are not a member of the conversation
             </Typography>
-            <Box>
-              <Image src={TypingGif} width={40} alt="typing" height={21} />
-            </Box>
           </Box>
         </Box>
-      ) : null}
+      ) : (
+        <Box
+          sx={{
+            padding: '30px',
+            paddingTop: `${typingUserData?.userName ? '0px' : '53px'}`,
+          }}
+        >
+          {typingUserData?.userName !== onScreenUserName ? (
+            <>
+              {typingUserData?.userName ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    marginBottom: '5px',
+                  }}
+                >
+                  <Box>
+                    <Image
+                      width={40}
+                      height={40}
+                      src={UserDefault}
+                      alt="avatar"
+                    />
+                  </Box>
+                  <Box>
+                    <Typography
+                      sx={{ textTransform: 'lowercase' }}
+                      variant="body3"
+                      fontWeight={500}
+                    >
+                      {typingUserData?.userName}
+                    </Typography>
+                    <Box>
+                      <Image
+                        src={TypingGif}
+                        width={40}
+                        alt="typing"
+                        height={21}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+              ) : null}
+            </>
+          ) : (
+            <></>
+          )}
 
-      <Box sx={styles?.chatFooterWrapper(theme)}>
-        {activeReply?.content && (
-          <Box sx={styles?.chatReply(theme)}>
-            <Typography variant="body3" fontWeight={600}>
-              You
-            </Typography>
-            <Typography variant="body2">{activeReply?.content}</Typography>
-            <Box
-              sx={{
-                position: 'absolute',
-                right: '10px',
-                top: '10px',
-                cursor: 'pointer',
-              }}
-              onClick={() => dispatch(setActiveReply({}))}
-            >
-              <CloseModalIcon />
-            </Box>
-          </Box>
-        )}
+          <Box sx={styles?.chatFooterWrapper(theme)}>
+            {activeReply?.content && (
+              <Box sx={styles?.chatReply(theme)}>
+                <Typography variant="body3" fontWeight={600}>
+                  You
+                </Typography>
+                <Typography variant="body2">{activeReply?.content}</Typography>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '10px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => dispatch(setActiveReply({}))}
+                >
+                  <CloseModalIcon />
+                </Box>
+              </Box>
+            )}
 
-        {imageToUpload?.length > 0 && (
-          <Box sx={styles?.chatReply(theme)}>
-            <Box
-              sx={{
-                position: 'absolute',
-                right: '10px',
-                top: '10px',
-                cursor: 'pointer',
-              }}
-              onClick={() => setImageToUpload([])}
-            >
-              <CloseModalIcon />
-            </Box>
-            <Box sx={{ display: 'flex', gap: '10px' }}>
-              {imageToUpload?.map((item: any) => (
-                <Box key={uuidv4()}>
-                  {attachmentType === 'docs' ? (
-                    <Box
-                      sx={{
-                        backgroundColor: theme?.palette?.primary?.light,
-                        p: 1,
-                        pl: 2,
-                        pr: 3,
+            {imageToUpload?.length > 0 && (
+              <Box sx={styles?.chatReply(theme)}>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '10px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => setImageToUpload([])}
+                >
+                  <CloseModalIcon />
+                </Box>
+                <Box sx={{ display: 'flex', gap: '10px' }}>
+                  {imageToUpload?.map((item: any) => (
+                    <Box key={uuidv4()}>
+                      {attachmentType === 'docs' ? (
+                        <Box
+                          sx={{
+                            backgroundColor: theme?.palette?.primary?.light,
+                            p: 1,
+                            pl: 2,
+                            pr: 3,
+                          }}
+                        >
+                          <Typography variant="body2">
+                            {item?.orignalName}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <Image
+                          src={generateImage(item?.url)}
+                          width={100}
+                          height={100}
+                          alt="attachments"
+                          style={{ borderRadius: '8px' }}
+                        />
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+            )}
+
+            <Box sx={styles?.chatFooter}>
+              {isLoading ? (
+                <CircularProgress color="success" size={20} />
+              ) : (
+                <Button
+                  sx={styles?.unStyledButton}
+                  aria-describedby={idOpen}
+                  onClick={handleClickAttachment}
+                >
+                  <AttachmentIcon />
+                </Button>
+              )}
+
+              <Popover
+                id={idOpen}
+                open={open}
+                anchorEl={anchorElAttachment}
+                onClose={handleCloseAttachment}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+              >
+                <Box sx={{ padding: '20px' }}>
+                  <Typography variant="h5" style={{ marginBottom: '20px' }}>
+                    Select Attachment Type
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: '10px' }}>
+                    <form onSubmit={(e) => e.preventDefault()}>
+                      <input
+                        hidden
+                        type="file"
+                        id="upload-button"
+                        multiple
+                        accept={
+                          attachmentType === 'docs'
+                            ? 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf'
+                            : 'image/*'
+                        }
+                        onChange={(e: any) => handleImage(e)}
+                      />
+                    </form>
+
+                    <label
+                      htmlFor="upload-button"
+                      style={styles?.customButtons(theme)}
+                      onClick={() => {
+                        setAttachmentType('image');
                       }}
                     >
-                      <Typography variant="body2">
-                        {item?.orignalName}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Image
-                      src={generateImage(item?.url)}
-                      width={100}
-                      height={100}
-                      alt="attachments"
-                      style={{ borderRadius: '8px' }}
-                    />
-                  )}
+                      <ImageIconAttachment />
+                      &nbsp; Image
+                    </label>
+                    <label
+                      htmlFor="upload-button"
+                      style={styles?.customButtons(theme)}
+                      onClick={() => {
+                        setAttachmentType('docs');
+                      }}
+                    >
+                      <DocumentIcon color={theme?.palette?.common?.white} />
+                      &nbsp; Document
+                    </label>
+                  </Box>
                 </Box>
-              ))}
+              </Popover>
+
+              <TextField
+                placeholder="Write message"
+                sx={styles?.chatTextarea(theme)}
+                value={messageText}
+                onChange={(e) => setMessageText(e?.target?.value)}
+                onInput={() => handleTypingStart()}
+                onBlur={() => handleTypingStop()}
+                onKeyPress={(e: any) => {
+                  if (e?.key === 'Enter') {
+                    setAddMessageHandler();
+                  }
+                }}
+              />
+              <Button
+                sx={styles?.unStyledButton}
+                aria-describedby={id}
+                onClick={handleClick}
+              >
+                <StickerIcon />
+              </Button>
+              {isMessageLoading ? (
+                <CircularProgress color="success" size={20} />
+              ) : (
+                <Button
+                  disabled={messageText || imageToUpload.length ? false : true}
+                  sx={styles?.unStyledButton}
+                  onClick={setAddMessageHandler}
+                >
+                  <PostIcon
+                    color={
+                      messageText || imageToUpload.length
+                        ? theme?.palette?.primary?.main
+                        : theme?.palette?.grey[500]
+                    }
+                  />
+                </Button>
+              )}
             </Box>
           </Box>
-        )}
-
-        <Box sx={styles?.chatFooter}>
-          {isLoading ? (
-            <CircularProgress color="success" size={20} />
-          ) : (
-            <Button
-              sx={styles?.unStyledButton}
-              aria-describedby={idOpen}
-              onClick={handleClickAttachment}
-            >
-              <AttachmentIcon />
-            </Button>
-          )}
 
           <Popover
-            id={idOpen}
-            open={open}
-            anchorEl={anchorElAttachment}
-            onClose={handleCloseAttachment}
+            id={id}
+            open={isOpen}
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(null)}
             anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
               vertical: 'bottom',
-              horizontal: 'center',
+              horizontal: 'left',
             }}
           >
-            <Box sx={{ padding: '20px' }}>
-              <Typography variant="h5" style={{ marginBottom: '20px' }}>
-                Select Attachment Type
-              </Typography>
-              <Box sx={{ display: 'flex', gap: '10px' }}>
-                <form onSubmit={(e) => e.preventDefault()}>
-                  <input
-                    hidden
-                    type="file"
-                    id="upload-button"
-                    multiple
-                    accept={
-                      attachmentType === 'docs'
-                        ? 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf'
-                        : 'image/*'
-                    }
-                    onChange={(e: any) => handleImage(e)}
-                  />
-                </form>
-
-                <label
-                  htmlFor="upload-button"
-                  style={styles?.customButtons(theme)}
-                  onClick={() => {
-                    setAttachmentType('image');
-                  }}
-                >
-                  <ImageIconAttachment />
-                  &nbsp; Image
-                </label>
-                <label
-                  htmlFor="upload-button"
-                  style={styles?.customButtons(theme)}
-                  onClick={() => {
-                    setAttachmentType('docs');
-                  }}
-                >
-                  <DocumentIcon color={theme?.palette?.common?.white} />
-                  &nbsp; Document
-                </label>
-              </Box>
-            </Box>
+            <EmojiPickerComponent onEmojiSelect={handleEmojiSelect} />
           </Popover>
-
-          <TextField
-            placeholder="Write message"
-            sx={styles?.chatTextarea(theme)}
-            value={messageText}
-            onChange={(e) => setMessageText(e?.target?.value)}
-            onInput={() => handleTypingStart()}
-            onBlur={() => handleTypingStop()}
-            onKeyPress={(e: any) => {
-              if (e?.key === 'Enter') {
-                setAddMessageHandler();
-              }
-            }}
-          />
-          <Button
-            sx={styles?.unStyledButton}
-            aria-describedby={id}
-            onClick={handleClick}
-          >
-            <StickerIcon />
-          </Button>
-          {isMessageLoading ? (
-            <CircularProgress color="success" size={20} />
-          ) : (
-            <Button
-              disabled={messageText || imageToUpload.length ? false : true}
-              sx={styles?.unStyledButton}
-              onClick={setAddMessageHandler}
-            >
-              <PostIcon
-                color={
-                  messageText || imageToUpload.length
-                    ? theme?.palette?.primary?.main
-                    : theme?.palette?.grey[500]
-                }
-              />
-            </Button>
-          )}
         </Box>
-      </Box>
-
-      <Popover
-        id={id}
-        open={isOpen}
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-      >
-        <EmojiPickerComponent onEmojiSelect={handleEmojiSelect} />
-      </Popover>
-    </Box>
+      )}
+    </>
   );
 };
 

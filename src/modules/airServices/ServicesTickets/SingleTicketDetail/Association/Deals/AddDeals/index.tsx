@@ -5,7 +5,7 @@ import useAddDeals from './useAddDeals';
 
 export default function AddDeals({ setSelected, selected }: any) {
   const {
-    setSearch,
+    handleSearch,
     addDealsColumns,
     data,
     isSuccess,
@@ -21,7 +21,7 @@ export default function AddDeals({ setSelected, selected }: any) {
 
   return (
     <Stack direction={'column'} spacing={2}>
-      <Search label="Search Here" width="100%" setSearchBy={setSearch} />
+      <Search label="Search Here" width="100%" setSearchBy={handleSearch} />
       <TanstackTable
         columns={addDealsColumns}
         data={data?.data?.deals}

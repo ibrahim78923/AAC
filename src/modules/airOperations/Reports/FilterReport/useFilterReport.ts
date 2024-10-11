@@ -1,29 +1,43 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { filteredEmptyValues, makeDateTime } from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import {
   reportFilterFormFieldsDynamic,
   reportFiltersDefaultValues,
 } from './FilterReport.data';
-import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
 import { FilterReportFormFieldsI } from './FilterReport.interface';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptyFilterReportsList,
+  setFilterReportsList,
+  setIsPortalClose,
+} from '@/redux/slices/airOperations/reports/slice';
+import { isoDateString } from '@/utils/dateTime';
+import { PAGINATION } from '@/config';
 
-export const useFilterReport = (props: ReportsListsComponentPropsI) => {
-  const { setIsPortalOpen, reportFilters, setReportFilter } = props;
+export const useFilterReport = () => {
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const filterReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.filterReportsList,
+  );
 
   const methods: UseFormReturn<FilterReportFormFieldsI> = useForm({
-    defaultValues: reportFiltersDefaultValues?.(reportFilters),
+    defaultValues: reportFiltersDefaultValues?.(filterReportsList),
   });
 
   const { handleSubmit, reset } = methods;
 
   const submit = async (formData: FilterReportFormFieldsI) => {
     const startDate = formData?.createdDate?.startDate
-      ? makeDateTime(formData?.createdDate?.startDate, new Date())
+      ? isoDateString(formData?.createdDate?.startDate)
       : undefined;
     const endDate = formData?.createdDate?.endDate
-      ? makeDateTime(formData?.createdDate?.endDate, new Date())
+      ? isoDateString(formData?.createdDate?.endDate)
       : undefined;
 
     const data = {
@@ -35,25 +49,27 @@ export const useFilterReport = (props: ReportsListsComponentPropsI) => {
     const filterValues = filteredEmptyValues?.(data);
     delete filterValues?.createdDate;
 
-    setReportFilter?.(filterValues);
+    dispatch(
+      setFilterReportsList<any>({
+        filterValues: filterValues,
+        page: PAGINATION?.CURRENT_PAGE,
+      }),
+    );
     closeFilterForm?.();
   };
 
   const resetFilterForm = () => {
-    setReportFilter?.({});
+    dispatch(emptyFilterReportsList?.());
     closeFilterForm?.();
   };
 
   const closeFilterForm = () => {
     reset?.();
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
-  const reportOwnerApiQuery =
-    useLazyGetReportsOwnersDropdownListForReportsQuery?.();
-
   const reportFilterFormFields: ReactHookFormFieldsI[] =
-    reportFilterFormFieldsDynamic?.(reportOwnerApiQuery);
+    reportFilterFormFieldsDynamic?.();
 
   return {
     methods,
@@ -62,5 +78,6 @@ export const useFilterReport = (props: ReportsListsComponentPropsI) => {
     resetFilterForm,
     closeFilterForm,
     reportFilterFormFields,
+    isPortalOpen,
   };
 };

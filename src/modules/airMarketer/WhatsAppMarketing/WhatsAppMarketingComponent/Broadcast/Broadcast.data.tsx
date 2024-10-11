@@ -144,31 +144,6 @@ export const broadcastColumns: any = (columnsProps: any) => {
       },
     },
     {
-      accessorFn: (row: any) => row?.repliedPercentage,
-      id: 'replied',
-      isSortable: false,
-      header: 'Replied',
-      cell: (info: any) => {
-        const value = info?.getValue() || 0;
-        return (
-          <Stack gap={1}>
-            <Typography variant="body3" textAlign={'center'}>
-              {`${value} %`}
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={value}
-              sx={{
-                '& .MuiLinearProgress-bar': {
-                  backgroundColor: getProgressColor(value, theme),
-                },
-              }}
-            />
-          </Stack>
-        );
-      },
-    },
-    {
       accessorFn: (row: any) => row?.recipients,
       id: 'recipients',
       isSortable: false,

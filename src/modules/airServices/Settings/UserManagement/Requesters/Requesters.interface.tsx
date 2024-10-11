@@ -11,7 +11,7 @@ export interface IRequestersProps {
   setDeleteModalOpen?: (value: boolean) => void;
   selectedRequestersList?: [];
   setIsDrawerOpen?: ((value: boolean) => void) | any;
-  setSearch?: (value: string) => void;
+  handleSearch?: (value: any) => void;
   requestersDropdownOptions?: any;
   isDrawerOpen?: boolean;
   singleRequesterDetails?: any;

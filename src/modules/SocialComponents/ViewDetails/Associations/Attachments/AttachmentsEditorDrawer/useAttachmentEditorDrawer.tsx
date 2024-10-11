@@ -5,18 +5,20 @@ import {
   attachmentsDefaultValues,
   attachmentsValidationSchema,
 } from './AttachmentsEditorDrawer.data';
-import { usePostAttachmentMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
+import {
+  usePostAssociationCompaniesMutation,
+  usePostCompaniesAttachmentsMutation,
+} from '@/services/commonFeatures/companies';
 
 const useAttachmentsEditorDrawer = (
   setOpenDrawer: any,
   companyId: any,
   RowData: any,
 ) => {
-  const [postAttachment] = usePostAttachmentMutation();
+  const [postAttachment] = usePostCompaniesAttachmentsMutation();
   const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
   const methodsAttachments = useForm({

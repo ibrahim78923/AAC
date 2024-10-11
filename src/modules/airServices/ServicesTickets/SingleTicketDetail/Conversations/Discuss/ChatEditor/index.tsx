@@ -1,8 +1,7 @@
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useChatEditor } from './useChatEditor';
 import { Box, IconButton, InputAdornment, Typography } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import { Close } from '@mui/icons-material';
+import { Close, Send } from '@mui/icons-material';
 
 export const ChatEditor = (props: any) => {
   const { selectedMessage, setSelectedMessage } = props;
@@ -69,7 +68,7 @@ export const ChatEditor = (props: any) => {
                   updateDiscussionsOfTicketConversationStatus?.isLoading
                 }
               >
-                <SendIcon sx={{ cursor: 'pointer' }} />
+                <Send sx={{ cursor: 'pointer' }} />
               </IconButton>
             </InputAdornment>
           ),

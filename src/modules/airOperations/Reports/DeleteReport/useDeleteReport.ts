@@ -1,26 +1,46 @@
 import { PAGINATION } from '@/config';
-import { useDeleteReportTemporaryMutation } from '@/services/airOperations/reports';
+import { useDeleteOperationsMultipleReportsTemporaryMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { ReportsListsComponentPropsI } from '../ReportLists/ReportLists.interface';
+import { useGetReportLists } from '../ReportHooks/useGetReportLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptySelectedReportsList,
+  setIsPortalClose,
+  setPage,
+} from '@/redux/slices/airOperations/reports/slice';
 
-export const useDeleteReport = (props: ReportsListsComponentPropsI) => {
-  const {
-    setIsPortalOpen,
-    selectedReportLists,
-    setSelectedReportLists,
-    setPage,
-    totalRecords,
-    page,
-    getReportListData,
-  } = props;
+const { CURRENT_PAGE } = PAGINATION ?? {};
 
+export const useDeleteReport = () => {
   const [deleteReportTemporaryTrigger, deleteReportTemporaryStatus] =
-    useDeleteReportTemporaryMutation();
+    useDeleteOperationsMultipleReportsTemporaryMutation();
+
+  const { getReportsList, page } = useGetReportLists();
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.operationsReportsLists?.isPortalOpen,
+  );
+
+  const selectedReportsList = useAppSelector(
+    (state) => state?.operationsReportsLists?.selectedReportsList,
+  );
+
+  const totalRecords = useAppSelector(
+    (state) => state?.operationsReportsLists?.totalRecords,
+  );
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
+    dispatch(setPage<any>(newPage));
+    await getReportsList?.(newPage);
+  };
 
   const deleteReport = async () => {
     const deleteParams: URLSearchParams = new URLSearchParams();
 
-    selectedReportLists?.forEach(
+    selectedReportsList?.forEach(
       (reportId: { _id: string }) => deleteParams?.append('ids', reportId?._id),
     );
 
@@ -32,25 +52,21 @@ export const useDeleteReport = (props: ReportsListsComponentPropsI) => {
       await deleteReportTemporaryTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Record deleted successfully');
       closeModal?.();
-      const newPage =
-        selectedReportLists?.length === totalRecords
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getReportListData?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeModal = () => {
-    setSelectedReportLists?.([]);
-    setIsPortalOpen?.({});
+    dispatch(emptySelectedReportsList());
+    dispatch(setIsPortalClose());
   };
 
   return {
     deleteReport,
     closeModal,
     deleteReportTemporaryStatus,
+    isPortalOpen,
   };
 };

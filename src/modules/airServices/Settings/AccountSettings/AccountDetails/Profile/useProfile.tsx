@@ -1,7 +1,7 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { profileValidationSchema, profileDefaultValues } from './Profile.data';
-import { usePatchProfileDetailMutation } from '@/services/airServices/settings/account-settings/account-details';
+import { usePatchServiceAccountDetailProfileDetailMutation } from '@/services/airServices/settings/account-settings/account-details';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
@@ -19,7 +19,7 @@ export const useProfile = (props: IPropsAccountDetails) => {
     defaultValues: profileDefaultValues(profileDetail),
   });
   const [patchProfileDetailTrigger, patchProfileDetailProgress] =
-    usePatchProfileDetailMutation();
+    usePatchServiceAccountDetailProfileDetailMutation();
   const isLoading = patchProfileDetailProgress?.isLoading;
 
   const isSubmit = async (data: any) => {

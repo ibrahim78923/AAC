@@ -26,6 +26,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { IVendorProps } from '../Vendor.interface';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useAddNewVendor = (props: IVendorProps) => {
   const router = useRouter();
@@ -112,7 +113,7 @@ export const useAddNewVendor = (props: IVendorProps) => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&

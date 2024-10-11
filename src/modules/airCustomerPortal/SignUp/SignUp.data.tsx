@@ -7,24 +7,18 @@ export const SignUpDefaultValues = {
   firstName: '',
   lastName: '',
   email: '',
-  companyName: null,
   phoneNumber: '',
   password: '',
   confirmPassword: '',
 };
 
 export const SignUpValidationSchema: any = Yup?.object()?.shape({
-  firstName: Yup?.string()?.trim()?.required('Required')?.max(30),
-  lastName: Yup?.string()?.trim()?.required('Required')?.max(30),
-  email: Yup?.string()
-    ?.trim()
-    ?.required('Required')
-    ?.max(100)
-    ?.email('Invalid Email'),
-  companyName: Yup?.string()?.nullable(),
-  phoneNumber: Yup?.string()?.required('Required'),
+  firstName: Yup?.string()?.trim(),
+  lastName: Yup?.string()?.trim(),
+  email: Yup?.string()?.trim(),
+  phoneNumber: Yup?.string()?.trim(),
   password: Yup?.string()
-    ?.required('Required')
+    ?.required('Password is Required')
     ?.max(30, 'Password should be less than 30 characters')
     ?.min(8, 'Password should contain at least 8 characters')
     ?.matches(
@@ -32,7 +26,7 @@ export const SignUpValidationSchema: any = Yup?.object()?.shape({
       'Password must include at least 1 capital letter, 1 small letter, 1 numeric digit, and 1 special character',
     ),
   confirmPassword: Yup?.string()
-    ?.required('Required')
+    ?.required('Confirm Password is Required')
     ?.oneOf([Yup.ref('password')], 'Passwords do not match'),
 });
 

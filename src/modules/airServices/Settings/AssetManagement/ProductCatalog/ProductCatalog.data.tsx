@@ -1,3 +1,4 @@
+import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants';
 import {
   ASSET_TYPE,
@@ -48,9 +49,10 @@ export const productListsColumnDynamic: any = (router?: any) => {
           sx={{ cursor: 'pointer' }}
           color="custom.bright"
         >
-          <Typography variant="body2" textTransform={'capitalize'}>
-            {truncateText(info?.getValue()?.toLowerCase() ?? '---')}
-          </Typography>
+          <TruncateText
+            text={info?.getValue()}
+            customTooltipProps={{ placement: 'top-start' }}
+          />
         </Box>
       ),
     },

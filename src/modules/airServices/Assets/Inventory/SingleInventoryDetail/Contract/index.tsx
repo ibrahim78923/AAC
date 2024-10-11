@@ -1,7 +1,6 @@
 import NoData from '@/components/NoData';
 import { Typography } from '@mui/material';
 import { InventoryCard } from '@/components/InventoryCard/index';
-import { ContractImage } from '@/assets/images';
 import { useContract } from './useContract';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -22,8 +21,11 @@ export const Contract = () => {
     deleteIsLoading,
     refetch,
   } = useContract();
+
   if (isLoading || isFetching) return <SkeletonTable />;
+
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+
   return (
     <PermissionsGuard
       permissions={[
@@ -44,16 +46,17 @@ export const Contract = () => {
             deleteIsLoading={deleteIsLoading?.isLoading}
             showChild
           >
-            <Typography color={theme?.palette?.grey?.[900]}>
-              {singleContract?.contractType}
+            <Typography
+              variant={'body1'}
+              color={theme?.palette?.grey?.[900]}
+              textTransform={'capitalize'}
+            >
+              {singleContract?.contractTypeDetails?.name?.toLowerCase()}
             </Typography>
           </InventoryCard>
         ))
       ) : (
-        <NoData
-          image={ContractImage}
-          message={'There are no active contract available'}
-        />
+        <NoData message={'There are no active contract available'} />
       )}
     </PermissionsGuard>
   );

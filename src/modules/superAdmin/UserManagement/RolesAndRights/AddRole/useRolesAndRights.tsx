@@ -5,9 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { addUserSchema } from '../RoleAndRights.data';
 import { useTheme } from '@mui/material';
 import {
-  useLazyGetPermissionsRolesByIdQuery,
-  usePostPermissionRoleMutation,
-  useUpdateRoleRightsMutation,
+  useLazyGetPermissionsRolesByIdOrgadminQuery,
+  usePostPermissionRoleOrgadminMutation,
+  useUpdateRoleRightsOrgadminMutation,
 } from '@/services/orgAdmin/roles-and-rights';
 import { enqueueSnackbar } from 'notistack';
 import {
@@ -28,10 +28,10 @@ const useRolesAndRights = () => {
   const roleId = query?.id;
 
   const [postPermissionRole, { isLoading: addRoleLoading }] =
-    usePostPermissionRoleMutation();
+    usePostPermissionRoleOrgadminMutation();
 
   const [updateRoleRights, { isLoading: updateRoleLoading }] =
-    useUpdateRoleRightsMutation();
+    useUpdateRoleRightsOrgadminMutation();
 
   const { data: productPermissionsData, isLoading: productPermissionsLoading } =
     useGetAdminProductsPermissionsByIdQuery(
@@ -40,7 +40,7 @@ const useRolesAndRights = () => {
     );
 
   const [trigger, { data: viewPerdetails, isLoading: loadingRoleDetails }] =
-    useLazyGetPermissionsRolesByIdQuery();
+    useLazyGetPermissionsRolesByIdOrgadminQuery();
 
   const roleDefaultValues: any = {
     name: '',

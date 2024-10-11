@@ -26,12 +26,17 @@ export const useContractDetail = () => {
   }, [getSoftwareContractTrigger, contractParams?.toString()]);
   const softwareContractData = data?.data?.contracts;
   const softwareContractMeta = data?.data?.meta;
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
   return {
     page,
     setPage,
     limit,
     setLimit,
-    setSearchBy,
+    handleSearch,
     router,
     isLoading,
     isFetching,

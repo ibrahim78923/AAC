@@ -234,11 +234,15 @@ export const teamGoalTableColumns: any = (
           <TextField
             type="number"
             value={inputValues[original?._id]?.[month] || ''}
-            onChange={(e) =>
-              handleInputChange(original?._id, month, e?.target?.value)
-            }
+            onChange={(e) => {
+              const value = parseFloat(e?.target?.value);
+              if (value > 0 || e?.target?.value === '') {
+                handleInputChange(original?._id, month, e?.target?.value);
+              }
+            }}
             placeholder="0"
             sx={{ '& input': { height: '12px' } }}
+            inputProps={{ min: 1 }}
           />
         </Box>
       ),

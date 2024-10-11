@@ -6,76 +6,84 @@ export const closureRuleDefaultValues = (
 ) => {
   return {
     closeIncidentTimeAdded:
-      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.timeEntryAdded,
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.timeEntryAdded ??
+      false,
     closeIncidentAssociatedTasks:
       getClosureRuleValues?.incident?.[ticket?.incidentClose]
-        ?.associatedTasksCompleted,
+        ?.associatedTasksCompleted ?? false,
     closeIncidentChildTickets:
-      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+      (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
         ?.closed ||
-      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
-        ?.resolved,
+        getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+          ?.resolved) ??
+      false,
     closeIncidentClosedResolved:
       (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
         ?.resolved &&
-        'Either closed or resolved') ||
+        'IncidentCloseEither') ||
       (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
         ?.closed &&
-        'Closed'),
+        'IncidentCloseClosed'),
 
     resolveIncidentTimeAdded:
-      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.timeEntryAdded,
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]
+        ?.timeEntryAdded ?? false,
     resolveIncidentAssociatedTasks:
       getClosureRuleValues?.incident?.[ticket?.incidentResolve]
-        ?.associatedTasksCompleted,
+        ?.associatedTasksCompleted ?? false,
     resolveIncidentChildTickets:
-      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+      (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
         ?.closed ||
-      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
-        ?.resolved,
+        getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+          ?.resolved) ??
+      false,
     resolveIncidentClosedResolved:
       (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
         ?.resolved &&
-        'Either closed or resolved') ||
+        'IncidentResolveEither') ||
       (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
         ?.closed &&
-        'Closed'),
+        'IncidentResolveClosed'),
 
     serviceCloseTimeAdded:
-      getClosureRuleValues?.services?.[ticket?.serviceClose]?.timeEntryAdded,
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.timeEntryAdded ??
+      false,
     serviceCloseAssociatedTasks:
       getClosureRuleValues?.services?.[ticket?.serviceClose]
-        ?.associatedTasksCompleted,
+        ?.associatedTasksCompleted ?? false,
     serviceCloseChildTickets:
-      getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+      (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
         ?.closed ||
-      getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
-        ?.resolved,
+        getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+          ?.resolved) ??
+      false,
     serviceCloseClosedResolved:
       (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
         ?.resolved &&
-        'Either closed or resolved') ||
+        'ServiceResolveEither') ||
       (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
         ?.closed &&
-        'Closed'),
+        'ServiceResolveClosed'),
 
     serviceResolveTimeAdded:
-      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.timeEntryAdded,
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]
+        ?.timeEntryAdded ?? false,
     serviceResolveAssociatedTasks:
       getClosureRuleValues?.services?.[ticket?.serviceResolve]
-        ?.associatedTasksCompleted,
+        ?.associatedTasksCompleted ?? false,
     serviceResolveChildTickets:
-      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+      (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
         ?.closed ||
-      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
-        ?.resolved,
+        getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+          ?.resolved) ??
+      false,
     serviceResolveClosedResolved:
       (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
         ?.resolved &&
-        'Either closed or resolved') ||
+        'ServiceCloseEither') ||
       (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
         ?.closed &&
-        'Closed'),
+        'ServiceCloseClosed'),
   };
 };
 
@@ -117,9 +125,9 @@ export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
       row: false,
       disabled: isRadioGroupDisable ? false : true,
       options: [
-        { value: 'Closed', label: 'Closed' },
+        { value: 'IncidentCloseClosed', label: 'Closed' },
         {
-          value: 'Either closed or resolved',
+          value: 'IncidentCloseEither',
           label: 'Either closed or resolved',
         },
       ],
@@ -166,58 +174,9 @@ export const resolveIncidentDataArray = (isRadioGroupDisable: any) => [
       row: false,
       disabled: isRadioGroupDisable ? false : true,
       options: [
-        { value: 'Closed', label: 'Closed' },
+        { value: 'IncidentResolveClosed', label: 'Closed' },
         {
-          value: 'Either closed or resolved',
-          label: 'Either closed or resolved',
-        },
-      ],
-    },
-    component: RHFRadioGroup,
-  },
-];
-
-export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
-  {
-    id: 6857,
-    serviceCloseIncident: true,
-    componentProps: {
-      name: 'serviceCloseTimeAdded',
-      label: 'Time entry is added',
-    },
-    component: RHFCheckbox,
-  },
-  {
-    id: 2345,
-    serviceCloseIncident: true,
-    componentProps: {
-      name: 'serviceCloseAssociatedTasks',
-      label: 'Associated tasks are completed',
-    },
-    component: RHFCheckbox,
-  },
-  {
-    id: 8697,
-    serviceCloseIncident: true,
-    componentProps: {
-      name: 'serviceCloseChildTickets',
-      label: 'Child tickets',
-    },
-    component: RHFCheckbox,
-  },
-  {
-    id: 6578,
-    serviceCloseIncident: true,
-    componentProps: {
-      name: 'serviceCloseClosedResolved',
-      label: '',
-      sx: { ml: 2 },
-      row: false,
-      disabled: isRadioGroupDisable ? false : true,
-      options: [
-        { value: 'Closed', label: 'Closed' },
-        {
-          value: 'Either closed or resolved',
+          value: 'IncidentResolveEither',
           label: 'Either closed or resolved',
         },
       ],
@@ -264,9 +223,58 @@ export const serviceResolveDataArray = (isRadioGroupDisable: any) => [
       row: false,
       disabled: isRadioGroupDisable ? false : true,
       options: [
-        { value: 'Closed', label: 'Closed' },
+        { value: 'ServiceCloseClosed', label: 'Closed' },
         {
-          value: 'Either closed or resolved',
+          value: 'ServiceCloseEither',
+          label: 'Either closed or resolved',
+        },
+      ],
+    },
+    component: RHFRadioGroup,
+  },
+];
+
+export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
+  {
+    id: 6857,
+    serviceCloseIncident: true,
+    componentProps: {
+      name: 'serviceCloseTimeAdded',
+      label: 'Time entry is added',
+    },
+    component: RHFCheckbox,
+  },
+  {
+    id: 2345,
+    serviceCloseIncident: true,
+    componentProps: {
+      name: 'serviceCloseAssociatedTasks',
+      label: 'Associated tasks are completed',
+    },
+    component: RHFCheckbox,
+  },
+  {
+    id: 8697,
+    serviceCloseIncident: true,
+    componentProps: {
+      name: 'serviceCloseChildTickets',
+      label: 'Child tickets',
+    },
+    component: RHFCheckbox,
+  },
+  {
+    id: 6578,
+    serviceCloseIncident: true,
+    componentProps: {
+      name: 'serviceCloseClosedResolved',
+      label: '',
+      sx: { ml: 2 },
+      row: false,
+      disabled: isRadioGroupDisable ? false : true,
+      options: [
+        { value: 'ServiceResolveClosed', label: 'Closed' },
+        {
+          value: 'ServiceResolveEither',
           label: 'Either closed or resolved',
         },
       ],

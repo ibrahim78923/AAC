@@ -1,15 +1,14 @@
-import { useLazyGetDepartmentDropdownListQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import * as Yup from 'yup';
+import { agentAvailabilityCountDynamic } from './AgentAvailability.data';
 
 export const useAgentAvailability = (props: any) => {
   const { data, departmentId, setDepartmentId } = props;
 
   const theme = useTheme();
-  const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
 
   const methods = useForm({
     defaultValues: { departmentId: null },
@@ -39,15 +38,28 @@ export const useAgentAvailability = (props: any) => {
     handleSubmit(onsubmit)();
   }, [watchDepartment?._id]);
 
-  const pieChartSeries = [
+  const pieChartSeriesData = [
     data?.agentAvailability?.data?.availableAgents || 0,
     data?.agentAvailability?.data?.unAvailableAgents || 0,
   ];
 
+  const pieChartOptions = {
+    colors: [theme?.palette?.success?.main, theme?.palette?.warning?.main],
+    labels: ['Available', 'Not Available'],
+  };
+
+  const agentAvailabilityCount = agentAvailabilityCountDynamic(
+    data?.agentAvailability?.data,
+  );
+
+  const pieChartSeries = pieChartSeriesData?.filter(
+    (agent: any) => agent !== 0,
+  );
+
   return {
     methods,
-    departmentDropdown,
-    theme,
+    pieChartOptions,
     pieChartSeries,
+    agentAvailabilityCount,
   };
 };

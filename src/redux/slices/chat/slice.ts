@@ -101,6 +101,12 @@ const chatSlice = createSlice({
       }
     },
 
+    setUpdateChatContactsActions(state, action) {
+      if (Array.isArray(action?.payload)) {
+        state.chatContacts = action?.payload;
+      }
+    },
+
     setUpdateChatContacts(state, action) {
       const updatedChatContacts = state?.chatContacts?.map((chat: any) => {
         if (chat?.ownerId === action?.payload?.ownerId) {
@@ -199,5 +205,6 @@ export const {
   setChangeChat,
   setIsNewMessages,
   setSingleMessageRecord,
+  setUpdateChatContactsActions,
 } = chatSlice.actions;
 export default chatSlice.reducer;

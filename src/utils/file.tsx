@@ -3,6 +3,7 @@ import jsPDF from 'jspdf';
 import { errorSnackbar } from './api';
 import { parse } from 'json2csv';
 import * as XLSX from 'xlsx';
+import { IMG_URL } from '@/config';
 
 export const downloadFile = (blob: any, name: any, type: any) => {
   const url = window?.URL?.createObjectURL?.(
@@ -127,4 +128,37 @@ export const exportDataToXLS = (dataToExport: any, name: any, type: any) => {
     type: 'array',
   });
   downloadFile?.(excelBuffer, name, type);
+};
+
+export const downloadFiles = async (
+  files: {
+    id?: string;
+    name: string;
+    url: string;
+    size?: string | number;
+    mimetype?: string;
+  }[],
+) => {
+  for (let index = 0; index < files.length; index++) {
+    const url = `${IMG_URL}${files[index].url}`;
+    const filename = files[index].name;
+
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const blob = await response.blob();
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        errorSnackbar(`Failed to fetch ${url}`);
+      }
+    } catch (error) {
+      errorSnackbar(`Error downloading ${url}: ${error}`);
+    }
+  }
 };

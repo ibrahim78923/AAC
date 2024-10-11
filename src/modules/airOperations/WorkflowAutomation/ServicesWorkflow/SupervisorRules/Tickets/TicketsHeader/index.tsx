@@ -14,7 +14,6 @@ import { useTicketsHeader } from './useTicketsHeader';
 const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
     selectedList,
-    setSearch,
     onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -23,8 +22,9 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
     setDeleteWorkflow,
     deleteWorkflow,
     handleWorkflow,
+    setPage,
   } = props;
-  const { handleDelete, deleteStatus } = useTicketsHeader(props);
+  const { handleDelete, deleteStatus, handleSearch } = useTicketsHeader(props);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -34,7 +34,7 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
               AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
@@ -58,6 +58,7 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
               variant="outlined"
               startIcon={<FilterSharedIcon />}
               onClick={() => setIsDrawerOpen?.(true)}
+              className="small"
             >
               Filter
             </Button>
@@ -72,6 +73,7 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
               onClick={() =>
                 router?.push(AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES)
               }
+              className="small"
             >
               Create Rules
             </Button>
@@ -83,6 +85,7 @@ const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
         setIsDrawerOpen={setIsDrawerOpen}
         onSubmitFilter={onSubmitListFilter}
         handleWorkflow={handleWorkflow}
+        setPage={setPage}
       />
       <WorkflowDelete
         deleteWorkflow={deleteWorkflow}

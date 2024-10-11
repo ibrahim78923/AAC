@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
-import { useGetPopularArticlesQuery } from '@/services/airCustomerPortal';
+import { useGetCustomerPortalDashboardPopularArticlesQuery } from '@/services/airCustomerPortal';
 import { getActiveProductSession, getSession } from '@/utils';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -20,7 +20,7 @@ export const usePopularArticles = () => {
     return atob(id ?? '');
   }, [companyId]);
 
-  const getPopularArticlesParameter = {
+  const getCustomerPortalDashboardPopularArticlesParameter = {
     queryParams: {
       page: PAGINATION?.CURRENT_PAGE,
       limit: PAGINATION?.PAGE_LIMIT,
@@ -29,9 +29,12 @@ export const usePopularArticles = () => {
     },
   };
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetPopularArticlesQuery(getPopularArticlesParameter, {
-      refetchOnMountOrArgChange: true,
-    });
+    useGetCustomerPortalDashboardPopularArticlesQuery(
+      getCustomerPortalDashboardPopularArticlesParameter,
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   return {
     data,

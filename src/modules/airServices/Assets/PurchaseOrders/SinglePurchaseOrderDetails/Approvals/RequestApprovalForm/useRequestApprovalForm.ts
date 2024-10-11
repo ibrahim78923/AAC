@@ -1,18 +1,30 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './RequestApprovalForm.data';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
-import { usePostRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
+import {
+  useLazyGetAirServicesAssetsPurchaseOrderApprovalAgentsQuery,
+  usePostAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation,
+} from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
 
 export const useRequestApprovalForm = (props: any) => {
   const { openDialog, setOpenDialog } = props;
-  const apiQueryAgents = useLazyGetAgentsQuery();
+
+  const apiQueryAgents =
+    useLazyGetAirServicesAssetsPurchaseOrderApprovalAgentsQuery();
+
   const searchParams = useSearchParams();
   const purchaseOrderId: any = searchParams?.get('purchaseOrderId');
+
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+
   const [postRequestApprovalTrigger, postRequestApprovalStatus] =
-    usePostRequestApprovalMutation();
+    usePostAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation();
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
@@ -33,6 +45,7 @@ export const useRequestApprovalForm = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   return {
     openDialog,
     setOpenDialog,
@@ -41,5 +54,6 @@ export const useRequestApprovalForm = (props: any) => {
     onSubmit,
     postRequestApprovalStatus,
     apiQueryAgents,
+    productId,
   };
 };

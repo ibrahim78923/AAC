@@ -7,7 +7,13 @@ import CustomTextEditor from '../CustomTextEditor';
 
 // ----------------------------------------------------------------------
 
-export default function RHFEditor({ name, required, disabled, ...other }: any) {
+export default function RHFEditor({
+  name,
+  required,
+  disabled,
+  allowAttachments,
+  ...other
+}: any) {
   const { control } = useFormContext();
 
   return (
@@ -26,6 +32,7 @@ export default function RHFEditor({ name, required, disabled, ...other }: any) {
             onChange={field?.onChange}
             error={!!error}
             readOnly={disabled}
+            allowAttachments={allowAttachments}
             {...other}
           />
           <FormHelperText

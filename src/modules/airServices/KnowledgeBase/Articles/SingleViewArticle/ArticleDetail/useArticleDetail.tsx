@@ -1,21 +1,20 @@
-import { ARRAY_INDEX } from '@/constants/strings';
-import useAuth from '@/hooks/useAuth';
-import { useLazyGetArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
 import { Theme, useTheme } from '@mui/material';
 import { NextRouter, useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { sideData } from './ArticleDetail.data';
+import { useLazyGetServicesKnowledgeBaseSingleArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
+import { getActiveAccountSession } from '@/utils';
 
 export const useArticleDetail = () => {
   const theme: Theme = useTheme();
   const router: NextRouter = useRouter();
   const { articleId } = router?.query;
 
-  const auth: any = useAuth();
-  const [lazyGetArticleByIdTrigger, lazyGetArticleByIdStatus] =
-    useLazyGetArticleByIdQuery();
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
 
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company ?? {};
+  const [lazyGetArticleByIdTrigger, lazyGetArticleByIdStatus] =
+    useLazyGetServicesKnowledgeBaseSingleArticleByIdQuery();
 
   const getSingleArticle = async () => {
     const getSingleArticleParameter = {
@@ -37,6 +36,10 @@ export const useArticleDetail = () => {
     lazyGetArticleByIdStatus?.isLoading || lazyGetArticleByIdStatus?.isFetching;
   const showError = lazyGetArticleByIdStatus?.isError;
   const data = lazyGetArticleByIdStatus?.data;
+  const isApiCalled =
+    !lazyGetArticleByIdStatus?.data && !lazyGetArticleByIdStatus?.error;
+
+  const articleDetails = sideData?.(data?.data);
 
   return {
     theme,
@@ -46,5 +49,7 @@ export const useArticleDetail = () => {
     router,
     showError,
     getSingleArticle,
+    articleDetails,
+    isApiCalled,
   };
 };

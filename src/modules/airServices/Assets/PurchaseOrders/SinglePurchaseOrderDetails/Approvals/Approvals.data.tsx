@@ -6,7 +6,9 @@ import {
   PrimaryReceivedIcon,
   PrimaryRequestIcon,
 } from '@/assets/icons';
+
 export const approvalStatus = ['APPROVED', 'REJECTED', 'CANCELED'];
+
 export const approvalsStatusObj = (
   status: any,
   approverId: any,
@@ -80,10 +82,4 @@ export const approvalsStatusObj = (
       break;
   }
   return statusObj;
-};
-
-export const stringAvatar = (name: string) => {
-  return {
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  };
 };

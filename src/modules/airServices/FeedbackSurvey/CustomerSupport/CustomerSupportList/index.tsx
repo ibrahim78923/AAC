@@ -17,7 +17,7 @@ import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission
 
 export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
   const {
-    setSearch,
+    handleSearch,
     activeCheck,
     setActiveCheck,
     page,
@@ -47,7 +47,7 @@ export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
         gap={1}
         flexWrap="wrap"
       >
-        <Search label="Search here" setSearchBy={setSearch} />
+        <Search label="Search here" setSearchBy={handleSearch} />
         <Box display="flex" gap={1} flexWrap="wrap">
           <PermissionsGuard
             permissions={
@@ -67,6 +67,7 @@ export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
             <Button
               startIcon={<PlusIcon />}
               variant="contained"
+              className="small"
               onClick={() =>
                 router?.push({
                   pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,

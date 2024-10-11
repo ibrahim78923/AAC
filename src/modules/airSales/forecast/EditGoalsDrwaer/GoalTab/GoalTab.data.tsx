@@ -13,6 +13,7 @@ export const editGoalValidationSchema = (form: any) => {
     user: Yup.string(),
     duration: Yup.string(),
     dealPipelines: Yup.string(),
+    target: Yup.string(),
     ...formSchema,
   });
 };
@@ -25,26 +26,26 @@ export const editGoalDefaultValues = (data?: any, form?: any) => {
     user: '',
     duration: '',
     dealPipelines: '',
-    // name: data?.name ?? '',
+    target: '',
     ...initialValues,
   };
 };
 
-export const editGoalArray = (showMonth: any) => {
-  const monthFields = [
-    { month: 'jan', label: 'Jan' },
-    { month: 'feb', label: 'Feb' },
-    { month: 'mar', label: 'Mar' },
-    { month: 'apr', label: 'Apr' },
-    { month: 'may', label: 'May' },
-    { month: 'jun', label: 'Jun' },
-    { month: 'jul', label: 'Jul' },
-    { month: 'aug', label: 'Aug' },
-    { month: 'sep', label: 'Sep' },
-    { month: 'oct', label: 'Oct' },
-    { month: 'nov', label: 'Nov' },
-    { month: 'dec', label: 'Dec' },
-  ];
+export const editGoalArray = () => {
+  // const monthFields = [
+  //   { month: 'jan', label: 'Jan' },
+  //   { month: 'feb', label: 'Feb' },
+  //   { month: 'mar', label: 'Mar' },
+  //   { month: 'apr', label: 'Apr' },
+  //   { month: 'may', label: 'May' },
+  //   { month: 'jun', label: 'Jun' },
+  //   { month: 'jul', label: 'Jul' },
+  //   { month: 'aug', label: 'Aug' },
+  //   { month: 'sep', label: 'Sep' },
+  //   { month: 'oct', label: 'Oct' },
+  //   { month: 'nov', label: 'Nov' },
+  //   { month: 'dec', label: 'Dec' },
+  // ];
 
   return [
     {
@@ -53,6 +54,7 @@ export const editGoalArray = (showMonth: any) => {
         label: 'Name',
         fullWidth: true,
         select: false,
+        disabled: true,
       },
       component: RHFTextField,
       md: 12,
@@ -89,19 +91,14 @@ export const editGoalArray = (showMonth: any) => {
       component: RHFTextField,
       md: 12,
     },
-    ...monthFields
-      .filter((field) => showMonth?.includes(field?.month))
-      .map((field) => ({
-        componentProps: {
-          name: field?.month,
-          label: '',
-          fullWidth: true,
-          select: false,
-          type: 'number',
-          text: field?.label,
-        },
-        component: RHFTextField,
-        md: 12,
-      })),
+    {
+      componentProps: {
+        name: 'target',
+        label: 'target',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
+    },
   ];
 };

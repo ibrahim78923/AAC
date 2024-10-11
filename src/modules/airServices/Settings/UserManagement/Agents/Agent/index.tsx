@@ -15,7 +15,7 @@ const Agent = () => {
   const {
     agentListsColumns,
     dropdownOptions,
-    setSearchValue,
+    handleSearch,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
     isAgentModalOpen,
@@ -48,7 +48,11 @@ const Agent = () => {
               AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
             ]}
           >
-            <Search label="Search Here" setSearchBy={setSearchValue} />
+            <Search
+              label="Search Here"
+              setSearchBy={handleSearch}
+              size="small"
+            />
           </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
@@ -60,6 +64,7 @@ const Agent = () => {
             <Button
               color="secondary"
               variant="outlined"
+              className="small"
               startIcon={<FilterSharedIcon />}
               onClick={() => setAgentFilterDrawerOpen(true)}
             >
@@ -74,6 +79,7 @@ const Agent = () => {
             <SingleDropdownButton
               dropdownOptions={dropdownOptions}
               disabled={!!!selectedAgentList?.length}
+              className="small"
             />
           </PermissionsGuard>
           <PermissionsGuard
@@ -84,6 +90,7 @@ const Agent = () => {
             <Button
               variant="contained"
               startIcon={<PlusSharedColorIcon />}
+              className="small"
               onClick={() => {
                 setIsAgentModalOpen?.(true);
                 setSelectedAgentList([]);

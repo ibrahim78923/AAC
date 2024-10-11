@@ -8,20 +8,18 @@ import {
 } from './Contacts.data';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { ASSOCIATIONS_API_PARAMS_FOR, DATE_TIME_FORMAT } from '@/constants';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
-  useGetAssociateTicketsQuery,
-  usePostContactMutation,
-  usePostRemoveAssociateTicketsMutation,
+  useGetAirServicesAssociateTicketsQuery,
+  usePostAirServicesContactMutation,
+  usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useTheme } from '@mui/material';
-import dayjs from 'dayjs';
+import { isoDateString } from '@/utils/dateTime';
 
 export default function useContacts({ setIsDrawerOpen }: any) {
   const router = useRouter();
-  const theme: any = useTheme();
 
   const [selected, setSelected] = useState([]);
   const [modalId, setModalId] = useState({
@@ -58,12 +56,11 @@ export default function useContacts({ setIsDrawerOpen }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
   const associateContactsColumns = getAssociateContactsColumns({
-    theme,
     setModalId,
   });
 
@@ -74,9 +71,10 @@ export default function useContacts({ setIsDrawerOpen }: any) {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
-  const [postContactTrigger, postContactStatus] = usePostContactMutation();
+  const [postContactTrigger, postContactStatus] =
+    usePostAirServicesContactMutation();
 
   const onSubmit = async (data: any) => {
     const body = new FormData();
@@ -85,7 +83,7 @@ export default function useContacts({ setIsDrawerOpen }: any) {
         switch (key) {
           case 'dateOfBirth':
           case 'dateOfJoining':
-            body?.append(key, dayjs(value)?.format(DATE_TIME_FORMAT?.YYMMDD));
+            body?.append(key, isoDateString(value));
             break;
           case 'contactOwnerId':
           case 'lifeCycleStageId':

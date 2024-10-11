@@ -45,6 +45,7 @@ const UpdateQuote = () => {
     selectedCompanyIds,
     loadingSubmit,
     updateBuyerInfoLoading,
+    productsArray,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -61,6 +62,7 @@ const UpdateQuote = () => {
     selectedBuyerContactIds: selectedBuyerContactIds,
     handleCompanyChange: handleCompanyChange,
     selectedCompanyIds: selectedCompanyIds,
+    productsArray: productsArray,
   };
   const steps = updateQuoteSteps(stepsArgs);
 
@@ -101,7 +103,11 @@ const UpdateQuote = () => {
                   {activeStep !== 2 && activeStep !== 3 && (
                     <LoadingButton
                       variant="contained"
-                      onClick={handleUpdateDetails}
+                      onClick={
+                        activeStep === 1
+                          ? handleUpdateDetails
+                          : handleFormSubmit
+                      }
                       disabled={!disabledSaveAndContinueBtn}
                       loading={updateBuyerInfoLoading}
                     >
@@ -171,6 +177,8 @@ const UpdateQuote = () => {
         <FormCreateProduct
           open={isOpenFormCreateProduct}
           onClose={handleCloseFormCreateProduct}
+          dataGetQuoteById={dataGetQuoteById}
+          productsArray={productsArray}
         />
       )}
     </>

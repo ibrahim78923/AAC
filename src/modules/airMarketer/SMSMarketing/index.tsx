@@ -139,7 +139,7 @@ const SMSMarketing = () => {
           <CommonTabs
             tabsArray={['Dashboard', 'SMS Broadcast', 'Contacts', 'Templates']}
             getTabVal={(val: number) => setTabVal(val)}
-            activeTab={tabVal}
+            defaultValue={tabVal}
           >
             <SMSDashboard setTabVal={setTabVal} />
             <SMSBroadcast />

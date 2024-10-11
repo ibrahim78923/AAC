@@ -8,35 +8,35 @@ import {
   SCHEMA_KEYS,
 } from '@/constants/strings';
 import {
-  useChangeStatusWorkflowMutation,
-  useLazyGetWorkflowListQuery,
-} from '@/services/airOperations/workflow-automation/sales-workflow';
-import {
   EventBaseWorkflowActionsDropdown,
   listsColumnsFunction,
 } from './Tickets.data';
 import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useCloneServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import {
+  useChangeStatusServicesWorkflowMutation,
+  useCloneServicesWorkflowMutation,
+  useLazyGetServicesWorkflowListQuery,
+} from '@/services/airOperations/workflow-automation/services-workflow';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 
 export const useTickets = () => {
   const theme = useTheme();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const [selectedAction, setSelectedAction] = useState<WorkflowI[]>([]);
-  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const [deleteWorkflow, setDeleteWorkflow] = useState<boolean>(false);
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item) => item?._id);
   const [
     getWorkflowListTrigger,
     { data, isLoading, isFetching, isSuccess, isError },
-  ] = useLazyGetWorkflowListQuery();
+  ]: any = useLazyGetServicesWorkflowListQuery();
   const totalRecords = data?.data?.workFlows;
   const workflowParams = {
     page,
@@ -65,7 +65,7 @@ export const useTickets = () => {
   };
   const ticketsData = data?.data;
   const listData = data?.data?.workFlows;
-  const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
+  const [changeStatusTrigger] = useChangeStatusServicesWorkflowMutation();
 
   const handleChangeStatus = async (rowData: WorkflowI) => {
     const status =

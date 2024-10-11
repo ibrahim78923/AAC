@@ -1,29 +1,25 @@
-import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useDetailCard } from './useDetailCard';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
-import {
-  formatFileSize,
-  fullName,
-  generateImage,
-  getImageByType,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { UserInfo } from '@/components/UserInfo';
+import { uiDateFormat } from '@/utils/dateTime';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
-export const DetailCard = (props: { data: any }) => {
+const { ZERO } = ARRAY_INDEX ?? {};
+
+export const DetailCard = (props: any) => {
   const { data } = props;
   const { attachFile } = useDetailCard();
   const theme = useTheme();
-  const ticketDetail = data?.data?.[ARRAY_INDEX?.ZERO];
+  const ticketDetail = data?.data?.[ZERO];
 
   return (
     <Box
-      sx={{
-        border: `2px solid ${theme?.palette?.custom?.off_white_three}`,
-        borderRadius: '.5rem',
-        paddingY: '1rem',
-      }}
+      border="2px solid"
+      borderRadius={2}
+      paddingY={2}
+      borderColor="custom.off_white_three"
     >
       <Grid container>
         <Grid
@@ -40,32 +36,27 @@ export const DetailCard = (props: { data: any }) => {
           }}
         >
           <Box>
-            <Box
-              display={'flex'}
-              flexWrap={'wrap'}
-              alignItems={'center'}
-              gap={1}
-              marginBottom={1.5}
-            >
-              <Avatar
-                sx={{ bgcolor: 'blue.main' }}
-                style={{ width: 28, height: 28 }}
-                src={generateImage(ticketDetail?.requesterDetails?.avatar?.url)}
-              />
-              <Box>
-                <Typography
-                  variant="body2"
-                  fontWeight={600}
-                  color="slateBlue.main"
-                >
-                  {' '}
-                  {fullName(
-                    ticketDetail?.requesterDetails?.firstName,
-                    ticketDetail?.requesterDetails?.lastName,
-                  )}
-                </Typography>
-              </Box>
-            </Box>
+            <UserInfo
+              boxProps={{ marginBottom: 1.5 }}
+              nameInitial={fullNameInitial(
+                ticketDetail?.requesterDetails?.firstName,
+                ticketDetail?.requesterDetails?.lastName,
+              )}
+              name={
+                !!!ticketDetail?.requesterDetails
+                  ? fullName(ticketDetail?.name) ?? '---'
+                  : fullName(
+                      ticketDetail?.requesterDetails?.firstName,
+                      ticketDetail?.requesterDetails?.lastName,
+                    ) ?? '---'
+              }
+              avatarSrc={ticketDetail?.requesterDetails?.avatar?.url}
+              nameProps={{
+                color: 'slateBlue.main',
+                fontWeight: 'fontWeightMedium',
+                variant: 'body2',
+              }}
+            />
             <Box
               display={'flex'}
               flexWrap={'wrap'}
@@ -74,7 +65,7 @@ export const DetailCard = (props: { data: any }) => {
             >
               <Typography
                 variant="body2"
-                fontWeight={600}
+                fontWeight={'fontWeightMedium'}
                 color="slateBlue.main"
               >
                 Email:
@@ -84,8 +75,8 @@ export const DetailCard = (props: { data: any }) => {
                 sx={{ wordBreak: 'break-all' }}
                 color="slateBlue.main"
               >
-                {!!ticketDetail?.requesterEmail
-                  ? ticketDetail?.requesterEmail
+                {!!!ticketDetail?.requesterDetails
+                  ? ticketDetail?.requesterEmail ?? '---'
                   : ticketDetail?.requesterDetails?.email ?? '---'}
               </Typography>
             </Box>
@@ -97,16 +88,14 @@ export const DetailCard = (props: { data: any }) => {
             >
               <Typography
                 variant="body2"
-                fontWeight={600}
+                fontWeight={'fontWeightMedium'}
                 color="slateBlue.main"
               >
                 Created on:
               </Typography>
               <Typography variant="body2" color="slateBlue.main">
                 {!!ticketDetail?.requesterDetails?.createdAt
-                  ? dayjs(ticketDetail?.requesterDetails?.createdAt)?.format(
-                      DATE_FORMAT?.UI,
-                    )
+                  ? uiDateFormat(ticketDetail?.requesterDetails?.createdAt)
                   : '---'}
               </Typography>
             </Box>
@@ -126,51 +115,41 @@ export const DetailCard = (props: { data: any }) => {
           }}
         >
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
-              Description:
-            </Typography>
             <Typography
               variant="body2"
+              fontWeight={'fontWeightMedium'}
               color="slateBlue.main"
-              sx={{ wordBreak: 'break-all' }}
-              dangerouslySetInnerHTML={{
-                __html: !!ticketDetail?.description
-                  ? ticketDetail?.description
-                  : '---',
-              }}
-            />
+            >
+              Description:
+            </Typography>
+            <Box maxHeight={'10vh'} overflow="auto" component={'span'}>
+              <Typography
+                variant="body2"
+                color="slateBlue.main"
+                sx={{ wordBreak: 'break-all' }}
+                dangerouslySetInnerHTML={{
+                  __html: !!ticketDetail?.description
+                    ? ticketDetail?.description
+                    : '---',
+                }}
+              />
+            </Box>
           </Box>
-          <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Attachments:
             </Typography>
             {attachFile?.data?.length ? (
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                flexWrap={'wrap'}
-                gap={1}
-                marginBottom={1}
-              >
-                <Avatar
-                  src={getImageByType(
-                    attachFile?.data?.[ARRAY_INDEX?.ZERO],
-                    attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileUrl,
-                  )}
-                />
-                <Box>
-                  <Typography variant="body2" color="slateBlue.main">
-                    {truncateText(
-                      attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
-                    )}
-                  </Typography>
-                  <Typography variant="body3" color="grey.500">
-                    {formatFileSize(
-                      attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileSize,
-                    )}
-                  </Typography>
-                </Box>
-              </Box>
+              <AttachFileCard
+                size={{ variant: 'circular' }}
+                hasStyling={false}
+                canDelete={false}
+                data={attachFile?.data?.[ZERO]}
+              />
             ) : (
               <Typography
                 variant="body2"
@@ -189,7 +168,11 @@ export const DetailCard = (props: { data: any }) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Status:
             </Typography>
             {!!ticketDetail?.status ? (
@@ -209,12 +192,16 @@ export const DetailCard = (props: { data: any }) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Due by:
             </Typography>
             <Typography variant="body2" color="slateBlue.main">
               {!!ticketDetail?.plannedEndDate
-                ? dayjs(ticketDetail?.plannedEndDate)?.format(DATE_FORMAT?.UI)
+                ? uiDateFormat(ticketDetail?.plannedEndDate)
                 : '---'}
             </Typography>
           </Box>
@@ -224,7 +211,11 @@ export const DetailCard = (props: { data: any }) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+            <Typography
+              variant="body2"
+              fontWeight={'fontWeightMedium'}
+              color="slateBlue.main"
+            >
               Associated By:
             </Typography>
             <Typography

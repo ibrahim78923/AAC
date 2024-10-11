@@ -1,8 +1,8 @@
 import { PAGINATION } from '@/config';
 import { ChangeEvent, useMemo, useState } from 'react';
 import {
-  useGetEnquiriesQuery,
-  usePatchEnquiriesMutation,
+  useGetServicesEnquiriesQuery,
+  usePatchServicesEnquiriesMutation,
 } from '@/services/airServices/enquiries';
 import {
   getEnquiriesActionDropdown,
@@ -15,7 +15,7 @@ import { IEnquiry, IInfo, IModalState } from './Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { getActiveAccountSession } from '@/utils';
 
-export default function useEnquiries() {
+export const useEnquiries = () => {
   const [enquiriesSelected, setEnquiriesSelected] = useState<IEnquiry[]>([]);
   const [searchBy, setSearchBy] = useState('');
   const [filter, setFilter] = useState('');
@@ -49,10 +49,13 @@ export default function useEnquiries() {
   };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetEnquiriesQuery({ params }, { refetchOnMountOrArgChange: true });
+    useGetServicesEnquiriesQuery(
+      { params },
+      { refetchOnMountOrArgChange: true },
+    );
 
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
-    usePatchEnquiriesMutation();
+    usePatchServicesEnquiriesMutation();
 
   const handleStatusChange = async (
     info: IInfo,
@@ -81,6 +84,33 @@ export default function useEnquiries() {
     patchEnquiriesStatus,
   });
 
+  const closeModal = () => {
+    setIsModalOpen({
+      filterOpen: false,
+      viewOpen: false,
+      deleteOpen: false,
+      convertToTicket: false,
+      createRequester: false,
+      data: null,
+    });
+    setEnquiriesSelected([]);
+  };
+  const openFilterModal = () => {
+    setIsModalOpen({
+      filterOpen: true,
+      viewOpen: false,
+      deleteOpen: false,
+      convertToTicket: false,
+      createRequester: false,
+      data: null,
+    });
+  };
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearchBy(data);
+  };
+
   return {
     setSearchBy,
     isModalOpen,
@@ -97,5 +127,10 @@ export default function useEnquiries() {
     enquiriesActionDropdown,
     enquiriesSelected,
     setEnquiriesSelected,
+    closeModal,
+    openFilterModal,
+    handleSearch,
   };
-}
+};
+
+export default useEnquiries;

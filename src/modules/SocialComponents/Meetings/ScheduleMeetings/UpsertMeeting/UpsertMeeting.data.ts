@@ -1,5 +1,3 @@
-import { DATE_TIME_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { recurringTypeOption } from './MeetingForm/Recurring/Recurring.data';
 import {
@@ -13,6 +11,8 @@ import {
 import { timeZone } from '@/constants/time-zone';
 import { capitalizeFirstWord, timeFormatter } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const schemaTypes = {
   allDay: 'allDay',
@@ -36,7 +36,6 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
   const recurringType = recurringTypeOption?.find(
     (item: any) => item?.value === meetingData?.recurring?.type,
   );
-  const todayDate = dayjs()?.format(DATE_TIME_FORMAT?.UI);
   return {
     title: meetingData?.title ?? '',
     allDay: meetingData?.isAllDay ?? false,
@@ -44,12 +43,14 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
       ? timeZone?.find((item: any) => item?.label === meetingData?.timeZone)
       : null,
     startDate: meetingData?.startDate
-      ? new Date(meetingData?.startDate ?? todayDate)
+      ? localeDateTime(meetingData?.startDate)
       : null,
     startTime: meetingData?.startTime
       ? timeFormatter(meetingData?.startTime)
       : null,
-    endDate: meetingData?.startDate ? new Date(meetingData?.endDate) : null,
+    endDate: meetingData?.startDate
+      ? localeDateTime(meetingData?.endDate)
+      : null,
     endTime: meetingData?.startTime
       ? timeFormatter(meetingData?.endTime)
       : null,
@@ -116,7 +117,12 @@ export const upsertMeetingValues = (router: any, meetingData: any) => {
 };
 export const upsertMeetingSchema: any = (router: any) =>
   Yup?.object()?.shape({
-    title: Yup?.string()?.required('Required'),
+    title: Yup?.string()
+      ?.required('Required')
+      ?.max(
+        CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_TITLE_MAX_CHARACTERS,
+        `Title should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_TITLE_MAX_CHARACTERS} characters`,
+      ),
     allDay: Yup?.boolean(),
     timeZone: Yup?.mixed()?.required('Required'),
     startDate: Yup?.date()?.required('Required'),
@@ -221,7 +227,12 @@ export const upsertMeetingSchema: any = (router: any) =>
         otherwise: (schema: any) => schema?.notRequired(),
       },
     ),
-    description: Yup?.string()?.required('Required'),
+    description: Yup?.string()
+      ?.required('Required')
+      ?.max(
+        CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_AGENDA_MAX_CHARACTERS,
+        `Description should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_AGENDA_MAX_CHARACTERS} characters`,
+      ),
     meetingType: Yup?.mixed()?.nullable()?.required('Required'),
     location: Yup?.mixed()
       ?.nullable()

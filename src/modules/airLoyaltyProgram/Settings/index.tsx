@@ -1,16 +1,15 @@
 import { Divider, Box, Typography } from '@mui/material';
 import { useSettings } from './useSettings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import {
-  AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS,
-  AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS,
-} from '@/constants/permission-keys';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS } from '@/constants/permission-keys';
+import { renderSettingsModule } from './Settings.data';
 
 export const Settings = () => {
-  const { settingsData, activeModule, renderSettingsModule } = useSettings();
+  const { settingsData, activeModule } = useSettings();
   return (
     <Box
       width={'100%'}
+      minHeight={'80vh'}
       display="flex"
       gap={1}
       flexWrap={'wrap'}
@@ -18,8 +17,7 @@ export const Settings = () => {
     >
       <PermissionsGuard
         permissions={[
-          AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS?.ACCOUNT_GENERAL ||
-            AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.VIEW_SHOP_DETAILS,
+          AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS?.ACCOUNT_GENERAL,
         ]}
       >
         <Box paddingRight={2} flex={0.25}>

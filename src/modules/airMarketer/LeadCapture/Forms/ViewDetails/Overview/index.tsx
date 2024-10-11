@@ -18,6 +18,8 @@ import {
 import { styles } from './Overview.style';
 import useOverview from './useOverview';
 import { formStatus } from '@/constants/form-builder';
+import { FE_BASE_URL } from '@/config';
+import { PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
 
 const Overview = ({ data, htmlTemplate }: any) => {
   const {
@@ -40,30 +42,35 @@ const Overview = ({ data, htmlTemplate }: any) => {
           <Box sx={styles?.fieldLabel}>Name</Box>
           <Box sx={styles?.nameField}>{data?.form?.name}</Box>
         </Grid>
-
-        <Grid item xs={12} sm={8} md={4}>
-          <Box sx={styles?.fieldLabel}>URL</Box>
-          <Box sx={styles?.nameField} className="fieldURL">
-            <Box component="span">{data?.form?.link ?? ''}</Box>
-            <Tooltip
-              open={isCopiedURL}
-              title="Copied"
-              placement="top"
-              arrow
-              key="copy-url"
-            >
-              <IconButton
-                disabled={data?.form?.status === formStatus?.draft}
-                size="small"
-                onClick={() =>
-                  handleCopyURL('https://forms.activitytok.eu/forms/')
-                }
+        {data?.form?.status === formStatus?.published && (
+          <Grid item xs={12} sm={8} md={4}>
+            <Box sx={styles?.fieldLabel}>URL</Box>
+            <Box sx={styles?.nameField} className="fieldURL">
+              <Box component="span">
+                {`${FE_BASE_URL}${PUBLIC_LEAD_CAPTURE?.FORM}?id=${data?.form?._id}`}
+              </Box>
+              <Tooltip
+                open={isCopiedURL}
+                title="Copied"
+                placement="top"
+                arrow
+                key="copy-url"
               >
-                <CopyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Grid>
+                <IconButton
+                  disabled={data?.form?.status === formStatus?.draft}
+                  size="small"
+                  onClick={() =>
+                    handleCopyURL(
+                      `${FE_BASE_URL}${PUBLIC_LEAD_CAPTURE?.FORM}?id=${data?.form?._id}`,
+                    )
+                  }
+                >
+                  <CopyIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Grid>
+        )}
       </Grid>
 
       <Button

@@ -46,23 +46,7 @@ export interface QuotesProps {
 export interface QuotesDrawerProps {
   openDrawer: any;
   setOpenDrawer: (value: any) => void;
-  quotesDetails: {
-    buyerCompany: Array<{
-      name: string;
-      address: string;
-      city: string;
-      postalCode: string;
-      phone?: string;
-      email?: string;
-    }>;
-    _id: string;
-    createdBy: {
-      firstName: string;
-      lastName: string;
-    };
-    expiryDate: string;
-    products: any[];
-  };
+  quotesDetails: any;
   isLoading: boolean;
 }
 

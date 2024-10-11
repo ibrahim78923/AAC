@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -10,15 +9,16 @@ import {
 } from './Expense.data';
 import { PAGINATION } from '@/config';
 import {
-  useDeleteInventoryExpenseMutation,
-  useGetInventoryExpenseQuery,
-  usePatchInventoryExpenseMutation,
-  usePostInventoryExpenseMutation,
+  usePostAirServicesAssetsInventoryExpenseMutation,
+  useGetAirServicesAssetsInventoryExpenseQuery,
+  usePatchAirServicesAssetsInventoryExpenseMutation,
+  useDeleteAirServicesAssetsInventoryExpenseMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
+import { isoDateString, localeDateTime } from '@/utils/dateTime';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState<ExpenseI[]>(
@@ -26,25 +26,29 @@ export const useExpense = () => {
   );
   const [addExpenseModalTitle, setAddExpenseModalTitle] =
     useState('Add New Expense');
-
   const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] =
     useState<boolean>(false);
   const [isDeleteExpenseModalOpen, setIsDeleteExpenseModalOpen] =
     useState<boolean>(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const router = useRouter();
+
   const assetId = router.query.inventoryId;
+
   const params = {
     assetId,
     page: page,
     limit: pageLimit,
   };
+
   const EXPENSE_DELETE = 'delete';
   const UPDATE_EXPENSE = 'Add New Expense';
 
   const { data, isLoading, isSuccess, isFetching, isError, refetch } =
-    useGetInventoryExpenseQuery(params);
+    useGetAirServicesAssetsInventoryExpenseQuery(params);
+
   const expenseData = data?.data?.expenses;
   const metaData = data?.data?.meta;
 
@@ -52,12 +56,15 @@ export const useExpense = () => {
     resolver: yupResolver(addExpenseValidationSchema),
     defaultValues: addExpenseDefaultValues(selectedExpenseList),
   });
+
   const { reset } = addExpenseMethods;
+
   useEffect(() => {
     reset(addExpenseDefaultValues(selectedExpenseList));
   }, [selectedExpenseList, reset]);
 
   const expenseId = selectedExpenseList?.map((expense) => expense?._id);
+
   const handleAddExpenseModal = (isOpen?: boolean) => {
     if (isOpen) {
       setAddExpenseModalTitle('Add New Expense');
@@ -66,16 +73,21 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen(false);
     addExpenseMethods?.reset();
   };
+
   const [postExpenseTrigger, postExpenseProgress] =
-    usePostInventoryExpenseMutation();
+    usePostAirServicesAssetsInventoryExpenseMutation();
+
   const [patchExpenseTrigger, patchExpenseProgress] =
-    usePatchInventoryExpenseMutation();
+    usePatchAirServicesAssetsInventoryExpenseMutation();
+
   const isLoadingExpense = postExpenseProgress?.isLoading;
+
   const onAddExpenseSubmit = async (data: any) => {
     if (addExpenseModalTitle === UPDATE_EXPENSE) {
       try {
         const formData = {
           ...data,
+          date: isoDateString(data?.date),
           assetId: assetId,
         };
         await postExpenseTrigger(formData);
@@ -90,7 +102,7 @@ export const useExpense = () => {
         const formData = {
           cost: data?.cost,
           type: data?.type,
-          date: data?.date,
+          date: isoDateString(data?.date),
           id: expenseId,
           assetId: assetId,
         };
@@ -117,18 +129,16 @@ export const useExpense = () => {
       ([key, value]) =>
         addExpenseMethods?.setValue(
           key,
-          key === 'date'
-            ? value
-              ? new Date(dayjs(value).format('YYYY-MM-DD'))
-              : '---'
-            : value,
+          key === 'date' ? localeDateTime(value) : value,
         ),
     );
     setAddExpenseModalTitle('Update Expense');
     setIsAddExpenseModalOpen(true);
   };
+
   const [deleteExpense, { isLoading: deleteLoading }] =
-    useDeleteInventoryExpenseMutation();
+    useDeleteAirServicesAssetsInventoryExpenseMutation();
+
   const handleDelete = async () => {
     try {
       await deleteExpense({ ids: expenseId });

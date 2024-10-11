@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { ARRAY_INDEX, LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
@@ -8,6 +8,7 @@ import {
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -62,19 +63,37 @@ export const actionsAssetOptions = [
 ];
 
 export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
 });
 
 export const eventBasedWorkflowSchema = Yup.object().shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
   type: Yup?.string(),
-  description: Yup?.string(),
+  description: Yup?.string()?.max(
+    CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS,
+    `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS} characters`,
+  ),
   runType: Yup?.mixed()?.nullable()?.required('Required'),
   module: Yup?.string()?.required('Required'),
   events: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
-      name: Yup?.string()?.required('Required'),
+      name: Yup?.string()
+        ?.required('Required')
+        ?.max(
+          CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS,
+          `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS} characters`,
+        ),
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(
@@ -160,9 +179,10 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.EVENT_BASE,
     description: singleWorkflowData?.description ?? '',
-    events: singleWorkflowData?.events?.[0]
+    events: singleWorkflowData?.events?.[ARRAY_INDEX?.ZERO]
       ? eventOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.events?.[0],
+          (item: any) =>
+            item?.value === singleWorkflowData?.events?.[ARRAY_INDEX?.ZERO],
         )
       : null,
     runType: singleWorkflowData?.runType

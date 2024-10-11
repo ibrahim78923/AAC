@@ -65,7 +65,10 @@ export const useRolesAndRight = () => {
       lazyGetPermissionsRoleForOperationsStatus?.data?.data
         ?.companyaccountroles,
     );
-
+  const handleSearch = (searchValue: string) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(searchValue);
+  };
   const renderPortalComponent = () => {
     if (isPortalOpen?.isDelete) {
       return (
@@ -94,7 +97,7 @@ export const useRolesAndRight = () => {
   );
   return {
     operationsRolesAndRightColumns,
-    setSearch,
+    handleSearch,
     setPageLimit,
     setPage,
     lazyGetPermissionsRoleForOperationsStatus,

@@ -1,6 +1,6 @@
 import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
+import { TruncateText } from '@/components/TruncateText';
 
 export const getAddPurchaseOrderColumns = ({
   setSelected,
@@ -50,16 +50,16 @@ export const getAddPurchaseOrderColumns = ({
   {
     accessorFn: (row: any) => row?.orderNumber,
     id: 'orderNumber',
-    cell: (info: any) => truncateText(info?.getValue()),
     header: 'Order Number',
     isSortable: true,
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
   {
     accessorFn: (row: any) => row?.orderName,
     id: 'orderName',
     isSortable: true,
     header: 'Order Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
   },
   {
     accessorFn: (row: any) => row?.subTotal,

@@ -6,7 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import {
   useGetPlanTypeQuery,
-  useGetProductsQuery,
+  useGetProductsBilingInvoicesQuery,
 } from '@/services/superAdmin/billing-invoices';
 
 import * as Yup from 'yup';
@@ -53,7 +53,7 @@ export const assignPlanData = (
   isStoragePrice: boolean,
   isUserPrice: boolean,
 ) => {
-  const { data: productData } = useGetProductsQuery<any>({
+  const { data: productData } = useGetProductsBilingInvoicesQuery<any>({
     refetchOnMountOrArgChange: true,
   });
 

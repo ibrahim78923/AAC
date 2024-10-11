@@ -4,8 +4,10 @@ import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { setEditorState } from '@/redux/slices/genericReport/genericReportSlice';
 
-export const useText = () => {
+export const useText = (props: any) => {
+  const { watch } = props;
   const dispatch = useDispatch();
+  const textTitle = watch('textTitle');
   const color = useAppSelector((state) => state?.genericReport?.color);
   const fontSize = useAppSelector((state) => state?.genericReport?.fontSize);
   const editorState = useAppSelector(
@@ -36,5 +38,6 @@ export const useText = () => {
     styleMap,
     editorState,
     dispatch,
+    textTitle,
   };
 };

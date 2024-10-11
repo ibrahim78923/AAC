@@ -8,18 +8,22 @@ import { ARRAY_INDEX } from '@/constants/strings';
 
 const ItemBilling = ({ watch }: any) => {
   const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();
+
   const items = watch(`purchaseDetails`);
   const subTotal = Number(watch(`subTotal`));
   const discount = Number(watch(`discount`));
   const taxRatio = Number(watch(`taxRatio`));
   const shipping = Number(watch(`shipping`));
+
   const { setValue } = useFormContext();
+
   useEffect(() => {
     setValue(
       `subTotal`,
       items?.reduce((n: any, { total }: any) => n + Number(total), 0),
     );
   }, [items?.reduce((n: any, { total }: any) => n + Number(total), 0)]);
+
   useEffect(() => {
     //calculating total after tax and multiplying by subtotal of items
     let total = subTotal * (1 + taxRatio / 100);
@@ -28,6 +32,7 @@ const ItemBilling = ({ watch }: any) => {
     //adding shipping cost in total amount
     setValue(`total`, total + shipping);
   }, [discount, taxRatio, shipping]);
+
   return (
     <Box
       sx={{
@@ -45,6 +50,7 @@ const ItemBilling = ({ watch }: any) => {
           <Grid
             key={item?.name}
             container
+            item
             xs={12}
             sm={6}
             md={5}

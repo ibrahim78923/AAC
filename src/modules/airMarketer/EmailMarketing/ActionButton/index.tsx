@@ -18,10 +18,10 @@ import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants
 import { enqueueSnackbar } from 'notistack';
 
 import { EMAIL_ENUMS, indexNumbers } from '@/constants';
-import { useUpdateEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
 import {
   useDeleteEmailMarketingMutation,
   useDuplicateEmailMutation,
+  useUpdateEmailTemplatesMutation,
 } from '@/services/airMarketer/emailMarketing';
 
 const ActionButton = ({ selectedRecords, handleReset }: any) => {
@@ -35,10 +35,14 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
 
   const [deleteEmailTemplate, { isLoading: loadingEmailTemplate }] =
     useDeleteEmailMarketingMutation();
-  const [updateEmailTemplate, { isLoading: loadingUpdateEmailTemplate }] =
-    useUpdateEmailTemplatesMutation();
+
   const [duplicateEmail, { isLoading: loadingDuplicateEmail }] =
     useDuplicateEmailMutation();
+
+  const [
+    updateAchieveTemplate,
+    { isLoading: loadingUpdateArchiveEmailTemplate },
+  ] = useUpdateEmailTemplatesMutation();
 
   const handelDeleteRecords = async () => {
     const selectedIds = selectedRecords?.map((record: any) => record?._id);
@@ -61,7 +65,7 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
   const handleArchive = async () => {
     const selectedIds = selectedRecords[indexNumbers?.ZERO];
     try {
-      await updateEmailTemplate({
+      await updateAchieveTemplate({
         id: selectedIds?._id,
         body: {
           status: EMAIL_ENUMS?.ARCHIVED,
@@ -195,7 +199,7 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
             type="Information"
             typeImage={<InfoBlueIcon />}
             open={actionsModalDetails?.isArchive}
-            loading={loadingUpdateEmailTemplate}
+            loading={loadingUpdateArchiveEmailTemplate}
             handleClose={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,

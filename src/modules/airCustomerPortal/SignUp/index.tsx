@@ -20,6 +20,7 @@ export const SignUp = () => {
     setStepState,
     postSignUpStatus,
     companyId,
+    igVerificationStatus,
   } = useSignUp();
 
   if (!!!companyId)
@@ -99,6 +100,10 @@ export const SignUp = () => {
                       onClick={() => {
                         setStepState(false);
                       }}
+                      disabled={
+                        postSignUpStatus?.isLoading ||
+                        igVerificationStatus?.isLoading
+                      }
                     >
                       Back
                     </Button>
@@ -106,7 +111,10 @@ export const SignUp = () => {
                       variant="contained"
                       fullWidth
                       type="submit"
-                      loading={postSignUpStatus?.isLoading}
+                      loading={
+                        postSignUpStatus?.isLoading ||
+                        igVerificationStatus?.isLoading
+                      }
                     >
                       Sign Up
                     </LoadingButton>

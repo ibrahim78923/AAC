@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import useUsersAdd from './useUsersAdd';
 import { LoadingButton } from '@mui/lab';
@@ -33,6 +33,7 @@ export const UsersAdd = () => {
               startIcon={<PlusSharedColorIcon />}
               color="primary"
               variant="contained"
+              className="small"
             >
               Add User
             </Button>
@@ -41,16 +42,21 @@ export const UsersAdd = () => {
       </Box>
 
       <Dialog open={isModalOpen} onClose={closeModal} maxWidth={'sm'} fullWidth>
-        <Box>
-          <DialogTitle
+        <DialogTitle>
+          <Box
             display={'flex'}
             alignItems={'center'}
             justifyContent={'space-between'}
+            gap={1}
+            flexWrap={'wrap'}
+            mb={1.5}
           >
             <Typography variant={'pageTitle'}>Add User</Typography>
-            <CloseIcon onClick={closeModal} sx={{ cursor: 'pointer' }} />
-          </DialogTitle>
-        </Box>
+            <IconButton onClick={closeModal}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
             {addUserDataFormFieldsAddUser?.map((item) => (
@@ -60,8 +66,9 @@ export const UsersAdd = () => {
             ))}
           </Grid>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
+            className="small"
             onClick={closeModal}
             color="secondary"
             variant={'outlined'}
@@ -70,6 +77,7 @@ export const UsersAdd = () => {
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             onClick={handleSubmit(onSubmit)}
             color="primary"
             variant={'contained'}

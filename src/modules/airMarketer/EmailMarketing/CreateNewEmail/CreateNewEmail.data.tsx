@@ -18,6 +18,7 @@ export const CreateEmailData = [
 export const emailValidationsSchema: any = () => {
   return Yup?.object()?.shape({
     subject: Yup?.string()?.trim()?.required('Field is Required'),
+    from: Yup?.string()?.trim()?.required('Field is Required'),
   });
 };
 

@@ -1,122 +1,63 @@
-import { NO_DEFAULT_DASHBOARD } from '../Dashboard.data';
-import { Box, Button, Grid } from '@mui/material';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import NoData from '@/components/NoData';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { REPORT_TYPES } from '@/constants/strings';
-import { createElement } from 'react';
+import { Fragment } from 'react';
 import { ReportsWidgets } from '../ReportsWidgets';
-import { AIR_SERVICES } from '@/constants';
-import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
-import { useRouter } from 'next/router';
+import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
+
+const { STATIC, DYNAMIC } = REPORT_TYPES ?? {};
 
 export const DashboardWidgets = (props: any) => {
-  const router = useRouter();
   const {
-    lazyGetSingleServicesDashboardStatus,
     isPreviewMode,
-    isDetailMode,
     ticketType,
     setTicketType,
     departmentId,
     setDepartmentId,
+    apiData,
+    reportsList,
+    refetchApi,
   } = props;
 
-  if (
-    lazyGetSingleServicesDashboardStatus?.isLoading ||
-    lazyGetSingleServicesDashboardStatus?.isFetching
-  )
-    return (
-      <Box width={'100%'}>
-        <br />
-        <SkeletonTable />
-      </Box>
-    );
-  if (lazyGetSingleServicesDashboardStatus?.isError) {
-    const isNoDefaultDashboardError =
-      lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
-      NO_DEFAULT_DASHBOARD;
-    const refreshAction = lazyGetSingleServicesDashboardStatus?.refetch;
-    return (
-      <>
-        {isPreviewMode || isDetailMode ? (
-          <ApiErrorState canRefresh refresh={refreshAction} />
-        ) : (
-          <ApiErrorState
-            message={
-              isNoDefaultDashboardError
-                ? 'No default dashboard found!'
-                : 'Something went wrong'
-            }
-            canRefresh={!isNoDefaultDashboardError}
-            refresh={refreshAction}
-          >
-            {isNoDefaultDashboardError && (
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD,
-                ]}
-              >
-                <Button
-                  variant="contained"
-                  onClick={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
-                >
-                  Create Dashboard
-                </Button>
-              </PermissionsGuard>
-            )}
-          </ApiErrorState>
-        )}
-      </>
-    );
-  }
-  if (
-    !!!lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports
-      ?.length
-  )
-    return <NoData />;
+  const staticReports = reportsList?.filter(
+    (report: any) => report?.type === STATIC,
+  );
+
+  const dynamicReports = reportsList
+    ?.map((report: any, index: any) =>
+      report?.type === DYNAMIC
+        ? { reportId: report?.reportId, type: report?.type, index: index }
+        : undefined,
+    )
+    ?.filter((report: any) => !!report);
 
   return (
-    <Grid container spacing={3}>
-      {lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports?.map(
-        (item: any, index: number) => {
-          return item?.type === REPORT_TYPES?.STATIC ? (
-            <Grid item xs={12} lg={6} key={item?.name}>
-              {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
-                createElement(
-                  AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name],
-                  {
-                    data: lazyGetSingleServicesDashboardStatus?.data?.data,
-                    ticketType,
-                    setTicketType,
-                    departmentId,
-                    setDepartmentId,
-                    isPreviewMode: isPreviewMode,
-                    getSingleDashboardData:
-                      lazyGetSingleServicesDashboardStatus?.refetch,
-                  },
-                )}
-            </Grid>
-          ) : (
-            <Grid item xs={12} key={item?._id ?? index}>
-              <ReportsWidgets
-                reportWidgets={
-                  lazyGetSingleServicesDashboardStatus?.data?.data?.[
-                    `genericReports${index}`
-                  ]
-                }
-                reportResults={
-                  lazyGetSingleServicesDashboardStatus?.data?.data?.[
-                    `genericReportsResult${index}`
-                  ]
-                }
-              />
-            </Grid>
-          );
-        },
+    <>
+      <StaticDashboardWidgets
+        widgets={staticReports}
+        NoDataMessage=""
+        NoDataImage=""
+        NoDataHeight=""
+        componentProps={{
+          data: apiData,
+          ticketType,
+          setTicketType,
+          departmentId,
+          setDepartmentId,
+          isPreviewMode: isPreviewMode,
+          getSingleDashboardData: refetchApi,
+        }}
+      />
+      {!!!dynamicReports?.length ? (
+        <></>
+      ) : (
+        dynamicReports?.map((item: any) => (
+          <Fragment key={item?.reportId}>
+            <ReportsWidgets
+              reportWidgets={apiData?.[`genericReports${item?.index}`]}
+              reportResults={apiData?.[`genericReportsResult${item?.index}`]}
+            />
+          </Fragment>
+        ))
       )}
-    </Grid>
+    </>
   );
 };

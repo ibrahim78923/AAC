@@ -39,6 +39,7 @@ const AwardPoints = () => {
             Set award points based on different factors for agents
           </Typography>
         </Box>
+
         <Grid container spacing={2.3}>
           {agentResolveTicketData?.map((item: any) => (
             <Grid
@@ -51,11 +52,7 @@ const AwardPoints = () => {
               key={item?.id}
             >
               <Box>
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                  sx={{ maxWidth: 204 }}
-                />
+                <item.component {...item?.componentProps} size={'small'} />
               </Box>
               {item?.component?.name === 'RHFTextField' && (
                 <Typography component="span" pb={1}>
@@ -65,6 +62,7 @@ const AwardPoints = () => {
             </Grid>
           ))}
         </Grid>
+
         <Box>
           <Typography fontWeight={600} pb={1.2}>
             Criteria For Receiving Award
@@ -73,6 +71,7 @@ const AwardPoints = () => {
             The agent will receive 4 Awards based on different criteria.
           </Typography>
         </Box>
+
         <Grid item container xs={12} xl={9} gap={2}>
           {receivingAwardData?.map?.((card, index) => (
             <Grid key={card?.title} xs={12} lg={5} item>
@@ -84,12 +83,11 @@ const AwardPoints = () => {
           ))}
         </Grid>
       </Box>
-      <br />
+
       <Grid
-        item
         container
+        item
         xs={12}
-        xl={9}
         sx={{ justifyContent: { sm: 'flex-end' }, mt: 2 }}
       >
         <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
@@ -97,6 +95,7 @@ const AwardPoints = () => {
             type="button"
             variant="outlined"
             color="inherit"
+            className={'small'}
             disabled={addAwardPointsStatus?.isLoading}
             onClick={() => router?.back()}
           >
@@ -106,6 +105,7 @@ const AwardPoints = () => {
             disableElevation
             type="submit"
             variant="contained"
+            className={'small'}
             loading={addAwardPointsStatus?.isLoading}
           >
             Save

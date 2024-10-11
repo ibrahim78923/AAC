@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -41,10 +42,9 @@ export const SoftwareAssignCategory: React.FC<SoftwareAssignCategoryI> = (
             mb={1.5}
           >
             <Typography variant="h4">Assign Category</Typography>
-            <CloseIcon
-              sx={{ color: 'custom.darker', cursor: 'pointer' }}
-              onClick={() => handleClose?.()}
-            />
+            <IconButton onClick={() => handleClose?.()}>
+              <CloseIcon sx={{ color: 'custom.darker' }} />
+            </IconButton>
           </Box>
         </DialogTitle>
         <DialogContent>
@@ -57,16 +57,18 @@ export const SoftwareAssignCategory: React.FC<SoftwareAssignCategoryI> = (
             label="Category"
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="inherit"
             onClick={() => handleClose?.()}
             disabled={putSoftwareAssignCategoryStatus?.isLoading}
+            className="small"
           >
             Cancel
           </LoadingButton>
           <LoadingButton
+            className="small"
             variant="contained"
             type="submit"
             disabled={putSoftwareAssignCategoryStatus?.isLoading}

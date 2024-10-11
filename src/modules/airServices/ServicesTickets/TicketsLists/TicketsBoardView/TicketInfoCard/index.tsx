@@ -2,11 +2,6 @@ import { Box, Chip, Typography, Avatar } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import {
-  STATUSES,
-  ticketInfoCardAppearanceColor,
-  ticketInfoCardPriorityColor,
-} from './TicketInfoCard.data';
 import { AIR_SERVICES } from '@/constants';
 import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -22,6 +17,9 @@ import {
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { UserInfo } from '@/components/UserInfo';
+import { RENDER_COLOR } from '../TicketsBoardView.data';
+import { TICKET_STATUS } from '@/constants/strings';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -54,45 +52,25 @@ export const TicketInfoCard = (props: any) => {
           });
         }}
       >
-        <Box display={'flex'} justifyContent={'space-between'} mb={1.5}>
-          <Box
-            display={'flex'}
-            marginBottom={0.5}
-            alignItems={'center'}
-            gap={1}
-          >
-            <Avatar
-              sx={{
-                bgcolor: theme?.palette?.primary?.main,
-                borderRadius: 1.25,
-              }}
-              style={{ width: 20, height: 20 }}
-              src={generateImage(
-                details?.departmentsDetails?.departmenProfilePicture,
-              )}
-            >
-              <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
-                {details?.departmentsDetails?.name?.slice?.(0, 2) ?? '-'}
-              </Typography>
-            </Avatar>
-            <Typography
-              variant={'body2'}
-              color={'custom.main'}
-              fontWeight={500}
-            >
-              {details?.ticketIdNumber}
-            </Typography>
-          </Box>
+        <Box display={'flex'} justifyContent={'space-between'} mb={1}>
+          <UserInfo
+            nameInitial={fullNameInitial(details?.departmentsDetails?.name)}
+            name={details?.ticketIdNumber}
+            avatarSrc={details?.attachment?.fileUrl}
+            nameProps={{
+              color: 'custom.bright',
+              fontWeight: 'fontWeightSmall',
+            }}
+            avatarSize={{ variant: 'rounded', height: 20, width: 20 }}
+          />
           <Box display={'flex'} marginBottom={0.5} alignItems={'center'}>
             {!!details?.state && (
               <Chip
                 size="small"
                 label={details?.state}
                 sx={{
-                  bgcolor: `${theme?.['palette']?.[
-                    `${ticketInfoCardAppearanceColor(details?.state)}`
-                  ]?.['main']}`,
-                  color: theme?.palette?.common?.white,
+                  bgcolor: RENDER_COLOR?.[details?.state] ?? 'error.main',
+                  color: 'common.white',
                   textTransform: 'capitalize',
                 }}
               />
@@ -132,14 +110,14 @@ export const TicketInfoCard = (props: any) => {
                   fontSize={'medium'}
                   sx={{
                     fill: `${theme?.['palette']?.[
-                      `${ticketInfoCardPriorityColor(details?.pirority)}`
+                      `${RENDER_COLOR?.[details?.pirority] ?? 'error'}`
                     ]?.['main']}`,
                   }}
                 />
               }
             />
             <Box display={'flex'} alignItems={'center'} gap={0.2}>
-              {details?.status === STATUSES?.OPEN ? (
+              {details?.status === TICKET_STATUS?.OPEN ? (
                 <>
                   <AccessTimeFilledIcon
                     sx={{ fill: theme?.palette?.warning?.main }}
@@ -152,7 +130,7 @@ export const TicketInfoCard = (props: any) => {
                     {openMessage}
                   </Typography>
                 </>
-              ) : details?.status === STATUSES?.RESOLVED ? (
+              ) : details?.status === TICKET_STATUS?.RESOLVED ? (
                 <>
                   <CheckCircleIcon
                     sx={{ fill: theme?.palette?.custom?.dark }}
@@ -165,7 +143,7 @@ export const TicketInfoCard = (props: any) => {
                     {resolvedMessage}
                   </Typography>
                 </>
-              ) : details?.status === STATUSES?.PENDING ? (
+              ) : details?.status === TICKET_STATUS?.PENDING ? (
                 <>
                   <AccessTimeFilledIcon
                     sx={{ fill: theme?.palette?.primary?.main }}
@@ -178,7 +156,7 @@ export const TicketInfoCard = (props: any) => {
                     {pendingMessage}
                   </Typography>
                 </>
-              ) : details?.status === STATUSES?.CLOSED ? (
+              ) : details?.status === TICKET_STATUS?.CLOSED ? (
                 <>
                   <CheckCircleIcon
                     sx={{ fill: theme?.palette?.custom?.dark }}

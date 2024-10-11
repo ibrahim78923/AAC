@@ -36,7 +36,7 @@ export const salesProductDefaultValues = (data?: any, form?: any) => {
     description: data?.description ?? '',
     isActive: data?.isActive ?? false,
     unitPrice: data?.unitPrice ?? '',
-    image: data?.image ?? null,
+    image: null,
     ...initialValues,
   };
 };

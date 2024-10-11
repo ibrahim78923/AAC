@@ -1,4 +1,4 @@
-import { useGetDealByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesDealByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useTheme } from '@mui/material';
 import { CardData } from './ViewDeal.data';
 
@@ -19,12 +19,10 @@ export default function useViewDeal({ modalId, setModalId }: any) {
     },
   };
 
-  const { data, isLoading, isFetching, isError } = useGetDealByIdQuery(
-    getDealByIdParameter,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetAirServicesDealByIdQuery(getDealByIdParameter, {
       refetchOnMountOrArgChange: true,
-    },
-  );
+    });
 
   const dealData = data?.data;
   const dealContacts = data?.data?.contacts;

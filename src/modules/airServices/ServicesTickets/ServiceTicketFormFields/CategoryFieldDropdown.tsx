@@ -1,10 +1,11 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { useLazyGetCategoriesDropdownForTicketsQuery } from '@/services/airServices/tickets';
+import { useLazyGetCategoriesDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
 
 export const CategoryFieldDropdown = (props: any) => {
-  const { required = false } = props;
-  const apiQueryCategory = useLazyGetCategoriesDropdownForTicketsQuery();
+  const { required = false, disabled = false } = props;
+  const apiQueryCategory =
+    useLazyGetCategoriesDropdownForServicesTicketsQuery();
 
   return (
     <RHFAutocompleteAsync
@@ -14,6 +15,7 @@ export const CategoryFieldDropdown = (props: any) => {
       fullWidth
       size="small"
       required={required}
+      disabled={disabled}
       apiQuery={apiQueryCategory}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
         option?.categoryName

@@ -1,5 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Grid, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { CatalogRequest } from '../CatalogRequest';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
@@ -8,6 +7,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ServiceCard } from '../ServiceCard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { Theme } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 const CatalogService = () => {
   const {
@@ -21,6 +23,7 @@ const CatalogService = () => {
     router,
     theme,
     companyId,
+    portalStyles,
   } = useCatalogService();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -88,7 +91,8 @@ const CatalogService = () => {
             right={'2rem'}
             gap={2}
           >
-            <Button
+            <LoadingButton
+              className="small"
               variant="outlined"
               color="secondary"
               onClick={() =>
@@ -96,10 +100,26 @@ const CatalogService = () => {
               }
             >
               Cancel
-            </Button>
-            <Button variant="contained" onClick={() => setOpen?.(true)}>
+            </LoadingButton>
+            <LoadingButton
+              className="small"
+              variant="contained"
+              onClick={() => setOpen?.(true)}
+              sx={(theme: Theme) => ({
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+                '&:hover': {
+                  bgcolor:
+                    portalStyles?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                  color: 'common.white',
+                },
+              })}
+            >
               Place Request
-            </Button>
+            </LoadingButton>
           </Box>
         </Grid>
       </Grid>

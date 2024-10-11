@@ -1,9 +1,12 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 import { DELETE_DASHBOARD_SUCCESS } from '../Dashboard.data';
+import { useDeleteServicesDashboardSingleDashboardMutation } from '@/services/airServices/dashboard';
+
+const { CURRENT_PAGE } = PAGINATION ?? {};
+const { ONE } = SELECTED_ARRAY_LENGTH ?? {};
 
 export const useDeleteDashboard = (
   props: ManageDashboardPortalComponentPropsI,
@@ -16,10 +19,17 @@ export const useDeleteDashboard = (
     setIsPortalOpen,
     isPortalOpen,
   } = props;
+
   const [
     deleteSingleServicesDashboardTrigger,
     deleteSingleServicesDashboardStatus,
-  ] = useDeleteDynamicServicesDashboardMutation();
+  ] = useDeleteServicesDashboardSingleDashboardMutation();
+
+  const refetchApi = async () => {
+    const newPage = totalRecords === ONE ? CURRENT_PAGE : page;
+    setPage?.(newPage);
+    await getDashboardListData?.(newPage);
+  };
 
   const deleteDashboard = async () => {
     const apiDataParameter = {
@@ -35,12 +45,7 @@ export const useDeleteDashboard = (
       }
       successSnackbar?.('Dashboard deleted successfully!');
       closeDashboardDeleteModal?.();
-      const newPage =
-        totalRecords === SELECTED_ARRAY_LENGTH?.ONE
-          ? PAGINATION?.CURRENT_PAGE
-          : page;
-      setPage?.(newPage);
-      await getDashboardListData?.(newPage);
+      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message ?? error?.message);
     }
@@ -50,9 +55,12 @@ export const useDeleteDashboard = (
     setIsPortalOpen?.({});
   };
 
+  const apiCallInProgress = deleteSingleServicesDashboardStatus?.isLoading;
+
   return {
     deleteDashboard,
     deleteSingleServicesDashboardStatus,
     closeDashboardDeleteModal,
+    apiCallInProgress,
   };
 };

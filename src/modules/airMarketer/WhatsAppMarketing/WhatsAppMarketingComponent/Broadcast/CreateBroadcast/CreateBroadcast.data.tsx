@@ -1,5 +1,4 @@
 import {
-  RHFDropZone,
   RHFTextField,
   RHFEditor,
   RHFAutocompleteAsync,
@@ -15,7 +14,8 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { STATUS_CONTANTS } from '@/constants/strings';
+import { AGENT_REQUEST_STATUS, STATUS_CONTANTS } from '@/constants/strings';
+import { getActiveAccountSession } from '@/utils';
 
 export const broadCastValidationSchema = (
   isSchedule: any,
@@ -49,7 +49,7 @@ export const broadcastDefaultValues = (data?: any, form?: any) => {
     name: data?.name ?? '',
     campaignId: data?.campaignId ?? null,
     templateId: data?.templateId ?? null,
-    recipients: data?.recipients ?? '',
+    recipients: data?.recipients ? 'Select' : '',
     detail: data?.detail ?? '',
     attachment: data?.attachment ?? '',
     schedualDate: null,
@@ -58,8 +58,16 @@ export const broadcastDefaultValues = (data?: any, form?: any) => {
 };
 
 export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
+  const one = 1;
+  const ActiveAccount = getActiveAccountSession();
   const campaignsList = useLazyGetAllCampaignsListQuery();
   const templateList = useLazyGetAllWhatsAppTemplateListQuery();
+  const approvedTemplates = templateList[one]?.data?.filter(
+    (template: any) =>
+      template.approvalStatus === AGENT_REQUEST_STATUS?.APPROVED?.toLowerCase(),
+  );
+  templateList[one].data = approvedTemplates;
+
   return [
     {
       id: '01',
@@ -74,6 +82,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       md: 12,
     },
     {
+      id: '02',
       title: 'Campaign',
       componentProps: {
         placeholder: 'Select campaign',
@@ -82,11 +91,13 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
         required: true,
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,
+        externalParams: { companyId: ActiveAccount?.company?._id },
       },
       component: RHFAutocompleteAsync,
       md: 12,
     },
     {
+      id: '03',
       title: 'useTemplate',
       componentProps: {
         placeholder: 'Select template',
@@ -130,19 +141,6 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
         fullWidth: true,
         required: true,
         disabled: true,
-      },
-    },
-    {
-      id: '06',
-      component: RHFDropZone,
-      md: 12,
-      title: 'Attachment',
-      componentProps: {
-        name: 'attachment',
-        label: 'Attachment',
-        fullWidth: true,
-        multiline: true,
-        rows: '4',
       },
     },
   ];

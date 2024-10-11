@@ -1,15 +1,19 @@
-import { Box, Checkbox } from '@mui/material';
+import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
 import { styles } from './Invoices.style';
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import {
   useGetPlanTypesQuery,
-  useGetProductsQuery,
+  useGetProductsPlanManagementQuery,
 } from '@/services/superAdmin/plan-mangement';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { v4 as uuidv4 } from 'uuid';
+import { useTheme } from '@emotion/react';
 
 export const columns = (selectedRows: any, handleCheckboxClick: any) => {
+  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row?.Id,
@@ -33,14 +37,49 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
     {
       accessorFn: (row: any) => row?.ProductSuite,
       id: 'ProductSuite',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.products;
+        const tooltipTitle = (
+          <Box>
+            {planProducts?.map((data: any) => (
+              <Typography key={uuidv4()} variant="h6">
+                {data?.name}
+              </Typography>
+            ))}
           </Box>
-          <Box>{info?.row?.original?.plantypes}</Box>
-        </>
-      ),
+        );
+        return (
+          <>
+            {info?.row?.original?.plans?.isCRM ? (
+              <Tooltip title={tooltipTitle}>
+                <>
+                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                    {info?.row?.original?.plans?.name}
+                  </Typography>
+                  &nbsp;
+                  <Typography
+                    variant="body3"
+                    fontSize={'11px'}
+                    style={{
+                      background: theme?.palette?.primary?.main,
+                      color: 'white',
+                      padding: '2px 6px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    CRM
+                  </Typography>
+                </>
+              </Tooltip>
+            ) : (
+              <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+                {info?.row?.original?.products[ARRAY_INDEX?.ZERO]?.name}
+              </Box>
+            )}
+            <Box>{info?.row?.original?.plantypes}</Box>
+          </>
+        );
+      },
       header: 'Products',
       isSortable: true,
     },
@@ -108,7 +147,7 @@ export const FilterInvoiceDefaultValues = {
 };
 
 export const FilterInvoiceFiltersDataArray = () => {
-  const { data } = useGetProductsQuery({});
+  const { data } = useGetProductsPlanManagementQuery({});
   const productsOptions: { value: number; label: string } = data?.data?.map(
     (products: any) => {
       return {

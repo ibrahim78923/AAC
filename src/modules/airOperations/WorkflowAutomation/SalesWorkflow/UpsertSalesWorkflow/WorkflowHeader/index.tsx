@@ -41,6 +41,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
             color="secondary"
             disabled={saveLoading || isLoading}
             onClick={handleMoveBack}
+            className="small"
           >
             Cancel
           </LoadingButton>
@@ -49,6 +50,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
               startIcon={<GrayBookIcon />}
               variant="outlined"
               color="secondary"
+              className="small"
               loading={saveLoading}
               disabled={saveLoading || isLoading}
               onClick={() => setValidation('save')}
@@ -66,6 +68,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
               startIcon={<CopyIcon />}
               variant={'outlined'}
               color={'secondary'}
+              className="small"
               disabled={saveLoading || isLoading}
               onClick={() => setValidation('test')}
               type="submit"
@@ -82,6 +85,7 @@ export const WorkflowHeader = (props: WorkflowHeaderI) => {
               startIcon={<WhiteBookIcon />}
               variant="contained"
               type="submit"
+              className="small"
               loading={isLoading}
               disabled={saveLoading || isLoading}
               onClick={() => setValidation('upsert')}

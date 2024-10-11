@@ -1,7 +1,11 @@
 import * as yup from 'yup';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-import { VALIDATION_CONSTANT } from '@/constants';
+import {
+  CHARACTERS_LIMIT,
+  GLOBAL_CHARACTERS_LIMIT,
+  REGEX,
+} from '@/constants/validation';
 
 export const LOCATION_TYPE = {
   PARENT: 'parent',
@@ -13,34 +17,70 @@ export const validationSchemaAddNewLocation = yup?.object()?.shape({
   contactName: yup
     ?.string()
     ?.trim()
-    ?.max(30, 'Contact Name up to 30 characters'),
-  email: yup?.string()?.trim()?.email('Please provide valid email'),
+    ?.max(
+      CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_NAME_MAX_CHARACTERS,
+      `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_NAME_MAX_CHARACTERS}`,
+    ),
+  email: yup
+    ?.string()
+    ?.trim()
+    ?.max(
+      GLOBAL_CHARACTERS_LIMIT?.EMAIL,
+      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.EMAIL}`,
+    )
+    ?.email('Please provide valid email'),
   phone: yup
     ?.string()
     ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
+    ?.test('is-valid-phone', 'Only UK phone number', function (value) {
+      if (value) {
+        return REGEX?.PHONE_NUMBER?.test(value);
+      }
+      return true;
+    }),
   address: yup?.object()?.shape({
     addressLine1: yup
       ?.string()
       ?.trim()
-      ?.max(500, 'Address up to 500 characters'),
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_ADDRESS_LINE_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_ADDRESS_LINE_MAX_CHARACTERS}`,
+      ),
     addressLine2: yup
       ?.string()
       ?.trim()
-      ?.max(500, 'Address Name up to 500 characters'),
-    city: yup?.string()?.trim()?.max(30, 'City up to 30 characters'),
-    country: yup?.string()?.trim()?.max(30, 'Country up to 30 characters'),
-    state: yup?.string()?.trim()?.max(30, 'State up to 30 characters'),
-    zipCode: yup?.string()?.trim()?.max(30, 'Zip Code up to 30 characters'),
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_ADDRESS_LINE_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_ADDRESS_LINE_MAX_CHARACTERS}`,
+      ),
+    city: yup
+      ?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_CITY_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_CITY_MAX_CHARACTERS}`,
+      ),
+    country: yup
+      ?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_COUNTRY_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_COUNTRY_MAX_CHARACTERS}`,
+      ),
+    state: yup
+      ?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_STATE_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_STATE_MAX_CHARACTERS}`,
+      ),
+    zipCode: yup
+      ?.string()
+      ?.trim()
+      ?.max(
+        CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_ZIP_MAX_CHARACTERS,
+        `Maximum characters limit is ${CHARACTERS_LIMIT?.SERVICES_SETTING_LOCATION_ZIP_MAX_CHARACTERS}`,
+      ),
   }),
 });
 

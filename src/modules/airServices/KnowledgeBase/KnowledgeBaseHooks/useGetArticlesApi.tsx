@@ -1,7 +1,4 @@
-import { useLazyGetArticlesQuery } from '@/services/airServices/knowledge-base/articles';
 import { buildQueryParams } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
-import { ARRAY_INDEX } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   canDisableFolderSelections,
@@ -9,12 +6,14 @@ import {
   setArticlesListsTotalRecords,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { ALL_FOLDER } from '../Folder/Folder.data';
+import { useMemo } from 'react';
+import { getActiveAccountSession } from '@/utils';
 
+import { useLazyGetServicesKnowledgeBaseArticlesListQuery } from '@/services/airServices/knowledge-base/articles';
 export const useGetArticlesApi = () => {
   const dispatch = useAppDispatch();
-  const auth: any = useAuth();
-  const { _id: companyId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
 
   const page = useAppSelector((state) => state?.servicesKnowledgeBase?.page);
   const pageLimit = useAppSelector(
@@ -28,12 +27,13 @@ export const useGetArticlesApi = () => {
   const selectedFolder = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedFolder,
   );
+
   const filterArticlesList = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.filterArticlesList,
   );
 
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
-    useLazyGetArticlesQuery();
+    useLazyGetServicesKnowledgeBaseArticlesListQuery();
 
   const getArticlesListData = async (currentPage: number = page) => {
     const additionalParams = [
@@ -57,7 +57,7 @@ export const useGetArticlesApi = () => {
     try {
       const response =
         await lazyGetArticlesTrigger(getArticlesParameter)?.unwrap();
-      dispatch(setArticlesListsTotalRecords(response?.data?.tickets?.length));
+      dispatch(setArticlesListsTotalRecords(response?.data?.articles?.length));
       dispatch(emptySelectedArticlesList());
     } catch (error: any) {}
     dispatch(canDisableFolderSelections(false));

@@ -36,6 +36,7 @@ export const UpsertGenericReports = () => {
     isError,
     refetch,
     dispatch,
+    reset,
   } = useUpsertGenericReports();
   const { text, table, chart, counter } = modal || {};
 
@@ -77,6 +78,7 @@ export const UpsertGenericReports = () => {
               {!!form?.length && !text && !table && !chart && !counter && (
                 <Button
                   variant="contained"
+                  className="small"
                   onClick={
                     showTemplate
                       ? () => handleChooseTemplate()
@@ -135,6 +137,8 @@ export const UpsertGenericReports = () => {
               isFetching={isFetching}
               isError={isError}
               refetch={refetch}
+              methods={methods}
+              reset={reset}
             />
           </Grid>
         </Grid>

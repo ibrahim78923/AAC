@@ -1,141 +1,153 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSearchableSelect,
+} from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   addContactFields,
-  ProductValidationSchema,
+  productsValidationSchema,
   productDefaultValues,
+  productRadioOptions,
 } from './FormCreateProduct.data';
 import {
-  useCreateAssociationQuoteMutation,
-  // useGetProductCatagoriesQuery,
-  useGetQuoteByIdQuery,
+  useGetSalesProductlineItemQuery,
+  usePutSubmitQuoteMutation,
+} from '@/services/airSales/quotes';
+import {
   useLazyGetProductCatagoriesUpdatedQuery,
-  useLazyGetProductsByIdQuery,
+  useGetProductsByIdQuery,
   usePostProductMutation,
-  useUpdateProductByIdMutation,
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PRODUCTS_TYPE } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-const FormCreateProduct = ({ open, onClose }: any) => {
+const FormCreateProduct = (props: any) => {
+  const { open, onClose, productsArray, dataGetQuoteById } = props;
+  const theme = useTheme();
   const params = useSearchParams();
   const actionType = params.get('type');
-  const disableForm = actionType === 'view' ? true : false;
-  const quoteId = params.get('data');
+  const disableForm = actionType === DRAWER_TYPES?.VIEW ? true : false;
   const productId = params.get('productId');
 
   const [postProduct, { isLoading: loadingProductPost }] =
     usePostProductMutation();
 
-  const [updateProductById] = useUpdateProductByIdMutation();
-
-  const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
-
-  // const { data: productCatagories } = useGetProductCatagoriesQuery({});
   const productCatagories = useLazyGetProductCatagoriesUpdatedQuery();
+  const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
-  const [lazyGetProductsByIdQuery] = useLazyGetProductsByIdQuery();
-
-  const [createAssociationQuote] = useCreateAssociationQuoteMutation();
+  const { data: productByIdData, isLoading: productByIdLoading } =
+    useGetProductsByIdQuery({ id: productId }, { skip: !productId });
 
   const methods: any = useForm({
-    resolver: yupResolver(ProductValidationSchema),
+    resolver: yupResolver(productsValidationSchema),
     defaultValues: async () => {
       return productDefaultValues;
     },
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+
+  const watchProduct = watch('productType');
 
   const onSubmit = async (values: any) => {
-    values.category = values?.category?._id;
-    const formData = new FormData();
-    Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
-        formData?.append(key, value);
-      }
-    });
-
-    if (actionType === 'edit') {
-      try {
-        await updateProductById({ id: productId, body: formData })
-          ?.unwrap()
-          .then((res: any) => {
-            const associationBody = {
-              dealId: Quotenew?.data?.dealId,
-              product: {
-                productId: res?.data?._id,
-                quantity: 1,
-              },
-            };
-            createAssociationQuote({ body: associationBody })?.unwrap();
-            enqueueSnackbar('Product Updated Successfully', {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-          });
-      } catch (err: any) {
-        enqueueSnackbar('Error while edit product', {
-          variant: 'error',
-        });
-      }
-    } else if (actionType === 'create') {
-      try {
-        await postProduct({ body: formData })
-          ?.unwrap()
-          .then((res: any) => {
-            const associationBody = {
-              dealId: Quotenew?.data?.dealId,
-              product: {
-                productId: res?.data?._id,
-                quantity: 1,
-              },
-            };
-            createAssociationQuote({ body: associationBody })?.unwrap();
-            enqueueSnackbar('Product added Successfully', {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-            reset();
-          });
-      } catch (err: any) {
-        enqueueSnackbar('Error while creating product', {
-          variant: 'error',
-        });
-      }
-    }
-    onClose();
-  };
-  useEffect(() => {
-    if ((actionType === 'edit' || actionType === 'view') && productId) {
-      lazyGetProductsByIdQuery({ id: productId }).then((res: any) => {
-        if (res?.data) {
-          const fieldsData = res?.data?.data;
-          reset({
-            name: fieldsData?.name || '',
-            sku: fieldsData?.sku || '',
-            category: fieldsData?.category || '',
-            description: fieldsData?.description || '',
-            isActive: fieldsData?.isActive || false,
-            unitPrice: fieldsData?.unitPrice || null,
-            purchasePrice: fieldsData?.purchasePrice || null,
-          });
+    try {
+      delete values.productType;
+      values.category = values?.category?._id;
+      const formData = new FormData();
+      Object.entries(values)?.forEach(([key, value]: any) => {
+        if (value !== undefined && value !== null && value !== '') {
+          formData?.append(key, value);
         }
       });
-    } else {
-      reset({
-        name: '',
-        sku: '',
-        category: '',
-        description: '',
-        isActive: false,
-        unitPrice: null,
-        purchasePrice: null,
+      if (actionType === DRAWER_TYPES?.CREATE) {
+        const res: any = await postProduct({ body: formData })?.unwrap();
+
+        if (res) {
+          const productRespParams = {
+            name: res?.data?.name,
+            sku: res?.data?.sku,
+            productId: res?.data?._id,
+            quantity: 0,
+            additionalQuantity: 0,
+            unitDiscount: 0,
+            purchasePrice: res?.data?.purchasePrice,
+            unitPrice: res?.data?.unitPrice,
+            category: res?.data?.category?._id,
+            additionalProductPriceSum: 0,
+          };
+
+          const submitQuotesPayload = {
+            id: dataGetQuoteById?.data?._id,
+            status: 'DRAFT',
+            products: [...productsArray, productRespParams],
+            dealAmount: dataGetQuoteById?.data?.dealAmount,
+            subTotal: 0,
+            invoiceDiscount: 0,
+            RedeemedDiscount: 0,
+            tax: 0,
+            total: 0,
+          };
+
+          await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
+          enqueueSnackbar('Product added Successfully', {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+          onClose();
+          reset();
+        }
+      }
+    } catch (err: any) {
+      enqueueSnackbar('Error while creating product', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-  }, [productId, actionType, reset, lazyGetProductsByIdQuery]);
+  };
+
+  useEffect(() => {
+    if (actionType === 'view') {
+      if (productByIdData?.data) {
+        const fieldsData = productByIdData?.data;
+        reset({
+          productType: PRODUCTS_TYPE?.NEW_PRODUCT,
+          name: fieldsData?.name || '',
+          sku: fieldsData?.sku || '',
+          category: fieldsData?.category || '',
+          description: fieldsData?.description || '',
+          isActive: fieldsData?.isActive || false,
+          unitPrice: fieldsData?.unitPrice || null,
+          purchasePrice: fieldsData?.purchasePrice || null,
+        });
+      }
+    } else {
+      reset({
+        productType: PRODUCTS_TYPE?.NEW_PRODUCT,
+        name: '',
+        purchasePrice: '',
+        unitPrice: '',
+        sku: '',
+        category: null,
+        description: '',
+        isActive: false,
+        image: '',
+      });
+    }
+  }, [productId, actionType, reset, productByIdData?.data]);
+
+  const { data: salesProducts } = useGetSalesProductlineItemQuery({});
+
+  const extProductOptions = salesProducts?.data?.salesproducts?.map(
+    (item: any) => ({
+      value: item?._id,
+      label: item?.name ? item?.name : 'N/A',
+    }),
+  );
 
   return (
     <CommonDrawer
@@ -151,24 +163,57 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     >
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
-          <Grid container spacing={'22px'}>
-            {addContactFields(productCatagories)?.map((item: any) => (
-              <Grid item xs={12} key={item?.componentProps?.name}>
-                <item.component
+          {productByIdLoading ? (
+            <SkeletonTable />
+          ) : (
+            <Grid container spacing={'22px'}>
+              <Grid item xs={12}>
+                <RHFRadioGroup
+                  options={productRadioOptions}
+                  name="productType"
+                  label={false}
+                  defaultValue="new-products"
                   disabled={disableForm}
-                  {...item?.componentProps}
-                  size={'small'}
-                >
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                />
               </Grid>
-            ))}
-          </Grid>
+              {watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT ? (
+                addContactFields(productCatagories)?.map((item: any) => (
+                  <Grid item xs={12} key={item?.componentProps?.name}>
+                    <item.component
+                      disabled={disableForm}
+                      {...item?.componentProps}
+                      size={'small'}
+                    >
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    color={theme?.palette?.grey[600]}
+                  >
+                    Choose Product{' '}
+                    <span style={{ color: theme?.palette?.error?.main }}>
+                      *
+                    </span>
+                  </Typography>
+                  <RHFSearchableSelect
+                    size="small"
+                    name="chooseProduct"
+                    options={extProductOptions}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          )}
         </FormProvider>
       </Box>
     </CommonDrawer>

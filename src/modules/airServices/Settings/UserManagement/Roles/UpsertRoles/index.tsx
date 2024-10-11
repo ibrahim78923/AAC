@@ -65,12 +65,14 @@ const UpsertRoles = () => {
               color={'inherit'}
               sx={{ mr: 2 }}
               onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
+              className="small"
             >
               Cancel
             </Button>
             <LoadingButton
               type={'submit'}
               variant={'contained'}
+              className="small"
               disabled={
                 postPermissionsStatus?.isLoading ||
                 patchPermissionsStatus?.isLoading

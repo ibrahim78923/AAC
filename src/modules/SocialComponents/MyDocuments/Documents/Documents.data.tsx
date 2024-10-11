@@ -21,12 +21,24 @@ export const VISIBLETO_OPTIONS = {
   EVERYONE: 'EVERYONE',
 };
 
-export const validationSchema = (form: any) => {
+export const validationSchema = (form: any, visibleTo: string = '') => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
     name: Yup?.string()?.required('Field is Required'),
     visibleTo: Yup?.string()?.required('Field is Required'),
+    userIds:
+      visibleTo === VISIBLETO_OPTIONS?.USERS
+        ? Yup.array()
+            .min(1, 'At least one user must be selected')
+            .required('Field is Required')
+        : Yup.array().ensure(),
+    teamIds:
+      visibleTo === VISIBLETO_OPTIONS?.TEAMS
+        ? Yup.array()
+            .min(1, 'At least one user must be selected')
+            .required('Field is Required')
+        : Yup.array().ensure(),
     ...formSchema,
   });
 };
@@ -73,7 +85,7 @@ export const createFolderData = (
               options: [
                 { value: VISIBLETO_OPTIONS?.PRIVATE, label: 'Private' },
                 { value: VISIBLETO_OPTIONS?.USERS, label: 'Specific users' },
-                { value: VISIBLETO_OPTIONS?.TEAMS, label: 'Specific teams' },
+                { value: VISIBLETO_OPTIONS?.TEAMS, label: 'My team' },
                 { value: VISIBLETO_OPTIONS?.EVERYONE, label: 'Everyone' },
               ],
               row: false,
@@ -93,7 +105,7 @@ export const createFolderData = (
                     multiple: true,
                     getOptionLabel: (option: any) =>
                       `${option?.firstName} ${option?.lastName}`,
-                    externalParams: { id: orgId },
+                    externalParams: { id: orgId, meta: false },
                   },
                   component: RHFAutocompleteAsync,
                   md: 12,
@@ -110,7 +122,7 @@ export const createFolderData = (
                     apiQuery: orgTeamsData,
                     multiple: true,
                     getOptionLabel: (option: any) => `${option?.name}`,
-                    externalParams: { meta: false },
+                    externalParams: { meta: false, onlyMyTeams: true },
                   },
                   component: RHFAutocompleteAsync,
                   md: 12,

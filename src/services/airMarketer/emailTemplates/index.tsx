@@ -52,7 +52,7 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
-    updateEmailTemplates: builder.mutation({
+    updatePostEmailTemplates: builder.mutation({
       query: ({ body, id }: any) => {
         return {
           url: `${EMAIL_TEMPLATES?.UPDATE_TEMPLATES}?id=${id}`,
@@ -78,7 +78,7 @@ export const {
   useGetEmailTemplatesQuery,
   usePostEmailMarketingTemplatesMutation,
   useGetEmailTemplatesByIDQuery,
-  useUpdateEmailTemplatesMutation,
+  useUpdatePostEmailTemplatesMutation,
   useDeleteEmailTemplatesMutation,
   usePostEmailWithTemplatesMutation,
   useLazyGetEmailTemplatesAsyncQuery,

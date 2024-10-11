@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PAGINATION } from '@/config';
-import { useGetKnowledgeInsightsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
+import { useGetServicesKnowledgeBaseKnowledgeInsightsListQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
 import { knowledgeInsightsColumnsDynamic } from './KnowledgeInsights.data';
 
 export const useKnowledgeInsights = () => {
@@ -16,9 +16,12 @@ export const useKnowledgeInsights = () => {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess, refetch } =
-    useGetKnowledgeInsightsQuery(getKnowledgeInsightsParameters, {
-      refetchOnMountOrArgChange: true,
-    });
+    useGetServicesKnowledgeBaseKnowledgeInsightsListQuery(
+      getKnowledgeInsightsParameters,
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const knowledgeInsightsColumns =
     knowledgeInsightsColumnsDynamic?.(setSelectedArticle);

@@ -6,6 +6,11 @@ import {
 import * as Yup from 'yup';
 import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
 import { ApprovalsFields, FoldersFields } from '../../KnowledgeBaseFormFields';
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
+
+const { SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS } =
+  CHARACTERS_LIMIT ?? {};
 
 export const upsertArticleDefaultValues = (
   articleData?: UpsertArticlesFormDefaultValuesI,
@@ -19,18 +24,24 @@ export const upsertArticleDefaultValues = (
     needsApproval: articleData?.isApproval ?? false,
     approver: articleData?.approver ?? null,
     reviewDate: !!articleData?.reviewDate
-      ? new Date(articleData?.reviewDate)
+      ? localeDateTime(articleData?.reviewDate)
       : null,
     attachments: articleData?.attachments ?? null,
   };
 };
 
 export const upsertArticleValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.trim()?.required('Title is required'),
+  title: Yup?.string()
+    ?.trim()
+    ?.required('Title is required')
+    ?.max(
+      SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS,
+      `Maximum characters limit is ${SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS}`,
+    ),
   details: Yup?.string()
     ?.trim()
-    ?.required('Description is Required')
-    ?.test('is-not-empty', 'Description is Required', (value) => {
+    ?.required('Description is required')
+    ?.test('is-not-empty', 'Description is required', (value) => {
       const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
       return strippedContent !== '';
     }),
@@ -117,6 +128,7 @@ export const upsertArticleFormFieldsDynamic = (needApprovals: boolean) => [
             label: 'Review Date',
             sx: { pb: 1.2 },
             textFieldProps: { readOnly: true },
+            disablePast: true,
           },
         },
       ]

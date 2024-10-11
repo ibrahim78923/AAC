@@ -1,14 +1,9 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { UserInfo } from '@/components/UserInfo';
 
 export const useAddCompanyColumns = ({
-  theme,
   setSelected,
   selected,
   associatesCompanyList,
@@ -61,22 +56,12 @@ export const useAddCompanyColumns = ({
     header: 'Companies Name',
     isSortable: true,
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-          src={generateImage(info?.getValue()?.profilePicture?.url)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(info?.getValue()?.name)}
-          </Typography>
-        </Avatar>
-        <Box display={'flex'} flexDirection={'column'}>
-          <Typography variant="body2">
-            {fullName(info?.getValue()?.name)}
-          </Typography>
-          {truncateText(info?.getValue()?.domain)}
-        </Box>
-      </Box>
+      <UserInfo
+        nameInitial={fullNameInitial(info?.getValue()?.name)}
+        name={fullName(info?.getValue()?.name)}
+        avatarSrc={info?.getValue()?.profilePicture?.url}
+        email={info?.getValue()?.domain}
+      />
     ),
   },
   {
@@ -91,6 +76,10 @@ export const useAddCompanyColumns = ({
     id: 'owner.name',
     isSortable: true,
     header: 'Company Owner',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Typography variant={'body3'} textTransform={'capitalize'}>
+        {info?.getValue()?.toLowerCase() ?? '---'}
+      </Typography>
+    ),
   },
 ];

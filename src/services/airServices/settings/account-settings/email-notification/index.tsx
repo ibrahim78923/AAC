@@ -5,7 +5,7 @@ const TAG = 'EMAIL_NOTIFICATION';
 
 export const emailNotificationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getEmailNotification: builder.query({
+    getServicesAccountSettingsEmailNotification: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.SERVICES_GET_EMAIL_NOTIFICATION,
         method: 'GET',
@@ -14,7 +14,7 @@ export const emailNotificationAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    patchEmailNotification: builder?.mutation({
+    patchServicesAccountSettingsEmailNotification: builder?.mutation({
       query: (patchData: any) => ({
         url: `${END_POINTS?.SERVICES_PATCH_EMAIL_NOTIFICATION}/${patchData?.accountId}`,
         method: 'PATCH',
@@ -26,6 +26,6 @@ export const emailNotificationAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetEmailNotificationQuery,
-  usePatchEmailNotificationMutation,
+  useGetServicesAccountSettingsEmailNotificationQuery,
+  usePatchServicesAccountSettingsEmailNotificationMutation,
 } = emailNotificationAPI;

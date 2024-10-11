@@ -1,8 +1,8 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import {
-  useGetTicketApprovalDetailsByIdQuery,
-  useGetTicketDetailsByIdQuery,
-} from '@/services/airCustomerPortal';
+  useGetCustomerPortalCatalogTicketApprovalDetailsByIdQuery,
+  useGetCustomerPortalCatalogTicketDetailsByIdQuery,
+} from '@/services/airCustomerPortal/catalog';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -25,10 +25,13 @@ export const useApprovalDetail = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetTicketApprovalDetailsByIdQuery(getSingleTicketApprovalParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!approvalId,
-    });
+    useGetCustomerPortalCatalogTicketApprovalDetailsByIdQuery(
+      getSingleTicketApprovalParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!approvalId,
+      },
+    );
 
   const getSingleTicketParameter = {
     pathParams: {
@@ -36,10 +39,13 @@ export const useApprovalDetail = () => {
     },
   };
 
-  const ticketDetails = useGetTicketDetailsByIdQuery(getSingleTicketParameter, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!ticketId,
-  });
+  const ticketDetails = useGetCustomerPortalCatalogTicketDetailsByIdQuery(
+    getSingleTicketParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!ticketId,
+    },
+  );
 
   const openTicketDetail = (data: any) => {
     router?.push({

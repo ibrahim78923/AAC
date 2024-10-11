@@ -60,9 +60,7 @@ const NewPurchaseOrder = () => {
             >
               {newPurchaseFields?.map((form: any) => (
                 <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                  <form.component {...form?.componentProps} size="small">
-                    {form?.heading ? form?.heading : null}
-                  </form.component>
+                  <form.component {...form?.componentProps} size="small" />
                 </Grid>
               ))}
               {form?.map((item: any) => (
@@ -97,6 +95,7 @@ const NewPurchaseOrder = () => {
               onClick={handlePageBack}
               variant="outlined"
               color="secondary"
+              className="small"
               disabled={loadingStatus}
             >
               Cancel
@@ -105,6 +104,7 @@ const NewPurchaseOrder = () => {
               loading={loadingStatus}
               type="submit"
               variant="contained"
+              className="small"
             >
               {router?.query?.purchaseOrderId
                 ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE

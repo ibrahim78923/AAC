@@ -1,18 +1,20 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const { GET_UNAPPROVED_ARTICLES, POST_APPROVALS } = END_POINTS ?? {};
+
 export const articlesApprovalAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getUnapprovedArticles: builder?.query({
+    getServicesKnowledgeBaseUnapprovedArticlesList: builder?.query({
       query: (getUnapprovedArticlesParameter: any) => ({
-        url: END_POINTS?.GET_UNAPPROVED_ARTICLES,
+        url: GET_UNAPPROVED_ARTICLES,
         method: 'GET',
         params: getUnapprovedArticlesParameter?.queryParams,
       }),
     }),
-    postArticleApproval: builder?.mutation({
+    changeServicesKnowledgeBaseArticleApproval: builder?.mutation({
       query: (postApprovalParameters: any) => ({
-        url: `${END_POINTS?.POST_APPROVALS}/${postApprovalParameters?.pathParams?.id}`,
+        url: `${POST_APPROVALS}/${postApprovalParameters?.pathParams?.id}`,
         method: 'POST',
       }),
     }),
@@ -20,6 +22,6 @@ export const articlesApprovalAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useLazyGetUnapprovedArticlesQuery,
-  usePostArticleApprovalMutation,
+  useLazyGetServicesKnowledgeBaseUnapprovedArticlesListQuery,
+  useChangeServicesKnowledgeBaseArticleApprovalMutation,
 } = articlesApprovalAPI;

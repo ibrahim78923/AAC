@@ -42,8 +42,9 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
           flexWrap={'wrap'}
         >
           <Typography
-            variant="formTopHeading"
-            color="grey.800"
+            variant={'formTopHeading'}
+            color={'grey.800'}
+            component={'p'}
             fontWeight={400}
           >
             Select Fields
@@ -52,7 +53,7 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
             <Checkbox
               icon={<CheckboxIcon />}
               checkedIcon={<CheckboxCheckedIcon />}
-              color="primary"
+              color={'primary'}
               name={'apply all'}
               checked={
                 inventoryListsInitialColumns?.length === customizeColumn?.length
@@ -60,9 +61,9 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
               onChange={(e: any): any => applyAllCheckboxHandler?.(e)}
             ></Checkbox>
             <Typography
-              variant="caption"
+              variant={'caption'}
               fontWeight={400}
-              color="slateBlue.main"
+              color={'slateBlue.main'}
             >
               Apply All
             </Typography>
@@ -83,15 +84,15 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
                 <Checkbox
                   icon={<CheckboxIcon />}
                   checkedIcon={<CheckboxCheckedIcon />}
-                  color="primary"
+                  color={'primary'}
                   name={column?.id}
                   checked={customizeColumn?.includes(column?.id)}
                   onChange={(e: any): any => checkboxHandler?.(e, column)}
                 />
                 <Typography
-                  variant="caption"
+                  variant={'caption'}
                   fontWeight={400}
-                  color="slateBlue.main"
+                  color={'slateBlue.main'}
                 >
                   {column?.header}
                 </Typography>
@@ -103,13 +104,18 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
       <Divider sx={{ marginY: 1 }}></Divider>
       <DialogActions>
         <Button
-          variant="outlined"
-          color="secondary"
+          variant={'outlined'}
+          color={'secondary'}
           onClick={() => onClose?.()}
+          className={'small'}
         >
           Cancel
         </Button>
-        <Button variant="contained" onClick={() => submit?.()}>
+        <Button
+          variant={'contained'}
+          onClick={() => submit?.()}
+          className={'small'}
+        >
           Apply
         </Button>
       </DialogActions>

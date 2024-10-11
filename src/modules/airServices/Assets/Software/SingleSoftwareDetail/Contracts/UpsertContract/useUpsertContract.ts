@@ -18,6 +18,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetSingleSoftwareByIdQuery } from '@/services/airServices/assets/software/single-software-detail/contracts';
 import { useEffect } from 'react';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -82,8 +83,8 @@ export const useUpsertContract = () => {
     postContractForm?.append('cost', data?.cost);
     data?.vendor !== null &&
       postContractForm?.append('vendor', data?.vendor?._id);
-    postContractForm?.append('startDate', data?.startDate?.toISOString());
-    postContractForm?.append('endDate', data?.endDate?.toISOString());
+    postContractForm?.append('startDate', isoDateString(data?.startDate));
+    postContractForm?.append('endDate', isoDateString(data?.endDate));
     postContractForm?.append('autoRenew', data?.autoRenew);
     postContractForm?.append('notifyRenewal', data?.notifyExpiry);
     !!data?.notifyExpiry &&
@@ -114,14 +115,12 @@ export const useUpsertContract = () => {
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
   const apiQueryApprover = useLazyGetAgentsDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
-  const apiContractType = useLazyGetContractTypeListQuery();
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     apiQueryVendor,
     apiQueryApprover,
     apiQuerySoftware,
-    apiContractType,
   );
   return {
     upsertContractFormMethods,

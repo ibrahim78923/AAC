@@ -5,7 +5,7 @@ import {
   RHFRadioGroup,
   RHFAutocomplete,
 } from '@/components/ReactHookForm';
-import { DATE_FORMAT, dealStatus } from '@/constants';
+import { DATE_FORMAT } from '@/constants';
 import * as Yup from 'yup';
 import useCreateQuote from './useCreateQuote';
 import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
@@ -33,9 +33,6 @@ export const dealInitValues = {
 export const dealFormData = (openCreateDeal: any) => {
   const { dataGetDeals } = useCreateQuote();
   const dealsData = dataGetDeals?.data?.deals || dataGetDeals;
-  const wonDeals = dealsData?.filter(
-    (deal: any) => deal?.dealStage === dealStatus?.WON,
-  );
 
   return [
     {
@@ -45,7 +42,7 @@ export const dealFormData = (openCreateDeal: any) => {
         name: 'dealId',
         label: 'Select Deal',
         required: true,
-        options: wonDeals?.map((deal: any) => {
+        options: dealsData?.map((deal: any) => {
           return { value: deal?._id, label: deal?.name };
         }),
         isFooter: true,

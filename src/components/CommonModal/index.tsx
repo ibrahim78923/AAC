@@ -26,6 +26,7 @@ const CommonModal = ({
   headerIcon,
   width,
   cancelIcon = true,
+  background,
 }: ModelPropsI) => {
   const theme = useTheme();
   return (
@@ -39,7 +40,7 @@ const CommonModal = ({
       }}
     >
       <>
-        <Box sx={styles?.parentBox(width, theme)}>
+        <Box sx={styles?.parentBox(width, theme, background)}>
           <Box
             sx={{
               marginBottom: '20px',

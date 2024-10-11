@@ -4,9 +4,18 @@ const TAG = ['FORECAST'];
 
 export const forecastApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getForecastGoals: builder.query({
+    getForecastUserGoals: builder.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.GOALS}`,
+        url: `${END_POINTS?.GET_USER_GOALS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    getForecastTeamGoals: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TEAM_GOALS}`,
         method: 'GET',
         params: params,
       }),
@@ -22,8 +31,8 @@ export const forecastApi = baseAPI.injectEndpoints({
     }),
 
     getSingleForecastGoals: builder.query({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_GOAL}/${id}`,
+      query: ({ id, user }: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_GOAL}/${id}/${user}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -46,13 +55,111 @@ export const forecastApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getForecastDealStageStats: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_STATS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getForecastDealStagesUser: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_DEAL_STAGES_USER}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getForecastDealStagesTeam: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_DEAL_STAGES_TEAM}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getDealsPipelineForecast: builder.query({
+      query: ({ meta }) => ({
+        url: `${END_POINTS?.DEAL_PIPELINE}?meta=${meta}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    postForecast: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.FORECAST}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    getForecast: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.FORECAST}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    patchForecast: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.FORECAST}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    deleteForecast: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${END_POINTS?.FORECAST}/${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
+    getForecastCategoryUser: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_FORECAST_CATEGORY_USER}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getForecastCategoryTeam: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_FORECAST_CATEGORY_TEAM}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
+    getDealPipeLineForecast: builder.query({
+      query: ({ ...params }: any) => ({
+        url: `${END_POINTS?.DEALS_PIPELINE}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
 export const {
-  useGetForecastGoalsQuery,
+  useGetForecastUserGoalsQuery,
+  useGetForecastTeamGoalsQuery,
   useDeleteForecastGoalsMutation,
   useGetSingleForecastGoalsQuery,
   usePostGoalMutation,
   usePatchGoalMutation,
+  useGetForecastDealStageStatsQuery,
+  useGetForecastDealStagesUserQuery,
+  useGetForecastDealStagesTeamQuery,
+  useGetDealsPipelineForecastQuery,
+  usePostForecastMutation,
+  useGetForecastQuery,
+  usePatchForecastMutation,
+  useDeleteForecastMutation,
+  useGetForecastCategoryUserQuery,
+  useGetForecastCategoryTeamQuery,
+  useGetDealPipeLineForecastQuery,
 } = forecastApi;

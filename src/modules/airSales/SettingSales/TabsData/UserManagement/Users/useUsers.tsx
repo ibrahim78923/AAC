@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteProductUserMutation,
   useUpdateProductsUsersMutation,
@@ -11,7 +10,6 @@ import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
 import { DRAWER_TYPES } from '@/constants/strings';
 
 const useUsers = () => {
-  const theme = useTheme<Theme>();
   const ActiveProduct = getActiveProductSession();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -95,7 +93,6 @@ const useUsers = () => {
     anchorEl,
     setAnchorEl,
     open,
-    theme,
     handleClick,
     handleClose,
     handleUpdateStatus,

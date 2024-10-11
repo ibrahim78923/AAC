@@ -5,19 +5,23 @@ import { ChatEditor } from './ChatEditor';
 import { useState } from 'react';
 import { DeleteMessage } from './DeleteMessage';
 import { Close } from '@mui/icons-material';
-import { OpenConversationTypeContextPropsI } from '../Conversation.interface';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
 
-export const Discuss = (props: OpenConversationTypeContextPropsI) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+export const Discuss = () => {
   const [selectedMessage, setSelectedMessage] = useState<any>({});
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketConversation?.isPortalOpen,
+  );
 
   return (
     <>
       <Drawer
         anchor="right"
-        open={isDrawerOpen}
+        open={isPortalOpen?.isOpen}
         onClose={() => {
-          setIsDrawerOpen({});
+          dispatch(setIsPortalClose());
           setSelectedMessage?.({});
         }}
         sx={{
@@ -61,7 +65,7 @@ export const Discuss = (props: OpenConversationTypeContextPropsI) => {
               />
               <Typography
                 variant="body1"
-                color="slateBlue.man"
+                color="slateBlue.main"
                 fontWeight={'600'}
               >
                 Air Apple Cart
@@ -69,7 +73,7 @@ export const Discuss = (props: OpenConversationTypeContextPropsI) => {
               <Typography
                 variant="body3"
                 fontWeight={'600'}
-                color="slateBlue.man"
+                color="slateBlue.main"
               >
                 Discuss
               </Typography>
@@ -77,7 +81,7 @@ export const Discuss = (props: OpenConversationTypeContextPropsI) => {
             <Close
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setIsDrawerOpen({});
+                dispatch(setIsPortalClose());
                 setSelectedMessage?.({});
               }}
             />

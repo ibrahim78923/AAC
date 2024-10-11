@@ -1,5 +1,6 @@
 import { baseAPI } from '@/services/base-api';
 import { SUPER_ADMIN_SETTINGS } from '@/routesConstants/paths';
+import { END_POINTS } from '@/routesConstants/endpoints';
 
 const TAG = ['SETTINGS_QUICK_LINKS'];
 export const settingsQuickLinksAPI = baseAPI.injectEndpoints({
@@ -72,6 +73,15 @@ export const settingsQuickLinksAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getQuickLinksProducts: builder.query({
+      query: ({ params }) => ({
+        url: END_POINTS?.PRODUCTS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['PRODUCTS'],
+    }),
   }),
 });
 
@@ -84,4 +94,5 @@ export const {
   useDeleteQuickLinkMutation,
   useGetUserQuickLinksQuery,
   useUpdateSettingsQuickLinkMutation,
+  useGetQuickLinksProductsQuery,
 } = settingsQuickLinksAPI;

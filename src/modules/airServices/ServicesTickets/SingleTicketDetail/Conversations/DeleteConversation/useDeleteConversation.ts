@@ -1,37 +1,43 @@
-import { useDeleteTicketConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
+import { setIsPortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useDeleteServicesTicketSingleConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useGetTicketConversationList } from '../../../TicketsServicesHooks/useGetTicketConversationList';
 
-export const useDeleteConversation = (props: any) => {
-  const { selectedConversationType, setIsDrawerOpen, refetch } = props;
-
+export const useDeleteConversation = () => {
+  const { getTicketConversationListData } = useGetTicketConversationList?.();
+  const dispatch = useAppDispatch();
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesTicketConversation?.isPortalOpen,
+  );
   const [deleteTicketConversationTrigger, deleteTicketConversationStatus] =
-    useDeleteTicketConversationMutation();
+    useDeleteServicesTicketSingleConversationMutation();
 
   const deleteConversation = async () => {
     const deleteApiParameter = {
       queryParams: {
-        id: selectedConversationType?._id,
+        id: isPortalOpen?.data?._id,
       },
     };
     try {
       const response =
         await deleteTicketConversationTrigger(deleteApiParameter)?.unwrap();
-
       successSnackbar(response?.message);
-      setIsDrawerOpen?.({});
-      refetch?.();
+      closeDeleteModal?.();
+      await getTicketConversationListData?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
   const closeDeleteModal = () => {
-    setIsDrawerOpen?.({});
+    dispatch(setIsPortalClose());
   };
 
   return {
     deleteTicketConversationStatus,
     deleteConversation,
     closeDeleteModal,
+    isPortalOpen,
   };
 };

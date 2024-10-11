@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const DEALS_ASSOCIATION = 'DEALS_ASSOCIATION';
-const SETTINGS_SALE_PRODUCT = 'SETTINGS_SALE_PRODUCT';
+const TAG = 'SETTINGS_SALE_PRODUCT';
 export const SalesProductAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getSalesProduct: builder.query({
@@ -9,14 +9,14 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.SALE_PRODUCTS}?page=${page}&limit=${pageLimit}${query}`,
         method: 'GET',
       }),
-      providesTags: [SETTINGS_SALE_PRODUCT],
+      providesTags: [TAG],
     }),
     getSalesProductById: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
         method: 'GET',
       }),
-      providesTags: [SETTINGS_SALE_PRODUCT],
+      providesTags: [TAG],
     }),
     postSalesProduct: builder.mutation({
       query: ({ body }: any) => ({
@@ -24,7 +24,7 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: [SETTINGS_SALE_PRODUCT, DEALS_ASSOCIATION],
+      invalidatesTags: [TAG, DEALS_ASSOCIATION],
     }),
     updateSalesProduct: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -32,7 +32,7 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: [SETTINGS_SALE_PRODUCT],
+      invalidatesTags: [TAG],
     }),
     deleteSalesProduct: builder?.mutation({
       query: ({ body }: any) => ({
@@ -40,7 +40,7 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         method: 'DELETE',
         body: body,
       }),
-      invalidatesTags: [SETTINGS_SALE_PRODUCT],
+      invalidatesTags: [TAG],
     }),
   }),
 });

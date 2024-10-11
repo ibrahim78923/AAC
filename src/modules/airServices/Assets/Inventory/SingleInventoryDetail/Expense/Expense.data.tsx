@@ -1,15 +1,17 @@
 import dayjs from 'dayjs';
 import * as yup from 'yup';
-import { Box, Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { EXPENSE_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, EXPENSE_TYPE } from '@/constants/strings';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { ExpenseI } from './Expense.interface';
+import { localeDateTime } from '@/utils/dateTime';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
@@ -17,17 +19,25 @@ export const expenseTypeDropdown = [
 ];
 
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
-  type: yup?.string()?.required('Required field!'),
-  cost: yup?.string()?.required('Required field!'),
+  type: yup?.string()?.required('Type is Required!'),
+  cost: yup
+    ?.number()
+    ?.positive('Must be above 0')
+    ?.typeError('Must be a Number')
+    ?.nullable()
+    ?.required('Cost is Required!'),
+  date: yup?.date(),
 });
 
 export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {
-  const expenseUpdateData = selectedExpenseList[0];
+  const expenseUpdateData = selectedExpenseList[ARRAY_INDEX?.ZERO];
 
   return {
     type: expenseUpdateData?.type ?? '',
-    cost: expenseUpdateData?.cost ?? '',
-    date: expenseUpdateData?.date ?? new Date(),
+    cost: expenseUpdateData?.cost ?? null,
+    date: expenseUpdateData?.date
+      ? localeDateTime(expenseUpdateData?.date)
+      : new Date(),
   };
 };
 
@@ -35,12 +45,12 @@ export const addExpenseFormData = [
   {
     id: 129,
     componentProps: {
-      fullWidth: true,
       name: 'type',
       label: 'Expense Type',
       placeholder: 'Expense Type',
       options: expenseTypeDropdown,
       required: true,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     gridLength: 12,
     component: RHFAutocomplete,
@@ -49,7 +59,6 @@ export const addExpenseFormData = [
     id: 100,
     componentProps: {
       name: 'cost',
-      fullWidth: true,
       placeholder: 'Cost',
       label: 'Cost (£)',
       required: true,
@@ -131,14 +140,18 @@ export const addExpenseColumnsFunction = (
     id: 'type',
     isSortable: true,
     header: 'Expense Type',
-    cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
+    cell: (info: any) => (
+      <Typography variant={'body3'} fontWeight={700}>
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.cost,
     id: 'cost',
     isSortable: true,
     header: 'Cost',
-    cell: (info: any) => (info?.getValue() ? `$${info?.getValue()}` : '---'),
+    cell: (info: any) => (info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.date,
@@ -147,7 +160,7 @@ export const addExpenseColumnsFunction = (
     header: 'Date',
     cell: (info: any) =>
       info?.getValue()
-        ? dayjs(info?.getValue())?.format('MMMM DD, YYYY')
+        ? dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI)
         : '---',
   },
 ];

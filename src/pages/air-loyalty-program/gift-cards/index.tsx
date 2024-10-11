@@ -1,8 +1,8 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { GiftCard } from '@/modules/airLoyaltyProgram/GiftCards/GiftCards';
+import { GiftCards } from '@/modules/airLoyaltyProgram/GiftCards/GiftCards';
 
-const GiftCardsPage = () => <GiftCard />;
+const GiftCardsPage = () => <GiftCards />;
 
 export default GiftCardsPage;
 

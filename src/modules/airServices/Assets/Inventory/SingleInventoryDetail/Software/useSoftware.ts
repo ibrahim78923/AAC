@@ -1,6 +1,6 @@
 import {
-  useDeleteInventorySoftwareMutation,
-  useGetInventorySoftwareQuery,
+  useGetAirServicesAssetInventorySoftwareQuery,
+  useDeleteAirServicesAssetInventorySoftwareMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/software';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
@@ -10,13 +10,16 @@ export const useSoftware = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
+
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetInventorySoftwareQuery(router?.query?.inventoryId, {
+    useGetAirServicesAssetInventorySoftwareQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
     });
+
   const [deleteInventorySoftware, deleteIsLoading] =
-    useDeleteInventorySoftwareMutation();
+    useDeleteAirServicesAssetInventorySoftwareMutation();
+
   const handleDelete = async () => {
     try {
       const res: any = await deleteInventorySoftware({

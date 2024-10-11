@@ -1,83 +1,99 @@
-import { Box, Grid, Typography } from '@mui/material';
-import TotalMarketingEmail from './TotalMarketingEmail';
-import FormsTable from './FormsTable';
-import ContactCustomerGraph from './ContactCustomerGraph';
-import CtaViews from './CtaViews';
+import { Button, Grid, Skeleton, Stack, Typography } from '@mui/material';
+import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
+import FormsTable from './StaticComponents/FormsTable';
+import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
+import CtaViews from './StaticComponents/CtaViews';
 import ManageDashboardOptions from './ManageDashboardOptions';
-import useToggle from '@/hooks/useToggle';
 import ShareOptions from './ShareOptions';
 import useDashboard from './useDashboard';
-import Manage from './Manage';
-import CreateDashboard from './CreateDashboard';
+import NoData from '@/components/NoData';
+import { PlusIcon } from '@/assets/icons';
+import { capitalizeFirstLetters } from '@/utils';
+import { ProfileStatistics } from './StaticComponents/ProfileStatistics';
+import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 
 const Dashboard = () => {
-  const [isToggled, toggle] = useToggle(false);
-
   const {
-    isShowCreateDashboardForm,
-    setIsShowCreateDashboardForm,
-    isShowEditDashboard,
-    setIsShowEditDashboard,
+    dashboardListLoading,
+    setSelectedDashboard,
+    dashboardNotFound,
+    dashboardLoading,
+    dropdownOptions,
+    dashboardsData,
+    handelNavigate,
   } = useDashboard();
 
   return (
     <>
       <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
-        {!isToggled && !isShowEditDashboard && (
-          <>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: { sm: 'row', xs: 'column' },
-              }}
+        <Grid item xs={12}>
+          <Stack
+            direction={{ sm: 'row' }}
+            justifyContent="space-between"
+            gap={1}
+          >
+            {dashboardLoading ? (
+              <Skeleton
+                width={250}
+                height={36}
+                variant={'rectangular'}
+                animation={'wave'}
+              />
+            ) : (
+              <Stack direction="column">
+                <Typography variant="h3">
+                  {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
+                </Typography>
+              </Stack>
+            )}
+
+            <Stack direction={{ sm: 'row' }} gap={1}>
+              {!dashboardNotFound && (
+                <ShareOptions selectedDashboard={dashboardsData} />
+              )}
+              <ManageDashboardOptions
+                listData={dropdownOptions}
+                selectedDashboard={setSelectedDashboard}
+                isLoading={dashboardListLoading}
+              />
+            </Stack>
+          </Stack>
+        </Grid>
+        {dashboardNotFound ? (
+          <NoData message="No default dashboard found!">
+            <Button
+              startIcon={<PlusIcon />}
+              variant="contained"
+              onClick={handelNavigate}
             >
-              <Typography variant="h4">Marketing Dashboard</Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: { sm: 'row', xs: 'column', gap: 9 },
-                  mt: { sm: 0, xs: 2 },
-                }}
-              >
-                <ShareOptions setIsShowEditDashboard={setIsShowEditDashboard} />
-                <ManageDashboardOptions toggle={toggle} />
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
-              <ContactCustomerGraph />
+              Create Dashboard
+            </Button>
+          </NoData>
+        ) : (
+          <>
+            <Grid item xs={12}>
+              <ProfileStatistics />
             </Grid>
             <Grid item xs={12} lg={6}>
               <CtaViews />
             </Grid>
-            <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
+            <Grid item xs={12} lg={6}>
+              <ContactCustomerGraph />
+            </Grid>
+            <Grid item xs={12} lg={6}>
               <TotalMarketingEmail />
             </Grid>
             <Grid item xs={12} lg={6}>
               <FormsTable />
             </Grid>
-          </>
-        )}
-        {isToggled && !isShowCreateDashboardForm && (
-          <>
-            {' '}
-            <Grid item xs={12} sm={12}>
-              <Manage
-                toggle={toggle}
-                setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
-              />
+            <Grid item xs={12}>
+              <SmsMarketingGraph />
+            </Grid>
+            <Grid item xs={12}>
+              <WhatsappMarketingGraph />
             </Grid>
           </>
-        )}
-        {(isShowCreateDashboardForm || isShowEditDashboard) && (
-          <Grid item xs={12} sm={12}>
-            <CreateDashboard
-              setIsShowCreateDashboardForm={setIsShowCreateDashboardForm}
-              isShowEditDashboard={isShowEditDashboard}
-            />
-          </Grid>
         )}
       </Grid>
     </>

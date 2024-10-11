@@ -14,7 +14,7 @@ export const ExportTab = () => {
     isError,
     isLoading,
     isSuccess,
-    setSearch,
+    handleSearch,
     setIsOpenFilterDrawer,
     isOpenFilterDrawer,
     setFilterValues,
@@ -25,7 +25,7 @@ export const ExportTab = () => {
   return (
     <>
       <Header
-        setSearch={setSearch}
+        handleSearch={handleSearch}
         setIsOpenFilterDrawer={setIsOpenFilterDrawer}
         setFilterValues={setFilterValues}
         isOpenFilterDrawer={isOpenFilterDrawer}

@@ -23,6 +23,9 @@ export const styles = {
       borderColor: theme?.palette?.grey[100],
       '& > span': {
         flex: '1',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
       },
       '& > .MuiIconButton-root': {
         ml: '8px',

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   INVENTORY_LIST_ACTIONS,
   inventoryListsColumnsFunction,
@@ -11,8 +11,8 @@ import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
-  useLazyGetInventoryQuery,
-  useLazyGetExportInventoryQuery,
+  useLazyGetAirServicesAssetsInventoryQuery,
+  useLazyGetAirServicesAssetsExportInventoryQuery,
 } from '@/services/airServices/assets/inventory';
 import { downloadFile } from '@/utils/file';
 import usePath from '@/hooks/usePath';
@@ -20,10 +20,12 @@ import { DeleteInventory } from './DeleteInventory';
 import { ImportInventory } from './ImportInventory';
 import { useTheme } from '@mui/material';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { getActiveAccountSession } from '@/utils';
 
 export const useInventory = () => {
   const { makePath } = usePath();
   const theme = useTheme();
+
   const [hasInventoryAction, setHasInventoryAction] = useState(false);
   const [selectedInventoryLists, setSelectedInventoryLists] = useState<
     string[]
@@ -35,7 +37,9 @@ export const useInventory = () => {
   const [page, setPage] = useState<number>(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+
   const router = useRouter();
+
   useEffect(() => {
     router?.push(
       makePath({
@@ -46,15 +50,20 @@ export const useInventory = () => {
   }, []);
 
   const [lazyGetInventoryTrigger, lazyGetInventoryStatus] =
-    useLazyGetInventoryQuery<any>();
+    useLazyGetAirServicesAssetsInventoryQuery<any>();
 
-  const [lazyGetExportInventoryTrigger] = useLazyGetExportInventoryQuery();
+  const [lazyGetExportInventoryTrigger] =
+    useLazyGetAirServicesAssetsExportInventoryQuery();
+
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyIdStorage = product?.company?._id;
 
   const getInventoryListData = async (currentPage: any = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
+      ['companyId', companyIdStorage],
     ];
     const getInventoryParam: any = buildQueryParams(
       additionalParams,
@@ -72,28 +81,20 @@ export const useInventory = () => {
   };
 
   const getInventoryListDataExport = async (type: any) => {
-    const additionalParams = [
-      ['page', page + ''],
-      ['limit', pageLimit + ''],
-      ['search', search],
-      ['exportType', type],
-    ];
+    const queryParams = {
+      exportType: type,
+    };
 
-    const exportInventoryParams: any = buildQueryParams(
-      additionalParams,
-      inventoryFilterLists,
-    );
-
-    const getInventoryExportParameter = {
-      queryParams: exportInventoryParams,
+    const getInventoryParameter = {
+      queryParams,
     };
 
     try {
       const response: any = await lazyGetExportInventoryTrigger(
-        getInventoryExportParameter,
+        getInventoryParameter,
       )?.unwrap();
-      downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar('File export successfully');
+      downloadFile(response, 'Inventory List', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar('File Exported Successfully!');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -101,6 +102,11 @@ export const useInventory = () => {
   useEffect(() => {
     getInventoryListData();
   }, [search, page, pageLimit, inventoryFilterLists]);
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
 
   const handleAddInventory = () => {
     router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
@@ -152,6 +158,7 @@ export const useInventory = () => {
       />
     ),
   };
+
   const setInventoryAction = (inventoryListsActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
@@ -163,6 +170,7 @@ export const useInventory = () => {
       setHasInventoryAction(true);
     }, 100);
   };
+
   return {
     handleAddInventory,
     router,
@@ -178,7 +186,7 @@ export const useInventory = () => {
     setPage,
     setPageLimit,
     search,
-    setSearch,
+    handleSearch,
     inventoryListsColumnsPersist,
     getInventoryListData,
     theme,

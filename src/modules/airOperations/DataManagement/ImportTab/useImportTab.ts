@@ -24,6 +24,11 @@ export const useImportTab: () => ImportTabI = () => {
       dayjs(filterValues?.createdDate)?.format(CALENDAR_FORMAT?.YMD),
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   const params = {
     page,
     limit: pageLimit,
@@ -48,7 +53,7 @@ export const useImportTab: () => ImportTabI = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    setSearch,
+    handleSearch,
     data,
     isFetching,
     isError,

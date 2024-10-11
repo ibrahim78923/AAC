@@ -3,7 +3,7 @@ import { style } from './CheckboxCard.style';
 import { CheckboxCardI } from './CheckboxCard.interface';
 
 const CheckboxCard = ({
-  icon,
+  icon: Icon,
   value,
   title = '',
   desc = '',
@@ -25,16 +25,14 @@ const CheckboxCard = ({
         }}
       >
         <Avatar
-          variant="rounded"
-          src={icon}
-          alt={title}
           sx={{
-            bgcolor: palette?.primary?.light,
-            p: 1.2,
-            width: 48,
-            height: 48,
+            width: 56,
+            height: 56,
           }}
-        />
+          variant="rounded"
+        >
+          <Icon />
+        </Avatar>
         <Box>
           <Typography variant="h5" fontWeight={500} pb={0.4}>
             {title}

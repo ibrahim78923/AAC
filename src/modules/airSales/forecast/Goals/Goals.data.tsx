@@ -1,5 +1,6 @@
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
-import { DATE_TIME_FORMAT, goalsStatus } from '@/constants';
+import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
+import { isNullOrEmpty } from '@/utils';
 import {
   Box,
   Checkbox,
@@ -69,38 +70,39 @@ export const manageTableColumns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.contributor,
-      id: 'contributor',
+      accessorFn: (row: any) => row?.collaboratorDetail,
+      id: 'collaboratorDetail',
       header: 'Contributor',
       isSortable: true,
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
           <Box>
-            <Typography>{info?.getValue()}</Typography>
-
-            <Box display="flex" gap={0.5}>
-              <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.contributorDetails &&
-                info?.row?.original?.contributorDetails?.length > 0
-                  ? info?.row?.original?.contributorDetails
-                      ?.map(
-                        (contributor: any) =>
-                          `${contributor?.firstName} ${contributor?.lastName}`,
-                      )
-                      .join(', ')
-                  : info?.row?.original?.teamDetails &&
-                      info?.row?.original?.teamDetails?.length > 0
-                    ? info?.row?.original?.teamDetails
-                        ?.map((team: any) => team?.name)
-                        .join(', ')
-                    : '--'}
+            {isNullOrEmpty(
+              info?.row?.original?.collaboratorDetails[indexNumbers?.ZERO]
+                ?.name,
+            ) ? (
+              <Typography variant="body2">
+                {
+                  info?.row?.original?.collaboratorDetails[indexNumbers?.ZERO]
+                    ?.firstName
+                }{' '}
+                {
+                  info?.row?.original?.collaboratorDetails[indexNumbers?.ZERO]
+                    ?.lastName
+                }
               </Typography>
-            </Box>
+            ) : (
+              <Typography variant="body2">
+                {
+                  info?.row?.original?.collaboratorDetails[indexNumbers?.ZERO]
+                    ?.name
+                }
+              </Typography>
+            )}
           </Box>
         </Stack>
       ),
     },
-
     {
       accessorFn: (row: any) => row?.type,
       id: 'type',
@@ -146,25 +148,11 @@ export const manageTableColumns: any = (
       id: 'target',
       header: 'Target',
       isSortable: true,
-      cell: (info: any) => {
-        let sumOfMonths = 0;
-        info?.row?.original?.targets?.forEach((target: any) => {
-          for (const month in target?.months) {
-            if (target?.months?.hasOwnProperty(month)) {
-              sumOfMonths += target?.months[month];
-            }
-          }
-        });
-        return (
-          <Typography fontSize="12px" fontWeight={500}>
-            £ {sumOfMonths}
-          </Typography>
-        );
-      },
+      cell: (info: any) => `£ ${info?.getValue()}`,
     },
     {
-      accessorFn: (row: any) => row?.progress,
-      id: 'progress',
+      accessorFn: (row: any) => row?.totalAmountAchieved,
+      id: 'totalAmountAchieved',
       header: (
         <Box display={'flex'} gap={1}>
           Progress
@@ -185,57 +173,43 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => (
-        <Stack>
-          <Box>
-            <Typography textAlign={'right'} mb={0.2}>
-              {info?.getValue()}%
-            </Typography>
-            <LinearProgress
-              sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
-              variant="determinate"
-              value={50}
-            />
+      cell: (info: any) => {
+        const percentage =
+          (info?.getValue() / info?.row?.original?.target) * 100;
+        return (
+          <Stack>
+            <Box>
+              <Typography textAlign={'right'} mb={0.2}>
+                {percentage?.toFixed(2) === '0.00'
+                  ? '0'
+                  : percentage?.toFixed(2)}
+                %
+              </Typography>
+              <LinearProgress
+                sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
+                variant="determinate"
+                value={percentage}
+              />
 
-            <Typography
-              fontSize="12px"
-              fontWeight={500}
-              textAlign={'right'}
-              mt={0.5}
-            >
-              £{info?.getValue()} of £120
-            </Typography>
-          </Box>
-        </Stack>
-      ),
+              <Typography
+                fontSize="12px"
+                fontWeight={500}
+                textAlign={'right'}
+                mt={0.5}
+              >
+                £{info?.getValue()} of £{info?.row?.original?.target}
+              </Typography>
+            </Box>
+          </Stack>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       header: 'status',
       isSortable: true,
-      cell: (info: any) => (
-        <Typography
-          sx={{
-            cursor: 'pointer',
-            padding: '4px 8px',
-            borderRadius: '25px',
-            width: 'fit-content',
-            backgroundColor: `${
-              info?.getValue() === goalsStatus?.inProgress
-                ? '#FFFCF1'
-                : '#ECFFF1'
-            }`,
-            color: `${
-              info?.getValue() === goalsStatus?.inProgress
-                ? '#FFC20E'
-                : '#47B263'
-            }`,
-          }}
-        >
-          {info?.getValue()}
-        </Typography>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
   ];
 };

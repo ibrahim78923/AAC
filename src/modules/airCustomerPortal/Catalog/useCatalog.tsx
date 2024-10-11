@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { DATA_TYPES } from '@/constants/strings';
+import { DATA_TYPES, SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   useGetServiceCatalogCategoriesQuery,
@@ -33,6 +33,7 @@ const useCatalog = () => {
   const getServiceCatalogCategoriesParameter = {
     queryParam: {
       categoryId,
+      status: SERVICE_CATALOG_STATUSES?.PUBLISHED,
     },
   };
 

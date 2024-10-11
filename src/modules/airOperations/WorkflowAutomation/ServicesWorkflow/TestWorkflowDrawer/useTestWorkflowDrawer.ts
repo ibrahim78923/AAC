@@ -9,8 +9,8 @@ import { errorSnackbar } from '@/utils/api';
 
 export const useTestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
   const { isWorkflowDrawer, setIsWorkflowDrawer, watch } = props;
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const { palette } = useTheme();
   const [testWorkflowTrigger, testWorkflowStatus] =
     usePostTestSalesWorkflowMutation();

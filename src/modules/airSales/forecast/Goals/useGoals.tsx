@@ -1,8 +1,8 @@
 import { PAGINATION } from '@/config';
-import { useAppSelector } from '@/redux/store';
 import {
   useDeleteForecastGoalsMutation,
-  useGetForecastGoalsQuery,
+  useGetForecastTeamGoalsQuery,
+  useGetForecastUserGoalsQuery,
 } from '@/services/airSales/forecast';
 import { successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
@@ -18,18 +18,29 @@ const useGoals = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
+  const [pageTeam, setPageTeam] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimitTeam, setPageLimitTeam] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isFilterDrawer, setIsFilterDrawer] = useState(false);
+  const [filterValues, setFilterValues] = useState({});
+
+  const [alignment, setAlignment] = useState('User');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+    setFilterValues('');
+    setSearch('');
+  };
 
   const Params = {
-    page: page,
-    limit: pageLimit,
+    page: alignment === 'User' ? page : pageTeam,
+    limit: alignment === 'User' ? pageLimit : pageLimitTeam,
     search: search,
   };
 
   const open = Boolean(anchorEl);
-
-  const filterData: any = useAppSelector(
-    (state) => state?.forecastForm?.filterValues,
-  );
 
   const {
     data: goalsData,
@@ -37,7 +48,21 @@ const useGoals = () => {
     isError,
     isSuccess,
     isFetching,
-  } = useGetForecastGoalsQuery({ params: { ...Params, ...filterData } });
+  } = useGetForecastUserGoalsQuery(
+    alignment === 'User' ? { params: { ...Params, ...filterValues } } : {},
+    { skip: alignment === 'Team' },
+  );
+
+  const {
+    data: goalsTeamData,
+    isLoading: isLoadingTeam,
+    isError: isErrorTeam,
+    isSuccess: isSuccessTeam,
+    isFetching: isFetchingTeam,
+  } = useGetForecastTeamGoalsQuery(
+    alignment === 'Team' ? { params: { ...Params, ...filterValues } } : {},
+    { skip: alignment === 'User' },
+  );
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -82,10 +107,21 @@ const useGoals = () => {
     isError,
     isSuccess,
     isFetching,
-    search,
     setSearch,
     handleDelete,
     loadingDelete,
+    goalsTeamData,
+    isLoadingTeam,
+    isErrorTeam,
+    isSuccessTeam,
+    isFetchingTeam,
+    setPageTeam,
+    setPageLimitTeam,
+    alignment,
+    handleChange,
+    isFilterDrawer,
+    setIsFilterDrawer,
+    setFilterValues,
   };
 };
 

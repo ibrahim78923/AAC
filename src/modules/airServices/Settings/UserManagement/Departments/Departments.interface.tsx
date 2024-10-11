@@ -10,7 +10,7 @@ export interface IDepartmentsProps {
   handleAddMember?: (() => void) | any;
   item?: any;
   departmentActionDropdown?: (() => void) | any;
-  setSearch?: (() => void) | any;
+  handleSearch?: (data: any) => void;
   setOpenUpsertModal?: (() => void) | any;
   openUpsertModal?: boolean;
 }

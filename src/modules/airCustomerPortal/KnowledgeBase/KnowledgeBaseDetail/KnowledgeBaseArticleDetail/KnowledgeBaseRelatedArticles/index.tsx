@@ -5,7 +5,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { FormProvider } from '@/components/ReactHookForm';
-import { truncateText } from '@/utils/avatarUtils';
+import { TruncateText } from '@/components/TruncateText';
 
 export const KnowledgeBaseRelatedArticles = (props: any) => {
   const {
@@ -43,7 +43,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
             (item: any) =>
               item?._id !== singleArticleId && (
                 <Box
-                  key={item?.id}
+                  key={item?._id}
                   display="flex"
                   alignItems="center"
                   p={1}
@@ -57,9 +57,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
                   }}
                 >
                   <DocumentTextIcon />
-                  <Typography color="secondary">
-                    {truncateText(item?.title)}
-                  </Typography>
+                  <TruncateText text={item?.title?.toLowerCase()} />
                 </Box>
               ),
           )
@@ -95,6 +93,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
                 color="secondary"
                 disabled={feedbackIsLoading}
                 onClick={() => setShowFeedbackField(false)}
+                className="small"
               >
                 Cancel
               </LoadingButton>
@@ -102,6 +101,7 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
                 loading={feedbackIsLoading}
                 variant="contained"
                 type="submit"
+                className="small"
               >
                 Submit
               </LoadingButton>
@@ -137,14 +137,16 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
             <LoadingButton
               variant="outlined"
               color="secondary"
+              className="small"
               disabled={feedbackIsLoading}
               onClick={() => setShowFeedbackField(true)}
             >
               No
             </LoadingButton>
             <LoadingButton
-              loading={feedbackIsLoading}
               variant="contained"
+              className="small"
+              loading={feedbackIsLoading}
               onClick={helpfulSubmit}
             >
               Yes

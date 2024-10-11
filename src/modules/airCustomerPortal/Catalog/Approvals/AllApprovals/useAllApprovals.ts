@@ -1,8 +1,8 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useGetPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal';
 import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';
 import { AllApprovalsPropsI, ApprovalsDataI } from './AllApprovals.interface';
+import { useGetCustomerPortalCatalogPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal/catalog';
 
 export const useAllApprovals = (props: AllApprovalsPropsI) => {
   const { approvalStatus } = props;
@@ -23,7 +23,7 @@ export const useAllApprovals = (props: AllApprovalsPropsI) => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetPendingForApprovalsTicketsQuery(
+    useGetCustomerPortalCatalogPendingForApprovalsTicketsQuery(
       getPendingForApprovalsTicketsParameter,
       {
         refetchOnMountOrArgChange: true,

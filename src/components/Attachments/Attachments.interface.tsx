@@ -9,4 +9,6 @@ export interface AttachmentsPropsI {
   attachFileHandler?: () => void;
   children?: ReactNode;
   hasAttachments?: any;
+  hasStyling?: boolean;
+  canDelete?: boolean;
 }

@@ -21,11 +21,13 @@ export const RejectForm = ({ approvalId }: any) => {
     onSubmit,
     patchRequestApprovalStatus,
   } = useRejectForm(approvalId);
+
   return (
     <>
       <Button
         variant="outlined"
         color="error"
+        className={'small'}
         onClick={() => setRejectDialog(true)}
         startIcon={<CancelIcon />}
       >
@@ -74,6 +76,7 @@ export const RejectForm = ({ approvalId }: any) => {
             >
               <LoadingButton
                 variant="outlined"
+                className={'small'}
                 onClick={() => setRejectDialog(false)}
                 disabled={patchRequestApprovalStatus?.isLoading}
                 color="inherit"
@@ -84,6 +87,7 @@ export const RejectForm = ({ approvalId }: any) => {
                 loading={patchRequestApprovalStatus?.isLoading}
                 variant="contained"
                 type="submit"
+                className={'small'}
               >
                 Submit
               </LoadingButton>

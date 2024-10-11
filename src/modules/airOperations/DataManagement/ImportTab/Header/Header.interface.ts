@@ -1,5 +1,5 @@
 export interface HeaderI {
-  setSearch: (search: string) => void;
+  handleSearch: (data: any) => void;
   setIsOpenFilterDrawer: React.Dispatch<React.SetStateAction<any>>;
   isOpenFilterDrawer: boolean;
   setFilterValues: (values: Record<string, any>) => void;

@@ -1,10 +1,12 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { UserInfo } from '@/components/UserInfo';
+import { TruncateText } from '@/components/TruncateText';
 
 export const requestersDropdown: any = (
   setDeleteModalOpen: any,
@@ -102,40 +104,34 @@ export const requestersList: any = (
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        sx={{ cursor: 'pointer' }}
-        gap={1}
-        onClick={() => {
-          if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
-            errorSnackbar('This requester is not active');
-            return;
+      <Box sx={{ cursor: 'pointer' }}>
+        <TruncateText
+          text={
+            <UserInfo
+              handleBoxClick={() => {
+                if (
+                  info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE
+                ) {
+                  errorSnackbar('This requester is not active');
+                  return;
+                }
+                router?.push({
+                  pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
+                  query: { _id: info?.row?.original?._id },
+                });
+              }}
+              nameInitial={fullNameInitial(
+                info?.row?.original?.firstName,
+                info?.row?.original?.lastName,
+              )}
+              name={fullName(
+                info?.row?.original?.firstName?.toLowerCase(),
+                info?.row?.original?.lastName?.toLowerCase(),
+              )}
+              avatarSrc={info?.row?.original?.avatar?.url}
+            />
           }
-          router?.push({
-            pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
-            query: { _id: info?.row?.original?._id },
-          });
-        }}
-      >
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.avatar?.url)}
-        >
-          <Typography variant="body3" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.row?.original?.firstName,
-              info?.row?.original?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
-          {fullName(
-            info?.row?.original?.firstName,
-            info?.row?.original?.lastName,
-          )}
-        </Typography>
+        />
       </Box>
     ),
   },
@@ -144,7 +140,7 @@ export const requestersList: any = (
     id: 'email',
     isSortable: true,
     header: 'Email',
-    Cell: (info: any) => <>{info?.getValue()}</>,
+    Cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -168,7 +164,7 @@ export const requestersList: any = (
             color: color,
           }}
         >
-          {info?.getValue()}
+          <TruncateText text={info?.getValue()?.toLowerCase()} />
         </Typography>
       );
     },
@@ -179,9 +175,7 @@ export const requestersList: any = (
     isSortable: true,
     header: 'Job Title',
     cell: (info: any) => (
-      <Typography variant="body2" textTransform={'capitalize'}>
-        {info?.getValue()?.toLowerCase() ?? '---'}
-      </Typography>
+      <TruncateText text={info?.getValue()?.toLowerCase()} />
     ),
   },
 ];

@@ -33,6 +33,16 @@ const useQuoteInvoice = (quoteId: any) => {
     }
   };
 
+  const subtotal = quoteDataById?.products?.reduce(
+    (acc: any, curr: any) => acc + curr?.unitPrice * curr?.quantity,
+    0,
+  );
+
+  const unitDiscount = quoteDataById?.products?.reduce(
+    (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
+    0,
+  );
+
   useEffect(() => {
     if (quoteId) {
       getInvoiceData();
@@ -60,12 +70,16 @@ const useQuoteInvoice = (quoteId: any) => {
   // Create Invoice
   const [postCreateInvoice, { isLoading: loadingPostInvoice }] =
     usePostInvoiceMutation();
+
   const onSubmitCreateInvoice = async (values: any) => {
     const payload = {
       quoteId: quoteId,
+      dealId: quoteDataById?.dealId,
       comments: comments,
       customerEmail: values?.customerEmail,
       status: 'DRAFT',
+      total: subtotal - unitDiscount,
+      subTotal: subtotal,
     };
     try {
       await postCreateInvoice({ body: payload })?.unwrap();
@@ -97,6 +111,8 @@ const useQuoteInvoice = (quoteId: any) => {
     closeModalEmail,
     methodsSendEmail,
     loadingPostInvoice,
+    unitDiscount,
+    subtotal,
   };
 };
 

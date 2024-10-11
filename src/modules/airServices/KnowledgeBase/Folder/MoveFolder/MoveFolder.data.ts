@@ -1,7 +1,5 @@
 import { RHFTextField } from '@/components/ReactHookForm';
-import { ARRAY_INDEX } from '@/constants/strings';
 import * as Yup from 'yup';
-import { MoveFolderFormDefaultValuesI } from './MoveFolder.interface';
 import { FoldersFields } from '../../KnowledgeBaseFormFields';
 
 export const moveFolderValidationSchema = Yup?.object()?.shape({
@@ -9,11 +7,9 @@ export const moveFolderValidationSchema = Yup?.object()?.shape({
   folder: Yup?.mixed()?.nullable()?.required('Folder name is required'),
 });
 
-export const moveFolderDefaultValues = (
-  data?: MoveFolderFormDefaultValuesI,
-) => {
+export const moveFolderDefaultValues = (currentFolderName?: string) => {
   return {
-    movingFrom: data?.[ARRAY_INDEX?.ZERO]?.folder?.name ?? '',
+    movingFrom: currentFolderName ?? '',
     folder: null,
   };
 };
@@ -28,7 +24,6 @@ export const moveFolderFormFieldsDynamic = () => [
       disabled: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 2,
@@ -36,6 +31,5 @@ export const moveFolderFormFieldsDynamic = () => [
       label: 'Move To',
     },
     component: FoldersFields,
-    md: 12,
   },
 ];

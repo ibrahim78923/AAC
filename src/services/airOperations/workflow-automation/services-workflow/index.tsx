@@ -2,7 +2,7 @@ import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 
-const TAG = 'WORKFLOWS';
+const TAG = 'SERVICES_WORKFLOWS';
 const TEST_TAG = 'TEST_WORKFLOWS';
 const TAG_ONE = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_CATEGORIES';
@@ -10,12 +10,29 @@ const TAG_THREE = 'LOCATION_DROPDOWN';
 const TAG_FOUR = 'DROPDOWN_REQUESTER';
 const TAG_FIVE = 'DROPDOWN_ASSET_TYPE_LIST';
 const TAG_SIX = 'USER_LIST_DROPDOWN';
+const TAG_SEVEN = 'DROPDOWN_AGENTS';
 
 const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, TEST_WORKFLOW } =
   OPERATION;
 
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
+    getServicesWorkflowList: builder?.query({
+      query: (params: any) => ({
+        url: `${OPERATION?.OPERATION_WORKFLOW}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    changeStatusServicesWorkflow: builder?.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${OPERATION?.STATUS_WORKFLOW}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     postServicesWorkflow: builder?.mutation({
       query: (body: any) => ({
         url: `${OPERATION_WORKFLOW}`,
@@ -39,7 +56,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    deleteWorkflow: builder?.mutation({
+    deleteServicesWorkflow: builder?.mutation({
       query: (params: any) => ({
         url: `${OPERATION?.OPERATION_WORKFLOW}`,
         method: 'DELETE',
@@ -70,7 +87,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getDepartmentDropdown: builder?.query({
+    getDepartmentDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
         method: 'GET',
@@ -81,7 +98,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
-    getCategoriesDropdown: builder?.query({
+    getCategoriesDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
         method: 'GET',
@@ -92,7 +109,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_TWO],
     }),
-    getLocationsDropdown: builder?.query({
+    getLocationsDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_LOCATION}`,
         method: 'GET',
@@ -103,7 +120,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
-    getRequesterDropdown: builder?.query({
+    getRequesterDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
         method: 'GET',
@@ -114,7 +131,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
-    getAgentDropdown: builder?.query({
+    getAgentDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_AGENTS}`,
         method: 'GET',
@@ -125,7 +142,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
-    getAssetType: builder?.query({
+    getAssetTypeInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
         method: 'GET',
@@ -134,7 +151,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG_FIVE],
     }),
-    getUsersListDropdown: builder?.query({
+    getUsersListDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
@@ -145,22 +162,34 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_SIX],
     }),
+    getAgentsDropDownInWorkflow: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.AGENTS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG_SEVEN],
+    }),
   }),
 });
 
 export const {
+  useLazyGetServicesWorkflowListQuery,
   usePostServicesWorkflowMutation,
   useGetByIdWorkflowQuery,
-  useDeleteWorkflowMutation,
+  useDeleteServicesWorkflowMutation,
   useUpdateWorkflowMutation,
   useSaveWorkflowMutation,
   useCloneServicesWorkflowMutation,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
+  useLazyGetDepartmentDropdownInWorkflowQuery,
+  useLazyGetCategoriesDropdownInWorkflowQuery,
+  useLazyGetLocationsDropdownInWorkflowQuery,
+  useLazyGetRequesterDropdownInWorkflowQuery,
   usePostTestWorkflowMutation,
-  useLazyGetAssetTypeQuery,
-  useLazyGetUsersListDropdownQuery,
-  useLazyGetAgentDropdownQuery,
+  useLazyGetAssetTypeInWorkflowQuery,
+  useLazyGetUsersListDropdownInWorkflowQuery,
+  useLazyGetAgentDropdownInWorkflowQuery,
+  useLazyGetAgentsDropDownInWorkflowQuery,
+  useChangeStatusServicesWorkflowMutation,
 } = servicesWorkflowAPI;

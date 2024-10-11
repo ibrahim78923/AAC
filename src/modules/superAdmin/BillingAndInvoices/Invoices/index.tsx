@@ -46,7 +46,6 @@ const Invoices = () => {
     isLoading,
     isGetRowValues,
     handleRefresh,
-    searchByClientName,
     setSearchByClientName,
     setPage,
     setPageLimit,
@@ -83,7 +82,6 @@ const Invoices = () => {
         <Grid sx={styles?.tableToolbar}>
           <Grid item xs={12} md={6} xl={6} sx={styles?.tableSearch}>
             <Search
-              searchBy={searchByClientName}
               setSearchBy={setSearchByClientName}
               label="Search Here"
               size="small"

@@ -1,5 +1,4 @@
 import {
-  newIncidentFormFieldsDynamic,
   newIncidentValidationSchema,
   newIncidentsDefaultValuesFunction,
 } from './NewIncident.data';
@@ -8,21 +7,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   errorSnackbar,
   filteredEmptyValues,
-  makeDateTime,
   successSnackbar,
 } from '@/utils/api';
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
-import {
-  useLazyGetAgentDropdownQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
-  usePostTicketsMutation,
-} from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import {
+  usePostAirServicesRemoveAssociateTicketsMutation,
+  usePostServicesInventoryAssociationTicketsMutation,
+} from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -33,6 +26,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useNewIncident = (props: {
   openDrawer: boolean;
@@ -45,7 +39,8 @@ export const useNewIncident = (props: {
   const router = useRouter();
   const { inventoryId } = router?.query;
 
-  const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
+  const [postTicketTrigger, postTicketStatus] =
+    usePostServicesInventoryAssociationTicketsMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -75,7 +70,7 @@ export const useNewIncident = (props: {
 
   const methods: any = useForm<any>({
     resolver: yupResolver(newIncidentValidationSchema?.(form)),
-    defaultValues: newIncidentsDefaultValuesFunction?.({}, form),
+    defaultValues: newIncidentsDefaultValuesFunction?.(form),
   });
 
   const { handleSubmit, reset, getValues } = methods;
@@ -112,6 +107,9 @@ export const useNewIncident = (props: {
 
       Object?.entries(newFormData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = isoDateString(value);
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&
@@ -136,11 +134,10 @@ export const useNewIncident = (props: {
         newFormData?.requester?._id,
       );
       newIncidentTicketFormData?.append('subject', newFormData?.subject);
-      !!newFormData?.description &&
-        newIncidentTicketFormData?.append(
-          'description',
-          newFormData?.description,
-        );
+      newIncidentTicketFormData?.append(
+        'description',
+        newFormData?.description,
+      );
       !!newFormData?.category?._id &&
         newIncidentTicketFormData?.append(
           'category',
@@ -159,26 +156,23 @@ export const useNewIncident = (props: {
         newIncidentTicketFormData?.append('impact', newFormData?.impact?._id);
       !!newFormData?.agent &&
         newIncidentTicketFormData?.append('agent', newFormData?.agent?._id);
-      (!!newFormData?.plannedEndDate || !!newFormData?.plannedEndTime) &&
+      !!newFormData?.plannedEndDate &&
         newIncidentTicketFormData?.append(
           'plannedEndDate',
-          makeDateTime(
-            newFormData?.plannedEndDate,
-            newFormData?.plannedEndTime,
-          )?.toISOString(),
+          isoDateString(newFormData?.plannedEndDate),
         );
       !!newFormData?.plannedEffort &&
         newIncidentTicketFormData?.append(
           'plannedEffort',
           newFormData?.plannedEffort,
         );
-      !!newFormData?.attachFile &&
-        newIncidentTicketFormData?.append('fileUrl', newFormData?.attachFile);
       !!newFormData?.associatesAssets?.length &&
         newIncidentTicketFormData?.append(
           'associateAssets',
           newFormData?.associatesAssets?.map((asset: any) => asset?._id),
         );
+      !!newFormData?.attachFile &&
+        newIncidentTicketFormData?.append('fileUrl', newFormData?.attachFile);
       newIncidentTicketFormData?.append('moduleType', MODULE_TYPE?.TICKETS);
       newIncidentTicketFormData?.append('ticketType', TICKET_TYPE?.INC);
 
@@ -205,7 +199,7 @@ export const useNewIncident = (props: {
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
-    usePostRemoveAssociateTicketsMutation();
+    usePostAirServicesRemoveAssociateTicketsMutation();
 
   const associateIncident = async (ticketId: string) => {
     const body = {
@@ -228,21 +222,6 @@ export const useNewIncident = (props: {
     }
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-
-  const newIncidentFormFields = newIncidentFormFieldsDynamic(
-    apiQueryRequester,
-    apiQueryDepartment,
-    apiQueryAgent,
-    apiQueryCategories,
-    apiQueryAssociateAsset,
-    router,
-  );
-
   const onClose = () => {
     setIsOpenDrawer?.(false);
     reset?.();
@@ -252,7 +231,6 @@ export const useNewIncident = (props: {
     handleSubmit,
     onSubmit,
     methods,
-    newIncidentFormFields,
     onClose,
     postTicketStatus,
     associateIncident,

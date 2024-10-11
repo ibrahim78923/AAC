@@ -15,8 +15,8 @@ export const DeleteArticles = () => {
       type={ALERT_MODALS_TYPE?.DELETE}
       message="Do you want to delete the selected article?"
       open={isPortalOpen?.isOpen as boolean}
-      handleClose={() => closeArticleDeleteModal?.()}
-      handleSubmitBtn={() => deleteArticles?.()}
+      handleClose={closeArticleDeleteModal}
+      handleSubmitBtn={deleteArticles}
       loading={deleteArticleStatus?.isLoading}
       disableCancelBtn={deleteArticleStatus?.isLoading}
     />

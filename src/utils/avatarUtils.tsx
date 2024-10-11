@@ -1,5 +1,6 @@
 import { IMG_URL } from '@/config';
 import { FILE_TYPE_BASED_IMAGES } from '@/constants/images';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const colorLoop = (str: string = '') => {
   let a = 1;
@@ -34,7 +35,9 @@ export const fullName = (firstName?: any, lastName?: any) => {
 
 export const fullNameInitial = (firstName?: any, lastName?: any) => {
   if (!!!firstName && !!!lastName) return '-';
-  return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
+  return `${firstName?.[ARRAY_INDEX?.ZERO] ?? ''} ${
+    lastName?.[ARRAY_INDEX?.ZERO] ?? ''
+  }`;
 };
 
 export const generateImage = (imgSrc?: any) => {
@@ -71,4 +74,14 @@ export const getImageByType = (data: any, imageUrl = data?.fileUrl) => {
   return (
     FILE_TYPE_BASED_IMAGES?.[data?.fileType]?.src || generateImage(imageUrl)
   );
+};
+
+export const getInitialsSingleName = (name: any) => {
+  if (!name) return '';
+  const initials = name
+    ?.split(' ')
+    ?.map((n: any) => n[ARRAY_INDEX?.ZERO])
+    ?.join('')
+    ?.toUpperCase();
+  return initials?.substring(0, 2);
 };

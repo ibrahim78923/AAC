@@ -1,10 +1,21 @@
 import { Typography } from '@mui/material';
+import { Loyalty } from './Loyalty';
+import { GiftCards } from './GiftCards';
+import { RolesAndRight } from '../RolesAndRight';
+import { UserManagement } from '../UserManagement';
 
 export const SETTINGS_MODULES = {
-  GENERAL: 'general',
-  SHOP_AND_PROFILES: 'shop and profiles',
-  GIFTCARD: 'giftcard',
-  LOYALTY: 'loyalty',
+  GIFT_CARDS: 'Gift cards',
+  LOYALTY: 'Loyalty',
+  ROLE_AND_RIGHTS: 'Role and Rights',
+  USER_MANAGEMENT: 'User Management',
+};
+
+export const renderSettingsModule: any = {
+  [SETTINGS_MODULES?.LOYALTY]: <Loyalty />,
+  [SETTINGS_MODULES?.GIFT_CARDS]: <GiftCards />,
+  [SETTINGS_MODULES?.ROLE_AND_RIGHTS]: <RolesAndRight />,
+  [SETTINGS_MODULES?.USER_MANAGEMENT]: <UserManagement />,
 };
 
 export const settingsDataDynamic = (
@@ -17,7 +28,7 @@ export const settingsDataDynamic = (
       color: 'slateBlue.main',
       variant: 'h6',
     },
-    heading: 'Account',
+    heading: 'Modules',
     component: Typography,
   },
   {
@@ -31,21 +42,33 @@ export const settingsDataDynamic = (
       sx: {
         cursor: 'pointer',
         backgroundColor:
-          activeModule === SETTINGS_MODULES?.GENERAL ? 'custom.pale_gray' : '',
+          activeModule === SETTINGS_MODULES?.LOYALTY ? 'custom.pale_gray' : '',
         '&:hover': { backgroundColor: 'custom.pale_gray' },
       },
-      onClick: () => setActiveModule(SETTINGS_MODULES?.GENERAL),
+      onClick: () => setActiveModule(SETTINGS_MODULES?.LOYALTY),
     },
-    heading: 'General',
+    heading: SETTINGS_MODULES?.LOYALTY,
     component: Typography,
   },
   {
     id: 3,
     componentProps: {
       color: 'slateBlue.main',
-      variant: 'h6',
+      variant: 'body2',
+      padding: 0.5,
+      borderRadius: 1,
+      marginY: 1.5,
+      sx: {
+        cursor: 'pointer',
+        backgroundColor:
+          activeModule === SETTINGS_MODULES?.GIFT_CARDS
+            ? 'custom.pale_gray'
+            : '',
+        '&:hover': { backgroundColor: 'custom.pale_gray' },
+      },
+      onClick: () => setActiveModule(SETTINGS_MODULES?.GIFT_CARDS),
     },
-    heading: 'Management',
+    heading: SETTINGS_MODULES?.GIFT_CARDS,
     component: Typography,
   },
   {
@@ -59,14 +82,35 @@ export const settingsDataDynamic = (
       sx: {
         cursor: 'pointer',
         backgroundColor:
-          activeModule === SETTINGS_MODULES?.SHOP_AND_PROFILES
+          activeModule === SETTINGS_MODULES?.ROLE_AND_RIGHTS
             ? 'custom.pale_gray'
             : '',
         '&:hover': { backgroundColor: 'custom.pale_gray' },
       },
-      onClick: () => setActiveModule(SETTINGS_MODULES?.SHOP_AND_PROFILES),
+      onClick: () => setActiveModule(SETTINGS_MODULES?.ROLE_AND_RIGHTS),
     },
-    heading: 'Shop / Profiles',
+    heading: SETTINGS_MODULES?.ROLE_AND_RIGHTS,
+    component: Typography,
+  },
+  {
+    id: 5,
+    componentProps: {
+      color: 'slateBlue.main',
+      variant: 'body2',
+      padding: 0.5,
+      borderRadius: 1,
+      marginY: 1.5,
+      sx: {
+        cursor: 'pointer',
+        backgroundColor:
+          activeModule === SETTINGS_MODULES?.USER_MANAGEMENT
+            ? 'custom.pale_gray'
+            : '',
+        '&:hover': { backgroundColor: 'custom.pale_gray' },
+      },
+      onClick: () => setActiveModule(SETTINGS_MODULES?.USER_MANAGEMENT),
+    },
+    heading: SETTINGS_MODULES?.USER_MANAGEMENT,
     component: Typography,
   },
 ];

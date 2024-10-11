@@ -3,7 +3,7 @@ import { IAVATARGROUPDATA } from '@/types/shared/AvatarGroup';
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import {
   useGetPlanTypesQuery,
-  useGetProductsQuery,
+  useGetProductsPlanManagementQuery,
 } from '@/services/superAdmin/plan-mangement';
 
 import * as Yup from 'yup';
@@ -53,7 +53,7 @@ export const planManagementFilterDefaultValues = {
 };
 
 export const planManagementFilterFiltersDataArray = () => {
-  const { data } = useGetProductsQuery({});
+  const { data } = useGetProductsPlanManagementQuery({});
 
   const productsOptions: { value: number; label: string } = data?.data?.map(
     (products: Product) => {

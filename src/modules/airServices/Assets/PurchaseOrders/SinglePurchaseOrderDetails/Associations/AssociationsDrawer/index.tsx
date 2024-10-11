@@ -1,12 +1,11 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Chip, Typography, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { useAssociationsDrawer } from './useAssociationsDrawer';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
 
 export const AssociationsDrawer = (props: any) => {
   const theme: any = useTheme();
@@ -14,7 +13,7 @@ export const AssociationsDrawer = (props: any) => {
     lazyGetTicketsStatus,
     metaData,
     search,
-    setSearch,
+    handleSearch,
     pageLimit,
     setPageLimit,
     page,
@@ -27,6 +26,7 @@ export const AssociationsDrawer = (props: any) => {
     onSubmit,
     postRemoveAssociateTicketsStatus,
   } = useAssociationsDrawer(props);
+
   return (
     <div>
       <CommonDrawer
@@ -49,7 +49,7 @@ export const AssociationsDrawer = (props: any) => {
             label="Search"
             width="100%"
             searchBy={search}
-            setSearchBy={setSearch}
+            setSearchBy={handleSearch}
             sx={{ width: '100%' }}
           />
           <Box sx={{ height: '66vh', mt: 1 }}>
@@ -99,22 +99,20 @@ export const AssociationsDrawer = (props: any) => {
                       />
                       <Typography>{item?.subject}</Typography>
                     </Box>
-                    <Button
+
+                    <Chip
+                      label={item?.status?.toLowerCase()}
                       sx={{
-                        backgroundColor: theme?.palette?.primary?.light,
-                        borderRadius: '1rem',
+                        color: 'primary.main',
+                        backgroundColor: 'primary.light',
+                        textTransform: 'capitalize',
+                        fontWeight: 700,
                       }}
-                    >
-                      {item?.status}
-                    </Button>
+                    />
                   </Box>
                 ))
               ) : (
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
-                  height="40vh"
-                />
+                <NoData message={'No data is available'} height="40vh" />
               )
             ) : (
               <SkeletonTable />

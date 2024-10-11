@@ -19,7 +19,10 @@ import {
   RHFRadioGroup,
   RHFSwitch,
 } from '@/components/ReactHookForm';
-import { dashboardReportsData } from './CreateForm.data';
+import {
+  dashboardReportsData,
+  specificUsersAccessFormFieldsDynamic,
+} from './CreateForm.data';
 import DetailsView from '../DetailsView';
 import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
@@ -27,9 +30,8 @@ import useCreateForm from './useCreateForm';
 import { LoadingButton } from '@mui/lab';
 import RHFTextField from '../../../../../components/ReactHookForm/RHFTextField';
 import { pxToRem } from '@/utils/getFontValue';
-import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { DRAWER_TYPES } from '@/constants/strings';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const specificUsersAccessColumns = [
   { _id: 'name', label: 'Name' },
@@ -37,50 +39,9 @@ export const specificUsersAccessColumns = [
   { _id: 'viewOnly', label: 'View Only' },
 ];
 
-export const specificUsersAccessFormFieldsDynamic = (
-  name: string,
-  index: number,
-) => [
-  {
-    id: 1,
-    data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
-  },
-  {
-    id: 2,
-    align: 'center',
-    data: (
-      <RHFRadioGroup
-        name={`${name}.${index}.permission`}
-        size="small"
-        fullWidth
-        options={[
-          {
-            value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
-          },
-        ]}
-      />
-    ),
-  },
-  {
-    id: 3,
-    align: 'center',
-    data: (
-      <RHFRadioGroup
-        name={`${name}.${index}.permission`}
-        size="small"
-        fullWidth
-        options={[
-          {
-            value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
-          },
-        ]}
-      />
-    ),
-  },
-];
-
 const CreateForm = ({ formType }: any) => {
   const {
+    MANAGE_DASHBOARD_ACCESS_TYPES,
     postSalesDashboardLoading,
     dashboardDetailsLoading,
     loadingUpdateDashboard,
@@ -103,7 +64,7 @@ const CreateForm = ({ formType }: any) => {
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         {dashboardDetailsLoading ? (
-          <SkeletonForm />
+          <SkeletonTable />
         ) : (
           <Grid container spacing={2}>
             <Grid item container xs={12} lg={6}>
@@ -139,7 +100,10 @@ const CreateForm = ({ formType }: any) => {
                             <Box px={3}>
                               <RHFRadioGroup
                                 disabled={
-                                  disableAccess !== true ? true : disbaleForm
+                                  disableAccess ||
+                                  formType === DRAWER_TYPES?.VIEW
+                                    ? true
+                                    : false
                                 }
                                 name="permissions"
                                 row={false}
@@ -237,7 +201,11 @@ const CreateForm = ({ formType }: any) => {
                           ),
                         },
                       ]}
-                      disabled={disableAccess !== true ? true : disbaleForm}
+                      disabled={
+                        disableAccess || formType === DRAWER_TYPES?.VIEW
+                          ? true
+                          : false
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} md={3} textAlign={'end'}>
@@ -281,27 +249,41 @@ const CreateForm = ({ formType }: any) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Stack direction="row" justifyContent="end" gap={1}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <Button
                   className="small"
                   variant="outlined"
                   onClick={() => router?.back()}
                   color="inherit"
                 >
-                  Cancel
+                  Back
                 </Button>
-                {formType !== DRAWER_TYPES?.VIEW && (
-                  <LoadingButton
-                    variant="contained"
+                <Stack direction="row" justifyContent="end" gap={1}>
+                  <Button
                     className="small"
-                    type="submit"
-                    loading={
-                      postSalesDashboardLoading || loadingUpdateDashboard
-                    }
+                    variant="outlined"
+                    onClick={() => router?.back()}
+                    color="inherit"
                   >
-                    {formType === DRAWER_TYPES?.EDIT ? 'Update' : 'Save'}
-                  </LoadingButton>
-                )}
+                    Cancel
+                  </Button>
+                  {formType !== DRAWER_TYPES?.VIEW && (
+                    <LoadingButton
+                      variant="contained"
+                      className="small"
+                      type="submit"
+                      loading={
+                        postSalesDashboardLoading || loadingUpdateDashboard
+                      }
+                    >
+                      {formType === DRAWER_TYPES?.EDIT ? 'Update' : 'Save'}
+                    </LoadingButton>
+                  )}
+                </Stack>
               </Stack>
             </Grid>
           </Grid>

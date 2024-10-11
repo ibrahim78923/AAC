@@ -2,12 +2,12 @@ import { DATE_FORMAT } from '@/constants';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { singleTicketBoardViewDropdownOptionsDynamic } from './TicketInfoCard.data';
 import {
   setIsPortalOpen,
   setSelectedTicketLists,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch } from '@/redux/store';
+import { singleTicketBoardViewDropdownOptionsDynamic } from '../TicketsBoardView.data';
 
 export const useTicketInfoCard = (props: any) => {
   const { details } = props;

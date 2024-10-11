@@ -4,8 +4,8 @@ import { PAGINATION } from '@/config';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import {
-  useDeleteTeamsMutation,
-  useGetTeamsQuery,
+  useDeleteMarketerTeamsMutation,
+  useGetMarketerTeamsQuery,
 } from '@/services/airMarketer/settings/teams';
 
 const useTeams = () => {
@@ -23,7 +23,7 @@ const useTeams = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [deleteTeams, { isLoading: deleteTeamLoading }] =
-    useDeleteTeamsMutation();
+    useDeleteMarketerTeamsMutation();
 
   const params = {
     page: page,
@@ -35,7 +35,7 @@ const useTeams = () => {
     data: teamsData,
     isSuccess,
     isLoading: teamsDataLoading,
-  } = useGetTeamsQuery(params);
+  } = useGetMarketerTeamsQuery(params);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);

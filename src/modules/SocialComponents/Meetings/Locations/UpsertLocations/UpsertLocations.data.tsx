@@ -1,5 +1,6 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 import * as Yup from 'yup';
 
 export const TITLE_FORM_USER: any = {
@@ -13,9 +14,25 @@ export const BUTTON_TITLE_FORM_USER: any = {
 };
 
 export const upsertLocationsFormValidationSchema = Yup?.object()?.shape({
-  locationName: Yup?.string()?.trim()?.required('Location name is Required'),
-  destination: Yup?.string()?.trim(),
-  description: Yup?.string()?.trim(),
+  locationName: Yup?.string()
+    ?.trim()
+    ?.required('Location name is Required')
+    ?.max(
+      CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_LOCATION_NAME_MAX_CHARACTERS,
+      `Location name should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_LOCATION_NAME_MAX_CHARACTERS} characters`,
+    ),
+  destination: Yup?.string()
+    ?.trim()
+    ?.max(
+      CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_LOCATION_DESTINATION_MAX_CHARACTERS,
+      `Destination should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_LOCATION_DESTINATION_MAX_CHARACTERS} characters`,
+    ),
+  description: Yup?.string()
+    ?.trim()
+    ?.max(
+      CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_LOCATION_DESCRIPTION_MAX_CHARACTERS,
+      `Description should be less than ${CHARACTERS_LIMIT?.SOCIAL_COMPONENTS_MEETINGS_LOCATION_DESCRIPTION_MAX_CHARACTERS} characters`,
+    ),
 });
 
 export const upsertLocationsDefaultValues = (data?: any) => {

@@ -3,13 +3,14 @@ import { useUpsertSurveyResponse } from './useUpsertSurveyResponse';
 import NoData from '@/components/NoData';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { createElement } from 'react';
+import { createElement, Fragment } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './UpsertSurveyResponse.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_TYPES,
   GENERIC_UPSERT_FORM_CONSTANT,
 } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -39,7 +40,11 @@ export const UpsertSurveyResponse: React.FC<{
   if (lazyGetSingleSurveyForResponseStatus?.isError) return <ApiErrorState />;
   if (
     lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
-      ?.status !== FEEDBACK_STATUS?.PUBLISHED
+      ?.status !== FEEDBACK_STATUS?.PUBLISHED ||
+    (lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
+      ?.surveyType === FEEDBACK_SURVEY_TYPES?.CUSTOMER_SATISFACTION &&
+      !lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
+        ?.isDefault)
   )
     return <NoData message="No survey found" />;
 
@@ -53,6 +58,30 @@ export const UpsertSurveyResponse: React.FC<{
           <Button
             variant="contained"
             color="primary"
+            className="small"
+            onClick={() => goBack?.()}
+          >
+            {' '}
+            Go To Home
+          </Button>
+        ) : (
+          <></>
+        )}
+      </NoData>
+    );
+  if (patchSingleSurveyQuestionsAnswerForResponseStatus?.isError)
+    return (
+      <NoData
+        message={
+          patchSingleSurveyQuestionsAnswerForResponseStatus?.error?.data
+            ?.message
+        }
+      >
+        {!!loggedInUser ? (
+          <Button
+            variant="contained"
+            color="primary"
+            className="small"
             onClick={() => goBack?.()}
           >
             {' '}
@@ -106,7 +135,7 @@ export const UpsertSurveyResponse: React.FC<{
           lazyGetSingleSurveyForResponseStatus?.data?.data[
             ARRAY_INDEX?.ZERO
           ]?.sections?.map((item: FeedbackSurveySectionI) => (
-            <>
+            <Fragment key={item?._id}>
               <Typography color="primary" variant="h4">
                 {' '}
                 {item?.heading}
@@ -146,7 +175,7 @@ export const UpsertSurveyResponse: React.FC<{
                             })),
                             name: item?._id,
                             rows: 3,
-                            multiline: true,
+                            multiline: 'true',
                             disabled:
                               action === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
                           },
@@ -162,7 +191,7 @@ export const UpsertSurveyResponse: React.FC<{
                   message="No questions in this section"
                 />
               )}
-            </>
+            </Fragment>
           ))
         ) : (
           <NoData message="No survey found" />
@@ -177,6 +206,7 @@ export const UpsertSurveyResponse: React.FC<{
             <LoadingButton
               variant="outlined"
               type="button"
+              className="small"
               color="secondary"
               loading={
                 patchSingleSurveyDropoutAnswerForResponseStatus?.isLoading
@@ -191,6 +221,7 @@ export const UpsertSurveyResponse: React.FC<{
             <LoadingButton
               variant="contained"
               type="submit"
+              className="small"
               disabled={
                 patchSingleSurveyDropoutAnswerForResponseStatus?.isLoading
               }

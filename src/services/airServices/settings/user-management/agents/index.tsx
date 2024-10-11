@@ -69,7 +69,7 @@ export const agentsAPI = baseAPI?.injectEndpoints({
         body: apiDataParameter?.body,
       }),
     }),
-    getDepartmentDropdownList: builder?.query({
+    getDepartmentDropdownListForAgents: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
         method: 'GET',
@@ -101,7 +101,7 @@ export const {
   usePatchAgentMutation,
   useGetAgentRequesterQuery,
   useLazyGetAgentRequesterQuery,
-  useLazyGetDepartmentDropdownListQuery,
+  useLazyGetDepartmentDropdownListForAgentsQuery,
   usePatchApprovedRequestMutation,
   usePatchRejectRequestMutation,
   useLazyGetServicesUserAgentsQuery,

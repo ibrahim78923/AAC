@@ -11,6 +11,7 @@ import {
   productsDataArray,
 } from './ProductEditorDrawer.data';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { PRODUCTS_TYPE } from '@/constants';
 
 const ProductEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, selectedProduct, dealId } = props;
@@ -60,7 +61,7 @@ const ProductEditorDrawer = (props: any) => {
                   defaultValue="new-products"
                 />
               </Grid>
-              {watchProduct === 'new-products' ? (
+              {watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT ? (
                 productsDataArray(productCategories)?.map((item: any) => (
                   <Grid
                     item

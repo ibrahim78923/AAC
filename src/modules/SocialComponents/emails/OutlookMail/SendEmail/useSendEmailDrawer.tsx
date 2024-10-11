@@ -27,6 +27,8 @@ import {
   SetAutocompleteValuesI,
   SetValueI,
 } from './sendEmail.interface';
+import { useDispatch } from 'react-redux';
+import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 
 const useSendEmailDrawer = ({
   setOpenDrawer,
@@ -34,6 +36,8 @@ const useSendEmailDrawer = ({
   emailSettingsData,
 }: any) => {
   const theme = useTheme();
+
+  const dispatch = useDispatch();
 
   const [isReplaceTemplate, setIsReplaceTemplate] = useState(false);
 
@@ -188,12 +192,14 @@ const useSendEmailDrawer = ({
         reset();
         setOpenDrawer(false);
         setAutocompleteValues([]);
+        dispatch(setCurrentForwardAttachments([]));
         setIsSendLater(false);
       }
     } else {
       reset();
       setOpenDrawer(false);
       setAutocompleteValues([]);
+      dispatch(setCurrentForwardAttachments([]));
       setIsSendLater(false);
     }
   };
@@ -257,15 +263,20 @@ const useSendEmailDrawer = ({
             'content',
             values?.description?.length ? values?.description : ' ',
           );
-
           if (values?.cc?.length) {
             formDataSend.append('cc', values?.cc);
           }
           if (values?.bcc?.length) {
             formDataSend.append('bcc', values?.bcc);
           }
-          if (values?.attachments) {
-            formDataSend.append('attachment', values?.attachments);
+          if (!isSendLater && values?.attachments) {
+            if (Array?.isArray(values?.attachments)) {
+              values?.attachments.forEach((file: File) => {
+                formDataSend?.append(`attachments`, file);
+              });
+            } else {
+              formDataSend.append('attachments', values?.attachments);
+            }
           }
           try {
             await postDraftOtherEmail({
@@ -309,7 +320,7 @@ const useSendEmailDrawer = ({
             }px ">
             ${values?.description} 
             <br> 
-            <div style="font-size:16px;" >${
+            <div id='SIGNATURE' style="font-size:16px;" >${
               emailSettingsData?.data?.emailSettings?.signature ?? ''
             }</div> 
             </div>` || '<p></p>',
@@ -491,7 +502,7 @@ const useSendEmailDrawer = ({
 };
 export default useSendEmailDrawer;
 
-function base64ToBlob(base64: any, contentType: any) {
+export function base64ToBlob(base64: any, contentType: any) {
   const byteCharacters = atob(base64);
   const byteNumbers = new Array(byteCharacters?.length);
 

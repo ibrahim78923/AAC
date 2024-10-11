@@ -35,6 +35,10 @@ const ChatField = ({ isError }: any) => {
     (state) => state?.chat?.isChatMessagesLoading,
   );
 
+  const sortedData = chatDataToShow?.sort((a: any, b: any) => {
+    return new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime();
+  });
+
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
@@ -44,7 +48,7 @@ const ChatField = ({ isError }: any) => {
     if (boxRef?.current) {
       boxRef.current.scrollTop = boxRef?.current?.scrollHeight;
     }
-  }, [chatDataToShow?.length > 1, changeChat]);
+  }, [sortedData?.length > 1, changeChat]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,7 +84,7 @@ const ChatField = ({ isError }: any) => {
   };
 
   useEffect(() => {
-    if (chatDataToShow?.length < 11) {
+    if (sortedData?.length < 12) {
       handleScrollToBottom();
     }
   }, []);
@@ -114,8 +118,8 @@ const ChatField = ({ isError }: any) => {
               </Box>
             )}
             <Box sx={{ paddingTop: '30px' }}>
-              {chatDataToShow?.length ? (
-                chatDataToShow
+              {sortedData?.length ? (
+                sortedData
                   ?.slice()
                   ?.reverse()
                   ?.map((item: any) => {
@@ -154,7 +158,7 @@ const ChatField = ({ isError }: any) => {
               )}
             </Box>
 
-            {isChatMessagesLoading && chatDataToShow?.length < 0 && (
+            {isChatMessagesLoading && sortedData?.length < 0 && (
               <Box
                 sx={{
                   display: 'flex',

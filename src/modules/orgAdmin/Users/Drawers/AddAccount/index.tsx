@@ -13,6 +13,7 @@ const AddAccount = (props: AddAccountProps) => {
     methods,
     companyRoleParams,
     postAccountLoading,
+    productValue,
   } = useAddAccount(employeeDataById, setIsOpenAddAccountDrawer);
 
   return (
@@ -29,11 +30,18 @@ const AddAccount = (props: AddAccountProps) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {AddAccountArray(companyRoleParams)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
+            {AddAccountArray(companyRoleParams, productValue)?.map(
+              (item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item?.componentProps} size={'small'} />
+                </Grid>
+              ),
+            )}
           </Grid>
         </FormProvider>
       </Box>

@@ -1,33 +1,33 @@
 import { DATE_TIME_FORMAT } from '@/constants';
-import {
-  formatFileSize,
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Box } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import {
   EditBlackIcon,
   ShortcutSharpLeftIcon,
   ShortcutSharpRightIcon,
 } from '@/assets/icons';
-import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
+import {
+  TICKET_CONVERSATION_ACTIONS,
+  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT,
+} from '../Conversations.data';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { otherDateFormat } from '@/utils/dateTime';
+import { UserInfo } from '@/components/UserInfo';
+import { LogInfo } from '@/components/LogInfo';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 export const ConversationCard = (props: any) => {
-  const { data, setSelectedConversationType } = props;
+  const { data, setAction } = props;
   return (
     <Box
       border={'3px solid'}
       borderColor={'custom.off_white_three'}
       p={2}
       borderRadius={2}
-      my={2}
+      mb={2}
       boxShadow={1}
     >
       <Box
@@ -35,73 +35,47 @@ export const ConversationCard = (props: any) => {
         gap={2}
         justifyContent={'space-between'}
         flexWrap={'wrap'}
-        alignItems={'center'}
       >
-        <Box display={'flex'} flex={0.33} gap={1} alignItems={'center'}>
-          <Avatar
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: 'primary.light',
+        <Box flex={1}>
+          <UserInfo
+            boxProps={{ alignItems: 'normal' }}
+            isNameCapital={false}
+            nameProps={{
+              fontWeight: 'fontWeightMedium',
+              color: 'primary.main',
+              variant: 'body2',
             }}
-            src={generateImage(data?.performedBy?.avatar?.url)}
-          >
-            <Typography
-              variant="body2"
-              textTransform={'uppercase'}
-              color="slateBlue.main"
-            >
-              {fullNameInitial(
-                data?.performedBy?.firstName,
-                data?.performedBy?.lastName,
-              )}
-            </Typography>
-          </Avatar>
-          <Box>
-            <Typography variant="body1" color="primary" fontWeight={600}>
-              {fullName(data?.performedBy?.firstName)}
-              <Typography
-                variant="body2"
-                component={'span'}
-                color="slateBlue.main"
-                fontWeight={600}
-              >
-                {' '}
-                {`${CONVERSATION_TYPE_MODIFY[data?.type]?.description}`}{' '}
-              </Typography>
-              {data?.recipients?.join?.(' ')}
-            </Typography>
-            <Typography variant="body3" fontWeight={400} color={'grey.900'}>
-              {dayjs()?.format(DATE_TIME_FORMAT?.UI)}
-            </Typography>
-          </Box>
-        </Box>
-        <Box
-          display={'flex'}
-          flex={0.33}
-          flexWrap={'wrap'}
-          alignItems={'center'}
-          justifyContent={'center'}
-          gap={1}
-        >
-          <Avatar
-            src={generateImage(data?.attachment?.fileUrl)}
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: 'primary.light',
-            }}
+            avatarSize={{ height: 40, width: 40 }}
+            name={
+              <LogInfo
+                performer={fullName(
+                  data?.performedBy?.firstName,
+                  data?.performedBy?.lastName,
+                )}
+                logType={TICKET_CONVERSATION_ACTIONS?.[data?.type]}
+                log={data?.recipients?.join?.(' ')}
+                logProps={{ sx: { wordBreak: 'break-all' } }}
+              />
+            }
+            email={otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.UI)}
+            avatarSrc={data?.performedBy?.avatar?.url}
+            nameInitial={fullNameInitial(
+              data?.performedBy?.firstName,
+              data?.performedBy?.lastName,
+            )}
           />
-          <Box>
-            <Typography variant="body2" color="slateBlue.main">
-              {truncateText(data?.attachment?.orignalName)}
-            </Typography>
-            <Typography variant="body3" color="grey.500">
-              {formatFileSize(data?.attachment?.fileSize)}
-            </Typography>
-          </Box>
         </Box>
-        <Box display={'flex'} flex={0.33} justifyContent={'flex-end'} gap={1.5}>
+        {!!data?.attachment?._id && (
+          <Box flex={0.3}>
+            <AttachFileCard
+              size={{ width: 35, height: 35 }}
+              hasStyling={false}
+              canDelete={false}
+              data={data?.attachment}
+            />
+          </Box>
+        )}
+        <Box display={'flex'} flex={0.25} justifyContent={'flex-end'} gap={1.5}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_REPLY,
@@ -109,11 +83,10 @@ export const ConversationCard = (props: any) => {
           >
             <Box
               onClick={() =>
-                setSelectedConversationType({
-                  ...data,
-                  conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
-                  isOpen: true,
-                })
+                setAction?.(
+                  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.REPLY,
+                  data,
+                )
               }
               sx={{ cursor: 'pointer' }}
             >
@@ -128,11 +101,10 @@ export const ConversationCard = (props: any) => {
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() =>
-                setSelectedConversationType({
-                  ...data,
-                  conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
-                  isOpen: true,
-                })
+                setAction?.(
+                  TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.FORWARD,
+                  data,
+                )
               }
             >
               <ShortcutSharpRightIcon />
@@ -147,12 +119,10 @@ export const ConversationCard = (props: any) => {
               <Box
                 sx={{ cursor: 'pointer' }}
                 onClick={() =>
-                  setSelectedConversationType({
-                    ...data,
-                    conversationType: data?.type,
-                    isOpen: true,
-                    isEdit: true,
-                  })
+                  setAction?.(
+                    TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.EDIT_NOTE,
+                    data,
+                  )
                 }
               >
                 <EditBlackIcon />
@@ -165,12 +135,12 @@ export const ConversationCard = (props: any) => {
             ]}
           >
             {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
-              <DeleteIcon
+              <Delete
                 onClick={() =>
-                  setSelectedConversationType({
-                    ...data,
-                    isDelete: true,
-                  })
+                  setAction?.(
+                    TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.DELETE_NOTE,
+                    data,
+                  )
                 }
                 sx={{
                   color: 'custom.main',
@@ -184,7 +154,12 @@ export const ConversationCard = (props: any) => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <Box mt={1.5} fontWeight={600} maxHeight={'15vh'} overflow={'auto'}>
+      <Box
+        mt={1.5}
+        fontWeight={'fontWeightSmall'}
+        maxHeight={'15vh'}
+        overflow={'auto'}
+      >
         <Box dangerouslySetInnerHTML={{ __html: data?.html }}></Box>
       </Box>
     </Box>

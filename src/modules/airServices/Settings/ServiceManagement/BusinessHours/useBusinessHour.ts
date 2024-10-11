@@ -1,11 +1,12 @@
 import {
-  useDeleteBusinessHourMutation,
-  useGetBusinessHourQuery,
+  useDeleteAirServicesSettingsServiceBusinessHourMutation,
+  useGetAirServicesSettingsServiceBusinessHourQuery,
 } from '@/services/airServices/settings/service-management/business-hours';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+
 export const useBusinessHour = () => {
   const router = useRouter();
 
@@ -15,14 +16,14 @@ export const useBusinessHour = () => {
   });
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetBusinessHourQuery({
+    useGetAirServicesSettingsServiceBusinessHourQuery(null, {
       refetchOnMountOrArgChange: true,
     });
 
   const businessHoursList = data?.data;
 
   const [deleteBusinessHourTrigger, deleteBusinessHourStatus] =
-    useDeleteBusinessHourMutation();
+    useDeleteAirServicesSettingsServiceBusinessHourMutation();
 
   const deleteBusinessHour = async () => {
     const deleteParams = new URLSearchParams();

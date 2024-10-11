@@ -1,9 +1,11 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import { TruncateText } from '@/components/TruncateText';
 import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { splitCapitalizedWords, TimeFormatDuration } from '@/utils/api';
+import { fullName } from '@/utils/avatarUtils';
 import { Box, Theme, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { NextRouter } from 'next/router';
@@ -50,7 +52,7 @@ export const listViewDetails = (
     id: 'title',
     isSortable: false,
     header: 'Meeting Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
     accessorFn: (row: any) => row?.organizer,
@@ -60,7 +62,13 @@ export const listViewDetails = (
     cell: (info: any) => {
       const { firstName, lastName } = info?.row?.original?.userDetails || {};
       return (
-        <Typography variant="body2">{`${firstName} ${lastName}`}</Typography>
+        <Typography
+          variant="body3"
+          textTransform={'capitalize'}
+          component={'span'}
+        >
+          <TruncateText text={fullName(firstName, lastName)} />
+        </Typography>
       );
     },
   },

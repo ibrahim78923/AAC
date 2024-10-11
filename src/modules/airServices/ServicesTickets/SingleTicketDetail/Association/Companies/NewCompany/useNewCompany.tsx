@@ -1,8 +1,8 @@
-import { useLazyGetContactOwnerQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useLazyGetAirServicesContactOwnerQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { getFormFields } from './NewCompany.data';
 
 export default function useNewCompany() {
-  const contactOwner = useLazyGetContactOwnerQuery();
+  const contactOwner = useLazyGetAirServicesContactOwnerQuery();
 
   const formFields = getFormFields({
     contactOwner,

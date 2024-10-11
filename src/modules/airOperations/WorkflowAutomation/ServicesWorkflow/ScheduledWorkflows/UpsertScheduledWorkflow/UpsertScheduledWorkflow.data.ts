@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { ARRAY_INDEX, LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
@@ -9,6 +9,8 @@ import {
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { monthFormatter, timeFormatter } from '@/utils/api';
+import { localeDateTime } from '@/utils/dateTime';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -58,15 +60,33 @@ export const actionsAssetOptions = [
 ];
 
 export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
 });
 export const scheduledWorkflowSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
-  description: Yup?.string(),
+  title: Yup?.string()
+    ?.required('Required')
+    ?.max(
+      CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS,
+      `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_NAME_MAX_CHARACTERS} characters`,
+    ),
+  description: Yup?.string()?.max(
+    CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS,
+    `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_DESCRIPTION_MAX_CHARACTERS} characters`,
+  ),
   runType: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
-      name: Yup?.string()?.required('Required'),
+      name: Yup?.string()
+        ?.required('Required')
+        ?.max(
+          CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS,
+          `Max ${CHARACTERS_LIMIT?.OPERATIONS_WORKFLOW_SERVICES_WORKFLOW_GROUP_NAME_MAX_CHARACTERS} characters`,
+        ),
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(
@@ -172,13 +192,14 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
       ? monthFormatter(singleWorkflowData?.schedule?.annually?.month)
       : new Date(),
     scheduleDay:
-      singleWorkflowData?.schedule?.weekly?.days?.[0]?.toLowerCase() ??
-      'monday',
+      singleWorkflowData?.schedule?.weekly?.days?.[
+        ARRAY_INDEX?.ZERO
+      ]?.toLowerCase() ?? 'monday',
     scheduleDate: singleWorkflowData?.schedule?.monthly?.day ?? 1,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
-      startDate: startDate ? new Date(startDate) : new Date(),
-      endDate: endDate ? new Date(endDate) : new Date(),
+      startDate: startDate ? localeDateTime(startDate) : new Date(),
+      endDate: endDate ? localeDateTime(endDate) : new Date(),
       key: 'selection',
     },
     runType: singleWorkflowData?.runType

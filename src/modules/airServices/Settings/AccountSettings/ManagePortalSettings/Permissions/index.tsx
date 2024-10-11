@@ -56,6 +56,7 @@ export const Permissions = () => {
                 <LoadingButton
                   variant={'outlined'}
                   color={'secondary'}
+                  className="small"
                   disabled={patchCustomerPortalPermissionsStatus?.isLoading}
                 >
                   Cancel
@@ -63,6 +64,7 @@ export const Permissions = () => {
                 <LoadingButton
                   type={'submit'}
                   variant={'contained'}
+                  className="small"
                   loading={patchCustomerPortalPermissionsStatus?.isLoading}
                 >
                   Save

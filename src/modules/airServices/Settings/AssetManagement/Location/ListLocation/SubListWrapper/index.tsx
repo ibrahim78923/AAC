@@ -26,6 +26,7 @@ export const SubListWrapper = (props: ILocationProps) => {
           <Button
             variant="outlined"
             color="secondary"
+            className="small"
             onClick={() => onAddClick?.()}
           >
             <AddBox />

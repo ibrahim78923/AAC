@@ -28,6 +28,11 @@ export const useDepartments = () => {
     } catch (error) {}
   };
 
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
+  };
+
   useEffect(() => {
     getDepartmentListData?.();
   }, [page, pageLimit, search]);
@@ -48,7 +53,7 @@ export const useDepartments = () => {
   };
 
   return {
-    setSearch,
+    handleSearch,
     setPageLimit,
     setPage,
     lazyGetDepartmentStatus,

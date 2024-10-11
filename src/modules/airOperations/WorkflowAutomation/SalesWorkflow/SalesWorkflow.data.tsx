@@ -8,6 +8,7 @@ import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter, warningSnackbar } from '@/utils/api';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { TruncateText } from '@/components/TruncateText';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: WorkflowI[],
@@ -120,7 +121,7 @@ export const salesWorkflowListsColumnDynamic = (
       id: 'title',
       isSortable: true,
       header: 'Workflow Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => <TruncateText text={info?.getValue()} />,
     },
     {
       accessorFn: (row: any) => row?.type,
@@ -131,7 +132,6 @@ export const salesWorkflowListsColumnDynamic = (
         const capitalizedType = info?.getValue()
           ? capitalizeFirstLetter(info?.getValue())
           : '';
-
         return capitalizedType;
       },
     },

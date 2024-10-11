@@ -1,100 +1,106 @@
+import { useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const PerformanceChart = () => {
+const PerformanceChart = (performanceData: any) => {
+  const theme = useTheme();
   const [chartData, setChartData] = useState<any>(null);
 
+  const data = performanceData?.performanceData;
+
   useEffect(() => {
-    setChartData({
-      series: [
-        {
-          name: 'Net Profit',
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-        },
-        {
-          name: 'Revenue',
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-        },
-        {
-          name: 'Free Cash Flow',
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-        },
-      ],
-      options: {
-        chart: {
-          type: 'bar',
-          width: 1,
-          height: 350,
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '35%',
-            endingShape: 'rounded',
-            roundedRect: {
-              topLeft: 10,
-              topRight: 10,
-              bottomLeft: 0,
-              bottomRight: 0,
+    if (Array.isArray(data) && data.length > 0) {
+      const sentData = data?.map((entry) => entry?.send || 0);
+      const openedData = data?.map((entry) => entry?.open || 0);
+      const unreadData = data?.map((entry) => entry?.unread || 0);
+      const blockedData = data?.map((entry) => entry?.complaint || 0);
+      const unDeliveredData = data?.map(
+        (entry) => entry?.send - entry?.delivered || 0,
+      );
+
+      const categories = data?.map((entry) => entry?._id || '');
+
+      setChartData({
+        series: [
+          { name: 'Sent', data: sentData },
+          { name: 'Unread', data: unreadData },
+          { name: 'Opened', data: openedData },
+          { name: 'Undelivered', data: unDeliveredData },
+          { name: 'Blocked', data: blockedData },
+        ],
+        options: {
+          chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: {
+              show: false,
             },
           },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          show: true,
-          width: 1,
-          colors: ['transparent'],
-        },
-        xaxis: {
-          categories: [
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '35%',
+              endingShape: 'rounded',
+            },
+          },
+          colors: [
+            theme?.palette?.primary?.main,
+            theme?.palette?.custom?.light_graph_purple,
+            theme?.palette?.custom?.light_slate_blue,
+            theme?.palette?.grey[500],
+            theme?.palette?.custom?.light_graph_red,
           ],
-          labels: {
-            style: {
-              fontSize: '12px',
-              fontWeight: 400,
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            show: true,
+            width: 1,
+            colors: ['transparent'],
+          },
+          xaxis: {
+            categories: categories,
+            labels: {
+              style: {
+                fontSize: '12px',
+                fontWeight: 400,
+              },
             },
           },
-        },
-        yaxis: {
-          title: {
-            text: '$ (thousands)',
-          },
-          labels: {
-            style: {
-              fontSize: '12px',
-              fontWeight: 400,
+          yaxis: {
+            title: {
+              text: 'Counts',
+            },
+            labels: {
+              style: {
+                fontSize: '12px',
+                fontWeight: 400,
+              },
             },
           },
-        },
-        fill: {
-          opacity: 1,
-        },
-        tooltip: {
-          y: {
-            formatter: function (val: any) {
-              return '$ ' + val + ' thousands';
+          fill: {
+            opacity: 1,
+          },
+          tooltip: {
+            y: {
+              formatter: function (val: any) {
+                return `${val}`;
+              },
             },
           },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: false,
+            offsetY: 1,
+          },
         },
-      },
-    });
-  }, []);
+      });
+    }
+  }, [data]);
 
   return (
     <div id="chart">

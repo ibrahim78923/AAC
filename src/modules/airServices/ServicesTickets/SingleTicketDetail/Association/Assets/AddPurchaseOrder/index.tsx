@@ -18,12 +18,12 @@ export default function AddPurchaseOrder({ setSelected, selected }: any) {
     isSuccess,
     setPage,
     setPageLimit,
-    setSearch,
+    handleSearch,
   } = useAddPurchaseOrder({ setSelected, selected });
 
   return (
     <Stack direction={'column'} spacing={2}>
-      <Search label="Search Here" width="100%" setSearchBy={setSearch} />
+      <Search label="Search Here" width="100%" setSearchBy={handleSearch} />
       <PermissionsGuard
         permissions={[
           AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER,

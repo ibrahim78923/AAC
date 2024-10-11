@@ -1,4 +1,4 @@
-import { LEAD_CAPTURE_FORM } from '@/routesConstants/endpoints';
+import { END_POINTS, LEAD_CAPTURE_FORM } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'LEAD_CAPTURE_FORM';
@@ -118,6 +118,66 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
+    getCustomersDropdownList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['CONTACTS'],
+    }),
+
+    getCustomersGroupDropdownList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_GROUPS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contactgroups;
+      },
+      providesTags: ['CONTACT_GROUPS'],
+    }),
+
+    getPublicFormFields: builder.query({
+      query: ({ params }) => ({
+        url: LEAD_CAPTURE_FORM?.FETCH_FORM_FIELDS_PUBLIC,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+
+    putAddViewForm: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.ADD_VIEW_FORM}?id=${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['LEADCAPTURE_FORM_VIEW'],
+    }),
+
+    putAddEntranceForm: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.ADD_FORM_ENTRANCE}?id=${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['LEADCAPTURE_FORM_ENTRANCE'],
+    }),
+
+    postLeadCaptureFormSendEmail: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.CONVERSATION_EMAIL,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['LEADCAPTURE_FORM_SENDEMAIL'],
+    }),
   }),
 });
 
@@ -135,4 +195,10 @@ export const {
   useGetRestoreFormsQuery,
   usePatchRestoreFormMutation,
   useDeleteFormPermanentMutation,
+  useLazyGetCustomersDropdownListQuery,
+  useLazyGetCustomersGroupDropdownListQuery,
+  useGetPublicFormFieldsQuery,
+  usePutAddViewFormMutation,
+  usePutAddEntranceFormMutation,
+  usePostLeadCaptureFormSendEmailMutation,
 } = leadCaptureFormsAPI;

@@ -7,7 +7,7 @@ export const Task = () => {
   const {
     isFilterOpen,
     setIsFilterOpen,
-    setSearch,
+    handleSearch,
     openDelete,
     setOpenDelete,
     tableColumns,
@@ -32,7 +32,7 @@ export const Task = () => {
     <>
       <SalesWorkflowSubHeader
         disabledActionButton={!!!activeCheck?.length}
-        setSearch={setSearch}
+        handleSearch={handleSearch}
         salesWorkflowActionDropdown={actionDropdown}
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}

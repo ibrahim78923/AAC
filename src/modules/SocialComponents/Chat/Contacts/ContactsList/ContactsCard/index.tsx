@@ -82,6 +82,7 @@ const ContactsCard = ({
       enqueueSnackbar('Success', {
         variant: 'success',
       });
+      selectedValues([]);
       dispatch(
         setChatContacts({
           ...cardData?.item,
@@ -89,12 +90,7 @@ const ContactsCard = ({
           isPinned: response?.data?.isPinned,
         }),
       );
-      selectedValues([]);
-    } catch (error: any) {
-      enqueueSnackbar('An error occurred', {
-        variant: 'error',
-      });
-    }
+    } catch (error: any) {}
   };
 
   const handleCurrentUserSelect = () => {
@@ -167,7 +163,9 @@ const ContactsCard = ({
 
   const contactImageToShow =
     chatMode === CHAT_TYPES?.GROUP_CHAT
-      ? UserDefault
+      ? cardData?.item?.groupImage?.url
+        ? `${IMG_URL}${cardData?.item?.groupImage?.url}`
+        : UserDefault
       : filteredParticipants[0]?.avatar?.url
         ? `${IMG_URL}${filteredParticipants[0]?.avatar?.url}`
         : UserDefault;
@@ -327,7 +325,9 @@ const ContactsCard = ({
               marginBottom: '5px',
             }}
           >
-            {cardData?.item?.lastMessage?.content}
+            {cardData?.item?.content
+              ? cardData?.item?.content
+              : cardData?.item?.lastMessage?.content}
           </Box>
           <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>
             {dayjs(cardData?.item?.lastMessage?.updatedAt).format(

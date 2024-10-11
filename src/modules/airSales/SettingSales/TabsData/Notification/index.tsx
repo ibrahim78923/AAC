@@ -25,7 +25,7 @@ const Notification = () => {
         <Box
           sx={{
             border: `1px solid ${theme?.palette?.grey[700]}`,
-            padding: '2rem 1rem',
+            padding: '1rem',
             boxShadow: '0px 1px 2px 0px #1018280F',
             borderRadius: '8px',
           }}
@@ -37,7 +37,7 @@ const Notification = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant="h4">Notifications</Typography>
+            <Typography variant="h3">Notifications</Typography>
           </Box>
 
           <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>

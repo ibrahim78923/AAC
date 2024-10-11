@@ -163,6 +163,8 @@ const useForms = () => {
     setOpenModalExport(false);
   };
 
+  const [openSendEmailDrawer, setOpenSendEmailDrawer] = useState(false);
+
   return {
     selectedRow,
     setSelectedRow,
@@ -207,6 +209,8 @@ const useForms = () => {
     findStatus,
     setFindStatus,
     theme,
+    openSendEmailDrawer,
+    setOpenSendEmailDrawer,
   };
 };
 

@@ -2,8 +2,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
-  useGetCustomerPortalPermissionsQuery,
-  usePatchCustomerPortalPermissionsMutation,
+  useGetServicesAccountDetailsCustomerPortalPermissionsQuery,
+  usePatchServicesAccountDetailsCustomerPortalPermissionsMutation,
 } from '@/services/airServices/settings/account-settings/customer-portal-settings';
 import {
   customerPortalSettingsFormDefaultValues,
@@ -19,7 +19,7 @@ export const usePermissions = () => {
   const [
     patchCustomerPortalPermissionsTrigger,
     patchCustomerPortalPermissionsStatus,
-  ] = usePatchCustomerPortalPermissionsMutation?.();
+  ] = usePatchServicesAccountDetailsCustomerPortalPermissionsMutation?.();
 
   const methods = useForm({
     resolver: yupResolver(customerPortalSettingsSchemaValidation),
@@ -37,10 +37,13 @@ export const usePermissions = () => {
   };
 
   const { data, isLoading, isFetching, isError, refetch } =
-    useGetCustomerPortalPermissionsQuery(apiDataParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!organizationCompanyAccountId,
-    });
+    useGetServicesAccountDetailsCustomerPortalPermissionsQuery(
+      apiDataParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!organizationCompanyAccountId,
+      },
+    );
 
   useEffect(() => {
     reset(() =>

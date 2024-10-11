@@ -67,6 +67,7 @@ const useAddAccountDrawer = (
     onSubmit,
     methods,
     companyRoleParams,
+    productValue,
   };
 };
 

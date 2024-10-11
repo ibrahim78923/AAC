@@ -1,12 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import {
   addUserData,
   addUserDefaultValues,
   addUserValidationSchema,
 } from './UsersAdd.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useState } from 'react';
 import {
   useAddSoftwareUsersMutation,
@@ -15,10 +13,15 @@ import {
 } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useSearchParams } from 'next/navigation';
 import { UsersAddFormDataI } from './UsersAdd.interface';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
 const useUsersAdd = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
+
   const methods: any = useForm({
     resolver: yupResolver(addUserValidationSchema),
     defaultValues: addUserDefaultValues(),
@@ -45,22 +48,19 @@ const useUsersAdd = () => {
       userRefId: data?.user?._id,
     };
     try {
-      const res = await addSoftwareUsers(params)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Software Add successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await addSoftwareUsers(params)?.unwrap();
+      successSnackbar('Software Add successfully');
       reset(addUserDefaultValues);
       closeModal();
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? 'User Not Added', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.error?.message);
     }
   };
 
   const addUserDataFormFieldsAddUser = addUserData(
     userDropdown,
     contractDropdown,
+    productId,
   );
 
   return {
@@ -70,8 +70,6 @@ const useUsersAdd = () => {
     openModal,
     closeModal,
     isModalOpen,
-    contractDropdown,
-    userDropdown,
     addUserDataFormFieldsAddUser,
     isLoading,
   };

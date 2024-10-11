@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetDepartmentDropdownListQuery,
+  useLazyGetDepartmentDropdownListForAgentsQuery,
   useLazyGetPermissionsRoleForUpsertAgentQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
@@ -33,6 +33,7 @@ import {
 import { IAgentsProps } from '../Agents.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
+import { isoDateString } from '@/utils/dateTime';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
   const auth: any = useAuth();
@@ -92,7 +93,7 @@ export const useUpsertAgent = (props: IAgentsProps) => {
 
   const { handleSubmit, reset } = method;
 
-  const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
+  const departmentDropdown = useLazyGetDepartmentDropdownListForAgentsQuery();
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   useEffect(() => {
@@ -124,7 +125,7 @@ export const useUpsertAgent = (props: IAgentsProps) => {
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
-            value = value?.toISOString();
+            value = isoDateString(value);
           }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
