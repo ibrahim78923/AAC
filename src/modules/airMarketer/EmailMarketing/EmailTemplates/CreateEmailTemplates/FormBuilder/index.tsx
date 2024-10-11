@@ -5,6 +5,7 @@ import {
   Button,
   Chip,
   Grid,
+  Skeleton,
   TextField,
   Typography,
   useTheme,
@@ -31,12 +32,14 @@ import {
 import {
   RHFCheckbox,
   RHFEditor,
+  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as yup from 'yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { EMAIL_ENUMS } from '@/constants';
+import { useGetEmailSettingsIdentitiesQuery } from '@/services/airMarketer/email-settings';
 
 const FormBuilder = ({
   titleValue,
@@ -239,10 +242,20 @@ const FormBuilder = ({
     setEditorValueGet(editorValue);
   }, [editorValue]);
 
+  const { data: emailsRecords, isLoading } = useGetEmailSettingsIdentitiesQuery(
+    {
+      params: {
+        page: 1,
+        limit: '1000',
+        status: 'VERIFIED',
+      },
+    },
+  );
+
   return (
     <Box sx={styles?.wrapper}>
       <Grid container spacing={2}>
-        <Grid item lg={8}>
+        <Grid item lg={12}>
           <Box
             sx={{
               background: theme.palette?.common?.white,
@@ -354,14 +367,36 @@ const FormBuilder = ({
 
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <Grid item xs={6}>
-                      <RHFTextField
-                        name="from"
-                        label="From"
-                        size="small"
-                        required={true}
-                      />
-                    </Grid>
+                    {isLoading ? (
+                      <Grid item xs={12} sm={12} md={12} lg={7}>
+                        <Skeleton
+                          variant="rounded"
+                          sx={{ height: '20px', width: '30%' }}
+                        />
+                        <Skeleton
+                          variant="rounded"
+                          sx={{ height: '45px', marginTop: '10px' }}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12} sm={12} md={12} lg={6}>
+                        <RHFSelect
+                          name="from"
+                          label="From"
+                          select={true}
+                          size="small"
+                          required={true}
+                        >
+                          {emailsRecords?.data?.emailIdentitiesSES.map(
+                            (item: any) => (
+                              <option key={item?.id} value={item?.email}>
+                                {item?.email}
+                              </option>
+                            ),
+                          )}
+                        </RHFSelect>
+                      </Grid>
+                    )}
                   </Grid>
 
                   <Grid item xs={6}>

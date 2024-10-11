@@ -1,9 +1,11 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Grid,
   IconButton,
   Skeleton,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -11,13 +13,27 @@ import PerformanceChart from './PerformanceChart';
 import ActivityChart from './ActivityChart';
 import { styles } from './styles';
 import RecipientEngagement from './RecipientEngagement';
-import { DocumentDownloadIcon } from '@/assets/icons';
+import {
+  DocumentDownloadIcon,
+  FilterrIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
 import { useGetEmailMarketingReportsQuery } from '@/services/airMarketer/emailReports';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
 import { htmlToPngConvert } from '@/utils/file';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  defaultValues,
+  validationSchema,
+} from './EmailReportsFilters/Filters.data';
+import Filters from './EmailReportsFilters';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import dayjs from 'dayjs';
+import { API_STATUS, DATE_FORMAT } from '@/constants';
 
 const EmailReports = () => {
   const theme = useTheme();
@@ -37,67 +53,191 @@ const EmailReports = () => {
     }
   };
 
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [filtersData, setFiltersData] = useState<any>({});
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
+
+  // Filters methods and operations ++
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
+
+  const { handleSubmit, reset } = methods;
+  const onSubmit = async (values: any) => {
+    setFiltersData({ ...filtersData, ...values });
+    setIsOpenFilter(false);
+  };
+
+  useEffect(() => {
+    reset({
+      email: filtersData?.email ?? null,
+    });
+  }, [filtersData]);
+
+  const startedDate = 0;
+  const endedDate = 1;
+  const handelDateSubmit = async (datePickerValPram: any) => {
+    if (datePickerValPram) {
+      setFiltersData({
+        ...filtersData,
+        toDate: datePickerValPram[startedDate],
+        fromDate: datePickerValPram[endedDate],
+      });
+    }
+  };
+  // Filters methods and operations --
+
+  const { data, status } = useGetEmailMarketingReportsQuery({
+    params: {
+      fromEmail: filtersData?.email?.email,
+      ...(filtersData?.toDate && {
+        startDate: new Date(
+          `${dayjs(filtersData?.toDate)?.format(DATE_FORMAT?.API)}`,
+        ).toISOString(),
+      }),
+      ...(filtersData?.fromDate && {
+        endDate: new Date(
+          `${dayjs(filtersData?.fromDate)?.format(DATE_FORMAT?.API)}`,
+        ).toISOString(),
+      }),
+    },
+  });
+  const [emailWidgetsData, setEmailWidgetsData] = useState({});
+  const [performanceData, setPerformanceData] = useState([]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setEmailWidgetsData(data?.data?.emailEngagement[0]);
+      setPerformanceData(data?.data?.performance);
+    }
+  }, [data?.data]);
+
   return (
     <Box>
       <Box sx={styles?.emailReportsWrap}>
         <Typography variant="h3">Email Analytics</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+          }}
+        >
+          <Button
+            onClick={() => setIsOpenFilter(true)}
+            className="small"
+            startIcon={<FilterrIcon />}
+            variant="outlined"
+            color="inherit"
+            sx={{
+              width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+            }}
+          >
+            Filters
+          </Button>
+
+          <Box sx={{ marginRight: '5px' }}>
+            <SwitchableDatepicker
+              renderInput="button"
+              placement="right"
+              dateValue={datePickerVal}
+              setDateValue={setDatePickerVal}
+              handleDateSubmit={() => handelDateSubmit(datePickerVal)}
+            />
+          </Box>
+
+          <Tooltip title={'Refresh Filter'}>
+            <Button
+              className="small"
+              variant="outlined"
+              color="inherit"
+              sx={{
+                width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
+              }}
+              onClick={() => {
+                setFiltersData({});
+              }}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+        </Box>
       </Box>
 
+      <Filters
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        methods={methods}
+        isOpenDrawer={isOpenFilter}
+        onClose={() => setIsOpenFilter(false)}
+      />
+
       <WidgetsAndGraphs
+        emailWidgetsData={emailWidgetsData}
+        performanceData={performanceData}
         setIsDownloadModalOpen={setIsDownloadModalOpen}
+        status={status}
         isDownload
       />
 
-      <CommonModal
-        open={isDownloadModalOpen}
-        handleClose={() => setIsDownloadModalOpen(false)}
-        handleCancel={() => setIsDownloadModalOpen(false)}
-        title="Email Analytics"
-        footer={false}
-        cancelIcon={false}
-        width={'85vw'}
-        background={theme?.palette?.primary?.light}
-      >
-        <Box ref={chartRef}>
-          <WidgetsAndGraphs setIsDownloadModalOpen={setIsDownloadModalOpen} />
-        </Box>
-
-        {isLoading ? (
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '25px',
-              right: '25px',
-            }}
-          >
-            <CircularProgress size={25} />
+      {isDownloadModalOpen && (
+        <CommonModal
+          open={isDownloadModalOpen}
+          handleClose={() => setIsDownloadModalOpen(false)}
+          handleCancel={() => setIsDownloadModalOpen(false)}
+          title="Email Analytics"
+          footer={false}
+          cancelIcon={false}
+          width={'85vw'}
+          background={theme?.palette?.primary?.light}
+        >
+          <Box ref={chartRef}>
+            <WidgetsAndGraphs
+              setIsDownloadModalOpen={setIsDownloadModalOpen}
+              emailWidgetsData={emailWidgetsData}
+              performanceData={performanceData}
+            />
           </Box>
-        ) : (
-          <IconButton
-            sx={{
-              position: 'absolute',
-              top: '2px',
-              right: '10px',
-            }}
-            onClick={() => {
-              setIsLoading(true);
-              handlePrint();
-            }}
-          >
-            <DocumentDownloadIcon width={'55'} />
-          </IconButton>
-        )}
-      </CommonModal>
+          {isLoading ? (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '25px',
+                right: '25px',
+              }}
+            >
+              <CircularProgress size={25} />
+            </Box>
+          ) : (
+            <IconButton
+              sx={{
+                position: 'absolute',
+                top: '2px',
+                right: '10px',
+              }}
+              onClick={() => {
+                setIsLoading(true);
+                handlePrint();
+              }}
+            >
+              <DocumentDownloadIcon width={'55'} />
+            </IconButton>
+          )}
+        </CommonModal>
+      )}
     </Box>
   );
 };
 
-const WidgetsAndGraphs = ({ setIsDownloadModalOpen, isDownload }: any) => {
+const WidgetsAndGraphs = ({
+  setIsDownloadModalOpen,
+  isDownload,
+  emailWidgetsData,
+  performanceData,
+  status,
+}: any) => {
   const theme = useTheme();
-
-  const { data, isLoading } = useGetEmailMarketingReportsQuery({ params: {} });
-  const emailWidgetsData = data?.data?.emailEngagement[0];
-  const performanceData = data?.data?.performance;
 
   return (
     <>
@@ -106,7 +246,7 @@ const WidgetsAndGraphs = ({ setIsDownloadModalOpen, isDownload }: any) => {
         style={{ background: theme?.palette?.common?.white }}
       >
         <Typography variant="h4">Recipient Engagement</Typography>
-        {isLoading ? (
+        {status === API_STATUS?.PENDING ? (
           <WidgetsLoading />
         ) : (
           <RecipientEngagement emailWidgetsData={emailWidgetsData} />
@@ -145,7 +285,7 @@ const WidgetsAndGraphs = ({ setIsDownloadModalOpen, isDownload }: any) => {
               <Typography variant="h3" sx={{ fontWeight: 700 }}>
                 Performance
               </Typography>
-              {isLoading ? (
+              {status === API_STATUS?.PENDING ? (
                 <BoxLoading />
               ) : (
                 <PerformanceChart performanceData={performanceData} />
@@ -160,7 +300,7 @@ const WidgetsAndGraphs = ({ setIsDownloadModalOpen, isDownload }: any) => {
               <Typography variant="h3" sx={{ fontWeight: 700 }}>
                 Activity
               </Typography>
-              {isLoading ? (
+              {status === API_STATUS?.PENDING ? (
                 <BoxLoading />
               ) : (
                 <ActivityChart emailWidgetsData={emailWidgetsData} />

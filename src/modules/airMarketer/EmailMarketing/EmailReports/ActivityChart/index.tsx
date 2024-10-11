@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 
@@ -60,13 +60,28 @@ const ActivityChart = ({ emailWidgetsData }: any) => {
 
   return (
     <div id="chart">
-      {typeof window !== 'undefined' && chartData && (
-        <ReactApexChart
-          options={chartData.options}
-          series={chartData.series}
-          type="pie"
-          width={380}
-        />
+      {total === undefined ? (
+        <Box
+          sx={{
+            height: '250px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          No data found
+        </Box>
+      ) : (
+        <>
+          {typeof window !== 'undefined' && chartData && (
+            <ReactApexChart
+              options={chartData.options}
+              series={chartData.series}
+              type="pie"
+              width={380}
+            />
+          )}
+        </>
       )}
     </div>
   );

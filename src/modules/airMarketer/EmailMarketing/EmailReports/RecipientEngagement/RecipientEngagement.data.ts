@@ -4,7 +4,7 @@ export const receipentEngagementData = (emailWidgetsData: any) => {
   return [
     {
       id: 1,
-      value: emailWidgetsData?.total,
+      value: emailWidgetsData?.total ?? 0,
       default: true,
       heading: 'All Email',
     },
@@ -50,7 +50,7 @@ export const receipentEngagementData = (emailWidgetsData: any) => {
     },
     {
       id: 2,
-      value: emailWidgetsData?.clicksCount,
+      value: emailWidgetsData?.clicksCount ?? 0,
       default: true,
       heading: 'Total link Clicks',
     },
