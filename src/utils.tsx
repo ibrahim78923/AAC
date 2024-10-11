@@ -262,6 +262,19 @@ export const getCustomerPortalStyling = () => {
   return customerPortalStyling;
 };
 
+// count length of last 24 hours latest data
+const countRecentContacts = (data: string[]) => {
+  const now = new Date();
+  const twentyFourHoursAgo = new Date(now?.getTime() - 24 * 60 * 60 * 1000);
+
+  const recentData = data?.filter((item: any) => {
+    const createdAt = new Date(item?.createdAt);
+    return createdAt >= twentyFourHoursAgo && createdAt <= now;
+  });
+
+  return recentData?.length;
+};
+
 export {
   getSession,
   setSession,
@@ -274,4 +287,5 @@ export {
   setActiveAccountSession,
   setAccountsData,
   getAccountsData,
+  countRecentContacts,
 };

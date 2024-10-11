@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Theme, useTheme } from '@mui/material';
-import { useGetIsPhoneConnectedQuery } from '@/services/airMarketer/SmsMarketing';
+import { useGetIsPhoneConnectedForSmsMarketingQuery } from '@/services/airMarketer/SmsMarketing';
 
 const useSMSMarketing = () => {
   const theme = useTheme<Theme>();
@@ -10,9 +10,8 @@ const useSMSMarketing = () => {
   const [isNumberConnected, setIsNumberConnected] = useState<boolean>(false);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const { data: getIsPhoneConnected, isLoading } = useGetIsPhoneConnectedQuery(
-    {},
-  );
+  const { data: getIsPhoneConnected, isLoading } =
+    useGetIsPhoneConnectedForSmsMarketingQuery({});
 
   useEffect(() => {
     if (getIsPhoneConnected?.data?.phoneNumber) {

@@ -142,8 +142,10 @@ const useCreateBroadcast = () => {
     if (type === DRAWER_TYPES?.EDIT) {
       const editBradcastData = {
         ...getWhatsappBroadcatsById?.data,
-        campaignId: getWhatsappBroadcatsById?.data?.campaign[0],
-        templateId: getWhatsappBroadcatsById?.data?.template[0],
+        campaignId:
+          getWhatsappBroadcatsById?.data?.campaign[indexNumbers?.ZERO],
+        templateId:
+          getWhatsappBroadcatsById?.data?.template[indexNumbers?.ZERO],
         recipients: getWhatsappBroadcatsById?.data?.recipients?.map(
           (item: any) => `${item?.firstName} ${item?.lastName}`,
         ),
@@ -167,8 +169,20 @@ const useCreateBroadcast = () => {
       setSelectedRec(
         Array?.isArray(selectedContactsData) ? selectedContactsData : [],
       );
+
+      // Set values for fields created from detailed variables
+      const templateDetailsVariables = processString(
+        getWhatsappBroadcatsById?.data?.template[indexNumbers?.ZERO]?.detail,
+      );
+
+      templateDetailsVariables?.forEach((variable: string, index: number) => {
+        setValue(
+          `field_${variable}`,
+          getWhatsappBroadcatsById?.data?.variables[index],
+        );
+      });
     }
-  }, [getWhatsappBroadcatsById?.data, reset, form, type]);
+  }, [getWhatsappBroadcatsById?.data, reset, form, type, setValue]);
 
   const [postAttachmentTrigger] = usePostDynamicFormAttachmentsMutation();
 
@@ -199,7 +213,7 @@ const useCreateBroadcast = () => {
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
       payloadData.contactGroupIds = selectedRec?.map((item: any) => item?._id);
-      delete payloadData.recipients;
+      delete payloadData?.recipients;
     }
 
     if (isSchedule) {

@@ -60,7 +60,7 @@ const useSMSBroadcastDetails = (detailsData?: any) => {
       if (filters?.status === MEETINGS_DETAILS_TYPE?.ALL_MEETINGS) {
         return true;
       } else {
-        return item?.messageStatus === filters?.status;
+        return item?.status === filters?.status;
       }
     } else {
       return true;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import { useTheme } from '@mui/material';
-import { useConnectPhoneNumberMutation } from '@/services/airMarketer/SmsMarketing';
+import { useConnectPhoneNumberForSmsMarketingMutation } from '@/services/airMarketer/SmsMarketing';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
@@ -24,7 +24,7 @@ const useConnectNumber = (setIsConnected: any) => {
 
   const [openDialogRegNumber, setOpenDialogRegNumber] = useState(false);
   const [connectPhoneNumber, { isLoading: connectNumberLoading }] =
-    useConnectPhoneNumberMutation();
+    useConnectPhoneNumberForSmsMarketingMutation();
 
   const handleOpenDialogRegNumber = () => {
     setOpenDialogRegNumber(true);

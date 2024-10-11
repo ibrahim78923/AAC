@@ -82,6 +82,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       md: 12,
     },
     {
+      id: '02',
       title: 'Campaign',
       componentProps: {
         placeholder: 'Select campaign',
@@ -96,6 +97,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       md: 12,
     },
     {
+      id: '03',
       title: 'useTemplate',
       componentProps: {
         placeholder: 'Select template',

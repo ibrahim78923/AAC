@@ -173,7 +173,8 @@ const CreateBroadcast = () => {
                           </AvatarGroup>
                         </Box>
                       )}
-                      {item?.componentProps?.name === 'detail' && (
+                      {item?.componentProps?.name ===
+                        SMS_BROADCAST_CONSTANTS?.DETAILS && (
                         <Grid container spacing={2} mt={2}>
                           {templateDetailsVariables?.map((variable: any) => (
                             <Grid item xs={6} key={variable}>
