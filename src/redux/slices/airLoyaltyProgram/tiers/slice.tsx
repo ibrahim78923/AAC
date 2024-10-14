@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { loyaltyProgramUsersReducersList } from './reducers';
 import { PAGINATION } from '@/config';
+import { createSlice } from '@reduxjs/toolkit';
+import { loyaltyProgramTiersReducersList } from './reducers';
 
 export const isPortalOpenInitialState = {
   isOpen: false,
@@ -16,24 +16,22 @@ const {
   setSearchReducer,
   setIsPortalOpenReducer,
   setIsPortalCloseReducer,
-  setSelectedUsersListsReducer,
-  emptySelectedUsersListsReducer,
-  setUsersListsTotalRecordsReducer,
   resetComponentStateReducers,
-} = loyaltyProgramUsersReducersList;
+  setTiersListsTotalRecordsReducer,
+} = loyaltyProgramTiersReducersList;
 
-const loyaltyProgramUsersInitialState = {
+const loyaltyProgramTiersInitialState = {
   page: PAGINATION?.CURRENT_PAGE,
   pageLimit: PAGINATION?.PAGE_LIMIT,
   search: '',
-  selectedUsersLists: [],
+  selectedRelatedTicketLists: [],
   isPortalOpen: isPortalOpenInitialState,
   totalRecords: PAGINATION?.TOTAL_RECORDS,
 };
 
-const loyaltyProgramUsersSlice = createSlice({
-  name: 'loyaltyProgramUsers',
-  initialState: loyaltyProgramUsersInitialState,
+const loyaltyProgramTiersSlice = createSlice({
+  name: 'loyaltyProgramTiers',
+  initialState: loyaltyProgramTiersInitialState,
   reducers: {
     setPage: setPageReducer,
     setPageLimit: setPageLimitReducer,
@@ -42,9 +40,7 @@ const loyaltyProgramUsersSlice = createSlice({
     setSearch: setSearchReducer,
     setIsPortalOpen: setIsPortalOpenReducer,
     setIsPortalClose: setIsPortalCloseReducer,
-    setSelectedUsersLists: setSelectedUsersListsReducer,
-    emptySelectedUsersLists: emptySelectedUsersListsReducer,
-    setUsersListsTotalRecords: setUsersListsTotalRecordsReducer,
+    setTiersListsTotalRecords: setTiersListsTotalRecordsReducer,
     resetComponentState: resetComponentStateReducers,
   },
 });
@@ -57,10 +53,8 @@ export const {
   setSearch,
   setIsPortalOpen,
   setIsPortalClose,
-  setSelectedUsersLists,
-  emptySelectedUsersLists,
-  setUsersListsTotalRecords,
   resetComponentState,
-} = loyaltyProgramUsersSlice?.actions;
+  setTiersListsTotalRecords,
+} = loyaltyProgramTiersSlice?.actions;
 
-export default loyaltyProgramUsersSlice?.reducer;
+export default loyaltyProgramTiersSlice?.reducer;

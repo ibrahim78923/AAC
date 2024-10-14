@@ -6,8 +6,8 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { useSingleTierDetail } from './useSingleTierDetail';
 import ApiErrorState from '@/components/ApiErrorState';
-import { LOYALTY_TIERS_REWARD_TYPE } from '@/constants/strings';
 import { UpsertTier } from '../UpsertTier';
+import { LOYALTY_PROGRAM_TIERS_REWARD_TYPE } from '@/constants/api';
 
 export const SingleTierDetail = (props: any) => {
   const { isDrawerOpen } = props;
@@ -82,7 +82,7 @@ export const SingleTierDetail = (props: any) => {
                     </Typography>
                     <Typography variant="body1" color="grey.900">
                       {item?.rewardType ===
-                      LOYALTY_TIERS_REWARD_TYPE?.FIXED_DISCOUNT
+                      LOYALTY_PROGRAM_TIERS_REWARD_TYPE?.FIXED_DISCOUNT
                         ? `${item?.rewards}%`
                         : `${item?.rewards} pts`}
                     </Typography>

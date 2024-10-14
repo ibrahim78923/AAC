@@ -2,70 +2,58 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRules } from './useUpsertRules';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
-import { rulesAudienceType, attributesOption } from './UpsertRules.data';
-import { RuleTypeCard } from '../RuleTypeCard';
+import { attributesOption } from './UpsertRules.data';
 
-export const UpsertRules = (props: any) => {
-  const { isDrawerOpen } = props;
+export const UpsertRules = () => {
   const {
-    closeUpsertRule,
+    closePortal,
     handleSubmit,
     submitUpsertRuleForm,
-    upsertRuleMethod,
+    methods,
     upsertRulesFormFields,
     watchForAttribute,
-    hasAudience,
-    setAudienceType,
-    addRulesStatus,
-  } = useUpsertRules(props);
+    apiCallInProgress,
+    isPortalOpen,
+  } = useUpsertRules();
 
   return (
     <CommonDrawer
       isOk={!!watchForAttribute}
-      isDrawerOpen={isDrawerOpen}
-      onClose={() => closeUpsertRule?.()}
+      isDrawerOpen={isPortalOpen?.isOpen}
+      onClose={closePortal}
       okText="Save"
-      title="Create Rules"
-      submitHandler={() => handleSubmit(submitUpsertRuleForm)()}
-      cancelText={'Cancel'}
+      title={isPortalOpen?.action}
+      submitHandler={handleSubmit(submitUpsertRuleForm)}
       isCancel={!!watchForAttribute}
       footer
-      isLoading={addRulesStatus?.isLoading}
-      isDisabled={addRulesStatus?.isLoading}
-      disabledCancelBtn={addRulesStatus?.isLoading}
+      isLoading={apiCallInProgress}
+      isDisabled={apiCallInProgress}
+      disabledCancelBtn={apiCallInProgress}
     >
       <Box mt={1}>
-        {!hasAudience ? (
-          <>
-            {rulesAudienceType?.map((rule: any) => (
-              <>
-                <RuleTypeCard type={rule} handleClick={setAudienceType} />
-              </>
-            ))}
-          </>
-        ) : (
-          <FormProvider methods={upsertRuleMethod}>
-            <Grid container mb={1}>
-              <Grid item xs={12}>
-                <RHFAutocomplete
-                  name="attribute"
-                  label="Select attribute"
-                  options={attributesOption}
-                  getOptionLabel={(option: any) => option?.label}
-                  placeholder="Select attribute"
-                  size={'small'}
-                />
-              </Grid>
+        <FormProvider methods={methods}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <RHFAutocomplete
+                name="attribute"
+                label="Select attribute"
+                options={attributesOption}
+                getOptionLabel={(option: any) => option?.label}
+                placeholder="Select attribute"
+                size={'small'}
+              />
             </Grid>
-            <Grid container spacing={1}>
-              {upsertRulesFormFields?.map((item: any) => (
+            {!!!watchForAttribute?._id ? (
+              <></>
+            ) : (
+              upsertRulesFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        )}
+              ))
+            )}
+          </Grid>
+        </FormProvider>
       </Box>
     </CommonDrawer>
   );

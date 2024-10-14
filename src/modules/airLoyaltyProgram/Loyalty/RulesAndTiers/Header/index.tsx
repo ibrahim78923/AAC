@@ -1,9 +1,20 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Typography } from '@mui/material';
+import { useHeader } from './useHeader';
+import {
+  loyaltyProgramRulesActionComponent,
+  loyaltyProgramTiersActionComponent,
+} from './Header.data';
 
-export const Header = (props: any) => {
-  const { upsertTiersHandler, upsertRulesHandler } = props;
+export const Header = () => {
+  const {
+    isRulePortalOpen,
+    isTierPortalOpen,
+    openCreateRulePortal,
+    openCreateTiersPortal,
+  } = useHeader();
+
   return (
     <>
       <Box
@@ -13,7 +24,7 @@ export const Header = (props: any) => {
         gap={1}
         flexWrap={'wrap'}
       >
-        <Typography variant="h3" color={'slateBlue.main'}>
+        <Typography variant="h3" color="slateBlue.main">
           Tiers and Rules
         </Typography>
 
@@ -23,7 +34,11 @@ export const Header = (props: any) => {
               AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_RULES,
             ]}
           >
-            <Button variant="contained" onClick={() => upsertRulesHandler?.()}>
+            <Button
+              className="small"
+              variant="contained"
+              onClick={openCreateRulePortal}
+            >
               Create Rules
             </Button>
           </PermissionsGuard>
@@ -32,16 +47,20 @@ export const Header = (props: any) => {
               AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_TIERS,
             ]}
           >
-            <Button variant="contained" onClick={() => upsertTiersHandler?.()}>
+            <Button
+              className="small"
+              variant="contained"
+              onClick={openCreateTiersPortal}
+            >
               Create Tiers
             </Button>
           </PermissionsGuard>
         </Box>
       </Box>
-      <br />
-      <Typography variant="body1" fontWeight={600} color={'slateBlue.main'}>
-        Customers
-      </Typography>
+      {isRulePortalOpen?.isOpen &&
+        loyaltyProgramRulesActionComponent?.[isRulePortalOpen?.action]}
+      {isTierPortalOpen?.isOpen &&
+        loyaltyProgramTiersActionComponent?.[isTierPortalOpen?.action]}
     </>
   );
 };

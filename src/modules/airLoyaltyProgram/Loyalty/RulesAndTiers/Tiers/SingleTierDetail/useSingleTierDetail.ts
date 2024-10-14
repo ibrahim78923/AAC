@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLazyGetSingleTiersDetailsQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
+import { useLazyGetLoyaltyProgramLoyaltySingleTierDetailsQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 
 export const useSingleTierDetail = (props: any) => {
   const { setIsDrawerOpen, isDrawerOpen } = props;
@@ -9,13 +9,16 @@ export const useSingleTierDetail = (props: any) => {
   };
   const sliderValue = [0, 100];
   const [getSingleTierTrigger, { data, isLoading, isFetching, isError }]: any =
-    useLazyGetSingleTiersDetailsQuery();
+    useLazyGetLoyaltyProgramLoyaltySingleTierDetailsQuery();
+
   const handleGetSingleTier = async () => {
     await getSingleTierTrigger(isDrawerOpen?.isDetail?._id);
   };
+
   useEffect(() => {
     handleGetSingleTier();
   }, [isDrawerOpen?.isDetail]);
+
   return {
     closeUpsertTier,
     data,

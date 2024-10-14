@@ -6,10 +6,10 @@ import {
 } from './UpsertTier.data';
 import { useEffect, useState } from 'react';
 import {
-  useAddTiersMutation,
-  useEditSingleTiersMutation,
-  useGetSingleTiersDetailsQuery,
-  useLazyGetContactListForTierQuery,
+  useAddLoyaltyProgramLoyaltySingleTierMutation,
+  useGetLoyaltyProgramLoyaltySingleTierDetailsQuery,
+  useLazyGetLoyaltyProgramLoyaltyContactListDropdownForTierQuery,
+  useUpdateLoyaltyProgramLoyaltySingleTierMutation,
 } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
@@ -20,7 +20,7 @@ export const useUpsertTier = (props: any) => {
 
   const storedId = tierId?._id;
   const { data, isLoading, isFetching, isError }: any =
-    useGetSingleTiersDetailsQuery(storedId, {
+    useGetLoyaltyProgramLoyaltySingleTierDetailsQuery(storedId, {
       refetchOnMountOrArgChange: true,
       skip: !!!storedId,
     });
@@ -41,9 +41,12 @@ export const useUpsertTier = (props: any) => {
     setIsFormFilled(allFieldsFilled);
   }, [watchedValues]);
 
-  const apiContactQuery = useLazyGetContactListForTierQuery();
-  const [postTierTrigger, postTierProgress] = useAddTiersMutation();
-  const [updateTierTrigger, updateTierProgress] = useEditSingleTiersMutation();
+  const apiContactQuery =
+    useLazyGetLoyaltyProgramLoyaltyContactListDropdownForTierQuery();
+  const [postTierTrigger, postTierProgress] =
+    useAddLoyaltyProgramLoyaltySingleTierMutation();
+  const [updateTierTrigger, updateTierProgress] =
+    useUpdateLoyaltyProgramLoyaltySingleTierMutation();
 
   const submitTierForm = async (tierData: any) => {
     const tierFormData = new FormData();

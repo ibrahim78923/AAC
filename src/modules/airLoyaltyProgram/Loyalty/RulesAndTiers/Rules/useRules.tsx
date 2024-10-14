@@ -1,8 +1,8 @@
 import { PAGINATION } from '@/config';
+import { setSearch } from '@/redux/slices/airLoyaltyProgram/rules/slice';
 import { useAppDispatch } from '@/redux/store';
-import { setSearch } from '@/redux/slices/airLoyaltyProgram/tiers/slice';
 
-export const useTiers = () => {
+export const useRules = () => {
   const dispatch = useAppDispatch();
 
   const handleSetSearch = (newSearch: any) => {

@@ -1,48 +1,51 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'RULES';
-
-export const rulesAPI = baseAPI?.injectEndpoints({
+export const loyaltyProgramLoyaltyRulesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getRulesList: builder?.query({
+    getLoyaltyProgramLoyaltyRulesList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.GET_RULES_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      providesTags: [TAG],
     }),
-    addRules: builder?.mutation({
+    getLoyaltyProgramLoyaltySingleRuleDetails: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: '',
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    addLoyaltyProgramLoyaltySingleRule: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.ADD_RULES,
         method: 'POST',
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
-    editSingleRules: builder?.mutation({
+    updateLoyaltyProgramLoyaltySingleRule: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: '',
         method: 'PATCH',
         body: apiDataParameter?.body,
       }),
     }),
-    deleteRules: builder?.mutation({
+    deleteLoyaltyProgramLoyaltySingleRule: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
-    getSingleRulesDetails: builder?.query({
+    changeLoyaltyProgramLoyaltySingleRuleStatus: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
+        url: `${END_POINTS?.CHANGE_RULES_STATUS}/${apiDataParameter?.pathParams?.id}`,
+        method: 'PUT',
+        body: apiDataParameter?.body,
       }),
     }),
-    getTiersDropdownForRules: builder?.query({
+    getLoyaltyProgramLoyaltyTiersListAsDropdownForLoyaltyRules: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.GET_TIERS_LIST,
         method: 'GET',
@@ -52,24 +55,15 @@ export const rulesAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data?.tiers ?? [];
       },
     }),
-    changeSingleRuleStatus: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.CHANGE_RULES_STATUS}/${apiDataParameter?.pathParams?.id}`,
-        method: 'PUT',
-        body: apiDataParameter?.body,
-      }),
-      invalidatesTags: [TAG],
-    }),
   }),
 });
 
 export const {
-  useAddRulesMutation,
-  useGetRulesListQuery,
-  useLazyGetRulesListQuery,
-  useDeleteRulesMutation,
-  useEditSingleRulesMutation,
-  useGetSingleRulesDetailsQuery,
-  useLazyGetTiersDropdownForRulesQuery,
-  useChangeSingleRuleStatusMutation,
-} = rulesAPI;
+  useLazyGetLoyaltyProgramLoyaltyRulesListQuery,
+  useGetLoyaltyProgramLoyaltySingleRuleDetailsQuery,
+  useChangeLoyaltyProgramLoyaltySingleRuleStatusMutation,
+  useAddLoyaltyProgramLoyaltySingleRuleMutation,
+  useUpdateLoyaltyProgramLoyaltySingleRuleMutation,
+  useDeleteLoyaltyProgramLoyaltySingleRuleMutation,
+  useLazyGetLoyaltyProgramLoyaltyTiersListAsDropdownForLoyaltyRulesQuery,
+} = loyaltyProgramLoyaltyRulesAPI;
