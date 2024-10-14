@@ -24,7 +24,11 @@ import {
   useUpdateEmailTemplatesMutation,
 } from '@/services/airMarketer/emailMarketing';
 
-const ActionButton = ({ selectedRecords, handleReset }: any) => {
+const ActionButton = ({
+  selectedRecords,
+  handleReset,
+  setSelectedRecords,
+}: any) => {
   const {
     selectedValue,
     handleClick,
@@ -269,6 +273,7 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
           <ManageAccess
             selectedRecords={selectedRecords[indexNumbers?.ZERO]}
             isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
+            setSelectedRecords={setSelectedRecords}
             handleCloseManageAccessModal={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,

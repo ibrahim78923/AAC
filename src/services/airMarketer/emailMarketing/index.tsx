@@ -136,6 +136,5 @@ export const {
   useLazyGetAllEmailsAsyncQuery,
   useLazyGetAllMarketingUsersQuery,
   useLazyGetAllMarketingTeamsQuery,
-
   useLazyGetEmailMarketingListAsExportQuery,
 } = emailTemplatesApi;

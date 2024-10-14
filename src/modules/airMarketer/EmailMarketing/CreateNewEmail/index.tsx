@@ -167,7 +167,24 @@ const CreateNewEmail = ({ edit, data }: any) => {
       const formDataSend = new FormData();
       formDataSend.append('to', autocompleteValues?.join(', '));
       formDataSend.append('subject', values?.subject);
-      formDataSend.append('content', values?.description ?? ' ');
+      formDataSend.append(
+        'content',
+        values?.description
+          ? `<div>${values?.description} </br> 
+            <button style="
+              background-color: ${theme?.palette?.primary?.main};
+              color: rgba(255, 255, 255, 1);
+              padding: 6px 13px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 10px;
+            ">
+            Unsubscribe
+            </button>
+          </div>`
+          : ' ',
+      );
       formDataSend.append('from', values?.from ?? ' ');
       formDataSend.append('status', status ? status : EMAIL_ENUMS?.SCHEDULED);
       if (values?.cc && values?.cc?.length > 0) {
@@ -201,8 +218,6 @@ const CreateNewEmail = ({ edit, data }: any) => {
         enqueueSnackbar('successfully created ', {
           variant: 'success',
         });
-
-        // router.push(`${AIR_MARKETER?.EMAIL_MARKETING}`);
 
         router.push(
           id
