@@ -3,16 +3,14 @@ import { defaultValues } from './TransactionFilter.data';
 import { useForm } from 'react-hook-form';
 import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
 
-export const useTransactionFilter = (props: any) => {
+export const useTransactionFilter = () => {
   const [triggerGetTransactionList, getTransactionListStatus] =
     useLazyGetTransactionListQuery();
-  const { setOpenDrawer } = props;
-  const handleCloseDrawer = () => {
-    setOpenDrawer('');
-  };
+
   const methods: any = useForm({
     defaultValues,
   });
+
   const { handleSubmit, reset } = methods;
   const onSubmit = async (data: any) => {
     try {
@@ -25,7 +23,6 @@ export const useTransactionFilter = (props: any) => {
   };
 
   return {
-    handleCloseDrawer,
     methods,
     handleSubmit,
     onSubmit,

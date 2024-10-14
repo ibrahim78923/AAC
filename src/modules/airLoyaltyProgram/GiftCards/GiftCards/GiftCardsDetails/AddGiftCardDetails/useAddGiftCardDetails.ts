@@ -1,15 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  useAddGiftCardDetailsMutation,
-  useLazyGetShopDropdownForGiftCardDetailsQuery,
-} from '@/services/airLoyaltyProgram/giftCards/giftCards/details';
-import {
   addGiftCardDetailsDefaultValues,
   addGiftCardDetailsFormFieldsDynamic,
   addGiftCardDetailsValidationSchema,
 } from './AddGiftCardDetails.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useAddGiftCardDetailsMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards';
 
 export const useAddGiftCardDetails = (props: any) => {
   const { setIsPortalOpen } = props;
@@ -24,8 +21,8 @@ export const useAddGiftCardDetails = (props: any) => {
 
   const onSubmit = async (formData: any) => {
     const body = {
-      shop: formData?._id,
-      contact: formData?.contact,
+      giftCardId: formData?.giftCardId,
+      add: formData?.add,
       amount: formData?.amount,
     };
     const apiDataParameter = {
@@ -43,12 +40,10 @@ export const useAddGiftCardDetails = (props: any) => {
 
   const closeAddDigitalGiftCardForm = () => {
     reset();
-    setIsPortalOpen({});
+    setIsPortalOpen(false);
   };
-  const shopApiQuery = useLazyGetShopDropdownForGiftCardDetailsQuery?.();
 
-  const addGiftCardDetailsFormFields =
-    addGiftCardDetailsFormFieldsDynamic?.(shopApiQuery);
+  const addGiftCardDetailsFormFields = addGiftCardDetailsFormFieldsDynamic?.();
 
   return {
     handleSubmit,

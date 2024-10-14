@@ -1,4 +1,5 @@
 import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
+
 export const defaultValues = {
   dateRange: {
     startDate: null,
@@ -9,6 +10,7 @@ export const defaultValues = {
   minAmount: '',
   maxAmount: '',
 };
+
 export const transactionFilterData = [
   {
     id: 2,

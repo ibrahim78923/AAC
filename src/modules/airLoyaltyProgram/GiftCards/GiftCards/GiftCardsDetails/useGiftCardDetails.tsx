@@ -10,7 +10,7 @@ import { AddGiftCardDetails } from './AddGiftCardDetails';
 import {
   useLazyExportGiftCardDetailsListQuery,
   useLazyGetGiftCardDetailsListQuery,
-} from '@/services/airLoyaltyProgram/giftCards/giftCards/details';
+} from '@/services/airLoyaltyProgram/giftCards/giftCards';
 
 export const useGiftCardsDetails = () => {
   const [search, setSearch] = useState('');

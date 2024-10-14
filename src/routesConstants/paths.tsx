@@ -227,7 +227,7 @@ export const LOYALTY_PROGRAM = {
   LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/transactions'),
   LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-and-tiers'),
   LOYALTY_RULES_VOUCHERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/vouchers'),
-  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards'),
+  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/gift-cards'),
   GIFT_CARDS_TRANSACTIONS: path(
     LOYALTY_PROGRAM_PAGE,
     '/gift-cards/transactions',

@@ -233,6 +233,8 @@ export const TAGS = [
   'TEMPLATE',
   'LOYALTY_REWARDS',
   'VOUCHERS',
+  'GIFT_CARD',
+  'GIFT_CARD_TRANSACTION',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

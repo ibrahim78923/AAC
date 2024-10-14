@@ -5,20 +5,17 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useTransactionFilter } from './useTransactionFilter';
 
 export const TransactionFilter = (props: any) => {
-  const { openDrawer } = props;
-  const {
-    handleCloseDrawer,
-    methods,
-    handleSubmit,
-    onSubmit,
-    getTransactionListStatus,
-  } = useTransactionFilter(props);
+  const { openDrawer, setOpenDrawer } = props;
+
+  const { methods, handleSubmit, onSubmit, getTransactionListStatus } =
+    useTransactionFilter();
+
   return (
     <Box>
       <CommonDrawer
         isDrawerOpen={openDrawer}
         isLoading={getTransactionListStatus?.isLoading}
-        onClose={handleCloseDrawer}
+        onClose={() => setOpenDrawer(false)}
         title={'Add Filters'}
         okText={'Apply'}
         isOk

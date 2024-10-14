@@ -259,7 +259,7 @@ export const LoyaltyProgramsRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'Loyalty-Program',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_DASHBOARD,
+    permissions: [],
   },
 
   {
@@ -267,27 +267,27 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Loyalty',
     icon: LoyaltyImage,
     role: 'Loyalty-Program',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
+    permissions: [],
     textNames: [
       {
         key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
         label: 'Rewards',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
+        permissions: [],
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_TRANSACTIONS,
         label: 'Transactions',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
+        permissions: [],
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_TIERS,
         label: 'Rules & Tiers',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
+        permissions: [],
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_VOUCHERS,
         label: 'Vouchers',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
+        permissions: [],
       },
     ],
   },
@@ -296,48 +296,20 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Gift Cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
+    permissions: [],
     textNames: [
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS,
         label: 'Gift Cards',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
+        permissions: [],
       },
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
         label: 'Transactions',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
+        permissions: [],
       },
     ],
   },
-  {
-    key: LOYALTY_PROGRAM?.ROLE_AND_RIGHT,
-    icon: ForecastImage,
-    label: 'Roles and Right',
-    role: 'AIR_OPERATIONS',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_ROLES_AND_RIGHT,
-  },
-  {
-    key: LOYALTY_PROGRAM?.USER_MANAGEMENT,
-    icon: ProfileUserManagementImage,
-    label: 'User Management',
-    role: 'AIR_OPERATIONS',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS,
-  },
-  // {
-  //   key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
-  //   label: 'Prepaid',
-  //   icon: PrepaidImage,
-  //   role: 'Loyalty-Program',
-  //   permissions: [],
-  //   textNames: [
-  //     {
-  //       key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
-  //       label: 'Funds & Transactions',
-  //       permissions: [],
-  //     },
-  //   ],
-  // },
 ];
 
 export const AirMarketingRoutes: any = [
@@ -689,7 +661,7 @@ export const LowerLoyaltyProgramRoutes = [
     icon: SettingImage,
     role: 'Loyalty-program',
     key: LOYALTY_PROGRAM?.SETTINGS,
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT,
+    permissions: [],
   },
 ];
 

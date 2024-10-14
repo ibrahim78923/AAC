@@ -15,7 +15,7 @@ export const AddGiftCards = (props: any) => {
   } = useAddGiftCards(props);
 
   return (
-    <Box>
+    <>
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isAdd}
         onClose={() => closeAddGiftCardForm?.()}
@@ -41,6 +41,6 @@ export const AddGiftCards = (props: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-    </Box>
+    </>
   );
 };

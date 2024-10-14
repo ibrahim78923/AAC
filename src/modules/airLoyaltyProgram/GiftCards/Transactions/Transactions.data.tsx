@@ -1,5 +1,6 @@
 import { UserInfo } from '@/components/UserInfo';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { truncateText } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 
 export const transactionTableData = [
@@ -8,33 +9,24 @@ export const transactionTableData = [
     cardNumber: `TVKP123451`,
     cardRecipientEmail: 'saqibshah@gmail.com',
     cardRecipientName: 'Saqib Shah',
-    amount: 'PKR100.00',
-    shop: `Sharemydine`,
-    giftCardType: `Physical Gift Card`,
-    date: '2023-12-14T11:59:08.238Z',
-    channel: 'Business App',
+    amount: '£100.00',
+    redeemed: '2023-12-14T11:59:08.238Z',
   },
   {
     id: 2,
     cardNumber: `TVKP123451`,
     cardRecipientEmail: 'saqibshah@gmail.com',
     cardRecipientName: 'Saqib Shah',
-    amount: 'PKR100.00',
-    shop: `Sharemydine`,
-    giftCardType: `Physical Gift Card`,
-    date: '2023-12-14T11:59:08.238Z',
-    channel: 'Business App',
+    amount: '£100.00',
+    redeemed: '2023-12-14T11:59:08.238Z',
   },
   {
     id: 3,
     cardNumber: `TVKP123451`,
     cardRecipientEmail: 'saqibshah@gmail.com',
     cardRecipientName: 'Saqib Shah',
-    amount: 'PKR100.00',
-    shop: `Sharemydine`,
-    giftCardType: `Physical Gift Card`,
-    date: '2023-12-14T11:59:08.238Z',
-    channel: 'Business App',
+    amount: '£100.00',
+    redeemed: '2023-12-14T11:59:08.238Z',
   },
 ];
 export const UserList: any = [
@@ -43,7 +35,7 @@ export const UserList: any = [
     id: 'cardNumber',
     isSortable: true,
     header: 'Card Number',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.cardRecipientName,
@@ -54,6 +46,7 @@ export const UserList: any = [
       <UserInfo
         name={info?.getValue()}
         email={info?.row?.original?.cardRecipientEmail}
+        nameInitial={info?.getValue()}
       />
     ),
   },
@@ -62,11 +55,11 @@ export const UserList: any = [
     id: 'amount',
     isSortable: true,
     header: 'Amount',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.date,
-    id: 'date',
+    accessorFn: (row: any) => row?.redeemed,
+    id: 'redeemed',
     isSortable: true,
     header: 'Redeemed',
     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),

@@ -1,7 +1,8 @@
 import { OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'WORKFLOWS';
+const TAG = 'GIFT_CARD_TRANSACTION';
+
 export const giftCardTransactionApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTransactionList: builder?.query({

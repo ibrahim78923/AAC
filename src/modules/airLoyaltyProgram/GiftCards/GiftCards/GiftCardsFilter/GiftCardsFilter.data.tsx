@@ -1,12 +1,18 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-const optionsActive = ['Yes', 'No'];
+import { ACTIVITY_STATUS_MENU } from '@/constants';
+
+const statusOptions = [
+  ACTIVITY_STATUS_MENU?.ACTIVE,
+  ACTIVITY_STATUS_MENU?.INACTIVE,
+  ACTIVITY_STATUS_MENU?.EXPIRED,
+];
 const optionsUpgradeable = ['Yes', 'No'];
 
 export const giftCardDefaultValues = (data?: any) => {
   return {
     minAmount: data?.minAmount ?? '',
     maxAmount: data?.maxAmount ?? '',
-    active: data?.active ?? null,
+    status: data?.status ?? null,
     upgradeable: data?.upgradeable ?? null,
   };
 };
@@ -32,10 +38,9 @@ export const giftCardFilterFromFields = [
   {
     id: 3,
     componentProps: {
-      name: 'active',
-      label: 'Active',
-      options: optionsActive,
-      placeholder: 'Yes',
+      name: 'status',
+      label: 'Status',
+      options: statusOptions,
     },
     component: RHFAutocomplete,
   },

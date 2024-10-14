@@ -198,6 +198,9 @@ export const importTableFields = (
           options={stepsData[importLog]}
           fullWidth
           required={true}
+          isOptionEqualToValue={(option: any, newValue: any) =>
+            option === newValue
+          }
           sx={{ minWidth: '10rem' }}
           placeholder={'Select'}
         />

@@ -1456,86 +1456,6 @@ export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   DELETE_DASHBOARD: 'service-delete-dashboard',
 };
 
-export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
-  VIEW_DASHBOARD: 'loyalty-program-dashboard-view',
-  APPLY_FILTERS: 'loyalty-program-dashboard-apply-filters',
-};
-
-export const AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS = {
-  ACCOUNT_GENERAL: 'loyalty-program-settings-account-general',
-  ACCOUNT_VIEW_DETAILS: 'loyalty-program-settings-account-view-details',
-};
-export const AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS = {
-  VIEW_SHOP_DETAILS: 'loyalty-program-settings-managment-view-shop-deyails',
-  SHOP_SEARCH: 'loyalty-program-settings-managment-search-shop',
-  ADD_SHOP: 'loyalty-program-settings-managment-add-shop',
-  DELETE_SHOP: 'loyalty-program-settings-managment-delete-shop',
-  EDIT_SHOP: 'loyalty-program-settings-managment-edit-shop',
-};
-export const AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS = {
-  VIEW_REWARDS_DETAILS: 'loyalty-program-reward-view-details',
-  PHYSICAL_REWARDS: 'loyalty-program-reward-physical',
-  DIGITAL_REWARDS: 'loyalty-program-reward-digital',
-  ADD_REWARDS: 'loyalty-program-reward-add',
-  SEARCH: 'loyalty-program-reward-search',
-};
-
-export const AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS = {
-  VIEW_TRANSACTIONS_DETAILS: 'loyalty-program-transaction-view-details',
-  ADD_TRANSACTIONS: 'loyalty-program-transaction-add',
-  APPLY_FILTERS: 'loyalty-program-transaction-apply-filters',
-};
-
-export const AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS = {
-  VIEW_RULES_AND_TIERS_DETAILS: 'loyalty-program-rules-and-tiers--view',
-  CREATE_RULES: 'loyalty-program-rules-and-tiers-create-rules',
-  CREATE_TIERS: 'loyalty-program-rules-and-tiers-create-tiers',
-  SEARCH: 'loyalty-program-rules-and-tiers-search',
-  EDIT_TIERS: 'loyalty-program-rules-and-tiers-edit-tiers',
-  EDIT_RULES: 'loyalty-program-rules-and-tiers-edit-rules',
-};
-
-export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS = {
-  VIEW_GIFT_CARD_DETAILS: 'loyalty-program-gift-card-digital-view-details',
-  ADD_GIFT_CARD: 'loyalty-program-gift-card-digital-add',
-  APPLY_FILTERS: 'loyalty-program-gift-card-digital-apply-filters',
-  EXPORT: 'loyalty-program-gift-card-digital-export',
-  ACTIVE_DE_ACTIVE: 'loyalty-program-gift-card-digital-active-deactive',
-  UPGRADEABLE: 'loyalty-program-gift-card-digital-upgradeable',
-  TRANSACTION_DETAILS: 'loyalty-program-gift-card-digital-transaction-details',
-  ADD_TRANSACTION: 'loyalty-program-gift-card-digital-add-transaction',
-};
-
-export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS = {
-  SEARCH_GIFT_CARD_DETAILS: 'loyalty-program-gift-card-physical-search',
-  VIEW_GIFT_CARD_DETAILS: 'loyalty-program-gift-card-physical-view-details',
-  ADD_GIFT_CARD: 'loyalty-program-gift-card-physical-add',
-  APPLY_FILTERS: 'loyalty-program-gift-card-physical-apply-filters',
-  DESIGN_CARD: 'loyalty-program-gift-card-physical-design-card',
-  EXPORT: 'loyalty-program-gift-card-physical-export',
-  ASSIGNED_GIFT_CARD: 'loyalty-program-gift-card-physical-assigned',
-  NOT_ASSIGNED_GIFT_CARD: 'loyalty-program-gift-card-physical-not-assigned',
-  PRINT: 'loyalty-program-gift-card-physical-print',
-  ASSIGNED_TO: 'loyalty-program-gift-card-physical-assigned-to',
-};
-
-export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
-  VIEW_DETAILS: 'Loyalty-vouchers-view-details',
-  ADD_VOUCHER: 'Loyalty-vouchers-add',
-  APPLY_FILTERS: 'Loyalty-vouchers-apply-filters',
-  ACTIVE_DEACTIVATE_VOUCHERS: 'Loyalty-vouchers-active-inactive',
-  EDIT_DELETE: 'Loyalty-Vouchers-Edit/delete',
-};
-
-export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
-  VIEW_DETAILS: 'loyalty-program-gift-card-transaction-view-details',
-  ADD_TRANSACTIONS: 'loyalty-program-gift-card-transaction-add',
-  IMPORT: 'loyalty-program-gift-card-transaction-import',
-  EXPORT: 'loyalty-program-gift-card-transaction-export',
-  APPLY_FILTERS: 'loyalty-program-gift-card-transaction-apply-filters',
-  SEARCH_DETAILS: 'loyalty-program-gift-card-transaction-search',
-};
-
 export const AIR_CALL_CENTER_CALL_METRICS_PERMISSION = {
   ALL_CALLS_LIST: 'call-center-all-calls-list',
   ALL_CALLS_SEARCH_AND_FILTER: 'call-center-all-calls-search-&-filter',
@@ -1839,23 +1759,6 @@ export const AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS = {
   VIEW: 'services-reports-contract-view',
   DOWNLOAD: 'services-reports-contract-download',
   FILTER: 'services-reports-contract-filter',
-};
-
-export const AIR_LOYALTY_PROGRAM_ROLES_AND_RIGHT_PERMISSIONS = {
-  SEARCH_RECORD: 'loyalty-program-roles-and-right-search-record',
-  EDIT_ROLE: 'loyalty-program-roles-and-right-edit-role',
-  VIEW_ROLE: 'loyalty-program-roles-and-right-view-role',
-  DELETE_ROLE: `loyalty-program-roles-and-right-delete-role`,
-  ADD_ROLE: `loyalty-program-roles-and-right-add-role`,
-};
-
-export const AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS_PERMISSIONS = {
-  USER_LIST: `loyalty-program-user-managment-user-list`,
-  SEARCH_RECORD: 'loyalty-program-user-managment-search-record',
-  ACTIVE_INACTIVE_USER: 'loyalty-program-user-managment-active-inactive-user',
-  VIEW_USER_DETAIL: 'loyalty-program-user-managment-view-user-detail',
-  EDIT_USER: `loyalty-program-user-managment-edit-user`,
-  DELETE_USER: `loyalty-program-user-managment-delete-user`,
 };
 
 export const AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS = {

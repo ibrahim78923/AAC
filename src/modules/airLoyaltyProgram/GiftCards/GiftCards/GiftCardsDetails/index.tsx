@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { data, giftCardDetailsColumn } from './GiftCardDetails.data';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
+import { ExportBlackIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { useGiftCardsDetails } from './useGiftCardDetails';
@@ -49,14 +49,6 @@ export const GiftCardsDetails = () => {
             onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
           >
             Export
-          </Button>
-          <Button
-            variant="contained"
-            className="small"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
-          >
-            Add Transaction
           </Button>
         </Box>
         <Box mt={2}>

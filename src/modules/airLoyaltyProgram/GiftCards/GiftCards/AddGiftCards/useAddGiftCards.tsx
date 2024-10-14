@@ -5,13 +5,12 @@ import {
   addGiftCardFormFieldsDynamic,
   addGiftCardValidationSchema,
 } from './AddGiftCards.data';
-import { useAddDigitalGiftCardMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards/digital-gift-card';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useAddGiftCardMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards';
 
 export const useAddGiftCards = (props: any) => {
   const { setIsPortalOpen } = props;
-  const [addGiftCardTrigger, addGiftCardStatus] =
-    useAddDigitalGiftCardMutation();
+  const [addGiftCardTrigger, addGiftCardStatus] = useAddGiftCardMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(addGiftCardValidationSchema),
     defaultValues: addGiftCardDefaultValues,
@@ -20,9 +19,10 @@ export const useAddGiftCards = (props: any) => {
 
   const onSubmit = async (formData: any) => {
     const body = {
-      shop: formData?._id,
-      contact: formData?.contact,
       amount: formData?.amount,
+      recipient: formData?.recipient,
+      activeFrom: formData?.activeFrom,
+      activeTo: formData?.activeTo,
     };
     const apiDataParameter = {
       body,
