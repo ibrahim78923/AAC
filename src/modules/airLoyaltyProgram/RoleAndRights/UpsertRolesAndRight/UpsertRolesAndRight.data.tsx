@@ -1,17 +1,23 @@
 import { RHFTextField } from '@/components/ReactHookForm';
-import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import * as yup from 'yup';
+import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
 
 export const TITLE_FORM_USER: any = {
-  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add User Role',
-  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Edit User Role',
-  [GENERIC_UPSERT_FORM_CONSTANT?.VIEW]: 'View User Role',
+  [LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT?.ADD_LOYALTY_PROGRAM_ROLE_AND_RIGHTS]:
+    'Add User Role',
+  [LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT?.EDIT_LOYALTY_PROGRAM_ROLE_AND_RIGHTS]:
+    'Edit User Role',
+  [LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT?.LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL]:
+    'View User Role',
 };
 
-export const BUTTON_TITLE_FORM_USER: any = {
-  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Submit',
-  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update',
-  [GENERIC_UPSERT_FORM_CONSTANT?.VIEW]: 'Ok',
+export const SUBMIT_BUTTON_TEXT: any = {
+  [LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT?.ADD_LOYALTY_PROGRAM_ROLE_AND_RIGHTS]:
+    'Add',
+  [LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT?.EDIT_LOYALTY_PROGRAM_ROLE_AND_RIGHTS]:
+    'Save',
+  [LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT?.LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL]:
+    'Ok',
 };
 
 export const upsertRolesAndRightValidationSchema = yup?.object()?.shape({
@@ -31,7 +37,6 @@ export const upsertRolesAndRightFormFieldsDynamic = () => [
   {
     id: 1,
     component: RHFTextField,
-    md: 7,
     componentProps: {
       label: 'Name',
       name: 'name',
@@ -42,7 +47,6 @@ export const upsertRolesAndRightFormFieldsDynamic = () => [
   {
     id: 'description',
     component: RHFTextField,
-    md: 7,
     componentProps: {
       name: 'description',
       label: 'Description',
