@@ -25,7 +25,7 @@ export const useActivityStatusMenu = (props: IActivityStatusMenuProps) => {
     info: any,
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
-    const patchParameter = patchParameterProps || {
+    const patchParameter = patchParameterProps?.(event) || {
       queryParams: info?._id,
       body: { status: event?.target?.value },
     };

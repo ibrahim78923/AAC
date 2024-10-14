@@ -176,10 +176,8 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
           ?.positive('Amount is required')
           ?.max(
             CHARACTERS_LIMIT?.LOYALTY_RULES_ATTRIBUTES_MAX_CHARACTERS,
-            `Must be at most ${
-              CHARACTERS_LIMIT?.LOYALTY_RULES_ATTRIBUTES_MAX_CHARACTERS?.toString()
-                ?.length
-            } digits`,
+            `Must be at most ${CHARACTERS_LIMIT?.LOYALTY_RULES_ATTRIBUTES_MAX_CHARACTERS?.toString()
+              ?.length} digits`,
           ),
       otherwise: (schema: any) => schema?.notRequired(),
     }),
@@ -214,10 +212,8 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
           ?.positive('Amount is required')
           ?.max(
             CHARACTERS_LIMIT?.LOYALTY_RULES_REWARDS_MAX_CHARACTERS,
-            `Must be at most ${
-              CHARACTERS_LIMIT?.LOYALTY_RULES_REWARDS_MAX_CHARACTERS?.toString()
-                ?.length
-            } digits`,
+            `Must be at most ${CHARACTERS_LIMIT?.LOYALTY_RULES_REWARDS_MAX_CHARACTERS?.toString()
+              ?.length} digits`,
           ),
       otherwise: (schema: any) => schema?.notRequired(),
     }),

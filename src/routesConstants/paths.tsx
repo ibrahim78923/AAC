@@ -223,6 +223,7 @@ export const AIR_OPERATION = {
 const LOYALTY_PROGRAM_PAGE = '/air-loyalty-program';
 export const LOYALTY_PROGRAM = {
   root: LOYALTY_PROGRAM_PAGE,
+  CONSUMERS: path(LOYALTY_PROGRAM_PAGE, '/consumers'),
   LOYALTY_REWARD: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rewards'),
   LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/transactions'),
   LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-and-tiers'),

@@ -6,10 +6,9 @@ import { ACTIVITY_STATUS_MENU } from '@/constants';
 const MenuItemDataArray = [
   { value: ACTIVITY_STATUS_MENU?.ACTIVE, label: 'Active' },
   { value: ACTIVITY_STATUS_MENU?.INACTIVE, label: 'Inactive' },
-  { value: ACTIVITY_STATUS_MENU?.EXPIRED, label: 'Expired' },
 ];
 
-export const topConsumersColumns = [
+export const getTopConsumersColumns = () => [
   {
     accessorFn: (row: any) => row?.consumer,
     id: 'consumer',

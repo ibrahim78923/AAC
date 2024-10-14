@@ -242,7 +242,7 @@ export const AIR_LOYALTY_PROGRAM = {
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   GIFT_CARDS_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/gift-cards-details`,
-  TOP_USER: '/',
+  TRANSACTIONS: '/air-loyalty-program/gift-cards/transactions',
   UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
   ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
   CONSUMERS: '/air-loyalty-program/consumers',

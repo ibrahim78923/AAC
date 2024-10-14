@@ -46,6 +46,7 @@ import {
   FeedbackSurveyImage,
   EnquiriesImage,
   SignupLeadsImage,
+  ConsumerImage,
 } from '@/assets/images';
 import {
   AIR_CUSTOMER_PORTAL,
@@ -261,7 +262,13 @@ export const LoyaltyProgramsRoutes: any = [
     role: 'Loyalty-Program',
     permissions: [],
   },
-
+  {
+    key: LOYALTY_PROGRAM?.CONSUMERS,
+    icon: ConsumerImage,
+    label: 'Consumers',
+    role: 'Loyalty-Program',
+    permissions: [],
+  },
   {
     key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
     label: 'Loyalty',
