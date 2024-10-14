@@ -247,6 +247,7 @@ export const AIR_LOYALTY_PROGRAM = {
   TOP_USER: '/',
   UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
   ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
+  CONSUMERS: '/air-loyalty-program/consumers',
   UPSERT_CONSUMER: '/air-loyalty-program/consumers/upsert-consumer',
 };
 
