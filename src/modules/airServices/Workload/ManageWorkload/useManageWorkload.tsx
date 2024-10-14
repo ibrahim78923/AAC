@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { workloadDefaultDateRange } from '../Workload.data';
-import { useGetWorkloadQuery } from '@/services/airServices/workload';
+import { useGetAirServicesWorkloadQuery } from '@/services/airServices/workload';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { isoDateString } from '@/utils/dateTime';
 
@@ -32,13 +32,14 @@ export default function useManageWorkload() {
       : undefined,
   };
 
-  const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
-    { ...workloadParams },
-    {
-      skip: !openDrawer,
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetAirServicesWorkloadQuery(
+      { ...workloadParams },
+      {
+        skip: !openDrawer,
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event?.currentTarget);

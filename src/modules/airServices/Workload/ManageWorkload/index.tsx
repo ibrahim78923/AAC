@@ -31,6 +31,7 @@ export const ManageWorkload = () => {
         color={'inherit'}
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
+        className={'small'}
       >
         Manage Workload
       </Button>

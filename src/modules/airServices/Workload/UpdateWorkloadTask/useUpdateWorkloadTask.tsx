@@ -7,14 +7,15 @@ import {
 } from './UpdateWorkloadTask.data';
 import { useEffect } from 'react';
 import {
-  useLazyGetAllUsersInWorkloadQuery,
-  usePatchTaskMutation,
+  useLazyGetAirServicesAllUsersInWorkloadQuery,
+  usePatchAirServicesWorkloadTaskMutation,
 } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { isoDateString } from '@/utils/dateTime';
 
 export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
-  const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
+  const [patchTaskTrigger, patchTaskStatus] =
+    usePatchAirServicesWorkloadTaskMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(getWorkloadValidationSchema),
@@ -59,7 +60,7 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     reset(getWorkloadDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
-  const apiQueryAssignTo = useLazyGetAllUsersInWorkloadQuery();
+  const apiQueryAssignTo = useLazyGetAirServicesAllUsersInWorkloadQuery();
 
   const workloadDataArray = getWorkloadDataArray({
     apiQueryAssignTo,

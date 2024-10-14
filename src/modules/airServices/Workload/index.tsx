@@ -52,9 +52,18 @@ export const Workload = () => {
     addPlannedTicketEffort,
     methods,
     setFilterByTypeState,
+    firstTrigger,
   } = useWorkload();
 
-  if (status?.isError || statusFilter?.isError) return <ApiErrorState />;
+  if (status?.isError || statusFilter?.isError)
+    return (
+      <>
+        <Typography variant={'h3'} mb={3}>
+          Workload
+        </Typography>
+        <ApiErrorState canRefresh refresh={firstTrigger} />
+      </>
+    );
 
   if (
     status?.isLoading ||
@@ -62,7 +71,14 @@ export const Workload = () => {
     statusFilter?.isLoading ||
     statusFilter?.isFetching
   )
-    return <SkeletonTable />;
+    return (
+      <>
+        <Typography variant={'h3'} mb={3}>
+          Workload
+        </Typography>
+        <SkeletonTable />
+      </>
+    );
 
   return (
     <Box className={styles?.calendarWrapper}>

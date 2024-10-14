@@ -1,7 +1,7 @@
 import { DATE_FORMAT } from '@/constants';
 import {
-  useLazyGetWorkloadFilterQuery,
-  useLazyGetWorkloadQuery,
+  useLazyGetAirServicesWorkloadFilterQuery,
+  useLazyGetAirServicesWorkloadQuery,
 } from '@/services/airServices/workload';
 import dayjs from 'dayjs';
 import { NextRouter, useRouter } from 'next/router';
@@ -44,16 +44,22 @@ export default function useWorkload() {
     defaultValues: { filterModuleType: filterByTypeState ?? 'ALL' },
   });
 
-  const [trigger, status] = useLazyGetWorkloadQuery();
-  const [triggerFilter, statusFilter] = useLazyGetWorkloadFilterQuery();
+  const [trigger, status] = useLazyGetAirServicesWorkloadQuery();
+  const [triggerFilter, statusFilter] =
+    useLazyGetAirServicesWorkloadFilterQuery();
 
-  useEffect(() => {
+  const firstTrigger = () => {
     trigger({
       startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
       endDate: dayjs()?.endOf('week')?.toISOString(),
-      userIds: selected?._id,
+      agent: selected?._id,
+      assignTo: selected?._id,
       moduleType: filterByTypeState,
     });
+  };
+
+  useEffect(() => {
+    firstTrigger?.();
   }, [selected, filterByTypeState]);
 
   useEffect(() => {
@@ -72,7 +78,8 @@ export default function useWorkload() {
       await trigger({
         startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
         endDate: dayjs(date)?.endOf('week')?.toISOString(),
-        userIds: selected?._id,
+        agent: selected?._id,
+        assignTo: selected?._id,
         moduleType: filterByTypeState,
       })?.unwrap();
 
@@ -107,5 +114,6 @@ export default function useWorkload() {
     addPlannedTicketEffort,
     methods,
     setFilterByTypeState,
+    firstTrigger,
   };
 }

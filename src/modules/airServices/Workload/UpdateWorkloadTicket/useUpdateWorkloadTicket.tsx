@@ -2,8 +2,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import {
-  useLazyGetAllUsersInWorkloadQuery,
-  usePutWorkloadTicketsMutation,
+  useLazyGetAirServicesAllUsersInWorkloadQuery,
+  usePutAirServicesWorkloadTicketsMutation,
 } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
@@ -15,7 +15,7 @@ import { isoDateString } from '@/utils/dateTime';
 
 export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
   const [patchTicketTrigger, patchTicketStatus] =
-    usePutWorkloadTicketsMutation();
+    usePutAirServicesWorkloadTicketsMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(getWorkloadTicketValidationSchema),
@@ -64,7 +64,7 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
     reset(getWorkloadTicketDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
-  const apiQueryAssignTo = useLazyGetAllUsersInWorkloadQuery();
+  const apiQueryAssignTo = useLazyGetAirServicesAllUsersInWorkloadQuery();
 
   const workloadTicketDataArray = getWorkloadTicketDataArray({
     apiQueryAssignTo,

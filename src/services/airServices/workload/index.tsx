@@ -60,7 +60,7 @@ const TransformResponse = (response: any) => {
 
 export const workloadAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getWorkload: builder.query({
+    getAirServicesWorkload: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.WORKLOAD,
         method: 'GET',
@@ -70,7 +70,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    getWorkloadFilter: builder.query({
+    getAirServicesWorkloadFilter: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.WORKLOAD,
         method: 'GET',
@@ -79,7 +79,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    patchTask: builder?.mutation({
+    patchAirServicesWorkloadTask: builder?.mutation({
       query: (patchTaskParameter: any) => ({
         url: END_POINTS?.UPDATE_TASK,
         method: 'PATCH',
@@ -89,7 +89,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    getAllUsersInWorkload: builder?.query({
+    getAirServicesAllUsersInWorkload: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.DROPDOWN_USERS,
         method: 'GET',
@@ -101,7 +101,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG_TWO],
     }),
 
-    putWorkloadTickets: builder?.mutation({
+    putAirServicesWorkloadTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
         url: `${END_POINTS?.TICKET}/{id}`,
         method: 'PUT',
@@ -113,10 +113,10 @@ export const workloadAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useLazyGetWorkloadQuery,
-  useLazyGetWorkloadFilterQuery,
-  useGetWorkloadQuery,
-  usePatchTaskMutation,
-  useLazyGetAllUsersInWorkloadQuery,
-  usePutWorkloadTicketsMutation,
+  useLazyGetAirServicesWorkloadQuery,
+  useLazyGetAirServicesWorkloadFilterQuery,
+  useGetAirServicesWorkloadQuery,
+  usePatchAirServicesWorkloadTaskMutation,
+  useLazyGetAirServicesAllUsersInWorkloadQuery,
+  usePutAirServicesWorkloadTicketsMutation,
 } = workloadAPI;
