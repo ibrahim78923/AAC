@@ -21,7 +21,6 @@ const Restore = () => {
     handleRestoreFilter,
     IsRestoreFilterDrawer,
     setSearch,
-    search,
     handlePermanantDelete,
     handleResDealModal,
     isPermanantlyDel,
@@ -127,7 +126,6 @@ const Restore = () => {
         <Box>
           <Search
             label="Search Here"
-            searchBy={search}
             setSearchBy={setSearch}
             fullWidth
             autoComplete="off"

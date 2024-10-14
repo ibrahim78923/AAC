@@ -1,7 +1,7 @@
-import { useLazyGetAllCompaniesQuery } from '@/services/common-APIs';
+import { useLazyGetCommonAllCompaniesQuery } from '@/services/common-APIs';
 
 const useCompaniesEditorDrawer = () => {
-  const companiesListData = useLazyGetAllCompaniesQuery();
+  const companiesListData = useLazyGetCommonAllCompaniesQuery();
 
   return {
     companiesListData,

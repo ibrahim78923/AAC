@@ -66,7 +66,6 @@ const DealsTab = () => {
     handleDealCustomize,
     deleteDealLoading,
     setSelectedRows,
-    searchDeal,
     filters,
     setSearchDeal,
   } = useDealTab();
@@ -119,18 +118,17 @@ const DealsTab = () => {
           <AddCircleIcon onClick={handleAddTab} sx={styles?.addIcon(theme)} />
         </Box>
       </Box>
-      <Box sx={style?.headerWrapper}>
+      <Box sx={styles?.headerWrapper}>
         <PermissionsGuard
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
         >
           <Search
             setSearchBy={setSearchDeal}
-            searchBy={searchDeal}
             placeholder="Search Here"
             size="small"
           />
         </PermissionsGuard>
-        <Box sx={style?.headerChild}>
+        <Box sx={styles?.headerChild}>
           {selectedRows?.length >= 2 ? (
             <PermissionsGuard
               permissions={[AIR_SALES_DEALS_PERMISSIONS?.DELETE_DEAL]}
@@ -189,7 +187,7 @@ const DealsTab = () => {
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.REFRESH]}
           >
-            <Tooltip title={'Refresh Filter'}>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
               <Button
                 onClick={handleResetFilters}
                 variant="outlined"
@@ -287,20 +285,3 @@ const DealsTab = () => {
   );
 };
 export default DealsTab;
-
-const style = {
-  headerWrapper: {
-    padding: '18px  0px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: '15px',
-  },
-  headerChild: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: '8px',
-  },
-};

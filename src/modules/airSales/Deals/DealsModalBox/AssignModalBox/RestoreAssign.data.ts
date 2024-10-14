@@ -1,24 +1,24 @@
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
 
 export const defaultValues = {
-  dealOwnerId: 'select',
+  dealOwnerId: '',
 };
 export const RestoreModalData = (UserListData: any) => {
   return [
     {
+      id: 'ownerId',
+      md: 12,
+      component: RHFSelect,
       componentProps: {
         name: 'ownerId',
         label: 'Deal Owner',
         select: true,
-        defaultValues: 'Select',
+        placeholder: 'Select Deal Owner',
       },
-      options: UserListData?.data?.users?.map((item: any) => {
-        return {
-          value: item?._id,
-          label: `${item?.firstName} ${item?.lastName}`,
-        };
-      }),
-      component: RHFTextField,
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
     },
   ];
 };

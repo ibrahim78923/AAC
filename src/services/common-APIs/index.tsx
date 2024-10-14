@@ -274,7 +274,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['CONTACTS_STATUS'],
     }),
 
-    getDealPipeLine: builder.query({
+    getCommonDealPipeLine: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
         method: 'GET',
@@ -286,7 +286,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['DEALS_PIPELINE'],
     }),
 
-    getDeals: builder.query({
+    getCommonDealsList: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.DEALS_LIST_VIEW}`,
         method: 'GET',
@@ -298,7 +298,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['DEALS'],
     }),
 
-    getAllCompanies: builder.query({
+    getCommonAllCompanies: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.COMPANY}`,
         method: 'GET',
@@ -373,10 +373,10 @@ export const {
   useGetActiveProductsQuery,
   useLazyGetLifeCycleStagesQuery,
   useLazyGetContactsStatusDropdownQuery,
-  useLazyGetDealPipeLineQuery,
-  useLazyGetDealsQuery,
+  useLazyGetCommonDealPipeLineQuery,
+  useLazyGetCommonDealsListQuery,
   useLazyGetCompanyContactsListQuery,
-  useLazyGetAllCompaniesQuery,
+  useLazyGetCommonAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
   useLazyGetAllWhatsAppTemplateListQuery,
   useLazyGetAllUsersQuery,
