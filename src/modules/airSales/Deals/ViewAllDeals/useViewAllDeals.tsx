@@ -11,14 +11,14 @@ const useViewAllDeals = () => {
   const [search, setSearch] = useState('');
 
   const ColumnsWrapper = ({ ...rest }) => {
-    const { title, checkboxProps } = rest;
+    const { title, checkboxProps, isActive, isDisabled } = rest;
     return (
       <Box my={'16px'} sx={styles?.viewBox(theme)}>
         <Box sx={styles?.viewChildBox}>
           <DragIcon />
           {title}
         </Box>
-        <Checkbox {...checkboxProps} />
+        <Checkbox {...checkboxProps} checked={isActive} disabled={isDisabled} />
       </Box>
     );
   };

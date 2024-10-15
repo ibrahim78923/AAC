@@ -35,7 +35,7 @@ import BoardView from '../BoardView/BoardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const DealsTab = () => {
+const DealsTab = ({ dealViewsData }: any) => {
   const navigate = useRouter();
   const {
     tabsArray,
@@ -68,7 +68,7 @@ const DealsTab = () => {
     setSelectedRows,
     filters,
     setSearchDeal,
-  } = useDealTab();
+  } = useDealTab(dealViewsData);
   const theme = useTheme();
 
   return (

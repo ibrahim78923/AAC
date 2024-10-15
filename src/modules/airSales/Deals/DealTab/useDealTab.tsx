@@ -3,7 +3,6 @@ import {
   useGetCustomizeColumnQuery,
   useGetDealsLifecycleStageQuery,
   useGetDealsListQuery,
-  useGetDealsViewsQuery,
   useLazyGetDealPipeLineListQuery,
 } from '@/services/airSales/deals';
 import { useState } from 'react';
@@ -16,7 +15,7 @@ import { useGetSalesProductlineItemQuery } from '@/services/airSales/quotes';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
-const useDealTab = () => {
+const useDealTab = (dealViewsData?: any) => {
   const router = useRouter();
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
   const [isAddTabOpen, setIsAddTabOpen] = useState(false);
@@ -46,8 +45,6 @@ const useDealTab = () => {
 
   const [deleteDealsMutation, { isLoading: deleteDealLoading }] =
     useDeleteDealsMutation();
-
-  const { data: dealViewsData }: any = useGetDealsViewsQuery({});
 
   const dealListparams = {
     page: page,
@@ -85,7 +82,7 @@ const useDealTab = () => {
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   const pipelineListDropdown = useLazyGetDealPipeLineListQuery();
 
-  const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
+  const dealListApiUrl = dealViewsData?.map((obj: any) => {
     let dealPipelineId;
     let dealOwner;
     let dealStage;

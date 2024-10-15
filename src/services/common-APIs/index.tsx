@@ -350,6 +350,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: SMS_MARKETING,
     }),
+
+    getAllUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_USERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['USERS_DROPDOWN'],
+    }),
   }),
 });
 
@@ -386,4 +398,5 @@ export const {
   useGetContactsListQuery,
   useLazyGetAllDropdownProductsQuery,
   useGetEmailExistQuery,
+  useLazyGetAllUsersDropdownQuery,
 } = CommonAPIS;

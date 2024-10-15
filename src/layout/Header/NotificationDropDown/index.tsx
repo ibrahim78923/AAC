@@ -17,7 +17,6 @@ import SkeletonComponent from '@/components/CardSkeletons';
 import { generateImage } from '@/utils/avatarUtils';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
-import { capitalizeFirstLetter } from '@/utils/api';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
@@ -127,9 +126,6 @@ const NotificationDropdown = () => {
                               variant="body2"
                               sx={{ color: theme?.palette?.grey[600] }}
                             >
-                              {`${item?.performedByName} ${capitalizeFirstLetter(
-                                item?.activityType,
-                              )} ${capitalizeFirstLetter(item?.module)}`}
                               {item?.message}
                             </Typography>
                             <Typography

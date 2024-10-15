@@ -1,15 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-
 import useViewAllDeals from './useViewAllDeals';
-
-import { columnsData } from './ViewAllDeals.data';
-
 import { v4 as uuidv4 } from 'uuid';
 import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
 
-const ViewAllDeals = ({ open, onClose }: CreateDealProps) => {
+const ViewAllDeals = ({ open, onClose, dealViewsData }: CreateDealProps) => {
   const { search, setSearch, ColumnsWrapper } = useViewAllDeals();
+  const newDealViewsData = [
+    { name: 'All Deals', isActive: true, isDefault: true },
+    ...(Array?.isArray(dealViewsData) ? dealViewsData : []),
+  ];
 
   return (
     <CommonDrawer
@@ -27,10 +27,12 @@ const ViewAllDeals = ({ open, onClose }: CreateDealProps) => {
         fullWidth
         autoComplete="off"
       />
-      {columnsData?.map((column) => (
+      {newDealViewsData?.map((column: any) => (
         <ColumnsWrapper
           key={uuidv4()}
-          title={column?.title}
+          title={column?.name}
+          isActive={column?.isActive}
+          isDisabled={column?.isDefault ? true : false}
           checkboxProps={{
             onChange: () => {},
           }}
