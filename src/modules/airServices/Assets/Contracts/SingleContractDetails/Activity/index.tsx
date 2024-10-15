@@ -7,19 +7,12 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 
 export const Activity = () => {
-  const {
-    isLoading,
-    isError,
-    setPageLimit,
-    setPage,
-    isFetching,
-    data,
-    refetch,
-  } = useActivity();
+  const { isLoading, isError, setPageLimit, setPage, isFetching, data } =
+    useActivity();
 
   if (isLoading || isFetching) return <SkeletonTable />;
 
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
+  if (isError) return <ApiErrorState canRefresh />;
   return (
     <>
       <Grid container>

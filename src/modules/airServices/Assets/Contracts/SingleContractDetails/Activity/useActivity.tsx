@@ -1,8 +1,8 @@
 import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
-import { useGetSingleContractsActivityLogQuery } from '@/services/airServices/assets/contracts/single-contract-details/activity';
+import { useLazyGetSingleContractsActivityLogQuery } from '@/services/airServices/assets/contracts/single-contract-details/activity';
 import { MODULE_TYPE } from '@/constants/strings';
 
 export const useActivity = () => {
@@ -21,11 +21,12 @@ export const useActivity = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError, refetch }: any =
-    useGetSingleContractsActivityLogQuery(getSingleContractActivityParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!contractId,
-    });
+  const [trigger, { data, isLoading, isFetching, isError }]: any =
+    useLazyGetSingleContractsActivityLogQuery();
+
+  useEffect(() => {
+    trigger(getSingleContractActivityParameter);
+  }, [contractId, page, pageLimit]);
 
   return {
     isLoading,
@@ -35,6 +36,5 @@ export const useActivity = () => {
     data,
     setPage,
     setPageLimit,
-    refetch,
   };
 };
