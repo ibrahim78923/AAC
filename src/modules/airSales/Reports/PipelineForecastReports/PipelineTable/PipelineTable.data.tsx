@@ -1,17 +1,25 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import ProfileNameIcon from '@/components/ProfileNameIcon';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { Box, Stack, Typography } from '@mui/material';
 
-export const totalColumns: any = (theme: any) => [
+export const totalColumns: any = (theme: any, data: any) => [
   {
-    accessorFn: (row: any) => row?.owner,
-    id: 'owner',
+    accessorFn: (row: any) => row?.collaboratorDetails[ARRAY_INDEX?.ZERO].name,
+    id: 'name',
     cell: (info: any) => (
       <Box display="flex" gap={1} alignItems="center">
-        <Avatar
-          alt="Remy Sharp"
-          sx={{ bgcolor: theme?.grey[900], fontSize: '12px' }}
-        >
-          AA
-        </Avatar>
+        <ProfileNameIcon
+          lastName={
+            info?.row?.original?.collaboratorDetails[ARRAY_INDEX?.ZERO]
+              ?.lastName ??
+            info?.row?.original?.collaboratorDetails[ARRAY_INDEX?.ZERO]?.name
+          }
+          firstName={
+            info?.row?.original?.collaboratorDetails[ARRAY_INDEX?.ZERO]
+              ?.firstName ?? ''
+          }
+        />
+
         <Box display="flex" flexDirection="column">
           <Typography
             variant="body4"
@@ -21,7 +29,11 @@ export const totalColumns: any = (theme: any) => [
             {info?.getValue()}
           </Typography>
           <Typography variant="body4" color={theme?.custom?.light}>
-            @azeem
+            @{' '}
+            {
+              info?.row?.original?.collaboratorDetails[ARRAY_INDEX?.ZERO]
+                ?.firstName
+            }
           </Typography>
         </Box>
       </Box>
@@ -29,483 +41,172 @@ export const totalColumns: any = (theme: any) => [
     header: 'Owner',
     isSortable: true,
   },
+
+  ...(Array.isArray(data?.pipelineWithStages)
+    ? data?.pipelineWithStages.flatMap(
+        (pipeline: any) =>
+          pipeline?.stages?.map((stage: any) => ({
+            accessorFn: (row: any) => {
+              const stageGroup = row?.stageGroups?.find(
+                (group: any) => group?.stageId === stage?._id,
+              );
+              return stageGroup || { numberOfDeals: 0, totalAmount: 0 };
+            },
+            id: stage?._id,
+            header: `${stage?.name} (${pipeline?.name})`, // Stage name with pipeline in brackets
+            isSortable: false,
+            cell: (info: any) => {
+              const stageData = info?.getValue();
+              return (
+                <Stack gap={2} alignItems="center">
+                  <Box>
+                    <Typography>£ {stageData?.totalAmount}</Typography>
+                    <Box display="flex" gap={0.5}>
+                      <Typography fontSize="12px" fontWeight={600}>
+                        {stageData?.numberOfDeals} Deals
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Stack>
+              );
+            },
+          })),
+      )
+    : []),
+
   {
-    accessorFn: (row: any) => row?.new,
-    id: 'new',
-    isSortable: true,
-    header: 'New',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.followUp,
-    id: 'followUp',
-    isSortable: true,
-    header: 'Follow up',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.underReview,
-    id: 'underReview',
-    isSortable: true,
-    header: 'Under review',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.demo,
-    id: 'demo',
-    isSortable: true,
-    header: 'Demo',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.negotiation,
-    id: 'negotiation',
-    isSortable: true,
-    header: 'Negotiation',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.won,
-    id: 'won',
-    isSortable: true,
-    header: 'Won',
-    cell: () => (
-      <Typography
-        variant="body4"
-        fontWeight={500}
-        color={theme?.blue?.dull_blue}
-      >
-        Weekly
-      </Typography>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.totalRevenueGoal,
-    id: 'totalRevenueGoal',
+    accessorFn: (row: any) => row?.totalTarget,
+    id: 'totalTarget',
     isSortable: true,
     header: 'Total revenue goal',
-    cell: () => (
+    cell: (info: any) => (
       <Typography variant="body4" color={theme?.custom?.light}>
-        £0.00
+        £ {info?.getValue()}
       </Typography>
     ),
   },
 ];
 
-export const pipelineTableData = [
-  {
-    owner: 'Azeem Aslam',
-  },
-  {
-    owner: 'Azeem Aslam',
-  },
-];
+export const overtimeColumns = (theme: any, data: any) => {
+  const stageIdToNameMap: any = {};
+  data?.pipelineWithStages?.forEach((pipeline: any) => {
+    pipeline?.stages?.forEach((stage: any) => {
+      stageIdToNameMap[stage?._id] = `${stage?.name} (${pipeline?.name})`;
+    });
+  });
 
-export const overtimeColumns: any = (theme: any) => [
-  {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
-    cell: () => (
-      <Typography
-        variant="body4"
-        fontWeight={500}
-        color={theme?.blue?.dull_blue}
-      >
-        FollowUp
-      </Typography>
-    ),
-    header: 'Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.one,
-    id: 'one',
-    isSortable: true,
-    header: '5/1/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
+  const columns = [
+    {
+      accessorFn: (row: any) => row?.date,
+      id: 'date',
+      cell: (info: any) => (
         <Typography
           variant="body4"
           fontWeight={500}
           color={theme?.blue?.dull_blue}
         >
-          0 deals
+          {info?.getValue()}
         </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.two,
-    id: 'two',
-    isSortable: true,
-    header: '5/2/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.three,
-    id: 'three',
-    isSortable: true,
-    header: '5/3/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.four,
-    id: 'four',
-    isSortable: true,
-    header: '5/4/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.five,
-    id: 'five',
-    isSortable: true,
-    header: '5/5/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.six,
-    id: 'six',
-    isSortable: true,
-    header: '5/6/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.seven,
-    id: 'seven',
-    isSortable: true,
-    header: '5/7/2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-];
+      ),
+      header: 'Date',
+      isSortable: true,
+    },
+    ...data?.pipelineWithStages?.reduce((acc: any[], pipeline: any) => {
+      pipeline?.stages?.forEach((stage: any) => {
+        acc?.push({
+          accessorFn: (row: any) => {
+            const stageData = row?.stages?.find(
+              (s: any) => s?.stageId === stage?._id,
+            );
+            return stageData || { deals: 0, total: 0 };
+          },
+          id: stage?._id,
+          header: stageIdToNameMap[stage?._id],
+          isSortable: true,
+          cell: (info: any) => {
+            const { total, deals } = info?.getValue();
+            return (
+              <Box display="flex" flexDirection="column">
+                <Typography
+                  variant="body4"
+                  fontWeight={500}
+                  color={theme?.blue?.dull_blue}
+                >
+                  {deals} deals
+                </Typography>
+                <Typography variant="body4" color={theme?.custom?.light}>
+                  £{total?.toFixed(2)}
+                </Typography>
+              </Box>
+            );
+          },
+        });
+      });
+      return acc;
+    }, []),
+  ];
 
-export const comparisonColumns: any = (theme: any) => [
-  {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
-    cell: () => (
-      <Typography
-        variant="body4"
-        fontWeight={500}
-        color={theme?.blue?.dull_blue}
-      >
-        New
-      </Typography>
-    ),
-    header: 'Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.one,
-    id: 'one',
-    isSortable: true,
-    header: 'Jan 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
+  return columns;
+};
+
+export const comparisonColumns = (theme: any, data: any) => {
+  const stageIdToNameMap: any = {};
+  data?.pipelineWithStages?.forEach((pipeline: any) => {
+    pipeline?.stages?.forEach((stage: any) => {
+      stageIdToNameMap[stage?._id] = `${stage?.name} (${pipeline?.name})`;
+    });
+  });
+
+  const columns = [
+    {
+      accessorFn: (row: any) => row?.date,
+      id: 'date',
+      cell: (info: any) => (
         <Typography
           variant="body4"
           fontWeight={500}
           color={theme?.blue?.dull_blue}
         >
-          0 deals
+          {info?.getValue()}
         </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.two,
-    id: 'two',
-    isSortable: true,
-    header: 'Feb 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.three,
-    id: 'three',
-    isSortable: true,
-    header: 'Mar 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.four,
-    id: 'four',
-    isSortable: true,
-    header: 'April 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          £0.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.five,
-    id: 'five',
-    isSortable: true,
-    header: 'May 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.six,
-    id: 'six',
-    isSortable: true,
-    header: 'June 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.seven,
-    id: 'seven',
-    isSortable: true,
-    header: 'July 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.eight,
-    id: 'eight',
-    isSortable: true,
-    header: 'Aug 2023',
-    cell: () => (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body4"
-          fontWeight={500}
-          color={theme?.blue?.dull_blue}
-        >
-          0 deals
-        </Typography>
-        <Typography variant="body4" color={theme?.custom?.light}>
-          {' '}
-          £3,200.00
-        </Typography>
-      </Box>
-    ),
-  },
-];
+      ),
+      header: 'Date',
+      isSortable: true,
+    },
+    ...data?.pipelineWithStages?.reduce((acc: any[], pipeline: any) => {
+      pipeline?.stages?.forEach((stage: any) => {
+        acc?.push({
+          accessorFn: (row: any) => {
+            const stageData = row?.stages?.find(
+              (s: any) => s?.stageId === stage?._id,
+            );
+            return stageData || { deals: 0, total: 0 };
+          },
+          id: stage?._id,
+          header: stageIdToNameMap[stage?._id],
+          isSortable: true,
+          cell: (info: any) => {
+            const { total, deals } = info?.getValue();
+            return (
+              <Box display="flex" flexDirection="column">
+                <Typography
+                  variant="body4"
+                  fontWeight={500}
+                  color={theme?.blue?.dull_blue}
+                >
+                  {deals} deals
+                </Typography>
+                <Typography variant="body4" color={theme?.custom?.light}>
+                  £{total?.toFixed(2)}
+                </Typography>
+              </Box>
+            );
+          },
+        });
+      });
+      return acc;
+    }, []),
+  ];
+
+  return columns;
+};

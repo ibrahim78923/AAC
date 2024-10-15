@@ -58,6 +58,7 @@ const Goals = () => {
     isFilterDrawer,
     setIsFilterDrawer,
     setFilterValues,
+    filterValues,
   } = useGoals();
 
   return (
@@ -385,6 +386,7 @@ const Goals = () => {
           onClose={() => setIsFilterDrawer(false)}
           setIsFilterDrawer={setIsFilterDrawer}
           setFilterValues={setFilterValues}
+          filterValues={filterValues}
         />
       )}
     </Box>

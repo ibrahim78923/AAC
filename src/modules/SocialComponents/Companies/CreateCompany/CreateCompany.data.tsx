@@ -35,6 +35,7 @@ export const defaultCreateCompanyValues = (data?: any, form?: any) => {
     noOfEmloyee: 0,
     totalRevenue: 0,
     city: '',
+    phoneNumber: '',
     postalCode: '',
     address: '',
     description: '',
@@ -142,6 +143,16 @@ export const dataArray = (getCompanyContactsList: any) => {
       componentProps: {
         name: 'city',
         label: 'City',
+        placeholder: 'Enter here',
+        fullWidth: true,
+      },
+    },
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'phoneNumber',
+        label: 'phone Number',
         placeholder: 'Enter here',
         fullWidth: true,
       },

@@ -111,6 +111,7 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
       formData.append('type', values?.type ?? '');
     }
     formData.append('city', values?.city);
+    formData.append('phoneNumber', values?.phoneNumber);
     formData.append('postalCode', values?.postalCode);
     formData.append('address', values?.address);
     if (!isNullOrEmpty(values?.description)) {

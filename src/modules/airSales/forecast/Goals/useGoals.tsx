@@ -122,6 +122,7 @@ const useGoals = () => {
     isFilterDrawer,
     setIsFilterDrawer,
     setFilterValues,
+    filterValues,
   };
 };
 

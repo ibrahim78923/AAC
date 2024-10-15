@@ -106,7 +106,7 @@ export const manageTableColumns: any = (
             <LinearProgress
               sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
               variant="determinate"
-              value={info?.getValue()}
+              value={info?.getValue() > 100 ? 100 : info?.getValue()}
             />
 
             <Typography

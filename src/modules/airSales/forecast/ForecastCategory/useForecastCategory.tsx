@@ -96,6 +96,14 @@ const useForecastCategory = () => {
     },
   );
 
+  const pipelineId = !isNullOrEmpty(filterValues?.pipelines)
+    ? filterValues?.pipelines
+    : Params?.pipelines;
+
+  const dealPipelineName = dealPipelineData?.data?.find(
+    (pipeline: any) => pipeline._id === pipelineId,
+  )?.name;
+
   return {
     theme,
     anchorEl,
@@ -129,6 +137,7 @@ const useForecastCategory = () => {
     CategoryTeamDataIsError,
     CategoryTeamDataIsSuccess,
     setSearch,
+    dealPipelineName,
   };
 };
 

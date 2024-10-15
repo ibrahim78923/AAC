@@ -12,16 +12,32 @@ import {
 } from './GoalsDrawer.data';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { useEffect } from 'react';
 
 const GoalsFilterDrawer = (props: any) => {
-  const { isOpenDrawer, onClose, setIsFilterDrawer, setFilterValues } = props;
+  const {
+    isOpenDrawer,
+    onClose,
+    setIsFilterDrawer,
+    setFilterValues,
+    filterValues,
+  } = props;
 
   const methods: any = useForm({
     resolver: yupResolver(filterValidationSchema),
     defaultValues: filterDefaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, setValue } = methods;
+
+  useEffect(() => {
+    setValue('pipelines', filterValues?.pipelines);
+    if (filterValues?.from && filterValues?.to) {
+      const fromDate = dayjs(filterValues?.from).toDate();
+      const toDate = dayjs(filterValues?.to).toDate();
+      setValue('CloseDate', [fromDate, toDate]);
+    }
+  }, [filterValues, setValue]);
 
   const onSubmit = async (values: any) => {
     const filter: any = {};

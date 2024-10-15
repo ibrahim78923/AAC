@@ -45,6 +45,7 @@ const DealStage = () => {
     handleClick,
     setIsFilterDrawer,
     setFilterValues,
+    filterValues,
     isFilterDrawer,
     alignment,
     handleChange,
@@ -65,6 +66,7 @@ const DealStage = () => {
     DealTeamDataIsError,
     DealTeamDataIsSuccess,
     pipelineIsLoading,
+    dealPipelineName,
   } = useDealStage();
   const router = useRouter();
   return (
@@ -186,8 +188,14 @@ const DealStage = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3.5}>
               <Card sx={{ width: '100%' }}>
-                <Typography variant="h4" fontWeight={600} pt={2.4} px={2.4}>
-                  Sales Pipeline
+                <Typography
+                  variant="h4"
+                  fontWeight={600}
+                  pt={2.4}
+                  px={2.4}
+                  textTransform={'capitalize'}
+                >
+                  {dealPipelineName}
                 </Typography>
                 <Grid container p={2.4} justifyContent="space-between">
                   {manageAccountData(
@@ -406,8 +414,14 @@ const DealStage = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3.5}>
               <Card sx={{ width: '100%' }}>
-                <Typography variant="h4" fontWeight={600} pt={2.4} px={2.4}>
-                  Sales Pipeline
+                <Typography
+                  variant="h4"
+                  fontWeight={600}
+                  pt={2.4}
+                  px={2.4}
+                  textTransform={'capitalize'}
+                >
+                  {dealPipelineName}
                 </Typography>
                 <Grid container p={2.4} justifyContent="space-between">
                   {manageAccountData(
@@ -574,6 +588,7 @@ const DealStage = () => {
           onClose={() => setIsFilterDrawer(false)}
           setIsFilterDrawer={setIsFilterDrawer}
           setFilterValues={setFilterValues}
+          filterValues={filterValues}
         />
       )}
     </Box>
