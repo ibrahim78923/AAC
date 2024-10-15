@@ -28,7 +28,7 @@ const FilterQuotes = ({
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {dataArray(getDropdownAllUsers)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.name}>
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

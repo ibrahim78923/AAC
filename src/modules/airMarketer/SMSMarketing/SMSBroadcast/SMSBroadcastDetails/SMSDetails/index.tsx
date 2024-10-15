@@ -95,8 +95,6 @@ const SMSDetails = ({
                 <MenuItem value={'sent'}>Sent</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
                 <MenuItem value={'undelivered'}>Undelivered</MenuItem>
-                <MenuItem value={'read'}>Read</MenuItem>
-                <MenuItem value={'replied'}>Replied</MenuItem>
                 <MenuItem value={'failed'}>Failed</MenuItem>
                 <MenuItem value={'Completed'}>Completed</MenuItem>
               </Select>

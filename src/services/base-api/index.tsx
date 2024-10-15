@@ -235,6 +235,7 @@ export const TAGS = [
   'VOUCHERS',
   'GIFT_CARD',
   'GIFT_CARD_TRANSACTION',
+  'USERS_LIST',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [
