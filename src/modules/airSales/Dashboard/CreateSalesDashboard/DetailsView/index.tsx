@@ -52,14 +52,21 @@ const DetailsView = ({ selectedReports }: any) => {
     }
   };
   return (
-    <Card sx={{ height: '80vh', overflow: 'auto' }}>
-      <Typography variant="h4" mt={2} sx={{ textAlign: 'center' }} gutterBottom>
-        Details View
-      </Typography>
-      <Stack direction="column" gap={2} p={2}>
-        {displayDashboardWidgets(selectedReports)}
-      </Stack>
-    </Card>
+    <Box sx={{ height: '80vh', overflow: 'auto' }}>
+      <Card>
+        <Typography
+          variant="h4"
+          mt={2}
+          sx={{ textAlign: 'center' }}
+          gutterBottom
+        >
+          Details View
+        </Typography>
+        <Stack direction="column" gap={2} p={2}>
+          {displayDashboardWidgets(selectedReports)}
+        </Stack>
+      </Card>
+    </Box>
   );
 };
 export default DetailsView;
