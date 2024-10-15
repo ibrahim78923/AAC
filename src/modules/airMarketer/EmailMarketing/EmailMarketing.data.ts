@@ -6,6 +6,7 @@ export const emailOptions = {
   MOVE_TO_FOLDER: 'Move to folder',
   MANAGE_ACCESS: 'Manage Access',
   ARCHIVED: 'Archived',
+  UN_ARCHIVE: 'Unarchive',
   DUPLICATE: 'Duplicate',
   DELETE: 'Delete',
 };

@@ -147,7 +147,11 @@ const ViewDetailsAndPerformance = ({
         width={1000}
         cancelIcon={false}
       >
-        <CreateNewEmail edit data={data} />
+        <CreateNewEmail
+          edit
+          data={data}
+          setIsEditEmailOpen={setIsEditEmailOpen}
+        />
       </CommonModal>
     </>
   );

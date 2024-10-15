@@ -213,6 +213,11 @@ const CompareEmails = () => {
                   name={'email'}
                   fullWidth
                   apiQuery={apiQueryUsers}
+                  externalParams={{
+                    ...(id && {
+                      folderId: id,
+                    }),
+                  }}
                   size="small"
                   placeholder="Select email"
                   getOptionLabel={(option: any) => option?.subject}

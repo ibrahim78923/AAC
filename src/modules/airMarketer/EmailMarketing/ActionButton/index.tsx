@@ -68,11 +68,13 @@ const ActionButton = ({
   };
   const handleArchive = async () => {
     const selectedIds = selectedRecords[indexNumbers?.ZERO];
+    const isArchived =
+      selectedRecords[indexNumbers?.ZERO]?.status === EMAIL_ENUMS?.ARCHIVED;
     try {
       await updateAchieveTemplate({
         id: selectedIds?._id,
         body: {
-          status: EMAIL_ENUMS?.ARCHIVED,
+          status: isArchived ? EMAIL_ENUMS?.SENT : EMAIL_ENUMS?.ARCHIVED,
         },
       })?.unwrap();
       enqueueSnackbar('Request Successful', {
@@ -199,7 +201,12 @@ const ActionButton = ({
           ]}
         >
           <AlertModals
-            message="Are you sure you want to archive this email?"
+            message={`Are you sure you want to ${
+              selectedRecords[indexNumbers?.ZERO]?.status ===
+              EMAIL_ENUMS?.ARCHIVED
+                ? 'unarchive'
+                : 'archive'
+            } this email?`}
             type="Information"
             typeImage={<InfoBlueIcon />}
             open={actionsModalDetails?.isArchive}

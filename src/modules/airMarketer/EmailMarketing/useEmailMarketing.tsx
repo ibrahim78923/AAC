@@ -41,6 +41,9 @@ const useEmailMarketing = () => {
       case emailOptions?.ARCHIVED:
         setActionsModalDetails({ ...actionsModalDetails, isArchive: true });
         break;
+      case emailOptions?.UN_ARCHIVE:
+        setActionsModalDetails({ ...actionsModalDetails, isArchive: true });
+        break;
 
       case emailOptions?.DELETE:
         setActionsModalDetails({

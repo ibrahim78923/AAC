@@ -26,7 +26,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { EMAIL_ENUMS, indexNumbers } from '@/constants';
+import { DATE_TIME_FORMAT, EMAIL_ENUMS, indexNumbers } from '@/constants';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -34,13 +34,19 @@ import {
   emailValidationsSchema,
 } from './CreateNewEmail.data';
 import { useEffect, useState } from 'react';
-import { usePostEmailTemplatesMutation } from '@/services/airMarketer/emailMarketing';
+import {
+  useDeleteEmailMarketingMutation,
+  usePostEmailTemplatesMutation,
+} from '@/services/airMarketer/emailMarketing';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { useGetEmailSettingsIdentitiesQuery } from '@/services/airMarketer/email-settings';
+import utc from 'dayjs/plugin/utc';
 
-const CreateNewEmail = ({ edit, data }: any) => {
+dayjs.extend(utc);
+
+const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
   const {
     isAddNoteDrawer,
     handleAddNoteDrawer,
@@ -141,7 +147,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
   const [submitedDateVal, setSubmitedDateVal] = useState<string | null>(null);
 
   const dateObject = watchEmailsForm[3] && new Date(watchEmailsForm[3]);
-  const isoString = dateObject?.toISOString();
+
+  const isoString = dayjs(dateObject)?.format(DATE_TIME_FORMAT?.YYMMDD);
+
   useEffect(() => {
     if (isoString) {
       setSendLaterDate(isoString);
@@ -159,6 +167,8 @@ const CreateNewEmail = ({ edit, data }: any) => {
   const [postEmailTemplate, { isLoading: loadingpostEmailTemplate }] =
     usePostEmailTemplatesMutation();
 
+  const [deleteEmailTemplate] = useDeleteEmailMarketingMutation();
+
   const onSubmit = async (values: any, status: any): Promise<void> => {
     setToStateDep(toStateDep + 1);
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
@@ -171,17 +181,6 @@ const CreateNewEmail = ({ edit, data }: any) => {
         'content',
         values?.description
           ? `<div>${values?.description} </br> 
-            <button style="
-              background-color: ${theme?.palette?.primary?.main};
-              color: rgba(255, 255, 255, 1);
-              padding: 6px 13px;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              font-size: 10px;
-            ">
-            Unsubscribe
-            </button>
           </div>`
           : ' ',
       );
@@ -215,17 +214,34 @@ const CreateNewEmail = ({ edit, data }: any) => {
         await postEmailTemplate({
           body: formDataSend,
         })?.unwrap();
-        enqueueSnackbar('successfully created ', {
+        enqueueSnackbar('Successfully created ', {
           variant: 'success',
         });
+
+        if (edit) {
+          if (data?.data?.status === EMAIL_ENUMS?.DRAFT) {
+            if (data?.data?._id) {
+              try {
+                await deleteEmailTemplate({
+                  ids: [data?.data?._id],
+                })?.unwrap();
+              } catch (error: any) {
+                enqueueSnackbar('Something went wrong !', { variant: 'error' });
+              }
+            }
+          }
+        }
+
+        reset();
+        if (edit) {
+          setIsEditEmailOpen(false);
+        }
 
         router.push(
           id
             ? `${AIR_MARKETER?.EMAIL_FOLDER_EMAILS}?folder=${folder}&id=${id}`
             : `${AIR_MARKETER?.EMAIL_MARKETING}`,
         );
-
-        reset();
       } catch (error: any) {
         enqueueSnackbar('Something went wrong!', {
           variant: 'error',
@@ -263,7 +279,12 @@ const CreateNewEmail = ({ edit, data }: any) => {
     <>
       <Box sx={styles?.createNewEmailWrap}>
         <Typography variant="h4">
-          <span style={{ cursor: 'pointer' }} onClick={() => router.back()}>
+          <span
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              edit ? setIsEditEmailOpen(false) : router.back();
+            }}
+          >
             <BackArrIcon />
           </span>
           &nbsp;&nbsp; {edit ? 'Edit Details' : 'Create New Email'}
@@ -304,6 +325,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                   select={true}
                   size="small"
                   required={true}
+                  disabled={
+                    edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                  }
                 >
                   {emailsRecords?.data?.emailIdentitiesSES.map((item: any) => (
                     <option key={item?.id} value={item?.email}>
@@ -322,6 +346,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                 handleAutocompleteChange={handleAutocompleteChange}
                 isValid={isToValid}
                 isValidEmails={isValidEmails}
+                disabled={
+                  edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                }
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={4}>
@@ -339,6 +366,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                   size="small"
                   variant={isCcVisible ? 'contained' : 'outlined'}
                   onClick={() => setIsCcVisible(!isCcVisible)}
+                  disabled={
+                    edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                  }
                 >
                   CC
                 </Button>
@@ -346,6 +376,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                   size="small"
                   variant={isBccVisible ? 'contained' : 'outlined'}
                   onClick={() => setIsBccVisible(!isBccVisible)}
+                  disabled={
+                    edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                  }
                 >
                   BCC
                 </Button>
@@ -361,6 +394,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                   handleAutocompleteChange={handleAutocompleteCCChange}
                   isValid={false}
                   isValidEmails={isValidCCEmails}
+                  disabled={
+                    edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                  }
                 />
               </Grid>
             )}
@@ -374,6 +410,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                   handleAutocompleteChange={handleAutocompleteBCCChange}
                   isValid={false}
                   isValidEmails={isValidBCCEmails}
+                  disabled={
+                    edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                  }
                 />
               </Grid>
             )}
@@ -384,6 +423,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                 label="Subject"
                 size="small"
                 required={true}
+                disabled={
+                  edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                }
               />
             </Grid>
 
@@ -392,7 +434,9 @@ const CreateNewEmail = ({ edit, data }: any) => {
                 name="description"
                 label={'Message'}
                 placeholder="Enter Email Text"
-                disabled={false}
+                disabled={
+                  edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false
+                }
                 toolbar={{
                   container: [
                     ['bold', 'italic', 'underline', 'strike'],
@@ -446,14 +490,12 @@ const CreateNewEmail = ({ edit, data }: any) => {
             color="primary"
             variant="contained"
             endIcon={<ArrowDropDownIcon />}
+            disabled={edit ? data?.data?.status !== EMAIL_ENUMS?.DRAFT : false}
             onClick={handleSendMenuClick}
             classes={{ outlined: 'outlined_btn' }}
             type="button"
           >
-            {loadingpostEmailTemplate && isSendLater && (
-              <CircularProgress size={15} />
-            )}{' '}
-            Send
+            {loadingpostEmailTemplate && <CircularProgress size={15} />} Send
           </Button>
           <Menu
             anchorEl={sendAnchorEl}
@@ -468,28 +510,25 @@ const CreateNewEmail = ({ edit, data }: any) => {
             <MenuItem
               onClick={() => {
                 handleSubmit(onSubmit)(EMAIL_ENUMS?.SENT);
+                handleSendMenuClose();
               }}
               sx={{ display: 'flex', gap: '5px' }}
             >
-              {loadingpostEmailTemplate && !isSendLater && (
-                <CircularProgress size={15} />
-              )}{' '}
               Send
             </MenuItem>
             <MenuItem
               onClick={() => {
                 handelSchedule();
+                handleSendMenuClose;
               }}
             >
               {' '}
-              {loadingpostEmailTemplate && isSendLater && (
-                <CircularProgress size={15} />
-              )}
               Schedule
             </MenuItem>
             <MenuItem
               onClick={() => {
                 handleSubmit(onSubmit)(EMAIL_ENUMS?.DRAFT);
+                handleSendMenuClose;
               }}
             >
               Save as Draft
@@ -534,6 +573,7 @@ const MultiTextField = ({
   isValidEmails,
   label,
   required,
+  disabled,
 }: any) => {
   const theme = useTheme();
   return (
@@ -543,6 +583,7 @@ const MultiTextField = ({
       id="tags-filled"
       options={[]}
       value={values}
+      disabled={disabled}
       onChange={handleAutocompleteChange}
       renderTags={(value: readonly string[], getTagProps) =>
         value?.map((option: string, index: number) => (
