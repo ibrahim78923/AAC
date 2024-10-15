@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
-  softwareReportsCardsDataDynamic,
-  softwareReportsChartsDataDynamic,
+  SoftwareReportsCountData,
   softwareReportsTableColumnsDynamic,
   softwareStatusReportsOptions,
 } from './SoftwareReports.data';
@@ -90,9 +89,9 @@ export const useSoftwareReports = () => {
     setLoading(false);
   };
 
-  const softwareReportsCardsData = softwareReportsCardsDataDynamic(data?.data);
+  const softwareReportsCardsData = SoftwareReportsCountData(data?.data);
   const softwareReportsChartsData = filteredEmptyValues(
-    softwareReportsChartsDataDynamic(data?.data),
+    SoftwareReportsCountData(data?.data),
   );
   const softwareReportsTableColumns = softwareReportsTableColumnsDynamic?.();
 

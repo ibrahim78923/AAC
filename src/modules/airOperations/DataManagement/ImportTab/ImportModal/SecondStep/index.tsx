@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { style } from './SecondStep.style';
 import { importDataField } from '../ImportModal.data';
+import { FIELD_TYPES } from '@/constants/strings';
 
 const SecondStep = (props: any) => {
   const { handlePreview, requiredColumns = [], productOptions } = props;
@@ -20,11 +21,14 @@ const SecondStep = (props: any) => {
         Uploaded file must have these columns
       </Typography>
       <List>
-        {requiredColumns?.map?.((columnName: string) => (
-          <ListItem key={columnName} sx={style?.listItem(palette)}>
-            {columnName}
-          </ListItem>
-        ))}
+        {requiredColumns?.map?.(
+          (columnName: any) =>
+            columnName?.groupBy == FIELD_TYPES?.MANDATORY_FIELD && (
+              <ListItem key={columnName?._id} sx={style?.listItem(palette)}>
+                {columnName?.label}
+              </ListItem>
+            ),
+        )}
       </List>
       <Box my={2.4}>
         <Grid container>

@@ -175,7 +175,6 @@ const ImportModal = () => {
                       onClick={handleSubmit(submitImportModalForm)}
                       disabled={
                         !!!importLog ||
-                        product === null ||
                         (modalStep === 2 && importDeals === null)
                       }
                     >

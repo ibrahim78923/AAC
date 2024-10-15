@@ -57,7 +57,6 @@ export const useKnowledgeBaseDetail = () => {
     });
   const articlesData = data?.data?.articles;
   const articlesMetaData = data?.data?.meta;
-  const folderName = data?.data?.articles?.[ARRAY_INDEX?.ZERO]?.folder?.name;
 
   return {
     handleKnowledgeBase,
@@ -67,7 +66,6 @@ export const useKnowledgeBaseDetail = () => {
     articlesData,
     articlesMetaData,
     isLoading,
-    folderName,
     isFetching,
     isError,
     refetch,

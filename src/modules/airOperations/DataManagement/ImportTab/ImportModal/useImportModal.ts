@@ -4,6 +4,7 @@ import {
   importDefaultValues,
   importValidationSchema,
   productOptionsFunction,
+  stepsData,
 } from './ImportModal.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,6 +15,7 @@ import {
   useUploadFileTos3UsingSignedUrlMutation,
 } from '@/services/airServices/global/import';
 import {
+  FIELD_TYPES,
   IMPORT_ACTION_TYPE,
   IMPORT_FILE_TYPE,
   IMPORT_OBJECT_TYPE,
@@ -45,6 +47,12 @@ export const useImportModal = () => {
         refetchOnMountOrArgChange: true,
       },
     );
+
+  const filterMandatoryFields = () => {
+    return stepsData[importLog]?.filter(
+      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+    );
+  };
 
   const hasAccounts = data?.data?.map(
     (account: any) =>
@@ -78,7 +86,7 @@ export const useImportModal = () => {
 
   const submitImportModalForm = async (data: any) => {
     try {
-      if (data?.product === IMPORT_ACTION_TYPE?.Sales) {
+      if (data?.product === IMPORT_ACTION_TYPE?.SALES) {
         if (modalStep === 1) {
           setModalStep((prev: any) => ++prev);
         } else if (modalStep === 2) {
@@ -104,7 +112,7 @@ export const useImportModal = () => {
           const dataColumn = data?.importedFields?.reduce(
             (acc: any, item: any) => ({
               ...acc,
-              [item?.fileColumn]: item?.crmFields,
+              [item?.fileColumn]: item?.crmFields?._id,
             }),
             {},
           );
@@ -113,8 +121,20 @@ export const useImportModal = () => {
             (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
-          if (hasDuplicate) {
-            errorSnackbar('Duplicate crmFields are not allowed');
+          const isRequiredFieldMap: any = values?.reduce(
+            (acc: any, curr: any) => ((acc[curr] = true), acc),
+            {},
+          );
+
+          const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
+            (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
+          );
+
+          if (hasDuplicate || !isAllRequiredFieldPresent) {
+            hasDuplicate &&
+              errorSnackbar('Duplicate crmFields are not allowed');
+            !isAllRequiredFieldPresent &&
+              errorSnackbar('Select all mandatory field');
           } else {
             const apiData = {
               body: {
@@ -151,6 +171,7 @@ export const useImportModal = () => {
               file: data?.importDeals,
               signedUrl: response?.data,
             };
+
             uploadToS3CsvFile(s3Data);
             setFileResponse(response);
           } catch (error: any) {
@@ -161,7 +182,7 @@ export const useImportModal = () => {
           const dataColumn = data?.importedFields?.reduce(
             (acc: any, item: any) => ({
               ...acc,
-              [item?.fileColumn]: item?.crmFields,
+              [item?.fileColumn]: item?.crmFields?._id,
             }),
             {},
           );
@@ -170,8 +191,20 @@ export const useImportModal = () => {
             (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
-          if (hasDuplicate) {
-            errorSnackbar('Duplicate crmFields are not allowed');
+          const isRequiredFieldMap: any = values?.reduce(
+            (acc: any, curr: any) => ((acc[curr] = true), acc),
+            {},
+          );
+
+          const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
+            (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
+          );
+
+          if (hasDuplicate || !isAllRequiredFieldPresent) {
+            hasDuplicate &&
+              errorSnackbar('Duplicate crmFields are not allowed');
+            !isAllRequiredFieldPresent &&
+              errorSnackbar('Select all mandatory field');
           } else {
             const url = new URL(`${fileResponse?.data}`);
             const filePath = `${url?.origin}${url?.pathname}`;
@@ -188,6 +221,7 @@ export const useImportModal = () => {
                 dataColumn: dataColumn,
               },
             };
+
             try {
               const response: any =
                 await newImportFileForServicesTrigger?.(apiData)?.unwrap();
@@ -205,6 +239,7 @@ export const useImportModal = () => {
       errorSnackbar(error?.message);
     }
   };
+
   const uploadToS3CsvFile = async (data: any) => {
     const s3ApiDataParameter = {
       url: data?.signedUrl,
@@ -299,7 +334,6 @@ export const useImportModal = () => {
     importLog,
     product,
     handleSubmit,
-    importDeals,
     fields,
     handlePreview,
     remove,
@@ -311,5 +345,6 @@ export const useImportModal = () => {
     productOptions,
     isLoading,
     isFetching,
+    importDeals,
   };
 };

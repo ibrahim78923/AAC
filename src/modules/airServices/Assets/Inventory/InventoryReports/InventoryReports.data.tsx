@@ -4,55 +4,13 @@ import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
 
-export const INVENTORY_REPORT_STATUS_COUNT = {
-  [INVENTORY_REPORT_STATUS?.ALL]: 'allAssest',
-  [INVENTORY_REPORT_STATUS?.HARDWARE]: 'inventoryHardware',
-  [INVENTORY_REPORT_STATUS?.SOFTWARE]: 'backUpSoftware',
-  [INVENTORY_REPORT_STATUS?.CONTRACTS]: 'inventoryContracts',
-  [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]: 'inventoryPurchaseOrder',
-};
-
-export const inventoryReportsCardsDataDynamic = (data: any) => {
+export const InventoryReportsCountData = (data: any) => {
   return {
-    [INVENTORY_REPORT_STATUS?.ALL]:
-      data?.[INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.ALL]],
-    [INVENTORY_REPORT_STATUS?.HARDWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.HARDWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.SOFTWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.SOFTWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.CONTRACTS]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.CONTRACTS]
-      ],
-    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]
-      ],
-  };
-};
-
-export const inventoryReportsChartDataDynamic = (data: any) => {
-  return {
-    [INVENTORY_REPORT_STATUS?.HARDWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.HARDWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.SOFTWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.SOFTWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.CONTRACTS]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.CONTRACTS]
-      ],
-    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]
-      ],
+    [INVENTORY_REPORT_STATUS?.ALL]: data?.allAssest,
+    [INVENTORY_REPORT_STATUS?.HARDWARE]: data?.inventoryHardware,
+    [INVENTORY_REPORT_STATUS?.SOFTWARE]: data?.backUpSoftware,
+    [INVENTORY_REPORT_STATUS?.CONTRACTS]: data?.inventoryContracts,
+    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]: data?.inventoryPurchaseOrder,
   };
 };
 

@@ -158,6 +158,14 @@ export const SOFTWARE_STATUS = {
   ALL_SOFTWARE: 'All Software',
 };
 
+export const CONTRACT_REPORT_STATUS = {
+  ALL: 'All',
+  LEASE: 'Lease',
+  MAINTENANCE: 'Maintenance',
+  SOFTWARE: 'Software',
+  WARRANTY: 'Warranty',
+};
+
 export const expande_status = {
   List_View: 'List View',
   Broad_List: 'Board List',
@@ -545,8 +553,8 @@ export const IMPORT_ACTION_TYPE = {
   DEALS: 'DEALS',
   TASKS: 'TASKS',
   PRODUCT: 'product',
-  Sales: 'Sales',
-  Services: 'Services',
+  SALES: 'Sales',
+  SERVICES: 'Services',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -964,7 +972,8 @@ export const COLLECTION_NAME = {
   USERS: 'users',
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
-  SALES_PIPELINES: 'salespipeline',
+  FORECAST_PIPELINES: 'goals',
+  FORECAST_STAGES: 'forecastStage',
   CONTRACT_TYPE: 'contracttypes',
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',

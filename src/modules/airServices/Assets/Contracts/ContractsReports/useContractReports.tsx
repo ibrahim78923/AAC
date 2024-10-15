@@ -2,8 +2,7 @@ import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  ContractReportsCardData,
-  ContractReportsChartData,
+  ContractReportsCountData,
   contractsTypeOptions,
 } from './ContractReportsCard.data';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
@@ -72,9 +71,9 @@ export const useContractReports = () => {
     setLoading(false);
   };
 
-  const contractReportsCardData = ContractReportsCardData(data?.data);
+  const contractReportsCardData = ContractReportsCountData(data?.data);
   const contractReportsChartData = filteredEmptyValues(
-    ContractReportsChartData(data?.data),
+    ContractReportsCountData(data?.data),
   );
 
   const onDateFilterSubmit = (setAnchorElDate: any) => {

@@ -95,22 +95,15 @@ export const xAxesDataArray: any = {
     { label: 'Billing Frequency', value: 'billingFrequency', ref: null },
   ],
   FORECAST: [
+    { label: 'Goal Name', value: 'goalName', ref: null },
     {
-      label: 'Pipelines',
-      value: 'sales_pipelinesId',
-      ref: COLLECTION_NAME?.SALES_PIPELINES,
+      label: 'Goals Pipelines',
+      value: 'goals_pipelineId',
+      ref: COLLECTION_NAME?.FORECAST_PIPELINES,
     },
-    { label: 'Goal Status', value: 'goal_status', ref: null },
-    {
-      label: 'Target',
-      value: 'target',
-      ref: null,
-    },
-    {
-      label: 'Users',
-      value: 'usersId',
-      ref: COLLECTION_NAME?.USERS,
-    },
+    { label: 'Target', value: 'target', ref: null },
+    { label: 'Status', value: 'status', ref: null },
+    { label: 'Duration', value: 'duration', ref: null },
   ],
   CAMPAIGN: [
     {

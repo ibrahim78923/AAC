@@ -1,70 +1,41 @@
 import { TruncateText } from '@/components/TruncateText';
 import { DATE_FORMAT } from '@/constants';
+import { CONTRACT_REPORT_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 
-export const ContractReportsCardData = (data: any) => {
+export const ContractReportsCountData = (data: any) => {
   return {
-    All: data?.allContract,
-    Lease: data?.lease,
-    Maintenance: data?.maintenance,
-    Software: data?.softwareLicence,
-    Warranty: data?.warranty,
+    [CONTRACT_REPORT_STATUS?.ALL]: data?.allContract,
+    [CONTRACT_REPORT_STATUS?.LEASE]: data?.lease,
+    [CONTRACT_REPORT_STATUS?.MAINTENANCE]: data?.maintenance,
+    [CONTRACT_REPORT_STATUS?.SOFTWARE]: data?.softwareLicence,
+    [CONTRACT_REPORT_STATUS?.WARRANTY]: data?.warranty,
   };
 };
-export const ContractReportsChartData = (data: any) => {
-  return {
-    All: data?.allContract,
-    Lease: data?.lease,
-    Maintenance: data?.maintenance,
-    Software: data?.softwareLicence,
-    Warranty: data?.warranty,
-  };
-};
-export const chartOptions: any = [
-  'All',
-  'Lease',
-  'Maintenance',
-  'Software',
-  'Warranty',
-];
 
 export const contractsTypeOptions = [
   {
     _id: 'allContract',
-    label: 'All',
+    label: [CONTRACT_REPORT_STATUS?.ALL],
   },
   {
     _id: 'lease',
-    label: 'Lease',
+    label: [CONTRACT_REPORT_STATUS?.LEASE],
   },
   {
     _id: 'maintenance',
-    label: 'Maintenance',
+    label: [CONTRACT_REPORT_STATUS?.MAINTENANCE],
   },
   {
     _id: 'softwareLicence',
-    label: 'Software',
+    label: [CONTRACT_REPORT_STATUS?.SOFTWARE],
   },
   {
     _id: 'warranty',
-    label: 'Warranty',
+    label: [CONTRACT_REPORT_STATUS?.WARRANTY],
   },
 ];
 
-export const contractReportsTableData = [
-  {
-    name: 'Freshsevice',
-    type: '',
-    status: '',
-    expirydate: '',
-  },
-  {
-    name: 'Microsoft Office 365',
-    status: '',
-    type: '',
-    expirydate: '',
-  },
-];
 export const contractReportsTabelCoulmns = [
   {
     accessorFn: (row: any) => row?.name,

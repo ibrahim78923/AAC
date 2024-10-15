@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
-  inventoryReportsCardsDataDynamic,
-  inventoryReportsChartDataDynamic,
+  InventoryReportsCountData,
   inventoryTableFilterOptions,
 } from './InventoryReports.data';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
@@ -87,11 +86,9 @@ export const useInventoryReports = () => {
   };
 
   const inventoryData = data?.data;
-  const inventoryReportsCardsData = inventoryReportsCardsDataDynamic(
-    data?.data,
-  );
+  const inventoryReportsCardsData = InventoryReportsCountData(data?.data);
   const inventoryReportsChartsData = filteredEmptyValues(
-    inventoryReportsChartDataDynamic(data?.data),
+    InventoryReportsCountData(data?.data),
   );
 
   const shouldDateSet = () => {

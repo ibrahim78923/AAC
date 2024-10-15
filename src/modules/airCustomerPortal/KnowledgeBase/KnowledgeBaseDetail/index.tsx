@@ -1,4 +1,4 @@
-import { Box, Skeleton } from '@mui/material';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import { useKnowledgeBaseDetail } from './useKnowledgeBaseDetail';
 import { KnowledgeBaseArticles } from './KnowledgeBaseArticles';
@@ -9,7 +9,6 @@ import NoData from '@/components/NoData';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { truncateText } from '@/utils/avatarUtils';
 
 export const KnowledgeBaseDetail = () => {
   const {
@@ -20,7 +19,6 @@ export const KnowledgeBaseDetail = () => {
     articlesData,
     articlesMetaData,
     isLoading,
-    folderName,
     isFetching,
     isError,
     refetch,
@@ -41,15 +39,7 @@ export const KnowledgeBaseDetail = () => {
   return (
     <Box border={1} borderColor="grey.700" p={2} borderRadius={2}>
       <PageTitledHeader
-        title={
-          isLoading || isFetching ? (
-            <Skeleton variant="rectangular" width={'10rem'} />
-          ) : folderName ? (
-            `Knowledge Base - ${truncateText(folderName)}`
-          ) : (
-            'Knowledge Base'
-          )
-        }
+        title={'Knowledge Base'}
         canMovedBack
         moveBack={handleKnowledgeBase}
       />

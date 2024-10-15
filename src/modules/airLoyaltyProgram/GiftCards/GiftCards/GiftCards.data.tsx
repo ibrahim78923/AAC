@@ -1,28 +1,50 @@
+import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { UserInfo } from '@/components/UserInfo';
-import { AIR_LOYALTY_PROGRAM, DATE_TIME_FORMAT } from '@/constants';
+import {
+  ACTIVITY_STATUS_MENU,
+  AIR_LOYALTY_PROGRAM,
+  DATE_TIME_FORMAT,
+} from '@/constants';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const data: any = [
   {
-    id: 6757,
+    id: 1,
     cardNumber: 'TVKP123451',
     cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
     totalAmount: '£100.00',
     spentAmount: '£09.00',
     currentAmount: '£09.00',
     createdAt: '2023-12-14T11:59:08.238Z',
+    status: 'active',
   },
   {
-    id: 4551,
+    id: 2,
+    cardNumber: 'TVKP18651',
+    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
+    totalAmount: '£100.00',
+    spentAmount: '£09.00',
+    currentAmount: '£09.00',
+    createdAt: '2023-12-14T11:59:08.238Z',
+    status: 'Inactive',
+  },
+  {
+    id: 3,
     cardNumber: 'TVKP123451',
     cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
     totalAmount: '£100.00',
     spentAmount: '£09.00',
     currentAmount: '£09.00',
     createdAt: '2023-12-14T11:59:08.238Z',
+    status: 'expired',
   },
+];
+
+const MenuItemDataArray = [
+  { value: ACTIVITY_STATUS_MENU?.ACTIVE, label: 'Active' },
+  { value: ACTIVITY_STATUS_MENU?.INACTIVE, label: 'Inactive' },
 ];
 
 export const giftCardColumnsFunction = (router: any): any => [
@@ -88,5 +110,22 @@ export const giftCardColumnsFunction = (router: any): any => [
     header: 'Created At',
     isSortable: true,
     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+  },
+  {
+    accessorFn: (row: any) => row?.status,
+    id: 'status',
+    header: 'Status',
+    isSortable: true,
+    cell: (info: any) => {
+      const status = info.getValue()?.toUpperCase();
+
+      return (
+        <ActivityStatusMenu
+          info={info}
+          activityStatus={status}
+          MenuItemDataArray={MenuItemDataArray}
+        />
+      );
+    },
   },
 ];

@@ -112,6 +112,7 @@ export const useChartEditor = (props: ChartEditorI) => {
     SALES_PIPELINES_ID: 'sales_pipelinesId',
     USERS: 'usersId',
     CONTRACT_TYPE: 'contractType',
+    GOALS_PIPELINE_ID: 'goals_pipelineId',
   };
 
   const getSingleFieldDropdown = () => {
@@ -150,6 +151,8 @@ export const useChartEditor = (props: ChartEditorI) => {
         return usersDropdown;
       case xAxesFields?.CONTRACT_TYPE:
         return contractTypeDropdown;
+      case xAxesFields?.GOALS_PIPELINE_ID:
+        return dealsDropdown;
       default:
         return [];
     }

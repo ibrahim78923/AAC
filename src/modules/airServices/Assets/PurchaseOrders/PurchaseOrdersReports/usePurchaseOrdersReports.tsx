@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
-  purchaseOrderReportsCardsDataDynamic,
-  purchaseOrderReportsChartDataDynamic,
+  PurchaseOrderReportsCountData,
   purchaseOrderTableFilterOptions,
 } from './PurchaseOrdersReports.data';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
@@ -87,11 +86,11 @@ export const usePurchaseOrderReports = () => {
   };
 
   const purchaseOrderData = data?.data;
-  const purchaseOrderReportsCardsData = purchaseOrderReportsCardsDataDynamic(
+  const purchaseOrderReportsCardsData = PurchaseOrderReportsCountData(
     data?.data,
   );
   const purchaseOrderReportsChartsData = filteredEmptyValues(
-    purchaseOrderReportsChartDataDynamic(data?.data),
+    PurchaseOrderReportsCountData(data?.data),
   );
 
   const shouldDateSet = () => {

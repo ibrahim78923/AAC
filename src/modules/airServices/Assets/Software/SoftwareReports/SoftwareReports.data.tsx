@@ -1,85 +1,42 @@
 import { TruncateText } from '@/components/TruncateText';
-import { SOFTWARE_STATUS, SOFTWARE_TYPE } from '@/constants/strings';
+import { SOFTWARE_STATUS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 
-export const SOFTWARE_STATUS_COUNT = {
-  TOTAL_SOFTWARE: 'totalSoftware',
-  [SOFTWARE_STATUS?.RESTRICTED]: 'restricted',
-  [SOFTWARE_STATUS?.IGNORED]: 'ignored',
-  [SOFTWARE_STATUS?.MANAGED]: 'managed',
-  [SOFTWARE_STATUS?.DISABLED]: 'disable',
-  [SOFTWARE_STATUS?.IN_REVIEW]: 'inReview',
-};
-
-export const softwareReportsCardsDataDynamic = (data: any) => {
+export const SoftwareReportsCountData = (data: any) => {
   return {
-    TotalSoftware: data?.[SOFTWARE_STATUS_COUNT?.TOTAL_SOFTWARE],
-    [SOFTWARE_STATUS?.RESTRICTED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.RESTRICTED]],
-    [SOFTWARE_STATUS?.IGNORED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.IGNORED]],
-    [SOFTWARE_STATUS?.MANAGED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.MANAGED]],
-    [SOFTWARE_STATUS?.DISABLED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.DISABLED]],
-    [SOFTWARE_STATUS?.IN_REVIEW]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.IN_REVIEW]],
+    [SOFTWARE_STATUS?.ALL_SOFTWARE]: data?.totalSoftware,
+    [SOFTWARE_STATUS?.RESTRICTED]: data?.restricted,
+    [SOFTWARE_STATUS?.IGNORED]: data?.ignored,
+    [SOFTWARE_STATUS?.MANAGED]: data?.managed,
+    [SOFTWARE_STATUS?.DISABLED]: data?.disable,
+    [SOFTWARE_STATUS?.IN_REVIEW]: data?.inReview,
   };
 };
 
-export const softwareReportsChartsDataDynamic = (data: any) => {
-  return {
-    [SOFTWARE_STATUS?.RESTRICTED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.RESTRICTED]],
-    [SOFTWARE_STATUS?.IGNORED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.IGNORED]],
-    [SOFTWARE_STATUS?.MANAGED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.MANAGED]],
-    [SOFTWARE_STATUS?.DISABLED]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.DISABLED]],
-    [SOFTWARE_STATUS?.IN_REVIEW]:
-      data?.[SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.IN_REVIEW]],
-  };
-};
 export const softwareStatusReportsOptions = [
   {
-    label: 'All Software',
-    _id: SOFTWARE_STATUS_COUNT?.TOTAL_SOFTWARE,
+    label: SOFTWARE_STATUS?.ALL_SOFTWARE,
+    _id: 'totalSoftware',
   },
   {
     label: SOFTWARE_STATUS?.RESTRICTED,
-    _id: SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.RESTRICTED],
+    _id: 'restricted',
   },
   {
     label: SOFTWARE_STATUS?.MANAGED,
-    _id: SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.MANAGED],
+    _id: 'managed',
   },
   {
     label: SOFTWARE_STATUS?.IN_REVIEW,
-    _id: SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.IN_REVIEW],
+    _id: 'inReview',
   },
   {
     label: SOFTWARE_STATUS?.IGNORED,
-    _id: SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.IGNORED],
+    _id: 'ignored',
   },
   {
     label: SOFTWARE_STATUS?.DISABLED,
-    _id: SOFTWARE_STATUS_COUNT?.[SOFTWARE_STATUS?.DISABLED],
-  },
-];
-
-export const softwareTypeReportsOptions = [
-  {
-    _id: SOFTWARE_TYPE?.DESKTOP,
-    label: SOFTWARE_TYPE?.DESKTOP,
-  },
-  {
-    _id: SOFTWARE_TYPE?.SAAS,
-    label: SOFTWARE_TYPE?.SAAS,
-  },
-  {
-    _id: SOFTWARE_TYPE?.MOBILE,
-    label: SOFTWARE_TYPE?.MOBILE,
+    _id: 'disable',
   },
 ];
 
