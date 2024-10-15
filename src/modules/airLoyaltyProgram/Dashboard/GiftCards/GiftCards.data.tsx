@@ -7,7 +7,7 @@ const MenuItemDataArray = [
   { value: ACTIVITY_STATUS_MENU?.INACTIVE, label: 'Inactive' },
 ];
 
-export const getGriftCardsColumns = () => [
+export const getGiftCardsColumns = () => [
   {
     accessorFn: (row: any) => row?.cardNumber,
     id: 'cardNumber',

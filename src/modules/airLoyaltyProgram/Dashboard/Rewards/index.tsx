@@ -23,7 +23,7 @@ export const Rewards = (props: any) => {
         p={1}
         justifyContent={'space-between'}
       >
-        <Typography variant={'h4'}>Rewards</Typography>
+        <Typography variant={'h5'}>Rewards</Typography>
 
         <Link href={AIR_LOYALTY_PROGRAM?.REWARDS}>
           <Button>View All</Button>

@@ -23,7 +23,7 @@ export const PointsTransaction = (props: any) => {
         p={1}
         justifyContent={'space-between'}
       >
-        <Typography variant={'h4'}>Points Transaction</Typography>
+        <Typography variant={'h5'}>Points Transaction</Typography>
 
         <Link href={AIR_LOYALTY_PROGRAM?.TRANSACTIONS}>
           <Button>View All</Button>

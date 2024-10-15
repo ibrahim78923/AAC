@@ -4,8 +4,10 @@ import { useDashboard } from './useDashboard';
 import { Widgets } from './Widgets';
 import { TopConsumer } from './TopConsumer';
 import { Rewards } from './Rewards';
-import { GriftCards } from './GriftCards';
+import { GiftCards } from './GiftCards';
 import { PointsTransaction } from './PointsTransaction';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Dashboard = () => {
   const {
@@ -19,33 +21,37 @@ export const Dashboard = () => {
   } = useDashboard();
 
   return (
-    <Stack spacing={3}>
-      <Header
-        selectionRange={selectionRange}
-        setSelectionRange={setSelectionRange}
-        anchorElDate={anchorElDate}
-        setAnchorElDate={setAnchorElDate}
-        handleCloseDate={handleCloseDate}
-        handleApplyDate={handleApplyDate}
-      />
+    <PermissionsGuard
+      permissions={[AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+    >
+      <Stack spacing={3}>
+        <Header
+          selectionRange={selectionRange}
+          setSelectionRange={setSelectionRange}
+          anchorElDate={anchorElDate}
+          setAnchorElDate={setAnchorElDate}
+          handleCloseDate={handleCloseDate}
+          handleApplyDate={handleApplyDate}
+        />
 
-      <Widgets widgetsDataArray={widgetsDataArray} />
+        <Widgets widgetsDataArray={widgetsDataArray} />
 
-      <TopConsumer topConsumerData={[]} />
+        <TopConsumer topConsumerData={[]} />
 
-      <Box>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={4}>
-            <Rewards rewardsData={[]} />
+        <Box>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={4}>
+              <Rewards rewardsData={[]} />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <GiftCards giftCardsData={[]} />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <PointsTransaction pointsTransactionData={[]} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <GriftCards griftCardsData={[]} />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <PointsTransaction pointsTransactionData={[]} />
-          </Grid>
-        </Grid>
-      </Box>
-    </Stack>
+        </Box>
+      </Stack>
+    </PermissionsGuard>
   );
 };

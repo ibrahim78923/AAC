@@ -2,12 +2,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
-import { getGriftCardsColumns } from './GriftCards.data';
+import { getGiftCardsColumns } from './GiftCards.data';
 
-export const GriftCards = (props: any) => {
-  const { griftCardsData } = props;
+export const GiftCards = (props: any) => {
+  const { giftCardsData } = props;
 
-  const griftCardsColumns = getGriftCardsColumns();
+  const giftCardsColumns = getGiftCardsColumns();
 
   return (
     <Box
@@ -23,14 +23,14 @@ export const GriftCards = (props: any) => {
         p={1}
         justifyContent={'space-between'}
       >
-        <Typography variant={'h4'}>Grift Cards</Typography>
+        <Typography variant={'h5'}>Gift Cards</Typography>
 
         <Link href={AIR_LOYALTY_PROGRAM?.GIFT_CARDS}>
           <Button>View All</Button>
         </Link>
       </Box>
 
-      <TanstackTable columns={griftCardsColumns} data={griftCardsData} />
+      <TanstackTable columns={giftCardsColumns} data={giftCardsData} />
     </Box>
   );
 };

@@ -1774,3 +1774,8 @@ export const AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS = {
   SERVICE_CUSTOMER_SHARE_TICKET_WITH_OTHER_REQUESTER:
     'service-customer-share-ticket-with-other-requester',
 };
+
+export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'Loyalty-dashboard-view',
+  APPLY_FILTERS: 'Loyalty-dashboard-apply-filters',
+};

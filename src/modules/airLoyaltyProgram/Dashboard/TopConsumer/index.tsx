@@ -17,7 +17,7 @@ export const TopConsumer = (props: any) => {
       bgcolor={'common.white'}
     >
       <Box display={'flex'} gap={1} alignItems={'center'} p={2}>
-        <Typography variant={'h4'}>Top Consumers</Typography>
+        <Typography variant={'h5'}>Top Consumers</Typography>
 
         <CustomTooltip
           title={
