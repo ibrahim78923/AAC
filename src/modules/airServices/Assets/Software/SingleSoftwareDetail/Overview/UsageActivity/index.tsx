@@ -1,77 +1,44 @@
-import { PieChart } from '@mui/x-charts/PieChart';
-import { StyledText, styles } from './UsageActivity.style';
+import { styles } from './UsageActivity.style';
 import { Box, Skeleton, Typography } from '@mui/material';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useUsageActivity } from './useUsageActivity';
-import { UsageActivityI } from './UsageActivity.interface';
+import { CustomChart } from '@/components/Chart';
+import NoData from '@/components/NoData';
 
-function UsageActivity(props: UsageActivityI) {
+function UsageActivity() {
   const {
     theme,
-    usageActivityLabel,
     isLoading,
     isError,
     data,
-    usageActivityData,
-    width,
-    height,
-    left,
-    top,
     isFetching,
-  } = useUsageActivity(props);
+    usageChartData,
+    chartOptions,
+    totalUsersCount,
+  } = useUsageActivity();
 
   return (
     <>
-      <Box sx={styles.mainBox(theme)}>
-        <Typography sx={styles?.heading}>
-          {usageActivityLabel?.heading}
-        </Typography>
+      <Box sx={styles?.mainBox(theme)}>
+        <Typography sx={styles?.heading}>Usage Activity</Typography>
         {isLoading || isFetching ? (
           <Box p={2}>
             <Skeleton height={250} />
           </Box>
         ) : isError ? (
           <ApiErrorState />
+        ) : totalUsersCount === 0 ? (
+          <NoData height="70%" />
         ) : (
-          <PieChart
-            series={[
-              {
-                data: usageActivityData?.map((item) => ({
-                  ...item,
-                  value:
-                    data?.data?.usageActivity === 0
-                      ? 1e-10
-                      : data?.data?.usageActivity,
-                })),
-                cx: styles?.alignGraph?.cx,
-                cy: styles?.alignGraph?.cy,
-                innerRadius: styles?.alignGraph?.innerRadius,
-                outerRadius: styles?.alignGraph?.outerRadius,
-                paddingAngle: styles?.alignGraph?.paddingAngle,
-                cornerRadius: styles?.alignGraph?.cornerRadius,
-                startAngle: styles?.alignGraph?.startAngle,
-                endAngle: styles?.alignGraph?.endAngle,
-              },
-            ]}
-            sx={styles?.chart}
-            legend={{ hidden: true }}
-            width={370}
-            height={280}
-          >
-            <StyledText
-              x={left + width / styles?.alignGraph?.numberLabelX}
-              y={top + height / styles?.alignGraph?.numberLabelY}
-            >
-              {data?.data?.usageActivity}
-            </StyledText>
-
-            <StyledText
-              x={left + width / styles?.alignGraph?.textLabelX}
-              y={top + height / styles?.alignGraph?.textLabelY}
-            >
-              {usageActivityLabel?.textLabel}
-            </StyledText>
-          </PieChart>
+          <Box p={2.5}>
+            <CustomChart
+              options={chartOptions}
+              series={usageChartData}
+              type="donut"
+              width={370}
+              height={260}
+            />
+          </Box>
         )}
         <Box sx={styles?.footerBox}>
           <Box sx={styles?.footerTypographyBox(theme)}>

@@ -2,13 +2,7 @@ import { Box } from '@mui/material';
 import ContractOverview from './ContractOverview';
 import ContractUtilization from './ContractUtilization';
 import UsageActivity from './UsageActivity';
-import {
-  contractUtilizationData,
-  contractUtilizationLabel,
-  usageActivityData,
-  usageActivityLabel,
-  contractOverviewLabel,
-} from './Overview.data';
+import { contractOverviewLabel } from './Overview.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -23,14 +17,8 @@ export const Overview = () => {
         gap={'1.5rem'}
         flexWrap={'wrap'}
       >
-        <UsageActivity
-          usageActivityData={usageActivityData}
-          usageActivityLabel={usageActivityLabel}
-        />
-        <ContractUtilization
-          contractUtilizationData={contractUtilizationData}
-          contractUtilizationLabel={contractUtilizationLabel}
-        />
+        <UsageActivity />
+        <ContractUtilization />
         <ContractOverview contractOverviewLabel={contractOverviewLabel} />
       </Box>
     </PermissionsGuard>

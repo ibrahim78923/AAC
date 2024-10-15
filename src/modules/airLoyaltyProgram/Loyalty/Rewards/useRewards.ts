@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import { getActivePermissionsSession } from '@/utils';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { loyaltyRewardColumnDynamic } from './Rewards.data';
 import { useRouter } from 'next/router';
@@ -15,7 +14,6 @@ export const useRewards = () => {
     isOpen: false,
     data: '',
   });
-  const overallPermissions = getActivePermissionsSession();
 
   const [isRewardDetailsOpen, setIsRewardDetailsOpen] = useState({
     isOpen: false,
@@ -46,7 +44,6 @@ export const useRewards = () => {
 
   const loyaltyAllRewardColumn = loyaltyRewardColumnDynamic?.(
     setIsRewardDetailsOpen,
-    overallPermissions,
   );
 
   const refetch = () => getLoyaltyRewardsList?.();

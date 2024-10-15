@@ -1,6 +1,4 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import { useRewards } from './useRewards';
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
@@ -26,21 +24,12 @@ export const Rewards = () => {
       <PageTitledHeader
         title="Rewards"
         addTitle="Add"
-        createPermissionKey={[
-          AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
-        ]}
         handleAction={() => setIsRewardDrawerOpen?.({ isOpen: true, data: '' })}
       />
       <>
         {!isRewardDetailsOpen?.isOpen ? (
           <Box>
-            <PermissionsGuard
-              permissions={[
-                AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH,
-              ]}
-            >
-              <Search label="Search Here" setSearchBy={handleSearch} />
-            </PermissionsGuard>
+            <Search label="Search Here" setSearchBy={handleSearch} />
             <Box mt={'0.75rem'}>
               <TanstackTable
                 columns={loyaltyAllRewardColumn}

@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { TruncateText } from '@/components/TruncateText';
@@ -11,7 +10,6 @@ const MenuItemDataArray = [
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
-  overallPermissions: any,
 ) => [
   {
     accessorFn: (row: any) => row?.title,
@@ -59,18 +57,12 @@ export const loyaltyRewardColumnDynamic: any = (
       <Typography
         variant="body4"
         sx={{ cursor: 'pointer' }}
-        onClick={() => {
-          if (
-            !overallPermissions?.includes(
-              AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARDS_DETAILS,
-            )
-          )
-            return;
+        onClick={() =>
           setIsRewardDetailsOpen?.({
             isOpen: true,
             rewardType: info?.row?.original?.rewardType,
-          });
-        }}
+          })
+        }
       >
         {info?.getValue() ?? 0}
       </Typography>

@@ -1,13 +1,12 @@
 import { useGetAssetsSoftwareContractUtilizationQuery } from '@/services/airServices/assets/software/single-software-detail/overview';
-import { useTheme } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import { useDrawingArea } from '@mui/x-charts';
 import { useSearchParams } from 'next/navigation';
-import { ContractUtilizationI } from './ContractUtilization.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { pxToRem } from '@/utils/getFontValue';
 
-export const useContractUtilization = (props: ContractUtilizationI) => {
-  const { contractUtilizationData, contractUtilizationLabel } = props;
-  const theme = useTheme();
+export const useContractUtilization = () => {
+  const theme: any = useTheme();
   const { width, height, left, top } = useDrawingArea();
   const searchParams = useSearchParams();
   const softwareId = searchParams?.get('softwareId');
@@ -54,10 +53,58 @@ export const useContractUtilization = (props: ContractUtilizationI) => {
           }),
         );
   };
+
+  const inActiveUsers = data?.data?.[ARRAY_INDEX?.ZERO]?.inActiveUsers ?? 0;
+  const inActiveContracts =
+    data?.data?.[ARRAY_INDEX?.ZERO]?.inActiveContracts ?? 0;
+  const contractCount =
+    data?.data?.[ARRAY_INDEX?.ZERO]?.contractUtilization ?? 0;
+
+  const totalCount = contractCount + inActiveUsers + inActiveContracts;
+
+  const isMobile = useMediaQuery(theme?.breakpoints?.down('sm'));
+
+  const options: any = {
+    labels: ['Inactive Contracts', 'Inactive Users'],
+    legend: { show: false },
+    colors: [theme?.palette?.primary?.main, theme?.palette?.blue?.dark],
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          margin: 20,
+          size: '50%',
+          background: !isMobile && theme?.palette?.common?.white,
+        },
+        dataLabels: {
+          value: {
+            show: !isMobile,
+            color: theme?.palette?.common?.black,
+            fontWeight: '600',
+            fontSize: pxToRem(14),
+          },
+          total: {
+            show: !isMobile,
+            label: 'Purchased',
+            formatter: function () {
+              return `${
+                data?.data?.[ARRAY_INDEX?.ZERO]?.contractUtilization ?? 0
+              }`;
+            },
+            color: theme?.palette?.common?.black,
+            fontSize: pxToRem(14),
+          },
+        },
+      },
+    },
+    stroke: {
+      lineCap: 'round',
+    },
+  };
+
+  const contractUtilizationChartData = [inActiveContracts, inActiveUsers];
+
   return {
-    contractUtilizationData,
     theme,
-    contractUtilizationLabel,
     isLoading,
     isError,
     data,
@@ -67,5 +114,8 @@ export const useContractUtilization = (props: ContractUtilizationI) => {
     left,
     top,
     isFetching,
+    options,
+    contractUtilizationChartData,
+    totalCount,
   };
 };

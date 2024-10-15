@@ -7,7 +7,7 @@ export const styles = {
     maxWidth: '33.7rem',
     width: '100%',
     height: '25rem',
-    radius: '.5rem',
+    borderRadius: '.5rem',
     padding: '.6rem',
   }),
 
