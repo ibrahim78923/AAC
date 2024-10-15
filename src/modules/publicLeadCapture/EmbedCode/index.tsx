@@ -1,34 +1,57 @@
 import React from 'react';
-import PageHeader from './PageHeader';
-import { Box, Typography, Grid, Button } from '@mui/material';
-import { styles } from './Form.styles';
-import useFormHook from './useForm';
-import Loader from '@/components/Loader';
+import { Box, Grid, Button, Skeleton, useTheme } from '@mui/material';
+import useEmbedCode from './useEmbedCode';
 import { generateFormFieldsData } from '@/utils/leadcapture-forms';
 import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
+import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
 
-export default function Form() {
+export default function EmbedCode() {
+  const theme = useTheme();
   const {
     data,
     isLoading,
     isFetching,
+    isError,
+    isSuccess,
     methods,
     handleSubmit,
     handlerOnSubmit,
-  } = useFormHook();
+  } = useEmbedCode();
   const fieldsData = data ? data?.data?.fields : [];
   const formFields = generateFormFieldsData(fieldsData);
 
   return (
     <>
-      <PageHeader />
-      <Box sx={styles?.content}>
-        <Box sx={styles?.heading}>
-          <Typography variant="h1" sx={{ textAlign: 'center' }}>
-            {data?.data?.form?.name}
-          </Typography>
-        </Box>
-        <Box sx={styles?.container}>
+      {(isLoading || isFetching) && (
+        <Grid container spacing={'20px'}>
+          {Array(4)
+            .fill(null)
+            .map(() => (
+              <Grid item xs={12} key={uuidv4()}>
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  width={'100%'}
+                  height={100}
+                  sx={{
+                    bgcolor: theme?.palette?.grey?.[300],
+                    borderRadius: '6px',
+                  }}
+                />
+              </Grid>
+            ))}
+        </Grid>
+      )}
+      {isError && <ApiErrorState />}
+
+      {!(isLoading || isFetching) &&
+        isSuccess &&
+        data &&
+        (data?.data?.fields?.length === 0 ? (
+          <NoData />
+        ) : (
           <Box
             sx={{
               borderRadius: '5px',
@@ -74,10 +97,7 @@ export default function Form() {
               </Grid>
             </FormProvider>
           </Box>
-        </Box>
-
-        <Loader isLoading={isLoading || isFetching} />
-      </Box>
+        ))}
     </>
   );
 }

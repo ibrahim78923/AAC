@@ -28,7 +28,7 @@ export const submissionsArray = (customers: CustomerI[]) => [
 export const columns: any = () => {
   return [
     {
-      accessorFn: (row: any) => row?.submission?.email,
+      accessorFn: (row: any) => row?.submission?.emailAddress,
       id: 'email',
       header: 'Email',
       isSortable: true,

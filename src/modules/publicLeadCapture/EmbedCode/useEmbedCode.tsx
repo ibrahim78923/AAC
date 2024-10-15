@@ -2,23 +2,21 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetPublicFormFieldsQuery,
   usePutAddViewFormMutation,
   usePutAddEntranceFormMutation,
   usePostFormSubmissionsMutation,
 } from '@/services/airMarketer/lead-capture/forms';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { validationSchema, defaultValues } from '@/utils/leadcapture-forms';
 
-export default function useFormHook() {
+export default function useEmbedCode() {
   const searchParams = useSearchParams();
   const formId = searchParams.get('id');
 
-  const { data, isLoading, isFetching } = useGetPublicFormFieldsQuery(
-    { params: { id: formId } },
-    { skip: !formId },
-  );
+  const { data, isLoading, isFetching, isSuccess, isError } =
+    useGetPublicFormFieldsQuery({ params: { id: formId } }, { skip: !formId });
 
   const [putAddViewForm] = usePutAddViewFormMutation();
   const handleAddViewForm = async () => {
@@ -77,8 +75,8 @@ export default function useFormHook() {
 
     try {
       await postFormSubmission({ body: payload })?.unwrap();
-      reset();
       successSnackbar('Form submit successfully');
+      reset();
     } catch (error: any) {
       errorSnackbar('An error occured');
     }
@@ -88,6 +86,8 @@ export default function useFormHook() {
     data,
     isLoading,
     isFetching,
+    isSuccess,
+    isError,
     methods,
     handleSubmit,
     handlerOnSubmit,

@@ -20,8 +20,9 @@ import useOverview from './useOverview';
 import { formStatus } from '@/constants/form-builder';
 import { FE_BASE_URL } from '@/config';
 import { PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
+import { renderIframeToString } from '@/utils/leadcapture-forms';
 
-const Overview = ({ data, htmlTemplate }: any) => {
+const Overview = ({ data }: any) => {
   const {
     isEmbedDialogOpen,
     handleOpenEmbedDialog,
@@ -114,7 +115,7 @@ const Overview = ({ data, htmlTemplate }: any) => {
                 <code
                   style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
                 >
-                  {htmlTemplate}
+                  {renderIframeToString(data?.form?._id)}
                 </code>
               </pre>
             </Typography>
@@ -127,7 +128,9 @@ const Overview = ({ data, htmlTemplate }: any) => {
             >
               <Box
                 sx={styles?.copyBtn}
-                onClick={() => handleCopyEmbededCode(htmlTemplate)}
+                onClick={() =>
+                  handleCopyEmbededCode(renderIframeToString(data?.form?._id))
+                }
               >
                 <CopyIcon />
               </Box>

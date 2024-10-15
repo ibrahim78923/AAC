@@ -108,18 +108,17 @@ export const columns: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.pageResponses,
+      accessorFn: (row: any) =>
+        (Number(row?.submissions) / Number(row?.pageViews)) * 100,
       id: 'pageResponses',
       isSortable: true,
       header: 'Page Responses',
-      cell: (info: any) => (
-        <Typography
-          variant="body4"
-          sx={{ color: theme?.palette?.custom?.main }}
-        >
-          {`${info?.getValue()}%`}
-        </Typography>
-      ),
+      cell: (info: any) => {
+        if (info?.getValue() % 1 !== 0) {
+          return <>{info?.getValue().toFixed(2)}%</>;
+        }
+        return <>{info?.getValue()}%</>;
+      },
     },
     {
       accessorFn: (row: any) => row?.status,

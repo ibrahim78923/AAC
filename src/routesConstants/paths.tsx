@@ -382,6 +382,7 @@ export const AIR_CALL_CENTER = {
 export const PUBLIC_LEAD_CAPTURE = {
   FORM: '/lead-capture/form',
   CTA: '/lead-capture/cta',
+  EMBED_FORM: '/lead-capture/embed-form',
 };
 
 export const quoteStatus = {
