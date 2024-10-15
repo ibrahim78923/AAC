@@ -1,5 +1,3 @@
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Typography } from '@mui/material';
 import { useHeader } from './useHeader';
 import {
@@ -29,32 +27,20 @@ export const Header = () => {
         </Typography>
 
         <Box display={'flex'} gap={2} flexWrap={'wrap'}>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_RULES,
-            ]}
+          <Button
+            className="small"
+            variant="contained"
+            onClick={openCreateRulePortal}
           >
-            <Button
-              className="small"
-              variant="contained"
-              onClick={openCreateRulePortal}
-            >
-              Create Rules
-            </Button>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_TIERS,
-            ]}
+            Create Rules
+          </Button>
+          <Button
+            className="small"
+            variant="contained"
+            onClick={openCreateTiersPortal}
           >
-            <Button
-              className="small"
-              variant="contained"
-              onClick={openCreateTiersPortal}
-            >
-              Create Tiers
-            </Button>
-          </PermissionsGuard>
+            Create Tiers
+          </Button>
         </Box>
       </Box>
       {isRulePortalOpen?.isOpen &&

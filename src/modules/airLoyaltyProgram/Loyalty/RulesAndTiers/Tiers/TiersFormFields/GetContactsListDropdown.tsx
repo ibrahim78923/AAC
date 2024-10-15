@@ -5,10 +5,16 @@ import { useLazyGetLoyaltyProgramLoyaltyContactListDropdownForTierQuery } from '
 export const GetContactsListDropdown = () => {
   const apiContactQuery =
     useLazyGetLoyaltyProgramLoyaltyContactListDropdownForTierQuery();
+
   return (
     <RHFAutocompleteAsync
       name="contacts"
-      placeholder="select"
+      label="Contacts"
+      placeholder="Select contacts"
+      size="small"
+      fullWidth
+      required
+      multiple
       apiQuery={apiContactQuery}
       externalParams={{ limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT }}
       getOptionLabel={(option: any) =>

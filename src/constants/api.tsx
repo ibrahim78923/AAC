@@ -26,3 +26,26 @@ export const LOYALTY_PROGRAM_RULES_TIME_SPAN = {
   LAST_MONTH: 'LAST_MONTH',
   CUSTOM_DATE: 'CUSTOM_DATE',
 };
+
+export const LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES = {
+  SELECT_CONTACT: 'SELECT_CONTACT',
+  FIRST_NAME: 'firstName',
+  LAST_NAME: 'lastName',
+  ADDRESS: 'address',
+  PHONE_NUMBER: 'phoneNumber',
+  AGE: 'AGE',
+  LAST_TRANSACTION_AT: 'lastTransactionAt',
+  NO_OF_TRANSACTIONS: 'numberOfTransactions',
+};
+
+export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
+  EQUAL: 'equals',
+  NOT_EQUAL: 'not equals',
+  GREATER_THAN: 'greater than',
+  LESS_THAN: 'less than',
+  IS_KNOWN: 'is known',
+  IS_UNKNOWN: 'is unknown',
+  BEFORE: 'before',
+  AFTER: 'after',
+  CONTAINS: 'contains',
+};
