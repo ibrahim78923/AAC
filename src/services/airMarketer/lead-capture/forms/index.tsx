@@ -84,14 +84,6 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    getSubmissionEmails: builder.query({
-      query: (formId) => ({
-        url: `${LEAD_CAPTURE_FORM?.GET_SUBMISSION_EMAIL}?id=${formId}`,
-        method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-
     getRestoreForms: builder.query({
       query: ({ params }) => ({
         url: LEAD_CAPTURE_FORM?.GET_RESTORE_FORMS,
@@ -178,6 +170,18 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['LEADCAPTURE_FORM_SENDEMAIL'],
     }),
+
+    getFormSubmissionEmails: builder.query({
+      query: ({ params }) => ({
+        url: `${LEAD_CAPTURE_FORM?.GET_SUBMISSION_EMAIL}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['LEADCAPTURE_FORM_SUBMISSION_EMAIL'],
+    }),
   }),
 });
 
@@ -190,7 +194,6 @@ export const {
   useGetManageFieldByIdQuery,
   usePostManageFieldsMutation,
   useGetFormSubmissionsQuery,
-  useGetSubmissionEmailsQuery,
   usePostFormSubmissionsMutation,
   useGetRestoreFormsQuery,
   usePatchRestoreFormMutation,
@@ -201,4 +204,5 @@ export const {
   usePutAddViewFormMutation,
   usePutAddEntranceFormMutation,
   usePostLeadCaptureFormSendEmailMutation,
+  useLazyGetFormSubmissionEmailsQuery,
 } = leadCaptureFormsAPI;

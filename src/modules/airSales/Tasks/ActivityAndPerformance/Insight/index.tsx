@@ -47,7 +47,10 @@ const Insights = () => {
           <Typography sx={activity}>Activity</Typography>
           <Typography sx={dateRange}>
             Date Range: This week so{' '}
-            <Box onClick={() => setToggleDatePicker(!toggleDatePicker)}>
+            <Box
+              component={'span'}
+              onClick={() => setToggleDatePicker(!toggleDatePicker)}
+            >
               <CanlendarButtonIcon />
             </Box>
           </Typography>

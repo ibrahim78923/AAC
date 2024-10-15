@@ -22,7 +22,6 @@ const Tabs = ({ tabValue, assignTo }: any) => {
     setAssignTo,
     status,
     setSearchTask,
-    searchTask,
   } = useTask();
 
   const taskDataArray = useAppSelector(
@@ -69,7 +68,6 @@ const Tabs = ({ tabValue, assignTo }: any) => {
           <Search
             label={'Search here'}
             placeholder="Search by name"
-            searchBy={searchTask}
             setSearchBy={setSearchTask}
             width="260px"
             size="small"

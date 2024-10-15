@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
 import {
   useGetFormSubmissionsQuery,
-  useGetSubmissionEmailsQuery,
+  useLazyGetFormSubmissionEmailsQuery,
 } from '@/services/airMarketer/lead-capture/forms';
 import { PAGINATION } from '@/config';
 import dayjs from 'dayjs';
@@ -47,7 +47,6 @@ const useSubmissions = (formId: string) => {
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
-    resetFilters();
   };
 
   const onSubmitFilters = async (values: any) => {
@@ -86,13 +85,7 @@ const useSubmissions = (formId: string) => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  const { data: dataGetSubmissionEmails } = useGetSubmissionEmailsQuery(formId);
-  const dataCustomers = dataGetSubmissionEmails?.data?.map(
-    (customer: { email: string }) => ({
-      value: customer?.email,
-      label: customer?.email,
-    }),
-  );
+  const dataCustomers = useLazyGetFormSubmissionEmailsQuery();
 
   return {
     theme,
@@ -108,6 +101,7 @@ const useSubmissions = (formId: string) => {
     methodsFilter,
     handleFiltersSubmit,
     dataCustomers,
+    resetFilters,
   };
 };
 

@@ -86,6 +86,5 @@ export const useTask = () => {
     status,
 
     setSearchTask,
-    searchTask,
   };
 };
