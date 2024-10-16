@@ -3,18 +3,8 @@ export const styles = {
     return {
       marginTop: '1.5rem',
       paddingTop: '8px',
-      // width: '20%',
-      // height: { lg: '100vh', xs: '0vh' },
       marginRight: '1%',
       borderTop: `1px solid ${theme?.palette?.graph?.slate_gray}`,
-      // '@media (max-width: 1500px)': {
-      //   width: '30%',
-      // },
-      // '@media (max-width: 899px)': {
-      //   width: '100%',
-      //   marginRight: '0px',
-      //   borderBottom: `1px solid ${theme?.palette?.graph?.slate_gray}`,
-      // },
       '& .MuiTabs-flexContainer': {
         display: 'flex',
         alignItems: 'flex-start',

@@ -1,7 +1,7 @@
 import { Box, Card, Typography, useTheme } from '@mui/material';
 import Table from './Table';
 
-const MeetingDetails = () => {
+const MeetingDetails = (meetingsData: any) => {
   const theme = useTheme();
   return (
     <Card>
@@ -19,7 +19,7 @@ const MeetingDetails = () => {
         </Box>
       </Box>
       <Box pb={3}>
-        <Table />
+        <Table data={meetingsData?.meetingsData} />
       </Box>
     </Card>
   );
