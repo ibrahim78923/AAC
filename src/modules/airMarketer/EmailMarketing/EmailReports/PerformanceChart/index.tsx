@@ -1,4 +1,5 @@
 import { useTheme } from '@mui/material';
+import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -21,7 +22,9 @@ const PerformanceChart = (performanceData: any) => {
         (entry) => entry?.send - entry?.delivered || 0,
       );
 
-      const categories = data?.map((entry) => entry?._id || '');
+      const categories = data?.map(
+        (entry) => dayjs(entry?._id)?.format('MMMM'),
+      );
 
       setChartData({
         series: [

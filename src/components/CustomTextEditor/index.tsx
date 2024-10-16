@@ -36,6 +36,7 @@ const CustomTextEditor = ({
         border: other?.error
           ? `1px solid ${theme?.palette?.error?.main}`
           : `1px solid ${theme?.palette?.grey?.[indexNumbers?.ZERO]}`,
+        overflow: 'auto',
         borderRadius: '8px',
         '& .ql-toolbar.ql-snow': {
           backgroundColor: theme?.palette?.grey?.[100],

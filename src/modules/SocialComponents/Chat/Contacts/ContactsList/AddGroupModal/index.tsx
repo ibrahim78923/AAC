@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -27,6 +27,7 @@ import {
   useCreateNewGroupMutation,
   useLazyGetAllChatUsersByCompanyQuery,
 } from '@/services/chat';
+import CloseIcon from '@/assets/icons/shared/close-icon';
 
 const AddGroupModal = ({
   isAddGroupModal,
@@ -108,17 +109,36 @@ const AddGroupModal = ({
   };
   const handleImageChange = async (e: any) => {
     const selectedImage = e?.target?.files[0];
-    setImageToUpload(selectedImage);
-    formData?.append('groupImage', selectedImage);
+    // setImageToUpload(selectedImage);
+    // formData?.append('groupImage', selectedImage);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImagePreview(reader?.result);
-    };
-    reader?.readAsDataURL(selectedImage);
+    // const reader: any = new FileReader();
+    // reader.onload = () => {
+    //   setImagePreview(reader?.result);
+    // };
+    // reader?.readAsDataURL(selectedImage);
+    if (selectedImage && selectedImage instanceof File) {
+      setImageToUpload(selectedImage);
+
+      if (formData instanceof FormData) {
+        formData?.append('groupImage', selectedImage);
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader?.result);
+      };
+
+      reader.readAsDataURL(selectedImage);
+    }
   };
 
   const apiQueryUsers = useLazyGetAllChatUsersByCompanyQuery?.();
+
+  const handelRemoveImage = () => {
+    setImagePreview(null);
+    setImageToUpload(null);
+  };
 
   return (
     <CommonModal
@@ -126,10 +146,12 @@ const AddGroupModal = ({
       handleClose={() => {
         setIsAddGroupModal(false);
         reset();
+        handelRemoveImage();
       }}
       handleCancel={() => {
         setIsAddGroupModal(false);
         reset();
+        handelRemoveImage();
       }}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
@@ -154,8 +176,9 @@ const AddGroupModal = ({
             accept="image/*"
             onChange={(e: any) => handleImageChange(e)}
           />
-          <label htmlFor="upload-group-image">
-            {imagePreview ? (
+
+          {imagePreview ? (
+            <Box sx={{ position: 'relative' }}>
               <Image
                 src={imagePreview}
                 width={100}
@@ -163,13 +186,28 @@ const AddGroupModal = ({
                 style={{ borderRadius: '50%' }}
                 alt="selected image"
               />
-            ) : (
-              <Image
-                src={AddRoundedImage}
-                alt="upload"
-                style={{ cursor: 'pointer' }}
-              />
-            )}
+              <IconButton
+                onClick={() => handelRemoveImage()}
+                sx={{
+                  position: 'absolute',
+                  top: '2px',
+                  right: '5px',
+                  background: theme?.palette?.common?.white,
+                  boxShadow: '0px 0px 11px 0px rgb(0 0 0 / 24%)',
+                }}
+              >
+                <CloseIcon size={[10, 11]} />
+              </IconButton>
+            </Box>
+          ) : (
+            <Image
+              src={AddRoundedImage}
+              alt="upload"
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+
+          <label htmlFor="upload-group-image">
             <Typography sx={{ cursor: 'pointer' }} variant="h6">
               Add Photo
             </Typography>
@@ -211,6 +249,7 @@ const AddGroupModal = ({
                 fullWidth
                 multiple
                 apiQuery={apiQueryUsers}
+                externalParams={{ limit: 1000, page: 1 }}
                 size="small"
                 placeholder="Select user"
                 getOptionLabel={(option: any) => (
