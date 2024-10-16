@@ -4,6 +4,8 @@ import { AddWhiteBgIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useHeader } from './useHeader';
 import { loyaltyProgramUsersActionComponent } from './Header.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = () => {
   const {
@@ -23,22 +25,40 @@ export const Header = () => {
         gap={2}
         flexWrap={'wrap'}
       >
-        <Box>
-          <Search label="Search Here" setSearchBy={handleSetSearch} />
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.SEARCH_DETAILS,
+          ]}
+        >
+          <Box>
+            <Search label="Search Here" setSearchBy={handleSetSearch} />
+          </Box>
+        </PermissionsGuard>
         <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
-          <SingleDropdownButton
-            dropdownOptions={actionsDropdownForLoyaltyProgramUser}
-            disabled={!!!selectedUsersLists?.length}
-          />
-          <Button
-            className="small"
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={openAddUserPortal}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_OR_DELETE_USER,
+            ]}
           >
-            Add User
-          </Button>
+            <SingleDropdownButton
+              dropdownOptions={actionsDropdownForLoyaltyProgramUser}
+              disabled={!!!selectedUsersLists?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
+            ]}
+          >
+            <Button
+              className="small"
+              variant="contained"
+              startIcon={<AddWhiteBgIcon />}
+              onClick={openAddUserPortal}
+            >
+              Add User
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&

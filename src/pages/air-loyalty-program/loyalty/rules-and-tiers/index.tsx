@@ -1,10 +1,19 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { RulesAndTiers } from '@/modules/airLoyaltyProgram/Loyalty/RulesAndTiers';
 
 const RulesAndTiersPage = () => <RulesAndTiers />;
 
 RulesAndTiersPage.getLayout = function getLayout(page: any) {
-  return <Layout permissions={[]}>{page}</Layout>;
+  return (
+    <Layout
+      permissions={
+        Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS
+      }
+    >
+      {page}
+    </Layout>
+  );
 };
 
 export default RulesAndTiersPage;

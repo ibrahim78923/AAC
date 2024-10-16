@@ -3,6 +3,7 @@ import { errorSnackbar } from '@/utils/api';
 import { UpsertRolesAndRight } from '../UpsertRolesAndRight';
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
 import { DeleteRolesAndRight } from '../DeleteRolesAndRight';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
 
 const {
   ADD_LOYALTY_PROGRAM_ROLE_AND_RIGHTS,
@@ -25,7 +26,9 @@ export const roleAndRightsActionDropdownDynamic = (
   {
     id: 1,
     title: 'Edit',
-    permissionKey: [],
+    permissionKey: [
+      AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.EDIT_OR_DELETE_ROLE,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -39,7 +42,9 @@ export const roleAndRightsActionDropdownDynamic = (
   {
     id: 2,
     title: 'View',
-    permissionKey: [],
+    permissionKey: [
+      AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.ADD_ROLE,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -53,7 +58,9 @@ export const roleAndRightsActionDropdownDynamic = (
   {
     id: 3,
     title: 'Delete',
-    permissionKey: [],
+    permissionKey: [
+      AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.EDIT_OR_DELETE_ROLE,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');

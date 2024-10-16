@@ -1779,3 +1779,32 @@ export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'Loyalty-dashboard-view',
   APPLY_FILTERS: 'Loyalty-dashboard-apply-filters',
 };
+export const AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS = {
+  VIEW_RULES_AND_TIERS_DETAILS: 'Loyalty-tiers-and-rules-view-details',
+  SEARCH_RULES_AND_TIERS: 'Loyalty-tiers-and-rules-search',
+  CREATE_RULES: 'Loyalty-tiers-and-rules-create-rules',
+  CREATE_TIERS: 'Loyalty-tiers-and-rules-create-tiers',
+  EDIT_OR_DELETE_TIERS: 'Loyalty-tiers-and-rules-edit-delete-tiers',
+  EDIT_OR_DELETE_RULES: 'Loyalty-tiers-and-rules-edit-delete-rules',
+};
+
+export const AIR_LOYALTY_PROGRAM_SETTINGS_LOYALTY_PERMISSIONS = {
+  UPDATE_LOYALTY_SETTINGS: 'Loyalty-Settings-loyalty-update',
+};
+
+export const AIR_LOYALTY_PROGRAM_SETTINGS_GIFT_CARD_PERMISSIONS = {
+  UPDATE_GIFT_CARD_SETTINGS: 'Loyalty-Settings-gift-card-update',
+};
+
+export const AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS = {
+  ADD_ROLE: 'Loyalty-Settings-roles-and-rights-add-role',
+  SEARCH_DETAILS: 'Loyalty-Settings-roles-and-rights-search-details',
+  EDIT_OR_DELETE_ROLE: 'Loyalty-Settings-roles-and-rights-edit-delete-role',
+  ADD_PERMISSIONS: 'Loyalty-Settings-roles-and-rights-add-permissions',
+};
+
+export const AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
+  ADD_USER: 'Loyalty-Settings-user-management-add-user',
+  SEARCH_DETAILS: 'Loyalty-Settings-user-management-search-details',
+  EDIT_OR_DELETE_USER: 'Loyalty-Settings-user-management-edit-delete-user',
+};

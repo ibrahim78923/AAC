@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { Settings } from '@/modules/airLoyaltyProgram/Settings';
 
@@ -6,5 +7,9 @@ const SettingsPage = () => <Settings />;
 export default SettingsPage;
 
 SettingsPage.getLayout = function getLayout(page: any) {
-  return <Layout permissions={[]}>{page}</Layout>;
+  return (
+    <Layout permissions={Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS}>
+      {page}
+    </Layout>
+  );
 };

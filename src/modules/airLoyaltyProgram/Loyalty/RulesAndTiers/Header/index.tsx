@@ -4,6 +4,8 @@ import {
   loyaltyProgramRulesActionComponent,
   loyaltyProgramTiersActionComponent,
 } from './Header.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = () => {
   const {
@@ -27,20 +29,32 @@ export const Header = () => {
         </Typography>
 
         <Box display={'flex'} gap={2} flexWrap={'wrap'}>
-          <Button
-            className="small"
-            variant="contained"
-            onClick={openCreateRulePortal}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_RULES,
+            ]}
           >
-            Create Rules
-          </Button>
-          <Button
-            className="small"
-            variant="contained"
-            onClick={openCreateTiersPortal}
+            <Button
+              className="small"
+              variant="contained"
+              onClick={openCreateRulePortal}
+            >
+              Create Rules
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_TIERS,
+            ]}
           >
-            Create Tiers
-          </Button>
+            <Button
+              className="small"
+              variant="contained"
+              onClick={openCreateTiersPortal}
+            >
+              Create Tiers
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       {isRulePortalOpen?.isOpen &&

@@ -4,6 +4,8 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Box } from '@mui/material';
 import { useHeader } from './useHeader';
 import { loyaltyProgramRoleAndRightsActionComponent } from './Header.data';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Header = () => {
   const {
@@ -21,7 +23,9 @@ export const Header = () => {
           title="Roles and Rights"
           addTitle="Add new Role"
           handleAction={openAddRoleAndRightsPortal}
-          createPermissionKey={[]}
+          createPermissionKey={[
+            AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.ADD_ROLE,
+          ]}
         />
         <Box
           display={'flex'}
@@ -31,17 +35,25 @@ export const Header = () => {
           flexWrap={'wrap'}
         >
           {' '}
-          <Box>
-            <Search
-              label="Search Here"
-              setSearchBy={handleSetSearch}
-              size="small"
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.SEARCH_DETAILS,
+            ]}
+          >
+            <Box>
+              <Search label="Search Here" setSearchBy={handleSetSearch} />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.EDIT_OR_DELETE_ROLE,
+            ]}
+          >
+            <SingleDropdownButton
+              dropdownOptions={roleAndRightsActionDropdown}
+              disabled={!!!selectedRoleAndRightsLists?.length}
             />
-          </Box>
-          <SingleDropdownButton
-            dropdownOptions={roleAndRightsActionDropdown}
-            disabled={!!!selectedRoleAndRightsLists?.length}
-          />
+          </PermissionsGuard>
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&

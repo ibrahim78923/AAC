@@ -11,6 +11,8 @@ import { PermissionsAccordion } from '../PermissionsAccordion';
 import CommonDrawer from '@/components/CommonDrawer';
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
 
 const { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL } =
   LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT ?? {};
@@ -68,21 +70,27 @@ export const UpsertRolesAndRight = () => {
                   />
                 </Grid>
               ))}
-              <Grid item xs={12}>
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="h5" color="slateBlue.main">
-                  Permissions
-                </Typography>
-              </Grid>
-              <Grid item xs={12} mb={2}>
-                <PermissionsAccordion
-                  disabled={
-                    isPortalOpen?.action ===
-                    LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL
-                  }
-                  {...permissionAccordionsProps}
-                />
-              </Grid>
+              <PermissionsGuard
+                permissions={[
+                  AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.ADD_PERMISSIONS,
+                ]}
+              >
+                <Grid item xs={12}>
+                  <Divider sx={{ my: 2 }} />
+                  <Typography variant="h5" color="slateBlue.main">
+                    Permissions
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} mb={2}>
+                  <PermissionsAccordion
+                    disabled={
+                      isPortalOpen?.action ===
+                      LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL
+                    }
+                    {...permissionAccordionsProps}
+                  />
+                </Grid>
+              </PermissionsGuard>
             </Grid>
           </FormProvider>
         )}
