@@ -19,7 +19,6 @@ import { Profile } from './Profile';
 import styles from './Workload.module.scss';
 import CircleIcon from '@mui/icons-material/Circle';
 import { TodoIcon } from '@/assets/icons';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from './UpdateWorkloadTask';
 import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
@@ -32,6 +31,7 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { WORKLOAD_STATUSES_OBJECT } from './Workload.data';
 import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { UpdateWorkloadTicket } from './UpdateWorkloadTicket';
+import { SkeletonWorkload } from './SkeletonWorkload';
 
 export const Workload = () => {
   const {
@@ -72,12 +72,10 @@ export const Workload = () => {
     statusFilter?.isFetching
   )
     return (
-      <>
-        <Typography variant={'h3'} mb={3}>
-          Workload
-        </Typography>
-        <SkeletonTable />
-      </>
+      <Box display={'flex'} flexDirection={'column'} gap={3}>
+        <Typography variant={'h3'}>Workload</Typography>
+        <SkeletonWorkload />
+      </Box>
     );
 
   return (
@@ -171,9 +169,10 @@ export const Workload = () => {
                   {countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort
                     ? `${hours}hr ${minutes}m`
                     : null}
-                  {countHoursPercent?.[ARRAY_INDEX?.ZERO]?.averagePlannedEffort
-                    ? `${countHoursPercent?.[ARRAY_INDEX?.ZERO]
-                        ?.averagePlannedEffort}%`
+                  {countHoursPercent?.[ARRAY_INDEX?.ZERO]?.workloadPercentage
+                    ? `${countHoursPercent?.[
+                        ARRAY_INDEX?.ZERO
+                      ]?.workloadPercentage?.toFixed(0)}%`
                     : null}
                 </Typography>
               </Box>
