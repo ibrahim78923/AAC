@@ -1779,6 +1779,21 @@ export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'Loyalty-dashboard-view',
   APPLY_FILTERS: 'Loyalty-dashboard-apply-filters',
 };
+
+export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
+  VIEW_DETAILS: 'Loyalty-vouchers-view-details',
+  ADD_VOUCHER: 'Loyalty-vouchers-add',
+  APPLY_FILTERS: 'Loyalty-vouchers-apply-filters',
+  ACTIVE_INACTIVE: 'Loyalty-vouchers-active-inactive',
+  EDIT_DELETE: 'Loyalty-Vouchers-Edit-delete',
+};
+
+export const AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS = {
+  VIEW_TRANSACTIONS_DETAILS: 'Loyalty-transaction-view-details',
+  SEARCH: 'Loyalty-transaction-search',
+  APPLY_FILTERS: 'Loyalty-transaction-apply-filters',
+};
+
 export const AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS = {
   VIEW_RULES_AND_TIERS_DETAILS: 'Loyalty-tiers-and-rules-view-details',
   SEARCH_RULES_AND_TIERS: 'Loyalty-tiers-and-rules-search',

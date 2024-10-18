@@ -46,7 +46,7 @@ export const TransactionVouchers = () => {
       >
         <TanstackTable
           columns={transactionsPointsListColumn}
-          data={getTransactionVouchers?.data?.data}
+          data={getTransactionVouchers?.data?.data ?? []}
           isLoading={getTransactionVouchers?.isLoading}
           currentPage={getTransactionVouchers?.data?.data?.meta?.page}
           count={getTransactionVouchers?.data?.data?.meta?.pages}

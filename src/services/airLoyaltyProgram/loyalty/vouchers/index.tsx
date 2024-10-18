@@ -31,7 +31,7 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
     }),
     patchVoucher: builder?.mutation({
       query: (patchData: any) => ({
-        url: `${END_POINTS?.UPDATE_VOUCHERS_STATUS}/${patchData?.id}`,
+        url: `${END_POINTS?.UPDATE_VOUCHERS_STATUS}/${patchData?.queryParams}`,
         method: 'PATCH',
         body: patchData?.body,
       }),

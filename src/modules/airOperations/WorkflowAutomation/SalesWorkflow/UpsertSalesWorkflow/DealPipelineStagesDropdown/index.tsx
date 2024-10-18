@@ -26,7 +26,6 @@ export const DealPipelineStagesDropdown = ({
 }: any): JSX.Element => {
   const {
     control,
-    setValue,
     open,
     setOpen,
     data,
@@ -137,7 +136,7 @@ export const DealPipelineStagesDropdown = ({
                         }}
                         key={uuidv4()}
                         onClick={() => {
-                          setValue(name, stage);
+                          form?.field?.onChange(stage);
                           setOpen(false);
                         }}
                       >

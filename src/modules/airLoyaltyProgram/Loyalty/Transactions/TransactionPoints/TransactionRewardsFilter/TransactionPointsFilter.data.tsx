@@ -29,8 +29,8 @@ export const pointsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
     id: 5,
     componentProps: {
       name: 'dateRange',
-      label: 'Credits',
-      placeholder: 'Select',
+      label: 'Date Range',
+      placeholder: 'Select Date',
     },
     component: RHFDateRangePicker,
   },
