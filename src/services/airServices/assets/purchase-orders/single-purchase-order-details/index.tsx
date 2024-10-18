@@ -3,7 +3,6 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ASSETS_PURCHASEORDER';
 const TAG_FIVE = 'ASSETS_ITEM_ADDED';
-const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_THREE = 'PURCHASE_ORDER';
 
 export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
@@ -17,7 +16,6 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG_FOUR],
     }),
 
     getAirServicesPurchaseOrderDetailsLocationsDropdown: builder?.query({
@@ -29,7 +27,6 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_FOUR],
     }),
 
     postAirServicesAssetsPurchaseOrderDetails: builder?.mutation({

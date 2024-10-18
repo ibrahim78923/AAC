@@ -3,8 +3,7 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 
 const TAGS = 'TIME_SLOTS';
 const MEETINGS_TAG = 'MEETINGS';
-const LOCATION_TAG = 'MEETINGS_LOCATIONS';
-const DROPDOWN_TAG = 'ALL_USERS_AND_CONTACTS';
+
 export const meetingApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getTimeSlots: builder?.query({
@@ -39,7 +38,6 @@ export const meetingApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.meetinglocations ?? [];
       },
-      providesTags: [LOCATION_TAG],
     }),
     addMeetingTemplate: builder?.mutation({
       query: (body: any) => ({
@@ -104,31 +102,29 @@ export const meetingApi = baseAPI?.injectEndpoints({
       }),
       transformResponse: (response: any) => {
         if (response)
-          return (
-            {
-              allMeetings: response?.data?.allMeetings,
-              upCommings: response?.data?.upCommings,
-              completed: response?.data?.completed,
-              data: response?.data?.meetings?.map((item: any) => ({
-                start: item?.startDate,
-                end: item?.endDate,
-                title: item?.title,
-                extendedProps: {
-                  _id: item?._id,
-                  userName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
-                  joinUrl: item?.joinUrl,
-                  email: item?.userDetails?.email,
-                  type: item?.category,
-                  platform: item?.type,
-                  avatar: item?.userDetails?.avatar?.url,
-                  people: item?.peoples,
-                  startTime: item?.startTime,
-                  endTime: item?.endTime,
-                  startDate: item?.startDate,
-                },
-              })),
-            } ?? []
-          );
+          return {
+            allMeetings: response?.data?.allMeetings,
+            upCommings: response?.data?.upCommings,
+            completed: response?.data?.completed,
+            data: response?.data?.meetings?.map((item: any) => ({
+              start: item?.startDate,
+              end: item?.endDate,
+              title: item?.title,
+              extendedProps: {
+                _id: item?._id,
+                userName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
+                joinUrl: item?.joinUrl,
+                email: item?.userDetails?.email,
+                type: item?.category,
+                platform: item?.type,
+                avatar: item?.userDetails?.avatar?.url,
+                people: item?.peoples,
+                startTime: item?.startTime,
+                endTime: item?.endTime,
+                startDate: item?.startDate,
+              },
+            })),
+          };
       },
       providesTags: [MEETINGS_TAG],
     }),
@@ -141,7 +137,6 @@ export const meetingApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [DROPDOWN_TAG],
     }),
     getMeetingsEmailTemplates: builder?.query({
       query: (params: any) => ({

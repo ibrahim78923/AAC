@@ -4,6 +4,8 @@ import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { loyaltyRewardColumnDynamic } from './Rewards.data';
 import { useRouter } from 'next/router';
 import { useLazyGetLoyaltyProgramRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
+import { getActivePermissionsSession } from '@/utils';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const useRewards = () => {
   const router = useRouter();
@@ -42,8 +44,15 @@ export const useRewards = () => {
     getLoyaltyRewardsList?.();
   }, [page, search, pageLimit]);
 
+  const activePermissionOfEditDelete = getActivePermissionsSession()?.includes(
+    AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.EDIT_DELETE_REWARDS,
+  );
+  const overallPermissions = getActivePermissionsSession();
+
   const loyaltyAllRewardColumn = loyaltyRewardColumnDynamic?.(
     setIsRewardDetailsOpen,
+    activePermissionOfEditDelete,
+    overallPermissions,
   );
 
   const refetch = () => getLoyaltyRewardsList?.();

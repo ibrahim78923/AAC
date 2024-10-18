@@ -2,7 +2,6 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'SERVICE_CATALOG';
-const TAG_TWO = 'DROPDOWN_REQUESTER';
 const TAG_THREE = 'TICKETS';
 export const catalogAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -39,7 +38,6 @@ export const catalogAPI: any = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: [TAG_TWO],
     }),
     postTickets: builder?.mutation({
       query: (postTicketParameter: any) => ({

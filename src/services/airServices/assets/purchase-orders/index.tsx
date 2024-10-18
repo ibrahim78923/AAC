@@ -2,8 +2,6 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG_TWO = 'LOCATION';
-const TAG_THREE = 'VENDOR_DROPDOWN';
-const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_FIVE = 'PURCHASE_ORDER';
 
 export const purchaseOrderAPI = baseAPI?.injectEndpoints({
@@ -17,7 +15,6 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG_FOUR],
     }),
 
     getAirServicesAssetsPurchaseOrderLocationsDropdown: builder?.query({
@@ -41,7 +38,6 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_THREE],
     }),
 
     getAirServicesAssetsPurchaseOrderVendorProductsDropdown: builder?.query({
@@ -53,7 +49,6 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.vendorproductcatalogs;
       },
-      providesTags: [TAG_THREE],
     }),
 
     getAirServicesAssetsPurchaseOrderById: builder?.query({

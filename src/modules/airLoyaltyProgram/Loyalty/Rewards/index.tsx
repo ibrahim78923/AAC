@@ -5,6 +5,8 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { SingleRewardDetails } from './SingleRewardsDetails';
 import { UpsertRewards } from './UpsertRewards';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Rewards = () => {
   const {
@@ -25,11 +27,20 @@ export const Rewards = () => {
         title="Rewards"
         addTitle="Add"
         handleAction={() => setIsRewardDrawerOpen?.({ isOpen: true, data: '' })}
+        createPermissionKey={[
+          AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
+        ]}
       />
       <>
         {!isRewardDetailsOpen?.isOpen ? (
           <Box>
-            <Search label="Search Here" setSearchBy={handleSearch} />
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH_REWARDS,
+              ]}
+            >
+              <Search label="Search Here" setSearchBy={handleSearch} />
+            </PermissionsGuard>
             <Box mt={'0.75rem'}>
               <TanstackTable
                 columns={loyaltyAllRewardColumn}

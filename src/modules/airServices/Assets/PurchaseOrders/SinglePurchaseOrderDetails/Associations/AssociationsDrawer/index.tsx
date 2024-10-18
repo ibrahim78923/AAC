@@ -28,7 +28,7 @@ export const AssociationsDrawer = (props: any) => {
   } = useAssociationsDrawer(props);
 
   return (
-    <div>
+    <>
       <CommonDrawer
         isDrawerOpen={open}
         onClose={() => {
@@ -44,13 +44,12 @@ export const AssociationsDrawer = (props: any) => {
         isDisabled={!selectedTicketList?.length}
         disabledCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
       >
-        <>
+        <Box pt={1}>
           <Search
             label="Search"
             width="100%"
             searchBy={search}
             setSearchBy={handleSearch}
-            sx={{ width: '100%' }}
           />
           <Box sx={{ height: '66vh', mt: 1 }}>
             {!lazyGetTicketsStatus?.isLoading ? (
@@ -131,8 +130,8 @@ export const AssociationsDrawer = (props: any) => {
               />
             </Box>
           )}
-        </>
+        </Box>
       </CommonDrawer>
-    </div>
+    </>
   );
 };

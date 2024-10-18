@@ -1779,6 +1779,13 @@ export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'Loyalty-dashboard-view',
   APPLY_FILTERS: 'Loyalty-dashboard-apply-filters',
 };
+export const AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS = {
+  VIEW_REWARD_DETAILS: 'Loyalty-reward-view-details',
+  ADD_REWARDS: 'Loyalty-reward-add',
+  EDIT_DELETE_REWARDS: 'Loyalty-reward-edit-delete',
+  ACTIVE_INACTIVE_REWARDS: 'Loyalty-reward-active-inactive',
+  SEARCH_REWARDS: 'Loyalty-reward-Search',
+};
 
 export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
   VIEW_DETAILS: 'Loyalty-vouchers-view-details',

@@ -1,5 +1,5 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import { useReceivedItems } from './useReceivedItems';
 import {
   itemDetailColumns,
@@ -52,7 +52,11 @@ export const ReceivedItems = (props: any) => {
     >
       <>
         {!!errorOccurred && (
-          <Alert severity="error" style={{ marginBottom: pxToRem(10) }}>
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{ marginBottom: pxToRem(10), color: 'graph.slate_gray' }}
+          >
             The received item quantity should not exceed the pending item
             quantity
           </Alert>

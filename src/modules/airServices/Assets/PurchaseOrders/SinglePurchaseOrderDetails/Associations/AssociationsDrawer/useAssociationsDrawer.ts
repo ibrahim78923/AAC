@@ -24,7 +24,7 @@ export const useAssociationsDrawer = (props: any) => {
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostAirServicesRemoveAssociateTicketsMutation();
 
-  const tickets = lazyGetTicketsStatus?.data?.data;
+  const tickets = lazyGetTicketsStatus?.data?.data?.tickets;
   const metaData = lazyGetTicketsStatus?.data?.data?.meta;
 
   const getValueTicketsListData = async () => {

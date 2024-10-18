@@ -1,9 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = 'GET-SOFTWARE-USERS-DETAILS';
-const TAG_ONE = 'DROPDOWN_CONTRACT';
-const TAG_TWO = 'DROPDOWN_USERS';
-const TAG_FOUR = 'USERS_DROPDOWN';
+
 export const softwareUsers = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getSoftwareUsersDetails: builder?.query({
@@ -32,7 +30,6 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_ONE],
     }),
     addSoftwareUsers: builder?.mutation({
       query: (params: any) => ({
@@ -51,7 +48,6 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_TWO],
     }),
     allocateContract: builder.mutation({
       query: (params: any) => ({
@@ -86,7 +82,6 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG_FOUR],
     }),
   }),
 });
