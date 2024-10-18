@@ -7,7 +7,6 @@ import {
 } from './UpsertProduct.data';
 import { useEffect, useState } from 'react';
 import {
-  useLazyGetProductVendorDropdownQuery,
   usePostProductVendorMutation,
   usePutProductVendorMutation,
 } from '@/services/airServices/settings/asset-management/vendor/single-vendor-details/product';
@@ -30,9 +29,8 @@ export const useUpsertProduct = (props: any) => {
     usePostProductVendorMutation();
   const [putProductVendorTrigger, putProductVendorProgress] =
     usePutProductVendorMutation();
-  const dropdownData = useLazyGetProductVendorDropdownQuery();
 
-  const upsertProductFields = upsertProductDataArray(dropdownData, editData);
+  const upsertProductFields = upsertProductDataArray(editData);
 
   const isSubmit = async (data: any) => {
     const productVendorData = {

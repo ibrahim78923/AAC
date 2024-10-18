@@ -1,9 +1,6 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { VendorCatalogDropdown } from './VendorCatalogDropdown';
 
 const warrantyValidityYrsOptions = [
   '1',
@@ -57,18 +54,10 @@ export const upsertVendorDefaultValues = (data?: any) => {
   };
 };
 
-export const getUpsertVendorDataArray = (apiQueryVendorsList: any) => [
+export const getUpsertVendorDataArray = () => [
   {
     id: 1,
-    componentProps: {
-      name: 'vendorCatalog',
-      label: 'Vendor Catalog',
-      required: true,
-      placeholder: '---Choose---',
-      apiQuery: apiQueryVendorsList,
-      externalParams: { meta: false, limit: 50 },
-    },
-    component: RHFAutocompleteAsync,
+    component: VendorCatalogDropdown,
   },
   {
     id: 2,

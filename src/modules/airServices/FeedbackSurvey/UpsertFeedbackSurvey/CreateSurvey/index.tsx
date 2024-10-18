@@ -19,8 +19,6 @@ export const CreateSurvey: React.FC<{
     setSubmitType,
     openShare,
     setOpenShare,
-    userDropdown,
-    sessionUser,
   } = useCreateSurvey(props);
   return (
     <>
@@ -34,58 +32,55 @@ export const CreateSurvey: React.FC<{
         canMovedBack
       />
       <Grid container spacing={2}>
-        {createSurveyFields(
-          props?.methods?.watch,
-          setOpenShare,
-          userDropdown,
-          sessionUser,
-        )?.map((field) => {
-          if (
-            field?.conditionalComponent &&
-            customerSupportLinkType === surveyConditions?.email
-          ) {
-            return null;
-          }
-          if (
-            field?.componentProps?.name ===
-              surveyConditions?.sendSurveyPeople &&
-            customerSupportLinkType === surveyConditions?.link
-          ) {
-            return null;
-          }
-          if (
-            field?.componentProps?.name === surveyConditions?.displayName &&
-            !displayWatch
-          ) {
-            return null;
-          }
-          return (
-            <Grid
-              item
-              key={field?.id}
-              xs={12}
-              md={7}
-              sx={{
-                display: !field?.type?.includes(router?.query?.type as string)
-                  ? 'none'
-                  : 'block',
-              }}
-            >
-              {field?.conditionalComponent ? (
-                field?.conditionalComponent(linkRef, setValue)
-              ) : field?.id === 7 ? (
-                <Typography variant="h6" mb={-2}>
-                  Configure what to display in the survey email or Portal
-                  against tickets
-                </Typography>
-              ) : (
-                field?.component && (
-                  <field.component {...field?.componentProps} size="small" />
-                )
-              )}
-            </Grid>
-          );
-        })}
+        {createSurveyFields(props?.methods?.watch, setOpenShare)?.map(
+          (field: any) => {
+            if (
+              field?.conditionalComponent &&
+              customerSupportLinkType === surveyConditions?.email
+            ) {
+              return null;
+            }
+            if (
+              field?.componentProps?.name ===
+                surveyConditions?.sendSurveyPeople &&
+              customerSupportLinkType === surveyConditions?.link
+            ) {
+              return null;
+            }
+            if (
+              field?.componentProps?.name === surveyConditions?.displayName &&
+              !displayWatch
+            ) {
+              return null;
+            }
+            return (
+              <Grid
+                item
+                key={field?.id}
+                xs={12}
+                md={7}
+                sx={{
+                  display: !field?.type?.includes(router?.query?.type as string)
+                    ? 'none'
+                    : 'block',
+                }}
+              >
+                {field?.conditionalComponent ? (
+                  field?.conditionalComponent(linkRef, setValue)
+                ) : field?.id === 7 ? (
+                  <Typography variant="h6" mb={-2}>
+                    Configure what to display in the survey email or Portal
+                    against tickets
+                  </Typography>
+                ) : (
+                  field?.component && (
+                    <field.component {...field?.componentProps} size="small" />
+                  )
+                )}
+              </Grid>
+            );
+          },
+        )}
         <Grid
           item
           md={7}

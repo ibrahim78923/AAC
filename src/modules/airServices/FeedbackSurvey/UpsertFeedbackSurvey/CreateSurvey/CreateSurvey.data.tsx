@@ -1,5 +1,4 @@
 import {
-  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDatePicker,
   RHFRadioGroup,
@@ -7,8 +6,8 @@ import {
 } from '@/components/ReactHookForm';
 import { successSnackbar } from '@/utils/api';
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
 import { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form';
+import { AddPeopleDropdown } from './AddPeopleDropdown';
 
 export const surveyConditions = {
   email: 'viaEmail',
@@ -49,8 +48,6 @@ const surveyLinkOptions = [
 export const createSurveyFields = (
   watch: UseFormWatch<FieldValues>,
   setOpenShare: React.Dispatch<React.SetStateAction<boolean>>,
-  userDropdown: any,
-  sessionUser: any,
 ) => [
   {
     id: 1,
@@ -101,23 +98,9 @@ export const createSurveyFields = (
     componentProps: {
       name: 'sendSurveyPeople',
       label: 'Add People',
-      placeholder: 'Enter People',
-      multiple: true,
-      required: true,
-      apiQuery: userDropdown,
-      externalParams: {
-        limit: 5000,
-        role: 'ORG_EMPLOYEE',
-        organization: sessionUser?.user?.organization?._id,
-      },
-      getOptionLabel: (option: any) => (option?.email ? option?.email : option),
-      isOptionEqualToValue: (option: any, newValue: any) =>
-        newValue?.email
-          ? option?.email === newValue?.email
-          : option?.email === newValue,
     },
     type: ['customer-support'],
-    component: RHFAutocompleteAsync,
+    component: AddPeopleDropdown,
   },
   {
     id: 6,

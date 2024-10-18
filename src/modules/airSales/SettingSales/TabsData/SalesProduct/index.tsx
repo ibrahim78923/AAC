@@ -96,8 +96,7 @@ const SalesProduct = () => {
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH]}>
             <Search
               label={'Search here'}
-              setSearchBy={setproductSearch}
-
+              setSearchBy={setProductSearch}
               size="small"
             />
           </PermissionsGuard>

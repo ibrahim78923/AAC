@@ -10,7 +10,6 @@ import {
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetProductCatalogByIdQuery,
-  useLazyGetAssetTypeProductCatalogQuery,
   usePatchProductCatalogMutation,
   usePostProductCatalogMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
@@ -98,9 +97,8 @@ export const useUpsertProductCatalog = () => {
     }
   };
 
-  const apiQueryAssetType = useLazyGetAssetTypeProductCatalogQuery();
   const upsertProductCatalogFormFields =
-    upsertProductCatalogFormFieldsDynamic(apiQueryAssetType);
+    upsertProductCatalogFormFieldsDynamic();
 
   const moveBack = () => {
     if (!!productCatalogId) {

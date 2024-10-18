@@ -16,6 +16,7 @@ import { useReportIssue } from './useReportIssue';
 import CloseIcon from '@mui/icons-material/Close';
 import { PORTAL_TICKET_FIELDS } from '@/constants/strings';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { reportIssueFormFieldsDynamic } from './ReportIssue.data';
 
 export const ReportIssue = (props: ReportIssuePropsI) => {
   const { isPortalOpen } = props;
@@ -25,7 +26,6 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
     closePortal,
     handleSubmit,
     onSubmit,
-    reportIssueFormFields,
     getArticleStatus,
     handleArticleClick,
     subjectValue,
@@ -64,7 +64,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportIssueFormFields?.map((item) => {
+                {reportIssueFormFieldsDynamic?.map((item) => {
                   if (requestorCondition(item))
                     return (
                       <>

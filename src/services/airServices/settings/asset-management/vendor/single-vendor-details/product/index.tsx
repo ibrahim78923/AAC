@@ -1,11 +1,8 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'VENDOR_PRODUCT_DETAIL';
-
-const transformResponse = (response: any) => {
-  if (response) return response?.data?.productcatalogs;
-};
 
 export const vendorsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,12 +31,12 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getProductVendorDropdown: builder?.query({
-      query: ({ param }) => ({
+      query: ({ params }) => ({
         url: `${END_POINTS?.GET_PRODUCT_VENDOR_DROPDOWN}`,
         method: 'GET',
-        params: param,
+        params,
       }),
-      transformResponse: (response: any) => transformResponse(response),
+      transformResponse,
       providesTags: [TAG],
     }),
     deleteProductVendor: builder?.mutation({

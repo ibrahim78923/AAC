@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -13,6 +12,7 @@ import {
   CHARACTERS_LIMIT,
   GLOBAL_CHARACTERS_LIMIT,
 } from '@/constants/validation';
+import { AssetTypeDropdown } from './AssetTypeDropdown';
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()
@@ -44,9 +44,7 @@ export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
   };
 };
-export const upsertProductCatalogFormFieldsDynamic = (
-  apiQueryAssetType: any,
-) => [
+export const upsertProductCatalogFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -60,15 +58,7 @@ export const upsertProductCatalogFormFieldsDynamic = (
   },
   {
     id: 2,
-    componentProps: {
-      name: 'assetType',
-      label: 'Asset Type',
-      fullWidth: true,
-      required: true,
-      apiQuery: apiQueryAssetType,
-      externalParams: { meta: false, limit: 50 },
-    },
-    component: RHFAutocompleteAsync,
+    component: AssetTypeDropdown,
     md: 6,
   },
   {

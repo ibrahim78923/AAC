@@ -1,9 +1,6 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { ProductCatalogDropdown } from './ProductCatalogDropdown';
 
 export const upsertProductValidationSchema = Yup?.object()?.shape({
   productCatalog: Yup?.object()?.required('Required'),
@@ -53,25 +50,13 @@ const warrantyValidityMonthsOptions = [
   '11',
 ];
 
-export const upsertProductDataArray = (
-  apiQueryProductCatalog: any,
-  editData: any,
-) => [
+export const upsertProductDataArray = (editData: any) => [
   {
     id: 9478,
     componentProps: {
-      name: 'productCatalog',
-      label: 'Product Catalog',
-      type: 'text',
-      size: 'small',
-      required: true,
       disabled: editData?.length === 0 ? false : true,
-      placeholder: '---Choose---',
-      apiQuery: apiQueryProductCatalog,
-      externalParams: { meta: false, limit: 50, page: 1 },
-      getOptionLabel: (option: any) => option?.name,
     },
-    component: RHFAutocompleteAsync,
+    component: ProductCatalogDropdown,
   },
   {
     id: 2786,

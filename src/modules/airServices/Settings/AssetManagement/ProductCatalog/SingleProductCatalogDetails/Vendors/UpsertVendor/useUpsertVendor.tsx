@@ -6,7 +6,6 @@ import {
   upsertVendorValidationSchema,
 } from './UpsertVendor.data';
 import {
-  useLazyGetVendorsCatalogQuery,
   usePatchVendorMutation,
   usePostVendorMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
@@ -27,9 +26,7 @@ export const useUpsertVendor = (
 
   const { handleSubmit } = methods;
 
-  const apiQueryVendorsList = useLazyGetVendorsCatalogQuery();
-
-  const upsertVendorDataArray = getUpsertVendorDataArray(apiQueryVendorsList);
+  const upsertVendorDataArray = getUpsertVendorDataArray();
 
   const [postVendorTrigger, postVendorStatus] = usePostVendorMutation();
 
