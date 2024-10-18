@@ -9,7 +9,8 @@ import {
 } from '@mui/material';
 import { importTableFields, importTableHeader } from '../ImportModal.data';
 const ThirdStep = (props: any) => {
-  const { methodsImportModalForm, importLog, fields, remove } = props;
+  const { control, importLog, fields, remove, filterMandatoryFields } = props;
+
   return (
     <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'}>
       <TableContainer>
@@ -26,11 +27,13 @@ const ThirdStep = (props: any) => {
               return (
                 <TableRow key={item?.id}>
                   {importTableFields?.(
-                    methodsImportModalForm?.control,
+                    control,
                     'importedFields',
                     index,
                     importLog,
                     remove,
+                    filterMandatoryFields,
+                    fields,
                   )?.map((singleField: any) => (
                     <TableCell key={singleField?.id}>
                       {singleField?.data}

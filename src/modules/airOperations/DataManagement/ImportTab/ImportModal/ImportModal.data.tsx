@@ -17,6 +17,7 @@ import {
   ProductCatalogIcon,
   VendorIcon,
 } from '@/assets/icons';
+import { IconButton } from '@mui/material';
 
 export const productData = [
   {
@@ -311,6 +312,7 @@ export const importDataField = (productOptions: any) => [
       label: 'Product',
       required: true,
       options: productOptions,
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
       placeholder: 'Select product',
     },
     component: RHFAutocomplete,
@@ -336,6 +338,8 @@ export const importTableFields = (
   index: number,
   importLog: string,
   remove: any,
+  filterMandatoryFields: any,
+  fields: any,
 ) => {
   return [
     {
@@ -371,11 +375,16 @@ export const importTableFields = (
     {
       id: 5346,
       data: (
-        <Delete
+        <IconButton
           onClick={() => remove(index)}
           sx={{ cursor: 'pointer' }}
           color="error"
-        />
+          disabled={
+            fields?.length <= filterMandatoryFields()?.length ? true : false
+          }
+        >
+          <Delete />
+        </IconButton>
       ),
     },
   ];

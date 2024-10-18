@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import {
   importDefaultValues,
@@ -40,13 +40,24 @@ export const useImportModal = () => {
     defaultValues: importDefaultValues,
   });
 
-  const { data, isLoading, isFetching } =
-    useGetAuthAccountsForOperationsReportsQuery?.(
-      {},
-      {
-        refetchOnMountOrArgChange: true,
-      },
-    );
+  const { control, handleSubmit, reset, watch, setValue } =
+    methodsImportModalForm;
+  const importDeals = watch('importDeals');
+  const product = watch('product');
+
+  const { fields, remove } = useFieldArray({
+    control,
+    name: 'importedFields',
+  });
+
+  const {
+    data: accountsData,
+    isLoading,
+    isFetching,
+  } = useGetAuthAccountsForOperationsReportsQuery?.(
+    {},
+    { refetchOnMountOrArgChange: true },
+  );
 
   const filterMandatoryFields = () => {
     return stepsData[importLog]?.filter(
@@ -54,22 +65,15 @@ export const useImportModal = () => {
     );
   };
 
-  const hasAccounts = data?.data?.map(
-    (account: any) =>
-      (account?.name === PRODUCTS_LISTS?.AIR_SALES ||
-        account?.name === PRODUCTS_LISTS?.AIR_SERVICES) &&
-      account?.name,
-  );
-
-  const productOptions = productOptionsFunction(hasAccounts);
-  const product = methodsImportModalForm?.watch()?.product;
-  const importDeals = methodsImportModalForm?.watch()?.importDeals;
-
-  const { control, handleSubmit, reset } = methodsImportModalForm;
-  const { fields, remove } = useFieldArray({
-    control,
-    name: 'importedFields',
-  });
+  const productOptions = useMemo(() => {
+    const hasAccounts = accountsData?.data?.map(
+      (account: any) =>
+        [PRODUCTS_LISTS?.AIR_SALES, PRODUCTS_LISTS?.AIR_SERVICES]?.includes(
+          account?.name,
+        ) && account?.name,
+    );
+    return productOptionsFunction(hasAccounts);
+  }, [accountsData]);
 
   const [newImportFileForServicesTrigger, newImportFileForServicesStatus] =
     useNewImportFileForServicesMutation?.();
@@ -95,6 +99,7 @@ export const useImportModal = () => {
               objectUrl: OBJECT_URL_IMPORT?.USERS_ATTACHMENT,
             },
           };
+
           try {
             const response: any = await lazyGetSignedUrlForImportTrigger?.(
               signedUrlApiDataParameter,
@@ -116,6 +121,7 @@ export const useImportModal = () => {
             }),
             {},
           );
+
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
             (value: any, index: any) => values?.indexOf(value) !== index,
@@ -130,9 +136,10 @@ export const useImportModal = () => {
             (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
           );
 
-          if (hasDuplicate || !isAllRequiredFieldPresent) {
+          if (hasDuplicate) {
             hasDuplicate &&
               errorSnackbar('Duplicate crmFields are not allowed');
+          } else if (!isAllRequiredFieldPresent) {
             !isAllRequiredFieldPresent &&
               errorSnackbar('Select all mandatory field');
           } else {
@@ -163,6 +170,7 @@ export const useImportModal = () => {
               objectUrl: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.path}`,
             },
           };
+
           try {
             const response: any = await lazyGetSignedUrlForImportTrigger?.(
               signedUrlApiDataParameter,
@@ -172,7 +180,7 @@ export const useImportModal = () => {
               signedUrl: response?.data,
             };
 
-            uploadToS3CsvFile(s3Data);
+            await uploadToS3CsvFile(s3Data);
             setFileResponse(response);
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
@@ -186,6 +194,7 @@ export const useImportModal = () => {
             }),
             {},
           );
+
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
             (value: any, index: any) => values?.indexOf(value) !== index,
@@ -200,9 +209,10 @@ export const useImportModal = () => {
             (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
           );
 
-          if (hasDuplicate || !isAllRequiredFieldPresent) {
+          if (hasDuplicate) {
             hasDuplicate &&
               errorSnackbar('Duplicate crmFields are not allowed');
+          } else if (!isAllRequiredFieldPresent) {
             !isAllRequiredFieldPresent &&
               errorSnackbar('Select all mandatory field');
           } else {
@@ -255,23 +265,6 @@ export const useImportModal = () => {
     }
   };
 
-  const handleClose = () => {
-    setIsDrawerOpen(false);
-    setModalStep(1);
-    setImportLog('');
-    methodsImportModalForm?.reset();
-  };
-
-  const resetImportModalForm = async () => {
-    if (modalStep > 1) {
-      setModalStep((prev: any) => --prev);
-    } else handleClose();
-  };
-
-  const handleSelect = (selectedValue: any) => {
-    setImportLog(selectedValue);
-  };
-
   const handleFileChange = (event: any) => {
     if (event) {
       const reader = new FileReader();
@@ -303,27 +296,37 @@ export const useImportModal = () => {
       fileColumn: item?.column,
       crmFields: null,
     }));
-    methodsImportModalForm?.setValue('importedFields', importedFiles);
+    setValue('importedFields', importedFiles);
   }, [csvFileData]);
 
   useEffect(() => {
-    {
-      importDeals != null && handleFileChange(importDeals);
-    }
-    {
-      product === null && (methodsImportModalForm?.reset(), setImportLog(''));
-    }
-    {
-      importDeals != null &&
-        modalStep === 1 &&
-        methodsImportModalForm?.setValue('importDeals', null);
-    }
+    importDeals && handleFileChange(importDeals);
+    !product && (reset(), setImportLog(''));
+    !importDeals && modalStep === 1 && setValue('importDeals', null);
   }, [importDeals, product, importLog, modalStep]);
+
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    setModalStep(1);
+    setImportLog('');
+    reset();
+  };
+
+  const resetImportModalForm = async () => {
+    if (modalStep > 1) {
+      setModalStep((prev: any) => --prev);
+    } else handleClose();
+  };
+
+  const handleSelect = (selectedValue: any) => {
+    setImportLog(selectedValue);
+  };
 
   return {
     isDrawerOpen,
     setIsDrawerOpen,
     methodsImportModalForm,
+    control,
     submitImportModalForm,
     resetImportModalForm,
     isNewImport,
@@ -346,5 +349,6 @@ export const useImportModal = () => {
     isLoading,
     isFetching,
     importDeals,
+    filterMandatoryFields,
   };
 };

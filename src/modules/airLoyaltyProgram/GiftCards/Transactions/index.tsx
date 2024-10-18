@@ -47,7 +47,7 @@ export const Transactions = () => {
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTER,
             ]}
           >
             <Button

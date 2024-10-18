@@ -16,14 +16,16 @@ import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
 import { stepsData } from './ImportModal.data';
 import { LoadingButton } from '@mui/lab';
-import CloseIcon from '@/assets/icons/shared/close-icon';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import CloseIcon from '@mui/icons-material/Close';
+
 const ImportModal = () => {
   const {
     isDrawerOpen,
     setIsDrawerOpen,
     methodsImportModalForm,
+    control,
     submitImportModalForm,
     resetImportModalForm,
     modalStep,
@@ -44,7 +46,9 @@ const ImportModal = () => {
     productOptions,
     isLoading,
     isFetching,
+    filterMandatoryFields,
   } = useImportModal();
+
   const steps: any = {
     1: (
       <FirstStep
@@ -64,9 +68,10 @@ const ImportModal = () => {
     3: (
       <ThirdStep
         importLog={importLog}
-        methodsImportModalForm={methodsImportModalForm}
+        control={control}
         fields={fields}
         remove={remove}
+        filterMandatoryFields={filterMandatoryFields}
       />
     ),
   };
@@ -116,9 +121,7 @@ const ImportModal = () => {
                   <Typography variant="subtitle1" textTransform="capitalize">
                     Import Data
                   </Typography>
-                  <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
-                    <CloseIcon />
-                  </Box>
+                  <CloseIcon onClick={handleClose} sx={{ cursor: 'pointer' }} />
                 </Toolbar>
               </AppBar>
               <Box flex="1" overflow="scroll">
@@ -156,7 +159,8 @@ const ImportModal = () => {
                         lazyGetSignedUrlForImportStatus?.isLoading ||
                         uploadFileTos3UsingSignedUrlStatus?.isLoading ||
                         importFileStatus?.isLoading ||
-                        newImportFileForServicesStatus?.isLoading
+                        newImportFileForServicesStatus?.isLoading ||
+                        lazyGetSignedUrlForImportStatus?.isFetching
                       }
                     >
                       {modalStep === 1
@@ -170,7 +174,8 @@ const ImportModal = () => {
                         uploadFileTos3UsingSignedUrlStatus?.isLoading ||
                         lazyGetSignedUrlForImportStatus?.isLoading ||
                         importFileStatus?.isLoading ||
-                        newImportFileForServicesStatus?.isLoading
+                        newImportFileForServicesStatus?.isLoading ||
+                        lazyGetSignedUrlForImportStatus?.isFetching
                       }
                       onClick={handleSubmit(submitImportModalForm)}
                       disabled={

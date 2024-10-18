@@ -1830,6 +1830,19 @@ export const AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
   SEARCH_DETAILS: 'Loyalty-Settings-user-management-search-details',
   EDIT_OR_DELETE_USER: 'Loyalty-Settings-user-management-edit-delete-user',
 };
+
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS = {
+  VIEW_GIFT_CARD_DETAILS: 'Loyalty-gift-card-view-details',
+  ADD_GIFT_CARD: 'Loyalty-gift-card-add',
+  APPLY_FILTER: 'Loyalty-gift-card-apply-filters',
+  SEARCH: 'Loyalty-gift-card-search',
+  ACTIVE_INACTIVE: 'Loyalty-gift-card-active-Inactive',
+};
+
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
+  VIEW_DETAILS: 'Loyalty-gift-card-transactions-view-details',
+  APPLY_FILTER: 'Loyalty-gift-card-transactions-apply-filters',
+  SEARCH_DETAILS: 'Loyalty-gift-card-transactions-search',
 export const AIR_LOYALTY_PROGRAM_CONSUMERS_PERMISSIONS = {
   VIEW_DETAILS: 'Loyalty-Consumers-veiw-details',
   SEARCH_DETAILS: 'Loyalty-Consumers-search',
