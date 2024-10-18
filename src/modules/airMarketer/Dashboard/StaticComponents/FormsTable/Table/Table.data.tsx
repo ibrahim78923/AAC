@@ -1,34 +1,34 @@
 export const columns: any = [
   {
-    accessorFn: (row: any) => row?.landingPage,
+    accessorFn: (row: any) => row?.name,
     id: 'landingPage',
-    cell: (info: any) => info?.getValue(),
     header: 'Landing Page',
     isSortable: false,
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
-    accessorFn: (row: any) => row?.publishStatus,
+    accessorFn: (row: any) => row?.status,
     id: 'publishStatus',
-    cell: (info: any) => info?.getValue(),
     header: 'Publish Status',
     isSortable: false,
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
-    accessorFn: (row: any) => row?.views,
+    accessorFn: (row: any) => row?.pageViews,
     id: 'views',
     isSortable: false,
     header: 'Views',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
-    accessorFn: (row: any) => row?.totalSubmission,
+    accessorFn: (row: any) => row?.submissions,
     id: 'totalSubmission',
     isSortable: false,
     header: 'Total Submission',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
@@ -36,6 +36,6 @@ export const columns: any = [
     id: 'type',
     isSortable: false,
     header: 'Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 ];

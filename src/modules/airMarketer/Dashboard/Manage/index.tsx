@@ -79,7 +79,6 @@ const Manage = () => {
           >
             <Search
               label="Search by name"
-              searchBy={filterValues?.search}
               setSearchBy={(value: string) =>
                 setFilterValues({ ...filterValues, search: value })
               }

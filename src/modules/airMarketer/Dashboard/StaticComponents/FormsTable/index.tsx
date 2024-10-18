@@ -1,7 +1,8 @@
 import { Box, Card, Typography, useTheme } from '@mui/material';
 import Table from './Table';
 
-const FormsTable = () => {
+const FormsTable = (props: any) => {
+  const { data } = props;
   const theme = useTheme();
   return (
     <Card>
@@ -17,7 +18,9 @@ const FormsTable = () => {
           </Box>
         </Box>
       </Box>
-      <Table />
+      <Box sx={{ maxHeight: '300px', overflowY: 'scroll' }}>
+        <Table tableData={data} />
+      </Box>
     </Card>
   );
 };

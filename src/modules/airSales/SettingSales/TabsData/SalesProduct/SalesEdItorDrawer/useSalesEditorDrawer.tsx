@@ -167,8 +167,12 @@ const useSalesEditorDrawer = ({
     formData.append('image', data?.image);
     delete data?.image;
 
-    Object.keys(data).forEach((key) => {
-      formData.append(key, JSON?.stringify(data[key]));
+    if (data?.customFields) {
+      formData?.append('customFields', JSON?.stringify(data?.customFields));
+    }
+    delete data?.customFields;
+    Object?.keys(data)?.forEach((key) => {
+      formData?.append(key, data[key]);
     });
 
     const updateSalesProductParams = {
