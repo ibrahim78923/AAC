@@ -47,7 +47,6 @@ export const Users = () => {
     removeLoading,
     setFilterValues,
     filterValues,
-    contractDropdown,
   } = useUsers();
 
   return (
@@ -61,7 +60,7 @@ export const Users = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Box>
+        <Box ml={0.5}>
           <Search label="Search Here" setSearchBy={handleSearch} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
@@ -122,11 +121,7 @@ export const Users = () => {
 
           <DialogContent>
             {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
-              <UsersAllocate
-                methods={methods}
-                onSubmit={allocateSubmit}
-                contractDropdown={contractDropdown}
-              />
+              <UsersAllocate methods={methods} onSubmit={allocateSubmit} />
             )}
             {selectedActionTitle ===
               SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && <UsersDeallocate />}

@@ -10,7 +10,6 @@ import {
   useRemoveContractMutation,
   useAllocateContractMutation,
   useLazyGetExportSoftwareUsersQuery,
-  useLazyGetContractDropdownListQuery,
 } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useEffect, useState } from 'react';
 import { downloadFile } from '@/utils/file';
@@ -174,8 +173,6 @@ const useUsers = () => {
     setPage(PAGINATION?.CURRENT_PAGE);
     setSearch(data);
   };
-
-  const contractDropdown = useLazyGetContractDropdownListQuery();
   return {
     userActionClickHandler,
     userActionDropdownCloseHandler,
@@ -206,7 +203,6 @@ const useUsers = () => {
     setFilterValues,
     filterValues,
     handleGetUser,
-    contractDropdown,
   };
 };
 

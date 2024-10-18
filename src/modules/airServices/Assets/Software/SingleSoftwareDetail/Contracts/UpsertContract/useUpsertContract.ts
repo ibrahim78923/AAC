@@ -9,10 +9,7 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import {
-  useLazyGetVendorDropdownQuery,
   usePostContractMutation,
-  useLazyGetSoftwareDropdownQuery,
-  useLazyGetAgentsDropdownQuery,
   useLazyGetContractTypeListQuery,
 } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -112,16 +109,9 @@ export const useUpsertContract = () => {
       errorSnackbar(error?.data?.message);
     }
   };
-  const apiQueryVendor = useLazyGetVendorDropdownQuery();
-  const apiQueryApprover = useLazyGetAgentsDropdownQuery();
-  const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
 
-  const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
-    watchForNotifyExpiry,
-    apiQueryVendor,
-    apiQueryApprover,
-    apiQuerySoftware,
-  );
+  const upsertContractFormFieldsData =
+    upsertContractFormFieldsDataFunction(watchForNotifyExpiry);
   return {
     upsertContractFormMethods,
     handleSubmit,

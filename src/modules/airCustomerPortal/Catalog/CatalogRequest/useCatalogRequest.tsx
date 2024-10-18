@@ -5,10 +5,7 @@ import {
   placeRequestDefaultValues,
   placeRequestValidationSchema,
 } from './CatalogRequest.data';
-import {
-  useLazyGetRequesterDropdownQuery,
-  usePostTicketsMutation,
-} from '@/services/airCustomerPortal/catalog';
+import { usePostTicketsMutation } from '@/services/airCustomerPortal/catalog';
 import { NextRouter, useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { MODULE_TYPE, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
@@ -105,14 +102,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     clearErrors('requestor');
   }, [requestForSomeOne]);
 
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-
-  const catalogRequestFormField = placeRequest(
-    apiQueryRequester,
-    categoryType,
-    requestForSomeOne,
-    checkPermission,
-  );
+  const catalogRequestFormField = placeRequest(categoryType, checkPermission);
 
   const portalStyles = getCustomerPortalStyling();
 

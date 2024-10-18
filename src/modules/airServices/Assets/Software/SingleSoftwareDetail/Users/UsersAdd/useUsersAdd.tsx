@@ -6,21 +6,14 @@ import {
   addUserValidationSchema,
 } from './UsersAdd.data';
 import { useState } from 'react';
-import {
-  useAddSoftwareUsersMutation,
-  useLazyGetContractDropdownListQuery,
-  useLazyGetUsersDropdownListQuery,
-} from '@/services/airServices/assets/software/single-software-detail/users';
+import { useAddSoftwareUsersMutation } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useSearchParams } from 'next/navigation';
 import { UsersAddFormDataI } from './UsersAdd.interface';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
 const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product ?? {};
 
   const methods: any = useForm({
     resolver: yupResolver(addUserValidationSchema),
@@ -28,9 +21,6 @@ const useUsersAdd = () => {
   });
 
   const [addSoftwareUsers, { isLoading }] = useAddSoftwareUsersMutation();
-
-  const contractDropdown = useLazyGetContractDropdownListQuery();
-  const userDropdown = useLazyGetUsersDropdownListQuery();
 
   const openModal = () => {
     setModalOpen(true);
@@ -57,11 +47,7 @@ const useUsersAdd = () => {
     }
   };
 
-  const addUserDataFormFieldsAddUser = addUserData(
-    userDropdown,
-    contractDropdown,
-    productId,
-  );
+  const addUserDataFormFieldsAddUser = addUserData();
 
   return {
     methods,

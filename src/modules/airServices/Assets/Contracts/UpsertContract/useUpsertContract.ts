@@ -17,18 +17,12 @@ import {
   usePostContractMutation,
   useGetSingleContractByIdQuery,
   usePutContractMutation,
-  useLazyGetUsersDropdownListForContractApprovalsQuery,
-  useLazyGetVendorDropdownListForContractApprovalsQuery,
-  useLazyGetAssetsDropdownListForContractApprovalsQuery,
-  useLazyGetSoftwareDropdownListForContractApprovalsQuery,
-  useLazyGetContractTypeListQuery,
 } from '@/services/airServices/assets/contracts';
 import {
   errorSnackbar,
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -47,9 +41,6 @@ export const useUpsertContract = () => {
   const [form, setForm] = useState<any>([]);
 
   const { contractId } = router?.query;
-
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
 
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
   const [putContractTrigger, putContractStatus] = usePutContractMutation();
@@ -319,25 +310,9 @@ export const useUpsertContract = () => {
     }
   };
 
-  const apiQueryVendor =
-    useLazyGetVendorDropdownListForContractApprovalsQuery();
-  const apiQueryAsset = useLazyGetAssetsDropdownListForContractApprovalsQuery();
-  const apiQueryApprover =
-    useLazyGetUsersDropdownListForContractApprovalsQuery();
-  const apiQuerySoftware =
-    useLazyGetSoftwareDropdownListForContractApprovalsQuery();
-  const apiContractType = useLazyGetContractTypeListQuery();
-
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     watchForContractType,
-    apiQueryVendor,
-    apiQueryAsset,
-    apiQueryApprover,
-    apiQuerySoftware,
-    contractId,
-    productId,
-    apiContractType,
   );
 
   return {

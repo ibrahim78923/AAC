@@ -25,9 +25,12 @@ export const useHeader = () => {
 
   const { contractId } = router?.query;
 
-  const [patchContractSubmitApprovalTrigger] =
-    usePatchContractSubmitForApprovalMutation();
-  const [patchContractApproveTrigger] = usePatchContractApproveMutation();
+  const [
+    patchContractSubmitApprovalTrigger,
+    patchContractSubmitApprovalProcess,
+  ] = usePatchContractSubmitForApprovalMutation();
+  const [patchContractApproveTrigger, patchContractApproveProcess] =
+    usePatchContractApproveMutation();
 
   const getSingleContractParameter = {
     pathParam: {
@@ -88,5 +91,7 @@ export const useHeader = () => {
     handleSubmitForApprove,
     handleClickOpen,
     user,
+    patchContractSubmitApprovalProcess,
+    patchContractApproveProcess,
   };
 };

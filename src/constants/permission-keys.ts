@@ -1843,6 +1843,7 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
   VIEW_DETAILS: 'Loyalty-gift-card-transactions-view-details',
   APPLY_FILTER: 'Loyalty-gift-card-transactions-apply-filters',
   SEARCH_DETAILS: 'Loyalty-gift-card-transactions-search',
+};
 export const AIR_LOYALTY_PROGRAM_CONSUMERS_PERMISSIONS = {
   VIEW_DETAILS: 'Loyalty-Consumers-veiw-details',
   SEARCH_DETAILS: 'Loyalty-Consumers-search',

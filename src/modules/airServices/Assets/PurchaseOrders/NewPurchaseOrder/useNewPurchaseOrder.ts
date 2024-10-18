@@ -10,9 +10,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetAirServicesAssetsPurchaseOrderByIdQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
   usePatchAirServicesAssetsPurchaseOrderMutation,
   usePostAirServicesAssetsPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
@@ -86,13 +83,6 @@ const useNewPurchaseOrders = () => {
     resolver: yupResolver(validationSchema?.(form)),
     defaultValues: defaultValues?.(),
   });
-
-  const apiQueryDepartment =
-    useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery();
-  const apiQueryLocations =
-    useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery();
-  const apiQueryVendor: any =
-    useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery();
 
   const { watch, reset } = methods;
   const vendorValue = watch('vendor');
@@ -204,11 +194,7 @@ const useNewPurchaseOrders = () => {
     reset();
   };
 
-  const newPurchaseFields = newPurchaseFieldsFunction(
-    apiQueryDepartment,
-    apiQueryLocations,
-    apiQueryVendor,
-  );
+  const newPurchaseFields = newPurchaseFieldsFunction();
 
   useEffect(() => {
     if (singlePurchaseOrder?.data) {

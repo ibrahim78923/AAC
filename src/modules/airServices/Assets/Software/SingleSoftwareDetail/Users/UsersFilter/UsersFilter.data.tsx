@@ -1,10 +1,7 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { TIME_PERIODS } from '@/constants/strings';
 import { UsersFilterDataI } from './UsersFilter.interface';
+import GetSoftwareDepartmentDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareDepartmentDropdown';
 
 export const dropdownOptions = [
   TIME_PERIODS?.NONE,
@@ -25,7 +22,7 @@ export const userDefaultValues = (data: UsersFilterDataI) => {
   };
 };
 
-export const userDataArray = (apiQueryDepartment: any) => [
+export const userDataArray = () => [
   {
     id: 1,
     componentProps: {
@@ -37,13 +34,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
   },
   {
     id: 2,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      placeholder: 'Select Department',
-      apiQuery: apiQueryDepartment,
-    },
-    component: RHFAutocompleteAsync,
+    component: GetSoftwareDepartmentDropdown,
   },
   {
     id: 3,

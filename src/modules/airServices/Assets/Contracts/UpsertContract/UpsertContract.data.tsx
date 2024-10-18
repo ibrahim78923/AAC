@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFSwitch,
   RHFTextField,
@@ -21,6 +20,12 @@ import {
 import { DATE_FORMAT } from '@/constants';
 import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
+import GetContractSoftwareDropdown from '../ContractFormFieldsDropdowns/GetContractSoftwareDropdown';
+import GetContractApproverDropdown from '../ContractFormFieldsDropdowns/GetContractApproverDropdown';
+import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContractVendorDropdown';
+import GetContractAdminAgentDropdown from '../ContractFormFieldsDropdowns/GetContractAdminAgentDropdown';
+import GetContractAssetsDropdown from '../ContractFormFieldsDropdowns/GetContractAssetsDropdown';
+import GetContractContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractContractTypeDropdown';
 
 export const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -294,13 +299,6 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   watchForContractType: any,
-  apiQueryVendor: any,
-  apiQueryAsset: any,
-  apiQueryApprover: any,
-  apiQuerySoftware: any,
-  contractId: any,
-  productId: any,
-  apiContractType: any,
 ) => [
   {
     id: 1,
@@ -325,34 +323,13 @@ export const upsertContractFormFieldsDataFunction = (
   },
   {
     id: 4,
-    componentProps: {
-      name: 'type',
-      label: 'Type',
-      apiQuery: apiContractType,
-      placeholder: 'Select Type',
-      required: true,
-      disabled: !!contractId,
-      externalParams: { meta: false },
-    },
     md: 6,
-    component: RHFAutocompleteAsync,
+    component: GetContractContractTypeDropdown,
   },
   {
     id: 5,
-    componentProps: {
-      name: 'associateAssets',
-      label: 'Associate Assets',
-      placeholder: 'Select Associate Assets',
-      required:
-        watchForContractType?.name !== CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
-      disabled:
-        watchForContractType?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
-      apiQuery: apiQueryAsset,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.displayName,
-    },
     md: 6,
-    component: RHFAutocompleteAsync,
+    component: GetContractAssetsDropdown,
   },
   {
     id: 6,
@@ -379,29 +356,13 @@ export const upsertContractFormFieldsDataFunction = (
   },
   {
     id: 8,
-    component: RHFAutocompleteAsync,
+    component: GetContractAdminAgentDropdown,
     md: 6,
-    componentProps: {
-      name: 'approver',
-      label: 'Approver',
-      placeholder: 'Select Approver',
-      apiQuery: apiQueryApprover,
-      externalParams: { productId, admin: true },
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
   },
   {
     id: 9,
-    componentProps: {
-      name: 'vendor',
-      label: 'Vendor',
-      placeholder: 'Select Vendor',
-      apiQuery: apiQueryVendor,
-      externalParams: { meta: false, limit: 50 },
-    },
     md: 6,
-    component: RHFAutocompleteAsync,
+    component: GetContractVendorDropdown,
   },
   {
     id: 10,
@@ -491,17 +452,8 @@ export const upsertContractFormFieldsDataFunction = (
         },
         {
           id: 16,
-          component: RHFAutocompleteAsync,
+          component: GetContractApproverDropdown,
           md: 6,
-          componentProps: {
-            name: 'notifyTo',
-            label: 'Notify To',
-            placeholder: 'Select User',
-            required: true,
-            apiQuery: apiQueryApprover,
-            getOptionLabel: (option: any) =>
-              `${option?.firstName} ${option?.lastName}`,
-          },
         },
       ]
     : []),
@@ -519,17 +471,8 @@ export const upsertContractFormFieldsDataFunction = (
         },
         {
           id: 18,
-          component: RHFAutocompleteAsync,
+          component: GetContractSoftwareDropdown,
           md: 6,
-          componentProps: {
-            name: 'software',
-            label: 'Software',
-            required: true,
-            placeholder: 'Select Software',
-            apiQuery: apiQuerySoftware,
-            externalParams: { limit: 50 },
-            getOptionLabel: (option: any) => option?.name,
-          },
         },
         {
           id: 19,

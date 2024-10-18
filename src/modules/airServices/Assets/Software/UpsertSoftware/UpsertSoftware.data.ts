@@ -1,8 +1,4 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { softwareStatusOptions, softwareTypeOptions } from '../Software.data';
 import {
@@ -10,6 +6,7 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
+import GetSoftwareUserDropdown from '../SoftwareFormFieldsDropdowns/GetSoftwareUserDropdown';
 
 export const upsertSoftwareFormValidationSchema: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -55,7 +52,7 @@ export const upsertSoftwareFormDefaultValues = (data?: any, form?: any) => {
   };
 };
 
-export const upsertSoftwareFormFields = (userQuery: any, productId: any) => [
+export const upsertSoftwareFormFields = () => [
   {
     id: 1,
     componentProps: {
@@ -131,17 +128,7 @@ export const upsertSoftwareFormFields = (userQuery: any, productId: any) => [
   },
   {
     id: 7,
-    componentProps: {
-      name: 'managedBy',
-      label: 'Managed By',
-      placeholder: 'Select User',
-      fullWidth: true,
-      apiQuery: userQuery,
-      externalParams: { productId },
-      getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
-    },
-    component: RHFAutocompleteAsync,
+    component: GetSoftwareUserDropdown,
     md: 12,
   },
 ];

@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { userDataArray, userDefaultValues } from './UsersFilter.data';
-import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useState } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { UsersFilterDataI, UsersFilterI } from './UsersFilter.interface';
@@ -31,9 +30,8 @@ export const useUsersFilter = (props: UsersFilterI) => {
     setFilterValues(filterData);
     closeFilterDrawer();
   };
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
 
-  const userFieldsData = userDataArray(apiQueryDepartment);
+  const userFieldsData = userDataArray();
 
   return {
     userFieldsData,

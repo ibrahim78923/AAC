@@ -29,8 +29,8 @@ export const RejectStatus = (props: any) => {
           alignItems={'center'}
           justifyContent={'space-between'}
           gap={1}
+          mb={-1.5}
           flexWrap={'wrap'}
-          mb={1.5}
         >
           <Typography variant="h4">Rejected</Typography>
           <IconButton onClick={handleClose}>
@@ -39,8 +39,8 @@ export const RejectStatus = (props: any) => {
         </Box>
       </DialogTitle>
 
-      <DialogContent>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
           <RHFTextField
             multiline
             rows={3}
@@ -48,27 +48,27 @@ export const RejectStatus = (props: any) => {
             label="Reason For Rejection"
             required
           />
-          <DialogActions sx={{ paddingTop: `0rem !important` }}>
-            <LoadingButton
-              className="small"
-              variant="outlined"
-              color="inherit"
-              onClick={handleClose}
-              disabled={patchContractRejectStatus?.isLoading}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              className="small"
-              loading={patchContractRejectStatus?.isLoading}
-              variant="contained"
-              type="submit"
-            >
-              Submit
-            </LoadingButton>
-          </DialogActions>
-        </FormProvider>
-      </DialogContent>
+        </DialogContent>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
+          <LoadingButton
+            className="small"
+            variant="outlined"
+            color="inherit"
+            onClick={handleClose}
+            disabled={patchContractRejectStatus?.isLoading}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            className="small"
+            loading={patchContractRejectStatus?.isLoading}
+            variant="contained"
+            type="submit"
+          >
+            Submit
+          </LoadingButton>
+        </DialogActions>
+      </FormProvider>
     </Dialog>
   );
 };

@@ -34,6 +34,7 @@ export const ContractsDetails = () => {
         alignItems={'center'}
         flexWrap={'wrap'}
         gap={2}
+        ml={0.5}
       >
         <Search label="Search Here" setSearchBy={handleSearch} />
         <Button

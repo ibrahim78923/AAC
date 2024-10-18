@@ -3,7 +3,6 @@ import { Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import {
@@ -17,6 +16,7 @@ import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import React from 'react';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
+import { getActivePermissionsSession } from '@/utils';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: any,
@@ -155,21 +155,20 @@ export const listsColumnsFunction = (
     cell: (info: any) => {
       const getValues =
         info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
+      const activePermissionOfEditDelete =
+        getActivePermissionsSession()?.includes(
+          AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
+        );
       return (
-        <PermissionsGuard
-          permissions={[
-            AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
-          ]}
-        >
-          <AntSwitch
-            disabled={
-              info?.row?.original?.activity?.type === WORKFLOW_TYPE?.SAVED
-            }
-            checked={getValues}
-            isLoading={switchLoading?.[info?.row?.original?._id]}
-            onClick={() => handleChangeStatus?.(info?.row?.original)}
-          />
-        </PermissionsGuard>
+        <AntSwitch
+          disabled={
+            !activePermissionOfEditDelete ||
+            info?.row?.original?.activity?.type === WORKFLOW_TYPE?.SAVED
+          }
+          checked={getValues}
+          isLoading={switchLoading?.[info?.row?.original?._id]}
+          onClick={() => handleChangeStatus?.(info?.row?.original)}
+        />
       );
     },
   },

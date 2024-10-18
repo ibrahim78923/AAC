@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import {
   usePostSoftwareMutation,
-  useLazyGetUserDropdownQuery,
   useEditSoftwareMutation,
 } from '@/services/airServices/assets/software';
 import { useForm } from 'react-hook-form';
@@ -177,14 +176,11 @@ export const useUpsertSoftware = (props: UpsertSoftwareI) => {
     reset();
   };
 
-  const userQuery = useLazyGetUserDropdownQuery();
-
   return {
     onClose,
     methods,
     handleSubmit,
     postSoftwareStatus,
-    userQuery,
     softwareId,
     isLoading,
     isFetching,
