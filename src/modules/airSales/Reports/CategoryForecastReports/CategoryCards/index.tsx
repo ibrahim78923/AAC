@@ -5,7 +5,7 @@ import useCategoryForcastReports from '@/modules/airSales/Reports/CategoryForeca
 import { styles } from './CategoryCards.style';
 
 const PipeLineCards = (props: any) => {
-  const { activeCard, setActiveCard } = props;
+  const { activeCard, setActiveCard, setFilterValues } = props;
   const { theme } = useCategoryForcastReports();
   return (
     <Grid container spacing={2}>
@@ -18,7 +18,9 @@ const PipeLineCards = (props: any) => {
           xs={12}
           key={item?.key}
           sx={styles?.pipelineCards}
-          onClick={() => setActiveCard(item?.key)}
+          onClick={() => {
+            setActiveCard(item?.key), setFilterValues({});
+          }}
         >
           <Box className={`${activeCard === item?.key && 'active'} cards`}>
             <Typography

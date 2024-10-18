@@ -19,6 +19,7 @@ import { useAppSelector } from '@/redux/store';
 import { isNullOrEmpty } from '@/utils';
 import dayjs from 'dayjs';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
 
 const Performance = ({
   tableRowValues,
@@ -63,6 +64,8 @@ const Performance = ({
       setIsAddTargetModal(false);
       setTableRowValues([]);
       setModalInputValue('');
+    } else {
+      enqueueSnackbar('Please enter values', { variant: 'error' });
     }
   };
 

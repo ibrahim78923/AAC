@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  Skeleton,
   Theme,
   ToggleButton,
   ToggleButtonGroup,
@@ -21,8 +22,6 @@ import {
   RHFAutocompleteAsync,
   RHFMultiSearchableSelect,
 } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import { ARRAY_INDEX, ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
@@ -50,21 +49,14 @@ const PipelineForecastReports = () => {
     PipelineForecastReportDataIsSuccess,
     setPageLimit,
     setPage,
+    handleSubmit,
+    methods,
   } = usePipelineForcastReports();
 
   const pipelineData = dealPipelineData?.data?.map((data: any) => ({
     label: `${data?.name}`,
     value: data?._id,
   }));
-
-  const methods: any = useForm({
-    resolver: yupResolver({}),
-    defaultValues: {},
-  });
-
-  const handleSubmit = () => {};
-
-  // const { watch } = methods;
 
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
@@ -222,14 +214,23 @@ const PipelineForecastReports = () => {
         </Box>
       </Box>
       <Box mt={4}>
-        <PipeLineCards activeCard={activeCard} setActiveCard={setActiveCard} />
+        <PipeLineCards
+          activeCard={activeCard}
+          setActiveCard={setActiveCard}
+          setFilterValues={setFilterValues}
+        />
       </Box>
 
       <Box sx={{ marginTop: '1rem' }}>
-        <CardAndGraphs
-          activeCard={activeCard}
-          pipelineForecastData={getPipelineForecastReportData?.data}
-        />
+        {PipelineForecastReportDataIsLoading ||
+        PipelineForecastReportDataIsFetching ? (
+          <Skeleton variant="rectangular" width={'100%'} height={600} />
+        ) : (
+          <CardAndGraphs
+            activeCard={activeCard}
+            pipelineForecastData={getPipelineForecastReportData?.data}
+          />
+        )}
       </Box>
       <Box sx={{ marginTop: '1rem' }}>
         <PipelineOverview

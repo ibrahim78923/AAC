@@ -3,7 +3,9 @@ import { useGetDealPipeLineForecastQuery } from '@/services/airSales/forecast';
 import { useGetPipelineForecastReportQuery } from '@/services/airSales/reports';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const usePipelineForcastReports = () => {
   const [activeCard, setActiveCard] = useState('total');
@@ -21,6 +23,7 @@ const usePipelineForcastReports = () => {
     newAlignment: string,
   ) => {
     setAlignment(newAlignment);
+    setFilterValues({});
   };
 
   const activeCardObj = {
@@ -50,6 +53,25 @@ const usePipelineForcastReports = () => {
     meta: false,
   });
 
+  const methods: any = useForm({
+    resolver: yupResolver({}),
+    defaultValues: {},
+  });
+
+  const handleSubmit = () => {};
+
+  const { watch } = methods;
+  const userTeam = watch('userTeam');
+  const pipeline = watch('pipeline');
+
+  useEffect(() => {
+    setFilterValues({
+      ...filterValues,
+      pipelines: pipeline,
+      collaboratorIds: userTeam?._id,
+    });
+  }, [userTeam, pipeline]);
+
   return {
     activeCard,
     setActiveCard,
@@ -68,6 +90,8 @@ const usePipelineForcastReports = () => {
     PipelineForecastReportDataIsSuccess,
     setPageLimit,
     setPage,
+    handleSubmit,
+    methods,
   };
 };
 

@@ -20,8 +20,19 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getCategoryForecastReport: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_CATEGORY_FORECAST_REPORT}`,
+        method: 'GET',
+        params: { ...params },
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetDealsReortsQuery, useGetPipelineForecastReportQuery } =
-  airSalesRolesAndRightsAPI;
+export const {
+  useGetDealsReortsQuery,
+  useGetPipelineForecastReportQuery,
+  useGetCategoryForecastReportQuery,
+} = airSalesRolesAndRightsAPI;

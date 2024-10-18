@@ -3,7 +3,7 @@ import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 import useCategoryGraph from './useCategoryGraph';
 import useCategoryForcastReports from '@/modules/airSales/Reports/CategoryForecastReports/useCategoryForcastReports';
 
-const CardAndGraphs = ({ activeCard }: any) => {
+const CardAndGraphs = ({ activeCard, pipelineForecastData }: any) => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
@@ -30,10 +30,10 @@ const CardAndGraphs = ({ activeCard }: any) => {
               </Typography>
             </Box>
             <ReactApexChart
-              options={cardWiseOptions(activeCard)}
-              series={cardWiseSeries(activeCard)}
+              options={cardWiseOptions(activeCard, pipelineForecastData)}
+              series={cardWiseSeries(activeCard, pipelineForecastData)}
               type="bar"
-              height={400}
+              height={600}
             />
             <Box display="flex" justifyContent="center">
               {activeCard === activeCardObj?.TOTAL ? (

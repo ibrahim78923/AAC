@@ -2,10 +2,10 @@ import { useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
-  Popover,
+  Skeleton,
   Theme,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -13,80 +13,56 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { DownloadLargeIcon } from '@/assets/icons';
 import CardAndGraphs from './CategoryGraph';
 import PipelineOverview from './CategoryTable';
-import { v4 as uuidv4 } from 'uuid';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
 import { AIR_SALES } from '@/routesConstants/paths';
 import PipeLineCards from './CategoryCards';
 import useCateogoryForcastReports from './useCategoryForcastReports';
-
-const customizeData = [
-  {
-    label: 'Select All',
-    value: 'selectall',
-  },
-  {
-    label: 'Scheduled',
-    value: 'scheduled',
-  },
-  {
-    label: 'Drafts',
-    value: 'drafts',
-  },
-  {
-    label: 'Pending Approval',
-    value: 'PendingApproval',
-  },
-  {
-    label: 'Rejected',
-    value: 'rejected',
-  },
-  {
-    label: 'Failed',
-    value: 'failed',
-  },
-];
-const pipeLineData = [
-  {
-    label: ' All',
-    value: 'all',
-  },
-  {
-    label: 'Sales',
-    value: 'sales',
-  },
-  {
-    label: 'Pipeline',
-    value: 'pipeline',
-  },
-  {
-    label: 'Recruitment',
-    value: 'recruitment',
-  },
-];
+import {
+  FormProvider,
+  RHFAutocompleteAsync,
+  RHFMultiSearchableSelect,
+} from '@/components/ReactHookForm';
+import { ARRAY_INDEX, ROLES } from '@/constants/strings';
+import dayjs from 'dayjs';
+import { getSession } from '@/utils';
+import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
+import { DATE_FORMAT } from '@/constants';
 
 const CategoryForecastReports = () => {
   const theme = useTheme<Theme>();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [anchorElNew, setAnchorElnew] = useState<HTMLButtonElement | null>(
-    null,
-  );
-  const open = Boolean(anchorEl);
-  const openPipeline = Boolean(anchorElNew);
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleClickPipeline = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClosePipleine = () => {
-    setAnchorElnew(null);
-  };
-  const { router, activeCard, setActiveCard } = useCateogoryForcastReports();
+  const {
+    router,
+    activeCard,
+    setActiveCard,
+    alignment,
+    handleChange,
+    dealPipelineData,
+    filterValues,
+    setFilterValues,
+    getCategoryForecastReportData,
+    CategoryForecastReportDataIsLoading,
+    CategoryForecastReportDataIsFetching,
+    CategoryForecastReportDataIsError,
+    CategoryForecastReportDataIsSuccess,
+    setPageLimit,
+    setPage,
+    handleSubmit,
+    methods,
+  } = useCateogoryForcastReports();
+
+  const pipelineData = dealPipelineData?.data?.map((data: any) => ({
+    label: `${data?.name}`,
+    value: data?._id,
+  }));
+
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
+  const teamsList = useLazyGetTeamsListQuery();
+
+  const userListData = useLazyGetUsersListDropdownQuery();
 
   return (
     <>
@@ -113,78 +89,123 @@ const CategoryForecastReports = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <SwitchableDatepicker
-            renderInput="button"
-            variant="contained"
-            placement="left"
-          />
-          <Button
-            sx={{ gap: 1, height: '30px' }}
-            variant="outlined"
-            onClick={handleClick}
-            size="small"
-            className="small"
-            endIcon={<ArrowDown />}
-            color="inherit"
-          >
-            Owner
-          </Button>
-          <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            <Typography variant="h5" sx={{ p: 1, fontSize: '16px' }}>
-              Owner
-            </Typography>
-            {customizeData?.map((data) => (
-              <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={data?.label} />
+          <FormProvider methods={methods} onSubmit={handleSubmit}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={alignment}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="Platform"
+                >
+                  <ToggleButton
+                    disableRipple
+                    value="User"
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      backgroundColor: '#fff',
+                      border: `1px solid ${theme?.palette?.grey[0]}`,
+                      height: '40px',
+                      '&.Mui-selected': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                        color: '#fff',
+                      },
+                      '&.Mui-selected:hover': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                      },
+                      '&:hover': {
+                        backgroundColor: theme?.palette?.primary?.light,
+                      },
+                    }}
+                  >
+                    Users
+                  </ToggleButton>
+                  <ToggleButton
+                    disableRipple
+                    value="Team"
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      backgroundColor: '#fff',
+                      border: `1px solid ${theme?.palette?.grey[0]}`,
+                      height: '40px',
+                      '&.Mui-selected': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                        color: '#fff',
+                      },
+                      '&.Mui-selected:hover': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                      },
+                      '&:hover': {
+                        backgroundColor: theme?.palette?.primary?.light,
+                      },
+                    }}
+                  >
+                    Teams
+                  </ToggleButton>
+                </ToggleButtonGroup>
               </Box>
-            ))}
-          </Popover>
+              <SwitchableDatepicker
+                renderInput="button"
+                placement="right"
+                dateValue={datePickerVal}
+                setDateValue={setDatePickerVal}
+                handleDateSubmit={() => {
+                  setFilterValues({
+                    ...filterValues,
+                    to: dayjs(datePickerVal[ARRAY_INDEX?.ZERO]).format(
+                      DATE_FORMAT?.API,
+                    ),
+                    from: dayjs(datePickerVal[ARRAY_INDEX?.ONE]).format(
+                      DATE_FORMAT?.API,
+                    ),
+                  });
+                }}
+                size="medium"
+              />
+
+              <RHFAutocompleteAsync
+                label=""
+                name="userTeam"
+                fullWidth
+                apiQuery={alignment === 'User' ? userListData : teamsList}
+                size="small"
+                placeholder={
+                  alignment === 'User' ? 'Select user' : 'Select team'
+                }
+                getOptionLabel={(item: any) =>
+                  alignment === 'User'
+                    ? item
+                      ? `${item?.firstName} ${item?.lastName}`
+                      : ''
+                    : item?.name
+                }
+                externalParams={
+                  alignment === 'User'
+                    ? {
+                        role: ROLES?.ORG_EMPLOYEE,
+                        organization: organizationId,
+                        status: 'ACTIVE',
+                      }
+                    : {}
+                }
+                queryKey="role"
+              />
+
+              <RHFMultiSearchableSelect
+                size="small"
+                label=""
+                name="pipeline"
+                options={pipelineData}
+                isCheckBox={true}
+                placeholder="select Pipeline"
+              />
+            </Box>
+          </FormProvider>
+
           <Button
             sx={{ gap: 1, height: '30px' }}
             variant="outlined"
-            onClick={handleClickPipeline}
-            size="small"
-            className="small"
-            color="inherit"
-            endIcon={<ArrowDown />}
-          >
-            Pipeline
-          </Button>
-          <Popover
-            open={openPipeline}
-            anchorEl={anchorElNew}
-            onClose={handleClosePipleine}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            {pipeLineData?.map((item) => (
-              <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={item?.label} />
-              </Box>
-            ))}
-          </Popover>
-          <Button
-            sx={{ gap: 1, height: '30px' }}
-            variant="outlined"
-            onClick={handleClickPipeline}
             className="small"
             color="inherit"
           >
@@ -193,13 +214,40 @@ const CategoryForecastReports = () => {
         </Box>
       </Box>
       <Box mt={4}>
-        <PipeLineCards activeCard={activeCard} setActiveCard={setActiveCard} />
+        <PipeLineCards
+          activeCard={activeCard}
+          setActiveCard={setActiveCard}
+          setFilterValues={setFilterValues}
+        />
       </Box>
       <Box sx={{ marginTop: '1rem' }}>
-        <CardAndGraphs activeCard={activeCard} />
+        {CategoryForecastReportDataIsLoading ||
+        CategoryForecastReportDataIsFetching ? (
+          <Skeleton variant="rectangular" width={'100%'} height={600} />
+        ) : (
+          <CardAndGraphs
+            activeCard={activeCard}
+            pipelineForecastData={getCategoryForecastReportData?.data}
+          />
+        )}
       </Box>
       <Box sx={{ marginTop: '1rem' }}>
-        <PipelineOverview activeCard={activeCard} />
+        <PipelineOverview
+          activeCard={activeCard}
+          data={getCategoryForecastReportData?.data}
+          CategoryForecastReportDataIsLoading={
+            CategoryForecastReportDataIsLoading
+          }
+          CategoryForecastReportDataIsFetching={
+            CategoryForecastReportDataIsFetching
+          }
+          CategoryForecastReportDataIsError={CategoryForecastReportDataIsError}
+          CategoryForecastReportDataIsSuccess={
+            CategoryForecastReportDataIsSuccess
+          }
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+        />
       </Box>
     </>
   );

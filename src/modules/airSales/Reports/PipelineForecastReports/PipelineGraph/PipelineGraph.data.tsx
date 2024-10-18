@@ -29,9 +29,10 @@ export const totalSeriesBar = (pipelineForecastData: any) => {
 };
 
 export const totalOptionsBar: any = (theme: any, pipelineForecastData: any) => {
-  const collaboratorNames = pipelineForecastData?.graph?.map(
-    (item: any) => item?.collaboratorDetails[0]?.name || 'Unknown',
-  );
+  const collaboratorNames =
+    pipelineForecastData?.graph?.map(
+      (item: any) => item?.collaboratorDetails[0]?.name || 'Unknown',
+    ) || [];
 
   const numberOfStages =
     pipelineForecastData?.graph[0]?.stageGroups?.length || 0;
@@ -325,7 +326,7 @@ export const overtimeOptionsBar = (theme: any, pipelineForecastData: any) => {
     },
     yaxis: {
       title: {
-        text: 'Total revenue goal',
+        text: 'incremental revenue goal',
       },
     },
     xaxis: {

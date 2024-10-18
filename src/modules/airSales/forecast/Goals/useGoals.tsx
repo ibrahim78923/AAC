@@ -32,6 +32,7 @@ const useGoals = () => {
     setAlignment(newAlignment);
     setFilterValues('');
     setSearch('');
+    setTableRowValues([]);
   };
 
   const Params = {

@@ -1,9 +1,9 @@
 import { Box, Theme, Typography, useTheme } from '@mui/material';
-import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './PipelineTable.style';
 import usePipelineOverview from './usePipelineTable';
 import usePipelineForcastReports from '../usePipelineForcastReports';
+import dayjs from 'dayjs';
 
 const PipelineOverview = ({
   activeCard,
@@ -39,12 +39,12 @@ const PipelineOverview = ({
             >
               {activeCard === activeCardObj?.OVERTIME
                 ? 'Date range: This entire month'
-                : 'Date range: 2023'}
+                : `Date range: ${dayjs().year()}`}
             </Typography>
           )}
         </Box>
 
-        {activeCard === activeCardObj?.TOTAL && <Search label="Search here" />}
+        {/* {activeCard === activeCardObj?.TOTAL && <Search label="Search here" />} */}
       </Box>
       <TanstackTable
         columns={activeTable(activeCard, data)}
