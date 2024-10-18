@@ -17,9 +17,7 @@ import {
   columns,
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
-
 import { AddRoundedImage } from '@/assets/images';
-
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
@@ -109,14 +107,6 @@ const AddGroupModal = ({
   };
   const handleImageChange = async (e: any) => {
     const selectedImage = e?.target?.files[0];
-    // setImageToUpload(selectedImage);
-    // formData?.append('groupImage', selectedImage);
-
-    // const reader: any = new FileReader();
-    // reader.onload = () => {
-    //   setImagePreview(reader?.result);
-    // };
-    // reader?.readAsDataURL(selectedImage);
     if (selectedImage && selectedImage instanceof File) {
       setImageToUpload(selectedImage);
 
