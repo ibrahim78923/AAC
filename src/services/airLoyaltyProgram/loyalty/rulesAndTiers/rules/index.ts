@@ -40,7 +40,7 @@ export const loyaltyProgramLoyaltyRulesAPI = baseAPI?.injectEndpoints({
     }),
     changeLoyaltyProgramLoyaltySingleRuleStatus: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.CHANGE_RULES_STATUS}/${apiDataParameter?.pathParams?.id}`,
+        url: `${END_POINTS?.CHANGE_RULES_STATUS}/${apiDataParameter?.queryParams?.id}`,
         method: 'PUT',
         body: apiDataParameter?.body,
       }),

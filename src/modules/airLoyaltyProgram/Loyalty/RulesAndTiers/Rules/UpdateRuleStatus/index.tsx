@@ -1,21 +1,28 @@
-import { AntSwitch } from '@/components/AntSwitch';
-import { PRODUCT_USER_STATUS } from '@/constants/strings';
-import { useUpdateRuleStatus } from './useUpdateRuleStatus';
-
-const { ACTIVE } = PRODUCT_USER_STATUS ?? {};
+import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
+import { LOYALTY_PROGRAM_RULE_STATUS } from '@/constants/api';
+import { useChangeLoyaltyProgramLoyaltySingleRuleStatusMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
+import { useGetRulesLists } from '../RulesHooks/useGetRulesLists';
 
 export const UpdateRuleStatus = (props: any) => {
-  const { currentStatus } = props;
-
-  const { changeLoyaltyProgramRuleStatus, apiCallInProgress } =
-    useUpdateRuleStatus(props);
+  const { currentStatus, currentId } = props;
+  const { getLoyaltyProgramRulesList } = useGetRulesLists?.();
 
   return (
-    <AntSwitch
-      checked={currentStatus === ACTIVE}
-      onChange={changeLoyaltyProgramRuleStatus}
-      isLoading={apiCallInProgress}
-      disabled={apiCallInProgress}
+    <ActivityStatusMenu
+      info={currentId}
+      activityStatus={currentStatus}
+      menuItemDataArray={[
+        {
+          value: LOYALTY_PROGRAM_RULE_STATUS?.ACTIVE,
+          label: LOYALTY_PROGRAM_RULE_STATUS?.ACTIVE,
+        },
+        {
+          value: LOYALTY_PROGRAM_RULE_STATUS?.IN_ACTIVE,
+          label: LOYALTY_PROGRAM_RULE_STATUS?.IN_ACTIVE,
+        },
+      ]}
+      apiQuery={useChangeLoyaltyProgramLoyaltySingleRuleStatusMutation?.()}
+      refetchApi={getLoyaltyProgramRulesList}
     />
   );
 };

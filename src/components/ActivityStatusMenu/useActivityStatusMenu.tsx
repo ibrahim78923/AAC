@@ -8,9 +8,10 @@ import { IActivityStatusMenuProps } from './ActivityStatusMenu.interface';
 export const useActivityStatusMenu = (props: IActivityStatusMenuProps) => {
   const {
     apiQuery = [undefined, { isLoading: false, originalArgs: {} }],
-    successMessage = 'Status Updated successfully!',
+    successMessage = 'Status updated successfully!',
     activityStatus,
     patchParameterProps,
+    refetchApi,
   } = props;
 
   const [trigger, statusQuery]: any = apiQuery;
@@ -26,7 +27,7 @@ export const useActivityStatusMenu = (props: IActivityStatusMenuProps) => {
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
     const patchParameter = patchParameterProps?.(event) || {
-      queryParams: info?._id,
+      queryParams: { id: info?._id },
       body: { status: event?.target?.value },
     };
 
@@ -35,6 +36,7 @@ export const useActivityStatusMenu = (props: IActivityStatusMenuProps) => {
     try {
       await trigger(patchParameter)?.unwrap();
       successSnackbar(successMessage);
+      await refetchApi?.();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);

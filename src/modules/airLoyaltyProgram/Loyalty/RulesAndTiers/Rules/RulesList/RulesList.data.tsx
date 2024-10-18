@@ -38,10 +38,7 @@ export const rulesListColumnsDynamic = (
     id: 'status',
     header: 'Status',
     cell: (info: any) => (
-      <UpdateRuleStatus
-        currentId={info?.row?.original?._id}
-        currentStatus={info?.getValue()}
-      />
+      <UpdateRuleStatus currentId={info} currentStatus={info?.getValue()} />
     ),
   },
   {

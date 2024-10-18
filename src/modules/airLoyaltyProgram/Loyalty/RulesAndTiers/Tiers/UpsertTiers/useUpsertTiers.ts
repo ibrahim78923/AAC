@@ -98,6 +98,7 @@ export const useUpsertTiers = () => {
     tierFormData?.append('points', formData?.points);
     tierFormData?.append('type', formData?.type);
     tierFormData?.append('attribute', formData?.attribute?._id);
+    formData?.logo !== null && tierFormData?.append('logo', formData?.logo);
     formData?.attribute?._id !==
       LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.SELECT_CONTACT &&
       tierFormData.append('operator', formData?.operator?._id);

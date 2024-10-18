@@ -1,8 +1,9 @@
 export interface IActivityStatusMenuProps {
-  apiQuery?: [any, any];
+  apiQuery?: [any, any] | any;
   info: any;
   successMessage?: string;
   activityStatus: string;
-  MenuItemDataArray: { value: string; label: string }[];
+  menuItemDataArray: { value: string; label: string }[];
   patchParameterProps?: any;
+  refetchApi?: any;
 }

@@ -89,139 +89,148 @@ export const upsertServiceDefaultValues = (data?: any) => {
   };
 };
 
-export const getUpsertServiceData = (categoryTypeWatch: any) => [
-  {
-    id: 1,
-    componentProps: {
-      name: 'itemName',
-      label: 'Item Name',
-      required: true,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    id: 2,
-    componentProps: {
-      name: 'cost',
-      label: 'Cost',
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    id: 3,
-    component: GetServicesCategoriesListDropdown,
-    md: 6,
-  },
-  {
-    id: 4,
-    componentProps: {
-      name: 'estimatedDelivery',
-      label: 'Estimated Delivery(HR)',
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    id: 5,
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      placeholder: 'Description',
-      multiline: true,
-      rows: 5.4,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    id: 6,
-    componentProps: {
-      name: 'fileUrl',
-      label: 'Upload Image',
-      fileType: 'Drag and drop or click to upload',
-      accept: {
-        'image/png': ['.png', '.PNG'],
-        'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
+export const getUpsertServiceData = (
+  categoryTypeWatch: any,
+  serviceId: any,
+  attachment: any,
+) => {
+  return [
+    {
+      id: 1,
+      componentProps: {
+        name: 'itemName',
+        label: 'Item Name',
+        required: true,
       },
+      component: RHFTextField,
+      md: 6,
     },
-    component: RHFDropZone,
-    md: 6,
-  },
-  {
-    id: 7,
-    componentProps: {
-      variant: 'body2',
-      color: 'custom.cadet_color',
+    {
+      id: 2,
+      componentProps: {
+        name: 'cost',
+        label: 'Cost',
+      },
+      component: RHFTextField,
+      md: 6,
     },
-    heading:
-      'Select the  assets Type & product or the software to enable agents to seamlessly fulfil hardware,consumable and software services request ',
-    component: Typography,
-  },
-  {
-    id: 8,
-    componentProps: {
-      name: 'categoryType',
-      options: [
-        {
-          label: (
-            <>
-              <Typography variant={'body1'} color={'slateBlue.main'}>
-                Hardware/Consumables
-              </Typography>
-              <Typography variant={'body3'} color={'custom.main'}>
-                For teams to plan and track their tasks
-              </Typography>
-            </>
-          ),
-          value: ASSET_TYPE?.HARDWARE_CONSUMABLE,
-        },
-        {
-          label: (
-            <>
-              <Typography variant={'body1'} color={'slateBlue.main'}>
-                Software
-              </Typography>
-              <Typography variant={'body3'} color={'custom.main'}>
-                For agile team to build,test and ship software
-              </Typography>
-            </>
-          ),
-          value: ASSET_TYPE?.SOFTWARE,
-        },
-      ],
+    {
+      id: 3,
+      component: GetServicesCategoriesListDropdown,
+      md: 6,
     },
-    component: RHFRadioGroup,
-  },
-  ...(categoryTypeWatch === ASSET_TYPE?.HARDWARE_CONSUMABLE
-    ? [
-        {
-          id: 9,
-          component: GetAssetsCategoriesListDropdown,
-          md: 6,
+    {
+      id: 4,
+      componentProps: {
+        name: 'estimatedDelivery',
+        label: 'Estimated Delivery(HR)',
+      },
+      component: RHFTextField,
+      md: 6,
+    },
+    {
+      id: 5,
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        placeholder: 'Description',
+        multiline: true,
+        rows: 5.4,
+      },
+      component: RHFTextField,
+      md: 6,
+    },
+    {
+      id: 6,
+      componentProps: {
+        name: 'fileUrl',
+        label: 'Upload Image',
+        fileName: 'Attach a File',
+        isPreviewMode: !!serviceId,
+        fileType: 'Drag and drop or click to upload',
+        attachmentPreviewDetail: attachment,
+        accept: {
+          'image/png': ['.png', '.PNG'],
+          'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
         },
-        {
-          id: 11,
-          component: GetProductCatalogListDropdown,
-          md: 6,
-        },
-      ]
-    : [
-        {
-          id: 12,
-          component: GetSoftwareListDropdown,
-          md: 6,
-        },
-      ]),
-  {
-    id: 10,
-    component: GetAgentsListDropdown,
-    md: 6,
-  },
-  {
-    id: 13,
-    component: GetRequestersListDropdown,
-    md: 6,
-  },
-];
+      },
+      component: RHFDropZone,
+      md: 6,
+    },
+    {
+      id: 7,
+      componentProps: {
+        variant: 'body2',
+        color: 'custom.cadet_color',
+      },
+      heading:
+        'Select the  assets Type & product or the software to enable agents to seamlessly fulfil hardware,consumable and software services request ',
+      component: Typography,
+    },
+    {
+      id: 8,
+      componentProps: {
+        name: 'categoryType',
+        options: [
+          {
+            label: (
+              <>
+                <Typography variant={'body1'} color={'slateBlue.main'}>
+                  Hardware/Consumables
+                </Typography>
+                <Typography variant={'body3'} color={'custom.main'}>
+                  For teams to plan and track their tasks
+                </Typography>
+              </>
+            ),
+            value: ASSET_TYPE?.HARDWARE_CONSUMABLE,
+          },
+          {
+            label: (
+              <>
+                <Typography variant={'body1'} color={'slateBlue.main'}>
+                  Software
+                </Typography>
+                <Typography variant={'body3'} color={'custom.main'}>
+                  For agile team to build,test and ship software
+                </Typography>
+              </>
+            ),
+            value: ASSET_TYPE?.SOFTWARE,
+          },
+        ],
+      },
+      component: RHFRadioGroup,
+    },
+    ...(categoryTypeWatch === ASSET_TYPE?.HARDWARE_CONSUMABLE
+      ? [
+          {
+            id: 9,
+            component: GetAssetsCategoriesListDropdown,
+            md: 6,
+          },
+          {
+            id: 11,
+            component: GetProductCatalogListDropdown,
+            md: 6,
+          },
+        ]
+      : [
+          {
+            id: 12,
+            component: GetSoftwareListDropdown,
+            md: 6,
+          },
+        ]),
+    {
+      id: 10,
+      component: GetAgentsListDropdown,
+      md: 6,
+    },
+    {
+      id: 13,
+      component: GetRequestersListDropdown,
+      md: 6,
+    },
+  ];
+};

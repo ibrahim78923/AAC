@@ -30,6 +30,7 @@ export const useUpsertServices = () => {
   const categoryTypeWatch = watch('categoryType');
 
   useEffect(() => {
+    if (!!serviceId) return;
     setValue('requesterVisibilty', []);
     setValue('agentVisibilty', []);
     setValue('software', null);
@@ -99,7 +100,11 @@ export const useUpsertServices = () => {
     router?.push({ pathname: AIR_SERVICES?.SERVICE_CATALOG });
   };
 
-  const upsertServiceData = getUpsertServiceData(categoryTypeWatch);
+  const upsertServiceData = getUpsertServiceData(
+    categoryTypeWatch,
+    serviceId,
+    data?.data?.attachmentDetails,
+  );
 
   useEffect(() => {
     reset(() => upsertServiceDefaultValues?.(data?.data));
