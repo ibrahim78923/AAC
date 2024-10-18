@@ -11,7 +11,6 @@ export const WorkflowActionExecuted = (props: any) => {
     palette,
     handleDeleteClick,
     dealsDropdown,
-    stagesDropdown,
     adminUserDropdown,
   } = useWorkflowActionExecuted(props);
   return (
@@ -43,7 +42,6 @@ export const WorkflowActionExecuted = (props: any) => {
                   index,
                   watch,
                   dealsDropdown,
-                  stagesDropdown,
                   adminUserDropdown,
                 )?.map((item) => (
                   <Grid item xs={12} lg={item?.gridLength} key={item?._id}>

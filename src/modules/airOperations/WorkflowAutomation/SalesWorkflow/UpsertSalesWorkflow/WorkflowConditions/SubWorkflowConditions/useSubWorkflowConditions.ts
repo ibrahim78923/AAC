@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
-  useLazyGetLifeCycleStagesDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, warningSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
@@ -35,7 +34,6 @@ export const useSubWorkflowConditions = (props: SubWorkflowConditionsI) => {
     }
   };
   const dealDropdown = useLazyGetDealDropdownListQuery();
-  const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
   const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
@@ -53,7 +51,6 @@ export const useSubWorkflowConditions = (props: SubWorkflowConditionsI) => {
     handleAppend,
     handleDeleteClick,
     dealDropdown,
-    stagesDropdown,
     adminUserDropdown,
   };
 };

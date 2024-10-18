@@ -13,7 +13,6 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
     fields,
     handleDeleteClick,
     dealDropdown,
-    stagesDropdown,
     adminUserDropdown,
   } = useSubWorkflowConditions(props);
   return (
@@ -24,7 +23,6 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
           subIndex,
           watch,
           dealDropdown,
-          stagesDropdown,
           adminUserDropdown,
         )?.find((item) => item?.component === Box);
         return (
@@ -53,7 +51,6 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
                   subIndex,
                   watch,
                   dealDropdown,
-                  stagesDropdown,
                   adminUserDropdown,
                 )?.map((item) => (
                   <Grid
