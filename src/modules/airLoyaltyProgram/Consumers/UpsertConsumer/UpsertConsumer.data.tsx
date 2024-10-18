@@ -29,6 +29,15 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
+    id: 13,
+    componentProps: {
+      name: 'lastNamw',
+      label: 'Last Name',
+      placeholder: 'Last Name',
+    },
+    component: RHFTextField,
+  },
+  {
     id: 2,
     componentProps: {
       name: 'address',

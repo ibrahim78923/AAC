@@ -26,7 +26,11 @@ export const UpsertConsumer = () => {
           <Grid container spacing={2} mt={1}>
             {upsertConsumerData?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={6} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
+                <item.component
+                  {...item?.componentProps}
+                  size={'small'}
+                  disabled
+                />
               </Grid>
             ))}
           </Grid>

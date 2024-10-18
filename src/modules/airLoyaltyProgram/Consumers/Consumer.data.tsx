@@ -1,6 +1,8 @@
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { LOYALTY_CONSUMER_STATUS } from '@/constants/strings';
-import { Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
+import { IConsumer } from './Consumer.interface';
 
 export const consumerData = [
   {
@@ -20,7 +22,7 @@ export const consumerData = [
   },
   {
     _id: 14440,
-    firstName: 'John',
+    firstName: 'JohnCina',
     lastName: 'Doe',
     address: '123 Main St, New York, NY 10001',
     phone: '1234567890',
@@ -33,16 +35,66 @@ export const consumerData = [
     tier: 'Gold',
   },
 ];
-export const consumersListColumnDynamic = (moveToConsumer: any) => [
+export const consumersListColumnDynamic = (
+  moveToConsumer?: any,
+  selectedRoleList?: any,
+  setSelectedRoleList?: any,
+  consumerData?: any,
+) => [
   {
-    accessorFn: (row: any) => row?.firstName,
+    accessorFn: (row: IConsumer) => row?._id,
+    id: '_id',
+    cell: (info: any) => (
+      <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!selectedRoleList?.find(
+            (item: any) => item?._id === info?.getValue(),
+          )
+        }
+        onChange={(e: any) => {
+          e?.target?.checked
+            ? setSelectedRoleList([...selectedRoleList, info?.row?.original])
+            : setSelectedRoleList(
+                selectedRoleList?.filter(
+                  (item: any) => item?._id !== info?.getValue(),
+                ),
+              );
+        }}
+        color="primary"
+        name={info?.getValue()}
+      />
+    ),
+    header: (
+      <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          consumerData?.length
+            ? selectedRoleList?.length === consumerData?.length
+            : false
+        }
+        onChange={(e: any) => {
+          e?.target?.checked
+            ? setSelectedRoleList(consumerData)
+            : setSelectedRoleList([]);
+        }}
+        color="primary"
+        name="id"
+      />
+    ),
+  },
+  {
+    accessorFn: (row: IConsumer) => row?.firstName,
     id: 'firstName',
     isSortable: true,
     header: 'Consumer',
     cell: (info: any) => {
+      const consumerId = info?.row?.original?.id;
       return (
         <Typography
-          onClick={moveToConsumer}
+          onClick={() => moveToConsumer(consumerId)}
           variant="body3"
           component={'div'}
           sx={{ cursor: 'pointer' }}
@@ -53,66 +105,66 @@ export const consumersListColumnDynamic = (moveToConsumer: any) => [
     },
   },
   {
-    accessorFn: (row: any) => row?.address,
+    accessorFn: (row: IConsumer) => row?.address,
     id: 'address',
     isSortable: true,
     header: 'Address',
-    cell: (info: any) => <TruncateText text={info.getValue()} />,
+    cell: (info: any) => <TruncateText text={info?.getValue()} />,
   },
   {
-    accessorFn: (row: any) => row?.phone,
+    accessorFn: (row: IConsumer) => row?.phone,
     id: 'phone',
     isSortable: true,
     header: 'Phone Number',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.status,
+    accessorFn: (row: IConsumer) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.totalPointsEarned,
+    accessorFn: (row: IConsumer) => row?.totalPointsEarned,
     id: 'totalPointsEarned',
     isSortable: true,
     header: 'Total Points Earned',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.currentPointsBalance,
+    accessorFn: (row: IConsumer) => row?.currentPointsBalance,
     id: 'currentPointsBalance',
     isSortable: true,
     header: 'Current Points Balance',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.noOfTransactions,
+    accessorFn: (row: IConsumer) => row?.noOfTransactions,
     id: 'noOfTransactions',
     isSortable: true,
     header: 'No of Transactions',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.firstPointsReceptionDate,
+    accessorFn: (row: IConsumer) => row?.firstPointsReceptionDate,
     id: 'firstPointsReceptionDate',
     isSortable: true,
     header: 'First Points Reception Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.lastTransactionDate,
+    accessorFn: (row: IConsumer) => row?.lastTransactionDate,
     id: 'lastTransactionDate',
     isSortable: true,
     header: 'Last Transaction Date',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.tier,
+    accessorFn: (row: IConsumer) => row?.tier,
     id: 'tier',
     isSortable: true,
     header: 'Tier',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
 ];

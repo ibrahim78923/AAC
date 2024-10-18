@@ -11,7 +11,6 @@ import useEnquiries from './useEnquiries';
 import ViewEnquiry from './ViewEnquiry';
 import { DeleteEnquiry } from './DeleteEnquiry';
 import ConvertTicket from './ConvertTicket';
-import CreateRequester from './CreateRequester';
 import { Permissions } from '@/constants/permissions';
 
 const Enquiries = () => {
@@ -114,10 +113,6 @@ const Enquiries = () => {
 
       {isModalOpen?.convertToTicket && (
         <ConvertTicket isModalOpen={isModalOpen} onClose={closeModal} />
-      )}
-
-      {isModalOpen?.createRequester && (
-        <CreateRequester isModalOpen={isModalOpen} onClose={closeModal} />
       )}
     </>
   );

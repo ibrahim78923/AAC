@@ -1830,3 +1830,9 @@ export const AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
   SEARCH_DETAILS: 'Loyalty-Settings-user-management-search-details',
   EDIT_OR_DELETE_USER: 'Loyalty-Settings-user-management-edit-delete-user',
 };
+export const AIR_LOYALTY_PROGRAM_CONSUMERS_PERMISSIONS = {
+  VIEW_DETAILS: 'Loyalty-Consumers-veiw-details',
+  SEARCH_DETAILS: 'Loyalty-Consumers-search',
+  CUSTOMIZE: 'Loyalty-consumers-customize-coloumn',
+  STATUS: 'Loyalty-consumers-actions-active-inactive',
+};

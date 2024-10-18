@@ -25,7 +25,6 @@ export const useEnquiries = () => {
     viewOpen: false,
     deleteOpen: false,
     convertToTicket: false,
-    createRequester: false,
     data: null,
   });
 
@@ -90,7 +89,6 @@ export const useEnquiries = () => {
       viewOpen: false,
       deleteOpen: false,
       convertToTicket: false,
-      createRequester: false,
       data: null,
     });
     setEnquiriesSelected([]);
@@ -101,7 +99,6 @@ export const useEnquiries = () => {
       viewOpen: false,
       deleteOpen: false,
       convertToTicket: false,
-      createRequester: false,
       data: null,
     });
   };

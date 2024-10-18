@@ -9,7 +9,6 @@ export interface IModalState {
   viewOpen: boolean;
   deleteOpen: boolean;
   convertToTicket: boolean;
-  createRequester: boolean;
   data: IInfo[] | null;
 }
 
@@ -20,7 +19,6 @@ export interface IGetEnquiriesActionDropdown {
     viewOpen: boolean;
     deleteOpen: boolean;
     convertToTicket: boolean;
-    createRequester: boolean;
     data: IInfo[] | null;
   }) => void;
 }
