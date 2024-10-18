@@ -130,13 +130,11 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'products',
         GridView: 6,
-        isCheckBox: true,
         label: 'Add Line Item',
         options: salesProduct?.data?.salesproducts?.map((item: any) => ({
           value: item?._id,
           label: capitalizeFirstLetter(item?.name),
         })),
-        fullWidth: true,
       },
       component: RHFMultiCheckbox,
       md: 12,

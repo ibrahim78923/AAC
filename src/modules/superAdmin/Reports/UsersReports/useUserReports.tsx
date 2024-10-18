@@ -26,7 +26,6 @@ const useUserReports = () => {
   } = useGetUsersQuery(params);
 
   return {
-    searchBy,
     setSearchBy,
     usersReportsGraphData,
     isLoading,

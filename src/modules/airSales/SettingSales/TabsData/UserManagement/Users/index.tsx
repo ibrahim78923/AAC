@@ -26,7 +26,6 @@ const UserTable = () => {
     productsUsers,
     setPage,
     setPageLimit,
-    searchUser,
     setSearchUser,
     isLoading,
     isSuccess,
@@ -50,7 +49,6 @@ const UserTable = () => {
       >
         <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_USER]}>
           <Search
-            searchBy={searchUser}
             width="260px"
             label={'Search here'}
             setSearchBy={setSearchUser}

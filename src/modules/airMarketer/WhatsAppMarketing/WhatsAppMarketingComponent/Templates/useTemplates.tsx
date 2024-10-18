@@ -42,7 +42,6 @@ const useTemplates = () => {
     router,
     setPage,
     setLimit,
-    searchBy,
     setSearchBy,
     getTempSuccess,
     getTempLoading,

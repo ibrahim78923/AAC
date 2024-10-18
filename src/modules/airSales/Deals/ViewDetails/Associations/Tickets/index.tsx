@@ -15,7 +15,6 @@ const Tickets = ({ isLoading }: any) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
     setSearchName,
     openDrawer,
     setOpenDrawer,
@@ -60,7 +59,6 @@ const Tickets = ({ isLoading }: any) => {
             }}
           >
             <Search
-              searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"

@@ -1,9 +1,5 @@
 import Link from 'next/link';
-
-import { Box, Button, Paper, Typography, Tooltip } from '@mui/material';
-
-import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
+import { Box, Button, Typography, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import { AIR_SALES } from '@/routesConstants/paths';
 
@@ -15,6 +11,7 @@ import useRestore from './useRestore';
 
 import { BackArrIcon, FilterIcon, RefreshTasksIcon } from '@/assets/icons';
 import { RestoreTableColumns } from './RestoreTable.data';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 const Restore = () => {
   const {
@@ -33,6 +30,12 @@ const Restore = () => {
     setRestoreFilter,
     setIsRestoreFilterDrawer,
     setCheckedAll,
+    updateRestoreLoading,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    getRestoreDealsLoading,
+    isSuccess,
   } = useRestore();
 
   const columnsProps = {
@@ -91,6 +94,7 @@ const Restore = () => {
           <RestoreDeleteModal
             open={isPermanantlyDel}
             onClose={handlePermanantDelete}
+            updateRestoreLoading={updateRestoreLoading}
             handlePermanantDeleteRetore={() =>
               handlePermanantDeleteRetore(
                 'HARD_DELETED',
@@ -104,6 +108,7 @@ const Restore = () => {
           <RestoreDealModal
             open={IsRestoreDealModal}
             onClose={handleResDealModal}
+            updateRestoreLoading={updateRestoreLoading}
             handlePermanantDeleteRetore={() =>
               handlePermanantDeleteRetore(
                 'ACTIVE',
@@ -150,7 +155,7 @@ const Restore = () => {
               variant="outlined"
               color="inherit"
               className="small"
-              onClick={() => setRestoreFilter({})}
+              onClick={() => setRestoreFilter({ dateStart: '', dateEnd: '' })}
             >
               <RefreshTasksIcon />
             </Button>
@@ -166,17 +171,20 @@ const Restore = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ mb: 2 }}>
-        <TanstackTable
-          columns={columnParams}
-          data={restoeDealData?.data?.deals}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
-      </Paper>
+      <TanstackTable
+        columns={columnParams}
+        data={restoeDealData?.data?.deals}
+        isPagination={true}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        pageLimit={pageLimit}
+        setPageLimit={setPageLimit}
+        count={restoeDealData?.data?.meta?.pages}
+        totalRecords={restoeDealData?.data?.meta?.total}
+        isLoading={getRestoreDealsLoading}
+        isSuccess={isSuccess}
+        currentPage={restoeDealData?.data?.meta?.page}
+      />
     </Box>
   );
 };

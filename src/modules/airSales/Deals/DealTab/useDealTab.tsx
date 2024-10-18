@@ -220,6 +220,7 @@ const useDealTab = (dealViewsData?: any) => {
     data: allDealsData,
     totalRecords: getDealsTableList?.data?.meta?.total,
     pageLimit: getDealsTableList?.data?.meta?.limit,
+    currentPage: getDealsTableList?.data?.meta?.page,
     onPageChange: (val: any) => setPage(val),
     setPage: setPage,
     setPageLimit: setPageLimit,

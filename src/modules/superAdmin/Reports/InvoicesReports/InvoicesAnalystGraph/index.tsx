@@ -39,7 +39,6 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
     handleCloseMonthsFilter,
     customizeData,
     setSearchCompany,
-    searchCompany,
     organizationsList,
     monthFilter,
   } = useInvoicesAnalyst();
@@ -141,7 +140,7 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
             >
               <Search
                 placeholder="Search Here"
-                searchBy={searchCompany}
+                size="small"
                 setSearchBy={setSearchCompany}
               />
               {customizeData(organizationsList)?.map((data: any) => (

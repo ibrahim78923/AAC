@@ -23,7 +23,6 @@ const StepLineItems = (props: any) => {
   const { openCreateProduct } = props;
 
   const {
-    search,
     setSearch,
     isChecked,
     setIsChecked,
@@ -64,7 +63,6 @@ const StepLineItems = (props: any) => {
             >
               <Search
                 placeholder="Search Here"
-                searchBy={search}
                 setSearchBy={(value: string) => setSearch(value)}
               />
               <Button

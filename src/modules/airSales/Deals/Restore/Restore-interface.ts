@@ -8,5 +8,6 @@ export interface RestoreFilterDrawerProps {
 export interface RestoreDeleteModalProps {
   open: boolean;
   onClose: () => void;
+  updateRestoreLoading: boolean;
   handlePermanantDeleteRetore: () => void;
 }

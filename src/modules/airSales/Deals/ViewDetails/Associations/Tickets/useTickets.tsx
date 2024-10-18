@@ -74,7 +74,6 @@ const useTickets = () => {
     setOpenDrawer,
     ticketRecord,
     isOpenAlert,
-    searchName,
     openDrawer,
     theme,
     ticketsData,

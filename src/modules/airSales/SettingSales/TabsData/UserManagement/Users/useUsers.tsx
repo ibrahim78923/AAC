@@ -100,7 +100,6 @@ const useUsers = () => {
     deleteProductUsersLoading,
     updateUserLoading,
     productsUsers,
-    searchUser,
     setSearchUser,
     setPage,
     setPageLimit,

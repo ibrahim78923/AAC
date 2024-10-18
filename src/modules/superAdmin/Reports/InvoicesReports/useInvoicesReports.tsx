@@ -38,7 +38,6 @@ const useInvoicesReports = () => {
   return {
     setPage,
     setLimit,
-    searchBy,
     setSearchBy,
     isLoading,
     invoicesReportsGraph,

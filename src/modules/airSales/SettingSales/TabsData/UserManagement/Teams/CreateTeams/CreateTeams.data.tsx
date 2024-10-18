@@ -31,14 +31,12 @@ export const teamsDataArray: any = (filterdTeamMembers: any) => [
     componentProps: {
       name: 'userAccounts',
       GridView: 6,
-      isCheckBox: true,
       label: 'Team Members',
       required: true,
       options: filterdTeamMembers?.map((item: any) => ({
         value: item?._id,
         label: capitalizeFirstLetter(item?.username) ?? 'N/A',
       })),
-      fullWidth: true,
     },
     component: RHFMultiCheckbox,
     md: 12,

@@ -7,7 +7,7 @@ import useDealsReports from '../useDealsReports';
 import { DealsOverviewProps } from '../DealsReports-interface';
 
 const DealsOverview = (props: DealsOverviewProps) => {
-  const { dealsReportsTable, searchBy, setSearchBy, setPage, setLimit } = props;
+  const { dealsReportsTable, setSearchBy, setPage, setLimit } = props;
   const theme = useTheme<Theme>();
   const { isLoading, isSuccess, isError, isFetching } = useDealsReports();
 
@@ -20,11 +20,7 @@ const DealsOverview = (props: DealsOverviewProps) => {
         >
           Deals Overview
         </Typography>
-        <Search
-          label="Search here"
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
-        />
+        <Search label="Search here" setSearchBy={setSearchBy} />
       </Box>
       <TanstackTable
         columns={columns}

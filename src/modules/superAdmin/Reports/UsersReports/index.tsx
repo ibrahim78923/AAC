@@ -10,7 +10,6 @@ import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManage
 
 const UsersReports = () => {
   const {
-    searchBy,
     setSearchBy,
     usersReportsGraphData,
     companyOwnerUsersData,
@@ -45,12 +44,7 @@ const UsersReports = () => {
           my={1}
         >
           <Typography variant="h4">Users</Typography>
-          <Search
-            label="Search Here"
-            searchBy={searchBy}
-            setSearchBy={setSearchBy}
-            width={260}
-          />
+          <Search label="Search Here" setSearchBy={setSearchBy} width={260} />
         </Box>
         <Box>
           <TanstackTable

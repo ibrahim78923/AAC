@@ -1,11 +1,9 @@
 import React from 'react';
 import { Box, Checkbox, FormControlLabel, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import useDealCustomize from './useDealCustomize';
 import { styles } from './DealCustomize.style';
 import { DragIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';

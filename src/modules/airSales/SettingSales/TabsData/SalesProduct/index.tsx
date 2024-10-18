@@ -35,10 +35,9 @@ const SalesProduct = () => {
     isDeleteModalOpen,
     handleCloseDrawer,
     salesProductData,
-    setproductSearch,
+    setProductSearch,
     setIsDraweropen,
     setIsEditMode,
-    productSearch,
     deleteProduct,
     setPageLimit,
     handleDelete,
@@ -97,8 +96,7 @@ const SalesProduct = () => {
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH]}>
             <Search
               label={'Search here'}
-              searchBy={productSearch}
-              setSearchBy={setproductSearch}
+              setSearchBy={setProductSearch}
               size="small"
             />
           </PermissionsGuard>

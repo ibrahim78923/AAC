@@ -49,7 +49,6 @@ const useQuotes = (dealId: any) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
     setSearchName,
     openDrawer,
     setOpenDrawer,

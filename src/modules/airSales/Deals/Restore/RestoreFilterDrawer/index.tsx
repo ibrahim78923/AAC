@@ -1,7 +1,4 @@
 import { useForm } from 'react-hook-form';
-
-import { Box } from '@mui/material';
-
 import { FormProvider, RHFDatePicker } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { RestoreFilterDrawerProps } from '../Restore-interface';
@@ -33,10 +30,13 @@ const RestoreFilterDrawer = ({
       submitHandler={handleSubmit(onSubmit)}
     >
       <FormProvider methods={methods}>
-        <Box sx={{ my: '20px' }}>
-          <RHFDatePicker name="startDate" fullWidth label="Start Date" />
-        </Box>
-        <RHFDatePicker name="endDate" fullWidth label="End Date" />
+        <RHFDatePicker
+          name="startDate"
+          fullWidth
+          label="Start Date"
+          size="small"
+        />
+        <RHFDatePicker name="endDate" fullWidth label="End Date" size="small" />
       </FormProvider>
     </CommonDrawer>
   );

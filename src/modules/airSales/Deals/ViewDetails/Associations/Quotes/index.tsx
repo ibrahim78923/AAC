@@ -11,7 +11,6 @@ import { QuotesProps } from '../Associations-interface';
 const Quotes = ({ quotesData, isLoading, dealId }: QuotesProps) => {
   const {
     theme,
-    searchName,
     setSearchName,
     isOpenAlert,
     setIsOpenAlert,
@@ -57,7 +56,6 @@ const Quotes = ({ quotesData, isLoading, dealId }: QuotesProps) => {
             }}
           >
             <Search
-              searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"

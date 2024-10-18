@@ -19,7 +19,6 @@ const Templates = () => {
     setPage,
     setLimit,
     router,
-    searchBy,
     setSearchBy,
     getTempFetching,
     getTempSuccess,
@@ -53,7 +52,6 @@ const Templates = () => {
               size="small"
               label="Search here"
               setSearchBy={setSearchBy}
-              searchBy={searchBy}
             />
           </PermissionsGuard>
 

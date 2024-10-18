@@ -268,7 +268,6 @@ const useDealPipelines = () => {
     isDisableButton,
     isDraweropen,
     setIsEditMode,
-    productSearch,
     isdefaultValue,
     handleDelete,
     checkedDeal,

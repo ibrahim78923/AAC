@@ -15,7 +15,7 @@ const useSalesProduct = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [productSearch, setproductSearch] = useState<string>('');
+  const [productSearch, setProductSearch] = useState<any>('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -88,10 +88,9 @@ const useSalesProduct = () => {
     setDeleteModalOpen,
     handleCloseDrawer,
     isDeleteModalOpen,
-    setproductSearch,
+    setProductSearch,
     setIsDraweropen,
     setIsEditMode,
-    productSearch,
     deleteProduct,
     isDraweropen,
     setPageLimit,

@@ -105,7 +105,6 @@ const useDealsReports = () => {
     dealsReportsCardsData,
     dealsReportsGraphData,
     isLoading,
-    searchBy,
     setSearchBy,
     dealsOwner,
     filter,
