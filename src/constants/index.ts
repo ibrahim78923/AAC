@@ -208,7 +208,15 @@ export const ORG_ADMIN: any = {
   DYNAMIC_FIELDS: '/org-admin/properties/dynamic-fields',
 };
 
+export const AIR_OPERATIONS_ROUTES: any = {
+  DASHBOARD: '/air-operations',
+};
+export const AIR_LOYALTY_PROGRAM_ROUTES: any = {
+  DASHBOARD: '/air-loyalty-program',
+};
+
 export const AIR_OPERATIONS = {
+  DASHBOARD: '/air-operations',
   WORKFLOW_AUTOMATION: `/air-operations/workflow-automation`,
   SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow`,
   UPSERT_SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow/upsert-sales-workflow`,
@@ -236,6 +244,7 @@ export const AIR_CALL_CENTER = {
 };
 
 export const AIR_LOYALTY_PROGRAM = {
+  DASHBOARD: '/air-loyalty-program',
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
