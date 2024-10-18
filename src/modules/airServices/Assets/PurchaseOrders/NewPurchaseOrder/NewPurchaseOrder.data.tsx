@@ -172,7 +172,7 @@ export const newPurchaseFieldsFunction = (
       placeholder: 'Select Vendor',
       apiQuery: vendorApiQuery,
       externalParams: {
-        meta: false,
+        meta: true,
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
       },
       required: true,

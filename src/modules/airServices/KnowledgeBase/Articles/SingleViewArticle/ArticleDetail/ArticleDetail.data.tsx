@@ -65,7 +65,7 @@ export const sideData = (data: SingleViewArticleDataI) => {
         {
           _id: 'inserted_tickets',
           title: 'Inserted tickets:',
-          des: Array?.isArray(data?.insertedTickets?.length)
+          des: Array?.isArray(data?.insertedTickets)
             ? data?.insertedTickets?.length
             : 0,
         },

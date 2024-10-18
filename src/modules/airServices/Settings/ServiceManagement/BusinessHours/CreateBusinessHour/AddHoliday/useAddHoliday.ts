@@ -28,6 +28,7 @@ export const useAddHoliday = (props: any) => {
     usePostAirServicesSettingsServiceBusinessHourHolidayMutation();
 
   const { handleSubmit, reset } = method;
+
   const closeHolidayModal = () => {
     setOpenAddHolidayModal(false);
     reset();
@@ -46,7 +47,7 @@ export const useAddHoliday = (props: any) => {
       setHolidaysData((pervState: any) =>
         pervState ? [...pervState, newData] : [newData],
       );
-      successSnackbar('Holiday Added Successfully');
+      successSnackbar('Holiday added successfully');
       closeHolidayModal();
       return;
     }
@@ -60,13 +61,14 @@ export const useAddHoliday = (props: any) => {
 
     try {
       await postHolidayTrigger(postHolidayParameter)?.unwrap();
-      successSnackbar('Holiday Added Successfully');
+      successSnackbar('holiday added successfully');
       closeHolidayModal();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
   });
+
   return {
     openAddHolidayModal,
     setOpenAddHolidayModal,
@@ -74,5 +76,6 @@ export const useAddHoliday = (props: any) => {
     reset,
     onSubmitRequest,
     postHolidayStatus,
+    closeHolidayModal,
   };
 };

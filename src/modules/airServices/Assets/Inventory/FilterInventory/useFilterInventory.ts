@@ -27,7 +27,7 @@ export const useFilterInventory = (props: FilterInventoryI) => {
 
   const auth: any = useAuth();
 
-  const { _id: productId } = auth?.product;
+  const productId = auth?.product?._id ?? {};
 
   const methods: any = useForm({
     defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),

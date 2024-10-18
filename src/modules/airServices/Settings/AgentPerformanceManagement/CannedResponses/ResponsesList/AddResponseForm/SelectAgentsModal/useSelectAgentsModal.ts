@@ -21,7 +21,7 @@ export const useSelectAgentsModal = (props: any) => {
 
   const auth: any = useAuth();
 
-  const { _id: productId } = auth?.product;
+  const productId = auth?.product?._id ?? {};
 
   const apiQueryAgents =
     useLazyGetAirServicesSettingsCannedResponseAgentsQuery();

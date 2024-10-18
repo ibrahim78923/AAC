@@ -15,7 +15,7 @@ import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/s
 export const useAddRequestApproval = () => {
   const router = useRouter();
   const auth: any = useAuth();
-  const userId = auth?.user?._id;
+  const userId = auth?.user?._id ?? {};
 
   const ticketId = router?.query?.ticketId as string;
 

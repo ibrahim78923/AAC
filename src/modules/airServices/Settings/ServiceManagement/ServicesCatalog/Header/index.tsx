@@ -23,6 +23,7 @@ export default function Header(props: any) {
     >
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
         <ArrowBackIcon
+          sx={{ cursor: 'pointer' }}
           color={'secondary'}
           onClick={() => {
             const isMatch = categories?.some(

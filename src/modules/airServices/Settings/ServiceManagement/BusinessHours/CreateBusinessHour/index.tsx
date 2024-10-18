@@ -101,7 +101,7 @@ export const CreateBusinessHour = () => {
 
           <Grid item lg={6} xs={12}>
             <Box
-              border={'0.06rem solid'}
+              border={1}
               borderColor={'custom.light_lavender_gray'}
               borderRadius={2}
               p={2.5}

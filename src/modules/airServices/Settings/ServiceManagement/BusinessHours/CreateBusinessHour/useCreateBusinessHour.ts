@@ -13,12 +13,13 @@ import {
   usePatchAirServicesSettingsServiceBusinessHourMutation,
   usePostAirServicesSettingsServiceBusinessHourMutation,
 } from '@/services/airServices/settings/service-management/business-hours';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, CALENDAR_FORMAT } from '@/constants';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { otherDateFormat } from '@/utils/dateTime';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -60,7 +61,8 @@ export const useCreateBusinessHour = () => {
     postBusinessHourStatus?.isLoading ||
     getHolidaysStatus?.isFetching ||
     getHolidaysStatus?.isLoading ||
-    singleBusinessHour?.isLoading;
+    singleBusinessHour?.isLoading ||
+    singleBusinessHour?.isFetching;
 
   const holidays = getHolidaysStatus?.data?.data?.holidays;
 
@@ -69,7 +71,21 @@ export const useCreateBusinessHour = () => {
     const getHolidaysParam = new URLSearchParams();
     getHolidaysParam?.append('country', country);
     try {
-      await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
+      const res: any = await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
+      const newData = res.data.items?.map((item: any) => {
+        return {
+          name: item?.summary,
+          date: otherDateFormat(item?.start?.date, CALENDAR_FORMAT?.YMD),
+          uuid: item?.id,
+        };
+      });
+      setHolidaysData((pervState: any) =>
+        pervState ? [...pervState, ...newData] : newData,
+      );
+      if (res?.error) {
+        errorSnackbar('Error in Retrieving Holidays');
+        return;
+      }
       successSnackbar('Holidays Retrieved successfully');
     } catch (error) {
       const errorResponse = error as IErrorResponse;

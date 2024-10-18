@@ -25,7 +25,7 @@ export const useUpsertWorkloadSchedule = () => {
   const { workloadScheduleId } = router?.query;
 
   const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
+  const productId = auth?.product?._id ?? {};
 
   const [postWorkloadScheduleTrigger, postWorkloadScheduleStatus] =
     usePostAirServicesSettingsWorkloadScheduleMutation();

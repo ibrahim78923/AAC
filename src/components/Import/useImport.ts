@@ -16,6 +16,7 @@ export const useImport = (props: any) => {
     submitImport,
     mandatoryColumnsList = [],
     hasNewImportApi = true,
+    importFileStatus,
   } = props;
 
   const [showItemsList, setShowItemsList] = useState(false);
@@ -167,6 +168,11 @@ export const useImport = (props: any) => {
     reset?.();
   };
 
+  const apiCallInProgress =
+    importFileStatus?.isLoading ||
+    uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+    lazyGetSignedUrlForImportStatus?.isLoading;
+
   return {
     handleSubmit,
     onClose,
@@ -178,5 +184,6 @@ export const useImport = (props: any) => {
     uploadFileTos3UsingSignedUrlStatus,
     lazyGetSignedUrlForImportStatus,
     cancelBtnHandler,
+    apiCallInProgress,
   };
 };

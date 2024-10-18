@@ -14,20 +14,16 @@ import {
   usePatchPermissionsRoleByIdMutation,
   usePostPermissionsRoleMutation,
 } from '@/services/airServices/settings/user-management/roles';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { getActiveAccountSession } from '@/utils';
 
 export default function useUpsertRoles() {
   const router: any = useRouter();
   const theme: any = useTheme();
-
+  const activeAccount = useMemo(() => getActiveAccountSession(), []);
   const { roleId } = router?.query;
 
   const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[0]?.company;
-  const { _id: organizationId } = auth?.user?.organization;
 
   const methods: any = useForm({
     resolver: yupResolver(upsertRolesValidationSchema),
@@ -78,6 +74,10 @@ export default function useUpsertRoles() {
         ([key, value]) => key !== 'name' && key !== 'description' && value,
       )
       ?.map(([item]: any) => item);
+
+    const productId = auth?.product?._id ?? {};
+    const organizationId = auth?.user?.organization?._id ?? {};
+    const organizationCompanyAccountId = activeAccount?.company?._id ?? {};
 
     const updatedPostData = {
       organizationId,

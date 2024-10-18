@@ -267,7 +267,7 @@ export const useUpsertInventory = () => {
 
   const auth: any = useAuth();
 
-  const { _id: productId } = auth?.product;
+  const productId = auth?.product?._id;
 
   const apiQueryAssetType =
     useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery();

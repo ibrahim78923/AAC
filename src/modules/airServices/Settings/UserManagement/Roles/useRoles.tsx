@@ -1,9 +1,10 @@
 import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { useLazyGetPermissionsRoleQuery } from '@/services/airServices/settings/user-management/roles';
+import { getActiveAccountSession } from '@/utils';
 import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export default function useRoles() {
   const router: any = useRouter();
@@ -13,11 +14,11 @@ export default function useRoles() {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const auth: any = useAuth();
+  const activeAccount = useMemo(() => getActiveAccountSession(), []);
 
-  const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[0]?.company;
-  const { _id: organizationId } = auth?.user?.organization;
+  const productId = auth?.product?._id ?? {};
+  const organizationId = auth?.user?.organization?._id ?? {};
+  const organizationCompanyAccountId = activeAccount?.company?._id ?? {};
 
   const [permissionsRoleTrigger, permissionsRoleStatus] =
     useLazyGetPermissionsRoleQuery();

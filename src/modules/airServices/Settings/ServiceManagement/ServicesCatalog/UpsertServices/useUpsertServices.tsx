@@ -8,14 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import {
-  useLazyGetAirServicesSettingsServicesProductDropdownListQuery,
-  useLazyGetAirServicesSettingsServicesSoftwareDropdownListQuery,
-  useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery,
-  useLazyGetAirServicesSettingsServicesAllUsersDropdownListQuery,
-  useLazyGetAirServicesSettingsServicesAssetsCategoryDropdownQuery,
   usePostAirServicesSettingsAddServiceCatalogMutation,
+  useGetAirServicesSettingsServiceCatalogSingleServiceDetailsQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
-import useAuth from '@/hooks/useAuth';
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
@@ -23,14 +18,11 @@ import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 
 export const useUpsertServices = () => {
   const router = useRouter();
-
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
+  const { serviceId, categoryId } = router?.query;
 
   const methods = useForm({
     resolver: yupResolver(upsertServiceValidationSchema),
-    defaultValues: upsertServiceDefaultValues,
+    defaultValues: upsertServiceDefaultValues?.(),
   });
 
   const { handleSubmit, watch, reset, setValue } = methods;
@@ -44,6 +36,23 @@ export const useUpsertServices = () => {
     setValue('assetType', null);
     setValue('product', null);
   }, [categoryTypeWatch]);
+
+  const skipApiCall = serviceId && categoryId;
+
+  const apiDataParameter = {
+    queryParams: {
+      id: serviceId,
+      categoryId,
+    },
+  };
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetAirServicesSettingsServiceCatalogSingleServiceDetailsQuery(
+      apiDataParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !skipApiCall,
+      },
+    );
 
   const [postAddServiceCatalogTrigger, postAddServiceCatalogStatus] =
     usePostAirServicesSettingsAddServiceCatalogMutation();
@@ -77,7 +86,7 @@ export const useUpsertServices = () => {
       await postAddServiceCatalogTrigger({
         body: newFormData,
       })?.unwrap();
-      successSnackbar('Service Added Successfully');
+      successSnackbar('Service added successfully');
       handleCancelBtn?.();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -90,26 +99,11 @@ export const useUpsertServices = () => {
     router?.push({ pathname: AIR_SERVICES?.SERVICE_CATALOG });
   };
 
-  const apiServiceCategoryQuery =
-    useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery();
-  const apiAssetCategoryQuery =
-    useLazyGetAirServicesSettingsServicesAssetsCategoryDropdownQuery();
-  const apiSoftwareQuery =
-    useLazyGetAirServicesSettingsServicesSoftwareDropdownListQuery();
-  const apiProductQuery =
-    useLazyGetAirServicesSettingsServicesProductDropdownListQuery();
-  const apiRequesterAndAgentQuery =
-    useLazyGetAirServicesSettingsServicesAllUsersDropdownListQuery();
+  const upsertServiceData = getUpsertServiceData(categoryTypeWatch);
 
-  const upsertServiceData = getUpsertServiceData(
-    apiServiceCategoryQuery,
-    categoryTypeWatch,
-    apiAssetCategoryQuery,
-    apiSoftwareQuery,
-    apiProductQuery,
-    productId,
-    apiRequesterAndAgentQuery,
-  );
+  useEffect(() => {
+    reset(() => upsertServiceDefaultValues?.(data?.data));
+  }, [reset, data]);
 
   return {
     handleCancelBtn,
@@ -118,5 +112,10 @@ export const useUpsertServices = () => {
     onSubmit,
     upsertServiceData,
     postAddServiceCatalogStatus,
+    serviceId,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
   };
 };

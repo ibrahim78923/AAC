@@ -4,7 +4,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'CATALOG';
 
 export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
-  endpoints: (builder: any) => ({
+  endpoints: (builder) => ({
     getAirServicesSettingsServiceCatalog: builder?.query({
       query: (getServiceCatalogCategoriesParameter: any) => ({
         url: END_POINTS?.SERVICE_CATALOG,
@@ -21,6 +21,14 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
         params: param,
       }),
       providesTags: [TAG],
+    }),
+
+    getAirServicesSettingsServiceCatalogSingleServiceDetails: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.SERVICE_CATALOG_CATEGORIES_DETAILS,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
     }),
 
     deleteAirServicesSettingsServiceCatalog: builder?.mutation({
@@ -59,7 +67,6 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.servicecategories;
       },
-      providesTags: [TAG],
     }),
 
     getAirServicesSettingsServicesRequesterDropdown: builder?.query({
@@ -71,10 +78,20 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: [TAG],
     }),
 
-    getAirServicesSettingsServicesAllUsersDropdownList: builder?.query({
+    getAirServicesSettingsServicesRequestersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_USERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+
+    getAirServicesSettingsServicesAgentsDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.DROPDOWN_USERS,
         method: 'GET',
@@ -96,7 +113,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       },
     }),
 
-    getAirServicesSettingsServicesProductDropdownList: builder?.query({
+    getAirServicesSettingsServicesProductCatalogDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.PRODUCT_CATALOG_LIST,
         method: 'GET',
@@ -136,11 +153,13 @@ export const {
   useGetAirServicesSettingsServiceCatalogCategoriesQuery,
   usePatchAirServicesSettingsServiceCatalogMutation,
   useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery,
-  useGetAirServicesSettingsServicesRequesterDropdownQuery,
-  useGetAirServicesSettingsServicesAllUsersDropdownListQuery,
   useLazyGetAirServicesSettingsServicesAssetsCategoryDropdownQuery,
-  useLazyGetAirServicesSettingsServicesAllUsersDropdownListQuery,
-  useLazyGetAirServicesSettingsServicesProductDropdownListQuery,
+  useLazyGetAirServicesSettingsServicesRequestersDropdownListQuery,
+  useLazyGetAirServicesSettingsServicesAgentsDropdownListQuery,
+  useLazyGetAirServicesSettingsServicesProductCatalogDropdownListQuery,
   useLazyGetAirServicesSettingsServicesSoftwareDropdownListQuery,
   usePostAirServicesSettingsAddServiceCatalogMutation,
+  useGetAirServicesSettingsServiceCatalogSingleServiceDetailsQuery,
+  useGetAirServicesSettingsServicesRequestersDropdownListQuery,
+  useGetAirServicesSettingsServicesAgentsDropdownListQuery,
 } = serviceCatalogAPI;
