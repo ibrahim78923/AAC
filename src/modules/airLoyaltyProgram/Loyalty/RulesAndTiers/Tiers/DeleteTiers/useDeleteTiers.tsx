@@ -46,7 +46,7 @@ export const useDeleteTiers = () => {
       await deleteLoyaltyProgramLoyaltySingleTierTrigger(
         apiDataParameter,
       )?.unwrap();
-      successSnackbar?.('User deleted successfully!');
+      successSnackbar?.('Tier deleted successfully!');
       closePortal?.();
       await refetchApi?.();
     } catch (error: any) {

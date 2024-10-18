@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const loyaltyProgramLoyaltytiersAPI = baseAPI?.injectEndpoints({
+export const loyaltyProgramLoyaltyTiersAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getLoyaltyProgramLoyaltyTiersList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -58,4 +58,4 @@ export const {
   useUpdateLoyaltyProgramLoyaltySingleTierMutation,
   useDeleteLoyaltyProgramLoyaltySingleTierMutation,
   useLazyGetLoyaltyProgramLoyaltyContactListDropdownForTierQuery,
-} = loyaltyProgramLoyaltytiersAPI;
+} = loyaltyProgramLoyaltyTiersAPI;

@@ -19,6 +19,7 @@ export default function RHFAutocomplete({
   freeSolo = false,
   limitTags = 3,
   endAdornment = false,
+  onChangeHandler,
   isOptionEqualToValue = (option: any, newValue: any) =>
     option?._id === newValue?._id,
   getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
@@ -30,6 +31,7 @@ export default function RHFAutocomplete({
   const theme: any = useTheme();
 
   const onChanged = (e: any, newValue: any, onChange: any) => {
+    onChangeHandler?.(e, newValue, onChange);
     if (multiple) {
       onChange(newValue?.map((item: any) => item));
     } else {

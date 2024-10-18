@@ -5,7 +5,12 @@ import { TextField, Typography } from '@mui/material';
 import CustomLabel from '../CustomLabel';
 // ----------------------------------------------------------------------
 
-export default function RHFTextField({ name, required, ...other }: any) {
+export default function RHFTextField({
+  name,
+  required,
+  onBlurHandler,
+  ...other
+}: any) {
   const { control } = useFormContext();
   return (
     <Controller
@@ -21,6 +26,10 @@ export default function RHFTextField({ name, required, ...other }: any) {
             {...field}
             value={field?.value || ''}
             onChange={field?.onChange}
+            onBlur={() => {
+              onBlurHandler?.();
+              field?.onBlur?.();
+            }}
             fullWidth
             error={!!error}
             helperText={

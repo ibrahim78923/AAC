@@ -1,7 +1,7 @@
 import { Rules } from './Rules';
 import { Tiers } from './Tiers';
 
-export const loyaltyRulesAndTierstabsDynamic = () => {
+export const loyaltyRulesAndTiersTabsDynamic = () => {
   return [
     {
       _id: 1,

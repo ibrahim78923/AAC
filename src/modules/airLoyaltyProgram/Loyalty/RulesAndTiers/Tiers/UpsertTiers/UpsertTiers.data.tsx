@@ -10,7 +10,14 @@ import { GetContactsListDropdown } from '../TiersFormFields/GetContactsListDropd
 import {
   LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES,
   LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR,
+  LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE,
 } from '@/constants/api';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+
+const {
+  LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS,
+  LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS,
+} = CHARACTERS_LIMIT ?? {};
 
 export const FORM_STEP_CONSTANT = {
   FIRST_STEP: 1,
@@ -58,13 +65,16 @@ export const tiersAttributesOptions = [
     label: 'Number of transactions',
     description: 'The number of loyalty transaction the contact has had',
   },
-  //TODO: will add on api change
-  // {
-  //   _id: 'TOTAL_RECEIVED_CREDITS',
-  //   label: 'Total credits received',
-  //   description:
-  //     'The total number of credits the contact have received to date',
-  // },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.CURRENT_POINTS__BALANCE,
+    label: 'Current points balance',
+    description: 'Contact Current points balance',
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.TOTAL_POINTS_REDEEMED,
+    label: 'Total points redeemed',
+    description: 'The total number of points contact have redeemed',
+  },
 ];
 
 export const stringsOperatorOptions = [
@@ -144,6 +154,37 @@ export const quantityOperatorOptions = [
   },
 ];
 
+export const dateOperatorOptions = [
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.EQUAL,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.EQUAL,
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.NOT_EQUAL,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.NOT_EQUAL,
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.CONTAINS,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.CONTAINS,
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.GREATER_THAN,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.GREATER_THAN,
+  },
+  {
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.LESS_THAN,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.LESS_THAN,
+  },
+];
+
 export const ATTRIBUTE_OPERATOR_MAP = {
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.FIRST_NAME]:
     stringsOperatorOptions,
@@ -153,13 +194,11 @@ export const ATTRIBUTE_OPERATOR_MAP = {
     stringsOperatorOptions,
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.AGE]: numberOperatorOptions,
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.LAST_TRANSACTION_AT]:
-    quantityOperatorOptions,
+    dateOperatorOptions,
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.NO_OF_TRANSACTIONS]:
-    quantityOperatorOptions,
+    dateOperatorOptions,
 };
-const TIERS_TYPE = {
-  CONTACTS: 'CONTACTS',
-};
+
 export const upsertTiersFormDefaultValue = (data?: any) => {
   return {
     name: data?.name ?? '',
@@ -167,10 +206,16 @@ export const upsertTiersFormDefaultValue = (data?: any) => {
     logo: null,
     amount: data?.amount ?? 0,
     points: data?.points ?? 0,
-    attribute: data?.attribute ?? '',
-    type: TIERS_TYPE?.CONTACTS,
+    attribute: !!data?.attribute
+      ? tiersAttributesOptions?.find(
+          (item: any) => item?._id === data?.attribute,
+        )
+      : '',
+    type: LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE?.CONTACTS,
     contacts: data?.contacts ?? [],
-    operator: data?.operator ?? null,
+    operator: !!data?.operator
+      ? { _id: data?.operator, label: data?.operator }
+      : null,
     fieldValue: data?.fieldValue ?? '',
   };
 };
@@ -179,10 +224,22 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
   Yup?.object()?.shape({
     ...(formStep === FORM_STEP_CONSTANT?.FIRST_STEP
       ? {
-          name: Yup?.string()?.trim()?.required('Name is required'),
+          name: Yup?.string()
+            ?.trim()
+            ?.required('Name is required')
+            ?.max(
+              LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS,
+              `Maximum characters limit is ${LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS}`,
+            )
+            ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string'),
           description: Yup?.string()
             ?.trim()
-            ?.required('Description is required'),
+            ?.required('Description is required')
+            ?.max(
+              LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS,
+              `Maximum characters limit is ${LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS}`,
+            )
+            ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string'),
           logo: Yup?.mixed()?.nullable(),
           amount: Yup?.number()
             ?.typeError('Not a number')
@@ -231,6 +288,9 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
 export const upsertTiersBasicFormFieldsDynamic = (
   formStep: number,
   watch: any,
+  clearErrors: any,
+  setValue: any,
+  trigger: any,
 ) => {
   return [
     ...(formStep === FORM_STEP_CONSTANT?.FIRST_STEP
@@ -244,6 +304,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
               placeholder: 'Enter tier name',
               fullWidth: true,
               required: true,
+              onBlurHandler: async () => await trigger('name'),
             },
           },
           {
@@ -255,6 +316,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
               placeholder: 'Enter tier description',
               fullWidth: true,
               required: true,
+              onBlurHandler: async () => await trigger('description'),
             },
           },
           {
@@ -295,6 +357,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
               inputProps: {
                 min: 0,
               },
+              onBlurHandler: async () => await trigger('amount'),
             },
           },
           {
@@ -310,6 +373,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
               inputProps: {
                 min: 0,
               },
+              onBlurHandler: async () => await trigger('points'),
             },
           },
         ]
@@ -331,6 +395,8 @@ export const upsertTiersBasicFormFieldsDynamic = (
             component: GetTierAttributeListDropdown,
             componentProps: {
               options: tiersAttributesOptions,
+              clearErrors,
+              setValue,
             },
           },
           ...(!!watch('attribute')?._id

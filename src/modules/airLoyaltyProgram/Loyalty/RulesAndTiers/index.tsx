@@ -1,14 +1,14 @@
 import { Header } from './Header';
-import { loyaltyRulesAndTierstabsDynamic } from './RulesAndTiers.data';
+import { loyaltyRulesAndTiersTabsDynamic } from './RulesAndTiers.data';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 
 export const RulesAndTiers = () => {
-  const loyaltyRulesAndTierstabs = loyaltyRulesAndTierstabsDynamic?.();
+  const loyaltyRulesAndTiersTabs = loyaltyRulesAndTiersTabsDynamic?.();
   return (
     <>
       <Header />
       <br />
-      <PermissionsTabs tabsDataArray={loyaltyRulesAndTierstabs} />
+      <PermissionsTabs tabsDataArray={loyaltyRulesAndTiersTabs} />
     </>
   );
 };

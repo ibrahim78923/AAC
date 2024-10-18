@@ -36,6 +36,8 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES = {
   AGE: 'AGE',
   LAST_TRANSACTION_AT: 'lastTransactionAt',
   NO_OF_TRANSACTIONS: 'numberOfTransactions',
+  CURRENT_POINTS__BALANCE: 'currentPointsBalance',
+  TOTAL_POINTS_REDEEMED: 'totalPointsRedeemed',
 };
 
 export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
@@ -48,4 +50,8 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
   BEFORE: 'before',
   AFTER: 'after',
   CONTAINS: 'contains',
+};
+
+export const LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE = {
+  CONTACTS: 'CONTACTS',
 };

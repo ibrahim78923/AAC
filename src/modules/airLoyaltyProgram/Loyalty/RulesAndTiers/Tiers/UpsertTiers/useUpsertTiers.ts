@@ -11,14 +11,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import {
   useAddLoyaltyProgramLoyaltySingleTierMutation,
+  useGetLoyaltyProgramLoyaltySingleTierDetailsQuery,
   useUpdateLoyaltyProgramLoyaltySingleTierMutation,
 } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 import { LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES } from '@/constants/api';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
+import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
 
 export const useUpsertTiers = () => {
   const [formStep, setFormStep] = useState(FORM_STEP_CONSTANT?.FIRST_STEP);
+  const { getLoyaltyProgramTiersList } = useGetTiersLists?.();
+
   const dispatch = useAppDispatch();
   const isPortalOpen = useAppSelector(
     (state) => state?.loyaltyProgramTiers?.isPortalOpen,
@@ -33,12 +37,33 @@ export const useUpsertTiers = () => {
     updateLoyaltyProgramLoyaltySingleTierStatus,
   ] = useUpdateLoyaltyProgramLoyaltySingleTierMutation();
 
+  const apiDataParameter = {
+    pathParams: {
+      id: isPortalOpen?.data?._id,
+    },
+  };
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } = useGetLoyaltyProgramLoyaltySingleTierDetailsQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !isPortalOpen?.data?._id,
+    },
+  );
+
   const methods = useForm<any>({
     resolver: yupResolver(upsertTiersFormValidationSchema?.(formStep)),
     defaultValues: upsertTiersFormDefaultValue?.(),
   });
 
-  const { handleSubmit, watch, setValue, clearErrors } = methods;
+  const { handleSubmit, watch, setValue, clearErrors, trigger, reset } =
+    methods;
 
   const isFormValid =
     !!watch('name') &&
@@ -46,21 +71,19 @@ export const useUpsertTiers = () => {
     !!watch('amount') &&
     !!watch('points');
 
-  const watchAttribute = watch('attribute');
-
-  useEffect(() => {
-    setValue('operator', null);
-    setValue('fieldValue', '');
-    setValue('contacts', []);
-    clearErrors(['operator', 'fieldValue', 'contacts']);
-  }, [watchAttribute?._id]);
-
   const closePortal = () => {
     dispatch(setIsPortalClose());
   };
 
-  const submitUpsertTiers = () => {
+  const submitUpsertTiers = async () => {
     if (formStep === FORM_STEP_CONSTANT?.FIRST_STEP) {
+      const isValid = await trigger([
+        'name',
+        'description',
+        'amount',
+        'points',
+      ]);
+      if (!isValid) return;
       setFormStep(FORM_STEP_CONSTANT?.SECOND_STEP);
       return;
     }
@@ -80,7 +103,10 @@ export const useUpsertTiers = () => {
       tierFormData.append('operator', formData?.operator?._id);
     formData?.attribute?._id ===
       LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.SELECT_CONTACT &&
-      tierFormData.append('contacts', formData?.contacts);
+      tierFormData.append(
+        'contacts',
+        formData?.contacts?.map((contact: any) => contact?._id),
+      );
     formData?.attribute?._id !==
       LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.SELECT_CONTACT &&
       tierFormData.append('fieldValue', formData?.fieldValue);
@@ -89,7 +115,6 @@ export const useUpsertTiers = () => {
       isPortalOpen?.action ===
       RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS?.EDIT_TIERS
     ) {
-      tierFormData?.append('id', isPortalOpen?.data?.id);
       submitUpdateTier(tierFormData);
       return;
     }
@@ -102,6 +127,8 @@ export const useUpsertTiers = () => {
         apiDataParameter,
       )?.unwrap();
       successSnackbar('Tier added successfully');
+      closePortal?.();
+      await getLoyaltyProgramTiersList?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -111,6 +138,9 @@ export const useUpsertTiers = () => {
     const tierFormData = formData;
     const apiDataParameter = {
       body: tierFormData,
+      pathParams: {
+        id: isPortalOpen?.data?._id,
+      },
     };
 
     try {
@@ -118,6 +148,8 @@ export const useUpsertTiers = () => {
         apiDataParameter,
       )?.unwrap();
       successSnackbar('Tier updated successfully');
+      closePortal?.();
+      await getLoyaltyProgramTiersList?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -134,11 +166,20 @@ export const useUpsertTiers = () => {
   const upsertTiersBasicFormFields = upsertTiersBasicFormFieldsDynamic?.(
     formStep,
     watch,
+    clearErrors,
+    setValue,
+    trigger,
   );
 
   const apiCallInProgress =
     updateLoyaltyProgramLoyaltySingleTierStatus?.isLoading ||
     addLoyaltyProgramLoyaltySingleTierStatus?.isLoading;
+
+  useEffect(() => {
+    reset(() => upsertTiersFormDefaultValue?.(data?.data));
+  }, [reset, data?.data]);
+
+  const showLoader = isLoading || isFetching;
 
   return {
     isPortalOpen,
@@ -152,5 +193,8 @@ export const useUpsertTiers = () => {
     formStep,
     watch,
     apiCallInProgress,
+    showLoader,
+    isError,
+    refetch,
   };
 };

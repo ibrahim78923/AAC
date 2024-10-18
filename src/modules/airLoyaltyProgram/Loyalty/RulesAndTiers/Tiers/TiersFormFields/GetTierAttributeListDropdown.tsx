@@ -2,7 +2,7 @@ import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { Box, Typography } from '@mui/material';
 
 export const GetTierAttributeListDropdown = (props: any) => {
-  const { options } = props;
+  const { options, clearErrors, setValue } = props;
   return (
     <RHFAutocomplete
       name="attribute"
@@ -15,6 +15,12 @@ export const GetTierAttributeListDropdown = (props: any) => {
       isOptionEqualToValue={(option: any, value: any) =>
         option?._id === value?._id
       }
+      onChangeHandler={() => {
+        setValue('operator', null);
+        setValue('fieldValue', '');
+        setValue('contacts', []);
+        clearErrors(['operator', 'fieldValue', 'contacts']);
+      }}
       renderOption={(props: any, option: any) => {
         return (
           <li {...props} key={option?._id}>

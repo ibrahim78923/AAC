@@ -169,7 +169,7 @@ export { default as PrimaryCancelIcon } from './shared/primary-cancel';
 export { default as FirstAidKitIcon } from './shared/first-aid-kit-icon';
 export { default as DocumentTextIcon } from './shared/document-text-icon';
 export { default as PrimaryCalendarIcon } from './shared/primary-calendar-icon';
-export { default as EditYellowBGPenIcon } from './shared/edit-yellow-bg-pen-icon';
+export { default as EditYellowBGPenIcon } from './shared//edit-yellow-bg';
 export { default as EraserIcon } from './shared/eraser';
 export { default as DownloadLargeIcon } from './shared/download-large';
 export { default as MobileIcon } from './shared/mobile';

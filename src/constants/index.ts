@@ -55,6 +55,7 @@ export const DATE_TIME_FORMAT = {
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
   FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
+  MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY-hh:mm A',
 };
 
 export const ERROR_PAGES = {

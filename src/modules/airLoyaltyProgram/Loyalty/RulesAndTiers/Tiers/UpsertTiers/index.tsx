@@ -3,6 +3,8 @@ import { useUpsertTiers } from './useUpsertTiers';
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { FORM_STEP_CONSTANT } from './UpsertTiers.data';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const UpsertTiers = () => {
   const {
@@ -16,6 +18,9 @@ export const UpsertTiers = () => {
     formStep,
     watch,
     apiCallInProgress,
+    showLoader,
+    isError,
+    refetch,
   } = useUpsertTiers();
 
   return (
@@ -38,17 +43,23 @@ export const UpsertTiers = () => {
       }
       disabledCancelBtn={apiCallInProgress}
     >
-      <FormProvider methods={methods}>
-        <Grid container spacing={1.5}>
-          {upsertTiersBasicFormFields?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size="small">
-                {item?.heading ? item?.heading : <></>}
-              </item.component>
-            </Grid>
-          ))}
-        </Grid>
-      </FormProvider>
+      {showLoader ? (
+        <SkeletonForm />
+      ) : isError ? (
+        <ApiErrorState canRefresh refresh={refetch} />
+      ) : (
+        <FormProvider methods={methods}>
+          <Grid container spacing={1.5}>
+            {upsertTiersBasicFormFields?.map((item: any) => (
+              <Grid item xs={12} key={item?.id}>
+                <item.component {...item?.componentProps} size="small">
+                  {item?.heading ? item?.heading : <></>}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      )}
     </CommonDrawer>
   );
 };
