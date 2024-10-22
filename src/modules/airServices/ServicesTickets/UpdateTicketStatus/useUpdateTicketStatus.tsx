@@ -46,7 +46,9 @@ export const useUpdateTicketStatus = () => {
       await putSingleTicketStatusTrigger(
         updateTicketStatusTicketsParameter,
       )?.unwrap();
-      successSnackbar('Ticket marked as close successfully');
+      successSnackbar(
+        `Ticket marked as ${isPortalOpen?.status?.toLowerCase()} successfully`,
+      );
       closeModal?.();
       await refetchApi?.();
     } catch (error: any) {

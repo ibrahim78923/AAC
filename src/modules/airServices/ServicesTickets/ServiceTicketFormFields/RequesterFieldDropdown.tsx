@@ -3,16 +3,20 @@ import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookF
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import useAuth from '@/hooks/useAuth';
 import { useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
+import { useMemo } from 'react';
+import { getActiveProductSession } from '@/utils';
 
 export const RequesterFieldDropdown = (props: any) => {
   const { required = true, hasEndIcon = true, label = 'Requester' } = props;
   const router = useRouter();
   const apiQueryRequester =
     useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery();
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product ?? {};
+
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
 
   return (
     <RHFAutocompleteAsync

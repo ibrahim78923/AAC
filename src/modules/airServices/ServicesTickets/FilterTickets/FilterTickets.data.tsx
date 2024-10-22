@@ -1,5 +1,4 @@
 import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
-
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -122,7 +121,7 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: CategoryFieldDropdown,
   },
   {
-    id: 16,
+    id: 10,
     componentProps: {
       fullWidth: true,
       name: 'typeSource',
@@ -134,13 +133,12 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 10,
+    id: 11,
     componentProps: {
       fullWidth: true,
       name: 'plannedStartDate',
       label: 'Planned Start Date',
     },
-    gridLength: 12,
     component: RHFDatePicker,
   },
   {
@@ -150,7 +148,6 @@ export const ticketsFilterFormFieldsDataFunction = () => [
       name: 'plannedEndDate',
       label: 'Planned End Date',
     },
-    gridLength: 12,
     component: RHFDatePicker,
   },
 ];

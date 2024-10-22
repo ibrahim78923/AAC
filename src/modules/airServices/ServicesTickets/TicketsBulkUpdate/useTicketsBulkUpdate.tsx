@@ -9,7 +9,6 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
@@ -22,6 +21,7 @@ import {
   useSendReplyToServicesTicketsBulkUpdateMutation,
   useUpdateBulkServicesTicketsMutation,
 } from '@/services/airServices/tickets';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useTicketBulkUpdate = () => {
   const dispatch = useAppDispatch();
@@ -66,8 +66,6 @@ export const useTicketBulkUpdate = () => {
 
     try {
       await postAddReplyToBulkUpdateTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Your reply has been sent!');
-      reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -106,10 +104,10 @@ export const useTicketBulkUpdate = () => {
 
     try {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
-      successSnackbar('Ticket Updated Successfully');
       if (!!data?.to?.length && !!data?.description) {
-        submitReply?.(data);
+        await submitReply?.(data);
       }
+      successSnackbar('Ticket updated successfully');
       onClose();
       await refetchApi();
     } catch (error: any) {
@@ -125,6 +123,10 @@ export const useTicketBulkUpdate = () => {
 
   const ticketsBulkUpdateFormFields = ticketsBulkUpdateFormFieldsDynamic?.();
 
+  const apiCallInProgress =
+    patchBulkUpdateTicketsStatus?.isLoading ||
+    postAddReplyToBulkUpdateStatus?.isLoading;
+
   return {
     ticketsBulkUpdateFormFields,
     theme,
@@ -135,8 +137,7 @@ export const useTicketBulkUpdate = () => {
     setIsReplyAdded,
     onClose,
     submitTicketBulkUpdateForm,
-    patchBulkUpdateTicketsStatus,
-    postAddReplyToBulkUpdateStatus,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

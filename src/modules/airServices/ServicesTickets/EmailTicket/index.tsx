@@ -1,31 +1,36 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import React from 'react';
-import { addEmailDataArray } from './EmailTicket.data';
 import { useEmailTicket } from './useEmailTicket';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { sendTicketEmailFormFields } from './EmailTicket.data';
 
 export const EmailTicket = () => {
-  const { methods, handleSubmit, onSubmit, onClose, status, isPortalOpen } =
-    useEmailTicket();
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    onClose,
+    apiCallInProgress,
+    isPortalOpen,
+  } = useEmailTicket();
 
   return (
     <CommonDrawer
-      isDrawerOpen={isPortalOpen?.isOpen as boolean}
+      isDrawerOpen={isPortalOpen?.isOpen}
       onClose={onClose}
       title={'New Email'}
       isOk
       okText={'Send'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      disabledCancelBtn={status?.isLoading}
-      isDisabled={status?.isLoading}
-      isLoading={status?.isLoading}
+      disabledCancelBtn={apiCallInProgress}
+      isDisabled={apiCallInProgress}
+      isLoading={apiCallInProgress}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {addEmailDataArray?.map((item: ReactHookFormFieldsI) => (
+          {sendTicketEmailFormFields?.map((item: ReactHookFormFieldsI) => (
             <Grid item xs={12} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>

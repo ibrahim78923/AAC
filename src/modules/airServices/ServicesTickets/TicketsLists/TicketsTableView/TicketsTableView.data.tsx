@@ -1,13 +1,13 @@
 import { Checkbox, Typography } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
 import { TICKET_TYPE } from '@/constants/strings';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { NextRouter } from 'next/router';
 import { TicketTableRowI } from '../TicketsLists.interface';
-import { uiDateFormat } from '@/utils/dateTime';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
+import { AIR_SERVICES } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const ticketsListsColumnDynamic: any = (
   router?: NextRouter,
@@ -119,22 +119,14 @@ export const ticketsListsColumnDynamic: any = (
       header: 'Requester',
       cell: (info: any) => (
         <UserInfo
-          nameInitial={
-            !!!info?.getValue()
-              ? fullNameInitial(info?.row?.original?.name)
-              : fullNameInitial(
-                  info?.getValue()?.firstName,
-                  info?.getValue()?.lastName,
-                )
-          }
-          name={
-            !!!info?.getValue()
-              ? fullName(info?.row?.original?.name)
-              : fullName(
-                  info?.getValue()?.firstName,
-                  info?.getValue()?.lastName,
-                )
-          }
+          nameInitial={fullNameInitial(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          name={fullName(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
           avatarSrc={info?.row?.original?.requesterDetails?.avatar?.url}
         />
       ),

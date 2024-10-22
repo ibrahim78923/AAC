@@ -16,8 +16,10 @@ export const AssetFieldDropdown = (props: any) => {
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForServicesTicketsQuery();
 
-  const product = useMemo(() => getActiveAccountSession(), []);
-  const companyId = product?.company?._id ?? {};
+  const companyId = useMemo(() => {
+    const product = getActiveAccountSession() as any;
+    return product?.company?._id ?? {};
+  }, []);
 
   return (
     <RHFAutocompleteAsync

@@ -17,7 +17,7 @@ export const CustomizeTicketsColumn = () => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isOpen as boolean}
+        isDrawerOpen={isPortalOpen?.isOpen}
         onClose={onClose}
         okText={'Update'}
         title={'Customize Column'}

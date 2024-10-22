@@ -11,9 +11,11 @@ export const useCustomizeTicketColumn = () => {
   const ticketsListsActiveColumn = useAppSelector(
     (state) => state?.servicesTickets?.ticketsListsActiveColumn,
   );
+
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTickets?.isPortalOpen,
   );
+
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
     ticketsListsActiveColumn,
   );

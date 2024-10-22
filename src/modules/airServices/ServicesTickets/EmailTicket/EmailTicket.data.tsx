@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { pxToRem } from '@/utils/getFontValue';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-export const addEmailValidationSchema = Yup?.object()?.shape({
+export const sendTicketEmailFormValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.array()
     ?.of(Yup?.string())
     ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
@@ -16,23 +16,23 @@ export const addEmailValidationSchema = Yup?.object()?.shape({
       }
       return value.every((email) => Yup?.string().email().isValidSync(email));
     }),
-  subject: Yup?.string()?.trim()?.required('Subject is Required'),
-  html: Yup?.string()?.trim()?.required('Note is Required'),
+  subject: Yup?.string()?.trim()?.required('Subject is required'),
+  html: Yup?.string()?.trim()?.required('Note is required'),
 });
 
-export const addEmailDefaultValues = {
+export const sendTicketEmailFormDefaultValues = {
   recipients: [],
   subject: '',
   html: '',
 };
 
-export const addEmailDataArray = [
+export const sendTicketEmailFormFields = [
   {
     id: 1,
     componentProps: {
       name: 'recipients',
       label: 'To',
-      placeholder: 'Enter Recipients',
+      placeholder: 'Write recipients email and press enter',
       required: true,
       freeSolo: true,
       options: [],
@@ -46,7 +46,7 @@ export const addEmailDataArray = [
     componentProps: {
       name: 'subject',
       label: 'Subject',
-      placeholder: 'Write a Subject Line',
+      placeholder: 'Write a subject',
       required: true,
     },
     component: RHFTextField,
@@ -56,6 +56,7 @@ export const addEmailDataArray = [
     componentProps: {
       name: 'html',
       label: 'Note',
+      placeholder: 'Write a note',
       required: true,
       style: { height: pxToRem(200) },
     },

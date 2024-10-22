@@ -4,8 +4,10 @@ export const CustomTooltip = (props: any) => {
   const {
     title = '',
     children,
-    placement = 'top',
+    placement = 'top-start',
     isCapital,
+    tooltipBgColor = 'primary.main',
+    tooltipTextColor = 'common.white',
     ...others
   } = props;
   return (
@@ -16,16 +18,16 @@ export const CustomTooltip = (props: any) => {
       componentsProps={{
         tooltip: {
           sx: {
-            backgroundColor: 'primary.main',
-            color: 'common.white',
+            backgroundColor: tooltipBgColor,
+            color: tooltipTextColor,
             borderRadius: 1,
-            fontWeight: 700,
+            fontWeight: 'fontWeightBold',
             textTransform: isCapital ? 'capitalize' : 'none',
           },
         },
         arrow: {
           sx: {
-            color: 'primary.main',
+            color: tooltipBgColor,
           },
         },
       }}

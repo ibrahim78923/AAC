@@ -15,17 +15,6 @@ import { pxToRem } from '@/utils/getFontValue';
 import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
 
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
-
 export const isReplyAddedNeglect = ['to', 'description', 'file'];
 
 export const ticketsBulkUpdateToFormSchema: any = {

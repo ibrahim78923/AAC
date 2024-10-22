@@ -17,9 +17,11 @@ export const useFilterTickets = () => {
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTickets?.isPortalOpen,
   );
+
   const filterTicketLists = useAppSelector(
     (state) => state?.servicesTickets?.filterTicketLists,
   );
+
   const dispatch = useAppDispatch();
   const methods: UseFormReturn<TicketsFilterFormFieldsI> =
     useForm<TicketsFilterFormFieldsI>({
@@ -54,8 +56,7 @@ export const useFilterTickets = () => {
     if (!!Object?.keys(filterTicketLists)?.length) {
       dispatch(emptyFilterTicketLists());
     }
-    reset();
-    dispatch(setIsPortalClose());
+    onClose?.();
   };
 
   const onClose = () => {
