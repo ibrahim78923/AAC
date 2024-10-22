@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { DELETE_DASHBOARD_SUCCESS } from '../Dashboard.data';
 import { useDeleteServicesDashboardSingleDashboardMutation } from '@/services/airServices/dashboard';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -9,6 +8,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airServices/dashboard/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteDashboard = () => {
   const dispatch = useAppDispatch();

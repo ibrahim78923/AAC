@@ -6,16 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import useAuth from '@/hooks/useAuth';
 import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
-import { AIR_SERVICES } from '@/constants';
-
-const { DASHBOARD } = AIR_SERVICES ?? {};
-const { STATUS } = TICKET_GRAPH_TYPES ?? {};
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useSingleDashboard = (props: any) => {
   const { dashboardId } = props;
   const downloadRef = useRef(null);
   const router: NextRouter = useRouter();
-  const [ticketType, setTicketType] = useState(STATUS);
+  const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
 
   const auth: any = useAuth();
@@ -51,7 +48,7 @@ export const useSingleDashboard = (props: any) => {
 
   const moveToDashboard = () =>
     router?.push({
-      pathname: DASHBOARD,
+      pathname: AIR_SERVICES?.DASHBOARD,
     });
 
   const dashboardName =

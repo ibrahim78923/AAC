@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
-import { otherDateFormat } from '@/utils/dateTime';
 import { LogInfo } from '@/components/LogInfo';
 import { RecentActivitiesIcon } from '@/assets/icons';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const RecentActivitiesCard = (props: any) => {
   const { data } = props;

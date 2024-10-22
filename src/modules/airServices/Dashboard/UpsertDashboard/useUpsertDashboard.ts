@@ -7,14 +7,9 @@ import {
   upsertServiceDashboardFormFieldsDynamic,
 } from './UpsertDashboard.data';
 import { useRouter } from 'next/router';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
-import { AIR_SERVICES } from '@/constants';
 import {
   MANAGE_DASHBOARD_ACCESS_TYPES,
   SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT,
@@ -28,6 +23,8 @@ import {
 import { fullName } from '@/utils/avatarUtils';
 import { setIsPortalOpen } from '@/redux/slices/airServices/dashboard/slice';
 import { useAppDispatch } from '@/redux/store';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { PRIVATE_TO_OWNER, EVERYONE_EDIT_AND_VIEW, SPECIFIC_USER_AND_TEAMS } =
   MANAGE_DASHBOARD_ACCESS_TYPES ?? {};

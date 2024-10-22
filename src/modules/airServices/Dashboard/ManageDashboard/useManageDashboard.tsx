@@ -1,8 +1,8 @@
 import { NextRouter, useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
 import { useEffect } from 'react';
 import { resetComponentState } from '@/redux/slices/airServices/dashboard/slice';
 import { useAppDispatch } from '@/redux/store';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useManageDashboard = () => {
   const router: NextRouter = useRouter();

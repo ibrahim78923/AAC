@@ -1,8 +1,8 @@
 import { SingleDashboard } from '../SingleDashboard';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
 import ApiErrorState from '@/components/ApiErrorState';
 import { Button } from '@mui/material';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const SingleDashboardDetails = () => {
   const router = useRouter();

@@ -1,5 +1,5 @@
+import { errorSnackbar } from '@/lib/snackbar';
 import { useChangeServicesDashboardSingleDashboardDefaultStatusMutation } from '@/services/airServices/dashboard';
-import { errorSnackbar } from '@/utils/api';
 
 export const useUpdateDefaultDashboard = (props: any) => {
   const { currentId } = props;

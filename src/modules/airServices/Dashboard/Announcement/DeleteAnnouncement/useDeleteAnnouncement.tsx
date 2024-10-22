@@ -1,4 +1,4 @@
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { useDeleteServicesDashboardSingleAnnouncementMutation } from '@/services/airServices/dashboard';
 
