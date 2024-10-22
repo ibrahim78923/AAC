@@ -2,11 +2,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusSharedColorIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
 import { contractsTableColumns } from './ContractsDetail.data';
 import { useContractDetail } from './useContractDetail';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const ContractsDetails = () => {
   const {

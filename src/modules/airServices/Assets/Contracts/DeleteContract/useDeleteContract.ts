@@ -1,5 +1,5 @@
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useDeleteContractMutation } from '@/services/airServices/assets/contracts';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteContract = (props: any) => {
   const {

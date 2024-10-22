@@ -1,6 +1,6 @@
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useDeleteSoftwareMutation } from '@/services/airServices/assets/software';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 
 export const useDeleteSoftware = (props: {

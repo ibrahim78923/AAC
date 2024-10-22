@@ -2,13 +2,13 @@ import { Box, Grid, Skeleton } from '@mui/material';
 import useCatalog from './useCatalog';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { CategoryCard } from './CategoryCard';
 import { ServiceCard } from './ServiceCard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { CategoryI, ServiceI } from './Catalog.interface';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const Catalog = () => {
   const {

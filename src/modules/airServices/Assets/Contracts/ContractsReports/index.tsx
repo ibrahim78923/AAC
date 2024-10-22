@@ -7,7 +7,6 @@ import {
   RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AIR_SERVICES } from '@/constants';
 import { Box, Grid, Typography } from '@mui/material';
 
 import { ContractReportsCard } from './ContractReportsCard';
@@ -23,6 +22,7 @@ import { pxToRem } from '@/utils/getFontValue';
 import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const ContractsReports = () => {
   const {

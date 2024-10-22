@@ -7,9 +7,7 @@ import {
 } from './CatalogRequest.data';
 import { usePostTicketsMutation } from '@/services/airCustomerPortal/catalog';
 import { NextRouter, useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { MODULE_TYPE, TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useEffect } from 'react';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import {
@@ -17,6 +15,8 @@ import {
   getCustomerPortalStyling,
 } from '@/utils';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;

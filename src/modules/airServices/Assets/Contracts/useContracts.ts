@@ -1,4 +1,3 @@
-import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { contractsListsColumnsFunction } from './Contracts.data';
@@ -10,7 +9,9 @@ import {
 } from '@/services/airServices/assets/contracts';
 import { PAGINATION } from '@/config';
 import { useTheme } from '@mui/material';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useContracts = () => {
   const theme = useTheme();

@@ -14,7 +14,7 @@ import { useGetServiceSystematicReportsQuery } from '@/services/airServices/repo
 export const useContractReports = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const [hasDate, setHasDate] = useState(false);
+  const [hasDate, setHasDate] = useState<boolean>(false);
   const [filterDate, setFilterDate] = useState({
     startDate: null,
     endDate: null,

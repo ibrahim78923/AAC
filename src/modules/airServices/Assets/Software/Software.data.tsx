@@ -1,5 +1,4 @@
 import { Checkbox, Typography } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
 import {
@@ -10,6 +9,7 @@ import {
 import { SoftwareDataI } from './Software.interface';
 import { NextRouter } from 'next/router';
 import { TruncateText } from '@/components/TruncateText';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const softwareStatusOptions = [
   SOFTWARE_STATUS?.RESTRICTED,

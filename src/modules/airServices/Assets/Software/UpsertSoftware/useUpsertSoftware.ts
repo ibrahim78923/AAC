@@ -6,11 +6,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import {
   upsertSoftwareFormDefaultValues,
   upsertSoftwareFormValidationSchema,
@@ -31,6 +27,7 @@ import {
 } from './UpsertSoftware.interface';
 import { isoDateString } from '@/utils/dateTime';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;

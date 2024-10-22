@@ -6,7 +6,6 @@ import {
   eventBasedWorkflowValues,
 } from './UpsertEventBasedWorkflow.data';
 import { useTheme } from '@mui/material';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
@@ -18,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState('');

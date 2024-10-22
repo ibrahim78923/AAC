@@ -6,8 +6,6 @@ import {
   updateContractFormDefaultValuesFunction,
 } from './UpdateContract.data';
 import { useRouter } from 'next/router';
-
-import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import {
   useGetSingleContractByIdQuery,
@@ -15,10 +13,11 @@ import {
   usePatchContractRenewExtendMutation,
 } from '@/services/airServices/assets/contracts';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import { MODULE_TYPE } from '@/constants/strings';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpdateContract = () => {
   const theme = useTheme();

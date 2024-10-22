@@ -14,11 +14,11 @@ import {
 import { useEffect, useState } from 'react';
 import { downloadFile } from '@/utils/file';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { AllocateSubmitI, SoftwareUserDataI } from './Users.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useUsers = () => {
   const [usersData, setUsersData] = useState<SoftwareUserDataI[]>([]);

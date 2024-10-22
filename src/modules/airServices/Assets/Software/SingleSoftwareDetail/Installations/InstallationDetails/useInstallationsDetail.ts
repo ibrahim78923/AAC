@@ -7,7 +7,7 @@ import {
   useLazyGetExportInstallationQuery,
   useLazyGetInstallationByIdQuery,
 } from '@/services/airServices/assets/software/single-software-detail/installations';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useInstallationDetail = () => {
   const [activeCheck, setActiveCheck] = useState<any[]>([]);

@@ -1,10 +1,10 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { ConfirmModalPropsI } from '../AllApprovals/AllApprovals.interface';
 import { useUpdateTicketsApprovalCustomerPortalMutation } from '@/services/airCustomerPortal/catalog';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useRequestApprovalForm = (props: ConfirmModalPropsI) => {
   const {

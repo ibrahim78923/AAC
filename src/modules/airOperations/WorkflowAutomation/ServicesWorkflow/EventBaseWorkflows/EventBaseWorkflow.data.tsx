@@ -12,7 +12,6 @@ import {
 } from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
-import React from 'react';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';

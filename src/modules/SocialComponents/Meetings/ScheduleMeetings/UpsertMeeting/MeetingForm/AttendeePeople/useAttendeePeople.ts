@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { getSession } from '@/utils';
 import { peopleTypes } from './AttendeePeople.data';
-import { errorSnackbar, timeFormatter } from '@/utils/api';
+import { timeFormatter } from '@/utils/api';
 import {
   useLazyGetBookedMeetingsSlotsListQuery,
   useLazyGetMeetingsSlotsListQuery,
@@ -9,6 +9,7 @@ import {
 } from '@/services/commonFeatures/meetings';
 import { useEffect } from 'react';
 import { isoDateString } from '@/utils/dateTime';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useAttendeePeople = (props: any) => {
   const { watch, setValue } = props;

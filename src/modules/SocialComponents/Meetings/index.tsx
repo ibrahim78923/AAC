@@ -1,10 +1,10 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useMeetings } from './useMeetings';
-import { SOCIAL_COMPONENTS } from '@/constants';
 import { Settings } from '@mui/icons-material';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { ListView } from './ListView';
 import { IconButton } from '@mui/material';
+import { SOCIAL_COMPONENTS } from '@/constants/routes';
 
 export const Meetings = () => {
   const { router } = useMeetings();

@@ -1,6 +1,6 @@
 import { TIME_FORMAT } from '@/constants';
 import { TIME_UNITS } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 

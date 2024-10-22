@@ -1,4 +1,4 @@
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import {
   useGetCustomerPortalCatalogTicketApprovalDetailsByIdQuery,
   useGetCustomerPortalCatalogTicketDetailsByIdQuery,

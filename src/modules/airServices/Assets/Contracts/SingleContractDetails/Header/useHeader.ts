@@ -1,11 +1,11 @@
 import { CONTRACT_STATUS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useGetSingleContractByIdQuery,
   usePatchContractApproveMutation,
   usePatchContractSubmitForApprovalMutation,
 } from '@/services/airServices/assets/contracts';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 

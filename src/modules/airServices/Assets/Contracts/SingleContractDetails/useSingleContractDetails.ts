@@ -6,10 +6,9 @@ import {
   useGetSingleContractByIdQuery,
   usePatchContractTerminatedMutation,
 } from '@/services/airServices/assets/contracts';
-import { AIR_SERVICES } from '@/constants';
-
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { CONTRACT_STATUS } from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSingleContractDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);

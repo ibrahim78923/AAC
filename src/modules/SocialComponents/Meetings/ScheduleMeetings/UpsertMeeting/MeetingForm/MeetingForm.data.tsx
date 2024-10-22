@@ -14,9 +14,9 @@ import CustomLabel from '@/components/CustomLabel';
 import { Recurring } from './Recurring';
 import { Reminder } from './Reminder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { SOCIAL_COMPONENTS } from '@/constants';
 import { AllowAttendee } from './AllowAttendee';
 import dayjs from 'dayjs';
+import { SOCIAL_COMPONENTS } from '@/constants/routes';
 
 export const meetingTypeOption = [
   { value: 'IN_PERSON_MEETING', label: 'In person meeting' },

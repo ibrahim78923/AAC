@@ -15,7 +15,7 @@ import { htmlToPdfConvert } from '@/utils/file';
 export const useSoftwareReports = () => {
   const router: NextRouter = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const [hasDate, setHasDate] = useState(false);
+  const [hasDate, setHasDate] = useState<boolean>(false);
   const [filterDate, setFilterDate] = useState({
     startDate: null,
     endDate: null,

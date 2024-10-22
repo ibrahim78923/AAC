@@ -1,9 +1,10 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { splitCapitalizedWords } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const contractsListsColumnsFunction = (
   selectedContractList: any,

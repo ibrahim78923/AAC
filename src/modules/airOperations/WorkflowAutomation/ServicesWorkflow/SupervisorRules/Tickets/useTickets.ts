@@ -11,15 +11,15 @@ import {
   EventBaseWorkflowActionsDropdown,
   listsColumnsFunction,
 } from './Tickets.data';
-import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useChangeStatusServicesWorkflowMutation,
   useCloneServicesWorkflowMutation,
   useLazyGetServicesWorkflowListQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export const useTickets = () => {
   const theme = useTheme();

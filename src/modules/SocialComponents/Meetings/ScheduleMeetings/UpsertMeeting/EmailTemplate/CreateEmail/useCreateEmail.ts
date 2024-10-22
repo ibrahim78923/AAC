@@ -9,8 +9,8 @@ import {
   useGetByIdMeetingsEmailTemplatesQuery,
   useUpdateMeetingTemplatesMutation,
 } from '@/services/commonFeatures/meetings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { AIR_SERVICES, SOCIAL_COMPONENTS } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES, SOCIAL_COMPONENTS } from '@/constants/routes';
 
 export const apiKeys = [
   { id: 1, label: 'Host Name', value: '{{name}}' },

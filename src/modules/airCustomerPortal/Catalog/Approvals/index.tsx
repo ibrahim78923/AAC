@@ -1,8 +1,8 @@
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { NextRouter, useRouter } from 'next/router';
 import { catalogApprovalsTabsDataDynamic } from './Approvals.data';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 const Approvals = () => {
   const router: NextRouter = useRouter();

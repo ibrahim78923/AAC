@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { Box, Card, Grid, Typography } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES, SOCIAL_COMPONENTS } from '@/constants';
 import { scheduleCards } from './ScheduleMeetings.data';
 import { styles } from './ScheduleMeetings.style';
+import { AIR_SERVICES, SOCIAL_COMPONENTS } from '@/constants/routes';
 
 export const ScheduleMeetings = () => {
   const router = useRouter();

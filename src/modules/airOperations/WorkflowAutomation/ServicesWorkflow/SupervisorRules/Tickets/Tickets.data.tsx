@@ -10,13 +10,14 @@ import {
   REQUESTORS_STATUS,
   WORKFLOW_TYPE,
 } from '@/constants/strings';
-import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
+import { capitalizeFirstLetter } from '@/utils/api';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import React from 'react';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { getActivePermissionsSession } from '@/utils';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: any,

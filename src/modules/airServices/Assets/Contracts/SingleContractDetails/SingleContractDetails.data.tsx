@@ -1,5 +1,5 @@
-import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants/routes';
 import { CONTRACT_STATUS } from '@/constants/strings';
 
 export const singleContractDetailsActionDropdownFunction = (

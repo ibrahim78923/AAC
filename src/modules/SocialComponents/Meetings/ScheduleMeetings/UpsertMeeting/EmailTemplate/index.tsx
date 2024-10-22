@@ -14,7 +14,6 @@ import Search from '@/components/Search';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { useEmilTemplate } from './useEmailTemplate';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { SOCIAL_COMPONENTS } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import NoData from '@/components/NoData';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -22,6 +21,7 @@ import { templateDropdownFunction } from './EmailTemplate.data';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TemplateDeleteModal } from './TemplateDeleteModal';
 import { MeetingDataI } from './EmailTemplate.interface';
+import { SOCIAL_COMPONENTS } from '@/constants/routes';
 
 const EmailTemplate = () => {
   const {

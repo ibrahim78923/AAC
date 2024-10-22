@@ -1,4 +1,4 @@
-import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
+import { TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
@@ -9,7 +9,7 @@ import {
 } from './UpsertMeeting.data';
 import { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+
 import {
   useAddMeetingMutation,
   useGetByIdMeetingsListQuery,
@@ -19,6 +19,8 @@ import {
 import dayjs from 'dayjs';
 import { MEETINGS_ACTION_TYPE } from '@/constants/strings';
 import { isoDateString } from '@/utils/dateTime';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { SOCIAL_COMPONENTS } from '@/constants/routes';
 
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
@@ -229,8 +231,8 @@ export const useUpsertMeeting = () => {
       });
     }
   }, [watchAllDay]);
-  const [beforeChecked, setBeforeChecked] = useState(false);
-  const [afterChecked, setAfterChecked] = useState(false);
+  const [beforeChecked, setBeforeChecked] = useState<boolean>(false);
+  const [afterChecked, setAfterChecked] = useState<boolean>(false);
 
   const handleBeforeChange = (e: any) => {
     const isChecked = e?.target?.checked;

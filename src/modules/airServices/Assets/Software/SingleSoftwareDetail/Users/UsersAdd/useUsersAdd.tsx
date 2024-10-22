@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useAddSoftwareUsersMutation } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useSearchParams } from 'next/navigation';
 import { UsersAddFormDataI } from './UsersAdd.interface';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const params = useSearchParams();

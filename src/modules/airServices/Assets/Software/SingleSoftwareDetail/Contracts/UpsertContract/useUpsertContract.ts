@@ -7,15 +7,15 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
 import {
   usePostContractMutation,
   useLazyGetContractTypeListQuery,
 } from '@/services/airServices/assets/contracts';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetSingleSoftwareByIdQuery } from '@/services/airServices/assets/software/single-software-detail/contracts';
 import { useEffect } from 'react';
 import { isoDateString } from '@/utils/dateTime';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertContract = () => {
   const theme = useTheme();

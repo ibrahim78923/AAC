@@ -2,7 +2,6 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import { AIR_OPERATIONS } from '@/constants';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
@@ -10,6 +9,7 @@ import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutom
 import FilterWorkflow from '../../../FilterWorkflow';
 import { WorkflowDelete } from '../../WorkflowDelete';
 import { useTicketsHeader } from './useTicketsHeader';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 const TicketsHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {

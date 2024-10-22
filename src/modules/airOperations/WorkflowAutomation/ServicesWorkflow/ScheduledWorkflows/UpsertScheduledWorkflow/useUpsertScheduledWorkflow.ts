@@ -14,13 +14,13 @@ import {
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { localeDateTime } from '@/utils/dateTime';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');

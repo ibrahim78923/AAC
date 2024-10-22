@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { DATA_TYPES, SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   useGetServiceCatalogCategoriesQuery,
   useGetServiceCatalogQuery,
 } from '@/services/airCustomerPortal/catalog';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 const useCatalog = () => {
   const router: NextRouter = useRouter();

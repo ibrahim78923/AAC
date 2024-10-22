@@ -8,8 +8,6 @@ import {
   SCHEMA_KEYS,
 } from '@/constants/strings';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useChangeStatusServicesWorkflowMutation,
   useCloneServicesWorkflowMutation,
@@ -20,6 +18,8 @@ import {
   listsColumnsFunction,
 } from '../ScheduledWorkflow.data';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export const useTasks = () => {
   const theme = useTheme();
