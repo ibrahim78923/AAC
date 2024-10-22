@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { EditYellowBgIcon, TrashIcon } from '@/assets/icons';
 import { Info } from '@mui/icons-material';
-import { otherDateFormat } from '@/utils/dateTime';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 import { UserInfo } from '@/components/UserInfo';
 import { fullName } from '@/utils/avatarUtils';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 const { EDIT_TIERS, DELETE_TIERS } =
   RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS ?? {};

@@ -1,6 +1,6 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 import { Checkbox } from '@mui/material';
 
 export const loyaltyRolesAndRightColumnsDynamic = (

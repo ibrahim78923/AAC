@@ -15,9 +15,9 @@ import {
   useUpdateLoyaltyProgramLoyaltySingleTierMutation,
 } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 import { LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES } from '@/constants/api';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertTiers = () => {
   const [formStep, setFormStep] = useState(FORM_STEP_CONSTANT?.FIRST_STEP);

@@ -1,9 +1,9 @@
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import { UpsertRolesAndRight } from '../UpsertRolesAndRight';
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
 import { DeleteRolesAndRight } from '../DeleteRolesAndRight';
 import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   ADD_LOYALTY_PROGRAM_ROLE_AND_RIGHTS,

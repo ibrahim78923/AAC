@@ -1,7 +1,6 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useDeleteLoyaltyProgramRoleAndRightsSinglePermissionRoleMutation } from '@/services/airLoyaltyProgram/roles-and-right';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetRoleAndRightsList } from '../RolesAndRightsHook/useGetRoleAndRightsList';
 import { PAGINATION } from '@/config';
 import {
@@ -9,6 +8,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airLoyaltyProgram/roles-and-right/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteRolesAndRight = () => {
   const [

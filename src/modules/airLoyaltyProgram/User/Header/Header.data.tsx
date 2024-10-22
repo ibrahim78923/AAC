@@ -1,10 +1,10 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import { LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT } from '../User.data';
 import { UpsertUser } from '../UpsertUser';
 import { DeleteUser } from '../DeleteUser';
 import { AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   ADD_LOYALTY_PROGRAM_USERS,

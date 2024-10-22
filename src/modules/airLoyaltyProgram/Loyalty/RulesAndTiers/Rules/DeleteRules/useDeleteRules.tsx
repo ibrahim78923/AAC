@@ -1,5 +1,4 @@
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setIsPortalClose,
@@ -8,6 +7,7 @@ import {
 import { useGetRulesLists } from '../RulesHooks/useGetRulesLists';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteLoyaltyProgramLoyaltySingleRuleMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteRules = () => {
   const [

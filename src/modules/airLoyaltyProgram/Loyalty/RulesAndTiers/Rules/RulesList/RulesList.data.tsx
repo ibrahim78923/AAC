@@ -2,11 +2,11 @@ import { LOYALTY_RULES_ATTRIBUTES_MAPPED } from '@/constants/api-mapped';
 import { UpdateRuleStatus } from '../UpdateRuleStatus';
 import { Box } from '@mui/material';
 import { EditYellowBgIcon, TrashIcon } from '@/assets/icons';
-import { otherDateFormat } from '@/utils/dateTime';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 import { UserInfo } from '@/components/UserInfo';
 import { fullName } from '@/utils/avatarUtils';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 const { EDIT_RULES, DELETE_RULES } =
   RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS ?? {};

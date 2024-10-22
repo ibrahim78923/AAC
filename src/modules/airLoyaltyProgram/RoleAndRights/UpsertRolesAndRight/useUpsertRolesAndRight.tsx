@@ -12,7 +12,6 @@ import {
 } from '@/services/airLoyaltyProgram/roles-and-right';
 import { useEffect, useMemo } from 'react';
 import useAuth from '@/hooks/useAuth';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -22,6 +21,7 @@ import {
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
 import { getActiveAccountSession } from '@/utils';
 import { ROLE_AND_RIGHTS_STATUS } from '@/constants/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertRolesAndRight = () => {
   const auth: any = useAuth();

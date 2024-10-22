@@ -23,7 +23,7 @@ import {
   LOYALTY_PROGRAM_RULES_TIME_SPAN,
   LOYALTY_PROGRAM_TIERS_REWARD_TYPE,
 } from '@/constants/api';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 
 export const rulesAudienceType = [
   {

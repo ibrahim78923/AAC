@@ -1,5 +1,4 @@
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetUserLists } from '../UserHook/useGetUserLists';
 import {
@@ -8,6 +7,7 @@ import {
   setPage,
 } from '@/redux/slices/airLoyaltyProgram/users/slice';
 import { useDeleteLoyaltyProgramUserManagementMultipleProductUsersMutation } from '@/services/airLoyaltyProgram/user';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteUser = () => {
   const [

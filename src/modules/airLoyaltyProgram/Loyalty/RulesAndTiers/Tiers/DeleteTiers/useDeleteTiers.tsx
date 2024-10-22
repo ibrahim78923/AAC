@@ -1,4 +1,3 @@
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setIsPortalClose,
@@ -8,6 +7,7 @@ import { useDeleteLoyaltyProgramLoyaltySingleTierMutation } from '@/services/air
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteTiers = () => {
   const [

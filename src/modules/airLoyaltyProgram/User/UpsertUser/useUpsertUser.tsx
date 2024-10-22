@@ -5,7 +5,6 @@ import {
   upsertUserValidationSchema,
 } from './UpsertUser.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import {
   UpsertUserFormI,
@@ -25,6 +24,7 @@ import {
   useUpdateLoyaltyProgramUserManagementSingleProductUserMutation,
   useVerifyLoyaltyProgramUserManagementUserViaIgMutation,
 } from '@/services/airLoyaltyProgram/user';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { EDIT_LOYALTY_PROGRAM_USERS, LOYALTY_PROGRAM_USERS_DETAIL } =
   LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT;
