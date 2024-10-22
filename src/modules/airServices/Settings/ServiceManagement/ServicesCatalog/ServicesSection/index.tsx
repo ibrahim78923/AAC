@@ -7,7 +7,7 @@ import { pxToRem } from '@/utils/getFontValue';
 import { Avatar, Box, Checkbox, Grid, Typography } from '@mui/material';
 import { getServicesSectionDataArray } from './ServicesSection.data';
 import ActionButton from './ActionButton';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 
 const ServiceSection = (props: any) => {

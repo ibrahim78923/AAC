@@ -1,7 +1,12 @@
-import dayjs from 'dayjs';
 import { useState } from 'react';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { DATE_MONTH_FORMAT } from '@/constants';
+import {
+  addTime,
+  endOfTime,
+  otherDateFormat,
+  subtractTime,
+} from '@/lib/date-time';
 
 export default function useDateFilter({ dateRange, setDateRange }: any) {
   //Date Popover
@@ -17,22 +22,27 @@ export default function useDateFilter({ dateRange, setDateRange }: any) {
   };
 
   // Date to be displayed
-  const formattedWeekSpan = `${dayjs(
+  const formattedMonthSpan = `${otherDateFormat(
     dateRange?.[ARRAY_INDEX?.ZERO]?.startDate,
-  )?.format(DATE_MONTH_FORMAT?.API)} - ${dayjs(
+    DATE_MONTH_FORMAT?.API,
+  )} - ${otherDateFormat(
     dateRange?.[ARRAY_INDEX?.ZERO]?.endDate,
-  )?.format(DATE_MONTH_FORMAT?.API)}`;
+    DATE_MONTH_FORMAT?.API,
+  )}`;
 
   // Previous Click
   const handlePrevClick = () => {
-    const newDate = dayjs(dateRange?.[ARRAY_INDEX?.ZERO]?.startDate)
-      ?.subtract(1, 'week')
-      ?.toDate();
+    const newDate = subtractTime(
+      dateRange?.[ARRAY_INDEX?.ZERO]?.startDate,
+      1,
+      'month',
+      true,
+    );
 
     setDateRange([
       {
         startDate: newDate,
-        endDate: dayjs(newDate)?.add(1, 'week')?.toDate(),
+        endDate: endOfTime(newDate, 'month', true),
         key: 'selection',
       },
     ]);
@@ -40,11 +50,17 @@ export default function useDateFilter({ dateRange, setDateRange }: any) {
 
   // Next Click
   const handleNextClick = () => {
-    const newDate = dayjs(dateRange?.[ARRAY_INDEX?.ZERO]?.endDate)?.toDate();
+    const newDate = addTime(
+      dateRange?.[ARRAY_INDEX?.ZERO]?.startDate,
+      1,
+      'month',
+      true,
+    );
+
     setDateRange([
       {
         startDate: newDate,
-        endDate: dayjs(newDate)?.add(1, 'week')?.toDate(),
+        endDate: endOfTime(newDate, 'month', true),
         key: 'selection',
       },
     ]);
@@ -52,7 +68,7 @@ export default function useDateFilter({ dateRange, setDateRange }: any) {
 
   return {
     handleOpen,
-    formattedWeekSpan,
+    formattedMonthSpan,
     handlePrevClick,
     handleNextClick,
     open,

@@ -2,7 +2,7 @@ import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { ClockWithBagIcon } from '@/assets/icons';
 import Link from 'next/link';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useBusinessHour } from './useBusinessHour';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

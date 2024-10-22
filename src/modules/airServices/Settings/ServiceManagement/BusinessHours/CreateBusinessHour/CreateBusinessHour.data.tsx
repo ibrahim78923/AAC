@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import { DeleteHolidayModal } from './DeleteHolidayModal';
-import dayjs from 'dayjs';
 import { timeZone } from '@/constants/time-zone';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { TIME_FORMAT } from '@/constants';
+import { parsedDateFormat } from '@/lib/date-time';
 
 export const holidaysListsColumn: any = (setHolidaysData: any) => [
   {
@@ -115,8 +115,8 @@ const dayTimingsValidationSchema: any = yup?.object()?.shape({
 
 const isSameOrBeforeFunc = (startTime: any, endTime: any) => {
   if (startTime || endTime) {
-    const startTimeObj = dayjs?.(startTime, TIME_FORMAT?.TH);
-    const endTimeObj = dayjs?.(endTime, TIME_FORMAT?.TH);
+    const startTimeObj = parsedDateFormat(startTime, TIME_FORMAT?.TH);
+    const endTimeObj = parsedDateFormat(endTime, TIME_FORMAT?.TH);
     return (
       endTimeObj?.isAfter?.(startTimeObj) && !endTimeObj?.isSame?.(startTimeObj)
     );

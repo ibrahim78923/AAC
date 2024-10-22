@@ -5,7 +5,7 @@ import {
   usePatchAirServicesSettingsServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { SyntheticEvent, useState } from 'react';
 
 const useVisibility = (props: any) => {

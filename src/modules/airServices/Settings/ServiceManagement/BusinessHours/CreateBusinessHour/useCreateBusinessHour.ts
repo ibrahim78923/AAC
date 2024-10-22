@@ -13,13 +13,15 @@ import {
   usePatchAirServicesSettingsServiceBusinessHourMutation,
   usePostAirServicesSettingsServiceBusinessHourMutation,
 } from '@/services/airServices/settings/service-management/business-hours';
-import { AIR_SERVICES, CALENDAR_FORMAT } from '@/constants';
+import { CALENDAR_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { otherDateFormat } from '@/utils/dateTime';
+import { endOfTime, parsedDateFormat, startOfTime } from '@/lib/date-time';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -36,8 +38,8 @@ export const useCreateBusinessHour = () => {
   const [search, setSearch] = useState<any>('');
   const [dateRange, setDateRange] = useState<any>([
     {
-      startDate: dayjs()?.startOf('month')?.toDate(),
-      endDate: dayjs()?.endOf('month')?.toDate(),
+      startDate: startOfTime(new Date(), 'month', true),
+      endDate: endOfTime(new Date(), 'month', true),
       key: 'selection',
     },
   ]);
@@ -180,13 +182,13 @@ export const useCreateBusinessHour = () => {
     const filteredData = holidaysData?.filter(
       (item: any) => item?.name?.toLowerCase()?.includes(search?.toLowerCase()),
     );
-    const startDate = dayjs(dateRange[0]?.startDate);
-    const endDate = dayjs(dateRange[0]?.endDate);
+    const startDate = parsedDateFormat(dateRange[ARRAY_INDEX?.ZERO]?.startDate);
+    const endDate = parsedDateFormat(dateRange[ARRAY_INDEX?.ZERO]?.endDate);
     const dateFilteredData = filteredData?.filter((item: any) => {
-      const itemDate = dayjs(item.date);
-      const daysDifference = itemDate.diff(startDate, 'day');
+      const itemDate = parsedDateFormat(item.date);
+      const daysDifference = itemDate?.diff(startDate, 'day');
       return (
-        daysDifference >= 0 && daysDifference < endDate.diff(startDate, 'day')
+        daysDifference >= 0 && daysDifference < endDate?.diff(startDate, 'day')
       );
     });
     setManipulatedHolidaysData(dateFilteredData);

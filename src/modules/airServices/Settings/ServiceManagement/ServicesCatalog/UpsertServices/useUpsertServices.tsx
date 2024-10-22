@@ -6,13 +6,13 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import {
   usePostAirServicesSettingsAddServiceCatalogMutation,
   useGetAirServicesSettingsServiceCatalogSingleServiceDetailsQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { useEffect } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 import { REGEX } from '@/constants/validation';

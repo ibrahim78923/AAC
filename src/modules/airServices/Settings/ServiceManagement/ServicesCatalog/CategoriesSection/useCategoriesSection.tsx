@@ -5,7 +5,7 @@ import {
   addServiceCatalogValidationSchema,
 } from './CategoriesSection.data';
 import { usePostAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';

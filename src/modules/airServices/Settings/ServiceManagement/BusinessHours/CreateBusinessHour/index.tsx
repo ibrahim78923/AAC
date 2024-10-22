@@ -8,7 +8,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { WorkingHoursFieldArray } from './WorkingHoursFieldArray';
-import dayjs from 'dayjs';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { weekDays } from './CreateBusinessHour.data';
 import { DateFilter } from './DateFilter';
@@ -20,6 +19,7 @@ import { AIR_SERVICES, TIME_FORMAT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Fragment } from 'react';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const CreateBusinessHour = () => {
   const {
@@ -155,11 +155,13 @@ export const CreateBusinessHour = () => {
                                   }}
                                 >
                                   {!!time?.startTime &&
-                                    dayjs(new Date(time?.startTime))?.format(
+                                    otherDateFormat(
+                                      new Date(time?.startTime),
                                       TIME_FORMAT?.UI,
                                     )}
                                   {!!time?.endTime &&
-                                    `-${dayjs(new Date(time?.endTime))?.format(
+                                    `-${otherDateFormat(
+                                      new Date(time?.endTime),
                                       TIME_FORMAT?.UI,
                                     )}`}
                                   {!!time?.endTime &&

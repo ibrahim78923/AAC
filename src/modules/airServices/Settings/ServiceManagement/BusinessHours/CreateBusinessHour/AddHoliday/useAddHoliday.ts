@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -7,9 +6,10 @@ import {
 } from './AddHoliday.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePostAirServicesSettingsServiceBusinessHourHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { CALENDAR_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const useAddHoliday = (props: any) => {
   const {
@@ -37,7 +37,7 @@ export const useAddHoliday = (props: any) => {
   const onSubmitRequest = handleSubmit(async (data: any) => {
     const body = {
       ...data,
-      date: dayjs(data?.date)?.format(CALENDAR_FORMAT?.YMD),
+      date: otherDateFormat(data?.date, CALENDAR_FORMAT?.YMD),
     };
     if (!!!businessHourId) {
       const newData = {

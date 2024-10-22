@@ -2,7 +2,7 @@ import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constant
 import useTimeEntryFields from './useTimeEntryFields';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { Box, Grid } from '@mui/material';
 import { DragDropContext } from 'react-beautiful-dnd';
 import {

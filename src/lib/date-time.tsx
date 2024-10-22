@@ -1,5 +1,6 @@
-import dayjs from 'dayjs';
+import dayjs, { ManipulateType, OpUnitType } from 'dayjs';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/constants';
+
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
 const MINUTES_IN_MONTH = 30 * MINUTES_IN_DAY;
@@ -9,7 +10,7 @@ export const localeDateTime = (date: string) =>
   new Date(dayjs(date?.slice?.(0, -1))?.format());
 
 export const isoDateString = (date: Date) =>
-  dayjs(date).format(DATE_TIME_FORMAT?.YYMMDD);
+  dayjs(date)?.format(DATE_TIME_FORMAT?.YYMMDD);
 
 export const uiDateFormat = (date: Date | string) =>
   dayjs(date)?.format(DATE_FORMAT?.UI);
@@ -18,7 +19,7 @@ export const otherDateFormat = (date: Date | string, format?: string) =>
   dayjs(date)?.format(format);
 
 export const formatTimeDifference = (isoDateString: string) => {
-  const diffMinutes = dayjs().diff(dayjs(isoDateString), 'minute');
+  const diffMinutes = dayjs()?.diff(dayjs(isoDateString), 'minute');
 
   if (diffMinutes < MINUTES_IN_HOUR) {
     return formatTimeUnit(diffMinutes, 'minute');
@@ -37,7 +38,7 @@ export const formatTimeDifference = (isoDateString: string) => {
 };
 
 const formatTimeUnit = (diff: number, unit: string, base: number = 1) => {
-  const value = Math.floor(diff / base);
+  const value = Math?.floor(diff / base);
   return `${value} ${unit}${value !== 1 ? 's' : ''} ago`;
 };
 
@@ -60,3 +61,44 @@ export const TimeFormatDuration = (
     adjustedDurationMinutes % 60
   }m`;
 };
+
+export const subtractTime = (
+  date: Date | string,
+  value: number,
+  unit: ManipulateType | undefined,
+  toDate?: boolean,
+) => {
+  const result = dayjs(date)?.subtract(value, unit);
+  return toDate ? result?.toDate() : result?.toISOString();
+};
+
+export const addTime = (
+  date: Date | string,
+  value: number,
+  unit: ManipulateType | undefined,
+  toDate?: boolean,
+) => {
+  const result = dayjs(date)?.add(value, unit);
+  return toDate ? result?.toDate() : result?.toISOString();
+};
+
+export const startOfTime = (
+  date: Date | string,
+  unit: OpUnitType,
+  toDate?: boolean,
+) => {
+  const result = dayjs(date)?.startOf(unit);
+  return toDate ? result?.toDate() : result?.toISOString();
+};
+
+export const endOfTime = (
+  date: Date | string,
+  unit: OpUnitType,
+  toDate?: boolean,
+) => {
+  const result = dayjs(date)?.endOf(unit);
+  return toDate ? result?.toDate() : result?.toISOString();
+};
+
+export const parsedDateFormat = (date: Date | string, format?: string) =>
+  format ? dayjs(date, format) : dayjs(date);

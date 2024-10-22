@@ -1,6 +1,6 @@
 import { useDeleteAirServicesSettingsServiceBusinessHourMutation } from '@/services/airServices/settings/service-management/business-hours';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useState } from 'react';
 
 export const useDeleteBusinessHour = (props: any) => {
