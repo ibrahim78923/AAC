@@ -1,8 +1,7 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { PURCHASE_ORDER_STATUS, TIME_PERIODS } from '@/constants/strings';
+import GetPurchaseOrderVendorDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderVendorDropdown';
+import GetPurchaseOrderDepartmentDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
 
 export const statusOptions = [
   {
@@ -118,21 +117,12 @@ export const purchaseOrderFilterFormDefaultValues = (data: any) => {
   };
 };
 
-export const purchaseOrderFilterFieldsDynamic = (
-  vendorDropdown: any,
-  departmentDropdown: any,
-) => [
+export const purchaseOrderFilterFieldsDynamic = [
   {
     id: 2,
-    component: RHFAutocompleteAsync,
-    gridLength: 12,
+    component: GetPurchaseOrderVendorDropdown,
     componentProps: {
-      placeholder: 'Select Vendor',
-      fullWidth: true,
       name: 'vendorId',
-      label: 'Vendor',
-      apiQuery: vendorDropdown,
-      externalParams: { meta: false, limit: 50 },
     },
   },
   {
@@ -145,7 +135,6 @@ export const purchaseOrderFilterFieldsDynamic = (
       options: statusOptions,
       getOptionLabel: (option: any) => option?.label,
     },
-    gridLength: 12,
     component: RHFAutocomplete,
   },
   {
@@ -158,13 +147,11 @@ export const purchaseOrderFilterFieldsDynamic = (
       options: dateOptions,
       getOptionLabel: (option: any) => option?.label,
     },
-    gridLength: 12,
     component: RHFAutocomplete,
   },
   {
     id: 200,
     component: RHFAutocomplete,
-    gridLength: 12,
     componentProps: {
       placeholder: 'Select time period',
       fullWidth: true,
@@ -177,13 +164,8 @@ export const purchaseOrderFilterFieldsDynamic = (
   {
     id: 129,
     componentProps: {
-      placeholder: 'Select Department',
-      fullWidth: true,
       name: 'departmentId',
-      label: 'Department',
-      apiQuery: departmentDropdown,
     },
-    gridLength: 12,
-    component: RHFAutocompleteAsync,
+    component: GetPurchaseOrderDepartmentDropdown,
   },
 ];

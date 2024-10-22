@@ -1,11 +1,4 @@
-import {
-  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
-} from '@/services/airServices/assets/purchase-orders';
-import {
-  purchaseOrderFilterFieldsDynamic,
-  purchaseOrderFilterFormDefaultValues,
-} from './PurchaseOrderFilter.data';
+import { purchaseOrderFilterFormDefaultValues } from './PurchaseOrderFilter.data';
 import { useForm } from 'react-hook-form';
 import { PAGINATION } from '@/config';
 
@@ -53,18 +46,7 @@ export const usePurchaseOrderFilter = (props: any) => {
     setIsDrawerOpen?.(false);
   };
 
-  const departmentDropdown =
-    useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery();
-  const vendorDropdown =
-    useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery();
-
-  const purchaseOrderFilterFormFieldsData = purchaseOrderFilterFieldsDynamic(
-    vendorDropdown,
-    departmentDropdown,
-  );
-
   return {
-    purchaseOrderFilterFormFieldsData,
     methods,
     submitPurchaseOrderFilterForm,
     handleSubmit,

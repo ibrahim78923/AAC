@@ -4,15 +4,15 @@ import { useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery } from '
 const GetPurchaseOrderLocationDropdown = () => {
   const apiQueryLocations =
     useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery();
+
   return (
     <>
       <RHFAutocompleteAsync
-        fullWidth
-        name="location"
-        label="Location"
-        size="small"
+        name={'location'}
+        label={'Location'}
+        size={'small'}
         apiQuery={apiQueryLocations}
-        placeholder="Select Location"
+        placeholder={'Select Location'}
         getOptionLabel={(option: any) => option?.locationName}
       />
     </>

@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -12,6 +11,8 @@ import Search from '@/components/Search';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
+import GetPurchaseOrderDepartmentDropdown from '../../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
+import GetPurchaseOrderLocationDropdown from '../../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderLocationDropdown';
 
 export const ADDED_INVENTORY_METHODS = {
   ADD_NEW: 'addNew',
@@ -154,8 +155,6 @@ export const addItemsToInventoryCountFormFieldsDynamic = (
 
 export const addItemsToInventoryFormFieldsDynamic = (
   watchAddInventoryMethod: any,
-  apiQueryDepartment: any,
-  apiQueryLocation: any,
   allAssets: any,
   setAssetsSearch: any,
 ) => {
@@ -204,26 +203,11 @@ export const addItemsToInventoryFormFieldsDynamic = (
           },
           {
             id: 3,
-            componentProps: {
-              fullWidth: true,
-              name: 'department',
-              label: 'Department',
-              placeholder: 'Select department',
-              apiQuery: apiQueryDepartment,
-            },
-            component: RHFAutocompleteAsync,
+            component: GetPurchaseOrderDepartmentDropdown,
           },
           {
             id: 4,
-            componentProps: {
-              fullWidth: true,
-              name: 'location',
-              label: 'Locations',
-              placeholder: 'Select location',
-              apiQuery: apiQueryLocation,
-              getOptionLabel: (option: any) => option?.locationName,
-            },
-            component: RHFAutocompleteAsync,
+            component: GetPurchaseOrderLocationDropdown,
           },
         ]
       : []),

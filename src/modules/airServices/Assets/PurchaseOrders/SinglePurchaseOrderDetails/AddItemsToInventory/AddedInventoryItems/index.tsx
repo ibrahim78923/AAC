@@ -14,19 +14,10 @@ import {
   addedInventoryItemsColumns,
   addedInventoryItemsFormFieldsFunction,
 } from './AddedInventoryItems.data';
-import {
-  useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery,
-  useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery,
-} from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { ADDED_INVENTORY_METHODS } from '../AddItemsToInventory.data';
 
 export const AddedInventoryItems: any = (props: any) => {
   const { fields, getValues, append, name } = props;
-
-  const apiQueryDepartment =
-    useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery?.();
-  const apiQueryLocation =
-    useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery?.();
 
   return (
     <>
@@ -44,16 +35,13 @@ export const AddedInventoryItems: any = (props: any) => {
               {fields?.map((item: any, index: any) => {
                 return (
                   <TableRow key={item?.id}>
-                    {addedInventoryItemsFormFieldsFunction?.(
-                      name,
-                      index,
-                      apiQueryDepartment,
-                      apiQueryLocation,
-                    )?.map((singleField: any) => (
-                      <TableCell key={singleField?.id}>
-                        {singleField?.data}
-                      </TableCell>
-                    ))}
+                    {addedInventoryItemsFormFieldsFunction?.(name, index)?.map(
+                      (singleField: any) => (
+                        <TableCell key={singleField?.id}>
+                          {singleField?.data}
+                        </TableCell>
+                      ),
+                    )}
                   </TableRow>
                 );
               })}

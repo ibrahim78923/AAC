@@ -1,12 +1,9 @@
-import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
-import { PAGINATION } from '@/config';
-import { AIR_SERVICES } from '@/constants';
+import { RHFTextField } from '@/components/ReactHookForm';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { Button } from '@mui/material';
-import Link from 'next/link';
+import GetPurchaseOrderVendorProductDropdown from '../../PurchaseOrderFormFieldsDropdowns/GetDynamicPurchaseOrderVendorProductDropdown';
 
 export const upsertPurchaseOrderItemDetailsDynamic = (
-  vendorProductsApiQuery: any,
   index: number,
   vendorId: any,
   remove: any,
@@ -15,32 +12,9 @@ export const upsertPurchaseOrderItemDetailsDynamic = (
     {
       id: 1,
       data: (
-        <RHFAutocompleteAsync
-          name={`purchaseDetails.${index}.itemName`}
-          size="small"
-          fullWidth={true}
-          placeholder="Select Item"
-          sx={{ minWidth: '12rem' }}
-          getOptionLabel={(option: any) =>
-            option?.vendorproductcatalogsDetails?.name
-          }
-          apiQuery={vendorProductsApiQuery}
-          externalParams={{
-            limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-            vendorId: vendorId,
-          }}
-          noOptionsCase={
-            <>
-              <Link
-                href={{
-                  pathname: AIR_SERVICES?.VENDOR_DETAIL,
-                  query: { vendorId },
-                }}
-              >
-                Please Add Products First
-              </Link>
-            </>
-          }
+        <GetPurchaseOrderVendorProductDropdown
+          index={index}
+          vendorId={vendorId}
         />
       ),
     },

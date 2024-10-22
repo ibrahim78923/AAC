@@ -124,7 +124,7 @@ export const purchaseOrderColumnsFunction = (
       id: 'subTotal',
       isSortable: true,
       header: 'Total Cost (£)',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.toFixed(2),
     },
   ];
 };
