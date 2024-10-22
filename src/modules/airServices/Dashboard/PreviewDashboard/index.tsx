@@ -1,35 +1,42 @@
 import { Box } from '@mui/material';
 import { SingleDashboard } from '../SingleDashboard';
 import NoData from '@/components/NoData';
-import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airServices/dashboard/slice';
+import { SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT } from '../Dashboard.data';
 
-export const PreviewDashboard = (
-  props: ManageDashboardPortalComponentPropsI | any,
-) => {
-  const { isPortalOpen, setIsPortalOpen } = props;
+export const PreviewDashboard = () => {
+  const dispatch = useAppDispatch();
+
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesDashboard?.isPortalOpen,
+  );
 
   return (
     <>
       <CustomCommonDialog
-        isPortalOpen={isPortalOpen?.isView}
-        closePortal={() => setIsPortalOpen?.({})}
+        isPortalOpen={isPortalOpen?.isOpen}
+        closePortal={() => dispatch(setIsPortalClose?.())}
         dialogMaxWidth={'md'}
         dialogTitle={
-          isPortalOpen?.isStaticView
-            ? 'Preview Dashboard'
+          isPortalOpen?.action ===
+          SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT?.PREVIEW_DASHBOARD
+            ? isPortalOpen?.action
             : isPortalOpen?.data?.name
         }
         showActionButtons={false}
       >
         <Box>
-          {isPortalOpen?.isDynamicPreview ? (
+          {isPortalOpen?.action ===
+          SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT?.SINGLE_DASHBOARD_DETAILS ? (
             <SingleDashboard
               dashboardId={{ _id: isPortalOpen?.data?._id }}
               isPreviewMode
             />
-          ) : isPortalOpen?.isStaticView ? (
+          ) : isPortalOpen?.action ===
+            SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT?.PREVIEW_DASHBOARD ? (
             <StaticDashboardWidgets widgets={isPortalOpen?.data} />
           ) : (
             <NoData message="No widgets found" />

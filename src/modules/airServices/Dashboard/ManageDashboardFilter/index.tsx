@@ -3,12 +3,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useManageDashboardFilter } from './useManageDashboardFilter';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 
-export const ManageDashboardFilter = (
-  props: ManageDashboardPortalComponentPropsI,
-) => {
-  const { isPortalOpen } = props;
+export const ManageDashboardFilter = () => {
   const {
     methods,
     handleSubmit,
@@ -16,12 +12,13 @@ export const ManageDashboardFilter = (
     resetDashboardFilterForm,
     dashboardFilterFormFields,
     closePortal,
-  } = useManageDashboardFilter(props);
+    isPortalOpen,
+  } = useManageDashboardFilter();
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isFilter as boolean}
+        isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={closePortal}
         okText={'apply'}
         title={'Filters'}
