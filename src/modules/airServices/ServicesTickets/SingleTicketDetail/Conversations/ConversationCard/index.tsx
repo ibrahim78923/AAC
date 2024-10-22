@@ -14,10 +14,10 @@ import {
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { otherDateFormat } from '@/utils/dateTime';
 import { UserInfo } from '@/components/UserInfo';
 import { LogInfo } from '@/components/LogInfo';
 import { AttachFileCard } from '@/components/AttachFileCard';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const ConversationCard = (props: any) => {
   const { data, setAction } = props;

@@ -1,7 +1,7 @@
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useSendSingleServicesTicketsApprovalReminderMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSendApprovalReminder = () => {
   const [
@@ -18,7 +18,7 @@ export const useSendApprovalReminder = () => {
   const sendReminderOfTicketApproval = async () => {
     try {
       await postApprovalTicketsRemindersTrigger({})?.unwrap();
-      successSnackbar('Reminder Send Successfully');
+      successSnackbar('Reminder send successfully');
       closePortal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

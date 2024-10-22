@@ -7,6 +7,8 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import * as Yup from 'yup';
 import { TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT } from '../Conversations.data';
 import { ConversationResponseType } from '../ConversationResponseType';
+import { pxToRem } from '@/utils/getFontValue';
+import { REGEX } from '@/constants/validation';
 
 const canPopulateRecipients = [
   TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.EDIT_NOTE,
@@ -40,7 +42,9 @@ export const upsertConversationFormValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.required('Description is required')
     ?.test('is-not-empty', 'Description is required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
 });
@@ -88,7 +92,7 @@ export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
       label: 'Description',
       fullWidth: true,
       required: true,
-      style: { height: '200px' },
+      style: { height: pxToRem(250) },
     },
     component: RHFEditor,
   },

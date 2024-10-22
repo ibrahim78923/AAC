@@ -1,6 +1,8 @@
 import { RHFEditor } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { ApprovalsUsersFieldDropdown } from '../../../ServiceTicketFormFields/ApprovalsUsersFieldDropdown';
+import { pxToRem } from '@/utils/getFontValue';
+import { REGEX } from '@/constants/validation';
 
 export const addRequestApprovalValidationSchema = Yup?.object()?.shape({
   subject: Yup?.mixed()?.nullable()?.required('User is required'),
@@ -8,7 +10,9 @@ export const addRequestApprovalValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.required('Description is required')
     ?.test('is-not-empty', 'Description is required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
 });
@@ -30,7 +34,7 @@ export const addRequestApprovalFormFieldsDynamic = () => [
       label: 'Description',
       fullWidth: true,
       required: true,
-      style: { height: '250px' },
+      style: { height: pxToRem(250) },
     },
     component: RHFEditor,
   },

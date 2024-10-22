@@ -27,11 +27,11 @@ export const UpdateRequestStatus = () => {
       <FormProvider methods={methods}>
         <RHFTextField
           name="reason"
+          label="Remarks"
+          placeholder="Add Your Remarks here"
+          fullWidth
           multiline
           rows={7}
-          fullWidth
-          placeholder="Add Your Remarks here"
-          label="Remarks"
         />
       </FormProvider>
     </CustomCommonDialog>

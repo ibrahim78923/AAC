@@ -7,8 +7,8 @@ import ApiErrorState from '@/components/ApiErrorState';
 import CustomPagination from '@/components/CustomPagination';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import Link from 'next/link';
-import { AIR_SERVICES } from '@/constants';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const CannedResponsesList = (props: any) => {
   const { setCannedResponse } = props;

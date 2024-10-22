@@ -3,6 +3,7 @@ export const REGEX = {
   PHONE_NUMBER: /^\+44[0-9]{10}$/,
   EMAIL: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
   HOURS_AND_MINUTES: /^\d+h\d+m$/,
+  GLOBAL_HTML_TAG: /<[^>]*>/g,
 };
 
 export const CHARACTERS_LIMIT = {

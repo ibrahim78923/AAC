@@ -3,9 +3,7 @@ import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
+import { Cancel, CheckCircle, Unsubscribe } from '@mui/icons-material';
 
 export const APPROVAL_CARD_INFO: any = {
   [TICKET_APPROVALS?.REQUESTED]: {
@@ -19,17 +17,17 @@ export const APPROVAL_CARD_INFO: any = {
     color: 'primary.main',
   },
   [TICKET_APPROVALS?.APPROVE]: {
-    icon: <CheckCircleIcon fontSize="small" sx={{ color: 'success.main' }} />,
+    icon: <CheckCircle fontSize="small" sx={{ color: 'success.main' }} />,
     text: 'Approved ',
     color: 'success.main',
   },
   [TICKET_APPROVALS?.REJECT]: {
-    icon: <CancelIcon fontSize="small" sx={{ color: 'error.main' }} />,
+    icon: <Cancel fontSize="small" sx={{ color: 'error.main' }} />,
     text: 'Rejected ',
     color: 'error.main',
   },
   [TICKET_APPROVALS?.CANCEL]: {
-    icon: <UnsubscribeIcon fontSize="small" sx={{ color: 'grey.900' }} />,
+    icon: <Unsubscribe fontSize="small" sx={{ color: 'grey.900' }} />,
     text: 'Cancel ',
     color: 'grey.900',
   },

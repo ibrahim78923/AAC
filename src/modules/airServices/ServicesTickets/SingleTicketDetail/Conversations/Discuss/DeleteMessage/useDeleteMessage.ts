@@ -1,5 +1,5 @@
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useDeleteDiscussionsOfTicketConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation/discussion';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteMessage = (props: any) => {
   const { selectedMessage, setSelectedMessage } = props;

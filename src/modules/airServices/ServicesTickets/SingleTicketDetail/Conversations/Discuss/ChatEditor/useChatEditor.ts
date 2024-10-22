@@ -8,9 +8,9 @@ import {
   usePostDiscussionsOfTicketConversationMutation,
   useUpdateDiscussionsOfTicketConversationMutation,
 } from '@/services/airServices/tickets/single-ticket-details/conversation/discussion';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useChatEditor = (props: any) => {
   const { selectedMessage, setSelectedMessage } = props;

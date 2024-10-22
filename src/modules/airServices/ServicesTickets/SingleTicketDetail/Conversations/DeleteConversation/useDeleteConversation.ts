@@ -1,8 +1,8 @@
 import { setIsPortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useDeleteServicesTicketSingleConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetTicketConversationList } from '../../../TicketsServicesHooks/useGetTicketConversationList';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteConversation = () => {
   const { getTicketConversationListData } = useGetTicketConversationList?.();
