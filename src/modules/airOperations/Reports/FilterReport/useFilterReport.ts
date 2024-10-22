@@ -12,8 +12,8 @@ import {
   setFilterReportsList,
   setIsPortalClose,
 } from '@/redux/slices/airOperations/reports/slice';
-import { isoDateString } from '@/utils/dateTime';
 import { PAGINATION } from '@/config';
+import { isoDateString } from '@/lib/date-time';
 
 export const useFilterReport = () => {
   const dispatch = useAppDispatch();

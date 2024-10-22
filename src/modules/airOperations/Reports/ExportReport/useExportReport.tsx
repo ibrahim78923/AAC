@@ -6,9 +6,10 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useLazyExportOperationsReportsListQuery } from '@/services/airOperations/reports';
 import { TAB_CHANGED_FILTERED } from '../ReportLists/ReportLists.data';
 import { useRouter } from 'next/router';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useExportReport = () => {
   const [lazyExportReportsListTrigger, lazyExportReportsListStatus]: any =

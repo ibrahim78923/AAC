@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   emailReportDefaultValues,
   emailReportValidationSchema,
@@ -16,6 +15,7 @@ import {
   emptySelectedReportsList,
   setIsPortalClose,
 } from '@/redux/slices/airOperations/reports/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SINGLE_GENERIC_REPORTS_DETAILS } = AIR_OPERATIONS ?? {};

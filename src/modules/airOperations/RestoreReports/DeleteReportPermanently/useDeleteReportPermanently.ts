@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
 import { useDeleteOperationsMultipleReportsPermanentlyMutation } from '@/services/airOperations/reports';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetRestoreReportLists } from '../RestoreReportsHook/useGetRestoreReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -8,6 +7,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airOperations/restore-reports/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 export const useDeleteReportPermanently = () => {

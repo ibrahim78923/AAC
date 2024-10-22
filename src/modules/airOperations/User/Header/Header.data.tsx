@@ -1,10 +1,10 @@
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
 import { UpsertUser } from '../UpsertUser';
 import { DeleteUser } from '../DeleteUser';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   ADD_OPERATIONS_USERS,

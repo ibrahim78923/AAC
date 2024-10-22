@@ -1,13 +1,13 @@
-import { uiDateFormat } from '@/utils/dateTime';
 import { RestoreReportListsTableRowI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Checkbox } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
-import { AIR_OPERATIONS } from '@/constants';
 import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
+import { AIR_OPERATIONS } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 
 const { SERVICES, SALES, MARKETING } = GENERIC_REPORT_MODULES;
 
