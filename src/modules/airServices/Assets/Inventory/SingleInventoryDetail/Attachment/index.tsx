@@ -5,14 +5,13 @@ import { useRouter } from 'next/router';
 export const Attachment = () => {
   const router = useRouter();
   const { inventoryId } = router?.query;
+
   return (
-    <>
-      <Attachments
-        recordId={inventoryId as string}
-        permissionKey={[
-          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ATTACHMENTS,
-        ]}
-      />
-    </>
+    <Attachments
+      recordId={inventoryId as string}
+      permissionKey={[
+        AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ATTACHMENTS,
+      ]}
+    />
   );
 };

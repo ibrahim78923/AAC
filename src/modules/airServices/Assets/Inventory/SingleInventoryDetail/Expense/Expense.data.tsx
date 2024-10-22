@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import * as yup from 'yup';
 import { Checkbox, Typography } from '@mui/material';
 import {
@@ -12,6 +11,7 @@ import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permissio
 import { ExpenseI } from './Expense.interface';
 import { localeDateTime } from '@/utils/dateTime';
 import { CALENDAR_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
@@ -160,7 +160,7 @@ export const addExpenseColumnsFunction = (
     header: 'Date',
     cell: (info: any) =>
       info?.getValue()
-        ? dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI)
+        ? otherDateFormat(info?.getValue(), CALENDAR_FORMAT?.UI)
         : '---',
   },
 ];

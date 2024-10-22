@@ -1,8 +1,8 @@
 import { useDeleteAirServicesAssetsInventoryMutation } from '@/services/airServices/assets/inventory';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { AIR_SERVICES } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
 import { DeleteInventoryI } from './DeleteInventory.interface';
 
 export const useDeleteInventory = (props: DeleteInventoryI) => {

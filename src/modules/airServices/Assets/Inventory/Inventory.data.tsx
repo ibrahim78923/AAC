@@ -1,12 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES } from '@/constants';
-import {
-  ASSET_IMPACT,
-  ASSET_IMPACT_FILTER,
-  ASSET_TYPE,
-  TIME_PERIODS,
-} from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants/routes';
+import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/utils/dateTime';
 import { Checkbox, Typography } from '@mui/material';
@@ -88,21 +83,6 @@ export const assetsImpactOptions = [
   },
   {
     _id: ASSET_IMPACT?.HIGH,
-    label: ASSET_IMPACT?.HIGH,
-  },
-];
-
-export const assetsImpactFilterOptions = [
-  {
-    _id: ASSET_IMPACT_FILTER?.LOW,
-    label: ASSET_IMPACT?.LOW,
-  },
-  {
-    _id: ASSET_IMPACT_FILTER?.MEDIUM,
-    label: ASSET_IMPACT?.MEDIUM,
-  },
-  {
-    _id: ASSET_IMPACT_FILTER?.HIGH,
     label: ASSET_IMPACT?.HIGH,
   },
 ];

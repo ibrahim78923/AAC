@@ -1,8 +1,7 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
-
 import {
   assetLifeExpiryOptions,
-  assetsImpactFilterOptions,
+  assetsImpactOptions,
   dateOptions,
 } from '../Inventory.data';
 import GetInventoryAllUsersAdminDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAllUsersAdminDropdown';
@@ -73,7 +72,7 @@ export const inventoryFilterFormFieldsDataFunction = () => [
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
-      options: assetsImpactFilterOptions,
+      options: assetsImpactOptions,
       placeholder: 'Select impact',
       getOptionLabel: (option: any) => option?.label,
     },

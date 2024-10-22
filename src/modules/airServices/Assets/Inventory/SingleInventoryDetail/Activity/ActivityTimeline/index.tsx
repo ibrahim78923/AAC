@@ -1,8 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Box, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
-import dayjs from 'dayjs';
-import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
+import { TIME_FORMAT } from '@/constants';
+import { otherDateFormat, uiDateFormat } from '@/lib/date-time';
 
 export const ActivityTimeline = ({ activityData }: any) => {
   const theme = useTheme();
@@ -23,10 +23,10 @@ export const ActivityTimeline = ({ activityData }: any) => {
             component={'span'}
             mr="0.625rem"
           >
-            {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
+            {uiDateFormat(activityData?.createdAt)}
           </Typography>
           <Typography variant="body2" color="textPrimary" component={'span'}>
-            {dayjs(activityData?.createdAt)?.format(TIME_FORMAT?.UI)}
+            {otherDateFormat(activityData?.createdAt, TIME_FORMAT?.UI)}
           </Typography>
         </Box>
         <IconButton
@@ -62,10 +62,10 @@ export const ActivityTimeline = ({ activityData }: any) => {
               component={'span'}
               mr="0.625rem"
             >
-              {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
+              {uiDateFormat(activityData?.createdAt)}
             </Typography>
             <Typography variant="body2" color="textPrimary" component={'span'}>
-              {dayjs(activityData?.createdAt)?.format(TIME_FORMAT?.UI)}
+              {otherDateFormat(activityData?.createdAt, TIME_FORMAT?.UI)}
             </Typography>
           </Box>
         </Box>

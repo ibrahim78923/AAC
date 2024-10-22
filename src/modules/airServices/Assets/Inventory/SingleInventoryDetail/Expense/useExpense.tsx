@@ -15,7 +15,7 @@ import {
   useDeleteAirServicesAssetsInventoryExpenseMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
 import { isoDateString, localeDateTime } from '@/utils/dateTime';

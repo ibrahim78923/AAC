@@ -2,7 +2,7 @@ import {
   useGetAirServicesAssetInventorySoftwareQuery,
   useDeleteAirServicesAssetInventorySoftwareMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/software';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 

@@ -130,12 +130,6 @@ export const ASSET_IMPACT = {
   HIGH: 'HIGH',
 };
 
-export const ASSET_IMPACT_FILTER = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
-};
-
 export const TICKET_TYPE = {
   INC: 'INC',
   SR: 'SR',

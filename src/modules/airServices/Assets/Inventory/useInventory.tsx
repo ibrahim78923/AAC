@@ -7,7 +7,7 @@ import {
 } from './Inventory.data';
 import { CustomizeInventoryColumn } from './CustomizeInventoryColumn';
 import { FilterInventory } from './FilterInventory';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { PAGINATION } from '@/config';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
@@ -19,7 +19,8 @@ import usePath from '@/hooks/usePath';
 import { DeleteInventory } from './DeleteInventory';
 import { ImportInventory } from './ImportInventory';
 import { useTheme } from '@mui/material';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { getActiveAccountSession } from '@/utils';
 
 export const useInventory = () => {

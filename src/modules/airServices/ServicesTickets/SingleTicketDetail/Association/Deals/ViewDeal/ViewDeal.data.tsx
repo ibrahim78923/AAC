@@ -1,5 +1,4 @@
-import { DATE_FORMAT } from '@/constants';
-import { otherDateFormat } from '@/lib/date-time';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const CardData = (data: any) => {
   return {
@@ -8,6 +7,6 @@ export const CardData = (data: any) => {
     'Deal Stage': data?.dealStage ?? '---',
     'Deal Pipeline': data?.dealPipeline ?? '---',
     Priority: data?.priority ?? '---',
-    'Close Date': otherDateFormat(data?.closeDate, DATE_FORMAT?.UI),
+    'Close Date': uiDateFormat(data?.closeDate),
   };
 };
