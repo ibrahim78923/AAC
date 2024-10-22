@@ -4,11 +4,7 @@ import {
   mergeTicketsFormFieldsDynamic,
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
-import {
-  useLazyFindServicesTicketByRequesterQuery,
-  useLazyFindServicesTicketBySubjectQuery,
-  useMergeServicesTicketsMutation,
-} from '@/services/airServices/tickets';
+import { useMergeServicesTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -82,13 +78,8 @@ export const useMergedTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryTicketBySubject = useLazyFindServicesTicketBySubjectQuery();
-  const apiQueryTicketByRequester = useLazyFindServicesTicketByRequesterQuery();
-
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,
-    apiQueryTicketByRequester,
-    apiQueryTicketBySubject,
     watch,
   );
 

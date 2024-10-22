@@ -12,7 +12,7 @@ export default function RHFDropZone({
   name,
   required,
   fileName = 'Attach a file',
-  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 2.44 MB)',
+  fileType = 'PNG, JPG, PDF and DOC (max 2.44 MB)',
   accept = {
     'image/png': ['.png', '.PNG'],
     'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
@@ -21,7 +21,6 @@ export default function RHFDropZone({
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
       '.docx',
     ],
-    'text/csv': ['.csv'],
   },
   maxSize = FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
   multiple = false,

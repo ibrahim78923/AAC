@@ -1,5 +1,3 @@
-import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -7,14 +5,8 @@ import {
   upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
-
 import { useEffect, useState } from 'react';
-
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -32,15 +24,14 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
-import { isoDateString } from '@/utils/dateTime';
 import {
   useAddSingleServicesTicketMutation,
   useGetServicesSingleTicketDetailByIdQuery,
   useUpdateSingleServicesTicketByIdMutation,
 } from '@/services/airServices/tickets';
-
-const { ZERO } = ARRAY_INDEX ?? {};
-const { EDIT_TICKET } = TICKETS_ACTION_CONSTANTS ?? {};
+import { REGEX } from '@/constants/validation';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
@@ -54,11 +45,9 @@ export const useUpsertTicket = () => {
   );
 
   const ticketId =
-    isPortalOpen?.action === EDIT_TICKET
-      ? selectedTicketLists?.[ZERO]?._id
+    isPortalOpen?.action === TICKETS_ACTION_CONSTANTS?.EDIT_TICKET
+      ? selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id
       : '';
-  const router = useRouter();
-  const theme: any = useTheme();
 
   const [form, setForm] = useState<any>([]);
 
@@ -109,9 +98,9 @@ export const useUpsertTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setError } = methods;
 
-  const ticketDetailsData = data?.data?.[ZERO];
+  const ticketDetailsData = data?.data?.[ARRAY_INDEX?.ZERO];
 
   useEffect(() => {
     reset(() => upsertTicketDefaultValuesFunction(ticketDetailsData, form));
@@ -121,10 +110,14 @@ export const useUpsertTicket = () => {
     const newFormData = filteredEmptyValues(formData);
 
     const { plannedEffort } = getValues();
-    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+    if (
+      plannedEffort?.trim() !== '' &&
+      !REGEX?.HOURS_AND_MINUTES?.test(plannedEffort)
+    ) {
+      setError('plannedEffort', {
+        message:
+          'Invalid format for Planned Effort. Please use format like 1h10m',
+      });
       return;
     }
 
@@ -235,7 +228,7 @@ export const useUpsertTicket = () => {
       };
 
       await postTicketTrigger(postTicketParameter)?.unwrap();
-      successSnackbar('Ticket Added Successfully');
+      successSnackbar('Ticket added successfully');
       onClose?.();
       await getTicketsListData();
     } catch (error: any) {
@@ -253,7 +246,7 @@ export const useUpsertTicket = () => {
 
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
-      successSnackbar('Ticket Updated Successfully');
+      successSnackbar('Ticket updated successfully');
       onClose?.();
       await getTicketsListData();
     } catch (error: any) {
@@ -269,23 +262,31 @@ export const useUpsertTicket = () => {
 
   const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
 
+  const apiCallInProgress =
+    putTicketStatus?.isLoading ||
+    postTicketStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
+  const showLoader =
+    isLoading ||
+    isFetching ||
+    getDynamicFieldsStatus?.isLoading ||
+    getDynamicFieldsStatus?.isFetching;
+
+  const hasError = isError && getDynamicFieldsStatus?.isError;
+
   return {
-    router,
-    theme,
     handleSubmit,
     submitUpsertTicket,
     methods,
     onClose,
-    putTicketStatus,
-    postTicketStatus,
-    isLoading,
-    isFetching,
     ticketId,
     upsertTicketFormFields,
     isError,
     form,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
     isPortalOpen,
+    apiCallInProgress,
+    showLoader,
+    hasError,
   };
 };

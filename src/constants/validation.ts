@@ -2,6 +2,7 @@ export const REGEX = {
   ALPHABETS_AND_SPACE: /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]+$/,
   PHONE_NUMBER: /^\+44[0-9]{10}$/,
   EMAIL: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+  HOURS_AND_MINUTES: /^\d+h\d+m$/,
 };
 
 export const CHARACTERS_LIMIT = {

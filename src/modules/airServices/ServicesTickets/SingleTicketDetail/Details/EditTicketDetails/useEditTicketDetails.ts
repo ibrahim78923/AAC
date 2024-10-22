@@ -26,8 +26,9 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { AIR_SERVICES } from '@/constants';
 import { isoDateString } from '@/utils/dateTime';
+import { REGEX } from '@/constants/validation';
+import { AIR_SERVICES } from '@/constants/routes';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SR } = TICKET_TYPE ?? {};
@@ -90,7 +91,7 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control, watch } = methods;
+  const { handleSubmit, reset, getValues, control, watch, setError } = methods;
   const watchForTicketType = useWatch({
     control,
     name: 'ticketType',
@@ -113,10 +114,14 @@ export const useEditTicketDetails = () => {
     const newFormData = filteredEmptyValues(formData);
 
     const { plannedEffort } = getValues();
-    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+    if (
+      plannedEffort?.trim() !== '' &&
+      !REGEX?.HOURS_AND_MINUTES?.test(plannedEffort)
+    ) {
+      setError('plannedEffort', {
+        message:
+          'Invalid format for Planned Effort. Please use format like 1h10m',
+      });
       return;
     }
 

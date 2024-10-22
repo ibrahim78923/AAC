@@ -1,17 +1,12 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
-import {
-  AutocompleteAsyncOptionsI,
-  AutocompleteOptionsI,
-} from '@/components/ReactHookForm/ReactHookForm.interface';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TICKET_SELECTION_TYPE } from '@/constants/strings';
-import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { RequesterFieldDropdown } from '../ServiceTicketFormFields/RequesterFieldDropdown';
 import { TicketByIdFieldDropdown } from '../ServiceTicketFormFields/TicketByIdFieldDropdown';
+import { TicketBySubjectFieldDropdown } from '../ServiceTicketFormFields/TicketBySubjectFieldDropdown';
+import { TicketByRequesterFieldDropdown } from '../ServiceTicketFormFields/TicketByRequesterFieldDropdown';
 
 export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
   ticketSelection: Yup?.mixed()?.nullable()?.required('Required'),
@@ -48,33 +43,6 @@ export const mergeTicketsFormDefaultValue: any = {
   searchTicketId: null,
 };
 
-const ticketSelectionType = [
-  TICKET_SELECTION_TYPE?.REQUESTER,
-  TICKET_SELECTION_TYPE?.SUBJECT,
-  TICKET_SELECTION_TYPE?.ID,
-];
-
-export const check: any = (
-  apiQueryTicketBySubject: any,
-  apiQueryTicketByRequester: any,
-  selectedSearchType: any,
-) => {
-  const respectiveParam: any = {
-    [TICKET_SELECTION_TYPE?.REQUESTER]: {
-      apiQuery: apiQueryTicketByRequester,
-      queryKey: 'id',
-    },
-    [TICKET_SELECTION_TYPE?.SUBJECT]: {
-      apiQuery: apiQueryTicketBySubject,
-      queryKey: 'search',
-    },
-  };
-
-  if (!ticketSelectionType?.includes(selectedSearchType))
-    return respectiveParam[TICKET_SELECTION_TYPE?.REQUESTER];
-  return respectiveParam[selectedSearchType];
-};
-
 const ticketSelectionOptions = [
   {
     _id: TICKET_SELECTION_TYPE?.REQUESTER,
@@ -87,10 +55,14 @@ const ticketSelectionOptions = [
   { _id: TICKET_SELECTION_TYPE?.ID, label: TICKET_SELECTION_TYPE?.ID },
 ];
 
+export const ticketSelectionFieldDropdowns = {
+  [TICKET_SELECTION_TYPE?.REQUESTER]: TicketByRequesterFieldDropdown,
+  [TICKET_SELECTION_TYPE?.ID]: TicketByIdFieldDropdown,
+  [TICKET_SELECTION_TYPE?.SUBJECT]: TicketBySubjectFieldDropdown,
+};
+
 export const mergeTicketsFormFieldsDynamic = (
   watchForTicketSelection: any,
-  apiQueryTicketByRequester: any,
-  apiQueryTicketBySubject: any,
   watch: any,
 ) => {
   return [
@@ -108,7 +80,7 @@ export const mergeTicketsFormFieldsDynamic = (
     ...(watchForTicketSelection?._id === TICKET_SELECTION_TYPE?.REQUESTER
       ? [
           {
-            id: 3,
+            id: 2,
             componentProps: {
               label: 'Search requester id',
               hasEndIcon: false,
@@ -116,7 +88,7 @@ export const mergeTicketsFormFieldsDynamic = (
             component: RequesterFieldDropdown,
           },
           {
-            id: 4,
+            id: 3,
             component: Typography,
             heading: `${
               !!watch('requester')?._id
@@ -131,39 +103,14 @@ export const mergeTicketsFormFieldsDynamic = (
           },
         ]
       : []),
-    ...(watchForTicketSelection?._id !== TICKET_SELECTION_TYPE?.ID
+    ...(!!watchForTicketSelection?._id
       ? [
           {
-            id: 2,
-            component: RHFAutocompleteAsync,
-            componentProps: {
-              name: 'searchTicket',
-              label: 'Search ticket',
-              fullWidth: true,
-              required: true,
-              multiple: true,
-              queryKey: check(
-                apiQueryTicketBySubject,
-                apiQueryTicketByRequester,
-                watchForTicketSelection?._id,
-              )?.queryKey,
-              apiQuery: check(
-                apiQueryTicketBySubject,
-                apiQueryTicketByRequester,
-                watchForTicketSelection?._id,
-              )?.apiQuery,
-              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-                `${option?.ticketIdNumber} ${' '} ${truncateText(
-                  option?.subject,
-                )}`,
-            },
+            id: 4,
+            component:
+              ticketSelectionFieldDropdowns?.[watchForTicketSelection?._id],
           },
         ]
-      : [
-          {
-            id: 5,
-            component: TicketByIdFieldDropdown,
-          },
-        ]),
+      : []),
   ];
 };

@@ -100,6 +100,7 @@ export const getUpsertServiceData = (
       componentProps: {
         name: 'itemName',
         label: 'Item Name',
+        placeholder: 'Enter item name',
         required: true,
       },
       component: RHFTextField,
@@ -110,6 +111,7 @@ export const getUpsertServiceData = (
       componentProps: {
         name: 'cost',
         label: 'Cost',
+        placeholder: 'Enter cost',
       },
       component: RHFTextField,
       md: 6,
@@ -124,6 +126,7 @@ export const getUpsertServiceData = (
       componentProps: {
         name: 'estimatedDelivery',
         label: 'Estimated Delivery(HR)',
+        placeholder: 'Enter Estimated delivery',
       },
       component: RHFTextField,
       md: 6,
@@ -133,7 +136,7 @@ export const getUpsertServiceData = (
       componentProps: {
         name: 'description',
         label: 'Description',
-        placeholder: 'Description',
+        placeholder: 'Write the description',
         multiline: true,
         rows: 5.4,
       },
