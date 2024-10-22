@@ -13,6 +13,15 @@ export const ContractReportsCountData = (data: any) => {
   };
 };
 
+export const ContractReportsChartData = (data: any) => {
+  return {
+    [CONTRACT_REPORT_STATUS?.LEASE]: data?.lease,
+    [CONTRACT_REPORT_STATUS?.MAINTENANCE]: data?.maintenance,
+    [CONTRACT_REPORT_STATUS?.SOFTWARE]: data?.softwareLicence,
+    [CONTRACT_REPORT_STATUS?.WARRANTY]: data?.warranty,
+  };
+};
+
 export const contractsTypeOptions = [
   {
     _id: 'allContract',

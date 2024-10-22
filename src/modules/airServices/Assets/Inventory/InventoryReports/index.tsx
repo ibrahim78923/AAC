@@ -137,7 +137,9 @@ export const InventoryReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Assets Distribution
                   </Typography>
-                  {!!Object?.keys(inventoryReportsChartsData ?? {})?.length ? (
+                  {Object?.values(inventoryReportsChartsData ?? {})?.some(
+                    (value) => value !== 0,
+                  ) ? (
                     <CustomChart
                       type={'pie'}
                       series={Object?.values(inventoryReportsChartsData ?? {})}

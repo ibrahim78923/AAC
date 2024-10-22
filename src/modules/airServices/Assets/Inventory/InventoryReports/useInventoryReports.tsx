@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
+  InventoryReportsChartData,
   InventoryReportsCountData,
   inventoryTableFilterOptions,
 } from './InventoryReports.data';
@@ -88,7 +89,7 @@ export const useInventoryReports = () => {
   const inventoryData = data?.data;
   const inventoryReportsCardsData = InventoryReportsCountData(data?.data);
   const inventoryReportsChartsData = filteredEmptyValues(
-    InventoryReportsCountData(data?.data),
+    InventoryReportsChartData(data?.data),
   );
 
   const shouldDateSet = () => {

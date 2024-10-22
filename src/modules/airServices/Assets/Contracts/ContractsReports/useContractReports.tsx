@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  ContractReportsChartData,
   ContractReportsCountData,
   contractsTypeOptions,
 } from './ContractReportsCard.data';
@@ -73,7 +74,7 @@ export const useContractReports = () => {
 
   const contractReportsCardData = ContractReportsCountData(data?.data);
   const contractReportsChartData = filteredEmptyValues(
-    ContractReportsCountData(data?.data),
+    ContractReportsChartData(data?.data),
   );
 
   const onDateFilterSubmit = (setAnchorElDate: any) => {

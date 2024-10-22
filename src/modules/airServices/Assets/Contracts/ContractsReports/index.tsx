@@ -143,7 +143,9 @@ export const ContractsReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Contracts Distribution
                   </Typography>
-                  {!!Object?.keys(contractReportsChartData ?? {})?.length ? (
+                  {Object?.values(contractReportsChartData ?? {})?.some(
+                    (value) => value !== 0,
+                  ) ? (
                     <CustomChart
                       type={'pie'}
                       series={Object?.values(contractReportsChartData ?? {})}

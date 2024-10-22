@@ -14,6 +14,15 @@ export const InventoryReportsCountData = (data: any) => {
   };
 };
 
+export const InventoryReportsChartData = (data: any) => {
+  return {
+    [INVENTORY_REPORT_STATUS?.HARDWARE]: data?.inventoryHardware,
+    [INVENTORY_REPORT_STATUS?.SOFTWARE]: data?.backUpSoftware,
+    [INVENTORY_REPORT_STATUS?.CONTRACTS]: data?.inventoryContracts,
+    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]: data?.inventoryPurchaseOrder,
+  };
+};
+
 export const inventoryTableFilterOptions = [
   {
     _id: INVENTORY_REPORT_STATUS?.ALL,

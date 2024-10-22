@@ -11,6 +11,15 @@ export const PurchaseOrderReportsCountData = (data: any) => {
   };
 };
 
+export const PurchaseOrderReportsChartData = (data: any) => {
+  return {
+    [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]: data?.purchaseApproved,
+    [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]: data?.purchaseRejected,
+    [PURCHASE_ORDER_REPORT_STATUS?.PENDING]: data?.purchasePending,
+    [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]: data?.purchaseReceived,
+  };
+};
+
 export const purchaseOrderTableFilterOptions = [
   {
     _id: 6756,

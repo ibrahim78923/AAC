@@ -13,6 +13,16 @@ export const SoftwareReportsCountData = (data: any) => {
   };
 };
 
+export const SoftwareReportsChartData = (data: any) => {
+  return {
+    [SOFTWARE_STATUS?.RESTRICTED]: data?.restricted,
+    [SOFTWARE_STATUS?.IGNORED]: data?.ignored,
+    [SOFTWARE_STATUS?.MANAGED]: data?.managed,
+    [SOFTWARE_STATUS?.DISABLED]: data?.disable,
+    [SOFTWARE_STATUS?.IN_REVIEW]: data?.inReview,
+  };
+};
+
 export const softwareStatusReportsOptions = [
   {
     label: SOFTWARE_STATUS?.ALL_SOFTWARE,

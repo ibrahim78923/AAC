@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
+  PurchaseOrderReportsChartData,
   PurchaseOrderReportsCountData,
   purchaseOrderTableFilterOptions,
 } from './PurchaseOrdersReports.data';
@@ -90,7 +91,7 @@ export const usePurchaseOrderReports = () => {
     data?.data,
   );
   const purchaseOrderReportsChartsData = filteredEmptyValues(
-    PurchaseOrderReportsCountData(data?.data),
+    PurchaseOrderReportsChartData(data?.data),
   );
 
   const shouldDateSet = () => {

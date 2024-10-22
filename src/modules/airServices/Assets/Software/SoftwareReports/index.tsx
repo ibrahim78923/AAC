@@ -136,7 +136,9 @@ export const SoftwareReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Software Distribution
                   </Typography>
-                  {!!Object?.keys(softwareReportsChartsData ?? {})?.length ? (
+                  {Object?.values(softwareReportsChartsData ?? {})?.some(
+                    (value) => value !== 0,
+                  ) ? (
                     <CustomChart
                       type={'pie'}
                       series={Object?.values(softwareReportsChartsData ?? {})}

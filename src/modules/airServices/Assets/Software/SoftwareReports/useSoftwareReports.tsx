@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
+  SoftwareReportsChartData,
   SoftwareReportsCountData,
   softwareReportsTableColumnsDynamic,
   softwareStatusReportsOptions,
@@ -91,7 +92,7 @@ export const useSoftwareReports = () => {
 
   const softwareReportsCardsData = SoftwareReportsCountData(data?.data);
   const softwareReportsChartsData = filteredEmptyValues(
-    SoftwareReportsCountData(data?.data),
+    SoftwareReportsChartData(data?.data),
   );
   const softwareReportsTableColumns = softwareReportsTableColumnsDynamic?.();
 

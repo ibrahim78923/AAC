@@ -141,8 +141,9 @@ export const PurchaseOrdersReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Purchase Orders Distribution
                   </Typography>
-                  {!!Object?.keys(purchaseOrderReportsChartsData ?? {})
-                    ?.length ? (
+                  {Object?.values(purchaseOrderReportsChartsData ?? {})?.some(
+                    (value) => value !== 0,
+                  ) ? (
                     <CustomChart
                       type={'pie'}
                       series={Object?.values(
