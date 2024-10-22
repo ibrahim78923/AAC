@@ -1,9 +1,9 @@
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useChangeServicesKnowledgeBaseArticleApprovalMutation,
   useLazyGetServicesKnowledgeBaseUnapprovedArticlesListQuery,
 } from '@/services/airServices/knowledge-base/approvals';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 
 export const useApprovals = () => {

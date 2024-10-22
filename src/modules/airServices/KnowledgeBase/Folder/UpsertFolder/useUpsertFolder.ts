@@ -1,6 +1,5 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   upsertFolderFormDefaultValues,
   upsertFolderValidationSchema,
@@ -17,6 +16,7 @@ import {
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { useEffect } from 'react';
 import { ALL_FOLDER } from '../Folder.data';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { EDIT_FOLDER, ADD_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 

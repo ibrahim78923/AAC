@@ -6,8 +6,8 @@ import {
 import * as Yup from 'yup';
 import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
 import { ApprovalsFields, FoldersFields } from '../../KnowledgeBaseFormFields';
-import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { localeDateTime } from '@/lib/date-time';
 
 const { SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS } =
   CHARACTERS_LIMIT ?? {};
