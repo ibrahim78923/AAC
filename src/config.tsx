@@ -1,7 +1,9 @@
+import { getFullURL } from './utils';
 // API
 export const BASE_URL = process?.env?.NEXT_PUBLIC_BASE_URL;
 export const IMG_URL = process?.env?.NEXT_PUBLIC_IMG_URL;
-export const FE_BASE_URL = process?.env?.NEXT_PUBLIC_FE_BASE_URL;
+export const FE_BASE_URL =
+  process?.env?.NEXT_PUBLIC_FE_BASE_URL || getFullURL();
 
 //PAGINATION
 export const PAGINATION = {

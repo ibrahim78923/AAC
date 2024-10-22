@@ -154,11 +154,14 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
     }),
 
     putAddEntranceForm: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${LEAD_CAPTURE_FORM?.ADD_FORM_ENTRANCE}?id=${id}`,
-        method: 'PUT',
-        body: body,
-      }),
+      query: (data) => {
+        const { id, ...body } = data;
+        return {
+          url: `${LEAD_CAPTURE_FORM?.ADD_FORM_ENTRANCE}?id=${id}`,
+          method: 'PUT',
+          body,
+        };
+      },
       invalidatesTags: ['LEADCAPTURE_FORM_ENTRANCE'],
     }),
 

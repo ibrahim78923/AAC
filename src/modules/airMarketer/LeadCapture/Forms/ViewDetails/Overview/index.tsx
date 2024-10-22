@@ -110,7 +110,7 @@ const Overview = ({ data }: any) => {
         </DialogTitle>
         <DialogContent sx={{ padding: '20px' }}>
           <Box sx={styles?.dialogContent}>
-            <Typography variant="body2" sx={styles?.dialogCode}>
+            <Box sx={styles?.dialogCode}>
               <pre>
                 <code
                   style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
@@ -118,7 +118,7 @@ const Overview = ({ data }: any) => {
                   {renderIframeToString(data?.form?._id)}
                 </code>
               </pre>
-            </Typography>
+            </Box>
             <Tooltip
               open={isCopiedCode}
               title="Copied"

@@ -47,6 +47,7 @@ export const styles = {
   }),
   dialogCode: (theme: any) => ({
     color: theme?.palette?.grey[900],
+    fontSize: `0.875rem`,
   }),
   copyBtn: () => ({
     position: 'absolute',

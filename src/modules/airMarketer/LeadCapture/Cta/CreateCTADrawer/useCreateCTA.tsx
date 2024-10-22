@@ -243,9 +243,15 @@ const useCreateCTA = (
   };
   const handleDrawerSubmit = handleSubmit(onSubmitEditCTA);
 
+  const [isCodeCopied, setIsCodeCopied] = useState(false);
   const handleCopyIframeCode = async () => {
     const iframeCode = await generateCtaIframe(data);
-    navigator.clipboard.writeText(iframeCode);
+    navigator.clipboard.writeText(iframeCode).then(() => {
+      setIsCodeCopied(true);
+      setTimeout(() => {
+        setIsCodeCopied(false);
+      }, 2000);
+    });
   };
 
   return {
@@ -263,6 +269,7 @@ const useCreateCTA = (
     loadingCreateCTA,
     loadingUpdateCTA,
     handleCopyIframeCode,
+    isCodeCopied,
   };
 };
 

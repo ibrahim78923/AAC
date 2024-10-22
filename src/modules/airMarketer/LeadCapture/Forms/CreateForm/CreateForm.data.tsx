@@ -126,7 +126,8 @@ export const styleFormArray = [
   {
     componentProps: {
       varient: 'paragraph',
-      paragraph: 'Update the font that is used for your form.',
+      paragraph: true,
+      text: 'Update the font that is used for your form.',
     },
     md: 12,
     component: Typography,

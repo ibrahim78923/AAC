@@ -108,8 +108,13 @@ export const columns: any = (
       ),
     },
     {
-      accessorFn: (row: any) =>
-        (Number(row?.submissions) / Number(row?.pageViews)) * 100,
+      accessorFn: (row: any) => {
+        if (row?.pageViews === 0) {
+          return 0;
+        }
+        return (Number(row?.submissions) / Number(row?.pageViews)) * 100;
+      },
+
       id: 'pageResponses',
       isSortable: true,
       header: 'Page Responses',

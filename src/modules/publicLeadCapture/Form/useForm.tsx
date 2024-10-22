@@ -33,12 +33,6 @@ export default function useFormHook() {
   const [hasFormInteracted, setHasFormInteracted] = useState(false);
   const [putAddEntranceForm] = usePutAddEntranceFormMutation();
 
-  const handleAddEntranceForm = async () => {
-    if (formId) {
-      await putAddEntranceForm({ id: formId, body: {} });
-    }
-  };
-
   const methods = useForm({
     defaultValues: defaultValues(data?.data?.fields),
     resolver: yupResolver(validationSchema(data?.data?.fields)),
@@ -46,13 +40,25 @@ export default function useFormHook() {
   const { handleSubmit, reset, watch } = methods;
   const watchAllFields = watch();
 
-  // Monitor form interaction and trigger `handleAddEntranceForm` only once
+  const handleAddEntranceForm = async () => {
+    const payload = {
+      id: formId,
+    };
+    await putAddEntranceForm(payload);
+  };
+
   useEffect(() => {
-    if (!hasFormInteracted && Object.keys(watchAllFields).length > 0) {
-      setHasFormInteracted(true);
-      handleAddEntranceForm();
+    const isFormInteracted = Object.values(watchAllFields).some(
+      (value) => value !== undefined && value !== '',
+    );
+
+    if (formId) {
+      if (isFormInteracted && !hasFormInteracted) {
+        setHasFormInteracted(true);
+        handleAddEntranceForm();
+      }
     }
-  }, [watchAllFields, hasFormInteracted]);
+  }, [formId, watchAllFields, hasFormInteracted]);
 
   const [postFormSubmission] = usePostFormSubmissionsMutation();
 
