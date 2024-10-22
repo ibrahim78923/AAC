@@ -1,15 +1,15 @@
-import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { usePostServiceEnquiriesViewListMutation } from '@/services/airServices/enquiries';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
-  const [trigger, status] = usePostNewEmailMutation();
+  const [trigger, status] = usePostServiceEnquiriesViewListMutation();
 
   const methods = useForm({
     resolver: yupResolver(

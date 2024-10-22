@@ -48,13 +48,20 @@ export const airServicesEnquiriesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postServiceEnquiriesViewList: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
-
 export const {
   useGetServicesEnquiriesQuery,
   useDeleteServicesEnquiriesMutation,
   usePatchServicesEnquiriesMutation,
   usePostServicesEnquiriesRequesterMutation,
   usePostServicesEnquiriesTicketMutation,
+  usePostServiceEnquiriesViewListMutation,
 } = airServicesEnquiriesAPI;

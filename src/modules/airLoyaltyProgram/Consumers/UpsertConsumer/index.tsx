@@ -1,10 +1,10 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Box, Grid, Typography } from '@mui/material';
 import { upsertConsumerData } from './UpsertConsumer.data';
 import { useUpsertConsumer } from './useUpsertConsumer';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 
 export const UpsertConsumer = () => {
   const { methods, router } = useUpsertConsumer();

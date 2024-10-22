@@ -1,7 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { LOYALTY_CONSUMER_STATUS } from '@/constants/strings';
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox, MenuItem, Select, Typography } from '@mui/material';
 import { IConsumer } from './Consumer.interface';
 
 export const consumerData = [
@@ -40,6 +40,7 @@ export const consumersListColumnDynamic = (
   selectedRoleList?: any,
   setSelectedRoleList?: any,
   consumerData?: any,
+  handleStatusChange?: any,
 ) => [
   {
     accessorFn: (row: IConsumer) => row?._id,
@@ -123,7 +124,21 @@ export const consumersListColumnDynamic = (
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Select
+        value={info?.getValue()}
+        onChange={
+          (event) => handleStatusChange(info?.row?.original, event) // Call the handleStatusChange function here
+        }
+      >
+        <MenuItem value={LOYALTY_CONSUMER_STATUS?.ACTIVE}>
+          {LOYALTY_CONSUMER_STATUS?.ACTIVE}
+        </MenuItem>
+        <MenuItem value={LOYALTY_CONSUMER_STATUS?.INACTIVE}>
+          {LOYALTY_CONSUMER_STATUS?.INACTIVE}
+        </MenuItem>
+      </Select>
+    ),
   },
   {
     accessorFn: (row: IConsumer) => row?.totalPointsEarned,

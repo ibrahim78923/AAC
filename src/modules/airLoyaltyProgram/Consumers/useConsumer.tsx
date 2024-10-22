@@ -1,9 +1,14 @@
 import { PAGINATION } from '@/config';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { useRouter } from 'next/router';
-
 import { useState } from 'react';
 import { consumerData, consumersListColumnDynamic } from './Consumer.data';
+import {
+  useGetLoyaltyProgramConsumersListQuery,
+  usePatchLoyaltyProgramConsumersStatusMutation,
+} from '@/services/airLoyaltyProgram/consumers';
+import { IErrorResponse } from './Consumer.interface';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useConsumer = () => {
   const router = useRouter();
@@ -13,21 +18,18 @@ export const useConsumer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
   const [selectedRoleList, setSelectedRoleList] = useState<any>([]);
 
+  const { data, isLoading, isError, isFetching, isSuccess } =
+    useGetLoyaltyProgramConsumersListQuery(
+      {},
+      { refetchOnMountOrArgChange: true },
+    );
+
   const moveToConsumer = (consumerId: any) => {
     router?.push({
       pathname: AIR_LOYALTY_PROGRAM?.UPSERT_CONSUMER,
       query: { id: consumerId },
     });
   };
-  const consumersListColumn = consumersListColumnDynamic(
-    moveToConsumer,
-    selectedRoleList,
-    setSelectedRoleList,
-    consumerData,
-  );
-  const [customizeColumns, setCustomizeColumns] = useState<any>(
-    consumersListColumn?.slice(0, 7),
-  );
 
   const handleSearch = (data: any) => {
     setPage(PAGINATION?.CURRENT_PAGE);
@@ -41,6 +43,38 @@ export const useConsumer = () => {
     setIsDrawerOpen(true);
   };
   const actionButtonDropdown = ['Active', 'InActive'];
+  const [
+    patchLoyaltyProgramConsumersTrigger,
+    patchLoyaltyProgramConsumersStatus,
+  ] = usePatchLoyaltyProgramConsumersStatusMutation();
+
+  const handleStatusChange = async (info: any, event: any) => {
+    const patchLoyaltyProgramConsumersStatusParameter = {
+      queryParams: { _id: info?._id },
+      body: { status: event?.target?.value },
+    };
+
+    try {
+      await patchLoyaltyProgramConsumersTrigger(
+        patchLoyaltyProgramConsumersStatusParameter,
+      )?.unwrap();
+      setSelectedRoleList([]);
+      successSnackbar('Status Updated successfully!');
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
+    }
+  };
+  const consumersListColumn = consumersListColumnDynamic(
+    moveToConsumer,
+    selectedRoleList,
+    setSelectedRoleList,
+    consumerData,
+    handleStatusChange,
+  );
+  const [customizeColumns, setCustomizeColumns] = useState<any>(
+    consumersListColumn?.slice(0, 7),
+  );
   const filterColumns = [
     ...consumersListColumn?.slice(0, 2),
     ...customizeColumns?.slice(2),
@@ -60,7 +94,14 @@ export const useConsumer = () => {
     setCustomizeColumns,
     customizeColumns,
     filterColumns,
+    handleStatusChange,
     actionButtonDropdown,
     selectedRoleList,
+    data,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    patchLoyaltyProgramConsumersStatus,
   };
 };

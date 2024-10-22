@@ -5,14 +5,13 @@ import {
   DefaultValuesKeys,
   getCustomizationsDataArray,
 } from './CustomizePortal.data';
-
 import { useCallback, useEffect, useMemo } from 'react';
 import {
   useGetServicesAccountDetailsCustomerPortalPermissionsQuery,
   usePatchServicesAccountDetailsCustomerPortalStylingsMutation,
 } from '@/services/airServices/settings/account-settings/customer-portal-settings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { getActiveAccountSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useCustomizePortal = () => {
   const theme: Theme = useTheme();

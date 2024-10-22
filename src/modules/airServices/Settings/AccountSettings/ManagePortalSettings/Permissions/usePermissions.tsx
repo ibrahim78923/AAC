@@ -10,10 +10,10 @@ import {
   customerPortalSettingsSchemaValidation,
 } from './Permissions.data';
 import { useEffect, useMemo } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { getActiveAccountSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const usePermissions = () => {
   const [

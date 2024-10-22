@@ -7,7 +7,7 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import { errorSnackbar } from '@/utils/api';
+// import { errorSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, DONE } from '@/constants/strings';
 import {
   ICloseMenu,
@@ -18,6 +18,7 @@ import {
 } from './Enquiries.interface';
 import { ChangeEvent } from 'react';
 import { TruncateText } from '@/components/TruncateText';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const getEnquiriesActionDropdown = ({
   enquiriesSelected,

@@ -12,3 +12,8 @@ export interface IConsumer {
   lastTransactionDate?: string;
   tier?: string;
 }
+export interface IErrorResponse {
+  data?: {
+    message?: string;
+  };
+}

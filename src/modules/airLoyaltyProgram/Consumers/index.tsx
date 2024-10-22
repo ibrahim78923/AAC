@@ -22,6 +22,10 @@ export const Consumers = () => {
     filterColumns,
     actionButtonDropdown,
     selectedRoleList,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
   } = useConsumer();
   return (
     <Box>
@@ -80,6 +84,10 @@ export const Consumers = () => {
               data={consumerData}
               columns={filterColumns}
               isPagination
+              isLoading={isLoading}
+              isError={isError}
+              isFetching={isFetching}
+              isSuccess={isSuccess}
             />
           </Box>
         </PermissionsGuard>

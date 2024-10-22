@@ -3,10 +3,10 @@ import { useRecentTickets } from './useRecentTickets';
 import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { TicketsCard } from '../../Tickets/TicketCard';
 import { Fragment } from 'react';
 import { TicketCardDataI } from '../../Tickets/TicketCard/TicketCard.interface';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const RecentTickets = () => {
   const { data, isLoading, isFetching, isError, router, refetch, companyId } =

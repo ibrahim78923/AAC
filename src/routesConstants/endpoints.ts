@@ -535,6 +535,7 @@ export const END_POINTS = {
     '/air-services-dashboard/dashboard-tickets-customer-portal',
   OPERATIONS_TEAM: '/teams',
   FORECAST: '/forecasts',
+  AIR_LOYALTY_PROGRAM_CONSUMERS_LIST: '',
 };
 
 export const LEAD_CAPTURE_FORM = {

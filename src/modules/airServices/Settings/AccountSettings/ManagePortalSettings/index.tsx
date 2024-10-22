@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { managePortalTabsData } from './ManagePortalSettings.data';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const ManagePortalSettings = () => {
   const { push } = useRouter();
