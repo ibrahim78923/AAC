@@ -1,9 +1,7 @@
 import { Grid } from '@mui/material';
-import useNewCompany from './useNewCompany';
+import { formFields } from './NewCompany.data';
 
 export default function NewCompany() {
-  const { formFields } = useNewCompany();
-
   return (
     <Grid container spacing={2}>
       {formFields?.map((item: any) => (

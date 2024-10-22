@@ -41,7 +41,8 @@ export const getAssociateAssetsColumns: any = ({
       accessorFn: (row: any) => row?._id,
       id: '_id',
       header: 'Assets Id',
-      cell: (info: any) => `#IN - ${info?.getValue()?.slice(-3)}` ?? '---',
+      cell: (info: any) =>
+        info?.getValue() ? `#IN - ${info?.getValue()?.slice(-3)}` : '---',
     },
     {
       accessorFn: (row: any) => row?.displayName,

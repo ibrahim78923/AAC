@@ -1,15 +1,14 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { pxToRem } from '@/utils/getFontValue';
 import { optionsIndustry, optionsType } from '../Companies.data';
-import { isNullOrEmpty } from '@/utils';
+import { ContactOwnerDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/ContactOwnerDropdown';
 
-export const getFormFields = ({ contactOwner }: any) => [
+export const formFields = [
   {
     id: 1,
     componentProps: {
@@ -44,19 +43,7 @@ export const getFormFields = ({ contactOwner }: any) => [
   },
   {
     id: 4,
-    componentProps: {
-      name: 'ownerId',
-      label: 'Contact Owner',
-      placeholder: 'Select Owner',
-      apiQuery: contactOwner,
-      getOptionLabel: (option: any) =>
-        isNullOrEmpty(option?.firstName)
-          ? `${option?.email}`
-          : `${option?.firstName} ${option?.lastName}`,
-      externalParams: { limit: 50 },
-      required: true,
-    },
-    component: RHFAutocompleteAsync,
+    component: ContactOwnerDropdown,
   },
   {
     id: 5,

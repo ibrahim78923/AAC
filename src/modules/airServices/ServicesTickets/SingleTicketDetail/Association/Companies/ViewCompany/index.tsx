@@ -6,20 +6,14 @@ import { Avatar, Grid, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import NoData from '@/components/NoData';
 import useViewCompany from './useViewCompany';
+import { formFields } from './ViewCompany.data';
 
 export default function ViewCompany({ modalId, setModalId }: any) {
-  const {
-    onClose,
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    methodsNewCompany,
-    formFields,
-  } = useViewCompany({
-    modalId,
-    setModalId,
-  });
+  const { onClose, data, isLoading, isFetching, isError, methodsNewCompany } =
+    useViewCompany({
+      modalId,
+      setModalId,
+    });
 
   return (
     <CommonDrawer

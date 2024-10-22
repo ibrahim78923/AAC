@@ -1,9 +1,8 @@
-import {
-  RHFAutocompleteAsync,
-  RHFDatePicker,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { ContactOwnerContactDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/ContactOwnerContactDropdown';
+import { ContactsStatusDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/ContactsStatusDropdown';
+import { LifeCycleStageDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/LifeCycleStageDropdown';
 
 export const getDefaultValues = (data: any) => {
   return {
@@ -22,12 +21,7 @@ export const getDefaultValues = (data: any) => {
   };
 };
 
-export const getFormFields = ({
-  orgId,
-  contactOwner,
-  lifecycleStage,
-  status,
-}: any) => [
+export const formFields = [
   {
     id: 1,
     componentProps: {
@@ -114,36 +108,14 @@ export const getFormFields = ({
   },
   {
     id: 11,
-    componentProps: {
-      name: 'contactOwnerId',
-      label: 'Contact Owner',
-      placeholder: 'Select Owner',
-      apiQuery: contactOwner,
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-      externalParams: { id: orgId },
-    },
-    component: RHFAutocompleteAsync,
+    component: ContactOwnerContactDropdown,
   },
   {
     id: 12,
-    componentProps: {
-      name: 'lifeCycleStageId',
-      label: 'Lifecycle Stage',
-      placeholder: 'Select Lifecycle Stage',
-      apiQuery: lifecycleStage,
-      externalParams: { meta: false },
-    },
-    component: RHFAutocompleteAsync,
+    component: LifeCycleStageDropdown,
   },
   {
     id: 13,
-    componentProps: {
-      name: 'statusId',
-      label: 'Status',
-      placeholder: 'Select Status',
-      apiQuery: status,
-    },
-    component: RHFAutocompleteAsync,
+    component: ContactsStatusDropdown,
   },
 ];

@@ -1,9 +1,7 @@
 import { Grid } from '@mui/material';
-import useNewContact from './useNewContact';
+import { formFields } from './NewContact.data';
 
 export default function NewContact() {
-  const { formFields } = useNewContact();
-
   return (
     <Grid container spacing={2}>
       {formFields?.map((item: any) => (
