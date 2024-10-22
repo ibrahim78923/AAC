@@ -45,7 +45,7 @@ export const UsersFilter: React.FC<UsersFilterI> = (props) => {
         <Box mt={1}>
           <FormProvider methods={methods} onSubmit={handleSubmit(submitFilter)}>
             <Grid container spacing={1}>
-              {userFieldsData?.map((item) => (
+              {userFieldsData?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

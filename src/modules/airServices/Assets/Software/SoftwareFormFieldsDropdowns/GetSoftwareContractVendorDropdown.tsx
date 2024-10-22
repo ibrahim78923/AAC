@@ -1,4 +1,5 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
 import { useLazyGetVendorDropdownQuery } from '@/services/airServices/assets/contracts';
 
 const GetSoftwareContractVendorDropdown: React.FC = () => {
@@ -12,7 +13,10 @@ const GetSoftwareContractVendorDropdown: React.FC = () => {
         size="small"
         placeholder="Select Vendor"
         apiQuery={apiQueryVendor}
-        externalParams={{ meta: false, limit: 50 }}
+        externalParams={{
+          meta: false,
+          limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        }}
       />
     </>
   );

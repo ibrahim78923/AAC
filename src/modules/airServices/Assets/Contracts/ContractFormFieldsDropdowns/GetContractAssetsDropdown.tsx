@@ -1,6 +1,7 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { CONTRACT_TYPES_CHECK } from '../UpsertContract/UpsertContract.data';
 import { useLazyGetAssetsDropdownListForContractApprovalsQuery } from '@/services/airServices/assets/contracts';
+import { PAGINATION } from '@/config';
 
 const GetContractAssetsDropdown = ({ watchForContractType }: any) => {
   const apiQueryAsset = useLazyGetAssetsDropdownListForContractApprovalsQuery();
@@ -19,7 +20,7 @@ const GetContractAssetsDropdown = ({ watchForContractType }: any) => {
           watchForContractType?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE
         }
         apiQuery={apiQueryAsset}
-        externalParams={{ limit: 50 }}
+        externalParams={{ limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT }}
         getOptionLabel={(option: any) => option?.displayName}
       />
     </>

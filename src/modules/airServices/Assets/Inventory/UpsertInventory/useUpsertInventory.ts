@@ -11,10 +11,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAirServicesAssetsInventoryAddToInventoryByIdQuery,
-  useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryUsersDropdownQuery,
   usePatchAirServicesAssetsInventoryAddToInventoryMutation,
   usePostAirServicesAssetsInventoryMutation,
 } from '@/services/airServices/assets/inventory';
@@ -24,7 +20,6 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -265,28 +260,9 @@ export const useUpsertInventory = () => {
     }
   };
 
-  const auth: any = useAuth();
+  const upsertInventoryFormFieldsOne = upsertInventoryFormFieldsFirst();
 
-  const productId = auth?.product?._id;
-
-  const apiQueryAssetType =
-    useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery();
-  const apiQueryDepartmentType =
-    useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery();
-  const apiQueryLocationType =
-    useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery();
-  const apiQueryUsedByType =
-    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
-
-  const upsertInventoryFormFieldsOne =
-    upsertInventoryFormFieldsFirst(apiQueryAssetType);
-
-  const upsertInventoryFormFieldsTwo = upsertInventoryFormFieldsSecond(
-    apiQueryDepartmentType,
-    apiQueryLocationType,
-    apiQueryUsedByType,
-    productId,
-  );
+  const upsertInventoryFormFieldsTwo = upsertInventoryFormFieldsSecond();
 
   const moveBack = () => {
     if (!!inventoryId) {

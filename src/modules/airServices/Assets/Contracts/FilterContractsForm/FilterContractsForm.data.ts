@@ -1,12 +1,11 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import {
   CONTRACT_STATUS,
   CONTRACT_TYPES,
   TIME_PERIODS,
 } from '@/constants/strings';
+import GetContractFilterContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractFilterContractTypeDropdown';
+import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContractVendorDropdown';
 
 export const contractTypeOptions = [
   {
@@ -87,21 +86,10 @@ export const contractsFilterFormDefaultValues = (data?: any) => {
   };
 };
 
-export const contractsFilterFormFieldsDynamic = (
-  apiQueryVendor: any,
-  apiContractType: any,
-) => [
+export const contractsFilterFormFieldsDynamic = () => [
   {
     id: 1,
-    componentProps: {
-      name: 'contractType',
-      label: 'Contract Type',
-      fullWidth: true,
-      placeholder: 'Select Contract Type',
-      apiQuery: apiContractType,
-      externalParams: { meta: false },
-    },
-    component: RHFAutocompleteAsync,
+    component: GetContractFilterContractTypeDropdown,
   },
   {
     id: 2,
@@ -117,15 +105,7 @@ export const contractsFilterFormFieldsDynamic = (
   },
   {
     id: 3,
-    componentProps: {
-      name: 'vendor',
-      label: 'Vendor',
-      fullWidth: true,
-      placeholder: 'Select Vendor',
-      apiQuery: apiQueryVendor,
-      externalParams: { meta: false, limit: 50 },
-    },
-    component: RHFAutocompleteAsync,
+    component: GetContractVendorDropdown,
   },
   {
     id: 4,
