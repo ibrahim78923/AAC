@@ -1,9 +1,5 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFDatePicker,
-} from '@/components/ReactHookForm';
-import { UsersDropdownOptionsI } from './Filter.interface';
+import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
+import { UsersListDropdown } from '../ImportTabListDropdown/UserListDropdown';
 
 export const productOptions = [
   'SALES',
@@ -41,7 +37,7 @@ export const defaultValues = (filterValues: any) => {
   };
 };
 
-export const filterFields = (userList: any, productId: any) => [
+export const filterFields = [
   {
     id: 2,
     component: RHFAutocomplete,
@@ -56,20 +52,8 @@ export const filterFields = (userList: any, productId: any) => [
   },
   {
     id: 920,
-    componentProps: {
-      name: 'user',
-      label: 'User',
-      fullWidth: true,
-      placeholder: 'User',
-      apiQuery: userList,
-      getOptionLabel: (option: UsersDropdownOptionsI) =>
-        option?.firstName + ' ' + option?.lastName,
-      externalParams: {
-        productId: productId,
-      },
-    },
     gridLength: 12,
-    component: RHFAutocompleteAsync,
+    component: UsersListDropdown,
   },
   {
     id: 4575,

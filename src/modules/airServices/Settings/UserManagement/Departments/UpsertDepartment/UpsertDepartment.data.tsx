@@ -4,14 +4,13 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFTextField,
-  RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
-import { ROLES } from '@/constants/strings';
-import { PAGINATION } from '@/config';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import { DepartmentHeadListDropdown } from '../DepartmentFormFields/DepartmentHeadListDropdown';
+import { MembersListDropdown } from '../DepartmentFormFields/MembersListDropdown';
 
 export const departmentFormValidation: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -42,11 +41,7 @@ export const departmentFormValues: any = (data: any, form?: any) => {
   };
 };
 
-export const departmentFormFieldsDynamic: any = ({
-  headAPiQuery,
-  memberApiQuery,
-  auth,
-}: any) => [
+export const departmentFormFieldsDynamic: any = [
   {
     id: 2,
     componentProps: {
@@ -60,21 +55,7 @@ export const departmentFormFieldsDynamic: any = ({
   },
   {
     id: 3,
-    componentProps: {
-      label: 'Department Head',
-      name: 'departmentHeadDetails',
-      placeholder: 'Select',
-      fullWidth: true,
-      apiQuery: headAPiQuery,
-      externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        organization: auth?.user?.organization?._id,
-        role: ROLES?.ORG_ADMIN,
-      },
-      getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentHeadListDropdown,
   },
   {
     id: 4,
@@ -96,17 +77,7 @@ export const departmentFormFieldsDynamic: any = ({
   },
   {
     id: 6,
-    componentProps: {
-      label: 'Members',
-      name: 'membersListDetails',
-      fullWidth: true,
-      multiple: true,
-      placeholder: 'Select',
-      apiQuery: memberApiQuery,
-      getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
-    },
-    component: RHFAutocompleteAsync,
+    component: MembersListDropdown,
   },
   {
     id: 1,

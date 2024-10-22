@@ -1,13 +1,10 @@
 import { useForm } from 'react-hook-form';
 import {
-  departmentFormFieldsDynamic,
   departmentFormValidation,
   departmentFormValues,
 } from './UpsertDepartment.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetUsersDropdownListForDepartmentHeadQuery,
-  useLazyGetUsersDropdownListForDepartmentMembersQuery,
   usePostDepartmentMutation,
   useUpdateDepartmentMutation,
 } from '@/services/airServices/settings/user-management/departments';
@@ -16,7 +13,6 @@ import {
   filteredEmptyValues,
   successSnackbar,
 } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -69,8 +65,6 @@ export const useUpsertDepartment = (props: any) => {
     resolver: yupResolver(departmentFormValidation?.(form)),
     defaultValues: departmentFormValues(selectedDepartment, form),
   });
-
-  const auth = useAuth();
 
   const { handleSubmit, reset } = method;
 
@@ -183,15 +177,6 @@ export const useUpsertDepartment = (props: any) => {
     reset();
   };
 
-  const memberApiQuery = useLazyGetUsersDropdownListForDepartmentMembersQuery();
-
-  const headAPiQuery = useLazyGetUsersDropdownListForDepartmentHeadQuery?.();
-  const departmentFormFields = departmentFormFieldsDynamic({
-    headAPiQuery,
-    memberApiQuery,
-    auth,
-  });
-
   return {
     handleClose,
     handleSubmit,
@@ -200,7 +185,6 @@ export const useUpsertDepartment = (props: any) => {
     method,
     updateDepartmentStatus,
     selectedDepartment,
-    departmentFormFields,
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,

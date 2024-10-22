@@ -7,15 +7,8 @@ import { FilterI } from './Filter.interface';
 
 export const Filter = (props: FilterI) => {
   const { isOpenFilterDrawer } = props;
-  const {
-    methods,
-    handleSubmit,
-    onSubmit,
-    clearFilter,
-    onClose,
-    userList,
-    productId,
-  } = useFilter(props);
+  const { methods, handleSubmit, onSubmit, clearFilter, onClose } =
+    useFilter(props);
 
   return (
     <CommonDrawer
@@ -31,7 +24,7 @@ export const Filter = (props: FilterI) => {
     >
       <FormProvider methods={methods}>
         <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-          {filterFields(userList, productId)?.map((form: any) => (
+          {filterFields?.map((form: any) => (
             <Grid item xs={12} md={form?.gridLength} key={form?.id}>
               <form.component {...form?.componentProps} size="small" />
             </Grid>

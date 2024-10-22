@@ -1,4 +1,5 @@
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { RoleListDropdown } from '../AgentFormFields/RoleListDropdown';
+import { DepartmentListDropdown } from '../AgentFormFields/DepartmentListDropdown';
 
 export const defaultValuesAgentFilter = (data: any) => {
   return {
@@ -7,32 +8,13 @@ export const defaultValuesAgentFilter = (data: any) => {
   };
 };
 
-export const agentFilterFields = (
-  apiQueryDepartment: any,
-  roleApiQuery: any,
-  roleApiQueryParams: any,
-) => [
+export const agentFilterFields = [
   {
     id: 7,
-    componentProps: {
-      name: 'departmentId',
-      label: 'Department',
-      fullWidth: true,
-      apiQuery: apiQueryDepartment,
-      placeholder: 'Select Department',
-    },
-    component: RHFAutocompleteAsync,
+    component: DepartmentListDropdown,
   },
   {
     id: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'permissionsRole',
-      label: 'Role',
-      placeholder: 'Select Role',
-      apiQuery: roleApiQuery,
-      externalParams: roleApiQueryParams,
-    },
-    component: RHFAutocompleteAsync,
+    component: RoleListDropdown,
   },
 ];

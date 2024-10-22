@@ -20,7 +20,7 @@ export const useExportTab: () => ExportTabI = () => {
 
   const filterBody = {
     product: filterValues?.product,
-    user: filterValues?.user && filterValues?.user?._id,
+    userId: filterValues?.user && filterValues?.user?._id,
     object: filterValues?.object,
     createdAt:
       filterValues?.createdDate &&

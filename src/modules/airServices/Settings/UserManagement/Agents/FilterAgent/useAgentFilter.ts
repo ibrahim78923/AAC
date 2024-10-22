@@ -1,14 +1,5 @@
 import { useForm } from 'react-hook-form';
-import {
-  agentFilterFields,
-  defaultValuesAgentFilter,
-} from './AgentFilter.data';
-
-import {
-  useLazyGetDepartmentDropdownListForAgentsQuery,
-  useLazyGetPermissionsRoleForUpsertAgentQuery,
-} from '@/services/airServices/settings/user-management/agents';
-import useAuth from '@/hooks/useAuth';
+import { defaultValuesAgentFilter } from './AgentFilter.data';
 import { IAgentsProps } from '../Agents.interface';
 import { PAGINATION } from '@/config';
 
@@ -20,18 +11,6 @@ export const useAgentFilter = (props: IAgentsProps) => {
     filterAgentData,
   } = props;
 
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[0]?.company;
-  const { _id: organizationId } = auth?.user?.organization;
-
-  const roleApiQueryParams = {
-    productId,
-    organizationCompanyAccountId,
-    organizationId,
-    limit: 50,
-  };
   const agentFilterDrawerMethods: any = useForm({
     defaultValues: defaultValuesAgentFilter?.(filterAgentData),
   });
@@ -59,14 +38,6 @@ export const useAgentFilter = (props: IAgentsProps) => {
     reset?.();
     setAgentFilterDrawerOpen(false);
   };
-  const apiQueryDepartment = useLazyGetDepartmentDropdownListForAgentsQuery();
-  const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
-
-  const agentFilterFormFields = agentFilterFields(
-    apiQueryDepartment,
-    roleApiQuery,
-    roleApiQueryParams,
-  );
 
   const resetAgentFilterForm = async () => {
     if (!!Object?.keys(filterAgentData)?.length) {
@@ -80,7 +51,6 @@ export const useAgentFilter = (props: IAgentsProps) => {
     onSubmit,
     handleCloseDrawer,
     agentFilterDrawerMethods,
-    agentFilterFormFields,
     resetAgentFilterForm,
     handleSubmit,
   };

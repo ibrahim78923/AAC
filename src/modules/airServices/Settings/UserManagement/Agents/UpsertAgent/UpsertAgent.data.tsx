@@ -1,9 +1,5 @@
 import * as yup from 'yup';
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
 import {
   dynamicFormInitialValue,
@@ -11,6 +7,8 @@ import {
 } from '@/utils/dynamic-forms';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { REGEX } from '@/constants/validation';
+import { DepartmentListDropdown } from '../AgentFormFields/DepartmentListDropdown';
+import { RoleListDropdown } from '../AgentFormFields/RoleListDropdown';
 
 export const validationSchemaAgentFields: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -55,12 +53,7 @@ export const defaultValues = (selectedAgentList: any, form?: any) => {
   };
 };
 
-export const agentFieldsData = (
-  selectedAgentList: any,
-  departmentDropdown: any,
-  roleApiQuery: any,
-  roleApiQueryParams: any,
-) => [
+export const agentFieldsData = (selectedAgentList: any) => [
   {
     id: 1,
     componentProps: {
@@ -112,28 +105,13 @@ export const agentFieldsData = (
 
   {
     id: 5,
-    componentProps: {
-      fullWidth: true,
-      name: 'departmentId',
-      label: 'Department',
-      placeholder: 'Select Department',
-      apiQuery: departmentDropdown,
-    },
     gridLength: 12,
-    component: RHFAutocompleteAsync,
+    component: DepartmentListDropdown,
   },
   {
     id: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'permissionsRole',
-      label: 'Role',
-      placeholder: 'Select Role',
-      apiQuery: roleApiQuery,
-      externalParams: roleApiQueryParams,
-    },
     gridLength: 12,
-    component: RHFAutocompleteAsync,
+    component: RoleListDropdown,
   },
   {
     id: 7,
