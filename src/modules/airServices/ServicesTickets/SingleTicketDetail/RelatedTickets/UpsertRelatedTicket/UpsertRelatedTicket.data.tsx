@@ -19,8 +19,8 @@ import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/Category
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldDropdown';
-import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { localeDateTime } from '@/lib/date-time';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 

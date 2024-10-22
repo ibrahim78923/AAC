@@ -5,7 +5,7 @@ import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/Tick
 import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 import { useLazyGetServicesTicketsListAsExportQuery } from '@/services/airServices/tickets';
 import { downloadFile } from '@/utils/file';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useHeader = () => {
   const router = useRouter();

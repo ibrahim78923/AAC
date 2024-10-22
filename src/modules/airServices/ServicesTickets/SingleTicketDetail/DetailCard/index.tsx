@@ -3,8 +3,8 @@ import { useDetailCard } from './useDetailCard';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
-import { uiDateFormat } from '@/utils/dateTime';
 import { AttachFileCard } from '@/components/AttachFileCard';
+import { uiDateFormat } from '@/lib/date-time';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 

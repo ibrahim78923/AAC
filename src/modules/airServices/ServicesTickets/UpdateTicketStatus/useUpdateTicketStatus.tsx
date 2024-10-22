@@ -1,5 +1,4 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
@@ -8,9 +7,10 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { useRouter } from 'next/router';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
-import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
 import { useUpdateSingleServicesTicketStatusMutation } from '@/services/airServices/tickets';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useUpdateTicketStatus = () => {
   const router = useRouter();

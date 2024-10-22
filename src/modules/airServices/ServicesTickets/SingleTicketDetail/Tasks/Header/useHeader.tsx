@@ -4,9 +4,9 @@ import { setIsPortalOpen } from '@/redux/slices/airServices/tickets-tasks/slice'
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { useLazyGetServicesTicketsTaskListAsExportQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { downloadFile } from '@/utils/file';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CREATE_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 
@@ -60,7 +60,7 @@ export const useHeader = () => {
           getTicketsParameter,
         )?.unwrap();
       downloadFile(response, 'TicketTasksLists', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar(`Tickets Exported successfully`);
+      successSnackbar(`Tickets exported successfully`);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

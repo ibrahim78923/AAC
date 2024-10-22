@@ -16,13 +16,11 @@ export const UpsertTasks = () => {
     handleCloseDrawer,
     handleSubmit,
     upsertTicketTaskFormFormFields,
-    postTicketTasksStatus,
-    patchTicketTasksStatus,
     getDynamicFieldsStatus,
     form,
-    postAttachmentStatus,
     getDynamicFormData,
     isPortalOpen,
+    apiCallInProgress,
   } = useUpsertTasks?.();
 
   return (
@@ -35,21 +33,9 @@ export const UpsertTasks = () => {
         footer
         isOk
         okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.action as string]}
-        isLoading={
-          postTicketTasksStatus?.isLoading ||
-          patchTicketTasksStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
-        }
-        isDisabled={
-          patchTicketTasksStatus?.isLoading ||
-          postTicketTasksStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
-        }
-        disabledCancelBtn={
-          patchTicketTasksStatus?.isLoading ||
-          postTicketTasksStatus?.isLoading ||
-          postAttachmentStatus?.isLoading
-        }
+        isLoading={apiCallInProgress}
+        isDisabled={apiCallInProgress}
+        disabledCancelBtn={apiCallInProgress}
       >
         <Box mt={1}>
           {getDynamicFieldsStatus?.isLoading ||

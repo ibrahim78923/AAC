@@ -4,7 +4,7 @@ import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
 } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',

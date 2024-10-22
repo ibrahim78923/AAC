@@ -5,7 +5,6 @@ import {
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
 import { useMergeServicesTicketsMutation } from '@/services/airServices/tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
@@ -14,6 +13,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useMergedTickets = () => {
   const dispatch = useAppDispatch();

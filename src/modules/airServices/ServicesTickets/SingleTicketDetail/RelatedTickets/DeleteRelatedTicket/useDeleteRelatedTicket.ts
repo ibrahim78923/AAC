@@ -1,5 +1,4 @@
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
@@ -8,6 +7,7 @@ import {
 } from '@/redux/slices/airServices/related-tickets/slice';
 import { useGetRelatedTicketList } from '../../../TicketsServicesHooks/useGetRelatedTicketList';
 import { useDeleteMultipleServicesRelatedTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteRelatedTicket = () => {
   const { getChildTicketsListData, page } = useGetRelatedTicketList();

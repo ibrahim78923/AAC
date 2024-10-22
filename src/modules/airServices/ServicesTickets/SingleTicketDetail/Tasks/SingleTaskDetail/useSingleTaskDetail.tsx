@@ -6,10 +6,10 @@ import {
   overviewDataArray,
   validationSchema,
 } from './SingleTaskDetail.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-tasks/slice';
 import { useUpdateSingleServicesTasksByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSingleTaskDetail = () => {
   const dispatch = useAppDispatch();

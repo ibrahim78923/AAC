@@ -1,9 +1,9 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { errorSnackbar } from '@/utils/api';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { DeleteRelatedTicket } from '../DeleteRelatedTicket';
 import { UpsertRelatedTicket } from '../UpsertRelatedTicket';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const RELATED_TICKET_ACTIONS_CONSTANT = {
   CREATE_RELATED_TICKET: 'create-new-ticket',

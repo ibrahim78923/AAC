@@ -146,3 +146,27 @@ export const AIR_LOYALTY_PROGRAM = {
   CONSUMERS: '/air-loyalty-program/consumers',
   UPSERT_CONSUMER: '/air-loyalty-program/consumers/upsert-consumer',
 };
+
+export const SOCIAL_COMPONENTS = {
+  COMPANIES: `/social-components/companies`,
+  VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
+  MEETINGS: '/social-components/meetings',
+  MEETINGS_SETTINGS: '/social-components/meetings/settings',
+  SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
+  UPSERT_MEETING:
+    '/social-components/meetings/schedule-meetings/upsert-meeting',
+  CALENDER_VIEW: '/social-components/meetings/calendar-view',
+  CREATE_MEETING_TEMPLATE:
+    '/social-components/meetings/schedule-meetings/upsert-meeting/email-template/create-email-template',
+  EMAIL_TEMPLATE:
+    '/social-components/meetings/schedule-meetings/upsert-meeting/email-template',
+};
+
+export const QUICK_LINKS = {
+  CALLING: '/social-components/calling',
+  DOCUMENT: '/social-components/documents',
+  CHAT: '/social-components/chat',
+  EMAIL: '/social-components/email',
+  COMPANIES: '/social-components/companies',
+  MEETINGS: '/social-components/meetings',
+};

@@ -1,8 +1,3 @@
-import {
-  AIR_SERVICES,
-  Quick_Links_Routes,
-  SOCIAL_COMPONENTS,
-} from '@/constants';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { NextRouter, useRouter } from 'next/router';
 import { singleTicketDetailDropdownOptionsDynamic } from './Header.data';
@@ -16,6 +11,11 @@ import { UpdateTicketStatus } from '../../UpdateTicketStatus';
 import { PrintTicket } from '../../PrintTicket';
 import { EmailTicket } from '../../EmailTicket';
 import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists/TicketsListHeader/TicketListHeader.data';
+import {
+  AIR_SERVICES,
+  QUICK_LINKS,
+  SOCIAL_COMPONENTS,
+} from '@/constants/routes';
 
 export const useHeader = (props: any) => {
   const { data } = props;
@@ -42,7 +42,7 @@ export const useHeader = (props: any) => {
     });
   };
 
-  const moveToCall = () => router?.push(Quick_Links_Routes?.CALLING);
+  const moveToCall = () => router?.push(QUICK_LINKS?.CALLING);
 
   const setTicketAction = (
     ticketActionQuery: string,

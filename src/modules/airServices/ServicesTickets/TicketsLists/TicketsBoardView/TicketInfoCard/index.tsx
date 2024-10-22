@@ -2,7 +2,6 @@ import { Box, Chip, Typography, Avatar } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import { AIR_SERVICES } from '@/constants';
 import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
@@ -17,6 +16,7 @@ import { UserInfo } from '@/components/UserInfo';
 import { RENDER_COLOR } from '../TicketsBoardView.data';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;

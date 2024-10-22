@@ -17,8 +17,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const SingleTaskDetail = () => {
   const {
@@ -156,7 +155,7 @@ export const SingleTaskDetail = () => {
                           variant={'rounded'}
                         />
                       ) : isValidDate(value) ? (
-                        dayjs(value)?.format(DATE_FORMAT?.UI)
+                        uiDateFormat(value)
                       ) : (
                         value?.toString()
                       )}
@@ -170,7 +169,7 @@ export const SingleTaskDetail = () => {
                   label="Add Comment"
                   multiline={true}
                   rows={5}
-                  fullWidth={true}
+                  fullWidth
                   placeholder="Type here"
                 />
               </Grid>

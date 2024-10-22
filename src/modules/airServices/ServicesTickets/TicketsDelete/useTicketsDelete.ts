@@ -1,5 +1,3 @@
-import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -10,6 +8,8 @@ import {
   setPage,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useDeleteMultipleServicesTicketsMutation } from '@/services/airServices/tickets';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useTicketDelete = () => {
   const router = useRouter();
