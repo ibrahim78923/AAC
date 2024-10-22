@@ -6,12 +6,17 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import {
+  FilterDefaultValues,
+  FilterValidationSchema,
+} from './CategoryForecastReorts.data';
 
 const useCateogoryForcastReports = () => {
   const [activeCard, setActiveCard] = useState('total');
   const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
 
   const theme = useTheme();
   const router = useRouter();
@@ -53,13 +58,13 @@ const useCateogoryForcastReports = () => {
   });
 
   const methods: any = useForm({
-    resolver: yupResolver({}),
-    defaultValues: {},
+    resolver: yupResolver(FilterValidationSchema),
+    defaultValues: FilterDefaultValues,
   });
 
   const handleSubmit = () => {};
 
-  const { watch } = methods;
+  const { watch, reset } = methods;
   const userTeam = watch('userTeam');
   const pipeline = watch('pipeline');
 
@@ -70,6 +75,12 @@ const useCateogoryForcastReports = () => {
       collaboratorIds: userTeam?._id,
     });
   }, [userTeam, pipeline]);
+
+  const handleRefresh = () => {
+    setFilterValues({});
+    setDatePickerVal(new Date());
+    reset();
+  };
 
   return {
     activeCard,
@@ -91,6 +102,9 @@ const useCateogoryForcastReports = () => {
     setPage,
     handleSubmit,
     methods,
+    datePickerVal,
+    setDatePickerVal,
+    handleRefresh,
   };
 };
 

@@ -21,19 +21,20 @@ const FilterCompany = ({
   setIsFilter,
   filterValues,
   setFilterValues,
+  handleSubmit,
+  methods,
 }: any) => {
-  const { methods, handleSubmit, onSubmit, getCompanyContacts } =
-    useFilterCompany({
-      filterValues,
-      setFilterValues,
-      setIsFilter,
-    });
+  const { onSubmit, getCompanyContacts } = useFilterCompany({
+    filterValues,
+    setFilterValues,
+    setIsFilter,
+  });
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isFilter}
         onClose={() => {
-          setIsFilter({ ...isFilter, filtersDrawer: false });
+          setIsFilter(false);
         }}
         title="Filters"
         okText="Apply"

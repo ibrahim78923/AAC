@@ -11,4 +11,17 @@ export const styles = {
       cursor: 'pointer',
     };
   },
+  refreshButton: (theme: any) => {
+    return {
+      width: '54px',
+      border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
+      '@media (max-width:600px)': {
+        width: '100%',
+      },
+      '&:hover': {
+        background: `${theme?.palette?.grey[400]}`,
+        border: '1.5px solid transparent',
+      },
+    };
+  },
 };

@@ -10,7 +10,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useGetLifeCycleQuery } from '@/services/commonFeatures/contacts';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { getSession } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { useEffect, useState } from 'react';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
@@ -145,14 +145,20 @@ const useDetails = (data: any) => {
     formData.append('name', values?.CompanyName);
     formData.append('ownerId', values?.CompanyOwner);
     formData.append('industry', values?.Industry);
-    formData.append('type', values?.CompanyType);
+    if (!isNullOrEmpty(values?.CompanyType)) {
+      formData.append('type', values?.CompanyType);
+    }
     formData.append('noOfEmloyee', parseInt(values?.NumberOfEmployees));
     formData.append('totalRevenue', parseInt(values?.AnnualRevenue));
     formData.append('city', values?.City);
     formData.append('postalCode', values?.PostalCode);
     formData.append('address', values?.Address);
-    formData.append('description', values?.description);
-    formData.append('linkedInUrl', values?.LinkedInCompanyPage);
+    if (!isNullOrEmpty(values?.description)) {
+      formData.append('description', values?.description);
+    }
+    if (!isNullOrEmpty(values?.linkedInUrl)) {
+      formData.append('linkedInUrl', values?.LinkedInCompanyPage);
+    }
     formData.append('phone', values?.PhoneNumber);
     formData.append('crn', values?.CompanyRegistrationNumber);
     if (

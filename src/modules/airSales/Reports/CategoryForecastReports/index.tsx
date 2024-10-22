@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -6,11 +5,12 @@ import {
   Theme,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { DownloadLargeIcon } from '@/assets/icons';
+import { DownloadLargeIcon, RefreshSharedIcon } from '@/assets/icons';
 import CardAndGraphs from './CategoryGraph';
 import PipelineOverview from './CategoryTable';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
@@ -28,10 +28,10 @@ import { getSession } from '@/utils';
 import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import { DATE_FORMAT } from '@/constants';
+import { styles } from './CategoryForecastReports.style';
 
 const CategoryForecastReports = () => {
   const theme = useTheme<Theme>();
-  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
 
   const {
     router,
@@ -51,6 +51,9 @@ const CategoryForecastReports = () => {
     setPage,
     handleSubmit,
     methods,
+    handleRefresh,
+    datePickerVal,
+    setDatePickerVal,
   } = useCateogoryForcastReports();
 
   const pipelineData = dealPipelineData?.data?.map((data: any) => ({
@@ -106,7 +109,7 @@ const CategoryForecastReports = () => {
                       color: theme?.palette?.primary?.main,
                       backgroundColor: '#fff',
                       border: `1px solid ${theme?.palette?.grey[0]}`,
-                      height: '40px',
+                      height: '38px',
                       '&.Mui-selected': {
                         backgroundColor: theme?.palette?.primary?.main,
                         color: '#fff',
@@ -128,7 +131,7 @@ const CategoryForecastReports = () => {
                       color: theme?.palette?.primary?.main,
                       backgroundColor: '#fff',
                       border: `1px solid ${theme?.palette?.grey[0]}`,
-                      height: '40px',
+                      height: '38px',
                       '&.Mui-selected': {
                         backgroundColor: theme?.palette?.primary?.main,
                         color: '#fff',
@@ -145,6 +148,17 @@ const CategoryForecastReports = () => {
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Box>
+
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button
+                  className="small"
+                  sx={styles?.refreshButton}
+                  onClick={handleRefresh}
+                >
+                  <RefreshSharedIcon />
+                </Button>
+              </Tooltip>
+
               <SwitchableDatepicker
                 renderInput="button"
                 placement="right"
@@ -204,9 +218,8 @@ const CategoryForecastReports = () => {
           </FormProvider>
 
           <Button
-            sx={{ gap: 1, height: '30px' }}
+            sx={{ gap: 1, height: '39px' }}
             variant="outlined"
-            className="small"
             color="inherit"
           >
             <DownloadLargeIcon />

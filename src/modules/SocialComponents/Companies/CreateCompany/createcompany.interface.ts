@@ -18,6 +18,7 @@ export interface companyFormValuesI {
   address: string;
   description?: string;
   linkedInUrl?: string;
+  phone?: string;
 }
 
 export interface DrawerItemOptionI {

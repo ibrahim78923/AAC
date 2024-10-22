@@ -3,7 +3,6 @@ import { DATE_FORMAT } from '@/constants';
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
-import { useForm } from 'react-hook-form';
 
 const useFilterCompany = ({
   filterValues,
@@ -12,10 +11,7 @@ const useFilterCompany = ({
 }: any) => {
   const pageLimit = PAGINATION?.PAGE_LIMIT;
   const page = PAGINATION?.CURRENT_PAGE;
-  const methods: any = useForm({});
   const { user }: any = getSession();
-
-  const { handleSubmit } = methods;
 
   const startedDate = 0;
   const endedDate = 1;
@@ -53,7 +49,7 @@ const useFilterCompany = ({
   };
   const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
-  return { methods, handleSubmit, onSubmit, getCompanyContacts };
+  return { onSubmit, getCompanyContacts };
 };
 
 export default useFilterCompany;

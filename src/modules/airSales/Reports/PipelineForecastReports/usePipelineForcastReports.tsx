@@ -6,12 +6,17 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  FilterValidationSchema,
+  FilterDefaultValues,
+} from './PipelineForecastReorts.data';
 
 const usePipelineForcastReports = () => {
   const [activeCard, setActiveCard] = useState('total');
   const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
 
   const theme = useTheme();
   const router = useRouter();
@@ -54,13 +59,13 @@ const usePipelineForcastReports = () => {
   });
 
   const methods: any = useForm({
-    resolver: yupResolver({}),
-    defaultValues: {},
+    resolver: yupResolver(FilterValidationSchema),
+    defaultValues: FilterDefaultValues,
   });
 
   const handleSubmit = () => {};
 
-  const { watch } = methods;
+  const { watch, reset } = methods;
   const userTeam = watch('userTeam');
   const pipeline = watch('pipeline');
 
@@ -71,6 +76,12 @@ const usePipelineForcastReports = () => {
       collaboratorIds: userTeam?._id,
     });
   }, [userTeam, pipeline]);
+
+  const handleRefresh = () => {
+    setFilterValues({});
+    setDatePickerVal(new Date());
+    reset();
+  };
 
   return {
     activeCard,
@@ -92,6 +103,9 @@ const usePipelineForcastReports = () => {
     setPage,
     handleSubmit,
     methods,
+    handleRefresh,
+    datePickerVal,
+    setDatePickerVal,
   };
 };
 

@@ -55,6 +55,9 @@ export const totalOptionsBar: any = (theme: any, pipelineForecastData: any) => {
       type: 'bar',
       toolbar: {
         show: true,
+        tools: {
+          download: false, // This disables the download options
+        },
       },
     },
 
@@ -174,6 +177,9 @@ export const comparisonOptionsBar: any = (
       type: 'bar',
       toolbar: {
         show: true,
+        tools: {
+          download: false, // This disables the download options
+        },
       },
     },
 
@@ -285,6 +291,9 @@ export const overtimeOptionsBar = (theme: any, pipelineForecastData: any) => {
       type: 'bar',
       toolbar: {
         show: true,
+        tools: {
+          download: false, // This disables the download options
+        },
       },
     },
 

@@ -65,6 +65,10 @@ const CompanyTabs = () => {
     activeColumns,
     isDrawerOpen,
     setIsDrawerOpen,
+    isFilterOpen,
+    setIsFilterOpen,
+    handleSubmit,
+    methods,
   } = useCompanies();
 
   const columnsProps = {
@@ -290,6 +294,7 @@ const CompanyTabs = () => {
                     color="inherit"
                     startIcon={<FilterIcon />}
                     onClick={() => {
+                      setIsFilterOpen(true);
                       setIsOpen({ ...isOpen, filtersDrawer: true });
                       handleApplyFilter;
                     }}
@@ -328,8 +333,10 @@ const CompanyTabs = () => {
             <FilterCompany
               filterValues={filterValues}
               setFilterValues={setFilterValues}
-              setIsFilter={setIsOpen}
-              isFilter={isOpen?.filtersDrawer}
+              setIsFilter={setIsFilterOpen}
+              isFilter={isFilterOpen}
+              handleSubmit={handleSubmit}
+              methods={methods}
             />
           )}
 
