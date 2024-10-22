@@ -58,8 +58,14 @@ const ManageAccess = ({
         id: selectedRecords?._id,
         body: {
           visibleTo: values?.access,
-          teamIds: values?.teams?.map((item: any) => item?._id),
-          userAccoutIds: values?.users?.map((item: any) => item?._id),
+          teamIds:
+            values?.access === 'TEAMS'
+              ? values?.teams?.map((item: any) => item?._id)
+              : [],
+          userAccoutIds:
+            values?.access === 'USERS'
+              ? values?.users?.map((item: any) => item?.userData?._id)
+              : [],
         },
       })?.unwrap();
       setSelectedRecords([]);

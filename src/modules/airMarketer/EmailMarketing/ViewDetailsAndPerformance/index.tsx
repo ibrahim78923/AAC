@@ -136,23 +136,25 @@ const ViewDetailsAndPerformance = ({
         )}
       </CommonDrawer>
 
-      <CommonModal
-        open={isEditEmailOpen}
-        handleClose={() => setIsEditEmailOpen(false)}
-        handleCancel={() => setIsEditEmailOpen(false)}
-        title=""
-        okText="Verify"
-        cancelText="Cancel"
-        footer={false}
-        width={1000}
-        cancelIcon={false}
-      >
-        <CreateNewEmail
-          edit
-          data={data}
-          setIsEditEmailOpen={setIsEditEmailOpen}
-        />
-      </CommonModal>
+      {isEditEmailOpen && (
+        <CommonModal
+          open={isEditEmailOpen}
+          handleClose={() => setIsEditEmailOpen(false)}
+          handleCancel={() => setIsEditEmailOpen(false)}
+          title=""
+          okText="Verify"
+          cancelText="Cancel"
+          footer={false}
+          width={1000}
+          cancelIcon={false}
+        >
+          <CreateNewEmail
+            edit
+            data={data}
+            setIsEditEmailOpen={setIsEditEmailOpen}
+          />
+        </CommonModal>
+      )}
     </>
   );
 };

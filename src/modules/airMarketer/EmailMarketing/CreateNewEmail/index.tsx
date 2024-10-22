@@ -42,17 +42,16 @@ import { enqueueSnackbar } from 'notistack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { useGetEmailSettingsIdentitiesQuery } from '@/services/airMarketer/email-settings';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
+import { useRouter } from 'next/router';
 
 const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
+  const router = useRouter();
+
   const {
     isAddNoteDrawer,
     handleAddNoteDrawer,
     openCalendar,
     setOpenCalendar,
-    router,
     sendAnchorEl,
     handleSendMenuClick,
     handleSendMenuClose,
@@ -151,8 +150,10 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
   const isoString = dayjs(dateObject)?.format(DATE_TIME_FORMAT?.YYMMDD);
 
   useEffect(() => {
-    if (isoString) {
-      setSendLaterDate(isoString);
+    if (isSendLater) {
+      if (isoString) {
+        setSendLaterDate(isoString);
+      }
     }
   }, [isoString]);
 
@@ -196,7 +197,7 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
         formDataSend.append('sentOn', sendLaterDate);
       }
       if (id) {
-        formDataSend.append('folderId', id);
+        formDataSend.append('folderId', String(id));
       }
       if (notesData.length > 0) {
         const mappedData = notesData?.map(
@@ -231,12 +232,11 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
             }
           }
         }
-
         reset();
         if (edit) {
           setIsEditEmailOpen(false);
         }
-
+        setIsSendLater(false);
         router.push(
           id
             ? `${AIR_MARKETER?.EMAIL_FOLDER_EMAILS}?folder=${folder}&id=${id}`
@@ -282,7 +282,11 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
           <span
             style={{ cursor: 'pointer' }}
             onClick={() => {
-              edit ? setIsEditEmailOpen(false) : router.back();
+              if (edit) {
+                setIsEditEmailOpen(false);
+              } else {
+                router.push('/air-marketer/email-marketing');
+              }
             }}
           >
             <BackArrIcon />

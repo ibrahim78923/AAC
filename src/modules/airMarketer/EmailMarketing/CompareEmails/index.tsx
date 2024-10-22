@@ -1,6 +1,5 @@
 import { AddAlertPopupIcon, BackArrIcon } from '@/assets/icons';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import Search from '@/components/Search';
 import {
   Box,
   Button,
@@ -39,8 +38,6 @@ const CompareEmails = () => {
   const router = useRouter();
 
   const { id } = router.query;
-
-  const [searchByCompareEmails, setSearchByCompareEmails] = useState();
   const [datePickerVal, setDatePickerVal] = useState(new Date());
   const [IsAddEmail, setIsAddEmail] = useState(false);
   const theme = useTheme();
@@ -104,13 +101,6 @@ const CompareEmails = () => {
           alignItems={{ md: 'center' }}
           flexWrap="wrap"
         >
-          <Search
-            searchBy={searchByCompareEmails}
-            setSearchBy={setSearchByCompareEmails}
-            label="Search Here"
-            width={260}
-            size="small"
-          />
           <SwitchableDatepicker
             renderInput={'date'}
             dateValue={datePickerVal}
@@ -242,10 +232,6 @@ const EmailView = ({ id }: EmailViewPropsI) => {
     },
     { skip: id ? false : true },
   );
-
-  console.log('data', data);
-  console.log(calculatePercentage(data?.data?.open, data?.data?.total));
-
   return (
     <>
       {status === 'pending' ? (

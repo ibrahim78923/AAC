@@ -1,10 +1,8 @@
 import { useSnackbar } from 'notistack';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 export const useCreateNewEmail = () => {
-  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [isAddNoteDrawer, setIsAddNoteDrawer] = useState<boolean>(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
@@ -40,7 +38,6 @@ export const useCreateNewEmail = () => {
     handleScheduleModal,
     openCalendar,
     setOpenCalendar,
-    router,
     sendAnchorEl,
     handleSendMenuClick,
     handleSendMenuClose,

@@ -223,6 +223,8 @@ const LeftPane = ({
     }
   }, [searchTerm]);
 
+  const [isOpenDate, setIsOpenDate] = useState(false);
+
   const handelRefresh = async () => {
     dispatch(setMailList('clear'));
     dispatch(setMailCurrentPage(1));
@@ -236,6 +238,8 @@ const LeftPane = ({
   const handelFilterRefresh = () => {
     handelRefresh();
     setIsFiltersValues({});
+    setDatePickerVal(new Date());
+    setIsOpenDate(false);
   };
 
   return (
@@ -254,6 +258,7 @@ const LeftPane = ({
           </Button>
           <Box sx={{ marginRight: '5px' }}>
             <SwitchableDatepicker
+              isCalendarOpen={isOpenDate}
               renderInput="button"
               placement="left"
               dateValue={datePickerVal}
