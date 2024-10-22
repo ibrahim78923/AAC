@@ -6,7 +6,7 @@ import {
   productOptionsFunction,
   stepsData,
 } from './ImportModal.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useImportFileMutation,

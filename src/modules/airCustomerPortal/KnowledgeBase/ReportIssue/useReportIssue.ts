@@ -5,7 +5,6 @@ import {
 } from './ReportIssue.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   ARRAY_INDEX,
   PORTAL_TICKET_FIELDS,
@@ -24,12 +23,13 @@ import {
   getCustomerPortalStyling,
   getSession,
 } from '@/utils';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 import useAuth from '@/hooks/useAuth';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const useReportIssue = (props: ReportIssuePropsI) => {
   const { setIsPortalOpen } = props;

@@ -1,5 +1,4 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
@@ -23,6 +22,7 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import NoData from '@/components/NoData';
 import ReportsCards from './ReportsCards';
 import { AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const InventoryReports = () => {
   const {

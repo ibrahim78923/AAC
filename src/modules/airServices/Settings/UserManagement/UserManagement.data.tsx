@@ -1,11 +1,11 @@
 import LanIcon from '@mui/icons-material/Lan';
-import { AIR_SERVICES } from '@/constants';
 import { AgentsIcon, RequesterIcon, RolesIcon } from '@/assets/icons';
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import PersonIcon from '@mui/icons-material/Person';
 import { Permissions } from '@/constants/permissions';
 import { ISettingsCards } from '../Settings.interface';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const userManagement: ISettingsCards[] = [
   {

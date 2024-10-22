@@ -1,7 +1,6 @@
 import { UserInfo } from '@/components/UserInfo';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { truncateText } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
 
 export const transactionTableData = [
   {
@@ -62,6 +61,6 @@ export const UserList: any = [
     id: 'redeemed',
     isSortable: true,
     header: 'Redeemed',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

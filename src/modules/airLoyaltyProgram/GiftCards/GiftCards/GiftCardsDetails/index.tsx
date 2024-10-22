@@ -4,8 +4,8 @@ import { data, giftCardDetailsColumn } from './GiftCardDetails.data';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { ExportBlackIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { useGiftCardsDetails } from './useGiftCardDetails';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 
 export const GiftCardsDetails = () => {
   const {

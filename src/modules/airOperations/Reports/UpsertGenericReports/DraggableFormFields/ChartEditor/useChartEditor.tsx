@@ -1,5 +1,4 @@
 import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
-import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useEffect } from 'react';
 import {
@@ -18,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
 import useAuth from '@/hooks/useAuth';
+import { successSnackbar } from '@/lib/snackbar';
 
 export const useChartEditor = (props: ChartEditorI) => {
   const {

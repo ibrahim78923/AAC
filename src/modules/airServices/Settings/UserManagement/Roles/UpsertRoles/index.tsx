@@ -1,6 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertRolesFormData } from './UpsertRoles.data';
 import useUpsertRoles from './useUpsertRoles';

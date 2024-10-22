@@ -4,7 +4,7 @@ import {
   validationSchemaRejectedModal,
 } from './RejectedModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { usePatchRejectRequestMutation } from '@/services/airServices/settings/user-management/agents';
 import { IAgentsProps } from '../../Agents.interface';
 

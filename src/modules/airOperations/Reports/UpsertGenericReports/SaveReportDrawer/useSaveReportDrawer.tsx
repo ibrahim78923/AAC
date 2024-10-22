@@ -5,7 +5,6 @@ import {
   reportsDefaultValues,
   reportsValidationSchema,
 } from './SaveReportDrawer.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import {
   CHARTS,
@@ -24,6 +23,7 @@ import {
   usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const { form, reportId, metricType, data, handleMoveBack } = props;

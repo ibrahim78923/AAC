@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import {

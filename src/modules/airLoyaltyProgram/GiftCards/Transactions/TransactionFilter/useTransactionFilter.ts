@@ -1,7 +1,7 @@
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { defaultValues } from './TransactionFilter.data';
 import { useForm } from 'react-hook-form';
 import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useTransactionFilter = () => {
   const [triggerGetTransactionList, getTransactionListStatus] =

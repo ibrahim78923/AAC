@@ -9,14 +9,10 @@ import {
   defaultValues,
   validationSchemaAgentFields,
 } from './UpsertAgent.data';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, ROLES } from '@/constants/strings';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -31,6 +27,7 @@ import { IAgentsProps } from '../Agents.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
 import { isoDateString } from '@/utils/dateTime';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
   const [form, setForm] = useState<any>([]);

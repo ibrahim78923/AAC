@@ -2,10 +2,10 @@ import { DocumentTextIcon } from '@/assets/icons';
 import { Box, IconButton, Typography } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useRouter } from 'next/router';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { truncateText } from '@/utils/avatarUtils';
 import { KnowledgeBaseArticlesI } from './KnowledgeBaseArticles.interface';
 import { TruncateText } from '@/components/TruncateText';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
   const { modifiedDate, purposeDescription, articleId, articlesTitle } = props;

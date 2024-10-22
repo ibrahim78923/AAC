@@ -1,7 +1,7 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { RequestorsDetails } from './RequestorsDetails';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const RequestorsViewDetails = () => {
   const router = useRouter();

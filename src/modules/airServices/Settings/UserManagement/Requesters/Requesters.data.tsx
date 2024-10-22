@@ -1,9 +1,9 @@
 import { Box, Checkbox, Typography } from '@mui/material';
 import { REQUESTORS_STATUS } from '@/constants/strings';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';

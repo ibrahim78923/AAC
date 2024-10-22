@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,9 +13,10 @@ import {
   useGetSingleKnowledgeBaseArticleQuery,
   usePostArticleFeedbackMutation,
 } from '@/services/airCustomerPortal/KnowledgeBase';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 import { getActiveAccountSession, getSession } from '@/utils';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useKnowledgeBaseArticleDetail = () => {
   const theme = useTheme();

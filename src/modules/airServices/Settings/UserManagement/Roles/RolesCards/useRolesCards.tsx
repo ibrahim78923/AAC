@@ -1,5 +1,5 @@
 import { useDeleteRoleMutation } from '@/services/airServices/settings/user-management/roles';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

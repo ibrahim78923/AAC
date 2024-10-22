@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, Popover, Typography } from '@mui/material';
 import { AddRoleIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';

@@ -1,8 +1,8 @@
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const inventoryListsColumnsDynamic: any = (router: any): any => [
   {
@@ -83,6 +83,6 @@ export const inventoryListsColumnsDynamic: any = (router: any): any => [
     id: 'assetLifeExpireOn',
     isSortable: true,
     header: 'Asset life expire on',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

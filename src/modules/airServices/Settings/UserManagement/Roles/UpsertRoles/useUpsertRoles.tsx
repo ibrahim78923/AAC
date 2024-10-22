@@ -6,8 +6,8 @@ import {
   upsertRolesDefaultValues,
   upsertRolesValidationSchema,
 } from './UpsertRoles.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { AIR_SERVICES } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
 import useAuth from '@/hooks/useAuth';
 import {
   useGetPermissionsRoleByIdQuery,

@@ -5,8 +5,8 @@ import {
   addGiftCardFormFieldsDynamic,
   addGiftCardValidationSchema,
 } from './AddGiftCards.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAddGiftCardMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddGiftCards = (props: any) => {
   const { setIsPortalOpen } = props;

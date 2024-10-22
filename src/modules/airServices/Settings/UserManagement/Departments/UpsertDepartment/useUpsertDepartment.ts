@@ -8,11 +8,7 @@ import {
   usePostDepartmentMutation,
   useUpdateDepartmentMutation,
 } from '@/services/airServices/settings/user-management/departments';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -24,6 +20,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { useEffect, useState } from 'react';
 import { isoDateString } from '@/utils/dateTime';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const useUpsertDepartment = (props: any) => {
   const { setOpenUpsertModal, selectedDepartment, setSelectedDepartment } =

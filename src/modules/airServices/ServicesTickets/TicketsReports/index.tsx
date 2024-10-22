@@ -4,7 +4,6 @@ import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
 import { TicketsReportChart } from './TicketsReportChart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { DownloadLargeIcon } from '@/assets/icons';
 import { FormProvider, RHFDateRangePicker } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -14,6 +13,7 @@ import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { htmlToPdfConvert } from '@/utils/file';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const TicketsReports = () => {
   const {

@@ -1,5 +1,5 @@
 import { useDeleteRequesterMutation } from '@/services/airServices/settings/user-management/requesters';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IRequestersProps } from '../Requesters.interface';
 
 export const useDeleteRequester = (props: IRequestersProps) => {

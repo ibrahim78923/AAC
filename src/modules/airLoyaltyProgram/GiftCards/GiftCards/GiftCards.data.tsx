@@ -1,10 +1,7 @@
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { UserInfo } from '@/components/UserInfo';
-import {
-  ACTIVITY_STATUS_MENU,
-  AIR_LOYALTY_PROGRAM,
-  DATE_TIME_FORMAT,
-} from '@/constants';
+import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
