@@ -1,5 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const CardData = (data: any) => {
   return {
@@ -8,6 +8,6 @@ export const CardData = (data: any) => {
     'Deal Stage': data?.dealStage ?? '---',
     'Deal Pipeline': data?.dealPipeline ?? '---',
     Priority: data?.priority ?? '---',
-    'Close Date': dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI),
+    'Close Date': otherDateFormat(data?.closeDate, DATE_FORMAT?.UI),
   };
 };

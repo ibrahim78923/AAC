@@ -3,8 +3,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import {
   useGetAirServicesSettingsWorkloadScheduleByIdQuery,
-  useLazyGetAirServicesSettingsBusinessHourDropdownQuery,
-  useLazyGetAirServicesSettingsWorkloadAgentDropdownQuery,
   usePatchAirServicesSettingsWorkloadScheduleMutation,
   usePostAirServicesSettingsWorkloadScheduleMutation,
 } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
@@ -18,14 +16,10 @@ import {
 import { AIR_SERVICES } from '@/constants';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import useAuth from '@/hooks/useAuth';
 
 export const useUpsertWorkloadSchedule = () => {
   const router = useRouter();
   const { workloadScheduleId } = router?.query;
-
-  const auth: any = useAuth();
-  const productId = auth?.product?._id ?? {};
 
   const [postWorkloadScheduleTrigger, postWorkloadScheduleStatus] =
     usePostAirServicesSettingsWorkloadScheduleMutation();
@@ -111,19 +105,8 @@ export const useUpsertWorkloadSchedule = () => {
     router?.push(AIR_SERVICES?.WORKLOAD_MANAGEMENT_SETTINGS);
   };
 
-  const apiQueryAgent =
-    useLazyGetAirServicesSettingsWorkloadAgentDropdownQuery();
-  const apiQueryBusinessHours =
-    useLazyGetAirServicesSettingsBusinessHourDropdownQuery();
-
   const upsertWorkloadScheduleFormFields =
-    upsertWorkloadScheduleFormFieldsDynamic(
-      apiQueryAgent,
-      apiQueryBusinessHours,
-      getValues,
-      router,
-      productId,
-    );
+    upsertWorkloadScheduleFormFieldsDynamic(getValues, router);
 
   return {
     handleSubmit,

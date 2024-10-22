@@ -7,6 +7,7 @@ import CustomLabel from '../CustomLabel';
 import { indexNumbers } from '@/constants';
 import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
 import { AttachFileCard } from '../AttachFileCard';
+import { TruncateText } from '../TruncateText';
 
 export default function RHFDropZone({
   name,
@@ -152,15 +153,18 @@ export default function RHFDropZone({
           <Box>
             {multiple ? (
               fileList?.map((file: any, index: number) => (
-                <Typography variant="body2" key={index ?? file?.name}>
-                  {file?.orignalName || file?.name}
-                </Typography>
+                <TruncateText
+                  key={index ?? file?.name}
+                  text={file?.orignalName || file?.name}
+                />
               ))
             ) : (
-              <Typography variant="body2">
-                {fileList?.[indexNumbers?.ZERO]?.orignalName ||
-                  fileList?.[indexNumbers?.ZERO]?.name}
-              </Typography>
+              <TruncateText
+                text={
+                  fileList?.[indexNumbers?.ZERO]?.orignalName ||
+                  fileList?.[indexNumbers?.ZERO]?.name
+                }
+              />
             )}
           </Box>
         ) : (

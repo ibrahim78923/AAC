@@ -4,7 +4,7 @@ import { Stack, Typography } from '@mui/material';
 import useAddPurchaseOrder from './useAddPurchaseOrder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Link from 'next/link';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 

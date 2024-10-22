@@ -40,3 +40,23 @@ const formatTimeUnit = (diff: number, unit: string, base: number = 1) => {
   const value = Math.floor(diff / base);
   return `${value} ${unit}${value !== 1 ? 's' : ''} ago`;
 };
+
+export const TimeFormatDuration = (
+  startTime: string,
+  endTime: string,
+): string => {
+  const [startHours, startMinutes] = startTime?.split(':')?.map(Number) || [
+    0, 0,
+  ];
+  const [endHours, endMinutes] = endTime?.split(':')?.map(Number) || [0, 0];
+  const startDateTime = dayjs()
+    .set('hour', startHours)
+    ?.set('minute', startMinutes);
+  const endDateTime = dayjs().set('hour', endHours)?.set('minute', endMinutes);
+  const durationMinutes = endDateTime?.diff(startDateTime, 'minute');
+  const adjustedDurationMinutes =
+    durationMinutes < 0 ? 1440 + durationMinutes : durationMinutes;
+  return `${Math?.floor(adjustedDurationMinutes / 60)}h ${
+    adjustedDurationMinutes % 60
+  }m`;
+};

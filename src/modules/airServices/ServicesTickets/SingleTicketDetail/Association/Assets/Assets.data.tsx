@@ -6,11 +6,12 @@ import { Box, Chip, Typography, alpha } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import dayjs from 'dayjs';
-import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { TruncateText } from '@/components/TruncateText';
 import { splitCapitalizedWords } from '@/utils/api';
 import { pxToRem } from '@/utils/getFontValue';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const TYPE_VALUES = {
   ASSETS: 'assets',
@@ -60,7 +61,7 @@ export const getAssociateAssetsColumns: any = ({
       isSortable: true,
       cell: (info: any) =>
         info?.getValue()
-          ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY)
+          ? otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.MMMDDYYYY)
           : '---',
     },
     {
@@ -183,7 +184,7 @@ export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
       isSortable: true,
       cell: (info: any) =>
         info?.getValue()
-          ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY)
+          ? otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.MMMDDYYYY)
           : '---',
     },
     {

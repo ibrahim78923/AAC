@@ -4,9 +4,9 @@ import { fullName } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
   return [
@@ -39,7 +39,7 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
       isSortable: true,
       cell: (info: any) =>
         info?.getValue()
-          ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY)
+          ? otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.DDMMYYY)
           : '---',
     },
     {
