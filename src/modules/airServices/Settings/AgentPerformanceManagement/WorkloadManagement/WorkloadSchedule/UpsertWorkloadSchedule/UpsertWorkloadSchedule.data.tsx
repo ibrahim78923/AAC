@@ -1,7 +1,7 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { RemoveRedEyeOutlined } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import * as Yup from 'yup';

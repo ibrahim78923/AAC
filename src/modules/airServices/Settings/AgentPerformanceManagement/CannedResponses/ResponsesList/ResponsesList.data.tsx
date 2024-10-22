@@ -7,11 +7,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { TruncateText } from '@/components/TruncateText';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const responsesTableColumns = (
   responsesData: any,
@@ -79,7 +79,7 @@ export const responsesTableColumns = (
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      dayjs(info?.getValue()).format(DATE_TIME_FORMAT?.DMYHMSA),
+      otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.DMYHMSA),
   },
   {
     accessorFn: (row: any) => ({

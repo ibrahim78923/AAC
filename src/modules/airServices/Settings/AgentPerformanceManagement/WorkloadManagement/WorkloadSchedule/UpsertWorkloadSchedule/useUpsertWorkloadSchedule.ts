@@ -6,14 +6,14 @@ import {
   usePatchAirServicesSettingsWorkloadScheduleMutation,
   usePostAirServicesSettingsWorkloadScheduleMutation,
 } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useEffect } from 'react';
 import {
   upsertWorkloadScheduleDefaultValues,
   upsertWorkloadScheduleFormFieldsDynamic,
   upsertWorkloadScheduleValidationSchema,
 } from './UpsertWorkloadSchedule.data';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 

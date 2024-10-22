@@ -1,6 +1,6 @@
 import { useDeleteAirServicesSettingsWorkloadScheduleMutation } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useWorkloadScheduleDelete = (props: any) => {
   const {

@@ -5,7 +5,7 @@ import { responsesTableColumns } from './ResponsesList.data';
 import { CANNED_RESPONSES } from '@/constants/strings';
 import { useLazyGetAirServicesSettingsCannedResponsesListQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useResponsesList = () => {
   const router = useRouter();

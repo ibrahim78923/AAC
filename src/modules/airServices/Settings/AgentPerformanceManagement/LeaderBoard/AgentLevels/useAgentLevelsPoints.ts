@@ -9,7 +9,7 @@ import {
   agentLevelsPointsSchema,
 } from './AgentLevel.data';
 import { useEffect } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { ARRAY_INDEX } from '@/constants/strings';

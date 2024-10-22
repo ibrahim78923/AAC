@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { LeaderBoardTabs } from './LeaderBoard.data';

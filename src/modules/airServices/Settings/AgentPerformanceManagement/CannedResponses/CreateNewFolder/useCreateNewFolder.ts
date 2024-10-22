@@ -9,7 +9,7 @@ import {
   usePatchAirServicesSettingsCannedResponseMutation,
   usePostAirServicesSettingsCannedResponsesMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { ICannedResponsesProps } from '../CannedResponses.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 

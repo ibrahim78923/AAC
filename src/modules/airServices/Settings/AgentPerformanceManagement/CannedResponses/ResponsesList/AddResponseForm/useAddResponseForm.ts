@@ -12,7 +12,7 @@ import {
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useAddResponseForm = (props: any) => {

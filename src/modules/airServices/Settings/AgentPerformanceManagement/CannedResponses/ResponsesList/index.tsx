@@ -7,7 +7,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { actionsOptions } from './ResponsesList.data';
 import { MoveFolderModal } from './MoveFolderModal';
 import { useResponsesList } from './useResponsesList';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { DeleteResponseModal } from './DeleteResponseModal';
 import { AddResponseForm } from './AddResponseForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

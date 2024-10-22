@@ -1,6 +1,6 @@
 import { useDeleteAirServicesSettingsCannedAddResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export default function useDeleteResponseModal({
   selectedData,

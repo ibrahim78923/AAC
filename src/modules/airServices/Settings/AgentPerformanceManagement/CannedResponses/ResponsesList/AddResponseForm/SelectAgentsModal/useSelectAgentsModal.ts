@@ -6,7 +6,7 @@ import {
 } from './SelectAgentsModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
-import { successSnackbar } from '@/utils/api';
+import { successSnackbar } from '@/lib/snackbar';
 import { useLazyGetAirServicesSettingsCannedResponseAgentsQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import useAuth from '@/hooks/useAuth';
 

@@ -1,6 +1,6 @@
 import { Box, Divider, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import Link from 'next/link';
 import { RolesAndPermissionsDataArray } from './RolesAndPermissions.data';
 import { Fragment } from 'react';
