@@ -3,13 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   getWorkloadDefaultValues,
   getWorkloadValidationSchema,
-  getWorkloadDataArray,
 } from './UpdateWorkloadTask.data';
 import { useEffect } from 'react';
-import {
-  useLazyGetAirServicesAllUsersInWorkloadQuery,
-  usePatchAirServicesWorkloadTaskMutation,
-} from '@/services/airServices/workload';
+import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { isoDateString } from '@/utils/dateTime';
 
@@ -60,17 +56,10 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     reset(getWorkloadDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
-  const apiQueryAssignTo = useLazyGetAirServicesAllUsersInWorkloadQuery();
-
-  const workloadDataArray = getWorkloadDataArray({
-    apiQueryAssignTo,
-  });
-
   return {
     handleSubmit,
     onSubmit,
     methods,
-    workloadDataArray,
     patchTaskStatus,
   };
 };
