@@ -31,7 +31,6 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
     setcheckedColumns,
     handleOpenFilter,
     setIsOpenFilter,
-    searchCampaigns,
     handleSaveView,
     campaignsData,
     filterLoading,
@@ -74,7 +73,6 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
             label="Search by name"
             size="small"
             setSearchBy={setSearchCampaigns}
-            searchBy={searchCampaigns}
           />
         </PermissionsGuard>
 

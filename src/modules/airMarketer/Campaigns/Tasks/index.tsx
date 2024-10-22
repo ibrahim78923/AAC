@@ -42,7 +42,6 @@ const Tasks = () => {
     statusVariant,
     setPageLimit,
     setAnchorEl,
-    searchValue,
     selectedRec,
     isListView,
     isLoading,
@@ -75,7 +74,6 @@ const Tasks = () => {
           <Search
             label="Search Here"
             size="small"
-            searchBy={searchValue}
             setSearchBy={setSearchValue}
           />
         </PermissionsGuard>
