@@ -7,16 +7,14 @@ import { useState } from 'react';
 
 const Deals = () => {
   const [search, setSearch] = useState<string>('');
-  // use after search params added in api
-  // const { data: dealViewsData }: any = useGetDealsViewsQuery({ search: search });
-  const { data: dealViewsData }: any = useGetDealsViewsQuery({});
+  const { data: dealViewsData }: any = useGetDealsViewsQuery({
+    search: search ? search : undefined,
+  });
   const activeDealsViews = dealViewsData?.data?.filter(
     (item: any) => item?.isActive,
   );
 
   const dealHeaderParams = {
-    // no need search in this params
-    search,
     setSearch,
     dealViewsData: dealViewsData?.data,
   };

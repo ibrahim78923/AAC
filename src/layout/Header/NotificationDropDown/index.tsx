@@ -118,18 +118,12 @@ const NotificationDropdown = () => {
                           }}
                           onClick={() => handleSeenNotification(item?._id)}
                         >
-                          {item?.performedByAvatar?.url ? (
-                            <Image
-                              src={generateImage(item?.performedByAvatar?.url)}
-                              width={32}
-                              height={32}
-                              alt="notification-avatar"
-                            />
-                          ) : (
-                            <Avatar sx={{ color: theme?.palette?.grey[600] }}>
-                              {item?.performedByName?.charAt(0)}
-                            </Avatar>
-                          )}
+                          <Avatar
+                            src={generateImage(item?.performedByAvatar?.url)}
+                            sx={{ color: theme?.palette?.grey[600] }}
+                          >
+                            {item?.performedByName?.charAt(0)}
+                          </Avatar>
                           <Box>
                             <Typography
                               variant="body2"

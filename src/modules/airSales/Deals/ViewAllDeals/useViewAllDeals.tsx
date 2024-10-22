@@ -32,12 +32,15 @@ const useViewAllDeals = (newDealViewsData: any) => {
     updatedData?.shift();
     try {
       const shortUpdatedData = updatedData?.map((item: any) => ({
-        ids: item?._id,
-        name: item?.name,
+        id: item?._id,
         isActive: item?.isActive,
       }));
 
-      await updateDealsView({ body: shortUpdatedData })?.unwrap();
+      const updateDealViewBody = {
+        data: shortUpdatedData,
+      };
+
+      await updateDealsView({ body: updateDealViewBody })?.unwrap();
       enqueueSnackbar('View updated successfully', { variant: 'success' });
     } catch (error: any) {
       enqueueSnackbar('Something went wrong', { variant: 'error' });

@@ -10,7 +10,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const DealHeader = ({ dealHeaderParams }: any) => {
-  const { dealViewsData } = dealHeaderParams;
+  const { dealViewsData, setSearch } = dealHeaderParams;
   const {
     IsViewAll,
     isImportDeal,
@@ -72,7 +72,10 @@ const DealHeader = ({ dealHeaderParams }: any) => {
       />
       <ViewAllDeals
         open={IsViewAll}
-        onClose={handleViewAll}
+        onClose={() => {
+          handleViewAll();
+          setSearch('');
+        }}
         dealHeaderParams={dealHeaderParams}
       />
     </Box>
