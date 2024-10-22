@@ -1,6 +1,6 @@
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { usePostAirServicesRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';

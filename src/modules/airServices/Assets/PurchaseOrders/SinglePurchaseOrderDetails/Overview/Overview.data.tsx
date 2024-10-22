@@ -1,9 +1,8 @@
-import { DATE_FORMAT } from '@/constants';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { uiDateFormat } from '@/lib/date-time';
 import { truncateText } from '@/utils/avatarUtils';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const overviewDataArray = (purchaseOrderData: any) => {
   const predefinedFields = {
@@ -12,8 +11,7 @@ export const overviewDataArray = (purchaseOrderData: any) => {
     Currency: purchaseOrderData?.currency ?? '---',
     Department: purchaseOrderData?.departmentDetails?.name ?? '---',
     'Expected Delivery Date':
-      dayjs(purchaseOrderData?.expectedDeliveryDate)?.format(DATE_FORMAT?.UI) ??
-      '---',
+      uiDateFormat(purchaseOrderData?.expectedDeliveryDate) ?? '---',
     Location: purchaseOrderData?.locationDetails?.locationName ?? '---',
     'Terms and conditions':
       truncateText(purchaseOrderData?.termAndCondition) ?? '---',

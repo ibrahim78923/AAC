@@ -1,6 +1,6 @@
 import { usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { approvalStatus } from '../Approvals.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useCancelRequest = () => {
   const [patchRequestApprovalTrigger, patchRequestApprovalStatus] =

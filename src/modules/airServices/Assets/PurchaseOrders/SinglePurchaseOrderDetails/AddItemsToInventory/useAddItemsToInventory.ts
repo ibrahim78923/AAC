@@ -15,7 +15,7 @@ import {
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddItemsToInventory = (props: any) => {
   const { setIsDrawerOpen } = props;

@@ -1,5 +1,5 @@
 import { Box, Button, Skeleton } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useHeader } from './useHeader';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';

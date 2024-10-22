@@ -3,14 +3,13 @@ import {
   useGetAirServicesAssetsPurchaseOrderDetailsAddToReceivedItemsQuery,
   usePatchAirServicesAssetsPurchaseOrderDetailsAddToItemMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
-
 import { useFieldArray, useForm } from 'react-hook-form';
 import {
   addItemDefaultValuesFunction,
   addItemValidationSchemaOne,
 } from './ReceivedItems.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 

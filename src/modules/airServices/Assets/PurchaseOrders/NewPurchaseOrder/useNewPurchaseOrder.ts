@@ -7,17 +7,14 @@ import {
 } from './NewPurchaseOrder.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import {
   useGetAirServicesAssetsPurchaseOrderByIdQuery,
   usePatchAirServicesAssetsPurchaseOrderMutation,
   usePostAirServicesAssetsPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   useLazyGetDynamicFieldsQuery,
