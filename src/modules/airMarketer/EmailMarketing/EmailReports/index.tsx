@@ -23,7 +23,6 @@ import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS } from '@/consta
 import { useGetEmailMarketingReportsQuery } from '@/services/airMarketer/emailReports';
 import { useEffect, useRef, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
-import { htmlToPngConvert } from '@/utils/file';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -34,6 +33,7 @@ import Filters from './EmailReportsFilters';
 import dayjs from 'dayjs';
 import { API_STATUS, DATE_FORMAT } from '@/constants';
 import ReportsDatePicker from './datePicker';
+import { htmlToPngConvert } from '@/lib/html-to-image-converter';
 
 const getDefaultDateRange = () => {
   const currentYear = dayjs().year(); // Get current year

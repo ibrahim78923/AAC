@@ -12,8 +12,8 @@ import { pxToRem } from '@/utils/getFontValue';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import { htmlToPdfConvert } from '@/utils/file';
 import { AIR_SERVICES } from '@/constants/routes';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const TicketsReports = () => {
   const {

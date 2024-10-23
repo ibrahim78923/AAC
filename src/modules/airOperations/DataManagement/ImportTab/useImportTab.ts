@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { ImportTabI } from './ImportTab.interface';
-import { htmlToPdfConvert } from '@/utils/file';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const useImportTab: () => ImportTabI = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);

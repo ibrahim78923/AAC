@@ -1,5 +1,6 @@
 import { DOWNLOAD_FILE_TYPE } from '@/constants/strings';
-import { htmlToPdfConvert, htmlToPngConvert } from '@/utils/file';
+import { htmlToPngConvert } from '@/lib/html-to-image-converter';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 

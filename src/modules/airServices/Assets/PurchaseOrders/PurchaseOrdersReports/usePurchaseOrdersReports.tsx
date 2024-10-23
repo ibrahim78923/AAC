@@ -9,7 +9,7 @@ import {
 } from './PurchaseOrdersReports.data';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
-import { htmlToPdfConvert } from '@/utils/file';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const usePurchaseOrderReports = () => {
   const router: NextRouter = useRouter();

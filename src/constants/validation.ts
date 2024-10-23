@@ -4,6 +4,8 @@ export const REGEX = {
   EMAIL: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
   HOURS_AND_MINUTES: /^\d+h\d+m$/,
   GLOBAL_HTML_TAG: /<[^>]*>/g,
+  UPPERCASE_LETTERS: /(?=[A-Z])/,
+  GLOBAL_DOUBLE_QUOTATION_AND_CARRIAGE_RETURN: /"|\r/g,
 };
 
 export const CHARACTERS_LIMIT = {

@@ -10,7 +10,7 @@ import {
 } from './SoftwareReports.data';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
-import { htmlToPdfConvert } from '@/utils/file';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const useSoftwareReports = () => {
   const router: NextRouter = useRouter();

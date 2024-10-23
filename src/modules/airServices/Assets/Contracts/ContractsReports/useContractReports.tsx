@@ -7,9 +7,9 @@ import {
   contractsTypeOptions,
 } from './ContractReportsCard.data';
 import { filteredEmptyValues, makeDateTime } from '@/utils/api';
-import { htmlToPdfConvert } from '@/utils/file';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const useContractReports = () => {
   const router = useRouter();
