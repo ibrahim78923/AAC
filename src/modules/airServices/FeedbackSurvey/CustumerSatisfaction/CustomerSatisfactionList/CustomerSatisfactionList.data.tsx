@@ -4,13 +4,13 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { errorSnackbar } from '@/lib/snackbar';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES } from '@/constants/routes';
 import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { TruncateText } from '@/components/TruncateText';
+import { otherDateFormat } from '@/lib/date-time';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -150,7 +150,8 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Creation Date',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(
+        otherDateFormat(
+          info?.getValue(),
           `${DATE_TIME_FORMAT?.MMMDDYYYY}, ${TIME_FORMAT?.UI}`,
         ),
     },

@@ -13,7 +13,7 @@ import {
   upsertSurveyResponseValidationSchema,
 } from './UpsertSurveyResponse.data';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useUpsertSurveyResponse = (props: {
   loggedInUser?: string;

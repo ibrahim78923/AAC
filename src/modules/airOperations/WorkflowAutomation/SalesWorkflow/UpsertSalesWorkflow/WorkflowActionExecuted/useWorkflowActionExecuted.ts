@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
-import { errorSnackbar, warningSnackbar } from '@/utils/api';
+import { errorSnackbar, warningSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,

@@ -5,7 +5,6 @@ import { capitalizeFirstLetter } from '@/utils/api';
 import { errorSnackbar } from '@/lib/snackbar';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES } from '@/constants/routes';
-import dayjs from 'dayjs';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
@@ -15,6 +14,7 @@ import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission
 import { Permissions } from '@/constants/permissions';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { TruncateText } from '@/components/TruncateText';
+import { otherDateFormat } from '@/lib/date-time';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -138,7 +138,8 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Creation Date',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(
+        otherDateFormat(
+          info?.getValue(),
           `${DATE_TIME_FORMAT?.MMMDDYYYY}, ${TIME_FORMAT?.UI}`,
         ),
     },

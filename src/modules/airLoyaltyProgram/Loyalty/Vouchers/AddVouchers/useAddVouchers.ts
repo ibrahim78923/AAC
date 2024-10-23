@@ -4,7 +4,7 @@ import {
   useLazyGetContactsListQuery,
   usePostVouchersMutation,
 } from '@/services/airLoyaltyProgram/loyalty/vouchers';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;

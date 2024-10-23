@@ -5,7 +5,7 @@ import { TransactionVouchersFilter } from './TransactionVouchersFilter';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 import { useRouter } from 'next/router';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 
 export const useTransactionVouchers = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<any>(false);

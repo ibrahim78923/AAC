@@ -1,13 +1,14 @@
 import { PAGINATION } from '@/config';
-import { AIR_LOYALTY_PROGRAM, CALENDAR_FORMAT } from '@/constants';
+import { CALENDAR_FORMAT } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
+import { otherDateFormat } from '@/lib/date-time';
 import {
   useGetVouchersQuery,
   usePatchVoucherMutation,
 } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { getActivePermissionsSession } from '@/utils';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import dayjs from 'dayjs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -21,10 +22,10 @@ export const useVouchers = () => {
   const filterBody = {
     dateStart:
       filterValues?.date &&
-      dayjs(filterValues?.date)?.format(CALENDAR_FORMAT?.YMD),
+      otherDateFormat(filterValues?.date, CALENDAR_FORMAT?.YMD),
     dateEnd:
       filterValues?.date &&
-      dayjs(filterValues?.date)?.format(CALENDAR_FORMAT?.YMD),
+      otherDateFormat(filterValues?.date, CALENDAR_FORMAT?.YMD),
     status: filterValues?.status,
   };
   const vouchersParameter = {

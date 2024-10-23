@@ -6,7 +6,8 @@ import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { capitalizeFirstLetter, warningSnackbar } from '@/utils/api';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { warningSnackbar } from '@/lib/snackbar';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { TruncateText } from '@/components/TruncateText';
 

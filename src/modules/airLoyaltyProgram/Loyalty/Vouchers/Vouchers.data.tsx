@@ -1,9 +1,9 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
 import { EditYellowBGPenIcon, TrashIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
 import { UserInfo } from '@/components/UserInfo';
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
+import { otherDateFormat } from '@/lib/date-time';
 const tableStatusArray = [
   { label: 'Active', value: 'ACTIVE' },
   { label: 'Inactive', value: 'INACTIVE' },
@@ -59,7 +59,7 @@ export const vouchersColumns = (
       cell: (info: any) => (
         <ActivityStatusMenu
           info={info}
-          MenuItemDataArray={tableStatusArray}
+          menuItemDataArray={tableStatusArray}
           activityStatus={
             checkStatusPermissions
               ? info?.getValue()
@@ -75,7 +75,7 @@ export const vouchersColumns = (
       isSortable: true,
       header: 'Created at',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.YMDHM) ?? '---',
+        otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.YMDHM) ?? '---',
     },
   ];
   if (checkActionPermissions) {

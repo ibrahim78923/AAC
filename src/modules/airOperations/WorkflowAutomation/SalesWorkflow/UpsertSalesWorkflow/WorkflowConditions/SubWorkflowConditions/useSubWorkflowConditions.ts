@@ -4,7 +4,7 @@ import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
-import { errorSnackbar, warningSnackbar } from '@/utils/api';
+import { errorSnackbar, warningSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { SubWorkflowConditionsI } from './SubWorkflowConditions.interface';
 

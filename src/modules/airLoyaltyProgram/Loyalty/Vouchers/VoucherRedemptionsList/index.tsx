@@ -1,7 +1,7 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { Box, Grid, Typography } from '@mui/material';
 import {
   voucherRedemptionsColumns,

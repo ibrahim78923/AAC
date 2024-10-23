@@ -1,6 +1,6 @@
 import { PAGINATION } from '@/config';
 import { useLazyGetVoucherRedemptionListQuery } from '@/services/airLoyaltyProgram/loyalty/vouchers';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 

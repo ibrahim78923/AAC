@@ -1,4 +1,4 @@
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 

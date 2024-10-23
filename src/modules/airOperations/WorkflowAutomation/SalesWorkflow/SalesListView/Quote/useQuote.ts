@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import {
   useChangeStatusWorkflowMutation,
   useCloneWorkflowMutation,
@@ -8,7 +8,7 @@ import {
   useLazyGetWorkflowListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import {
   salesWorkflowActionDropdownDynamic,
