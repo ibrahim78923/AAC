@@ -54,7 +54,8 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { AIR_CUSTOMER_PORTAL, indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
 

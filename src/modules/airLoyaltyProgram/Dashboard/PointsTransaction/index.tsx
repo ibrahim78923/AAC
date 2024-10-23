@@ -1,5 +1,5 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { getPointsTransactionColumns } from './PointsTransaction.data';

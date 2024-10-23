@@ -26,14 +26,16 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { generateImage } from '@/utils/avatarUtils';
 import {
-  AIR_LOYALTY_PROGRAM,
   AIR_MARKETER_DASHBOARD,
-  AIR_OPERATIONS,
   AIR_SALES_DASHBOARD,
-  AIR_SERVICES,
   ORG_ADMIN,
   PRODUCT_LABELS,
 } from '@/constants';
+import {
+  AIR_LOYALTY_PROGRAM,
+  AIR_OPERATIONS,
+  AIR_SERVICES,
+} from '@/constants/routes';
 
 const role = 'sales';
 const AccountMenu = () => {

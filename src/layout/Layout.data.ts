@@ -48,11 +48,8 @@ import {
   SignupLeadsImage,
   ConsumerImage,
 } from '@/assets/images';
-import {
-  AIR_CUSTOMER_PORTAL,
-  PROFILE_DROPDOWNS,
-  Quick_Links_Routes,
-} from '@/constants';
+import { PROFILE_DROPDOWNS, Quick_Links_Routes } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import {
   Permissions,
   orgAdminAllPermissions,

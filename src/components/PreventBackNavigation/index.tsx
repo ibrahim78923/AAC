@@ -1,12 +1,14 @@
 import {
-  AIR_CUSTOMER_PORTAL,
-  AIR_LOYALTY_PROGRAM,
   AIR_MARKETER_DASHBOARD,
-  AIR_OPERATIONS,
   AIR_SALES_DASHBOARD,
-  AIR_SERVICES,
   ORG_ADMIN,
 } from '@/constants';
+import {
+  AIR_CUSTOMER_PORTAL,
+  AIR_LOYALTY_PROGRAM,
+  AIR_OPERATIONS,
+  AIR_SERVICES,
+} from '@/constants/routes';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
