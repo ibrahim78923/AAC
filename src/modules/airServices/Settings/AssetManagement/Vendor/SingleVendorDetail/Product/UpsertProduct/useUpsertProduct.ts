@@ -11,7 +11,7 @@ import {
   usePutProductVendorMutation,
 } from '@/services/airServices/settings/asset-management/vendor/single-vendor-details/product';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertProduct = (props: any) => {
   const { setUpsertProductModal, editData, setEditData } = props;

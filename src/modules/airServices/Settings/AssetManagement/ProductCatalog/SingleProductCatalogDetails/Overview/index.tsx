@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
 import ApiErrorState from '@/components/ApiErrorState';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const Overview = () => {
   const { isLoading, dataArray, isFetching, isError } = useOverview();
@@ -27,7 +28,7 @@ export const Overview = () => {
               color={'grey.600'}
               minWidth={'25%'}
             >
-              {Object?.keys?.(item)?.[0]}:
+              {Object?.keys?.(item)?.[ARRAY_INDEX?.ZERO]}:
             </Typography>
             {item?.Description ? (
               <Typography

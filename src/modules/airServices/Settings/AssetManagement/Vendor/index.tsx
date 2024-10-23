@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useVendor } from './useVendor';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import AddNewVendor from './AddNewVendor';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';

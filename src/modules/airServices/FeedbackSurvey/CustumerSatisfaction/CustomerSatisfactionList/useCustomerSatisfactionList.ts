@@ -15,7 +15,7 @@ import {
   usePostCloneFeedbackSurveyMutation,
   usePostSurveyEmailMutation,
 } from '@/services/airServices/feedback-survey';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import {
@@ -24,7 +24,7 @@ import {
 } from './CustomerSatisfactionList.data';
 import { getActivePermissionsSession, getSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { useTheme } from '@mui/material';
 

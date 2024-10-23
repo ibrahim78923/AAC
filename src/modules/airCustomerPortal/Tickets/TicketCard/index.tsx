@@ -1,11 +1,12 @@
 import { Box, Typography, Chip, Avatar } from '@mui/material';
-import dayjs from 'dayjs';
-import { AIR_CUSTOMER_PORTAL, DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { NextRouter, useRouter } from 'next/router';
 import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { TICKET_TYPE } from '@/constants/strings';
 import { TicketCardPropsI } from './TicketCard.interface';
 import { TruncateText } from '@/components/TruncateText';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const TicketsCard = (props: TicketCardPropsI) => {
   const { ticket } = props;
@@ -71,7 +72,8 @@ export const TicketsCard = (props: TicketCardPropsI) => {
           } ${ticket?.ticketIdNumber}`}</Typography>
         </Box>
         <Typography variant="body2" color={'blue.main'} fontWeight={500}>
-          {`Created On  ${dayjs(ticket?.createdAt)?.format(
+          {`Created On  ${otherDateFormat(
+            ticket?.createdAt,
             DATE_TIME_FORMAT?.UI,
           )}`}
           <Typography

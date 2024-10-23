@@ -8,8 +8,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo } from 'react';
 import useAuth from '@/hooks/useAuth';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { AIR_OPERATIONS } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import {
   useGetPermissionsRoleByIdForOperationsQuery,

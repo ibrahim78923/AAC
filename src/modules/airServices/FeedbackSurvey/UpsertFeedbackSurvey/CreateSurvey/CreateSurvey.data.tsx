@@ -4,7 +4,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { successSnackbar } from '@/utils/api';
+import { successSnackbar } from '@/lib/snackbar';
 import { Box, Button, Typography } from '@mui/material';
 import { FieldValues, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { AddPeopleDropdown } from './AddPeopleDropdown';

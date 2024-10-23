@@ -5,7 +5,7 @@ import { useProductCatalog } from './useProductCatalog';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { PRODUCT_LISTS_ACTION_CONSTANTS } from './ProductCatalog.data';
 import { Box } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 

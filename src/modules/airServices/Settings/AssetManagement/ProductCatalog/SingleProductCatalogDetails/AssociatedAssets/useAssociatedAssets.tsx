@@ -6,7 +6,8 @@ import {
   useDeleteProductCatalogAssociatedAssetMutation,
   useLazyGetProductCatalogAssociatedAssetListQuery,
 } from '@/services/airServices/settings/asset-management/product-catalog';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAssociatedAssets = () => {
   const router = useRouter();

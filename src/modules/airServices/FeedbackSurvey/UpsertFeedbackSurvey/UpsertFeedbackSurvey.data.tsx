@@ -11,7 +11,7 @@ import {
   FeedbackSurveyI,
   FeedbackSurveySectionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 export const feedbackTypes = {
   createSurvey: 'createSurvey',

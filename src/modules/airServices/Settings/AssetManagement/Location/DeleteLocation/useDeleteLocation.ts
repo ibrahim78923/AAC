@@ -2,7 +2,7 @@ import {
   useDeleteChildLocationMutation,
   useDeleteParentLocationMutation,
 } from '@/services/airServices/settings/asset-management/location';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { ILocationProps } from '../Location.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 

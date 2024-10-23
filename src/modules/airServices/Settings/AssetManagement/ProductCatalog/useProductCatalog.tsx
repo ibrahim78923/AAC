@@ -1,9 +1,7 @@
 import {
   EXPORT_FILE_TYPE,
   MESSAGE_EXPORT_FILE_TYPE,
-  NOTISTACK_VARIANTS,
 } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import {
   PRODUCT_LISTS_ACTION_CONSTANTS,
@@ -19,7 +17,7 @@ import {
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { downloadFile } from '@/utils/file';
 import { useTheme } from '@mui/material';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useProductCatalog = () => {
   const [search, setSearch] = useState('');
@@ -49,10 +47,7 @@ export const useProductCatalog = () => {
     try {
       await lazyGetProductCatalogTrigger(getProductCatalogParameter)?.unwrap();
     } catch (error: any) {
-      !!error?.data?.data?.message &&
-        enqueueSnackbar(error?.data?.data?.message, {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
+      !!error?.data?.data?.message && errorSnackbar(error?.data?.data?.message);
     }
   };
   useEffect(() => {

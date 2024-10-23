@@ -10,7 +10,7 @@ import {
   useLazyGetRequesterDropdownForShareTicketQuery,
   useShareTicketMutation,
 } from '@/services/airCustomerPortal/Tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { usePostReplyForCustomerTicketConversationMutation } from '@/services/airCustomerPortal/Tickets';
 import useAuth from '@/hooks/useAuth';

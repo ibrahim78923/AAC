@@ -6,7 +6,7 @@ import {
   useGetSettingsContractTypeListQuery,
 } from '@/services/airServices/settings/asset-management/contract-type';
 import { getContractTypeColumns } from './ContractType.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export default function useContractType() {
   const router: any = useRouter();

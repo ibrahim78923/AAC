@@ -1,6 +1,6 @@
 import { FIELD_TYPES, IMPORT_ACTION_TYPE } from '@/constants/strings';
 import { useImportFileMutation } from '@/services/airServices/global/import';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { CRM_COLUMNS_LOCATION } from './ImportLocation.data';
 import { ILocationProps } from '../Location.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';

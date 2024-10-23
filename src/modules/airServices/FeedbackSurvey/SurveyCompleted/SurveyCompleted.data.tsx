@@ -1,6 +1,5 @@
-import dayjs from 'dayjs';
 import { SURVEY_WIDGET_IDS } from '../AllResponses/AllResponses.data';
-import { DATE_FORMAT } from '@/constants';
+import { diffMinutesFormate, uiDateFormat } from '@/lib/date-time';
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
@@ -11,7 +10,7 @@ export const formatTimeDifference = (
   baseDate: string,
   isoDateString: string,
 ) => {
-  const diffMinutes = dayjs(isoDateString)?.diff(dayjs(baseDate), 'minute');
+  const diffMinutes = diffMinutesFormate(isoDateString, baseDate);
 
   if (diffMinutes < MINUTES_IN_HOUR) {
     return formatTimeUnit(diffMinutes, 'minute');
@@ -46,7 +45,7 @@ export const surveyCompletedData = (data?: any) => {
       ? formatTimeDifference(data?.createdAt, data?.surveyDuration)
       : '---',
     Deadline: !!data?.surveyDuration
-      ? dayjs(data?.surveyDuration)?.format(DATE_FORMAT?.UI)
+      ? uiDateFormat(data?.surveyDuration)
       : '---',
   };
 };

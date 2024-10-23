@@ -7,7 +7,7 @@ import {
 } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
 import { useNewImportFileForServicesMutation } from '@/services/airServices/global/import';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { CRM_COLUMNS } from './ImportProductCatalog.data';
 import { IProductCatalogProps } from '../ProductCatalog.interface';

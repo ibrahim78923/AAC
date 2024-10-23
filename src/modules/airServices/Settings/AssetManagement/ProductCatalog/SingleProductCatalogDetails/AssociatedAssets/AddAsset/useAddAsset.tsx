@@ -6,7 +6,7 @@ import {
 } from './AddAsset.data';
 import { usePostAssociatedAssetMutation } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddAsset = (setAddModalOpen: any) => {
   const router: any = useRouter();

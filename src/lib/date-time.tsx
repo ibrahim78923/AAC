@@ -1,5 +1,5 @@
-import dayjs, { ManipulateType, OpUnitType } from 'dayjs';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/constants';
+import dayjs, { ManipulateType, OpUnitType } from 'dayjs';
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
@@ -41,6 +41,11 @@ const formatTimeUnit = (diff: number, unit: string, base: number = 1) => {
   const value = Math?.floor(diff / base);
   return `${value} ${unit}${value !== 1 ? 's' : ''} ago`;
 };
+
+export const diffMinutesFormate = (
+  dateString: Date | string,
+  baseDate: Date | string,
+) => dayjs(dateString)?.diff(dayjs(baseDate), 'minute');
 
 export const TimeFormatDuration = (
   startTime: string,

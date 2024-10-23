@@ -15,12 +15,11 @@ import {
   usePostSaveDraftWorkflowMutation,
   useUpdateSalesWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useAppDispatch } from '@/redux/store';
 import { setTestWorkflowBody } from '@/redux/slices/salesWorkflow';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString, otherDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -104,7 +103,7 @@ export const useUpsertSalesWorkflow = () => {
     }));
   };
   const scheduledValues = (scheduleData: any) => {
-    const time = dayjs(scheduleData?.time)?.format(TIME_FORMAT?.TH);
+    const time = otherDateFormat(scheduleData?.time, TIME_FORMAT?.TH);
     return {
       type: scheduleData?.schedule?.toUpperCase(),
       daily: {
@@ -119,9 +118,10 @@ export const useUpsertSalesWorkflow = () => {
         time: time,
       },
       annually: {
-        month: dayjs(scheduleData?.scheduleMonth)
-          ?.format(DATE_TIME_FORMAT?.MMMM)
-          ?.toLowerCase(),
+        month: otherDateFormat(
+          scheduleData?.scheduleMonth,
+          DATE_TIME_FORMAT?.MMMM,
+        )?.toLowerCase(),
         time: time,
       },
       custom: {

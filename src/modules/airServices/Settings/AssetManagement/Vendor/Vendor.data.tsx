@@ -1,5 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { Typography } from '@mui/material';
 
 export const VENDOR_LISTS_ACTION_CONSTANTS = {

@@ -6,9 +6,9 @@ import {
 } from '../AssetType.data';
 import { useEffect } from 'react';
 import { usePatchAssetTypeMutation } from '@/services/airServices/settings/asset-management/asset-type';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export default function useChildType({ childDetails, setChildDetails }: any) {
   const router: any = useRouter();

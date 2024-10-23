@@ -6,7 +6,7 @@ import {
 } from '@/services/airServices/settings/asset-management/vendor/single-vendor-details/product';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useProduct = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);

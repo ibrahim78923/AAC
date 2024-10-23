@@ -2,6 +2,7 @@ import { PAGINATION } from '@/config';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_PATH_TYPES,
   FEEDBACK_SURVEY_TYPES,
 } from '@/constants/strings';
 import {
@@ -10,13 +11,13 @@ import {
   usePatchChangeSurveyStatusMutation,
   usePostCloneFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { feedbackDropdown, surveyDataTypes } from './CustomerSupportList.data';
+import { feedbackDropdown } from './CustomerSupportList.data';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 
 export const useCustomerSupportList = (props: { status?: string }) => {
@@ -109,7 +110,7 @@ export const useCustomerSupportList = (props: { status?: string }) => {
       return router?.push({
         pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
         query: {
-          type: surveyDataTypes?.customerSupport,
+          type: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SUPPORT,
           id: surveyData?._id,
         },
       });

@@ -1,14 +1,13 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AIR_OPERATIONS, DATE_FORMAT } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import { AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import {
   ARRAY_INDEX,
   GENERIC_UPSERT_FORM_CONSTANT,
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { Checkbox } from '@mui/material';
-import dayjs from 'dayjs';
 import {
   ICloseMenu,
   IRole,
@@ -17,6 +16,7 @@ import {
 import { ChangeEvent } from 'react';
 import { NextRouter } from 'next/router';
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const actionButtonDropdownDynamic = (
   setIsPortalOpen: ((isOpen?: boolean) => void) | any,
@@ -158,8 +158,7 @@ export const operationsRolesAndRightColumnsDynamic = (
     id: 'createdAt',
     isSortable: true,
     header: 'Created On',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
+    cell: (info: any) => uiDateFormat(info?.getValue()) ?? '---',
   },
   {
     accessorFn: (info: IRolesAndRightColumns) => info?.description,

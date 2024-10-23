@@ -1,4 +1,4 @@
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { fullNameInitial } from '@/utils/avatarUtils';
 import { useState } from 'react';
 import { useFieldArray } from 'react-hook-form';

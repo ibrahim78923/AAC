@@ -18,12 +18,12 @@ import {
   usePostFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
 import { useRouter } from 'next/router';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import {
   FeedbackSurveyI,
   FeedbackSurveyQuestionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpsertFeedbackSurvey = () => {
   const [createSurvey, setCreateSurvey] = useState<string>(

@@ -5,7 +5,7 @@ import {
   locationDefaultValues,
   LOCATION_TYPE,
 } from './UpsertLocation.data';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import {
   usePostChildLocationMutation,
@@ -13,11 +13,8 @@ import {
   usePutLocationMutation,
   useGetByIdLocationQuery,
 } from '@/services/airServices/settings/asset-management/location';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useEffect } from 'react';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 

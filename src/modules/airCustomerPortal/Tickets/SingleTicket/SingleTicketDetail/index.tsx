@@ -3,13 +3,13 @@ import NoData from '@/components/NoData';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { LoadingButton } from '@mui/lab';
 import { Box, Chip, Divider, Skeleton, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { Fragment } from 'react';
 import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketDetailPropsI } from './SingleTicketDetail.interface';
 import { CHECK_SURVEY_SUBMISSION_STATUS } from '../../Tickets.data';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -35,7 +35,8 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
             {singleTicketData?.subject}
           </Typography>
           <Typography variant="body2" color={'grey.0'} fontWeight={500}>
-            {`Created On  ${dayjs(singleTicketData?.createdAt)?.format(
+            {`Created On  ${otherDateFormat(
+              singleTicketData?.createdAt,
               DATE_TIME_FORMAT?.UI,
             )}`}
             <Typography

@@ -6,7 +6,7 @@ import {
   IMPORT_TABLE_NAMES,
 } from '@/constants/strings';
 import { useNewImportFileForServicesMutation } from '@/services/airServices/global/import';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { CRM_COLUMNS_VENDOR } from './ImportVendor.data';
 import { IVendorProps } from '../Vendor.interface';
 

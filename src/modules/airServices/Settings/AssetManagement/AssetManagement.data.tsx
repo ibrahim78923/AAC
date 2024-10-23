@@ -1,7 +1,7 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GavelIcon from '@mui/icons-material/Gavel';
 import PaidIcon from '@mui/icons-material/Paid';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import {
   AssetTypeIcon,
   ProductCatalogIcon,

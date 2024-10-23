@@ -1,7 +1,6 @@
 import { RHFTextField, RHFDropZone } from '@/components/ReactHookForm';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
-
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
