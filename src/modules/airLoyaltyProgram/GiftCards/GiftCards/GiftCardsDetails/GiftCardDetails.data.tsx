@@ -1,6 +1,5 @@
-import { DATE_TIME_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { truncateText } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
 
 export const data: any = [
   {
@@ -28,6 +27,6 @@ export const giftCardDetailsColumn = [
     id: 'date',
     header: 'Date',
     isSortable: true,
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

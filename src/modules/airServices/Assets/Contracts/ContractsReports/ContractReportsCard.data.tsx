@@ -1,7 +1,6 @@
 import { TruncateText } from '@/components/TruncateText';
-import { DATE_FORMAT } from '@/constants';
 import { CONTRACT_REPORT_STATUS } from '@/constants/strings';
-import dayjs from 'dayjs';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const ContractReportsCountData = (data: any) => {
   return {
@@ -78,7 +77,6 @@ export const contractReportsTabelCoulmns = [
     id: 'expirydate',
     header: 'Expiry Date',
     isSortable: false,
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
+    cell: (info: any) => uiDateFormat(info?.getValue()) ?? '---',
   },
 ];

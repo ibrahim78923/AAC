@@ -5,13 +5,12 @@ import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { LoadingButton } from '@mui/lab';
 import NoData from '@/components/NoData';
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 
 const AgentRequest = () => {
   const {
@@ -84,7 +83,7 @@ const AgentRequest = () => {
                 }
               </Typography>
               <Typography variant="subtitle2" mb={1} color="slateBlue.main">
-                {dayjs(item?.userDetails?.createdAt)?.format(DATE_FORMAT?.UI)}
+                {uiDateFormat(item?.userDetails?.createdAt)}
               </Typography>
               {item?.status === AGENT_REQUEST_STATUS?.APPROVED ||
               item?.status === AGENT_REQUEST_STATUS?.REJECTED ? (
@@ -100,7 +99,7 @@ const AgentRequest = () => {
                     {item?.status}
                   </Typography>
                   <Typography variant="body2">
-                    {dayjs(item?.updatedAt)?.format(DATE_FORMAT?.UI)}
+                    {uiDateFormat(item?.updatedAt)}
                   </Typography>
                 </Box>
               ) : (

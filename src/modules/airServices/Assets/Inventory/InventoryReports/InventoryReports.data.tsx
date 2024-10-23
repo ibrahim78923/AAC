@@ -1,8 +1,7 @@
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const InventoryReportsCountData = (data: any) => {
   return {
@@ -88,7 +87,6 @@ export const inventoryColumns = [
     accessorFn: (row: any) => row?.assetLifeExpiry,
     id: 'assetLifeExpiry',
     header: 'Asset Like Expire On',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
+    cell: (info: any) => uiDateFormat(info?.getValue()) ?? '---',
   },
 ];

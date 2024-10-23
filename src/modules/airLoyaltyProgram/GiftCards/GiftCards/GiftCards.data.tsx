@@ -1,10 +1,10 @@
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { UserInfo } from '@/components/UserInfo';
-import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
+import { ACTIVITY_STATUS_MENU } from '@/constants';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const data: any = [
   {
@@ -106,7 +106,7 @@ export const giftCardColumnsFunction = (router: any): any => [
     id: 'createdAt',
     header: 'Created At',
     isSortable: true,
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.status,

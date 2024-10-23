@@ -1,10 +1,11 @@
 import { PAGINATION } from '@/config';
 import { useGetImportListQuery } from '@/services/airOperations/data-management/import';
 import { useRef, useState } from 'react';
-import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import { ImportTabI } from './ImportTab.interface';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
+import { htmlToPdfConvert } from '@/utils/file';
+import { otherDateFormat } from '@/lib/date-time';
+
 
 export const useImportTab: () => ImportTabI = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -21,7 +22,7 @@ export const useImportTab: () => ImportTabI = () => {
     object: filterValues?.object,
     createdAt:
       filterValues?.createdDate &&
-      dayjs(filterValues?.createdDate)?.format(CALENDAR_FORMAT?.YMD),
+      otherDateFormat(filterValues?.createdDate, CALENDAR_FORMAT?.YMD),
   };
 
   const handleSearch = (data: any) => {

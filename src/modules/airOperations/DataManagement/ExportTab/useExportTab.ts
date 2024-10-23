@@ -1,8 +1,6 @@
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import dayjs from 'dayjs';
-import { CALENDAR_FORMAT } from '@/constants';
 import {
   useGetExportListQuery,
   useLazyExportListQuery,
@@ -10,6 +8,8 @@ import {
 import { ExportTabI } from './ExportTab.interface';
 import { downloadFile } from '@/utils/file';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { otherDateFormat } from '@/lib/date-time';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const useExportTab: () => ExportTabI = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -24,7 +24,7 @@ export const useExportTab: () => ExportTabI = () => {
     object: filterValues?.object,
     createdAt:
       filterValues?.createdDate &&
-      dayjs(filterValues?.createdDate)?.format(CALENDAR_FORMAT?.YMD),
+      otherDateFormat(filterValues?.createdDate, CALENDAR_FORMAT?.YMD),
   };
 
   const handleSearch = (data: any) => {

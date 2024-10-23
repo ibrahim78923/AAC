@@ -6,9 +6,8 @@ import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
-import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const KnowledgeBaseDetail = () => {
   const {
@@ -58,9 +57,7 @@ export const KnowledgeBaseDetail = () => {
                   key={item?._id}
                   articleId={item?._id}
                   articlesTitle={item?.title}
-                  modifiedDate={dayjs(item?.updatedAt)?.format(
-                    DATE_TIME_FORMAT?.UI,
-                  )}
+                  modifiedDate={uiDateFormat(item?.updatedAt)}
                   purposeDescription={item?.details}
                 />
               ))
