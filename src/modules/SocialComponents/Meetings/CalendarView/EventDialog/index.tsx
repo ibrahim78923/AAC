@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { generateImage } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { EventDataI } from './EventDialog.interface';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const EventDialog = ({
   openEventModal,
@@ -30,7 +30,8 @@ export const EventDialog = ({
     }
   };
 
-  const dateAndTime = `${dayjs(startDate)?.format(
+  const dateAndTime = `${otherDateFormat(
+    startDate,
     DATE_TIME_FORMAT?.DDMMYYY,
   )} - ${startTime} to ${endTime}`;
 

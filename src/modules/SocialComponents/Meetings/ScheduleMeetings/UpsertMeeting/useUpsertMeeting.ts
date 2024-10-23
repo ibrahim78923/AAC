@@ -16,11 +16,10 @@ import {
   useLazyGetLocationListQuery,
   useUpdateMeetingMutation,
 } from '@/services/commonFeatures/meetings';
-import dayjs from 'dayjs';
 import { MEETINGS_ACTION_TYPE } from '@/constants/strings';
-import { isoDateString } from '@/utils/dateTime';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
+import { isoDateString, otherDateFormat } from '@/lib/date-time';
 
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
@@ -125,11 +124,11 @@ export const useUpsertMeeting = () => {
       endDate: isoDateString(formData?.endDate),
       startTime:
         formData?.allDay === false && formData?.allowAttendee === false
-          ? dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH)
+          ? otherDateFormat(formData?.startTime, TIME_FORMAT?.TH)
           : '',
       endTime:
         formData?.allDay === false && formData?.allowAttendee === false
-          ? dayjs(formData?.endTime)?.format(TIME_FORMAT?.TH)
+          ? otherDateFormat(formData?.endTime, TIME_FORMAT?.TH)
           : '',
       type: formData?.meetingType?.value,
       isRecurring: formData?.recurring,

@@ -1,8 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Box, Divider, useTheme } from '@mui/material';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
-import dayjs from 'dayjs';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const ActivityTimeline = ({ activityData }: any) => {
   const theme = useTheme();
@@ -16,8 +16,8 @@ export const ActivityTimeline = ({ activityData }: any) => {
         gap={1.25}
         marginBottom={1.5}
       >
-        <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
+        <Typography variant="body2" sx={{ flex: 0.15 }}>
+          {otherDateFormat(activityData?.createdAt, DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box mt={0.2}>
           <PanoramaFishEyeIcon color="primary" fontSize="small" />

@@ -1,15 +1,13 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { DATE_TIME_FORMAT } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { TimeFormatDuration } from '@/lib/date-time';
+import { TimeFormatDuration, uiDateFormat } from '@/lib/date-time';
 import { splitCapitalizedWords } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
 import { Box, Theme, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -101,8 +99,7 @@ export const listViewDetails = (
     id: 'meetingBooked',
     isSortable: false,
     header: 'Meeting Booked',
-    cell: (info: any) =>
-      dayjs(info?.row?.original?.createdAt)?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.row?.original?.createdAt),
   },
   {
     accessorFn: (row: any) => row?.actions,

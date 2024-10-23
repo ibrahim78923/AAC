@@ -4,7 +4,6 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
 import {
@@ -17,7 +16,6 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { DATE_FORMAT } from '@/constants';
 import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 import GetContractSoftwareDropdown from '../ContractFormFieldsDropdowns/GetContractSoftwareDropdown';
@@ -26,8 +24,6 @@ import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContrac
 import GetContractAdminAgentDropdown from '../ContractFormFieldsDropdowns/GetContractAdminAgentDropdown';
 import GetContractAssetsDropdown from '../ContractFormFieldsDropdowns/GetContractAssetsDropdown';
 import GetContractContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractContractTypeDropdown';
-
-export const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const CONTRACT_TYPES_CHECK = {
   LEASE: 'lease',

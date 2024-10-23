@@ -2,8 +2,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import AddDateOverrides from '../AddDateOverrides';
 import { useDateOverrides } from './useDateOverrides';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 const DateOverrides = (props: any) => {
   const { theme, disabled, submittedData, timeSlotsData } = props;
@@ -50,7 +50,8 @@ const DateOverrides = (props: any) => {
                         >
                           <Typography>
                             {data?.date
-                              ? dayjs(data?.overrideDate)?.format(
+                              ? otherDateFormat(
+                                  data?.overrideDate,
                                   DATE_TIME_FORMAT?.DMY,
                                 )
                               : ''}
@@ -87,7 +88,8 @@ const DateOverrides = (props: any) => {
                   >
                     <Typography>
                       {data?.date
-                        ? dayjs(data?.overrideDate)?.format(
+                        ? otherDateFormat(
+                            data?.overrideDate,
                             DATE_TIME_FORMAT?.DMY,
                           )
                         : ''}
@@ -95,9 +97,11 @@ const DateOverrides = (props: any) => {
                     <Box>
                       {data?.timeRanges?.map((time: any) => (
                         <Typography key={time?._id}>
-                          {`${dayjs(time?.startHour)?.format(
+                          {`${otherDateFormat(
+                            time?.startHour,
                             TIME_FORMAT?.UI,
-                          )} - ${dayjs(time?.endHour)?.format(
+                          )} - ${otherDateFormat(
+                            time?.endHour,
                             TIME_FORMAT?.UI,
                           )}`}
                         </Typography>
@@ -162,7 +166,8 @@ const DateOverrides = (props: any) => {
                       >
                         <Typography>
                           {data?.date
-                            ? dayjs(data?.overrideDate)?.format(
+                            ? otherDateFormat(
+                                data?.overrideDate,
                                 DATE_TIME_FORMAT?.DMY,
                               )
                             : ''}

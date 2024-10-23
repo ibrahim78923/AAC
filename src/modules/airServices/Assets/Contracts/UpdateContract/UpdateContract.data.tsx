@@ -5,11 +5,8 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { CONTRACT_ACTION } from '@/constants/strings';
-import { DATE_FORMAT } from '@/constants';
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+import { uiDateFormat } from '@/lib/date-time';
 
 export const updateContractFormValidationSchema = Yup?.object()?.shape({
   approver: Yup?.mixed()?.nullable(),
@@ -20,8 +17,8 @@ export const updateContractFormValidationSchema = Yup?.object()?.shape({
 
 export const updateContractFormDefaultValuesFunction = (data?: any) => {
   return {
-    startDate: new Date(data?.data?.startDate ?? todayDate),
-    endDate: new Date(data?.data?.endDate ?? todayDate),
+    startDate: new Date(data?.data?.startDate ?? uiDateFormat(new Date())),
+    endDate: new Date(data?.data?.endDate ?? uiDateFormat(new Date())),
     cost: data?.data?.cost ?? '',
     approver: data?.data?.approver ?? null,
   };

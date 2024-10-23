@@ -1,8 +1,7 @@
 import { Box } from '@mui/material';
-import dayjs from 'dayjs';
-import { CALENDAR_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
 import { capitalizeFirstWord, splitCapitalizedWords } from '@/utils/api';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const contractsTableColumns = [
   {
@@ -37,12 +36,12 @@ export const contractsTableColumns = [
     accessorFn: (row: any) => row?.createdAt,
     id: 'createdAt',
     header: 'Created Date',
-    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.endDate,
     id: 'endDate',
     header: 'Expiry Date',
-    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

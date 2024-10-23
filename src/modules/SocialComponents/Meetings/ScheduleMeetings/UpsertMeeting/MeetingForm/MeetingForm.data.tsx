@@ -15,8 +15,8 @@ import { Recurring } from './Recurring';
 import { Reminder } from './Reminder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AllowAttendee } from './AllowAttendee';
-import dayjs from 'dayjs';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
+import { disableTime, disableTimeCheckingStartTime } from '@/lib/date-time';
 
 export const meetingTypeOption = [
   { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
@@ -57,7 +57,6 @@ export const meetingFormFields = (props: any) => {
   const startHour = watch('startTime');
   const watchAllowAttendee = watch('allowAttendee');
   const OTHER_SETTINGS = 'Other Settings';
-  const today = dayjs();
 
   return [
     {
@@ -120,12 +119,7 @@ export const meetingFormFields = (props: any) => {
         required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
-        shouldDisableTime: (time: any) => {
-          if (dayjs(watchFrom && watchTo)?.isSame(today, 'day')) {
-            return dayjs(time)?.isBefore(today, 'minute');
-          }
-          return false;
-        },
+        shouldDisableTime: (time: any) => disableTime(time, watchFrom, watchTo),
       },
       component: RHFTimePicker,
     },
@@ -155,16 +149,13 @@ export const meetingFormFields = (props: any) => {
         required: !!!watchAllDay && !!!watchAllowAttendee,
         fullWidth: true,
         size: 'small',
-        shouldDisableTime: (timeValue: any) => {
-          if (
-            watchFrom &&
-            watchTo &&
-            dayjs(watchFrom)?.isSame(watchTo, 'day')
-          ) {
-            return timeValue < startHour;
-          }
-          return false;
-        },
+        shouldDisableTime: (timeValue: any) =>
+          disableTimeCheckingStartTime(
+            timeValue,
+            watchFrom,
+            watchTo,
+            startHour,
+          ),
       },
       component: RHFTimePicker,
     },

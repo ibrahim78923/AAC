@@ -1,7 +1,7 @@
 import { TIME_FORMAT } from '@/constants';
 import { TIME_UNITS } from '@/constants/strings';
+import { otherDateFormat } from '@/lib/date-time';
 import { errorSnackbar } from '@/lib/snackbar';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 export const useAllowAttendee = (props: any) => {
@@ -41,8 +41,8 @@ export const useAllowAttendee = (props: any) => {
       setValue(
         'selectedSlots',
         [...selectedEvents, info]?.map((item: any) => ({
-          startHour: dayjs(item?.start)?.format(TIME_FORMAT?.TH),
-          endHour: dayjs(item?.end)?.format(TIME_FORMAT?.TH),
+          startHour: otherDateFormat(item?.start, TIME_FORMAT?.TH),
+          endHour: otherDateFormat(item?.end, TIME_FORMAT?.TH),
         })),
       );
       return;

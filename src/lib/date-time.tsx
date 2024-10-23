@@ -108,6 +108,36 @@ export const endOfTime = (
 export const parsedDateFormat = (date: Date | string, format?: string) =>
   format ? dayjs(date, format) : dayjs(date);
 
+export const formatDateExpiry = (date: any) => {
+  const parsedDate = dayjs(date);
+  const presentDate = dayjs();
+  const isExpired = presentDate?.isAfter(parsedDate);
+  if (isExpired) return 'Expired';
+  else {
+    const formattedDate = parsedDate?.format(DATE_TIME_FORMAT?.DMMMY);
+    const daysDifference = parsedDate?.diff(dayjs(), 'day');
+    const finalOutput = `${formattedDate} (in ${daysDifference} days)`;
+    return finalOutput;
+  }
+};
+const today = dayjs();
+export const disableTime = (time: any, dateFrom: any, dateTo: any) => {
+  if (dayjs(dateFrom && dateTo)?.isSame(today, 'day')) {
+    return dayjs(time)?.isBefore(today, 'minute');
+  }
+  return false;
+};
+export const disableTimeCheckingStartTime = (
+  time: any,
+  dateFrom: any,
+  dateTo: any,
+  startTime: any,
+) => {
+  if (dateFrom && dateTo && dayjs(dateFrom)?.isSame(dateTo, 'day')) {
+    return time < startTime;
+  }
+  return false;
+};
 export const startOfFormat = (
   date: Date | string,
   unit: OpUnitType,

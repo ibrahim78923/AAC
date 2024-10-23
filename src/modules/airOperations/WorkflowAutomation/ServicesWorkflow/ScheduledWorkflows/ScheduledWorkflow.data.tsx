@@ -1,7 +1,6 @@
 import { AntSwitch } from '@/components/AntSwitch';
 import { Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
@@ -10,12 +9,12 @@ import {
   REQUESTORS_STATUS,
   WORKFLOW_TYPE,
 } from '@/constants/strings';
-import { DATE_TIME_FORMAT } from '@/constants';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { getActivePermissionsSession } from '@/utils';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const ScheduleWorkflowActionsDropdown = (
   handleActionClick: (type: string) => void,
@@ -190,7 +189,7 @@ export const listsColumnsFunction = (
     id: 'createdOn',
     isSortable: false,
     header: 'Created On',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.activity,

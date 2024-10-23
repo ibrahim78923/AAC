@@ -8,13 +8,13 @@ import {
 import { generateImage } from '@/utils/avatarUtils';
 import { meetingPeople } from './AttendeePeople.data';
 import { DateRangePickerIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ROUTER_CONSTANTS } from '@/constants/strings';
 import NoData from '@/components/NoData';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import GetMeetingAllUsersDropdown from '@/modules/SocialComponents/Meetings/MeetingsFormFieldsDropdowns/GetMeetingAllUsersDropdown';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const AttendeePeople = (props: any) => {
   const {
@@ -191,7 +191,8 @@ export const AttendeePeople = (props: any) => {
                               gap={0.5}
                             >
                               <DateRangePickerIcon />
-                              {dayjs(watchStartDate)?.format(
+                              {otherDateFormat(
+                                watchStartDate,
                                 DATE_TIME_FORMAT?.WDM,
                               )}
                             </Typography>
@@ -255,7 +256,10 @@ export const AttendeePeople = (props: any) => {
                           gap={0.5}
                         >
                           <DateRangePickerIcon />
-                          {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
+                          {otherDateFormat(
+                            watchStartDate,
+                            DATE_TIME_FORMAT?.WDM,
+                          )}
                         </Typography>
                       </Box>
                     </Grid>

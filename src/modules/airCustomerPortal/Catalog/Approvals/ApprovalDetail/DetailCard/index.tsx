@@ -1,7 +1,6 @@
-import { DATE_TIME_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 
 export const DetailCard = (props: any) => {
@@ -91,7 +90,7 @@ export const DetailCard = (props: any) => {
             {`${fullName(
               data?.requesterDetails?.firstName,
               data?.requesterDetails?.lastName,
-            )}, ${'  '} ${dayjs(data?.createdAt).format(DATE_TIME_FORMAT?.UI)}`}
+            )}, ${'  '} ${uiDateFormat(data?.createdAt)}`}
           </Typography>
         </Box>
         <Box

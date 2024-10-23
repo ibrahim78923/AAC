@@ -7,8 +7,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { Fragment, isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const Overview = () => {
   const {
@@ -100,7 +99,7 @@ export const Overview = () => {
                       variant={'rounded'}
                     />
                   ) : isValidDate(value) ? (
-                    dayjs(value)?.format(DATE_FORMAT?.UI)
+                    uiDateFormat(value)
                   ) : (
                     value?.toString()
                   )}

@@ -1,10 +1,9 @@
 import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
-import { CALENDAR_FORMAT } from '@/constants';
 import { UserTableDataI } from './UsersTable.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { splitCapitalizedWords } from '@/utils/api';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const usersTableColumns = (
   usersData: UserTableDataI[],
@@ -80,21 +79,21 @@ export const usersTableColumns = (
     id: 'createdAt',
     isSortable: true,
     header: 'First Seen',
-    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.data?.updatedAt,
     id: 'updatedAt',
     isSortable: true,
     header: 'Last Seen',
-    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.data?.createdAt,
     id: 'assignedDate',
     isSortable: true,
     header: 'Assigned Date',
-    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.Contract,

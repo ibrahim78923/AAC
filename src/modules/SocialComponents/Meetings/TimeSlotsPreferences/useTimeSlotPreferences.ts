@@ -6,9 +6,9 @@ import {
   useGetTimeSlotsQuery,
   usePostTimeSlotsMutation,
 } from '@/services/commonFeatures/meetings';
-import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
 import { timeSlotsDefaultValues } from './TimeSlotsPreferences.data';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const useTimeSlotPreferences = () => {
   const theme = useTheme();
@@ -45,8 +45,8 @@ export const useTimeSlotPreferences = () => {
       const uniqueTimeRanges = new Set(
         override?.timeRanges?.map((range: any) => {
           const formattedRange = {
-            startHour: dayjs(range?.startHour)?.format(TIME_FORMAT?.TH),
-            endHour: dayjs(range?.endHour)?.format(TIME_FORMAT?.TH),
+            startHour: otherDateFormat(range?.startHour, TIME_FORMAT?.TH),
+            endHour: otherDateFormat(range?.endHour, TIME_FORMAT?.TH),
           };
           return JSON?.stringify(formattedRange);
         }) as unknown[],
@@ -68,8 +68,8 @@ export const useTimeSlotPreferences = () => {
       daysTimeRanges: data?.daysTimeRanges?.map((day: any) => ({
         days: day?.days,
         timeRanges: day?.timeRanges?.map((range: any) => ({
-          startHour: dayjs(range?.startHour)?.format(TIME_FORMAT?.TH),
-          endHour: dayjs(range?.endHour)?.format(TIME_FORMAT?.TH),
+          startHour: otherDateFormat(range?.startHour, TIME_FORMAT?.TH),
+          endHour: otherDateFormat(range?.endHour, TIME_FORMAT?.TH),
         })),
       })),
       bufferTime: {

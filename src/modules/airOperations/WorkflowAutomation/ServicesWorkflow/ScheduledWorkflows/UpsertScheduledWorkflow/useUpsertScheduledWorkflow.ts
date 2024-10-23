@@ -14,13 +14,13 @@ import {
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { localeDateTime } from '@/utils/dateTime';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -218,7 +218,7 @@ export const useUpsertScheduledWorkflow = () => {
   };
 
   const handleFormSubmit = async (data: any) => {
-    const timeRange = dayjs(data?.time)?.format(TIME_FORMAT?.TH);
+    const timeRange = otherDateFormat(data?.time, TIME_FORMAT?.TH);
     const {
       time,
       schedule,
@@ -242,13 +242,14 @@ export const useUpsertScheduledWorkflow = () => {
           time: timeRange,
         },
         monthly: {
-          day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
+          day: Number(otherDateFormat(data?.scheduleDate, DATE_TIME_FORMAT?.D)),
           time: timeRange,
         },
         annually: {
-          month: dayjs(data?.scheduleMonth)
-            ?.format(DATE_TIME_FORMAT?.MMMM)
-            ?.toLowerCase(),
+          month: otherDateFormat(
+            data?.scheduleMonth,
+            DATE_TIME_FORMAT?.MMMM,
+          )?.toLowerCase(),
           time: timeRange,
         },
         custom: {

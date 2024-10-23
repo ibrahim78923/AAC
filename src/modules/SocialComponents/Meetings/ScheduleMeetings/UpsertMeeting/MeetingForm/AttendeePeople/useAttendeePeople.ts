@@ -8,8 +8,8 @@ import {
   useLazyGetAllUsersAndContactsDropdownQuery,
 } from '@/services/commonFeatures/meetings';
 import { useEffect } from 'react';
-import { isoDateString } from '@/utils/dateTime';
 import { errorSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useAttendeePeople = (props: any) => {
   const { watch, setValue } = props;
