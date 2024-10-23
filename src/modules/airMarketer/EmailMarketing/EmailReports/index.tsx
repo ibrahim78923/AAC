@@ -397,13 +397,13 @@ export const getCategories: any = (data: any, calendarUnit: string) => {
 
     switch (calendarUnit) {
       case MARKETING_REPORTS_TYPES?.YEARLY:
-        return date.format(DATE_TIME_FORMAT?.MMMM);
+        return date?.format(DATE_TIME_FORMAT?.MMMM);
       case MARKETING_REPORTS_TYPES?.MONTHLY:
-        return date.format(DATE_TIME_FORMAT?.DDMMYYY);
+        return date?.format(DATE_TIME_FORMAT?.DDMMYYY);
       case MARKETING_REPORTS_TYPES?.WEEKLY:
-        return date.format(DATE_TIME_FORMAT?.DDDD);
+        return date?.format(DATE_TIME_FORMAT?.DDDD);
       default:
-        return date.format(DATE_TIME_FORMAT?.ddddDDMMMYYY);
+        return date?.format(DATE_TIME_FORMAT?.ddddDDMMMYYY);
     }
   });
 };
