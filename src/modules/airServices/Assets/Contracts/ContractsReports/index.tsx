@@ -7,7 +7,7 @@ import {
   RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
 
 import { ContractReportsCard } from './ContractReportsCard';
 import { useContractReports } from './useContractReports';
@@ -23,6 +23,7 @@ import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_SERVICES } from '@/constants/routes';
+import { Autorenew } from '@mui/icons-material';
 
 export const ContractsReports = () => {
   const {
@@ -42,6 +43,8 @@ export const ContractsReports = () => {
     refetch,
     data,
     getValues,
+    apiCallInProgress,
+    timeLapse,
   } = useContractReports();
 
   if (isError)
@@ -74,6 +77,30 @@ export const ContractsReports = () => {
           flexWrap={'wrap'}
           flexDirection={{ xs: 'column', sm: 'row' }}
         >
+          <Button
+            variant="outlined"
+            color="inherit"
+            size="small"
+            startIcon={<Autorenew />}
+            onClick={refetch}
+            disabled={apiCallInProgress}
+            sx={{
+              fontSize: pxToRem(12),
+              fontWeight: 'fontWeightRegular',
+              textTransform: 'lowercase',
+              cursor: 'pointer',
+              height: pxToRem(40),
+              marginTop: pxToRem(-10),
+            }}
+          >
+            {!!apiCallInProgress ? (
+              <Box>
+                <LinearProgress sx={{ width: pxToRem(70) }} />
+              </Box>
+            ) : (
+              timeLapse?.lastFetchLapseTime
+            )}
+          </Button>
           <PermissionsGuard
             permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
           >

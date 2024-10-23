@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import useAuth from '@/hooks/useAuth';
 import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
 import { AIR_SERVICES } from '@/constants/routes';
+import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
 
 export const useSingleDashboard = (props: any) => {
   const { dashboardId } = props;
@@ -44,6 +45,7 @@ export const useSingleDashboard = (props: any) => {
   const lazyGetSingleServicesDashboardStatus =
     useGetServicesDashboardSingleDashboardDetailsQuery?.(apiDataParameter, {
       refetchOnMountOrArgChange: true,
+      pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.DASHBOARD,
     });
 
   const moveToDashboard = () =>

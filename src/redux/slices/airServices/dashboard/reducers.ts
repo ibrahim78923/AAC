@@ -1,5 +1,9 @@
 import { PAGINATION } from '@/config';
-import { isPortalOpenInitialState } from './slice';
+import {
+  isPortalOpenInitialState,
+  lastFetchLapseTimeInitialState,
+  lastFetchTimeInitialState,
+} from './slice';
 
 const setPageReducer = (state: any, action: any) => {
   state.page = action?.payload;
@@ -65,6 +69,11 @@ const setDashboardListsTotalRecordsReducer = (state: any, action: any) => {
   state.totalRecords = action?.payload;
 };
 
+const setLastFetchTimeApiReducer = (state: any, action: any) => {
+  state.lastFetchTime = action?.payload?.lastFetchTime;
+  state.lastFetchLapseTime = action?.payload?.lastFetchLapseTime;
+};
+
 const resetComponentStateReducers = (state: any) => {
   state.page = PAGINATION?.CURRENT_PAGE;
   state.pageLimit = PAGINATION?.PAGE_LIMIT;
@@ -74,6 +83,8 @@ const resetComponentStateReducers = (state: any) => {
   state.totalRecords = PAGINATION?.TOTAL_RECORDS;
   state.totalCount = PAGINATION?.TOTAL_RECORDS;
   state.isTotalCountLoading = true;
+  state.lastFetchTime = lastFetchTimeInitialState;
+  state.lastFetchLapseTime = lastFetchLapseTimeInitialState;
 };
 
 export const servicesDashboardReducersList = {
@@ -93,4 +104,5 @@ export const servicesDashboardReducersList = {
   resetComponentStateReducers,
   setFilterDashboardListsReducer,
   emptyFilterDashboardListsReducer,
+  setLastFetchTimeApiReducer,
 };

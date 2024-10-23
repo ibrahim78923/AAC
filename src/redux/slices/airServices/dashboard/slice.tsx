@@ -8,6 +8,9 @@ export const isPortalOpenInitialState = {
   data: {} as any,
 };
 
+export const lastFetchTimeInitialState = null;
+export const lastFetchLapseTimeInitialState = '0 minutes ago';
+
 const {
   setPageReducer,
   setPageLimitReducer,
@@ -25,6 +28,7 @@ const {
   resetComponentStateReducers,
   setFilterDashboardListsReducer,
   emptyFilterDashboardListsReducer,
+  setLastFetchTimeApiReducer,
 } = servicesDashboardReducersList;
 
 const servicesDashboardInitialState = {
@@ -36,6 +40,8 @@ const servicesDashboardInitialState = {
   totalRecords: PAGINATION?.TOTAL_RECORDS,
   totalCount: PAGINATION?.TOTAL_RECORDS,
   isTotalCountLoading: true,
+  lastFetchTime: lastFetchTimeInitialState,
+  lastFetchLapseTime: lastFetchLapseTimeInitialState,
 };
 
 const servicesDashboardSlice = createSlice({
@@ -58,6 +64,7 @@ const servicesDashboardSlice = createSlice({
     resetComponentState: resetComponentStateReducers,
     setFilterDashboardLists: setFilterDashboardListsReducer,
     emptyFilterDashboardLists: emptyFilterDashboardListsReducer,
+    setLastFetchTimeApi: setLastFetchTimeApiReducer,
   },
 });
 
@@ -78,6 +85,7 @@ export const {
   resetComponentState,
   setFilterDashboardLists,
   emptyFilterDashboardLists,
+  setLastFetchTimeApi,
 } = servicesDashboardSlice?.actions;
 
 export default servicesDashboardSlice?.reducer;

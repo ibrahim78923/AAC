@@ -9,6 +9,11 @@ import {
 } from './PurchaseOrdersReports.data';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
+import {
+  AUTO_REFRESH_API_POLLING_TIME,
+  AUTO_REFRESH_API_TIME_INTERVAL,
+} from '@/config';
+import { useApiPolling } from '@/hooks/useApiPolling';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const usePurchaseOrderReports = () => {
@@ -56,10 +61,12 @@ export const usePurchaseOrderReports = () => {
     isFetching,
     isError,
     refetch,
+    fulfilledTimeStamp,
   }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
     apiDataParameter,
     {
       refetchOnMountOrArgChange: true,
+      pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.REPORTS,
     },
   );
 
@@ -103,6 +110,15 @@ export const usePurchaseOrderReports = () => {
     });
   };
 
+  const props = {
+    isFetching,
+    fulfilledTimeStamp,
+    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS,
+  };
+
+  const { timeLapse } = useApiPolling(props);
+  const apiCallInProgress = isLoading || isFetching;
+
   return {
     router,
     handleDownload,
@@ -122,5 +138,7 @@ export const usePurchaseOrderReports = () => {
     shouldDateSet,
     purchaseOrderData,
     getValues,
+    timeLapse,
+    apiCallInProgress,
   };
 };

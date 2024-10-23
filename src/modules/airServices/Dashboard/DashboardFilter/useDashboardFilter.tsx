@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
+import { useApiPolling } from '@/hooks/useApiPolling';
 
 export const useDashboardFilter = (props: any) => {
   const { apiLoader } = props;
@@ -16,6 +18,7 @@ export const useDashboardFilter = (props: any) => {
   const apiCallInProgress = apiLoader?.isLoading || apiLoader?.isFetching;
   const dashboardName = apiLoader?.data?.data?.dashboard?.name?.toLowerCase();
   const dashboardId = apiLoader?.data?.data?.dashboard?._id;
+  const refetch = apiLoader?.refetch;
   const moveToManageDashboard = () =>
     router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
 
@@ -38,6 +41,14 @@ export const useDashboardFilter = (props: any) => {
     copyEmail,
   );
 
+  const ApiPollingHookProps = {
+    isFetching: apiLoader?.isFetching,
+    fulfilledTimeStamp: apiLoader?.fulfilledTimeStamp,
+    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
+  };
+
+  const { timeLapse } = useApiPolling(ApiPollingHookProps);
+
   return {
     dashboardDropdownActions,
     isDrawerOpen,
@@ -47,5 +58,7 @@ export const useDashboardFilter = (props: any) => {
     apiCallInProgress,
     dashboardName,
     moveToManageDashboard,
+    refetch,
+    timeLapse,
   };
 };

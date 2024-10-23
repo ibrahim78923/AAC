@@ -1,6 +1,7 @@
 import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/constants';
 import dayjs, { ManipulateType, OpUnitType } from 'dayjs';
 
+const JUST_NOW = 0;
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
 const MINUTES_IN_MONTH = 30 * MINUTES_IN_DAY;
@@ -18,12 +19,17 @@ export const uiDateFormat = (date: Date | string) =>
 export const otherDateFormat = (date: Date | string, format?: string) =>
   dayjs(date)?.format(format);
 
-export const formatTimeDifference = (isoDateString: string) => {
+export const formatTimeDifference = (isoDateString: string | Date) => {
   const diffMinutes = dayjs()?.diff(dayjs(isoDateString), 'minute');
+
+  if (diffMinutes <= JUST_NOW) {
+    return 'Just now';
+  }
 
   if (diffMinutes < MINUTES_IN_HOUR) {
     return formatTimeUnit(diffMinutes, 'minute');
   }
+
   if (diffMinutes < MINUTES_IN_DAY) {
     return formatTimeUnit(diffMinutes, 'hour', MINUTES_IN_HOUR);
   }

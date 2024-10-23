@@ -2,7 +2,7 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { useUpdateDefaultDashboard } from './useUpdateDefaultDashboard';
 
 export const UpdateDefaultDashboard = (props: any) => {
-  const { currentStatus, isAuthUserDashboard, hasPermission } = props;
+  const { currentStatus, hasPermission } = props;
 
   const {
     changeDefaultDashboard,
@@ -18,7 +18,6 @@ export const UpdateDefaultDashboard = (props: any) => {
       }
       disabled={
         !hasPermission ||
-        isAuthUserDashboard ||
         changeServicesDashboardSingleDashboardDefaultStatusStatus?.isLoading
       }
     />
