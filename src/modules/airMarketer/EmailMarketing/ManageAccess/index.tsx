@@ -64,7 +64,7 @@ const ManageAccess = ({
               : [],
           userAccoutIds:
             values?.access === 'USERS'
-              ? values?.users?.map((item: any) => item?.userData?._id)
+              ? values?.users?.map((item: any) => item?._id)
               : [],
         },
       })?.unwrap();

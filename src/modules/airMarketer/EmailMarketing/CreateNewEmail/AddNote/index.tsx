@@ -156,9 +156,6 @@ const AddANote = ({
                     </Typography>
                   </Box>
                   <TableIconActions icon={<MoreVertIcon />}>
-                    <MenuItem>
-                      <Typography variant="subtitle2">Edit</Typography>
-                    </MenuItem>
                     <MenuItem onClick={() => deleteNotes(item?.uuid)}>
                       <Typography variant="subtitle2">Delete</Typography>
                     </MenuItem>

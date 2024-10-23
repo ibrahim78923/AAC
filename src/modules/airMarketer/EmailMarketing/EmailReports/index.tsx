@@ -31,7 +31,12 @@ import {
 } from './EmailReportsFilters/Filters.data';
 import Filters from './EmailReportsFilters';
 import dayjs from 'dayjs';
-import { API_STATUS, DATE_FORMAT } from '@/constants';
+import {
+  API_STATUS,
+  DATE_FORMAT,
+  DATE_TIME_FORMAT,
+  MARKETING_REPORTS_TYPES,
+} from '@/constants';
 import ReportsDatePicker from './datePicker';
 import { htmlToPngConvert } from '@/lib/html-to-image-converter';
 
@@ -67,7 +72,6 @@ const EmailReports = () => {
     getDefaultDateRange(),
   );
   const [selectedIndex, setSelectedIndex] = useState('year');
-
   const filterTypeValues: any = {
     month: 'MONTHLY',
     year: 'YEARLY',
@@ -130,6 +134,7 @@ const EmailReports = () => {
   });
   const [emailWidgetsData, setEmailWidgetsData] = useState({});
   const [performanceData, setPerformanceData] = useState([]);
+  const [calenderUnit, setCalenderUnit] = useState<any>('');
 
   useEffect(() => {
     if (data?.data) {
@@ -137,6 +142,12 @@ const EmailReports = () => {
       setPerformanceData(data?.data?.performance);
     }
   }, [data?.data]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setCalenderUnit(data?.data?.filterType);
+    }
+  }, [data]);
 
   return (
     <Box>
@@ -205,6 +216,7 @@ const EmailReports = () => {
         performanceData={performanceData}
         setIsDownloadModalOpen={setIsDownloadModalOpen}
         status={status}
+        calenderUnit={calenderUnit}
         isDownload
       />
 
@@ -263,6 +275,7 @@ const WidgetsAndGraphs = ({
   emailWidgetsData,
   performanceData,
   status,
+  calenderUnit,
 }: any) => {
   const theme = useTheme();
 
@@ -315,7 +328,10 @@ const WidgetsAndGraphs = ({
               {status === API_STATUS?.PENDING ? (
                 <BoxLoading />
               ) : (
-                <PerformanceChart performanceData={performanceData} />
+                <PerformanceChart
+                  performanceData={performanceData}
+                  calenderUnit={calenderUnit}
+                />
               )}
             </Box>
           </Grid>
@@ -373,6 +389,23 @@ const BoxLoading = () => {
       sx={{ width: '100%', height: '300px', mt: 2 }}
     />
   );
+};
+
+export const getCategories: any = (data: any, calendarUnit: string) => {
+  return data?.map((entry: any) => {
+    const date = dayjs(entry?._id);
+
+    switch (calendarUnit) {
+      case MARKETING_REPORTS_TYPES?.YEARLY:
+        return date.format(DATE_TIME_FORMAT?.MMMM);
+      case MARKETING_REPORTS_TYPES?.MONTHLY:
+        return date.format(DATE_TIME_FORMAT?.DDMMYYY);
+      case MARKETING_REPORTS_TYPES?.WEEKLY:
+        return date.format(DATE_TIME_FORMAT?.DDDD);
+      default:
+        return date.format(DATE_TIME_FORMAT?.ddddDDMMMYYY);
+    }
+  });
 };
 
 export default EmailReports;

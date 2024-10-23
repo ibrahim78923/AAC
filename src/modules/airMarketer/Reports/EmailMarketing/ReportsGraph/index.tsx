@@ -1,12 +1,12 @@
+import { getCategories } from '@/modules/airMarketer/EmailMarketing/EmailReports';
 import { useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { getCategories } from '..';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
+const ReportsGraph = ({ performanceData, calenderUnit }: any) => {
   const theme = useTheme();
   const [chartData, setChartData] = useState<any>(null);
 
@@ -14,23 +14,15 @@ const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
 
   useEffect(() => {
     if (Array.isArray(data) && data.length > 0) {
-      const sentData = data?.map((entry) => entry?.send || 0);
-      const openedData = data?.map((entry) => entry?.open || 0);
-      const unreadData = data?.map((entry) => entry?.unread || 0);
-      const blockedData = data?.map((entry) => entry?.complaint || 0);
-      const unDeliveredData = data?.map((entry) =>
-        Math.max(entry?.send - entry?.delivered || 0, 0),
-      );
+      const subscribe = data?.map((entry) => entry?.subscribe || 0);
+      const unsubscribe = data?.map((entry) => entry?.unsubscribe || 0);
 
       const categories = getCategories(data, calenderUnit);
 
       setChartData({
         series: [
-          { name: 'Sent', data: sentData },
-          { name: 'Unread', data: unreadData },
-          { name: 'Opened', data: openedData },
-          { name: 'Undelivered', data: unDeliveredData },
-          { name: 'Blocked', data: blockedData },
+          { name: 'Subscribe', data: subscribe },
+          { name: 'Unsubscribe', data: unsubscribe },
         ],
         options: {
           chart: {
@@ -47,13 +39,7 @@ const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
               endingShape: 'rounded',
             },
           },
-          colors: [
-            theme?.palette?.primary?.main,
-            theme?.palette?.custom?.light_graph_purple,
-            theme?.palette?.custom?.light_slate_blue,
-            theme?.palette?.grey[500],
-            theme?.palette?.custom?.light_graph_red,
-          ],
+          colors: [theme?.palette?.custom?.bright, theme?.palette?.grey[500]],
           dataLabels: {
             enabled: false,
           },
@@ -117,4 +103,4 @@ const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
   );
 };
 
-export default PerformanceChart;
+export default ReportsGraph;

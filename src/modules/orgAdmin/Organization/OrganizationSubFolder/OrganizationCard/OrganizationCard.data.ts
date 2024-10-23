@@ -2,12 +2,21 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
+const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
+
 export const validationSchema = Yup?.object()?.shape({
-  name: Yup.string().trim().required('Field is Required'),
-  email: Yup.string()
-    .email('Invalid email format')
-    .required('Field is Required'),
-  phoneNo: Yup.string().required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  postCode: Yup?.string()?.trim()?.required('Field is Required'),
+  email: Yup?.string()
+    ?.email('Invalid email format')
+    ?.required('Field is Required'),
+  phoneNo: Yup?.string()
+    ?.nullable()
+    ?.test(
+      'isValidPhoneNumber',
+      'Phone number is not valid',
+      (value) => !value || phoneRegex?.test(value),
+    ),
 });
 
 export const defaultValues = {

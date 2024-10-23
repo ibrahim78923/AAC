@@ -1,5 +1,5 @@
 export const styles = {
-  productWiseGraph: (theme: any) => {
+  graphStylesReports: (theme: any) => {
     return {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',

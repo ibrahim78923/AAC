@@ -45,6 +45,7 @@ export const DATE_TIME_FORMAT = {
   DDMMYYYYT: 'DD-MM-YYYY hh:MM A',
   ddddDDMMMYYYYhhmmA: 'dddd, DD MMM YYYY hh:mm A',
   ddddDDMMMYYYY: 'dddd, DD MMM YYYY',
+  ddddDDMMMYYY: 'dddd DD/MM/YYY',
   YYMMDD: 'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
   DDMMM: 'DD MMM',
   DDMMMYYYY: 'DD MMM YYYY',
@@ -52,6 +53,7 @@ export const DATE_TIME_FORMAT = {
   MMMMD: 'MMMM D[th] [at] h:mmA',
   MMM: 'MMM',
   DD: 'DD',
+  DDDD: 'dddd',
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
   FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
@@ -525,4 +527,12 @@ export const ACTIVITY_STATUS_MENU = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   EXPIRED: 'EXPIRED',
+};
+
+export const MARKETING_REPORTS_TYPES = {
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY',
+  CUSTOM: 'CUSTOM',
+  TODAY: 'TODAY',
+  WEEKLY: 'WEEKLY',
 };

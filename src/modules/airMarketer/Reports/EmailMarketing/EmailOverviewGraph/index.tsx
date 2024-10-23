@@ -1,12 +1,12 @@
-import { useTheme } from '@mui/material';
+import { getCategories } from '@/modules/airMarketer/EmailMarketing/EmailReports';
+import { Box, useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { getCategories } from '..';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
+const EmailOverviewGraph = ({ performanceData, calenderUnit }: any) => {
   const theme = useTheme();
   const [chartData, setChartData] = useState<any>(null);
 
@@ -14,53 +14,56 @@ const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
 
   useEffect(() => {
     if (Array.isArray(data) && data.length > 0) {
-      const sentData = data?.map((entry) => entry?.send || 0);
+      const bounceData = data?.map((entry) => entry?.bounce || 0);
+      const clickData = data?.map((entry) => entry?.click || 0);
       const openedData = data?.map((entry) => entry?.open || 0);
-      const unreadData = data?.map((entry) => entry?.unread || 0);
-      const blockedData = data?.map((entry) => entry?.complaint || 0);
-      const unDeliveredData = data?.map((entry) =>
-        Math.max(entry?.send - entry?.delivered || 0, 0),
-      );
+      const deliveredData = data?.map((entry) => entry?.delivered || 0);
+      const sendData = data?.map((entry) => entry?.send || 0);
 
       const categories = getCategories(data, calenderUnit);
 
       setChartData({
         series: [
-          { name: 'Sent', data: sentData },
-          { name: 'Unread', data: unreadData },
-          { name: 'Opened', data: openedData },
-          { name: 'Undelivered', data: unDeliveredData },
-          { name: 'Blocked', data: blockedData },
+          { name: `Bounced`, data: bounceData },
+          { name: `Clicked`, data: clickData },
+          { name: `Delivered`, data: deliveredData },
+          { name: `Open`, data: openedData },
+          { name: `Sent`, data: sendData },
         ],
         options: {
           chart: {
-            type: 'bar',
+            type: 'line',
             height: 350,
+            zoom: {
+              enabled: false,
+            },
             toolbar: {
               show: false,
             },
           },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: '35%',
-              endingShape: 'rounded',
-            },
+          markers: {
+            strokeWidth: 5,
+            shape: 'circle',
+            height: 5,
+            width: 5,
           },
-          colors: [
-            theme?.palette?.primary?.main,
-            theme?.palette?.custom?.light_graph_purple,
-            theme?.palette?.custom?.light_slate_blue,
-            theme?.palette?.grey[500],
-            theme?.palette?.custom?.light_graph_red,
-          ],
           dataLabels: {
             enabled: false,
           },
           stroke: {
-            show: true,
-            width: 1,
-            colors: ['transparent'],
+            curve: 'smooth',
+          },
+          colors: [
+            theme?.palette?.error?.main,
+            theme?.palette?.warning?.main,
+            theme?.palette?.success?.main,
+            theme?.palette?.custom?.maroon_dark,
+            theme?.palette?.blue?.link_blue,
+          ],
+          grid: {
+            row: {
+              colors: ['transparent'],
+            },
           },
           xaxis: {
             categories: categories,
@@ -81,9 +84,6 @@ const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
                 fontWeight: 400,
               },
             },
-          },
-          fill: {
-            opacity: 1,
           },
           tooltip: {
             y: {
@@ -106,15 +106,17 @@ const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
   return (
     <div id="chart">
       {typeof window !== 'undefined' && chartData && (
-        <ReactApexChart
-          options={chartData?.options}
-          series={chartData?.series}
-          type="bar"
-          height={350}
-        />
+        <Box>
+          <ReactApexChart
+            options={chartData?.options}
+            series={chartData?.series}
+            type="line" // Change type to line
+            height={350}
+          />
+        </Box>
       )}
     </div>
   );
 };
 
-export default PerformanceChart;
+export default EmailOverviewGraph;

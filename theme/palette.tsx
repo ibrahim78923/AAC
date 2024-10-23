@@ -190,6 +190,7 @@ const CUSTOM_COLORS = {
   light_graph_red: '#F56686',
   error_light: '#FFEAEA',
   warning_light: '#FFF4D3',
+  maroon_dark: '#9747FF',
 };
 
 const GRAPH = {
