@@ -2,6 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { IconButton, InputAdornment } from '@mui/material';
 import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
+import { REGEX } from '@/constants/validation';
 
 export const SignUpDefaultValues = {
   firstName: '',
@@ -22,7 +23,7 @@ export const SignUpValidationSchema: any = Yup?.object()?.shape({
     ?.max(30, 'Password should be less than 30 characters')
     ?.min(8, 'Password should contain at least 8 characters')
     ?.matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,30}$/,
+      REGEX?.ENHANCED_PASSWORD_COMPLEXITY_REGEX,
       'Password must include at least 1 capital letter, 1 small letter, 1 numeric digit, and 1 special character',
     ),
   confirmPassword: Yup?.string()

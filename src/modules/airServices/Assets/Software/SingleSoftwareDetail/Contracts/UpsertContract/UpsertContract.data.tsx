@@ -15,7 +15,7 @@ import {
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
 import { localeDateTime } from '@/utils/dateTime';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetSoftwareContractSoftwareDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractSoftwareDropdown';
 import GetSoftwareContractApproverDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractApproverDropdown';
 import GetSoftwareContractVendorDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractVendorDropdown';
@@ -217,7 +217,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   licenseKey: Yup?.string()
     ?.trim()
     ?.required('License key is required')
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
+    ?.matches(REGEX?.LICENSE_KEY_REGEX, 'must be a string'),
   itemDetail: Yup?.array()
     ?.of(
       Yup?.object()?.shape({

@@ -8,6 +8,7 @@ import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 import { ticketStatusOptions } from '../../ServicesTickets/ServicesTickets.data';
 import { AssignToAndAgent } from '../WorkloadFields/AssignToAndAgent';
+import { REGEX } from '@/constants/validation';
 
 export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
   subject: Yup?.string()?.trim()?.required('Subject is Required'),
@@ -15,7 +16,9 @@ export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
     ?.trim()
     ?.required('Description is Required')
     ?.test('is-not-empty', 'Description is Required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
   agent: Yup?.mixed()?.nullable(),

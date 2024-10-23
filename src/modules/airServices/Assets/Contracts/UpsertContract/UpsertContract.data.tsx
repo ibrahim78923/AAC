@@ -17,7 +17,7 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { localeDateTime } from '@/utils/dateTime';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetContractSoftwareDropdown from '../ContractFormFieldsDropdowns/GetContractSoftwareDropdown';
 import GetContractApproverDropdown from '../ContractFormFieldsDropdowns/GetContractApproverDropdown';
 import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContractVendorDropdown';
@@ -249,7 +249,7 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
           value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
         then: (schema: any) =>
           schema
-            ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
+            ?.matches(REGEX?.LICENSE_KEY_REGEX, 'must be a string')
             ?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),

@@ -15,7 +15,7 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
 
 const { SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
@@ -58,7 +58,9 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
       ?.trim()
       ?.required('Description is required')
       ?.test('is-not-empty', 'Description is required', (value) => {
-        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        const strippedContent = value
+          ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+          ?.trim();
         return strippedContent !== '';
       }),
     department: Yup?.mixed()?.required('Department is required'),

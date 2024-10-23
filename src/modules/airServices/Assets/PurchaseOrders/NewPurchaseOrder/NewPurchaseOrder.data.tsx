@@ -6,7 +6,7 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { localeDateTime } from '@/utils/dateTime';
-import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetPurchaseOrderLocationDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderLocationDropdown';
 import GetPurchaseOrderDepartmentDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
 import GetPurchaseOrderVendorDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderVendorDropdown';
@@ -39,7 +39,10 @@ const purchaseDetailSchema = yup?.object()?.shape({
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
     ?.required('Tax is required'),
-  total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
+  total: yup
+    ?.number()
+    ?.positive(REGEX?.NON_BREAKING_SPACE)
+    ?.typeError(REGEX?.NON_BREAKING_SPACE),
 });
 
 export const validationSchema: any = (form: any) => {

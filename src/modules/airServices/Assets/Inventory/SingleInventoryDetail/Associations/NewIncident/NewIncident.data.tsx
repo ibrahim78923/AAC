@@ -23,7 +23,7 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { DepartmentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AssetFieldDropdown';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -43,7 +43,9 @@ export const newIncidentValidationSchema = (form: any) => {
       ?.trim()
       ?.required('Description is Required')
       ?.test('is-not-empty', 'Description is Required', (value) => {
-        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        const strippedContent = value
+          ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+          ?.trim();
         return strippedContent !== '';
       }),
     category: Yup?.mixed()?.nullable(),

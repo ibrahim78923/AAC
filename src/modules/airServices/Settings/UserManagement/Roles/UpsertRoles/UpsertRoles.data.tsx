@@ -1,4 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
+import { REGEX } from '@/constants/validation';
 import * as Yup from 'yup';
 
 export const upsertRolesValidationSchema = Yup?.object()?.shape({
@@ -10,7 +11,9 @@ export const upsertRolesValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.required('Description is required')
     ?.test('is-not-empty', 'Description is required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
 });

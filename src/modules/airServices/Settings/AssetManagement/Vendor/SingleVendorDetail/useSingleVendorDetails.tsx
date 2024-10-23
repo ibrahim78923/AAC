@@ -15,7 +15,6 @@ export const useSingleVendorDetails = () => {
   const singleVendorDetailsActionDropdown =
     singleVendorDetailsActionDropdownFunction(
       setDeleteModalOpen,
-      router,
       setIsADrawerOpen,
     );
 

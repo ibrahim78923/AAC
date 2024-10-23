@@ -6,6 +6,12 @@ export const REGEX = {
   GLOBAL_HTML_TAG: /<[^>]*>/g,
   UPPERCASE_LETTERS: /(?=[A-Z])/,
   GLOBAL_DOUBLE_QUOTATION_AND_CARRIAGE_RETURN: /"|\r/g,
+  LICENSE_KEY_REGEX: /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/,
+  NON_BREAKING_SPACE: '\u00a0',
+  STRONG_PASSWORD_WITH_MINIMUM_COMPLEXITY:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+  ENHANCED_PASSWORD_COMPLEXITY_REGEX:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,30}$/,
 };
 
 export const CHARACTERS_LIMIT = {

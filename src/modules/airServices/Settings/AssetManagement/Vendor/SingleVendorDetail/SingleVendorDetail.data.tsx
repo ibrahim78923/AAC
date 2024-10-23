@@ -2,7 +2,6 @@ import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants
 
 export const singleVendorDetailsActionDropdownFunction = (
   setDeleteModalOpen: any,
-  router: any,
   setIsADrawerOpen: any,
 ) => [
   {

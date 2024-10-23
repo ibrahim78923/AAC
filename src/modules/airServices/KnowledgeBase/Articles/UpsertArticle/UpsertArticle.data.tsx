@@ -6,7 +6,7 @@ import {
 import * as Yup from 'yup';
 import { UpsertArticlesFormDefaultValuesI } from './UpsertArticles.interface';
 import { ApprovalsFields, FoldersFields } from '../../KnowledgeBaseFormFields';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
 
 const { SERVICES_KNOWLEDGE_BASE_ARTICLES_TITLE_MAX_CHARACTERS } =
@@ -42,7 +42,9 @@ export const upsertArticleValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.required('Description is required')
     ?.test('is-not-empty', 'Description is required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
   folder: Yup?.mixed()?.nullable()?.required('Folder name is required'),
