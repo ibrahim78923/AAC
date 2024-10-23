@@ -107,3 +107,26 @@ export const endOfTime = (
 
 export const parsedDateFormat = (date: Date | string, format?: string) =>
   format ? dayjs(date, format) : dayjs(date);
+
+export const startOfFormat = (
+  date: Date | string,
+  unit: OpUnitType,
+  format: string,
+) => dayjs(date)?.startOf(unit)?.format(format);
+
+export const endOfFormat = (
+  date: Date | string,
+  unit: OpUnitType,
+  format: string,
+) => dayjs(date)?.endOf(unit)?.format(format);
+
+export const startOfAddTime = (
+  date: Date | string,
+  unitStart: OpUnitType,
+  value: number,
+  unitAdd: ManipulateType | undefined,
+  toDate?: boolean,
+) => {
+  const result = dayjs(date)?.startOf(unitStart)?.add(value, unitAdd);
+  return toDate ? result?.toDate() : result?.toISOString();
+};

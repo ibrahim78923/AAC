@@ -6,7 +6,7 @@ import {
 } from './UpdateWorkloadTask.data';
 import { useEffect } from 'react';
 import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/utils/dateTime';
 
 export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {

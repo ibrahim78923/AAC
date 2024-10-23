@@ -10,7 +10,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import dayjs from 'dayjs';
 import { DateFilter } from './DateFilter';
 import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
@@ -21,17 +20,18 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { TodoIcon } from '@/assets/icons';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from './UpdateWorkloadTask';
-import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import useWorkload from './useWorkload';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS } from '@/constants/permission-keys';
 import ViewWorkloadDrawer from './ViewWorkloadDrawer';
-import { IData, IDateHeaderContentData } from './Workload.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { WORKLOAD_STATUSES_OBJECT } from './Workload.data';
 import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { UpdateWorkloadTicket } from './UpdateWorkloadTicket';
 import { SkeletonWorkload } from './SkeletonWorkload';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const Workload = () => {
   const {
@@ -141,15 +141,15 @@ export const Workload = () => {
 
         <FullCalendar
           ref={calendarRef}
-          dayHeaderContent={(data: IDateHeaderContentData) => {
+          dayHeaderContent={(data: any) => {
             const count = statusFilter?.data?.data?.filter(
-              (item: IData) =>
-                item?.day === +dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
+              (item: any) =>
+                item?.day === +otherDateFormat(data?.date, DATE_TIME_FORMAT?.D),
             );
             const countHours = statusFilter?.data?.data?.filter(
-              (item: IData) =>
-                dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
-                dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
+              (item: any) =>
+                otherDateFormat(item?.date, DATE_TIME_FORMAT?.D) ===
+                otherDateFormat(data?.date, DATE_TIME_FORMAT?.D),
             );
             const hours = Math.floor(
               countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort / 60,
@@ -157,13 +157,13 @@ export const Workload = () => {
             const minutes =
               countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort % 60;
             const countHoursPercent = statusFilter?.data?.data?.filter(
-              (item: IData) =>
-                dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
-                dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
+              (item: any) =>
+                otherDateFormat(item?.date, DATE_TIME_FORMAT?.D) ===
+                otherDateFormat(data?.date, DATE_TIME_FORMAT?.D),
             );
             return (
               <Box sx={{ cursor: 'pointer' }}>
-                {dayjs(data?.date)?.format(DATE_TIME_FORMAT?.DDDDDD)}
+                {otherDateFormat(data?.date, DATE_TIME_FORMAT?.DDDDDD)}
                 <Typography variant={'h6'}>
                   {count?.[ARRAY_INDEX?.ZERO]?.count ?? null}
                   {countHours?.[ARRAY_INDEX?.ZERO]?.totalPlannedEffort
@@ -257,13 +257,15 @@ export const Workload = () => {
                       pb={2}
                     >
                       {eventInfo?.event?.start
-                        ? dayjs(eventInfo?.event?.start)?.format(
+                        ? otherDateFormat(
+                            eventInfo?.event?.start,
                             DATE_TIME_FORMAT?.FORMAT_24_HOUR,
                           )
                         : 'No Date'}{' '}
                       -{' '}
                       {eventInfo?.event?.end
-                        ? dayjs(eventInfo?.event?.end)?.format(
+                        ? otherDateFormat(
+                            eventInfo?.event?.end,
                             DATE_TIME_FORMAT?.FORMAT_24_HOUR,
                           )
                         : 'No Date'}

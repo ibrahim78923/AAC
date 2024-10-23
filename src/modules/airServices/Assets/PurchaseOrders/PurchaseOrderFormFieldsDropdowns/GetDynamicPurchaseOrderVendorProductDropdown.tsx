@@ -1,6 +1,6 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useLazyGetAirServicesAssetsPurchaseOrderVendorProductsDropdownQuery } from '@/services/airServices/assets/purchase-orders';
 import Link from 'next/link';
 

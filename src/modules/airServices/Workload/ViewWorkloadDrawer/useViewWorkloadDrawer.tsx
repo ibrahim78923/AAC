@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   defaultValues,
   overviewDataArray,

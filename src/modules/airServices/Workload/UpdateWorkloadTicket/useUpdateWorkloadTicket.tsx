@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { usePutAirServicesWorkloadTicketsMutation } from '@/services/airServices/workload';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   getWorkloadTicketDefaultValues,
   getWorkloadTicketValidationSchema,
