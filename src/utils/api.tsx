@@ -1,8 +1,30 @@
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { isoDateString } from '@/lib/date-time';
+import { enqueueSnackbar } from 'notistack';
 
 export const transformResponse = (response: any) => {
   if (response) return response?.data;
+};
+
+export const errorSnackbar = (message?: any) => {
+  enqueueSnackbar(
+    Array?.isArray(message) ? message?.[0] : message ?? `Something went wrong`,
+    {
+      variant: NOTISTACK_VARIANTS?.ERROR,
+    },
+  );
+};
+
+export const successSnackbar = (message: any = 'Success') => {
+  enqueueSnackbar(message, {
+    variant: NOTISTACK_VARIANTS?.SUCCESS,
+  });
+};
+
+export const warningSnackbar = (message: any) => {
+  enqueueSnackbar(message, {
+    variant: NOTISTACK_VARIANTS?.WARNING,
+  });
 };
 
 export const filteredEmptyValues = (data = {}) => {
@@ -58,6 +80,7 @@ export const addDateTimeParam = (
     getQueryParam?.append(paramKey, makeDateTime(date, time)?.toISOString());
   }
 };
+
 export const capitalizeFirstLetter = (type: string) => {
   return type
     ?.split('_')
