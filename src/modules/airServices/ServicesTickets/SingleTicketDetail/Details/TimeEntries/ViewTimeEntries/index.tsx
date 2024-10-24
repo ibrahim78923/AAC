@@ -4,9 +4,9 @@ import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { ERROR_TIME } from '@/constants/api-mapped';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { useViewTimeEntries } from './useViewTimeEntries';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const ViewTimeEntries = () => {
   const { isLoading, isError, timeEntryData, isFetching, refetch } =
@@ -89,8 +89,9 @@ export const ViewTimeEntries = () => {
                     Start Time
                   </Typography>
                   <Typography variant="body1" color="slateBlue.main">
-                    {item?.startTime
-                      ? dayjs(item?.startTime)?.format(
+                    {!!item?.startTime
+                      ? otherDateFormat(
+                          item?.startTime,
                           TIME_FORMAT?.TIME_VALIDATION,
                         )
                       : '---'}
@@ -111,8 +112,9 @@ export const ViewTimeEntries = () => {
                     End Time{' '}
                   </Typography>
                   <Typography variant="body1" color="slateBlue.main">
-                    {item?.endTime
-                      ? dayjs(item?.endTime)?.format(
+                    {!!item?.endTime
+                      ? otherDateFormat(
+                          item?.endTime,
                           TIME_FORMAT?.TIME_VALIDATION,
                         )
                       : '---'}
@@ -126,8 +128,8 @@ export const ViewTimeEntries = () => {
                   justifyContent={'end'}
                 >
                   <Typography variant="subtitle1">
-                    {item?.on
-                      ? dayjs(item?.on)?.format(DATE_TIME_FORMAT?.WDM)
+                    {!!item?.on
+                      ? otherDateFormat(item?.on, DATE_TIME_FORMAT?.WDM)
                       : '---'}
                   </Typography>
                 </Box>
@@ -138,8 +140,8 @@ export const ViewTimeEntries = () => {
                   justifyContent={'end'}
                 >
                   <Typography variant="body1">
-                    {item?.on
-                      ? dayjs(item?.on)?.format(TIME_FORMAT?.UI)
+                    {!!item?.on
+                      ? otherDateFormat(item?.on, TIME_FORMAT?.UI)
                       : '---'}
                   </Typography>
                 </Box>

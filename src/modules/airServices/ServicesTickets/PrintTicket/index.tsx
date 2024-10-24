@@ -1,9 +1,9 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Divider, Grid, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { usePrintTicket } from './usePrintTicket';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const PrintTicket = () => {
   const {
@@ -48,10 +48,12 @@ export const PrintTicket = () => {
           ({singleTicketDetail?.requesterDetails?.email ?? '-'} ) on{' '}
         </Typography>
         <Typography variant="body3" fontWeight={'bold'}>
-          {dayjs(singleTicketDetail?.requesterDetails?.createdAt)?.format(
-            DATE_TIME_FORMAT?.DDMYHMA,
-          ) ?? '-'}
-          ,{' '}
+          {!!singleTicketDetail?.requesterDetails?.createdAt
+            ? otherDateFormat(
+                singleTicketDetail?.requesterDetails?.createdAt,
+                DATE_TIME_FORMAT?.DDMYHMA,
+              )
+            : '---'}
         </Typography>{' '}
         {!!singleTicketDetail?.source && (
           <>
@@ -91,12 +93,16 @@ export const PrintTicket = () => {
         </Grid>
         <Divider sx={{ marginTop: '2rem' }} />
         <Typography variant="h4"> DESCRIPTION</Typography>
-        <Typography
-          variant="h6"
-          dangerouslySetInnerHTML={
-            { __html: singleTicketDetail?.description } ?? '-'
-          }
-        />{' '}
+        {!!singleTicketDetail?.description ? (
+          <Typography
+            variant="h6"
+            dangerouslySetInnerHTML={{
+              __html: singleTicketDetail?.description,
+            }}
+          />
+        ) : (
+          '---'
+        )}
         <Divider sx={{ marginTop: '2rem' }} />
       </Box>
     </CommonDrawer>

@@ -8,7 +8,6 @@ import {
 } from './UpsertRules.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAddLoyaltyProgramLoyaltySingleRuleMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import {
   LOYALTY_PROGRAM_RULES_BENEFIT_TYPE,
@@ -18,7 +17,8 @@ import {
 import { useGetRulesLists } from '../RulesHooks/useGetRulesLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airLoyaltyProgram/rules/slice';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertRules = () => {
   const { getLoyaltyProgramRulesList } = useGetRulesLists?.();

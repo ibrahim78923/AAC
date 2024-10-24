@@ -6,11 +6,7 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import {
   editTicketDetailsDefaultValuesDynamic,
@@ -26,9 +22,10 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { isoDateString } from '@/utils/dateTime';
 import { REGEX } from '@/constants/validation';
 import { AIR_SERVICES } from '@/constants/routes';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SR } = TICKET_TYPE ?? {};

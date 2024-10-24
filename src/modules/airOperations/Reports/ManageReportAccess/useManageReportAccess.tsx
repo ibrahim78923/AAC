@@ -1,8 +1,4 @@
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useFieldArray,
@@ -29,6 +25,7 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
 import { useManageOperationsReportAccessLevelMutation } from '@/services/airOperations/reports';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useManageReportAccess = () => {
   const [manageReportAccessTrigger, manageReportAccessStatus] =

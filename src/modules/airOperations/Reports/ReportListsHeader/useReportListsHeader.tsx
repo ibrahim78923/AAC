@@ -10,7 +10,7 @@ import {
 } from './ReportListsHeader.data';
 import { PAGINATION } from '@/config';
 import { PERMISSIONS_REPORTS } from '../ReportLists/ReportLists.data';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 const { FILTER_REPORT } = REPORT_LISTS_ACTION_CONSTANTS ?? {};
 

@@ -1,4 +1,4 @@
-import { errorSnackbar } from './api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { IMG_URL } from '@/config';
 import { REGEX } from '@/constants/validation';
 

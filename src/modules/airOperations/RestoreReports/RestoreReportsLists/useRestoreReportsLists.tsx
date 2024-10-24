@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/redux/store';
 import { useEffect } from 'react';
 import { resetComponentState } from '@/redux/slices/airOperations/restore-reports/slice';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export const useRestoreReportsLists = () => {
   const router = useRouter();
