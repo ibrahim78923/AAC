@@ -124,7 +124,7 @@ const ProfileCard = (props: CardPropsI) => {
                     variant="body4"
                     sx={{ color: `${theme?.palette?.custom?.main}` }}
                   >
-                    {phone}
+                    {phone || 'N/A'}
                   </Typography>
                 </Box>
               </Box>

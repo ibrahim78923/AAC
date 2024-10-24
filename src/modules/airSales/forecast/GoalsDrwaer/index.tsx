@@ -13,6 +13,7 @@ import {
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useEffect } from 'react';
+import useGoalsDrawer from './useGoalsDrawer';
 
 const GoalsFilterDrawer = (props: any) => {
   const {
@@ -22,6 +23,8 @@ const GoalsFilterDrawer = (props: any) => {
     setFilterValues,
     filterValues,
   } = props;
+
+  const { dealsListData } = useGoalsDrawer();
 
   const methods: any = useForm({
     resolver: yupResolver(filterValidationSchema),
@@ -47,7 +50,7 @@ const GoalsFilterDrawer = (props: any) => {
     }
 
     if (values?.pipelines) {
-      filter.pipelines = values?.pipelines;
+      filter.pipelines = values?.pipelines?._id;
     }
     setFilterValues(filter);
     setIsFilterDrawer(false);
@@ -66,8 +69,8 @@ const GoalsFilterDrawer = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
-          {forecastFilterArray()?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+          {forecastFilterArray(dealsListData)?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (

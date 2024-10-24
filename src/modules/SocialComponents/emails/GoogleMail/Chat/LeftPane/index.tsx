@@ -68,6 +68,13 @@ const LeftPane = () => {
       ?.includes(item?.name?.toLowerCase());
   });
 
+  useEffect(() => {
+    localStorage.setItem(
+      'loggedInEmail',
+      `${foldersData?.data?.loggedInEmail}`,
+    );
+  }, [foldersData]);
+
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
   const params = {
     ...(gmailCurrentPage && { pageToken: gmailCurrentPage }),
