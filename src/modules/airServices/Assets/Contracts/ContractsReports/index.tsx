@@ -73,7 +73,7 @@ export const ContractsReports = () => {
         <Box
           display={'flex'}
           justifyContent={'flex-end'}
-          gap={2}
+          gap={1}
           flexWrap={'wrap'}
           flexDirection={{ xs: 'column', sm: 'row' }}
         >
@@ -90,7 +90,6 @@ export const ContractsReports = () => {
               textTransform: 'lowercase',
               cursor: 'pointer',
               height: pxToRem(40),
-              marginTop: pxToRem(-10),
             }}
           >
             {!!apiCallInProgress ? (

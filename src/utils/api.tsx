@@ -1,31 +1,8 @@
-import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { isoDateString } from '@/lib/date-time';
-import dayjs from 'dayjs';
-import { enqueueSnackbar } from 'notistack';
 
 export const transformResponse = (response: any) => {
   if (response) return response?.data;
-};
-
-export const errorSnackbar = (message?: any) => {
-  enqueueSnackbar(
-    Array?.isArray(message) ? message?.[0] : message ?? `Something went wrong`,
-    {
-      variant: NOTISTACK_VARIANTS?.ERROR,
-    },
-  );
-};
-
-export const successSnackbar = (message: any = 'Success') => {
-  enqueueSnackbar(message, {
-    variant: NOTISTACK_VARIANTS?.SUCCESS,
-  });
-};
-
-export const warningSnackbar = (message: any) => {
-  enqueueSnackbar(message, {
-    variant: NOTISTACK_VARIANTS?.WARNING,
-  });
 };
 
 export const filteredEmptyValues = (data = {}) => {
@@ -69,26 +46,6 @@ export const makeDateTime = (date: any, time: any) => {
   const day = date?.getDate() ?? time?.getDate();
   const combined: any = new Date(year, month, day, hour, minutes, 0);
   return combined;
-};
-
-export const TimeFormatDuration = (
-  startTime: string,
-  endTime: string,
-): string => {
-  const [startHours, startMinutes] = startTime?.split(':')?.map(Number) || [
-    0, 0,
-  ];
-  const [endHours, endMinutes] = endTime?.split(':')?.map(Number) || [0, 0];
-  const startDateTime = dayjs()
-    .set('hour', startHours)
-    ?.set('minute', startMinutes);
-  const endDateTime = dayjs().set('hour', endHours)?.set('minute', endMinutes);
-  const durationMinutes = endDateTime?.diff(startDateTime, 'minute');
-  const adjustedDurationMinutes =
-    durationMinutes < 0 ? 1440 + durationMinutes : durationMinutes;
-  return `${Math?.floor(adjustedDurationMinutes / 60)}h ${
-    adjustedDurationMinutes % 60
-  }m`;
 };
 
 export const addDateTimeParam = (

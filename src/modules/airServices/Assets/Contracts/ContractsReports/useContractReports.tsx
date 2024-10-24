@@ -6,7 +6,7 @@ import {
   ContractReportsCountData,
   contractsTypeOptions,
 } from './ContractReportsCard.data';
-import { filteredEmptyValues, makeDateTime } from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import {
@@ -15,13 +15,14 @@ import {
 } from '@/config';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
+import { isoDateString } from '@/lib/date-time';
 
 export const useContractReports = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState<boolean>(false);
 
-  const [filterDate, setFilterDate] = useState({
+  const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
     endDate: null,
   });
@@ -89,14 +90,8 @@ export const useContractReports = () => {
   );
 
   const onDateFilterSubmit = (setAnchorElDate: any) => {
-    const startDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.startDate),
-      new Date(),
-    )?.toISOString();
-    const endDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.endDate),
-      new Date(),
-    )?.toISOString();
+    const startDate = isoDateString(getValues?.('createdDate')?.startDate);
+    const endDate = isoDateString(getValues?.('createdDate')?.endDate);
     setFilterDate({ startDate, endDate });
     setHasDate?.(true);
     setAnchorElDate?.(null);

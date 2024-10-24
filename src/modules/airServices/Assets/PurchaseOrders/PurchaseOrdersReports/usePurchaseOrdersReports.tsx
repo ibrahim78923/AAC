@@ -1,6 +1,6 @@
 import { NextRouter, useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { filteredEmptyValues, makeDateTime } from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
   PurchaseOrderReportsChartData,
@@ -15,12 +15,13 @@ import {
 } from '@/config';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
+import { isoDateString } from '@/lib/date-time';
 
 export const usePurchaseOrderReports = () => {
   const router: NextRouter = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState(false);
-  const [filterDate, setFilterDate] = useState({
+  const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
     endDate: null,
   });
@@ -71,14 +72,8 @@ export const usePurchaseOrderReports = () => {
   );
 
   const onDateFilterSubmit = (setAnchorElDate: any) => {
-    const startDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.startDate),
-      new Date(),
-    )?.toISOString();
-    const endDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.endDate),
-      new Date(),
-    )?.toISOString();
+    const startDate = isoDateString(getValues?.('createdDate')?.startDate);
+    const endDate = isoDateString(getValues?.('createdDate')?.endDate);
     setFilterDate({ startDate, endDate });
     setHasDate?.(true);
     setAnchorElDate?.(null);
