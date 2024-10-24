@@ -7,7 +7,7 @@ import {
   getWorkloadTicketDefaultValues,
   getWorkloadTicketValidationSchema,
 } from './UpdateWorkloadTicket.data';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
   const [patchTicketTrigger, patchTicketStatus] =

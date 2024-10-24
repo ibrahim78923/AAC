@@ -16,7 +16,7 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 export default function useContacts({ setIsDrawerOpen }: any) {
   const router = useRouter();

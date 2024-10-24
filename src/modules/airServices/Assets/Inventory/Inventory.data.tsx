@@ -3,7 +3,7 @@ import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 import { Checkbox, Typography } from '@mui/material';
 
 export const assetTypeOptions = [

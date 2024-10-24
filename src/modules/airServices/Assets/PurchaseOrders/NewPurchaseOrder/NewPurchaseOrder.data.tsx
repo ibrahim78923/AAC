@@ -5,7 +5,7 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetPurchaseOrderLocationDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderLocationDropdown';
 import GetPurchaseOrderDepartmentDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';

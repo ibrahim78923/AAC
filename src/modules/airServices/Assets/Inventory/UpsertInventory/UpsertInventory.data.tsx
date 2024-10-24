@@ -13,7 +13,7 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import GetInventoryAssetsDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAssetsDropdown';
 import GetInventoryDepartmentDropdown from '../InventoryFormFieldsDropdowns/GetInventoryDepartmentDropdown';

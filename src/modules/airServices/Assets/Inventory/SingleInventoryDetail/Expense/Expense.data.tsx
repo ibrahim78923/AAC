@@ -9,9 +9,8 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { ARRAY_INDEX, EXPENSE_TYPE } from '@/constants/strings';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { ExpenseI } from './Expense.interface';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime, otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
-import { otherDateFormat } from '@/lib/date-time';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,

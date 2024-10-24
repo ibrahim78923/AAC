@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { workloadDefaultDateRange } from '../Workload.data';
 import { useGetAirServicesWorkloadQuery } from '@/services/airServices/workload';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 export default function useManageWorkload() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
