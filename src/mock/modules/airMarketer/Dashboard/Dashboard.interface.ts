@@ -16,9 +16,9 @@ export interface TotalMarketingEmailI {
 
 export interface FormsTableDataI {
   id: number;
-  landingPage: string;
-  publishStatus: number;
-  views: number;
-  totalSubmission: number;
+  name: string;
+  status: number;
+  pageViews: number;
+  submissions: number;
   type: string;
 }

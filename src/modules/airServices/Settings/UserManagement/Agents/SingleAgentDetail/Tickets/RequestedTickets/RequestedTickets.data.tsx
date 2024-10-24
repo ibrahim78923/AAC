@@ -1,8 +1,8 @@
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const requestedTicketsColumnsDynamic: any = (router?: any) => {
   return [
@@ -45,9 +45,7 @@ export const requestedTicketsColumnsDynamic: any = (router?: any) => {
       isSortable: true,
       header: 'Due Date',
       cell: (info: any) =>
-        info?.getValue()
-          ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-          : '---',
+        info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
     },
     {
       accessorFn: (row: any) => row?.agentDetails,

@@ -270,7 +270,6 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
             <Box>
               {!(activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                 <Search
-                  searchBy={searchTerm}
                   setSearchBy={setSearchTerm}
                   label="Search By Name"
                   fullWidth

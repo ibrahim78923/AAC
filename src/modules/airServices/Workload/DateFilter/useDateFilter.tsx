@@ -1,11 +1,13 @@
-import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
-import { IDateFilter } from './DateFilter.interface';
+import {
+  endOfFormat,
+  startOfAddTime,
+  startOfFormat,
+  subtractTime,
+} from '@/lib/date-time';
+import { DATE_MONTH_FORMAT } from '@/constants';
 
-export default function useDateFilter({
-  setDateCalendar,
-  dateCalendar,
-}: IDateFilter) {
+export default function useDateFilter({ setDateCalendar, dateCalendar }: any) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null | any>(
     null,
   );
@@ -20,21 +22,19 @@ export default function useDateFilter({
   };
 
   const formattedWeekSpan = useMemo(() => {
-    return `${dayjs(dateCalendar)?.startOf('week')?.format('MMM DD')} - ${dayjs(
+    return `${startOfFormat(
       dateCalendar,
-    )
-      ?.endOf('week')
-      ?.format('MMM DD')}`;
+      'week',
+      DATE_MONTH_FORMAT?.API,
+    )} - ${endOfFormat(dateCalendar, 'week', DATE_MONTH_FORMAT?.API)}`;
   }, [dateCalendar]);
 
   const prevButtonClickHandler = () => {
-    setDateCalendar(dayjs(dateCalendar)?.subtract(1, 'week')?.toISOString());
+    setDateCalendar(subtractTime(dateCalendar, 1, 'week'));
   };
 
   const nextButtonClickHandler = () => {
-    setDateCalendar(
-      dayjs(dateCalendar)?.add(1, 'week')?.startOf('week')?.toISOString(),
-    );
+    setDateCalendar(startOfAddTime(dateCalendar, 'week', 1, 'week'));
   };
 
   return {

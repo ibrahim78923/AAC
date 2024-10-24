@@ -4,7 +4,7 @@ import {
   useGetAgentRequesterQuery,
   usePatchApprovedRequestMutation,
 } from '@/services/airServices/settings/user-management/agents';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAgentRequest = () => {
   const [openRejectedModal, setOpenRejectedModal] = useState(false);

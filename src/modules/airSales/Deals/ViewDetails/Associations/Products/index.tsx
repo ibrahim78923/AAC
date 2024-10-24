@@ -22,7 +22,6 @@ const Products = ({
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
     setSearchName,
     openDrawer,
     setOpenDrawer,
@@ -33,7 +32,6 @@ const Products = ({
     deleteProductHandler,
     handleQuantityChange,
     getDealsAssociateProducts,
-    // loadingProducts,
   } = useProducts(dealId);
 
   return (
@@ -69,7 +67,6 @@ const Products = ({
             }}
           >
             <Search
-              searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetPublicFormFieldsQuery,
   usePutAddViewFormMutation,
@@ -8,6 +9,7 @@ import {
   usePostFormSubmissionsMutation,
 } from '@/services/airMarketer/lead-capture/forms';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { validationSchema, defaultValues } from '@/utils/leadcapture-forms';
 
 export default function useFormHook() {
   const searchParams = useSearchParams();
@@ -31,23 +33,32 @@ export default function useFormHook() {
   const [hasFormInteracted, setHasFormInteracted] = useState(false);
   const [putAddEntranceForm] = usePutAddEntranceFormMutation();
 
-  const handleAddEntranceForm = async () => {
-    if (formId) {
-      await putAddEntranceForm({ id: formId, body: {} });
-    }
-  };
-
-  const methods = useForm({});
+  const methods = useForm({
+    defaultValues: defaultValues(data?.data?.fields),
+    resolver: yupResolver(validationSchema(data?.data?.fields)),
+  });
   const { handleSubmit, reset, watch } = methods;
   const watchAllFields = watch();
 
-  // Monitor form interaction and trigger `handleAddEntranceForm` only once
+  const handleAddEntranceForm = async () => {
+    const payload = {
+      id: formId,
+    };
+    await putAddEntranceForm(payload);
+  };
+
   useEffect(() => {
-    if (!hasFormInteracted && Object.keys(watchAllFields).length > 0) {
-      setHasFormInteracted(true);
-      handleAddEntranceForm();
+    const isFormInteracted = Object.values(watchAllFields).some(
+      (value) => value !== undefined && value !== '',
+    );
+
+    if (formId) {
+      if (isFormInteracted && !hasFormInteracted) {
+        setHasFormInteracted(true);
+        handleAddEntranceForm();
+      }
     }
-  }, [watchAllFields, hasFormInteracted]);
+  }, [formId, watchAllFields, hasFormInteracted]);
 
   const [postFormSubmission] = usePostFormSubmissionsMutation();
 
@@ -72,8 +83,8 @@ export default function useFormHook() {
 
     try {
       await postFormSubmission({ body: payload })?.unwrap();
-      successSnackbar('Form submit successfully');
       reset();
+      successSnackbar('Form submit successfully');
     } catch (error: any) {
       errorSnackbar('An error occured');
     }

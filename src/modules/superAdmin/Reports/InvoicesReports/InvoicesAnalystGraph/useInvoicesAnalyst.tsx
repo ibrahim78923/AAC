@@ -38,7 +38,7 @@ const useInvoicesAnalyst = () => {
   });
 
   const customizeData = (organizations: any) => {
-    return organizations?.data?.map((item: any) => ({
+    return organizations?.map((item: any) => ({
       label: item?.name,
       value: item?._id,
     }));
@@ -63,7 +63,6 @@ const useInvoicesAnalyst = () => {
     handleCloseClientsFilter,
     customizeData,
     monthFilter,
-    searchCompany,
     setSearchCompany,
   };
 };

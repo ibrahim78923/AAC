@@ -7,8 +7,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { ReportListsTableRowI } from '../ReportLists/ReportLists.interface';
 import { FavoriteReport } from '../FavoriteReport';
 import { UserInfo } from '@/components/UserInfo';
-import { uiDateFormat } from '@/utils/dateTime';
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const reportListsColumnsDynamic = (
   selectedReportList: any,

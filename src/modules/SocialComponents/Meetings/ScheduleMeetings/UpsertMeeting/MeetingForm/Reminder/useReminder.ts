@@ -1,5 +1,5 @@
 import { TIME_UNITS } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { useFieldArray } from 'react-hook-form';
 
 export const useReminder = (props: any) => {

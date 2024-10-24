@@ -4,10 +4,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 import { data } from './GiftCards.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 
 export const GiftCards = () => {
   const {
@@ -24,24 +24,29 @@ export const GiftCards = () => {
   return (
     <>
       <PageTitledHeader title={'Gift Cards'} />
-      <Box
-        border={`1px solid`}
-        borderColor={'grey.700'}
-        borderRadius={2}
-        p={1.5}
-      >
+      <Box border={`1px solid`} borderColor={'grey.700'} borderRadius={2}>
         <Box
           display={'flex'}
           justifyContent={'space-between'}
           alignItems={'center'}
           flexWrap={'wrap'}
-          gap={2}
+          p={1}
         >
-          <Search label="Search Here" setSearchBy={handleSearch} size="small" />
-          <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS?.SEARCH,
+            ]}
+          >
+            <Search
+              label="Search Here"
+              setSearchBy={handleSearch}
+              size="small"
+            />
+          </PermissionsGuard>
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <PermissionsGuard
               permissions={[
-                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.APPLY_FILTERS,
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS?.APPLY_FILTER,
               ]}
             >
               <Button
@@ -58,7 +63,7 @@ export const GiftCards = () => {
             </PermissionsGuard>
             <PermissionsGuard
               permissions={[
-                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
               ]}
             >
               <Button
@@ -72,10 +77,9 @@ export const GiftCards = () => {
             </PermissionsGuard>
           </Box>
         </Box>
-        <br />
         <PermissionsGuard
           permissions={[
-            AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS,
+            AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS,
           ]}
         >
           <TanstackTable

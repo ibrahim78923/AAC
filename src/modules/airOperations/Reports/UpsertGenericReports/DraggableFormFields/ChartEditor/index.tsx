@@ -1,20 +1,14 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFCheckbox,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import { Box, Button, Container, Toolbar, Typography } from '@mui/material';
 import { useChartEditor } from './useChartEditor';
-import { CHARTS, COLLECTION_NAME } from '@/constants/strings';
+import { CHARTS } from '@/constants/strings';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { xAxesDataArray } from './ChartEditor.data';
-import {
-  ChartEditorI,
-  chartTypeI,
-  xAxisOptionsI,
-} from './ChartEditor.interface';
+import { ChartEditorI } from './ChartEditor.interface';
+import { ChartListDropdown } from './ChartFormFields/ChartListDropdown';
+import { XAxesListDropdown } from './ChartFormFields/XAxesListDropdown';
+import { XAxesFieldsListDropdown } from './ChartFormFields/XAxesFieldsListDropdown';
 
 export const ChartEditor = (props: ChartEditorI) => {
   const { metricType, handleCancel, methods } = props;
@@ -44,23 +38,7 @@ export const ChartEditor = (props: ChartEditorI) => {
             label="Title"
             disabled={disableTemplate}
           />
-          <RHFAutocomplete
-            name="chartType"
-            label="Type"
-            size="small"
-            disabled={disableTemplate}
-            options={[
-              CHARTS?.BAR_CHART,
-              CHARTS?.HORIZONTAL_BAR_CHART,
-              CHARTS?.PIE_CHART,
-              CHARTS?.DONUT_CHART,
-            ]}
-            getOptionLabel={(option: chartTypeI) => option}
-            isOptionEqualToValue={(option: any, newValue: any) =>
-              option === newValue
-            }
-            required
-          />
+          <ChartListDropdown disableTemplate={disableTemplate} />
           {(chartType === CHARTS?.BAR_CHART ||
             chartType === CHARTS?.HORIZONTAL_BAR_CHART) && (
             <Box border={1} borderColor={'grey.700'} borderRadius={2}>
@@ -68,43 +46,19 @@ export const ChartEditor = (props: ChartEditorI) => {
                 <Typography variant="h6">{metricType}</Typography>
               </Box>
               <Box px={1}>
-                <RHFAutocomplete
-                  size="small"
-                  label="X Axis"
-                  name="xAxis"
-                  placeholder="Select Option"
-                  disabled={disableTemplate}
-                  options={xAxesDataArray[metricType]}
-                  getOptionLabel={(option: xAxisOptionsI) => option?.label}
-                  isOptionEqualToValue={(option: any, newValue: any) =>
-                    option?.value === newValue?.value
-                  }
+                <XAxesListDropdown
+                  disableTemplate={disableTemplate}
+                  xAxesDataArray={xAxesDataArray}
+                  metricType={metricType}
+                  label="X Axes"
                 />
               </Box>
               {xAxisData?.ref && (
                 <Box px={2}>
-                  <RHFAutocompleteAsync
-                    size="small"
-                    name="xAxisType"
-                    label={`${xAxisData?.label} Fields`}
-                    multiple={true}
-                    apiQuery={singleFieldDropdown}
-                    getOptionLabel={(option: any) =>
-                      xAxisData?.ref === COLLECTION_NAME?.LOCATION
-                        ? option?.locationName
-                        : xAxisData?.ref === COLLECTION_NAME?.USERS
-                          ? `${option?.firstName} ${option?.lastName}`
-                          : option?.name
-                    }
-                    placeholder="Select Option"
-                    externalParams={{
-                      ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
-                        meta: false,
-                      }),
-                      ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
-                        productId: productId,
-                      }),
-                    }}
+                  <XAxesFieldsListDropdown
+                    xAxisData={xAxisData}
+                    productId={productId}
+                    singleFieldDropdown={singleFieldDropdown}
                   />
                 </Box>
               )}
@@ -123,43 +77,19 @@ export const ChartEditor = (props: ChartEditorI) => {
             chartType === CHARTS?.DONUT_CHART) && (
             <>
               <Box px={1}>
-                <RHFAutocomplete
-                  size="small"
+                <XAxesListDropdown
+                  disableTemplate={disableTemplate}
+                  xAxesDataArray={xAxesDataArray}
+                  metricType={metricType}
                   label="Add Metric"
-                  name="xAxis"
-                  placeholder="Select Option"
-                  disabled={disableTemplate}
-                  options={xAxesDataArray[metricType]}
-                  getOptionLabel={(option: xAxisOptionsI) => option?.label}
-                  isOptionEqualToValue={(option: any, newValue: any) =>
-                    option?.value === newValue?.value
-                  }
                 />
               </Box>
               {xAxisData?.ref && (
                 <Box px={2}>
-                  <RHFAutocompleteAsync
-                    size="small"
-                    name="xAxisType"
-                    label={`${xAxisData?.label} Fields`}
-                    multiple={true}
-                    apiQuery={singleFieldDropdown}
-                    getOptionLabel={(option: any) =>
-                      xAxisData?.ref === COLLECTION_NAME?.LOCATION
-                        ? option?.locationName
-                        : xAxisData?.ref === COLLECTION_NAME?.USERS
-                          ? `${option?.firstName} ${option?.lastName}`
-                          : option?.name
-                    }
-                    placeholder="Select Option"
-                    externalParams={{
-                      ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
-                        meta: false,
-                      }),
-                      ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
-                        productId: productId,
-                      }),
-                    }}
+                  <XAxesFieldsListDropdown
+                    xAxisData={xAxisData}
+                    productId={productId}
+                    singleFieldDropdown={singleFieldDropdown}
                   />
                 </Box>
               )}

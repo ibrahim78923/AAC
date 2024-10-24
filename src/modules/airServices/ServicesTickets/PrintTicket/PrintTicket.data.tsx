@@ -1,6 +1,6 @@
 import { DATE_TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 import { fullName } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
 
 export const printData = (singleTicketDetail: any) => [
   {
@@ -53,9 +53,11 @@ export const printData = (singleTicketDetail: any) => [
   {
     id: 9,
     heading: 'Due by ',
-    text:
-      dayjs(singleTicketDetail?.requesterDetails?.createdAt)?.format(
-        DATE_TIME_FORMAT?.DDMYHMA,
-      ) ?? '-',
+    text: !!singleTicketDetail?.requesterDetails?.createdAt
+      ? otherDateFormat(
+          singleTicketDetail?.requesterDetails?.createdAt,
+          DATE_TIME_FORMAT?.DDMYHMA,
+        )
+      : '---',
   },
 ];

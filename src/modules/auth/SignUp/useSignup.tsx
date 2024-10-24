@@ -117,6 +117,9 @@ const useSignup = () => {
     try {
       const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
+        enqueueSnackbar('Check the Email for verification', {
+          variant: 'success',
+        });
         // bypassing the ig varification in future routing should be done on successful varification
         push(AUTH.LOGIN);
 

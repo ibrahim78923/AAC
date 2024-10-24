@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Typography,
@@ -34,7 +33,6 @@ const DealPipelines = () => {
     setIsEditMode,
     isDeleteModalOpen,
     setDeleteModalOpen,
-    productSearch,
     setproductSearch,
     theme,
     anchorEl,
@@ -165,7 +163,6 @@ const DealPipelines = () => {
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_PIPELINE]}>
             <Search
               label={'Search here'}
-              searchBy={productSearch}
               setSearchBy={setproductSearch}
               size="small"
             />

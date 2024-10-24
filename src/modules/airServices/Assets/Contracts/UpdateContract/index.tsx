@@ -3,9 +3,9 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpdateContract } from './useUpdateContract';
 import { LoadingButton } from '@mui/lab';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const UpdateContract = () => {
   const {

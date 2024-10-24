@@ -1,58 +1,24 @@
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 
-export const INVENTORY_REPORT_STATUS_COUNT = {
-  [INVENTORY_REPORT_STATUS?.ALL]: 'allAssest',
-  [INVENTORY_REPORT_STATUS?.HARDWARE]: 'inventoryHardware',
-  [INVENTORY_REPORT_STATUS?.SOFTWARE]: 'backUpSoftware',
-  [INVENTORY_REPORT_STATUS?.CONTRACTS]: 'inventoryContracts',
-  [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]: 'inventoryPurchaseOrder',
-};
-
-export const inventoryReportsCardsDataDynamic = (data: any) => {
+export const InventoryReportsCountData = (data: any) => {
   return {
-    [INVENTORY_REPORT_STATUS?.ALL]:
-      data?.[INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.ALL]],
-    [INVENTORY_REPORT_STATUS?.HARDWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.HARDWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.SOFTWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.SOFTWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.CONTRACTS]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.CONTRACTS]
-      ],
-    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]
-      ],
+    [INVENTORY_REPORT_STATUS?.ALL]: data?.allAssest,
+    [INVENTORY_REPORT_STATUS?.HARDWARE]: data?.inventoryHardware,
+    [INVENTORY_REPORT_STATUS?.SOFTWARE]: data?.backUpSoftware,
+    [INVENTORY_REPORT_STATUS?.CONTRACTS]: data?.inventoryContracts,
+    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]: data?.inventoryPurchaseOrder,
   };
 };
 
-export const inventoryReportsChartDataDynamic = (data: any) => {
+export const InventoryReportsChartData = (data: any) => {
   return {
-    [INVENTORY_REPORT_STATUS?.HARDWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.HARDWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.SOFTWARE]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.SOFTWARE]
-      ],
-    [INVENTORY_REPORT_STATUS?.CONTRACTS]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.CONTRACTS]
-      ],
-    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]:
-      data?.[
-        INVENTORY_REPORT_STATUS_COUNT?.[INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]
-      ],
+    [INVENTORY_REPORT_STATUS?.HARDWARE]: data?.inventoryHardware,
+    [INVENTORY_REPORT_STATUS?.SOFTWARE]: data?.backUpSoftware,
+    [INVENTORY_REPORT_STATUS?.CONTRACTS]: data?.inventoryContracts,
+    [INVENTORY_REPORT_STATUS?.PURCHASE_ORDER]: data?.inventoryPurchaseOrder,
   };
 };
 
@@ -121,7 +87,6 @@ export const inventoryColumns = [
     accessorFn: (row: any) => row?.assetLifeExpiry,
     id: 'assetLifeExpiry',
     header: 'Asset Like Expire On',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '---',
+    cell: (info: any) => uiDateFormat(info?.getValue()) ?? '---',
   },
 ];

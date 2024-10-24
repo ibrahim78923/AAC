@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useContractOverview } from './useContractOverview';
+import { formatDateExpiry } from '@/lib/date-time';
 
 function ContractOverview(props: {
   contractOverviewLabel: {
@@ -11,15 +12,8 @@ function ContractOverview(props: {
     subHeading2: string;
   };
 }) {
-  const {
-    data,
-    isLoading,
-    isError,
-    contractOverviewLabel,
-    formatDate,
-    theme,
-    isFetching,
-  } = useContractOverview(props);
+  const { data, isLoading, isError, contractOverviewLabel, theme, isFetching } =
+    useContractOverview(props);
   return (
     <>
       <Box sx={styles?.mainBox(theme)}>
@@ -44,7 +38,9 @@ function ContractOverview(props: {
               <Typography>{contractOverviewLabel?.subHeading2}</Typography>
               <Typography>
                 {data?.data?.upCommingExipiry?.upcomingExpiryDate
-                  ? formatDate(data?.data?.upCommingExipiry?.upcomingExpiryDate)
+                  ? formatDateExpiry(
+                      data?.data?.upCommingExipiry?.upcomingExpiryDate,
+                    )
                   : 'Not Specified'}
               </Typography>
             </Box>

@@ -5,7 +5,7 @@ import {
   useDeleteFeedbackSurveyQuestionMutation,
   usePatchFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { questionTypeData } from './Questions.data';
 import { QuestionsI } from './Questions.interface';
 

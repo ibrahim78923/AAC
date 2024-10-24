@@ -1,6 +1,6 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useDeleteRoleForOperationsMutation } from '@/services/airOperations/roles-and-right';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   IDeleteRolesParameter,
   IUseDeleteRolesProps,

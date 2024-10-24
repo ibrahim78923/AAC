@@ -1,4 +1,4 @@
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import useAuth from '@/hooks/useAuth';
 import { UpsertSurveyResponse } from '@/modules/airServices/FeedbackSurvey/UpsertSurveyResponse';
 import { NextRouter, useRouter } from 'next/router';

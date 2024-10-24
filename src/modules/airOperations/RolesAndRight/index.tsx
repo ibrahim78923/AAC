@@ -4,7 +4,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRolesAndRight } from './useRolesAndRight';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS } from '@/constants/permission-keys';

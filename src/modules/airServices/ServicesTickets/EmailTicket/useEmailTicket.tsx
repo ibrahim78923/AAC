@@ -1,17 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import {
-  addEmailDefaultValues,
-  addEmailValidationSchema,
-} from './EmailTicket.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 import { EmailTicketFormFieldsI } from './EmailTicket.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
+import { useSendServicesSingleTicketEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
+import {
+  sendTicketEmailFormDefaultValues,
+  sendTicketEmailFormValidationSchema,
+} from './EmailTicket.data';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useEmailTicket = () => {
   const dispatch = useAppDispatch();
@@ -20,13 +20,16 @@ export const useEmailTicket = () => {
     (state) => state?.servicesTickets?.isPortalOpen,
   );
 
-  const [trigger, status] = usePostNewEmailMutation();
+  const [
+    sendServicesSingleTicketEmailTrigger,
+    sendServicesSingleTicketEmailStatus,
+  ] = useSendServicesSingleTicketEmailMutation();
 
   const methods: UseFormReturn<EmailTicketFormFieldsI> = useForm<
     EmailTicketFormFieldsI | any
   >({
-    resolver: yupResolver(addEmailValidationSchema),
-    defaultValues: addEmailDefaultValues,
+    resolver: yupResolver(sendTicketEmailFormValidationSchema),
+    defaultValues: sendTicketEmailFormDefaultValues,
   });
 
   const { handleSubmit, reset } = methods;
@@ -44,20 +47,22 @@ export const useEmailTicket = () => {
     emailFormData?.append('html', data?.html);
 
     try {
-      await trigger(emailFormData)?.unwrap();
-      successSnackbar('Email Sent Successfully!');
+      await sendServicesSingleTicketEmailTrigger(emailFormData)?.unwrap();
+      successSnackbar('Email sent successfully!');
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
+  const apiCallInProgress = sendServicesSingleTicketEmailStatus?.isLoading;
+
   return {
     methods,
     handleSubmit,
     onSubmit,
     onClose,
-    status,
+    apiCallInProgress,
     isPortalOpen,
   };
 };

@@ -1,17 +1,10 @@
 export const voucherRedemptionsColumns = [
   {
-    accessorFn: (row: any) => row?.contact,
-    id: 'contact',
+    accessorFn: (row: any) => row?.consumer,
+    id: 'consumer',
     cell: (info: any) => info?.getValue(),
-    header: 'Contact',
+    header: 'Consumer',
     isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.redeemed,
-    id: 'redeemed',
-    isSortable: true,
-    header: 'Redeemed',
-    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.redemption,
@@ -21,10 +14,10 @@ export const voucherRedemptionsColumns = [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.channel,
-    id: 'channel',
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
-    header: 'Channel',
+    header: 'Created At',
     cell: (info: any) => info?.getValue(),
   },
 ];
@@ -32,16 +25,14 @@ export const voucherRedemptionsColumns = [
 export const voucherRedemptionsData: any = [
   {
     id: 1,
-    channel: 'Scan',
-    contact: 'm.asif@ceative.co.uk',
+    consumer: 'm.asif@ceative.co.uk',
     redemption: '1/2',
-    redeemed: '23/09/2022, 09:32',
+    createdAt: '23/09/2022, 09:32',
   },
   {
     id: 2,
-    channel: 'Digital code',
-    contact: 'm.asif@ceative.co.uk',
+    consumer: 'm.asif@ceative.co.uk',
     redemption: '2/2',
-    redeemed: '23/09/2022, 09:32',
+    createdAt: '23/09/2022, 09:32',
   },
 ];

@@ -1,7 +1,7 @@
-import { useLazyGetDealsQuery } from '@/services/common-APIs';
+import { useLazyGetCommonDealsListQuery } from '@/services/common-APIs';
 
 const useDealEditorDrawer = () => {
-  const dealsListData = useLazyGetDealsQuery();
+  const dealsListData = useLazyGetCommonDealsListQuery();
 
   return {
     dealsListData,

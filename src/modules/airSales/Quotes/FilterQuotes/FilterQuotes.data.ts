@@ -11,6 +11,7 @@ export const defaultValues = {
 export const dataArray = (productsAllUsers: any) => {
   return [
     {
+      id: '01',
       md: 12,
       component: RHFAutocomplete,
       componentProps: {
@@ -22,6 +23,7 @@ export const dataArray = (productsAllUsers: any) => {
       },
     },
     {
+      id: '02',
       md: 12,
       component: RHFAutocompleteAsync,
       componentProps: {

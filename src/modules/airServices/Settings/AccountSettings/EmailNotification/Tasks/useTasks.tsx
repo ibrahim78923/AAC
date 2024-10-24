@@ -2,11 +2,11 @@ import {
   useGetServicesAccountSettingsEmailNotificationQuery,
   usePatchServicesAccountSettingsEmailNotificationMutation,
 } from '@/services/airServices/settings/account-settings/email-notification';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useMemo, useState } from 'react';
 import { ISwitchLoadingState } from '../EmailNotification.interface';
 
 import { getActiveAccountSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useTasks = () => {
   const [switchLoading, setSwitchLoading] = useState<ISwitchLoadingState>({});

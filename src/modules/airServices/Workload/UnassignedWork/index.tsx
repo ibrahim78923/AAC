@@ -19,7 +19,11 @@ export const UnassignedWork = () => {
 
   return (
     <>
-      <Button variant={'contained'} onClick={() => setOpenDrawer(true)}>
+      <Button
+        variant={'contained'}
+        onClick={() => setOpenDrawer(true)}
+        className={'small'}
+      >
         Unassigned Work
       </Button>
 

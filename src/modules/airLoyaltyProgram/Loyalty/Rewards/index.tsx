@@ -1,12 +1,12 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import { useRewards } from './useRewards';
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { SingleRewardDetails } from './SingleRewardsDetails';
 import { UpsertRewards } from './UpsertRewards';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Rewards = () => {
   const {
@@ -26,17 +26,17 @@ export const Rewards = () => {
       <PageTitledHeader
         title="Rewards"
         addTitle="Add"
+        handleAction={() => setIsRewardDrawerOpen?.({ isOpen: true, data: '' })}
         createPermissionKey={[
           AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
         ]}
-        handleAction={() => setIsRewardDrawerOpen?.({ isOpen: true, data: '' })}
       />
       <>
         {!isRewardDetailsOpen?.isOpen ? (
           <Box>
             <PermissionsGuard
               permissions={[
-                AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH,
+                AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH_REWARDS,
               ]}
             >
               <Search label="Search Here" setSearchBy={handleSearch} />

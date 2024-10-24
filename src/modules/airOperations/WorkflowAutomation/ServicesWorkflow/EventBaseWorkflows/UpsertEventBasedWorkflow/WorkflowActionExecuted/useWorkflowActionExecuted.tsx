@@ -1,4 +1,5 @@
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetAgentsDropDownInWorkflowQuery,
   useLazyGetCategoriesDropdownInWorkflowQuery,
@@ -6,7 +7,6 @@ import {
   useLazyGetLocationsDropdownInWorkflowQuery,
   useLazyGetUsersListDropdownInWorkflowQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
-import { errorSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useFieldArray } from 'react-hook-form';

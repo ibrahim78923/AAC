@@ -1,6 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
 import { useTheme } from '@mui/material';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import {
   setIsPortalOpen,
@@ -8,6 +7,7 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch } from '@/redux/store';
 import { singleTicketBoardViewDropdownOptionsDynamic } from '../TicketsBoardView.data';
+import { nowDate, parsedDateFormat } from '@/lib/date-time';
 
 export const useTicketInfoCard = (props: any) => {
   const { details } = props;
@@ -39,11 +39,10 @@ export const useTicketInfoCard = (props: any) => {
     return message;
   };
 
-  const plannedEndDate = dayjs(details?.plannedEndDate);
-  const now = dayjs();
-  const resolvedAt = dayjs(details?.resolvedAt);
-  const closedAt = dayjs(details?.closedAt);
-
+  const now = nowDate();
+  const resolvedAt = parsedDateFormat(details?.resolvedAt);
+  const closedAt = parsedDateFormat(details?.closedAt);
+  const plannedEndDate = parsedDateFormat(details?.plannedEndDate);
   // Open Status
   const openTimeDiff = plannedEndDate?.diff(now, 'hour');
   const openMessage = timeFormatMessage(

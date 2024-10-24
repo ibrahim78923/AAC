@@ -7,7 +7,7 @@ import {
 import { fullName } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
 import { getSession } from '@/utils';
-import { ROLES } from '@/constants/strings';
+import { REQUESTORS_STATUS, ROLES } from '@/constants/strings';
 import { UseFormWatch } from 'react-hook-form';
 import { DealPipelineStagesDropdown } from '../DealPipelineStagesDropdown';
 
@@ -54,7 +54,6 @@ export const workflowConditionsDataArray = (
   subIndex: number,
   watch: UseFormWatch<any>,
   dealDropdown: any,
-  stagesDropdown: any,
   adminUserDropdown: any,
 ) => {
   const moduleType = watch('module');
@@ -160,6 +159,7 @@ export const workflowConditionsDataArray = (
             role: ROLES?.ORG_EMPLOYEE,
             organization: sessionUser?.organization?._id,
             limit: 500,
+            status: REQUESTORS_STATUS?.ACTIVE,
           },
           apiQuery: adminUserDropdown,
           placeholder: 'Select User',
@@ -200,6 +200,7 @@ export const workflowConditionsDataArray = (
             role: ROLES?.ORG_EMPLOYEE,
             organization: sessionUser?.organization?._id,
             limit: 500,
+            status: REQUESTORS_STATUS?.ACTIVE,
           },
           apiQuery: adminUserDropdown,
           placeholder: 'Select User',
@@ -304,6 +305,7 @@ export const workflowConditionsDataArray = (
             role: ROLES?.ORG_EMPLOYEE,
             organization: sessionUser?.organization?._id,
             limit: 500,
+            status: REQUESTORS_STATUS?.ACTIVE,
           },
           apiQuery: adminUserDropdown,
           placeholder: 'Select User',

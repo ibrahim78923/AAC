@@ -1,10 +1,8 @@
 import { NoDashboardWidgetImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { PreviewDashboard } from '../PreviewDashboard';
 import { LoadingButton } from '@mui/lab';
 import { DASHBOARD, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { PageTitledHeader } from '@/components/PageTitledHeader';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { Visibility } from '@mui/icons-material';
@@ -13,9 +11,7 @@ import { pxToRem } from '@/utils/getFontValue';
 import { AddWidgets } from './AddWidgets';
 import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-
-const { EDIT, CREATE, UPDATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
-const { EDIT: EDIT_DASHBOARD } = DASHBOARD ?? {};
+import { Header } from './Header';
 
 export const UpsertDashboard = () => {
   const {
@@ -29,12 +25,11 @@ export const UpsertDashboard = () => {
     isFetching,
     isError,
     dashboardWidgetsWatch,
-    isPortalOpen,
-    setIsPortalOpen,
     refetch,
     apiCallInProgress,
     goToManageDashboard,
     setValue,
+    openPreviewDashboard,
   } = useUpsertDashboard();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -42,12 +37,7 @@ export const UpsertDashboard = () => {
 
   return (
     <>
-      <PageTitledHeader
-        title={`${action === EDIT_DASHBOARD ? EDIT : CREATE} Dashboard`}
-        canMovedBack
-        moveBack={goToManageDashboard}
-      />
-
+      <Header />
       <Grid container spacing={2}>
         <Grid
           item
@@ -81,13 +71,7 @@ export const UpsertDashboard = () => {
             <Button
               className="small"
               variant="text"
-              onClick={() =>
-                setIsPortalOpen({
-                  isView: true,
-                  isStaticView: true,
-                  data: reportsWatch,
-                })
-              }
+              onClick={openPreviewDashboard}
               startIcon={<Visibility />}
             >
               Preview Dashboard
@@ -152,15 +136,11 @@ export const UpsertDashboard = () => {
           disabled={apiCallInProgress}
           onClick={handleSubmit(submitCreateDashboardFilterForm)}
         >
-          {action === EDIT_DASHBOARD ? UPDATE : CREATE}
+          {action === DASHBOARD?.EDIT
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
         </LoadingButton>
       </Box>
-      {isPortalOpen?.isView && (
-        <PreviewDashboard
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-        />
-      )}
     </>
   );
 };

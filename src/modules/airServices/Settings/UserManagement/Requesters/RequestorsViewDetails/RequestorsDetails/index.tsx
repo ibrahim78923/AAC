@@ -10,12 +10,12 @@ import {
 import UpsertRequesters from '../../UpsertRequesters';
 import { RequestedTickets } from '../RequestedTickets';
 import { fullName, generateImage } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
 import { useRequesterDetails } from './useRequesterDetails';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const RequestorsDetails = () => {
   const {
@@ -92,7 +92,8 @@ export const RequestorsDetails = () => {
                   <Typography variant="body3" fontWeight={500}>
                     {' '}
                     Joined on{' '}
-                    {dayjs(data?.data?.createdAt)?.format(
+                    {otherDateFormat(
+                      data?.data?.createdAt,
                       DATE_TIME_FORMAT?.DMYHMSA,
                     )}
                   </Typography>

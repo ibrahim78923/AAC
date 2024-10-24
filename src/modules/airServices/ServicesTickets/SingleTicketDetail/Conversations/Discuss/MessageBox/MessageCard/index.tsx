@@ -19,13 +19,14 @@ export const MessageCard = (props: any) => {
       <Avatar
         sx={{ backgroundColor: 'primary.light', width: 40, height: 40 }}
         src={generateImage(message?.createdByAvatar)}
+        alt="profile-image"
       />
       <Box bgcolor={'primary.light'} p={1} borderRadius={2}>
         <Box>
           <Typography
             variant="body2"
             color="grey.600"
-            fontWeight="600"
+            fontWeight="fontWeightMedium"
             sx={{ wordBreak: 'break-all' }}
           >
             {!!message?.reply ? message?.reply : message?.text}
@@ -42,7 +43,7 @@ export const MessageCard = (props: any) => {
               <Typography
                 variant="body2"
                 color="grey.600"
-                fontWeight="600"
+                fontWeight="fontWeightMedium"
                 sx={{ wordBreak: 'break-all' }}
               >
                 {message?.text}

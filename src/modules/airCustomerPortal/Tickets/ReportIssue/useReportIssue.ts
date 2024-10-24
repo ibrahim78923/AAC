@@ -1,11 +1,10 @@
 import {
   reportIssueFormDefaultValues,
-  reportIssueFormFieldsDynamic,
   reportIssueFormValidationSchema,
 } from './ReportIssue.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   ARRAY_INDEX,
   PORTAL_TICKET_FIELDS,
@@ -13,9 +12,7 @@ import {
   TICKET_TYPE,
 } from '@/constants/strings';
 import {
-  useLazyGetAssociateAssetsDropdownByCompanyIdQuery,
   useLazyGetAllArticlesQuery,
-  useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery,
   usePostReportAnIssueTicketsMutation,
 } from '@/services/airCustomerPortal/Tickets';
 import {
@@ -24,7 +21,7 @@ import {
   getCustomerPortalStyling,
   getSession,
 } from '@/utils';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 import useAuth from '@/hooks/useAuth';
 import { ReportIssuePropsI } from './ReportIssue.interface';
@@ -56,10 +53,6 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     getPortalPermissions?.customerPortalPermissions?.includes(
       AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
     );
-  const apiQueryAssociateAsset =
-    useLazyGetAssociateAssetsDropdownByCompanyIdQuery();
-  const apiQueryRequester =
-    useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery();
 
   const methods = useForm<any>({
     resolver: yupResolver(
@@ -140,11 +133,6 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
       query: { articleId, folderId, ...(!!companyId && { companyId }) },
     });
   };
-  const reportIssueFormFields = reportIssueFormFieldsDynamic(
-    apiQueryAssociateAsset,
-    apiQueryRequester,
-    getCompanyId,
-  );
   const portalStyles = getCustomerPortalStyling();
   const requestorCondition = (item: any) =>
     (item?.componentProps?.name === PORTAL_TICKET_FIELDS?.REQUESTER &&
@@ -158,7 +146,6 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
     closePortal,
     handleSubmit,
     onSubmit,
-    reportIssueFormFields,
     checkRequesterPermission,
     getArticleStatus,
     handleArticleClick,

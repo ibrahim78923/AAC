@@ -7,10 +7,11 @@ import {
   usePostInstallationMutation,
   useLazyGetAssetsDropdownQuery,
 } from '@/services/airServices/assets/software/single-software-detail/installations';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddDevice = () => {
-  const [isAddDeviceModalOpen, setIsAddDeviceModalOpen] = useState(false);
+  const [isAddDeviceModalOpen, setIsAddDeviceModalOpen] =
+    useState<boolean>(false);
   const addDeviceMethods = useForm<any>({
     defaultValues: { device: null },
     resolver: yupResolver(

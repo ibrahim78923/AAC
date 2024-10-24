@@ -1,5 +1,6 @@
 import { SCHEMA_KEYS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetAgentsDropDownInWorkflowQuery,
   useLazyGetAssetTypeInWorkflowQuery,
@@ -9,7 +10,6 @@ import {
   useLazyGetUsersListDropdownInWorkflowQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useGetSchemaKeysQuery } from '@/services/common-APIs';
-import { errorSnackbar } from '@/utils/api';
 import { useFieldArray } from 'react-hook-form';
 
 export const useSubWorkflowConditions = (props: any) => {

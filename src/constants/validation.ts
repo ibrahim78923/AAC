@@ -2,6 +2,16 @@ export const REGEX = {
   ALPHABETS_AND_SPACE: /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]+$/,
   PHONE_NUMBER: /^\+44[0-9]{10}$/,
   EMAIL: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+  HOURS_AND_MINUTES: /^\d+h\d+m$/,
+  GLOBAL_HTML_TAG: /<[^>]*>/g,
+  UPPERCASE_LETTERS: /(?=[A-Z])/,
+  GLOBAL_DOUBLE_QUOTATION_AND_CARRIAGE_RETURN: /"|\r/g,
+  LICENSE_KEY_REGEX: /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/,
+  NON_BREAKING_SPACE: '\u00a0',
+  STRONG_PASSWORD_WITH_MINIMUM_COMPLEXITY:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+  ENHANCED_PASSWORD_COMPLEXITY_REGEX:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,30}$/,
 };
 
 export const CHARACTERS_LIMIT = {
@@ -73,6 +83,8 @@ export const CHARACTERS_LIMIT = {
   LOYALTY_PROGRAM_USER_LAST_NAME_MAX_CHARACTERS: 30,
   LOYALTY_PROGRAM_USER_ADDRESS_MAX_CHARACTERS: 100,
   LOYALTY_PROGRAM_USER_JOB_TITLE_MAX_CHARACTERS: 50,
+  LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS: 30,
+  LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS: 100,
 };
 
 export const GLOBAL_CHARACTERS_LIMIT = {

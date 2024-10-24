@@ -8,11 +8,14 @@ import { AlertModals } from '@/components/AlertModals';
 import QuotesDrawer from './QuotesDrawer';
 import { QuotesProps } from '../Associations-interface';
 
-const Quotes = ({ quotesData, isLoading, dealId }: QuotesProps) => {
+const Quotes = ({
+  quotesData,
+  isLoading,
+  dealId,
+  setSearchQuotes,
+}: QuotesProps) => {
   const {
     theme,
-    searchName,
-    setSearchName,
     isOpenAlert,
     setIsOpenAlert,
     setOpenDrawer,
@@ -57,8 +60,7 @@ const Quotes = ({ quotesData, isLoading, dealId }: QuotesProps) => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
+              setSearchBy={setSearchQuotes}
               label="Search By Name"
               size="medium"
             />

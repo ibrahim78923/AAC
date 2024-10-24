@@ -1,33 +1,30 @@
-import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
+import {
+  RHFAutocompleteAsync,
+  RHFSwitchableDatepicker,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const filterValidationSchema = Yup.object().shape({
-  pipeline: Yup.string(),
+  pipelines: Yup.mixed(),
 });
 
 export const filterDefaultValues = {
-  pipeline: '',
+  pipelines: null,
 };
-export const forecastFilterArray = () => {
-  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
-
-  const data = dealPipelineData?.data?.map((item: any) => ({
-    value: item?._id,
-    label: item?.name,
-  }));
-
+export const forecastFilterArray = (dealsListData: any) => {
   return [
     {
+      id: 'pipelines',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'pipelines',
-        label: 'Pipeline',
-        fullWidth: true,
-        select: true,
+        label: 'Deal PipeLine',
+        placeholder: 'Select Deal PipeLine',
+        apiQuery: dealsListData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
       },
-      options: data,
-      component: RHFSelect,
-      md: 12,
     },
     {
       componentProps: {

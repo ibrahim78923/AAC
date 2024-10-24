@@ -1,10 +1,10 @@
 import { PAGINATION } from '@/config';
 import { useChangeOperationsReportsFavoriteStatusMutation } from '@/services/airOperations/reports';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { setPage } from '@/redux/slices/airOperations/reports/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ONE } = SELECTED_ARRAY_LENGTH ?? {};

@@ -1,13 +1,13 @@
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { NextRouter } from 'next/router';
 import { RelatedTicketsTableRowI } from '../RelatedTickets.interface';
 import { TruncateText } from '@/components/TruncateText';
-import { uiDateFormat } from '@/utils/dateTime';
+import { AIR_SERVICES } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 
 const TICKET_STATUS_COLOR: any = {
   [TICKET_STATUS?.OPEN]: 'info',

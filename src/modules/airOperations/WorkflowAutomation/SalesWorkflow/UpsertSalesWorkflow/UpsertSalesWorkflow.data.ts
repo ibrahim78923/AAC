@@ -13,7 +13,7 @@ import {
   monthFormatter,
   timeFormatter,
 } from '@/utils/api';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 export const salesSaveSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),

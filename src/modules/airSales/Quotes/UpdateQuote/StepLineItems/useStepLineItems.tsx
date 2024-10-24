@@ -158,10 +158,7 @@ const useStepLineItems = (openCreateProduct?: any) => {
     }
   };
 
-  // const [putSubmitQuote] = usePutSubmitQuoteMutation();
-
   return {
-    search,
     setSearch,
     isChecked,
     setIsChecked,

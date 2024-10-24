@@ -1,12 +1,20 @@
 import { Box, Theme, Typography, useTheme } from '@mui/material';
-import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { pipelineTableData } from './CategoryTable.data';
 import { styles } from './CategoryTable.style';
 import usePipelineOverview from './useCategoryTable';
 import usePipelineForcastReports from '../useCategoryForcastReports';
+import dayjs from 'dayjs';
 
-const PipelineOverview = ({ activeCard }: any) => {
+const PipelineOverview = ({
+  activeCard,
+  data,
+  CategoryForecastReportDataIsLoading,
+  CategoryForecastReportDataIsFetching,
+  CategoryForecastReportDataIsError,
+  CategoryForecastReportDataIsSuccess,
+  setPageLimit,
+  setPage,
+}: any) => {
   const theme = useTheme<Theme>();
   const { activeTable, cardTableHeader } = usePipelineOverview();
   const { activeCardObj } = usePipelineForcastReports();
@@ -31,18 +39,28 @@ const PipelineOverview = ({ activeCard }: any) => {
             >
               {activeCard === activeCardObj?.OVERTIME
                 ? 'Date range: This entire month'
-                : 'Date range: 2023'}
+                : `Date range: ${dayjs().year()}`}
             </Typography>
           )}
         </Box>
 
-        {activeCard === activeCardObj?.TOTAL && <Search label="Search here" />}
+        {/* {activeCard === activeCardObj?.TOTAL && <Search label="Search here" />} */}
       </Box>
       <TanstackTable
-        columns={activeTable(activeCard)}
-        data={pipelineTableData}
+        columns={activeTable(activeCard, data)}
+        data={data?.paginated?.goals}
+        isLoading={CategoryForecastReportDataIsLoading}
+        isError={CategoryForecastReportDataIsError}
+        isFetching={CategoryForecastReportDataIsFetching}
+        isSuccess={CategoryForecastReportDataIsSuccess}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+        currentPage={data?.paginated?.meta?.page}
+        count={data?.paginated?.meta?.pages}
+        pageLimit={data?.paginated?.meta?.limit}
+        totalRecords={data?.paginated?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
         isPagination
-        totalRecords={5}
       />
     </>
   );

@@ -4,7 +4,6 @@ import {
   moveTicketsFormFieldsDynamic,
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ARRAY_INDEX } from '@/constants/strings';
@@ -16,6 +15,7 @@ import {
   setPage,
 } from '@/redux/slices/airServices/tickets/slice';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useMoveTickets = () => {
   const dispatch = useAppDispatch();

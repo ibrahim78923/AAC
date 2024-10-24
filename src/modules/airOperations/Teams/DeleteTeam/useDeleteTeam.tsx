@@ -1,13 +1,13 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteOperationsUserManagementSingleTeamMutation } from '@/services/airOperations/user-management/user';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetTeamsLists } from '../TeamsHook/useGetTeamsLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airOperations/teams/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteTeam = () => {
   const [deleteTeamUsersTrigger, deleteTeamUsersStatus] =

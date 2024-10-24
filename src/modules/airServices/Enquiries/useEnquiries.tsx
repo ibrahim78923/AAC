@@ -8,12 +8,10 @@ import {
   getEnquiriesActionDropdown,
   getEnquiriesColumns,
 } from './Enquiries.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-
 import { IEnquiry, IInfo, IModalState } from './Enquiries.interface';
-
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { getActiveAccountSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useEnquiries = () => {
   const [enquiriesSelected, setEnquiriesSelected] = useState<IEnquiry[]>([]);
@@ -25,7 +23,6 @@ export const useEnquiries = () => {
     viewOpen: false,
     deleteOpen: false,
     convertToTicket: false,
-    createRequester: false,
     data: null,
   });
 
@@ -90,7 +87,6 @@ export const useEnquiries = () => {
       viewOpen: false,
       deleteOpen: false,
       convertToTicket: false,
-      createRequester: false,
       data: null,
     });
     setEnquiriesSelected([]);
@@ -101,7 +97,6 @@ export const useEnquiries = () => {
       viewOpen: false,
       deleteOpen: false,
       convertToTicket: false,
-      createRequester: false,
       data: null,
     });
   };

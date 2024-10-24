@@ -1,25 +1,14 @@
-import {
-  useGetUsersListQuery,
-  usePatchDealsMutation,
-} from '@/services/airSales/deals';
+import { usePatchDealsMutation } from '@/services/airSales/deals';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { getSession } from '@/utils';
 
 const useRestoreAssign = (
   seletedId: string[],
   onClose: () => void,
   setSelectedRows: (rows: string[]) => void,
 ) => {
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
-  const userRole = 'ORG_EMPLOYEE';
-  const { data: UserListData } = useGetUsersListQuery({
-    role: userRole,
-    organization: organizationId,
-  });
   const [updatedAssignDeal, { isLoading: loadingUpdateOwner }] =
     usePatchDealsMutation();
   const router = useRouter();
@@ -54,7 +43,6 @@ const useRestoreAssign = (
   };
 
   return {
-    UserListData,
     handleSubmit,
     onSubmit,
     methods,

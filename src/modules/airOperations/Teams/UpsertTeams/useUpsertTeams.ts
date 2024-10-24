@@ -10,11 +10,11 @@ import {
   useGetOperationsUserManagementSingleTeamDetailsByIdQuery,
   useUpdateOperationsUserManagementSingleTeamMutation,
 } from '@/services/airOperations/user-management/user';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import { UpsertTeamsFormI } from './UpsertTeams.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airOperations/teams/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertTeams = () => {
   const dispatch = useAppDispatch();

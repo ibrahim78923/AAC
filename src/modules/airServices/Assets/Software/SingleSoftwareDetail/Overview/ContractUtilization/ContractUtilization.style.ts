@@ -15,7 +15,7 @@ export const styles = {
     maxWidth: '25rem',
     width: '100%',
     height: '25rem',
-    radius: '.5rem',
+    borderRadius: '.5rem',
     '@media screen and (max-width: 30rem)': {
       maxWidth: '18.7rem',
     },

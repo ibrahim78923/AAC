@@ -4,12 +4,7 @@ import {
   mergeTicketsFormFieldsDynamic,
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
-import {
-  useLazyFindServicesTicketByRequesterQuery,
-  useLazyFindServicesTicketBySubjectQuery,
-  useMergeServicesTicketsMutation,
-} from '@/services/airServices/tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useMergeServicesTicketsMutation } from '@/services/airServices/tickets';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
@@ -18,6 +13,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useMergedTickets = () => {
   const dispatch = useAppDispatch();
@@ -82,13 +78,8 @@ export const useMergedTickets = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiQueryTicketBySubject = useLazyFindServicesTicketBySubjectQuery();
-  const apiQueryTicketByRequester = useLazyFindServicesTicketByRequesterQuery();
-
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,
-    apiQueryTicketByRequester,
-    apiQueryTicketBySubject,
     watch,
   );
 

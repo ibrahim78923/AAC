@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useRemoveInstallationMutation } from '@/services/airServices/assets/software/single-software-detail/installations';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { InstallationHeaderI } from './InstallationHeader.interface';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useInstallationHeader = (props: InstallationHeaderI) => {
   const { activeCheck, setActiveCheck, setPage, setSearchBy } = props;

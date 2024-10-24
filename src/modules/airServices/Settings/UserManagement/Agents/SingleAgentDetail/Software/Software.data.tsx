@@ -1,5 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 

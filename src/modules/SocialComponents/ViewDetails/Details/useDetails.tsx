@@ -141,27 +141,37 @@ const useDetails = (data: any) => {
     }
 
     const formData = new FormData();
-    formData.append('domain', values?.DomainName);
-    formData.append('name', values?.CompanyName);
-    formData.append('ownerId', values?.CompanyOwner);
-    formData.append('industry', values?.Industry);
-    formData.append('type', values?.CompanyType);
-    formData.append('noOfEmloyee', parseInt(values?.NumberOfEmployees));
-    formData.append('totalRevenue', parseInt(values?.AnnualRevenue));
-    formData.append('city', values?.City);
-    formData.append('postalCode', values?.PostalCode);
-    formData.append('address', values?.Address);
-    formData.append('description', values?.description);
-    formData.append('linkedInUrl', values?.LinkedInCompanyPage);
-    formData.append('phone', values?.PhoneNumber);
-    formData.append('crn', values?.CompanyRegistrationNumber);
+    const appendIfExists = (key: string, value: any) => {
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== '' &&
+        !Number?.isNaN(value)
+      ) {
+        formData?.append(key, value);
+      }
+    };
+    appendIfExists('domain', values?.DomainName);
+    appendIfExists('name', values?.CompanyName);
+    appendIfExists('ownerId', values?.CompanyOwner);
+    appendIfExists('industry', values?.Industry);
+    appendIfExists('type', values?.CompanyType);
+    appendIfExists('noOfEmloyee', parseInt(values?.NumberOfEmployees));
+    appendIfExists('totalRevenue', parseInt(values?.AnnualRevenue));
+    appendIfExists('city', values?.City);
+    appendIfExists('postalCode', values?.PostalCode);
+    appendIfExists('address', values?.Address);
+    appendIfExists('description', values?.description);
+    appendIfExists('linkedInUrl', values?.LinkedInCompanyPage);
+    appendIfExists('phone', values?.PhoneNumber);
+    appendIfExists('crn', values?.CompanyRegistrationNumber);
     if (
       values?.LifeCycleStage !== undefined &&
       values?.LifeCycleStage !== null
     ) {
-      formData.append('lifeCyleId', values.LifeCycleStage);
+      appendIfExists('lifeCyleId', values.LifeCycleStage);
     }
-    formData.append(
+    appendIfExists(
       'joiningDate',
       dayjs(values?.CreatedDate)?.format(DATE_FORMAT?.API),
     );

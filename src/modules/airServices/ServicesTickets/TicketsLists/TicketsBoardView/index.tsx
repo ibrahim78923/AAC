@@ -6,13 +6,10 @@ import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
-import { TicketBoardViewPropsI } from '../TicketsLists.interface';
 import { DataRecordCount } from '@/components/DataRecordCount';
 import { RENDER_COLOR } from './TicketsBoardView.data';
 
-export const TableBoardView = (props: TicketBoardViewPropsI) => {
-  const { setTicketAction, setSelectedTicketList } = props;
-
+export const TableBoardView = () => {
   const {
     HEAD_STATUS,
     lazyGetTicketsStatus,
@@ -65,17 +62,7 @@ export const TableBoardView = (props: TicketBoardViewPropsI) => {
                   (item: any) =>
                     head?.be === item?.status && (
                       <Fragment key={item?._id}>
-                        <TicketInfoCard
-                          details={item}
-                          setTicketAction={setTicketAction}
-                          setSelectedTicketList={setSelectedTicketList}
-                          totalRecords={
-                            lazyGetTicketsStatus?.data?.data?.tickets?.length
-                          }
-                          setPage={handleSetPage}
-                          page={page}
-                          getValueTicketsListData={getTicketsListData}
-                        />
+                        <TicketInfoCard details={item} />
                       </Fragment>
                     ),
                 )}

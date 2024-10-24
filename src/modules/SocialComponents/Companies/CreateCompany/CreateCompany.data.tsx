@@ -10,6 +10,7 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 export const createComapnySchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
@@ -19,6 +20,13 @@ export const createComapnySchema = (form: any) => {
     totalRevenue: Yup?.number(),
     noOfEmloyee: Yup?.number(),
     ownerId: Yup?.object()?.required('Field is Required'),
+    phone: Yup.string()
+      .nullable()
+      .test(
+        'isValidPhoneNumber',
+        'Phone number is not valid',
+        (value) => !value || phoneRegex.test(value),
+      ),
     ...formSchema,
   });
 };
@@ -35,6 +43,7 @@ export const defaultCreateCompanyValues = (data?: any, form?: any) => {
     noOfEmloyee: 0,
     totalRevenue: 0,
     city: '',
+    phone: null,
     postalCode: '',
     address: '',
     description: '',
@@ -143,6 +152,16 @@ export const dataArray = (getCompanyContactsList: any) => {
         name: 'city',
         label: 'City',
         placeholder: 'Enter here',
+        fullWidth: true,
+      },
+    },
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'phone',
+        label: 'phone Number',
+        placeholder: '+44-------',
         fullWidth: true,
       },
     },

@@ -1,7 +1,6 @@
 import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
-import dayjs from 'dayjs';
+import { isoDateString } from '@/lib/date-time';
 import { enqueueSnackbar } from 'notistack';
-import { isoDateString } from './dateTime';
 
 export const transformResponse = (response: any) => {
   if (response) return response?.data;
@@ -71,26 +70,6 @@ export const makeDateTime = (date: any, time: any) => {
   return combined;
 };
 
-export const TimeFormatDuration = (
-  startTime: string,
-  endTime: string,
-): string => {
-  const [startHours, startMinutes] = startTime?.split(':')?.map(Number) || [
-    0, 0,
-  ];
-  const [endHours, endMinutes] = endTime?.split(':')?.map(Number) || [0, 0];
-  const startDateTime = dayjs()
-    .set('hour', startHours)
-    ?.set('minute', startMinutes);
-  const endDateTime = dayjs().set('hour', endHours)?.set('minute', endMinutes);
-  const durationMinutes = endDateTime?.diff(startDateTime, 'minute');
-  const adjustedDurationMinutes =
-    durationMinutes < 0 ? 1440 + durationMinutes : durationMinutes;
-  return `${Math?.floor(adjustedDurationMinutes / 60)}h ${
-    adjustedDurationMinutes % 60
-  }m`;
-};
-
 export const addDateTimeParam = (
   getQueryParam: any,
   paramKey: any,
@@ -101,6 +80,7 @@ export const addDateTimeParam = (
     getQueryParam?.append(paramKey, makeDateTime(date, time)?.toISOString());
   }
 };
+
 export const capitalizeFirstLetter = (type: string) => {
   return type
     ?.split('_')
@@ -110,6 +90,7 @@ export const capitalizeFirstLetter = (type: string) => {
     )
     ?.join('  ');
 };
+
 export const timeFormatter = (time: any) => {
   const timeComponents = time?.split(':');
   const hours = parseInt(timeComponents?.[0]);

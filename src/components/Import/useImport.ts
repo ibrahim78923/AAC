@@ -2,12 +2,12 @@ import {
   useLazyGetSignedUrlForImportQuery,
   useUploadFileTos3UsingSignedUrlMutation,
 } from '@/services/airServices/global/import';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { processCSV } from '@/utils/file';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { importDefaultValues, importValidationSchema } from './Import.data';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useImport = (props: any) => {
   const {
@@ -16,6 +16,7 @@ export const useImport = (props: any) => {
     submitImport,
     mandatoryColumnsList = [],
     hasNewImportApi = true,
+    importFileStatus,
   } = props;
 
   const [showItemsList, setShowItemsList] = useState(false);
@@ -112,7 +113,7 @@ export const useImport = (props: any) => {
     );
 
     if (!isAllRequiredFieldPresent) {
-      errorSnackbar('Select all mandatory field ');
+      errorSnackbar('Select all mandatory field(s)');
       return;
     }
 
@@ -136,7 +137,7 @@ export const useImport = (props: any) => {
     try {
       await uploadFileTos3UsingSignedUrlTrigger(s3ApiDataParameter)?.unwrap();
       readFile?.(data?.file);
-      successSnackbar('File Uploaded');
+      successSnackbar('File uploaded successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -167,6 +168,11 @@ export const useImport = (props: any) => {
     reset?.();
   };
 
+  const apiCallInProgress =
+    importFileStatus?.isLoading ||
+    uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+    lazyGetSignedUrlForImportStatus?.isLoading;
+
   return {
     handleSubmit,
     onClose,
@@ -178,5 +184,6 @@ export const useImport = (props: any) => {
     uploadFileTos3UsingSignedUrlStatus,
     lazyGetSignedUrlForImportStatus,
     cancelBtnHandler,
+    apiCallInProgress,
   };
 };

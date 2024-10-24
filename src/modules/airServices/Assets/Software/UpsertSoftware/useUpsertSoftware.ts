@@ -1,17 +1,12 @@
 import { useRouter } from 'next/router';
 import {
   usePostSoftwareMutation,
-  useLazyGetUserDropdownQuery,
   useEditSoftwareMutation,
 } from '@/services/airServices/assets/software';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import {
   upsertSoftwareFormDefaultValues,
   upsertSoftwareFormValidationSchema,
@@ -30,8 +25,9 @@ import {
   UpsertSoftwareFormI,
   UpsertSoftwareI,
 } from './UpsertSoftware.interface';
-import { isoDateString } from '@/utils/dateTime';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;
@@ -177,14 +173,11 @@ export const useUpsertSoftware = (props: UpsertSoftwareI) => {
     reset();
   };
 
-  const userQuery = useLazyGetUserDropdownQuery();
-
   return {
     onClose,
     methods,
     handleSubmit,
     postSoftwareStatus,
-    userQuery,
     softwareId,
     isLoading,
     isFetching,

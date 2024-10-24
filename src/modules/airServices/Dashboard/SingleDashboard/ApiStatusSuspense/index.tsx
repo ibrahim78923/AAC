@@ -3,10 +3,10 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import NoData from '@/components/NoData';
 import ApiErrorState from '@/components/ApiErrorState';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
-import { AIR_SERVICES } from '@/constants';
 import Link from 'next/link';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { NO_DEFAULT_DASHBOARD } from '../../Dashboard.data';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const ApiStatusSuspense = (props: any) => {
   const {

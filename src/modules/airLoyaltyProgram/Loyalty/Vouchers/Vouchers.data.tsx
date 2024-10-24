@@ -1,16 +1,20 @@
-import { Box, Chip, IconButton, Typography } from '@mui/material';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { Box, IconButton, Typography } from '@mui/material';
+import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
 import { EditYellowBGPenIcon, TrashIcon } from '@/assets/icons';
-import { VOUCHERS_STATUS } from '@/constants/strings';
-import dayjs from 'dayjs';
 import { UserInfo } from '@/components/UserInfo';
-
+import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
+import { otherDateFormat } from '@/lib/date-time';
+const tableStatusArray = [
+  { label: 'Active', value: 'ACTIVE' },
+  { label: 'Inactive', value: 'INACTIVE' },
+];
 export const vouchersColumns = (
   handleVoucherClick: any,
   handleEditVoucher: any,
   handleDeleteVoucher: any,
-  checkActionPermissions: any,
+  checkActionPermissions: boolean,
+  patchVouchersTrigger: any,
+  checkStatusPermissions: boolean,
 ) => {
   const columns = [
     {
@@ -53,36 +57,15 @@ export const vouchersColumns = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Chip
-          sx={({ palette }: any) => ({
-            backgroundColor:
-              info?.getValue() === VOUCHERS_STATUS?.EXPIRED
-                ? `${palette?.warning?.main}1A`
-                : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                  ? palette?.success?.lighter
-                  : palette?.custom?.error_lighter,
-
-            color:
-              info?.getValue() === VOUCHERS_STATUS?.EXPIRED
-                ? palette?.warning?.main
-                : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                  ? palette?.success?.main
-                  : palette?.error?.main,
-            fontSize: '0.8rem',
-          })}
-          icon={
-            <FiberManualRecordIcon
-              color={
-                info?.getValue() === VOUCHERS_STATUS?.EXPIRED
-                  ? 'warning'
-                  : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                    ? 'success'
-                    : 'error'
-              }
-              sx={{ fontSize: '0.7rem' }}
-            />
+        <ActivityStatusMenu
+          info={info}
+          menuItemDataArray={tableStatusArray}
+          activityStatus={
+            checkStatusPermissions
+              ? info?.getValue()
+              : ACTIVITY_STATUS_MENU?.EXPIRED
           }
-          label={info?.getValue() ?? '---'}
+          apiQuery={patchVouchersTrigger}
         />
       ),
     },
@@ -92,12 +75,11 @@ export const vouchersColumns = (
       isSortable: true,
       header: 'Created at',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.YMDHM) ?? '---',
+        otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.YMDHM) ?? '---',
     },
   ];
-
   if (checkActionPermissions) {
-    columns.push({
+    columns?.push({
       accessorFn: (row: any) => row?._id,
       id: '_id',
       isSortable: true,
@@ -114,6 +96,5 @@ export const vouchersColumns = (
       ),
     });
   }
-
   return columns;
 };

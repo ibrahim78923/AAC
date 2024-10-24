@@ -1,7 +1,7 @@
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { TICKET_STATUS } from '@/constants/strings';
 import { useEditTicketStatusMutation } from '@/services/airCustomerPortal/Tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 import { getCustomerPortalStyling } from '@/utils';

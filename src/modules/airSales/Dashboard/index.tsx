@@ -111,7 +111,7 @@ const Dashboard = () => {
                 {dashboardsData?.MEETING_DETAILS && (
                   <Grid item xs={12} lg={6}>
                     <MeetingDetails
-                    // meetingsData={dashboardsData?.MEETING_DETAILS}
+                      meetingsData={dashboardsData?.MEETING_DETAILS}
                     />
                   </Grid>
                 )}

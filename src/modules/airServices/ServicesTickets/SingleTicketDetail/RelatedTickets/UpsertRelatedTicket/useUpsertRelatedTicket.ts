@@ -8,8 +8,6 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertRelatedTicket.data';
 import { useEffect } from 'react';
-
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { RELATED_TICKET_ACTIONS_CONSTANT } from '../Header/Header.data';
@@ -17,13 +15,15 @@ import {
   emptySelectedTicketLists,
   setIsPortalClose,
 } from '@/redux/slices/airServices/related-tickets/slice';
-import { isoDateString } from '@/utils/dateTime';
 import { useGetRelatedTicketList } from '../../../TicketsServicesHooks/useGetRelatedTicketList';
 import {
   useAddSingleServicesRelatedTicketsMutation,
   useUpdateSingleServicesRelatedTicketByIdMutation,
 } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { useGetServicesSingleTicketDetailByIdQuery } from '@/services/airServices/tickets';
+import { isoDateString } from '@/lib/date-time';
+import { REGEX } from '@/constants/validation';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertRelatedTicket = () => {
   const { getChildTicketsListData } = useGetRelatedTicketList();
@@ -66,14 +66,18 @@ export const useUpsertRelatedTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setError } = methods;
 
   const submitUpsertTicket = async (data: any) => {
     const { plannedEffort } = getValues();
-    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+    if (
+      plannedEffort?.trim() !== '' &&
+      !REGEX?.HOURS_AND_MINUTES?.test(plannedEffort)
+    ) {
+      setError('plannedEffort', {
+        message:
+          'Invalid format for planned effort. Please use format like 1h10m',
+      });
       return;
     }
 

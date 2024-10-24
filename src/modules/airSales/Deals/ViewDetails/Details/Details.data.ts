@@ -9,9 +9,9 @@ import {
 import * as Yup from 'yup';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import useDetails from './useDetails';
-import { getSession } from '@/utils';
+import { getActiveProductSession } from '@/utils';
 import { indexNumbers } from '@/constants';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
+import { useLazyGetAllUsersDropdownQuery } from '@/services/common-APIs';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string(),
@@ -34,12 +34,10 @@ export const detailsDefaultValues = {
 };
 
 export const detailsDataArray = (dealPipelineId: any) => {
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
   const { getDealOwnerContacts } = useDetails({});
-
   const { pipelineListDropdown }: any = useDealTab();
-  const ownerData = useLazyGetOrganizationUsersQuery();
+  const ownerData = useLazyGetAllUsersDropdownQuery();
+  const ActiveProduct = getActiveProductSession();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[indexNumbers?.ONE]?.data?.find(
@@ -75,7 +73,7 @@ export const detailsDataArray = (dealPipelineId: any) => {
         apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: { id: organizationId, meta: false },
+        externalParams: { productId: ActiveProduct?._id },
       },
       component: RHFAutocompleteAsync,
       md: 4,

@@ -68,33 +68,34 @@ export const quotesAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
-    getUserList: builder.query({
-      query: ({ params }) => ({
-        url: END_POINTS?.USERS_LIST_ADMIN,
-        method: 'GET',
-        params: params,
-      }),
-      // providesTags: TAG,
-    }),
+    // getUserList: builder.query({
+    //   query: ({ params }) => ({
+    //     url: END_POINTS?.USERS_LIST_ADMIN,
+    //     method: 'GET',
+    //     params: params,
+    //   }),
+    //   // providesTags: TAG,
+    // }),
 
-    postCompanies: builder.mutation({
-      query: ({ body }: any) => {
-        return {
-          url: END_POINTS?.COMPANY,
-          method: 'POST',
-          body: body,
-        };
-      },
-      invalidatesTags: ['COMPANY'],
-    }),
-    getUsersList: builder.query({
-      query: (params: any) => ({
-        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
-        method: 'GET',
-        params: params,
-      }),
-      providesTags: ['DEALS'],
-    }),
+    // postQuotesCompanies: builder.mutation({
+    //   query: ({ body }: any) => {
+    //     return {
+    //       url: END_POINTS?.COMPANY,
+    //       method: 'POST',
+    //       body: body,
+    //     };
+    //   },
+    //   invalidatesTags: ['COMPANY'],
+    // }),
+
+    // getUsersList: builder.query({
+    //   query: (params: any) => ({
+    //     url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+    //     method: 'GET',
+    //     params: params,
+    //   }),
+    //   providesTags: ['DEALS'],
+    // }),
     postProduct: builder.mutation({
       query: ({ body }: any) => {
         return {
@@ -148,13 +149,6 @@ export const quotesAPI = baseAPI.injectEndpoints({
       },
       providesTags: TAG,
     }),
-    getContacts: builder.query({
-      query: () => ({
-        url: END_POINTS?.CONTACTS,
-        method: 'GET',
-      }),
-      providesTags: TAG,
-    }),
     getContactsUpdated: builder.query({
       query: () => ({
         url: END_POINTS?.CONTACTS,
@@ -189,7 +183,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
-    getCustomizeColumn: builder.query({
+    getQuotesCustomizeColumn: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
@@ -197,7 +191,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
-    putCustomizedColumns: builder.mutation({
+    putQuotesCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
@@ -205,7 +199,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
-    deleteCompanies: builder.mutation({
+    deleteQuoteCompanies: builder.mutation({
       query: (ids: any) => ({
         url: `${END_POINTS?.COMPANY}/${ids}`,
         method: 'DELETE',
@@ -280,24 +274,23 @@ export const {
   useLazyGetQuoteByIdQuery,
   useUpdateQuoteMutation,
   usePostQuoteMutation,
-  usePostCompaniesMutation,
+  // usePostQuotesCompaniesMutation,
   useDeleteQuotesMutation,
-  useGetUserListQuery,
-  useGetUsersListQuery,
+  // useGetUserListQuery,
+  // useGetUsersListQuery,
   usePostProductMutation,
   usePostAddbuyerInfoMutation,
   useCreateAssociationQuoteMutation,
   useGetProductCatagoriesQuery,
   useLazyGetProductCatagoriesUpdatedQuery,
   useDeleteProductsMutation,
-  useGetContactsQuery,
   useLazyGetContactsUpdatedQuery,
   useGetProductsByIdQuery,
   useLazyGetProductsByIdQuery,
   useUpdateProductByIdMutation,
-  usePutCustomizedColumnsMutation,
-  useGetCustomizeColumnQuery,
-  useDeleteCompaniesMutation,
+  usePutQuotesCustomizedColumnsMutation,
+  useGetQuotesCustomizeColumnQuery,
+  useDeleteQuoteCompaniesMutation,
   useDeleteContactsMutation,
   useGetSalesProductlineItemQuery,
   usePutSubmitQuoteMutation,

@@ -10,7 +10,7 @@ import {
 } from './UpdateQuote.data';
 import {
   useCreateAssociationQuoteMutation,
-  useDeleteCompaniesMutation,
+  useDeleteQuoteCompaniesMutation,
   useDeleteContactsMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
@@ -47,7 +47,7 @@ const useUpdateQuote = () => {
   const { data: dataGetQuoteById, isLoading: BuyerInfoLoading } =
     useGetQuoteByIdQuery({ id: quoteId });
   const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
-    useDeleteCompaniesMutation();
+    useDeleteQuoteCompaniesMutation();
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
     useDeleteContactsMutation();
 

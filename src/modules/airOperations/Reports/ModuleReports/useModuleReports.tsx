@@ -1,4 +1,3 @@
-import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
 import { moduleReportsListTabsDynamic } from './ModuleReports.data';
 import { PermissionTabsArrayI } from '@/components/Tabs/PermissionsTabs/PermissionsTabs.interface';
@@ -10,6 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect } from 'react';
 import { TAB_CHANGED_FILTERED } from '../ReportLists/ReportLists.data';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export const useModuleReports = () => {
   const router = useRouter();

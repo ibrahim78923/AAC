@@ -1,16 +1,6 @@
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import React from 'react';
-import { AllSurveys } from './AllSurveys';
-import { Published } from './Published';
-import { Draft } from './Draft';
+import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
+import { customerSatisfactionTabsData } from './CustumerSatisfaction.data';
 
 export const CustomerSatisfaction = () => {
-  const tabsDataArray = ['All Surveys', 'Published', 'Draft'];
-  return (
-    <HorizontalTabs tabsDataArray={tabsDataArray}>
-      <AllSurveys />
-      <Published />
-      <Draft />
-    </HorizontalTabs>
-  );
+  return <PermissionsTabs tabsDataArray={customerSatisfactionTabsData} />;
 };

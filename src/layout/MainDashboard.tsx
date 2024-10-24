@@ -54,7 +54,8 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { AIR_CUSTOMER_PORTAL, indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
 
@@ -65,6 +66,7 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const router = useRouter();
   const currentPath = router.pathname;
+
   const pathSegments = currentPath.slice(1).split('/');
 
   const basePath = pathSegments[0];
@@ -72,7 +74,6 @@ const DashboardLayout = ({ children, window }: any) => {
   if (`/${basePath}` === AIR_CUSTOMER_PORTAL?.DASHBOARD) {
     productName = PRODUCT_LABELS?.CUSTOMER_PORTAL;
   } else if (`/${basePath}` === ORG_ADMIN?.DASHBOARD) {
-    // Modification : manually push ORG_ADMIN.DASHBOARD
     productName = PRODUCT_LABELS?.ORG_ADMIN;
   } else {
     productName = getActiveProductSession()?.name;

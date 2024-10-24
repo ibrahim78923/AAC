@@ -1,65 +1,67 @@
 import { DATE_FORMAT } from '@/constants';
+import { endOfTime, startOfAddTime, startOfFormat } from '@/lib/date-time';
 import {
-  useLazyGetWorkloadFilterQuery,
-  useLazyGetWorkloadQuery,
+  useLazyGetAirServicesWorkloadFilterQuery,
+  useLazyGetAirServicesWorkloadQuery,
 } from '@/services/airServices/workload';
-import dayjs from 'dayjs';
 import { NextRouter, useRouter } from 'next/router';
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { IFilter, IOnClickEvent, ISelected } from './Workload.interface';
 import { useForm } from 'react-hook-form';
 
 export default function useWorkload() {
   const calendarRef: RefObject<any> = useRef<any>(null);
   const router: NextRouter = useRouter();
 
-  const [filter, setFilter] = useState<IFilter>({
+  const [filter, setFilter] = useState<any>({
     countDayWise: undefined,
     countDayWiseHours: undefined,
     countDayWiseHoursAverage: undefined,
   });
 
-  const [onClickEvent, setOnClickEvent] = useState<IOnClickEvent>({
+  const [onClickEvent, setOnClickEvent] = useState<any>({
     open: null,
     data: null,
   });
-  const [addPlannedEffort, setAddPlannedEffort] = useState<IOnClickEvent>({
+  const [addPlannedEffort, setAddPlannedEffort] = useState<any>({
     open: null,
     data: null,
   });
-  const [addPlannedTicketEffort, setAddPlannedTicketEffort] =
-    useState<IOnClickEvent>({
-      open: null,
-      data: null,
-    });
+  const [addPlannedTicketEffort, setAddPlannedTicketEffort] = useState<any>({
+    open: null,
+    data: null,
+  });
   const [dateCalendar, setDateCalendar] = useState<string | any>(
-    dayjs()
-      ?.startOf('week')
-      ?.format(DATE_FORMAT?.API),
+    startOfFormat(new Date(), 'week', DATE_FORMAT?.API),
   );
-  const [selected, setSelected] = useState<ISelected | null>(null);
+  const [selected, setSelected] = useState<any>(null);
   const [filterByTypeState, setFilterByTypeState] = useState('ALL');
 
   const methods = useForm({
     defaultValues: { filterModuleType: filterByTypeState ?? 'ALL' },
   });
 
-  const [trigger, status] = useLazyGetWorkloadQuery();
-  const [triggerFilter, statusFilter] = useLazyGetWorkloadFilterQuery();
+  const [trigger, status] = useLazyGetAirServicesWorkloadQuery();
+  const [triggerFilter, statusFilter] =
+    useLazyGetAirServicesWorkloadFilterQuery();
 
-  useEffect(() => {
+  const firstTrigger = () => {
     trigger({
-      startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
-      endDate: dayjs()?.endOf('week')?.toISOString(),
-      userIds: selected?._id,
+      startDate: startOfAddTime(new Date(), 'week', 1, 'day'),
+      endDate: endOfTime(new Date(), 'week'),
+      agent: selected?._id,
+      assignTo: selected?._id,
       moduleType: filterByTypeState,
     });
+  };
+
+  useEffect(() => {
+    firstTrigger?.();
   }, [selected, filterByTypeState]);
 
   useEffect(() => {
     triggerFilter({
-      startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
-      endDate: dayjs()?.endOf('week')?.toISOString(),
+      startDate: startOfAddTime(new Date(), 'week', 1, 'day'),
+      endDate: endOfTime(new Date(), 'week'),
       countDayWise: filter?.countDayWise,
       countDayWiseHours: filter?.countDayWiseHours,
       countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
@@ -70,15 +72,16 @@ export default function useWorkload() {
     setDateCalendar(date);
     try {
       await trigger({
-        startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
-        endDate: dayjs(date)?.endOf('week')?.toISOString(),
-        userIds: selected?._id,
+        startDate: startOfAddTime(date, 'week', 1, 'day'),
+        endDate: endOfTime(date, 'week'),
+        agent: selected?._id,
+        assignTo: selected?._id,
         moduleType: filterByTypeState,
       })?.unwrap();
 
       await triggerFilter({
-        startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
-        endDate: dayjs(date)?.endOf('week')?.toISOString(),
+        startDate: startOfAddTime(date, 'week', 1, 'day'),
+        endDate: endOfTime(date, 'week'),
         countDayWise: filter?.countDayWise,
         countDayWiseHours: filter?.countDayWiseHours,
         countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
@@ -107,5 +110,6 @@ export default function useWorkload() {
     addPlannedTicketEffort,
     methods,
     setFilterByTypeState,
+    firstTrigger,
   };
 }

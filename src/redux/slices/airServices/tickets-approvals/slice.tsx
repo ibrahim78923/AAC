@@ -2,15 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { servicesTicketApprovalsReducersList } from './reducers';
 import { TICKET_APPROVALS } from '@/constants/strings';
 
-const { ALL } = TICKET_APPROVALS ?? {};
-
 export const isPortalOpenInitialState = {
   isOpen: false,
   action: '',
-  data: {},
+  data: {} as any,
 };
 
-export const approvalStatusInitialState = ALL;
+export const approvalStatusInitialState = TICKET_APPROVALS?.ALL;
 
 const {
   setIsPortalOpenReducer,

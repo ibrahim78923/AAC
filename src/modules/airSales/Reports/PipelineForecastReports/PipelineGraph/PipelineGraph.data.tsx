@@ -1,42 +1,43 @@
-export const totalSeriesBar = (generateRandomNumbers: any) => {
-  return [
-    {
-      name: 'New (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Follow Up (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Follow Up (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Under Review (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Demo (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Negotiation (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Won (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-    {
-      name: 'Lost (sales pipeline)',
-      data: generateRandomNumbers(0, 22000, 2),
-    },
-  ];
+// Helper to generate random colors
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math?.floor(Math?.random() * 16)];
+  }
+  return color;
+}
+
+export const totalSeriesBar = (pipelineForecastData: any) => {
+  return pipelineForecastData?.pipelineWithStages?.flatMap(
+    (pipeline: any) =>
+      pipeline?.stages?.map((stage: any) => {
+        const graphData = pipelineForecastData?.graph?.find(
+          (g) => g?.stageGroups?.some((sg: any) => sg?.stageId === stage?._id),
+        );
+
+        const totalAmount =
+          graphData?.stageGroups?.find((sg: any) => sg?.stageId === stage?._id)
+            ?.totalAmount || 0;
+
+        return {
+          name: `${stage?.name} (${pipeline?.name})`,
+          data: [totalAmount],
+        };
+      }),
+  );
 };
 
-export const totalOptionsBar: any = (theme: any) => {
-  const colorsBar = [
+export const totalOptionsBar: any = (theme: any, pipelineForecastData: any) => {
+  const collaboratorNames =
+    pipelineForecastData?.graph?.map(
+      (item: any) => item?.collaboratorDetails[0]?.name || 'Unknown',
+    ) || [];
+
+  const numberOfStages =
+    pipelineForecastData?.graph[0]?.stageGroups?.length || 0;
+
+  const predefinedColors = [
     `${theme?.palette?.custom?.graph_blue}`,
     `${theme?.palette?.custom?.light_lighter}`,
     `${theme?.palette?.custom?.ext_dark_blue}`,
@@ -45,18 +46,33 @@ export const totalOptionsBar: any = (theme: any) => {
     `${theme?.palette?.success?.main}`,
     `${theme?.palette?.custom?.bright}`,
   ];
+
+  // If stages exceed predefined colors, generate random colors dynamically
+  const colorsBar = Array?.from(
+    { length: numberOfStages },
+    (_, i) => predefinedColors[i] || getRandomColor(),
+  );
+
   return {
     chart: {
       type: 'bar',
       toolbar: {
         show: true,
+        tools: {
+          download: false, // This disables the download options
+        },
       },
     },
-
+    padding: {
+      left: 10,
+      right: 10,
+      top: 10,
+      bottom: 10,
+    },
     plotOptions: {
       bar: {
         horizontal: true,
-        columnWidth: '40%',
+        columnWidth: '80%',
         endingShape: 'rounded',
       },
     },
@@ -73,11 +89,33 @@ export const totalOptionsBar: any = (theme: any) => {
     },
 
     xaxis: {
-      categories: ['John Doe', 'Feb', 'Mar'],
+      categories: collaboratorNames,
+      title: {
+        text: 'Total revenue goal',
+      },
+      labels: {
+        formatter: function (val: any) {
+          return `£ ${val.toFixed(1)}`; // Format labels with currency and thousands
+        },
+      },
     },
     yaxis: {
       title: {
         text: 'Deal owner',
+      },
+    },
+    grid: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      },
+      row: {
+        padding: {
+          top: 50, // Adjust this to increase the margin between rows
+          bottom: 50,
+        },
       },
     },
     responsive: [
@@ -119,82 +157,59 @@ export const totalOptionsBar: any = (theme: any) => {
   };
 };
 
-export const comparisonSeriesBar = [
-  {
-    name: 'New (sales pipeline)',
-    data: [
-      0.08, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-  {
-    name: 'Follow Up (sales pipeline)',
-    data: [
-      0.04, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-  {
-    name: 'Under Review (sales pipeline)',
-    data: [
-      0.09, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-  {
-    name: 'Demo (sales pipeline)',
-    data: [
-      0.09, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-  {
-    name: 'Negotiation (sales pipeline)',
-    data: [
-      0.09, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-  {
-    name: 'Won (sales pipeline)',
-    data: [
-      0.09, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-  {
-    name: 'Lost (sales pipeline)',
-    data: [
-      0.09, 0.25, 0.65, 0.87, 1.15, 1.23, 0.63, 0.32, 0.29, 0.99, 1.23, 1.09,
-    ],
-  },
-];
+export const comparisonSeriesBar = (pipelineForecastData: any) => {
+  const series: any = [];
 
-export const comparisonOptionsBar: any = (theme: any) => {
-  const colorsBar = [
-    `${theme?.palette?.custom?.bright}`,
-    `${theme?.palette?.success?.main}`,
-    `${theme?.palette?.error?.main}`,
-    `${theme?.palette?.custom?.turquoise_Blue}`,
-    `${theme?.palette?.custom?.ext_dark_blue}`,
-    `${theme?.palette?.custom?.light_lighter}`,
-    `${theme?.palette?.custom?.graph_blue}`,
-  ];
+  // Extract pipelines and their stages
+  const pipelines = pipelineForecastData?.pipelineWithStages || [];
+  const graphData = pipelineForecastData?.graph || [];
+
+  pipelines?.forEach((pipeline: any) => {
+    pipeline?.stages?.forEach((stage: any) => {
+      const stageName = `${stage?.name} (${pipeline?.name})`;
+      const data = graphData?.map((monthData: any) => {
+        const stageData = monthData?.stages?.find(
+          (s: any) => s?.stageId === stage?._id,
+        );
+        return stageData ? stageData?.total : 0;
+      });
+      series?.push({
+        name: stageName,
+        data,
+      });
+    });
+  });
+
+  return series;
+};
+
+export const comparisonOptionsBar = (theme: any, pipelineForecastData: any) => {
+  const colorsBar = pipelineForecastData?.graph?.map(() => getRandomColor());
+
+  const months = pipelineForecastData?.graph?.map(
+    (data: any) => data?.date?.split(' ')[0],
+  );
   return {
     chart: {
       type: 'bar',
       toolbar: {
         show: true,
+        tools: {
+          download: false, // This disables the download options
+        },
       },
     },
-
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '40%',
+        columnWidth: '80%',
         endingShape: 'rounded',
       },
     },
     colors: colorsBar,
-
     dataLabels: {
       enabled: false,
     },
-
     stroke: {
       show: true,
       width: 2,
@@ -206,7 +221,7 @@ export const comparisonOptionsBar: any = (theme: any) => {
       },
     },
     xaxis: {
-      categories: [
+      categories: months || [
         'Jan',
         'Feb',
         'Mar',
@@ -260,105 +275,59 @@ export const comparisonOptionsBar: any = (theme: any) => {
   };
 };
 
-export const overtimeSeriesBar = [
-  {
-    name: 'Incremental',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'New (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'Follow Up (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'Under Review (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'Demo (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'Negotiation (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'Won (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-  {
-    name: 'Lost (sales pipeline)',
-    data: [
-      1000, 4000, 10000, 15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000,
-      15000, 18000, 24000, 26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000,
-      26000, 29000, 1000, 4000, 10000, 15000, 18000, 24000, 26000,
-    ],
-  },
-];
+export const overtimeSeriesBar = (pipelineForecastData: any) => {
+  const series: any = [];
 
-export const overtimeOptionsBar: any = (theme: any) => {
-  const colorsBar = [
-    `${theme?.palette?.custom?.inc_grey}`,
-    `${theme?.palette?.custom?.bright}`,
-    `${theme?.palette?.success?.main}`,
-    `${theme?.palette?.error?.main}`,
-    `${theme?.palette?.custom?.turquoise_Blue}`,
-    `${theme?.palette?.custom?.ext_dark_blue}`,
-    `${theme?.palette?.custom?.light_lighter}`,
-    `${theme?.palette?.custom?.graph_blue}`,
-  ];
+  // Extract pipelines and their stages
+  const pipelines = pipelineForecastData?.pipelineWithStages || [];
+  const graphData = pipelineForecastData?.graph || [];
+
+  pipelines?.forEach((pipeline: any) => {
+    pipeline?.stages?.forEach((stage: any) => {
+      const stageName = `${stage?.name} (${pipeline?.name})`;
+      const data = graphData?.map((monthData: any) => {
+        const stageData = monthData?.stages?.find(
+          (s: any) => s?.stageId === stage?._id,
+        );
+        return stageData ? stageData?.total : 0;
+      });
+      series?.push({
+        name: stageName,
+        data,
+      });
+    });
+  });
+
+  return series;
+};
+
+export const overtimeOptionsBar = (theme: any, pipelineForecastData: any) => {
+  const colorsBar = pipelineForecastData?.graph?.map(() => getRandomColor());
+
+  const months = pipelineForecastData?.graph?.map(
+    (data: any) => data?.date?.split(' ')[0],
+  );
   return {
     chart: {
       type: 'bar',
       toolbar: {
         show: true,
+        tools: {
+          download: false, // This disables the download options
+        },
       },
     },
-
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '40%',
+        columnWidth: '80%',
         endingShape: 'rounded',
       },
     },
     colors: colorsBar,
-
     dataLabels: {
       enabled: false,
     },
-
     stroke: {
       show: true,
       width: 2,
@@ -366,42 +335,23 @@ export const overtimeOptionsBar: any = (theme: any) => {
     },
     yaxis: {
       title: {
-        text: 'Total revenue goal',
+        text: 'incremental revenue goal',
       },
     },
     xaxis: {
-      categories: [
-        '5/1/2023',
-        '5/2/2023',
-        '5/3/2023',
-        '5/4/2023',
-        '5/5/2023',
-        '5/6/2023',
-        '5/7/2023',
-        '5/8/2023',
-        '5/9/2023',
-        '5/10/2023',
-        '5/11/2023',
-        '5/12/2023',
-        '5/13/2023',
-        '5/14/2023',
-        '5/15/2023',
-        '5/16/2023',
-        '5/17/2023',
-        '5/18/2023',
-        '5/19/2023',
-        '5/20/2023',
-        '5/21/2023',
-        '5/22/2023',
-        '5/23/2023',
-        '5/24/2023',
-        '5/25/2023',
-        '5/26/2023',
-        '5/27/2023',
-        '5/28/2023',
-        '5/29/2023',
-        '5/30/2023',
-        '5/31/2023',
+      categories: months || [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'July',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ],
     },
     responsive: [

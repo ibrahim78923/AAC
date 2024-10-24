@@ -1,5 +1,5 @@
 import { useDeleteAgentMutation } from '@/services/airServices/settings/user-management/agents';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IAgentsProps } from '../Agents.interface';
 
 export const useDeleteAgent = (props: IAgentsProps) => {

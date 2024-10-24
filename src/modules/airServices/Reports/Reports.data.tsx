@@ -1,4 +1,3 @@
-import { AIR_SERVICES } from '@/constants';
 import {
   ContractReportsIcon,
   InventoryReportsIcon,
@@ -8,6 +7,7 @@ import {
 } from '@/assets/icons';
 import { Permissions } from '@/constants/permissions';
 import { ServicesReportsTypesI } from './Reports.interface';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const reportsTypes: ServicesReportsTypesI[] = [
   {

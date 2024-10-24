@@ -15,8 +15,7 @@ import {
 } from '@/utils/avatarUtils';
 import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+import { uiDateFormat } from '@/lib/date-time';
 
 export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
   const {
@@ -142,7 +141,7 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
                       variant={'rounded'}
                     />
                   ) : isValidDate(value) ? (
-                    dayjs(value)?.format(DATE_FORMAT?.UI)
+                    uiDateFormat(value)
                   ) : (
                     value?.toString()
                   )}

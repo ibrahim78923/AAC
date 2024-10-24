@@ -80,7 +80,7 @@ export const AssetsReceived = () => {
                     sx={styles?.cardText}
                     textTransform={'capitalize'}
                   >
-                    Location:- {item?.locationName}
+                    Location:- {item?.locationName ?? '---'}
                   </Typography>
                 </Box>
               ))

@@ -1,7 +1,6 @@
-import { DATE_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { splitCapitalizedWords } from '@/utils/api';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
-import dayjs from 'dayjs';
 
 export const overviewData = ({
   contractData,
@@ -28,9 +27,9 @@ export const overviewData = ({
       },
       {
         name: 'Validity',
-        detail: `${dayjs(contractData?.startDate)?.format(
-          DATE_FORMAT?.UI,
-        )} to ${dayjs(contractData?.endDate)?.format(DATE_FORMAT?.UI)}`,
+        detail: `${uiDateFormat(contractData?.startDate)} to ${uiDateFormat(
+          contractData?.endDate,
+        )}`,
       },
     ],
   },
@@ -48,7 +47,7 @@ export const overviewData = ({
       {
         name: 'Comments',
         detail:
-          contractItemData?.comments === ''
+          contractItemData?.comments === '' || !contractItemData?.comments
             ? '---'
             : contractItemData?.comments,
       },

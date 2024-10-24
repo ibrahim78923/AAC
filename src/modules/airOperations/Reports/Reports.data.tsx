@@ -3,8 +3,8 @@ import {
   SalesReportIcon,
   ServiceReportIcon,
 } from '@/assets/icons';
-import { AIR_OPERATIONS } from '@/constants';
 import { Permissions } from '@/constants/permissions';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import { GENERIC_REPORT_MODULES, PRODUCTS_LISTS } from '@/constants/strings';
 
 export const reportsTypesDynamic = (productsLists: any) => {

@@ -144,13 +144,16 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getAirServicesContactOwnerUsersDropdown: builder.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.orgId}/users`,
-        method: 'GET',
-        params: {
-          search: params?.search,
-        },
-      }),
+      query: ({ params }: any) => {
+        const { orgId, ...otherParams } = params || {};
+        return {
+          url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${orgId}/users`,
+          method: 'GET',
+          params: {
+            ...otherParams,
+          },
+        };
+      },
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },

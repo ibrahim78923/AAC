@@ -93,8 +93,13 @@ const Submissions = ({ formId }: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
-              {submissionsArray(dataCustomers)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {submissionsArray(dataCustomers, formId)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (

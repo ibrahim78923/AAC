@@ -19,6 +19,7 @@ import { createElement } from 'react';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { IDepartmentsProps } from '../Departments.interface';
+import { departmentFormFieldsDynamic } from './UpsertDepartment.data';
 
 export const UpsertDepartment = (props: IDepartmentsProps) => {
   const { openUpsertModal, selectedDepartment } = props;
@@ -29,7 +30,6 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
     postDepartmentStatus,
     method,
     updateDepartmentStatus,
-    departmentFormFields,
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
@@ -67,7 +67,7 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
         ) : (
           <FormProvider methods={method}>
             <Grid container spacing={1}>
-              {departmentFormFields?.map((item: any) => (
+              {departmentFormFieldsDynamic?.map((item: any) => (
                 <Grid item key={item?.id} xs={12}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.heading ? item?.heading : null}

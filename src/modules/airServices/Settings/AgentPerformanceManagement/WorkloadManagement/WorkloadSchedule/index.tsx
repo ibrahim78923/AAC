@@ -4,7 +4,7 @@ import {
   PencilEditIcon,
   DeleteBlackIcon,
 } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { WorkloadScheduleDelete } from './WorkloadScheduleDelete';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useWorkloadSchedule } from './useWorkloadSchedule';

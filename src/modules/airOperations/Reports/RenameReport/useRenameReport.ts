@@ -1,6 +1,5 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
 import { useRenameOperationsReportsMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
@@ -13,6 +12,7 @@ import {
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};

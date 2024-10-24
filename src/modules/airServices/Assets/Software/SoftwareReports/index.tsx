@@ -1,7 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { SoftwareReportsCards } from './SoftwareReportsCards';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -20,6 +19,8 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import NoData from '@/components/NoData';
+import { AIR_SERVICES } from '@/constants/routes';
+import { Autorenew } from '@mui/icons-material';
 
 export const SoftwareReports = () => {
   const {
@@ -40,6 +41,8 @@ export const SoftwareReports = () => {
     data,
     onDateFilterSubmit,
     getValues,
+    timeLapse,
+    apiCallInProgress,
   } = useSoftwareReports();
 
   if (isError)
@@ -69,6 +72,30 @@ export const SoftwareReports = () => {
           })
         }
       >
+        <Button
+          variant="outlined"
+          color="inherit"
+          size="small"
+          startIcon={<Autorenew />}
+          onClick={refetch}
+          disabled={apiCallInProgress}
+          sx={{
+            fontSize: pxToRem(12),
+            fontWeight: 'fontWeightRegular',
+            textTransform: 'lowercase',
+            cursor: 'pointer',
+            height: pxToRem(40),
+            marginTop: pxToRem(-10),
+          }}
+        >
+          {!!apiCallInProgress ? (
+            <Box>
+              <LinearProgress sx={{ width: pxToRem(70) }} />
+            </Box>
+          ) : (
+            timeLapse?.lastFetchLapseTime
+          )}
+        </Button>
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
         >
@@ -136,7 +163,9 @@ export const SoftwareReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Software Distribution
                   </Typography>
-                  {!!Object?.keys(softwareReportsChartsData ?? {})?.length ? (
+                  {Object?.values(softwareReportsChartsData ?? {})?.some(
+                    (value) => value !== 0,
+                  ) ? (
                     <CustomChart
                       type={'pie'}
                       series={Object?.values(softwareReportsChartsData ?? {})}

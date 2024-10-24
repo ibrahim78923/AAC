@@ -1,5 +1,6 @@
 import { ARRAY_INDEX, TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   resetTime,
   setIsTimerPause,
@@ -10,7 +11,6 @@ import {
   useAddSingleServicesTicketsTasksTimeMutation,
   useUpdateSingleServicesTicketsTasksTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

@@ -10,8 +10,8 @@ const CtaViewComponent = ({ data }: any) => {
         <Image
           src={generateImage(data?.buttonImage?.url)}
           alt={data?.imageAltText}
-          width={data?.imageWidth || 100}
-          height={data?.imageHeight || 44}
+          width={parseInt(data?.imageWidth, 10) || 100}
+          height={parseInt(data?.imageHeight, 10) || 44}
         />
       ) : (
         data?.buttonContent

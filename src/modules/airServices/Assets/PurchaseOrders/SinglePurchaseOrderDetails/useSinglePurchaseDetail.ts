@@ -5,7 +5,7 @@ import {
   singlePurchaseDetailStatusDropdownFunction,
 } from './SinglePurchaseDetail.data';
 import { usePutAirServicesAssetsPurchaseOrderStatusMutation } from '@/services/airServices/assets/purchase-orders';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();

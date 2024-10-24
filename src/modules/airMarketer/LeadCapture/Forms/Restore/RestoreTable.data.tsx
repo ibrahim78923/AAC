@@ -65,7 +65,6 @@ export const restoreTableColumns: any = (
                 mr: '6px',
                 fontSize: '14px',
               }}
-              alt={info?.getValue()}
               src={generateImage(imgUrl)}
             >
               {`${firstName?.charAt(0)}${lastName?.charAt(0)}`}

@@ -26,7 +26,11 @@ import operationsTeamSlice from './slices/airOperations/teams/slice';
 import servicesTicketApprovalsSlice from './slices/airServices/tickets-approvals/slice';
 import notificationsSlice from './slices/notifications/notifications';
 import servicesTicketConversationSlice from './slices/airServices/ticket-conversation/slice';
+import loyaltyProgramRoleAndRightsSlice from './slices/airLoyaltyProgram/roles-and-right/slice';
 import loyaltyProgramUsersSlice from './slices/airLoyaltyProgram/users/slice';
+import loyaltyProgramRulesSlice from './slices/airLoyaltyProgram/rules/slice';
+import loyaltyProgramTiersSlice from './slices/airLoyaltyProgram/tiers/slice';
+import servicesDashboardSlice from './slices/airServices/dashboard/slice';
 
 const store = configureStore({
   reducer: {
@@ -56,7 +60,11 @@ const store = configureStore({
     operationsTeam: operationsTeamSlice,
     servicesTicketApprovals: servicesTicketApprovalsSlice,
     servicesTicketConversation: servicesTicketConversationSlice,
+    loyaltyProgramRoleAndRights: loyaltyProgramRoleAndRightsSlice,
     loyaltyProgramUsers: loyaltyProgramUsersSlice,
+    loyaltyProgramRules: loyaltyProgramRulesSlice,
+    loyaltyProgramTiers: loyaltyProgramTiersSlice,
+    servicesDashboard: servicesDashboardSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import {
   useLazyGetWorkflowListQuery,
   useDeleteWorkflowMutation,
@@ -12,7 +12,7 @@ import {
   salesWorkflowListsColumnDynamic,
 } from '../../SalesWorkflow.data';
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 

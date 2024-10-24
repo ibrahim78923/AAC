@@ -1,6 +1,6 @@
 export const columns: any = [
   {
-    accessorFn: (row: any) => row?.meetingName,
+    accessorFn: (row: any) => row?.title,
     id: 'meetingName',
     cell: (info: any) => info?.getValue(),
     header: 'Meeting Name',
@@ -8,9 +8,10 @@ export const columns: any = [
   },
 
   {
-    accessorFn: (row: any) => row?.organizer,
+    accessorFn: (row: any) => row?.createdByDetails,
     id: 'organizer',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`,
     header: 'Organizer',
     isSortable: false,
   },
@@ -20,7 +21,7 @@ export const columns: any = [
     id: 'type',
     isSortable: true,
     header: 'Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
@@ -28,7 +29,7 @@ export const columns: any = [
     id: 'duration',
     isSortable: true,
     header: 'Duration',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
@@ -36,7 +37,7 @@ export const columns: any = [
     id: 'businessUnit',
     isSortable: true,
     header: 'Business Unit',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
@@ -44,7 +45,7 @@ export const columns: any = [
     id: 'views',
     isSortable: true,
     header: 'Views',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 
   {
@@ -52,13 +53,13 @@ export const columns: any = [
     id: 'meetingBooked',
     isSortable: true,
     header: 'Meeting Booked',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row?.conversationRate,
     id: 'conversationRate',
     isSortable: true,
     header: 'Conversation Rate',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
 ];

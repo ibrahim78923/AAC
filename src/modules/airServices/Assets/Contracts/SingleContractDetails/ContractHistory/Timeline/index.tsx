@@ -3,6 +3,7 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const Timeline = ({ data, timelineIndex }: any) => {
   const theme = useTheme();
@@ -24,7 +25,7 @@ export const Timeline = ({ data, timelineIndex }: any) => {
       )}
       <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>
         <Typography variant="body4" sx={{ flex: 0.15 }} pt={1}>
-          {dayjs(data?.startDate)?.format(DATE_TIME_FORMAT?.DDMYHMA)}
+          {otherDateFormat(data?.startDate, DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box mt={0.2}>
           <PanoramaFishEyeIcon color="primary" fontSize="small" />

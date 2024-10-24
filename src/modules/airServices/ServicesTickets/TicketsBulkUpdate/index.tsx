@@ -1,8 +1,7 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Button, Grid, Box } from '@mui/material';
 import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
-import CloseIcon from '@mui/icons-material/Close';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { AddCircle, Close } from '@mui/icons-material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
@@ -17,8 +16,8 @@ export const TicketsBulkUpdate = () => {
     setIsReplyAdded,
     onClose,
     submitTicketBulkUpdateForm,
-    patchBulkUpdateTicketsStatus,
     isPortalOpen,
+    apiCallInProgress,
   }: any = useTicketBulkUpdate();
 
   return (
@@ -30,18 +29,18 @@ export const TicketsBulkUpdate = () => {
         title={'Bulk Update'}
         submitHandler={handleSubmit(submitTicketBulkUpdateForm)}
         isOk
-        cancelText={'Cancel'}
         footer
-        isLoading={patchBulkUpdateTicketsStatus?.isLoading}
-        isDisabled={patchBulkUpdateTicketsStatus?.isLoading}
-        disabledCancelBtn={patchBulkUpdateTicketsStatus?.isLoading}
+        isLoading={apiCallInProgress}
+        isDisabled={apiCallInProgress}
+        disabledCancelBtn={apiCallInProgress}
       >
         {!isReplyAdded && (
           <Button
             variant="text"
             sx={{ backgroundColor: 'primary.lighter' }}
             onClick={() => setIsReplyAdded(true)}
-            startIcon={<AddCircleIcon />}
+            startIcon={<AddCircle />}
+            className="small"
           >
             Add Reply
           </Button>
@@ -49,37 +48,32 @@ export const TicketsBulkUpdate = () => {
         <br />
         <FormProvider methods={methodsBulkUpdateForm}>
           {isReplyAdded && (
-            <>
-              <Box
-                padding={1.25}
-                borderRadius={2}
-                sx={{ backgroundColor: theme?.palette?.primary?.lighter }}
-              >
-                <Box display={'flex'} justifyContent={'space-between'}>
-                  <Box sx={{ flex: 1 }}></Box>
-                  <Box
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => setIsReplyAdded(false)}
-                  >
-                    <CloseIcon />
-                  </Box>
-                </Box>
-                <Grid container spacing={1.5}>
-                  {ticketsBulkUpdateAddReplyFormFieldsData?.map(
-                    (form: ReactHookFormFieldsI) => {
-                      return (
-                        <Grid item xs={12} key={form?.id}>
-                          <form.component
-                            {...form?.componentProps}
-                            size="small"
-                          />
-                        </Grid>
-                      );
-                    },
-                  )}
-                </Grid>
+            <Box
+              padding={1.25}
+              borderRadius={2}
+              sx={{ backgroundColor: theme?.palette?.primary?.lighter }}
+            >
+              <Box textAlign={'right'}>
+                <Close
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => setIsReplyAdded(false)}
+                />
               </Box>
-            </>
+              <Grid container spacing={1.5}>
+                {ticketsBulkUpdateAddReplyFormFieldsData?.map(
+                  (form: ReactHookFormFieldsI) => {
+                    return (
+                      <Grid item xs={12} key={form?.id}>
+                        <form.component
+                          {...form?.componentProps}
+                          size="small"
+                        />
+                      </Grid>
+                    );
+                  },
+                )}
+              </Grid>
+            </Box>
           )}
           <br />
           <Grid container spacing={1.5}>

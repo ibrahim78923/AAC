@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export const useSalesWorkflow = () => {
   const { push } = useRouter();

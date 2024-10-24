@@ -26,21 +26,21 @@ export const defaultValues = () => {
 export const validationSchema = Yup?.object()?.shape({
   chartTitle: Yup?.string()
     ?.trim()
-    ?.required('Chart Title is required')
+    ?.required('Chart title is required')
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
     ),
   tableTitle: Yup?.string()
     ?.trim()
-    ?.required('Table Title is required')
+    ?.required('Table title is required')
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
     ),
   textTitle: Yup?.string()
     ?.trim()
-    ?.required('Text Title is required')
+    ?.required('Text title is required')
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
@@ -864,7 +864,11 @@ export const templateList = [
     title: 'Forecast Analytics',
     chartType: CHARTS?.HORIZONTAL_BAR_CHART,
     type: CHARTS?.TEMPLATE_HORIZONTAL_CHART,
-    xAxis: { label: 'Goal Status', value: 'goal_status', ref: null },
+    xAxis: {
+      label: 'Goals Pipelines',
+      value: 'goals_pipelineId',
+      ref: COLLECTION_NAME?.FORECAST_PIPELINES,
+    },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.FORECAST,
@@ -872,10 +876,10 @@ export const templateList = [
   },
   {
     id: '64',
-    title: 'Over Time',
+    title: 'Comparison',
     chartType: CHARTS?.BAR_CHART,
     type: CHARTS?.TEMPLATE_BAR_CHART,
-    xAxis: { label: 'Goal Status', value: 'goal_status', ref: null },
+    xAxis: { label: 'Goal Name', value: 'goalName', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.FORECAST,
@@ -883,37 +887,35 @@ export const templateList = [
   },
   {
     id: '65',
-    title: 'Comparison',
-    chartType: CHARTS?.BAR_CHART,
-    type: CHARTS?.TEMPLATE_BAR_CHART,
-    xAxis: { label: 'Target', value: 'target', ref: null },
-    subFilter: true,
-    match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.FORECAST,
-    description: 'Visualize your data',
-  },
-  {
-    id: '66',
     title: 'Overview',
-    tableColumns: ['salesPipelineId', 'userId', 'goalStatus', 'target'],
+    tableColumns: [
+      'goalName',
+      'goalPipelineId',
+      'target',
+      'status',
+      'duration',
+    ],
     templateColumnsData: [
       {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'salesPipelineId',
-        collectionName: COLLECTION_NAME?.SALES_PIPELINES,
-      },
-      {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'users',
-        collectionName: COLLECTION_NAME?.USERS,
-      },
-      {
         fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'goalStatus',
+        fieldName: 'goalName',
+      },
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'goalPipelineId',
+        collectionName: COLLECTION_NAME?.FORECAST_PIPELINES,
       },
       {
         fieldType: FIELD_TYPE?.STRING,
         fieldName: 'target',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'status',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'duration',
       },
     ],
     match: 'table',

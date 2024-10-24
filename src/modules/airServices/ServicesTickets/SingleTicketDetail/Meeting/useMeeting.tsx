@@ -3,12 +3,13 @@ import { meetingCardsDetails } from './Meeting.data';
 import { useEffect, useState } from 'react';
 import { MEETINGS_DETAILS_TYPE, ROUTER_CONSTANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
 import {
   useDeleteMeetingsMutation,
   useLazyGetMeetingsListQuery,
 } from '@/services/commonFeatures/meetings';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useMeeting = () => {
   const theme = useTheme();

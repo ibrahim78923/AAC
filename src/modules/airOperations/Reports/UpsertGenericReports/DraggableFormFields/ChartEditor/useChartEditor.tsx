@@ -1,5 +1,4 @@
 import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
-import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useEffect } from 'react';
 import {
@@ -18,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
 import useAuth from '@/hooks/useAuth';
+import { successSnackbar } from '@/lib/snackbar';
 
 export const useChartEditor = (props: ChartEditorI) => {
   const {
@@ -112,6 +112,7 @@ export const useChartEditor = (props: ChartEditorI) => {
     SALES_PIPELINES_ID: 'sales_pipelinesId',
     USERS: 'usersId',
     CONTRACT_TYPE: 'contractType',
+    GOALS_PIPELINE_ID: 'goals_pipelineId',
   };
 
   const getSingleFieldDropdown = () => {
@@ -150,6 +151,8 @@ export const useChartEditor = (props: ChartEditorI) => {
         return usersDropdown;
       case xAxesFields?.CONTRACT_TYPE:
         return contractTypeDropdown;
+      case xAxesFields?.GOALS_PIPELINE_ID:
+        return dealsDropdown;
       default:
         return [];
     }

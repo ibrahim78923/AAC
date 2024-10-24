@@ -2,10 +2,10 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import { useHeader } from './useHeader';
 import { loyaltyProgramUsersActionComponent } from './Header.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = () => {
   const {
@@ -27,7 +27,7 @@ export const Header = () => {
       >
         <PermissionsGuard
           permissions={[
-            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.SEARCH_RECORD,
+            AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.SEARCH_DETAILS,
           ]}
         >
           <Box>
@@ -37,9 +37,7 @@ export const Header = () => {
         <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
           <PermissionsGuard
             permissions={[
-              AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.DELETE_USER,
-              AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.EDIT_USER,
-              AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.VIEW_USER_DETAIL,
+              AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_OR_DELETE_USER,
             ]}
           >
             <SingleDropdownButton
@@ -47,14 +45,20 @@ export const Header = () => {
               disabled={!!!selectedUsersLists?.length}
             />
           </PermissionsGuard>
-          <Button
-            className="small"
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={openAddUserPortal}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
+            ]}
           >
-            Add User
-          </Button>
+            <Button
+              className="small"
+              variant="contained"
+              startIcon={<AddWhiteBgIcon />}
+              onClick={openAddUserPortal}
+            >
+              Add User
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&

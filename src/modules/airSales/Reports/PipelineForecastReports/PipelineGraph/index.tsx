@@ -3,7 +3,7 @@ import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 import usePipelineGraph from './usePipelineGraph';
 import usePipelineForcastReports from '@/modules/airSales/Reports/PipelineForecastReports/usePipelineForcastReports';
 
-const CardAndGraphs = ({ activeCard }: any) => {
+const CardAndGraphs = ({ activeCard, pipelineForecastData }: any) => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
@@ -13,7 +13,7 @@ const CardAndGraphs = ({ activeCard }: any) => {
   const { activeCardObj } = usePipelineForcastReports();
   return (
     <>
-      <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box
             sx={{
@@ -31,10 +31,10 @@ const CardAndGraphs = ({ activeCard }: any) => {
               </Typography>
             </Box>
             <ReactApexChart
-              options={cardWiseOptions(activeCard)}
-              series={cardWiseSeries(activeCard)}
+              options={cardWiseOptions(activeCard, pipelineForecastData)}
+              series={cardWiseSeries(activeCard, pipelineForecastData)}
               type="bar"
-              height={400}
+              height={800}
             />
             <Box display="flex" justifyContent="center">
               {activeCard === activeCardObj?.TOTAL ? (

@@ -1,17 +1,15 @@
 import * as yup from 'yup';
-import {
-  RHFAutocompleteAsync,
-  RHFDatePicker,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import { PAGINATION } from '@/config';
+import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { localeDateTime } from '@/utils/dateTime';
-import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { localeDateTime } from '@/lib/date-time';
+import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import GetPurchaseOrderLocationDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderLocationDropdown';
+import GetPurchaseOrderDepartmentDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
+import GetPurchaseOrderVendorDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderVendorDropdown';
 
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
@@ -41,7 +39,10 @@ const purchaseDetailSchema = yup?.object()?.shape({
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
     ?.required('Tax is required'),
-  total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
+  total: yup
+    ?.number()
+    ?.positive(REGEX?.NON_BREAKING_SPACE)
+    ?.typeError(REGEX?.NON_BREAKING_SPACE),
 });
 
 export const validationSchema: any = (form: any) => {
@@ -127,11 +128,7 @@ export const defaultValues = (data?: any, form?: any) => {
   };
 };
 
-export const newPurchaseFieldsFunction = (
-  departmentApiQuery: any,
-  locationApiQuery: any,
-  vendorApiQuery: any,
-) => [
+export const newPurchaseFieldsFunction = () => [
   {
     id: 1,
     component: RHFTextField,
@@ -163,32 +160,13 @@ export const newPurchaseFieldsFunction = (
   },
   {
     id: 3,
-    component: RHFAutocompleteAsync,
+    component: GetPurchaseOrderVendorDropdown,
     gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'vendor',
-      label: 'Vendor',
-      placeholder: 'Select Vendor',
-      apiQuery: vendorApiQuery,
-      externalParams: {
-        meta: false,
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-      },
-      required: true,
-    },
   },
   {
     id: 5,
-    componentProps: {
-      fullWidth: true,
-      name: 'department',
-      label: 'Department',
-      apiQuery: departmentApiQuery,
-      placeholder: 'Select Department',
-    },
     gridLength: 6,
-    component: RHFAutocompleteAsync,
+    component: GetPurchaseOrderDepartmentDropdown,
   },
   {
     id: 6,
@@ -204,16 +182,8 @@ export const newPurchaseFieldsFunction = (
   },
   {
     id: 7,
-    componentProps: {
-      fullWidth: true,
-      name: 'location',
-      label: 'Location',
-      apiQuery: locationApiQuery,
-      placeholder: 'Select Location',
-      getOptionLabel: (option: any) => option?.locationName,
-    },
     gridLength: 6,
-    component: RHFAutocompleteAsync,
+    component: GetPurchaseOrderLocationDropdown,
   },
   {
     id: 8,

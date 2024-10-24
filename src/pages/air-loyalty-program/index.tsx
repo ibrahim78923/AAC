@@ -1,6 +1,6 @@
-import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { Dashboard } from '@/modules/airLoyaltyProgram/Dashboard';
+import { Permissions } from '@/constants/permissions';
 
 const AirLoyaltyProgramDashboard = () => <Dashboard />;
 

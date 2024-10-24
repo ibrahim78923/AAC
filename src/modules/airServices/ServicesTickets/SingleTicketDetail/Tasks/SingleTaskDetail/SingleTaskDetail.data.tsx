@@ -4,7 +4,7 @@ import { styles } from './SingleTaskDetail.styles';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TASK_STATUS } from '@/constants/strings';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
-import { otherDateFormat } from '@/utils/dateTime';
+import { otherDateFormat } from '@/lib/date-time';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 

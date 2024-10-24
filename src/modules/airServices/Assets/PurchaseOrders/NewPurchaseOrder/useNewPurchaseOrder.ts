@@ -7,20 +7,14 @@ import {
 } from './NewPurchaseOrder.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import {
   useGetAirServicesAssetsPurchaseOrderByIdQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery,
-  useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery,
   usePatchAirServicesAssetsPurchaseOrderMutation,
   usePostAirServicesAssetsPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -31,7 +25,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -86,13 +80,6 @@ const useNewPurchaseOrders = () => {
     resolver: yupResolver(validationSchema?.(form)),
     defaultValues: defaultValues?.(),
   });
-
-  const apiQueryDepartment =
-    useLazyGetAirServicesAssetsPurchaseOrderDepartmentDropdownQuery();
-  const apiQueryLocations =
-    useLazyGetAirServicesAssetsPurchaseOrderLocationsDropdownQuery();
-  const apiQueryVendor: any =
-    useLazyGetAirServicesAssetsPurchaseOrderVendorDropdownQuery();
 
   const { watch, reset } = methods;
   const vendorValue = watch('vendor');
@@ -204,11 +191,7 @@ const useNewPurchaseOrders = () => {
     reset();
   };
 
-  const newPurchaseFields = newPurchaseFieldsFunction(
-    apiQueryDepartment,
-    apiQueryLocations,
-    apiQueryVendor,
-  );
+  const newPurchaseFields = newPurchaseFieldsFunction();
 
   useEffect(() => {
     if (singlePurchaseOrder?.data) {

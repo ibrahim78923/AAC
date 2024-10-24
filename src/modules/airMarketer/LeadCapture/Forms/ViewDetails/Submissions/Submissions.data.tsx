@@ -1,17 +1,23 @@
-import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFSwitchableDatepicker,
+} from '@/components/ReactHookForm';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { CustomerI } from './Submissions.interface';
 
-export const submissionsArray = (customers: CustomerI[]) => [
+export const submissionsArray = (customers: any, formId: string) => [
   {
     componentProps: {
       name: 'customer',
       label: 'Customer',
-      select: true,
+      placeholder: 'Select Customer',
+      apiQuery: customers,
+      getOptionLabel: (option: any) => option?.email,
+      externalParams: {
+        id: formId,
+      },
     },
-    options: customers,
-    component: RHFSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -28,7 +34,7 @@ export const submissionsArray = (customers: CustomerI[]) => [
 export const columns: any = () => {
   return [
     {
-      accessorFn: (row: any) => row?.submission?.email,
+      accessorFn: (row: any) => row?.submission?.emailAddress,
       id: 'email',
       header: 'Email',
       isSortable: true,

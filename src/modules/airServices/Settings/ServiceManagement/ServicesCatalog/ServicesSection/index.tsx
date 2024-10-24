@@ -7,8 +7,10 @@ import { pxToRem } from '@/utils/getFontValue';
 import { Avatar, Box, Checkbox, Grid, Typography } from '@mui/material';
 import { getServicesSectionDataArray } from './ServicesSection.data';
 import ActionButton from './ActionButton';
+import { AIR_SERVICES } from '@/constants/routes';
+import { useRouter } from 'next/router';
 
-export default function ServiceSection(props: any) {
+const ServiceSection = (props: any) => {
   const {
     isLoading,
     isFetching,
@@ -18,6 +20,7 @@ export default function ServiceSection(props: any) {
     isAnyCheckboxSelected,
   } = props;
 
+  const router = useRouter();
   return (
     <PermissionsGuard
       permissions={[
@@ -74,7 +77,6 @@ export default function ServiceSection(props: any) {
                   </Box>
                 </Box>
               </Grid>
-
               {results?.map((result: any) => (
                 <Grid item xs={12} md={6} lg={4} key={result?._id}>
                   <Box
@@ -87,6 +89,17 @@ export default function ServiceSection(props: any) {
                     flexDirection={'column'}
                     gap={1}
                     p={1}
+                    sx={{ cursor: 'pointer' }}
+                    onClick={(e) => {
+                      e?.stopPropagation();
+                      router?.push({
+                        pathname: AIR_SERVICES?.UPSERT_SERVICE,
+                        query: {
+                          serviceId: result?._id,
+                          categoryId: result?.serviceCategory,
+                        },
+                      });
+                    }}
                   >
                     <Box display={'flex'} gap={2} alignItems={'center'}>
                       <Checkbox
@@ -95,7 +108,11 @@ export default function ServiceSection(props: any) {
                             (item: any) => item === result?._id,
                           )
                         }
+                        onClick={(e) => {
+                          e?.stopPropagation();
+                        }}
                         onChange={(e: any) => {
+                          e?.stopPropagation();
                           e?.target?.checked
                             ? setSelectedCheckboxes([
                                 ...selectedCheckboxes,
@@ -111,7 +128,11 @@ export default function ServiceSection(props: any) {
                       />
 
                       <Avatar
-                        sx={{ height: 50, width: 50, bgcolor: 'primary.main' }}
+                        sx={{
+                          height: 50,
+                          width: 50,
+                          bgcolor: 'primary.main',
+                        }}
                         src={generateImage(result?.attachmentDetails?.fileUrl)}
                         variant={'rounded'}
                       >
@@ -128,19 +149,18 @@ export default function ServiceSection(props: any) {
                       {result?.itemName ?? '---'}
                     </Typography>
 
-                    {Object.entries(getServicesSectionDataArray(result))?.map(
-                      ([key, value]: any) => (
-                        <Typography
-                          variant={'subtitle2'}
-                          color={'custom.main'}
-                          fontWeight={400}
-                          textTransform={'capitalize'}
-                          key={key}
-                        >
-                          {key}: {value}
-                        </Typography>
-                      ),
-                    )}
+                    {Object?.entries(
+                      getServicesSectionDataArray(result ?? {}),
+                    )?.map(([key, value]: any) => (
+                      <Typography
+                        variant={'body3'}
+                        color={'custom.main'}
+                        textTransform={'capitalize'}
+                        key={key}
+                      >
+                        {key}: {value}
+                      </Typography>
+                    ))}
                   </Box>
                 </Grid>
               ))}
@@ -152,4 +172,6 @@ export default function ServiceSection(props: any) {
       )}
     </PermissionsGuard>
   );
-}
+};
+
+export default ServiceSection;

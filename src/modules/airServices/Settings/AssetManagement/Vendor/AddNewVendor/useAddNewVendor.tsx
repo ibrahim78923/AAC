@@ -11,11 +11,8 @@ import {
 } from '@/services/airServices/settings/asset-management/vendor';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -26,7 +23,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { IVendorProps } from '../Vendor.interface';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 export const useAddNewVendor = (props: IVendorProps) => {
   const router = useRouter();

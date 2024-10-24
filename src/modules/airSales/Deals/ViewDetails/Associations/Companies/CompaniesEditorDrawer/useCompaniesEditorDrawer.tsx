@@ -31,9 +31,9 @@ const useCompaniesEditorDrawer = ({
     limit: PAGINATION?.PAGE_LIMIT,
     meta: false,
   };
-  const { data: getAllCompanies } = useGetAllCompaniesQuery(companyParams);
+  const { data: getAllCompaniesData } = useGetAllCompaniesQuery(companyParams);
 
-  const overAllCompaniesData = getAllCompanies?.companies;
+  const overAllCompaniesData = getAllCompaniesData?.companies;
 
   const companyOptions = overAllCompaniesData?.map((item: any) => ({
     value: item?._id,

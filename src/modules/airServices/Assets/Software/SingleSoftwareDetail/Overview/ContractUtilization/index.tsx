@@ -1,71 +1,43 @@
-import { PieChart } from '@mui/x-charts/PieChart';
-import { StyledText, styles } from './ContractUtilization.style';
+import { styles } from './ContractUtilization.style';
 import { Box, Skeleton, Typography } from '@mui/material';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useContractUtilization } from './useContractUtilization';
-import { ContractUtilizationI } from './ContractUtilization.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { CustomChart } from '@/components/Chart';
+import NoData from '@/components/NoData';
 
-function ContractUtilization(props: ContractUtilizationI) {
+function ContractUtilization() {
   const {
-    contractUtilizationData,
     theme,
-    contractUtilizationLabel,
     isLoading,
     isError,
     data,
-    transformDataIfAllZero,
-    width,
-    height,
-    left,
-    top,
     isFetching,
-  } = useContractUtilization(props);
+    options,
+    contractUtilizationChartData,
+    totalCount,
+  } = useContractUtilization();
+
   return (
     <>
       <Box sx={styles?.mainBox(theme)}>
-        <Typography sx={styles?.heading}>
-          {contractUtilizationLabel?.heading}
-        </Typography>
+        <Typography sx={styles?.heading}>Contract Utilization</Typography>
         {isLoading || isFetching ? (
           <Box p={2}>
             <Skeleton height={250} />
           </Box>
         ) : isError ? (
           <ApiErrorState />
+        ) : totalCount === 0 ? (
+          <NoData height="70%" />
         ) : (
-          <PieChart
-            series={[
-              {
-                data: transformDataIfAllZero(contractUtilizationData),
-                cx: styles?.alignGraph?.cx,
-                cy: styles?.alignGraph?.cy,
-                innerRadius: styles?.alignGraph?.innerRadius,
-                outerRadius: styles?.alignGraph?.outerRadius,
-                paddingAngle: styles?.alignGraph?.paddingAngle,
-                cornerRadius: styles?.alignGraph?.cornerRadius,
-                startAngle: styles?.alignGraph?.startAngle,
-                endAngle: styles?.alignGraph?.endAngle,
-              },
-            ]}
-            sx={styles?.chart}
-            legend={{ hidden: true }}
-            width={370}
-            height={280}
-          >
-            <StyledText
-              x={left + width / styles?.alignGraph?.numberLabelX}
-              y={top + height / styles?.alignGraph?.numberLabelY}
-            >
-              {data?.data?.[ARRAY_INDEX?.ZERO]?.contractUtilization}
-            </StyledText>
-            <StyledText
-              x={left + width / styles?.alignGraph?.textLabelX}
-              y={top + height / styles?.alignGraph?.textLabelY}
-            >
-              {contractUtilizationLabel?.textLabel}
-            </StyledText>
-          </PieChart>
+          <CustomChart
+            options={options}
+            series={contractUtilizationChartData}
+            type={'radialBar'}
+            width={390}
+            height={310}
+          />
         )}
         <Box sx={styles?.footerBox}>
           <Box sx={styles?.footerTypographyBox(theme)}>

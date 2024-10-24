@@ -28,7 +28,7 @@ export const InstallationHeader: React.FC<InstallationHeaderI> = (props) => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Box>
+        <Box ml={0.5}>
           <Search label="Search Here" setSearchBy={handleSearch} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>

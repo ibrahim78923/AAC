@@ -7,7 +7,7 @@ import {
   usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export default function useDeals({ setIsDrawerOpen }: any) {
   const router = useRouter();

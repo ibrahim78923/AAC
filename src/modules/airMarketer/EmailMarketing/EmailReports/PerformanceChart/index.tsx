@@ -1,15 +1,16 @@
 import { useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
+import { getCategories } from '..';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const PerformanceChart = (performanceData: any) => {
+const PerformanceChart = ({ performanceData, calenderUnit }: any) => {
   const theme = useTheme();
   const [chartData, setChartData] = useState<any>(null);
 
-  const data = performanceData?.performanceData;
+  const data = performanceData;
 
   useEffect(() => {
     if (Array.isArray(data) && data.length > 0) {
@@ -17,11 +18,11 @@ const PerformanceChart = (performanceData: any) => {
       const openedData = data?.map((entry) => entry?.open || 0);
       const unreadData = data?.map((entry) => entry?.unread || 0);
       const blockedData = data?.map((entry) => entry?.complaint || 0);
-      const unDeliveredData = data?.map(
-        (entry) => entry?.send - entry?.delivered || 0,
+      const unDeliveredData = data?.map((entry) =>
+        Math.max(entry?.send - entry?.delivered || 0, 0),
       );
 
-      const categories = data?.map((entry) => entry?._id || '');
+      const categories = getCategories(data, calenderUnit);
 
       setChartData({
         series: [

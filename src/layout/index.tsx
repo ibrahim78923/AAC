@@ -2,6 +2,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import DashboardLayout from './MainDashboard';
 import CustomerPortalLayout from './CustomerPortal';
+import PreventBackNavigation from '@/components/PreventBackNavigation';
 
 export default function Layout({
   variant = 'dashboard',
@@ -9,13 +10,6 @@ export default function Layout({
   children,
   permissions,
 }: any) {
-  // let childrenEl: any ;
-
-  // if (permissions)
-  //   childrenEl = (
-  //     <PermissionsGuard permissions={permissions}>{children}</PermissionsGuard>
-  //   );
-
   let layout = null;
 
   switch (variant) {
@@ -24,7 +18,7 @@ export default function Layout({
         <AuthGuard>
           <DashboardLayout>
             <PermissionsGuard isPage={true} permissions={permissions}>
-              {children}
+              <PreventBackNavigation /> {children}
             </PermissionsGuard>
           </DashboardLayout>
         </AuthGuard>
@@ -34,7 +28,12 @@ export default function Layout({
       layout = <DashboardLayout>{children}</DashboardLayout>;
       break;
     case 'customer-portal':
-      layout = <CustomerPortalLayout>{children}</CustomerPortalLayout>;
+      layout = (
+        <CustomerPortalLayout>
+          {' '}
+          <PreventBackNavigation /> {children}
+        </CustomerPortalLayout>
+      );
       break;
     default:
       layout = children;

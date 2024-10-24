@@ -4,11 +4,11 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
 import { TIME_FORMAT } from '@/constants';
 import NoData from '@/components/NoData';
-import { otherDateFormat, uiDateFormat } from '@/utils/dateTime';
 import { TruncateText } from '@/components/TruncateText';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { LogInfo } from '@/components/LogInfo';
 import { fullName } from '@/utils/avatarUtils';
+import { otherDateFormat, uiDateFormat } from '@/lib/date-time';
 
 export const Activities = () => {
   const {

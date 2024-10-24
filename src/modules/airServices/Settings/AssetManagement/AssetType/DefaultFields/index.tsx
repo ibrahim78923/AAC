@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { Box, Grid, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';

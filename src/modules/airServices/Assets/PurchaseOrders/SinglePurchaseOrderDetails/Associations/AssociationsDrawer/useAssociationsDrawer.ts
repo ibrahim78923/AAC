@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   usePostAirServicesRemoveAssociateTicketsMutation,
   useLazyGetServicesPurchaseOrderAssociationTicketsQuery,
@@ -24,7 +24,7 @@ export const useAssociationsDrawer = (props: any) => {
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostAirServicesRemoveAssociateTicketsMutation();
 
-  const tickets = lazyGetTicketsStatus?.data?.data;
+  const tickets = lazyGetTicketsStatus?.data?.data?.tickets;
   const metaData = lazyGetTicketsStatus?.data?.data?.meta;
 
   const getValueTicketsListData = async () => {

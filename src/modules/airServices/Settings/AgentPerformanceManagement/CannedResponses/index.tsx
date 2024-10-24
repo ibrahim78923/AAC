@@ -4,7 +4,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FolderLargePrimaryIcon, FolderLargeYellowIcon } from '@/assets/icons';
 import { CreateNewFolder } from './CreateNewFolder';
 import Search from '@/components/Search';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useCannedResponses } from './useCannedResponses';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

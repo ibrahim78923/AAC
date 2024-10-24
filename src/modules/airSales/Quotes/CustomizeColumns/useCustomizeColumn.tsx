@@ -1,7 +1,7 @@
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
-  useGetCustomizeColumnQuery,
-  usePutCustomizedColumnsMutation,
+  useGetQuotesCustomizeColumnQuery,
+  usePutQuotesCustomizedColumnsMutation,
 } from '@/services/airSales/quotes';
 import { getSession } from '@/utils';
 import { useTheme } from '@mui/material';
@@ -18,7 +18,7 @@ const useCustomizeColumn = ({ onClose }: any) => {
     type: 'quotes',
   };
   const { data: getCustomizeColumns } =
-    useGetCustomizeColumnQuery(columnsParams);
+    useGetQuotesCustomizeColumnQuery(columnsParams);
 
   const columnsData = getCustomizeColumns?.data?.columns;
 
@@ -34,13 +34,13 @@ const useCustomizeColumn = ({ onClose }: any) => {
     items?.splice(result?.destination?.index, 0, reOrderItem);
     setOrder(items);
   };
-  const [putCustomizedColumns, { isLoading: loadingColumns }] =
-    usePutCustomizedColumnsMutation();
+  const [putQuoteCustomizedColumns, { isLoading: loadingColumns }] =
+    usePutQuotesCustomizedColumnsMutation();
 
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
       try {
-        await putCustomizedColumns({
+        await putQuoteCustomizedColumns({
           body: {
             userId: user?._id,
             type: 'quotes',

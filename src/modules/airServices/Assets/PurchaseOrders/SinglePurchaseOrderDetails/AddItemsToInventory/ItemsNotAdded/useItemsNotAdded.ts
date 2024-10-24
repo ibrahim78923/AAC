@@ -1,5 +1,5 @@
 import { usePostAirServicesAssetsPurchaseOrderDetailsMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 
 export const useItemsNotAdded = (props: any) => {

@@ -129,22 +129,25 @@ export const tableEditorData: any = {
   ],
   FORECAST: [
     {
-      fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'salesPipelineId',
-      collectionName: COLLECTION_NAME?.SALES_PIPELINES,
-    },
-    {
-      fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'userId',
-      collectionName: COLLECTION_NAME?.USERS,
-    },
-    {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'goalStatus',
+      fieldName: 'goalName',
+    },
+    {
+      fieldType: FIELD_TYPE?.OBJECT_ID,
+      fieldName: 'goalPipelineId',
+      collectionName: COLLECTION_NAME?.FORECAST_PIPELINES,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
       fieldName: 'target',
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'status',
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'duration',
     },
   ],
   CAMPAIGN: [

@@ -6,7 +6,7 @@ import {
 } from './SelectAgentsModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
-import { successSnackbar } from '@/utils/api';
+import { successSnackbar } from '@/lib/snackbar';
 import { useLazyGetAirServicesSettingsCannedResponseAgentsQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import useAuth from '@/hooks/useAuth';
 
@@ -21,7 +21,7 @@ export const useSelectAgentsModal = (props: any) => {
 
   const auth: any = useAuth();
 
-  const { _id: productId } = auth?.product;
+  const productId = auth?.product?._id ?? {};
 
   const apiQueryAgents =
     useLazyGetAirServicesSettingsCannedResponseAgentsQuery();

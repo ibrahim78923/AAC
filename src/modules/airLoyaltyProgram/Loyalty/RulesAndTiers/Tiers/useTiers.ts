@@ -1,48 +1,20 @@
 import { PAGINATION } from '@/config';
-import { useLazyGetTiersListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
-import { useEffect, useState } from 'react';
-import { tiersColumnsDynamic } from './Tiers.data';
-import { getActivePermissionsSession } from '@/utils';
+import { useAppDispatch } from '@/redux/store';
+import { setSearch } from '@/redux/slices/airLoyaltyProgram/tiers/slice';
 
 export const useTiers = () => {
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState('');
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-  const overallPermissions = getActivePermissionsSession();
+  const dispatch = useAppDispatch();
 
-  const [lazyGetTiersListTrigger, lazyGetTiersListStatus]: any =
-    useLazyGetTiersListQuery?.();
-
-  const getTiersList = async () => {
-    const apiDataParameter = {
-      queryParams: {
-        page,
-        limit: pageLimit,
-        search,
-      },
-    };
-    try {
-      await lazyGetTiersListTrigger?.(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+  const handleSetSearch = (newSearch: any) => {
+    dispatch(
+      setSearch<any>({
+        searchTerm: newSearch,
+        page: PAGINATION?.CURRENT_PAGE,
+      }),
+    );
   };
 
-  useEffect(() => {
-    getTiersList?.();
-  }, [page, search, pageLimit]);
-
-  const tiersColumns = tiersColumnsDynamic?.(
-    setIsPortalOpen,
-    overallPermissions,
-  );
-
   return {
-    setSearch,
-    setPageLimit,
-    setPage,
-    lazyGetTiersListStatus,
-    tiersColumns,
-    isPortalOpen,
-    setIsPortalOpen,
+    handleSetSearch,
   };
 };

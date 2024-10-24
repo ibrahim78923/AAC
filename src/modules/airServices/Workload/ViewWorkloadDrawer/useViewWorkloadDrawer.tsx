@@ -1,8 +1,8 @@
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usePatchTaskMutation } from '@/services/airServices/workload';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   defaultValues,
   overviewDataArray,
@@ -19,7 +19,8 @@ export default function useViewWorkloadDrawer({ onClose, dataGet }: any) {
 
   const { handleSubmit } = methods;
 
-  const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
+  const [patchTaskTrigger, patchTaskStatus] =
+    usePatchAirServicesWorkloadTaskMutation();
 
   const overviewData = overviewDataArray(dataGet?.extendedProps);
 

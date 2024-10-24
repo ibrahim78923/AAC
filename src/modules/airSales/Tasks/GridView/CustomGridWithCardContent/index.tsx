@@ -1,5 +1,5 @@
 import { Box, Checkbox, Grid, Typography } from '@mui/material';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { CustomBox } from '../CustomBox';
 import { style } from './CustomGridWithCardContent.style';
 import { CustomGridWithCardI } from './CustomGridWithCard.interface';
@@ -32,7 +32,7 @@ export const CustomGridWithCardContent = ({
         <Box sx={style?.cardTitle}>{title}</Box>
         <Box sx={style?.cardWrapper}>
           {data?.map((obj: any) => (
-            <Box sx={style?.cardContent} key={uuid()}>
+            <Box sx={style?.cardContent} key={uuidv4()}>
               <Box
                 display={'flex'}
                 alignItems={'flex-end'}

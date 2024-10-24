@@ -5,14 +5,7 @@ import {
 } from './FilterInventory.data';
 import { useForm } from 'react-hook-form';
 import usePath from '@/hooks/usePath';
-import {
-  useLazyGetAirServicesAssetsInventoryAssetTypeQuery,
-  useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryUsersDropdownQuery,
-} from '@/services/airServices/assets/inventory';
 import { FilterInventoryI } from './FilterInventory.interface';
-import useAuth from '@/hooks/useAuth';
 import { PAGINATION } from '@/config';
 
 export const useFilterInventory = (props: FilterInventoryI) => {
@@ -24,10 +17,6 @@ export const useFilterInventory = (props: FilterInventoryI) => {
   } = props;
 
   const router = useRouter();
-
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
 
   const methods: any = useForm({
     defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),
@@ -71,25 +60,7 @@ export const useFilterInventory = (props: FilterInventoryI) => {
     setIsDrawerOpen?.(false);
   };
 
-  const apiQueryAssetType =
-    useLazyGetAirServicesAssetsInventoryAssetTypeQuery();
-  const apiQueryUsers =
-    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
-  const apiQueryDepartment =
-    useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery();
-  const apiQueryLocations =
-    useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery();
-  const apiQueryUsersCreatedBy =
-    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
-
-  const inventoryFilterFormFieldsData = inventoryFilterFormFieldsDataFunction(
-    apiQueryDepartment,
-    apiQueryLocations,
-    apiQueryUsers,
-    apiQueryAssetType,
-    apiQueryUsersCreatedBy,
-    productId,
-  );
+  const inventoryFilterFormFieldsData = inventoryFilterFormFieldsDataFunction();
 
   return {
     inventoryFilterFormFieldsData,

@@ -43,6 +43,7 @@ export const END_POINTS = {
   DEALS_ACTION_PREVIEW: '/deals/deal-action-preview/{id}',
   POST_DEALS_VIEW: '/deal-views',
   GET_DEALS_VIEWS: '/deal-views',
+  UPDATE_DEALS_VIEW: '/deal-views/update-deal-view',
   DELETE_DEALS: '/deals/delete-deals',
   RESTORE_DEALS: '/deals/get-soft-deleted-deals',
   QUOTE_SUBMIT_WITH_EMAIL: '/quote/submit-with-email',
@@ -488,6 +489,8 @@ export const END_POINTS = {
   GET_STATS: '/goals/stats',
   GET_DEAL_STAGES_USER: '/goals/users/stage',
   GET_DEAL_STAGES_TEAM: '/goals/teams/stage',
+  GET_PIPELINE_FORECAST_REPORT: '/goals/goal-pipeline-stats',
+  GET_CATEGORY_FORECAST_REPORT: '/goals/goal-forecast-stats',
   GET_FORECAST_CATEGORY_USER: '/goals/users/forecast',
   GET_FORECAST_CATEGORY_TEAM: '/goals/teams/forecast',
   DELETE_SERVICES_DASHBOARD: `/dynamic-dashboard/delete-dashboards`,
@@ -532,6 +535,7 @@ export const END_POINTS = {
     '/air-services-dashboard/dashboard-tickets-customer-portal',
   OPERATIONS_TEAM: '/teams',
   FORECAST: '/forecasts',
+  AIR_LOYALTY_PROGRAM_CONSUMERS_LIST: '',
 };
 
 export const LEAD_CAPTURE_FORM = {

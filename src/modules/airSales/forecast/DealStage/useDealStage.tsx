@@ -93,6 +93,14 @@ const useDealStage = () => {
     },
   );
 
+  const pipelineId = !isNullOrEmpty(filterValues?.pipelines)
+    ? filterValues?.pipelines
+    : statsParams?.pipelines;
+
+  const dealPipelineName = dealPipelineData?.data?.find(
+    (pipeline: any) => pipeline._id === pipelineId,
+  )?.name;
+
   return {
     theme,
     anchorEl,
@@ -127,6 +135,7 @@ const useDealStage = () => {
     DealTeamDataIsError,
     DealTeamDataIsSuccess,
     pipelineIsLoading,
+    dealPipelineName,
   };
 };
 

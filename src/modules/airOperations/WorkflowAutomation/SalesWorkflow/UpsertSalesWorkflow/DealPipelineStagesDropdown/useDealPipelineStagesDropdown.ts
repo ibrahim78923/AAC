@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 export const useDealPipelineStagesDropdown = () => {
-  const { control, setValue } = useFormContext();
+  const { control } = useFormContext();
   const [open, setOpen] = useState(false);
   const [trigger, { data, isLoading, isFetching }]: any =
     useLazyGetDealDropdownListQuery();
@@ -24,7 +24,6 @@ export const useDealPipelineStagesDropdown = () => {
   const theme: any = useTheme();
   return {
     control,
-    setValue,
     open,
     setOpen,
     data,

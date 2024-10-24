@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { giftCardColumnsFunction } from './GiftCards.data';
 import { AddGiftCards } from './AddGiftCards';
 import { GiftCardFilter } from './GiftCardsFilter';
-import { useLazyGetDigitalGiftCardListQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards/digital-gift-card';
 import { PAGINATION } from '@/config';
 import { buildQueryParams } from '@/utils/api';
+import { useLazyGetGiftCardListQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards';
 
 export const useGiftCards = () => {
   const [search, setSearch] = useState('');
@@ -15,7 +15,7 @@ export const useGiftCards = () => {
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const router = useRouter();
   const [lazyGetGiftCardListTrigger, lazyGetGiftCardListStatus]: any =
-    useLazyGetDigitalGiftCardListQuery();
+    useLazyGetGiftCardListQuery();
 
   const getGiftCardList = async () => {
     const additionalParams = [

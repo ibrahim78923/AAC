@@ -2,23 +2,31 @@ import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  ContractReportsCardData,
   ContractReportsChartData,
+  ContractReportsCountData,
   contractsTypeOptions,
 } from './ContractReportsCard.data';
-import { filteredEmptyValues, makeDateTime } from '@/utils/api';
-import { htmlToPdfConvert } from '@/utils/file';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
+import {
+  AUTO_REFRESH_API_POLLING_TIME,
+  AUTO_REFRESH_API_TIME_INTERVAL,
+} from '@/config';
+import { useApiPolling } from '@/hooks/useApiPolling';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
+import { isoDateString } from '@/lib/date-time';
 
 export const useContractReports = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const [hasDate, setHasDate] = useState(false);
-  const [filterDate, setFilterDate] = useState({
+  const [hasDate, setHasDate] = useState<boolean>(false);
+
+  const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
     endDate: null,
   });
+
   const downloadRef = useRef(null);
 
   const methods: any = useForm({
@@ -56,12 +64,16 @@ export const useContractReports = () => {
     isFetching,
     isError,
     refetch,
+    fulfilledTimeStamp,
   }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
     apiDataParameter,
     {
       refetchOnMountOrArgChange: true,
+      pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.REPORTS,
     },
   );
+
+  const apiCallInProgress = isLoading || isFetching;
 
   const handleDownload = async () => {
     if (isLoading || isFetching || isError) return;
@@ -72,20 +84,14 @@ export const useContractReports = () => {
     setLoading(false);
   };
 
-  const contractReportsCardData = ContractReportsCardData(data?.data);
+  const contractReportsCardData = ContractReportsCountData(data?.data);
   const contractReportsChartData = filteredEmptyValues(
     ContractReportsChartData(data?.data),
   );
 
   const onDateFilterSubmit = (setAnchorElDate: any) => {
-    const startDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.startDate),
-      new Date(),
-    )?.toISOString();
-    const endDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.endDate),
-      new Date(),
-    )?.toISOString();
+    const startDate = isoDateString(getValues?.('createdDate')?.startDate);
+    const endDate = isoDateString(getValues?.('createdDate')?.endDate);
     setFilterDate({ startDate, endDate });
     setHasDate?.(true);
     setAnchorElDate?.(null);
@@ -99,6 +105,14 @@ export const useContractReports = () => {
       key: 'selection',
     });
   };
+
+  const props = {
+    isFetching,
+    fulfilledTimeStamp,
+    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS,
+  };
+
+  const { timeLapse } = useApiPolling(props);
 
   return {
     router,
@@ -118,5 +132,7 @@ export const useContractReports = () => {
     isError,
     data,
     getValues,
+    apiCallInProgress,
+    timeLapse,
   };
 };

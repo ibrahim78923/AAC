@@ -1,5 +1,4 @@
 import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -13,6 +12,7 @@ import {
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAssignedTickets = () => {
   const dispatch = useAppDispatch();
@@ -41,7 +41,7 @@ export const useAssignedTickets = () => {
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
+        agent: Yup?.mixed()?.nullable()?.required('Agent is required'),
       }),
     ),
   });

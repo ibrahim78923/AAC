@@ -75,7 +75,15 @@ const CreateDashboardOptions = (props: any) => {
                 width={'100%'}
                 gap={1}
               >
-                <Typography variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '165px',
+                  }}
+                >
                   {capitalizeFirstLetters(dashboard?.name)}
                 </Typography>
                 {dashboard?.isDefault &&

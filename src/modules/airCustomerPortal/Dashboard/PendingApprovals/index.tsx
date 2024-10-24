@@ -4,9 +4,10 @@ import NoData from '@/components/NoData';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ApprovalCard } from '../../Catalog/Approvals/ApprovalCard';
 import { Fragment } from 'react';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { ApprovalsDataI } from '../../Catalog/Approvals/AllApprovals/AllApprovals.interface';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const PendingApprovals = () => {
   const { data, isLoading, isFetching, isError, router, refetch, companyId } =

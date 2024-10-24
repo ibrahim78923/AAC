@@ -1,18 +1,21 @@
 import { NextRouter } from 'next/router';
 import { Checkbox, Chip, LinearProgress } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
-import { AIR_SERVICES, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
-import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
+import {
+  ARRAY_INDEX,
+  FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_PATH_TYPES,
+} from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { TruncateText } from '@/components/TruncateText';
+import { otherDateFormat } from '@/lib/date-time';
 
-export const surveyDataTypes = {
-  customerSupport: 'customer-support',
-};
 const statusColor = (status: string) => {
   switch (status) {
     case FEEDBACK_STATUS?.PUBLISHED:
@@ -135,7 +138,8 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Creation Date',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(
+        otherDateFormat(
+          info?.getValue(),
           `${DATE_TIME_FORMAT?.MMMDDYYYY}, ${TIME_FORMAT?.UI}`,
         ),
     },
@@ -237,7 +241,7 @@ export const feedbackDropdown = (
         router?.push({
           pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
           query: {
-            type: 'customer-support',
+            type: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SUPPORT,
             id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
           },
         });

@@ -1,6 +1,9 @@
 import { UserInfo } from '@/components/UserInfo';
 
-export const transactionsPointsColumns: any = () => [
+export const transactionsPointsColumns: any = (
+  handleVoucherClick: (rowData: any) => void,
+  handleConsumerClick: (rowData: any) => void,
+) => [
   {
     accessorFn: (row: any) => row?.voucher,
     id: 'voucher',
@@ -13,6 +16,7 @@ export const transactionsPointsColumns: any = () => [
         nameInitial={info?.getValue()?.slice(0, 2)}
         nameProps={{ fontWeight: 700 }}
         avatarSize={{ width: 40, height: 40, variant: 'circular' }}
+        handleBoxClick={() => handleVoucherClick(info?.row?.original)}
       />
     ),
   },
@@ -28,6 +32,7 @@ export const transactionsPointsColumns: any = () => [
         nameInitial={info?.getValue()?.slice(0, 2)}
         nameProps={{ fontWeight: 700 }}
         avatarSize={{ width: 40, height: 40, variant: 'circular' }}
+        handleBoxClick={() => handleConsumerClick(info?.row?.original)}
       />
     ),
   },

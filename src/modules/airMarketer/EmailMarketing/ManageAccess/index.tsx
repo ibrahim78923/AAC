@@ -34,10 +34,14 @@ const ManageAccess = ({
   isOpenManageAccessModal,
   handleCloseManageAccessModal,
   selectedRecords,
+  setSelectedRecords,
 }: any) => {
   const theme = useTheme();
+
+  const [accessValue, setAccessValue] = React.useState('');
+
   const methods: any = useForm({
-    resolver: yupResolver(validationSchemaEmailAccess),
+    resolver: yupResolver(validationSchemaEmailAccess(accessValue)),
     defaultValues: defaultValuesEmailAccess,
   });
 
@@ -54,10 +58,17 @@ const ManageAccess = ({
         id: selectedRecords?._id,
         body: {
           visibleTo: values?.access,
-          teamIds: values?.teams?.map((item: any) => item?._id),
-          userAccoutIds: values?.users?.map((item: any) => item?._id),
+          teamIds:
+            values?.access === 'TEAMS'
+              ? values?.teams?.map((item: any) => item?._id)
+              : [],
+          userAccoutIds:
+            values?.access === 'USERS'
+              ? values?.users?.map((item: any) => item?._id)
+              : [],
         },
       })?.unwrap();
+      setSelectedRecords([]);
       handleCloseManageAccessModal();
       enqueueSnackbar('Manage Access Successfully', {
         variant: 'success',
@@ -68,6 +79,10 @@ const ManageAccess = ({
   };
 
   const access = watch('access');
+
+  React.useEffect(() => {
+    if (access) setAccessValue(access);
+  }, [access]);
 
   const apiQueryUsers = useLazyGetAllMarketingUsersQuery?.();
   const apiQueryTeams = useLazyGetAllMarketingTeamsQuery?.();

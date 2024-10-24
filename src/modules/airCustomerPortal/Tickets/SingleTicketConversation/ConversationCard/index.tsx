@@ -7,13 +7,13 @@ import {
   truncateText,
 } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { ShortcutSharpLeftIcon } from '@/assets/icons';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import { ReplySingleTicketConversation } from '../ReplySingleTicketConversation';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { ConversationCardPropsI } from '../useSingleTicketConversation.interface';
 import { CUSTOMER_PORTAL_TICKET_CONVERSATION_ACTIONS } from './ConversationCard.data';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const ConversationCard = (props: ConversationCardPropsI) => {
   const { data, isReplyOpen, setIsReplyOpen, singleTicketData } = props;
@@ -71,7 +71,7 @@ export const ConversationCard = (props: ConversationCardPropsI) => {
               {data?.recipients?.join?.(' ')}
             </Typography>
             <Typography variant="body3" fontWeight={400} color={'grey.900'}>
-              {dayjs()?.format(DATE_TIME_FORMAT?.UI)}
+              {otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.UI)}
             </Typography>
           </Box>
         </Box>

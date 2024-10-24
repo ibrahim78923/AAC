@@ -1,21 +1,23 @@
-export const EmailCradsData = [
-  {
-    reportView: 'Total Send',
-    Values: '3,282',
-  },
-  {
-    reportView: 'Total Activity',
-    Values: '08',
-  },
-  {
-    reportView: 'Total Bounced',
-    Values: '12',
-  },
-  {
-    reportView: 'Total Unsubscribe',
-    Values: '03',
-  },
-];
+export const EmailCardsData = (emailWidgetsData: any) => {
+  return [
+    {
+      reportView: 'Total Send',
+      Values: emailWidgetsData?.send ?? 0,
+    },
+    {
+      reportView: 'Total Activity',
+      Values: emailWidgetsData?.total ?? 0,
+    },
+    {
+      reportView: 'Total Bounced',
+      Values: emailWidgetsData?.bounce ?? 0,
+    },
+    {
+      reportView: 'Total Unsubscribe',
+      Values: emailWidgetsData?.unsubscribe ?? 0,
+    },
+  ];
+};
 
 export const EmailMarketingRateCard = [
   {

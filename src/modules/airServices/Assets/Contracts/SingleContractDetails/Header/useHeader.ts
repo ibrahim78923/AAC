@@ -1,11 +1,11 @@
 import { CONTRACT_STATUS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useGetSingleContractByIdQuery,
   usePatchContractApproveMutation,
   usePatchContractSubmitForApprovalMutation,
 } from '@/services/airServices/assets/contracts';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -25,9 +25,12 @@ export const useHeader = () => {
 
   const { contractId } = router?.query;
 
-  const [patchContractSubmitApprovalTrigger] =
-    usePatchContractSubmitForApprovalMutation();
-  const [patchContractApproveTrigger] = usePatchContractApproveMutation();
+  const [
+    patchContractSubmitApprovalTrigger,
+    patchContractSubmitApprovalProcess,
+  ] = usePatchContractSubmitForApprovalMutation();
+  const [patchContractApproveTrigger, patchContractApproveProcess] =
+    usePatchContractApproveMutation();
 
   const getSingleContractParameter = {
     pathParam: {
@@ -88,5 +91,7 @@ export const useHeader = () => {
     handleSubmitForApprove,
     handleClickOpen,
     user,
+    patchContractSubmitApprovalProcess,
+    patchContractApproveProcess,
   };
 };

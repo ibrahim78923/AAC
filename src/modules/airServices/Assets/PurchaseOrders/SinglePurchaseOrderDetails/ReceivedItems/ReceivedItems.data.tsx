@@ -1,4 +1,5 @@
 import { RHFTextField } from '@/components/ReactHookForm';
+import { TruncateText } from '@/components/TruncateText';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
@@ -56,7 +57,7 @@ export const itemDetailFormFieldsFunction = (
   return [
     {
       id: 1,
-      data: <Typography variant="body3">{item?.itemName}</Typography>,
+      data: <TruncateText text={item?.itemName} size={10} />,
     },
     {
       id: 2,

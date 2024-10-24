@@ -16,7 +16,7 @@ export const styles = {
     maxWidth: '25rem',
     width: '100%',
     height: '25rem',
-    radius: '.5rem',
+    borderRadius: '.5rem',
     '@media screen and (max-width: 30rem)': {
       maxWidth: '18.7rem',
     },
@@ -68,7 +68,7 @@ export const styles = {
     textAlign: 'center',
     width: '1.5rem',
     height: '1.5rem',
-    backgroundColor: theme.palette.primary?.light,
+    backgroundColor: theme?.palette?.primary?.light,
     borderRadius: '.2rem',
   }),
 };

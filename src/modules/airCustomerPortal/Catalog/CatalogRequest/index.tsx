@@ -25,6 +25,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
     handleClose,
     postTicketStatus,
     portalStyles,
+    requestForSomeOne,
   } = useCatalogRequest(props);
 
   return (
@@ -55,7 +56,11 @@ export const CatalogRequest = (props: CatalogRequestI) => {
           <Grid container>
             {catalogRequestFormField?.map((item: ReactHookFormFieldsI) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
+                <item.component
+                  {...item?.componentProps}
+                  size={'small'}
+                  requestForSomeOne={requestForSomeOne}
+                />
               </Grid>
             ))}
           </Grid>

@@ -6,20 +6,14 @@ import { Avatar, Grid, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import NoData from '@/components/NoData';
 import useViewContact from './useViewContact';
+import { formFields } from './ViewContact.data';
 
 export default function ViewContact({ modalId, setModalId }: any) {
-  const {
-    onClose,
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    methodsNewContact,
-    formFields,
-  } = useViewContact({
-    modalId,
-    setModalId,
-  });
+  const { onClose, data, isLoading, isFetching, isError, methodsNewContact } =
+    useViewContact({
+      modalId,
+      setModalId,
+    });
 
   return (
     <CommonDrawer

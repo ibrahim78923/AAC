@@ -1,8 +1,7 @@
 import { UserInfo } from '@/components/UserInfo';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const singleRewardDetailsColumnsDynamic = () => [
   {
@@ -43,6 +42,6 @@ export const singleRewardDetailsColumnsDynamic = () => [
     id: 'dateAndTime',
     isSortable: true,
     header: 'Created at',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

@@ -8,7 +8,10 @@ import {
   ticketOptions,
   existingTicketDataArray,
 } from './TicketsEditorDrawer.data';
-import { DRAWER_TYPES, ROLES_ACTION_CONSTANTS } from '@/constants/strings';
+import {
+  DRAWER_ACTIONS_TITLES,
+  ROLES_ACTION_CONSTANTS,
+} from '@/constants/strings';
 import { TICKETS_TYPE } from '@/constants';
 import { TicketsEditorDrawerProps } from '../../Associations-interface';
 
@@ -60,7 +63,9 @@ const TicketsEditorDrawer = (props: TicketsEditorDrawerProps) => {
                     {...item?.componentProps}
                     size={'small'}
                     disabled={
-                      openDrawer?.type === DRAWER_TYPES?.VIEW ? true : false
+                      openDrawer?.type === DRAWER_ACTIONS_TITLES?.VIEW
+                        ? true
+                        : false
                     }
                   />
                 </Grid>

@@ -1,8 +1,7 @@
-// import { useDeleteEnquiriesMutation } from '@/services/airServices/enquiries';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { IChildModalState } from '../Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useDeleteServicesEnquiriesMutation } from '@/services/airServices/enquiries';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteEnquiry = ({
   isModalOpen,

@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ARTICLE_STATUS } from '@/constants/strings';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 
 export default function Quotes({ theme, dealQuotes }: any) {
   return (

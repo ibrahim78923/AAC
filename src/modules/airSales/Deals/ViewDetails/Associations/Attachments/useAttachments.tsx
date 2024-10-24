@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
 import {
   useDeleteAssociationMutation,
@@ -20,6 +19,7 @@ const useAttachments = (dealId: any) => {
   const [isOpenAlert, setIsOpenAlert] = useState(false);
 
   const attachmentParams = {
+    search: searchName,
     recordId: dealId,
     recordType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
     associationType: ASSOCIATIONS_API_PARAMS_FOR?.ATTACHMENTS,

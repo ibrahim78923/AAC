@@ -274,7 +274,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['CONTACTS_STATUS'],
     }),
 
-    getDealPipeLine: builder.query({
+    getCommonDealPipeLine: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
         method: 'GET',
@@ -286,7 +286,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['DEALS_PIPELINE'],
     }),
 
-    getDeals: builder.query({
+    getCommonDealsList: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.DEALS_LIST_VIEW}`,
         method: 'GET',
@@ -298,7 +298,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['DEALS'],
     }),
 
-    getAllCompanies: builder.query({
+    getCommonAllCompanies: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.COMPANY}`,
         method: 'GET',
@@ -350,6 +350,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: SMS_MARKETING,
     }),
+
+    getAllUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_USERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['USERS_DROPDOWN'],
+    }),
   }),
 });
 
@@ -373,10 +385,10 @@ export const {
   useGetActiveProductsQuery,
   useLazyGetLifeCycleStagesQuery,
   useLazyGetContactsStatusDropdownQuery,
-  useLazyGetDealPipeLineQuery,
-  useLazyGetDealsQuery,
+  useLazyGetCommonDealPipeLineQuery,
+  useLazyGetCommonDealsListQuery,
   useLazyGetCompanyContactsListQuery,
-  useLazyGetAllCompaniesQuery,
+  useLazyGetCommonAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
   useLazyGetAllWhatsAppTemplateListQuery,
   useLazyGetAllUsersQuery,
@@ -386,4 +398,6 @@ export const {
   useGetContactsListQuery,
   useLazyGetAllDropdownProductsQuery,
   useGetEmailExistQuery,
+  useLazyGetAllUsersDropdownQuery,
+  useGetAllUsersDropdownQuery,
 } = CommonAPIS;

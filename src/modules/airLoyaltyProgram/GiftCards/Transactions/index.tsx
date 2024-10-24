@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { UserList, transactionTableData } from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
@@ -10,10 +10,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TransactionFilter } from './TransactionFilter';
 
 export const Transactions = () => {
-  const theme = useTheme();
   const {
     search,
-    setSearch,
+    handleSearch,
     page,
     setPage,
     limit,
@@ -22,22 +21,17 @@ export const Transactions = () => {
     openDrawer,
     setOpenDrawer,
   } = useTransaction();
+
   return (
     <>
-      <PageTitledHeader title={'Gift Card Transactions'} />
-      <Box
-        sx={{
-          border: `.1rem solid ${theme?.palette?.grey[700]}`,
-          borderRadius: '8px',
-        }}
-      >
+      <PageTitledHeader title={'Gift Cards Transactions'} />
+      <Box border={`1px solid`} borderColor={'grey.700'} borderRadius={2}>
         <Box
-          m={1}
+          p={1}
           display={'flex'}
           alignItems={'center'}
           justifyContent={'space-between'}
           flexWrap={'wrap'}
-          gap={1}
         >
           <PermissionsGuard
             permissions={[
@@ -46,15 +40,14 @@ export const Transactions = () => {
           >
             <Search
               label="Search Here"
-              width={'16.25rem'}
               size="small"
-              setSearchBy={setSearch}
+              setSearchBy={handleSearch}
               searchBy={search}
             />
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTER,
             ]}
           >
             <Button

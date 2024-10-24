@@ -6,11 +6,7 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import {
   editTicketDetailsDefaultValuesDynamic,
@@ -26,8 +22,10 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { AIR_SERVICES } from '@/constants';
-import { isoDateString } from '@/utils/dateTime';
+import { REGEX } from '@/constants/validation';
+import { AIR_SERVICES } from '@/constants/routes';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SR } = TICKET_TYPE ?? {};
@@ -90,7 +88,7 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control, watch } = methods;
+  const { handleSubmit, reset, getValues, control, watch, setError } = methods;
   const watchForTicketType = useWatch({
     control,
     name: 'ticketType',
@@ -113,10 +111,14 @@ export const useEditTicketDetails = () => {
     const newFormData = filteredEmptyValues(formData);
 
     const { plannedEffort } = getValues();
-    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+    if (
+      plannedEffort?.trim() !== '' &&
+      !REGEX?.HOURS_AND_MINUTES?.test(plannedEffort)
+    ) {
+      setError('plannedEffort', {
+        message:
+          'Invalid format for Planned Effort. Please use format like 1h10m',
+      });
       return;
     }
 

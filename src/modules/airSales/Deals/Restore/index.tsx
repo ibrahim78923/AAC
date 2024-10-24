@@ -1,9 +1,5 @@
 import Link from 'next/link';
-
-import { Box, Button, Paper, Typography, Tooltip } from '@mui/material';
-
-import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
+import { Box, Button, Typography, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import { AIR_SALES } from '@/routesConstants/paths';
 
@@ -15,13 +11,13 @@ import useRestore from './useRestore';
 
 import { BackArrIcon, FilterIcon, RefreshTasksIcon } from '@/assets/icons';
 import { RestoreTableColumns } from './RestoreTable.data';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 const Restore = () => {
   const {
     handleRestoreFilter,
     IsRestoreFilterDrawer,
     setSearch,
-    search,
     handlePermanantDelete,
     handleResDealModal,
     isPermanantlyDel,
@@ -34,6 +30,13 @@ const Restore = () => {
     setRestoreFilter,
     setIsRestoreFilterDrawer,
     setCheckedAll,
+    updateRestoreLoading,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    getRestoreDealsLoading,
+    isSuccess,
+    restoreFilter,
   } = useRestore();
 
   const columnsProps = {
@@ -56,26 +59,33 @@ const Restore = () => {
         }}
       >
         <Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '16px',
+              alignItems: 'center',
+            }}
+          >
             <Box sx={{ mt: '5px' }}>
               <Link href={AIR_SALES?.DEAL}>
                 <BackArrIcon />
               </Link>
             </Box>
-            <Typography
-              variant="subtitle1"
-              sx={{ colors: theme?.palette?.grey[600] }}
-            >
-              Restore Deals
-            </Typography>
-          </Box>
-          <Box>
-            <Typography
-              variant="body2"
-              sx={{ color: theme?.palette?.custom['main'] }}
-            >
-              Restore Deals deleted in the last 90 days
-            </Typography>
+            <Box>
+              <Typography
+                variant="subtitle1"
+                sx={{ colors: theme?.palette?.grey[600] }}
+              >
+                Restore Deals
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: theme?.palette?.custom['main'] }}
+              >
+                Restore Deals deleted in the last 90 days
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
@@ -85,6 +95,7 @@ const Restore = () => {
             onClose={handleRestoreFilter}
             setRestoreFilter={setRestoreFilter}
             setIsRestoreFilterDrawer={setIsRestoreFilterDrawer}
+            restoreFilter={restoreFilter}
           />
         )}
 
@@ -92,6 +103,7 @@ const Restore = () => {
           <RestoreDeleteModal
             open={isPermanantlyDel}
             onClose={handlePermanantDelete}
+            updateRestoreLoading={updateRestoreLoading}
             handlePermanantDeleteRetore={() =>
               handlePermanantDeleteRetore(
                 'HARD_DELETED',
@@ -105,6 +117,7 @@ const Restore = () => {
           <RestoreDealModal
             open={IsRestoreDealModal}
             onClose={handleResDealModal}
+            updateRestoreLoading={updateRestoreLoading}
             handlePermanantDeleteRetore={() =>
               handlePermanantDeleteRetore(
                 'ACTIVE',
@@ -125,13 +138,7 @@ const Restore = () => {
         }}
       >
         <Box>
-          <Search
-            label="Search Here"
-            searchBy={search}
-            setSearchBy={setSearch}
-            fullWidth
-            autoComplete="off"
-          />
+          <Search label="Search Here" setSearchBy={setSearch} size="small" />
         </Box>
         <Box
           sx={{
@@ -152,7 +159,7 @@ const Restore = () => {
               variant="outlined"
               color="inherit"
               className="small"
-              onClick={() => setRestoreFilter({})}
+              onClick={() => setRestoreFilter({ dateStart: '', dateEnd: '' })}
             >
               <RefreshTasksIcon />
             </Button>
@@ -168,17 +175,20 @@ const Restore = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ mb: 2 }}>
-        <TanstackTable
-          columns={columnParams}
-          data={restoeDealData?.data?.deals}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
-      </Paper>
+      <TanstackTable
+        columns={columnParams}
+        data={restoeDealData?.data?.deals}
+        isPagination={true}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        pageLimit={pageLimit}
+        setPageLimit={setPageLimit}
+        count={restoeDealData?.data?.meta?.pages}
+        totalRecords={restoeDealData?.data?.meta?.total}
+        isLoading={getRestoreDealsLoading}
+        isSuccess={isSuccess}
+        currentPage={restoeDealData?.data?.meta?.page}
+      />
     </Box>
   );
 };

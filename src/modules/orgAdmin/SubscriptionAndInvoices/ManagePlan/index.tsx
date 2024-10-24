@@ -211,6 +211,9 @@ const ManagePlan = () => {
                     type="number"
                     size="small"
                     fullWidth
+                    disabled={
+                      parsedManageData?.planData?.additionalPerUserPrice === 0
+                    }
                     defaultValue={maxAddUsers}
                     inputProps={{ min: 1 }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -225,6 +228,9 @@ const ManagePlan = () => {
                     size="small"
                     fullWidth
                     defaultValue={maxAddStorage}
+                    disabled={
+                      parsedManageData?.planData?.additionalStoragePrice === 0
+                    }
                     inputProps={{ min: 1 }}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setMaxAddStorage(e?.target?.value)

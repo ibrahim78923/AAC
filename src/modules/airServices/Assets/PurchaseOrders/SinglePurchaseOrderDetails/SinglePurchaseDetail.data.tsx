@@ -1,4 +1,4 @@
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 export const singlePurchaseDetailActionDropdownFunction = (

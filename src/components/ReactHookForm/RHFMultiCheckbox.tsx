@@ -68,6 +68,7 @@ export default function RHFMultiCheckbox({
                             (item: any) => item === option?.value,
                           )}
                           onChange={() => field?.onChange(onSelected(option))}
+                          disabled={option?.disabled}
                         />
                       }
                       label={option?.label}

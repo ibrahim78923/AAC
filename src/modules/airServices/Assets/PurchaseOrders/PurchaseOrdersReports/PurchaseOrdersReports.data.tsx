@@ -1,73 +1,22 @@
 import { TruncateText } from '@/components/TruncateText';
 import { PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
 
-export const PURCHASE_ORDER_REPORT_STATUS_COUNT = {
-  [PURCHASE_ORDER_REPORT_STATUS?.ALL]: 'allPurchaseOrder',
-  [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]: 'purchaseApproved',
-  [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]: 'purchaseRejected',
-  [PURCHASE_ORDER_REPORT_STATUS?.PENDING]: 'purchasePending',
-  [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]: 'purchaseReceived',
-};
-
-export const purchaseOrderReportsCardsDataDynamic = (data: any) => {
+export const PurchaseOrderReportsCountData = (data: any) => {
   return {
-    [PURCHASE_ORDER_REPORT_STATUS?.ALL]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[PURCHASE_ORDER_REPORT_STATUS?.ALL]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.APPROVED
-        ]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.REJECTED
-        ]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.PENDING]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.PENDING
-        ]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.RECEIVED
-        ]
-      ],
+    [PURCHASE_ORDER_REPORT_STATUS?.ALL]: data?.allPurchaseOrder,
+    [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]: data?.purchaseApproved,
+    [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]: data?.purchaseRejected,
+    [PURCHASE_ORDER_REPORT_STATUS?.PENDING]: data?.purchasePending,
+    [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]: data?.purchaseReceived,
   };
 };
 
-export const purchaseOrderReportsChartDataDynamic = (data: any) => {
+export const PurchaseOrderReportsChartData = (data: any) => {
   return {
-    [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.APPROVED
-        ]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.REJECTED
-        ]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.PENDING]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.PENDING
-        ]
-      ],
-    [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]:
-      data?.[
-        PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-          PURCHASE_ORDER_REPORT_STATUS?.RECEIVED
-        ]
-      ],
+    [PURCHASE_ORDER_REPORT_STATUS?.APPROVED]: data?.purchaseApproved,
+    [PURCHASE_ORDER_REPORT_STATUS?.REJECTED]: data?.purchaseRejected,
+    [PURCHASE_ORDER_REPORT_STATUS?.PENDING]: data?.purchasePending,
+    [PURCHASE_ORDER_REPORT_STATUS?.RECEIVED]: data?.purchaseReceived,
   };
 };
 
@@ -75,40 +24,27 @@ export const purchaseOrderTableFilterOptions = [
   {
     _id: 6756,
     label: PURCHASE_ORDER_REPORT_STATUS?.ALL,
-    value:
-      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[PURCHASE_ORDER_REPORT_STATUS?.ALL],
+    value: 'allPurchaseOrder',
   },
   {
     _id: 5465,
     label: PURCHASE_ORDER_REPORT_STATUS?.APPROVED,
-    value:
-      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-        PURCHASE_ORDER_REPORT_STATUS?.APPROVED
-      ],
+    value: 'purchaseApproved',
   },
   {
     _id: 5367,
     label: PURCHASE_ORDER_REPORT_STATUS?.REJECTED,
-    value:
-      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-        PURCHASE_ORDER_REPORT_STATUS?.REJECTED
-      ],
+    value: 'purchaseRejected',
   },
   {
     _id: 3536,
     label: PURCHASE_ORDER_REPORT_STATUS?.PENDING,
-    value:
-      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-        PURCHASE_ORDER_REPORT_STATUS?.PENDING
-      ],
+    value: 'purchasePending',
   },
   {
     _id: 3563,
     label: PURCHASE_ORDER_REPORT_STATUS?.RECEIVED,
-    value:
-      PURCHASE_ORDER_REPORT_STATUS_COUNT?.[
-        PURCHASE_ORDER_REPORT_STATUS?.RECEIVED
-      ],
+    value: 'purchaseReceived',
   },
 ];
 

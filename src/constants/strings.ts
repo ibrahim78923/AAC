@@ -130,12 +130,6 @@ export const ASSET_IMPACT = {
   HIGH: 'HIGH',
 };
 
-export const ASSET_IMPACT_FILTER = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
-};
-
 export const TICKET_TYPE = {
   INC: 'INC',
   SR: 'SR',
@@ -156,6 +150,14 @@ export const SOFTWARE_STATUS = {
   DISABLED: 'Disabled',
   IN_REVIEW: 'InReview',
   ALL_SOFTWARE: 'All Software',
+};
+
+export const CONTRACT_REPORT_STATUS = {
+  ALL: 'All',
+  LEASE: 'Lease',
+  MAINTENANCE: 'Maintenance',
+  SOFTWARE: 'Software',
+  WARRANTY: 'Warranty',
 };
 
 export const expande_status = {
@@ -545,8 +547,8 @@ export const IMPORT_ACTION_TYPE = {
   DEALS: 'DEALS',
   TASKS: 'TASKS',
   PRODUCT: 'product',
-  Sales: 'Sales',
-  Services: 'Services',
+  SALES: 'Sales',
+  SERVICES: 'Services',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -586,11 +588,6 @@ export const LOYALTY_REWARDS_TYPE = {
   ALL: 'ALL',
   PHYSICAL_REWARD: 'PHYSICAL_REWARDS',
   DIGITAL_REWARD: 'DIGITAL_REWARDS',
-};
-
-export const RULES_BENEFIT_TYPE = {
-  DISCOUNT: 'DISCOUNT',
-  AWARD: 'AWARD',
 };
 
 export const MEETINGS_DETAILS_TYPE = {
@@ -719,12 +716,6 @@ export const DATA_TYPES = {
   STRING: 'string',
 };
 
-export const LOYALTY_TIERS_REWARD_TYPE = {
-  FIXED_DISCOUNT: 'FIXED_DISCOUNT',
-  FLAT_DISCOUNT: 'FLAT_DISCOUNT',
-  POINTS: 'POINTS',
-};
-
 export const CALL_TYPES = {
   MISSED: 'Missed',
   COMPLETED: 'Completed',
@@ -773,25 +764,12 @@ export const PRODUCTS_LISTS = {
   AIR_MARKETER: 'Air Marketer',
 };
 
-export const RULES_TIME_SPAN = {
-  THIS_WEEK: 'THIS_WEEK',
-  LAST_WEEK: 'LAST_WEEK',
-  THIS_MONTH: 'THIS_MONTH',
-  LAST_MONTH: 'LAST_MONTH',
-  CUSTOM_DATE: 'CUSTOM_DATE',
-};
-
 export const RULES_OPERATORS = {
   LESS_THAN: 'less than',
   GREATER_THAN: 'greater than',
   EQUAL_TO: 'equal to',
   GREATER_THAN_OR_EQUAL_TO: 'greater than or equal to',
   LESS_THAN_OR_EQUAL_TO: 'less than or equal to',
-};
-
-export const LOYALTY_RULE_STATUS = {
-  ACTIVE: 'ACTIVE',
-  IN_ACTIVE: 'INACTIVE',
 };
 
 export const RULES_AUDIENCE_TYPE = {
@@ -825,12 +803,12 @@ export const IMPORT_OBJECT_TYPE = {
 };
 
 export const IMPORT_PRODUCTS_NAME = {
-  LOYALTY_PROGRAM: 'LOYALTY_PROGRAM_SERVICE',
-  MARKETING: 'MARKETING_SERVICE',
-  OPERATIONS: 'OPERATIONS_SERVICE',
+  LOYALTY_PROGRAM: 'LOYALTY_PROGRAM',
+  MARKETING: 'MARKETING',
+  OPERATIONS: 'OPERATIONS',
   ORG_ADMIN: 'ORG_ADMIN_SERVICE',
-  SALES: 'SALES_SERVICE',
-  AIR_SERVICES: 'AIR_SERVICES_SERVICE',
+  SALES: 'SALES',
+  AIR_SERVICES: 'SERVICES',
   CRON: 'CRON_SERVICE',
   SUPER_ADMIN: 'SUPER_ADMIN_SERVICE',
   COMMON_FEATURE: 'COMMON_FEATURE_SERVICE',
@@ -988,7 +966,8 @@ export const COLLECTION_NAME = {
   USERS: 'users',
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
-  SALES_PIPELINES: 'salespipeline',
+  FORECAST_PIPELINES: 'goals',
+  FORECAST_STAGES: 'forecastStage',
   CONTRACT_TYPE: 'contracttypes',
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',

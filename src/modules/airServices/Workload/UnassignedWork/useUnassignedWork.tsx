@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { workloadDefaultDateRange } from '../Workload.data';
-import { useGetWorkloadQuery } from '@/services/airServices/workload';
-import { isoDateString } from '@/utils/dateTime';
+import { useGetAirServicesWorkloadQuery } from '@/services/airServices/workload';
+import { isoDateString } from '@/lib/date-time';
 import { ARRAY_INDEX } from '@/constants/strings';
 
 export default function useUnassignedWork() {
@@ -30,10 +30,11 @@ export default function useUnassignedWork() {
       : undefined,
   };
 
-  const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
-    { ...workloadParams },
-    { skip: !openDrawer, refetchOnMountOrArgChange: true },
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetAirServicesWorkloadQuery(
+      { ...workloadParams },
+      { skip: !openDrawer, refetchOnMountOrArgChange: true },
+    );
 
   return {
     setOpenDrawer,

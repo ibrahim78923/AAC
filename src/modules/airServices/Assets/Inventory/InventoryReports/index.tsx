@@ -1,6 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -23,6 +22,8 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import NoData from '@/components/NoData';
 import ReportsCards from './ReportsCards';
 import { AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants/routes';
+import { Autorenew } from '@mui/icons-material';
 
 export const InventoryReports = () => {
   const {
@@ -42,6 +43,8 @@ export const InventoryReports = () => {
     inventoryReportsCardsData,
     inventoryData,
     getValues,
+    timeLapse,
+    apiCallInProgress,
   } = useInventoryReports();
 
   if (isError)
@@ -71,6 +74,30 @@ export const InventoryReports = () => {
           })
         }
       >
+        <Button
+          variant="outlined"
+          color="inherit"
+          size="small"
+          startIcon={<Autorenew />}
+          onClick={refetch}
+          disabled={apiCallInProgress}
+          sx={{
+            fontSize: pxToRem(12),
+            fontWeight: 'fontWeightRegular',
+            textTransform: 'lowercase',
+            cursor: 'pointer',
+            height: pxToRem(40),
+            marginTop: pxToRem(-10),
+          }}
+        >
+          {!!apiCallInProgress ? (
+            <Box>
+              <LinearProgress sx={{ width: pxToRem(70) }} />
+            </Box>
+          ) : (
+            timeLapse?.lastFetchLapseTime
+          )}
+        </Button>
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.FILTER]}
         >
@@ -137,7 +164,9 @@ export const InventoryReports = () => {
                   <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
                     Assets Distribution
                   </Typography>
-                  {!!Object?.keys(inventoryReportsChartsData ?? {})?.length ? (
+                  {Object?.values(inventoryReportsChartsData ?? {})?.some(
+                    (value) => value !== 0,
+                  ) ? (
                     <CustomChart
                       type={'pie'}
                       series={Object?.values(inventoryReportsChartsData ?? {})}

@@ -9,7 +9,6 @@ export interface DealsOverviewProps {
     };
   };
   setLimit: (limit: any) => void;
-  searchBy: string;
   setSearchBy: (value: string) => void;
   setPage: (page: any) => void;
 }

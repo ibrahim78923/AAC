@@ -57,7 +57,7 @@ const EditDialog = ({ open, onClose, field, onChange, addOption }: any) => {
                 label="Required"
                 control={
                   <Checkbox
-                    checked={field?.required}
+                    checked={field?.required === 'true' ? true : false}
                     onChange={(e) =>
                       onChange(field?._id, { required: e.target.checked })
                     }

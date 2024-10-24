@@ -4,7 +4,7 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
 import { customerSupportListColumn } from './CustomerSatisfactionList.data';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useCustomerSatisfactionList } from './useCustomerSatisfactionList';
 import { AlertModals } from '@/components/AlertModals';
 import {

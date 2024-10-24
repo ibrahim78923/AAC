@@ -32,7 +32,6 @@ const DealsReport = () => {
     dealsReportsTable,
     dealsReportsCardsData,
     dealsReportsGraphData,
-    searchBy,
     setSearchBy,
     resetFilters,
     pipelineData,
@@ -244,7 +243,6 @@ const DealsReport = () => {
                 <DealsOverview
                   setPage={setPage}
                   setLimit={setLimit}
-                  searchBy={searchBy}
                   setSearchBy={setSearchBy}
                   dealsReportsTable={dealsReportsTable}
                 />

@@ -96,7 +96,7 @@ const Tasks = () => {
           typeImage={<AlertModalDeleteIcon />}
           open={isOpenDeleteDrawer}
           handleClose={() => setIsOpenDeleteDrawer(false)}
-          handleSubmit={() => setIsOpenDeleteDrawer(false)}
+          handleSubmitBtn={() => setIsOpenDeleteDrawer(false)}
         />
       )}
     </>

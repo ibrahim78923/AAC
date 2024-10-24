@@ -1,9 +1,9 @@
 import { MODAL_INITIAL_STATES, REPORT_TYPE } from '@/constants/strings';
-import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { CounterI } from './Counter.interface';
 import { useDispatch } from 'react-redux';
 import { setFieldData } from '@/redux/slices/genericReport/genericReportSlice';
+import { successSnackbar } from '@/lib/snackbar';
 
 export const useCounter = (props: CounterI) => {
   const { setModal, form, setForm, setDraggedItemData, draggedItemData } =

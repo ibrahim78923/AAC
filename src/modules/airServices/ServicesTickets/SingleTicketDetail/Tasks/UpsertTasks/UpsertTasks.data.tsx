@@ -15,8 +15,8 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
-import { localeDateTime } from '@/utils/dateTime';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { localeDateTime } from '@/lib/date-time';
 
 const { SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -49,24 +49,26 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
   return Yup?.object()?.shape({
     title: Yup?.string()
       ?.trim()
-      ?.required('Title is Required')
+      ?.required('Title is required')
       ?.max(
         SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS,
         `Maximum characters limit is ${SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS}`,
       ),
     description: Yup?.string()
       ?.trim()
-      ?.required('Description is Required')
-      ?.test('is-not-empty', 'Description is Required', (value) => {
-        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      ?.required('Description is required')
+      ?.test('is-not-empty', 'Description is required', (value) => {
+        const strippedContent = value
+          ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+          ?.trim();
         return strippedContent !== '';
       }),
-    department: Yup?.mixed()?.required('Department is Required'),
+    department: Yup?.mixed()?.required('Department is required'),
     agent: Yup?.mixed()?.nullable(),
     notifyBefore: Yup?.mixed()?.nullable(),
-    status: Yup?.mixed()?.required('Status is Required'),
+    status: Yup?.mixed()?.required('Status is required'),
     startDate: Yup?.date(),
-    endDate: Yup?.date()?.nullable()?.required('End Date is Required'),
+    endDate: Yup?.date()?.nullable()?.required('End date is required'),
     plannedEffort: Yup?.string()?.trim(),
     ...formSchema,
   });
@@ -102,7 +104,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
     componentProps: {
       name: 'title',
       label: 'Title',
-      placeholder: 'Title',
+      placeholder: 'Enter title',
       fullWidth: true,
       required: true,
     },
@@ -114,6 +116,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
     componentProps: {
       name: 'description',
       label: 'Description',
+      placeholder: 'Enter the description',
       fullWidth: true,
       required: true,
       style: {
@@ -142,7 +145,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
     componentProps: {
       name: 'status',
       label: 'Status',
-      placeholder: 'Select',
+      placeholder: 'Select status',
       fullWidth: true,
       required: true,
       options: statusOptions,
@@ -156,7 +159,7 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
     componentProps: {
       name: 'notifyBefore',
       label: 'Notify Before',
-      placeholder: 'Select',
+      placeholder: 'Select notify before',
       fullWidth: true,
       options: notifyBeforeOption,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,

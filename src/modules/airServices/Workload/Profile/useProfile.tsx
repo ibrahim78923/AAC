@@ -1,4 +1,4 @@
-import { useLazyGetAllUsersInWorkloadQuery } from '@/services/airServices/workload';
+import { useLazyGetAirServicesAllUsersInWorkloadQuery } from '@/services/airServices/workload';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -8,9 +8,10 @@ export default function useProfile({ setSelected }: any) {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [searchBy, setSearchBy] = useState('');
 
-  const [usersTrigger, usersStatus] = useLazyGetAllUsersInWorkloadQuery();
+  const [usersTrigger, usersStatus] =
+    useLazyGetAirServicesAllUsersInWorkloadQuery();
   const [usersExtraTrigger, usersExtraStatus] =
-    useLazyGetAllUsersInWorkloadQuery();
+    useLazyGetAirServicesAllUsersInWorkloadQuery();
 
   useEffect(() => {
     usersTrigger?.({

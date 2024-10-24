@@ -1,6 +1,5 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import { RenameReport } from '../RenameReport';
 import { CloneReport } from '../CloneReport';
 import { EmailReport } from '../EmailReport';
@@ -10,6 +9,7 @@ import { DeleteReport } from '../DeleteReport';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { FilterReport } from '../FilterReport';
 import { ExportReport } from '../ExportReport';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const REPORT_LISTS_ACTION_CONSTANTS = {
   FILTER_REPORT: 'filter-report',

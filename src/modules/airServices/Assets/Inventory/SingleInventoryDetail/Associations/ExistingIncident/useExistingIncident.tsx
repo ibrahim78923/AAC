@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
   usePostAirServicesRemoveAssociateTicketsMutation,

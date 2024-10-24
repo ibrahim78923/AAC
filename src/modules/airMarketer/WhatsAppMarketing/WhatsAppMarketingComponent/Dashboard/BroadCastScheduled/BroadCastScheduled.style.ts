@@ -4,7 +4,7 @@ export const styles = {
       height: '432px',
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
-      padding: '8px',
+      padding: '1rem',
       '.cardWrapper': {
         height: '350px',
         overflowY: 'scroll',

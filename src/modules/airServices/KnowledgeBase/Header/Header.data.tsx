@@ -1,5 +1,4 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
-import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { NextRouter } from 'next/router';
 import { UpsertFolder } from '../Folder/UpsertFolder';
@@ -8,6 +7,7 @@ import FilterArticles from '../Articles/FilterArticles';
 import { DeleteArticles } from '../Articles/DeleteArticles';
 import { DeleteFolder } from '../Folder/DeleteFolder';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+import { AIR_SERVICES } from '@/constants/routes';
 
 const {
   ADD_FOLDER,

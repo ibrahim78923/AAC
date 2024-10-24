@@ -1,4 +1,3 @@
-import { successSnackbar } from '@/utils/api';
 import { EditorState, RichUtils, Modifier, convertToRaw } from 'draft-js';
 import { useEffect, useState } from 'react';
 import { stateToHTML } from 'draft-js-export-html';
@@ -17,6 +16,7 @@ import {
   setFontSize,
 } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
+import { successSnackbar } from '@/lib/snackbar';
 
 export const useTextEditor = (props: TextEditorI) => {
   const { setModal, form, setForm, reset, setDraggedItemData, watch } = props;

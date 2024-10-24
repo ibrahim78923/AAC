@@ -1,17 +1,18 @@
-import { ROLES } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 import {
-  useGetAirServicesSettingsServicesAllUsersDropdownListQuery,
-  useGetAirServicesSettingsServicesRequesterDropdownQuery,
+  useGetAirServicesSettingsServicesAgentsDropdownListQuery,
+  useGetAirServicesSettingsServicesRequestersDropdownListQuery,
   usePatchAirServicesSettingsServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { SyntheticEvent, useState } from 'react';
 
 const useVisibility = (props: any) => {
   const { handleCloseVisibility, setAnchorEl, id, setSelectedCheckboxes } =
     props;
-
+  const auth: any = useAuth();
+  const productId = auth?.product?._id ?? {};
   const [selectedAgentCheckboxes, setSelectedAgentCheckboxes] = useState<any>(
     [],
   );
@@ -72,16 +73,16 @@ const useVisibility = (props: any) => {
   };
 
   const apiQueryRequester =
-    useGetAirServicesSettingsServicesRequesterDropdownQuery(
+    useGetAirServicesSettingsServicesRequestersDropdownListQuery(
       {
-        params: { limit: 50, role: ROLES?.ORG_REQUESTER },
+        params: { requester: true, admin: true, productId },
       },
       { refetchOnMountOrArgChange: true },
     );
 
   const apiQueryAgent =
-    useGetAirServicesSettingsServicesAllUsersDropdownListQuery(
-      {},
+    useGetAirServicesSettingsServicesAgentsDropdownListQuery(
+      { params: { productId } },
       { refetchOnMountOrArgChange: true },
     );
 

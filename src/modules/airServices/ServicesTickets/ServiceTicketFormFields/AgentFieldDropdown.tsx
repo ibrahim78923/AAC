@@ -1,14 +1,18 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import useAuth from '@/hooks/useAuth';
 import { useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
+import { getActiveProductSession } from '@/utils';
+import { useMemo } from 'react';
 
 export const AgentFieldDropdown = (props: any) => {
   const { required = false, label = 'Agent' } = props;
   const apiQueryAgent =
     useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery();
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product ?? {};
+
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
 
   return (
     <RHFAutocompleteAsync

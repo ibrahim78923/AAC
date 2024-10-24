@@ -164,7 +164,6 @@ export const teamGoalTableColumns: any = (
                       info?.row?.original?.lastName ?? ''
                     }`
                   : `${info?.row?.original?.name ?? ''}`}
-                `
               </Typography>
             </Box>
           </Box>

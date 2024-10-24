@@ -22,6 +22,8 @@ import { createElement } from 'react';
 import { LoadingButton } from '@mui/lab';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
+import { SOCIAL_COMPONENTS } from '@/constants';
+import { useRouter } from 'next/router';
 
 const Details = ({ data, isLoading }: any) => {
   const {
@@ -35,6 +37,8 @@ const Details = ({ data, isLoading }: any) => {
     getDynamicFieldsStatus,
     updateIsLoading,
   } = useDetails(data);
+
+  const router = useRouter();
   return (
     <PermissionsGuard
       permissions={[
@@ -101,7 +105,14 @@ const Details = ({ data, isLoading }: any) => {
                     }}
                   >
                     <ButtonGroup>
-                      <Button sx={{ height: '35px' }}>Cancel</Button>
+                      <Button
+                        onClick={() =>
+                          router?.push(SOCIAL_COMPONENTS.COMPANIES)
+                        }
+                        sx={{ height: '35px' }}
+                      >
+                        Cancel
+                      </Button>
                     </ButtonGroup>
                     <ButtonGroup variant="contained" color="primary">
                       <LoadingButton

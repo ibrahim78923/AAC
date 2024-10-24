@@ -8,7 +8,7 @@ import {
   usePatchAirServicesSettingsCannedAddMoveResponsesMutation,
   useLazyGetAirServicesSettingsCannedFoldersQuery,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

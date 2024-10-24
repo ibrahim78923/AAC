@@ -1,4 +1,4 @@
-import { Box, Skeleton } from '@mui/material';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import { useKnowledgeBaseDetail } from './useKnowledgeBaseDetail';
 import { KnowledgeBaseArticles } from './KnowledgeBaseArticles';
@@ -6,10 +6,8 @@ import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
-import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { truncateText } from '@/utils/avatarUtils';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const KnowledgeBaseDetail = () => {
   const {
@@ -20,7 +18,6 @@ export const KnowledgeBaseDetail = () => {
     articlesData,
     articlesMetaData,
     isLoading,
-    folderName,
     isFetching,
     isError,
     refetch,
@@ -41,15 +38,7 @@ export const KnowledgeBaseDetail = () => {
   return (
     <Box border={1} borderColor="grey.700" p={2} borderRadius={2}>
       <PageTitledHeader
-        title={
-          isLoading || isFetching ? (
-            <Skeleton variant="rectangular" width={'10rem'} />
-          ) : folderName ? (
-            `Knowledge Base - ${truncateText(folderName)}`
-          ) : (
-            'Knowledge Base'
-          )
-        }
+        title={'Knowledge Base'}
         canMovedBack
         moveBack={handleKnowledgeBase}
       />
@@ -68,9 +57,7 @@ export const KnowledgeBaseDetail = () => {
                   key={item?._id}
                   articleId={item?._id}
                   articlesTitle={item?.title}
-                  modifiedDate={dayjs(item?.updatedAt)?.format(
-                    DATE_TIME_FORMAT?.UI,
-                  )}
+                  modifiedDate={uiDateFormat(item?.updatedAt)}
                   purposeDescription={item?.details}
                 />
               ))

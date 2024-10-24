@@ -1,92 +1,71 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
-  Popover,
+  Skeleton,
   Theme,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { DownloadLargeIcon } from '@/assets/icons';
+import { DownloadLargeIcon, RefreshSharedIcon } from '@/assets/icons';
 import CardAndGraphs from './PipelineGraph';
 import PipelineOverview from './PipelineTable';
-import { v4 as uuidv4 } from 'uuid';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
 import { AIR_SALES } from '@/routesConstants/paths';
 import PipeLineCards from './PipelineCards';
 import usePipelineForcastReports from './usePipelineForcastReports';
-
-const customizeData = [
-  {
-    label: 'Select All',
-    value: 'selectall',
-  },
-  {
-    label: 'Scheduled',
-    value: 'scheduled',
-  },
-  {
-    label: 'Drafts',
-    value: 'drafts',
-  },
-  {
-    label: 'Pending Approval',
-    value: 'PendingApproval',
-  },
-  {
-    label: 'Rejected',
-    value: 'rejected',
-  },
-  {
-    label: 'Failed',
-    value: 'failed',
-  },
-];
-const pipeLineData = [
-  {
-    label: ' All',
-    value: 'all',
-  },
-  {
-    label: 'Sales',
-    value: 'sales',
-  },
-  {
-    label: 'Pipeline',
-    value: 'pipeline',
-  },
-  {
-    label: 'Recruitment',
-    value: 'recruitment',
-  },
-];
+import {
+  FormProvider,
+  RHFAutocompleteAsync,
+  RHFMultiSearchableSelect,
+} from '@/components/ReactHookForm';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
+import { ARRAY_INDEX, ROLES } from '@/constants/strings';
+import { getSession } from '@/utils';
+import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { styles } from './PipelineForecastReports.style';
 
 const PipelineForecastReports = () => {
   const theme = useTheme<Theme>();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [anchorElNew, setAnchorElnew] = useState<HTMLButtonElement | null>(
-    null,
-  );
-  const open = Boolean(anchorEl);
-  const openPipeline = Boolean(anchorElNew);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleClickPipeline = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClosePipleine = () => {
-    setAnchorElnew(null);
-  };
-  const { router, activeCard, setActiveCard } = usePipelineForcastReports();
+  const {
+    router,
+    activeCard,
+    setActiveCard,
+    alignment,
+    handleChange,
+    dealPipelineData,
+    filterValues,
+    setFilterValues,
+    getPipelineForecastReportData,
+    PipelineForecastReportDataIsLoading,
+    PipelineForecastReportDataIsFetching,
+    PipelineForecastReportDataIsError,
+    PipelineForecastReportDataIsSuccess,
+    setPageLimit,
+    setPage,
+    handleSubmit,
+    methods,
+    handleRefresh,
+    datePickerVal,
+    setDatePickerVal,
+  } = usePipelineForcastReports();
+
+  const pipelineData = dealPipelineData?.data?.map((data: any) => ({
+    label: `${data?.name}`,
+    value: data?._id,
+  }));
+
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
+  const teamsList = useLazyGetTeamsListQuery();
+
+  const userListData = useLazyGetUsersListDropdownQuery();
 
   return (
     <>
@@ -113,79 +92,133 @@ const PipelineForecastReports = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <SwitchableDatepicker
-            renderInput="button"
-            variant="contained"
-            placement="left"
-          />
-          <Button
-            sx={{ gap: 1, height: '30px' }}
-            variant="outlined"
-            onClick={handleClick}
-            size="small"
-            className="small"
-            endIcon={<ArrowDown />}
-            color="inherit"
-          >
-            Owner
-          </Button>
-          <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            <Typography variant="h5" sx={{ p: 1, fontSize: '16px' }}>
-              Owner
-            </Typography>
-            {customizeData?.map((data) => (
-              <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={data?.label} />
+          <FormProvider methods={methods} onSubmit={handleSubmit}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={alignment}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="Platform"
+                >
+                  <ToggleButton
+                    disableRipple
+                    value="User"
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      backgroundColor: '#fff',
+                      border: `1px solid ${theme?.palette?.grey[0]}`,
+                      height: '38px',
+                      '&.Mui-selected': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                        color: '#fff',
+                      },
+                      '&.Mui-selected:hover': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                      },
+                      '&:hover': {
+                        backgroundColor: theme?.palette?.primary?.light,
+                      },
+                    }}
+                  >
+                    Users
+                  </ToggleButton>
+                  <ToggleButton
+                    disableRipple
+                    value="Team"
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      backgroundColor: '#fff',
+                      border: `1px solid ${theme?.palette?.grey[0]}`,
+                      height: '38px',
+                      '&.Mui-selected': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                        color: '#fff',
+                      },
+                      '&.Mui-selected:hover': {
+                        backgroundColor: theme?.palette?.primary?.main,
+                      },
+                      '&:hover': {
+                        backgroundColor: theme?.palette?.primary?.light,
+                      },
+                    }}
+                  >
+                    Teams
+                  </ToggleButton>
+                </ToggleButtonGroup>
               </Box>
-            ))}
-          </Popover>
+
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button
+                  className="small"
+                  sx={styles?.refreshButton}
+                  onClick={handleRefresh}
+                >
+                  <RefreshSharedIcon />
+                </Button>
+              </Tooltip>
+
+              <SwitchableDatepicker
+                renderInput="button"
+                placement="right"
+                dateValue={datePickerVal}
+                setDateValue={setDatePickerVal}
+                handleDateSubmit={() => {
+                  setFilterValues({
+                    ...filterValues,
+                    to: dayjs(datePickerVal[ARRAY_INDEX?.ZERO]).format(
+                      DATE_FORMAT?.API,
+                    ),
+                    from: dayjs(datePickerVal[ARRAY_INDEX?.ONE]).format(
+                      DATE_FORMAT?.API,
+                    ),
+                  });
+                }}
+              />
+
+              <RHFAutocompleteAsync
+                label=""
+                name="userTeam"
+                fullWidth
+                apiQuery={alignment === 'User' ? userListData : teamsList}
+                size="small"
+                placeholder={
+                  alignment === 'User' ? 'Select user' : 'Select team'
+                }
+                getOptionLabel={(item: any) =>
+                  alignment === 'User'
+                    ? item
+                      ? `${item?.firstName} ${item?.lastName}`
+                      : ''
+                    : item?.name
+                }
+                externalParams={
+                  alignment === 'User'
+                    ? {
+                        role: ROLES?.ORG_EMPLOYEE,
+                        organization: organizationId,
+                        status: 'ACTIVE',
+                      }
+                    : {}
+                }
+                queryKey="role"
+              />
+
+              <RHFMultiSearchableSelect
+                size="small"
+                label=""
+                name="pipeline"
+                options={pipelineData}
+                isCheckBox={true}
+                placeholder="select Pipeline"
+              />
+            </Box>
+          </FormProvider>
+
           <Button
-            sx={{ gap: 1, height: '30px' }}
+            sx={{ gap: 1, height: '39px' }}
             variant="outlined"
-            onClick={handleClickPipeline}
-            size="small"
-            className="small"
-            color="inherit"
-            endIcon={<ArrowDown />}
-          >
-            Pipeline
-          </Button>
-          <Popover
-            open={openPipeline}
-            anchorEl={anchorElNew}
-            onClose={handleClosePipleine}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            {pipeLineData?.map((item) => (
-              <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={item?.label} />
-              </Box>
-            ))}
-          </Popover>
-          <Button
-            sx={{ gap: 1, height: '30px' }}
-            variant="outlined"
-            onClick={handleClickPipeline}
-            className="small"
             color="inherit"
           >
             <DownloadLargeIcon />
@@ -193,13 +226,41 @@ const PipelineForecastReports = () => {
         </Box>
       </Box>
       <Box mt={4}>
-        <PipeLineCards activeCard={activeCard} setActiveCard={setActiveCard} />
+        <PipeLineCards
+          activeCard={activeCard}
+          setActiveCard={setActiveCard}
+          setFilterValues={setFilterValues}
+        />
+      </Box>
+
+      <Box sx={{ marginTop: '1rem' }}>
+        {PipelineForecastReportDataIsLoading ||
+        PipelineForecastReportDataIsFetching ? (
+          <Skeleton variant="rectangular" width={'100%'} height={600} />
+        ) : (
+          <CardAndGraphs
+            activeCard={activeCard}
+            pipelineForecastData={getPipelineForecastReportData?.data}
+          />
+        )}
       </Box>
       <Box sx={{ marginTop: '1rem' }}>
-        <CardAndGraphs activeCard={activeCard} />
-      </Box>
-      <Box sx={{ marginTop: '1rem' }}>
-        <PipelineOverview activeCard={activeCard} />
+        <PipelineOverview
+          activeCard={activeCard}
+          data={getPipelineForecastReportData?.data}
+          PipelineForecastReportDataIsLoading={
+            PipelineForecastReportDataIsLoading
+          }
+          PipelineForecastReportDataIsFetching={
+            PipelineForecastReportDataIsFetching
+          }
+          PipelineForecastReportDataIsError={PipelineForecastReportDataIsError}
+          PipelineForecastReportDataIsSuccess={
+            PipelineForecastReportDataIsSuccess
+          }
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+        />
       </Box>
     </>
   );

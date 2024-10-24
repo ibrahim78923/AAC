@@ -6,7 +6,7 @@ import {
 import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
 
 import * as Yup from 'yup';
-
+const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 export const detailsValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
@@ -15,7 +15,13 @@ export const detailsValidationSchema = (form: any) => {
     DomainName: Yup?.string(),
     crn: Yup?.string(),
     CompanyOwner: Yup?.string(),
-    PhoneNumber: Yup?.string(),
+    PhoneNumber: Yup.string()
+      .nullable()
+      .test(
+        'isValidPhoneNumber',
+        'Phone number is not valid',
+        (value) => !value || phoneRegex.test(value),
+      ),
     Industry: Yup?.string(),
     CompanyType: Yup?.string(),
     NumberOfEmployees: Yup?.string(),
@@ -38,7 +44,7 @@ export const detailsDefaultValues = {
   DomainName: '',
   crn: '',
   CompanyOwner: '',
-  PhoneNumber: '',
+  PhoneNumber: null,
   Industry: '',
   CompanyType: '',
   NumberOfEmployees: '',
@@ -105,7 +111,7 @@ export const detailsDataArray = ({
         name: 'PhoneNumber',
         label: 'Phone Number',
         fullWidth: true,
-        placeholder: 'Type Here',
+        placeholder: '+44-------',
       },
       component: RHFTextField,
       md: 4,

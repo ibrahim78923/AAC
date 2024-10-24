@@ -70,7 +70,6 @@ const Feed = ({ moduleId }: any) => {
             <Typography variant="subtitle1">Contact activity feed</Typography>
             <Box sx={{ width: '216px' }}>
               <Search
-                searchBy={searchTerm}
                 setSearchBy={setSearchTerm}
                 label="Search By Name"
                 fullWidth

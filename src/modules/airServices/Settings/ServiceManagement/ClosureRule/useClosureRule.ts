@@ -8,8 +8,8 @@ import {
 } from './ClosureRule.data';
 import { useEffect, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useGetAirServicesSettingsServiceClosureRulesQuery,
   usePostAirServicesSettingsServiceClosureRuleMutation,

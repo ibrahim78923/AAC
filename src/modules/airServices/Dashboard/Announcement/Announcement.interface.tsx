@@ -12,7 +12,9 @@ export interface AnnouncementIsPortalOpenPropsI {
 export interface AnnouncementPortalComponentsPropsI {
   isPortalOpen: AnnouncementIsPortalOpenPropsI;
   setIsPortalOpen: Dispatch<SetStateAction<AnnouncementIsPortalOpenPropsI>>;
-  dropdownAnnouncementsOptions: (dropdownData: any) => SingleDropdownOptionI[];
+  dropdownAnnouncementsOptions: (
+    dropdownData: any,
+  ) => SingleDropdownOptionI[] | any;
   lazyGetCustomerAnnouncementStatus: any;
   getCustomerAnnouncementData: () => void;
   data: any;

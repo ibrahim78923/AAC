@@ -1,24 +1,31 @@
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
+import { useGetAllUsersDropdownQuery } from '@/services/common-APIs';
+import { getActiveProductSession } from '@/utils';
 
 export const defaultValues = {
-  dealOwnerId: 'select',
+  dealOwnerId: '',
 };
-export const RestoreModalData = (UserListData: any) => {
+export const RestoreModalData = () => {
+  const ActiveProduct = getActiveProductSession();
+  const ownerData = useGetAllUsersDropdownQuery({
+    params: { productId: ActiveProduct?._id },
+  });
+
   return [
     {
+      id: 'ownerId',
+      md: 12,
+      component: RHFSelect,
       componentProps: {
         name: 'ownerId',
         label: 'Deal Owner',
         select: true,
-        defaultValues: 'Select',
+        placeholder: 'Select Deal Owner',
       },
-      options: UserListData?.data?.users?.map((item: any) => {
-        return {
-          value: item?._id,
-          label: `${item?.firstName} ${item?.lastName}`,
-        };
-      }),
-      component: RHFTextField,
+      options: ownerData?.data?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
     },
   ];
 };

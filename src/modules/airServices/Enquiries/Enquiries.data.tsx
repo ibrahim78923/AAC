@@ -7,7 +7,7 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import { errorSnackbar } from '@/utils/api';
+// import { errorSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, DONE } from '@/constants/strings';
 import {
   ICloseMenu,
@@ -18,6 +18,7 @@ import {
 } from './Enquiries.interface';
 import { ChangeEvent } from 'react';
 import { TruncateText } from '@/components/TruncateText';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const getEnquiriesActionDropdown = ({
   enquiriesSelected,
@@ -38,7 +39,6 @@ export const getEnquiriesActionDropdown = ({
         viewOpen: true,
         deleteOpen: false,
         convertToTicket: false,
-        createRequester: false,
         data: enquiriesSelected,
       });
       closeMenu?.();
@@ -54,7 +54,6 @@ export const getEnquiriesActionDropdown = ({
         viewOpen: false,
         deleteOpen: true,
         convertToTicket: false,
-        createRequester: false,
         data: enquiriesSelected,
       });
       closeMenu?.();
@@ -85,36 +84,12 @@ export const getEnquiriesActionDropdown = ({
         viewOpen: false,
         deleteOpen: false,
         convertToTicket: true,
-        createRequester: false,
         data: enquiriesSelected,
       });
       closeMenu?.();
     },
   },
-  // TODO: Create Requester Removed from Requirement Keeping it for future reference
-  // {
-  //   id: 4,
-  //   permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST],
-  //   title: 'Create Requester',
-  //   handleClick: (closeMenu: ICloseMenu) => {
-  //     if (enquiriesSelected?.length > 1) {
-  //       errorSnackbar('Please Select Only One Enquiry');
-  //       closeMenu?.();
-  //       return;
-  //     }
-  //     setIsModalOpen({
-  //       filterOpen: false,
-  //       viewOpen: false,
-  //       deleteOpen: false,
-  //       convertToTicket: false,
-  //       createRequester: true,
-  //       data: enquiriesSelected,
-  //     });
-  //     closeMenu?.();
-  //   },
-  // },
 ];
-
 export const getEnquiriesColumns = ({
   enquiriesSelected,
   setEnquiriesSelected,

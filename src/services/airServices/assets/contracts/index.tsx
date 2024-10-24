@@ -2,11 +2,6 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ASSETS_CONTRACT';
-const TAG_TWO = 'CONTRACT_TYPE_DROPDOWN';
-const TAG_THREE = 'VENDOR_DROPDOWN';
-const TAG_FOUR = 'USERS_DROPDOWN';
-const TAG_FIVE = 'SOFTWARE_DROPDOWN';
-const TAG_SIX = 'CONTRACT_TYPE';
 
 export const contractAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -50,7 +45,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.contracttypes;
       },
-      providesTags: [TAG_TWO],
     }),
     getVendorDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -61,7 +55,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_THREE],
     }),
     postContract: builder?.mutation({
       query: (postContractParameter: any) => ({
@@ -96,7 +89,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.inventories;
       },
-      providesTags: [TAG_THREE],
     }),
     getUsersDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -107,7 +99,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_FOUR],
     }),
     getAgentsDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -118,7 +109,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_FOUR],
     }),
     getSoftwareDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -129,7 +119,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.assetssoftwares;
       },
-      providesTags: [TAG_FIVE],
     }),
     patchContractSubmitForApproval: builder?.mutation({
       query: ({ contractId, statusApproval }: any) => ({
@@ -178,7 +167,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_FOUR],
     }),
     getAssetsDropdownListForContractApprovals: builder?.query({
       query: ({ params }: any) => ({
@@ -189,7 +177,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.inventories;
       },
-      providesTags: [TAG_THREE],
     }),
     getVendorDropdownListForContractApprovals: builder?.query({
       query: ({ params }: any) => ({
@@ -200,7 +187,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_THREE],
     }),
     getSoftwareDropdownListForContractApprovals: builder?.query({
       query: ({ params }: any) => ({
@@ -211,7 +197,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.assetssoftwares;
       },
-      providesTags: [TAG_FIVE],
     }),
     getContractTypeList: builder.query({
       query: ({ params }: any) => ({
@@ -222,7 +207,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_SIX],
     }),
   }),
 });

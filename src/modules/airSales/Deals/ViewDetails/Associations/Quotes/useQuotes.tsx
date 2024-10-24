@@ -8,13 +8,12 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useQuotes = (dealId: any) => {
   const theme = useTheme();
-  const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedQuote, setSelectedQuote] = useState<any>({});
   const [isOpenAlert, setIsOpenAlert] = useState(false);
 
   const { data: getQuoteById, isLoading: quoteDetailsLoading } =
-    useGetQuoteByIdQuery({ id: selectedQuote?._id, params: searchName });
+    useGetQuoteByIdQuery({ id: selectedQuote?._id });
 
   const quotesDetails = getQuoteById?.data;
 
@@ -49,8 +48,6 @@ const useQuotes = (dealId: any) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,

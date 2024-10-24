@@ -9,7 +9,8 @@ import { ImportIcon, MenuIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const DealHeader = () => {
+const DealHeader = ({ dealHeaderParams }: any) => {
+  const { dealViewsData, setSearch } = dealHeaderParams;
   const {
     IsViewAll,
     isImportDeal,
@@ -64,8 +65,19 @@ const DealHeader = () => {
         open={isImportDeal}
         setIsImportDeal={setIsImportDeal}
       />
-      <CreateDeal open={isCreateDeal} onClose={handleCreateDealOpen} />
-      <ViewAllDeals open={IsViewAll} onClose={handleViewAll} />
+      <CreateDeal
+        open={isCreateDeal}
+        onClose={handleCreateDealOpen}
+        dealViewsData={dealViewsData}
+      />
+      <ViewAllDeals
+        open={IsViewAll}
+        onClose={() => {
+          handleViewAll();
+          setSearch('');
+        }}
+        dealHeaderParams={dealHeaderParams}
+      />
     </Box>
   );
 };

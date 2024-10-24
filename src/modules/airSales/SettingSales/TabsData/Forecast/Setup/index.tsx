@@ -22,7 +22,6 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
   AddCircleBlackIcon,
-  DeleteCrossDisableIcon,
   DeleteCrossIcon,
   DragIcon,
   EditPenIcon,
@@ -43,6 +42,7 @@ import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const Setup = () => {
   const theme = useTheme<Theme>();
@@ -310,9 +310,16 @@ const Setup = () => {
                   xs={12}
                   md={1}
                   my={2}
-                  sx={{ textAlign: 'right', paddingRight: '8px' }}
+                  sx={{
+                    textAlign: 'right',
+                    paddingRight: '8px',
+                    paddingTop: '10px !important',
+                    marginBottom: '0px !important',
+                  }}
                 >
-                  <DeleteCrossDisableIcon />
+                  <IconButton disabled={true}>
+                    <CancelIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
 
@@ -352,9 +359,16 @@ const Setup = () => {
                   xs={12}
                   md={1}
                   my={2}
-                  sx={{ textAlign: 'right', paddingRight: '8px' }}
+                  sx={{
+                    textAlign: 'right',
+                    paddingRight: '8px',
+                    paddingTop: '10px !important',
+                    marginBottom: '0px !important',
+                  }}
                 >
-                  <DeleteCrossDisableIcon />
+                  <IconButton disabled={true}>
+                    <CancelIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
 
@@ -388,9 +402,16 @@ const Setup = () => {
                   xs={12}
                   md={1}
                   my={2}
-                  sx={{ textAlign: 'right', paddingRight: '8px' }}
+                  sx={{
+                    textAlign: 'right',
+                    paddingRight: '8px',
+                    paddingTop: '10px !important',
+                    marginBottom: '0px !important',
+                  }}
                 >
-                  <DeleteCrossDisableIcon />
+                  <IconButton disabled={true}>
+                    <CancelIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
             </>

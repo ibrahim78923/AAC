@@ -1,5 +1,5 @@
 import { useDeleteDepartmentMutation } from '@/services/airServices/settings/user-management/departments';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IDepartmentsProps } from '../Departments.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 

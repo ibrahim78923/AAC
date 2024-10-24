@@ -145,9 +145,7 @@ const useCreateSMSBroadcast = () => {
     if (isSchedule) {
       payloadData.schedualDate = values?.schedualDate;
     }
-    if (type === DRAWER_TYPES?.EDIT) {
-      payloadData.sendNow = true;
-    }
+
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {

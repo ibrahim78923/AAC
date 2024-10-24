@@ -1,10 +1,10 @@
 import { TASK_STATUS } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import { styles } from './ViewWorkloadDrawer.styles';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
+import { otherDateFormat } from '@/lib/date-time';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 
@@ -51,21 +51,24 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
     id: 5,
     title: 'Due Date',
-    details: `${dayjs(taskDetail?.endDate)?.format(
+    details: `${otherDateFormat(
+      taskDetail?.endDate,
       DATE_TIME_FORMAT?.ddddDDMMMYYYYhhmmA,
     )}`,
   },
   {
     id: 6,
     title: 'Planned Start Date',
-    details: `${dayjs(taskDetail?.startDate)?.format(
+    details: `${otherDateFormat(
+      taskDetail?.startDate,
       DATE_TIME_FORMAT?.ddddDDMMMYYYY,
     )}`,
   },
   {
     id: 7,
     title: 'Planned End Date',
-    details: `${dayjs(taskDetail?.endDate)?.format(
+    details: `${otherDateFormat(
+      taskDetail?.endDate,
       DATE_TIME_FORMAT?.ddddDDMMMYYYY,
     )}`,
   },

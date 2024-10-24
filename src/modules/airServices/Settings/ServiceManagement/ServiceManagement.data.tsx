@@ -1,5 +1,5 @@
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { ClosureRuleIcon, ServicesCatalogIcon } from '@/assets/icons';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 import { Permissions } from '@/constants/permissions';

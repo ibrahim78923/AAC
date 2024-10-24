@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { singleProductDetailActionDropdownFunction } from './SingleProductCatalogDetails.data';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useDeleteProductCatalogMutation } from '@/services/airServices/settings/asset-management/product-catalog';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSingleProductCatalogDetails = () => {
   const router = useRouter();

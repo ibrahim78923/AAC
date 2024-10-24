@@ -6,19 +6,16 @@ import {
   createEmailThisDashboardValidationSchema,
   sendDashboardViaEmailFormFieldsDynamic,
 } from './EmailThisDashboard.data';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { useEffect, useMemo } from 'react';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import {
   useSendServicesDashboardRecurringViaEmailMutation,
   useSendServicesDashboardViaEmailOnceMutation,
 } from '@/services/airServices/dashboard';
-import { AIR_SERVICES } from '@/constants';
 import { getActiveAccountSession } from '@/utils';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useEmailThisDashboard = (props: any) => {
   const { setIsDrawerOpen, apiLoader } = props;

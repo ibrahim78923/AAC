@@ -221,12 +221,10 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'products',
         GridView: 6,
-        isCheckBox: true,
         options: filteredProducts?.map((item: any) => ({
           value: item?._id,
           label: item?.name,
         })),
-        fullWidth: true,
       },
       toShow: ['COMPANY_OWNER'],
       component: RHFMultiCheckbox,

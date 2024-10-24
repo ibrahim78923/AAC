@@ -1,7 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { CatalogRequest } from '../CatalogRequest';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import useCatalogService from './useCatalogService';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ServiceCard } from '../ServiceCard';
@@ -10,6 +9,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { Theme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 const CatalogService = () => {
   const {

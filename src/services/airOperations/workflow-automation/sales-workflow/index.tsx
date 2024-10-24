@@ -118,17 +118,6 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getLifeCycleStagesDropdownList: builder?.query({
-      query: ({ params }) => ({
-        url: `${END_POINTS?.DEALS_LIFECYCLE_STAGES}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.lifecycleStages;
-      },
-      providesTags: [TAG_ONE],
-    }),
     getAdminUserDropdownList: builder?.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.USERS_LIST_ADMIN}`,
@@ -155,7 +144,6 @@ export const {
   usePostTestSalesWorkflowMutation,
   useLazyGetUserDropdownListQuery,
   useCloneWorkflowMutation,
-  useLazyGetLifeCycleStagesDropdownListQuery,
   useUpdateSalesWorkflowMutation,
   useGetByIdSalesWorkflowQuery,
   useLazyGetAdminUserDropdownListQuery,

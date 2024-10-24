@@ -2,7 +2,7 @@ import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { fieldManager } from './FieldManager.data';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export default function FieldManager() {
   const theme = useTheme();

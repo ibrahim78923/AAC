@@ -1,14 +1,14 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { AIR_SERVICES } from '@/constants';
 
 import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AddCircle } from '@mui/icons-material';
 import { useMemo } from 'react';
 import { getActiveAccountSession } from '@/utils';
-import { uiDateFormat } from '@/utils/dateTime';
 import { useLazyGetAssociateAssetsDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
+import { AIR_SERVICES } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const AssetFieldDropdown = (props: any) => {
   const { required = false } = props;
@@ -16,8 +16,10 @@ export const AssetFieldDropdown = (props: any) => {
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownForServicesTicketsQuery();
 
-  const product = useMemo(() => getActiveAccountSession(), []);
-  const companyId = product?.company?._id ?? {};
+  const companyId = useMemo(() => {
+    const product = getActiveAccountSession() as any;
+    return product?.company?._id ?? {};
+  }, []);
 
   return (
     <RHFAutocompleteAsync

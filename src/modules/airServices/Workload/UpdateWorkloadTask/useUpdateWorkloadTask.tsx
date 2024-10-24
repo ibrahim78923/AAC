@@ -3,18 +3,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   getWorkloadDefaultValues,
   getWorkloadValidationSchema,
-  getWorkloadDataArray,
 } from './UpdateWorkloadTask.data';
 import { useEffect } from 'react';
-import {
-  useLazyGetAllUsersInWorkloadQuery,
-  usePatchTaskMutation,
-} from '@/services/airServices/workload';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { isoDateString } from '@/utils/dateTime';
+import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
-  const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
+  const [patchTaskTrigger, patchTaskStatus] =
+    usePatchAirServicesWorkloadTaskMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(getWorkloadValidationSchema),
@@ -59,17 +56,10 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     reset(getWorkloadDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
-  const apiQueryAssignTo = useLazyGetAllUsersInWorkloadQuery();
-
-  const workloadDataArray = getWorkloadDataArray({
-    apiQueryAssignTo,
-  });
-
   return {
     handleSubmit,
     onSubmit,
     methods,
-    workloadDataArray,
     patchTaskStatus,
   };
 };

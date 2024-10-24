@@ -233,3 +233,4 @@ export { default as StatsTwitterImage } from './modules/airMarketer/Dashboard/tw
 export { default as StatsLinkedinImage } from './modules/airMarketer/Dashboard/linkedin-icon.png';
 export { default as StatsYoutubeImage } from './modules/airMarketer/Dashboard/youtube-icon.png';
 export { default as NoDashboardWidgetImage } from './modules/airServices/Dashboard/no-dashboard-widget-image.svg';
+export { default as ConsumerImage } from './modules/HeaderAndSidebar/consumer-image.png';

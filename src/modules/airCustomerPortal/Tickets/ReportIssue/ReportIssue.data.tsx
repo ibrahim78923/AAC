@@ -1,16 +1,12 @@
-import {
-  RHFTextField,
-  RHFDropZone,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
+import { RHFTextField, RHFDropZone } from '@/components/ReactHookForm';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
-
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { ROLE } from '@/constants/strings';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 import * as Yup from 'yup';
+import { RequesterDropdown } from './RequesterDropdown';
+import { AssociateAssetsDropdown } from './AssociateAssetsDropdown';
 
 export const reportIssueFormValidationSchema = (checkPermission: any) =>
   Yup?.object()?.shape({
@@ -75,25 +71,13 @@ export const reportIssueFormDefaultValues = () => {
   };
 };
 
-export const reportIssueFormFieldsDynamic = (
-  apiQueryAssociateAsset: any,
-  apiQueryRequester: any,
-  companyId: string,
-) => [
+export const reportIssueFormFieldsDynamic = [
   {
     id: 1,
     componentProps: {
       name: 'requester',
-      label: 'Requester',
-      fullWidth: true,
-      required: true,
-      apiQuery: apiQueryRequester,
-      externalParams: { limit: 500, role: ROLE?.ORG_REQUESTER },
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-      placeholder: 'Add Requester',
     },
-    component: RHFAutocompleteAsync,
+    component: RequesterDropdown,
     md: 12,
   },
   {
@@ -124,17 +108,8 @@ export const reportIssueFormFieldsDynamic = (
   },
   {
     id: 4,
-    componentProps: {
-      name: 'associatesAssets',
-      label: 'Associate Assets',
-      fullWidth: true,
-      multiple: true,
-      apiQuery: apiQueryAssociateAsset,
-      externalParams: { companyId },
-      getOptionLabel: (option: any) => option?.displayName,
-      placeholder: 'Choose Assets',
-    },
-    component: RHFAutocompleteAsync,
+    componentProps: {},
+    component: AssociateAssetsDropdown,
     md: 12,
   },
   {

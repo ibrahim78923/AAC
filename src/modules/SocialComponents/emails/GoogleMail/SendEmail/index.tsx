@@ -127,6 +127,8 @@ const SendEmailDrawer = (props: any) => {
     );
   };
 
+  const loggedInEmail = localStorage?.getItem('loggedInEmail');
+
   return (
     <div>
       <CommonDrawer
@@ -179,7 +181,11 @@ const SendEmailDrawer = (props: any) => {
                     size="small"
                     required={false}
                     disabled
-                    value={currentGmailAssets?.others?.to || ''}
+                    value={
+                      currentGmailAssets?.others?.to?.includes(loggedInEmail)
+                        ? currentGmailAssets?.others?.from
+                        : currentGmailAssets?.others?.to || ''
+                    }
                   />
                 </Grid>
               ) : (

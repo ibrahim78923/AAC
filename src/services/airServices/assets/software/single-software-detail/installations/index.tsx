@@ -2,7 +2,6 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'SOFTWARE_INSTALLATION';
-const TAG_ONE = 'DROPDOWN_ASSETS';
 
 export const installationAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -23,7 +22,6 @@ export const installationAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_ONE],
     }),
     getInstallationById: builder?.query({
       query: (params: any) => ({

@@ -1,4 +1,3 @@
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { Avatar, Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import { useAttendeePeople } from './useAttendeePeople';
 import {
@@ -7,17 +6,15 @@ import {
   generateColorFromName,
 } from '@/utils/avatarUtils';
 import { generateImage } from '@/utils/avatarUtils';
-import { meetingPeople, peopleTypes } from './AttendeePeople.data';
+import { meetingPeople } from './AttendeePeople.data';
 import { DateRangePickerIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ROUTER_CONSTANTS } from '@/constants/strings';
 import NoData from '@/components/NoData';
 import { CustomTooltip } from '@/components/CustomTooltip';
-import PersonIcon from '@mui/icons-material/Person';
-import ContactsIcon from '@mui/icons-material/Contacts';
-import { capitalizeFirstWord } from '@/utils/api';
+import GetMeetingAllUsersDropdown from '@/modules/SocialComponents/Meetings/MeetingsFormFieldsDropdowns/GetMeetingAllUsersDropdown';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const AttendeePeople = (props: any) => {
   const {
@@ -35,7 +32,6 @@ export const AttendeePeople = (props: any) => {
     bookedSlotsData,
     watchPeople,
   } = useAttendeePeople(props);
-  const USER = 'user';
 
   return (
     <>
@@ -46,46 +42,9 @@ export const AttendeePeople = (props: any) => {
         borderRadius={2}
         mt={1.5}
       >
-        <RHFAutocompleteAsync
-          name="people"
-          label="People"
-          apiQuery={userDropdown}
-          required
-          getOptionLabel={(option: any) =>
-            `${option?.firstName}  ${option?.lastName}`
-          }
-          renderOption={(option: any) => (
-            <Box display={'flex'} gap={1} width={'100%'}>
-              <Box>
-                <Typography
-                  variant={'body2'}
-                  color={'grey.600'}
-                  fontWeight={500}
-                >
-                  {`${capitalizeFirstWord(
-                    option?.firstName,
-                  )}  ${capitalizeFirstWord(option?.lastName)}`}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  variant={'body2'}
-                  color={'grey.500'}
-                  fontWeight={500}
-                >
-                  {option?.type === USER ? (
-                    <PersonIcon sx={{ color: 'primary.main' }} />
-                  ) : (
-                    <ContactsIcon sx={{ color: 'custom.lime_green' }} />
-                  )}
-                </Typography>
-              </Box>
-            </Box>
-          )}
-          multiple={router?.query?.type === peopleTypes?.group}
-          size="small"
-          placeholder="Invite Someone"
-          fullWidth
+        <GetMeetingAllUsersDropdown
+          router={router}
+          userDropdown={userDropdown}
         />
         <Box
           display="flex"
@@ -232,7 +191,8 @@ export const AttendeePeople = (props: any) => {
                               gap={0.5}
                             >
                               <DateRangePickerIcon />
-                              {dayjs(watchStartDate)?.format(
+                              {otherDateFormat(
+                                watchStartDate,
                                 DATE_TIME_FORMAT?.WDM,
                               )}
                             </Typography>
@@ -296,7 +256,10 @@ export const AttendeePeople = (props: any) => {
                           gap={0.5}
                         >
                           <DateRangePickerIcon />
-                          {dayjs(watchStartDate)?.format(DATE_TIME_FORMAT?.WDM)}
+                          {otherDateFormat(
+                            watchStartDate,
+                            DATE_TIME_FORMAT?.WDM,
+                          )}
                         </Typography>
                       </Box>
                     </Grid>

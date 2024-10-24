@@ -13,7 +13,7 @@ import {
   existingDealDefaultValues,
 } from './DealEditorDrawer/DealEditorDrawer.data';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
-import { useLazyGetDealPipeLineQuery } from '@/services/common-APIs';
+import { useLazyGetCommonDealPipeLineQuery } from '@/services/common-APIs';
 import {
   useGetAssociationQuery,
   usePostAssociationMutation,
@@ -31,7 +31,7 @@ const useDeal = (contactId: any) => {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
   const dealOwnersData = useLazyGetOrganizationUsersQuery();
-  const dealPipelineData = useLazyGetDealPipeLineQuery();
+  const dealPipelineData = useLazyGetCommonDealPipeLineQuery();
   const { data: addLineItems } = useGetAddLineItemsQuery({});
   const addLineItemsData = addLineItems?.data?.salesproducts?.map(
     (item: any) => ({

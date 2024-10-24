@@ -1,45 +1,54 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
-  operatorExists,
-  timeSpanExists,
+  ATTRIBUTE_FIELDS,
+  TIME_SPAN_FIELDS,
   upsertRulesFormDefaultValues,
   upsertRulesFormFieldsDynamic,
   upsertRulesFormValidationSchema,
 } from './UpsertRules.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useEffect } from 'react';
+import { useAddLoyaltyProgramLoyaltySingleRuleMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import {
-  useAddRulesMutation,
-  useLazyGetTiersDropdownForRulesQuery,
-} from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
-import {
-  LOYALTY_TIERS_REWARD_TYPE,
-  RULES_BENEFIT_TYPE,
-  RULES_TIME_SPAN,
-} from '@/constants/strings';
+  LOYALTY_PROGRAM_RULES_BENEFIT_TYPE,
+  LOYALTY_PROGRAM_RULES_TIME_SPAN,
+  LOYALTY_PROGRAM_TIERS_REWARD_TYPE,
+} from '@/constants/api';
+import { useGetRulesLists } from '../RulesHooks/useGetRulesLists';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setIsPortalClose } from '@/redux/slices/airLoyaltyProgram/rules/slice';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
-export const useUpsertRules = (props: any) => {
-  const [hasAudience, setHasAudience] = useState('');
-  const { setIsDrawerOpen } = props;
+export const useUpsertRules = () => {
+  const { getLoyaltyProgramRulesList } = useGetRulesLists?.();
 
-  const [addRulesTrigger, addRulesStatus] = useAddRulesMutation();
+  const dispatch = useAppDispatch();
 
-  const upsertRuleMethod = useForm<any>({
+  const isPortalOpen = useAppSelector(
+    (state) => state?.loyaltyProgramRules?.isPortalOpen,
+  );
+
+  const [
+    addLoyaltyProgramLoyaltySingleRuleTrigger,
+    addLoyaltyProgramLoyaltySingleRuleStatus,
+  ] = useAddLoyaltyProgramLoyaltySingleRuleMutation();
+
+  const methods = useForm<any>({
     resolver: yupResolver(upsertRulesFormValidationSchema),
-    defaultValues: upsertRulesFormDefaultValues,
+    defaultValues: upsertRulesFormDefaultValues?.(isPortalOpen?.data),
   });
 
-  const { handleSubmit, control, reset, clearErrors, setValue } =
-    upsertRuleMethod;
+  const { handleSubmit, reset, clearErrors, setValue, watch } = methods;
 
   const submitUpsertRuleForm = async (formData: any) => {
     const timeSpan = {
       type: formData?.timeSpanOf?._id,
-      ...(formData?.timeSpanOf?._id === RULES_TIME_SPAN?.CUSTOM_DATE
+      ...(formData?.timeSpanOf?._id ===
+      LOYALTY_PROGRAM_RULES_TIME_SPAN?.CUSTOM_DATE
         ? {
-            startDate: formData?.customDate?.startDate?.toISOString(),
-            endDate: formData?.customDate?.endDate?.toISOString(),
+            startDate: isoDateString(formData?.customDate?.startDate),
+            endDate: isoDateString(formData?.customDate?.endDate),
           }
         : {}),
     };
@@ -50,19 +59,17 @@ export const useUpsertRules = (props: any) => {
     };
 
     const body = {
-      type: hasAudience,
+      type: 'CUSTOMER', //TODO : will delete when api update acc 2 new requirements
       attribute: formData?.attribute?._id,
       description: formData?.description,
       tierId: formData?.appliedTo?._id,
       rewardType:
-        formData?.loyaltyType === RULES_BENEFIT_TYPE?.DISCOUNT
+        formData?.loyaltyType === LOYALTY_PROGRAM_RULES_BENEFIT_TYPE?.DISCOUNT
           ? formData?.discountType?._id
-          : LOYALTY_TIERS_REWARD_TYPE?.POINTS,
+          : LOYALTY_PROGRAM_TIERS_REWARD_TYPE?.POINTS,
       rewards: +formData?.rewards,
-      ...(timeSpanExists?.includes(formData?.attribute?._id)
-        ? { timeSpan }
-        : {}),
-      ...(operatorExists?.includes(formData?.attribute?._id)
+      ...(!!TIME_SPAN_FIELDS?.[formData?.attribute?._id] ? { timeSpan } : {}),
+      ...(!!ATTRIBUTE_FIELDS?.[formData?.attribute?._id]
         ? { ...operator }
         : {}),
     };
@@ -72,76 +79,50 @@ export const useUpsertRules = (props: any) => {
     };
 
     try {
-      await addRulesTrigger(apiDataParameter)?.unwrap();
+      await addLoyaltyProgramLoyaltySingleRuleTrigger(
+        apiDataParameter,
+      )?.unwrap();
       successSnackbar?.('Rules added successfully');
-      closeUpsertRule();
+      closePortal();
+      await getLoyaltyProgramRulesList?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
-  const watchForAttribute = useWatch({
-    control,
-    name: 'attribute',
-    defaultValue: null,
-  });
-
-  const watchForLoyaltyType = useWatch({
-    control,
-    name: 'loyaltyType',
-    defaultValue: '',
-  });
-
-  const watchForTimeSpan = useWatch({
-    control,
-    name: 'timeSpanOf',
-    defaultValue: null,
-  });
-
-  const watchForDiscountType = useWatch({
-    control,
-    name: 'discountType',
-    defaultValue: null,
-  });
+  const watchForAttribute = watch('attribute');
+  const watchForLoyaltyType = watch('loyaltyType');
+  const watchForTimeSpan = watch('timeSpanOf');
+  const watchForDiscountType = watch('discountType');
 
   useEffect(() => {
     clearErrors();
     reset();
     setValue?.('attribute', watchForAttribute);
-  }, [watchForAttribute?._id]);
-
-  const apiQueryTiers = useLazyGetTiersDropdownForRulesQuery?.();
+  }, [watchForAttribute?._id, reset]);
 
   const upsertRulesFormFields = upsertRulesFormFieldsDynamic(
     watchForLoyaltyType,
-    apiQueryTiers,
     watchForTimeSpan,
     watchForAttribute,
     watchForDiscountType,
-  )?.filter(
-    (formField: any) =>
-      formField?.attributeType?.includes(watchForAttribute?._id),
   );
 
-  const closeUpsertRule = () => {
+  const closePortal = () => {
     reset?.();
-    setIsDrawerOpen?.(false);
-    setHasAudience?.('');
+    dispatch(setIsPortalClose());
   };
 
-  const setAudienceType = (type: any) => {
-    setHasAudience?.(type?._id);
-  };
+  const apiCallInProgress = addLoyaltyProgramLoyaltySingleRuleStatus?.isLoading;
 
   return {
-    closeUpsertRule,
-    upsertRuleMethod,
+    closePortal,
     handleSubmit,
     submitUpsertRuleForm,
+    methods,
     upsertRulesFormFields,
     watchForAttribute,
-    hasAudience,
-    setAudienceType,
-    addRulesStatus,
+    apiCallInProgress,
+    isPortalOpen,
   };
 };

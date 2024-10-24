@@ -1,6 +1,6 @@
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 

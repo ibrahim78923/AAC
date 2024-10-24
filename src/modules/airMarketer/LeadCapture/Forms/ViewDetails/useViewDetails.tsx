@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetManageFieldByIdQuery } from '@/services/airMarketer/lead-capture/forms';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { generateFormHtml } from '@/utils/form-builder';
 import { formMode } from '@/constants/form-builder';
 import { enqueueSnackbar } from 'notistack';
 import { useDeleteLeadCaptureFormMutation } from '@/services/airMarketer/lead-capture/forms';
@@ -15,7 +14,6 @@ const useViewDetails = () => {
   const theme = useTheme();
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [findStatus, setFindStatus] = useState(false);
-  const [htmlTemplate, setHtmlTemplate] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -28,18 +26,6 @@ const useViewDetails = () => {
 
   const { data: dataGetFormById, isLoading: loadingGetForm } =
     useGetManageFieldByIdQuery({ id: formId }, { skip: !formId });
-
-  useEffect(() => {
-    if (dataGetFormById) {
-      setHtmlTemplate(
-        generateFormHtml(
-          dataGetFormById?.data?.form?._id,
-          dataGetFormById?.data?.fields,
-          dataGetFormById?.data?.form?.styling,
-        ),
-      );
-    }
-  }, [dataGetFormById]);
 
   const handleClickEdit = () => {
     router.push({
@@ -88,7 +74,6 @@ const useViewDetails = () => {
     handleClickEdit,
     dataGetFormById,
     loadingGetForm,
-    htmlTemplate,
     status,
     formId,
     openModalDelete,

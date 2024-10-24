@@ -17,12 +17,14 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
     size,
     hasStyling = true,
     canDelete = true,
+    flexDirection = 'row',
   } = props;
   const { cross, setCross } = useAttachFileCard();
 
   return (
     <Box
       display={'flex'}
+      flexDirection={flexDirection}
       alignItems={'center'}
       flexWrap={'wrap'}
       {...(hasStyling
@@ -63,14 +65,18 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
           >
             {truncateText(data?.orignalName)}
           </Typography>
-          <Typography
-            variant="body3"
-            color={'grey.900'}
-            component={'div'}
-            whiteSpace={'nowrap'}
-          >
-            {formatFileSize(data?.fileSize)}
-          </Typography>
+          {!!data?.fileSize ? (
+            <Typography
+              variant="body3"
+              color={'grey.900'}
+              component={'div'}
+              whiteSpace={'nowrap'}
+            >
+              {formatFileSize(data?.fileSize)}
+            </Typography>
+          ) : (
+            <></>
+          )}
         </Box>
         <PermissionsGuard permissions={permissionKey}>
           {cross && (

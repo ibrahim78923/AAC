@@ -5,7 +5,6 @@ import {
   upsertUserValidationSchema,
 } from './UpsertUser.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import {
   useAddOperationsUserManagementSingleProductUserMutation,
@@ -25,6 +24,7 @@ import {
   setIsPortalOpen,
   setIsPortalClose,
 } from '@/redux/slices/airOperations/users/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
   OPERATIONS_USERS_ACTIONS_CONSTANT;
@@ -127,8 +127,8 @@ export const useUpsertUser = () => {
       const email = {
         email: response?.data?.data?.user?.email,
       };
-      closePortal?.();
       successSnackbar('User added successfully');
+      closePortal?.();
       await verifyUserViaIg(email?.email);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

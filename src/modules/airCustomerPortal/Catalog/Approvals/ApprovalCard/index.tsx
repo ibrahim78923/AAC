@@ -7,8 +7,8 @@ import {
 } from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
-import { formatTimeDifference } from '@/utils/dateTime';
 import { ApprovalCardPropsI } from '../AllApprovals/AllApprovals.interface';
+import { formatTimeDifference } from '@/lib/date-time';
 
 export const ApprovalCard = (props: ApprovalCardPropsI) => {
   const {

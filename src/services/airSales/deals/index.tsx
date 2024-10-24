@@ -88,14 +88,27 @@ export const dealsApi = baseAPI.injectEndpoints({
       providesTags: TAGS,
     }),
     getDealsViews: builder.query({
-      query: () => {
+      query: (params: any) => {
         return {
           url: `${END_POINTS?.GET_DEALS_VIEWS}`,
           method: 'GET',
+          params,
         };
       },
       providesTags: TAGS,
     }),
+
+    updateDealsView: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.UPDATE_DEALS_VIEW,
+          method: 'PATCH',
+          body,
+        };
+      },
+      invalidatesTags: TAGS,
+    }),
+
     getRestoreDeals: builder.query({
       query: ({ params }: any) => {
         return {
@@ -131,7 +144,7 @@ export const dealsApi = baseAPI.injectEndpoints({
 
     deleteDeals: builder.mutation({
       query: ({ ids }: any) => ({
-        url: `${END_POINTS?.DELETE_DEALS}/${ids}`,
+        url: `${END_POINTS?.DELETE_DEALS}?ids=${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: TAGS,
@@ -219,6 +232,7 @@ export const {
   useLazyGetDealsActionPreviewQuery,
   useGetDealsViewsQuery,
   useLazyGetDealsViewsQuery,
+  useUpdateDealsViewMutation,
   useGetRestoreDealsQuery,
   useUpdateDealsMutation,
   usePostDealsMutation,

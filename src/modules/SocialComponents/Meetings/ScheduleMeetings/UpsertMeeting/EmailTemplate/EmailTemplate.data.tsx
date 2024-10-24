@@ -1,10 +1,10 @@
-import { SOCIAL_COMPONENTS } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import * as Yup from 'yup';
 import { MeetingDataI } from './EmailTemplate.interface';
 import { Dispatch, SetStateAction } from 'react';
 import { NextRouter } from 'next/router';
+import { SOCIAL_COMPONENTS } from '@/constants/routes';
 
 export const emailTemplateSchema: any = Yup?.object()?.shape({
   emailTemplate: Yup?.string()

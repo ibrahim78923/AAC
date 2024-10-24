@@ -1,5 +1,5 @@
 import { useForm, UseFormReturn, useWatch } from 'react-hook-form';
-import { errorSnackbar, filteredEmptyValues } from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import {
   DATE_DIFFERENCE,
   restoreReportFilterFormFieldsDynamic,
@@ -14,6 +14,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airOperations/restore-reports/slice';
 import { PAGINATION } from '@/config';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useRestoreReportsFilter = () => {
   const dispatch = useAppDispatch();

@@ -1,15 +1,22 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-
+import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
+import { FormProvider } from '@/components/ReactHookForm';
+import { Box, Grid } from '@mui/material';
+import { styles } from './ViewAllDeals.style';
+import { viewDealsData } from './ViewAllDeals.data';
 import useViewAllDeals from './useViewAllDeals';
 
-import { columnsData } from './ViewAllDeals.data';
+const ViewAllDeals = ({ open, onClose, dealHeaderParams }: CreateDealProps) => {
+  const { dealViewsData, setSearch } = dealHeaderParams;
 
-import { v4 as uuidv4 } from 'uuid';
-import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
+  const newDealViewsData = [
+    { _id: 1, name: 'All Deals', isActive: true, isDefault: true },
+    ...(Array?.isArray(dealViewsData) ? dealViewsData : []),
+  ];
 
-const ViewAllDeals = ({ open, onClose }: CreateDealProps) => {
-  const { search, setSearch, ColumnsWrapper } = useViewAllDeals();
+  const { handleSubmit, onSubmit, methods, updateViewLoading, theme } =
+    useViewAllDeals(newDealViewsData);
 
   return (
     <CommonDrawer
@@ -19,23 +26,26 @@ const ViewAllDeals = ({ open, onClose }: CreateDealProps) => {
       isOk
       okText="Apply"
       title="All Views"
+      submitHandler={handleSubmit(onSubmit)}
+      isLoading={updateViewLoading}
     >
       <Search
         label="Search Here"
-        searchBy={search}
         setSearchBy={setSearch}
         fullWidth
         autoComplete="off"
       />
-      {columnsData?.map((column) => (
-        <ColumnsWrapper
-          key={uuidv4()}
-          title={column?.title}
-          checkboxProps={{
-            onChange: () => {},
-          }}
-        />
-      ))}
+      <FormProvider methods={methods}>
+        <Box sx={{ ...styles?.viewRecStyle(theme), mt: 1 }}>
+          <Grid container spacing={1}>
+            {viewDealsData(newDealViewsData)?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
+                <item.component {...item.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </FormProvider>
     </CommonDrawer>
   );
 };

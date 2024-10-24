@@ -1,7 +1,6 @@
 import { useAddSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import {
   addRequestApprovalFormFieldsDynamic,
@@ -11,11 +10,12 @@ import {
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddRequestApproval = () => {
   const router = useRouter();
   const auth: any = useAuth();
-  const userId = auth?.user?._id;
+  const userId = auth?.user?._id ?? {};
 
   const ticketId = router?.query?.ticketId as string;
 

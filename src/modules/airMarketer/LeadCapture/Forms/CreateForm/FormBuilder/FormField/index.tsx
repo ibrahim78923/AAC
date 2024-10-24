@@ -109,11 +109,7 @@ const FormField: React.FC<FieldProps> = ({
           <Box sx={styles?.fieldInput}>
             <select className="field-control">
               {field?.values?.map((option: any) => (
-                <option
-                  key={option?.value}
-                  value={option?.value}
-                  selected={option?.selected}
-                >
+                <option key={option?.value} value={option?.value}>
                   {option?.label}
                 </option>
               ))}

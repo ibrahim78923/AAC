@@ -1,10 +1,12 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { DATE_TIME_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { SOCIAL_COMPONENTS } from '@/constants/routes';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { splitCapitalizedWords, TimeFormatDuration } from '@/utils/api';
+import { TimeFormatDuration } from '@/lib/date-time';
+import { splitCapitalizedWords } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';

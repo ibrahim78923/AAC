@@ -59,7 +59,7 @@ export const UsersAdd = () => {
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
-            {addUserDataFormFieldsAddUser?.map((item) => (
+            {addUserDataFormFieldsAddUser?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

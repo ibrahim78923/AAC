@@ -7,6 +7,7 @@ import {
   Typography,
   Badge,
   Divider,
+  Avatar,
 } from '@mui/material';
 import { NotificationImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,6 +19,7 @@ import { generateImage } from '@/utils/avatarUtils';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { indexNumbers } from '@/constants';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
@@ -99,7 +101,7 @@ const NotificationDropdown = () => {
               <SkeletonComponent numberOfSkeletons={5} />
             ) : (
               <Box>
-                {notificationsData?.length > 0 ? (
+                {notificationsData?.length > indexNumbers?.ZERO ? (
                   notificationsData?.map((item: any) => {
                     return (
                       <Box key={uuidv4()} mt={0.5}>
@@ -116,21 +118,24 @@ const NotificationDropdown = () => {
                           }}
                           onClick={() => handleSeenNotification(item?._id)}
                         >
-                          <Image
+                          <Avatar
                             src={generateImage(item?.performedByAvatar?.url)}
-                            width={32}
-                            height={32}
-                            alt="notification-avatar"
-                          />
+                            sx={{ color: theme?.palette?.grey[600] }}
+                          >
+                            {item?.performedByName?.charAt(0)}
+                          </Avatar>
                           <Box>
                             <Typography
                               variant="body2"
                               sx={{ color: theme?.palette?.grey[600] }}
                             >
-                              {`${item?.performedByName} ${capitalizeFirstLetter(
-                                item?.activityType,
-                              )} ${capitalizeFirstLetter(item?.module)}`}
-                              {item?.message}
+                              {item?.message
+                                ? item?.message
+                                : `${capitalizeFirstLetter(
+                                    item?.performedByName,
+                                  )} ${capitalizeFirstLetter(
+                                    item?.activityType,
+                                  )} ${capitalizeFirstLetter(item?.module)}`}
                             </Typography>
                             <Typography
                               variant="body3"

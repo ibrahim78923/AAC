@@ -3,14 +3,14 @@ import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AIR_SERVICES } from '@/constants';
-import {
-  customerSupportListColumn,
-  surveyDataTypes,
-} from './CustomerSupportList.data';
+import { AIR_SERVICES } from '@/constants/routes';
+import { customerSupportListColumn } from './CustomerSupportList.data';
 import { useCustomerSupportList } from './useCustomerSupportList';
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import {
+  ALERT_MODALS_TYPE,
+  FEEDBACK_SURVEY_PATH_TYPES,
+} from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
@@ -71,7 +71,7 @@ export const CustomerSupportList: React.FC<{ status?: string }> = (props) => {
               onClick={() =>
                 router?.push({
                   pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
-                  query: { type: surveyDataTypes?.customerSupport },
+                  query: { type: FEEDBACK_SURVEY_PATH_TYPES?.CUSTOMER_SUPPORT },
                 })
               }
             >

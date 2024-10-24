@@ -10,6 +10,7 @@ import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { FILE_MAX_SIZE } from '@/config';
 import { EmailReportDataDefaultValuesI } from './EmailReport.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { REGEX } from '@/constants/validation';
 
 const { ZERO } = SELECTED_ARRAY_LENGTH ?? {};
 
@@ -29,7 +30,9 @@ export const emailReportValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.required('Message is required')
     ?.test('is-not-empty', 'Message is required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
   attachments: Yup?.mixed()?.nullable()?.required('Attachment is required'),

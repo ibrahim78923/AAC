@@ -1,9 +1,8 @@
 import { Checkbox } from '@mui/material';
-import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { CALENDAR_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
 import { fullName } from '@/utils/avatarUtils';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const installationTableColumns = (
   installationData: any,
@@ -89,7 +88,7 @@ export const installationTableColumns = (
       accessorFn: (row: any) => row?.installationDate,
       id: 'installationDate',
       header: 'Installation Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+      cell: (info: any) => uiDateFormat(info?.getValue()),
     },
   ];
 };

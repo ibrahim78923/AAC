@@ -1,8 +1,8 @@
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';
 import { AllApprovalsPropsI, ApprovalsDataI } from './AllApprovals.interface';
 import { useGetCustomerPortalCatalogPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal/catalog';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const useAllApprovals = (props: AllApprovalsPropsI) => {
   const { approvalStatus } = props;

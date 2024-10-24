@@ -7,7 +7,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const Overview = () => {
   const { isLoading, isFetching, isError, overviewData, refetch } =

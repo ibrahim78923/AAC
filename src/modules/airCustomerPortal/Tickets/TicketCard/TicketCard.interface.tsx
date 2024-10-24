@@ -13,7 +13,7 @@ export interface TicketCardPropsI {
         url?: string;
       };
     };
-    createdAt?: string;
+    createdAt: Date | string;
     moduleType?: string;
   };
 }

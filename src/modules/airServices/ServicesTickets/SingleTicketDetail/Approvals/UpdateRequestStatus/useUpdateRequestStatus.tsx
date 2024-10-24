@@ -1,10 +1,10 @@
 import { useUpdateSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpdateRequestStatus = () => {
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =

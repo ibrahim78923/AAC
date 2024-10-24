@@ -1,6 +1,5 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useCloneOperationsReportsMutation } from '@/services/airOperations/reports';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PAGINATION } from '@/config';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
@@ -9,6 +8,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};

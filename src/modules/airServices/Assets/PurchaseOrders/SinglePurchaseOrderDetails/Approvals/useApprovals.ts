@@ -7,7 +7,7 @@ import {
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { useTheme } from '@mui/material';
 import useAuth from '@/hooks/useAuth';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useApprovals = () => {
   const theme: any = useTheme();

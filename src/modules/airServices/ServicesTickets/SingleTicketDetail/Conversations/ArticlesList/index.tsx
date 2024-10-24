@@ -5,11 +5,11 @@ import { useArticlesList } from './useArticlesList';
 import NoData from '@/components/NoData';
 import ApiErrorState from '@/components/ApiErrorState';
 import CustomPagination from '@/components/CustomPagination';
-import { AIR_SERVICES } from '@/constants';
 import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/strings';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import Link from 'next/link';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const ArticlesList = (props: any) => {
   const { setArticleResponse } = props;

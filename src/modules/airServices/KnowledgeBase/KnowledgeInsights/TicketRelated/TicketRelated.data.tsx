@@ -1,7 +1,7 @@
 import { fullName } from '@/utils/avatarUtils';
 import { KnowledgeInsightsRelatedTicketTableRowI } from './TicketRelated.interface';
 import { TruncateText } from '@/components/TruncateText';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const FIRST_ELEMENT = 0;
 export const NO_DATA_MESSAGE = 'No inserted tickets found';

@@ -40,12 +40,16 @@ export const useExportButton = ({ handleExportModalOpen }: any) => {
       page: 1,
       limit: 20,
       exportType: values?.fileFormat,
-      startDate: dayjs(datePickerSubmitVal[0] ?? datePickerSubmitVal)?.format(
-        DATE_FORMAT?.API,
-      ),
-      endDate: dayjs(datePickerSubmitVal[1] ?? datePickerSubmitVal)?.format(
-        DATE_FORMAT?.API,
-      ),
+      ...(datePickerSubmitVal && {
+        startDate: dayjs(datePickerSubmitVal[0] ?? datePickerSubmitVal)?.format(
+          DATE_FORMAT?.API,
+        ),
+      }),
+      ...(datePickerSubmitVal && {
+        endDate: dayjs(datePickerSubmitVal[1] ?? datePickerSubmitVal)?.format(
+          DATE_FORMAT?.API,
+        ),
+      }),
     };
     try {
       await DownloadCsv(

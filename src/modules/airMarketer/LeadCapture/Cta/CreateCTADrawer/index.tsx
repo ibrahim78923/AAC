@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, Tooltip } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import StepCustomizedButton from './StepCustomizedButton';
@@ -29,6 +29,7 @@ const CreateCTADrawer = (props: any) => {
     loadingCreateCTA,
     loadingUpdateCTA,
     handleCopyIframeCode,
+    isCodeCopied,
   } = useCreateCTA(data, onClose, isOpen, title);
 
   const steps = [
@@ -101,16 +102,23 @@ const CreateCTADrawer = (props: any) => {
         {title === DRAWER_TITLE?.view && (
           <Box>
             <CtaViewComponent data={data} />
-
-            <Button
-              sx={{ mt: '32px' }}
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={handleCopyIframeCode}
+            <Tooltip
+              open={isCodeCopied}
+              title="Copied"
+              placement="top"
+              arrow
+              key="copy-code"
             >
-              Copy iframe Code
-            </Button>
+              <Button
+                sx={{ mt: '32px' }}
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleCopyIframeCode}
+              >
+                Copy iframe Code
+              </Button>
+            </Tooltip>
           </Box>
         )}
         {title !== DRAWER_TITLE?.view && (

@@ -1,13 +1,14 @@
 import { PAGINATION } from '@/config';
-import { AIR_LOYALTY_PROGRAM, CALENDAR_FORMAT } from '@/constants';
+import { CALENDAR_FORMAT } from '@/constants';
+import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
+import { otherDateFormat } from '@/lib/date-time';
 import {
   useGetVouchersQuery,
   usePatchVoucherMutation,
 } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { getActivePermissionsSession } from '@/utils';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import dayjs from 'dayjs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -21,10 +22,10 @@ export const useVouchers = () => {
   const filterBody = {
     dateStart:
       filterValues?.date &&
-      dayjs(filterValues?.date)?.format(CALENDAR_FORMAT?.YMD),
+      otherDateFormat(filterValues?.date, CALENDAR_FORMAT?.YMD),
     dateEnd:
       filterValues?.date &&
-      dayjs(filterValues?.date)?.format(CALENDAR_FORMAT?.YMD),
+      otherDateFormat(filterValues?.date, CALENDAR_FORMAT?.YMD),
     status: filterValues?.status,
   };
   const vouchersParameter = {
@@ -33,7 +34,7 @@ export const useVouchers = () => {
     ...filterBody,
     meta: true,
   };
-  const [patchVouchersTrigger] = usePatchVoucherMutation();
+  const patchVouchersTrigger = usePatchVoucherMutation();
 
   const { data, isLoading, isError, isSuccess, isFetching } =
     useGetVouchersQuery(vouchersParameter, {
@@ -46,7 +47,7 @@ export const useVouchers = () => {
     const checkPermissions = getActivePermissionsSession()?.includes(
       AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS,
     );
-    if (checkPermissions) {
+    if (!checkPermissions) {
       router?.push({
         pathname: AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST,
         query: { voucherId: data?._id },
@@ -55,7 +56,6 @@ export const useVouchers = () => {
   };
   const handleDeleteSubmit = async () => {
     try {
-      await patchVouchersTrigger(isPortal?.id)?.unwrap();
       successSnackbar('Voucher Deleted Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -70,6 +70,9 @@ export const useVouchers = () => {
   };
   const checkActionPermissions = getActivePermissionsSession()?.includes(
     AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.EDIT_DELETE,
+  );
+  const checkStatusPermissions = getActivePermissionsSession()?.includes(
+    AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ACTIVE_INACTIVE,
   );
 
   return {
@@ -92,5 +95,7 @@ export const useVouchers = () => {
     setIsPortal,
     handleDeleteSubmit,
     checkActionPermissions,
+    patchVouchersTrigger,
+    checkStatusPermissions,
   };
 };

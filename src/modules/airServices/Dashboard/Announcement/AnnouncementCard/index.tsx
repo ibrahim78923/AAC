@@ -1,16 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { formatTimeDifference } from '@/utils/dateTime';
 import { MoreVert } from '@mui/icons-material';
-import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { AnnouncementCardProps } from './AnnouncementCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { formatTimeDifference } from '@/lib/date-time';
 
 const { ONE } = SELECTED_ARRAY_LENGTH ?? {};
-const {} = AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
 
 export const AnnouncementCard = (props: AnnouncementCardProps) => {
   const {

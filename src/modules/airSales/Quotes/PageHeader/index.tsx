@@ -54,9 +54,7 @@ const PageHeader = () => {
               },
               marginLeft: { xs: '0px !important', sm: '15px !important' },
             }}
-            // disabled={isLoading}
           >
-            {/* {isLoading ? 'Loading...' : ' Create Quote'} */}
             Create Quote
           </LoadingButton>
         </PermissionsGuard>

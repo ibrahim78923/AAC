@@ -32,6 +32,7 @@ const useGoals = () => {
     setAlignment(newAlignment);
     setFilterValues('');
     setSearch('');
+    setTableRowValues([]);
   };
 
   const Params = {
@@ -122,6 +123,7 @@ const useGoals = () => {
     isFilterDrawer,
     setIsFilterDrawer,
     setFilterValues,
+    filterValues,
   };
 };
 

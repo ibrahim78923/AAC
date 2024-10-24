@@ -36,6 +36,7 @@ export const Filters = ({ setFilter, methods, setFilterByTypeState }: any) => {
         aria-describedby={id}
         onClick={handleClick}
         startIcon={<FilterSharedIcon />}
+        className={'small'}
       >
         Filters
       </Button>

@@ -1,5 +1,4 @@
 import { useDeleteServicesTicketTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useGetTicketTasksList } from '../../../TicketsServicesHooks/useGetTicketTasksList';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PAGINATION } from '@/config';
@@ -8,6 +7,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airServices/tickets-tasks/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteTask = () => {
   const [deleteTaskTrigger, deleteTaskStatus] =

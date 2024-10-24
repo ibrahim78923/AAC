@@ -1,10 +1,9 @@
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
-import dayjs from 'dayjs';
 import { ISignUpLoads } from './SignUpLeads.interface';
-import { DATE_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const getSignUpLeadsColumns = () => [
   {
@@ -47,8 +46,7 @@ export const getSignUpLeadsColumns = () => [
     id: 'dateOfBirth',
     isSortable: true,
     header: 'DOB',
-    cell: (info: { getValue: () => string }) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: { getValue: () => string }) => uiDateFormat(info?.getValue()),
   },
   {
     accessorFn: (row: ISignUpLoads) => row?.phoneNumber,

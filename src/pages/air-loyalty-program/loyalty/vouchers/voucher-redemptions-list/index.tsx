@@ -1,7 +1,6 @@
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 import Layout from '@/layout';
 import { VoucherRedemptionsList } from '@/modules/airLoyaltyProgram/Loyalty/Vouchers/VoucherRedemptionsList';
-import React from 'react';
 
 const VoucherRedemptionsListPage = () => <VoucherRedemptionsList />;
 

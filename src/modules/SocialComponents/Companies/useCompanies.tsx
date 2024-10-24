@@ -3,6 +3,7 @@ import { Theme, useTheme } from '@mui/material';
 import useToggle from '@/hooks/useToggle';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 import { PAGINATION } from '@/config';
+import { useForm } from 'react-hook-form';
 
 const useCompanies = () => {
   const theme = useTheme<Theme>();
@@ -14,6 +15,7 @@ const useCompanies = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [value, setValue] = useState(0);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [isOpen, setIsOpen] = useState({
     createCompanyDrawer: false,
@@ -143,8 +145,12 @@ const useCompanies = () => {
     setSelectedValue(event?.currentTarget);
   };
 
+  const methods: any = useForm({});
+  const { handleSubmit, reset } = methods;
+
   const handleResetFilters = () => {
     setFilterValues(defaultFilterValues);
+    reset();
     setValue(0);
   };
 
@@ -181,6 +187,10 @@ const useCompanies = () => {
     activeColumns,
     isDrawerOpen,
     setIsDrawerOpen,
+    isFilterOpen,
+    setIsFilterOpen,
+    methods,
+    handleSubmit,
   };
 };
 

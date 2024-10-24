@@ -1,7 +1,7 @@
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { NextRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const getBusinessHoursOptions = (
   setOpenModal: ((isOpen?: boolean) => void) | any,

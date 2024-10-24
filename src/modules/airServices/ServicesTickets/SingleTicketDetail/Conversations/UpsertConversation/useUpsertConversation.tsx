@@ -10,7 +10,6 @@ import {
   useAddServicesTicketsSingleConversationMutation,
   useUpdateServicesTicketSingleConversationNoteMutation,
 } from '@/services/airServices/tickets/single-ticket-details/conversation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -19,7 +18,6 @@ import {
 } from '@/constants/strings';
 import { ArticlesList } from '../ArticlesList';
 import { CannedResponsesList } from '../CannedResponsesList';
-import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { findAttributeValues } from '@/utils/file';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
@@ -33,6 +31,8 @@ import {
   TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT,
 } from '../Conversations.data';
 import { useGetTicketConversationList } from '../../../TicketsServicesHooks/useGetTicketConversationList';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useUpsertConversation = () => {
   const { getTicketConversationListData } = useGetTicketConversationList?.();

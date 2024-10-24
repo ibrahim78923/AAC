@@ -4,7 +4,7 @@ import { Box, Typography, Grid, Button } from '@mui/material';
 import { styles } from './Form.styles';
 import useFormHook from './useForm';
 import Loader from '@/components/Loader';
-import { formFieldsData } from './Form.data';
+import { generateFormFieldsData } from '@/utils/leadcapture-forms';
 import { FormProvider } from '@/components/ReactHookForm';
 
 export default function Form() {
@@ -17,7 +17,7 @@ export default function Form() {
     handlerOnSubmit,
   } = useFormHook();
   const fieldsData = data ? data?.data?.fields : [];
-  const formFields = formFieldsData(fieldsData);
+  const formFields = generateFormFieldsData(fieldsData);
 
   return (
     <>

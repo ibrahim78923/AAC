@@ -27,7 +27,7 @@ import {
 
 import { styles } from './ShareMyDine.style';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import { ShareMyDineProps } from './ShareMyDine-interface';
 
 const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
@@ -88,7 +88,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
               id="panel1a-header"
               sx={{ padding: '0px' }}
             >
-              <Typography sx={styles?.accordianSummary(theme)}>
+              <Typography px={1.5} sx={styles?.accordianSummary(theme)}>
                 {DealsActionData?.data?.contacts?.length < 10
                   ? `0${DealsActionData?.data?.contacts?.length}`
                   : DealsActionData?.data?.contacts?.length}
@@ -147,7 +147,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
               id="panel1a-header"
               sx={{ padding: '0px' }}
             >
-              <Typography sx={styles?.accordianSummary(theme)}>
+              <Typography px={1.5} sx={styles?.accordianSummary(theme)}>
                 {DealsActionData?.data?.companies?.length < 10
                   ? `0${DealsActionData?.data?.companies?.length}`
                   : DealsActionData?.data?.companies?.length}
@@ -208,7 +208,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
               id="panel1a-header"
               sx={{ padding: '0px' }}
             >
-              <Typography sx={styles?.accordianSummary(theme)}>
+              <Typography px={1.5} sx={styles?.accordianSummary(theme)}>
                 {DealsActionData?.data?.products?.length < 10
                   ? `0${DealsActionData?.data?.products?.length}`
                   : DealsActionData?.data?.products?.length}
@@ -264,7 +264,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
               id="panel1a-header"
               sx={{ padding: '0px' }}
             >
-              <Typography sx={styles?.accordianSummary(theme)}>
+              <Typography px={1.5} sx={styles?.accordianSummary(theme)}>
                 {DealsActionData?.data?.quotes?.length < 10
                   ? `0${DealsActionData?.data?.quotes?.length}`
                   : DealsActionData?.data?.quotes?.length}
@@ -323,7 +323,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
               id="panel1a-header"
               sx={{ padding: '0px' }}
             >
-              <Typography sx={styles?.accordianSummary(theme)}>
+              <Typography px={1.5} sx={styles?.accordianSummary(theme)}>
                 {DealsActionData?.data?.attachments?.length < 10
                   ? `0${DealsActionData?.data?.attachments?.length}`
                   : DealsActionData?.data?.attachments?.length}
@@ -340,25 +340,36 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {DealsActionData?.data?.attachments?.map((data: any) => (
-                <Box key={uuidv4()} my={1}>
-                  <Stack direction="row" gap={1}>
-                    <Image src={data?.img} alt="" />
-                    <Stack
-                      width="100%"
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Stack>
-                        <Typography sx={styles?.accordianText(theme)}>
-                          {data?.orignalName ?? 'N/A'}
-                        </Typography>
+              {DealsActionData?.data?.attachments?.length >
+              indexNumbers?.ZERO ? (
+                DealsActionData?.data?.attachments?.map((data: any) => (
+                  <Box key={uuidv4()} my={1}>
+                    <Stack direction="row" gap={1}>
+                      <Image src={data?.img} alt="" />
+                      <Stack
+                        width="100%"
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Stack>
+                          <Typography sx={styles?.accordianText(theme)}>
+                            {data?.orignalName ?? 'N/A'}
+                          </Typography>
+                        </Stack>
                       </Stack>
                     </Stack>
-                  </Stack>
-                </Box>
-              ))}
+                  </Box>
+                ))
+              ) : (
+                <Typography
+                  color={theme?.palette?.grey[500]}
+                  fontWeight={500}
+                  ml={2}
+                >
+                  No Record Found
+                </Typography>
+              )}
             </AccordionDetails>
           </Accordion>
         </Box>

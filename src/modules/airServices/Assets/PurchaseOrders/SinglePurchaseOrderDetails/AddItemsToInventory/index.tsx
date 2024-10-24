@@ -115,10 +115,14 @@ export const AddItemsToInventory = (props: any) => {
                   <Chip
                     size="small"
                     label={
-                      addToItemsInventoryDetails?.data?.data?.status ?? '---'
+                      addToItemsInventoryDetails?.data?.data?.status
+                        ?.split('_')
+                        ?.join(' ')
+                        ?.toLowerCase() ?? '---'
                     }
                     color="primary"
                     variant="outlined"
+                    sx={{ textTransform: 'capitalize' }}
                   />
                 </Box>
               </Box>

@@ -21,8 +21,8 @@ import * as Yup from 'yup';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
-import { localeDateTime } from '@/utils/dateTime';
 import { ServicesFieldDropdown } from '../../../ServiceTicketFormFields/ServicesFieldDropdown';
+import { localeDateTime } from '@/lib/date-time';
 
 const { SR } = TICKET_TYPE ?? {};
 

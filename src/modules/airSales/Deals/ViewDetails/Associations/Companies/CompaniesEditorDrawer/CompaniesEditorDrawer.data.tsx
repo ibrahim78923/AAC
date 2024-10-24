@@ -67,10 +67,16 @@ export const companiesDataArray = (getCompanyContactsList: any) => {
         label: 'Company Owner',
         required: true,
         apiQuery: getCompanyContactsList,
-        getOptionLabel: (option: any) =>
-          option?.firstName
-            ? `${option?.firstName} ${option?.lastName}`
-            : 'N/A',
+        getOptionLabel: (option: any) => {
+          const fName = option?.firstName ? option?.firstName : null;
+          const lName = option?.lastName ? option?.lastName : null;
+
+          if (!fName && !lName) {
+            return option?.email;
+          } else {
+            return `${fName ? fName : ''} ${lName ? lName : ''}`;
+          }
+        },
       },
       component: RHFAutocompleteAsync,
       md: 12,

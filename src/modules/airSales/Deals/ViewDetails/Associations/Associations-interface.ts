@@ -41,6 +41,7 @@ export interface QuotesProps {
   quotesData: any[];
   isLoading: boolean;
   dealId: string;
+  setSearchQuotes: any;
 }
 
 export interface QuotesDrawerProps {

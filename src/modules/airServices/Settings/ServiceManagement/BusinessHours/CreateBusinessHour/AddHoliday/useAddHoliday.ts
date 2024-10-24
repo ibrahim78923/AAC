@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -7,9 +6,10 @@ import {
 } from './AddHoliday.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePostAirServicesSettingsServiceBusinessHourHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { CALENDAR_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const useAddHoliday = (props: any) => {
   const {
@@ -28,6 +28,7 @@ export const useAddHoliday = (props: any) => {
     usePostAirServicesSettingsServiceBusinessHourHolidayMutation();
 
   const { handleSubmit, reset } = method;
+
   const closeHolidayModal = () => {
     setOpenAddHolidayModal(false);
     reset();
@@ -36,7 +37,7 @@ export const useAddHoliday = (props: any) => {
   const onSubmitRequest = handleSubmit(async (data: any) => {
     const body = {
       ...data,
-      date: dayjs(data?.date)?.format(CALENDAR_FORMAT?.YMD),
+      date: otherDateFormat(data?.date, CALENDAR_FORMAT?.YMD),
     };
     if (!!!businessHourId) {
       const newData = {
@@ -46,7 +47,7 @@ export const useAddHoliday = (props: any) => {
       setHolidaysData((pervState: any) =>
         pervState ? [...pervState, newData] : [newData],
       );
-      successSnackbar('Holiday Added Successfully');
+      successSnackbar('Holiday added successfully');
       closeHolidayModal();
       return;
     }
@@ -60,13 +61,14 @@ export const useAddHoliday = (props: any) => {
 
     try {
       await postHolidayTrigger(postHolidayParameter)?.unwrap();
-      successSnackbar('Holiday Added Successfully');
+      successSnackbar('holiday added successfully');
       closeHolidayModal();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
   });
+
   return {
     openAddHolidayModal,
     setOpenAddHolidayModal,
@@ -74,5 +76,6 @@ export const useAddHoliday = (props: any) => {
     reset,
     onSubmitRequest,
     postHolidayStatus,
+    closeHolidayModal,
   };
 };

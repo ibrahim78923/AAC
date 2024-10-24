@@ -1,5 +1,4 @@
 import { Button, Grid, Skeleton, Stack, Typography } from '@mui/material';
-import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
 import FormsTable from './StaticComponents/FormsTable';
 import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
 import CtaViews from './StaticComponents/CtaViews';
@@ -10,8 +9,12 @@ import NoData from '@/components/NoData';
 import { PlusIcon } from '@/assets/icons';
 import { capitalizeFirstLetters } from '@/utils';
 import { ProfileStatistics } from './StaticComponents/ProfileStatistics';
-import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
-import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
+// commented for future use
+// import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
+// import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
+// import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { indexNumbers } from '@/constants';
 
 const Dashboard = () => {
   const {
@@ -23,7 +26,6 @@ const Dashboard = () => {
     dashboardsData,
     handelNavigate,
   } = useDashboard();
-
   return (
     <>
       <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
@@ -70,29 +72,45 @@ const Dashboard = () => {
               Create Dashboard
             </Button>
           </NoData>
+        ) : dashboardLoading ? (
+          <Grid item xs={12} p={1}>
+            <SkeletonForm />
+          </Grid>
         ) : (
           <>
-            <Grid item xs={12}>
-              <ProfileStatistics />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <CtaViews />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <ContactCustomerGraph />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <TotalMarketingEmail />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <FormsTable />
-            </Grid>
-            <Grid item xs={12}>
-              <SmsMarketingGraph />
-            </Grid>
-            <Grid item xs={12}>
-              <WhatsappMarketingGraph />
-            </Grid>
+            {dashboardsData?.Profile_Stats?.length > indexNumbers?.ZERO && (
+              <Grid item xs={12}>
+                <ProfileStatistics />
+              </Grid>
+            )}
+            {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
+              <Grid item xs={12} lg={6}>
+                <CtaViews />
+              </Grid>
+            )}
+            {dashboardsData?.newContactsAndCustomers && (
+              <Grid item xs={12} lg={6}>
+                <ContactCustomerGraph />
+              </Grid>
+            )}
+            {/* commented for future use  */}
+            {/* <Grid item xs={12} lg={6}>
+                    <TotalMarketingEmail />
+                  </Grid> */}
+            {dashboardsData?.leadCapturedForms && (
+              <Grid item xs={12} lg={6}>
+                <FormsTable
+                  data={dashboardsData?.leadCapturedForms?.leadcaptureforms}
+                />
+              </Grid>
+            )}
+            {/* commented for future use  */}
+            {/* <Grid item xs={12}>
+                    <SmsMarketingGraph />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <WhatsappMarketingGraph />
+                  </Grid> */}
           </>
         )}
       </Grid>

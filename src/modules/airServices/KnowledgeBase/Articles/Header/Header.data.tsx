@@ -1,8 +1,8 @@
-import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+import { AIR_SERVICES } from '@/constants/routes';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const { MOVE_FOLDER, DELETE_ARTICLES } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 const {

@@ -6,7 +6,7 @@ import {
   usePostAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import useAuth from '@/hooks/useAuth';
 
 export const useRequestApprovalForm = (props: any) => {

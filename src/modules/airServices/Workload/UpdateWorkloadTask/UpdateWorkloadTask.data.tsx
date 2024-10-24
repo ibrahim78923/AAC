@@ -1,12 +1,12 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDesktopDateTimePicker,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
+import { AssignToAndAgent } from '../WorkloadFields/AssignToAndAgent';
 
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 
@@ -32,7 +32,7 @@ export const getWorkloadDefaultValues = (data?: any) => ({
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const getWorkloadDataArray = ({ apiQueryAssignTo }: any) => [
+export const workloadDataArray = [
   {
     id: 1,
     componentProps: {
@@ -59,15 +59,8 @@ export const getWorkloadDataArray = ({ apiQueryAssignTo }: any) => [
     componentProps: {
       name: 'assignTo',
       label: 'Assignee',
-      placeholder: 'Select',
-      apiQuery: apiQueryAssignTo,
-      getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
-      externalParams: {
-        admin: true,
-      },
     },
-    component: RHFAutocompleteAsync,
+    component: AssignToAndAgent,
   },
   {
     id: 5,

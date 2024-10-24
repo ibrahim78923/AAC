@@ -1,13 +1,11 @@
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   getSettingsDataArray,
   settingsDefaultValues,
   settingsValidationSchema,
 } from './Settings.data';
 import { useEffect, useMemo } from 'react';
-
 import { ISettingsDefaultValues } from './Settings.interface';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';

@@ -1,7 +1,7 @@
 import { fullName } from '@/utils/avatarUtils';
 import { SingleViewArticleDataI } from '../SingleViewArticle.interface';
-import { uiDateFormat } from '@/utils/dateTime';
 import { CustomChips } from '@/components/CustomChips';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const sideData = (data: SingleViewArticleDataI) => {
   const keywords = !!data?.keywords?.length
@@ -65,7 +65,7 @@ export const sideData = (data: SingleViewArticleDataI) => {
         {
           _id: 'inserted_tickets',
           title: 'Inserted tickets:',
-          des: Array?.isArray(data?.insertedTickets?.length)
+          des: Array?.isArray(data?.insertedTickets)
             ? data?.insertedTickets?.length
             : 0,
         },

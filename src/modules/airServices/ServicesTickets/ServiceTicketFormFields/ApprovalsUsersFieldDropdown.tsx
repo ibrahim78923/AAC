@@ -1,13 +1,17 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import useAuth from '@/hooks/useAuth';
 import { useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery } from '@/services/airServices/tickets';
+import { getActiveProductSession } from '@/utils';
+import { useMemo } from 'react';
 
 export const ApprovalsUsersFieldDropdown = () => {
   const apiQueryApprover =
     useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery();
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product ?? {};
+
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
 
   return (
     <RHFAutocompleteAsync

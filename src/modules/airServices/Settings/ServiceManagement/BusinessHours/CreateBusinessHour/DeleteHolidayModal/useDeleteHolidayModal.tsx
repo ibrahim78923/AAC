@@ -1,6 +1,6 @@
 import { useDeleteAirServicesSettingsServiceBusinessHourHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useState } from 'react';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 

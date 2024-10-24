@@ -7,10 +7,10 @@ import {
 } from './ChangePassword.data';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostServiceAccountDetailChangePasswordMutation } from '@/services/airServices/settings/account-settings/account-details';
 import { IChangePasswordData } from './ChangePassword.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useChangePassword = () => {
   const theme = useTheme();

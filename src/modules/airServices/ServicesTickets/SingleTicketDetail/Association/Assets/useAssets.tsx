@@ -11,7 +11,7 @@ import {
   usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect, useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useForm, useWatch } from 'react-hook-form';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 

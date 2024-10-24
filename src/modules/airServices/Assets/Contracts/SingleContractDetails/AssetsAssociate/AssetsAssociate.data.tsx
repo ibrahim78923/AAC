@@ -1,8 +1,7 @@
 import { TruncateText } from '@/components/TruncateText';
-import { CALENDAR_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { capitalizeFirstWord } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
 
 export const assetsAssociateColumns: any = [
   {
@@ -58,9 +57,6 @@ export const assetsAssociateColumns: any = [
     accessorFn: (row: any) => row?.assetLifeExpiry,
     id: 'assetLifeExpiry',
     header: 'Asset life expire on',
-    cell: (info: any) =>
-      info?.getValue()
-        ? dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI)
-        : '---',
+    cell: (info: any) => uiDateFormat(info?.getValue()) ?? '---',
   },
 ];

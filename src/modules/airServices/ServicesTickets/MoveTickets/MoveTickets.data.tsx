@@ -3,8 +3,8 @@ import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFi
 import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 
 export const moveTicketsValidationSchema = Yup?.object()?.shape({
-  department: Yup?.mixed()?.nullable()?.required('Department is Required'),
-  agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
+  department: Yup?.mixed()?.nullable()?.required('Department is required'),
+  agent: Yup?.mixed()?.nullable()?.required('Agent is required'),
 });
 
 export const moveTicketsDefaultValue = {

@@ -16,7 +16,6 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
     setSearchName,
     openDrawer,
     setOpenDrawer,
@@ -60,7 +59,6 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
             }}
           >
             <Search
-              searchBy={searchName}
               setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"

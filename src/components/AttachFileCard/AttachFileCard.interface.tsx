@@ -11,4 +11,5 @@ export interface AttachFileCardPropsI {
   size?: AttachFileCardSizePropsI;
   hasStyling?: boolean;
   canDelete?: boolean;
+  flexDirection?: any;
 }

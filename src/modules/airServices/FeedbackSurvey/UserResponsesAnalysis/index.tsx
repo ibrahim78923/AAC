@@ -3,7 +3,6 @@ import { FEEDBACK_SURVEY_QUESTION_TYPE_COMPONENT } from './UserResponsesAnalysis
 import { createElement, Fragment } from 'react';
 import NoData from '@/components/NoData';
 import { FEEDBACK_SURVEY_QUESTION_TYPE } from '@/constants/strings';
-import { v4 as uuidv4 } from 'uuid';
 
 export const UserResponsesAnalysis = (props: any) => {
   const { data } = props;
@@ -22,7 +21,7 @@ export const UserResponsesAnalysis = (props: any) => {
                   FEEDBACK_SURVEY_QUESTION_TYPE?.TEXT,
               )
               ?.map((questionResponse: any) => (
-                <Fragment key={uuidv4()}>
+                <Fragment key={questionResponse?._id}>
                   {FEEDBACK_SURVEY_QUESTION_TYPE_COMPONENT?.[
                     questionResponse?.questionType
                   ] &&

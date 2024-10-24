@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ExportModal } from '@/components/ExportModal';
 import { PAGINATION } from '@/config';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
@@ -10,7 +10,8 @@ import { AddGiftCardDetails } from './AddGiftCardDetails';
 import {
   useLazyExportGiftCardDetailsListQuery,
   useLazyGetGiftCardDetailsListQuery,
-} from '@/services/airLoyaltyProgram/giftCards/giftCards/details';
+} from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useGiftCardsDetails = () => {
   const [search, setSearch] = useState('');

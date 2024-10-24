@@ -8,7 +8,7 @@ export default ConsumerPage;
 
 ConsumerPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD}>
+    <Layout permissions={Permissions?.AIR_LOYALTY_PROGRAM_CONSUMERS}>
       {page}
     </Layout>
   );

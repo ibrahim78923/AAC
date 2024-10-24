@@ -2,7 +2,7 @@ import { WORKLOAD_STATUSES_OBJECT } from '@/modules/airServices/Workload/Workloa
 import styles from '@/modules/airServices/Workload/Workload.module.scss';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 
 const TAG = 'WORKLOAD';
 const TAG_TWO = 'DROPDOWN_AGENT_LIST';
@@ -10,8 +10,12 @@ const TAG_TWO = 'DROPDOWN_AGENT_LIST';
 const TransformResponse = (response: any) => {
   return response?.data?.flatMap((item: any) => {
     const mainTask = {
-      start: localeDateTime(item?.plannedStartDate),
-      end: localeDateTime(item?.plannedEndDate),
+      start: item?.plannedStartDate
+        ? localeDateTime(item?.plannedStartDate)
+        : undefined,
+      end: item?.plannedEndDate
+        ? localeDateTime(item?.plannedEndDate)
+        : undefined,
       className:
         item?.status === WORKLOAD_STATUSES_OBJECT?.RESOLVED ||
         item?.status === WORKLOAD_STATUSES_OBJECT?.CLOSED
@@ -27,8 +31,12 @@ const TransformResponse = (response: any) => {
         subject: item?.subject,
         description: item?.description,
         agentDetails: item?.agentDetails,
-        plannedStartDate: localeDateTime(item?.plannedStartDate),
-        plannedEndDate: localeDateTime(item?.plannedEndDate),
+        plannedStartDate: item?.plannedStartDate
+          ? localeDateTime(item?.plannedStartDate)
+          : undefined,
+        plannedEndDate: item?.plannedEndDate
+          ? localeDateTime(item?.plannedEndDate)
+          : undefined,
         plannedEffort: item?.plannedEffort,
         moduleType: item?.moduleType,
         ticketType: item?.ticketType,
@@ -38,8 +46,10 @@ const TransformResponse = (response: any) => {
 
     const taskDetails =
       item?.taskDetails?.map((detail: any) => ({
-        start: localeDateTime(detail?.startDate),
-        end: localeDateTime(detail?.endDate),
+        start: detail?.startDate
+          ? localeDateTime(detail?.startDate)
+          : undefined,
+        end: detail?.endDate ? localeDateTime(detail?.endDate) : undefined,
         className:
           detail?.status === WORKLOAD_STATUSES_OBJECT?.COMPLETED
             ? styles?.completed
@@ -49,8 +59,12 @@ const TransformResponse = (response: any) => {
         extendedProps: {
           ...detail,
           taskId: `#TSK-${detail?._id?.slice(-3)}`,
-          startDate: localeDateTime(detail?.startDate),
-          endDate: localeDateTime(detail?.endDate),
+          startDate: detail?.startDate
+            ? localeDateTime(detail?.startDate)
+            : undefined,
+          endDate: detail?.endDate
+            ? localeDateTime(detail?.endDate)
+            : undefined,
         },
       })) || [];
 
@@ -60,7 +74,7 @@ const TransformResponse = (response: any) => {
 
 export const workloadAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getWorkload: builder.query({
+    getAirServicesWorkload: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.WORKLOAD,
         method: 'GET',
@@ -70,7 +84,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    getWorkloadFilter: builder.query({
+    getAirServicesWorkloadFilter: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.WORKLOAD,
         method: 'GET',
@@ -79,7 +93,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    patchTask: builder?.mutation({
+    patchAirServicesWorkloadTask: builder?.mutation({
       query: (patchTaskParameter: any) => ({
         url: END_POINTS?.UPDATE_TASK,
         method: 'PATCH',
@@ -89,7 +103,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    getAllUsersInWorkload: builder?.query({
+    getAirServicesAllUsersInWorkload: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.DROPDOWN_USERS,
         method: 'GET',
@@ -101,7 +115,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG_TWO],
     }),
 
-    putWorkloadTickets: builder?.mutation({
+    putAirServicesWorkloadTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
         url: `${END_POINTS?.TICKET}/{id}`,
         method: 'PUT',
@@ -113,10 +127,10 @@ export const workloadAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useLazyGetWorkloadQuery,
-  useLazyGetWorkloadFilterQuery,
-  useGetWorkloadQuery,
-  usePatchTaskMutation,
-  useLazyGetAllUsersInWorkloadQuery,
-  usePutWorkloadTicketsMutation,
+  useLazyGetAirServicesWorkloadQuery,
+  useLazyGetAirServicesWorkloadFilterQuery,
+  useGetAirServicesWorkloadQuery,
+  usePatchAirServicesWorkloadTaskMutation,
+  useLazyGetAirServicesAllUsersInWorkloadQuery,
+  usePutAirServicesWorkloadTicketsMutation,
 } = workloadAPI;

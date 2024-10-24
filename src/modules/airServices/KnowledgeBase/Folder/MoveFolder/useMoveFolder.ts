@@ -6,7 +6,6 @@ import {
   moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
 import { useUpdateServicesKnowledgeBaseSingleArticleMutation } from '@/services/airServices/knowledge-base/articles';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { MoveFolderFormFieldsI } from './MoveFolder.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -14,6 +13,7 @@ import {
   emptySelectedArticlesList,
   setIsPortalClose,
 } from '@/redux/slices/airServices/knowledge-base/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 

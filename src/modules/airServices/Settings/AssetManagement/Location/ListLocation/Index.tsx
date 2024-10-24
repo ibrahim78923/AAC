@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { useListLocation } from './useListLocation';
 import NoData from '@/components/NoData';
 import { DeleteLocation } from '../DeleteLocation';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { LocationCard } from '../LocationCard';

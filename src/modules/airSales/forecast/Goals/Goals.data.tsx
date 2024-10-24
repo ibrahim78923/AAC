@@ -151,8 +151,8 @@ export const manageTableColumns: any = (
       cell: (info: any) => `£ ${info?.getValue()}`,
     },
     {
-      accessorFn: (row: any) => row?.totalAmountAchieved,
-      id: 'totalAmountAchieved',
+      accessorFn: (row: any) => row?.percentageAchieved,
+      id: 'percentageAchieved',
       header: (
         <Box display={'flex'} gap={1}>
           Progress
@@ -174,21 +174,16 @@ export const manageTableColumns: any = (
       ),
       isSortable: true,
       cell: (info: any) => {
-        const percentage =
-          (info?.getValue() / info?.row?.original?.target) * 100;
         return (
           <Stack>
             <Box>
               <Typography textAlign={'right'} mb={0.2}>
-                {percentage?.toFixed(2) === '0.00'
-                  ? '0'
-                  : percentage?.toFixed(2)}
-                %
+                {info?.getValue()}%
               </Typography>
               <LinearProgress
                 sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
                 variant="determinate"
-                value={percentage}
+                value={info?.getValue() > 100 ? 100 : info?.getValue()}
               />
 
               <Typography

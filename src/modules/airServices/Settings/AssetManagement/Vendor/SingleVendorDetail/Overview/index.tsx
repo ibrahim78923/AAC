@@ -4,8 +4,7 @@ import { useOverview } from './useOverview';
 import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const Overview = () => {
   const { isLoading, overviewData, isFetching } = useOverview();
@@ -48,7 +47,7 @@ export const Overview = () => {
                 variant={'rounded'}
               />
             ) : isValidDate(value) ? (
-              dayjs(value)?.format(DATE_FORMAT?.UI)
+              uiDateFormat(value)
             ) : (
               value?.toString()
             )}

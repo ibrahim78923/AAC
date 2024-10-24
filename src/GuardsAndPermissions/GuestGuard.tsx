@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
 import LoadingScreen from '@/components/LoadingScreen';
 import { ROLES } from '@/constants/strings';
-import { SUPER_ADMIN, AUTH, AIR_CUSTOMER_PORTAL } from '@/constants';
+import { SUPER_ADMIN, AUTH } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { setActivePermissionsSession, setActiveProductSession } from '@/utils';
 import {
   orgAdminAllPermissions,

@@ -4,13 +4,6 @@ import { transformResponse } from '@/utils/api';
 
 const TAG = 'SERVICES_WORKFLOWS';
 const TEST_TAG = 'TEST_WORKFLOWS';
-const TAG_ONE = 'DROPDOWN_DEPARTMENT';
-const TAG_TWO = 'DROPDOWN_CATEGORIES';
-const TAG_THREE = 'LOCATION_DROPDOWN';
-const TAG_FOUR = 'DROPDOWN_REQUESTER';
-const TAG_FIVE = 'DROPDOWN_ASSET_TYPE_LIST';
-const TAG_SIX = 'USER_LIST_DROPDOWN';
-const TAG_SEVEN = 'DROPDOWN_AGENTS';
 
 const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, TEST_WORKFLOW } =
   OPERATION;
@@ -96,7 +89,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG_ONE],
     }),
     getCategoriesDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -107,7 +99,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.servicecategories;
       },
-      providesTags: [TAG_TWO],
     }),
     getLocationsDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -118,7 +109,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_THREE],
     }),
     getRequesterDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -129,7 +119,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: [TAG_FOUR],
     }),
     getAgentDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -140,7 +129,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: [TAG_FOUR],
     }),
     getAssetTypeInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -149,7 +137,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG_FIVE],
     }),
     getUsersListDropdownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -160,7 +147,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_SIX],
     }),
     getAgentsDropDownInWorkflow: builder?.query({
       query: ({ params }: any) => ({
@@ -169,7 +155,6 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG_SEVEN],
     }),
   }),
 });

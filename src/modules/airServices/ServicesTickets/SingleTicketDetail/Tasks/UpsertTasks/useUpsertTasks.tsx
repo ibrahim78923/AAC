@@ -5,11 +5,7 @@ import {
   upsertTicketTaskFormFormFieldsDynamic,
   upsertTicketTaskFormValidationSchema,
 } from './UpsertTasks.data';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useEffect, useState } from 'react';
@@ -22,7 +18,6 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { isoDateString } from '@/utils/dateTime';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketTasksLists,
@@ -33,6 +28,9 @@ import {
   useAddSingleServicesTasksByIdMutation,
   useUpdateSingleServicesTasksByIdMutation,
 } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
+import { REGEX } from '@/constants/validation';
 
 const { EDIT_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 
@@ -93,7 +91,7 @@ export const useUpsertTasks = () => {
     ),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setError } = methods;
 
   useEffect(() => {
     reset(() =>
@@ -104,10 +102,14 @@ export const useUpsertTasks = () => {
   const submitUpsertTicketTasks = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
     const { plannedEffort } = getValues();
-    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+    if (
+      plannedEffort?.trim() !== '' &&
+      !REGEX?.HOURS_AND_MINUTES?.test(plannedEffort)
+    ) {
+      setError('plannedEffort', {
+        message:
+          'Invalid format for planned effort. Please use format like 1h10m',
+      });
       return;
     }
 
@@ -183,7 +185,7 @@ export const useUpsertTasks = () => {
       }
 
       await postTicketTasksTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Task Created Successfully!');
+      successSnackbar('Task created successfully!');
       handleCloseDrawer?.();
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
@@ -204,7 +206,7 @@ export const useUpsertTasks = () => {
 
     try {
       await patchTicketTasksTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Task Updated Successfully!');
+      successSnackbar('Task updated successfully!');
       handleCloseDrawer?.();
     } catch (error: any) {
       errorSnackbar(error?.error?.message);
@@ -220,18 +222,21 @@ export const useUpsertTasks = () => {
   const upsertTicketTaskFormFormFields =
     upsertTicketTaskFormFormFieldsDynamic?.();
 
+  const apiCallInProgress =
+    postTicketTasksStatus?.isLoading ||
+    patchTicketTasksStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
   return {
     submitUpsertTicketTasks,
     methods,
     handleCloseDrawer,
     handleSubmit,
     upsertTicketTaskFormFormFields,
-    postTicketTasksStatus,
-    patchTicketTasksStatus,
     getDynamicFieldsStatus,
     form,
-    postAttachmentStatus,
     getDynamicFormData,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

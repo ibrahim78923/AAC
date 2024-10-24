@@ -15,7 +15,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import * as Yup from 'yup';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { localeDateTime } from './dateTime';
+import { localeDateTime } from '@/lib/date-time';
 
 export const generateUniqueId = () => {
   const timestamp = Date?.now()?.toString(36);

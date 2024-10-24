@@ -1,5 +1,5 @@
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import { formatTimeDifference } from '@/utils/dateTime';
+import { formatTimeDifference } from '@/lib/date-time';
 import { Avatar, Box, Typography } from '@mui/material';
 import { AnnouncementCardPropsI } from '../Announcements.interface';
 import { TruncateText } from '@/components/TruncateText';

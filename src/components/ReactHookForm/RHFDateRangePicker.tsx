@@ -13,10 +13,9 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { DateRangePickerIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import CloseIcon from '@mui/icons-material/Close';
 import { pxToRem } from '@/utils/getFontValue';
+import { uiDateFormat } from '@/lib/date-time';
 
 const RHFDateRangePicker = (props: any) => {
   const {
@@ -70,9 +69,7 @@ const RHFDateRangePicker = (props: any) => {
 
         const displayValue =
           startDate && endDate
-            ? `${dayjs(startDate)?.format(DATE_FORMAT?.UI)} - ${dayjs(
-                endDate,
-              )?.format(DATE_FORMAT?.UI)}`
+            ? `${uiDateFormat(startDate)} - ${uiDateFormat(endDate)}`
             : '';
 
         return (

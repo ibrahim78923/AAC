@@ -1,4 +1,4 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import {
   Box,
   Button,
@@ -13,6 +13,7 @@ import { PlusSharedColorIcon } from '@/assets/icons';
 import { useAddDevice } from './useAddDevice';
 import { Close } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
+import GetSoftwareDevicesDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareDevicesDropdown';
 
 const AddDevice = () => {
   const {
@@ -63,18 +64,7 @@ const AddDevice = () => {
             onSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
           >
             <DialogContent>
-              <RHFAutocompleteAsync
-                name="device"
-                placeholder="Search or add category"
-                size="small"
-                label="Device"
-                required
-                apiQuery={devicesQuery}
-                getOptionLabel={(option: {
-                  _id: string;
-                  displayName: string;
-                }) => option?.displayName}
-              />
+              <GetSoftwareDevicesDropdown devicesQuery={devicesQuery} />
             </DialogContent>
             <DialogActions sx={{ paddingTop: `0rem !important` }}>
               <LoadingButton

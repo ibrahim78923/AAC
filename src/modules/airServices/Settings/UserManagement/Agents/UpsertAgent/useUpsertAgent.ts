@@ -1,8 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetDepartmentDropdownListForAgentsQuery,
-  useLazyGetPermissionsRoleForUpsertAgentQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
 } from '@/services/airServices/settings/user-management/agents';
@@ -11,15 +9,10 @@ import {
   defaultValues,
   validationSchemaAgentFields,
 } from './UpsertAgent.data';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, ROLES } from '@/constants/strings';
-import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -33,24 +26,12 @@ import {
 import { IAgentsProps } from '../Agents.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
-  const auth: any = useAuth();
   const [form, setForm] = useState<any>([]);
   const router = useRouter();
-
-  const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
-  const { _id: organizationId } = auth?.user?.organization;
-
-  const roleApiQueryParams = {
-    productId,
-    organizationCompanyAccountId,
-    organizationId,
-    limit: 50,
-  };
 
   const { selectedAgentList, setIsAgentModalOpen, setSelectedAgentList } =
     props;
@@ -92,9 +73,6 @@ export const useUpsertAgent = (props: IAgentsProps) => {
   });
 
   const { handleSubmit, reset } = method;
-
-  const departmentDropdown = useLazyGetDepartmentDropdownListForAgentsQuery();
-  const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   useEffect(() => {
     reset(() => defaultValues(selectedAgentList, form));
@@ -219,16 +197,10 @@ export const useUpsertAgent = (props: IAgentsProps) => {
     });
   };
 
-  const upsertAgentFormFields = agentFieldsData(
-    selectedAgentList,
-    departmentDropdown,
-    roleApiQuery,
-    roleApiQueryParams,
-  );
+  const upsertAgentFormFields = agentFieldsData(selectedAgentList);
 
   return {
     method,
-    departmentDropdown,
     handleSubmit,
     handleUpsertAgentSubmit,
     patchAgentStatus,

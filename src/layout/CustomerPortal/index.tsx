@@ -22,7 +22,8 @@ import {
 import { ARRAY_INDEX } from '@/constants/strings';
 import Header from '../Header';
 import useCustomerPortal from './useCustomerPortal';
-import { AIR_CUSTOMER_PORTAL, AUTH } from '@/constants';
+import { AUTH } from '@/constants';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { generateImage } from '@/utils/avatarUtils';
 import { customerPortalStyles } from './CustomerPortal.styles';
 import { CustomerLogoutIcon } from '@/assets/icons';

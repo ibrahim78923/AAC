@@ -65,6 +65,10 @@ const CompanyTabs = () => {
     activeColumns,
     isDrawerOpen,
     setIsDrawerOpen,
+    isFilterOpen,
+    setIsFilterOpen,
+    handleSubmit,
+    methods,
   } = useCompanies();
 
   const columnsProps = {
@@ -290,6 +294,7 @@ const CompanyTabs = () => {
                     color="inherit"
                     startIcon={<FilterIcon />}
                     onClick={() => {
+                      setIsFilterOpen(true);
                       setIsOpen({ ...isOpen, filtersDrawer: true });
                       handleApplyFilter;
                     }}
@@ -303,17 +308,17 @@ const CompanyTabs = () => {
 
             <TanstackTable
               columns={columnParams}
-              data={getAllCompanies?.companies ?? []}
-              totalRecords={getAllCompanies?.meta?.total}
-              pageLimit={getAllCompanies?.meta?.limit}
+              data={getAllCompanies?.data?.companies ?? []}
+              totalRecords={getAllCompanies?.data?.meta?.total}
+              pageLimit={getAllCompanies?.data?.meta?.limit}
               onPageChange={(page: any) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
-              count={getAllCompanies?.meta?.pages}
+              count={getAllCompanies?.data?.meta?.pages}
               isPagination
               isLoading={isLoading}
               isSuccess={isSuccess}
-              currentPage={getAllCompanies?.meta?.page}
+              currentPage={getAllCompanies?.data?.meta?.page}
             />
           </Box>
 
@@ -328,8 +333,10 @@ const CompanyTabs = () => {
             <FilterCompany
               filterValues={filterValues}
               setFilterValues={setFilterValues}
-              setIsFilter={setIsOpen}
-              isFilter={isOpen?.filtersDrawer}
+              setIsFilter={setIsFilterOpen}
+              isFilter={isFilterOpen}
+              handleSubmit={handleSubmit}
+              methods={methods}
             />
           )}
 

@@ -1,6 +1,5 @@
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const contractColumns = [
   {
@@ -53,6 +52,6 @@ export const contractColumns = [
     id: 'endDate',
     isSortable: true,
     header: 'Expiry',
-    cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()),
   },
 ];

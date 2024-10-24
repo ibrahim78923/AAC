@@ -23,7 +23,6 @@ import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS } from '@/consta
 import { useGetEmailMarketingReportsQuery } from '@/services/airMarketer/emailReports';
 import { useEffect, useRef, useState } from 'react';
 import CommonModal from '@/components/CommonModal';
-import { htmlToPngConvert } from '@/utils/file';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -31,9 +30,22 @@ import {
   validationSchema,
 } from './EmailReportsFilters/Filters.data';
 import Filters from './EmailReportsFilters';
-import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import dayjs from 'dayjs';
-import { API_STATUS, DATE_FORMAT } from '@/constants';
+import {
+  API_STATUS,
+  DATE_FORMAT,
+  DATE_TIME_FORMAT,
+  MARKETING_REPORTS_TYPES,
+} from '@/constants';
+import ReportsDatePicker from './datePicker';
+import { htmlToPngConvert } from '@/lib/html-to-image-converter';
+
+const getDefaultDateRange = () => {
+  const currentYear = dayjs().year(); // Get current year
+  const startOfYear = new Date(currentYear, 0, 1); // January 1st
+  const endOfYear = new Date(currentYear, 11, 31); // December 31st
+  return [startOfYear, endOfYear]; // Return start and end dates
+};
 
 const EmailReports = () => {
   const theme = useTheme();
@@ -55,7 +67,18 @@ const EmailReports = () => {
 
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [filtersData, setFiltersData] = useState<any>({});
-  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
+
+  const [datePickerVal, setDatePickerVal] = useState<any>(
+    getDefaultDateRange(),
+  );
+  const [selectedIndex, setSelectedIndex] = useState('year');
+  const filterTypeValues: any = {
+    month: 'MONTHLY',
+    year: 'YEARLY',
+    custom: 'CUSTOM',
+    today: 'TODAY',
+    week: 'WEEKLY',
+  };
 
   // Filters methods and operations ++
   const methods: any = useForm({
@@ -83,28 +106,35 @@ const EmailReports = () => {
         ...filtersData,
         toDate: datePickerValPram[startedDate],
         fromDate: datePickerValPram[endedDate],
+        filterType: filterTypeValues[selectedIndex],
       });
     }
   };
-  // Filters methods and operations --
+
+  useEffect(() => {
+    setFiltersData({
+      ...filtersData,
+      toDate: datePickerVal[0],
+      fromDate: datePickerVal[1],
+      filterType: 'YEARLY',
+    });
+  }, []);
 
   const { data, status } = useGetEmailMarketingReportsQuery({
     params: {
       fromEmail: filtersData?.email?.email,
-      ...(filtersData?.toDate && {
-        startDate: new Date(
-          `${dayjs(filtersData?.toDate)?.format(DATE_FORMAT?.API)}`,
-        ).toISOString(),
-      }),
-      ...(filtersData?.fromDate && {
-        endDate: new Date(
-          `${dayjs(filtersData?.fromDate)?.format(DATE_FORMAT?.API)}`,
-        ).toISOString(),
-      }),
+      filterType: filtersData?.filterType ?? 'YEARLY',
+      startDate: new Date(
+        `${dayjs(filtersData?.toDate)?.format(DATE_FORMAT?.API)}`,
+      ).toISOString(),
+      endDate: new Date(
+        `${dayjs(filtersData?.fromDate)?.format(DATE_FORMAT?.API)}`,
+      ).toISOString(),
     },
   });
   const [emailWidgetsData, setEmailWidgetsData] = useState({});
   const [performanceData, setPerformanceData] = useState([]);
+  const [calenderUnit, setCalenderUnit] = useState<any>('');
 
   useEffect(() => {
     if (data?.data) {
@@ -112,6 +142,12 @@ const EmailReports = () => {
       setPerformanceData(data?.data?.performance);
     }
   }, [data?.data]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setCalenderUnit(data?.data?.filterType);
+    }
+  }, [data]);
 
   return (
     <Box>
@@ -138,11 +174,13 @@ const EmailReports = () => {
           </Button>
 
           <Box sx={{ marginRight: '5px' }}>
-            <SwitchableDatepicker
+            <ReportsDatePicker
               renderInput="button"
               placement="right"
+              defaultIndex="year"
               dateValue={datePickerVal}
               setDateValue={setDatePickerVal}
+              setIndexValue={setSelectedIndex}
               handleDateSubmit={() => handelDateSubmit(datePickerVal)}
             />
           </Box>
@@ -178,6 +216,7 @@ const EmailReports = () => {
         performanceData={performanceData}
         setIsDownloadModalOpen={setIsDownloadModalOpen}
         status={status}
+        calenderUnit={calenderUnit}
         isDownload
       />
 
@@ -236,6 +275,7 @@ const WidgetsAndGraphs = ({
   emailWidgetsData,
   performanceData,
   status,
+  calenderUnit,
 }: any) => {
   const theme = useTheme();
 
@@ -288,7 +328,10 @@ const WidgetsAndGraphs = ({
               {status === API_STATUS?.PENDING ? (
                 <BoxLoading />
               ) : (
-                <PerformanceChart performanceData={performanceData} />
+                <PerformanceChart
+                  performanceData={performanceData}
+                  calenderUnit={calenderUnit}
+                />
               )}
             </Box>
           </Grid>
@@ -346,6 +389,23 @@ const BoxLoading = () => {
       sx={{ width: '100%', height: '300px', mt: 2 }}
     />
   );
+};
+
+export const getCategories: any = (data: any, calendarUnit: string) => {
+  return data?.map((entry: any) => {
+    const date = dayjs(entry?._id);
+
+    switch (calendarUnit) {
+      case MARKETING_REPORTS_TYPES?.YEARLY:
+        return date?.format(DATE_TIME_FORMAT?.MMMM);
+      case MARKETING_REPORTS_TYPES?.MONTHLY:
+        return date?.format(DATE_TIME_FORMAT?.DDMMYYY);
+      case MARKETING_REPORTS_TYPES?.WEEKLY:
+        return date?.format(DATE_TIME_FORMAT?.DDDD);
+      default:
+        return date?.format(DATE_TIME_FORMAT?.ddddDDMMMYYY);
+    }
+  });
 };
 
 export default EmailReports;

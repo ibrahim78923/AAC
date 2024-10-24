@@ -1,13 +1,13 @@
 import { Box, Grid, Stack } from '@mui/material';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Header } from './Header';
 import { useDashboard } from './useDashboard';
 import { Widgets } from './Widgets';
 import { TopConsumer } from './TopConsumer';
 import { Rewards } from './Rewards';
-import { GriftCards } from './GriftCards';
+import { GiftCards } from './GiftCards';
 import { PointsTransaction } from './PointsTransaction';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Dashboard = () => {
   const {
@@ -41,13 +41,13 @@ export const Dashboard = () => {
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
-              <Rewards />
+              <Rewards rewardsData={[]} />
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-              <GriftCards />
+              <GiftCards giftCardsData={[]} />
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-              <PointsTransaction />
+              <PointsTransaction pointsTransactionData={[]} />
             </Grid>
           </Grid>
         </Box>

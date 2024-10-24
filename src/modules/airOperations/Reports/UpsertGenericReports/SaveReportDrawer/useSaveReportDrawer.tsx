@@ -5,7 +5,6 @@ import {
   reportsDefaultValues,
   reportsValidationSchema,
 } from './SaveReportDrawer.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import {
   CHARTS,
@@ -20,19 +19,14 @@ import {
   UsersDropdownOptionsI,
 } from './SaveReportDrawer.interface';
 import {
-  useLazyUsersDropdownQuery,
-  useLazyDashboardDropdownQuery,
   usePostGenericReportsMutation,
   usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 import { useRouter } from 'next/router';
-import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const { form, reportId, metricType, data, handleMoveBack } = props;
-
-  const auth: any = useAuth();
-  const productId = auth?.product?._id;
 
   const router: any = useRouter();
   const { id } = router?.query;
@@ -44,8 +38,6 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   });
 
   const singleReport = (data as any)?.data;
-  const dashboardDropdown = useLazyDashboardDropdownQuery();
-  const usersDropdown = useLazyUsersDropdownQuery();
   const [postGenericReportTrigger, postGenericReportStatus] =
     usePostGenericReportsMutation();
   const [patchGenericReportTrigger, patchGenericReportStatus] =
@@ -71,14 +63,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     name: ADD_TO?.NEW_DASHBOARD_PERMISSIONS,
   });
 
-  const reportsArray = reportsDataArray(
-    usersDropdown,
-    dashboardDropdown,
-    newDashboardFields,
-    sharedWithFields,
-    id,
-    productId,
-  );
+  const reportsArray = reportsDataArray(newDashboardFields, sharedWithFields);
 
   const [
     selectSharedWith,

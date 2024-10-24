@@ -1,9 +1,9 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { splitCapitalizedWords } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants/routes';
+import { uiDateFormat } from '@/lib/date-time';
 
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
@@ -140,6 +140,6 @@ export const contractsListsColumnsFunction = (
     id: 'endDate',
     isSortable: false,
     header: 'Expiry Date',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) => uiDateFormat(info?.getValue()) ?? '---',
   },
 ];

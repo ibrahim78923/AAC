@@ -6,12 +6,14 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CustomLabel from '../CustomLabel';
 import { indexNumbers } from '@/constants';
 import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
+import { AttachFileCard } from '../AttachFileCard';
+import { TruncateText } from '../TruncateText';
 
 export default function RHFDropZone({
   name,
   required,
   fileName = 'Attach a file',
-  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 2.44 MB)',
+  fileType = 'PNG, JPG, PDF and DOC (max 2.44 MB)',
   accept = {
     'image/png': ['.png', '.PNG'],
     'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
@@ -20,10 +22,11 @@ export default function RHFDropZone({
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
       '.docx',
     ],
-    'text/csv': ['.csv'],
   },
   maxSize = FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
   multiple = false,
+  isPreviewMode = false,
+  attachmentPreviewDetail = {},
   disabled,
   ...other
 }: any) {
@@ -137,11 +140,12 @@ export default function RHFDropZone({
       <Box
         {...getRootProps({ onClick: handleClick })}
         sx={{
-          border: '1px solid #e0e0e0',
+          border: '1px solid',
           borderRadius: '8px',
           padding: '20px',
           textAlign: 'center',
           cursor: 'pointer',
+          borderColor: 'custom.off_white_three',
         }}
       >
         <input {...getInputProps()} ref={inputRef} />
@@ -149,36 +153,53 @@ export default function RHFDropZone({
           <Box>
             {multiple ? (
               fileList?.map((file: any, index: number) => (
-                <Typography variant="body2" key={index ?? file?.name}>
-                  {file?.orignalName || file?.name}
-                </Typography>
+                <TruncateText
+                  key={index ?? file?.name}
+                  text={file?.orignalName || file?.name}
+                />
               ))
             ) : (
-              <Typography variant="body2">
-                {fileList?.[indexNumbers?.ZERO]?.orignalName ||
-                  fileList?.[indexNumbers?.ZERO]?.name}
-              </Typography>
+              <TruncateText
+                text={
+                  fileList?.[indexNumbers?.ZERO]?.orignalName ||
+                  fileList?.[indexNumbers?.ZERO]?.name
+                }
+              />
             )}
           </Box>
         ) : (
           <Box>
-            <AttachFileIcon />
-            <Typography variant="body1" fontWeight={'bold'}>
-              {fileName}
-            </Typography>
-            <Typography variant="body2">
-              <Typography
-                component="span"
-                fontSize={12}
-                color={theme?.palette?.primary?.main}
-              >
-                Click to upload{' '}
-              </Typography>
-              or drag and drop
-            </Typography>
-            <Typography component="span" fontSize={12}>
-              {fileType}
-            </Typography>
+            {isPreviewMode ? (
+              <Box>
+                <AttachFileCard
+                  size={{ width: 60, height: 60 }}
+                  hasStyling={false}
+                  canDelete={false}
+                  data={attachmentPreviewDetail}
+                  flexDirection={'column'}
+                />
+              </Box>
+            ) : (
+              <>
+                <AttachFileIcon />
+                <Typography variant="body1" fontWeight={'bold'}>
+                  {fileName}
+                </Typography>
+                <Typography variant="body2">
+                  <Typography
+                    component="span"
+                    fontSize={12}
+                    color={theme?.palette?.primary?.main}
+                  >
+                    Click to upload{' '}
+                  </Typography>
+                  or drag and drop
+                </Typography>
+                <Typography component="span" fontSize={12}>
+                  {fileType}
+                </Typography>
+              </>
+            )}
           </Box>
         )}
       </Box>

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { formStatus } from '@/constants/form-builder';
 import { AIR_MARKETER, PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
-import { generateFormHtml } from '@/utils/form-builder';
+import { renderIframeToString } from '@/utils/leadcapture-forms';
 import {
   styleFormDefaultValues,
   styleFormvalidationSchema,
@@ -95,13 +95,7 @@ const useCreateForm = () => {
       });
       if (status === formStatus?.published) {
         if (response) {
-          setFormHtml(
-            generateFormHtml(
-              response?.data?.form?._id,
-              response?.data?.fields,
-              response?.data?.form?.styling,
-            ),
-          );
+          setFormHtml(renderIframeToString(response?.data?.form?._id));
 
           setFormURL(
             `${FE_BASE_URL}${PUBLIC_LEAD_CAPTURE?.FORM}?id=${response?.data?.form?._id}`,

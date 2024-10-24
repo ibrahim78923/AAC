@@ -1,14 +1,11 @@
 import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
-
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import CompaniesEditorDrawer from './CompaniesEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useCompanies from './useCompanies';
 import { columns } from './Companies.data';
 import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
@@ -65,10 +62,7 @@ const Companies = ({
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            <Search
-              placeholder="Search By Name"
-              onChange={({ target }) => handleSearch(target.value)}
-            />
+            <Search setSearchBy={handleSearch} placeholder="Search By Name" />
             <PermissionsGuard
               permissions={[
                 AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_COMPANY,

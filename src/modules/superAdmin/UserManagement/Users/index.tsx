@@ -43,7 +43,6 @@ const Users = (props: IUsersProps) => {
     handleCheckboxChange: handleCheckboxChange,
   };
   const columnParams = columns(columnsProps);
-
   return (
     <>
       <TanstackTable

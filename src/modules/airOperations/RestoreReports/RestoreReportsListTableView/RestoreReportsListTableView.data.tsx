@@ -1,27 +1,11 @@
-import { uiDateFormat } from '@/utils/dateTime';
 import { RestoreReportListsTableRowI } from '../RestoreReportsLists/RestoreReportsLists.interface';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Checkbox } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
-import { AIR_OPERATIONS } from '@/constants';
-import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
-
-const { SERVICES, SALES, MARKETING } = GENERIC_REPORT_MODULES;
-
-const {
-  SERVICES_REPORTS_RESTORE,
-  MARKETING_REPORTS_RESTORE,
-  SALES_REPORTS_RESTORE,
-} = AIR_OPERATIONS;
-
-export const REPORTS_BASE_MODULE: any = {
-  [SERVICES_REPORTS_RESTORE]: SERVICES,
-  [SALES_REPORTS_RESTORE]: SALES,
-  [MARKETING_REPORTS_RESTORE]: MARKETING,
-};
+import { uiDateFormat } from '@/lib/date-time';
 
 export const restoreReportListsColumnsDynamic = (
   selectedReportList: any,

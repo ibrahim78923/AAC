@@ -1,7 +1,6 @@
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, REPORT_TYPE } from '@/constants/strings';
 import { useAddOperationsReportsToMultipleDashboardMutation } from '@/services/airOperations/reports';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -15,6 +14,7 @@ import {
   setIsPortalClose,
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};

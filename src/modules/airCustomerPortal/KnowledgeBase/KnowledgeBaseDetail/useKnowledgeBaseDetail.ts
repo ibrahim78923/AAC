@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useMemo, useState } from 'react';
 import { useGetAllKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 import { getActiveAccountSession, getSession } from '@/utils';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const useKnowledgeBaseDetail = () => {
   const router = useRouter();
@@ -57,7 +57,6 @@ export const useKnowledgeBaseDetail = () => {
     });
   const articlesData = data?.data?.articles;
   const articlesMetaData = data?.data?.meta;
-  const folderName = data?.data?.articles?.[ARRAY_INDEX?.ZERO]?.folder?.name;
 
   return {
     handleKnowledgeBase,
@@ -67,7 +66,6 @@ export const useKnowledgeBaseDetail = () => {
     articlesData,
     articlesMetaData,
     isLoading,
-    folderName,
     isFetching,
     isError,
     refetch,

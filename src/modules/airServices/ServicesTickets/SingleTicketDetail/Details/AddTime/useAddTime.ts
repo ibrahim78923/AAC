@@ -1,11 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { useRouter } from 'next/router';
 import {
   addTimeFormDefaultValues,
@@ -22,8 +17,10 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { isoDateString } from '@/utils/dateTime';
 import { useAddSingleServicesTicketsTasksTimeMutation } from '@/services/airServices/tickets/single-ticket-details/details';
+import { REGEX } from '@/constants/validation';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddTime = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -67,15 +64,17 @@ export const useAddTime = (props: any) => {
     defaultValues: addTimeFormDefaultValues?.(form),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setError } = methods;
 
   const onSubmit = async (data: any) => {
     const { hours } = getValues();
-    if (hours?.trim() !== '' && !/^\d+h\d+m$/?.test(hours)) {
-      errorSnackbar('Invalid format for hours. Please use format like 1h10m');
+
+    if (hours?.trim() !== '' && !REGEX?.HOURS_AND_MINUTES?.test(hours)) {
+      setError('hours', {
+        message: 'Invalid format for hours. Please use format like 1h10m',
+      });
       return;
     }
-
     const filteredEmptyData = filteredEmptyValues(data);
 
     const customFields: any = {};

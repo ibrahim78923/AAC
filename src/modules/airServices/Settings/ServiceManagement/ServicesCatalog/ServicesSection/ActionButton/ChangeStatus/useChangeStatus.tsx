@@ -5,7 +5,7 @@ import {
   changeStatusValidationSchema,
 } from './ChangeStatus.data';
 import { usePatchAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 const useChangeStatus = (prop: any) => {

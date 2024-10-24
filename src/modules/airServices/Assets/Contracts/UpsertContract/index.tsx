@@ -72,6 +72,8 @@ export const UpsertContract = () => {
                     {...item?.componentProps}
                     size={'small'}
                     disabled={item?.componentProps?.disabled ?? isError}
+                    contractId={contractId}
+                    watchForContractType={watchForContractType}
                   >
                     {item?.heading ? item?.heading : null}
                   </item.component>

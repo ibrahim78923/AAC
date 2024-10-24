@@ -1,12 +1,11 @@
 import Typography from '@mui/material/Typography';
-import { Box, Divider } from '@mui/material';
-import { useActivity } from '../useActivity';
-import { DATE_FORMAT } from '@/constants';
+import { Box, Divider, useTheme } from '@mui/material';
+import { DATE_TIME_FORMAT } from '@/constants';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
-import dayjs from 'dayjs';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const ActivityTimeline = ({ activityData }: any) => {
-  const { theme } = useActivity();
+  const theme = useTheme();
   return (
     <>
       <Box
@@ -17,19 +16,23 @@ export const ActivityTimeline = ({ activityData }: any) => {
         gap={1.25}
         marginBottom={1.5}
       >
-        <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
+        <Typography variant="body2" sx={{ flex: 0.15 }}>
+          {otherDateFormat(activityData?.createdAt, DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box mt={0.2}>
           <PanoramaFishEyeIcon color="primary" fontSize="small" />
         </Box>
-        <Typography variant="body2" sx={{ flex: 0.8 }}>
+        <Typography
+          variant="body2"
+          sx={{ flex: 0.8 }}
+          textTransform={'capitalize'}
+        >
           <Typography variant="body2" color="primary" marginRight={0.3}>
-            {activityData?.performedBy?.firstName +
-              ' ' +
-              activityData?.performedBy?.lastName}
+            {activityData?.moduleName?.toLowerCase()}{' '}
+            {activityData?.module?.toLowerCase()}
           </Typography>
-          {activityData?.activity}
+          {activityData?.activityType?.toLowerCase()} by{' '}
+          {activityData?.performedByName?.toLowerCase()}
         </Typography>
       </Box>
       <Box
@@ -38,9 +41,9 @@ export const ActivityTimeline = ({ activityData }: any) => {
         alignItems={'center'}
         gap={1.3}
         marginBottom={1.5}
+        ml={0.7}
       >
         <Box flex={0.15}></Box>
-        <Box></Box>
         <Divider
           orientation="vertical"
           sx={{

@@ -1,6 +1,5 @@
-import { DATE_FORMAT } from '@/constants';
+import { uiDateFormat } from '@/lib/date-time';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
-import dayjs from 'dayjs';
 
 export const overviewDataArray = (inventoryData: any) => {
   const predefinedFields = {
@@ -9,8 +8,7 @@ export const overviewDataArray = (inventoryData: any) => {
       ? inventoryData.departmentDetails.name.charAt(0).toUpperCase() +
         inventoryData.departmentDetails.name.slice(1)
       : '---',
-    'End of Life':
-      dayjs(inventoryData?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ?? '---',
+    'End of Life': uiDateFormat(inventoryData?.assetLifeExpiry) ?? '---',
     Impact: inventoryData?.impact ?? '---',
     Location: inventoryData?.locationDetails?.locationName ?? '---',
   };

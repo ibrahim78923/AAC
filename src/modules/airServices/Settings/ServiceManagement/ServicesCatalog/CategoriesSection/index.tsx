@@ -5,7 +5,7 @@ import { pxToRem } from '@/utils/getFontValue';
 import { Box, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import { CatalogAddImage } from '@/assets/images';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import FolderIcon from '@mui/icons-material/Folder';
 import { TruncateText } from '@/components/TruncateText';
 import CustomPagination from '@/components/CustomPagination';

@@ -1,9 +1,7 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { assetsImpactOptions } from '../AddItemsToInventory.data';
+import GetDynamicPurchaseOrderDepartmentDropdown from '../../../PurchaseOrderFormFieldsDropdowns/GetDynamicPurchaseOrderDepartmentDropdown';
+import GetDynamicPurchaseOrderLocationDropdown from '../../../PurchaseOrderFormFieldsDropdowns/GetDynamicPurchaseOrderLocationDropdown';
 
 export const addedInventoryItemsColumns = [
   'Item Name',
@@ -15,8 +13,6 @@ export const addedInventoryItemsColumns = [
 export const addedInventoryItemsFormFieldsFunction = (
   name: any,
   index: any,
-  apiQueryDepartment: any,
-  apiQueryLocation: any,
 ) => [
   {
     id: 1,
@@ -37,27 +33,12 @@ export const addedInventoryItemsFormFieldsFunction = (
   },
   {
     id: 3,
-    data: (
-      <RHFAutocompleteAsync
-        name={`${name}.${index}.location`}
-        size="small"
-        apiQuery={apiQueryLocation}
-        getOptionLabel={(option: any) => option?.locationName}
-        fullWidth
-        sx={{ minWidth: '5rem' }}
-      />
-    ),
+    data: <GetDynamicPurchaseOrderLocationDropdown name={name} index={index} />,
   },
   {
     id: 4,
     data: (
-      <RHFAutocompleteAsync
-        name={`${name}.${index}.department`}
-        size="small"
-        apiQuery={apiQueryDepartment}
-        fullWidth
-        sx={{ minWidth: '5rem' }}
-      />
+      <GetDynamicPurchaseOrderDepartmentDropdown name={name} index={index} />
     ),
   },
 ];

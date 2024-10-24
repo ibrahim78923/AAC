@@ -10,7 +10,6 @@ import useInvoicesReports from './useInvoicesReports';
 const InvoicesReports = () => {
   const theme = useTheme();
   const {
-    searchBy,
     setSearchBy,
     setPage,
     setLimit,
@@ -54,12 +53,7 @@ const InvoicesReports = () => {
           my={1}
         >
           <Typography variant="h4">Overview</Typography>
-          <Search
-            label="Search Here"
-            searchBy={searchBy}
-            setSearchBy={setSearchBy}
-            width={260}
-          />
+          <Search label="Search Here" setSearchBy={setSearchBy} width={260} />
         </Box>
         <Box>
           <TanstackTable

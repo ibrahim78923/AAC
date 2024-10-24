@@ -7,18 +7,18 @@ import {
   upsertArticleFormFieldsDynamic,
   upsertArticleValidationSchema,
 } from './UpsertArticle.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AIR_SERVICES } from '@/constants';
 import { ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
-import { isoDateString } from '@/utils/dateTime';
 import {
   useAddServicesKnowledgeBaseSingleArticleMutation,
   useGetServicesKnowledgeBaseSingleArticleByIdQuery,
   useUpdateServicesKnowledgeBaseSingleArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import { getActiveAccountSession } from '@/utils';
+import { AIR_SERVICES } from '@/constants/routes';
+import { isoDateString } from '@/lib/date-time';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { KNOWLEDGE_BASE } = AIR_SERVICES ?? {};
 const { DRAFT } = ARTICLE_STATUS ?? {};

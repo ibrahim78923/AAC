@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { UpsertServicesDashboardDefaultValueI } from './UpsertDashboard.interface';
 import {
@@ -7,16 +7,12 @@ import {
   upsertServiceDashboardFormFieldsDynamic,
 } from './UpsertDashboard.data';
 import { useRouter } from 'next/router';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
-import { AIR_SERVICES } from '@/constants';
 import {
   MANAGE_DASHBOARD_ACCESS_TYPES,
+  SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT,
   dashboardWidgetsData,
 } from '../Dashboard.data';
 import {
@@ -25,6 +21,10 @@ import {
   useUpdateServicesDashboardSingleDashboardMutation,
 } from '@/services/airServices/dashboard';
 import { fullName } from '@/utils/avatarUtils';
+import { setIsPortalOpen } from '@/redux/slices/airServices/dashboard/slice';
+import { useAppDispatch } from '@/redux/store';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { PRIVATE_TO_OWNER, EVERYONE_EDIT_AND_VIEW, SPECIFIC_USER_AND_TEAMS } =
   MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
@@ -33,8 +33,7 @@ export const useUpsertDashboard = () => {
   const router = useRouter();
   const dashboardId = router?.query?.dashboardId;
   const action = router?.query?.action;
-  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-
+  const dispatch = useAppDispatch();
   const methods = useForm<any>({
     defaultValues: createDashboardDefaultValue?.(),
     resolver: yupResolver(createDashboardValidationSchema?.()),
@@ -211,6 +210,16 @@ export const useUpsertDashboard = () => {
     addSingleServicesDashboardStatus?.isLoading ||
     updateSingleServicesDashboardStatus?.isLoading;
 
+  const openPreviewDashboard = () => {
+    dispatch(
+      setIsPortalOpen<any>({
+        isOpen: true,
+        action: SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT?.PREVIEW_DASHBOARD,
+        data: reportsWatch,
+      }),
+    );
+  };
+
   return {
     methods,
     submitCreateDashboardFilterForm,
@@ -222,11 +231,10 @@ export const useUpsertDashboard = () => {
     isFetching,
     isError,
     dashboardWidgetsWatch,
-    isPortalOpen,
-    setIsPortalOpen,
     refetch,
     apiCallInProgress,
     goToManageDashboard,
     setValue,
+    openPreviewDashboard,
   };
 };

@@ -1,12 +1,6 @@
-import {
-  RHFAutocompleteAsync,
-  RHFCheckbox,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { PAGINATION } from '@/config';
-import { ROLES } from '@/constants/strings';
+import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import GetCatalogRequesterDropdown from '../CatalogFormFieldsDropdown/GetCatalogRequesterDropdown';
 
 export const placeRequestValidationSchema = (
   categoryType: string,
@@ -43,9 +37,7 @@ export const placeRequestDefaultValues = {
 };
 
 export const placeRequest = (
-  apiQueryRequester?: any,
   categoryType?: string,
-  requestForSomeOne?: boolean,
   checkPermission?: string,
 ) => {
   const formFields = [
@@ -96,21 +88,7 @@ export const placeRequest = (
       ? [
           {
             id: 1,
-            componentProps: {
-              name: 'requestor',
-              label: requestForSomeOne ? 'Request For' : 'Requester',
-              fullWidth: true,
-              required: true,
-              apiQuery: apiQueryRequester,
-              externalParams: {
-                limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-                role: ROLES?.ORG_REQUESTER,
-              },
-              getOptionLabel: (option: AutocompleteAsyncOptionsI) =>
-                `${option?.firstName} ${option?.lastName}`,
-              placeholder: 'Add Requester',
-            },
-            component: RHFAutocompleteAsync,
+            component: GetCatalogRequesterDropdown,
             md: 12,
           },
         ]

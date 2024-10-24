@@ -1,10 +1,10 @@
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import { DeleteTask } from '../DeleteTask';
 import { UpsertTasks } from '../UpsertTasks';
 import { SingleTaskDetail } from '../SingleTaskDetail';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   CREATE_TICKET_TASKS,

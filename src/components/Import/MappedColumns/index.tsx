@@ -16,7 +16,8 @@ import {
 import { pxToRem } from '@/utils/getFontValue';
 
 export const MappedColumns: any = (props: any) => {
-  const { fields, name, remove, crmColumnsOptions } = props;
+  const { fields, name, remove, crmColumnsOptions, mandatoryColumnsList } =
+    props;
 
   return (
     <>
@@ -44,6 +45,8 @@ export const MappedColumns: any = (props: any) => {
                       index,
                       remove,
                       crmColumnsOptions,
+                      mandatoryColumnsList,
+                      fields,
                     )?.map((singleField: any) => (
                       <TableCell key={singleField?.id}>
                         {singleField?.data}

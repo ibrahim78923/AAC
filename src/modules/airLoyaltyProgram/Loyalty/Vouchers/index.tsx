@@ -32,6 +32,8 @@ export const Vouchers = () => {
     setIsPortal,
     handleDeleteSubmit,
     checkActionPermissions,
+    patchVouchersTrigger,
+    checkStatusPermissions,
   } = useVouchers();
   return (
     <>
@@ -66,6 +68,8 @@ export const Vouchers = () => {
           handleEditVoucher,
           handleDeleteVoucher,
           checkActionPermissions,
+          patchVouchersTrigger,
+          checkStatusPermissions,
         )}
         data={vouchers}
         isLoading={isLoading}

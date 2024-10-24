@@ -6,7 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import * as Yup from 'yup';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { IFieldConfig } from './ChangePassword.interface';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 
 export const changePasswordValidationSchema = Yup?.object()?.shape({
   currentPassword: Yup?.string()
@@ -23,7 +23,7 @@ export const changePasswordValidationSchema = Yup?.object()?.shape({
       `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_CHANGE_PASSWORD} `,
     )
     ?.matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+      REGEX?.STRONG_PASSWORD_WITH_MINIMUM_COMPLEXITY,
       'Password should be at least 8 characters long having 1 Capital letter, 1 Small letter and 1 number digit and 1 Special Character',
     ),
   confirmPassword: Yup?.string()

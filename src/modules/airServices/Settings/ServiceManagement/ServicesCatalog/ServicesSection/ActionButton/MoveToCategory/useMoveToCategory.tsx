@@ -4,7 +4,7 @@ import {
   useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery,
   usePatchAirServicesSettingsServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import {
   moveToCategoryDefaultValues,

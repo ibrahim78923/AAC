@@ -45,6 +45,7 @@ const Campaigns = () => {
           display="flex"
           direction={{ md: 'row' }}
           justifyContent="space-between"
+          flexWrap={'wrap'}
         >
           <Typography variant="h4" mb={1}>
             Campaigns

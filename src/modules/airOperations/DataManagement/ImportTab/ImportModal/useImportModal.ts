@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import {
   importDefaultValues,
   importValidationSchema,
   productOptionsFunction,
+  stepsData,
 } from './ImportModal.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useImportFileMutation,
@@ -14,6 +15,7 @@ import {
   useUploadFileTos3UsingSignedUrlMutation,
 } from '@/services/airServices/global/import';
 import {
+  FIELD_TYPES,
   IMPORT_ACTION_TYPE,
   IMPORT_FILE_TYPE,
   IMPORT_OBJECT_TYPE,
@@ -38,30 +40,40 @@ export const useImportModal = () => {
     defaultValues: importDefaultValues,
   });
 
-  const { data, isLoading, isFetching } =
-    useGetAuthAccountsForOperationsReportsQuery?.(
-      {},
-      {
-        refetchOnMountOrArgChange: true,
-      },
-    );
+  const { control, handleSubmit, reset, watch, setValue } =
+    methodsImportModalForm;
+  const importDeals = watch('importDeals');
+  const product = watch('product');
 
-  const hasAccounts = data?.data?.map(
-    (account: any) =>
-      (account?.name === PRODUCTS_LISTS?.AIR_SALES ||
-        account?.name === PRODUCTS_LISTS?.AIR_SERVICES) &&
-      account?.name,
-  );
-
-  const productOptions = productOptionsFunction(hasAccounts);
-  const product = methodsImportModalForm?.watch()?.product;
-  const importDeals = methodsImportModalForm?.watch()?.importDeals;
-
-  const { control, handleSubmit, reset } = methodsImportModalForm;
   const { fields, remove } = useFieldArray({
     control,
     name: 'importedFields',
   });
+
+  const {
+    data: accountsData,
+    isLoading,
+    isFetching,
+  } = useGetAuthAccountsForOperationsReportsQuery?.(
+    {},
+    { refetchOnMountOrArgChange: true },
+  );
+
+  const filterMandatoryFields = () => {
+    return stepsData[importLog]?.filter(
+      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+    );
+  };
+
+  const productOptions = useMemo(() => {
+    const hasAccounts = accountsData?.data?.map(
+      (account: any) =>
+        [PRODUCTS_LISTS?.AIR_SALES, PRODUCTS_LISTS?.AIR_SERVICES]?.includes(
+          account?.name,
+        ) && account?.name,
+    );
+    return productOptionsFunction(hasAccounts);
+  }, [accountsData]);
 
   const [newImportFileForServicesTrigger, newImportFileForServicesStatus] =
     useNewImportFileForServicesMutation?.();
@@ -78,7 +90,7 @@ export const useImportModal = () => {
 
   const submitImportModalForm = async (data: any) => {
     try {
-      if (data?.product === IMPORT_ACTION_TYPE?.Sales) {
+      if (data?.product === IMPORT_ACTION_TYPE?.SALES) {
         if (modalStep === 1) {
           setModalStep((prev: any) => ++prev);
         } else if (modalStep === 2) {
@@ -87,6 +99,7 @@ export const useImportModal = () => {
               objectUrl: OBJECT_URL_IMPORT?.USERS_ATTACHMENT,
             },
           };
+
           try {
             const response: any = await lazyGetSignedUrlForImportTrigger?.(
               signedUrlApiDataParameter,
@@ -104,17 +117,31 @@ export const useImportModal = () => {
           const dataColumn = data?.importedFields?.reduce(
             (acc: any, item: any) => ({
               ...acc,
-              [item?.fileColumn]: item?.crmFields,
+              [item?.fileColumn]: item?.crmFields?._id,
             }),
             {},
           );
+
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
             (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
+          const isRequiredFieldMap: any = values?.reduce(
+            (acc: any, curr: any) => ((acc[curr] = true), acc),
+            {},
+          );
+
+          const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
+            (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
+          );
+
           if (hasDuplicate) {
-            errorSnackbar('Duplicate crmFields are not allowed');
+            hasDuplicate &&
+              errorSnackbar('Duplicate crmFields are not allowed');
+          } else if (!isAllRequiredFieldPresent) {
+            !isAllRequiredFieldPresent &&
+              errorSnackbar('Select all mandatory field');
           } else {
             const apiData = {
               body: {
@@ -143,6 +170,7 @@ export const useImportModal = () => {
               objectUrl: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.path}`,
             },
           };
+
           try {
             const response: any = await lazyGetSignedUrlForImportTrigger?.(
               signedUrlApiDataParameter,
@@ -151,7 +179,8 @@ export const useImportModal = () => {
               file: data?.importDeals,
               signedUrl: response?.data,
             };
-            uploadToS3CsvFile(s3Data);
+
+            await uploadToS3CsvFile(s3Data);
             setFileResponse(response);
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
@@ -161,17 +190,31 @@ export const useImportModal = () => {
           const dataColumn = data?.importedFields?.reduce(
             (acc: any, item: any) => ({
               ...acc,
-              [item?.fileColumn]: item?.crmFields,
+              [item?.fileColumn]: item?.crmFields?._id,
             }),
             {},
           );
+
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
             (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
+          const isRequiredFieldMap: any = values?.reduce(
+            (acc: any, curr: any) => ((acc[curr] = true), acc),
+            {},
+          );
+
+          const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
+            (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
+          );
+
           if (hasDuplicate) {
-            errorSnackbar('Duplicate crmFields are not allowed');
+            hasDuplicate &&
+              errorSnackbar('Duplicate crmFields are not allowed');
+          } else if (!isAllRequiredFieldPresent) {
+            !isAllRequiredFieldPresent &&
+              errorSnackbar('Select all mandatory field');
           } else {
             const url = new URL(`${fileResponse?.data}`);
             const filePath = `${url?.origin}${url?.pathname}`;
@@ -188,6 +231,7 @@ export const useImportModal = () => {
                 dataColumn: dataColumn,
               },
             };
+
             try {
               const response: any =
                 await newImportFileForServicesTrigger?.(apiData)?.unwrap();
@@ -205,6 +249,7 @@ export const useImportModal = () => {
       errorSnackbar(error?.message);
     }
   };
+
   const uploadToS3CsvFile = async (data: any) => {
     const s3ApiDataParameter = {
       url: data?.signedUrl,
@@ -218,23 +263,6 @@ export const useImportModal = () => {
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
-  };
-
-  const handleClose = () => {
-    setIsDrawerOpen(false);
-    setModalStep(1);
-    setImportLog('');
-    methodsImportModalForm?.reset();
-  };
-
-  const resetImportModalForm = async () => {
-    if (modalStep > 1) {
-      setModalStep((prev: any) => --prev);
-    } else handleClose();
-  };
-
-  const handleSelect = (selectedValue: any) => {
-    setImportLog(selectedValue);
   };
 
   const handleFileChange = (event: any) => {
@@ -268,27 +296,37 @@ export const useImportModal = () => {
       fileColumn: item?.column,
       crmFields: null,
     }));
-    methodsImportModalForm?.setValue('importedFields', importedFiles);
+    setValue('importedFields', importedFiles);
   }, [csvFileData]);
 
   useEffect(() => {
-    {
-      importDeals != null && handleFileChange(importDeals);
-    }
-    {
-      product === null && (methodsImportModalForm?.reset(), setImportLog(''));
-    }
-    {
-      importDeals != null &&
-        modalStep === 1 &&
-        methodsImportModalForm?.setValue('importDeals', null);
-    }
+    importDeals && handleFileChange(importDeals);
+    !product && (reset(), setImportLog(''));
+    !importDeals && modalStep === 1 && setValue('importDeals', null);
   }, [importDeals, product, importLog, modalStep]);
+
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    setModalStep(1);
+    setImportLog('');
+    reset();
+  };
+
+  const resetImportModalForm = async () => {
+    if (modalStep > 1) {
+      setModalStep((prev: any) => --prev);
+    } else handleClose();
+  };
+
+  const handleSelect = (selectedValue: any) => {
+    setImportLog(selectedValue);
+  };
 
   return {
     isDrawerOpen,
     setIsDrawerOpen,
     methodsImportModalForm,
+    control,
     submitImportModalForm,
     resetImportModalForm,
     isNewImport,
@@ -299,7 +337,6 @@ export const useImportModal = () => {
     importLog,
     product,
     handleSubmit,
-    importDeals,
     fields,
     handlePreview,
     remove,
@@ -311,5 +348,7 @@ export const useImportModal = () => {
     productOptions,
     isLoading,
     isFetching,
+    importDeals,
+    filterMandatoryFields,
   };
 };

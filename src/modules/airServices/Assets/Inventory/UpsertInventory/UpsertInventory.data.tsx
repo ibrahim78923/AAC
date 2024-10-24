@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDesktopDateTimePicker,
   RHFEditor,
@@ -14,8 +13,12 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import GetInventoryAssetsDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAssetsDropdown';
+import GetInventoryDepartmentDropdown from '../InventoryFormFieldsDropdowns/GetInventoryDepartmentDropdown';
+import GetInventoryLocationDropdown from '../InventoryFormFieldsDropdowns/GetInventoryLocationDropdown';
+import GetInventoryAllUsersDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAllUsersDropdown';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
@@ -82,7 +85,7 @@ export const editInventoryDefaultValues = {
   usedBy: '',
 };
 
-export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
+export const upsertInventoryFormFieldsFirst = () => [
   {
     id: 1,
     componentProps: {
@@ -96,15 +99,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
   },
   {
     id: 2,
-    componentProps: {
-      name: 'assetType',
-      label: 'Asset Type',
-      placeholder: 'All Assets',
-      required: true,
-      apiQuery: apiQueryAssetType,
-      externalParams: { limit: 50 },
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryAssetsDropdown,
     md: 6,
   },
   {
@@ -143,12 +138,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
   },
 ];
 
-export const upsertInventoryFormFieldsSecond = (
-  apiQueryDepartmentType: any,
-  apiQueryLocationType: any,
-  apiQueryUsedByType: any,
-  productId: any,
-) => [
+export const upsertInventoryFormFieldsSecond = () => [
   {
     id: 6,
     componentProps: {
@@ -159,25 +149,12 @@ export const upsertInventoryFormFieldsSecond = (
   },
   {
     id: 7,
-    componentProps: {
-      name: 'location',
-      label: 'Location',
-      placeholder: 'Select Location',
-      apiQuery: apiQueryLocationType,
-      getOptionLabel: (option: any) => option?.locationName,
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryLocationDropdown,
     md: 6,
   },
   {
     id: 8,
-    componentProps: {
-      name: 'department',
-      label: 'Department',
-      placeholder: 'Select Department',
-      apiQuery: apiQueryDepartmentType,
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryDepartmentDropdown,
     md: 6,
   },
   {
@@ -195,16 +172,7 @@ export const upsertInventoryFormFieldsSecond = (
   },
   {
     id: 10,
-    componentProps: {
-      name: 'usedBy',
-      label: 'Used By',
-      placeholder: 'Name',
-      apiQuery: apiQueryUsedByType,
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option.lastName}`,
-      externalParams: { productId, requester: true, admin: true },
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryAllUsersDropdown,
     md: 6,
   },
 ];

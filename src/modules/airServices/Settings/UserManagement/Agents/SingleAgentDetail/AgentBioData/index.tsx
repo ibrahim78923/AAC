@@ -8,11 +8,11 @@ import {
 } from '@mui/material';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
 import { EditRequestorsIcon } from '@/assets/icons';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const AgentBioData = (props: any) => {
   const theme = useTheme();
@@ -83,7 +83,8 @@ export const AgentBioData = (props: any) => {
                   <Typography variant="body3" fontWeight={500}>
                     {' '}
                     Joined on{' '}
-                    {dayjs(data?.data?.createdAt)?.format(
+                    {otherDateFormat(
+                      data?.data?.createdAt,
                       DATE_TIME_FORMAT?.DMYHMSA,
                     )}
                   </Typography>

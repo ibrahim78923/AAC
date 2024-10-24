@@ -4,7 +4,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { ROLES } from '@/constants/strings';
+import { REQUESTORS_STATUS, ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
 import { fullName } from '@/utils/avatarUtils';
 import { DealPipelineStagesDropdown } from '../DealPipelineStagesDropdown';
@@ -30,7 +30,6 @@ export const actionsExecutedFields = (
   index: any,
   watch: any,
   dealsDropdown: any,
-  stagesDropdown: any,
   adminUserDropdown: any,
 ) => {
   const moduleType = watch('module');
@@ -72,6 +71,7 @@ export const actionsExecutedFields = (
             role: ROLES?.ORG_EMPLOYEE,
             organization: sessionUser?.organization?._id,
             limit: 500,
+            status: REQUESTORS_STATUS?.ACTIVE,
           },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
@@ -125,6 +125,7 @@ export const actionsExecutedFields = (
             role: ROLES?.ORG_EMPLOYEE,
             organization: sessionUser?.organization?._id,
             limit: 500,
+            status: REQUESTORS_STATUS?.ACTIVE,
           },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),

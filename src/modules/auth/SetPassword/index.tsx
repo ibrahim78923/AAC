@@ -196,7 +196,7 @@ const SetPassword = () => {
                       type="submit"
                       variant="contained"
                       sx={{ marginY: '30px', width: '100%' }}
-                      isLoading={changePasswordLoading}
+                      loading={changePasswordLoading}
                     >
                       Set Password
                     </LoadingButton>

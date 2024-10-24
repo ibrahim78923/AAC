@@ -2,15 +2,10 @@ import { Box, Chip, Typography, Avatar } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import { AIR_SERVICES } from '@/constants';
 import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
-import {
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
+import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
@@ -19,7 +14,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { UserInfo } from '@/components/UserInfo';
 import { RENDER_COLOR } from '../TicketsBoardView.data';
-import { TICKET_STATUS } from '@/constants/strings';
+import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
+import { TruncateText } from '@/components/TruncateText';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -92,8 +89,15 @@ export const TicketInfoCard = (props: any) => {
             </PermissionsGuard>
           </Box>
         </Box>
-        <Typography variant={'body2'}>
-          {truncateText(details?.subject)}
+        <Typography variant={'body2'} color="slateBlue.main">
+          {details?.ticketType === TICKET_TYPE?.SR ? (
+            <TruncateText
+              text={details?.subject}
+              retainTextLeft="Request For: "
+            />
+          ) : (
+            <TruncateText text={details?.subject} />
+          )}
         </Typography>
         <Box
           display={'flex'}
@@ -173,8 +177,11 @@ export const TicketInfoCard = (props: any) => {
             </Box>
           </Box>
           <Avatar
-            sx={{ bgcolor: theme?.palette?.primary?.main }}
-            style={{ width: 20, height: 20 }}
+            sx={{
+              bgcolor: theme?.palette?.primary?.main,
+              width: 20,
+              height: 20,
+            }}
             src={generateImage(details?.requesterDetails?.avatar?.url)}
           >
             <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>

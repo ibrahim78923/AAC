@@ -8,10 +8,10 @@ import {
 } from '@/components/ReactHookForm';
 import useDealTab from '../DealTab/useDealTab';
 import * as Yup from 'yup';
-import { getSession } from '@/utils';
+import { getActiveProductSession } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { dynamicFormValidationSchema } from '@/utils/dynamic-forms';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
+import { useLazyGetAllUsersDropdownQuery } from '@/services/common-APIs';
 
 export const validationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -33,11 +33,9 @@ export const defaultValues = {
   closeDate: null,
 };
 export const createDealData = ({ dealPipelineId }: any) => {
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
-
+  const ActiveProduct = getActiveProductSession();
   const { salesProduct, pipelineListDropdown }: any = useDealTab();
-  const ownerData = useLazyGetOrganizationUsersQuery();
+  const ownerData = useLazyGetAllUsersDropdownQuery();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[1]?.data?.find(
@@ -115,7 +113,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: { id: organizationId, meta: false },
+        externalParams: { productId: ActiveProduct?._id },
       },
       component: RHFAutocompleteAsync,
     },
@@ -132,13 +130,11 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'products',
         GridView: 6,
-        isCheckBox: true,
         label: 'Add Line Item',
         options: salesProduct?.data?.salesproducts?.map((item: any) => ({
           value: item?._id,
           label: capitalizeFirstLetter(item?.name),
         })),
-        fullWidth: true,
       },
       component: RHFMultiCheckbox,
       md: 12,

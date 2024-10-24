@@ -1,6 +1,5 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useChangeOperationsReportOwnerMutation } from '@/services/airOperations/reports';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -13,6 +12,7 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};

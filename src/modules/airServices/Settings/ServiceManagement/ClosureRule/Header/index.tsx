@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const Header = () => {

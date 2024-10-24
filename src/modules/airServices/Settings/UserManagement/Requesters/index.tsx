@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { RequestersHeader } from './RequestersHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useRequesters } from './useRequesters';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

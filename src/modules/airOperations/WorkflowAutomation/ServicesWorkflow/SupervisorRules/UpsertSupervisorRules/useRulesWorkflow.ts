@@ -6,7 +6,6 @@ import {
   rulesWorkflowValues,
 } from './UpsertRulesWorkflow.data';
 import { useTheme } from '@mui/material';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
@@ -18,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { useDispatch } from 'react-redux';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useRulesWorkflow = () => {
   const [validation, setValidation] = useState('');

@@ -15,7 +15,7 @@ import {
   usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export default function useCompanies({ setIsDrawerOpen }: any) {
   const router = useRouter();

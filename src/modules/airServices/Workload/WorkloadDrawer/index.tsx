@@ -12,7 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Fragment } from 'react';
-import dayjs from 'dayjs';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
@@ -33,6 +32,7 @@ import {
 import { ARRAY_INDEX } from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { UpdateWorkloadTicket } from '../UpdateWorkloadTicket';
+import { otherDateFormat } from '@/lib/date-time';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -289,7 +289,8 @@ const WorkloadDrawer = ({
                       <Grid container alignItems={'center'} ml={3} mt={1}>
                         <Typography variant="body2" color={'custom.main'}>
                           {item?.start
-                            ? dayjs(item?.start)?.format(
+                            ? otherDateFormat(
+                                item?.start,
                                 DATE_TIME_FORMAT?.FORMAT_24_HOUR,
                               )
                             : 'No Date'}
@@ -297,7 +298,8 @@ const WorkloadDrawer = ({
                         <HorizontalRuleIcon sx={{ color: 'custom.main' }} />
                         <Typography variant="body2" color={'custom.main'}>
                           {item?.end
-                            ? dayjs(item?.end)?.format(
+                            ? otherDateFormat(
+                                item?.end,
                                 DATE_TIME_FORMAT?.FORMAT_24_HOUR,
                               )
                             : 'No Date'}

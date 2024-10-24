@@ -4,7 +4,7 @@ import {
   useLazyGetAirServicesSettingsCannedResponsesQuery,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 

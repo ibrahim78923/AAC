@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDesktopDateTimePicker,
   RHFEditor,
   RHFTextField,
@@ -8,6 +7,8 @@ import {
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 import { ticketStatusOptions } from '../../ServicesTickets/ServicesTickets.data';
+import { AssignToAndAgent } from '../WorkloadFields/AssignToAndAgent';
+import { REGEX } from '@/constants/validation';
 
 export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
   subject: Yup?.string()?.trim()?.required('Subject is Required'),
@@ -15,7 +16,9 @@ export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
     ?.trim()
     ?.required('Description is Required')
     ?.test('is-not-empty', 'Description is Required', (value) => {
-      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
       return strippedContent !== '';
     }),
   agent: Yup?.mixed()?.nullable(),
@@ -39,88 +42,79 @@ export const getWorkloadTicketDefaultValues = (data?: any) => ({
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const getWorkloadTicketDataArray = ({ apiQueryAssignTo }: any) => {
-  return [
-    {
-      id: 1,
-      componentProps: {
-        name: 'subject',
-        label: 'Subject',
-        placeholder: 'Subject',
-        required: true,
-        disabled: true,
-      },
-      component: RHFTextField,
+export const workloadTicketDataArray = [
+  {
+    id: 1,
+    componentProps: {
+      name: 'subject',
+      label: 'Subject',
+      placeholder: 'Subject',
+      required: true,
+      disabled: true,
     },
-    {
-      id: 2,
-      componentProps: {
-        name: 'description',
-        label: 'Description',
-        required: true,
-        style: { height: pxToRem(250) },
-      },
-      component: RHFEditor,
+    component: RHFTextField,
+  },
+  {
+    id: 2,
+    componentProps: {
+      name: 'description',
+      label: 'Description',
+      required: true,
+      style: { height: pxToRem(250) },
     },
-    {
-      id: 4,
-      componentProps: {
-        name: 'agent',
-        label: 'Agent',
-        placeholder: 'Select',
-        apiQuery: apiQueryAssignTo,
-        getOptionLabel: (option: any) =>
-          option?.firstName + ' ' + option?.lastName,
-        externalParams: {
-          admin: true,
-        },
-      },
-      component: RHFAutocompleteAsync,
+    component: RHFEditor,
+  },
+  {
+    id: 4,
+    componentProps: {
+      name: 'agent',
+      label: 'Agent',
     },
-    {
-      id: 5,
-      componentProps: {
-        name: 'status',
-        label: 'Status',
-        placeholder: 'Choose Status',
-        required: true,
-        options: ticketStatusOptions,
-        getOptionLabel: (option: any) => option?.label,
-      },
-      component: RHFAutocomplete,
+    component: AssignToAndAgent,
+  },
+  {
+    id: 5,
+    componentProps: {
+      name: 'status',
+      label: 'Status',
+      placeholder: 'Choose Status',
+      required: true,
+      options: ticketStatusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    {
-      id: 6,
-      componentProps: {
-        name: 'plannedStartDate',
-        label: 'Planned Start Date',
-        fullWidth: true,
-        disabled: true,
-        ampm: false,
-      },
-      component: RHFDesktopDateTimePicker,
+    component: RHFAutocomplete,
+  },
+  {
+    id: 6,
+    componentProps: {
+      name: 'plannedStartDate',
+      label: 'Planned Start Date',
+      fullWidth: true,
+      disabled: true,
+      ampm: false,
     },
-    {
-      id: 8,
-      componentProps: {
-        name: 'plannedEndDate',
-        label: 'Planned End Date',
-        fullWidth: true,
-        disablePast: true,
-        required: true,
-        textFieldProps: { readOnly: true },
-        ampm: false,
-      },
-      component: RHFDesktopDateTimePicker,
+    component: RHFDesktopDateTimePicker,
+  },
+  {
+    id: 8,
+    componentProps: {
+      name: 'plannedEndDate',
+      label: 'Planned End Date',
+      fullWidth: true,
+      disablePast: true,
+      required: true,
+      textFieldProps: { readOnly: true },
+      ampm: false,
     },
-    {
-      id: 10,
-      componentProps: {
-        name: 'plannedEffort',
-        label: 'Planned Effort',
-        placeholder: 'Eg: 1h10m',
-      },
-      component: RHFTextField,
+    component: RHFDesktopDateTimePicker,
+  },
+  {
+    id: 10,
+    componentProps: {
+      name: 'plannedEffort',
+      label: 'Planned Effort',
+      placeholder: 'Eg: 1h10m',
     },
-  ];
-};
+    component: RHFTextField,
+  },
+];

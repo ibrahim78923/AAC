@@ -6,6 +6,7 @@ import { Box, useTheme, Popover, Typography, Button } from '@mui/material';
 import {
   getActivePermissionsSession,
   isNullOrEmpty,
+  setActivePermissionsSession,
   stringArraysEqual,
 } from '@/utils';
 
@@ -24,7 +25,17 @@ import { getRoutes } from '@/layout/Layout.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { generateImage } from '@/utils/avatarUtils';
-import { ORG_ADMIN } from '@/constants';
+import {
+  AIR_MARKETER_DASHBOARD,
+  AIR_SALES_DASHBOARD,
+  ORG_ADMIN,
+  PRODUCT_LABELS,
+} from '@/constants';
+import {
+  AIR_LOYALTY_PROGRAM,
+  AIR_OPERATIONS,
+  AIR_SERVICES,
+} from '@/constants/routes';
 
 const role = 'sales';
 const AccountMenu = () => {
@@ -43,9 +54,7 @@ const AccountMenu = () => {
     handleClose();
     try {
       const response = await PostAuthAccountSelect(payload)?.unwrap();
-
       const routes = getRoutes(product);
-
       if (response?.data && routes) {
         setPermissions();
         setSelectedProduct(routes);
@@ -114,6 +123,39 @@ const AccountMenu = () => {
     }
   }, [isLoading, postAuthAccountSelectFetching]);
 
+  const handleNavigateToOrgAdmin = () => {
+    const filtered = permissionsFromLocalStorage.filter((permission: any) =>
+      permission.includes('org'),
+    );
+
+    setActivePermissionsSession(filtered);
+    router.push(ORG_ADMIN?.DASHBOARD);
+    setActiveProduct({});
+  };
+
+  const handleNavigation = (ele: any) => {
+    switch (ele) {
+      case PRODUCT_LABELS?.AIR_MARKETER:
+        router.push(AIR_MARKETER_DASHBOARD?.SINGLE_DASHBOARD);
+        break;
+      case PRODUCT_LABELS?.AIR_SALES:
+        router.push(AIR_SALES_DASHBOARD?.SINGLE_DASHBOARD);
+        break;
+      case PRODUCT_LABELS?.AIR_SERVICES:
+        router.push(AIR_SERVICES?.DASHBOARD);
+        break;
+      case PRODUCT_LABELS?.AIR_OPERATIONS:
+        router.push(AIR_OPERATIONS?.DASHBOARD);
+        break;
+      case PRODUCT_LABELS?.LOYALTY_PROGRAM:
+        router.push(AIR_LOYALTY_PROGRAM?.DASHBOARD);
+        break;
+      default:
+        router.push('/');
+        break;
+    }
+  };
+
   return (
     <div>
       <Box onClick={handleClick}>
@@ -177,9 +219,7 @@ const AccountMenu = () => {
                   >
                     <Button
                       variant="contained"
-                      onClick={() => {
-                        router.push(ORG_ADMIN?.DASHBOARD);
-                      }}
+                      onClick={handleNavigateToOrgAdmin}
                     >
                       Organization Admin portal
                     </Button>
@@ -240,6 +280,7 @@ const AccountMenu = () => {
                                     subitem?._id,
                                   );
                                   setActiveProduct(item);
+                                  handleNavigation(item.name);
                                 }}
                                 sx={{ cursor: 'pointer' }}
                               >

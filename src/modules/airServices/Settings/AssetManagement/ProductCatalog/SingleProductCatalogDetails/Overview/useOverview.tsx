@@ -1,6 +1,7 @@
 import { useGetProductCatalogByIdQuery } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
 import { OverviewData } from './Overview.data';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useOverview = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export const useOverview = () => {
       skip: !!!productCatalogId,
     });
 
-  const dataArray = OverviewData(data?.data?.[0]);
+  const dataArray = OverviewData(data?.data?.[ARRAY_INDEX?.ZERO]);
 
   return { isLoading, dataArray, isFetching, isError };
 };

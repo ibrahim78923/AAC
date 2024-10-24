@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
-import { errorSnackbar, warningSnackbar } from '@/utils/api';
+import { errorSnackbar, warningSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
-  useLazyGetLifeCycleStagesDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { useRouter } from 'next/router';
 
@@ -32,7 +31,6 @@ export const useWorkflowActionExecuted = (props: any) => {
   };
   const { palette } = useTheme();
   const dealsDropdown = useLazyGetDealDropdownListQuery();
-  const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
   const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
@@ -50,7 +48,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     palette,
     handleDeleteClick,
     dealsDropdown,
-    stagesDropdown,
     adminUserDropdown,
   };
 };

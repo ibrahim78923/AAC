@@ -2,7 +2,7 @@ import { Typography, Box, Skeleton } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRouter } from 'next/router';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { HeaderI } from './HeaderI';

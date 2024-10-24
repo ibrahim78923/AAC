@@ -1,13 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { getDefaultValues, getFormFields } from './ViewContact.data';
+import { getDefaultValues } from './ViewContact.data';
 import { useEffect } from 'react';
-import useAuth from '@/hooks/useAuth';
-import {
-  useLazyGetAirServicesContactOwnerQuery,
-  useLazyGetAirServicesLifeCycleStageQuery,
-  useLazyGetAirServicesAssociationStatusQuery,
-  useGetAirServicesTicketContactByIdQuery,
-} from '@/services/airServices/tickets/single-ticket-details/association';
+import { useGetAirServicesTicketContactByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export default function useViewContact({ modalId, setModalId }: any) {
   const { data, isLoading, isFetching, isError } =
@@ -35,20 +29,6 @@ export default function useViewContact({ modalId, setModalId }: any) {
     });
   };
 
-  const { user }: any = useAuth();
-  const orgId = user?.organization?._id;
-
-  const contactOwner = useLazyGetAirServicesContactOwnerQuery();
-  const lifecycleStage = useLazyGetAirServicesLifeCycleStageQuery();
-  const status = useLazyGetAirServicesAssociationStatusQuery();
-
-  const formFields = getFormFields({
-    orgId,
-    contactOwner,
-    lifecycleStage,
-    status,
-  });
-
   return {
     onClose,
     data,
@@ -56,6 +36,5 @@ export default function useViewContact({ modalId, setModalId }: any) {
     isFetching,
     isError,
     methodsNewContact,
-    formFields,
   };
 }

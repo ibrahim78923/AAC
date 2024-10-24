@@ -1,21 +1,25 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
 
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [openDrawer, setOpenDrawer] = useState<any>(false);
+
   const transactionParams = {
     page,
     limit,
     search,
+  };
+
+  const handleSearch = (data: any) => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setSearch(data);
   };
 
   const [
@@ -34,10 +38,9 @@ export const useTransaction = () => {
   }, [page, limit, search]);
 
   return {
-    theme,
     router,
     search,
-    setSearch,
+    handleSearch,
     open,
     setOpen,
     page,

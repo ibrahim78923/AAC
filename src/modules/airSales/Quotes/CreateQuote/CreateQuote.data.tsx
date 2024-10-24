@@ -36,6 +36,7 @@ export const dealFormData = (openCreateDeal: any) => {
 
   return [
     {
+      id: '01',
       md: 12,
       component: RHFSearchableSelect,
       componentProps: {
@@ -51,7 +52,7 @@ export const dealFormData = (openCreateDeal: any) => {
       },
     },
     {
-      id: 'template',
+      id: '02',
       componentProps: {
         label: 'Select Quote Template',
         name: 'template',
@@ -65,7 +66,7 @@ export const dealFormData = (openCreateDeal: any) => {
       md: 12,
     },
     {
-      id: 'name',
+      id: '03',
       component: RHFTextField,
       componentProps: {
         name: 'name',
@@ -76,6 +77,7 @@ export const dealFormData = (openCreateDeal: any) => {
       },
     },
     {
+      id: '04',
       componentProps: {
         name: 'expiryDate',
         label: 'Quote Expiration Date',
@@ -88,7 +90,7 @@ export const dealFormData = (openCreateDeal: any) => {
       component: RHFDatePicker,
     },
     {
-      id: 'notes',
+      id: '05',
       component: RHFTextField,
       componentProps: {
         name: 'notes',
@@ -100,7 +102,7 @@ export const dealFormData = (openCreateDeal: any) => {
       },
     },
     {
-      id: 'termsAndConditions',
+      id: '06',
       component: RHFTextField,
       componentProps: {
         name: 'termsAndConditions',

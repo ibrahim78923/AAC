@@ -1,4 +1,13 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
+import * as Yup from 'yup';
+
+export const filterSchema = Yup.object().shape({
+  industry: Yup.string(),
+});
+
+export const defaultFilterValues = {
+  industry: '',
+};
 
 export const FilterArray = (getCompanyContacts: any) => {
   return [

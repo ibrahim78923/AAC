@@ -1,10 +1,9 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid, LinearProgress } from '@mui/material';
 import { TicketsReportCard } from './TicketsReportCard';
 import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
 import { TicketsReportChart } from './TicketsReportChart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { DownloadLargeIcon } from '@/assets/icons';
 import { FormProvider, RHFDateRangePicker } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -13,7 +12,9 @@ import { pxToRem } from '@/utils/getFontValue';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import { htmlToPdfConvert } from '@/utils/file';
+import { AIR_SERVICES } from '@/constants/routes';
+import { Autorenew } from '@mui/icons-material';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const TicketsReports = () => {
   const {
@@ -29,6 +30,8 @@ export const TicketsReports = () => {
     shouldDateSet,
     onDateFilterSubmit,
     getValues,
+    timeLapse,
+    apiCallInProgress,
   } = useTicketsReport();
 
   return (
@@ -40,6 +43,30 @@ export const TicketsReports = () => {
           router?.push(AIR_SERVICES?.REPORTS);
         }}
       >
+        <Button
+          variant="outlined"
+          color="inherit"
+          size="small"
+          startIcon={<Autorenew />}
+          onClick={refetch}
+          disabled={apiCallInProgress}
+          sx={{
+            fontSize: pxToRem(12),
+            fontWeight: 'fontWeightRegular',
+            textTransform: 'lowercase',
+            cursor: 'pointer',
+            height: pxToRem(40),
+            marginTop: pxToRem(-10),
+          }}
+        >
+          {!!apiCallInProgress ? (
+            <Box>
+              <LinearProgress sx={{ width: pxToRem(70) }} />
+            </Box>
+          ) : (
+            timeLapse?.lastFetchLapseTime
+          )}
+        </Button>
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.FILTER]}
         >

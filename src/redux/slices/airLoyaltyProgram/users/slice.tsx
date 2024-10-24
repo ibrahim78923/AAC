@@ -32,7 +32,7 @@ const loyaltyProgramUsersInitialState = {
 };
 
 const loyaltyProgramUsersSlice = createSlice({
-  name: 'loyaltyUsers',
+  name: 'loyaltyProgramUsers',
   initialState: loyaltyProgramUsersInitialState,
   reducers: {
     setPage: setPageReducer,

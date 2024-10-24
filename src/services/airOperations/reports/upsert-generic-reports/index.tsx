@@ -1,6 +1,7 @@
 import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
+
 const TAG = 'UPSERT_GENERIC_REPORT';
 
 export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
@@ -12,7 +13,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG],
     }),
     locationDropdown: builder?.query({
       query: () => ({
@@ -22,7 +22,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG],
     }),
     departmentDropdown: builder?.query({
       query: () => ({
@@ -32,7 +31,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG],
     }),
     categoriesDropdown: builder.query({
       query: () => ({
@@ -42,7 +40,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.productcategories;
       },
-      providesTags: [TAG],
     }),
     vendorsDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -51,7 +48,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG],
     }),
     dashboardDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -62,7 +58,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.dynamicdashboards;
       },
-      providesTags: [TAG],
     }),
     dealsDropdown: builder.query({
       query: ({ params }: any) => ({
@@ -73,7 +68,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG],
     }),
     postGenericReports: builder?.mutation({
       query: (params: any) => ({
@@ -92,7 +86,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG],
     }),
     patchGenericReports: builder?.mutation({
       query: (params: any) => ({
@@ -117,7 +110,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.salesproducts;
       },
-      providesTags: [TAG],
     }),
     contractTypeDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -128,7 +120,6 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG],
     }),
     ticketRequesterDropdown: builder?.query({
       query: ({ params }: any) => ({

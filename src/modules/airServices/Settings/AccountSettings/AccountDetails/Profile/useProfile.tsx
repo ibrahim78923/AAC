@@ -3,11 +3,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { profileValidationSchema, profileDefaultValues } from './Profile.data';
 import { usePatchServiceAccountDetailProfileDetailMutation } from '@/services/airServices/settings/account-settings/account-details';
 import useAuth from '@/hooks/useAuth';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
 import { IAuth, IPropsAccountDetails } from '../AccountDetails.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useProfile = (props: IPropsAccountDetails) => {
   const { profileDetail } = props;

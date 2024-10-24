@@ -3,47 +3,47 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'AIR_LOYALTY_ROLES';
 
-export const servicesPermissionsRole = baseAPI.injectEndpoints({
+export const loyaltyProgramPermissionsRoleAndRights = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getPermissionsRoleForLoyalty: builder.query({
-      query: (getRolesParameter: any) => ({
+    getLoyaltyProgramRoleAndRightsPermissionsRoleList: builder?.query({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}`,
         method: 'GET',
-        params: getRolesParameter?.queryParams,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    getPermissionsByProductForLoyalty: builder.query({
+    getLoyaltyProgramRoleAndRightsSinglePermissionByProduct: builder?.query({
       query: ({ role }: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}/${role}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    postPermissionsRoleForLoyalty: builder?.mutation({
-      query: (body: any) => ({
+    addLoyaltyProgramRoleAndRightsSinglePermissionRole: builder?.mutation({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}`,
         method: 'POST',
-        body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    getPermissionsRoleByIdForLoyalty: builder?.query({
+    getLoyaltyProgramRoleAndRightsSinglePermissionRoleById: builder?.query({
       query: (roleId: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    patchPermissionsRoleByIdForLoyalty: builder?.mutation({
-      query: ({ updatedPatchData, roleId }: any) => ({
-        url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
+    updateLoyaltyProgramRoleAndRightsSinglePermissionsRole: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}/${apiDataParameter?.pathParams?.roleId}`,
         method: 'PATCH',
-        body: updatedPatchData,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    deleteRoleForLoyalty: builder?.mutation({
+    deleteLoyaltyProgramRoleAndRightsSinglePermissionRole: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}/${apiDataParameter?.pathParams?.roleId}`,
         method: 'DELETE',
@@ -53,10 +53,10 @@ export const servicesPermissionsRole = baseAPI.injectEndpoints({
 });
 
 export const {
-  useLazyGetPermissionsRoleForLoyaltyQuery,
-  useGetPermissionsByProductForLoyaltyQuery,
-  usePostPermissionsRoleForLoyaltyMutation,
-  useGetPermissionsRoleByIdForLoyaltyQuery,
-  usePatchPermissionsRoleByIdForLoyaltyMutation,
-  useDeleteRoleForLoyaltyMutation,
-} = servicesPermissionsRole;
+  useLazyGetLoyaltyProgramRoleAndRightsPermissionsRoleListQuery,
+  useAddLoyaltyProgramRoleAndRightsSinglePermissionRoleMutation,
+  useUpdateLoyaltyProgramRoleAndRightsSinglePermissionsRoleMutation,
+  useDeleteLoyaltyProgramRoleAndRightsSinglePermissionRoleMutation,
+  useGetLoyaltyProgramRoleAndRightsSinglePermissionByProductQuery,
+  useGetLoyaltyProgramRoleAndRightsSinglePermissionRoleByIdQuery,
+} = loyaltyProgramPermissionsRoleAndRights;

@@ -1,7 +1,9 @@
+import { getFullURL } from './utils';
 // API
 export const BASE_URL = process?.env?.NEXT_PUBLIC_BASE_URL;
 export const IMG_URL = process?.env?.NEXT_PUBLIC_IMG_URL;
-export const FE_BASE_URL = process?.env?.NEXT_PUBLIC_FE_BASE_URL;
+export const FE_BASE_URL =
+  process?.env?.NEXT_PUBLIC_FE_BASE_URL || getFullURL();
 
 //PAGINATION
 export const PAGINATION = {
@@ -17,7 +19,18 @@ export const PAGINATION = {
 export const FILE_MAX_SIZE = {
   ATTACH_FILE_MAX_SIZE: 1024 * 1024 * 2.44,
 };
+
 export const FILE_SIZE_MESSAGES = {
   FILE_TOO_LARGE: 'file-too-large',
   TOTAL_FILE_SIZE: 'total-size-too-large',
+};
+
+export const AUTO_REFRESH_API_POLLING_TIME = {
+  DASHBOARD: 900000,
+  REPORTS: 900000,
+};
+
+export const AUTO_REFRESH_API_TIME_INTERVAL = {
+  DASHBOARD: 60000,
+  REPORTS: 60000,
 };

@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFSwitch,
   RHFTextField,
@@ -15,8 +14,11 @@ import {
   LICENSE_TYPE,
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
-import { localeDateTime } from '@/utils/dateTime';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import GetSoftwareContractSoftwareDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractSoftwareDropdown';
+import GetSoftwareContractApproverDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractApproverDropdown';
+import GetSoftwareContractVendorDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractVendorDropdown';
+import { localeDateTime } from '@/lib/date-time';
 
 export const dropdownDummy = [
   {
@@ -215,7 +217,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   licenseKey: Yup?.string()
     ?.trim()
     ?.required('License key is required')
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
+    ?.matches(REGEX?.LICENSE_KEY_REGEX, 'must be a string'),
   itemDetail: Yup?.array()
     ?.of(
       Yup?.object()?.shape({
@@ -258,9 +260,6 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
 
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
-  apiQueryVendor: any,
-  apiQueryApprover: any,
-  apiQuerySoftware: any,
 ) => [
   {
     id: 1,
@@ -323,30 +322,13 @@ export const upsertContractFormFieldsDataFunction = (
   },
   {
     id: 8,
-    component: RHFAutocompleteAsync,
+    component: GetSoftwareContractApproverDropdown,
     md: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'approver',
-      label: 'Approver',
-      placeholder: 'Select Approver',
-      apiQuery: apiQueryApprover,
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
   },
   {
     id: 9,
-    componentProps: {
-      fullWidth: true,
-      name: 'vendor',
-      label: 'Vendor',
-      placeholder: 'Select Vendor',
-      apiQuery: apiQueryVendor,
-      externalParams: { meta: false, limit: 50 },
-    },
     md: 6,
-    component: RHFAutocompleteAsync,
+    component: GetSoftwareContractVendorDropdown,
   },
   {
     id: 10,
@@ -437,18 +419,8 @@ export const upsertContractFormFieldsDataFunction = (
         },
         {
           id: 16,
-          component: RHFAutocompleteAsync,
+          component: GetSoftwareContractApproverDropdown,
           md: 6,
-          componentProps: {
-            fullWidth: true,
-            name: 'notifyTo',
-            label: 'Notify To',
-            placeholder: 'Select User',
-            required: true,
-            apiQuery: apiQueryApprover,
-            getOptionLabel: (option: any) =>
-              `${option?.firstName} ${option?.lastName}`,
-          },
         },
       ]
     : []),
@@ -465,18 +437,8 @@ export const upsertContractFormFieldsDataFunction = (
   },
   {
     id: 18,
-    component: RHFAutocompleteAsync,
+    component: GetSoftwareContractSoftwareDropdown,
     md: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'software',
-      label: 'Software',
-      required: true,
-      disabled: true,
-      apiQuery: apiQuerySoftware,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.name,
-    },
   },
   {
     id: 19,

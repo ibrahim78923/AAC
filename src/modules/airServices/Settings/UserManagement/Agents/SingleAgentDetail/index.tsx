@@ -1,7 +1,7 @@
 import { AgentBioData } from './AgentBioData';
 import { Typography } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import { UpsertAgent } from '../UpsertAgent';
 import { useSingleAgentDetail } from './useSingleAgentDetail';

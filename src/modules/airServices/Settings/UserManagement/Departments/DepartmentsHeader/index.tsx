@@ -5,7 +5,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { IDepartmentsProps } from '../Departments.interface';
 
 export const DepartmentsHeader = (props: IDepartmentsProps) => {

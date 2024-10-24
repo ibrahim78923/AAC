@@ -24,7 +24,11 @@ import {
   useUpdateEmailTemplatesMutation,
 } from '@/services/airMarketer/emailMarketing';
 
-const ActionButton = ({ selectedRecords, handleReset }: any) => {
+const ActionButton = ({
+  selectedRecords,
+  handleReset,
+  setSelectedRecords,
+}: any) => {
   const {
     selectedValue,
     handleClick,
@@ -64,11 +68,13 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
   };
   const handleArchive = async () => {
     const selectedIds = selectedRecords[indexNumbers?.ZERO];
+    const isArchived =
+      selectedRecords[indexNumbers?.ZERO]?.status === EMAIL_ENUMS?.ARCHIVED;
     try {
       await updateAchieveTemplate({
         id: selectedIds?._id,
         body: {
-          status: EMAIL_ENUMS?.ARCHIVED,
+          status: isArchived ? EMAIL_ENUMS?.SENT : EMAIL_ENUMS?.ARCHIVED,
         },
       })?.unwrap();
       enqueueSnackbar('Request Successful', {
@@ -195,7 +201,12 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
           ]}
         >
           <AlertModals
-            message="Are you sure you want to archive this email?"
+            message={`Are you sure you want to ${
+              selectedRecords[indexNumbers?.ZERO]?.status ===
+              EMAIL_ENUMS?.ARCHIVED
+                ? 'unarchive'
+                : 'archive'
+            } this email?`}
             type="Information"
             typeImage={<InfoBlueIcon />}
             open={actionsModalDetails?.isArchive}
@@ -269,6 +280,7 @@ const ActionButton = ({ selectedRecords, handleReset }: any) => {
           <ManageAccess
             selectedRecords={selectedRecords[indexNumbers?.ZERO]}
             isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
+            setSelectedRecords={setSelectedRecords}
             handleCloseManageAccessModal={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,

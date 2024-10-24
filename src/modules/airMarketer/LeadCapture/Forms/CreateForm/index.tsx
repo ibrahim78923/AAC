@@ -178,7 +178,7 @@ const CreateForm = () => {
                   )}
                   {item?.componentProps?.paragraph && (
                     <Typography variant="body2">
-                      {item?.componentProps?.paragraph}
+                      {item?.componentProps?.text}
                     </Typography>
                   )}
                   <item.component {...item?.componentProps} size={'small'}>

@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { WorkloadManagementTabs } from './WorkloadManagement.data';

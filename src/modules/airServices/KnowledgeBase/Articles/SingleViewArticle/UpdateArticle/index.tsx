@@ -8,8 +8,8 @@ import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
+import { AIR_SERVICES } from '@/constants/routes';
 
 const { DELETE_ARTICLES } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 const { UPSERT_ARTICLE } = AIR_SERVICES ?? {};

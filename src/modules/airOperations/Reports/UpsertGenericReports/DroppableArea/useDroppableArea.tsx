@@ -1,11 +1,11 @@
 import { REPORT_TYPE } from '@/constants/strings';
-import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useTheme, Theme } from '@mui/material';
 import { useState } from 'react';
 import { DroppableAreaI } from './DroppableArea.interface';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
+import { successSnackbar } from '@/lib/snackbar';
 
 export const useDroppableArea = (props: DroppableAreaI) => {
   const { setForm, form } = props;

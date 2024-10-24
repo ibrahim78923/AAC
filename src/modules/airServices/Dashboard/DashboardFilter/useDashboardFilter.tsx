@@ -1,11 +1,11 @@
-import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 import { dashboardDropdownActionsDynamic } from './DashboardFilter.data';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
-
-const { SINGLE_DASHBOARD, MANAGE_DASHBOARD } = AIR_SERVICES ?? {};
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { AIR_SERVICES } from '@/constants/routes';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
+import { useApiPolling } from '@/hooks/useApiPolling';
 
 export const useDashboardFilter = (props: any) => {
   const { apiLoader } = props;
@@ -18,7 +18,9 @@ export const useDashboardFilter = (props: any) => {
   const apiCallInProgress = apiLoader?.isLoading || apiLoader?.isFetching;
   const dashboardName = apiLoader?.data?.data?.dashboard?.name?.toLowerCase();
   const dashboardId = apiLoader?.data?.data?.dashboard?._id;
-  const moveToManageDashboard = () => router?.push(MANAGE_DASHBOARD);
+  const refetch = apiLoader?.refetch;
+  const moveToManageDashboard = () =>
+    router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
 
   const copyEmail = () => {
     if (apiLoader?.isError) {
@@ -29,7 +31,7 @@ export const useDashboardFilter = (props: any) => {
       errorSnackbar('Dashboard link not found.');
       return;
     }
-    const emailToCopy = `${window?.location?.origin}${SINGLE_DASHBOARD}?dashboardId=${dashboardId}`;
+    const emailToCopy = `${window?.location?.origin}${AIR_SERVICES?.SINGLE_DASHBOARD}?dashboardId=${dashboardId}`;
     navigator?.clipboard?.writeText(emailToCopy);
     successSnackbar('Link has been copied successfully.');
   };
@@ -38,6 +40,14 @@ export const useDashboardFilter = (props: any) => {
     setIsDrawerOpen,
     copyEmail,
   );
+
+  const ApiPollingHookProps = {
+    isFetching: apiLoader?.isFetching,
+    fulfilledTimeStamp: apiLoader?.fulfilledTimeStamp,
+    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
+  };
+
+  const { timeLapse } = useApiPolling(ApiPollingHookProps);
 
   return {
     dashboardDropdownActions,
@@ -48,5 +58,7 @@ export const useDashboardFilter = (props: any) => {
     apiCallInProgress,
     dashboardName,
     moveToManageDashboard,
+    refetch,
+    timeLapse,
   };
 };

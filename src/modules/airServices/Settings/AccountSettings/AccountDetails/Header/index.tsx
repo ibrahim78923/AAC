@@ -6,7 +6,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { AIR_SERVICES } from '@/constants';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
@@ -15,6 +14,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { generateImage } from '@/utils/avatarUtils';
 import { IPropsAccountDetails } from '../AccountDetails.interface';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const Header = (props: IPropsAccountDetails) => {
   const theme = useTheme();

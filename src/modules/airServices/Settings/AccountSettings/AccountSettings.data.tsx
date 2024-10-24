@@ -1,9 +1,9 @@
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
-import { AIR_SERVICES } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import { ISettingsCards } from '../Settings.interface';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const accountSettings: ISettingsCards[] = [
   {

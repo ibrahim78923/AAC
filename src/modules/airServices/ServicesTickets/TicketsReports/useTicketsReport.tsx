@@ -1,13 +1,18 @@
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { makeDateTime } from '@/utils/api';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { MODULE_TYPE } from '@/constants/strings';
+import {
+  AUTO_REFRESH_API_POLLING_TIME,
+  AUTO_REFRESH_API_TIME_INTERVAL,
+} from '@/config';
+import { useApiPolling } from '@/hooks/useApiPolling';
+import { isoDateString } from '@/lib/date-time';
 
 export const useTicketsReport = () => {
   const [hasDate, setHasDate] = useState(false);
-  const [filterDate, setFilterDate] = useState({
+  const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
     endDate: null,
   });
@@ -47,22 +52,18 @@ export const useTicketsReport = () => {
     isFetching,
     isError,
     refetch,
+    fulfilledTimeStamp,
   }: { [key: string]: any } = useGetServiceSystematicReportsQuery(
     apiDataParameter,
     {
       refetchOnMountOrArgChange: true,
+      pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.REPORTS,
     },
   );
 
   const onDateFilterSubmit = (setAnchorElDate: any) => {
-    const startDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.startDate),
-      new Date(),
-    )?.toISOString();
-    const endDate = makeDateTime(
-      new Date(getValues?.('createdDate')?.endDate),
-      new Date(),
-    )?.toISOString();
+    const startDate = isoDateString(getValues?.('createdDate')?.startDate);
+    const endDate = isoDateString(getValues?.('createdDate')?.endDate);
     setFilterDate({ startDate, endDate });
     setHasDate?.(true);
     setAnchorElDate?.(null);
@@ -77,6 +78,15 @@ export const useTicketsReport = () => {
     });
   };
 
+  const props = {
+    isFetching,
+    fulfilledTimeStamp,
+    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS,
+  };
+
+  const { timeLapse } = useApiPolling(props);
+  const apiCallInProgress = isLoading || isFetching;
+
   return {
     router,
     methods,
@@ -90,5 +100,7 @@ export const useTicketsReport = () => {
     shouldDateSet,
     onDateFilterSubmit,
     getValues,
+    timeLapse,
+    apiCallInProgress,
   };
 };

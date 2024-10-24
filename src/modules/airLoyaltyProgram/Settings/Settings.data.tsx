@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { Loyalty } from './Loyalty';
 import { GiftCards } from './GiftCards';
-import { RolesAndRight } from '../RolesAndRight';
+import { RolesAndRight } from '../RoleAndRights';
 import { UserManagement } from '../UserManagement';
 
 export const SETTINGS_MODULES = {
@@ -16,6 +16,14 @@ export const renderSettingsModule: any = {
   [SETTINGS_MODULES?.GIFT_CARDS]: <GiftCards />,
   [SETTINGS_MODULES?.ROLE_AND_RIGHTS]: <RolesAndRight />,
   [SETTINGS_MODULES?.USER_MANAGEMENT]: <UserManagement />,
+};
+
+export const tabComponentProps = {
+  color: 'slateBlue.main',
+  variant: 'body2',
+  padding: 1,
+  borderRadius: 2,
+  marginY: 1,
 };
 
 export const settingsDataDynamic = (
@@ -34,11 +42,7 @@ export const settingsDataDynamic = (
   {
     id: 2,
     componentProps: {
-      color: 'slateBlue.main',
-      variant: 'body2',
-      padding: 0.5,
-      borderRadius: 1,
-      marginY: 1.5,
+      ...tabComponentProps,
       sx: {
         cursor: 'pointer',
         backgroundColor:
@@ -53,11 +57,7 @@ export const settingsDataDynamic = (
   {
     id: 3,
     componentProps: {
-      color: 'slateBlue.main',
-      variant: 'body2',
-      padding: 0.5,
-      borderRadius: 1,
-      marginY: 1.5,
+      ...tabComponentProps,
       sx: {
         cursor: 'pointer',
         backgroundColor:
@@ -74,11 +74,7 @@ export const settingsDataDynamic = (
   {
     id: 4,
     componentProps: {
-      color: 'slateBlue.main',
-      variant: 'body2',
-      padding: 0.5,
-      borderRadius: 1,
-      marginY: 1.5,
+      ...tabComponentProps,
       sx: {
         cursor: 'pointer',
         backgroundColor:
@@ -95,11 +91,7 @@ export const settingsDataDynamic = (
   {
     id: 5,
     componentProps: {
-      color: 'slateBlue.main',
-      variant: 'body2',
-      padding: 0.5,
-      borderRadius: 1,
-      marginY: 1.5,
+      ...tabComponentProps,
       sx: {
         cursor: 'pointer',
         backgroundColor:

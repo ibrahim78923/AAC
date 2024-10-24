@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePutSoftwareAssignCategoryMutation } from '@/services/airServices/assets/software';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
 import { SoftwareAssignCategoryI } from './SoftwareAssignCategory.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSoftwareAssignCategory = (params: SoftwareAssignCategoryI) => {
   const { setOpenAssignModal, selectedSoftware, setSoftwareData } = params;

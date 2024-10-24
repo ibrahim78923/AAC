@@ -1,5 +1,5 @@
 import { Box, Checkbox, Typography } from '@mui/material';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { DragIndicator } from '@mui/icons-material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
@@ -17,7 +17,7 @@ export const CustomizeTicketsColumn = () => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isPortalOpen?.isOpen as boolean}
+        isDrawerOpen={isPortalOpen?.isOpen}
         onClose={onClose}
         okText={'Update'}
         title={'Customize Column'}
@@ -25,7 +25,7 @@ export const CustomizeTicketsColumn = () => {
         isOk
         footer
       >
-        <Typography variant="h5" color="slateblue.main">
+        <Typography variant="h5" color="slateBlue.main">
           {' '}
           Selected ({customizeColumn?.length - 2})
         </Typography>
@@ -42,9 +42,8 @@ export const CustomizeTicketsColumn = () => {
             marginTop={1.5}
             padding={1}
           >
-            <DragIndicatorIcon
-              style={{ flex: '0.1', textAlign: 'center' }}
-              sx={{ color: 'grey.600' }}
+            <DragIndicator
+              sx={{ color: 'grey.600', flex: 0.1, textAlign: 'center' }}
             />
             <Box
               display={'flex'}
@@ -54,7 +53,7 @@ export const CustomizeTicketsColumn = () => {
             >
               <Typography
                 variant="body1"
-                color="slateblue.main"
+                color="slateBlue.main"
                 whiteSpace={'nowrap'}
               >
                 {column?.header}

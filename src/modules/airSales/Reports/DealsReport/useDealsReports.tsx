@@ -2,18 +2,15 @@ import { useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useGetDealPipeLineQuery } from '@/services/airSales/deals';
 import { useGetDealsReortsQuery } from '@/services/airSales/reports';
-import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
-import {
-  DATE_FORMAT,
-  DATE_RANGE,
-  EQuickLinksType,
-  indexNumbers,
-} from '@/constants';
+import { DATE_FORMAT, DATE_RANGE, indexNumbers } from '@/constants';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { useGetAllUsersDropdownQuery } from '@/services/common-APIs';
+import { getActiveProductSession } from '@/utils';
 
 const useDealsReports = () => {
   const router = useRouter();
+  const ActiveProduct = getActiveProductSession();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchBy, setSearchBy] = useState('');
@@ -72,8 +69,8 @@ const useDealsReports = () => {
   const dealsReportsCardsData = dealsReportData?.data?.res;
   const dealsReportsGraphData = dealsReportData?.data?.resByMonth;
 
-  const { data: dealsOwner } = useGetUsersQuery({
-    role: EQuickLinksType?.ORG_EMPLOYEE,
+  const { data: dealsOwner } = useGetAllUsersDropdownQuery({
+    params: { productId: ActiveProduct?._id },
   });
   const { data: pipelineData } = useGetDealPipeLineQuery({ meta: false });
 
@@ -86,7 +83,7 @@ const useDealsReports = () => {
   };
 
   const customizeData = (owners: any) => {
-    return owners?.data?.users?.map((item: any) => ({
+    return owners?.map((item: any) => ({
       label: `${item?.firstName} ${item?.lastName}`,
       value: item?._id,
     }));
@@ -105,7 +102,6 @@ const useDealsReports = () => {
     dealsReportsCardsData,
     dealsReportsGraphData,
     isLoading,
-    searchBy,
     setSearchBy,
     dealsOwner,
     filter,

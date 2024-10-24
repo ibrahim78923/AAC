@@ -122,7 +122,9 @@ const ContactsCard = ({
           liveStatus: constIsModeGroup
             ? ''
             : filteredParticipants[0]?.liveStatus,
-          avatar: constIsModeGroup ? '' : filteredParticipants[0]?.avatar?.url,
+          avatar: constIsModeGroup
+            ? cardData?.item?.groupImage?.url
+            : filteredParticipants[0]?.avatar?.url,
         }),
       );
   };
@@ -186,6 +188,7 @@ const ContactsCard = ({
               <></>
             ) : (
               <Checkbox
+                sx={{ mb: 5 }}
                 onClick={() => {
                   handleChatSelect(cardData?.item?._id);
                 }}

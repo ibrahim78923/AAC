@@ -79,3 +79,10 @@ export const dashboardWidgetsData = [
     label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[ANNOUNCEMENTS],
   },
 ];
+
+export const SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT = {
+  SINGLE_DASHBOARD_DETAILS: 'Dashboard details',
+  FILTER_DASHBOARD: 'Filter dashboard',
+  DELETE_DASHBOARD: 'Delete dashboard',
+  PREVIEW_DASHBOARD: 'Preview Dashboard',
+};

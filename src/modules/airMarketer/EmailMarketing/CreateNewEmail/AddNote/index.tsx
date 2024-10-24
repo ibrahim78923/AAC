@@ -8,10 +8,11 @@ import {
   MenuItem,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
 import Image from 'next/image';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { SendPrimaryIcon, SmileIcon } from '@/assets/icons';
+import { SendPrimaryIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 import { getSession } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,6 +39,8 @@ const AddANote = ({
   edit,
 }: noteProps) => {
   const { user }: any = getSession();
+
+  const theme = useTheme();
 
   const [comment, setComment] = useState('');
   const [renderTrack, setRenderTrack] = useState(0);
@@ -153,9 +156,6 @@ const AddANote = ({
                     </Typography>
                   </Box>
                   <TableIconActions icon={<MoreVertIcon />}>
-                    <MenuItem>
-                      <Typography variant="subtitle2">Edit</Typography>
-                    </MenuItem>
                     <MenuItem onClick={() => deleteNotes(item?.uuid)}>
                       <Typography variant="subtitle2">Delete</Typography>
                     </MenuItem>
@@ -163,10 +163,12 @@ const AddANote = ({
                 </Box>
 
                 <Box sx={styles?.chatContent}>
-                  <Typography variant="body3" sx={{ color: '#14142B' }}>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.custom?.black_pearl }}
+                  >
                     {item?.message}
                   </Typography>
-                  <SmileIcon />
                 </Box>
               </Box>
             </Box>
@@ -184,8 +186,17 @@ const AddANote = ({
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => handleAddNoteClick()}>
-                  <SendPrimaryIcon />
+                <IconButton
+                  disabled={comment?.length < 1 ? true : false}
+                  onClick={() => handleAddNoteClick()}
+                >
+                  <SendPrimaryIcon
+                    color={
+                      comment?.length < 1
+                        ? theme?.palette?.grey[500]
+                        : theme?.palette?.primary?.main
+                    }
+                  />
                 </IconButton>
               </InputAdornment>
             ),

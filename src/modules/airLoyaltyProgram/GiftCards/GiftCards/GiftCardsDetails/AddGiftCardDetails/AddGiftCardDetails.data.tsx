@@ -1,29 +1,21 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 const optionsVisibleTo = ['+', '-'];
 
 export const addGiftCardDetailsValidationSchema = Yup?.object()?.shape({
-  add: Yup?.string()?.required('Required'),
-  amount: Yup?.string()?.required('Required'),
-  shop: Yup?.mixed()?.nullable()?.required('Required'),
-  giftCardNo: Yup?.string()?.required('Required'),
+  add: Yup?.string()?.required('Add is Required'),
+  amount: Yup?.string()?.required('Amount is Required'),
 });
 
 export const addGiftCardDetailsDefaultValues = () => {
   return {
     add: '',
     amount: '',
-    shop: null,
-    giftCardNo: '',
   };
 };
 
-export const addGiftCardDetailsFormFieldsDynamic = (shopApiQuery: any) => [
+export const addGiftCardDetailsFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -31,6 +23,7 @@ export const addGiftCardDetailsFormFieldsDynamic = (shopApiQuery: any) => [
       label: 'Amount',
       options: optionsVisibleTo,
       required: 'true',
+      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
     component: RHFAutocomplete,
     md: 3,
@@ -42,22 +35,7 @@ export const addGiftCardDetailsFormFieldsDynamic = (shopApiQuery: any) => [
       label: '\u00a0\u00a0',
       placeholder: 'Enter Amount',
     },
-
     component: RHFTextField,
     md: 9,
-  },
-  {
-    id: 3,
-    componentProps: {
-      name: 'shop',
-      label: 'Shop',
-      fullWidth: true,
-      placeholder: 'Select',
-      required: true,
-      apiQuery: shopApiQuery,
-      getOptionLabel: (option: any) => option?.shopName,
-    },
-    component: RHFAutocompleteAsync,
-    md: 12,
   },
 ];

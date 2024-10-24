@@ -1,8 +1,8 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { DeleteArticles } from '../../DeleteArticles';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const Header = () => {
   const router = useRouter();

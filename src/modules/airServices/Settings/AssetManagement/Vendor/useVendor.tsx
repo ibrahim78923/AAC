@@ -11,7 +11,7 @@ import {
   MESSAGE_EXPORT_FILE_TYPE,
 } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useVendor = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

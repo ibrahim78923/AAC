@@ -1,7 +1,5 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
-
 import {
   useGetRestoreDealsQuery,
   useUpdateRestoreDealsMutation,
@@ -9,6 +7,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { PAGINATION } from '@/config';
 
 const useRestore = () => {
   const theme = useTheme();
@@ -17,14 +16,16 @@ const useRestore = () => {
   const [isPermanantlyDel, setIsPermanantlyDel] = useState(false);
   const [IsRestoreDealModal, setIsRestoreDealModal] = useState(false);
   const [checkedAll, setCheckedAll] = useState<string[]>([]);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [restoreFilter, setRestoreFilter] = useState({
     dateStart: '',
     dateEnd: '',
   });
 
   const restoeApiParam = {
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: pageLimit,
     search: search ? search : undefined,
     dateStart: restoreFilter?.dateStart
       ? dayjs(restoreFilter?.dateStart)?.format(DATE_FORMAT?.API)
@@ -34,7 +35,11 @@ const useRestore = () => {
       : undefined,
   };
 
-  const { data: restoeDealData } = useGetRestoreDealsQuery({
+  const {
+    data: restoeDealData,
+    isLoading: getRestoreDealsLoading,
+    isSuccess,
+  } = useGetRestoreDealsQuery({
     params: restoeApiParam,
   });
 
@@ -115,6 +120,12 @@ const useRestore = () => {
     setIsRestoreFilterDrawer,
     setCheckedAll,
     updateRestoreLoading,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    getRestoreDealsLoading,
+    isSuccess,
   };
 };
 

@@ -36,8 +36,8 @@ const CustomTextEditor = ({
         border: other?.error
           ? `1px solid ${theme?.palette?.error?.main}`
           : `1px solid ${theme?.palette?.grey?.[indexNumbers?.ZERO]}`,
+        overflow: 'auto',
         borderRadius: '8px',
-        overflow: 'hidden',
         '& .ql-toolbar.ql-snow': {
           backgroundColor: theme?.palette?.grey?.[100],
           border: 'none',
@@ -47,6 +47,9 @@ const CustomTextEditor = ({
         },
         '& .ql-editor': {
           minHeight: '151px',
+        },
+        '& .ql-tooltip': {
+          left: 'auto !important',
         },
       }}
     >

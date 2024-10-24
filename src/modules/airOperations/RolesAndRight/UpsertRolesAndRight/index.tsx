@@ -1,5 +1,5 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS } from '@/constants/routes';
 import { FormProvider } from '@/components/ReactHookForm';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';

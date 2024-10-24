@@ -5,7 +5,7 @@ import { PAGINATION } from '@/config';
 import { useAppSelector } from '@/redux/store';
 import { useTheme } from '@mui/material';
 import { workflowModule } from './TestWorkflowDrawer.data';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useTestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
   const { isWorkflowDrawer, setIsWorkflowDrawer, watch } = props;

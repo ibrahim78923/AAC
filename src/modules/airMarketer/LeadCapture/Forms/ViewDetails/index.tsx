@@ -34,7 +34,6 @@ const ViewDetails = () => {
     dataGetFormById,
     loadingGetForm,
     handleClickEdit,
-    htmlTemplate,
     status,
     formId,
     openModalDelete,
@@ -162,20 +161,14 @@ const ViewDetails = () => {
         <Box sx={{ padding: { xs: '0px' } }}>
           {status === formStatus?.draft ? (
             <Box sx={{ pt: '20px' }}>
-              <Overview
-                data={dataGetFormById?.data}
-                htmlTemplate={htmlTemplate}
-              />
+              <Overview data={dataGetFormById?.data} />
             </Box>
           ) : (
             <CommonTabs
               isHeader={false}
               tabsArray={['Overview', 'Submissions']}
             >
-              <Overview
-                data={dataGetFormById?.data}
-                htmlTemplate={htmlTemplate}
-              />
+              <Overview data={dataGetFormById?.data} />
               <Submissions formId={formId} />
             </CommonTabs>
           )}

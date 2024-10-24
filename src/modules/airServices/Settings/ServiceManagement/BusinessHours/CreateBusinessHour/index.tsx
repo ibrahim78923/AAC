@@ -8,7 +8,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { WorkingHoursFieldArray } from './WorkingHoursFieldArray';
-import dayjs from 'dayjs';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { weekDays } from './CreateBusinessHour.data';
 import { DateFilter } from './DateFilter';
@@ -16,10 +15,12 @@ import Search from '@/components/Search';
 import { LoadingButton } from '@mui/lab';
 import { AddHoliday } from './AddHoliday';
 import { useCreateBusinessHour } from './useCreateBusinessHour';
-import { AIR_SERVICES, TIME_FORMAT } from '@/constants';
+import { TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { timeZone } from '@/constants/time-zone';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Fragment } from 'react';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const CreateBusinessHour = () => {
   const {
@@ -101,7 +102,7 @@ export const CreateBusinessHour = () => {
 
           <Grid item lg={6} xs={12}>
             <Box
-              border={'0.06rem solid'}
+              border={1}
               borderColor={'custom.light_lavender_gray'}
               borderRadius={2}
               p={2.5}
@@ -155,11 +156,13 @@ export const CreateBusinessHour = () => {
                                   }}
                                 >
                                   {!!time?.startTime &&
-                                    dayjs(new Date(time?.startTime))?.format(
+                                    otherDateFormat(
+                                      new Date(time?.startTime),
                                       TIME_FORMAT?.UI,
                                     )}
                                   {!!time?.endTime &&
-                                    `-${dayjs(new Date(time?.endTime))?.format(
+                                    `-${otherDateFormat(
+                                      new Date(time?.endTime),
                                       TIME_FORMAT?.UI,
                                     )}`}
                                   {!!time?.endTime &&

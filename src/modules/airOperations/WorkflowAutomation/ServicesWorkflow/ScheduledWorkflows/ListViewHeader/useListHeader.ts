@@ -1,7 +1,7 @@
 import { useDeleteServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useListHeader = (props: WorkflowListHeaderI) => {
   const {

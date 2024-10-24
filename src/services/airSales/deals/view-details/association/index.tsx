@@ -67,9 +67,10 @@ export const associationAPI = baseAPI.injectEndpoints({
     }),
 
     getAssociateProducts: builder.query({
-      query: (id: any) => ({
+      query: ({ id, params }: any) => ({
         url: `${END_POINTS?.GET_DEAL_PRODUCTS}/${id}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: [TAG_TYPE?.DEALS_ASSOCIATION],
     }),

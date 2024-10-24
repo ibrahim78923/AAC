@@ -26,7 +26,8 @@ const useNotesEditorDrawer = (props: any) => {
   const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
   const [postDealNote, { isLoading: loadingNote }] = usePostDealNoteMutation();
-  const [updateDealNote] = useUpdateDealNoteMutation();
+  const [updateDealNote, { isLoading: updateNotesLoading }] =
+    useUpdateDealNoteMutation();
 
   const methodsdealsNotes = useForm<any>({
     resolver: yupResolver(dealsNotesValidationSchema),
@@ -94,6 +95,7 @@ const useNotesEditorDrawer = (props: any) => {
     handleSubmit,
     loadingNote,
     onSubmit,
+    updateNotesLoading,
   };
 };
 

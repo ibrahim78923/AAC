@@ -1,10 +1,10 @@
-import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import { LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT } from '../User.data';
 import { UpsertUser } from '../UpsertUser';
 import { DeleteUser } from '../DeleteUser';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   ADD_LOYALTY_PROGRAM_USERS,
@@ -28,7 +28,7 @@ export const actionsDropdownForLoyaltyProgramUserDynamic = (
     id: 1,
     title: 'Edit',
     permissionKey: [
-      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.EDIT_USER,
+      AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_OR_DELETE_USER,
     ],
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
@@ -44,7 +44,7 @@ export const actionsDropdownForLoyaltyProgramUserDynamic = (
     id: 2,
     title: 'View',
     permissionKey: [
-      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.VIEW_USER_DETAIL,
+      AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
     ],
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
@@ -60,7 +60,7 @@ export const actionsDropdownForLoyaltyProgramUserDynamic = (
     id: 3,
     title: 'Delete',
     permissionKey: [
-      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.DELETE_USER,
+      AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_OR_DELETE_USER,
     ],
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setAction(DELETE_LOYALTY_PROGRAM_USERS);

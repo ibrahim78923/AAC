@@ -22,7 +22,6 @@ import { HorizontalBarChart } from './DraggableFormFields/Chart/HorizontalBarCha
 import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useGetSingleGenericReportsQuery } from '@/services/airOperations/reports/upsert-generic-reports';
-import { AIR_OPERATIONS } from '@/constants';
 import { useDispatch } from 'react-redux';
 import {
   setColumnsData,
@@ -33,6 +32,7 @@ import {
 } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export default function useUpsertGenericReports() {
   const dispatch = useDispatch();

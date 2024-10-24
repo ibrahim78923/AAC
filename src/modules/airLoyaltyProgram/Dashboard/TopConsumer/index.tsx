@@ -1,11 +1,13 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { topConsumersColumns } from './TopConsumer.data';
+import { getTopConsumersColumns } from './TopConsumer.data';
 
 export const TopConsumer = (props: any) => {
   const { topConsumerData } = props;
+
+  const topConsumersColumns = getTopConsumersColumns();
 
   return (
     <Box
@@ -15,7 +17,7 @@ export const TopConsumer = (props: any) => {
       bgcolor={'common.white'}
     >
       <Box display={'flex'} gap={1} alignItems={'center'} p={2}>
-        <Typography variant={'h4'}>Top Consumers</Typography>
+        <Typography variant={'h5'}>Top Consumers</Typography>
 
         <CustomTooltip
           title={
@@ -23,11 +25,9 @@ export const TopConsumer = (props: any) => {
           }
           placement={'right'}
         >
-          <ErrorIcon sx={{ color: 'custom.main' }} />
+          <ErrorIcon sx={{ color: 'custom.main', cursor: 'pointer' }} />
         </CustomTooltip>
       </Box>
-
-      <Divider />
 
       <TanstackTable columns={topConsumersColumns} data={topConsumerData} />
     </Box>

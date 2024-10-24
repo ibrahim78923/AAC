@@ -1,14 +1,14 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
-
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import {
   assetLifeExpiryOptions,
-  assetsImpactFilterOptions,
+  assetsImpactOptions,
   dateOptions,
 } from '../Inventory.data';
-import { PAGINATION } from '@/config';
+import GetInventoryAllUsersAdminDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAllUsersAdminDropdown';
+import GetInventoryLocationDropdown from '../InventoryFormFieldsDropdowns/GetInventoryLocationDropdown';
+import GetInventoryDepartmentDropdown from '../InventoryFormFieldsDropdowns/GetInventoryDepartmentDropdown';
+import GetInventoryAllUsersDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAllUsersDropdown';
+import GetInventoryAssetsDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAssetsDropdown';
 
 export const inventoryFilterFormDefaultValues = (data: any) => {
   return {
@@ -24,65 +24,22 @@ export const inventoryFilterFormDefaultValues = (data: any) => {
   };
 };
 
-export const inventoryFilterFormFieldsDataFunction = (
-  apiQueryDepartment: any,
-  apiQueryLocation: any,
-  apiQueryUsedBy: any,
-  apiQueryAssetType: any,
-  apiQueryUsersCreatedBy: any,
-  productId: any,
-) => [
+export const inventoryFilterFormFieldsDataFunction = () => [
   {
     id: 1,
-    component: RHFAutocompleteAsync,
-    componentProps: {
-      fullWidth: true,
-      name: 'assetType',
-      label: 'Asset Type',
-      placeholder: 'All Assets',
-      apiQuery: apiQueryAssetType,
-      externalParams: {
-        meta: false,
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-      },
-    },
+    component: GetInventoryAssetsDropdown,
   },
   {
     id: 2,
-    componentProps: {
-      fullWidth: true,
-      name: 'usedBy',
-      label: 'Used By',
-      placeholder: 'Select user',
-      apiQuery: apiQueryUsedBy,
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-      externalParams: { productId, requester: true, admin: true },
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryAllUsersDropdown,
   },
   {
     id: 3,
-    componentProps: {
-      fullWidth: true,
-      name: 'departmentId',
-      label: 'Department',
-      placeholder: 'Select department',
-      apiQuery: apiQueryDepartment,
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryDepartmentDropdown,
   },
   {
     id: 4,
-    componentProps: {
-      fullWidth: true,
-      name: 'locationId',
-      label: 'Locations',
-      placeholder: 'Select location',
-      apiQuery: apiQueryLocation,
-      getOptionLabel: (option: any) => option?.locationName,
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryLocationDropdown,
   },
   {
     id: 5,
@@ -115,24 +72,14 @@ export const inventoryFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
-      options: assetsImpactFilterOptions,
+      options: assetsImpactOptions,
       placeholder: 'Select impact',
       getOptionLabel: (option: any) => option?.label,
     },
   },
   {
     id: 8,
-    componentProps: {
-      fullWidth: true,
-      name: 'createdBy',
-      label: 'Created By',
-      apiQuery: apiQueryUsersCreatedBy,
-      placeholder: 'Select user',
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-      externalParams: { productId, admin: true },
-    },
-    component: RHFAutocompleteAsync,
+    component: GetInventoryAllUsersAdminDropdown,
   },
   {
     id: 9,

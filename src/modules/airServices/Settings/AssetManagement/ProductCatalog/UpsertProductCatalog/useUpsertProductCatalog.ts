@@ -7,19 +7,15 @@ import {
   upsertProductCatalogFormFieldsDynamic,
   upsertProductCatalogValidationSchema,
 } from './UpsertProductCatalog.data';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import {
   useGetProductCatalogByIdQuery,
-  useLazyGetAssetTypeProductCatalogQuery,
   usePatchProductCatalogMutation,
   usePostProductCatalogMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useEffect } from 'react';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useUpsertProductCatalog = () => {
@@ -98,9 +94,8 @@ export const useUpsertProductCatalog = () => {
     }
   };
 
-  const apiQueryAssetType = useLazyGetAssetTypeProductCatalogQuery();
   const upsertProductCatalogFormFields =
-    upsertProductCatalogFormFieldsDynamic(apiQueryAssetType);
+    upsertProductCatalogFormFieldsDynamic();
 
   const moveBack = () => {
     if (!!productCatalogId) {

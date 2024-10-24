@@ -10,6 +10,7 @@ import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { ORG_ADMIN } from '@/constants';
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
+import { ROLE_AND_RIGHTS_STATUS } from '@/constants/api';
 
 const useAddRole = () => {
   const theme = useTheme();
@@ -141,7 +142,7 @@ const useAddRole = () => {
     useUpdateRoleRightsOrgadminMutation();
 
   const onSubmit = async (values: any) => {
-    values.status = values.status ? 'ACTIVE' : 'INACTIVE';
+    values.status = ROLE_AND_RIGHTS_STATUS?.ACTIVE;
     values.productId = values?.productId?._id;
     values.organizationCompanyAccountId =
       values?.organizationCompanyAccountId?._id;

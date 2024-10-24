@@ -18,7 +18,6 @@ export const deleteSoftwareAPI = baseAPI?.injectEndpoints({
 
 export const { useDeleteSoftwareMutation } = deleteSoftwareAPI;
 const TAG = 'ASSETS_SOFTWARE';
-const TAG_TWO = 'USERS_DROPDOWN';
 
 export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -82,7 +81,6 @@ export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse,
-      providesTags: [TAG_TWO],
     }),
   }),
 });

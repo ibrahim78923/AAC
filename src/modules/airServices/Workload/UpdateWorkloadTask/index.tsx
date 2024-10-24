@@ -2,18 +2,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpdateWorkloadTask } from './useUpdateWorkloadTask';
+import { workloadDataArray } from './UpdateWorkloadTask.data';
 
 export const UpdateWorkloadTask = ({ openDrawer, onClose, data }: any) => {
-  const {
-    handleSubmit,
-    onSubmit,
-    methods,
-    workloadDataArray,
-    patchTaskStatus,
-  } = useUpdateWorkloadTask({
-    onClose,
-    dataGet: data,
-  });
+  const { handleSubmit, onSubmit, methods, patchTaskStatus } =
+    useUpdateWorkloadTask({
+      onClose,
+      dataGet: data,
+    });
 
   return (
     <CommonDrawer

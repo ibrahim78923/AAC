@@ -13,7 +13,4 @@ const systematicReportsApi = baseAPI?.injectEndpoints({
   }),
 });
 
-export const {
-  useGetServiceSystematicReportsQuery,
-  useLazyGetServiceSystematicReportsQuery,
-} = systematicReportsApi;
+export const { useGetServiceSystematicReportsQuery } = systematicReportsApi;

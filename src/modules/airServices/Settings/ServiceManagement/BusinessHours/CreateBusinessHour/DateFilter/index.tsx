@@ -8,7 +8,7 @@ import useDateFilter from './useDateFilter';
 export const DateFilter = ({ dateRange, setDateRange }: any) => {
   const {
     handleOpen,
-    formattedWeekSpan,
+    formattedMonthSpan,
     handlePrevClick,
     handleNextClick,
     open,
@@ -27,7 +27,7 @@ export const DateFilter = ({ dateRange, setDateRange }: any) => {
         >
           <PrimaryCalendarIcon />
           <Typography variant={'body1'} fontWeight={500} ml={1}>
-            {formattedWeekSpan}
+            {formattedMonthSpan}
           </Typography>
         </Box>
         <IconButton

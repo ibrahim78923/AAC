@@ -6,7 +6,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { indexNumbers } from '@/constants';
-import { ROLES } from '@/constants/strings';
+import { PRODUCT_USER_STATUS, ROLES } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -63,6 +63,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         externalParams: {
           role: ROLES?.ORG_EMPLOYEE,
           organization: organizationId,
+          status: PRODUCT_USER_STATUS?.ACTIVE,
         },
         queryKey: 'role',
       },

@@ -95,6 +95,7 @@ export const AIR_SALES = {
   MANAGE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/manage'),
   CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
   SETTINGS: '/air-sales/settings',
+  RESTORE_DEALS: '/air-sales/deals/restore',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -223,11 +224,12 @@ export const AIR_OPERATION = {
 const LOYALTY_PROGRAM_PAGE = '/air-loyalty-program';
 export const LOYALTY_PROGRAM = {
   root: LOYALTY_PROGRAM_PAGE,
+  CONSUMERS: path(LOYALTY_PROGRAM_PAGE, '/consumers'),
   LOYALTY_REWARD: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rewards'),
   LOYALTY_TRANSACTIONS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/transactions'),
   LOYALTY_RULES_TIERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/rules-and-tiers'),
   LOYALTY_RULES_VOUCHERS: path(LOYALTY_PROGRAM_PAGE, '/loyalty/vouchers'),
-  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards'),
+  GIFT_CARDS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/gift-cards'),
   GIFT_CARDS_TRANSACTIONS: path(
     LOYALTY_PROGRAM_PAGE,
     '/gift-cards/transactions',
@@ -381,6 +383,7 @@ export const AIR_CALL_CENTER = {
 export const PUBLIC_LEAD_CAPTURE = {
   FORM: '/lead-capture/form',
   CTA: '/lead-capture/cta',
+  EMBED_FORM: '/lead-capture/embed-form',
 };
 
 export const quoteStatus = {

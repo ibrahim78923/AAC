@@ -1,14 +1,12 @@
-import {
-  RHFAutocompleteAsync,
-  RHFEditor,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import { AIR_SERVICES } from '@/constants';
+import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
+import { AIR_SERVICES } from '@/constants/routes';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/lib/snackbar';
 import { RemoveRedEyeOutlined } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import * as Yup from 'yup';
+import { AgentsDropdown } from '../WorkloadScheduleFields/AgentsDropdown';
+import { BusinessHoursDropdown } from '../WorkloadScheduleFields/BusinessHoursDropdown';
 
 export const upsertWorkloadScheduleDefaultValues = (data?: any) => ({
   name: data?.name ?? '',
@@ -31,11 +29,8 @@ export const upsertWorkloadScheduleValidationSchema = Yup?.object()?.shape({
 });
 
 export const upsertWorkloadScheduleFormFieldsDynamic = (
-  apiQueryAgent: any,
-  apiQueryBusinessHours: any,
   getValues: any,
   router: any,
-  productId: any,
 ) => [
   {
     _id: 1,
@@ -60,13 +55,7 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
   {
     _id: 3,
     md: 7,
-    componentProps: {
-      name: 'businessHoursId',
-      label: 'Business Hours',
-      apiQuery: apiQueryBusinessHours,
-      placeholder: 'Choose Business Hour',
-    },
-    component: RHFAutocompleteAsync,
+    component: BusinessHoursDropdown,
   },
   {
     heading: (
@@ -120,16 +109,6 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
   {
     _id: 4,
     md: 7,
-    componentProps: {
-      name: 'agentsId',
-      label: 'Add Users',
-      multiple: true,
-      apiQuery: apiQueryAgent,
-      placeholder: 'Choose Agent',
-      externalParams: { admin: true, productId },
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-    },
-    component: RHFAutocompleteAsync,
+    component: AgentsDropdown,
   },
 ];

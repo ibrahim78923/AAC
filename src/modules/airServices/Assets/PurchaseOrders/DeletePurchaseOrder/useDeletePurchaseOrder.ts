@@ -1,7 +1,7 @@
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useDeleteAirServicesAssetsPurchaseOrderPurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 
 export const useDeletePurchaseOrder = (props: any) => {

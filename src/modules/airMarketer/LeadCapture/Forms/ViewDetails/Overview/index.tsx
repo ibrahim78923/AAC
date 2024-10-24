@@ -20,8 +20,9 @@ import useOverview from './useOverview';
 import { formStatus } from '@/constants/form-builder';
 import { FE_BASE_URL } from '@/config';
 import { PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
+import { renderIframeToString } from '@/utils/leadcapture-forms';
 
-const Overview = ({ data, htmlTemplate }: any) => {
+const Overview = ({ data }: any) => {
   const {
     isEmbedDialogOpen,
     handleOpenEmbedDialog,
@@ -109,15 +110,15 @@ const Overview = ({ data, htmlTemplate }: any) => {
         </DialogTitle>
         <DialogContent sx={{ padding: '20px' }}>
           <Box sx={styles?.dialogContent}>
-            <Typography variant="body2" sx={styles?.dialogCode}>
+            <Box sx={styles?.dialogCode}>
               <pre>
                 <code
                   style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}
                 >
-                  {htmlTemplate}
+                  {renderIframeToString(data?.form?._id)}
                 </code>
               </pre>
-            </Typography>
+            </Box>
             <Tooltip
               open={isCopiedCode}
               title="Copied"
@@ -127,7 +128,9 @@ const Overview = ({ data, htmlTemplate }: any) => {
             >
               <Box
                 sx={styles?.copyBtn}
-                onClick={() => handleCopyEmbededCode(htmlTemplate)}
+                onClick={() =>
+                  handleCopyEmbededCode(renderIframeToString(data?.form?._id))
+                }
               >
                 <CopyIcon />
               </Box>

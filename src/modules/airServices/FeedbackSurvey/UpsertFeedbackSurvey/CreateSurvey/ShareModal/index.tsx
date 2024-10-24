@@ -1,16 +1,11 @@
 import { Close } from '@mui/icons-material';
 import { Box, Button, Dialog, Typography } from '@mui/material';
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { useLazyAllUserDropdownQuery } from '@/services/airServices/feedback-survey';
-import { getSession } from '@/utils';
-import { ROLES } from '@/constants/strings';
+import { AddPeopleDropdown } from '../AddPeopleDropdown';
 
 export const ShareModal: React.FC<{
   openShare: boolean;
   setOpenShare: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ openShare, setOpenShare }) => {
-  const userDropdown = useLazyAllUserDropdownQuery();
-  const sessionUser: any = getSession();
   return (
     <Dialog
       open={openShare}
@@ -33,26 +28,10 @@ export const ShareModal: React.FC<{
           />
         </Box>
         <br />
-        <RHFAutocompleteAsync
+        <AddPeopleDropdown
           name="shareSurveyPeople"
           label="Share With"
-          placeholder="Enter People"
           size="small"
-          multiple
-          apiQuery={userDropdown}
-          externalParams={{
-            limit: 5000,
-            role: ROLES?.ORG_EMPLOYEE,
-            organization: sessionUser?.user?.organization?._id,
-          }}
-          getOptionLabel={(option: any) =>
-            option?.email ? option?.email : option
-          }
-          isOptionEqualToValue={(option: any, newValue: any) =>
-            newValue?.email
-              ? option?.email === newValue?.email
-              : option?.email === newValue
-          }
         />
         <br />
         <Box display="flex" justifyContent="end">

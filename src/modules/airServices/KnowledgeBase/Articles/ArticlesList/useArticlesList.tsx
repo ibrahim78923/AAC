@@ -9,8 +9,8 @@ import {
   setPageLimit,
   setSelectedArticlesList,
 } from '@/redux/slices/airServices/knowledge-base/slice';
-import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useArticlesLists = () => {
   const dispatch = useAppDispatch();

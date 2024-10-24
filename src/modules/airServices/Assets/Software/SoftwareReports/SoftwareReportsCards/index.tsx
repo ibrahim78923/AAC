@@ -1,5 +1,4 @@
 import { Box, Chip, Grid, Typography } from '@mui/material';
-import React from 'react';
 import { pxToRem } from '@/utils/getFontValue';
 import { camelCaseToTitleCase } from '@/utils/api';
 

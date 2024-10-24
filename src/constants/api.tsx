@@ -1,0 +1,57 @@
+export const ROLE_AND_RIGHTS_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'IN_ACTIVE',
+};
+
+export const LOYALTY_PROGRAM_RULE_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'INACTIVE',
+};
+
+export const LOYALTY_PROGRAM_TIERS_REWARD_TYPE = {
+  FIXED_DISCOUNT: 'FIXED_DISCOUNT',
+  FLAT_DISCOUNT: 'FLAT_DISCOUNT',
+  POINTS: 'POINTS',
+};
+
+export const LOYALTY_PROGRAM_RULES_BENEFIT_TYPE = {
+  DISCOUNT: 'DISCOUNT',
+  AWARD: 'AWARD',
+};
+
+export const LOYALTY_PROGRAM_RULES_TIME_SPAN = {
+  THIS_WEEK: 'THIS_WEEK',
+  LAST_WEEK: 'LAST_WEEK',
+  THIS_MONTH: 'THIS_MONTH',
+  LAST_MONTH: 'LAST_MONTH',
+  CUSTOM_DATE: 'CUSTOM_DATE',
+};
+
+export const LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES = {
+  SELECT_CONTACT: 'SELECT_CONTACT',
+  FIRST_NAME: 'firstName',
+  LAST_NAME: 'lastName',
+  ADDRESS: 'address',
+  PHONE_NUMBER: 'phoneNumber',
+  AGE: 'AGE',
+  LAST_TRANSACTION_AT: 'lastTransactionAt',
+  NO_OF_TRANSACTIONS: 'numberOfTransactions',
+  CURRENT_POINTS__BALANCE: 'currentPointsBalance',
+  TOTAL_POINTS_REDEEMED: 'totalPointsRedeemed',
+};
+
+export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
+  EQUAL: 'equals',
+  NOT_EQUAL: 'not equals',
+  GREATER_THAN: 'greater than',
+  LESS_THAN: 'less than',
+  IS_KNOWN: 'is known',
+  IS_UNKNOWN: 'is unknown',
+  BEFORE: 'before',
+  AFTER: 'after',
+  CONTAINS: 'contains',
+};
+
+export const LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE = {
+  CONTACTS: 'CONTACTS',
+};

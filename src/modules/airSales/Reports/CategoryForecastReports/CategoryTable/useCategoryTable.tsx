@@ -20,14 +20,14 @@ const usePipelineOverview = () => {
     }
   };
 
-  const activeTable = (activeCard: any) => {
+  const activeTable = (activeCard: any, data: any) => {
     switch (activeCard) {
       case 'comparison':
-        return comparisonColumns(theme?.palette);
+        return comparisonColumns(data);
       case 'overtime':
-        return overtimeColumns(theme?.palette);
+        return overtimeColumns(data);
       default:
-        return totalColumns(theme?.palette);
+        return totalColumns(theme?.palette, data);
     }
   };
 

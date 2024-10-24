@@ -12,6 +12,7 @@ export const TicketByRequesterFieldDropdown = () => {
       label="Search Ticket"
       placeholder="Search Ticket"
       size="small"
+      queryKey="id"
       fullWidth
       required
       multiple

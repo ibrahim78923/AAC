@@ -1,10 +1,11 @@
 import { UseFormReturn, useForm } from 'react-hook-form';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { usePostReplyForCustomerTicketConversationMutation } from '@/services/airCustomerPortal/Tickets';
 import { ARRAY_INDEX, TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
+import { REGEX } from '@/constants/validation';
 
 export const useReplySingleTicketConversation = (
   props: ReplySingleTicketConversationPropsI,
@@ -19,7 +20,9 @@ export const useReplySingleTicketConversation = (
           ?.trim()
           ?.required('Reply is required')
           ?.test('is-not-empty', 'Reply is required', (value) => {
-            const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+            const strippedContent = value
+              ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+              ?.trim();
             return strippedContent !== '';
           }),
         attachFile: Yup?.mixed()?.nullable(),

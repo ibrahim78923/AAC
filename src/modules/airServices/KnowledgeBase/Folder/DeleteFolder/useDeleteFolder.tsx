@@ -1,4 +1,3 @@
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   resetSelectedFolder,
   setIsPortalClose,
@@ -6,6 +5,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useDeleteServicesKnowledgeBaseSingleFolderMutation } from '@/services/airServices/knowledge-base/articles';
 import { useGetFoldersApi } from '../../KnowledgeBaseHooks/useGetFoldersApi';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useDeleteFolder = () => {
   const { getArticlesFolderListForFilterData } = useGetFoldersApi?.();

@@ -23,8 +23,8 @@ import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdow
 import { AssetFieldDropdown } from '../ServiceTicketFormFields/AssetFieldDropdown';
 import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFieldDropdown';
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
-import { localeDateTime } from '@/utils/dateTime';
-import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { localeDateTime } from '@/lib/date-time';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -43,7 +43,9 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
       ?.trim()
       ?.required('Description is required')
       ?.test('is-not-empty', 'Description is required', (value) => {
-        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        const strippedContent = value
+          ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+          ?.trim();
         return strippedContent !== '';
       }),
     category: Yup?.mixed()?.nullable(),

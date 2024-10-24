@@ -1,8 +1,4 @@
-import {
-  RHFAutocompleteAsync,
-  RHFDateRangePicker,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
 
 export const giftCardDetailsDefaultValues = (data?: any) => {
   return {
@@ -11,12 +7,11 @@ export const giftCardDetailsDefaultValues = (data?: any) => {
       endDate: new Date(),
       key: 'selection',
     },
-    shop: data?.shop ?? null,
     minAmount: data?.minAmount ?? '',
     maxAmount: data?.maxAmount ?? '',
   };
 };
-export const giftCardDetailsFilterFromFieldsDynamic = (shopApiQuery: any) => [
+export const giftCardDetailsFilterFromFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
@@ -29,17 +24,6 @@ export const giftCardDetailsFilterFromFieldsDynamic = (shopApiQuery: any) => [
   {
     id: 2,
     componentProps: {
-      name: 'shop',
-      label: 'Shop',
-      placeholder: 'Select',
-      apiQuery: shopApiQuery,
-      getOptionLabel: (option: any) => option?.shopName,
-    },
-    component: RHFAutocompleteAsync,
-  },
-  {
-    id: 3,
-    componentProps: {
       name: 'minAmount',
       label: 'Minimum amount',
       placeholder: 'Enter Minimum Amount',
@@ -47,7 +31,7 @@ export const giftCardDetailsFilterFromFieldsDynamic = (shopApiQuery: any) => [
     component: RHFTextField,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       name: 'maxAmount',
       label: 'Maximum amount',

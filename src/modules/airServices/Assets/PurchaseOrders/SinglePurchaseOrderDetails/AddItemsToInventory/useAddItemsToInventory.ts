@@ -1,8 +1,6 @@
 import {
   useGetAirServicesAssetsPurchaseOrderAllAssetsListQuery,
   useGetAirServicesAssetsPurchaseOrderDetailsByIdQuery,
-  useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery,
-  useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery,
   usePatchAirServicesAssetsPurchaseOrderDetailsAddToPurchaseOrderMutation,
   usePostAirServicesAssetsPurchaseOrderDetailsMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
@@ -17,7 +15,7 @@ import {
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddItemsToInventory = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -83,19 +81,12 @@ export const useAddItemsToInventory = (props: any) => {
     { refetchOnMountOrArgChange: true },
   );
 
-  const apiQueryDepartment =
-    useLazyGetAirServicesPurchaseOrderDetailsDepartmentDropdownQuery?.();
-  const apiQueryLocation =
-    useLazyGetAirServicesPurchaseOrderDetailsLocationsDropdownQuery?.();
-
   const addItemsToInventoryCountFormFields =
     addItemsToInventoryCountFormFieldsDynamic?.(
       addToItemsInventoryDetails?.data?.data?.totalItemAdded,
     );
   const addItemsToInventoryFormFields = addItemsToInventoryFormFieldsDynamic?.(
     watchAddInventoryMethod,
-    apiQueryDepartment,
-    apiQueryLocation,
     allAssets,
     setAssetsSearch,
   );

@@ -71,7 +71,7 @@ const UsersDetails = (props: UsersDetailsProps) => {
               ) : (
                 <CommonTabs
                   isHeader={tabValue === indexNumbers?.ZERO ? true : false}
-                  activeTab={tabValue}
+                  defaultValue={tabValue}
                   getTabVal={(val: number) => {
                     setTabVal(val);
                     setSearchAccount('');
@@ -81,10 +81,7 @@ const UsersDetails = (props: UsersDetailsProps) => {
                     <Search
                       placeholder="Search by Name"
                       size="small"
-                      value={searchAccount}
-                      onChange={(val: any) =>
-                        setSearchAccount(val?.target?.value)
-                      }
+                      setSearchBy={setSearchAccount}
                     />
                   }
                   headerChildren={

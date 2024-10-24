@@ -13,12 +13,19 @@ import {
   usePatchAirServicesSettingsServiceBusinessHourMutation,
   usePostAirServicesSettingsServiceBusinessHourMutation,
 } from '@/services/airServices/settings/service-management/business-hours';
-import { AIR_SERVICES } from '@/constants';
+import { CALENDAR_FORMAT } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import {
+  endOfTime,
+  parsedDateFormat,
+  startOfTime,
+  otherDateFormat,
+} from '@/lib/date-time';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -35,8 +42,8 @@ export const useCreateBusinessHour = () => {
   const [search, setSearch] = useState<any>('');
   const [dateRange, setDateRange] = useState<any>([
     {
-      startDate: dayjs()?.startOf('month')?.toDate(),
-      endDate: dayjs()?.endOf('month')?.toDate(),
+      startDate: startOfTime(new Date(), 'month', true),
+      endDate: endOfTime(new Date(), 'month', true),
       key: 'selection',
     },
   ]);
@@ -60,7 +67,8 @@ export const useCreateBusinessHour = () => {
     postBusinessHourStatus?.isLoading ||
     getHolidaysStatus?.isFetching ||
     getHolidaysStatus?.isLoading ||
-    singleBusinessHour?.isLoading;
+    singleBusinessHour?.isLoading ||
+    singleBusinessHour?.isFetching;
 
   const holidays = getHolidaysStatus?.data?.data?.holidays;
 
@@ -69,7 +77,21 @@ export const useCreateBusinessHour = () => {
     const getHolidaysParam = new URLSearchParams();
     getHolidaysParam?.append('country', country);
     try {
-      await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
+      const res: any = await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
+      const newData = res.data.items?.map((item: any) => {
+        return {
+          name: item?.summary,
+          date: otherDateFormat(item?.start?.date, CALENDAR_FORMAT?.YMD),
+          uuid: item?.id,
+        };
+      });
+      setHolidaysData((pervState: any) =>
+        pervState ? [...pervState, ...newData] : newData,
+      );
+      if (res?.error) {
+        errorSnackbar('Error in Retrieving Holidays');
+        return;
+      }
       successSnackbar('Holidays Retrieved successfully');
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -164,13 +186,13 @@ export const useCreateBusinessHour = () => {
     const filteredData = holidaysData?.filter(
       (item: any) => item?.name?.toLowerCase()?.includes(search?.toLowerCase()),
     );
-    const startDate = dayjs(dateRange[0]?.startDate);
-    const endDate = dayjs(dateRange[0]?.endDate);
+    const startDate = parsedDateFormat(dateRange[ARRAY_INDEX?.ZERO]?.startDate);
+    const endDate = parsedDateFormat(dateRange[ARRAY_INDEX?.ZERO]?.endDate);
     const dateFilteredData = filteredData?.filter((item: any) => {
-      const itemDate = dayjs(item.date);
-      const daysDifference = itemDate.diff(startDate, 'day');
+      const itemDate = parsedDateFormat(item.date);
+      const daysDifference = itemDate?.diff(startDate, 'day');
       return (
-        daysDifference >= 0 && daysDifference < endDate.diff(startDate, 'day')
+        daysDifference >= 0 && daysDifference < endDate?.diff(startDate, 'day')
       );
     });
     setManipulatedHolidaysData(dateFilteredData);

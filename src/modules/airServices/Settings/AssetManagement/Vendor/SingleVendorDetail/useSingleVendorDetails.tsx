@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { singleVendorDetailsActionDropdownFunction } from './SingleVendorDetail.data';
 import { useRouter } from 'next/router';
 import { useDeleteVendorMutation } from '@/services/airServices/settings/asset-management/vendor';
-import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants/routes';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useSingleVendorDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -15,7 +15,6 @@ export const useSingleVendorDetails = () => {
   const singleVendorDetailsActionDropdown =
     singleVendorDetailsActionDropdownFunction(
       setDeleteModalOpen,
-      router,
       setIsADrawerOpen,
     );
 

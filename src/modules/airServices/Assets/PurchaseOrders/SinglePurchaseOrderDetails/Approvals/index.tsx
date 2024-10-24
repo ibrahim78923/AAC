@@ -2,7 +2,6 @@ import NoData from '@/components/NoData';
 import { approvalStatus, approvalsStatusObj } from './Approvals.data';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import dayjs from 'dayjs';
 import { RequestApprovalForm } from './RequestApprovalForm';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
@@ -15,6 +14,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { CancelRequest } from './CancelRequest';
 import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { LoadingButton } from '@mui/lab';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const Approvals = () => {
   const {
@@ -140,7 +140,8 @@ export const Approvals = () => {
                             user?._id,
                           )?.message
                         }
-                        {dayjs(item?.updatedAt).format(
+                        {otherDateFormat(
+                          item?.updatedAt,
                           DATE_TIME_FORMAT?.DMDMHA,
                         )}
                       </Typography>

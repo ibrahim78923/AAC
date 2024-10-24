@@ -11,7 +11,7 @@ import {
 import { timeZone } from '@/constants/time-zone';
 import { capitalizeFirstWord, timeFormatter } from '@/utils/api';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 
 export const schemaTypes = {

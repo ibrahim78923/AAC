@@ -4,7 +4,6 @@ import {
   giftCardDetailsFilterFromFieldsDynamic,
 } from './GiftCardDetailsFilter.data';
 import { filteredEmptyValues } from '@/utils/api';
-import { useLazyGetShopDropdownForGiftCardDetailsQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards/details';
 
 export const useGiftCardDetailsFilter = (props: any) => {
   const { filterGiftCardDetails, setFilterGiftCardDetails, setIsPortalOpen } =
@@ -30,10 +29,8 @@ export const useGiftCardDetailsFilter = (props: any) => {
     reset();
   };
 
-  const shopApiQuery = useLazyGetShopDropdownForGiftCardDetailsQuery?.();
-
   const giftCardDetailsFilterFromFields =
-    giftCardDetailsFilterFromFieldsDynamic?.(shopApiQuery);
+    giftCardDetailsFilterFromFieldsDynamic?.();
 
   return {
     giftCardDetailsFilterFromFields,

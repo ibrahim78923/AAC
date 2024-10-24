@@ -1,11 +1,11 @@
 import { Box, Grid, IconButton, Typography } from '@mui/material';
-import { AIR_OPERATIONS } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   cardRelatedData,
   serviceWorkflowsCardData,
 } from './ServicesWorkflow.data';
 import { useServiceWorkflow } from './useServiceWorkflow';
+import { AIR_OPERATIONS } from '@/constants/routes';
 
 export const ServicesWorkflow = () => {
   const { theme, router, activeItem, handleItemClick } = useServiceWorkflow();

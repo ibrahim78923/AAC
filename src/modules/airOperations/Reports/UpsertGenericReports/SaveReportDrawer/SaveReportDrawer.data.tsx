@@ -1,6 +1,5 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
-  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFRadioGroup,
   RHFTextField,
@@ -11,7 +10,6 @@ import {
   SpecialUsersFieldsI,
   SpecificUsersAccessColumnsI,
   SpecificUsersAccessFormFieldsDynamicI,
-  UsersDropdownOptionsI,
 } from './SaveReportDrawer.interface';
 import {
   Table,
@@ -23,6 +21,8 @@ import {
 } from '@mui/material';
 import { pxToRem } from '@/utils/getFontValue';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { UsersListDropdown } from './ReportFormFields/UsersListDropdown';
+import { ExistingDashboardListDropdown } from './ReportFormFields/ExistingDashboardListDropdown';
 
 const sharedWithOptionsArray = [
   { value: REPORT_TYPE?.VIEW_AND_EDIT, label: 'View and Edit' },
@@ -154,12 +154,8 @@ export const reportsDefaultValues = (singleReport: any) => {
 };
 
 export const reportsDataArray = (
-  usersDropdown: any,
-  dashboardDropdown: any,
   newDashboardFields: SpecialUsersFieldsI[],
   sharedWithFields: SpecialUsersFieldsI[],
-  id: any,
-  productId: any,
 ) => [
   {
     id: 7578,
@@ -192,21 +188,7 @@ export const reportsDataArray = (
     ),
     conditionalComponentTwo: (
       <>
-        <RHFAutocompleteAsync
-          size="small"
-          name="specificUsersConditionOne"
-          label="Select user"
-          multiple={true}
-          required={true}
-          apiQuery={usersDropdown}
-          getOptionLabel={(option: UsersDropdownOptionsI) =>
-            `${option?.firstName} ${option?.lastName}`
-          }
-          placeholder="Select Option"
-          externalParams={{
-            productId: productId,
-          }}
-        />
+        <UsersListDropdown name={'specificUsersConditionOne'} />
         <TableContainer
           sx={{
             maxHeight: pxToRem(400),
@@ -265,21 +247,7 @@ export const reportsDataArray = (
       options: addToDashboardArray,
     },
     component: RHFRadioGroup,
-    conditionalComponentTree: (
-      <RHFAutocompleteAsync
-        size="small"
-        name="addToExistingCondition"
-        label="Select Dashboard"
-        required={true}
-        multiple={true}
-        apiQuery={dashboardDropdown}
-        getOptionLabel={(option: any) => option?.name}
-        placeholder="Select Option"
-        externalParams={{
-          productId: id,
-        }}
-      />
-    ),
+    conditionalComponentTree: <ExistingDashboardListDropdown />,
     conditionalComponentFour: (
       <>
         <RHFTextField
@@ -307,21 +275,7 @@ export const reportsDataArray = (
     ),
     conditionalComponentSix: (
       <>
-        <RHFAutocompleteAsync
-          size="small"
-          name="newDashboardSpecificUsersConditionOne"
-          label="Select user"
-          multiple={true}
-          required={true}
-          apiQuery={usersDropdown}
-          getOptionLabel={(option: UsersDropdownOptionsI) =>
-            `${option?.firstName} ${option?.lastName}`
-          }
-          placeholder="Select Option"
-          externalParams={{
-            productId: productId,
-          }}
-        />
+        <UsersListDropdown name={'newDashboardSpecificUsersConditionOne'} />
         <TableContainer
           sx={{
             maxHeight: pxToRem(400),

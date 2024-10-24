@@ -11,20 +11,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAirServicesAssetsInventoryAddToInventoryByIdQuery,
-  useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery,
-  useLazyGetAirServicesAssetsInventoryUsersDropdownQuery,
   usePatchAirServicesAssetsInventoryAddToInventoryMutation,
   usePostAirServicesAssetsInventoryMutation,
 } from '@/services/airServices/assets/inventory';
-import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
+import { AIR_SERVICES } from '@/constants/routes';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
@@ -35,8 +27,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { ARRAY_INDEX, ASSET_IMPACT } from '@/constants/strings';
-import dayjs from 'dayjs';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpsertInventory = () => {
   const theme = useTheme();
@@ -110,15 +101,11 @@ export const useUpsertInventory = () => {
     displayName: filledFormValues?.displayName ?? '',
     assetTypeDetails: filledFormValues?.assetType ?? null,
     impact: filledFormValues?.impact ?? ASSET_IMPACT?.LOW,
-    assetLifeExpiry: dayjs(filledFormValues?.assetLifeExpiry)?.format(
-      DATE_TIME_FORMAT?.YYMMDD,
-    ),
+    assetLifeExpiry: isoDateString(filledFormValues?.assetLifeExpiry),
     description: filledFormValues?.description ?? '',
     locationDetails: filledFormValues?.location ?? null,
     departmentDetails: filledFormValues?.department ?? null,
-    assignedOn: dayjs(filledFormValues?.assignedOn)?.format(
-      DATE_TIME_FORMAT?.YYMMDD,
-    ),
+    assignedOn: isoDateString(filledFormValues?.assignedOn),
     usedByDetails: filledFormValues?.usedBy ?? null,
     fileUrl: null,
   };
@@ -265,28 +252,9 @@ export const useUpsertInventory = () => {
     }
   };
 
-  const auth: any = useAuth();
+  const upsertInventoryFormFieldsOne = upsertInventoryFormFieldsFirst();
 
-  const { _id: productId } = auth?.product;
-
-  const apiQueryAssetType =
-    useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery();
-  const apiQueryDepartmentType =
-    useLazyGetAirServicesAssetsInventoryDepartmentDropdownQuery();
-  const apiQueryLocationType =
-    useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery();
-  const apiQueryUsedByType =
-    useLazyGetAirServicesAssetsInventoryUsersDropdownQuery();
-
-  const upsertInventoryFormFieldsOne =
-    upsertInventoryFormFieldsFirst(apiQueryAssetType);
-
-  const upsertInventoryFormFieldsTwo = upsertInventoryFormFieldsSecond(
-    apiQueryDepartmentType,
-    apiQueryLocationType,
-    apiQueryUsedByType,
-    productId,
-  );
+  const upsertInventoryFormFieldsTwo = upsertInventoryFormFieldsSecond();
 
   const moveBack = () => {
     if (!!inventoryId) {

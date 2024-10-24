@@ -2,8 +2,8 @@ import { Box, Checkbox, Divider, Grid, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { useTimeSlotsWeekly } from './useTimeSlotsWeekly';
 import { TimeSlot } from './TimeSlot';
-import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 
 const TimeSlotsWeekly = (props: any) => {
   const {
@@ -141,9 +141,11 @@ const TimeSlotsWeekly = (props: any) => {
                     >
                       {slots?.timeRanges?.map((time: any) => (
                         <Typography key={time?._id}>
-                          {`${dayjs(time?.startHour)?.format(
+                          {`${otherDateFormat(
+                            time?.startHour,
                             TIME_FORMAT?.TH,
-                          )} - ${dayjs(time?.endHour)?.format(
+                          )} - ${otherDateFormat(
+                            time?.endHour,
                             TIME_FORMAT?.TH,
                           )}`}
                         </Typography>

@@ -15,15 +15,14 @@ import { IActivityStatusMenuProps } from './ActivityStatusMenu.interface';
 import { useActivityStatusMenu } from './useActivityStatusMenu';
 
 export const ActivityStatusMenu = (props: IActivityStatusMenuProps) => {
-  const { info, activityStatus, MenuItemDataArray } = props;
+  const { info, activityStatus, menuItemDataArray } = props;
 
   const { statusQuery, handleStatusChange, backgroundColor, color, textColor } =
     useActivityStatusMenu(props);
 
   return (
     <>
-      {statusQuery?.isLoading &&
-      statusQuery?.originalArgs?.queryParams === info?.row?.original?._id ? (
+      {statusQuery?.isLoading ? (
         <CircularProgress size={20} />
       ) : (
         <Select
@@ -63,13 +62,13 @@ export const ActivityStatusMenu = (props: IActivityStatusMenuProps) => {
           renderValue={(selected: string) => (
             <Box display={'flex'} alignItems={'center'} gap={1}>
               <FiberManualRecordIcon sx={{ fontSize: 10 }} />
-              <Typography variant={'body2'} textTransform={'capitalize'}>
+              <Typography variant={'body3'} textTransform={'capitalize'}>
                 {selected?.toLowerCase()}
               </Typography>
             </Box>
           )}
         >
-          {MenuItemDataArray?.map((item: any) => {
+          {menuItemDataArray?.map((item: any) => {
             const { colorItems, iconColorItems }: any =
               getActivityStatusItemsColor(item?.value);
 
@@ -85,6 +84,9 @@ export const ActivityStatusMenu = (props: IActivityStatusMenuProps) => {
                 </ListItemIcon>
                 <ListItemText
                   primary={item?.label}
+                  primaryTypographyProps={{
+                    fontSize: 12,
+                  }}
                   sx={{
                     color: colorItems,
                   }}

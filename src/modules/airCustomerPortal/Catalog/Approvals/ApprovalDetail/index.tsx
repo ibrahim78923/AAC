@@ -1,6 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useApprovalDetail } from './useApprovalDetail';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { ApprovalCard } from '../ApprovalCard';
 import { ARRAY_INDEX, TICKET_APPROVALS } from '@/constants/strings';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -8,6 +7,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { DetailCard } from './DetailCard';
 import { ApprovalsDataI } from '../AllApprovals/AllApprovals.interface';
 import { RequestApprovalForm } from '../RequestApprovalForm';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const ApprovalDetail = () => {
   const {

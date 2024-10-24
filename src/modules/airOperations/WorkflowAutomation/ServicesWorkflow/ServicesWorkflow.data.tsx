@@ -1,4 +1,3 @@
-import React from 'react';
 import EventBaseWorkflows from './EventBaseWorkflows';
 import ScheduledWorkflows from './ScheduledWorkflows';
 import SupervisorRules from './SupervisorRules';

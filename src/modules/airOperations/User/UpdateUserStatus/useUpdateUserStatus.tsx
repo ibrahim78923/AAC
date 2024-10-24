@@ -1,6 +1,6 @@
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import { errorSnackbar } from '@/lib/snackbar';
 import { useUpdateOperationsUserManagementSingleProductUserMutation } from '@/services/airOperations/user-management/user';
-import { errorSnackbar } from '@/utils/api';
 
 export const useUpdateUserStatus = (props: any) => {
   const { currentId } = props;

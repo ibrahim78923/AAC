@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import RolesCards from './RolesCards';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES } from '@/constants/routes';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Search from '@/components/Search';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

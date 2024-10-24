@@ -4,24 +4,27 @@ import {
   manageDashboardsFilterFormFieldsDynamic,
 } from './ManageDashboardFilter.data';
 import { PAGINATION } from '@/config';
-import { ManageDashboardPortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 import { filteredEmptyValues } from '@/utils/api';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  emptyFilterDashboardLists,
+  setFilterDashboardLists,
+  setIsPortalClose,
+} from '@/redux/slices/airServices/dashboard/slice';
 
-const { CURRENT_PAGE } = PAGINATION ?? {};
+export const useManageDashboardFilter = () => {
+  const dispatch = useAppDispatch();
 
-export const useManageDashboardFilter = (
-  props: ManageDashboardPortalComponentPropsI,
-) => {
-  const {
-    setIsPortalOpen,
-    setDashboardFilterLists,
-    dashboardFilterLists,
-    setPage,
-  } = props;
+  const isPortalOpen = useAppSelector(
+    (state) => state?.servicesDashboard?.isPortalOpen,
+  );
+  const filterDashboardLists = useAppSelector(
+    (state) => state?.servicesDashboard?.filterDashboardLists,
+  );
 
   const methods = useForm({
     defaultValues:
-      manageDashboardFilterFormDefaultValuesDynamic(dashboardFilterLists),
+      manageDashboardFilterFormDefaultValuesDynamic(filterDashboardLists),
   });
 
   const { handleSubmit, reset } = methods;
@@ -30,13 +33,22 @@ export const useManageDashboardFilter = (
     const dashboardFilteredFields: any = filteredEmptyValues(data);
 
     if (!Object?.keys(dashboardFilteredFields || {})?.length) {
-      setDashboardFilterLists?.(dashboardFilteredFields);
+      dispatch(
+        setFilterDashboardLists<any>({
+          filterValues: dashboardFilteredFields,
+          page: PAGINATION?.CURRENT_PAGE,
+        }),
+      );
       closeDashboardFilterForm();
       return;
     }
 
-    setPage?.(CURRENT_PAGE);
-    setDashboardFilterLists?.(dashboardFilteredFields);
+    dispatch(
+      setFilterDashboardLists<any>({
+        filterValues: dashboardFilteredFields,
+        page: PAGINATION?.CURRENT_PAGE,
+      }),
+    );
     closeDashboardFilterForm();
   };
 
@@ -46,16 +58,15 @@ export const useManageDashboardFilter = (
   };
 
   const resetDashboardFilterForm = async () => {
-    if (!!Object?.keys(dashboardFilterLists ?? {})?.length) {
-      setDashboardFilterLists?.({});
+    if (!!Object?.keys(filterDashboardLists ?? {})?.length) {
+      dispatch(emptyFilterDashboardLists());
     }
-    setPage?.(CURRENT_PAGE);
     reset();
     closePortal?.();
   };
 
   const closePortal = () => {
-    setIsPortalOpen?.({});
+    dispatch(setIsPortalClose?.());
   };
 
   const dashboardFilterFormFields = manageDashboardsFilterFormFieldsDynamic();
@@ -67,5 +78,6 @@ export const useManageDashboardFilter = (
     resetDashboardFilterForm,
     dashboardFilterFormFields,
     closePortal,
+    isPortalOpen,
   };
 };
