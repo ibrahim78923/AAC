@@ -1,5 +1,5 @@
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { uiDateFormat } from '@/utils/dateTime';
+import { uiDateFormat } from '@/lib/date-time';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
 

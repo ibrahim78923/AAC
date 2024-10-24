@@ -2,7 +2,7 @@ import { WORKLOAD_STATUSES_OBJECT } from '@/modules/airServices/Workload/Workloa
 import styles from '@/modules/airServices/Workload/Workload.module.scss';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-import { localeDateTime } from '@/utils/dateTime';
+import { localeDateTime } from '@/lib/date-time';
 
 const TAG = 'WORKLOAD';
 const TAG_TWO = 'DROPDOWN_AGENT_LIST';

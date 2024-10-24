@@ -7,6 +7,8 @@ const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
 const MINUTES_IN_MONTH = 30 * MINUTES_IN_DAY;
 const MINUTES_IN_YEAR = 365 * MINUTES_IN_DAY;
 
+export const nowDate = () => dayjs();
+
 export const localeDateTime = (date: string) =>
   new Date(dayjs(date?.slice?.(0, -1))?.format());
 
@@ -133,6 +135,7 @@ export const disableTime = (time: any, dateFrom: any, dateTo: any) => {
   }
   return false;
 };
+
 export const disableTimeCheckingStartTime = (
   time: any,
   dateFrom: any,
