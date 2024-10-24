@@ -26,7 +26,7 @@ import {
 import { IAgentsProps } from '../Agents.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
-import { isoDateString } from '@/utils/dateTime';
+import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
