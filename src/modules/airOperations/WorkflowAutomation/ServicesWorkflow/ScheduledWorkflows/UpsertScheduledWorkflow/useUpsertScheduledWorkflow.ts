@@ -18,9 +18,8 @@ import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
-import { localeDateTime } from '@/utils/dateTime';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { otherDateFormat } from '@/lib/date-time';
+import { localeDateTime, otherDateFormat } from '@/lib/date-time';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');

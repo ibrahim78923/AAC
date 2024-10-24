@@ -9,8 +9,8 @@ import {
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 import { monthFormatter, timeFormatter } from '@/utils/api';
-import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
+import { localeDateTime } from '@/lib/date-time';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },

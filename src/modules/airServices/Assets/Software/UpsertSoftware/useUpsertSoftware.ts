@@ -25,9 +25,9 @@ import {
   UpsertSoftwareFormI,
   UpsertSoftwareI,
 } from './UpsertSoftware.interface';
-import { isoDateString } from '@/utils/dateTime';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;

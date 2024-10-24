@@ -16,7 +16,6 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetContractSoftwareDropdown from '../ContractFormFieldsDropdowns/GetContractSoftwareDropdown';
 import GetContractApproverDropdown from '../ContractFormFieldsDropdowns/GetContractApproverDropdown';
@@ -24,6 +23,7 @@ import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContrac
 import GetContractAdminAgentDropdown from '../ContractFormFieldsDropdowns/GetContractAdminAgentDropdown';
 import GetContractAssetsDropdown from '../ContractFormFieldsDropdowns/GetContractAssetsDropdown';
 import GetContractContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractContractTypeDropdown';
+import { localeDateTime } from '@/lib/date-time';
 
 export const CONTRACT_TYPES_CHECK = {
   LEASE: 'lease',

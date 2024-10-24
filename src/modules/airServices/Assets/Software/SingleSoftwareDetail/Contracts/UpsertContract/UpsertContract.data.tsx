@@ -14,11 +14,11 @@ import {
   LICENSE_TYPE,
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
-import { localeDateTime } from '@/utils/dateTime';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetSoftwareContractSoftwareDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractSoftwareDropdown';
 import GetSoftwareContractApproverDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractApproverDropdown';
 import GetSoftwareContractVendorDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractVendorDropdown';
+import { localeDateTime } from '@/lib/date-time';
 
 export const dropdownDummy = [
   {
