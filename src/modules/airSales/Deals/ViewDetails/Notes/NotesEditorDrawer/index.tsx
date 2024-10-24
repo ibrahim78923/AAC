@@ -31,6 +31,7 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
     DRAWER_TYPES,
     loadingNote,
     onSubmit,
+    updateNotesLoading,
   } = useNotesEditorDrawer({
     setSelectedCheckboxes,
     selectedCheckboxes,
@@ -59,7 +60,7 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer === DRAWER_TYPES?.VIEW ? false : true}
-        isLoading={loadingNote}
+        isLoading={loadingNote || updateNotesLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider

@@ -11,7 +11,7 @@ const AssignModalBox = ({
   seletedId,
   setSelectedRows,
 }: AssignModalBoxProps) => {
-  const { handleSubmit, onSubmit, methods, UserListData, loadingUpdateOwner } =
+  const { handleSubmit, onSubmit, methods, loadingUpdateOwner } =
     useRestoreAssign(seletedId, onClose, setSelectedRows);
 
   return (
@@ -26,7 +26,7 @@ const AssignModalBox = ({
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {RestoreModalData(UserListData)?.map((item: any) => (
+          {RestoreModalData()?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select

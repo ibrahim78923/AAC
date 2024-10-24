@@ -5,12 +5,10 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
-import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
-import { getSession } from '@/utils';
-import { ROLES } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
+import { useLazyGetAllUsersDropdownQuery } from '@/services/common-APIs';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -23,9 +21,8 @@ export const defaultValues = {
 
 export const CreateViewData = (dealPipelineId: { _id: string }) => {
   const { pipelineListDropdown } = useDealTab();
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
-  const UserListData = useLazyGetUsersListDropdownQuery();
+  const ActiveProduct = getActiveProductSession();
+  const ownerData = useLazyGetAllUsersDropdownQuery();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[1]?.data?.find(
@@ -61,13 +58,10 @@ export const CreateViewData = (dealPipelineId: { _id: string }) => {
         name: 'dealOwnerId',
         label: 'Deal Owner',
         placeholder: 'Select Owner',
-        apiQuery: UserListData,
+        apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: {
-          role: ROLES?.ORG_EMPLOYEE,
-          organization: organizationId,
-        },
+        externalParams: { productId: ActiveProduct?._id },
       },
       component: RHFAutocompleteAsync,
     },

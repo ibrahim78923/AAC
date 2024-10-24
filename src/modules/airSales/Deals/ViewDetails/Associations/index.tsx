@@ -18,8 +18,9 @@ const Associations = (props: AssociationsProps) => {
   const {
     assocaitionData,
     isLoading,
-    handleContactSearch,
-    handleComapanySearch,
+    setSearchContacts,
+    setSearchCompanies,
+    setSearchQuotes,
   } = useAssociations(selected);
 
   const router = useRouter();
@@ -39,7 +40,7 @@ const Associations = (props: AssociationsProps) => {
               contactsData={assocaitionData?.contacts}
               dealId={selected}
               isLoading={isLoading}
-              handleSearch={handleContactSearch}
+              handleSearch={setSearchContacts}
             />
           </Grid>
           <Grid item xs={12}>
@@ -50,7 +51,7 @@ const Associations = (props: AssociationsProps) => {
               companiesData={assocaitionData?.companies}
               dealId={selected}
               isLoading={isLoading}
-              handleSearch={handleComapanySearch}
+              handleSearch={setSearchCompanies}
             />
           </Grid>
           <Grid item xs={12}>
@@ -66,6 +67,7 @@ const Associations = (props: AssociationsProps) => {
               quotesData={assocaitionData?.quotes}
               isLoading={isLoading}
               dealId={selected}
+              setSearchQuotes={setSearchQuotes}
             />
           </Grid>
           <Grid item xs={12}>

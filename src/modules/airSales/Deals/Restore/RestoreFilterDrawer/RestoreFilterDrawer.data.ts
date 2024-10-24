@@ -1,10 +1,7 @@
-import { RHFDatePicker } from '@/components/ReactHookForm';
-
-export const RestoreFilterData = {
-  title: 'Close Date',
-  componentProps: {
-    name: 'CloseDate',
-    label: 'Select',
-  },
-  component: RHFDatePicker,
+export const restoreDefaultValues = (data: any) => {
+  return {
+    startDate:
+      typeof data?.dateStart === 'object' ? new Date(data?.dateStart) : null,
+    endDate: typeof data?.dateEnd === 'object' ? new Date(data?.dateEnd) : null,
+  };
 };

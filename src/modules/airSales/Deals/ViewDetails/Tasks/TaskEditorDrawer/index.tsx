@@ -13,6 +13,7 @@ import {
 import { FormProvider } from '@/components/ReactHookForm';
 import { useLazyGetDealsAssignedUsersQuery } from '@/services/airSales/deals/view-details/tasks';
 import { TaskEditorDrawerProps } from '../Tasks-interface';
+import { DRAWER_ACTIONS_TITLES } from '@/constants/strings';
 
 const TaskEditorDrawer = (props: TaskEditorDrawerProps) => {
   const {
@@ -60,10 +61,20 @@ const TaskEditorDrawer = (props: TaskEditorDrawerProps) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={2}>
-              {/* eslint-disable */}
-              {getDealsTasksDataArray?.map((item: any, index: any) => (
-                <Grid item xs={12} md={item?.md} key={index}>
-                  <item.component {...item.componentProps} size={'small'}>
+              {getDealsTasksDataArray?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item.componentProps?.name}
+                >
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={
+                      openDrawer === DRAWER_ACTIONS_TITLES?.VIEW ? true : false
+                    }
+                  >
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

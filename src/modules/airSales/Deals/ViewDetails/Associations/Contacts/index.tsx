@@ -62,10 +62,7 @@ const Contacts = ({
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            <Search
-              placeholder="Search By Name"
-              onChange={({ target }) => handleSearch(target.value)}
-            />
+            <Search setSearchBy={handleSearch} placeholder="Search By Name" />
             <PermissionsGuard
               permissions={[
                 AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,

@@ -2,14 +2,18 @@ import { useForm } from 'react-hook-form';
 import { FormProvider, RHFDatePicker } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { RestoreFilterDrawerProps } from '../Restore-interface';
+import { restoreDefaultValues } from './RestoreFilterDrawer.data';
 
 const RestoreFilterDrawer = ({
   open,
   onClose,
   setRestoreFilter,
   setIsRestoreFilterDrawer,
+  restoreFilter,
 }: RestoreFilterDrawerProps) => {
-  const methods = useForm({});
+  const methods = useForm({
+    defaultValues: restoreDefaultValues(restoreFilter),
+  });
   const { handleSubmit } = methods;
 
   const onSubmit = (values: any) => {

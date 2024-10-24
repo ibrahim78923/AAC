@@ -95,6 +95,7 @@ export const AIR_SALES = {
   MANAGE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/manage'),
   CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
   SETTINGS: '/air-sales/settings',
+  RESTORE_DEALS: '/air-sales/deals/restore',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {

@@ -18,7 +18,10 @@ const useProducts = (dealId: any) => {
 
   const [updateAssociateProduct] = useUpdateAssociateProductMutation();
   const { data: getDealsAssociateProducts, isLoading: loadingProducts } =
-    useGetAssociateProductsQuery(dealId);
+    useGetAssociateProductsQuery({
+      id: dealId,
+      params: { search: searchName ? searchName : undefined },
+    });
 
   const handleQuantityChange = async (productId: number, quantity: number) => {
     try {

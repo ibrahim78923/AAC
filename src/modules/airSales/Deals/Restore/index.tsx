@@ -36,6 +36,7 @@ const Restore = () => {
     setPageLimit,
     getRestoreDealsLoading,
     isSuccess,
+    restoreFilter,
   } = useRestore();
 
   const columnsProps = {
@@ -58,26 +59,33 @@ const Restore = () => {
         }}
       >
         <Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '16px',
+              alignItems: 'center',
+            }}
+          >
             <Box sx={{ mt: '5px' }}>
               <Link href={AIR_SALES?.DEAL}>
                 <BackArrIcon />
               </Link>
             </Box>
-            <Typography
-              variant="subtitle1"
-              sx={{ colors: theme?.palette?.grey[600] }}
-            >
-              Restore Deals
-            </Typography>
-          </Box>
-          <Box>
-            <Typography
-              variant="body2"
-              sx={{ color: theme?.palette?.custom['main'] }}
-            >
-              Restore Deals deleted in the last 90 days
-            </Typography>
+            <Box>
+              <Typography
+                variant="subtitle1"
+                sx={{ colors: theme?.palette?.grey[600] }}
+              >
+                Restore Deals
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: theme?.palette?.custom['main'] }}
+              >
+                Restore Deals deleted in the last 90 days
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
@@ -87,6 +95,7 @@ const Restore = () => {
             onClose={handleRestoreFilter}
             setRestoreFilter={setRestoreFilter}
             setIsRestoreFilterDrawer={setIsRestoreFilterDrawer}
+            restoreFilter={restoreFilter}
           />
         )}
 
@@ -129,12 +138,7 @@ const Restore = () => {
         }}
       >
         <Box>
-          <Search
-            label="Search Here"
-            setSearchBy={setSearch}
-            fullWidth
-            autoComplete="off"
-          />
+          <Search label="Search Here" setSearchBy={setSearch} size="small" />
         </Box>
         <Box
           sx={{

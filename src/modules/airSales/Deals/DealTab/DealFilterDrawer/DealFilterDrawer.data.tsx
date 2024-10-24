@@ -4,20 +4,17 @@ import {
   RHFDatePicker,
   RHFSelect,
 } from '@/components/ReactHookForm';
-import {
-  useGetDealsListQuery,
-  useLazyGetUsersListDropdownQuery,
-} from '@/services/airSales/deals';
+import { useGetDealsListQuery } from '@/services/airSales/deals';
 import useDealTab from '../useDealTab';
-import { getSession } from '@/utils';
-import { ROLES } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
+import { useLazyGetAllUsersDropdownQuery } from '@/services/common-APIs';
 
 export const defaultValues = (data: any) => {
   return {
     dealPipelineId: data?.dealPipelineId ? data?.dealPipelineId : null,
-    dealName: data?.name ?? null,
-    dealOwner: data?.ownerId ? data?.ownerId : null,
-    dealStage: data?.dealStageId,
+    dealName: data?.dealName ?? null,
+    dealOwner: data?.dealOwner ? data?.dealOwner : null,
+    dealStage: data?.dealStage,
     dateStart:
       typeof data?.dateStart === 'object' ? new Date(data?.dateStart) : null,
     dateEnd: typeof data?.dateEnd === 'object' ? new Date(data?.dateEnd) : null,
@@ -26,10 +23,8 @@ export const defaultValues = (data: any) => {
 
 export const FilterData = (dealPipelineId: any) => {
   const { pipelineListDropdown } = useDealTab();
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
-
-  const UserListData = useLazyGetUsersListDropdownQuery();
+  const ActiveProduct = getActiveProductSession();
+  const ownerData = useLazyGetAllUsersDropdownQuery();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[1]?.data?.find(
@@ -70,13 +65,10 @@ export const FilterData = (dealPipelineId: any) => {
         name: 'dealOwner',
         label: 'Deal Owner',
         placeholder: 'Select Owner',
-        apiQuery: UserListData,
+        apiQuery: ownerData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: {
-          role: ROLES?.ORG_EMPLOYEE,
-          organization: organizationId,
-        },
+        externalParams: { productId: ActiveProduct?._id },
       },
       component: RHFAutocompleteAsync,
     },

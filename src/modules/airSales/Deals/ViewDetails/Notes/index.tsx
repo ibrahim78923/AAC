@@ -27,6 +27,7 @@ import dayjs from 'dayjs';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const Notes = ({ selected }: any) => {
   const {
@@ -180,7 +181,7 @@ const Notes = ({ selected }: any) => {
                       variant="h5"
                       color={theme?.palette?.primary?.main}
                     >
-                      {item?.title}
+                      {capitalizeFirstLetter(item?.title)}
                     </Typography>
                     <Typography variant="h5"> Created by </Typography>
                     <Typography

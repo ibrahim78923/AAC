@@ -13,7 +13,6 @@ import { v4 as uuidv4 } from 'uuid';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useDealTab from './useDealTab';
 import DealsActions from '../DealsActions';
-import { AIR_SERVICES } from '@/constants';
 import {
   CutomizeIcon,
   DeleteIcon,
@@ -34,6 +33,7 @@ import DealFilterDrawer from './DealFilterDrawer';
 import BoardView from '../BoardView/BoardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const DealsTab = ({ dealViewsData }: any) => {
   const navigate = useRouter();
@@ -160,7 +160,7 @@ const DealsTab = ({ dealViewsData }: any) => {
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.RESTORE_DEAL]}
           >
             <Button
-              onClick={() => navigate?.push(AIR_SERVICES?.AIRDEALS_RESTORE)}
+              onClick={() => navigate?.push(AIR_SALES?.RESTORE_DEALS)}
               variant="outlined"
               color="inherit"
               className="small"

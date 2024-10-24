@@ -399,4 +399,5 @@ export const {
   useLazyGetAllDropdownProductsQuery,
   useGetEmailExistQuery,
   useLazyGetAllUsersDropdownQuery,
+  useGetAllUsersDropdownQuery,
 } = CommonAPIS;
