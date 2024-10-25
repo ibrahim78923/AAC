@@ -15,7 +15,7 @@ export const meetingCardsDetails = (
   theme: Theme,
   getMeetingListStatus: any,
 ) => {
-  const cardData = getMeetingListStatus?.data?.data;
+  const cardData = getMeetingListStatus;
   return [
     {
       id: 1,
