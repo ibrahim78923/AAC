@@ -87,6 +87,20 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['MyDocuments'],
     }),
+
+    getDownloadFolder: builder.query({
+      query: (params) => ({
+        url: COMMON_DOCUMENTS?.DOWNLOAD_FOLDER,
+        method: 'GET',
+        params,
+        responseHandler: (response) => response.blob(),
+      }),
+      transformResponse: (response, meta) => ({
+        blob: response,
+        headers: meta?.response?.headers,
+      }),
+      providesTags: ['MyDocuments'],
+    }),
   }),
 });
 
@@ -101,4 +115,5 @@ export const {
   useDeleteFilesMutation,
   useUpdateFileMutation,
   usePostShareFileMutation,
+  useLazyGetDownloadFolderQuery,
 } = commonDocumentsAPI;

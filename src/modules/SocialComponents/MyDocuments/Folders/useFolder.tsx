@@ -22,11 +22,8 @@ import * as Yup from 'yup';
 import { enqueueSnackbar } from 'notistack';
 // import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { PAGINATION } from '@/config';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import {

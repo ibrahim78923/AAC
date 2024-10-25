@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   Grid,
   List,
   Menu,
@@ -92,6 +93,8 @@ const Documents = () => {
     selectedMoveToFolderId,
     handleListItemClick,
     handleSubmitMoveToFolder,
+    handleDownloadFolder,
+    isLoadingDownload,
   } = useDocuments();
 
   const createFolderFormData = createFolderData(
@@ -172,7 +175,16 @@ const Documents = () => {
                   SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS?.DOWNLOAD_LIST,
                 ]}
               >
-                <MenuItem onClick={handleClose}>Download</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleDownloadFolder(selectedFolders[0]?._id);
+                  }}
+                  disabled={selectedFolders?.length > 1}
+                  sx={{ justifyContent: 'space-between' }}
+                >
+                  Download
+                  {isLoadingDownload && <CircularProgress size="16px" />}
+                </MenuItem>
               </PermissionsGuard>
 
               <PermissionsGuard

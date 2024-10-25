@@ -262,13 +262,6 @@ export const getCustomerPortalStyling = () => {
   return customerPortalStyling;
 };
 
-export function getFullURL() {
-  if (typeof window === 'undefined') return '';
-
-  const { protocol, hostname, port } = window.location;
-  return `${protocol}//${hostname}${port ? `:${port}` : ''}`;
-}
-
 // count length of last 24 hours latest data
 const countRecentContacts = (data: string[]) => {
   const now = new Date();

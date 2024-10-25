@@ -662,6 +662,7 @@ export const COMMON_DOCUMENTS = {
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/files',
   POST_FILE_SHARE: '/documents/file/share',
+  DOWNLOAD_FOLDER: '/documents/download-main-folder',
 };
 
 export const INVOICE = {

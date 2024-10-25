@@ -6,14 +6,16 @@ import {
   useGetAllFoldersListQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
+  useLazyGetDownloadFolderQuery,
 } from '@/services/commonFeatures/documents';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 import { defaultValuesFolder, validationSchema } from './Documents.data';
-import { filteredEmptyValues, successSnackbar } from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   DYNAMIC_FIELDS,
   DYNAMIC_FORM_FIELDS_TYPES,
@@ -23,6 +25,11 @@ import {
   useLazyGetOrganizationUsersQuery,
   useLazyGetOrganizationTeamsQuery,
 } from '@/services/dropdowns';
+import {
+  downloadBlob,
+  extractFileName,
+  isValidBlob,
+} from '@/utils/download-blob';
 
 const useDocuments = () => {
   const theme = useTheme<Theme>();
@@ -324,6 +331,33 @@ const useDocuments = () => {
     }
   };
 
+  const [downloadFolderTrigger] = useLazyGetDownloadFolderQuery();
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+
+  const handleDownloadFolder = async (folderId: string) => {
+    try {
+      setIsLoadingDownload(true);
+      const { blob, headers } = await downloadFolderTrigger({
+        id: folderId,
+      }).unwrap();
+
+      const fileName = extractFileName(headers) || 'Folder';
+
+      if (!isValidBlob(blob)) {
+        throw new Error('Invalid response format');
+      }
+
+      downloadBlob(blob, fileName);
+
+      successSnackbar('Folder Downloaded Successfully');
+      handleClose();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    } finally {
+      setIsLoadingDownload(false);
+    }
+  };
+
   return {
     theme,
     open,
@@ -372,6 +406,8 @@ const useDocuments = () => {
     selectedMoveToFolderId,
     handleListItemClick,
     handleSubmitMoveToFolder,
+    handleDownloadFolder,
+    isLoadingDownload,
   };
 };
 
