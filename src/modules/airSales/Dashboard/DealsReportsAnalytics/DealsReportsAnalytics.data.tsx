@@ -203,3 +203,50 @@ export const optionsBar: any = (theme: any) => {
     },
   };
 };
+
+export const dealsReportsGraphData = [
+  {
+    totalDeals: 15,
+    totalOpenDeals: 8,
+    totalCloseDeals: 4,
+    month: 'JUN',
+  },
+  {
+    totalDeals: 5,
+    totalOpenDeals: 14,
+    totalCloseDeals: 7,
+    month: 'MAY',
+  },
+  {
+    totalDeals: 14,
+    totalOpenDeals: 5,
+    totalCloseDeals: 2,
+    month: 'AUG',
+  },
+  {
+    totalDeals: 13,
+    totalOpenDeals: 7,
+    totalCloseDeals: 7,
+    month: 'OCT',
+  },
+  {
+    totalDeals: 17,
+    totalOpenDeals: 8,
+    totalCloseDeals: 3,
+    month: 'JUL',
+  },
+];
+
+export const dealsReportsCardsData = [
+  {
+    _id: null,
+    totalDeals: 59,
+    totalWonDeals: 22,
+    totalLostDeals: 13,
+    totalOpenDeals: 24,
+    totalCloseDeals: 35,
+    wonDealsPercentage: 40.29,
+    lostDealsPercentage: 12.03,
+    openDealsPercentage: 67.68,
+  },
+];

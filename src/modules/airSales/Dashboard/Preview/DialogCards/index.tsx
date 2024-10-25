@@ -9,6 +9,9 @@ import Widget from '../../Widget';
 import { CloseModalIcon } from '@/assets/icons';
 import { NotSelectedItemImage } from '@/assets/images';
 import { AIR_SALES_DASHBOARD_REPORTS_TYPES } from '@/constants';
+import DealsReportsAnalytics from '../../DealsReportsAnalytics';
+import ForecastPipelineAnalytics from '../../ForecastPipelineAnalytics';
+import ForecastCategoryAnalytics from '../../ForecastCategoryAnalytics';
 
 const DialogCards = ({ open, setOpen, selectedReports }: any) => {
   const displayDashboardWidgets = (selectedWidget: any) => {
@@ -24,17 +27,11 @@ const DialogCards = ({ open, setOpen, selectedReports }: any) => {
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES:
             return <Widget />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.DEAL_REPORTS:
-            return (
-              <Typography variant="h6">Under construction.....</Typography>
-            );
+            return <DealsReportsAnalytics isStatic={false} />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_PIPELINE_REPORT:
-            return (
-              <Typography variant="h6">Under construction.....</Typography>
-            );
+            return <ForecastPipelineAnalytics />;
           case AIR_SALES_DASHBOARD_REPORTS_TYPES?.FORECAST_CATEGORY_REPORTS:
-            return (
-              <Typography variant="h6">Under construction.....</Typography>
-            );
+            return <ForecastCategoryAnalytics />;
           default:
             return;
         }

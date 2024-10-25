@@ -34,9 +34,7 @@ export const columns: any = (columnsProps: any) => {
           handleSwitchChange={(e: any) => {
             handleUpdateDefault(info?.row?.original?._id, e?.target?.checked);
           }}
-          checked={
-            currentUser === info?.row?.original?.createdBy && info?.getValue()
-          }
+          checked={info?.getValue()}
         />
       ),
       header: 'Default',

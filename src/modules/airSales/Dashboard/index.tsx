@@ -16,6 +16,9 @@ import { capitalizeFirstLetters } from '@/utils';
 import { createElement } from 'react';
 import { ReportsWidgets } from './ReportsWidgets';
 import { REPORT_TYPES } from '@/constants/strings';
+import DealsReportsAnalytics from './DealsReportsAnalytics';
+import ForecastPipelineAnalytics from './ForecastPipelineAnalytics';
+import { indexNumbers } from '@/constants';
 
 const Dashboard = () => {
   const {
@@ -108,7 +111,8 @@ const Dashboard = () => {
                   </Grid>
                 )}
 
-                {dashboardsData?.MEETING_DETAILS && (
+                {dashboardsData?.MEETING_DETAILS?.length >
+                  indexNumbers?.ZERO && (
                   <Grid item xs={12} lg={6}>
                     <MeetingDetails
                       meetingsData={dashboardsData?.MEETING_DETAILS}
@@ -122,6 +126,28 @@ const Dashboard = () => {
                       widgetDetails={
                         dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES
                       }
+                    />
+                  </Grid>
+                )}
+
+                {dashboardsData?.DEAL_REPORTS && (
+                  <Grid item xs={12} lg={12}>
+                    <DealsReportsAnalytics
+                      isStatic={false}
+                      pieChartData={dashboardsData?.DEAL_REPORTS?.res}
+                      graphData={dashboardsData?.DEAL_REPORTS?.resByMonth}
+                    />
+                  </Grid>
+                )}
+
+                {dashboardsData?.FORECAST_PIPELINE_REPORT && (
+                  <Grid item xs={12} lg={12}>
+                    <ForecastPipelineAnalytics
+                      pipelineForecastData={
+                        dashboardsData?.FORECAST_PIPELINE_REPORT
+                      }
+                      isLoading={dashboardLoading}
+                      isStatic={false}
                     />
                   </Grid>
                 )}

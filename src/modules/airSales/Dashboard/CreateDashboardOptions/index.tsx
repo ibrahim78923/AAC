@@ -13,7 +13,7 @@ import useCreateDashboardOptions from './useCreateDashboardOptions';
 import { CheckMarkIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { capitalizeFirstLetters, getSession } from '@/utils';
+import { capitalizeFirstLetters } from '@/utils';
 
 const CreateDashboardOptions = (props: any) => {
   const { listData, selectedDashboard, isLoading } = props;
@@ -27,8 +27,8 @@ const CreateDashboardOptions = (props: any) => {
     anchorEl,
     theme,
   } = useCreateDashboardOptions(selectedDashboard);
-  const { user }: any = getSession();
-  const currentUser = user?._id;
+  // const { user }: any = getSession();
+  // const currentUser = user?._id;
 
   return (
     <>
@@ -91,8 +91,9 @@ const CreateDashboardOptions = (props: any) => {
                   >
                     {capitalizeFirstLetters(dashboard?.name)}
                   </Typography>
-                  {dashboard?.isDefault &&
-                    currentUser === dashboard?.createdBy && (
+                  {
+                    dashboard?.isDefault && (
+                      // currentUser === dashboard?.createdBy && (
                       <Stack
                         direction="row"
                         justifyContent="space-between"
@@ -107,7 +108,9 @@ const CreateDashboardOptions = (props: any) => {
                         <Typography variant="body3">Default</Typography>
                         <CheckMarkIcon />
                       </Stack>
-                    )}
+                    )
+                    // )
+                  }
                 </Stack>
               </MenuItem>
             ))
