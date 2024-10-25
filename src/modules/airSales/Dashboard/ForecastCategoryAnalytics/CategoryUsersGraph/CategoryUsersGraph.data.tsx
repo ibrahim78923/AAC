@@ -13,7 +13,7 @@ export const totalSeriesBar = (categoryForecastData: any) => {
   return categoryForecastData?.forecastCategories?.flatMap(
     (pipeline: any) =>
       pipeline?.stages?.map((stage: any) => {
-        const graphData = categoryForecastData?.teamStats?.find(
+        const graphData = categoryForecastData?.userStats?.find(
           (g: any) =>
             g?.forecastCategories?.some(
               (sg: any) => sg?.stageId === stage?._id,
@@ -35,13 +35,13 @@ export const totalSeriesBar = (categoryForecastData: any) => {
 
 export const totalOptionsBar: any = (theme: any, pipelineForecastData: any) => {
   const collaboratorNames =
-    pipelineForecastData?.teamStats?.map(
+    pipelineForecastData?.userStats?.map(
       (item: any) =>
         item?.collaboratorDetails[indexNumbers?.ZERO]?.name || 'Unknown',
     ) || [];
 
   const numberOfStages =
-    pipelineForecastData?.teamStats[indexNumbers?.ZERO]?.stageGroups?.length ||
+    pipelineForecastData?.userStats[indexNumbers?.ZERO]?.stageGroups?.length ||
     indexNumbers?.ZERO;
 
   const predefinedColors = [

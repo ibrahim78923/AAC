@@ -45,9 +45,7 @@ const Manage = () => {
     handleUpdateDefault: handleUpdateDefault,
     currentUser: currentUser,
   };
-
   const columnParams = columns(columnsProps);
-
   return (
     <>
       <Grid container spacing={3}>

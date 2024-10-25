@@ -109,7 +109,11 @@ export const columns: any = (columnsProps: any) => {
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id, type: 'view' },
+                  query: {
+                    id: info?.row?.original?._id,
+                    userId: currentUser,
+                    type: 'view',
+                  },
                 });
               }}
             >
@@ -123,7 +127,11 @@ export const columns: any = (columnsProps: any) => {
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id, type: 'edit' },
+                  query: {
+                    id: info?.row?.original?._id,
+                    userId: currentUser,
+                    type: 'edit',
+                  },
                 });
               }}
             >

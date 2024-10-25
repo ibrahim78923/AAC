@@ -12,6 +12,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Manage.data';
 import { AlertModals } from '@/components/AlertModals';
 import useDashboard from '../useDashboard';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Manage = () => {
   const {
@@ -53,7 +54,11 @@ const Manage = () => {
           <Stack direction={{ sm: 'row' }} justifyContent="space-between">
             <Stack
               sx={{ cursor: 'pointer' }}
-              onClick={() => router?.back()}
+              onClick={() =>
+                router?.push({
+                  pathname: `${AIR_MARKETER?.MARKETER_DASHBOARD}`,
+                })
+              }
               direction="row"
               gap={1}
               alignItems="center"

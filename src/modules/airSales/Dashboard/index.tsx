@@ -1,4 +1,13 @@
-import { Grid, Typography, Stack, Button, Skeleton } from '@mui/material';
+import { createElement } from 'react';
+import {
+  Grid,
+  Typography,
+  Stack,
+  Button,
+  Skeleton,
+  Box,
+  LinearProgress,
+} from '@mui/material';
 import Actions from './ActionsOptions';
 import MeetingDetails from './MeetingDetails';
 import TeamActivity from './TeamActivity';
@@ -11,53 +20,92 @@ import NoData from '@/components/NoData';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { PlusIcon } from '@/assets/icons';
-import useManage from './Manage/useManage';
 import { capitalizeFirstLetters } from '@/utils';
-import { createElement } from 'react';
 import { ReportsWidgets } from './ReportsWidgets';
 import { REPORT_TYPES } from '@/constants/strings';
 import DealsReportsAnalytics from './DealsReportsAnalytics';
 import ForecastPipelineAnalytics from './ForecastPipelineAnalytics';
+import ForecastCategoryAnalytics from './ForecastCategoryAnalytics';
 import { indexNumbers } from '@/constants';
+import { Autorenew } from '@mui/icons-material';
+import { pxToRem } from '@/utils/getFontValue';
 
 const Dashboard = () => {
   const {
     AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS,
+    lazyGetSingleSalesDashboardStatus,
     setSelectedDashboard,
     dashboardListLoading,
     dashboardNotFound,
+    apiCallInProgress,
     dashboardLoading,
     dropdownOptions,
     dashboardsData,
+    handelNavigate,
+    timeLapse,
+    theme,
+    user,
   } = useDashboard();
-
-  const { handelNavigate } = useManage();
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          {dashboardLoading ? (
+            <Skeleton
+              width={250}
+              height={36}
+              variant={'rectangular'}
+              animation={'wave'}
+            />
+          ) : (
+            <Stack direction="column">
+              <Typography
+                variant="h3"
+                color={theme?.palette?.primary?.main}
+                fontWeight={600}
+              >
+                {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
+              </Typography>
+            </Stack>
+          )}
+        </Grid>
         <Grid item xs={12}>
           <Stack
-            direction={{ sm: 'row' }}
-            justifyContent="space-between"
+            direction={{ md: 'row' }}
             gap={1}
+            justifyContent={'space-between'}
           >
-            {dashboardLoading ? (
-              <Skeleton
-                width={250}
-                height={36}
-                variant={'rectangular'}
-                animation={'wave'}
-              />
-            ) : (
-              <Stack direction="column">
-                <Typography variant="h3">
-                  {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
-                </Typography>
-              </Stack>
-            )}
-
-            <Stack direction={{ sm: 'row' }} gap={1}>
+            <Box>
+              <Typography variant="h4">
+                {`Hi ${capitalizeFirstLetters(
+                  user?.firstName ?? '---',
+                )}! Happy to see you again`}
+              </Typography>
+            </Box>
+            <Stack direction="row" gap={1} flexWrap={'wrap'}>
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                size="small"
+                startIcon={<Autorenew />}
+                onClick={lazyGetSingleSalesDashboardStatus?.refetch}
+                disabled={apiCallInProgress}
+                sx={{
+                  fontSize: pxToRem(12),
+                  fontWeight: 'fontWeightRegular',
+                  textTransform: 'lowercase',
+                }}
+              >
+                {!!apiCallInProgress ? (
+                  <Box>
+                    <LinearProgress sx={{ width: pxToRem(70) }} />
+                  </Box>
+                ) : (
+                  timeLapse?.lastFetchLapseTime
+                )}
+              </Button>
               {!dashboardNotFound && (
                 <Actions selectedDashboard={dashboardsData} />
               )}
@@ -66,10 +114,17 @@ const Dashboard = () => {
                 selectedDashboard={setSelectedDashboard}
                 isLoading={dashboardListLoading}
               />
+              <Button
+                onClick={handelNavigate}
+                variant="outlined"
+                color="inherit"
+                className="small"
+              >
+                Manage Dashboards
+              </Button>
             </Stack>
           </Stack>
         </Grid>
-
         {dashboardNotFound ? (
           <NoData message="No default dashboard found!">
             <PermissionsGuard
@@ -94,15 +149,16 @@ const Dashboard = () => {
               <>
                 {/* Static Components */}
                 {dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS && (
-                  <Grid item xs={12} lg={6}>
+                  <Grid item xs={12} lg={6} mt={1}>
                     <DealsGraph
                       dealsData={dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS}
                     />
                   </Grid>
                 )}
 
-                {dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE && (
-                  <Grid item xs={12} lg={6}>
+                {dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE?.length >
+                  indexNumbers?.ZERO && (
+                  <Grid item xs={12} lg={6} mt={1}>
                     <TeamActivity
                       teamActivityDetails={
                         dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE
@@ -113,7 +169,7 @@ const Dashboard = () => {
 
                 {dashboardsData?.MEETING_DETAILS?.length >
                   indexNumbers?.ZERO && (
-                  <Grid item xs={12} lg={6}>
+                  <Grid item xs={12} lg={6} mt={1}>
                     <MeetingDetails
                       meetingsData={dashboardsData?.MEETING_DETAILS}
                     />
@@ -121,7 +177,7 @@ const Dashboard = () => {
                 )}
 
                 {dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES && (
-                  <Grid item xs={12} lg={6}>
+                  <Grid item xs={12} lg={6} mt={1}>
                     <Widget
                       widgetDetails={
                         dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES
@@ -131,7 +187,7 @@ const Dashboard = () => {
                 )}
 
                 {dashboardsData?.DEAL_REPORTS && (
-                  <Grid item xs={12} lg={12}>
+                  <Grid item xs={12} lg={12} mt={1}>
                     <DealsReportsAnalytics
                       isStatic={false}
                       pieChartData={dashboardsData?.DEAL_REPORTS?.res}
@@ -141,10 +197,22 @@ const Dashboard = () => {
                 )}
 
                 {dashboardsData?.FORECAST_PIPELINE_REPORT && (
-                  <Grid item xs={12} lg={12}>
+                  <Grid item xs={12} lg={12} mt={1}>
                     <ForecastPipelineAnalytics
                       pipelineForecastData={
                         dashboardsData?.FORECAST_PIPELINE_REPORT
+                      }
+                      isLoading={dashboardLoading}
+                      isStatic={false}
+                    />
+                  </Grid>
+                )}
+
+                {dashboardsData?.FORECAST_CATEGORY_REPORTS && (
+                  <Grid item xs={12} lg={12} mt={1}>
+                    <ForecastCategoryAnalytics
+                      categoryForecastData={
+                        dashboardsData?.FORECAST_CATEGORY_REPORTS
                       }
                       isLoading={dashboardLoading}
                       isStatic={false}

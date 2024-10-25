@@ -31,6 +31,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
     setcheckedColumns,
     handleOpenFilter,
     setIsOpenFilter,
+    filtersFetching,
     handleSaveView,
     campaignsData,
     filterLoading,
@@ -86,25 +87,35 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
           />
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_COLUMNS]}
-          >
+          <Tooltip title={'Refresh Filter'}>
             <Button
               variant="outlined"
-              className="small"
               color="inherit"
-              sx={{ width: { xs: '100%', sm: '132px' } }}
-              startIcon={<CustomizeIcon />}
-              onClick={() => {
-                setActionsModalDetails({
-                  ...actionsModalDetails,
-                  isEditColumns: true,
-                });
+              className="small"
+              onClick={handleResetFilters}
+              sx={{ width: { sm: '54px', xs: '100%' } }}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SEARCH_FILTER]}
+          >
+            <Button
+              startIcon={<FilterrIcon />}
+              onClick={handleOpenFilter}
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                color: theme?.palette?.custom?.main,
+                width: { sm: '95px', xs: '100%' },
+                height: '36px',
               }}
             >
-              Customize
+              Filter
             </Button>
           </PermissionsGuard>
+
           <PermissionsGuard
             permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SAVE_VIEW]}
           >
@@ -124,31 +135,24 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
               Save View
             </Button>
           </PermissionsGuard>
-          <Tooltip title={'Refresh Filter'}>
-            <Button
-              variant="outlined"
-              color="inherit"
-              className="small"
-              onClick={handleResetFilters}
-              sx={{ width: { sm: '54px', xs: '100%' } }}
-            >
-              <RefreshTasksIcon />
-            </Button>
-          </Tooltip>
+
           <PermissionsGuard
-            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SEARCH_FILTER]}
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_COLUMNS]}
           >
             <Button
-              startIcon={<FilterrIcon />}
-              onClick={handleOpenFilter}
-              sx={{
-                border: `1px solid ${theme?.palette?.custom?.dark}`,
-                color: theme?.palette?.custom?.main,
-                width: { sm: '95px', xs: '100%' },
-                height: '36px',
+              variant="outlined"
+              className="small"
+              color="inherit"
+              sx={{ width: { xs: '100%', sm: '132px' } }}
+              startIcon={<CustomizeIcon />}
+              onClick={() => {
+                setActionsModalDetails({
+                  ...actionsModalDetails,
+                  isEditColumns: true,
+                });
               }}
             >
-              Filter
+              Customize
             </Button>
           </PermissionsGuard>
         </Stack>
@@ -168,6 +172,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
           variant="outlined"
           color="inherit"
           className="small"
+          sx={{ borderRadius: '10px' }}
           onClick={() =>
             setFilters({
               ...filters,
@@ -185,6 +190,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
               variant="outlined"
               color="inherit"
               className="small"
+              sx={{ borderRadius: '10px' }}
               key={item?.name}
               onClick={() =>
                 setFilters({
@@ -212,6 +218,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
         pageLimit={campaignsData?.data?.meta?.limit}
         totalRecords={campaignsData?.data?.meta?.total}
         isLoading={filterLoading}
+        isFetching={filtersFetching}
         currentPage={campaignsData?.data?.meta?.page}
       />
 

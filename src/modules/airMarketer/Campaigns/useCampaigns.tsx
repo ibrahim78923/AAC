@@ -45,6 +45,11 @@ const useCampaigns = () => {
     recId: [],
   });
 
+  const [isCreateTask, setIsCreateTask] = useState({
+    isToggle: false,
+    type: '',
+  });
+
   const [isCompare, setIsCompare] = useState(false);
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
   const userListData = useLazyGetUsersListDropdownQuery();
@@ -132,13 +137,10 @@ const useCampaigns = () => {
         });
         break;
       case campaignsOptions?.CREATE_TASK:
-        setActionsModalDetails({
-          ...actionsModalDetails,
-          isCreateCampaign: {
-            isToggle: true,
-            type: DRAWER_TYPES?.CREATE,
-            recId: [],
-          },
+        setIsCreateTask({
+          ...isCreateTask,
+          isToggle: true,
+          type: 'add',
         });
         break;
       default:
@@ -183,6 +185,8 @@ const useCampaigns = () => {
     setCreateCampaign,
     selectedRows,
     setSelectedRows,
+    isCreateTask,
+    setIsCreateTask,
   };
 };
 export default useCampaigns;

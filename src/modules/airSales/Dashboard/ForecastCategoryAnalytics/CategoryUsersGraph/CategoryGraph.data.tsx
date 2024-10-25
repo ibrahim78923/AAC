@@ -1,3 +1,5 @@
+import { indexNumbers } from '@/constants';
+
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -18,7 +20,7 @@ export const totalSeriesBar = (pipelineForecastData: any) => {
 
         const totalAmount =
           graphData?.stageGroups?.find((sg: any) => sg?.stageId === stage?._id)
-            ?.totalAmount || 0;
+            ?.totalAmount || indexNumbers?.ZERO;
 
         return {
           name: `${stage?.name} (${pipeline?.name})`,
@@ -31,11 +33,13 @@ export const totalSeriesBar = (pipelineForecastData: any) => {
 export const totalOptionsBar: any = (theme: any, pipelineForecastData: any) => {
   const collaboratorNames =
     pipelineForecastData?.graph?.map(
-      (item: any) => item?.collaboratorDetails[0]?.name || 'Unknown',
+      (item: any) =>
+        item?.collaboratorDetails[indexNumbers?.ZERO]?.name || 'Unknown',
     ) || [];
 
   const numberOfStages =
-    pipelineForecastData?.graph[0]?.stageGroups?.length || 0;
+    pipelineForecastData?.graph[indexNumbers?.ZERO]?.stageGroups?.length ||
+    indexNumbers?.ZERO;
 
   const predefinedColors = [
     `${theme?.palette?.custom?.graph_blue}`,
@@ -92,7 +96,7 @@ export const totalOptionsBar: any = (theme: any, pipelineForecastData: any) => {
       },
       labels: {
         formatter: function (val: any) {
-          return `£ ${val.toFixed(1)}`; // Format labels with currency and thousands
+          return `£ ${val.toFixed(indexNumbers?.ONE)}`; // Format labels with currency and thousands
         },
       },
     },

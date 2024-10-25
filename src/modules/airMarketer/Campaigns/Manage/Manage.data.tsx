@@ -108,7 +108,7 @@ export const columns = (
           placement="top-start"
         >
           <Box>
-            <Typography sx={{ cursor: 'default' }}>
+            <Typography variant="body3" sx={{ cursor: 'default' }}>
               {capitalizeFirstLetters(userName)}
             </Typography>
           </Box>

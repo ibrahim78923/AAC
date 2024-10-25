@@ -22,14 +22,14 @@ const Campaigns = () => {
     isResetTaskFilter,
     setCreateCampaign,
     setCurrentTabVal,
+    setSelectedRows,
     createCampaign,
     compareMethods,
     currentTabVal,
     setIsCompare,
+    selectedRows,
     isCompare,
     theme,
-    selectedRows,
-    setSelectedRows,
   } = useCampaigns();
 
   return (

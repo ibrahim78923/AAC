@@ -1,11 +1,12 @@
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
-// all commented code is for future use
-const CategoryTeamsGraph = () => {
-  // { activeCard, pipelineForecastData }: any
-  // const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  //   ssr: false,
-  // });
+import { totalOptionsBar, totalSeriesBar } from './CategoryTeamsGraph.data';
+import { styles } from '../styles';
+
+const CategoryTeamsGraph = ({ categoryTeamsData }: any) => {
+  const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+    ssr: false,
+  });
 
   const theme = useTheme<Theme>();
   return (
@@ -16,28 +17,19 @@ const CategoryTeamsGraph = () => {
         borderRadius: '8px',
       }}
     >
-      <Box>
-        <Typography
-          variant="h5"
-          sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
-        >
-          Team Analytics
-        </Typography>
-      </Box>
-      {/* <ReactApexChart
-        options={cardWiseOptions(activeCard, pipelineForecastData)}
-        series={cardWiseSeries(activeCard, pipelineForecastData)}
-        type="bar"
-        height={400}
-      /> */}
-      <Box display="flex" justifyContent="center">
-        <Typography
-          variant="body4"
-          fontWeight={600}
-          sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
-        >
-          Total revenue goal
-        </Typography>
+      <Typography
+        variant="h5"
+        sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
+      >
+        Teams Analytics
+      </Typography>
+      <Box sx={styles?.chartWrapper}>
+        <ReactApexChart
+          options={totalOptionsBar(theme, categoryTeamsData)}
+          series={totalSeriesBar(categoryTeamsData)}
+          type="bar"
+          height={400}
+        />
       </Box>
     </Box>
   );

@@ -15,6 +15,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
     setIsShowDrawer,
     isShowDrawer,
     openDropDown,
+    currentUser,
     anchorEl,
     copyUrl,
     router,
@@ -61,6 +62,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
                   query: {
                     id: selectedDashboard?.dashboard?._id,
+                    userId: currentUser,
                     type: DRAWER_TYPES?.EDIT,
                   },
                 });

@@ -22,9 +22,20 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
+    getSalesDashboardsList: builder?.query({
+      query: ({ params }: any) => ({
+        url: SALES_DASHBOARD?.SALES_DASHBOARD_LIST,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+
     getSalesDashboardById: builder.query({
-      query: (id: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}/${id}`,
+      query: ({ id, userId }: any) => ({
+        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}/${id}/${userId}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -108,6 +119,7 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
 
 export const {
   useGetDealsCreatedQuery,
+  useLazyGetSalesDashboardsListQuery,
   useGetSalesDashboardsQuery,
   usePostSalesDashboardMutation,
   useGetSalesDashboardByIdQuery,

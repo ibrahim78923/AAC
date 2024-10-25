@@ -61,25 +61,28 @@ const useManage = () => {
     defaultValues: compareInitialVals,
   });
 
-  const { data: campaignsData, isLoading: filterLoading } =
-    useGetCampaignsQuery({
-      page: page,
-      limit: pageLimit,
-      companyId: companyAccountId,
-      search: searchCampaigns ? searchCampaigns : undefined,
-      campaignOwner: filters?.campaignOwner
-        ? filters?.campaignOwner?._id
-        : undefined,
-      startDate: filters?.startDate
-        ? dayjs(filters?.startDate)?.format(DATE_FORMAT?.API)
-        : undefined,
-      endDate: filters?.endDate
-        ? dayjs(filters?.endDate)?.format(DATE_FORMAT?.API)
-        : undefined,
-      campaignStatus: filters?.campaignStatus
-        ? filters?.campaignStatus
-        : undefined,
-    });
+  const {
+    data: campaignsData,
+    isLoading: filterLoading,
+    isFetching: filtersFetching,
+  } = useGetCampaignsQuery({
+    page: page,
+    limit: pageLimit,
+    companyId: companyAccountId,
+    search: searchCampaigns ? searchCampaigns : undefined,
+    campaignOwner: filters?.campaignOwner
+      ? filters?.campaignOwner?._id
+      : undefined,
+    startDate: filters?.startDate
+      ? dayjs(filters?.startDate)?.format(DATE_FORMAT?.API)
+      : undefined,
+    endDate: filters?.endDate
+      ? dayjs(filters?.endDate)?.format(DATE_FORMAT?.API)
+      : undefined,
+    campaignStatus: filters?.campaignStatus
+      ? filters?.campaignStatus
+      : undefined,
+  });
 
   const { data: UserListData } = useGetUsersListQuery({
     role: ROLES?.ORG_EMPLOYEE,
@@ -153,6 +156,7 @@ const useManage = () => {
     organizationId,
     compareMethods,
     userListData,
+    filtersFetching,
     setRowId,
     rowId,
     user,

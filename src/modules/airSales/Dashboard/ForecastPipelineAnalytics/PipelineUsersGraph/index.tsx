@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
 import { totalOptionsBar, totalSeriesBar } from './PipelineUsersGraph.data';
+import { styles } from '../styles';
 
 const PipelineUsersGraph = ({ pipelineForecastUsersData }: any) => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -23,12 +24,14 @@ const PipelineUsersGraph = ({ pipelineForecastUsersData }: any) => {
           Users Analytics
         </Typography>
       </Box>
-      <ReactApexChart
-        options={totalOptionsBar(theme, pipelineForecastUsersData)}
-        series={totalSeriesBar(pipelineForecastUsersData)}
-        type="bar"
-        height={400}
-      />
+      <Box sx={styles?.chartWrapper}>
+        <ReactApexChart
+          options={totalOptionsBar(theme, pipelineForecastUsersData)}
+          series={totalSeriesBar(pipelineForecastUsersData)}
+          type="bar"
+          height={400}
+        />
+      </Box>
     </Box>
   );
 };

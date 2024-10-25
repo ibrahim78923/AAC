@@ -26,6 +26,8 @@ const ActionButton = ({ selectedRows, setSelectedRows }: ActionButtonI) => {
     setActionsModalDetails,
     deleteCampaigns,
     deleteCampaignsLoading,
+    isCreateTask,
+    setIsCreateTask,
   } = useCampaigns();
 
   const handleDeleteCampaigns = async (id: string[]) => {
@@ -191,14 +193,15 @@ const ActionButton = ({ selectedRows, setSelectedRows }: ActionButtonI) => {
         </PermissionsGuard>
       )}
 
-      {actionsModalDetails?.isCreateTask && (
+      {isCreateTask?.isToggle && (
         <EditTask
-          isOpenDrawer={actionsModalDetails?.isCreateTask}
-          isType={'create'}
+          isOpenDrawer={isCreateTask?.isToggle}
+          isType={isCreateTask?.type}
           onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isCreateTask: false,
+            setIsCreateTask({
+              ...isCreateTask,
+              isToggle: false,
+              type: '',
             })
           }
         />

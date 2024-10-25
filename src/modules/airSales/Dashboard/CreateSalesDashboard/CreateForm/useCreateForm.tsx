@@ -27,6 +27,7 @@ const useCreateForm = (formType: any) => {
   const { user }: any = getSession();
   const currentUser = user?._id;
   const selectedDashboardId = router?.query?.id;
+  const dashboardUserId = router?.query?.userId;
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
@@ -39,8 +40,13 @@ const useCreateForm = (formType: any) => {
   const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
     usePostSalesDashboardMutation();
 
+  const currentDashboardParams = {
+    id: selectedDashboardId,
+    userId: dashboardUserId,
+  };
+
   const { data: getSalesDashboardById, isLoading: dashboardDetailsLoading } =
-    useGetSalesDashboardByIdQuery(selectedDashboardId, {
+    useGetSalesDashboardByIdQuery(currentDashboardParams, {
       skip: !selectedDashboardId,
     });
 

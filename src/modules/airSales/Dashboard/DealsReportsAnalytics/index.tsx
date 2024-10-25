@@ -10,7 +10,6 @@ import {
 } from './DealsReportsAnalytics.data';
 import { styles } from './DealsReportsAnalytics.styles';
 
-// Dynamically import ReactApexChart with no SSR
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
@@ -36,7 +35,7 @@ const DealsReportsAnalytics = (props: any) => {
             Deals Analytics
           </Typography>
         </Grid>
-        <Grid item xs={12} md={isStatic ? 12 : 6}>
+        <Grid item xs={12} lg={isStatic ? 12 : 6}>
           <Box
             sx={{
               border: `1px solid ${theme?.palette?.custom.off_white_three}`,
@@ -44,13 +43,6 @@ const DealsReportsAnalytics = (props: any) => {
               borderRadius: '8px',
             }}
           >
-            {/* <Box>
-            <Typography
-              variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue?.main}` }} >
-              Deals Analytics
-            </Typography>
-          </Box> */}
             <ReactApexChart
               options={optionsBar(theme)}
               series={seriesBar(!isStatic ? graphData : dealsReportsGraphData)}
@@ -59,15 +51,8 @@ const DealsReportsAnalytics = (props: any) => {
             />
           </Box>
         </Grid>
-        <Grid item xs={12} md={isStatic ? 12 : 6}>
+        <Grid item xs={12} lg={isStatic ? 12 : 6}>
           <Box sx={styles?.pieChart(theme)}>
-            {/* <Box>
-            <Typography
-              variant="h5"
-              sx={{ color: `${theme?.palette?.slateBlue?.main}` }}>
-              Deals Analytics
-            </Typography>
-          </Box> */}
             <ReactApexChart
               options={options(theme)}
               series={series(!isStatic ? pieChartData : dealsReportsCardsData)}

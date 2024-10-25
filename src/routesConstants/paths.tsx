@@ -126,6 +126,7 @@ export const AIR_MARKETER = {
   root: path(AIR_MARKETING_PAGE, '/dashboard'),
   CREATE_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard/create'),
   MANAGE_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard/manage'),
+  MARKETER_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard'),
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
   ENGAGEMENT_ADS: path(
