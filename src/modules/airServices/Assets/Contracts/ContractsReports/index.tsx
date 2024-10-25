@@ -8,7 +8,6 @@ import {
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
-
 import { ContractReportsCard } from './ContractReportsCard';
 import { useContractReports } from './useContractReports';
 import {
@@ -70,78 +69,72 @@ export const ContractsReports = () => {
         canMovedBack
         moveBack={() => router?.push({ pathname: AIR_SERVICES?.REPORTS })}
       >
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          gap={1}
-          flexWrap={'wrap'}
-          flexDirection={{ xs: 'column', sm: 'row' }}
+        <Button
+          variant="outlined"
+          color="inherit"
+          size="small"
+          startIcon={<Autorenew />}
+          onClick={refetch}
+          disabled={apiCallInProgress}
+          sx={{
+            fontSize: pxToRem(12),
+            fontWeight: 'fontWeightRegular',
+            textTransform: 'lowercase',
+            cursor: 'pointer',
+            height: pxToRem(40),
+            marginTop: pxToRem(-10),
+          }}
         >
-          <Button
+          {!!apiCallInProgress ? (
+            <Box>
+              <LinearProgress sx={{ width: pxToRem(70) }} />
+            </Box>
+          ) : (
+            timeLapse?.lastFetchLapseTime
+          )}
+        </Button>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
+        >
+          <Box>
+            <RHFDateRangePicker
+              name={'createdDate'}
+              placeholder={'Date'}
+              size="small"
+              disabled={loading || isLoading || isFetching}
+              hasButton
+              onSubmitBtnClick={(setAnchorElDate: any) =>
+                onDateFilterSubmit?.(setAnchorElDate)
+              }
+              onSubmitBtnDisable={
+                !getValues?.('createdDate')?.startDate && true
+              }
+              cancelBtnEffect={() => setHasDate?.(false)}
+              closePopOver={() => shouldDateSet?.()}
+            />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.DOWNLOAD]}
+        >
+          <LoadingButton
+            sx={{
+              cursor: 'pointer',
+              p: 0,
+              minWidth: pxToRem(40),
+              height: pxToRem(40),
+              marginTop: pxToRem(-10),
+            }}
             variant="outlined"
             color="inherit"
             size="small"
-            startIcon={<Autorenew />}
-            onClick={refetch}
-            disabled={apiCallInProgress}
-            sx={{
-              fontSize: pxToRem(12),
-              fontWeight: 'fontWeightRegular',
-              textTransform: 'lowercase',
-              cursor: 'pointer',
-              height: pxToRem(40),
-            }}
+            onClick={handleDownload}
+            disabled={loading || isLoading || isFetching}
+            loading={loading}
           >
-            {!!apiCallInProgress ? (
-              <Box>
-                <LinearProgress sx={{ width: pxToRem(70) }} />
-              </Box>
-            ) : (
-              timeLapse?.lastFetchLapseTime
-            )}
-          </Button>
-          <PermissionsGuard
-            permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
-          >
-            <Box>
-              <RHFDateRangePicker
-                name={'createdDate'}
-                placeholder={'Date'}
-                size="small"
-                disabled={loading || isLoading || isFetching}
-                hasButton
-                onSubmitBtnClick={(setAnchorElDate: any) =>
-                  onDateFilterSubmit?.(setAnchorElDate)
-                }
-                onSubmitBtnDisable={
-                  !getValues?.('createdDate')?.startDate && true
-                }
-                cancelBtnEffect={() => setHasDate?.(false)}
-                closePopOver={() => shouldDateSet?.()}
-              />
-            </Box>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.DOWNLOAD]}
-          >
-            <LoadingButton
-              sx={{
-                cursor: 'pointer',
-                p: 0,
-                minWidth: pxToRem(40),
-                height: pxToRem(40),
-              }}
-              variant="outlined"
-              color="inherit"
-              size="small"
-              onClick={handleDownload}
-              disabled={loading || isLoading || isFetching}
-              loading={loading}
-            >
-              <DownloadLargeIcon />
-            </LoadingButton>
-          </PermissionsGuard>
-        </Box>
+            <DownloadLargeIcon />
+          </LoadingButton>
+        </PermissionsGuard>
       </PageTitledHeader>
 
       {isLoading || isFetching ? (
@@ -154,7 +147,6 @@ export const ContractsReports = () => {
             <ContractReportsCard
               contractReportsCardData={contractReportsCardData}
             />
-
             <Grid container spacing={1.5}>
               <Grid item xs={12} md={4}>
                 <Box

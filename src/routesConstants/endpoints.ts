@@ -8,6 +8,7 @@ export const END_POINTS = {
   FORGOT_PASSWORD: 'auth/forgot-password',
   INVENTORY_ACTIVITY: 'assets/inventory',
   WORKLOAD: `/workload/workload-management`,
+  WORKLOAD_USER_TASK: `/workload/user-tasks`,
   INVENTORY_EXPENSE: '/expense/add-expense',
   GET_INVENTORY_EXPENSE: '/expense/get-expense',
   SUPER_ADMIN_ROLES: '/permissions/super-admin-roles',

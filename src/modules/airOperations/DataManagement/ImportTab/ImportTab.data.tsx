@@ -32,13 +32,22 @@ export const importTabColumns = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.fileName,
-    id: 'fileName',
+    accessorFn: (row: any) => row?.filePath,
+    id: 'filePath',
     isSortable: true,
     header: 'File Name',
-    cell: (info: any) => (
-      <TruncateText text={info?.getValue()?.toLowerCase()} />
-    ),
+    cell: (info: any) => {
+      const url = new URL(info?.getValue());
+      const fileName = url?.pathname?.split('/')?.pop();
+      return (
+        <a href={url?.href} download={fileName}>
+          <TruncateText
+            text={fileName?.toLowerCase()}
+            boxProps={{ color: 'primary.main' }}
+          />
+        </a>
+      );
+    },
   },
   {
     accessorFn: (row: any) => row?.product,

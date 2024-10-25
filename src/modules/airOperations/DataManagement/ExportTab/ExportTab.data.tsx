@@ -28,12 +28,10 @@ export const exportTabColumns = [
       const fileName = url?.pathname?.replace(/^\//, '');
       return (
         <a href={url?.href} download={fileName}>
-          {
-            <TruncateText
-              text={fileName?.toLowerCase()}
-              boxProps={{ color: 'primary.main' }}
-            />
-          }
+          <TruncateText
+            text={fileName?.toLowerCase()}
+            boxProps={{ color: 'primary.main' }}
+          />
         </a>
       );
     },

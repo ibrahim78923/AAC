@@ -544,8 +544,8 @@ export const IMPORT_ACTION_TYPE = {
   INVENTORIES: 'inventories',
   PRODUCT_CATALOG: 'productCatalog',
   VENDORS: 'vendors',
-  DEALS: 'DEALS',
-  TASKS: 'TASKS',
+  DEALS: 'deals',
+  TASKS: 'tasks',
   PRODUCT: 'product',
   SALES: 'Sales',
   SERVICES: 'Services',
@@ -800,6 +800,8 @@ export const IMPORT_OBJECT_TYPE = {
   RULES_AND_TIERS: 'RULES_AND_TIERS',
   COMPANIES: 'COMPANIES',
   LOYALTY_SHOPS: 'LOYALTY_SHOPS',
+  DEALS: 'DEALS',
+  TASKS: 'TASKS',
 };
 
 export const IMPORT_PRODUCTS_NAME = {
