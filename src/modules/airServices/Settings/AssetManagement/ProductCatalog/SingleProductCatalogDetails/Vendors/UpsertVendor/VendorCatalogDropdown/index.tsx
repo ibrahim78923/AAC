@@ -1,4 +1,5 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
 import { useLazyGetVendorsCatalogQuery } from '@/services/airServices/settings/asset-management/product-catalog';
 
 export const VendorCatalogDropdown = (props: { [key: string]: string }) => {
@@ -10,7 +11,7 @@ export const VendorCatalogDropdown = (props: { [key: string]: string }) => {
       required
       placeholder="---Choose---"
       apiQuery={apiQueryVendorsList}
-      externalParams={{ meta: false, limit: 50 }}
+      externalParams={{ meta: true, limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT }}
       {...props}
     />
   );

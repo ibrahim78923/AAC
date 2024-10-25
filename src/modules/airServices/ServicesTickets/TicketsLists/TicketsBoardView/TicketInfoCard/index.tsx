@@ -107,8 +107,11 @@ export const TicketInfoCard = (props: any) => {
         >
           <Box display={'flex'} gap={2} alignItems={'center'}>
             <Chip
-              label={details?.pirority ?? '-'}
+              label={details?.pirority?.toLowerCase() ?? '---'}
               size="small"
+              sx={{
+                textTransform: 'capitalize',
+              }}
               icon={
                 <FiberManualRecordIcon
                   fontSize={'medium'}

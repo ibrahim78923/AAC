@@ -15,7 +15,12 @@ import { IActivityStatusMenuProps } from './ActivityStatusMenu.interface';
 import { useActivityStatusMenu } from './useActivityStatusMenu';
 
 export const ActivityStatusMenu = (props: IActivityStatusMenuProps) => {
-  const { info, activityStatus, menuItemDataArray } = props;
+  const {
+    info,
+    activityStatus,
+    menuItemDataArray,
+    hasPermission = false,
+  } = props;
 
   const { statusQuery, handleStatusChange, backgroundColor, color, textColor } =
     useActivityStatusMenu(props);
@@ -33,7 +38,8 @@ export const ActivityStatusMenu = (props: IActivityStatusMenuProps) => {
           size={'small'}
           disabled={
             activityStatus === ACTIVITY_STATUS_MENU?.EXPIRED ||
-            statusQuery?.isLoading
+            statusQuery?.isLoading ||
+            !hasPermission
           }
           sx={{
             backgroundColor,

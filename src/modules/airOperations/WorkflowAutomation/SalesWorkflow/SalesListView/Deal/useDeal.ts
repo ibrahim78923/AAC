@@ -4,7 +4,6 @@ import { AIR_OPERATIONS } from '@/constants/routes';
 import {
   useLazyGetWorkflowListQuery,
   useDeleteWorkflowMutation,
-  useChangeStatusWorkflowMutation,
   useCloneWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import {
@@ -13,8 +12,8 @@ import {
 } from '../../SalesWorkflow.data';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { REQUESTORS_STATUS } from '@/constants/strings';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+import { SALES_WORKFLOW_TYPES } from '@/constants/strings';
 
 export const useDeal = () => {
   const [activeCheck, setActiveCheck] = useState<WorkflowI[]>([]);
@@ -23,7 +22,6 @@ export const useDeal = () => {
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [openDelete, setOpenDelete] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [switchLoading, setSwitchLoading] = useState<any>({});
   const { push } = useRouter();
   const workflowId = activeCheck?.find((item) => item);
   const handleEditWorkflow = () => {
@@ -62,7 +60,7 @@ export const useDeal = () => {
     page,
     limit,
     search,
-    module: 'DEALS',
+    module: SALES_WORKFLOW_TYPES?.DEALS,
   };
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
@@ -90,38 +88,10 @@ export const useDeal = () => {
   };
   const tableData = data?.data?.workFlows;
   const meta = data?.data?.meta;
-  const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
-  const handleChangeStatus = async (rowData: WorkflowI) => {
-    const status =
-      rowData?.status === REQUESTORS_STATUS?.ACTIVE
-        ? REQUESTORS_STATUS?.INACTIVE
-        : REQUESTORS_STATUS?.ACTIVE;
-    setSwitchLoading((prevState: WorkflowI) => ({
-      ...prevState,
-      [rowData?._id]: true,
-    }));
-    const response: any = await changeStatusTrigger({
-      id: rowData?._id,
-      body: { status },
-    });
-    try {
-      response;
-      successSnackbar(
-        response?.data?.message &&
-          `${rowData?.title} ${status?.toLocaleLowerCase()} successfully`,
-      );
-    } catch (error) {
-      errorSnackbar(response?.error?.data?.message);
-    } finally {
-      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
-    }
-  };
   const tableColumns = salesWorkflowListsColumnDynamic(
     activeCheck,
     setActiveCheck,
     tableData,
-    handleChangeStatus,
-    switchLoading,
   );
   const [deleteTrigger, { isLoading: deleteLoading }] =
     useDeleteWorkflowMutation();

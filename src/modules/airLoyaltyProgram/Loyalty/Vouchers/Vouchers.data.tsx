@@ -1,20 +1,14 @@
 import { Box, IconButton, Typography } from '@mui/material';
-import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import { EditYellowBGPenIcon, TrashIcon } from '@/assets/icons';
 import { UserInfo } from '@/components/UserInfo';
-import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { otherDateFormat } from '@/lib/date-time';
-const tableStatusArray = [
-  { label: 'Active', value: 'ACTIVE' },
-  { label: 'Inactive', value: 'INACTIVE' },
-];
+import { VoucherStatus } from './VoucherStatus';
 export const vouchersColumns = (
   handleVoucherClick: any,
   handleEditVoucher: any,
   handleDeleteVoucher: any,
   checkActionPermissions: boolean,
-  patchVouchersTrigger: any,
-  checkStatusPermissions: boolean,
 ) => {
   const columns = [
     {
@@ -56,18 +50,7 @@ export const vouchersColumns = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <ActivityStatusMenu
-          info={info}
-          menuItemDataArray={tableStatusArray}
-          activityStatus={
-            checkStatusPermissions
-              ? info?.getValue()
-              : ACTIVITY_STATUS_MENU?.EXPIRED
-          }
-          apiQuery={patchVouchersTrigger}
-        />
-      ),
+      cell: (info: any) => <VoucherStatus info={info} />,
     },
     {
       accessorFn: (row: any) => row?.createdAt,

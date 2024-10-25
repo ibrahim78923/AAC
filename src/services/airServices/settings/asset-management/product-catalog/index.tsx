@@ -3,7 +3,6 @@ import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 
 const TAG = 'PRODUCT_CATALOG';
-const TAG_TWO = 'DROPDOWN_ASSET_TYPE_LIST';
 
 export const productCatalogAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -128,8 +127,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG_TWO],
+      transformResponse,
     }),
 
     getVendorsCatalog: builder?.query({
@@ -138,8 +136,7 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG_TWO],
+      transformResponse: (response: any) => response?.data?.vendors,
     }),
   }),
 });
