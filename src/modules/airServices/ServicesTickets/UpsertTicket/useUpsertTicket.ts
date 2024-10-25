@@ -188,7 +188,7 @@ export const useUpsertTicket = () => {
       !!newFormData?.plannedEndDate &&
         upsertTicketFormData?.append(
           'plannedEndDate',
-          newFormData?.plannedEndDate?.toISOString(),
+          isoDateString(newFormData?.plannedEndDate),
         );
       !!newFormData?.plannedEffort &&
         upsertTicketFormData?.append(

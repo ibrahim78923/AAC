@@ -133,7 +133,7 @@ export const UpsertDashboard = () => {
           className="small"
           variant="contained"
           type="submit"
-          disabled={apiCallInProgress}
+          loading={apiCallInProgress}
           onClick={handleSubmit(submitCreateDashboardFilterForm)}
         >
           {action === DASHBOARD?.EDIT

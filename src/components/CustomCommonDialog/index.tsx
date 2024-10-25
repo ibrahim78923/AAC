@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close } from '@mui/icons-material';
 
 export const CustomCommonDialog = (props: any) => {
   const {
@@ -23,6 +23,8 @@ export const CustomCommonDialog = (props: any) => {
     submitButtonText = 'Submit',
     showActionButtons = true,
     dialogMaxWidth = 'sm',
+    typeImage,
+    disabledSubmitButton = showSubmitLoader,
   } = props;
 
   return (
@@ -41,10 +43,17 @@ export const CustomCommonDialog = (props: any) => {
           flexWrap={'wrap'}
           mb={1.5}
         >
-          <Typography variant="h4" color="slateBlue.main">
-            {dialogTitle}
-          </Typography>
-          <CloseIcon
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            {!!typeImage && <Box>{typeImage}</Box>}
+            <Typography
+              variant="h4"
+              color="slateBlue.main"
+              textTransform={'capitalize'}
+            >
+              {dialogTitle}
+            </Typography>
+          </Box>
+          <Close
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
             onClick={closePortal}
           />
@@ -69,6 +78,7 @@ export const CustomCommonDialog = (props: any) => {
             variant="contained"
             onClick={handleSubmitButton}
             loading={showSubmitLoader}
+            disabled={disabledSubmitButton}
           >
             {submitButtonText}
           </LoadingButton>

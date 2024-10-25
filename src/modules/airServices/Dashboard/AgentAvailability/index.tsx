@@ -4,6 +4,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useAgentAvailability } from './useAgentAvailability';
 import NoData from '@/components/NoData';
 import { DepartmentFieldDropdown } from '../DashboardFormFields/DepartmentsFieldDropdown';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const AgentAvailability = (props: any) => {
   const { isPreviewMode } = props;
@@ -17,55 +18,58 @@ export const AgentAvailability = (props: any) => {
       border={`1px solid`}
       borderColor="custom.off_white"
       height="100%"
+      overflow={'auto'}
     >
-      <>
-        <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-          alignItems={'center'}
-        >
-          <Typography variant="h5" color={'slateBlue.main'}>
-            Agent Availability
-          </Typography>
-          <FormProvider methods={methods}>
-            <DepartmentFieldDropdown disabled={isPreviewMode} />
-          </FormProvider>
-        </Box>
-        <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-          my={2}
-        >
-          {agentAvailabilityCount?.map((department) => (
-            <Box key={department?.title}>
-              <Box display="flex" alignItems="center" gap={1}>
-                {department?.icon}
-                <Typography variant="body3" color={'slateBlue.main'}>
-                  {department?.title}
+      <Box minWidth={pxToRem(300)}>
+        <>
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            gap={1}
+            flexWrap={'wrap'}
+            alignItems={'center'}
+          >
+            <Typography variant="h5" color={'slateBlue.main'}>
+              Agent Availability
+            </Typography>
+            <FormProvider methods={methods}>
+              <DepartmentFieldDropdown disabled={isPreviewMode} />
+            </FormProvider>
+          </Box>
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            gap={1}
+            flexWrap={'wrap'}
+            my={2}
+          >
+            {agentAvailabilityCount?.map((department) => (
+              <Box key={department?.title}>
+                <Box display="flex" alignItems="center" gap={1}>
+                  {department?.icon}
+                  <Typography variant="body3" color={'slateBlue.main'}>
+                    {department?.title}
+                  </Typography>
+                </Box>
+                <Typography variant="h4" color={'slateBlue.main'}>
+                  {department?.count}
                 </Typography>
               </Box>
-              <Typography variant="h4" color={'slateBlue.main'}>
-                {department?.count}
-              </Typography>
-            </Box>
-          ))}
+            ))}
+          </Box>
+        </>
+        <Box>
+          {!!pieChartSeries?.length ? (
+            <CustomChart
+              options={pieChartOptions}
+              series={pieChartSeries}
+              type="pie"
+              height={212}
+            />
+          ) : (
+            <NoData message={'No agent is available'} height={'100%'} />
+          )}
         </Box>
-      </>
-      <Box>
-        {!!pieChartSeries?.length ? (
-          <CustomChart
-            options={pieChartOptions}
-            series={pieChartSeries}
-            type="pie"
-            height={212}
-          />
-        ) : (
-          <NoData message={'No agent is available'} height={'100%'} />
-        )}
       </Box>
     </Box>
   );

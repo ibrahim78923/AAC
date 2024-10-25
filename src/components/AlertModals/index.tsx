@@ -1,15 +1,7 @@
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
+import { Typography } from '@mui/material';
 import { checkModalTypeForImage } from './AlertModals.data';
-import { LoadingButton } from '@mui/lab';
-import CloseIcon from '@mui/icons-material/Close';
 import { AlertModalsPropsI } from './AlertModals.interface';
+import { CustomCommonDialog } from '../CustomCommonDialog';
 
 export const AlertModals = (props: AlertModalsPropsI) => {
   const {
@@ -29,65 +21,23 @@ export const AlertModals = (props: AlertModalsPropsI) => {
   } = props;
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => handleClose?.()}
-      fullWidth
-      maxWidth={'sm'}
+    <CustomCommonDialog
+      typeImage={typeImage ?? checkModalTypeForImage(type)}
+      isPortalOpen={open}
+      closePortal={handleClose}
+      dialogTitle={type}
+      submitButtonText={submitBtnText}
+      showSubmitLoader={loading}
+      disabledCancelButton={disableCancelBtn}
+      handleSubmitButton={handleSubmitBtn}
+      cancelButtonText={cancelBtnText}
+      disabledSubmitButton={isDisableSubmitBtn}
+      showActionButtons={footer}
+      handleCancelBtn={handleCancelBtn}
     >
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-        >
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            {typeImage ?? checkModalTypeForImage(type)}
-            <Typography
-              variant="h3"
-              color="slateBlue.main"
-              textTransform={'capitalize'}
-            >
-              {type}
-            </Typography>
-          </Box>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => handleClose?.()}
-          />
-        </Box>
-      </DialogTitle>
-      <DialogContent>
-        <Typography variant="body1" sx={{ marginTop: '1rem' }}>
-          {message}{' '}
-        </Typography>
-      </DialogContent>
-      {footer && (
-        <DialogActions
-          sx={{ '&.MuiDialogActions-root': { paddingTop: '0rem !important' } }}
-        >
-          <LoadingButton
-            className="small"
-            variant="outlined"
-            color="secondary"
-            onClick={() => handleCancelBtn?.()}
-            disabled={disableCancelBtn}
-          >
-            {cancelBtnText}
-          </LoadingButton>
-          <LoadingButton
-            className="small"
-            variant="contained"
-            onClick={handleSubmitBtn}
-            disabled={isDisableSubmitBtn}
-            loading={loading}
-          >
-            {submitBtnText}
-          </LoadingButton>
-        </DialogActions>
-      )}
-    </Dialog>
+      <Typography variant="body1" color="slateBlue.main">
+        {message}
+      </Typography>
+    </CustomCommonDialog>
   );
 };

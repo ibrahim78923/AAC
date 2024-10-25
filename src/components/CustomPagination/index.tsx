@@ -67,7 +67,7 @@ const CustomPagination = (props?: any) => {
             count={count}
             page={currentPage}
             boundaryCount={1}
-            siblingCount={0}
+            siblingCount={1}
             onChange={(_: any, page) => {
               onPageChange?.(page);
             }}

@@ -62,41 +62,47 @@ export const DashboardFilter = (props: any) => {
           Happy to see you again
         </Typography>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
-          <Button
-            className="small"
-            variant="outlined"
-            color="inherit"
-            size="small"
-            startIcon={<Autorenew />}
-            onClick={refetch}
-            disabled={apiCallInProgress}
-            sx={{
-              fontSize: pxToRem(12),
-              fontWeight: 'fontWeightRegular',
-              textTransform: 'lowercase',
-            }}
-          >
-            {!!apiCallInProgress ? (
-              <Box>
-                <LinearProgress sx={{ width: pxToRem(70) }} />
-              </Box>
-            ) : (
-              timeLapse?.lastFetchLapseTime
-            )}
-          </Button>
-          <PermissionsGuard
-            permissions={[VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD]}
-          >
-            <SingleDropdownButton
-              dropdownOptions={dashboardDropdownActions}
-              dropdownName="Actions"
-              disabled={apiCallInProgress}
-              color="inherit"
-            />
-          </PermissionsGuard>
-          <PermissionsGuard permissions={[VIEW_DASHBOARD]}>
-            <DashboardListFieldDropdown disabled={apiCallInProgress} />
-          </PermissionsGuard>
+          {apiLoader?.isError ? (
+            <> </>
+          ) : (
+            <>
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                size="small"
+                startIcon={<Autorenew />}
+                onClick={refetch}
+                disabled={apiCallInProgress}
+                sx={{
+                  fontSize: pxToRem(12),
+                  fontWeight: 'fontWeightRegular',
+                  textTransform: 'lowercase',
+                }}
+              >
+                {!!apiCallInProgress ? (
+                  <Box>
+                    <LinearProgress sx={{ width: pxToRem(70) }} />
+                  </Box>
+                ) : (
+                  timeLapse?.lastFetchLapseTime
+                )}
+              </Button>
+              <PermissionsGuard
+                permissions={[VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD]}
+              >
+                <SingleDropdownButton
+                  dropdownOptions={dashboardDropdownActions}
+                  dropdownName="Actions"
+                  disabled={apiCallInProgress}
+                  color="inherit"
+                />
+              </PermissionsGuard>
+              <PermissionsGuard permissions={[VIEW_DASHBOARD]}>
+                <DashboardListFieldDropdown disabled={apiCallInProgress} />
+              </PermissionsGuard>
+            </>
+          )}
           <PermissionsGuard permissions={AIR_SERVICES_MANAGE_DASHBOARD}>
             <Button
               className="small"

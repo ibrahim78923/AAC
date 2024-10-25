@@ -17,6 +17,7 @@ import { RENDER_COLOR } from '../TicketsBoardView.data';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
+import { formatTimeDifference } from '@/lib/date-time';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -25,9 +26,7 @@ export const TicketInfoCard = (props: any) => {
     theme,
     router,
     openMessage,
-    resolvedMessage,
     pendingMessage,
-    closedMessage,
     singleTicketBoardViewDropdownOptions,
   } = useTicketInfoCard(props);
 
@@ -89,7 +88,7 @@ export const TicketInfoCard = (props: any) => {
             </PermissionsGuard>
           </Box>
         </Box>
-        <Typography variant={'body2'} color="slateBlue.main">
+        <Typography variant={'body2'} color="slateBlue.main" component={'div'}>
           {details?.ticketType === TICKET_TYPE?.SR ? (
             <TruncateText
               text={details?.subject}
@@ -147,7 +146,7 @@ export const TicketInfoCard = (props: any) => {
                     variant="body3"
                     color={theme?.palette?.custom?.dark}
                   >
-                    {resolvedMessage}
+                    ResolvedAt: {formatTimeDifference(details?.resolvedAt)}
                   </Typography>
                 </>
               ) : details?.status === TICKET_STATUS?.PENDING ? (
@@ -173,7 +172,8 @@ export const TicketInfoCard = (props: any) => {
                     variant="body3"
                     color={theme?.palette?.custom?.dark}
                   >
-                    {closedMessage}
+                    Closed:
+                    {formatTimeDifference(details?.closedAt)}
                   </Typography>
                 </>
               ) : null}

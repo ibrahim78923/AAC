@@ -5,6 +5,11 @@ import {
 } from '@/constants/permission-keys';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsListHeader/TicketListHeader.data';
 
+export const TICKET_DUE_DATE_MESSAGES = {
+  DUE_UNTIL: 'Is Due Until',
+  DUE_TILL: 'Was Due Till',
+};
+
 export const singleTicketBoardViewDropdownOptionsDynamic = (
   setTicketAction: any,
   detail?: any,

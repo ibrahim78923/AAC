@@ -17,7 +17,7 @@ export const DashboardListFieldDropdown = (props: any) => {
       name="dashboardId"
       size="small"
       sx={{
-        minWidth: pxToRem(230),
+        minWidth: pxToRem(200),
         '.MuiInputBase-input': {
           padding: `${pxToRem(5)} !important`,
         },

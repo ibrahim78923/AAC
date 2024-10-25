@@ -7,7 +7,8 @@ import { TicketTableRowI } from '../TicketsLists.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { AIR_SERVICES } from '@/constants/routes';
-import { uiDateFormat } from '@/lib/date-time';
+import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const ticketsListsColumnDynamic: any = (
   router?: NextRouter,
@@ -192,7 +193,7 @@ export const ticketsListsColumnDynamic: any = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => uiDateFormat(info?.getValue()),
+      cell: (info: any) => uiDateFormat(localeDateTime(info?.getValue())),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedEndDate,
@@ -200,7 +201,9 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Due Date',
       cell: (info: any) =>
-        !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
+        !!info?.getValue()
+          ? uiDateFormat(localeDateTime(info?.getValue()))
+          : '---',
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.impact,
@@ -218,7 +221,7 @@ export const ticketsListsColumnDynamic: any = (
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
-      cell: (info: any) => uiDateFormat(info?.getValue()),
+      cell: (info: any) => uiDateFormat(localeDateTime(info?.getValue())),
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedEndDate,
@@ -226,7 +229,12 @@ export const ticketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Planned End Date',
       cell: (info: any) =>
-        !!info?.getValue() ? uiDateFormat(info?.getValue()) : '---',
+        !!info?.getValue()
+          ? otherDateFormat(
+              localeDateTime(info?.getValue()),
+              DATE_TIME_FORMAT?.FORMAT_24_HOUR,
+            )
+          : '---',
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedEffort,
