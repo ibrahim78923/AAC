@@ -150,11 +150,13 @@ export const upsertInventoryFormFieldsSecond = () => [
   {
     id: 7,
     component: GetInventoryLocationDropdown,
+    componentProps: { name: 'location' },
     md: 6,
   },
   {
     id: 8,
     component: GetInventoryDepartmentDropdown,
+    componentProps: { name: 'department' },
     md: 6,
   },
   {

@@ -86,7 +86,7 @@ export const Meeting = () => {
                 router?.push({
                   pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
                   query: {
-                    ticketId: ticketId,
+                    moduleId: ticketId,
                     moduleType: 'TICKET',
                   },
                 })

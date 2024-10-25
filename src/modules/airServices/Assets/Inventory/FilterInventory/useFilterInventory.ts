@@ -15,7 +15,6 @@ export const useFilterInventory = (props: FilterInventoryI) => {
     inventoryFilterLists,
     setPage,
   } = props;
-
   const router = useRouter();
 
   const methods: any = useForm({

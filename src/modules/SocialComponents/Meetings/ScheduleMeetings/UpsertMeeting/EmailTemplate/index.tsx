@@ -34,12 +34,14 @@ const EmailTemplate = () => {
     isError,
     refetch,
     meetingId,
-    ticketId,
+    moduleId,
     submitDeleteModal,
     setDeleteModal,
     deleteModal,
     deleteMeetingsTrigger,
     theme,
+    moduleType,
+    type,
   } = useEmilTemplate();
   return (
     <Box>
@@ -52,6 +54,8 @@ const EmailTemplate = () => {
             query: {
               type: router?.query?.type,
               id: router?.query?.meetingId,
+              ...(moduleId && { moduleId }),
+              ...(moduleType && { moduleType }),
             },
           })
         }
@@ -137,8 +141,9 @@ const EmailTemplate = () => {
                           item,
                           router,
                           meetingId,
-                          ticketId,
+                          moduleId,
                           setDeleteModal,
+                          moduleType,
                         )}
                         dropdownName={<MoreVert />}
                         hasEndIcon={false}
@@ -155,10 +160,12 @@ const EmailTemplate = () => {
                             pathname:
                               SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
                             query: {
-                              id: item?._id,
-                              ...(ticketId && { ticketId: ticketId }),
-                              meetingId: meetingId,
-                              type: GENERIC_UPSERT_FORM_CONSTANT?.USE,
+                              type,
+                              meetingId,
+                              ...(moduleId && { moduleId }),
+                              ...(moduleType && { moduleType }),
+                              templateId: item?._id,
+                              templateType: GENERIC_UPSERT_FORM_CONSTANT?.USE,
                             },
                           })
                         }

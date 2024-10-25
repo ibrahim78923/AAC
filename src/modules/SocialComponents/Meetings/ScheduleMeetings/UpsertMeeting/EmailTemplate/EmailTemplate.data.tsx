@@ -24,8 +24,9 @@ export const templateDropdownFunction = (
   item: MeetingDataI,
   router: NextRouter,
   meetingId: any,
-  ticketId: any,
+  moduleId: any,
   setDeleteModal: Dispatch<SetStateAction<Record<string, any>>>,
+  moduleType: any,
 ) => [
   {
     id: 1,
@@ -35,14 +36,15 @@ export const templateDropdownFunction = (
       SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
     ],
     handleClick: (close: any) => {
-      close?.(false);
+      close?.();
       router?.push({
         pathname: SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
         query: {
-          id: item?._id,
-          ...(ticketId && { ticketId: ticketId }),
+          templateId: item?._id,
+          ...(moduleId && { moduleId }),
+          ...(moduleType && { moduleType }),
           meetingId: meetingId,
-          type: GENERIC_UPSERT_FORM_CONSTANT?.EDIT,
+          templateType: GENERIC_UPSERT_FORM_CONSTANT?.EDIT,
         },
       });
     },
@@ -55,7 +57,7 @@ export const templateDropdownFunction = (
       SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
     ],
     handleClick: (close: any) => {
-      close?.(false);
+      close?.();
       setDeleteModal({ isOpen: true, data: item });
     },
     disabled: item?.isDefault === true,

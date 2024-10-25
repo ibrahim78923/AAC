@@ -36,10 +36,12 @@ export const inventoryFilterFormFieldsDataFunction = () => [
   {
     id: 3,
     component: GetInventoryDepartmentDropdown,
+    componentProps: { name: 'departmentId' },
   },
   {
     id: 4,
     component: GetInventoryLocationDropdown,
+    componentProps: { name: 'locationId' },
   },
   {
     id: 5,

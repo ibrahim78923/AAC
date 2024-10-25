@@ -29,7 +29,7 @@ export const useCreateEmail = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
   const [value, setValue] = useState('laptop');
-  const templateId = router?.query?.id;
+  const templateId = router?.query?.templateId;
   const templateType = router?.query?.type;
   const params = {
     id: templateId,

@@ -4,7 +4,7 @@ import {
   OneToOneMeetingIcon,
 } from '@/assets/icons';
 
-export const scheduleCards = (ticketId: any, moduleType: any) => {
+export const scheduleCards = (moduleId: any, moduleType: any) => {
   return [
     {
       id: 1,
@@ -14,8 +14,8 @@ export const scheduleCards = (ticketId: any, moduleType: any) => {
       icon: OneToOneMeetingIcon,
       query: {
         type: 'one-to-one',
+        ...(moduleId && { moduleId }),
         ...(moduleType && { moduleType }),
-        ...(ticketId && { ticketId }),
       },
     },
     {
@@ -26,8 +26,8 @@ export const scheduleCards = (ticketId: any, moduleType: any) => {
       icon: GroupMeetingIcon,
       query: {
         type: 'group',
+        ...(moduleId && { moduleId }),
         ...(moduleType && { moduleType }),
-        ...(ticketId && { ticketId }),
       },
     },
     {
@@ -38,8 +38,8 @@ export const scheduleCards = (ticketId: any, moduleType: any) => {
       icon: CollectiveMeetingIcon,
       query: {
         type: 'collective',
+        ...(moduleId && { moduleId }),
         ...(moduleType && { moduleType }),
-        ...(ticketId && { ticketId }),
       },
     },
   ];

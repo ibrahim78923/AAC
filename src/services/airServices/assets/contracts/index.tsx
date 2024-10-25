@@ -185,7 +185,7 @@ export const contractAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data;
+        if (response) return response?.data?.vendors;
       },
     }),
     getSoftwareDropdownListForContractApprovals: builder?.query({

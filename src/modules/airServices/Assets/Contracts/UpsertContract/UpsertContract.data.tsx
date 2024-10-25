@@ -321,6 +321,7 @@ export const upsertContractFormFieldsDataFunction = (
     id: 4,
     md: 6,
     component: GetContractContractTypeDropdown,
+    componentProps: { name: 'type' },
   },
   {
     id: 5,

@@ -14,7 +14,7 @@ const GetSoftwareContractVendorDropdown: React.FC = () => {
         placeholder="Select Vendor"
         apiQuery={apiQueryVendor}
         externalParams={{
-          meta: false,
+          meta: true,
           limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
         }}
       />

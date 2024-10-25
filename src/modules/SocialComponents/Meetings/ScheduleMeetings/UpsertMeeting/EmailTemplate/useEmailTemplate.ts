@@ -13,12 +13,19 @@ export const useEmilTemplate = () => {
   const [search, setSearch] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState<Record<string, any>>({});
   const router: any = useRouter();
-  const ticketId = router?.query?.ticketId;
+  const moduleId = router?.query?.moduleId;
   const meetingId = router?.query?.meetingId;
+  const moduleType = router?.query?.moduleType;
+  const type = router?.query?.type;
   const handleMoveCreateEmail = () => {
     router?.push({
       pathname: SOCIAL_COMPONENTS?.CREATE_MEETING_TEMPLATE,
-      query: { ...(ticketId && { ticketId: ticketId }), meetingId: meetingId },
+      query: {
+        type,
+        meetingId,
+        ...(moduleId && { moduleId }),
+        ...(moduleType && { moduleType }),
+      },
     });
   };
   const handleMoveBackMeeting = () => {
@@ -59,11 +66,13 @@ export const useEmilTemplate = () => {
     isError,
     refetch,
     meetingId,
-    ticketId,
+    moduleId,
     submitDeleteModal,
     setDeleteModal,
     deleteModal,
     deleteMeetingsTrigger,
     theme,
+    moduleType,
+    type,
   };
 };

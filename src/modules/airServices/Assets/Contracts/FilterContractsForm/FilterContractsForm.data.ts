@@ -90,6 +90,7 @@ export const contractsFilterFormFieldsDynamic = () => [
   {
     id: 1,
     component: GetContractFilterContractTypeDropdown,
+    componentProps: { name: 'contractType' },
   },
   {
     id: 2,

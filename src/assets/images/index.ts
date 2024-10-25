@@ -54,8 +54,6 @@ export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowle
 export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
-export { default as UserRequesterImage } from '../images/shared/user-requester.png';
-export { default as AvatarConversationImage } from '../../assets/images/shared/avatar-conversation-image.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
 export { default as UserSenderImage } from '../../assets/images/modules/socialComponents/chat/sender-user.png';
 export { default as GreenBgImage } from '../../assets/images/modules/superAdmin/dashboard/green-bg-img.png';
@@ -88,7 +86,6 @@ export { default as CallActiveImage } from './modules/airSales/contacts/call-aci
 export { default as CalendarActiveImage } from './modules/airSales/contacts/calendar-activity.png';
 export { default as documentContained } from './modules/superAdmin/Settings/ModuleCreation/document-contained.png';
 export { default as ApplePhoneImage } from './modules/socialComponents/calling/apple-phone.png';
-export { default as NoSearchResultFoundImage } from './shared/no-search-result.png';
 export { default as WelcomeCardImage } from './modules/airCustomerPortal/Dashboard/welcome-card-image.png';
 export { default as GroupAppAvatarImage } from './modules/airMarketer/SocialMarketer/PostBox/group-app-avatar.png';
 export { default as NatureFreekImage } from './modules/airMarketer/SocialMarketer/PostBox/NatureFreek.png';
