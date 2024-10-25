@@ -15,6 +15,7 @@ const EditColumn = ({ onClose, open }: any) => {
     theme,
     order,
     onDragEnd,
+    isLoading,
   } = useTaskCustomize({ onClose });
 
   return (
@@ -23,6 +24,7 @@ const EditColumn = ({ onClose, open }: any) => {
       onClose={onClose}
       footer
       isOk
+      isLoading={isLoading}
       submitHandler={handleUpdateColumns}
       okText="Save"
       title="Customize Columns"

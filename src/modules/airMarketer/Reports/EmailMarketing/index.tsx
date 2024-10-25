@@ -27,7 +27,7 @@ import ReportsDatePicker from '../../EmailMarketing/EmailReports/datePicker';
 import ReportsGraph from './ReportsGraph';
 import EmailOverviewGraph from './EmailOverviewGraph';
 import { calculatePercentage } from '@/utils';
-import { htmlToPngConvert } from '@/utils/file';
+import { htmlToPngConvert } from '@/lib/html-to-image-converter';
 
 const getDefaultDateRange = () => {
   const currentYear = dayjs().year(); // Get current year
