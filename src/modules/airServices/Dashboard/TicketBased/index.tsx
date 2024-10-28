@@ -1,16 +1,26 @@
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Typography } from '@mui/material';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { TicketStatusGraph } from './TicketStatusGraph';
 import { TicketPriorityGraph } from './TicketPriorityGraph';
 import { dropDownMenus } from './TicketBased.data';
 import { pxToRem } from '@/utils/getFontValue';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setTicketBasedGraphType } from '@/redux/slices/airServices/dashboard/slice';
+import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
 
 export const TicketBased = (props: any) => {
-  const { data, ticketType, setTicketType, isPreviewMode } = props;
-  const dropDownOptions = dropDownMenus(setTicketType);
+  const { data, isPreviewMode } = props;
+
+  const ticketBasedGraphType = useAppSelector(
+    (state) => state?.servicesDashboard?.ticketBasedGraphType,
+  );
+
+  const dispatch = useAppDispatch();
+
+  const setTicketGraphType = (ticketType: string) => {
+    dispatch(setTicketBasedGraphType<any>(ticketType));
+  };
+  const dropDownOptions = dropDownMenus(setTicketGraphType);
 
   const ticketBasedChart = {
     [TICKET_GRAPH_TYPES?.STATUS]: (
@@ -25,40 +35,33 @@ export const TicketBased = (props: any) => {
     <Box
       borderRadius={3}
       border={`1px solid`}
-      borderColor="custom.off_white"
+      borderColor="custom.off_white_three"
       height="100%"
-      p={2}
       overflow={'auto'}
     >
-      <Box minWidth={pxToRem(500)}>
+      <Box>
         <Box
           display={'flex'}
           flexWrap={'wrap'}
           justifyContent={'space-between'}
           gap={2}
-          mr={2}
+          px={2}
+          py={1}
+          borderBottom={`1px solid`}
+          borderColor="custom.off_white_three"
         >
-          <Typography variant="h5">
-            Tickets based on{' '}
-            <Typography
-              textTransform="capitalize"
-              component="span"
-              variant="h5"
-            >
-              {ticketType}
-            </Typography>
+          <Typography variant="h5" color="slateBlue.main">
+            Tickets based on {ticketBasedGraphType}
           </Typography>
-          <PermissionsGuard
-            permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
-          >
-            <SingleDropdownButton
-              dropdownOptions={dropDownOptions}
-              dropdownName={ticketType}
-              disabled={isPreviewMode}
-            />
-          </PermissionsGuard>
+          <PublicSingleDropdownButton
+            dropdownOptions={dropDownOptions}
+            dropdownName={ticketBasedGraphType}
+            disabled={isPreviewMode}
+          />
         </Box>
-        <Box sx={{ marginTop: 2 }}>{ticketBasedChart?.[ticketType]}</Box>
+        <Box minWidth={pxToRem(500)} p={2}>
+          {ticketBasedChart?.[ticketBasedGraphType]}
+        </Box>
       </Box>
     </Box>
   );

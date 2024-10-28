@@ -3,7 +3,7 @@ import { useLazyGetServicesDashboardDepartmentsDropdownListQuery } from '@/servi
 import { pxToRem } from '@/utils/getFontValue';
 
 export const DepartmentFieldDropdown = (props: any) => {
-  const { disabled = false } = props;
+  const { disabled = false, onChangeHandler } = props;
   const apiQueryDepartment =
     useLazyGetServicesDashboardDepartmentsDropdownListQuery();
   return (
@@ -25,6 +25,9 @@ export const DepartmentFieldDropdown = (props: any) => {
       }}
       placeholder="All departments"
       apiQuery={apiQueryDepartment}
+      onChangeHandler={(e: any, newValue: any) =>
+        onChangeHandler?.(e, newValue)
+      }
     />
   );
 };

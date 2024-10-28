@@ -16,10 +16,6 @@ import { TruncateText } from '@/components/TruncateText';
 import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
 
-const { VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD, VIEW_DASHBOARD } =
-  AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
-const { AIR_SERVICES_MANAGE_DASHBOARD } = Permissions ?? {};
-
 export const DashboardFilter = (props: any) => {
   const { apiLoader } = props;
   const {
@@ -49,7 +45,8 @@ export const DashboardFilter = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
         gap={1}
-        mt={1}
+        py={1}
+        overflow={'auto'}
       >
         <Typography
           variant="h4"
@@ -89,7 +86,10 @@ export const DashboardFilter = (props: any) => {
                 )}
               </Button>
               <PermissionsGuard
-                permissions={[VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD]}
+                permissions={[
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD,
+                ]}
               >
                 <SingleDropdownButton
                   dropdownOptions={dashboardDropdownActions}
@@ -98,12 +98,18 @@ export const DashboardFilter = (props: any) => {
                   color="inherit"
                 />
               </PermissionsGuard>
-              <PermissionsGuard permissions={[VIEW_DASHBOARD]}>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD,
+                ]}
+              >
                 <DashboardListFieldDropdown disabled={apiCallInProgress} />
               </PermissionsGuard>
             </>
           )}
-          <PermissionsGuard permissions={AIR_SERVICES_MANAGE_DASHBOARD}>
+          <PermissionsGuard
+            permissions={Permissions?.AIR_SERVICES_MANAGE_DASHBOARD}
+          >
             <Button
               className="small"
               color="inherit"

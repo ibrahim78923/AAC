@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useGetUserLists } from '../UserHook/useGetUserLists';
 import { operationUsersListColumnsDynamic } from './UserList.data';
 import {
@@ -9,6 +9,8 @@ import {
   setSelectedUsersLists,
   setPageDecrement,
 } from '@/redux/slices/airOperations/users/slice';
+import { getActivePermissionsSession } from '@/utils';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const useUserList = () => {
   const {
@@ -20,6 +22,13 @@ export const useUserList = () => {
   } = useGetUserLists?.();
 
   const dispatch = useAppDispatch();
+
+  const canChangeUserStatus = useMemo(() => {
+    const permissions = getActivePermissionsSession();
+    return permissions?.includes(
+      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+    );
+  }, []);
 
   const selectedUsersLists = useAppSelector(
     (state) => state?.operationsUsersLists?.selectedUsersLists,
@@ -56,6 +65,7 @@ export const useUserList = () => {
     selectedUsersLists,
     setSelectedUserList,
     totalUsers,
+    canChangeUserStatus,
   );
 
   const isApiCalled =

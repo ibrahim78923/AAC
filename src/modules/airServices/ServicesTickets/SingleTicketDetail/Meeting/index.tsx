@@ -5,7 +5,7 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { listViewDetails } from './Meeting.data';
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { ALERT_MODALS_TYPE, MODULE_TYPE } from '@/constants/strings';
 import { PlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
@@ -87,7 +87,7 @@ export const Meeting = () => {
                   pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
                   query: {
                     moduleId: ticketId,
-                    moduleType: 'TICKET',
+                    moduleType: MODULE_TYPE?.TICKET,
                   },
                 })
               }

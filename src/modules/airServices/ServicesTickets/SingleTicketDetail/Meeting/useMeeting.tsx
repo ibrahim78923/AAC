@@ -1,7 +1,11 @@
 import { useTheme } from '@mui/material';
 import { meetingCardsDetails } from './Meeting.data';
 import { useEffect, useState } from 'react';
-import { MEETINGS_DETAILS_TYPE, ROUTER_CONSTANTS } from '@/constants/strings';
+import {
+  MEETINGS_DETAILS_TYPE,
+  MODULE_TYPE,
+  ROUTER_CONSTANTS,
+} from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { buildQueryParams } from '@/utils/api';
 import {
@@ -37,7 +41,7 @@ export const useMeeting = () => {
       ['search', search],
       ['type', cardValue],
       ['moduleId', ticketId],
-      ['moduleType', 'TICKET'],
+      ['moduleType', MODULE_TYPE?.TICKET],
     ];
     const meetingParam: any = buildQueryParams(additionalParams);
 

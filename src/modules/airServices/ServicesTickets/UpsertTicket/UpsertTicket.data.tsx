@@ -4,6 +4,7 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFTextField,
+  RHFDatePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import {
@@ -201,9 +202,8 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
               label: 'Planned Start Date',
               fullWidth: true,
               disabled: true,
-              ampm: false,
             },
-            component: RHFDesktopDateTimePicker,
+            component: RHFDatePicker,
             md: 12,
           },
           {

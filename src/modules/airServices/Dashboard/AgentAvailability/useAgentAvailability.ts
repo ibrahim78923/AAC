@@ -1,17 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
-import { useEffect } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { agentAvailabilityCountDynamic } from './AgentAvailability.data';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setDepartmentWiseAgents } from '@/redux/slices/airServices/dashboard/slice';
 
 export const useAgentAvailability = (props: any) => {
-  const { data, departmentId, setDepartmentId } = props;
+  const { data } = props;
+
+  const departmentWiseAgents = useAppSelector(
+    (state) => state?.servicesDashboard?.departmentWiseAgent,
+  );
+
+  const dispatch = useAppDispatch();
 
   const theme = useTheme();
 
   const methods = useForm({
-    defaultValues: { departmentId: null },
+    defaultValues: { departmentId: departmentWiseAgents },
     resolver: yupResolver(
       Yup?.object()?.shape({
         departmentId: Yup?.mixed()?.nullable(),
@@ -19,24 +26,9 @@ export const useAgentAvailability = (props: any) => {
     ),
   });
 
-  const { control, reset, handleSubmit } = methods;
-
-  const watchDepartment: any = useWatch({
-    control,
-    name: 'departmentId',
-  });
-
-  const onsubmit = (data: any) => {
-    setDepartmentId?.(data?.departmentId);
+  const onChangeHandler = (_: any, data: any) => {
+    dispatch(setDepartmentWiseAgents?.(data));
   };
-
-  useEffect(() => {
-    reset({ departmentId: departmentId });
-  }, [departmentId, reset]);
-
-  useEffect(() => {
-    handleSubmit(onsubmit)();
-  }, [watchDepartment?._id]);
 
   const pieChartSeriesData = [
     data?.agentAvailability?.data?.availableAgents || 0,
@@ -61,5 +53,6 @@ export const useAgentAvailability = (props: any) => {
     pieChartOptions,
     pieChartSeries,
     agentAvailabilityCount,
+    onChangeHandler,
   };
 };

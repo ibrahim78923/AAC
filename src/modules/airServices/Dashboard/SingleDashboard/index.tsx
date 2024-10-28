@@ -10,16 +10,10 @@ import { DashboardWidgets } from '../DashboardsWidgets';
 import { DownloadDashboard } from '../DownloadDashboard';
 import { ApiStatusSuspense } from './ApiStatusSuspense';
 
-const { VIEW_MANAGE_DASHBOARD } = AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
-
 export const SingleDashboard = (props: any) => {
   const { isPreviewMode = false, isDetailMode = false } = props;
   const {
     lazyGetSingleServicesDashboardStatus,
-    ticketType,
-    setTicketType,
-    departmentId,
-    setDepartmentId,
     methods,
     downloadRef,
     moveToDashboard,
@@ -30,7 +24,11 @@ export const SingleDashboard = (props: any) => {
 
   return (
     <>
-      <PermissionsGuard permissions={[VIEW_MANAGE_DASHBOARD]}>
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
+        ]}
+      >
         <Box>
           {isDetailMode ? (
             <PageTitledHeader
@@ -78,10 +76,6 @@ export const SingleDashboard = (props: any) => {
                 }
                 isPreviewMode={isPreviewMode}
                 isDetailMode={isDetailMode}
-                ticketType={ticketType}
-                setTicketType={setTicketType}
-                departmentId={departmentId}
-                setDepartmentId={setDepartmentId}
               />
             )}
           </Box>

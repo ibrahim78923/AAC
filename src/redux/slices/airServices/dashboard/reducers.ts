@@ -3,6 +3,7 @@ import {
   isPortalOpenInitialState,
   lastFetchLapseTimeInitialState,
   lastFetchTimeInitialState,
+  ticketBasedGraphTypeInitialState,
 } from './slice';
 
 const setPageReducer = (state: any, action: any) => {
@@ -74,6 +75,18 @@ const setLastFetchTimeApiReducer = (state: any, action: any) => {
   state.lastFetchLapseTime = action?.payload?.lastFetchLapseTime;
 };
 
+const setDepartmentWiseAgentsReducer = (state: any, action: any) => {
+  state.departmentWiseAgent = action?.payload;
+};
+
+const setTicketBasedGraphTypeReducer = (state: any, action: any) => {
+  state.ticketBasedGraphType = action?.payload;
+};
+
+const resetTicketBasedGraphTypeReducer = (state: any) => {
+  state.ticketBasedGraphType = ticketBasedGraphTypeInitialState;
+};
+
 const resetComponentStateReducers = (state: any) => {
   state.page = PAGINATION?.CURRENT_PAGE;
   state.pageLimit = PAGINATION?.PAGE_LIMIT;
@@ -85,6 +98,13 @@ const resetComponentStateReducers = (state: any) => {
   state.isTotalCountLoading = true;
   state.lastFetchTime = lastFetchTimeInitialState;
   state.lastFetchLapseTime = lastFetchLapseTimeInitialState;
+  state.ticketBasedGraphType = ticketBasedGraphTypeInitialState;
+  state.departmentWiseAgent = null;
+};
+
+const resetSingleDashboardStateReducer = (state: any) => {
+  state.ticketBasedGraphType = ticketBasedGraphTypeInitialState;
+  state.departmentWiseAgent = null;
 };
 
 export const servicesDashboardReducersList = {
@@ -105,4 +125,8 @@ export const servicesDashboardReducersList = {
   setFilterDashboardListsReducer,
   emptyFilterDashboardListsReducer,
   setLastFetchTimeApiReducer,
+  setDepartmentWiseAgentsReducer,
+  setTicketBasedGraphTypeReducer,
+  resetTicketBasedGraphTypeReducer,
+  resetSingleDashboardStateReducer,
 };

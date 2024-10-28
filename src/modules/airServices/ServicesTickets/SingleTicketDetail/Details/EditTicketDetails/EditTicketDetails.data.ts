@@ -1,5 +1,6 @@
 import {
   RHFAutocomplete,
+  RHFDatePicker,
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -131,11 +132,11 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 70,
+    id: 3,
     component: DepartmentFieldDropdown,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
       name: 'source',
       label: 'Source',
@@ -164,7 +165,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: AgentFieldDropdown,
   },
   {
-    id: 4,
+    id: 7,
     componentProps: {
       name: 'ticketType',
       label: 'Type',
@@ -176,7 +177,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 7,
+    id: 8,
     componentProps: {
       disabled: data?.ticketType === SR,
     },
@@ -185,7 +186,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === SR
     ? [
         {
-          id: 17,
+          id: 9,
           componentProps: {
             categoryId: watch('category')?._id,
             disabled: data?.ticketType === SR,
@@ -197,10 +198,11 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === SR && !!watch('service')?.assetType
     ? [
         {
-          id: 17.5,
+          id: 10,
           componentProps: {
             name: 'numberOfItems',
             label: 'Number of items',
+            placeholder: 'Enter number of items',
             fullWidth: true,
             required: true,
             type: 'number',
@@ -212,19 +214,18 @@ export const editTicketDetailsFormFieldsDynamic = (
       ]
     : []),
   {
-    id: 8,
+    id: 11,
     componentProps: {
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
       disabled: true,
-      ampm: false,
       textFieldProps: { readOnly: true },
     },
-    component: RHFDesktopDateTimePicker,
+    component: RHFDatePicker,
   },
   {
-    id: 9,
+    id: 12,
     componentProps: {
       name: 'plannedEndDate',
       label: 'Planned End Date',
@@ -237,7 +238,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 10,
+    id: 13,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',

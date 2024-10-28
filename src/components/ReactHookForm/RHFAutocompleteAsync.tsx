@@ -31,6 +31,8 @@ export default function RHFAutocompleteAsync({
   renderOption,
   required,
   endIconSx,
+  onBlurHandler,
+  onChangeHandler,
   ...other
 }: any): JSX.Element {
   const { control } = useFormContext();
@@ -47,6 +49,7 @@ export default function RHFAutocompleteAsync({
 
   const onChanged = (e: any, newValue: any, onChange: any) => {
     onChange(newValue);
+    onChangeHandler?.(e, newValue);
   };
 
   const theme: any = useTheme();
@@ -59,6 +62,10 @@ export default function RHFAutocompleteAsync({
         return (
           <Autocomplete
             {...form?.field}
+            onBlur={() => {
+              onBlurHandler?.();
+              form?.field?.onBlur?.();
+            }}
             multiple={multiple}
             limitTags={2}
             id={name}

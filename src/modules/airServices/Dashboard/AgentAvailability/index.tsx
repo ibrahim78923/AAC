@@ -8,15 +8,19 @@ import { pxToRem } from '@/utils/getFontValue';
 
 export const AgentAvailability = (props: any) => {
   const { isPreviewMode } = props;
-  const { methods, pieChartOptions, pieChartSeries, agentAvailabilityCount } =
-    useAgentAvailability(props);
+  const {
+    methods,
+    pieChartOptions,
+    pieChartSeries,
+    agentAvailabilityCount,
+    onChangeHandler,
+  } = useAgentAvailability(props);
 
   return (
     <Box
       borderRadius={3}
-      p={2}
       border={`1px solid`}
-      borderColor="custom.off_white"
+      borderColor="custom.off_white_three"
       height="100%"
       overflow={'auto'}
     >
@@ -26,14 +30,21 @@ export const AgentAvailability = (props: any) => {
             display={'flex'}
             justifyContent={'space-between'}
             gap={1}
+            px={2}
+            py={1}
             flexWrap={'wrap'}
             alignItems={'center'}
+            borderBottom={`1px solid`}
+            borderColor="custom.off_white_three"
           >
             <Typography variant="h5" color={'slateBlue.main'}>
               Agent Availability
             </Typography>
             <FormProvider methods={methods}>
-              <DepartmentFieldDropdown disabled={isPreviewMode} />
+              <DepartmentFieldDropdown
+                disabled={isPreviewMode}
+                onChangeHandler={onChangeHandler}
+              />
             </FormProvider>
           </Box>
           <Box
@@ -41,7 +52,7 @@ export const AgentAvailability = (props: any) => {
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
-            my={2}
+            p={2}
           >
             {agentAvailabilityCount?.map((department) => (
               <Box key={department?.title}>
@@ -58,7 +69,7 @@ export const AgentAvailability = (props: any) => {
             ))}
           </Box>
         </>
-        <Box>
+        <Box p={2}>
           {!!pieChartSeries?.length ? (
             <CustomChart
               options={pieChartOptions}

@@ -558,6 +558,7 @@ export const OBJECT_URL_IMPORT = {
 export const AUTH_TOKEN_BYPASS_API = {
   UPLOAD_FILE_TO_S3_USING_SIGNED_URL: 'uploadFileTos3UsingSignedUrl',
 };
+
 export const WORKFLOW_TYPE = {
   SAVED: 'SAVED',
   CREATED: 'CREATED',
@@ -663,18 +664,11 @@ export const DRAWER_ACTIONS_TITLES = {
   VIEW: 'View',
 };
 
-export const LOYALTY_SHOP_TYPE = {
-  ON_SITE: 'ONSITE',
-  DEPARTMENT: 'DEPARTMENT',
-  HEADQUARTERS: 'HEADQUARTERS',
-  POINT_OF_SALE: 'POINT_OF_SALES',
-  WEB_SHOP: 'WEBSHOP',
-};
-
 export const LOGICS = {
   AND: 'AND',
   OR: 'OR',
 };
+
 export const LOYALTY_REWARDS_STATUS = {
   ACTIVE: 'Active',
   EXPIRED: 'Expired',
