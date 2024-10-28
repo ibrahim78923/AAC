@@ -102,7 +102,7 @@ const ViewDetailsAndPerformance = ({
               </Grid>
               <Grid item sm={6}>
                 <Typography variant="body2" sx={{ fontWeight: '700' }} mt={2.4}>
-                  Send Date & Time
+                  Published Date
                 </Typography>
                 <Typography variant="body2" mt={2.4}>
                   {dayjs(data?.data?.createdAt)?.format(
@@ -112,7 +112,7 @@ const ViewDetailsAndPerformance = ({
               </Grid>
               <Grid item sm={6}>
                 <Typography variant="body2" sx={{ fontWeight: '700' }} mt={2.4}>
-                  Reschedule
+                  Scheduled At
                 </Typography>
                 <Typography variant="body2" mt={2.4}>
                   {data?.data?.sentOn

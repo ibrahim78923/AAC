@@ -118,7 +118,7 @@ export const emailTemplatesApi = baseAPI.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.userTeams;
+        if (response) return response?.data;
       },
     }),
   }),

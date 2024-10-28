@@ -570,7 +570,7 @@ export const EMAILS_MARKETING = {
   GET_ALL_FOLDERS: '/emails-marketing/get-all-folders',
   DUPLICATE_EMAIL: '/emails-marketing/duplicate-email',
   MARKETING_USERS: '/quote/all/user',
-  MARKETING_TEAMS: '/teams',
+  MARKETING_TEAMS: '/dropdown/organization-all-teams',
 };
 export const EMAILS_MARKETING_SETTINGS = {
   EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities',

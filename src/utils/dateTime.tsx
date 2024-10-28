@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const UnixDateFormatter = ({
   timestamp,
   timeZone = 'UTC',
@@ -36,4 +38,11 @@ export const UnixDateFormatter = ({
   const formattedDate = formatter?.format(date);
 
   return <span>{formattedDate}</span>;
+};
+export const convertTimezone = (
+  dateString: any,
+  fromZone: any,
+  toZone: any,
+) => {
+  return dayjs.tz(dateString, fromZone).tz(toZone).format();
 };
