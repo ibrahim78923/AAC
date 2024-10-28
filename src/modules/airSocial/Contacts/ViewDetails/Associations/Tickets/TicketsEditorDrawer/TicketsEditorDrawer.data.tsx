@@ -17,8 +17,7 @@ import {
   ticketStatusOptions,
 } from '../Tickets.data';
 import { DATE_FORMAT } from '@/constants';
-import { ROLES } from '@/constants/strings';
-import { FILE_MAX_SIZE, PAGINATION } from '@/config';
+import { FILE_MAX_SIZE } from '@/config';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -81,6 +80,8 @@ export const ticketDefaultValuesFunction = (data?: any) => {
 };
 
 export const ticketFormFieldsDynamic = (
+  productId: string,
+  companyId: string,
   apiQueryRequester?: any,
   apiQueryDepartment?: any,
   apiQueryAgent?: any,
@@ -97,8 +98,9 @@ export const ticketFormFieldsDynamic = (
       required: true,
       apiQuery: apiQueryRequester,
       externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_REQUESTER,
+        requester: true,
+        admin: true,
+        productId,
       },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
@@ -218,8 +220,8 @@ export const ticketFormFieldsDynamic = (
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
       externalParams: {
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        role: ROLES?.ORG_EMPLOYEE,
+        admin: true,
+        productId,
       },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
@@ -295,7 +297,7 @@ export const ticketFormFieldsDynamic = (
       fullWidth: true,
       multiple: true,
       apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
+      externalParams: { companyId },
       getOptionLabel: (option: any) => option?.displayName,
       renderOption: (option: any) => (
         <Box

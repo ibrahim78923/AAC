@@ -29,6 +29,14 @@ export const enquiriesApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    enquiriesPostNewEmail: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -36,4 +44,5 @@ export const {
   useGetEnquiriesQuery,
   useDeleteEnquiryMutation,
   usePatchEnquiriesMutation,
+  useEnquiriesPostNewEmailMutation,
 } = enquiriesApi;

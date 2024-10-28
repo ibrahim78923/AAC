@@ -6,25 +6,19 @@ import {
   useDeleteInvoiceMutation,
   useGetInvoiceQuery,
   useUpdateInvoiceMutation,
+  useLazyGetEmployeeListInvoiceQuery,
 } from '@/services/airSales/invoices';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 
 const useListView = () => {
   const router = useRouter();
   const { user }: any = useAuth();
-
-  const { data: employeeList } = useGetEmployeeListQuery({
-    orgId: user?.organization?._id,
-  });
-  const employeeListData = employeeList?.data?.users?.map((user: any) => ({
-    value: user?._id,
-    label: `${user?.firstName} ${user?.lastName}`,
-  }));
+  const orgId = user?.organization?._id;
+  const employeeList = useLazyGetEmployeeListInvoiceQuery();
 
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
@@ -45,7 +39,11 @@ const useListView = () => {
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: InvoiceData, isLoading } = useGetInvoiceQuery({
+  const {
+    data: InvoiceData,
+    isLoading,
+    isFetching,
+  } = useGetInvoiceQuery({
     params: { ...paginationParams, ...searchPayLoad, ...filterParams },
   });
 
@@ -68,17 +66,19 @@ const useListView = () => {
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
-    resetFilters();
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { creationDate, ...others } = values;
+    const { creationDate, createdBy, ...others } = values;
     setFilterParams(() => {
       const updatedParams = { ...others };
       if (creationDate != null) {
         updatedParams.creationDate = dayjs(creationDate).format(
           DATE_FORMAT.API,
         );
+      }
+      if (createdBy != null) {
+        updatedParams.createdBy = createdBy?._id;
       }
       return updatedParams;
     });
@@ -172,6 +172,7 @@ const useListView = () => {
 
     InvoiceData,
     isLoading,
+    isFetching,
     setPage,
     setPageLimit,
     selectedRow,
@@ -187,7 +188,8 @@ const useListView = () => {
     handleDeleteInvoice,
     loadingDelete,
 
-    employeeListData,
+    employeeList,
+    orgId,
     handleIsViewPage,
     handleUpdateStatus,
     loadingUpdateInvoice,

@@ -1,4 +1,4 @@
-import { AIR_SALES, INVOICE } from '@/routesConstants/endpoints';
+import { AIR_SALES, END_POINTS, INVOICE } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const invoiceAPI = baseAPI.injectEndpoints({
@@ -54,6 +54,23 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['INVOICE'],
     }),
+
+    getEmployeeListInvoice: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${END_POINTS?.ORGANIZATION_LIST}/${params?.id}/users`,
+          method: 'GET',
+          params: {
+            search: params?.search,
+            meta: params?.meta,
+          },
+        };
+      },
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['USERS'],
+    }),
   }),
 });
 
@@ -65,4 +82,5 @@ export const {
   useGetInvoiceQuery,
   useDeleteInvoiceMutation,
   useUpdateInvoiceMutation,
+  useLazyGetEmployeeListInvoiceQuery,
 } = invoiceAPI;
