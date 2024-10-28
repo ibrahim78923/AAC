@@ -6,12 +6,43 @@ import {
   SOCIAL_COMPONENTS,
 } from '@/constants';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { TimeFormatDuration } from '@/lib/date-time';
 import { splitCapitalizedWords } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Theme } from '@mui/material';
 import dayjs from 'dayjs';
+
+export const meetingCardsDetails = (
+  theme: Theme,
+  getMeetingListStatus: any,
+) => {
+  const cardData = getMeetingListStatus;
+  return [
+    {
+      id: 1,
+      meetingHeading: MEETINGS_DETAILS_TYPE?.ALL_MEETINGS,
+      meetingType: MEETINGS_DETAILS_TYPE?.ALL,
+      meetingCount: cardData?.allMeetings ?? 0,
+      color: theme?.palette?.info?.main,
+    },
+    {
+      id: 2,
+      meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING_MEETINGS,
+      meetingType: MEETINGS_DETAILS_TYPE?.UPCOMING,
+      meetingCount: cardData?.upCommings ?? 0,
+      color: theme?.palette?.error?.main,
+    },
+    {
+      id: 3,
+      meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS,
+      meetingType: MEETINGS_DETAILS_TYPE?.COMPLETED,
+      meetingCount: cardData?.completed ?? 0,
+      color: theme?.palette?.success?.dark,
+    },
+  ];
+};
 
 export const listViewDetails = (
   setDeleteModal: any,
@@ -89,7 +120,7 @@ export const listViewDetails = (
                     type: meetingActiveType(info?.row?.original?.category),
                     id: info?.row?.original?._id,
                     moduleType: MODULE_NAME_FOR_MEETINGS?.COMPANIES,
-                    ticketId: info?.row?.original?.moduleId,
+                    moduleId: info?.row?.original?.moduleId,
                   },
                 });
               })

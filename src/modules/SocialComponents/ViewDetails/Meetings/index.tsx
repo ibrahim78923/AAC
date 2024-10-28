@@ -86,7 +86,7 @@ const Meetings = () => {
                 router?.push({
                   pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
                   query: {
-                    ticketId: moduleId,
+                    moduleId: moduleId,
                     moduleType: MODULE_NAME_FOR_MEETINGS?.COMPANIES,
                   },
                 })

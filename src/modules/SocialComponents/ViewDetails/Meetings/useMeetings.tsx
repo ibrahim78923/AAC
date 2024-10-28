@@ -7,10 +7,10 @@ import {
   useLazyGetMeetingsListQuery,
 } from '@/services/commonFeatures/meetings';
 import { PAGINATION } from '@/config';
-import { meetingCardsDetails } from '../../Meetings/ListView/ListView.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { buildQueryParams } from '@/utils/api';
 import { MODULE_NAME_FOR_MEETINGS } from '@/constants';
+import { meetingCardsDetails } from './Meetings.data';
 
 export const useMeetings = () => {
   const theme = useTheme();
