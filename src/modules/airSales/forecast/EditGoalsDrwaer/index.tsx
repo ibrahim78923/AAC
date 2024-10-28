@@ -22,6 +22,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
+import { indexNumbers } from '@/constants';
 
 const EditGoalsDrwaer = (props: any) => {
   const {
@@ -39,7 +40,8 @@ const EditGoalsDrwaer = (props: any) => {
     { skip: isNullOrEmpty(tableRowValues) },
   );
 
-  const notificationsData = getOneGoal?.data?.notification;
+  const notificationsData =
+    getOneGoal?.data?.goals[indexNumbers?.ZERO]?.notification;
   // State to manage selected notifications
 
   // Function to handle checkbox change
@@ -84,7 +86,10 @@ const EditGoalsDrwaer = (props: any) => {
 
   const methods: any = useForm({
     resolver: yupResolver(editGoalValidationSchema?.(form)),
-    defaultValues: editGoalDefaultValues?.(getOneGoal?.data, form),
+    defaultValues: editGoalDefaultValues?.(
+      getOneGoal?.data?.goals[indexNumbers?.ZERO],
+      form,
+    ),
   });
 
   const { handleSubmit, setValue } = methods;

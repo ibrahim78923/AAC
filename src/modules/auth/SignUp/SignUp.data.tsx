@@ -23,6 +23,7 @@ export const validationSchema = Yup?.object()?.shape({
   confirmPassword: Yup?.string()
     ?.oneOf([Yup?.ref('password'), ''], 'Passwords do not match')
     ?.required('Required field'),
+  DRN: Yup?.string(),
 });
 
 export const defaultValues = {
@@ -37,6 +38,7 @@ export const defaultValues = {
   phoneNumber: '',
   password: '',
   confirmPassword: '',
+  DRN: '',
 };
 
 export const options = [

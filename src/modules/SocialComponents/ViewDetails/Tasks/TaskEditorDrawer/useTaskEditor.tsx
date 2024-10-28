@@ -64,13 +64,21 @@ const useTaskEditor = ({
 
   const onSubmit = async (values: any) => {
     const { dueDate, createTime, ...rest } = values;
-    const DueDate = dayjs(dueDate)?.format(DATE_FORMAT?.API);
-    const CreateTime = dayjs(createTime)?.format(DATE_FORMAT?.API);
+    const DueDate = dayjs(dueDate).isValid()
+      ? dayjs(dueDate).format(DATE_FORMAT?.API)
+      : undefined;
+    const CreateTime = dayjs(createTime).isValid()
+      ? dayjs(createTime).format(DATE_FORMAT?.API)
+      : undefined;
+
+    const cleanedValues = Object.fromEntries(
+      Object.entries(rest).filter(([, v]) => v != null && v !== ''),
+    );
 
     const body = {
       dueDate: DueDate,
       time: CreateTime,
-      ...rest,
+      ...cleanedValues,
     };
 
     if (openDrawer !== 'Edit') {

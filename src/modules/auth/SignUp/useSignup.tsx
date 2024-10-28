@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import {
   useAuthCompanyVerificationMutation,
   useGetAuthCompaniesQuery,
+  useGetDrnCheckQuery,
   useGetEmailCheckQuery,
   useSignUpMutation,
 } from '@/services/auth';
@@ -49,8 +50,10 @@ const useSignup = () => {
 
   const organizationNumber = watch('crn');
   const email = watch('email');
+  const DRN = watch('DRN');
 
   const [emailExists, setEmailExists] = useState(email);
+  const [drnExists, setDrnExists] = useState(DRN);
 
   const [orgNumber, setOrgNumber] = useState('');
 
@@ -65,6 +68,10 @@ const useSignup = () => {
     { email: emailExists },
     { skip: !emailExists },
   );
+  const { data: drnData, isSuccess: drnIsSuccess } = useGetDrnCheckQuery(
+    { drn: drnExists },
+    { skip: !drnExists },
+  );
 
   const validateEmailFormat = (email: any) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,9 +79,14 @@ const useSignup = () => {
   };
 
   const [debouncedEmail, setDebouncedEmail] = useState(email);
+  const [debouncedDrn, setDebouncedDrn] = useState(DRN);
 
   const debounceEmail = debounce((value: any) => {
     setDebouncedEmail(value);
+  }, 2000);
+
+  const debounceDrn = debounce((value: any) => {
+    setDebouncedDrn(value);
   }, 2000);
 
   useEffect(() => {
@@ -91,6 +103,17 @@ const useSignup = () => {
       setEmailExists('');
     }
   }, [debouncedEmail]);
+
+  useEffect(() => {
+    setDrnExists(debouncedDrn);
+  }, [debouncedDrn]);
+
+  useEffect(() => {
+    debounceDrn(DRN);
+    return () => {
+      debounceDrn?.cancel();
+    };
+  }, [DRN]);
 
   const [signUpValue, { isLoading }] = useSignUpMutation();
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
@@ -112,19 +135,20 @@ const useSignup = () => {
       firstName: firstName?.trim(),
       lastName: lastName?.trim(),
       role: 'ORG_ADMIN',
+      drn: value?.DRN,
     };
 
     try {
       const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
-        enqueueSnackbar('Check the Email for verification', {
-          variant: 'success',
-        });
         // bypassing the ig varification in future routing should be done on successful varification
         push(AUTH.LOGIN);
 
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
+          enqueueSnackbar('Check the Email for verification', {
+            variant: 'success',
+          });
         } catch (error: any) {
           const errMsg = error?.data?.message;
           enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
@@ -180,6 +204,14 @@ const useSignup = () => {
   }, [data, isError]);
 
   useEffect(() => {
+    if (drnIsSuccess) {
+      enqueueSnackbar('DRN already exists', {
+        variant: 'error',
+      });
+    }
+  }, [drnData, drnIsSuccess]);
+
+  useEffect(() => {
     setValue('organizationName', companyDetails?.company_name);
     setOrgNumber(organizationNumber);
   }, [data, isError]);
@@ -197,6 +229,7 @@ const useSignup = () => {
     isError,
     isEmailError,
     email,
+    drnIsSuccess,
   };
 };
 

@@ -11,6 +11,7 @@ import { editGoalArray } from './GoalTab.data';
 import { createElement, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { componentMap, dynamicFormInitialValue } from '@/utils/dynamic-forms';
+import { indexNumbers } from '@/constants';
 
 const GoalTab = ({
   getOneGoal,
@@ -22,7 +23,10 @@ const GoalTab = ({
   getDynamicFieldsStatus,
 }: any) => {
   useEffect(() => {
-    const initialValues: any = dynamicFormInitialValue(getOneGoal?.data, form);
+    const initialValues: any = dynamicFormInitialValue(
+      getOneGoal?.data?.goals[indexNumbers?.ZERO],
+      form,
+    );
 
     if (initialValues) {
       Object.keys(initialValues).forEach((name) => {
@@ -30,7 +34,7 @@ const GoalTab = ({
         setValue(name, value);
       });
     }
-    if (getOneGoal?.data) {
+    if (getOneGoal?.data?.goals[indexNumbers?.ZERO]) {
       const {
         goalName,
         teamDetails,
@@ -38,7 +42,7 @@ const GoalTab = ({
         duration,
         pipelines,
         target,
-      } = getOneGoal?.data;
+      } = getOneGoal?.data?.goals[indexNumbers?.ZERO];
 
       const teamNames = teamDetails?.map((team) => team.name).join(', ');
       const userFullNames = `${collaboratorDetails[0]?.firstName} ${collaboratorDetails[0]?.lastName}`;
@@ -51,7 +55,7 @@ const GoalTab = ({
         pipelines?.map((pipeline: any) => pipeline?.name).join(', '),
       );
     }
-  }, [getOneGoal?.data]);
+  }, [getOneGoal?.data?.goals[indexNumbers?.ZERO]]);
 
   const formFields = editGoalArray();
 

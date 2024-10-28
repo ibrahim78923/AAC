@@ -55,6 +55,8 @@ const SetPassword = () => {
       const payload = {
         email: session?.user?.email,
         password: newPassword,
+        role: session?.user?.role,
+        session: session?.session,
       };
       setIsMatchPassword(false);
       try {

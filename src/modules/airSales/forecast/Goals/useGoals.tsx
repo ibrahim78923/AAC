@@ -1,10 +1,10 @@
 import { PAGINATION } from '@/config';
+import { successSnackbar } from '@/lib/snackbar';
 import {
   useDeleteForecastGoalsMutation,
   useGetForecastTeamGoalsQuery,
   useGetForecastUserGoalsQuery,
 } from '@/services/airSales/forecast';
-import { successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
@@ -22,6 +22,7 @@ const useGoals = () => {
   const [pageLimitTeam, setPageLimitTeam] = useState(PAGINATION?.PAGE_LIMIT);
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
   const [filterValues, setFilterValues] = useState({});
+  const [selectedSerial, setSelectedSerial] = useState(null);
 
   const [alignment, setAlignment] = useState('User');
 
@@ -33,6 +34,7 @@ const useGoals = () => {
     setFilterValues('');
     setSearch('');
     setTableRowValues([]);
+    setSelectedSerial(null);
   };
 
   const Params = {
@@ -124,6 +126,8 @@ const useGoals = () => {
     setIsFilterDrawer,
     setFilterValues,
     filterValues,
+    selectedSerial,
+    setSelectedSerial,
   };
 };
 
