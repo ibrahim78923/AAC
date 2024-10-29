@@ -29,7 +29,8 @@ export const exportTabColumns = [
       return (
         <a href={url?.href} download={fileName}>
           <TruncateText
-            text={fileName?.toLowerCase()}
+            isCapital={false}
+            text={fileName}
             boxProps={{ color: 'primary.main' }}
           />
         </a>

@@ -35,9 +35,7 @@ export const knowledgeBaseAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: articleFeedbackParameter,
       }),
-      invalidatesTags: [TAG],
     }),
-
     getAllAssociateAssetsDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.CUSTOMER_PORTAL_ASSET_DROPDOWN}`,

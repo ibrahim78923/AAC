@@ -5,11 +5,11 @@ export const feedbackValidationSchema = (emailValidation: any) =>
   Yup?.object()?.shape({
     email: Yup?.string()?.when(() =>
       emailValidation
-        ? Yup?.string()?.email()?.required('Email is Required')
+        ? Yup?.string()?.email()?.required('Email is required')
         : Yup?.string()?.notRequired(),
     ),
     feedback: Yup?.array()
-      ?.required('Field is Required')
+      ?.required('Field is required')
       ?.min(1, 'At least one field is required'),
     comment: Yup?.string(),
   });

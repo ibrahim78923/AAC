@@ -136,10 +136,9 @@ export const useImportModal = () => {
         );
 
         if (hasDuplicate) {
-          hasDuplicate && errorSnackbar('Crm fields must be unique');
+          errorSnackbar('Crm fields must be unique');
         } else if (!isAllRequiredFieldPresent) {
-          !isAllRequiredFieldPresent &&
-            errorSnackbar('Select all mandatory field(s)');
+          errorSnackbar('Select all mandatory field(s)');
         } else {
           const url = new URL(`${fileResponse?.data}`);
           const filePath = `${url?.origin}${url?.pathname}`;

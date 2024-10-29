@@ -10,8 +10,16 @@ import { TruncateText } from '@/components/TruncateText';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const PopularArticles = () => {
-  const { data, isLoading, isFetching, isError, router, refetch, companyId } =
-    usePopularArticles();
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    router,
+    refetch,
+    companyId,
+    articlesRoute,
+  } = usePopularArticles();
 
   return (
     <CardLayout
@@ -52,6 +60,7 @@ export const PopularArticles = () => {
                         query: {
                           articleId: article?._id,
                           folderId: article?.folder?._id,
+                          articlesRoute: articlesRoute,
                           ...(companyId && { companyId }),
                         },
                       });
