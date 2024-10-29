@@ -1,20 +1,16 @@
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useDashboard } from './useDashboard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ROLES } from '@/constants/strings';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ReportIssue } from '../Tickets/ReportIssue';
 import NonRegisterDashboard from './NonRegisterDashboard';
 import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
-import { AIR_SERVICES } from '@/constants/routes';
 
 const Dashboard = () => {
   const {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
-    router,
     user,
     newTicketsDropdown,
     dashboardWidgets,
@@ -27,35 +23,6 @@ const Dashboard = () => {
   return (
     <>
       <PageTitledHeader title="Customer Portal - Dashboards">
-        {[ROLES?.ORG_EMPLOYEE, ROLES?.ORG_ADMIN]?.includes(user?.role) && (
-          <Button
-            variant="outlined"
-            className="small"
-            startIcon={
-              <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
-            }
-            onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
-            sx={{
-              borderColor:
-                colorChanger?.btnSecondary ||
-                customizePortalDefaultValues(theme)?.btnSecondary,
-              color:
-                colorChanger?.btnSecondary ||
-                customizePortalDefaultValues(theme)?.btnSecondary,
-              '&:hover': {
-                borderColor:
-                  colorChanger?.btnSecondary ||
-                  customizePortalDefaultValues(theme)?.btnSecondary,
-                color:
-                  colorChanger?.btnSecondary ||
-                  customizePortalDefaultValues(theme)?.btnSecondary,
-              },
-            }}
-          >
-            Revert
-          </Button>
-        )}
-
         <PublicSingleDropdownButton
           dropdownOptions={newTicketsDropdown}
           className="small"

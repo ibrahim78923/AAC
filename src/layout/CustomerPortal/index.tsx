@@ -23,10 +23,13 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import Header from '../Header';
 import useCustomerPortal from './useCustomerPortal';
 import { AUTH } from '@/constants';
-import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { AIR_CUSTOMER_PORTAL, AIR_SERVICES } from '@/constants/routes';
 import { generateImage } from '@/utils/avatarUtils';
 import { customerPortalStyles } from './CustomerPortal.styles';
 import { CustomerLogoutIcon } from '@/assets/icons';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { pxToRem } from '@/utils/getFontValue';
+import { ROLES } from '@/constants/strings';
 
 const CustomerPortalLayout = ({
   children,
@@ -153,6 +156,52 @@ const CustomerPortalLayout = ({
                     </Link>
                   );
                 })}
+
+                {[ROLES?.ORG_EMPLOYEE, ROLES?.ORG_ADMIN]?.includes(
+                  user?.role,
+                ) && (
+                  <Link href={AIR_SERVICES?.DASHBOARD}>
+                    <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                      <ListItemButton
+                        sx={{
+                          background: 'transparent',
+                          borderRadius: pxToRem(5),
+                          color: customerPortalStyling?.iconPrimary,
+                          fontWeight: 400,
+                          fontSize: pxToRem(14),
+                          '&:hover': {
+                            background: reducedOpacityBgColor,
+                          },
+                        }}
+                      >
+                        <ListItemIcon sx={{ mr: 1 }}>
+                          <Box
+                            display={'flex'}
+                            bgcolor={
+                              customerPortalStyling?.iconSecondary ||
+                              customizePortalDefaultValues(theme)?.iconSecondary
+                            }
+                            borderRadius={0.5}
+                            p={0.2}
+                            sx={{
+                              opacity: '0.4',
+                            }}
+                          >
+                            <ArrowBackIcon
+                              sx={{
+                                color:
+                                  customerPortalStyling?.iconPrimary ||
+                                  customizePortalDefaultValues(theme)
+                                    ?.iconPrimary,
+                              }}
+                            />
+                          </Box>
+                        </ListItemIcon>
+                        Return to Air Services
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
+                )}
               </List>
 
               {user && (
