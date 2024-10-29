@@ -1,21 +1,24 @@
-import { useRouter } from 'next/router';
 import { Box, Card, Grid, Typography } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { scheduleCards } from './ScheduleMeetings.data';
 import { styles } from './ScheduleMeetings.style';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
+import { useScheduleMeetings } from './useScheduleMeetings';
 
 export const ScheduleMeetings = () => {
-  const router = useRouter();
-  const moduleId = router?.query?.moduleId;
-  const moduleType = router?.query?.moduleType;
-
+  const { moduleId, moduleType, modules, router } = useScheduleMeetings();
   return (
     <>
       <PageTitledHeader
         title="Select Meeting Category"
         canMovedBack
-        moveBack={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
+        moveBack={() =>
+          router?.push(
+            moduleType
+              ? modules(moduleId)[moduleType]
+              : SOCIAL_COMPONENTS?.MEETINGS,
+          )
+        }
       />
       <Grid container spacing={{ lg: 3, xs: 2 }}>
         {scheduleCards(moduleId, moduleType)?.map((item: any) => (
