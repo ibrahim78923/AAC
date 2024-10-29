@@ -45,11 +45,13 @@ export const TableBoardView = () => {
             )?.length || 0;
           return (
             <Grid item xs={3} sx={{ minWidth: '400px' }} key={head?.heading}>
-              <DataRecordCount
-                totalCount={totalCount}
-                recordName={head?.heading}
-                color={RENDER_COLOR?.[head?.heading]}
-              />
+              <Box mb={0.5}>
+                <DataRecordCount
+                  totalCount={totalCount}
+                  recordName={head?.heading}
+                  color={RENDER_COLOR?.[head?.heading]}
+                />
+              </Box>
               <Box
                 height={'100%'}
                 overflow={'auto'}

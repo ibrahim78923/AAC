@@ -75,7 +75,7 @@ export const AgentAvailability = (props: any) => {
               options={pieChartOptions}
               series={pieChartSeries}
               type="pie"
-              height={212}
+              height={250}
             />
           ) : (
             <NoData message={'No agent is available'} height={'100%'} />

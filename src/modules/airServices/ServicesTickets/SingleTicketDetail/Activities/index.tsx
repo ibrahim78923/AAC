@@ -1,14 +1,15 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
-import { TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import NoData from '@/components/NoData';
 import { TruncateText } from '@/components/TruncateText';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { LogInfo } from '@/components/LogInfo';
 import { fullName } from '@/utils/avatarUtils';
-import { otherDateFormat, uiDateFormat } from '@/lib/date-time';
+import { otherDateFormat } from '@/lib/date-time';
+import { FiberManualRecord } from '@mui/icons-material';
 
 export const Activities = () => {
   const {
@@ -63,21 +64,14 @@ export const Activities = () => {
       </Typography>
       <Box
         border={'1px solid'}
-        borderColor={'custom.off_white'}
+        borderColor={'custom.off_white_three'}
         borderRadius={2}
         p={2}
       >
         {activityData?.map((activity: any) => (
           <Box key={activity?._id} mb={2} display={'flex'} gap={2}>
-            <Box>
-              <IconButton
-                disabled
-                color="primary"
-                sx={{
-                  border: `1px solid`,
-                  borderColor: 'primary.main',
-                }}
-              ></IconButton>
+            <Box mt={0.3}>
+              <FiberManualRecord fontSize="small" color="primary" />
             </Box>
             <Box>
               <LogInfo
@@ -85,12 +79,12 @@ export const Activities = () => {
                 logType={`has ${activity?.activityType?.toLowerCase()}`}
                 log={<TruncateText text={activity?.moduleName} />}
               />
-              <Box display={'flex'} gap={1}>
+              <Box display={'flex'} gap={1} flexWrap={'wrap'}>
                 <Typography variant="body2" color="textPrimary">
-                  {uiDateFormat(activity?.createdAt)}
-                </Typography>
-                <Typography variant="body2" color="textPrimary">
-                  {otherDateFormat(activity?.createdAt, TIME_FORMAT?.UI)}
+                  {otherDateFormat(
+                    activity?.createdAt,
+                    DATE_TIME_FORMAT?.DD_MM_YYYY_hh_mm_A,
+                  )}
                 </Typography>
               </Box>
             </Box>

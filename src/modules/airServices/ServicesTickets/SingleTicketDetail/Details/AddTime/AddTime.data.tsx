@@ -43,14 +43,22 @@ export const addTimeFormDefaultValues = (form?: any) => {
   };
 };
 
-export const addTimeFormFieldsDynamic = () => [
+export const addTimeFormFieldsDynamic = (setValue: any) => [
   {
     id: 1,
     component: TicketTasksFieldDropdown,
+    componentProps: {
+      onChangeHandler: (_: any, newValue: any) => {
+        setValue(
+          'agent',
+          !!newValue?.assignedUser?._id ? newValue?.assignedUser : null,
+        );
+      },
+    },
     md: 12,
   },
   {
-    id: 10,
+    id: 2,
     componentProps: {
       required: true,
     },
@@ -70,12 +78,12 @@ export const addTimeFormFieldsDynamic = () => [
     md: 12,
   },
   {
-    id: 5,
+    id: 4,
     componentProps: {
       name: 'status',
       label: 'Status',
       fullWidth: true,
-      placeholder: 'Choose Status',
+      placeholder: 'Choose status',
       options: ticketStatusOptions,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
@@ -83,19 +91,20 @@ export const addTimeFormFieldsDynamic = () => [
     md: 12,
   },
   {
-    id: 9,
+    id: 5,
     componentProps: {
       name: 'on',
       label: 'On',
       fullWidth: true,
       required: true,
+      disableFuture: true,
     },
     component: RHFDatePicker,
     md: 12,
   },
 
   {
-    id: 12,
+    id: 6,
     componentProps: {
       name: 'note',
       label: 'Note',

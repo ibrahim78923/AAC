@@ -39,10 +39,11 @@ export const TicketBased = (props: any) => {
       height="100%"
       overflow={'auto'}
     >
-      <Box>
+      <Box minWidth={pxToRem(500)}>
         <Box
           display={'flex'}
           flexWrap={'wrap'}
+          alignItems={'center'}
           justifyContent={'space-between'}
           gap={2}
           px={2}
@@ -59,9 +60,7 @@ export const TicketBased = (props: any) => {
             disabled={isPreviewMode}
           />
         </Box>
-        <Box minWidth={pxToRem(500)} p={2}>
-          {ticketBasedChart?.[ticketBasedGraphType]}
-        </Box>
+        <Box p={2}>{ticketBasedChart?.[ticketBasedGraphType]}</Box>
       </Box>
     </Box>
   );

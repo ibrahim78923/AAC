@@ -4,7 +4,8 @@ import { PAGINATION } from '@/config';
 import { useLazyGetSingleServicesTicketsTaskListDropDownQuery } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 
-export const TicketTasksFieldDropdown = () => {
+export const TicketTasksFieldDropdown = (props: any) => {
+  const { onBlurHandler, onChangeHandler } = props;
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
 
@@ -24,6 +25,10 @@ export const TicketTasksFieldDropdown = () => {
         meta: 'false',
         ticketId: ticketId,
       }}
+      onBlurHandler={() => onBlurHandler?.()}
+      onChangeHandler={(e: any, newValue: any) =>
+        onChangeHandler?.(e, newValue)
+      }
       getOptionLabel={(option: AutocompleteAsyncOptionsI) => option?.title}
     />
   );

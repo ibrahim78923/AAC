@@ -10,6 +10,7 @@ import AddAssets from './AddAssets';
 import { AlertModals } from '@/components/AlertModals';
 import AddPurchaseOrder from './AddPurchaseOrder';
 import useAssets from './useAssets';
+import { DataRecordCount } from '@/components/DataRecordCount';
 
 export default function Assets({
   ticketType,
@@ -85,27 +86,11 @@ export default function Assets({
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ASSET_LIST_VIEW]}
       >
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {isLoadingAssets || isFetchingAssets ? (
-              <CircularProgress size={18} />
-            ) : dataAssets?.length < 10 ? (
-              `0${dataAssets?.length}`
-            ) : (
-              dataAssets?.length
-            )}
-          </Typography>
-          Assets Inventory
-        </Typography>
-
+        <DataRecordCount
+          recordName="Assets Inventory"
+          isCountLoading={isLoadingAssets || isFetchingAssets}
+          totalCount={dataAssets?.length}
+        />
         <TanstackTable
           columns={associateAssetsColumns}
           data={dataAssets}

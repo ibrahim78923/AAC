@@ -1,11 +1,10 @@
-import { Box, Chip, Typography, Avatar } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
@@ -18,6 +17,7 @@ import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { formatTimeDifference } from '@/lib/date-time';
+import { CustomAvatar } from '@/components/CustomAvatar';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -77,14 +77,16 @@ export const TicketInfoCard = (props: any) => {
                 AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
               ]}
             >
-              <SingleDropdownButton
-                dropdownOptions={singleTicketBoardViewDropdownOptions?.(
-                  details,
-                )}
-                dropdownName={<MoreVertIcon />}
-                hasEndIcon={false}
-                btnVariant="text"
-              />
+              <Box>
+                <SingleDropdownButton
+                  dropdownOptions={singleTicketBoardViewDropdownOptions?.(
+                    details,
+                  )}
+                  dropdownName={<MoreVertIcon />}
+                  hasEndIcon={false}
+                  btnVariant="text"
+                />
+              </Box>
             </PermissionsGuard>
           </Box>
         </Box>
@@ -179,21 +181,17 @@ export const TicketInfoCard = (props: any) => {
               ) : null}
             </Box>
           </Box>
-          <Avatar
-            sx={{
-              bgcolor: theme?.palette?.primary?.main,
-              width: 20,
-              height: 20,
-            }}
-            src={generateImage(details?.requesterDetails?.avatar?.url)}
-          >
-            <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
-              {fullNameInitial(
-                details?.requesterDetails?.firstName,
-                details?.requesterDetails?.lastName,
-              )}
-            </Typography>
-          </Avatar>
+          <CustomAvatar
+            avatarSrc={details?.requesterDetails?.avatar?.url}
+            nameInitial={fullNameInitial(
+              details?.requesterDetails?.firstName,
+              details?.requesterDetails?.lastName,
+            )}
+            tooltipTitle={fullName(
+              details?.requesterDetails?.firstName,
+              details?.requesterDetails?.lastName,
+            )}
+          />
         </Box>
       </Box>
     </>

@@ -1,5 +1,5 @@
-import { generateImage } from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { CustomAvatar } from '../CustomAvatar';
 
 export const UserInfo = (props: any) => {
   const {
@@ -16,6 +16,8 @@ export const UserInfo = (props: any) => {
     isNameCapital = true,
     optionDetail,
     optionDetailProps,
+    tooltipTitle,
+    customTooltipProps,
   } = props;
 
   return (
@@ -26,19 +28,17 @@ export const UserInfo = (props: any) => {
       onClick={() => handleBoxClick?.()}
       {...boxProps}
     >
-      <Avatar
-        sx={{
-          bgcolor: 'primary.main',
-          width: avatarSize?.width ?? 28,
-          height: avatarSize?.height ?? 28,
+      <CustomAvatar
+        avatarSrc={avatarSrc}
+        nameInitial={nameInitial}
+        avatarSize={{
+          width: avatarSize?.width,
+          height: avatarSize?.height,
+          variant: avatarSize?.variant,
         }}
-        variant={avatarSize?.variant ?? 'circular'}
-        src={generateImage(avatarSrc)}
-      >
-        <Typography variant="body2" textTransform={'uppercase'}>
-          {nameInitial}
-        </Typography>
-      </Avatar>
+        tooltipTitle={tooltipTitle}
+        customTooltipProps={customTooltipProps}
+      />
       <Box>
         <Typography
           variant="body4"

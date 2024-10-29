@@ -58,6 +58,7 @@ export const DATE_TIME_FORMAT = {
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
   FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
   MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY-hh:mm A',
+  DD_MM_YYYY_hh_mm_A: 'DD/MM/YYYY  hh:mm A',
 };
 
 export const ERROR_PAGES = {
