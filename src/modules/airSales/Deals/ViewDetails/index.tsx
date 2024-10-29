@@ -22,6 +22,7 @@ import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
 import { IMG_URL } from '@/config';
 import { v4 as uuidv4 } from 'uuid';
 import { capitalizeFirstLetter } from '@/utils/api';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, selecetdDealId } = useViewDetails();
@@ -238,28 +239,32 @@ const ViewDetails = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Box>
-            <HorizontalTabs
-              tabsDataArray={singleUserDealTabsData}
-              defaultValue={Number(searchParams) ?? indexNumbers?.ZERO}
-            >
-              <Details selecetdDealId={selecetdDealId} />
-              <PermissionsGuard
-                permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
+          {isLoading ? (
+            <SkeletonTable />
+          ) : (
+            <Box>
+              <HorizontalTabs
+                tabsDataArray={singleUserDealTabsData}
+                defaultValue={Number(searchParams) ?? indexNumbers?.ZERO}
               >
-                <ActivityLog selectedRecId={selecetdDealId} />
-              </PermissionsGuard>
+                <Details />
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
+                >
+                  <ActivityLog selectedRecId={selecetdDealId} />
+                </PermissionsGuard>
 
-              <Associations selected={selecetdDealId} viewDeal={viewDeal} />
+                <Associations selected={selecetdDealId} viewDeal={viewDeal} />
 
-              <Tasks selectedRecId={selecetdDealId} />
+                <Tasks selectedRecId={selecetdDealId} />
 
-              <Notes selected={selecetdDealId} />
-              <Calls />
-              <Meetings />
-              <Emails />
-            </HorizontalTabs>
-          </Box>
+                <Notes selected={selecetdDealId} />
+                <Calls />
+                <Meetings />
+                <Emails />
+              </HorizontalTabs>
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Box>

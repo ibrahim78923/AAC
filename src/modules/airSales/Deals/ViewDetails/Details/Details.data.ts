@@ -34,10 +34,10 @@ export const detailsDefaultValues = {
 };
 
 export const detailsDataArray = (dealPipelineId: any) => {
-  const { getDealOwnerContacts } = useDetails({});
+  const { getDealOwnerContacts } = useDetails();
   const { pipelineListDropdown }: any = useDealTab();
-  const ownerData = useLazyGetAllUsersDropdownQuery();
   const ActiveProduct = getActiveProductSession();
+  const ownerData = useLazyGetAllUsersDropdownQuery();
 
   const filteredStages: any = pipelineListDropdown
     ? pipelineListDropdown[indexNumbers?.ONE]?.data?.find(

@@ -1,5 +1,5 @@
 export interface AssociationsProps {
-  selected: string;
+  selected: any;
   viewDeal: any;
 }
 

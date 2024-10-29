@@ -1,5 +1,5 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
-import { baseAPI } from '@/services/base-api';
+import { baseAPI, TAGS } from '@/services/base-api';
 
 const TAG_TYPE = {
   DEALS_ASSOCIATION: 'DEALS_ASSOCIATION',
@@ -72,7 +72,7 @@ export const associationAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: [TAG_TYPE?.DEALS_ASSOCIATION],
+      providesTags: TAGS,
     }),
 
     updateAssociateProduct: builder.mutation({

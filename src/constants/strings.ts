@@ -661,6 +661,7 @@ export const DRAWER_TITLES = {
 export const DRAWER_ACTIONS_TITLES = {
   EDIT: 'Edit',
   ADD: 'ADD',
+  Add: 'Add',
   VIEW: 'View',
 };
 

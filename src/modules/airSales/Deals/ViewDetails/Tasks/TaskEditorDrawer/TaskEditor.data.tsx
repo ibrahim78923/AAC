@@ -11,20 +11,19 @@ import { getSession } from '@/utils';
 
 import * as Yup from 'yup';
 
-export const dealsTasksValidationSchema = Yup?.object()?.shape({
+export const dealsTasksValidationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
   type: Yup?.string()?.required('Field is Required'),
   priority: Yup?.string()?.required('Field is Required'),
 });
 
-export const createTaskDefaultValues = ({ data }: any) => {
+export const createTaskDefaultValues = (data?: any) => {
   const inputDate = new Date(data?.dueDate);
   const inputTime = new Date(data?.time);
 
   function isValidDate(date: any) {
     return date instanceof Date && !isNaN(date?.getTime());
   }
-
   return {
     name: data?.name ?? '',
     type: data?.type ?? '',

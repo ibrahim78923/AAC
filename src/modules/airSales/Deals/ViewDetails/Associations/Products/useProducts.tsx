@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
 import {
   useDeleteAssociationMutation,

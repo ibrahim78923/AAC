@@ -82,7 +82,7 @@ export const columns: any = ({
       id: 'phonenumber',
       isSortable: true,
       header: 'Amount',
-      cell: (info: any) => `£ ${info?.getValue()}` ?? 'N/A',
+      cell: (info: any) => (info?.getValue() ? `£ ${info?.getValue()}` : 'N/A'),
     },
 
     {

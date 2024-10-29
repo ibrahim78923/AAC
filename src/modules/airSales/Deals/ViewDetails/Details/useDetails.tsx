@@ -15,8 +15,11 @@ import { getSession } from '@/utils';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
 
-const useDetails = (selecetdDealId: any) => {
+const useDetails = () => {
+  const router = useRouter();
+  const { id: selecetdDealId } = router.query;
   const theme = useTheme();
   const { user }: any = getSession();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -30,7 +33,10 @@ const useDetails = (selecetdDealId: any) => {
 
   const { data: getDealOwnerContacts } =
     useGetCompanyContactsQuery(contactParams);
-  const { data } = useGetDealsActionPreviewQuery({ id: selecetdDealId });
+  const { data, isLoading: getDetailsLoading } = useGetDealsActionPreviewQuery(
+    { id: selecetdDealId },
+    { skip: !selecetdDealId },
+  );
   const [patchDeals, { isLoading: updateLoading }] = usePatchDealsMutation();
 
   const methodsDetails = useForm({
@@ -40,7 +46,6 @@ const useDetails = (selecetdDealId: any) => {
   const { handleSubmit, setValue, watch }: any = methodsDetails;
 
   const dealPipelineId = watch('dealPipelineId');
-
   useEffect(() => {
     const fieldsData = data?.data;
     const fieldsToSet: any = {
@@ -88,12 +93,12 @@ const useDetails = (selecetdDealId: any) => {
     methodsDetails,
     onSubmit,
     handleSubmit,
-    isLoading: false,
     dealPipelineId,
     getDealOwnerContacts,
     updateLoading,
     setPage,
     setPageLimit,
+    getDetailsLoading,
   };
 };
 

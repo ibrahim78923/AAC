@@ -435,6 +435,8 @@ export const END_POINTS = {
   DELETE_TASKS: `/task/ids`,
   GET_OFFICE_365_CALENDAR: '/auth/office365-calendar/authorize',
   GET_MS_TEAMS: '/auth/msteams/authorize',
+  POST_DELEGATE_USER_INVITE: '/delegate-user/invite',
+  GET_DELEGATE_DASHBOARD: '/delegate-user/list-delegated-users',
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',
   CREATE_FEEDBACK_SURVEY: '/feedback-survey/create-feedback-survey',
   CLONE_FEEDBACK_SURVEY: '/feedback-survey/clone-survey',

@@ -99,7 +99,6 @@ const Products = ({
               setSelectedProduct,
               handleQuantityChange,
             })}
-            // data={productsData}
             data={getDealsAssociateProducts?.data}
           />
         </Grid>
