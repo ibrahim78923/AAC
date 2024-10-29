@@ -1,5 +1,8 @@
 import { PAGINATION } from '@/config';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  CAMPAIGNS_TASKS_CONSTANTS,
+  NOTISTACK_VARIANTS,
+} from '@/constants/strings';
 import {
   useDeleteCampaignTasksMutation,
   useGetCampaignsTasksQuery,
@@ -24,6 +27,10 @@ const useTasks = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [searchValue, setSearchValue] = useState('');
+  const [activeButton, setActiveButton] = useState(
+    CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW,
+  );
+
   const actionMenuOpen = Boolean(anchorEl);
 
   const statusConstants = {
@@ -107,6 +114,11 @@ const useTasks = () => {
     }
   };
 
+  const handleButtonClick = (view: any) => {
+    setActiveButton(view);
+    handleListViewClick(view);
+  };
+
   return {
     setIsOpenEditTaskDrawer,
     handleActionsMenuClose,
@@ -124,12 +136,14 @@ const useTasks = () => {
     handleDeleteModal,
     deleteTaskLoading,
     updateTaskLoading,
+    handleButtonClick,
+    activeButton,
+    setStatusVariant,
     statusConstants,
     actionMenuOpen,
     setSearchValue,
     setSelectedRec,
     statusVariant,
-    setStatusVariant,
     setPageLimit,
     setAnchorEl,
     deleteTasks,

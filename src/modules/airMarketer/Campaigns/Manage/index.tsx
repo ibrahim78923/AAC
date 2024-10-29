@@ -14,8 +14,6 @@ import EditColumns from '../EditColumns';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import CampaingFilters from '../Filters';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { useEffect } from 'react';
 import useCustomize from '../EditColumns/useCustomize';
 import useManage from './useManage';
@@ -29,6 +27,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
     setSearchCampaigns,
     handleResetFilters,
     setcheckedColumns,
+    handleButtonClick,
     handleOpenFilter,
     setIsOpenFilter,
     filtersFetching,
@@ -37,6 +36,7 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
     filterLoading,
     setPageLimit,
     isOpenFilter,
+    activeButton,
     setFilters,
     setRowId,
     filters,
@@ -172,15 +172,14 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
           variant="outlined"
           color="inherit"
           className="small"
-          sx={{ borderRadius: '10px' }}
-          onClick={() =>
-            setFilters({
-              ...filters,
-              campaignStatus: '',
-              startDate: '',
-              endDate: '',
-            })
-          }
+          sx={{
+            borderRadius: '10px',
+            backgroundColor:
+              activeButton === 'All Campaigns'
+                ? theme?.palette?.grey[700]
+                : 'inherit',
+          }}
+          onClick={() => handleButtonClick('All Campaigns', '', '', '')}
         >
           All Campaigns
         </Button>
@@ -190,15 +189,21 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
               variant="outlined"
               color="inherit"
               className="small"
-              sx={{ borderRadius: '10px' }}
+              sx={{
+                borderRadius: '10px',
+                backgroundColor:
+                  activeButton === item?.name
+                    ? theme?.palette?.grey[700]
+                    : 'inherit',
+              }}
               key={item?.name}
               onClick={() =>
-                setFilters({
-                  ...filters,
-                  campaignStatus: item?.campaignStatus,
-                  startDate: dayjs(item?.startDate)?.format(DATE_FORMAT?.API),
-                  endDate: dayjs(item?.endDate)?.format(DATE_FORMAT?.API),
-                })
+                handleButtonClick(
+                  item?.name,
+                  item?.campaignStatus,
+                  item?.startDate,
+                  item?.endDate,
+                )
               }
             >
               {item?.name}

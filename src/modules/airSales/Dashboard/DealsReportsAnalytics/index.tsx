@@ -27,7 +27,7 @@ const DealsReportsAnalytics = (props: any) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid xs={12} sx={{ textAlign: 'center', paddingY: '1rem' }}>
+        <Grid item xs={12} sx={{ textAlign: 'center', paddingY: '1rem' }}>
           <Typography
             variant="h3"
             sx={{ color: `${theme?.palette?.slateBlue?.main}` }}

@@ -34,7 +34,8 @@ const useDealCustomize = ({ onClose }: any) => {
     } catch (error) {}
   };
 
-  const [putCustomizedColumns] = usePutCustomizedColumnsMutation();
+  const [putCustomizedColumns, { isLoading: cutomizeColumnsLoading }] =
+    usePutCustomizedColumnsMutation();
 
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
@@ -91,6 +92,7 @@ const useDealCustomize = ({ onClose }: any) => {
   }, [columnsData]);
 
   return {
+    cutomizeColumnsLoading,
     handleChackboxChange,
     handleUpdateColumns,
     columnsData,

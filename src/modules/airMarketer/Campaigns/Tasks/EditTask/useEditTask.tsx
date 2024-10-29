@@ -77,8 +77,10 @@ const useEditTask = ({ setIsOpenEditTaskDrawer, selectedRec, isType }: any) => {
   const { handleSubmit, reset } = methods;
 
   useEffect(() => {
-    reset(() => defaultValues(getCampaignsTaskById?.data[0], form));
-  }, [getCampaignsTaskById?.data, reset, form]);
+    if (isType === DRAWER_TYPES?.EDIT) {
+      reset(() => defaultValues(getCampaignsTaskById?.data[0], form));
+    }
+  }, [getCampaignsTaskById?.data, reset, form, isType]);
 
   const onSubmit = async (data: any) => {
     data.assignedTo = data?.assignedTo?._id;

@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export const columns: any = (columnsProps: any) => {
   const {
@@ -112,7 +113,8 @@ export const columns: any = (columnsProps: any) => {
                   query: {
                     id: info?.row?.original?._id,
                     userId: currentUser,
-                    type: 'view',
+                    type: DRAWER_TYPES?.VIEW,
+                    mode: DRAWER_TYPES?.CREATE,
                   },
                 });
               }}
@@ -130,7 +132,8 @@ export const columns: any = (columnsProps: any) => {
                   query: {
                     id: info?.row?.original?._id,
                     userId: currentUser,
-                    type: 'edit',
+                    type: DRAWER_TYPES?.EDIT,
+                    mode: DRAWER_TYPES?.CREATE,
                   },
                 });
               }}

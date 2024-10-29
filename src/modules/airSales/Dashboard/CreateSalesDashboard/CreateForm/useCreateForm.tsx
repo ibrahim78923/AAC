@@ -21,6 +21,7 @@ import {
   NOTISTACK_VARIANTS,
 } from '@/constants/strings';
 import { getSession } from '@/utils';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const useCreateForm = (formType: any) => {
   const router = useRouter();
@@ -28,6 +29,8 @@ const useCreateForm = (formType: any) => {
   const currentUser = user?._id;
   const selectedDashboardId = router?.query?.id;
   const dashboardUserId = router?.query?.userId;
+  const dashboardMode = router?.query?.mode;
+
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
@@ -163,7 +166,11 @@ const useCreateForm = (formType: any) => {
         })?.unwrap();
       }
       reset();
-      router?.back();
+      router?.push(
+        dashboardMode !== DRAWER_TYPES?.CREATE
+          ? AIR_SALES?.SALES_DASHBOARD
+          : AIR_SALES?.MANAGE_DASHBOARD,
+      );
       enqueueSnackbar(
         `Dashboard ${
           formType === DRAWER_TYPES?.EDIT ? 'Updated' : 'Created'

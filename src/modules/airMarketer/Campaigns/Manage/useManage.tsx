@@ -30,6 +30,7 @@ const useManage = () => {
     activeProduct?.accounts[indexNumbers?.ZERO]?.company?._id;
 
   const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [activeButton, setActiveButton] = useState('All Campaigns');
 
   const [actionsModalDetails, setActionsModalDetails] = useState({
     isClone: false,
@@ -120,6 +121,20 @@ const useManage = () => {
     setIsOpenFilter(true);
   };
 
+  const handleButtonClick = (
+    name: any,
+    campaignStatus: any,
+    startDate: any,
+    endDate: any,
+  ) => {
+    setActiveButton(name);
+    setFilters({
+      ...filters,
+      campaignStatus,
+      startDate: startDate ? dayjs(startDate).format(DATE_FORMAT.API) : '',
+      endDate: endDate ? dayjs(endDate).format(DATE_FORMAT.API) : '',
+    });
+  };
   return {
     theme,
     actionsModalDetails,
@@ -158,6 +173,8 @@ const useManage = () => {
     userListData,
     filtersFetching,
     setRowId,
+    activeButton,
+    handleButtonClick,
     rowId,
     user,
   };

@@ -64,6 +64,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
                     id: selectedDashboard?.dashboard?._id,
                     userId: currentUser,
                     type: DRAWER_TYPES?.EDIT,
+                    mode: 'dashboard_create',
                   },
                 });
               }}

@@ -25,7 +25,6 @@ const Tasks = () => {
     setIsOpenDeleteDrawer,
     setIsOpenChangeStatus,
     isOpenEditTaskDrawer,
-    handleListViewClick,
     handleUpdateStatus,
     isOpenDeleteDrawer,
     compaignsTasksData,
@@ -39,6 +38,8 @@ const Tasks = () => {
     setSearchValue,
     setSelectedRec,
     setStatusVariant,
+    handleButtonClick,
+    activeButton,
     statusVariant,
     setPageLimit,
     setAnchorEl,
@@ -181,8 +182,14 @@ const Tasks = () => {
             >
               <Button
                 className="small"
+                sx={{
+                  backgroundColor:
+                    activeButton === CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW
+                      ? theme?.palette?.grey[700]
+                      : 'inherit',
+                }}
                 onClick={() =>
-                  handleListViewClick(CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW)
+                  handleButtonClick(CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW)
                 }
               >
                 <ListViewIcon />
@@ -192,10 +199,16 @@ const Tasks = () => {
               permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.BOARD_VIEW]}
             >
               <Button
-                onClick={() =>
-                  handleListViewClick(CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW)
-                }
                 className="small"
+                sx={{
+                  backgroundColor:
+                    activeButton === CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW
+                      ? theme?.palette?.grey[700]
+                      : 'inherit',
+                }}
+                onClick={() =>
+                  handleButtonClick(CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW)
+                }
               >
                 <GridViewIcon />
               </Button>
@@ -220,7 +233,7 @@ const Tasks = () => {
         />
       ) : (
         <TaskViewCard
-          data={compaignsTasksData}
+          data={compaignsTasksData ? compaignsTasksData : []}
           loading={isLoading}
           selectedRec={selectedRec}
           setSelectedRec={setSelectedRec}
