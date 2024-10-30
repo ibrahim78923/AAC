@@ -26,6 +26,7 @@ import {
   otherDateFormat,
 } from '@/lib/date-time';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { v4 as uuidv4 } from 'uuid';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -82,7 +83,7 @@ export const useCreateBusinessHour = () => {
         return {
           name: item?.summary,
           date: otherDateFormat(item?.start?.date, CALENDAR_FORMAT?.YMD),
-          uuid: item?.id,
+          uuid: uuidv4(),
         };
       });
       setHolidaysData((pervState: any) =>

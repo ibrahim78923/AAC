@@ -217,7 +217,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   licenseKey: Yup?.string()
     ?.trim()
     ?.required('License key is required')
-    ?.matches(REGEX?.LICENSE_KEY_REGEX, 'must be a string'),
+    ?.matches(REGEX?.ALPHABETS, 'must be a string'),
   itemDetail: Yup?.array()
     ?.of(
       Yup?.object()?.shape({

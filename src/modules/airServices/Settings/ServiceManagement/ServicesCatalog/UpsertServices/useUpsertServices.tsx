@@ -15,7 +15,6 @@ import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
-import { REGEX } from '@/constants/validation';
 
 export const useUpsertServices = () => {
   const router = useRouter();
@@ -26,7 +25,7 @@ export const useUpsertServices = () => {
     defaultValues: upsertServiceDefaultValues?.(),
   });
 
-  const { handleSubmit, watch, reset, setValue, getValues, setError } = methods;
+  const { handleSubmit, watch, reset, setValue } = methods;
 
   const categoryTypeWatch = watch('categoryType');
 
@@ -61,15 +60,6 @@ export const useUpsertServices = () => {
 
   const onSubmit = async (data: any) => {
     const newFormData = new FormData();
-
-    const { description } = getValues();
-    if (
-      description?.trim() !== '' &&
-      !REGEX?.ALPHABETS_AND_SPACE?.test(description)
-    ) {
-      setError('description', { message: 'Description must be a string' });
-      return;
-    }
 
     newFormData?.append('itemName', data?.itemName);
     !!data?.cost && newFormData?.append('cost', data?.cost);

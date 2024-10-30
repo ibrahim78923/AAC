@@ -249,7 +249,7 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
           value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
         then: (schema: any) =>
           schema
-            ?.matches(REGEX?.LICENSE_KEY_REGEX, 'must be a string')
+            ?.matches(REGEX?.ALPHABETS, 'Must be a string')
             ?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),
