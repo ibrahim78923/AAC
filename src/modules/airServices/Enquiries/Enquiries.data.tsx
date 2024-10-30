@@ -7,7 +7,6 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-// import { errorSnackbar } from '@/utils/api';
 import { ARRAY_INDEX, DONE } from '@/constants/strings';
 import {
   ICloseMenu,
@@ -28,12 +27,8 @@ export const getEnquiriesActionDropdown = ({
     id: 1,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.VIEW_ENQUIRY],
     title: 'View & Reply',
+    disabled: enquiriesSelected?.length > 1,
     handleClick: (closeMenu: () => void) => {
-      if (enquiriesSelected?.length > 1) {
-        errorSnackbar('Please Select Only One Enquiry!');
-        closeMenu?.();
-        return;
-      }
       setIsModalOpen({
         filterOpen: false,
         viewOpen: true,
@@ -63,12 +58,8 @@ export const getEnquiriesActionDropdown = ({
     id: 3,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST],
     title: 'Convert to Ticket',
+    disabled: enquiriesSelected?.length > 1,
     handleClick: (closeMenu: ICloseMenu) => {
-      if (enquiriesSelected?.length > 1) {
-        errorSnackbar('Please Select Only One Enquiry');
-        closeMenu?.();
-        return;
-      }
       if (enquiriesSelected?.[ARRAY_INDEX?.ZERO]?.ticketCreated) {
         errorSnackbar('Ticket Already Created!');
         closeMenu?.();

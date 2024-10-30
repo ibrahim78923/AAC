@@ -127,9 +127,7 @@ export const consumersListColumnDynamic = (
     cell: (info: any) => (
       <Select
         value={info?.getValue()}
-        onChange={
-          (event) => handleStatusChange(info?.row?.original, event) // Call the handleStatusChange function here
-        }
+        onChange={(event) => handleStatusChange(info?.row?.original, event)}
       >
         <MenuItem value={LOYALTY_CONSUMER_STATUS?.ACTIVE}>
           {LOYALTY_CONSUMER_STATUS?.ACTIVE}
