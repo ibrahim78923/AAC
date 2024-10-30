@@ -15,7 +15,6 @@ import React from 'react';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { getActivePermissionsSession } from '@/utils';
-import { errorSnackbar } from '@/lib/snackbar';
 import { uiDateFormat } from '@/lib/date-time';
 
 export const EventBaseWorkflowActionsDropdown = (
@@ -26,14 +25,11 @@ export const EventBaseWorkflowActionsDropdown = (
   {
     id: 1,
     title: 'Edit',
+    disabled: selectedAction?.length > 1 ? true : false,
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
     handleClick: (close: any) => {
-      if (selectedAction?.length > 1) {
-        errorSnackbar(`Can't update multiple records`);
-        return;
-      }
       handleActionClick('edit');
       close?.();
     },

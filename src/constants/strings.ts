@@ -22,6 +22,12 @@ export const TIME_PERIODS = {
   CUSTOM_RANGE: 'Custom Range',
 };
 
+export const INVENTORY_TITLE = {
+  ADD_NEW_INVENTORY: 'Add New Inventory',
+  UPDATE_INVENTORY: 'Update Inventory',
+  FILTER_INVENTORY: 'Filters',
+};
+
 export const EXPORT_TYPE = {
   CSV: 'CSV',
   XLS: 'XLS',
@@ -106,7 +112,7 @@ export const CONTRACT_STATUS = {
 export const LICENSE_TYPE = {
   VOLUME: 'VOLUME',
   ENTERPRISE: 'ENTERPRISE',
-  TRIAL: 'TRIAL',
+  TRIAL: 'TRAIL',
   OPEN_SOURCE: 'OPEN_SOURCE',
   FREE: 'FREE',
 };

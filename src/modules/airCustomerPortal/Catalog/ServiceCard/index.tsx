@@ -1,6 +1,8 @@
-import { generateImage, truncateText } from '@/utils/avatarUtils';
+import { generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import { ServiceCardPropsI } from './ServiceCard.interface';
+import { TruncateText } from '@/components/TruncateText';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const ServiceCard = (props: ServiceCardPropsI) => {
   const { service, onCardClick } = props;
@@ -23,12 +25,19 @@ export const ServiceCard = (props: ServiceCardPropsI) => {
           src={generateImage(service?.attachmentDetails?.fileUrl)}
         />
         <Box>
-          <Typography variant="h5">
-            {truncateText(service?.itemName ?? '---')}
-          </Typography>
-          <Typography variant="body2" component={'span'}>
-            {truncateText(service?.description ?? '---', 37)}
-          </Typography>
+          <TruncateText
+            text={service?.itemName}
+            boxProps={{
+              sx: { fontSize: pxToRem(18), fontWeight: 600 },
+            }}
+          />
+          <TruncateText
+            text={service?.description}
+            size={100}
+            boxProps={{
+              sx: { fontSize: pxToRem(14) },
+            }}
+          />
           <Typography variant="body2" component={'div'}>
             {service?.cost ?? '---'}
           </Typography>

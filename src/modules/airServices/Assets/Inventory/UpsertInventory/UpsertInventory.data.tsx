@@ -100,6 +100,7 @@ export const upsertInventoryFormFieldsFirst = () => [
   {
     id: 2,
     component: GetInventoryAssetsDropdown,
+    componentProps: { required: true },
     md: 6,
   },
   {

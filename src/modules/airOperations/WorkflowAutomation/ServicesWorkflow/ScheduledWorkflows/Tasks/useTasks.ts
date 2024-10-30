@@ -104,17 +104,13 @@ export const useTasks = () => {
     if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
-      if (selectedAction?.length > 1) {
-        errorSnackbar(`Can't update multiple records`);
-      } else {
-        router?.push({
-          pathname: AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW,
-          query: {
-            action: EDIT_WORKFLOW,
-            id: selectedId,
-          },
-        });
-      }
+      router?.push({
+        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+        query: {
+          action: EDIT_WORKFLOW,
+          id: selectedId,
+        },
+      });
     }
   };
 
@@ -131,6 +127,7 @@ export const useTasks = () => {
   const dropdownOptions = ScheduleWorkflowActionsDropdown(
     handleActionClick,
     handleCloneWorkflow,
+    selectedAction,
   );
   return {
     listData,

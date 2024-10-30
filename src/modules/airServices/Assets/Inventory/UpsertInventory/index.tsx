@@ -9,6 +9,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { INVENTORY_TITLE } from '@/constants/strings';
 
 export const UpsertInventory = () => {
   const {
@@ -39,7 +40,11 @@ export const UpsertInventory = () => {
       <PageTitledHeader
         moveBack={() => moveBack?.()}
         canMovedBack
-        title={!!inventoryId ? ' Update Inventory' : ' Add New Inventory'}
+        title={
+          !!inventoryId
+            ? INVENTORY_TITLE?.UPDATE_INVENTORY
+            : INVENTORY_TITLE?.ADD_NEW_INVENTORY
+        }
       />
       <FormProvider
         methods={methods}

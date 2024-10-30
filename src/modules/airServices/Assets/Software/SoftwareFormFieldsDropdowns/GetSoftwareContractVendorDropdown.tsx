@@ -1,9 +1,10 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { useLazyGetVendorDropdownQuery } from '@/services/airServices/assets/contracts';
+import { useLazyGetVendorDropdownListForContractApprovalsQuery } from '@/services/airServices/assets/contracts';
 
 const GetSoftwareContractVendorDropdown: React.FC = () => {
-  const apiQueryVendor = useLazyGetVendorDropdownQuery();
+  const apiQueryVendor =
+    useLazyGetVendorDropdownListForContractApprovalsQuery();
   return (
     <>
       <RHFAutocompleteAsync

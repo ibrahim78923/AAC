@@ -21,6 +21,7 @@ export const useInstallationDetail = () => {
   const getInstallationListDataExport = async (type: string) => {
     const queryParams = {
       exportType: type,
+      deviceId: deviceId,
     };
     const getContractExportParameter = {
       queryParams,

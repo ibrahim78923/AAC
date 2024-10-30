@@ -20,16 +20,12 @@ import GetSoftwareContractApproverDropdown from '../../../SoftwareFormFieldsDrop
 import GetSoftwareContractVendorDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractVendorDropdown';
 import { localeDateTime } from '@/lib/date-time';
 
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+export const CONTRACT_TYPES_CHECK = {
+  LEASE: 'lease',
+  MAINTENANCE: 'maintenance',
+  SOFTWARE_LICENSE: 'software licences',
+  WARRANTY: 'warranty',
+};
 
 export const contractTypeOptions = [
   {
@@ -223,33 +219,34 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       Yup?.object()?.shape({
         serviceName: Yup?.string(),
         priceModel: Yup?.mixed()?.nullable(),
-        cost: Yup?.number(),
-        count: Yup?.number(),
-        comments: Yup?.string(),
+        cost: Yup?.number()
+          ?.typeError('Not a number')
+          ?.moreThan(-1, 'cost must be positive'),
+        count: Yup?.number()
+          ?.typeError('Not a number')
+          ?.moreThan(-1, 'cost must be positive'),
+        comments: Yup?.string()?.max(
+          CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
+          `Max ${CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
+        ),
       }),
     )
     ?.when('type', {
-      is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
+      is: (value: any) =>
+        value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
       then: () => {
         return Yup?.array()
           ?.of(
             Yup?.object()?.shape({
-              serviceName: Yup?.string()?.required('Service name is required'),
-              priceModel: Yup?.mixed()
-                ?.nullable()
-                ?.required('price model is required'),
+              serviceName: Yup?.string()?.required('Required'),
+              priceModel: Yup?.mixed()?.nullable()?.required('Required'),
               cost: Yup?.number()
-                ?.required('cost is required')
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
               count: Yup?.number()
-                ?.required('count is required')
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
-              comments: Yup?.string()?.max(
-                CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
-                `Comments should be less than ${CHARACTERS_LIMIT?.SERVICES_ASSETS_SOFTWARE_DETAILS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
-              ),
+              comments: Yup?.string(),
             }),
           )
           ?.min(1, 'At least one item is required');

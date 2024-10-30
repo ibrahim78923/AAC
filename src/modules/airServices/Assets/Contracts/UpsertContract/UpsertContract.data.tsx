@@ -194,7 +194,9 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
         then: (schema: any) => schema?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),
-    cost: Yup?.string(),
+    cost: Yup?.number()
+      ?.typeError('Not a number')
+      ?.moreThan(-1, 'cost must be positive'),
     status: Yup?.mixed()?.nullable()?.required('Required'),
     vendor: Yup?.mixed()?.nullable(),
     approver: Yup?.mixed()?.nullable(),
@@ -258,8 +260,12 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
         Yup?.object()?.shape({
           serviceName: Yup?.string(),
           priceModel: Yup?.mixed()?.nullable(),
-          cost: Yup?.number(),
-          count: Yup?.number(),
+          cost: Yup?.number()
+            ?.typeError('Not a number')
+            ?.moreThan(-1, 'cost must be positive'),
+          count: Yup?.number()
+            ?.typeError('Not a number')
+            ?.moreThan(-1, 'cost must be positive'),
           comments: Yup?.string()?.max(
             CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
             `Max ${CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
