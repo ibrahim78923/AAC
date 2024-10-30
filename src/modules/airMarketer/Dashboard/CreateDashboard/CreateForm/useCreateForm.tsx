@@ -21,12 +21,15 @@ import {
   useUpdateMarketingDashboardMutation,
   useLazyGetMarketingDashboardUserAccessListDropdownListForDashboardQuery,
 } from '@/services/airMarketer/dasboard';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateForm = (formType: any) => {
   const router = useRouter();
   const { user }: any = getSession();
   const currentUser = user?._id;
   const selectedDashboardId = router?.query?.id;
+  const dashboardUserId = router?.query?.userId;
+  const dashboardMode = router?.query?.mode;
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
 
   const auth: any = useAuth();
@@ -40,10 +43,15 @@ const useCreateForm = (formType: any) => {
   const [postMarketingDashboard, { isLoading: postMarketingDashboardLoading }] =
     usePostMarketingDashboardMutation();
 
+  const currentDashboardParams = {
+    id: selectedDashboardId,
+    userId: dashboardUserId,
+  };
+
   const {
     data: getMarketingDashboardById,
     isLoading: dashboardDetailsLoading,
-  } = useGetMarketingDashboardByIdQuery(selectedDashboardId, {
+  } = useGetMarketingDashboardByIdQuery(currentDashboardParams, {
     skip: !selectedDashboardId,
   });
 
@@ -160,7 +168,12 @@ const useCreateForm = (formType: any) => {
         })?.unwrap();
       }
       reset();
-      router?.back();
+      router?.push(
+        dashboardMode !== DRAWER_TYPES?.CREATE
+          ? AIR_MARKETER?.MARKETER_DASHBOARD
+          : AIR_MARKETER?.MANAGE_DASHBOARD,
+      );
+      // router?.back();
       enqueueSnackbar(
         `Dashboard ${
           formType === DRAWER_TYPES?.EDIT ? 'Updated' : 'Created'

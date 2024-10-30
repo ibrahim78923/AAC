@@ -22,6 +22,7 @@ const useTasks = () => {
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
+  const [selectedRowData, setSelectedRowData] = useState<any>([]);
   const [statusVariant, setStatusVariant] = useState<any>('');
   const [isListView, setIsListView] = useState('listView');
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -155,6 +156,8 @@ const useTasks = () => {
     anchorEl,
     setPage,
     theme,
+    selectedRowData,
+    setSelectedRowData,
   };
 };
 export default useTasks;

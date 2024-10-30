@@ -1,4 +1,12 @@
-import { Button, Grid, Skeleton, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  LinearProgress,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import FormsTable from './StaticComponents/FormsTable';
 import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
 import CtaViews from './StaticComponents/CtaViews';
@@ -14,18 +22,28 @@ import { ProfileStatistics } from './StaticComponents/ProfileStatistics';
 // import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
 // import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { indexNumbers } from '@/constants';
+import { Autorenew } from '@mui/icons-material';
+import { pxToRem } from '@/utils/getFontValue';
 
 const Dashboard = () => {
   const {
-    dashboardListLoading,
+    lazyGetSingleMarketingDashboardStatus,
     setSelectedDashboard,
     dashboardNotFound,
+    apiCallInProgress,
     dashboardLoading,
     dropdownOptions,
     dashboardsData,
     handelNavigate,
+    currentUser,
+    timeLapse,
+    router,
+    theme,
+    user,
   } = useDashboard();
+
   return (
     <>
       <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
@@ -44,21 +62,75 @@ const Dashboard = () => {
               />
             ) : (
               <Stack direction="column">
-                <Typography variant="h3">
+                <Typography
+                  variant="h3"
+                  color={theme?.palette?.primary?.main}
+                  fontWeight={600}
+                >
                   {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
                 </Typography>
               </Stack>
             )}
-
-            <Stack direction={{ sm: 'row' }} gap={1}>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Stack
+            direction={{ lg: 'row' }}
+            gap={1}
+            justifyContent={'space-between'}
+          >
+            <Box>
+              <Typography variant="h4">
+                {`Hi ${capitalizeFirstLetters(
+                  user?.firstName ?? '---',
+                )}! Happy to see you again`}
+              </Typography>
+            </Box>
+            <Stack direction="row" gap={1} flexWrap={'wrap'}>
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                size="small"
+                startIcon={<Autorenew />}
+                onClick={lazyGetSingleMarketingDashboardStatus?.refetch}
+                disabled={apiCallInProgress}
+                sx={{
+                  fontSize: pxToRem(12),
+                  fontWeight: 'fontWeightRegular',
+                  textTransform: 'lowercase',
+                }}
+              >
+                {!!apiCallInProgress ? (
+                  <Box>
+                    <LinearProgress sx={{ width: pxToRem(70) }} />
+                  </Box>
+                ) : (
+                  timeLapse?.lastFetchLapseTime
+                )}
+              </Button>
               {!dashboardNotFound && (
-                <ShareOptions selectedDashboard={dashboardsData} />
+                <ShareOptions
+                  currentUser={currentUser}
+                  selectedDashboard={dashboardsData}
+                />
               )}
               <ManageDashboardOptions
                 listData={dropdownOptions}
                 selectedDashboard={setSelectedDashboard}
-                isLoading={dashboardListLoading}
               />
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={() => {
+                  router?.push({
+                    pathname: `${AIR_MARKETER?.MANAGE_DASHBOARD}`,
+                  });
+                }}
+              >
+                Manage Dashboards
+              </Button>
             </Stack>
           </Stack>
         </Grid>

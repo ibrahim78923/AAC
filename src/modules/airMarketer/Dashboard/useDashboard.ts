@@ -1,43 +1,54 @@
-import { PAGINATION } from '@/config';
+import {
+  AUTO_REFRESH_API_POLLING_TIME,
+  AUTO_REFRESH_API_TIME_INTERVAL,
+  PAGINATION,
+} from '@/config';
 import {
   useGetAllMarketingDashboardsQuery,
-  useGetMarketingDashboardsQuery,
+  useLazyGetSMarketingDashboardsListQuery,
 } from '@/services/airMarketer/dasboard';
 import { getSession } from '@/utils';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { AIR_MARKETER } from '../../../routesConstants/paths';
+import { useApiPolling } from '@/hooks/useApiPolling';
+import { useTheme } from '@mui/material';
 
 const useDashboard = () => {
-  const router = useRouter();
   const { user }: any = getSession();
   const currentUser = user?._id;
+  const router = useRouter();
+  const theme = useTheme();
 
   const [isShowCreateDashboardForm, setIsShowCreateDashboardForm] =
     useState(false);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [selectedDashboard, setSelectedDashboard] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
-  const params = {
-    page,
-    limit: pageLimit,
-    owner: currentUser,
+  const dropdownOptions = useLazyGetSMarketingDashboardsListQuery();
+
+  const dashboardParams = { params: { dashboardId: selectedDashboard } };
+
+  const lazyGetSingleMarketingDashboardStatus =
+    useGetAllMarketingDashboardsQuery?.(dashboardParams, {
+      refetchOnMountOrArgChange: true,
+      pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.DASHBOARD,
+    });
+
+  const ApiPollingHookProps = {
+    isFetching: lazyGetSingleMarketingDashboardStatus?.isFetching,
+    fulfilledTimeStamp:
+      lazyGetSingleMarketingDashboardStatus?.fulfilledTimeStamp,
+    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
   };
-  const { data: dashboardListArray, isLoading: dashboardListLoading } =
-    useGetMarketingDashboardsQuery({ params: params });
 
-  const dropdownOptions = dashboardListArray?.dynamicdashboards;
+  const { timeLapse } = useApiPolling(ApiPollingHookProps);
 
-  const {
-    data: getDashboards,
-    isLoading: dashboardLoading,
-    isError: dashboardNotFound,
-  } = useGetAllMarketingDashboardsQuery({
-    params: { page: 1, limit: 10, dashboardId: selectedDashboard },
-  });
+  const dashboardsData = lazyGetSingleMarketingDashboardStatus?.data?.data;
 
-  const dashboardsData = getDashboards?.data;
+  const apiCallInProgress =
+    lazyGetSingleMarketingDashboardStatus?.isLoading ||
+    lazyGetSingleMarketingDashboardStatus?.isFetching;
 
   const handelNavigate = () => {
     router?.push({
@@ -47,19 +58,24 @@ const useDashboard = () => {
   };
 
   return {
+    dashboardNotFound: lazyGetSingleMarketingDashboardStatus?.isError,
+    dashboardLoading: lazyGetSingleMarketingDashboardStatus?.isLoading,
+    lazyGetSingleMarketingDashboardStatus,
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,
-    dashboardListLoading,
     setSelectedDashboard,
     selectedDashboard,
-    dashboardNotFound,
+    apiCallInProgress,
     handelNavigate,
-    dashboardLoading,
     dropdownOptions,
     dashboardsData,
-    setPageLimit,
+    currentUser,
+    timeLapse,
     setPage,
+    router,
+    theme,
     page,
+    user,
   };
 };
 export default useDashboard;

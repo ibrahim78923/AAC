@@ -21,8 +21,8 @@ const ForecastPipelineAnalytics = (props: any) => {
         borderRadius: '8px',
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12} sx={{ textAlign: 'center', paddingY: '1rem' }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sx={{ textAlign: 'center', pt: '1rem' }}>
           <Typography
             variant="h3"
             sx={{ color: `${theme?.palette?.slateBlue?.main}`, m: 0, p: 0 }}
@@ -30,14 +30,14 @@ const ForecastPipelineAnalytics = (props: any) => {
             Forecast Pipeline Analytics
           </Typography>
         </Grid>
-        <Grid item xs={12} md={isStatic ? 12 : 6}>
+        <Grid item xs={12} md={12} lg={isStatic ? 12 : 6}>
           {isLoading ? (
             <SkeletonTable />
           ) : (
             <PipelineUsersGraph pipelineForecastUsersData={forecastUsersData} />
           )}
         </Grid>
-        <Grid item xs={12} md={isStatic ? 12 : 6}>
+        <Grid item xs={12} md={12} lg={isStatic ? 12 : 6}>
           {isLoading ? (
             <SkeletonTable />
           ) : (

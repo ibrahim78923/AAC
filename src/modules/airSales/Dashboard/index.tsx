@@ -54,9 +54,9 @@ const Dashboard = () => {
           {dashboardLoading ? (
             <Skeleton
               width={250}
-              height={36}
-              variant={'rectangular'}
-              animation={'wave'}
+              height={25}
+              variant="rectangular"
+              animation="wave"
             />
           ) : (
             <Stack direction="column">
@@ -77,11 +77,20 @@ const Dashboard = () => {
             justifyContent={'space-between'}
           >
             <Box>
-              <Typography variant="h4">
-                {`Hi ${capitalizeFirstLetters(
-                  user?.firstName ?? '---',
-                )}! Happy to see you again`}
-              </Typography>
+              {dashboardLoading ? (
+                <Skeleton
+                  width={350}
+                  height={25}
+                  variant={'rectangular'}
+                  animation={'wave'}
+                />
+              ) : (
+                <Typography variant="h4" color="blue.main">
+                  {`Hi ${capitalizeFirstLetters(
+                    user?.firstName ?? '---',
+                  )}! Happy to see you again`}
+                </Typography>
+              )}
             </Box>
             <Stack direction="row" gap={1} flexWrap={'wrap'}>
               <Button

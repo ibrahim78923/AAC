@@ -12,6 +12,18 @@ export const marketerDashboardApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    getSMarketingDashboardsList: builder?.query({
+      query: ({ params }: any) => ({
+        url: SALES_DASHBOARD?.SALES_DASHBOARD_LIST,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+
     deleteMarketingDashboard: builder.mutation({
       query: (ids: any) => ({
         url: `${SALES_DASHBOARD?.DELETE_SALES_DASHBOARD}?ids=${ids}`,
@@ -30,12 +42,13 @@ export const marketerDashboardApi = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
     getMarketingDashboardById: builder.query({
-      query: (id: any) => ({
-        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}/${id}`,
+      query: ({ id, userId }: any) => ({
+        url: `${SALES_DASHBOARD?.SALES_DASHBOARD_LIST}/${id}/${userId}`,
         method: 'GET',
       }),
       providesTags: TAG,
     }),
+
     postMarketingDashboard: builder.mutation({
       query: ({ body }: any) => ({
         url: SALES_DASHBOARD?.CREATE_SALES_DASHBOARD,
@@ -102,6 +115,7 @@ export const marketerDashboardApi = baseAPI.injectEndpoints({
 
 export const {
   useGetMarketingDashboardsQuery,
+  useLazyGetSMarketingDashboardsListQuery,
   usePostMarketingDashboardMutation,
   useGetAllMarketingDashboardsQuery,
   useGetMarketingDashboardByIdQuery,

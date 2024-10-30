@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export const columns: any = (columnsProps: any) => {
   const {
@@ -106,7 +107,11 @@ export const columns: any = (columnsProps: any) => {
             onClick={() => {
               router?.push({
                 pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
-                query: { id: info?.row?.original?._id, type: 'view' },
+                query: {
+                  id: info?.row?.original?._id,
+                  type: DRAWER_TYPES?.VIEW,
+                  userId: currentUser,
+                },
               });
             }}
           >
@@ -120,7 +125,12 @@ export const columns: any = (columnsProps: any) => {
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id, type: 'edit' },
+                  query: {
+                    id: info?.row?.original?._id,
+                    type: DRAWER_TYPES?.EDIT,
+                    userId: currentUser,
+                    mode: DRAWER_TYPES?.CREATE,
+                  },
                 });
               }}
             >

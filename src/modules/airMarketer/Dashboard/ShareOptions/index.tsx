@@ -5,7 +5,7 @@ import EmailThisDashboard from '../EmailThisDashboard';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { DRAWER_TYPES } from '@/constants/strings';
 
-const ShareOptions = ({ selectedDashboard }: any) => {
+const ShareOptions = ({ selectedDashboard, currentUser }: any) => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -55,6 +55,8 @@ const ShareOptions = ({ selectedDashboard }: any) => {
                 query: {
                   id: selectedDashboard?.dashboard?._id,
                   type: DRAWER_TYPES?.EDIT,
+                  userId: currentUser,
+                  mode: 'dashboard_create',
                 },
               });
             }}

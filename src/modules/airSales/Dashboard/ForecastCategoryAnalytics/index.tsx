@@ -21,8 +21,8 @@ const ForecastCategoryAnalytics = (props: any) => {
         borderRadius: '8px',
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12} sx={{ textAlign: 'center', paddingY: '1rem' }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sx={{ textAlign: 'center', pt: '1rem' }}>
           <Typography
             variant="h3"
             sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
@@ -30,14 +30,14 @@ const ForecastCategoryAnalytics = (props: any) => {
             Forecast Category Analytics
           </Typography>
         </Grid>
-        <Grid item xs={12} md={isStatic ? 12 : 6}>
+        <Grid item xs={12} md={12} lg={isStatic ? 12 : 6}>
           {isLoading ? (
             <SkeletonTable />
           ) : (
             <CategoryUsersGraph categoryUsersData={forecastCategoryUsersData} />
           )}
         </Grid>
-        <Grid item xs={12} md={isStatic ? 12 : 6}>
+        <Grid item xs={12} md={12} lg={isStatic ? 12 : 6}>
           {isLoading ? (
             <SkeletonTable />
           ) : (

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import useToggle from '@/hooks/useToggle';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
   const theme = useTheme();
@@ -24,12 +23,6 @@ const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
     setAnchorEl(null);
   };
 
-  const handelNavigate = () => {
-    router?.push({
-      pathname: `${AIR_MARKETER?.MANAGE_DASHBOARD}`,
-    });
-  };
-
   const handleMenuItemClick = (dashboardId: string) => {
     selectedDashboard(dashboardId);
     handleCloseMenuOptions();
@@ -41,7 +34,6 @@ const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
     handleClickActions,
     handleCloseDrawer,
     setIsShowDrawer,
-    handelNavigate,
     openDropDown,
     isShowDrawer,
     setAnchorEl,

@@ -26,8 +26,8 @@ const DealsReportsAnalytics = (props: any) => {
         borderRadius: '8px',
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12} sx={{ textAlign: 'center', paddingY: '1rem' }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sx={{ textAlign: 'center', pt: '1rem' }}>
           <Typography
             variant="h3"
             sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
