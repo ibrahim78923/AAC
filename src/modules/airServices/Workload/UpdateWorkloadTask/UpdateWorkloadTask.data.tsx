@@ -7,6 +7,7 @@ import {
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 import { AssignToAndAgent } from '../WorkloadFields/AssignToAndAgent';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 
@@ -16,8 +17,17 @@ export const getWorkloadValidationSchema: any = Yup?.object()?.shape({
   assignTo: Yup?.mixed()?.nullable(),
   status: Yup.string()?.required('Status is Required'),
   startDate: Yup?.date()?.nullable(),
-  endDate: Yup?.date()?.nullable()?.required('End Date is Required'),
-  plannedEffort: Yup?.string(),
+  endDate: Yup?.date()
+    ?.nullable()
+    ?.test(
+      'is-after-start-date',
+      'End Date must be after Start Date',
+      function (value) {
+        const { startDate } = this.parent;
+        return !startDate || !value || new Date(value) > new Date(startDate);
+      },
+    ),
+  plannedEffort: Yup?.string()?.trim(),
 });
 
 export const getWorkloadDefaultValues = (data?: any) => ({
@@ -27,12 +37,12 @@ export const getWorkloadDefaultValues = (data?: any) => ({
     ? data?.assignedUser
     : null,
   status: data?.status ?? '',
-  startDate: data?.startDate ?? new Date(),
+  startDate: data?.startDate ?? null,
   endDate: data?.endDate ?? null,
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const workloadDataArray = [
+export const getWorkloadDataArray = (getValues?: any, setValue?: any) => [
   {
     id: 1,
     componentProps: {
@@ -81,8 +91,8 @@ export const workloadDataArray = [
       name: 'startDate',
       label: 'Planned Start Date',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
       ampm: false,
-      disabled: true,
     },
     component: RHFDesktopDateTimePicker,
   },
@@ -92,8 +102,6 @@ export const workloadDataArray = [
       name: 'endDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
-      required: true,
       textFieldProps: { readOnly: true },
       ampm: false,
     },
@@ -105,7 +113,10 @@ export const workloadDataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       placeholder: 'Eg: 1h10m',
-      fullWidth: true,
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
   },

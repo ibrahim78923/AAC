@@ -24,6 +24,7 @@ import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/Depart
 import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
 import { ServicesFieldDropdown } from '../../../ServiceTicketFormFields/ServicesFieldDropdown';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SR } = TICKET_TYPE ?? {};
 
@@ -104,6 +105,8 @@ export const editTicketDetailsFormFieldsDynamic = (
   watchForTicketType?: any,
   watch?: any,
   data?: any,
+  getValues?: any,
+  setValue?: any,
 ) => [
   {
     id: 1,
@@ -244,6 +247,10 @@ export const editTicketDetailsFormFieldsDynamic = (
       label: 'Planned Effort',
       fullWidth: true,
       placeholder: 'Eg: 1h10m',
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
   },

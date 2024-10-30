@@ -1,4 +1,5 @@
 import {
+  getNewIncidentFormFieldsDynamic,
   newIncidentValidationSchema,
   newIncidentsDefaultValuesFunction,
 } from './NewIncident.data';
@@ -70,7 +71,7 @@ export const useNewIncident = (props: {
     defaultValues: newIncidentsDefaultValuesFunction?.(form),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setValue } = methods;
 
   const onSubmit = async (formData: any) => {
     const newFormData = filteredEmptyValues(formData);
@@ -224,6 +225,11 @@ export const useNewIncident = (props: {
     reset?.();
   };
 
+  const newIncidentFormFieldsDynamic = getNewIncidentFormFieldsDynamic(
+    getValues,
+    setValue,
+  );
+
   return {
     handleSubmit,
     onSubmit,
@@ -235,5 +241,6 @@ export const useNewIncident = (props: {
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    newIncidentFormFieldsDynamic,
   };
 };

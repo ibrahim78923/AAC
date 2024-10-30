@@ -12,6 +12,10 @@ export const REGEX = {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
   ENHANCED_PASSWORD_COMPLEXITY_REGEX:
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,30}$/,
+  HOURS_ONLY: /^\d+h$/,
+  HOURS_AND_MINUTES_NO_M: /^(\d+h\d+)$/,
+  INTEGER_OR_DECIMAL: /^\d+(\.\d+)?$/,
+  MINUTES_ONLY: /^\d+m$/,
 };
 
 export const CHARACTERS_LIMIT = {

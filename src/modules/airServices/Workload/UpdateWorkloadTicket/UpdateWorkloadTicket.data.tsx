@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { ticketStatusOptions } from '../../ServicesTickets/ServicesTickets.data';
 import { AssignToAndAgent } from '../WorkloadFields/AssignToAndAgent';
 import { REGEX } from '@/constants/validation';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
   subject: Yup?.string()?.trim()?.required('Subject is Required'),
@@ -42,7 +43,7 @@ export const getWorkloadTicketDefaultValues = (data?: any) => ({
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const workloadTicketDataArray = [
+export const getWorkloadTicketDataArray = (getValues?: any, setValue?: any) => [
   {
     id: 1,
     componentProps: {
@@ -114,6 +115,10 @@ export const workloadTicketDataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       placeholder: 'Eg: 1h10m',
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
   },

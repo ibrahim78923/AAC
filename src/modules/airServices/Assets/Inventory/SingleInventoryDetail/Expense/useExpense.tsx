@@ -90,7 +90,7 @@ export const useExpense = () => {
           date: isoDateString(data?.date),
           assetId: assetId,
         };
-        await postExpenseTrigger(formData);
+        await postExpenseTrigger(formData)?.unwrap();
         successSnackbar('Expense added successfully');
         reset();
         setIsAddExpenseModalOpen(false);
@@ -106,7 +106,7 @@ export const useExpense = () => {
           id: expenseId,
           assetId: assetId,
         };
-        await patchExpenseTrigger(formData);
+        await patchExpenseTrigger(formData)?.unwrap();
         successSnackbar('Expense Update successfully');
         reset();
         setIsAddExpenseModalOpen(false);

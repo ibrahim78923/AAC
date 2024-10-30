@@ -66,7 +66,7 @@ export const useUpsertRelatedTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues, setError } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue } = methods;
 
   const submitUpsertTicket = async (data: any) => {
     const { plannedEffort } = getValues();
@@ -162,7 +162,11 @@ export const useUpsertRelatedTicket = () => {
     dispatch(setIsPortalClose());
   };
 
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(childTicketId);
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
+    childTicketId,
+    getValues,
+    setValue,
+  );
 
   return {
     router,

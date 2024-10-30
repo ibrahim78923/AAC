@@ -17,6 +17,7 @@ import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldD
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -98,7 +99,10 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
   };
 };
 
-export const upsertTicketTaskFormFormFieldsDynamic = () => [
+export const upsertTicketTaskFormFormFieldsDynamic = (
+  getValues?: any,
+  setValue?: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -200,7 +204,10 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
       name: 'plannedEffort',
       label: 'Planned Effort',
       placeholder: 'Eg: 1h10m',
-      fullWidth: true,
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
     md: 12,

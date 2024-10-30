@@ -42,7 +42,7 @@ export const useUpsertTasks = () => {
     (state) => state?.servicesTicketTasks?.isPortalOpen,
   );
 
-  const selectedTicketTasksLists = useAppSelector(
+  const selectedTicketTasksLists: any = useAppSelector(
     (state) => state?.servicesTicketTasks?.selectedTicketTasksLists,
   );
 
@@ -91,7 +91,7 @@ export const useUpsertTasks = () => {
     ),
   });
 
-  const { handleSubmit, reset, getValues, setError } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue } = methods;
 
   useEffect(() => {
     reset(() =>
@@ -155,7 +155,7 @@ export const useUpsertTasks = () => {
         body.customFields = customFields;
       }
 
-      const queryParams = {
+      const queryParams: any = {
         ...Object?.fromEntries(
           Object?.entries(filteredEmptyData)?.filter(
             ([key]) => !customFieldKeys?.has(key),
@@ -220,7 +220,7 @@ export const useUpsertTasks = () => {
   };
 
   const upsertTicketTaskFormFormFields =
-    upsertTicketTaskFormFormFieldsDynamic?.();
+    upsertTicketTaskFormFormFieldsDynamic?.(getValues, setValue);
 
   const apiCallInProgress =
     postTicketTasksStatus?.isLoading ||

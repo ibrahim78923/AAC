@@ -98,7 +98,7 @@ export const useUpsertTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues, setError } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue } = methods;
 
   const ticketDetailsData = data?.data?.[ARRAY_INDEX?.ZERO];
 
@@ -260,7 +260,11 @@ export const useUpsertTicket = () => {
     dispatch(setIsPortalClose());
   };
 
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
+    ticketId,
+    getValues,
+    setValue,
+  );
 
   const apiCallInProgress =
     putTicketStatus?.isLoading ||

@@ -24,6 +24,7 @@ import { DepartmentFieldDropdown } from '@/modules/airServices/ServicesTickets/S
 import { AgentFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AgentFieldDropdown';
 import { AssetFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AssetFieldDropdown';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -88,7 +89,10 @@ export const newIncidentsDefaultValuesFunction = (form?: any) => {
     ...initialValues,
   };
 };
-export const newIncidentFormFieldsDynamic = [
+export const getNewIncidentFormFieldsDynamic = (
+  getValues?: any,
+  setValue?: any,
+) => [
   {
     id: 1,
     component: RequesterFieldDropdown,
@@ -204,8 +208,11 @@ export const newIncidentFormFieldsDynamic = [
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
-      multiple: true,
       placeholder: 'Eg: 1h10m',
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
   },

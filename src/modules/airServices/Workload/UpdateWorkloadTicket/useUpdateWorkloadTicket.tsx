@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { usePutAirServicesWorkloadTicketsMutation } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
+  getWorkloadTicketDataArray,
   getWorkloadTicketDefaultValues,
   getWorkloadTicketValidationSchema,
 } from './UpdateWorkloadTicket.data';
@@ -18,14 +19,15 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
     defaultValues: getWorkloadTicketDefaultValues?.(dataGet?.extendedProps),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError } = methods;
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();
     if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+      setError('plannedEffort', {
+        message:
+          'Invalid format for Planned Effort. Please use format like 1h10m',
+      });
       return;
     }
 
@@ -60,10 +62,16 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
     reset(getWorkloadTicketDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
+  const workloadTicketDataArray = getWorkloadTicketDataArray(
+    getValues,
+    setValue,
+  );
+
   return {
     handleSubmit,
     onSubmit,
     methods,
     patchTicketStatus,
+    workloadTicketDataArray,
   };
 };

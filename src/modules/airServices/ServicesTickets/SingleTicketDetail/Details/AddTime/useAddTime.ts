@@ -147,7 +147,7 @@ export const useAddTime = (props: any) => {
     reset();
   };
 
-  const addTimeFormFields = addTimeFormFieldsDynamic(setValue);
+  const addTimeFormFields = addTimeFormFieldsDynamic(setValue, getValues);
 
   return {
     methods,

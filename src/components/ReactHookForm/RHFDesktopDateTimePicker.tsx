@@ -40,7 +40,7 @@ export default function RHFDesktopDateTimePicker({
                     {error?.message}
                   </Typography>
                 ),
-                error: error,
+                error: !!error || error,
                 fullWidth: other?.fullWidth,
                 size: other?.size,
                 label: '',

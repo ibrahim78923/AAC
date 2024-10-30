@@ -26,6 +26,7 @@ import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFi
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -101,7 +102,11 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     ...initialValues,
   };
 };
-export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
+export const upsertTicketFormFieldsDynamic = (
+  ticketId?: string,
+  getValues?: any,
+  setValue?: any,
+) => {
   return [
     {
       id: 1,
@@ -225,9 +230,11 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
             componentProps: {
               name: 'plannedEffort',
               label: 'Planned Effort',
-              fullWidth: true,
-              multiple: true,
               placeholder: 'Eg: 1h10m',
+              onBlurHandler: () => {
+                const value = getValues('plannedEffort');
+                setValue('plannedEffort', formatDurationHourMinute(value));
+              },
             },
             component: RHFTextField,
           },

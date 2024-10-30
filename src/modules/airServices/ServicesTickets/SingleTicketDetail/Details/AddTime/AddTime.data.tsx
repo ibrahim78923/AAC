@@ -14,6 +14,7 @@ import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldDropdown';
 import { TicketTasksFieldDropdown } from '../../../ServiceTicketFormFields/TicketTasksFieldDropdown';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 export const addTimeFormValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -43,7 +44,7 @@ export const addTimeFormDefaultValues = (form?: any) => {
   };
 };
 
-export const addTimeFormFieldsDynamic = (setValue: any) => [
+export const addTimeFormFieldsDynamic = (setValue: any, getValues?: any) => [
   {
     id: 1,
     component: TicketTasksFieldDropdown,
@@ -70,9 +71,12 @@ export const addTimeFormFieldsDynamic = (setValue: any) => [
     componentProps: {
       name: 'hours',
       label: 'Hours',
-      fullWidth: true,
       required: true,
       placeholder: 'Eg: 1h 10m',
+      onBlurHandler: () => {
+        const value = getValues('hours');
+        setValue('hours', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
     md: 12,
@@ -98,6 +102,7 @@ export const addTimeFormFieldsDynamic = (setValue: any) => [
       fullWidth: true,
       required: true,
       disableFuture: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,
     md: 12,
