@@ -33,3 +33,5 @@ export const TemplateText = (props: any) => {
     </Box>
   );
 };
+
+export default TemplateText;

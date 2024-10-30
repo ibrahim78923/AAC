@@ -8,7 +8,6 @@ import { TruncateText } from '@/components/TruncateText';
 export const HorizontalChart = (props: any) => {
   const { title } = props;
   const { options, seriesData } = useHorizontalChart(props);
-
   return (
     <Box
       borderRadius={3}
@@ -43,3 +42,5 @@ export const HorizontalChart = (props: any) => {
     </Box>
   );
 };
+
+export default HorizontalChart;

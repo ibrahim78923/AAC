@@ -1,6 +1,5 @@
 import { useTheme } from '@mui/material';
-import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
-import { ARRAY_INDEX, MONTH_NAMES } from '@/constants/strings';
+import { ARRAY_INDEX, FIELD_TYPE, MONTH_NAMES } from '@/constants/strings';
 
 export const useBarChart = (props: any) => {
   const { data = { counts: [], items: [] }, barChart, title } = props;
@@ -10,15 +9,15 @@ export const useBarChart = (props: any) => {
     data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const dataItems =
-    barChart?.xAxis?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID
+    barChart?.xAxis?.fieldType === FIELD_TYPE?.OBJECT_ID
       ? items
           ?.filter((item: any) => !!item?.value)
           ?.map((item: any) => item?.value)
       : items;
-
   const groupedData = counts?.reduce((acc: any, curr: any) => {
     const { month, value, count } = curr;
-    acc[month] = acc?.[month] || {};
+    if (!month) return;
+    acc[month] = acc?.[month] ?? {};
     acc[month][value] = count;
     return acc;
   }, {});

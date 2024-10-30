@@ -1,13 +1,13 @@
-import { ARRAY_INDEX } from '@/constants/strings';
-import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
+import { ARRAY_INDEX, FIELD_TYPE } from '@/constants/strings';
 
-export const usePieChart = (props: any) => {
-  const { data = { counts: [], items: [] }, pieChart, title } = props;
+export const useDonutChart = (props: any) => {
+  const { data = { counts: [], items: [] }, donutChart, title } = props;
+
   const { items = [], counts = [] } =
     data?.[title]?.[ARRAY_INDEX?.ZERO] ?? data ?? {};
 
   const dataItems =
-    pieChart?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID
+    donutChart?.fieldType === FIELD_TYPE?.OBJECT_ID
       ? items
           ?.filter((item: any) => !!item?.value)
           ?.map((item: any) => item?.value)

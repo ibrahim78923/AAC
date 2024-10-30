@@ -19,3 +19,5 @@ export const Text = (props: any) => {
     </>
   );
 };
+
+export default Text;

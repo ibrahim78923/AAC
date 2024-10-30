@@ -1,13 +1,14 @@
-import { CustomChart } from '@/components/Chart';
-import { useBarChart } from './useBarChart';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { Box } from '@mui/material';
+import { makeDynamicColumn } from './Table.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import NoData from '@/components/NoData';
 import { TruncateText } from '@/components/TruncateText';
 
-export const BarChart = (props: any) => {
-  const { title } = props;
-  const { options, seriesData } = useBarChart(props);
+export const Table = (props: any) => {
+  const { tableColumns, title, data = [] } = props;
+  const tableColumn = makeDynamicColumn(tableColumns);
+
+  const tableData = data?.[title] ?? data ?? [];
 
   return (
     <Box
@@ -19,8 +20,8 @@ export const BarChart = (props: any) => {
       <Box
         borderBottom={'1px solid'}
         borderColor={'custom.off_white_three'}
-        px={2}
         py={0.5}
+        px={2}
       >
         <PageTitledHeader
           title={<TruncateText text={title} />}
@@ -28,18 +29,14 @@ export const BarChart = (props: any) => {
           outerMarginBottom={0}
         />
       </Box>
-      <Box p={1}>
-        {!!seriesData?.length ? (
-          <CustomChart
-            options={options}
-            series={seriesData}
-            type={'bar'}
-            height={348}
-          />
-        ) : (
-          <NoData height="50%" />
-        )}
+      <Box>
+        <TanstackTable
+          data={tableData?.slice?.(-5)?.reverse()}
+          columns={tableColumn}
+        />
       </Box>
     </Box>
   );
 };
+
+export default Table;

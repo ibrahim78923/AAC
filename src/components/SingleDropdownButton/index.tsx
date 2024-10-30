@@ -66,6 +66,7 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
                 singleOption?.handleClick?.(handleClose);
               }}
               sx={{
+                cursor: 'pointer',
                 '&.MuiMenuItem-root': {
                   marginBottom: { md: 0.5 },
                   marginX: { md: 0.5 },
@@ -75,10 +76,10 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
               <Typography
                 variant="body2"
                 color={theme?.palette?.grey?.[600]}
-                fontWeight={500}
+                fontWeight={'fontWeightMedium'}
                 sx={singleOption?.titleSx}
               >
-                {singleOption?.title}{' '}
+                {singleOption?.title}
               </Typography>
             </MenuItem>
           </PermissionsGuard>

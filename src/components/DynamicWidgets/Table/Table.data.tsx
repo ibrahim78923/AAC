@@ -1,21 +1,21 @@
-import { CustomChips } from '@/components/CustomChips';
-import { COLLECTION_NAME, FIELD_TYPE } from '@/constants/strings';
+import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
+import { BACKEND_COLLECTION_NAME } from '@/constants/api';
+import { DATA_TYPES, FIELD_TYPE } from '@/constants/strings';
 import { camelCaseToTitleCase } from '@/utils/api';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
 export const TABLE_CELL_DATA_MAP: any = (item: any) => {
   return {
-    [COLLECTION_NAME?.ASSET_TYPES]: fullName(item?.name),
-    [COLLECTION_NAME?.LOCATION]: fullName(item?.locationName),
-    [COLLECTION_NAME?.DEPARTMENT]: fullName(item?.name),
-    [COLLECTION_NAME?.VENDORS]: fullName(item?.name),
-    [COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
-    [COLLECTION_NAME?.SERVICE_CATEGORIES]: fullName(item?.categoryName),
-    [COLLECTION_NAME?.DEAL_PIPELINES]: fullName(item?.name),
-    [COLLECTION_NAME?.SALES_PIPELINES]: fullName(item?.name),
-    [COLLECTION_NAME?.CONTRACT_TYPE]: fullName(item?.name),
-    [COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
+    [BACKEND_COLLECTION_NAME?.ASSET_TYPES]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.LOCATION]: fullName(item?.locationName),
+    [BACKEND_COLLECTION_NAME?.DEPARTMENT]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.VENDORS]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
+    [BACKEND_COLLECTION_NAME?.SERVICE_CATEGORIES]: fullName(item?.categoryName),
+    [BACKEND_COLLECTION_NAME?.DEAL_PIPELINES]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.FORECAST_PIPELINES]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.CONTRACT_TYPE]: fullName(item?.name),
   };
 };
 
@@ -26,7 +26,7 @@ const tableCell = (item: any, column?: any) => {
       : item;
   if (Array?.isArray(item)) {
     const arrayData = !!item?.length ? (
-      <CustomChips
+      <CustomArrayTooltipData
         data={item?.map((item: any, index: number) => {
           return {
             label:
@@ -42,7 +42,9 @@ const tableCell = (item: any, column?: any) => {
   }
   return !!item ? (
     <Typography variant="body2" textTransform={'capitalize'}>
-      {value?.replace?.('_', ' ')?.toLowerCase()}
+      {typeof value === DATA_TYPES?.STRING
+        ? value?.replace?.('_', ' ')?.toLowerCase()
+        : value}
     </Typography>
   ) : (
     '---'
@@ -56,7 +58,11 @@ const tableCellData = (info: any, column: any) => {
 };
 
 const header = (column: any) => (
-  <Typography variant="body2" fontWeight={600} textTransform={'capitalize'}>
+  <Typography
+    variant="body2"
+    fontWeight={'fontWeightMedium'}
+    textTransform={'capitalize'}
+  >
     {camelCaseToTitleCase(column?.fieldName, 'Id')}
   </Typography>
 );

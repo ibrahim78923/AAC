@@ -45,14 +45,12 @@ export const CustomChips = (props: CustomChipsPropsI) => {
           ))}
           <CustomTooltip
             title={
-              <Box maxHeight={'10vh'} px={1} pb={1} overflow={'auto'}>
-                {data
-                  ?.slice?.(sliceArray)
-                  ?.map((item: any, index: number) => (
-                    <Typography key={item?._id}>
-                      {`${index + sliceArray + 1} : ${item?.label}`}
-                    </Typography>
-                  ))}
+              <Box maxHeight={'10vh'} overflow={'auto'}>
+                {data?.slice?.(sliceArray)?.map((item: any, index: number) => (
+                  <Typography key={item?._id} variant="body2">
+                    {`${index + sliceArray + 1} : ${item?.label}`}
+                  </Typography>
+                ))}
               </Box>
             }
           >
@@ -61,6 +59,7 @@ export const CustomChips = (props: CustomChipsPropsI) => {
               label={`+${data?.length - sliceArray}`}
               variant="filled"
               color={'primary'}
+              sx={{ mx: 0.5, my: 0.5 }}
             />
           </CustomTooltip>
         </>

@@ -9,7 +9,6 @@ import { DeleteReport } from '../DeleteReport';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { FilterReport } from '../FilterReport';
 import { ExportReport } from '../ExportReport';
-import { errorSnackbar } from '@/lib/snackbar';
 
 export const REPORT_LISTS_ACTION_CONSTANTS = {
   FILTER_REPORT: 'filter-report',
@@ -57,12 +56,8 @@ export const reportListsActionDropdownDynamic = (
     id: 1,
     title: 'Customize',
     permissionKey: [permission?.CUSTOMIZE],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       editReportPath?.(selectedReportList[ARRAY_INDEX?.ZERO]?._id);
       closeMenu();
     },
@@ -71,12 +66,8 @@ export const reportListsActionDropdownDynamic = (
     id: 2,
     title: 'Rename',
     permissionKey: [permission?.RENAME],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setReportsListAction?.(RENAME_REPORT);
       closeMenu();
     },
@@ -85,12 +76,8 @@ export const reportListsActionDropdownDynamic = (
     id: 3,
     title: 'Clone',
     permissionKey: [permission?.CLONE],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setReportsListAction?.(CLONE_REPORT);
       closeMenu();
     },
@@ -108,12 +95,8 @@ export const reportListsActionDropdownDynamic = (
     id: 5,
     title: 'Email This Report',
     permissionKey: [permission?.EMAIL_THIS_REPORT],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setReportsListAction?.(EMAIL_REPORT);
       closeMenu();
     },
@@ -122,12 +105,8 @@ export const reportListsActionDropdownDynamic = (
     id: 6,
     title: 'Change Owner',
     permissionKey: [permission?.CHANGE_OWNER],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setReportsListAction?.(CHANGE_REPORT_OWNER);
       closeMenu();
     },
@@ -136,12 +115,8 @@ export const reportListsActionDropdownDynamic = (
     id: 7,
     title: 'Add to Dashboard',
     permissionKey: [permission?.ADD_TO_DASHBOARD],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setReportsListAction?.(ADD_REPORT_TO_DASHBOARD);
       closeMenu();
     },
@@ -159,12 +134,8 @@ export const reportListsActionDropdownDynamic = (
     id: 9,
     title: 'Manage Access',
     permissionKey: [permission?.MANAGE_ACCESS],
+    disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setReportsListAction?.(MANAGE_REPORT_ACCESS);
       closeMenu();
     },

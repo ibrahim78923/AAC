@@ -3,7 +3,6 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { DeleteRelatedTicket } from '../DeleteRelatedTicket';
 import { UpsertRelatedTicket } from '../UpsertRelatedTicket';
-import { errorSnackbar } from '@/lib/snackbar';
 
 export const RELATED_TICKET_ACTIONS_CONSTANT = {
   CREATE_RELATED_TICKET: 'create-new-ticket',
@@ -22,12 +21,8 @@ export const relatedTicketsActionDropdownDynamic = (
     id: 1,
     permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_CHILD_TICKETS],
     title: 'Edit',
+    disabled: selectedChildTickets?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedChildTickets?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one ticket');
-        closeMenu?.();
-        return;
-      }
       setTicketAction?.(RELATED_TICKET_ACTIONS_CONSTANT?.EDIT_RELATED_TICKET);
       closeMenu?.();
     },

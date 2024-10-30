@@ -135,7 +135,19 @@ export const upsertTicketFormFieldsDynamic = (
       },
       component: RHFEditor,
     },
-
+    {
+      id: 6,
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Choose Priority',
+        options: ticketPriorityOptions,
+        getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+      },
+      component: RHFAutocomplete,
+    },
     ...(!!!ticketId
       ? [
           {
@@ -155,19 +167,7 @@ export const upsertTicketFormFieldsDynamic = (
             },
             component: RHFAutocomplete,
           },
-          {
-            id: 6,
-            componentProps: {
-              name: 'priority',
-              label: 'Priority',
-              fullWidth: true,
-              required: true,
-              placeholder: 'Choose Priority',
-              options: ticketPriorityOptions,
-              getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-            },
-            component: RHFAutocomplete,
-          },
+
           {
             id: 7,
             component: DepartmentFieldDropdown,

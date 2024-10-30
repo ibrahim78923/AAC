@@ -4,7 +4,8 @@ import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
 import { AttachFileCard } from '@/components/AttachFileCard';
-import { uiDateFormat } from '@/lib/date-time';
+import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 
@@ -43,12 +44,10 @@ export const DetailCard = (props: any) => {
                 ticketDetail?.requesterDetails?.lastName,
               )}
               name={
-                !!!ticketDetail?.requesterDetails
-                  ? fullName(ticketDetail?.name) ?? '---'
-                  : fullName(
-                      ticketDetail?.requesterDetails?.firstName,
-                      ticketDetail?.requesterDetails?.lastName,
-                    ) ?? '---'
+                fullName(
+                  ticketDetail?.requesterDetails?.firstName,
+                  ticketDetail?.requesterDetails?.lastName,
+                ) ?? '---'
               }
               avatarSrc={ticketDetail?.requesterDetails?.avatar?.url}
               nameProps={{
@@ -75,9 +74,7 @@ export const DetailCard = (props: any) => {
                 sx={{ wordBreak: 'break-all' }}
                 color="slateBlue.main"
               >
-                {!!!ticketDetail?.requesterDetails
-                  ? ticketDetail?.requesterEmail ?? '---'
-                  : ticketDetail?.requesterDetails?.email ?? '---'}
+                {ticketDetail?.requesterDetails?.email ?? '---'}
               </Typography>
             </Box>
             <Box
@@ -151,13 +148,7 @@ export const DetailCard = (props: any) => {
                 data={attachFile?.data?.[ZERO]}
               />
             ) : (
-              <Typography
-                variant="body2"
-                color="slateBlue.main"
-                sx={{ wordBreak: 'break-all' }}
-              >
-                No attachment
-              </Typography>
+              '---'
             )}
           </Box>
         </Grid>
@@ -201,7 +192,10 @@ export const DetailCard = (props: any) => {
             </Typography>
             <Typography variant="body2" color="slateBlue.main">
               {!!ticketDetail?.plannedEndDate
-                ? uiDateFormat(ticketDetail?.plannedEndDate)
+                ? otherDateFormat(
+                    localeDateTime(ticketDetail?.plannedEndDate),
+                    DATE_TIME_FORMAT?.FORMAT_24_HOUR,
+                  )
                 : '---'}
             </Typography>
           </Box>
@@ -220,9 +214,10 @@ export const DetailCard = (props: any) => {
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: 'primary.main', textDecoration: 'underline' }}
+              color="slateBlue.main"
+              textTransform={'capitalize'}
             >
-              {ticketDetail?.moduleType ?? '---'}
+              {ticketDetail?.moduleType?.toLowerCase() ?? '---'}
             </Typography>
           </Box>
         </Grid>

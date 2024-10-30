@@ -4,7 +4,6 @@ import { DeleteTask } from '../DeleteTask';
 import { UpsertTasks } from '../UpsertTasks';
 import { SingleTaskDetail } from '../SingleTaskDetail';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
-import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   CREATE_TICKET_TASKS,
@@ -28,12 +27,8 @@ export const actionsDropdownForTicketTasksListsDynamic = (
     id: 1,
     title: 'Edit',
     permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_TASK],
+    disabled: selectedTasksList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: any) => {
-      if (selectedTasksList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setTicketTasksAction(EDIT_TICKET_TASKS);
       closeMenu();
     },
