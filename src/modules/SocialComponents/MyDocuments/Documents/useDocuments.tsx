@@ -6,7 +6,6 @@ import {
   useGetAllFoldersListQuery,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
-  useLazyGetDownloadFolderQuery,
 } from '@/services/commonFeatures/documents';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,13 +24,12 @@ import {
   useLazyGetOrganizationUsersQuery,
   useLazyGetOrganizationTeamsQuery,
 } from '@/services/dropdowns';
-import {
-  downloadBlob,
-  extractFileName,
-  isValidBlob,
-} from '@/utils/download-blob';
+import { downloadLink } from '@/utils/download-blob';
+import { useAppSelector } from '@/redux/store';
 
 const useDocuments = () => {
+  const socket = useAppSelector((state) => state?.chat?.socket);
+
   const theme = useTheme<Theme>();
   const { user }: any = useAuth();
   const orgId: any = user?.organization?._id;
@@ -321,30 +319,30 @@ const useDocuments = () => {
     }
   };
 
-  const [downloadFolderTrigger] = useLazyGetDownloadFolderQuery();
   const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+  const handleDownloadFolder = (folderId: string) => {
+    const downloadFile = (payload: { url: string }) => {
+      setIsLoadingDownload(false);
+      handleClose();
 
-  const handleDownloadFolder = async (folderId: string) => {
+      if (payload && payload.url) {
+        downloadLink(payload.url);
+        successSnackbar('Download started. Please wait...');
+      } else {
+        errorSnackbar('Failed to retrieve download link.');
+      }
+    };
+
     try {
       setIsLoadingDownload(true);
-      const { blob, headers } = await downloadFolderTrigger({
-        id: folderId,
-      }).unwrap();
-
-      const fileName = extractFileName(headers) || 'Folder';
-
-      if (!isValidBlob(blob)) {
-        throw new Error('Invalid response format');
-      }
-
-      downloadBlob(blob, fileName);
-
-      successSnackbar('Folder Downloaded Successfully');
-      handleClose();
+      socket.emit('downloadDocument', { id: folderId });
+      socket.once('download-link', downloadFile);
     } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    } finally {
       setIsLoadingDownload(false);
+      handleClose();
+      errorSnackbar(
+        error?.data?.message ?? 'An error occurred while downloading.',
+      );
     }
   };
 

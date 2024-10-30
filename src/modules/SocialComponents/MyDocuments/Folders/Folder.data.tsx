@@ -172,11 +172,14 @@ export const uploadDocumentData = (
       name: 'file',
       fullWidth: true,
       required: true,
-      fileType: 'PNG, JPG, and PDF  (max 2.44 MB)',
+      fileType: 'PNG, JPG, PDF and DOC (max 2.44 MB)',
       accept: {
         'image/png': ['.png', '.PNG'],
         'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
         'application/pdf': ['.pdf'],
+        'application/msword': ['.doc'],
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+          ['.docx'],
       },
     },
     component: RHFDropZone,
