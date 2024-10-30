@@ -2,10 +2,13 @@ import { NextRouter } from 'next/router';
 import { Box, Checkbox, Chip, LinearProgress } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter } from '@/utils/api';
-import { errorSnackbar } from '@/lib/snackbar';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES } from '@/constants/routes';
-import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  FEEDBACK_STATUS,
+  SELECTED_ARRAY_LENGTH,
+} from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { TruncateText } from '@/components/TruncateText';
@@ -160,14 +163,12 @@ export const feedbackDropdown = (
       id: 1,
       title: cloneLoading ? <LinearProgress sx={{ width: '70px' }} /> : 'Clone',
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one survey to clone');
-          closeMenu?.();
-          return;
-        }
         handleCloneSurvey(closeMenu);
       },
-      disabled: cloneLoading || statusLoading,
+      disabled:
+        cloneLoading ||
+        statusLoading ||
+        activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_CLONE,
       ],
@@ -194,14 +195,12 @@ export const feedbackDropdown = (
         'Draft'
       ),
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one to change status');
-          closeMenu?.();
-          return;
-        }
         handleStatus(closeMenu);
       },
-      disabled: cloneLoading || statusLoading,
+      disabled:
+        cloneLoading ||
+        statusLoading ||
+        activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_EDIT,
       ],
@@ -212,11 +211,6 @@ export const feedbackDropdown = (
       id: 2,
       title: 'Edit Survey',
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one survey to edit');
-          closeMenu?.();
-          return;
-        }
         router?.push({
           pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
           query: {
@@ -226,7 +220,8 @@ export const feedbackDropdown = (
         });
         closeMenu?.();
       },
-      disabled: cloneLoading,
+      disabled:
+        cloneLoading || activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_EDIT,
       ],

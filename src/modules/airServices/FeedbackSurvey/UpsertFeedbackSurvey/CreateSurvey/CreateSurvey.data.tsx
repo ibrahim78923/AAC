@@ -78,6 +78,7 @@ export const createSurveyFields = (
     componentProps: {
       name: 'surveyDuration',
       label: 'Survey Duration',
+      required: true,
       fullWidth: true,
       disablePast: true,
     },

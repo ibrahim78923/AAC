@@ -115,7 +115,10 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
     if (response?.data?.message) {
       handleClose();
       successSnackbar('Survey published successfully');
-      router?.push(AIR_SERVICES?.FEEDBACK_SURVEY);
+      router?.push({
+        pathname: AIR_SERVICES?.FEEDBACK_SURVEY,
+        query: { type: router?.query?.type },
+      });
     } else {
       errorSnackbar(response?.error?.data?.message);
     }
@@ -132,7 +135,10 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
     if (response?.data?.message) {
       handleClose();
       successSnackbar('Survey save as draft successfully');
-      router?.push(AIR_SERVICES?.FEEDBACK_SURVEY);
+      router?.push({
+        pathname: AIR_SERVICES?.FEEDBACK_SURVEY,
+        query: { type: router?.query?.type },
+      });
     } else {
       errorSnackbar(response?.error?.data?.message);
     }

@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, DialogActions, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertProductCatalog } from './useUpsertProductCatalog';
 import { LoadingButton } from '@mui/lab';
@@ -32,51 +32,43 @@ export const UpsertProductCatalog = () => {
         methods={methods}
         onSubmit={handleSubmit(submitUpsertProductCatalog)}
       >
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           {upsertProductCatalogFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>
           ))}
         </Grid>
-        <Box
-          mt={4}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-        >
-          <Box></Box>
-          <Box display={'flex'} flexWrap={'wrap'} gap={2} alignItems={'center'}>
-            <LoadingButton
-              variant="outlined"
-              type="button"
-              className="small"
-              onClick={() => moveBack?.()}
-              color="secondary"
-              disabled={
-                patchProductCatalogStatus?.isLoading ||
-                postProductCatalogStatus?.isLoading
-              }
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              variant="contained"
-              type="submit"
-              className="small"
-              disabled={
-                patchProductCatalogStatus?.isLoading ||
-                postProductCatalogStatus?.isLoading
-              }
-              loading={
-                patchProductCatalogStatus?.isLoading ||
-                postProductCatalogStatus?.isLoading
-              }
-            >
-              {!!productCatalogId ? 'Update' : 'Save'}
-            </LoadingButton>
-          </Box>
-        </Box>
+        <DialogActions sx={{ mt: 4 }}>
+          <LoadingButton
+            variant="outlined"
+            type="button"
+            className="small"
+            onClick={() => moveBack?.()}
+            color="secondary"
+            disabled={
+              patchProductCatalogStatus?.isLoading ||
+              postProductCatalogStatus?.isLoading
+            }
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            className="small"
+            disabled={
+              patchProductCatalogStatus?.isLoading ||
+              postProductCatalogStatus?.isLoading
+            }
+            loading={
+              patchProductCatalogStatus?.isLoading ||
+              postProductCatalogStatus?.isLoading
+            }
+          >
+            {!!productCatalogId ? 'Update' : 'Save'}
+          </LoadingButton>
+        </DialogActions>
       </FormProvider>
     </Box>
   );

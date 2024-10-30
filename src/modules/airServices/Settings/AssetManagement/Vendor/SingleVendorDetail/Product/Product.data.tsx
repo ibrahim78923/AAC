@@ -1,7 +1,7 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { DeleteForever } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 export const productColumns = (
   setUpsertProductModal: any,
@@ -51,24 +51,23 @@ export const productColumns = (
     isSortable: true,
     header: 'Action',
     cell: (info: any) => (
-      <Box display={'flex'}>
-        <Box
+      <Box display={'flex'} alignItems="center">
+        <IconButton
           onClick={() => {
             setEditData(info?.row?.original);
             setUpsertProductModal(true);
           }}
-          sx={{ cursor: 'pointer' }}
         >
           <EditYellowBGPenIcon />
-        </Box>
-        <DeleteForever
-          color={'error'}
-          sx={{ cursor: 'pointer' }}
+        </IconButton>
+        <IconButton
           onClick={() => {
             setDeleteModalOpen(true);
             setDeleteId(info?.row?.original?._id);
           }}
-        />
+        >
+          <DeleteForever color={'error'} />
+        </IconButton>
       </Box>
     ),
   },
