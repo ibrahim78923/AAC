@@ -64,6 +64,7 @@ const useFolder: any = () => {
 
   // handle Click Select Folder
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+  const [selectedFolder, setSelectedFolder] = useState(null);
   useEffect(() => {
     if (folderId) {
       if (typeof folderId === 'string') {
@@ -76,9 +77,10 @@ const useFolder: any = () => {
 
   const handleClickSelectFolder = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string,
+    data: any,
   ) => {
-    setSelectedFolderId(id);
+    setSelectedFolderId(data?._id);
+    setSelectedFolder(data);
   };
 
   // Get Subfolders
@@ -95,7 +97,7 @@ const useFolder: any = () => {
     },
     { skip: !folderId },
   );
-  const sinngleFolderData = getFolderByIdData?.data[0];
+  const singleFolderData = getFolderByIdData?.data[0];
 
   function findFolderById(data: any, selectedFolderId: string | null) {
     if (data && selectedFolderId) {
@@ -137,7 +139,7 @@ const useFolder: any = () => {
 
   const selectedFolderData =
     modalHeading === MODAL_HEADING?.update
-      ? findFolderById(sinngleFolderData, selectedFolderId)
+      ? findFolderById(singleFolderData, selectedFolderId)
       : null;
 
   const getDynamicFormData = async () => {
@@ -614,10 +616,11 @@ const useFolder: any = () => {
     orgTeamsData,
     folderId,
     parentFolderName,
-    sinngleFolderData,
+    singleFolderData,
     fetchingGetFolder,
     loadingGetFolder,
     selectedFolderId,
+    selectedFolder,
     handleClickSelectFolder,
     isOpenDelete,
     setIsOpenDelete,

@@ -1,8 +1,4 @@
-import {
-  RHFAutocompleteAsync,
-  RHFRadioGroup,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -21,24 +17,12 @@ export const VISIBLETO_OPTIONS = {
   EVERYONE: 'EVERYONE',
 };
 
-export const validationSchema = (form: any, visibleTo: string = '') => {
+export const validationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
     name: Yup?.string()?.required('Field is Required'),
     visibleTo: Yup?.string()?.required('Field is Required'),
-    userIds:
-      visibleTo === VISIBLETO_OPTIONS?.USERS
-        ? Yup.array()
-            .min(1, 'At least one user must be selected')
-            .required('Field is Required')
-        : Yup.array().ensure(),
-    teamIds:
-      visibleTo === VISIBLETO_OPTIONS?.TEAMS
-        ? Yup.array()
-            .min(1, 'At least one user must be selected')
-            .required('Field is Required')
-        : Yup.array().ensure(),
     ...formSchema,
   });
 };
@@ -49,19 +33,11 @@ export const defaultValuesFolder = (data?: any, form?: any) => {
   return {
     name: data?.name ?? '',
     visibleTo: data?.visibleTo ?? VISIBLETO_OPTIONS?.EVERYONE,
-    userIds: data?.userIds ?? [],
-    teamIds: data?.teamIds ?? [],
     ...initialValues,
   };
 };
 
-export const createFolderData = (
-  watchVisibleTo: any,
-  orgUsersData: any,
-  orgId: string,
-  heading: string,
-  orgTeamsData: any,
-) => {
+export const createFolderData = () => {
   return [
     {
       componentProps: {
@@ -74,63 +50,6 @@ export const createFolderData = (
       component: RHFTextField,
       md: 12,
     },
-    ...(heading === MODAL_HEADING?.create
-      ? [
-          {
-            componentProps: {
-              name: 'visibleTo',
-              label: 'Shared with',
-              fullWidth: true,
-              defaultValue: 'EVERYONE',
-              options: [
-                { value: VISIBLETO_OPTIONS?.PRIVATE, label: 'Private' },
-                { value: VISIBLETO_OPTIONS?.USERS, label: 'Specific users' },
-                { value: VISIBLETO_OPTIONS?.TEAMS, label: 'My team' },
-                { value: VISIBLETO_OPTIONS?.EVERYONE, label: 'Everyone' },
-              ],
-              row: false,
-              required: true,
-            },
-            component: RHFRadioGroup,
-            md: 12,
-          },
-          ...(watchVisibleTo === VISIBLETO_OPTIONS?.USERS
-            ? [
-                {
-                  componentProps: {
-                    placeholder: 'Select users',
-                    name: 'userIds',
-                    label: 'Select Users',
-                    apiQuery: orgUsersData,
-                    multiple: true,
-                    getOptionLabel: (option: any) =>
-                      `${option?.firstName} ${option?.lastName}`,
-                    externalParams: { id: orgId, meta: false },
-                  },
-                  component: RHFAutocompleteAsync,
-                  md: 12,
-                },
-              ]
-            : []),
-          ...(watchVisibleTo === VISIBLETO_OPTIONS?.TEAMS
-            ? [
-                {
-                  componentProps: {
-                    placeholder: 'Select teams',
-                    name: 'teamIds',
-                    label: 'Select Teams',
-                    apiQuery: orgTeamsData,
-                    multiple: true,
-                    getOptionLabel: (option: any) => `${option?.name}`,
-                    externalParams: { meta: false, onlyMyTeams: true },
-                  },
-                  component: RHFAutocompleteAsync,
-                  md: 12,
-                },
-              ]
-            : []),
-        ]
-      : []),
   ];
 };
 

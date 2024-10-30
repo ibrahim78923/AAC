@@ -69,10 +69,6 @@ const Documents = () => {
     handleOpenCreateFolderModal,
     handleCloseCreateFolderModal,
     methodsFolder,
-    watchVisibleTo,
-    orgUsersData,
-    orgTeamsData,
-    orgId,
     modalHeading,
     isOpenDelete,
     setIsOpenDelete,
@@ -96,14 +92,6 @@ const Documents = () => {
     handleDownloadFolder,
     isLoadingDownload,
   } = useDocuments();
-
-  const createFolderFormData = createFolderData(
-    watchVisibleTo,
-    orgUsersData,
-    orgId,
-    modalHeading,
-    orgTeamsData,
-  );
 
   return (
     <>
@@ -507,7 +495,7 @@ const Documents = () => {
         ) : (
           <FormProvider methods={methodsFolder}>
             <Grid container spacing={2}>
-              {createFolderFormData?.map((item: any) => (
+              {createFolderData()?.map((item: any) => (
                 <Grid
                   item
                   xs={12}

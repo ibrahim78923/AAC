@@ -136,10 +136,10 @@ const useDocuments = () => {
     usePostDocumentFolderMutation();
   const [updateFolder, { isLoading: loadingUpdate }] =
     useUpdateFolderMutation();
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [modalHeading, setModalHeading] = useState(MODAL_HEADING.create);
   const [form, setForm] = useState<any>([]);
-  const [visibleTo, setVisibleTo] = useState('');
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
 
@@ -177,18 +177,12 @@ const useDocuments = () => {
   }, []);
 
   const methodsFolder: any = useForm<any>({
-    resolver: yupResolver(validationSchema?.(form, visibleTo)),
+    resolver: yupResolver(validationSchema?.(form)),
     defaultValues: defaultValuesFolder?.(selectedFolders[0], form),
   });
-  const {
-    handleSubmit: handleMethodCreateFolder,
-    reset: resetFolderForm,
-    watch,
-  } = methodsFolder;
-  const watchVisibleTo = watch('visibleTo');
-  useEffect(() => {
-    setVisibleTo(watchVisibleTo);
-  }, [watchVisibleTo]);
+  const { handleSubmit: handleMethodCreateFolder, reset: resetFolderForm } =
+    methodsFolder;
+
   useEffect(() => {
     resetFolderForm(() => defaultValuesFolder(selectedFolders[0], form));
   }, [selectedFolders, resetFolderForm, form]);
@@ -217,11 +211,7 @@ const useDocuments = () => {
           customFields[key] = value;
         }
       } else {
-        if (key === 'userIds' || key === 'teamIds') {
-          body[key] = value?.map((item: any) => item?._id);
-        } else {
-          body[key] = value;
-        }
+        body[key] = value;
       }
     });
 
@@ -382,7 +372,6 @@ const useDocuments = () => {
     handleOpenCreateFolderModal,
     handleCloseCreateFolderModal,
     methodsFolder,
-    watchVisibleTo,
     orgUsersData,
     orgTeamsData,
     orgId,

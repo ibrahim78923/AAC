@@ -58,10 +58,11 @@ const Folders = () => {
     orgTeamsData,
     // folderId,
     // parentFolderName,
-    sinngleFolderData,
+    singleFolderData,
     fetchingGetFolder,
     loadingGetFolder,
     selectedFolderId,
+    selectedFolder,
     handleClickSelectFolder,
 
     isOpenDelete,
@@ -162,7 +163,7 @@ const Folders = () => {
     <>
       <ListItemButton
         selected={selectedFolderId === folder?._id}
-        onClick={(event) => handleClickSelectFolder(event, folder?._id)}
+        onClick={(event) => handleClickSelectFolder(event, folder)}
         sx={{
           p: '8px 10px',
           borderRadius: '8px',
@@ -271,6 +272,7 @@ const Folders = () => {
                         handleCloseSide();
                         handleOpenCreateFolderModal(MODAL_HEADING?.create);
                       }}
+                      disabled={selectedFolder?.level === 1}
                     >
                       Create Sub Folder
                     </MenuItem>
@@ -332,9 +334,9 @@ const Folders = () => {
             ) : (
               <List component="nav" sx={{ padding: '0' }}>
                 <ListItemButton
-                  selected={selectedFolderId === sinngleFolderData?._id}
+                  selected={selectedFolderId === singleFolderData?._id}
                   onClick={(event) =>
-                    handleClickSelectFolder(event, sinngleFolderData?._id)
+                    handleClickSelectFolder(event, singleFolderData)
                   }
                   sx={{
                     p: '8px 10px',
@@ -351,7 +353,7 @@ const Folders = () => {
                     <FolderBlackIcon />
                   </ListItemIcon>
                   <ListItemText
-                    primary={sinngleFolderData?.name}
+                    primary={singleFolderData?.name}
                     sx={{
                       '& .MuiListItemText-primary': {
                         fontSize: '16px',
@@ -362,7 +364,7 @@ const Folders = () => {
                   />
                 </ListItemButton>
                 <List component="nav" sx={{ pl: '16px' }}>
-                  {sinngleFolderData?.nestedFolders?.map((item: any) => (
+                  {singleFolderData?.nestedFolders?.map((item: any) => (
                     <React.Fragment key={item?._id}>
                       {renderFolder(item)}
                     </React.Fragment>
