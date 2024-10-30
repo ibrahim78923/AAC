@@ -1,6 +1,8 @@
-import { usePostInvoiceMutation } from '@/services/airSales/invoices';
-import { useLazyGetQuoteByIdQuery } from '@/services/airSales/quotes';
-import { useGetReceiverBankAccountsQuery } from '@/services/orgAdmin/settings/receivers-bank-acconts';
+import {
+  usePostInvoiceMutation,
+  useLazyGetQuoteByIdForInvoiceQuery,
+  useLazyGetBankAccountsListForInvoicesQuery,
+} from '@/services/airSales/invoices';
 import { errorSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,12 +22,19 @@ const useQuoteInvoice = (quoteId: any) => {
   const [accountNo, setAccountNo] = useState<string | number>('');
   const [isEmailModal, setIsEmailModal] = useState(false);
 
-  const [lazyGetQuoteTrigger, { isFetching, isLoading }] =
-    useLazyGetQuoteByIdQuery();
+  const [
+    lazyGetQuoteTrigger,
+    { isFetching: fetchingQuoteById, isLoading: loadingQuoteById, isSuccess },
+  ] = useLazyGetQuoteByIdForInvoiceQuery();
   const getInvoiceData = async () => {
+    if (!quoteId) {
+      errorSnackbar('Quote ID is required.');
+      return;
+    }
     try {
       const response: any = await lazyGetQuoteTrigger({
         id: quoteId,
+        params: {},
       })?.unwrap();
       setQuoteDataById(response?.data);
     } catch (error: any) {
@@ -62,10 +71,20 @@ const useQuoteInvoice = (quoteId: any) => {
     setIsEmailModal(false);
   };
 
-  // Get Bank Account
-  const receiversParams = {};
-  const { data: receiversData } =
-    useGetReceiverBankAccountsQuery(receiversParams);
+  // Get Bank Accounts
+  const bankAccountsList = useLazyGetBankAccountsListForInvoicesQuery();
+  const methodsBankAccounts: any = useForm({
+    defaultValues: { bankAccount: null },
+  });
+  const { watch } = methodsBankAccounts;
+  const watchBankAccout = watch('bankAccount');
+  useEffect(() => {
+    if (watchBankAccout) {
+      setAccountNo(watchBankAccout?._id);
+    } else {
+      setAccountNo('');
+    }
+  }, [watchBankAccout]);
 
   // Create Invoice
   const [postCreateInvoice, { isLoading: loadingPostInvoice }] =
@@ -100,9 +119,12 @@ const useQuoteInvoice = (quoteId: any) => {
     comments,
     setComments,
     quoteDataById,
-    isFetching,
-    isLoading,
-    receiversData,
+    fetchingQuoteById,
+    loadingQuoteById,
+    isSuccess,
+    watchBankAccout,
+    methodsBankAccounts,
+    bankAccountsList,
     handleAddInvoiceSubmit,
     setAccountNo,
     accountNo,

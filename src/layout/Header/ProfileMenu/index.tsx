@@ -92,7 +92,12 @@ const ProfilMenu = () => {
           <Box sx={{ gap: 1, display: 'flex', alignItems: 'center' }}>
             <Avatar
               src={generateImage(user?.avatar?.url)}
-              sx={{ width: 30, height: 30 }}
+              sx={{
+                width: 30,
+                height: 30,
+                bgcolor: 'primary.main',
+                fontSize: 13,
+              }}
             >
               {`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
             </Avatar>

@@ -7,10 +7,6 @@ import {
   CardContent,
   Divider,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Stack,
   TextField,
   Typography,
@@ -25,8 +21,7 @@ import {
   sendEmailFormField,
 } from './QuoteInvoice.data';
 import useQuoteInvoice from './useQuoteInvoice';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { AIR_SALES } from '@/routesConstants/paths';
 import CommonModal from '@/components/CommonModal';
 
@@ -34,12 +29,15 @@ const QuoteInvoice = ({ quoteId }: any) => {
   const theme = useTheme();
   const router = useRouter();
   const {
+    fetchingQuoteById,
+    loadingQuoteById,
+    isSuccess,
     quoteDataById,
-    receiversData,
+    methodsBankAccounts,
+    bankAccountsList,
     handleAddInvoiceSubmit,
     comments,
     setComments,
-    setAccountNo,
     accountNo,
     isEmailModal,
     openModalEmail,
@@ -53,9 +51,12 @@ const QuoteInvoice = ({ quoteId }: any) => {
   return (
     <Box>
       <DetailCard
-        buyerCompany={quoteDataById?.buyerCompany || []}
-        buyerContact={quoteDataById?.buyerContact || []}
+        buyerCompany={quoteDataById?.buyerCompany || {}}
+        buyerContact={quoteDataById?.buyerContact || {}}
+        isLoading={fetchingQuoteById || loadingQuoteById}
+        isSuccess={isSuccess}
       />
+
       <Card sx={{ my: '20px' }}>
         <Box p="16px 24px">
           <Typography variant="h5">Products & Services</Typography>
@@ -63,6 +64,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
         <TanstackTable
           columns={productsTableColumns}
           data={quoteDataById?.products}
+          isLoading={fetchingQuoteById || loadingQuoteById}
         />
       </Card>
       <Grid container spacing={2}>
@@ -199,23 +201,21 @@ const QuoteInvoice = ({ quoteId }: any) => {
         </Grid>
 
         <Grid item lg={4} md={4} sm={12} xs={12}>
-          <InputLabel id="demo-simple-select-label">
-            Select Bank Account
-          </InputLabel>
-          <Select
-            fullWidth
-            IconComponent={KeyboardArrowDownIcon}
-            value={accountNo}
-            onChange={(event: SelectChangeEvent<typeof accountNo>) =>
-              setAccountNo(event?.target?.value)
-            }
-          >
-            {receiversData?.data?.receiverbankaccounts?.map((account: any) => (
-              <MenuItem key={account._id} value={account.accountNumber}>
-                {`${account?.companyAccount?.accountName} -- ${account?.accountNumber}`}
-              </MenuItem>
-            ))}
-          </Select>
+          <FormProvider methods={methodsBankAccounts}>
+            <RHFAutocompleteAsync
+              name="bankAccount"
+              label={'Select Bank Account'}
+              fullWidth
+              required
+              size="small"
+              apiQuery={bankAccountsList}
+              // externalParams={{}}
+              getOptionLabel={(option: any) =>
+                `${option?.bankName} -- ${option?.accountHolder}`
+              }
+              placeholder="Select Bank Account"
+            />
+          </FormProvider>
         </Grid>
       </Grid>
 
