@@ -1,21 +1,51 @@
 import Image from 'next/image';
-
-import { Avatar, AvatarGroup, Box } from '@mui/material';
-
+import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
 import { CompanyLogoImage, ViewEyeImage } from '@/assets/images';
-
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
 
-export const columns = (
+export const columns: any = (
   setInProgress: any,
   setStatus: any,
   setIsComplete: any,
 ) => {
+  const theme = useTheme();
   return [
     {
-      accessorFn: (row: any) => row?.delegatesMember,
+      accessorFn: (row: any) => row,
       id: 'delegatesMember',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Avatar
+            alt="missing"
+            sx={{
+              color: theme?.palette?.grey[500],
+              fontSize: '14px',
+              fontWeight: '400',
+            }}
+          >
+            {capitalizeFirstLetter(info?.row?.original?.firstName?.charAt(0))}
+            {capitalizeFirstLetter(info?.row?.original?.lastName?.charAt(0))}
+          </Avatar>
+          <Box sx={{ display: 'grid', justifyItems: 'start' }}>
+            <Typography
+              variant="body3"
+              sx={{ fontWeight: 500, color: '#374151' }}
+            >
+              {capitalizeFirstLetter(info?.row?.original?.firstName)}{' '}
+              {capitalizeFirstLetter(info?.row?.original?.lastName)}
+            </Typography>
+            <Typography
+              variant="body3"
+              sx={{ fontWeight: 400, color: '#667085' }}
+            >
+              {info?.row?.original?.email}
+            </Typography>
+          </Box>
+        </Box>
+      ),
       header: 'Delegates Member',
       isSortable: true,
     },
@@ -64,25 +94,25 @@ export const columns = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.organizationName,
+      accessorFn: (row: any) => row?.delegateOrganization?.name,
       id: 'organizationName',
       isSortable: true,
       header: 'Organization Name',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.signUpDate,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'signUpDate',
       isSortable: true,
       header: 'Sign Up Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.earnedAmount,
       id: 'earnedAmount',
       isSortable: true,
       header: 'Earned Amount',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (info?.getValue() ? `£ ${info?.getValue()}` : 'N/A'),
     },
     {
       accessorFn: (row: any) => row?.status,

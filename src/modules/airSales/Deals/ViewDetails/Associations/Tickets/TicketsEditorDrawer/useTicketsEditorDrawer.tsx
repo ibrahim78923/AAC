@@ -10,7 +10,7 @@ import {
 } from '@/services/airServices/tickets';
 import { useLazyGetAllTicketsQuery } from '@/services/common-APIs';
 import { usePostAssociationMutation } from '@/services/commonFeatures/contacts/associations';
-import { usePostTicketMutation } from '@/services/commonFeatures/contacts/associations/tickets';
+import { usePostTicketContactAssociationsMutation } from '@/services/commonFeatures/contacts/associations/tickets';
 import { ASSOCIATIONS_API_PARAMS_FOR, TICKETS_TYPE } from '@/constants';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
@@ -30,7 +30,7 @@ const useTicketsEditorDrawer = (setOpenDrawer: any, viewData: any) => {
   const watchTickets = watch('ticketStatus');
 
   const [postTicket, { isLoading: loadingPostTicket }] =
-    usePostTicketMutation();
+    usePostTicketContactAssociationsMutation();
 
   const [postAssociation, { isLoading: loadingPostAssociation }] =
     usePostAssociationMutation();

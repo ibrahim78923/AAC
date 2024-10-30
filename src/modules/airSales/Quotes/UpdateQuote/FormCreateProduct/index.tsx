@@ -59,13 +59,22 @@ const FormCreateProduct = (props: any) => {
   const onSubmit = async (values: any) => {
     try {
       delete values.productType;
-      values.category = values?.category?._id;
       const formData = new FormData();
+
       Object.entries(values)?.forEach(([key, value]: any) => {
         if (value !== undefined && value !== null && value !== '') {
-          formData?.append(key, value);
+          if (key === PRODUCTS_TYPE?.EXT_PRODUCT) {
+            return;
+          } else if (key === 'category') {
+            formData.append(key, value?._id);
+          } else if (key === 'image') {
+            formData.append(key, value);
+          } else {
+            formData.append(key, JSON?.stringify(value));
+          }
         }
       });
+
       if (actionType === DRAWER_TYPES?.CREATE) {
         const res: any = await postProduct({ body: formData })?.unwrap();
 

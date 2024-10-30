@@ -1,5 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
-import { baseAPI, TAGS } from '@/services/base-api';
+import { baseAPI } from '@/services/base-api';
+
+const DELEGATE_DASHBOARD = 'delegate-dashboard';
 
 export const ActivityLogAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,7 +11,7 @@ export const ActivityLogAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: TAGS,
+      providesTags: [DELEGATE_DASHBOARD],
     }),
     postDelegateUserInvite: builder.mutation({
       query: ({ body }: any) => ({
@@ -17,7 +19,7 @@ export const ActivityLogAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: TAGS,
+      invalidatesTags: [DELEGATE_DASHBOARD],
     }),
   }),
 });

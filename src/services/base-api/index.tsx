@@ -15,6 +15,7 @@ export const TAGS = [
   'SettingContactStatus',
   'INVENTORY_ACTIVITY',
   'EXPENSE',
+  'delegate-dashboard',
   'CUSTOMIZE',
   'WORKLOAD',
   'DROPDOWNS',

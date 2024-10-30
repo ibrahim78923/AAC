@@ -1,41 +1,38 @@
 import {
   Box,
   Button,
-  Checkbox,
-  Divider,
+  // Checkbox,
+  // Divider,
   Grid,
   Stack,
   Typography,
 } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { AddCircleSmallIcon, InfoIconBlueBg } from '@/assets/icons';
+import {
+  AddCircleSmallIcon,
+  // InfoIconBlueBg
+} from '@/assets/icons';
 import { styles } from './StepLineItems.style';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+// import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import useStepLineItems from './useStepLineItems';
 import {
-  discountsData,
+  // discountsData,
   lineItemsColumns,
-  rewardsData,
+  // rewardsData,
 } from './StepLineItems.data';
 
 const StepLineItems = (props: any) => {
-  const { openCreateProduct } = props;
+  const { openCreateProduct, calculations } = props;
 
   const {
     setSearch,
-    isChecked,
-    setIsChecked,
-    isCheckedReward,
-    setIsCheckedReward,
-    methods,
-    theme,
-    sum,
-    unitDiscount,
-    taxCalculationPerc,
-    totalDisc,
-    FinalTotal,
-    totalPercentage,
+    // isChecked,
+    // setIsChecked,
+    // isCheckedReward,
+    // setIsCheckedReward,
+    // methods,
+    // theme,
     handleAction,
     handleDeleteDeals,
     productsData,
@@ -92,44 +89,24 @@ const StepLineItems = (props: any) => {
         <Grid item lg={4} md={12} sm={12} xs={12}>
           <Box sx={styles?.voucherCont}>
             <Box sx={styles?.voucher}>
-              <Box sx={styles?.voucherHeader}>
-                <Box sx={styles?.vHeadCell}>Subtotal:</Box>
-                <Box sx={styles?.vHeadCell}>£{sum}</Box>
-              </Box>
-
               <Box sx={styles?.voucherBody}>
-                <Box sx={styles?.vRow}>
-                  <Box sx={styles?.bodyCell}>
-                    {taxCalculationPerc?.map((item: any) => {
-                      return item?.name;
-                    })}
+                {calculations?.calculationsArray?.map((item: any) => (
+                  <Box sx={styles?.vRow} key={item?.name}>
+                    <Box sx={styles?.bodyCell}>{item?.name}</Box>
+                    <Box sx={styles?.bodyCellH}>{item?.amount}</Box>
                   </Box>
-                  <Box sx={styles?.bodyCellH}>{totalPercentage}</Box>
+                ))}
+                <Box sx={styles?.voucherFooter}>
+                  <Box sx={styles?.fCell}>Total: </Box>
+                  <Box sx={styles?.bodyCellH}> £{calculations?.finalTotal}</Box>
                 </Box>
-                <Box sx={styles?.vRow}>
-                  <Box sx={styles?.bodyCell}>Unit Discount</Box>
-                  <Box sx={styles?.bodyCellH}>£ {unitDiscount}</Box>
-                </Box>
-                <Box sx={styles?.vRow}>
-                  <Box sx={styles?.bodyCell}>Total Discount</Box>
-                  <Box sx={styles?.bodyCellH}>£ {totalDisc?.toFixed(2)}</Box>
-                </Box>
-                <Box sx={styles?.vRow}>
-                  <Box sx={styles?.bodyCell}>Total Redeemed Discount</Box>
-                  <Box sx={styles?.bodyCellH}>£ 20</Box>
-                </Box>
-              </Box>
-
-              <Box sx={styles?.voucherFooter}>
-                <Box sx={styles?.fCell}>Total: </Box>
-                <Box sx={styles?.bodyCellH}> £{FinalTotal}</Box>
               </Box>
             </Box>
           </Box>
         </Grid>
 
-        {/* //new design added */}
-        <Grid item xs={12} md={12} sm={12} lg={8}>
+        {/* // useable after some time */}
+        {/* <Grid item xs={12} md={12} sm={12} lg={8}>
           <Box
             sx={{
               background: '#fff',
@@ -323,7 +300,7 @@ const StepLineItems = (props: any) => {
               ))}
             </Box>
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

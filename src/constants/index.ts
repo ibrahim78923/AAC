@@ -263,6 +263,7 @@ export const indexNumbers = {
   TWO: 2,
   THREE: 2,
   FOUR: 2,
+  TEN: 10,
 };
 export const TASK_TABS_TYPES = {
   PENDING: 'Pending',

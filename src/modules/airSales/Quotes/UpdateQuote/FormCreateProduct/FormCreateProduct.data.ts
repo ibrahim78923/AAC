@@ -58,7 +58,7 @@ export const productDefaultValues = {
   category: null,
   description: '',
   isActive: false,
-  image: '',
+  file: '',
 };
 
 export const addContactFields = (productCatagories: any) => {

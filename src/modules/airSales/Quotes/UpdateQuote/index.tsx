@@ -32,7 +32,6 @@ const UpdateQuote = () => {
     handleCloseFormAddCompany,
     isOpenFormCreateProduct,
     handleOpenFormCreateProduct,
-    handleCloseFormCreateProduct,
     handleOpenDialog,
     handleCloseDialog,
     isOpenDialog,
@@ -46,6 +45,8 @@ const UpdateQuote = () => {
     loadingSubmit,
     updateBuyerInfoLoading,
     productsArray,
+    calculations,
+    setIsOpenFormCreateProduct,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -63,6 +64,7 @@ const UpdateQuote = () => {
     handleCompanyChange: handleCompanyChange,
     selectedCompanyIds: selectedCompanyIds,
     productsArray: productsArray,
+    calculations: calculations,
   };
   const steps = updateQuoteSteps(stepsArgs);
 
@@ -176,7 +178,7 @@ const UpdateQuote = () => {
       {isOpenFormCreateProduct && (
         <FormCreateProduct
           open={isOpenFormCreateProduct}
-          onClose={handleCloseFormCreateProduct}
+          onClose={() => setIsOpenFormCreateProduct(false)}
           dataGetQuoteById={dataGetQuoteById}
           productsArray={productsArray}
         />

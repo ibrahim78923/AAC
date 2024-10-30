@@ -57,7 +57,7 @@ export const styles = {
     color: theme?.palette?.slateBlue?.main,
   }),
   voucherBody: () => ({
-    p: '0 20px 10px',
+    p: '10px 20px',
   }),
   vRow: () => ({
     display: 'flex',
@@ -76,8 +76,8 @@ export const styles = {
     color: theme?.palette?.slateBlue?.main,
   }),
   voucherFooter: (theme: any) => ({
-    p: '12px 24px',
-    bgcolor: theme?.palette?.grey[100],
+    p: '12px 0px',
+    // bgcolor: theme?.palette?.grey[100],
     borderTop: `1px solid ${theme?.palette?.grey[700]}`,
     display: 'flex',
     justifyContent: 'space-between',

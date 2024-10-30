@@ -142,7 +142,8 @@ export const lineItemsColumns: any = (
           ? `£ ${
               info?.row?.original?.unitPrice *
                 info?.row?.original?.additionalQuantity -
-              info?.row?.original?.unitDiscount
+              info?.row?.original?.additionalQuantity *
+                info?.row?.original?.unitDiscount
             }`
           : `£0`,
     },
@@ -191,8 +192,9 @@ export const lineItemsColumns: any = (
 export const discountsData = [
   { id: '1', label: 'Loyalty Discounts', value: '£ 20' },
   { id: '2', label: 'Voucher or gift card', value: '£ 10' },
-  { id: '3', label: 'Total Redeemed Discounts', value: '£ 25' },
+  { id: '3', label: 'Total Redeemed Discounts', value: '£ 257' },
 ];
+
 export const rewardsData = [
   { label: 'Cap', pts: '100pts' },
   { label: 'Diary', pts: '200pts' },

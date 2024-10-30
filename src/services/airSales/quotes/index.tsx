@@ -232,9 +232,8 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
     getTaxCalculations: builder.query({
       query: (params: any) => ({
-        url: `${END_POINTS?.TAX_CALCULATION}`,
+        url: `${END_POINTS?.TAX_CALCULATION}/apply-on/${params.applyOn}`,
         method: 'GET',
-        params: params,
       }),
       providesTags: TAG,
     }),

@@ -1,29 +1,22 @@
-import React from 'react';
-
 import { Box, Button, Grid, Typography } from '@mui/material';
-
 import { CheckCircle } from '@mui/icons-material';
 import CancelIcon from '@mui/icons-material/Cancel';
-
 import { FilterrIcon, UserFeatureIcon } from '@/assets/icons';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CommonModal from '@/components/CommonModal';
-import CustomPagination from '@/components/CustomPagination';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { columns, dataArray } from './DelegateFilter.data';
 import useDelegateFilterTable from './useDelegateFilterTable';
-
 import { v4 as uuidv4 } from 'uuid';
-
-import { delegateData } from '@/mock/modules/orgAdmin/Delegate';
-
 import { styles } from './DelegateFilterTable.style';
 
-const DelegateFilterTable = () => {
+const DelegateFilterTable = ({ data }: any) => {
+  const { setPage, setPageLimit, getDelegateData } = data;
+  const tableData = getDelegateData?.data?.delegatedUsers;
+  const paginationData = getDelegateData?.data?.meta;
+
   const {
     inProgress,
     setInProgress,
@@ -72,12 +65,19 @@ const DelegateFilterTable = () => {
         <Grid sx={{ marginTop: '1rem' }}>
           <TanstackTable
             columns={columns(setInProgress, setStatus, setIsComplete)}
-            data={delegateData}
-          />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+            data={tableData}
+            isPagination
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={paginationData?.pages}
+            pageLimit={paginationData?.limit}
+            totalRecords={paginationData?.total}
+            // isLoading={isLoading}
+            // isSuccess={isSuccess}
+            // isFetching={isFetching}
+            // isError={isError}
+            currentPage={paginationData?.page}
           />
         </Grid>
       </Box>

@@ -5,14 +5,11 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
 const Quotation = () => {
-  const { viewQuotesData, taxCalculation } = useViewQuotes();
+  const {
+    viewQuotesData,
+    // taxCalculation
+  } = useViewQuotes();
   const theme = useTheme();
-
-  const sum = viewQuotesData?.data?.products?.reduce(
-    (accumulator: any, currentValue: any) =>
-      accumulator + currentValue?.unitPrice * currentValue?.quantity,
-    0,
-  );
 
   const unitDiscount = viewQuotesData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
@@ -20,41 +17,18 @@ const Quotation = () => {
     0,
   );
 
-  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
-
-  const gettingDiscount = viewQuotesData?.data?.products[0]?.unitDiscount;
-
-  let totalPercentage = 0;
-  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
-    for (const tax of taxCalculationPerc) {
-      totalPercentage += tax.percentage;
-    }
-  }
-
-  const percentageOfSubtotal = sum * (totalPercentage / 100);
-  const discount = isNaN(gettingDiscount) ? 0 : gettingDiscount;
-
-  let FinalTotal;
-  if (!isNaN(percentageOfSubtotal) && !isNaN(discount)) {
-    FinalTotal = (percentageOfSubtotal - discount)?.toFixed(2);
-  } else {
-    FinalTotal = 'N/A';
-  }
+  // const taxCalculationPerc = taxCalculation?.data;
 
   return (
     <Box sx={styles?.box}>
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Sub Total</Box>
-        <Box sx={styles?.bCell}>£{sum}</Box>
+        <Box sx={styles?.bCell}>£ {viewQuotesData?.data?.subTotal}</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>
-          {taxCalculationPerc?.map((item: any) => {
-            return item?.name;
-          })}
-        </Box>
-        <Box sx={styles?.bCell}>{totalPercentage ?? 'N/A'}</Box>
+        <Box sx={styles?.bHead}>V.A.T</Box>
+        <Box sx={styles?.bCell}>{viewQuotesData?.data?.tax ?? 'N/A'}%</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
@@ -63,12 +37,14 @@ const Quotation = () => {
       </Box>
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Total Redeemed Discount</Box>
-        <Box sx={styles?.bCell}>£ {unitDiscount ?? 'N/A'}£ 20</Box>
+        <Box sx={styles?.bCell}>
+          £ {viewQuotesData?.data?.RedeemedDiscount ?? 'N/A'}
+        </Box>
       </Box>
 
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£{FinalTotal}</Box>
+        <Box sx={styles?.bHead}>£{viewQuotesData?.data?.total}</Box>
       </Box>
 
       <Box sx={styles?.signatureCard}>
@@ -77,7 +53,6 @@ const Quotation = () => {
           <Box sx={styles?.boxLabel}>Signature</Box>
         </Box>
         <Box sx={styles?.dateBox}>
-          {/* <Box sx={styles?.dateSpace}></Box> */}
           <Typography
             sx={{
               ml: 1,

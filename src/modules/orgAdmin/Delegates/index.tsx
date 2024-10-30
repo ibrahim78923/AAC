@@ -13,6 +13,8 @@ const Delegates = () => {
     theme,
     isInviteModalOpen,
     setIsInviteModalOpen,
+    getDelegateData,
+    tableDataParams,
   } = useDelegates();
 
   return (
@@ -47,64 +49,8 @@ const Delegates = () => {
               </Box>
             </Grid>
           </Grid>
-          <Box
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.off_white_one}`,
-              marginTop: '1rem',
-              padding: '1.2rem',
-            }}
-          >
-            <Grid container spacing={10}>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
-                <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      fontWeight: 400,
-                      color: `${theme?.palette?.custom?.main}`,
-                      marginBottom: '0.3rem',
-                    }}
-                  >
-                    Total Earnings
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: 500,
-                      color: `${theme?.palette?.grey[800]}`,
-                    }}
-                  >
-                    £ 1,234.11
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
-                <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      fontWeight: 400,
-                      color: `${theme?.palette?.custom?.main}`,
-                      marginBottom: '0.3rem',
-                    }}
-                  >
-                    Pending From Inactive Members
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: 500,
-                      color: `${theme?.palette?.grey[800]}`,
-                    }}
-                  >
-                    £ 1,234.11
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-          <DelegateCard />
-          <DelegateFilterTable />
+          <DelegateCard cardData={getDelegateData?.data?.stats} />
+          <DelegateFilterTable data={tableDataParams} />
         </Box>
       )}
 

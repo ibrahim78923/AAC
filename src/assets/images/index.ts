@@ -41,6 +41,7 @@ export { default as NotificationAvatarImage } from './modules/HeaderAndSidebar/n
 export { default as ArrowSquareLeftImage } from './modules/HeaderAndSidebar/arrow-square-left.png';
 export { default as UserProfileImage } from './shared/user-profile.png';
 export { default as AssetsImage } from './modules/HeaderAndSidebar/assets.png';
+export { default as PoundImage } from './shared/pound.png';
 export { default as TicketDiscountImage } from './modules/HeaderAndSidebar/ticket-discount.png';
 export { default as WorkLoadImage } from './modules/HeaderAndSidebar/workload.png';
 export { default as FeedbackSurveyImage } from './modules/HeaderAndSidebar/feedback-survey-img.png';
