@@ -29,8 +29,8 @@ export const useDeleteRequester = (props: IRequestersProps) => {
       setSelectedRequesterList?.([]);
       const newPage = selectedRequesterList?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
-      await getRequestersListData?.(newPage);
       closeRequesterDeleteModal?.();
+      await getRequestersListData?.(newPage);
     } catch (error: any) {
       errorSnackbar?.();
     }

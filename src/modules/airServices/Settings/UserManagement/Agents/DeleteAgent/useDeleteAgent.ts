@@ -24,8 +24,8 @@ export const useDeleteAgent = (props: IAgentsProps) => {
       setSelectedAgentList?.([]);
       const newPage = selectedAgentList?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
-      await getAgentsListData?.(newPage);
       closeAgentDeleteModal?.();
+      await getAgentsListData?.(newPage);
     } catch (error: any) {
       errorSnackbar?.();
       setSelectedAgentList?.([]);

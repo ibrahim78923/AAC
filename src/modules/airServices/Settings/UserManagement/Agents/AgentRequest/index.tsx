@@ -26,6 +26,7 @@ const AgentRequest = () => {
     patchApprovedRequestStatus,
     selectedAgentRequest,
     setSelectedAgentRequest,
+    requesterId,
   } = useAgentRequest();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -118,7 +119,10 @@ const AgentRequest = () => {
                       onClick={() => handlerStatusApprove(item?._id)}
                       color={'success'}
                       disabled={patchApprovedRequestStatus?.isLoading}
-                      loading={patchApprovedRequestStatus?.isLoading}
+                      loading={
+                        item?._id === requesterId &&
+                        patchApprovedRequestStatus?.isLoading
+                      }
                       className="small"
                     >
                       Approve

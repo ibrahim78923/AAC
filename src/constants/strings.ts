@@ -972,20 +972,7 @@ export const COLLECTION_NAME = {
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
   FORECAST_PIPELINES: 'goals',
-  FORECAST_STAGES: 'forecastStage',
   CONTRACT_TYPE: 'contracttypes',
-  EVERYONE: 'everyone',
-  SPECIFIC_USERS: 'specificUsers',
-  ADD_TO_EXISTING: 'addToExisting',
-  ADD_TO_NEW: 'addToNew',
-  ALL: 'All',
-  INVENTORIES: 'Inventory',
-  TICKETS: 'Tickets',
-  SOFTWARE: 'Software',
-  CONTRACTS: 'Contract',
-  PURCHASE_ORDER: 'Purchase Order',
-  DEALS: 'Deals',
-  FORECAST: 'Forecast',
 };
 
 export const MODAL_INITIAL_STATES: any = {
