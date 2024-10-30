@@ -23,6 +23,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import GoalsFilterDrawer from '../GoalsDrwaer';
 import { isNullOrEmpty } from '@/utils';
+import CustomPagination from '@/components/CustomPagination';
 
 const Goals = () => {
   const { isViewDealDrawer, setIsViewDealDrawer } = useForecast();
@@ -60,6 +61,8 @@ const Goals = () => {
     filterValues,
     selectedSerial,
     setSelectedSerial,
+    setPageLimit,
+    setPage,
   } = useGoals();
 
   // Choose the goals data based on the current alignment
@@ -250,40 +253,55 @@ const Goals = () => {
                     />
                   ))
                 ) : (
-                  <Box display={'flex'} flexDirection={'column'} width={'100%'}>
-                    {uniqueSerialNumbers?.map((serialNumber: any) => {
-                      const goal = activeGoalsData
-                        ?.flatMap((g: any) => g?.goals)
-                        ?.find(
-                          (goal: any) => goal?.serialNumber === serialNumber,
+                  <>
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      width={'100%'}
+                    >
+                      {uniqueSerialNumbers?.map((serialNumber: any) => {
+                        const goal = activeGoalsData
+                          ?.flatMap((g: any) => g?.goals)
+                          ?.find(
+                            (goal: any) => goal?.serialNumber === serialNumber,
+                          );
+
+                        return (
+                          <Button
+                            disableRipple
+                            key={serialNumber}
+                            onClick={() => handleSerialClick(serialNumber)}
+                            variant="contained"
+                            sx={{
+                              backgroundColor:
+                                selectedSerial === serialNumber
+                                  ? 'blue'
+                                  : theme?.palette?.grey[600],
+                              marginBottom: '10px',
+                              justifyContent: 'start',
+                            }}
+                          >
+                            #GL- {serialNumber} - {goal?.goalName}
+                          </Button>
                         );
+                      })}
 
-                      return (
-                        <Button
-                          disableRipple
-                          key={serialNumber}
-                          onClick={() => handleSerialClick(serialNumber)}
-                          variant="contained"
-                          sx={{
-                            backgroundColor:
-                              selectedSerial === serialNumber
-                                ? 'blue'
-                                : theme?.palette?.grey[600],
-                            marginBottom: '10px',
-                            justifyContent: 'start',
-                          }}
-                        >
-                          #GL- {serialNumber} - {goal?.goalName}
-                        </Button>
-                      );
-                    })}
-
-                    {uniqueSerialNumbers?.length === 0 && (
-                      <Typography sx={{ color: theme?.palette?.error?.main }}>
-                        No data found
-                      </Typography>
-                    )}
-                  </Box>
+                      {uniqueSerialNumbers?.length === 0 && (
+                        <Typography sx={{ color: theme?.palette?.error?.main }}>
+                          No data found
+                        </Typography>
+                      )}
+                    </Box>
+                    <CustomPagination
+                      count={goalsData?.meta?.pages}
+                      pageLimit={goalsData?.meta?.limit}
+                      currentPage={goalsData?.meta?.page}
+                      totalRecords={goalsData?.meta?.total}
+                      onPageChange={(page: number) => setPage(page)}
+                      setPage={setPage}
+                      setPageLimit={setPageLimit}
+                    />
+                  </>
                 )}
               </>
             ) : (
@@ -425,39 +443,54 @@ const Goals = () => {
                     />
                   ))
                 ) : (
-                  <Box display={'flex'} flexDirection={'column'} width={'100%'}>
-                    {uniqueSerialNumbers?.map((serialNumber: any) => {
-                      const goal = activeGoalsData
-                        ?.flatMap((g: any) => g?.goals)
-                        ?.find(
-                          (goal: any) => goal?.serialNumber === serialNumber,
-                        );
+                  <>
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      width={'100%'}
+                    >
+                      {uniqueSerialNumbers?.map((serialNumber: any) => {
+                        const goal = activeGoalsData
+                          ?.flatMap((g: any) => g?.goals)
+                          ?.find(
+                            (goal: any) => goal?.serialNumber === serialNumber,
+                          );
 
-                      return (
-                        <Button
-                          disableRipple
-                          key={serialNumber}
-                          onClick={() => handleSerialClick(serialNumber)}
-                          variant="contained"
-                          sx={{
-                            backgroundColor:
-                              selectedSerial === serialNumber
-                                ? 'blue'
-                                : theme?.palette?.grey[600],
-                            marginBottom: '8px',
-                            justifyContent: 'start',
-                          }}
-                        >
-                          #GL- {serialNumber} - {goal?.goalName}
-                        </Button>
-                      );
-                    })}
-                    {uniqueSerialNumbers?.length === 0 && (
-                      <Typography sx={{ color: theme?.palette?.error?.main }}>
-                        No data found
-                      </Typography>
-                    )}
-                  </Box>
+                        return (
+                          <Button
+                            disableRipple
+                            key={serialNumber}
+                            onClick={() => handleSerialClick(serialNumber)}
+                            variant="contained"
+                            sx={{
+                              backgroundColor:
+                                selectedSerial === serialNumber
+                                  ? 'blue'
+                                  : theme?.palette?.grey[600],
+                              marginBottom: '8px',
+                              justifyContent: 'start',
+                            }}
+                          >
+                            #GL- {serialNumber} - {goal?.goalName}
+                          </Button>
+                        );
+                      })}
+                      {uniqueSerialNumbers?.length === 0 && (
+                        <Typography sx={{ color: theme?.palette?.error?.main }}>
+                          No data found
+                        </Typography>
+                      )}
+                    </Box>
+                    <CustomPagination
+                      count={goalsTeamData?.meta?.pages}
+                      pageLimit={goalsTeamData?.meta?.limit}
+                      currentPage={goalsTeamData?.meta?.page}
+                      totalRecords={goalsTeamData?.meta?.total}
+                      onPageChange={(page: number) => setPage(page)}
+                      setPage={setPage}
+                      setPageLimit={setPageLimit}
+                    />
+                  </>
                 )}
               </>
             ) : (

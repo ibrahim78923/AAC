@@ -167,6 +167,48 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['COMPANY'],
     }),
+    PostCompaniesTicket: builder?.mutation({
+      query: (postTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'POST',
+        body: postTicketParameter?.body,
+      }),
+    }),
+    getCategoriesDropdownCompaniesTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.servicecategories;
+      },
+    }),
+    getAllUsersAsRequestersDropdownForCompaniesTickets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    getAllEmailsCompanies: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.GET_COMPANY_ASSOCIATION_GMAIL}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['COMPANY', 'GMAIL'],
+    }),
+    deleteEmailCompanies: builder.mutation({
+      query: ({ id, moduleId, moduleType }: any) => ({
+        url: `${END_POINTS?.COMPANY_DELETE_ASSOCIATION}?moduleType=${moduleType}&moduleId=${moduleId}&id=${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -189,4 +231,9 @@ export const {
   useGetCompanyAssociationsQuery,
   usePostAssociationCompaniesMutation,
   usePostCompaniesAttachmentsMutation,
+  usePostCompaniesTicketMutation,
+  useLazyGetCategoriesDropdownCompaniesTicketsQuery,
+  useLazyGetAllUsersAsRequestersDropdownForCompaniesTicketsQuery,
+  useGetAllEmailsCompaniesQuery,
+  useDeleteEmailCompaniesMutation,
 } = companiesAPI;

@@ -7,15 +7,15 @@ import {
   ticketsDefaultValues,
   ticketsValidationSchema,
 } from './TicketsEditorDrawer.data';
-import {
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
-  usePostTicketsMutation,
-} from '@/services/airServices/tickets';
 import { successSnackbar } from '@/utils/api';
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import { ASSOCIATIONS_API_PARAMS_FOR, DRAWER_TITLE } from '@/constants';
-import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
+import {
+  useLazyGetAllUsersAsRequestersDropdownForCompaniesTicketsQuery,
+  useLazyGetCategoriesDropdownCompaniesTicketsQuery,
+  usePostAssociationCompaniesMutation,
+  usePostCompaniesTicketMutation,
+} from '@/services/commonFeatures/companies';
 
 const useTicketsEditorDrawer = (
   setOpenDrawer: any,
@@ -45,7 +45,7 @@ const useTicketsEditorDrawer = (
   });
   const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
-  const [postTicketTrigger, { isLoading }] = usePostTicketsMutation();
+  const [postTicketTrigger, { isLoading }] = usePostCompaniesTicketMutation();
   const onSubmit = async (values: any) => {
     const ticketFormData = new FormData();
     ticketFormData?.append('requester', values?.requester?._id);
@@ -91,8 +91,10 @@ const useTicketsEditorDrawer = (
   const { handleSubmit, watch, reset } = methodsTickets;
   const watchTickets = watch(['ticketStatus']);
 
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const apiQueryRequester =
+    useLazyGetAllUsersAsRequestersDropdownForCompaniesTicketsQuery();
+  const apiQueryCategories =
+    useLazyGetCategoriesDropdownCompaniesTicketsQuery();
 
   const upsertTicketFormFields = ticketsDataArray(
     apiQueryRequester,

@@ -55,7 +55,7 @@ export const gmailApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: ['GMAIL', 'COMPANY'],
     }),
     postScheduleGmail: builder.mutation({
       query: ({ body }: any) => {

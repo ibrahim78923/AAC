@@ -283,7 +283,7 @@ const ViewDetails = () => {
               <Notes companyId={data?.data?._id} />
               <Calls companyId={data?.data?._id} />
               <Meetings />
-              <Emails />
+              <Emails companyId={data?.data?._id} />
             </HorizontalTabs>
           </Box>
         </Grid>

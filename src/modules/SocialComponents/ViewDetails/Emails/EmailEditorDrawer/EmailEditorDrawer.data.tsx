@@ -67,7 +67,7 @@ export const drawerTitle: any = {
   Reply: 'Reply',
 };
 export const drawerButtonTitle: any = {
-  New: 'Save',
-  Forward: 'Send',
-  Reply: 'Send',
+  new: 'Save',
+  forward: 'Send',
+  reply: 'Send',
 };
