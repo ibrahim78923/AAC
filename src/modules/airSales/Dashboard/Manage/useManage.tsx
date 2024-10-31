@@ -32,6 +32,10 @@ const useManage = () => {
     accessRights: null,
   });
 
+  const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
+    {},
+  );
+
   const [deleteSalesDashboard, { isLoading: loadingDeleteDashboard }] =
     useDeleteSalesDashboardMutation();
 
@@ -58,7 +62,11 @@ const useManage = () => {
     }
   };
 
-  const { data: dashboardListArray, isLoading } = useGetSalesDashboardsQuery({
+  const {
+    data: dashboardListArray,
+    isLoading,
+    isFetching,
+  } = useGetSalesDashboardsQuery({
     params: {
       page,
       limit: pageLimit,
@@ -71,14 +79,23 @@ const useManage = () => {
   });
 
   const handleUpdateDefault = async (id: string, defaultVal: boolean) => {
+    setLoadingState((prevState) => ({ ...prevState, [id]: true }));
     const body = {
       id: id,
       isDefault: defaultVal,
     };
-    await updatesalesDashboard({ body: body })?.unwrap();
-    enqueueSnackbar('Default dashboard updated successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    try {
+      await updatesalesDashboard({ body: body })?.unwrap();
+      enqueueSnackbar('Dashboard set as default successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    } finally {
+      setLoadingState((prevState) => ({ ...prevState, [id]: false }));
+    }
   };
 
   const handelNavigate = () => {
@@ -93,8 +110,8 @@ const useManage = () => {
   };
 
   return {
-    loadingDeleteDashboard,
     loadingUpdateDashboard,
+    loadingDeleteDashboard,
     handleCloseDeleteModal,
     setIsDeleteModalOpen,
     handleUpdateDefault,
@@ -105,10 +122,12 @@ const useManage = () => {
     isFilterDrawer,
     handelNavigate,
     filterValues,
+    loadingState,
     resetFilters,
     setPageLimit,
     handleDelete,
     currentUser,
+    isFetching,
     isLoading,
     pageLimit,
     setPage,

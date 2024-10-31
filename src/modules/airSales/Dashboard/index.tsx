@@ -29,6 +29,8 @@ import ForecastCategoryAnalytics from './ForecastCategoryAnalytics';
 import { indexNumbers } from '@/constants';
 import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
+import { TruncateText } from '@/components/TruncateText';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const Dashboard = () => {
   const {
@@ -36,14 +38,17 @@ const Dashboard = () => {
     lazyGetSingleSalesDashboardStatus,
     setSelectedDashboard,
     dashboardListLoading,
+    selectedDashboard,
     dashboardNotFound,
     apiCallInProgress,
     dashboardLoading,
+    defaultDashboard,
     dropdownOptions,
     dashboardsData,
     handelNavigate,
     timeLapse,
-    theme,
+    disabled,
+    router,
     user,
   } = useDashboard();
 
@@ -59,15 +64,9 @@ const Dashboard = () => {
               animation="wave"
             />
           ) : (
-            <Stack direction="column">
-              <Typography
-                variant="h3"
-                color={theme?.palette?.primary?.main}
-                fontWeight={600}
-              >
-                {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
-              </Typography>
-            </Stack>
+            <Typography variant="h3" color="primary.main">
+              <TruncateText text={dashboardsData?.dashboard?.name} size={35} />
+            </Typography>
           )}
         </Grid>
         <Grid item xs={12}>
@@ -85,44 +84,63 @@ const Dashboard = () => {
                   animation={'wave'}
                 />
               ) : (
-                <Typography variant="h4" color="blue.main">
-                  {`Hi ${capitalizeFirstLetters(
-                    user?.firstName ?? '---',
-                  )}! Happy to see you again`}
+                <Typography
+                  variant="h4"
+                  fontWeight={'fontWeightSmall'}
+                  color="blue.main"
+                >
+                  <Typography component="span" variant="h4">
+                    Hi {capitalizeFirstLetters(user?.firstName) ?? '---'}!
+                  </Typography>{' '}
+                  Happy to see you again
                 </Typography>
               )}
             </Box>
             <Stack direction="row" gap={1} flexWrap={'wrap'}>
-              <Button
-                className="small"
-                variant="outlined"
-                color="inherit"
-                size="small"
-                startIcon={<Autorenew />}
-                onClick={lazyGetSingleSalesDashboardStatus?.refetch}
-                disabled={apiCallInProgress}
-                sx={{
-                  fontSize: pxToRem(12),
-                  fontWeight: 'fontWeightRegular',
-                  textTransform: 'lowercase',
-                }}
-              >
-                {!!apiCallInProgress ? (
-                  <Box>
-                    <LinearProgress sx={{ width: pxToRem(70) }} />
-                  </Box>
-                ) : (
-                  timeLapse?.lastFetchLapseTime
-                )}
-              </Button>
-              {!dashboardNotFound && (
-                <Actions selectedDashboard={dashboardsData} />
+              {/* refetch button  */}
+              {selectedDashboard?.length > 0 && (
+                <Button
+                  className="small"
+                  variant="outlined"
+                  color="inherit"
+                  size="small"
+                  startIcon={<Autorenew />}
+                  onClick={lazyGetSingleSalesDashboardStatus?.refetch}
+                  disabled={apiCallInProgress}
+                  sx={{
+                    fontSize: pxToRem(12),
+                    fontWeight: 'fontWeightRegular',
+                    textTransform: 'lowercase',
+                  }}
+                >
+                  {!!apiCallInProgress ? (
+                    <Box>
+                      <LinearProgress sx={{ width: pxToRem(70) }} />
+                    </Box>
+                  ) : (
+                    timeLapse?.lastFetchLapseTime
+                  )}
+                </Button>
               )}
+
+              {/* actions button  */}
+              {!dashboardNotFound && dashboardsData && (
+                <Actions
+                  selectedDashboard={dashboardsData}
+                  disabled={disabled}
+                />
+              )}
+
+              {/* dashboard list dropdown  */}
               <CreateDashboardOptions
                 listData={dropdownOptions}
-                selectedDashboard={setSelectedDashboard}
+                setSelectedDashboard={setSelectedDashboard}
+                selectedDashboard={selectedDashboard}
                 isLoading={dashboardListLoading}
+                defaultDashboard={defaultDashboard}
               />
+
+              {/* manage dashboard button  */}
               <Button
                 onClick={handelNavigate}
                 variant="outlined"
@@ -142,7 +160,11 @@ const Dashboard = () => {
               <Button
                 startIcon={<PlusIcon />}
                 variant="contained"
-                onClick={handelNavigate}
+                onClick={() => {
+                  router?.push({
+                    pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                  });
+                }}
               >
                 Create Dashboard
               </Button>
@@ -180,6 +202,7 @@ const Dashboard = () => {
                   indexNumbers?.ZERO && (
                   <Grid item xs={12} lg={6} mt={1}>
                     <MeetingDetails
+                      isStatic={false}
                       meetingsData={dashboardsData?.MEETING_DETAILS}
                     />
                   </Grid>

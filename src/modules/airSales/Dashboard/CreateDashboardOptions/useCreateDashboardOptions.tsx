@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import useToggle from '@/hooks/useToggle';
 
-const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
+const useCreateDashboardOptions = (
+  setSelectedDashboard: (id: string) => void,
+) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isShowDrawer, setIsShowDrawer] = useState(false);
   const [isToggled, toggle] = useToggle(false);
@@ -20,7 +22,7 @@ const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
   };
 
   const handleMenuItemClick = (dashboardId: string) => {
-    selectedDashboard(dashboardId);
+    setSelectedDashboard(dashboardId);
     handleCloseMenuOptions();
   };
 

@@ -9,10 +9,10 @@ import {
 import * as Yup from 'yup';
 import {
   useLazyGetAllCampaignsListQuery,
-  useLazyGetDealOwnersListQuery,
+  useLazyGetAllUsersDropdownQuery,
 } from '@/services/common-APIs';
-import { ROLES } from '@/constants/strings';
-import { getActiveProductSession, getSession } from '@/utils';
+
+import { getActiveProductSession } from '@/utils';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -57,13 +57,12 @@ export const defaultValues = (data?: any, form?: any) => {
 };
 
 export const dataArray = () => {
-  const { user }: any = getSession();
-  const orgId = user?.organization?._id;
   const activeProduct = getActiveProductSession();
   const companyAccountId =
     activeProduct?.accounts[indexNumbers?.ZERO]?.company?._id;
   const campaignsList = useLazyGetAllCampaignsListQuery();
-  const userListData = useLazyGetDealOwnersListQuery();
+  const userListData = useLazyGetAllUsersDropdownQuery();
+
   return [
     {
       componentProps: {
@@ -115,8 +114,7 @@ export const dataArray = () => {
         apiQuery: userListData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: { role: ROLES?.ORG_EMPLOYEE, organization: orgId },
-        queryKey: 'role',
+        externalParams: { productId: activeProduct?._id },
       },
       component: RHFAutocompleteAsync,
       md: 12,

@@ -45,148 +45,151 @@ const Dashboard = () => {
   } = useDashboard();
 
   return (
-    <>
-      <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
-        <Grid item xs={12}>
-          <Stack
-            direction={{ sm: 'row' }}
-            justifyContent="space-between"
-            gap={1}
-          >
+    <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
+      <Grid item xs={12}>
+        <Stack direction={{ sm: 'row' }} justifyContent="space-between" gap={1}>
+          {dashboardLoading ? (
+            <Skeleton
+              width={250}
+              height={36}
+              variant={'rectangular'}
+              animation={'wave'}
+            />
+          ) : (
+            <Stack direction="column">
+              <Typography
+                variant="h3"
+                color={theme?.palette?.primary?.main}
+                fontWeight={600}
+              >
+                {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
+              </Typography>
+            </Stack>
+          )}
+        </Stack>
+      </Grid>
+      <Grid item xs={12}>
+        <Stack
+          direction={{ lg: 'row' }}
+          gap={1}
+          justifyContent={'space-between'}
+        >
+          <Box>
             {dashboardLoading ? (
               <Skeleton
-                width={250}
-                height={36}
+                width={350}
+                height={25}
                 variant={'rectangular'}
                 animation={'wave'}
               />
             ) : (
-              <Stack direction="column">
-                <Typography
-                  variant="h3"
-                  color={theme?.palette?.primary?.main}
-                  fontWeight={600}
-                >
-                  {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
-                </Typography>
-              </Stack>
-            )}
-          </Stack>
-        </Grid>
-        <Grid item xs={12}>
-          <Stack
-            direction={{ lg: 'row' }}
-            gap={1}
-            justifyContent={'space-between'}
-          >
-            <Box>
               <Typography variant="h4">
                 {`Hi ${capitalizeFirstLetters(
                   user?.firstName ?? '---',
                 )}! Happy to see you again`}
               </Typography>
-            </Box>
-            <Stack direction="row" gap={1} flexWrap={'wrap'}>
-              <Button
-                className="small"
-                variant="outlined"
-                color="inherit"
-                size="small"
-                startIcon={<Autorenew />}
-                onClick={lazyGetSingleMarketingDashboardStatus?.refetch}
-                disabled={apiCallInProgress}
-                sx={{
-                  fontSize: pxToRem(12),
-                  fontWeight: 'fontWeightRegular',
-                  textTransform: 'lowercase',
-                }}
-              >
-                {!!apiCallInProgress ? (
-                  <Box>
-                    <LinearProgress sx={{ width: pxToRem(70) }} />
-                  </Box>
-                ) : (
-                  timeLapse?.lastFetchLapseTime
-                )}
-              </Button>
-              {!dashboardNotFound && (
-                <ShareOptions
-                  currentUser={currentUser}
-                  selectedDashboard={dashboardsData}
-                />
-              )}
-              <ManageDashboardOptions
-                listData={dropdownOptions}
-                selectedDashboard={setSelectedDashboard}
-              />
-              <Button
-                variant="outlined"
-                color="inherit"
-                className="small"
-                onClick={() => {
-                  router?.push({
-                    pathname: `${AIR_MARKETER?.MANAGE_DASHBOARD}`,
-                  });
-                }}
-              >
-                Manage Dashboards
-              </Button>
-            </Stack>
-          </Stack>
-        </Grid>
-        {dashboardNotFound ? (
-          <NoData message="No default dashboard found!">
+            )}
+          </Box>
+          <Stack direction="row" gap={1} flexWrap={'wrap'}>
             <Button
-              startIcon={<PlusIcon />}
-              variant="contained"
-              onClick={handelNavigate}
+              className="small"
+              variant="outlined"
+              color="inherit"
+              size="small"
+              startIcon={<Autorenew />}
+              onClick={lazyGetSingleMarketingDashboardStatus?.refetch}
+              disabled={apiCallInProgress}
+              sx={{
+                fontSize: pxToRem(12),
+                fontWeight: 'fontWeightRegular',
+                textTransform: 'lowercase',
+              }}
             >
-              Create Dashboard
+              {!!apiCallInProgress ? (
+                <Box>
+                  <LinearProgress sx={{ width: pxToRem(70) }} />
+                </Box>
+              ) : (
+                timeLapse?.lastFetchLapseTime
+              )}
             </Button>
-          </NoData>
-        ) : dashboardLoading ? (
-          <Grid item xs={12} p={1}>
-            <SkeletonForm />
-          </Grid>
-        ) : (
-          <>
-            {dashboardsData?.Profile_Stats?.length > indexNumbers?.ZERO && (
-              <Grid item xs={12}>
-                <ProfileStatistics />
-              </Grid>
+            {!dashboardNotFound && (
+              <ShareOptions
+                currentUser={currentUser}
+                selectedDashboard={dashboardsData}
+              />
             )}
-            {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
-              <Grid item xs={12} lg={6}>
-                <CtaViews />
-              </Grid>
-            )}
-            {dashboardsData?.newContactsAndCustomers && (
-              <Grid item xs={12} lg={6}>
-                <ContactCustomerGraph />
-              </Grid>
-            )}
-            {/* commented for future use  */}
-            {/* <Grid item xs={12} lg={6}>
+            <ManageDashboardOptions
+              listData={dropdownOptions}
+              selectedDashboard={setSelectedDashboard}
+            />
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={() => {
+                router?.push({
+                  pathname: `${AIR_MARKETER?.MANAGE_DASHBOARD}`,
+                });
+              }}
+            >
+              Manage Dashboards
+            </Button>
+          </Stack>
+        </Stack>
+      </Grid>
+      {dashboardNotFound ? (
+        <NoData message="No default dashboard found!">
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            onClick={handelNavigate}
+          >
+            Create Dashboard
+          </Button>
+        </NoData>
+      ) : dashboardLoading ? (
+        <Grid item xs={12} p={1}>
+          <SkeletonForm />
+        </Grid>
+      ) : (
+        <>
+          {dashboardsData?.Profile_Stats?.length > indexNumbers?.ZERO && (
+            <Grid item xs={12}>
+              <ProfileStatistics />
+            </Grid>
+          )}
+          {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
+            <Grid item xs={12} lg={6}>
+              <CtaViews />
+            </Grid>
+          )}
+          {dashboardsData?.newContactsAndCustomers && (
+            <Grid item xs={12} lg={6}>
+              <ContactCustomerGraph />
+            </Grid>
+          )}
+          {/* commented for future use  */}
+          {/* <Grid item xs={12} lg={6}>
                     <TotalMarketingEmail />
                   </Grid> */}
-            {dashboardsData?.leadCapturedForms && (
-              <Grid item xs={12} lg={6}>
-                <FormsTable
-                  data={dashboardsData?.leadCapturedForms?.leadcaptureforms}
-                />
-              </Grid>
-            )}
-            {/* commented for future use  */}
-            {/* <Grid item xs={12}>
+          {dashboardsData?.leadCapturedForms && (
+            <Grid item xs={12} lg={6}>
+              <FormsTable
+                data={dashboardsData?.leadCapturedForms?.leadcaptureforms}
+              />
+            </Grid>
+          )}
+          {/* commented for future use  */}
+          {/* <Grid item xs={12}>
                     <SmsMarketingGraph />
                   </Grid>
                   <Grid item xs={12}>
                     <WhatsappMarketingGraph />
                   </Grid> */}
-          </>
-        )}
-      </Grid>
-    </>
+        </>
+      )}
+    </Grid>
   );
 };
 

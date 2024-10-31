@@ -1,4 +1,10 @@
-import { Avatar, Box, Stack, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -17,6 +23,7 @@ export const columns: any = (columnsProps: any) => {
     router,
     handleUpdateDefault,
     currentUser,
+    loadingState,
   } = columnsProps;
 
   return [
@@ -30,14 +37,21 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?.isDefault,
       id: 'isDefault',
-      cell: (info: any) => (
-        <SwitchBtn
-          handleSwitchChange={(e: any) => {
-            handleUpdateDefault(info?.row?.original?._id, e?.target?.checked);
-          }}
-          checked={info?.getValue()}
-        />
-      ),
+      cell: (info: any) => {
+        const rowId = info?.row?.original?._id;
+        const isLoading = loadingState[rowId] ?? false;
+
+        return isLoading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <SwitchBtn
+            handleSwitchChange={(e: any) => {
+              handleUpdateDefault(rowId, e?.target?.checked);
+            }}
+            checked={info?.getValue()}
+          />
+        );
+      },
       header: 'Default',
       isSortable: false,
     },

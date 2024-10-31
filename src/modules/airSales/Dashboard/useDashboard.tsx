@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AUTO_REFRESH_API_POLLING_TIME,
   AUTO_REFRESH_API_TIME_INTERVAL,
@@ -9,7 +10,6 @@ import {
   useLazyGetSalesDashboardsListQuery,
 } from '@/services/airSales/dashboard';
 import { getSession } from '@/utils';
-import { useState } from 'react';
 import DealsGraph from './DealsGraph';
 import TeamActivity from './TeamActivity';
 import MeetingDetails from './MeetingDetails';
@@ -18,6 +18,7 @@ import { useTheme } from '@mui/material';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
 import { useApiPolling } from '@/hooks/useApiPolling';
+import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
 const useDashboard = () => {
   const theme = useTheme();
   const { user }: any = getSession();
@@ -38,6 +39,10 @@ const useDashboard = () => {
     useGetSalesDashboardsQuery({ params: params });
 
   const dropdownOptions = useLazyGetSalesDashboardsListQuery();
+
+  const defaultDashboard = dashboardListArray?.dynamicdashboards?.find(
+    (item: any) => item?.isDefault,
+  );
 
   const dashboardParams = { params: { dashboardId: selectedDashboard } };
 
@@ -85,6 +90,12 @@ const useDashboard = () => {
     });
   };
 
+  const disabled =
+    lazyGetSingleSalesDashboardStatus?.data?.data?.dashboard?.permissions ===
+    MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL
+      ? true
+      : false;
+
   return {
     dashboardNotFound: lazyGetSingleSalesDashboardStatus?.isError,
     dashboardLoading: lazyGetSingleSalesDashboardStatus?.isLoading,
@@ -96,13 +107,16 @@ const useDashboard = () => {
     dashboardListLoading,
     dashboardListArray,
     selectedDashboard,
+    defaultDashboard,
     apiCallInProgress,
     dropdownOptions,
     dashboardsData,
     handelNavigate,
     setPageLimit,
     timeLapse,
+    disabled,
     setPage,
+    router,
     theme,
     user,
   };
