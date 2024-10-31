@@ -102,6 +102,7 @@ export const articlesListColumnsDynamic = (
             <Typography
               component={'span'}
               style={{ textTransform: 'capitalize' }}
+              variant="body3"
             >
               {info?.getValue()?.toLowerCase()}
             </Typography>

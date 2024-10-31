@@ -5,20 +5,38 @@ import { SingleFolderDetail } from '../Folder/SingleFolderDetail';
 import { Folder } from '../Folder';
 import { Header } from './Header';
 import { ArticlesLists } from './ArticlesList';
-import { resetComponentState } from '@/redux/slices/airServices/knowledge-base/slice';
+import {
+  resetComponentState,
+  resetSelectedFolder,
+} from '@/redux/slices/airServices/knowledge-base/slice';
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/redux/store';
-
-const { ARTICLE_LIST_VIEW } =
-  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const Articles = () => {
   const dispatch = useAppDispatch();
+
+  const router = useRouter();
+
   useEffect(() => {
     return () => {
       dispatch(resetComponentState());
     };
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleRouteChangeStart = (url: any) => {
+      if (url?.includes(AIR_SERVICES?.KNOWLEDGE_BASE)) return;
+      dispatch(resetSelectedFolder());
+    };
+
+    router?.events?.on('routeChangeStart', handleRouteChangeStart);
+
+    return () => {
+      router?.events?.off('routeChangeStart', handleRouteChangeStart);
+    };
+  }, [router?.events]);
 
   return (
     <>
@@ -28,7 +46,11 @@ export const Articles = () => {
         </Grid>
         <Grid item xs={12} lg={9} xl={10.25}>
           <SingleFolderDetail />
-          <PermissionsGuard permissions={[ARTICLE_LIST_VIEW]}>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.ARTICLE_LIST_VIEW,
+            ]}
+          >
             <Header />
             <br />
             <ArticlesLists />

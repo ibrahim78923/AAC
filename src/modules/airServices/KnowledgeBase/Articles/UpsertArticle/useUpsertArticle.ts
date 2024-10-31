@@ -13,12 +13,15 @@ import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 import {
   useAddServicesKnowledgeBaseSingleArticleMutation,
   useGetServicesKnowledgeBaseSingleArticleByIdQuery,
+  useGetServicesKnowledgeBaseSingleFolderByIdQuery,
   useUpdateServicesKnowledgeBaseSingleArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import { getActiveAccountSession } from '@/utils';
 import { AIR_SERVICES } from '@/constants/routes';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useAppSelector } from '@/redux/store';
+import { ALL_FOLDER } from '../../Folder/Folder.data';
 
 const { KNOWLEDGE_BASE } = AIR_SERVICES ?? {};
 const { DRAFT } = ARTICLE_STATUS ?? {};
@@ -35,6 +38,25 @@ export const useUpsertArticle: any = () => {
     useAddServicesKnowledgeBaseSingleArticleMutation();
   const [patchArticleTrigger, patchArticleStatus] =
     useUpdateServicesKnowledgeBaseSingleArticleMutation();
+
+  const selectedFolder = useAppSelector(
+    (state) => state?.servicesKnowledgeBase?.selectedFolder,
+  );
+  const selectedFolderId = selectedFolder?._id;
+
+  const apiDataParameter = {
+    queryParams: {
+      id: selectedFolderId,
+    },
+  };
+
+  const skipApiCall = !!!selectedFolderId || selectedFolderId === ALL_FOLDER;
+
+  const { data: singleFolder } =
+    useGetServicesKnowledgeBaseSingleFolderByIdQuery(apiDataParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: skipApiCall,
+    });
 
   const getSingleArticleParameter = {
     pathParam: {
@@ -62,8 +84,11 @@ export const useUpsertArticle: any = () => {
   const { reset, handleSubmit } = methods;
 
   useEffect(() => {
-    reset(() => upsertArticleDefaultValues(data?.data));
-  }, [articleId, data, reset]);
+    const populateData = !!articleId
+      ? data?.data
+      : { folder: singleFolder?.data };
+    reset(() => upsertArticleDefaultValues(populateData));
+  }, [articleId, data, singleFolder, reset]);
 
   const needApprovals = methods?.watch('needsApproval');
 

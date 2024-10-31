@@ -16,6 +16,7 @@ export const useHeader = () => {
   const selectedArticlesList = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.selectedArticlesList,
   );
+
   const setPortalAction = (actionType: any) => {
     dispatch(
       setIsPortalOpen<any>({

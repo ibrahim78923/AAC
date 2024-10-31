@@ -8,8 +8,8 @@ import {
 import { ALL_FOLDER } from '../Folder/Folder.data';
 import { useMemo } from 'react';
 import { getActiveAccountSession } from '@/utils';
-
 import { useLazyGetServicesKnowledgeBaseArticlesListQuery } from '@/services/airServices/knowledge-base/articles';
+
 export const useGetArticlesApi = () => {
   const dispatch = useAppDispatch();
   const product = useMemo(() => getActiveAccountSession(), []);
@@ -45,7 +45,6 @@ export const useGetArticlesApi = () => {
         ? []
         : [['folderId', selectedFolder?._id]]),
     ];
-
     const articlesParam = buildQueryParams(
       additionalParams,
       filterArticlesList,
@@ -53,14 +52,14 @@ export const useGetArticlesApi = () => {
     const getArticlesParameter = {
       queryParams: articlesParam,
     };
-    dispatch(canDisableFolderSelections(true));
+    dispatch(canDisableFolderSelections<any>(true));
     try {
       const response =
         await lazyGetArticlesTrigger(getArticlesParameter)?.unwrap();
       dispatch(setArticlesListsTotalRecords(response?.data?.articles?.length));
       dispatch(emptySelectedArticlesList());
     } catch (error: any) {}
-    dispatch(canDisableFolderSelections(false));
+    dispatch(canDisableFolderSelections<any>(false));
   };
 
   return {

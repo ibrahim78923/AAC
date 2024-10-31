@@ -68,7 +68,7 @@ const setSelectedFolderReducer = (state: any, action: any) => {
 const resetSelectedFolderReducer = (state: any) => {
   state.selectedFolder = selectedFolderInitialState;
   state.page = PAGINATION?.CURRENT_PAGE;
-  state.IsSelectedFolderChange = true;
+  state.IsSelectedFolderChange = false;
   state.filterArticlesList = {};
 };
 
@@ -87,7 +87,6 @@ const resetComponentStateReducers = (state: any) => {
   state.filterArticlesList = {};
   state.selectedArticlesList = [];
   state.isPortalOpen = isPortalOpenInitialState;
-  state.selectedFolder = selectedFolderInitialState;
   state.IsSelectedFolderChange = false;
   state.canDisableFolderSelection = false;
   state.singleArticleApiError = false;

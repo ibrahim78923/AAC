@@ -15,7 +15,7 @@ import forecastSlice from './slices/forecast/forecastSlice';
 import genericReportSlice from './slices/genericReport/genericReportSlice';
 import salesWorkflowSlice from './slices/salesWorkflow';
 import servicesWorkflowSlice from './slices/servicesWorkflow';
-import { servicesKnowledgeBaseSlice } from './slices/airServices';
+import servicesKnowledgeBaseSlice from './slices/airServices/knowledge-base/slice';
 import servicesTicketsSlice from './slices/airServices/tickets/slice';
 import operationsReportsListsSlice from './slices/airOperations/reports/slice';
 import servicesRelatedTicketsSlice from './slices/airServices/related-tickets/slice';
