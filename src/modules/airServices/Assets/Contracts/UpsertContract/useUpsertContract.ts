@@ -59,8 +59,15 @@ export const useUpsertContract = () => {
     defaultValues: upsertContractFormDefaultValuesFunction?.(data, form),
   });
 
-  const { handleSubmit, control, setValue, getValues, clearErrors, reset } =
-    upsertContractFormMethods;
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    getValues,
+    clearErrors,
+    reset,
+    watch,
+  } = upsertContractFormMethods;
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -306,10 +313,11 @@ export const useUpsertContract = () => {
       errorSnackbar(error?.data?.message);
     }
   };
-
+  const watchStartDate = watch('startDate');
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     watchForContractType,
+    watchStartDate,
   );
 
   return {

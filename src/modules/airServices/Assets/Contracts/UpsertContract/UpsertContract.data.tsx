@@ -301,6 +301,7 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   watchForContractType: any,
+  watchStartDate: any,
 ) => [
   {
     id: 1,
@@ -383,7 +384,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'startDate',
       label: 'Start Date',
       fullWidth: true,
-      disabled: true,
+      disablePast: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -396,6 +397,7 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       disablePast: true,
       textFieldProps: { readOnly: true },
+      minDate: watchStartDate,
     },
     component: RHFDatePicker,
     md: 6,

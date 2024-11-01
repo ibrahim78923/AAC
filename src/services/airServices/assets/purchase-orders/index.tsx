@@ -65,6 +65,7 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: postPurchaseOrderParameter?.body,
       }),
+      providesTags: [TAG_FIVE],
     }),
 
     patchAirServicesAssetsPurchaseOrder: builder?.mutation({
@@ -73,11 +74,12 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body: patchPurchaseOrderParameter?.body,
       }),
+      providesTags: [TAG_FIVE],
     }),
 
     deleteAirServicesAssetsPurchaseOrderPurchaseOrder: builder?.mutation({
-      query: (id: any) => ({
-        url: `${END_POINTS?.PURCHASE_ORDER}/${id}`,
+      query: (patchPurchaseOrderParameter: any) => ({
+        url: `${END_POINTS?.DELETE_PURCHASE_ORDER}/${patchPurchaseOrderParameter?.pathParams?.ids}`,
         method: 'DELETE',
       }),
     }),

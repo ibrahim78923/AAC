@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useLazyGetSingleContractsActivityLogQuery } from '@/services/airServices/assets/contracts/single-contract-details/activity';
-import { MODULE_TYPE } from '@/constants/strings';
+import { ACTIVITY_LOGS_MODULE } from '@/constants/activity-logs';
 
 export const useActivity = () => {
   const theme = useTheme();
@@ -17,7 +17,7 @@ export const useActivity = () => {
       page,
       limit: pageLimit,
       moduleId: contractId,
-      module: MODULE_TYPE?.CONTRACTS,
+      module: ACTIVITY_LOGS_MODULE?.CONTRACTS,
     },
   };
 

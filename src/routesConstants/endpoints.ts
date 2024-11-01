@@ -542,6 +542,7 @@ export const END_POINTS = {
   OPERATIONS_TEAM: '/teams',
   FORECAST: '/forecasts',
   AIR_LOYALTY_PROGRAM_CONSUMERS_LIST: '',
+  DELETE_PURCHASE_ORDER: `/assets/purchaseorder`,
 };
 
 export const LEAD_CAPTURE_FORM = {
