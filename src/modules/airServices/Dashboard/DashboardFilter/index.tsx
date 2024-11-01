@@ -17,22 +17,21 @@ import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
 
 export const DashboardFilter = (props: any) => {
-  const { apiLoader } = props;
+  const { apiLoader, refetchApi, hasDefaultDashboard, hasError, showLoader } =
+    props;
   const {
     dashboardDropdownActions,
     isDrawerOpen,
     setIsDrawerOpen,
-    user,
-    apiCallInProgress,
     dashboardName,
     moveToManageDashboard,
-    refetch,
     timeLapse,
+    authUserName,
   } = useDashboardFilter(props);
 
   return (
     <>
-      {apiCallInProgress ? (
+      {showLoader ? (
         <Skeleton />
       ) : (
         <Typography variant="h3" color="primary.main">
@@ -54,13 +53,13 @@ export const DashboardFilter = (props: any) => {
           color="blue.main"
         >
           <Typography component="span" variant="h4">
-            Hi {user?.firstName ?? '---'}!
+            Hi {authUserName}!
           </Typography>{' '}
           Happy to see you again
         </Typography>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
-          {apiLoader?.isError ? (
-            <> </>
+          {hasError || hasDefaultDashboard ? (
+            <></>
           ) : (
             <>
               <Button
@@ -69,15 +68,15 @@ export const DashboardFilter = (props: any) => {
                 color="inherit"
                 size="small"
                 startIcon={<Autorenew />}
-                onClick={refetch}
-                disabled={apiCallInProgress}
+                onClick={refetchApi}
+                disabled={showLoader}
                 sx={{
                   fontSize: pxToRem(12),
                   fontWeight: 'fontWeightRegular',
                   textTransform: 'lowercase',
                 }}
               >
-                {!!apiCallInProgress ? (
+                {!!showLoader ? (
                   <Box>
                     <LinearProgress sx={{ width: pxToRem(70) }} />
                   </Box>
@@ -94,16 +93,22 @@ export const DashboardFilter = (props: any) => {
                 <SingleDropdownButton
                   dropdownOptions={dashboardDropdownActions}
                   dropdownName="Actions"
-                  disabled={apiCallInProgress}
+                  disabled={showLoader}
                   color="inherit"
                 />
               </PermissionsGuard>
+            </>
+          )}
+          {hasError ? (
+            <> </>
+          ) : (
+            <>
               <PermissionsGuard
                 permissions={[
                   AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD,
                 ]}
               >
-                <DashboardListFieldDropdown disabled={apiCallInProgress} />
+                <DashboardListFieldDropdown disabled={showLoader} />
               </PermissionsGuard>
             </>
           )}
@@ -115,7 +120,7 @@ export const DashboardFilter = (props: any) => {
               color="inherit"
               variant="outlined"
               onClick={moveToManageDashboard}
-              disabled={apiCallInProgress}
+              disabled={showLoader}
             >
               Manage Dashboards
             </Button>

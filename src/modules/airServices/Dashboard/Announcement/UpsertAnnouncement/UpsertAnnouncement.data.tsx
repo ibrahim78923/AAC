@@ -139,6 +139,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
       fullWidth: true,
       minDate: startDateWatch,
       required: true,
+      disablePast: true,
     },
     component: RHFDatePicker,
     md: 6,

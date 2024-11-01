@@ -20,6 +20,9 @@ export const SingleDashboard = (props: any) => {
     dashboardName,
     reportsList,
     apiSuspenseState,
+    hasDefaultDashboard,
+    hasError,
+    refetchApi,
   } = useSingleDashboard(props);
 
   return (
@@ -50,6 +53,10 @@ export const SingleDashboard = (props: any) => {
             <FormProvider methods={methods}>
               <DashboardFilter
                 apiLoader={lazyGetSingleServicesDashboardStatus}
+                hasDefaultDashboard={hasDefaultDashboard}
+                hasError={hasError}
+                refetchApi={refetchApi}
+                showLoader={apiSuspenseState}
               />
             </FormProvider>
           )}
@@ -65,6 +72,10 @@ export const SingleDashboard = (props: any) => {
                 reportsList={reportsList}
                 isPreviewMode={isPreviewMode}
                 isDetailMode={isDetailMode}
+                hasDefaultDashboard={hasDefaultDashboard}
+                hasError={hasError}
+                refetchApi={refetchApi}
+                showLoader={apiSuspenseState}
               />
             ) : (
               <DashboardWidgets

@@ -1,12 +1,13 @@
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { ApiErrorStatePropsI } from './ApiErrorState.interface';
+import { MESSAGES } from '@/constants/messages';
 
 const ApiErrorState = (props: ApiErrorStatePropsI) => {
   const {
     height = '50vh',
     textColor = 'slateBlue.main',
-    message = 'SOMETHING WENT WRONG!',
+    message = MESSAGES?.SOMETHING_WENT_WRONG,
     children,
     refresh,
     canRefresh = false,

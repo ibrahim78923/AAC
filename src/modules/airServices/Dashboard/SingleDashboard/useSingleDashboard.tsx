@@ -9,6 +9,7 @@ import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getActiveProductSession } from '@/utils';
 import { resetSingleDashboardState } from '@/redux/slices/airServices/dashboard/slice';
+import { API_STATUS_CODE } from '@/constants/api';
 
 export const useSingleDashboard = (props: any) => {
   const dispatch = useAppDispatch();
@@ -70,6 +71,11 @@ export const useSingleDashboard = (props: any) => {
   const apiSuspenseState =
     lazyGetSingleServicesDashboardStatus?.isLoading ||
     lazyGetSingleServicesDashboardStatus?.isFetching;
+  const hasError = lazyGetSingleServicesDashboardStatus?.isError;
+  const hasDefaultDashboard =
+    lazyGetSingleServicesDashboardStatus?.data?.statusCode ===
+    API_STATUS_CODE?.[404];
+  const refetchApi = lazyGetSingleServicesDashboardStatus?.refetch;
 
   useEffect(() => {
     return () => {
@@ -85,5 +91,8 @@ export const useSingleDashboard = (props: any) => {
     dashboardName,
     reportsList,
     apiSuspenseState,
+    hasDefaultDashboard,
+    hasError,
+    refetchApi,
   };
 };

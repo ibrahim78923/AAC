@@ -1,32 +1,31 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { dashboardDropdownActionsDynamic } from './DashboardFilter.data';
 import { useRouter } from 'next/router';
-import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 import { useApiPolling } from '@/hooks/useApiPolling';
+import { getSession } from '@/utils';
+import { fullName } from '@/utils/avatarUtils';
 
 export const useDashboardFilter = (props: any) => {
   const { apiLoader } = props;
   const router = useRouter();
-  const auth: any = useAuth();
-  const { user }: any = auth;
+
+  const authUserName = useMemo(() => {
+    const authUser = getSession() as any;
+    return fullName(authUser?.user?.firstName, authUser?.user?.lastName);
+  }, []);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  const apiCallInProgress = apiLoader?.isLoading || apiLoader?.isFetching;
   const dashboardName = apiLoader?.data?.data?.dashboard?.name?.toLowerCase();
   const dashboardId = apiLoader?.data?.data?.dashboard?._id;
-  const refetch = apiLoader?.refetch;
+
   const moveToManageDashboard = () =>
     router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
 
   const copyEmail = () => {
-    if (apiLoader?.isError) {
-      errorSnackbar('Dashboard link not found.');
-      return;
-    }
     if (!dashboardId) {
       errorSnackbar('Dashboard link not found.');
       return;
@@ -53,12 +52,9 @@ export const useDashboardFilter = (props: any) => {
     dashboardDropdownActions,
     isDrawerOpen,
     setIsDrawerOpen,
-    router,
-    user,
-    apiCallInProgress,
     dashboardName,
     moveToManageDashboard,
-    refetch,
     timeLapse,
+    authUserName,
   };
 };

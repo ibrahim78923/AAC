@@ -5,28 +5,23 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import Link from 'next/link';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { NO_DEFAULT_DASHBOARD } from '../../Dashboard.data';
 import { AIR_SERVICES } from '@/constants/routes';
+import { MESSAGES } from '@/constants/messages';
 
 export const ApiStatusSuspense = (props: any) => {
   const {
-    lazyGetSingleServicesDashboardStatus,
     reportsList,
     isPreviewMode,
     isDetailMode,
+    refetchApi,
+    hasDefaultDashboard,
+    hasError,
+    showLoader,
   } = props;
 
-  const showLoader =
-    lazyGetSingleServicesDashboardStatus?.isLoading ||
-    lazyGetSingleServicesDashboardStatus?.isFetching;
-  const hasError = lazyGetSingleServicesDashboardStatus?.isError;
-  const hasDefaultDashboard =
-    lazyGetSingleServicesDashboardStatus?.error?.data?.message ===
-    NO_DEFAULT_DASHBOARD;
-  const refetchApi = lazyGetSingleServicesDashboardStatus?.refetch;
   const errorMessage = hasDefaultDashboard
-    ? 'No default dashboard found!'
-    : 'Something went wrong';
+    ? MESSAGES?.NO_DEFAULT_DASHBOARD
+    : MESSAGES?.SOMETHING_WENT_WRONG;
 
   if (showLoader)
     return (
@@ -69,5 +64,20 @@ export const ApiStatusSuspense = (props: any) => {
     );
   }
 
-  if (!!!reportsList?.length) return <NoData message="No widgets found" />;
+  if (!!!reportsList?.length)
+    return (
+      <NoData message={errorMessage}>
+        {hasDefaultDashboard && (
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}
+          >
+            <Link href={AIR_SERVICES?.CREATE_DASHBOARD}>
+              <Button className="small" variant="contained">
+                Create Dashboard
+              </Button>
+            </Link>
+          </PermissionsGuard>
+        )}
+      </NoData>
+    );
 };

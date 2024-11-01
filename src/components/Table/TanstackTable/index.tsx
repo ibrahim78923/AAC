@@ -22,6 +22,7 @@ import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TanstackTablePropsI } from './TanstackTable.interface';
 import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
+import { MESSAGES } from '@/constants/messages';
 
 const TanstackTable = (props: TanstackTablePropsI) => {
   const {
@@ -43,7 +44,7 @@ const TanstackTable = (props: TanstackTablePropsI) => {
     setPage,
     setPageLimit,
     paginationPaddingX = 2,
-    noDataTableText = 'No data available',
+    noDataTableText = MESSAGES?.NO_DATA_FOUND,
     noDataTableImage = NoAssociationFoundImage,
     errorChildren,
     errorProps,

@@ -39,6 +39,7 @@ export const TeamsList = () => {
       }}
       incrementPageClick={increment}
       decrementPageClick={decrement}
+      noDataTableText="No teams found"
     />
   );
 };

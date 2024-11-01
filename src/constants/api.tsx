@@ -79,3 +79,7 @@ export const BACKEND_REPORT_ACCESS = {
   ADD_TO_NEW: 'ADD_TO_NEW_DASHBOARD',
   DO_NOT_ADD: 'DO_NOT_ADD_TO_DASHBOARD',
 };
+
+export const API_STATUS_CODE = {
+  404: 404,
+};
