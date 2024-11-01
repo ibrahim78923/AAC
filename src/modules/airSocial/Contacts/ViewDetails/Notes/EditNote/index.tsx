@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { editNoteFields } from './EditNote.data';
+import { addNoteFields } from '../Notes.data';
 
 const EditNote = ({
   isDrawerOpen,
@@ -10,7 +10,7 @@ const EditNote = ({
   isLoading,
   onSubmit,
 }: any) => {
-  const formFields = editNoteFields();
+  const formFields = addNoteFields();
 
   return (
     <CommonDrawer

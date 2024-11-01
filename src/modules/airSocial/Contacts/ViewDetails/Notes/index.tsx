@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
@@ -8,19 +7,12 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
-
 import NotesActionDropdown from './NotesActionDropDown';
-
 import useNotes from './useNotes';
-
 import { isNullOrEmpty } from '@/utils';
-
 import { styles } from '../ViewDetails.style';
-
 import { MessageIcon, PlusIcon } from '@/assets/icons';
-
 import AddNote from './AddNote';
 import { IMG_URL } from '@/config';
 import dayjs from 'dayjs';
@@ -198,12 +190,21 @@ const Notes = ({ contactId }: any) => {
                         alignItems: 'center',
                       }}
                     >
-                      <Image
+                      <Avatar
                         src={`${IMG_URL}${note?.attachment?.url}`}
-                        alt="Avatar"
-                        width={66}
-                        height={66}
-                      />
+                        variant="square"
+                        sx={{ bgcolor: 'primary.main', width: 66, height: 66 }}
+                      >
+                        <Box
+                          sx={{
+                            fontSize: '9px',
+                            textAlign: 'center',
+                            fontWeight: '600',
+                          }}
+                        >
+                          No <br /> Attachment
+                        </Box>
+                      </Avatar>
                     </Grid>
                     <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                       <Typography

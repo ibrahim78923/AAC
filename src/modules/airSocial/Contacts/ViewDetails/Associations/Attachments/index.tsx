@@ -24,7 +24,6 @@ const Attachments = ({ contactId }: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
-    attachmentData,
     handleDeleteAttachment,
     loadingDelete,
   } = useAttachments(contactId);
@@ -97,7 +96,6 @@ const Attachments = ({ contactId }: any) => {
         methods={methodsAttachments}
         handleSubmit={handleAddAttachmentSubmit}
         loading={loadingAddAttachment}
-        attachmentData={attachmentData}
       />
 
       <AlertModals

@@ -8,8 +8,7 @@ import {
 } from '@/services/commonFeatures/contact-note';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { addNoteValidationSchema } from './Notes.data';
-import { viewDefaultValues } from './ViewNote/ViewNote.data';
+import { addNoteValidationSchema, addNoteDefaultValues } from './Notes.data';
 import { AddNoteI } from './Notes.interface';
 const useNotes = () => {
   // Action Dropdown
@@ -25,6 +24,7 @@ const useNotes = () => {
   const [postAddNote, { isLoading: loadingAddNote }] = usePostNoteMutation();
   const [openDrawerAddNote, setOpenDrawerAddNote] = useState(false);
   const methodsAddNote = useForm({
+    defaultValues: addNoteDefaultValues,
     resolver: yupResolver(addNoteValidationSchema),
   });
 
@@ -87,12 +87,13 @@ const useNotes = () => {
 
   // View Note
   const [openDrawerViewNote, setOpenDrawerViewNote] = useState(false);
-  const methodsViewNote = useForm({ defaultValues: viewDefaultValues });
+  const methodsViewNote = useForm({ defaultValues: addNoteDefaultValues });
   const { reset: resetViewNoteForm } = methodsViewNote;
   const handleOpenDrawerViewNote = (data: any) => {
     if (data) {
       methodsViewNote?.setValue('title', data?.title);
       methodsViewNote?.setValue('description', data?.description);
+      methodsViewNote?.setValue('attachment', data?.attachment);
     }
     handleCloseMenu();
     setOpenDrawerViewNote(true);
@@ -112,6 +113,7 @@ const useNotes = () => {
     if (data) {
       methodsEditNote?.setValue('title', data?.title);
       methodsEditNote?.setValue('description', data?.description);
+      methodsEditNote?.setValue('attachment', data?.attachment);
     }
     handleCloseMenu();
     setOpenDrawerEditNote(true);
