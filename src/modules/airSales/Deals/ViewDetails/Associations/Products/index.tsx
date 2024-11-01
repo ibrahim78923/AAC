@@ -84,8 +84,9 @@ const Products = ({
                 onClick={() => {
                   setOpenDrawer(DRAWER_TYPES?.ADD), setSelectedProduct({});
                 }}
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Products
+                Add Products
               </Button>
             </PermissionsGuard>
           </Box>

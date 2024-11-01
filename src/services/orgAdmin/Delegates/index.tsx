@@ -13,6 +13,7 @@ export const ActivityLogAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [DELEGATE_DASHBOARD],
     }),
+
     postDelegateUserInvite: builder.mutation({
       query: ({ body }: any) => ({
         url: END_POINTS?.POST_DELEGATE_USER_INVITE,

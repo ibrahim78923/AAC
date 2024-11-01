@@ -75,8 +75,9 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
                 onClick={() =>
                   setOpenDrawer({ isToggle: true, type: 'Add', recData: {} })
                 }
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Attachments
+                Add Attachments
               </Button>
             </PermissionsGuard>
           </Box>

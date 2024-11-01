@@ -11,8 +11,8 @@ const Delegates = () => {
   const {
     getDelgateDataLoading,
     theme,
-    isInviteModalOpen,
-    setIsInviteModalOpen,
+    isModalOpen,
+    setIsModalOpen,
     getDelegateData,
     tableDataParams,
   } = useDelegates();
@@ -21,7 +21,6 @@ const Delegates = () => {
     <Box>
       {getDelgateDataLoading ? (
         <Box>
-          <SkeletonCard />
           <SkeletonCard />
           <SkeletonTable />
         </Box>
@@ -39,12 +38,15 @@ const Delegates = () => {
             <Grid item lg={6}>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
-                  onClick={() => setIsInviteModalOpen(true)}
+                  onClick={() =>
+                    setIsModalOpen({ ...isModalOpen, invite: true })
+                  }
                   variant="contained"
                   sx={{ fontSize: '14px', fontWeight: 500 }}
+                  className="small"
+                  startIcon={<AddCircle />}
                 >
-                  <AddCircle />
-                  &nbsp;&nbsp; Invite Member
+                  Invite Member
                 </Button>
               </Box>
             </Grid>
@@ -55,8 +57,8 @@ const Delegates = () => {
       )}
 
       <InviteMemberModal
-        isInviteModalOpen={isInviteModalOpen}
-        setIsInviteModalOpen={setIsInviteModalOpen}
+        isInviteModalOpen={isModalOpen?.invite}
+        setIsInviteModalOpen={setIsModalOpen}
       />
     </Box>
   );

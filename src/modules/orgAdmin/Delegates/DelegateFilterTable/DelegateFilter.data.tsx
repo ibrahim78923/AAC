@@ -1,16 +1,13 @@
 import Image from 'next/image';
 import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
-import { CompanyLogoImage, ViewEyeImage } from '@/assets/images';
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import { ViewEyeImage } from '@/assets/images';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { generateImage } from '@/utils/avatarUtils';
+import { styles } from './DelegateFilterTable.style';
 
-export const columns: any = (
-  setInProgress: any,
-  setStatus: any,
-  setIsComplete: any,
-) => {
+export const columns: any = (setIsModalOpen: any, isModalOpen: any) => {
   const theme = useTheme();
   return [
     {
@@ -19,6 +16,7 @@ export const columns: any = (
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Avatar
+            src={generateImage(info?.row?.original?.avatar?.url)}
             alt="missing"
             sx={{
               color: theme?.palette?.grey[500],
@@ -57,38 +55,26 @@ export const columns: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.products,
+      accessorFn: (row: any) => row?.productsData,
       id: 'products',
       isSortable: true,
       header: 'Products',
-      cell: (
+      cell: (info: any) => (
         <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <AvatarGroup max={4}>
-            <Avatar
-              alt="Remy Sharp"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Travis Howard"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Cindy Baker"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Agnes Walker"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
+          <AvatarGroup max={4} sx={styles?.avatarStyle(theme)}>
+            {info?.getValue()?.map((product: any) => (
+              <Avatar
+                key={product?._id}
+                alt="Remy Sharp"
+                src={generateImage(product?.planProducts?.logo?.url)}
+                sx={{
+                  width: '25px',
+                  height: '25px',
+                  color: 'red',
+                  backgroundColor: 'yellow',
+                }}
+              />
+            ))}
           </AvatarGroup>
         </Box>
       ),
@@ -125,13 +111,11 @@ export const columns: any = (
       accessorFn: (row: any) => row?.action,
       id: 'action',
       isSortable: true,
-      cell: (info: any) => (
+      cell: () => (
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() => {
-            setInProgress(true);
-            setIsComplete(true);
-            setStatus(info?.row?.original?.status);
+            setIsModalOpen({ ...isModalOpen, viewDetail: true });
           }}
         >
           <Image src={ViewEyeImage} alt="no image" />
@@ -141,36 +125,3 @@ export const columns: any = (
     },
   ];
 };
-
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      fullWidth: true,
-      select: true,
-    },
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'fromDate',
-      label: 'From Date',
-      fullWidth: true,
-      select: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'fromDate',
-      label: 'To Date',
-      fullWidth: true,
-      select: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];

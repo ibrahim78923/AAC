@@ -9,7 +9,7 @@ import { PRODUCTS_TYPE } from '@/constants';
 import * as Yup from 'yup';
 
 export const productsValidationSchema: any = Yup?.object()?.shape({
-  chooseProduct: Yup?.string()?.when('productType', ([pro]: any, field: any) =>
+  chooseProduct: Yup?.object()?.when('productType', ([pro]: any, field: any) =>
     pro === PRODUCTS_TYPE?.EXT_PRODUCT
       ? field?.required('Field is required')
       : field?.optional(),

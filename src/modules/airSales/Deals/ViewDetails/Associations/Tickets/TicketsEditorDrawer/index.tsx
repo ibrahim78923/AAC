@@ -52,6 +52,9 @@ const TicketsEditorDrawer = (props: TicketsEditorDrawerProps) => {
               options={ticketOptions}
               name={'ticketStatus'}
               label={false}
+              disabled={
+                openDrawer?.type !== ROLES_ACTION_CONSTANTS?.ADD ? true : false
+              }
             />
           </Grid>
 

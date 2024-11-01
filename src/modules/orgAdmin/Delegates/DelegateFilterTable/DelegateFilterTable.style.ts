@@ -10,4 +10,15 @@ export const styles = {
       fontSize: '14px',
     };
   },
+  avatarStyle: (theme: any) => {
+    return {
+      '.MuiAvatar-root.MuiAvatar-circular.MuiAvatar-colorDefault.MuiAvatarGroup-avatar':
+        {
+          color: theme?.palette?.grey[500],
+          fontSize: '12px',
+          width: '25px',
+          height: '25px',
+        },
+    };
+  },
 };

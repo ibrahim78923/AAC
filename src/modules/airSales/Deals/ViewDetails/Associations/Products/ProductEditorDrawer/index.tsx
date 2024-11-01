@@ -59,6 +59,7 @@ const ProductEditorDrawer = (props: any) => {
                   name="productType"
                   label={false}
                   defaultValue="new-products"
+                  disabled={openDrawer === DRAWER_TYPES?.VIEW ? true : false}
                 />
               </Grid>
               {watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT ? (

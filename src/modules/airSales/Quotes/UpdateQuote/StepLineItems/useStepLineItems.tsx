@@ -2,10 +2,7 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  useDeleteProductsMutation,
-  useGetQuoteByIdQuery,
-} from '@/services/airSales/quotes';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
 import { usePutSubmitQuoteMutation } from '@/services/airSales/quotes';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -39,26 +36,30 @@ const useStepLineItems = (openCreateProduct?: any) => {
     ...(search && { productSearchKeyword: search }),
   });
 
-  const [deleteProducts] = useDeleteProductsMutation();
-
   const handleDeleteDeals = async (productId: string) => {
+    const remainingProducts = productsData?.data?.products?.filter(
+      (product: any) => product?.productId !== productId,
+    );
+
     try {
-      const DelProdBody = {
-        dealId: productsData?.data?.dealId,
-        product: {
-          productId,
-        },
+      const submitQuotesPayload = {
+        id: productsData?.data?._id,
+        status: 'DRAFT',
+        products: remainingProducts,
+        dealAmount: productsData?.data?.dealAmount,
       };
-      await deleteProducts({ body: DelProdBody })?.unwrap();
-      enqueueSnackbar('Deals deleted successfully', {
-        variant: 'success',
+
+      await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
+      enqueueSnackbar('Product deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-    } catch (error) {
-      enqueueSnackbar('Error while deleting deals', {
-        variant: 'error',
+    } catch {
+      enqueueSnackbar('Error while deleting product', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
+
   const handleAction = (id: string, action: string) => {
     router.push(
       `?data=${quoteId}${
