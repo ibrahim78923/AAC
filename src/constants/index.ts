@@ -60,6 +60,7 @@ export const DATE_TIME_FORMAT = {
   MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY-hh:mm A',
   DD_MMM_YYYY_hh_mm_A: 'DD MMM, YYYY - hh:mm A',
   DD_MM_YYYY_hh_mm_A: 'DD/MM/YYYY  hh:mm A',
+  YYYY_MM_DDTHH_MM_SS_Z: 'YYYY-MM-DDTHH:mm:ss[Z]',
 };
 
 export const ERROR_PAGES = {

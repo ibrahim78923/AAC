@@ -1,30 +1,46 @@
-import { useState } from 'react';
+import { useGetGmailFoldersQuery } from '@/services/commonFeatures/email/gmail';
+import { useGetMailFoldersOutlookQuery } from '@/services/commonFeatures/email/outlook';
+import { useEffect, useState } from 'react';
 
 const useEmails = () => {
   const [openDrawer, setOpenDrawer] = useState('');
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<
-    { id: number }[]
-  >([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number,
-  ) => {
-    const isChecked = event?.target?.checked;
+  const {
+    data: outlookFoldersData,
+    isLoading: outlookFoldersLoading,
+    refetch: outLookRefetch,
+  } = useGetMailFoldersOutlookQuery({});
+  const {
+    data: gmailFoldersData,
+    isLoading: gmailFoldersLoading,
+    refetch: gmailRefetch,
+  } = useGetGmailFoldersQuery({});
 
-    if (isChecked) {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, { id: id }]);
-    } else {
-      setSelectedCheckboxes(
-        (prevSelected) => prevSelected?.filter((item) => item?.id !== id),
-      );
-    }
+  const handleCheckboxChange = (item: any) => {
+    setSelectedCheckboxes((prevSelected: any) => {
+      if (prevSelected.some((selected: any) => selected._id === item._id)) {
+        return prevSelected.filter(
+          (selected: any) => selected._id !== item._id,
+        );
+      } else {
+        return [...prevSelected, item];
+      }
+    });
   };
+
+  useEffect(() => {
+    outLookRefetch();
+    gmailRefetch();
+  }, []);
+
   return {
     openDrawer,
     setOpenDrawer,
-    handleCheckboxChange,
     selectedCheckboxes,
+    handleCheckboxChange,
+    outlookStates: { outlookFoldersData, outlookFoldersLoading },
+    gmailStates: { gmailFoldersData, gmailFoldersLoading },
   };
 };
 

@@ -695,6 +695,10 @@ export const AIR_SALES = {
   INVOICES: '/quote-invoice',
 };
 
+export const AIR_SALES_DEALS_EMAILS = {
+  GET_ASSOCIATED_EMAILS: '/gmail/get-all-associated-emails',
+};
+
 export const SUPER_ADMIN_SETTINGS = {
   FAQS: 'faqs',
 };

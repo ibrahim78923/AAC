@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   Box,
-  Button,
   Chip,
   CircularProgress,
   Grid,
@@ -16,21 +15,12 @@ import {
   FormProvider,
   RHFAutocompleteAsync,
   RHFCheckbox,
-  RHFDateTimePicker,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import {
-  ClearIcon,
-  ExclimatoryCircleIcon,
-  GmailIcon,
-  InfoBlueIcon,
-  OutlookIcon,
-  SMSIcon,
-  TimeClockIcon,
-} from '@/assets/icons';
+import { ClearIcon, InfoBlueIcon, TimeClockIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import useSendEmailDrawer from './useSendEmailDrawer';
@@ -50,10 +40,11 @@ import { useLazyGetEmailTemplatesAsyncQuery } from '@/services/airMarketer/email
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { ImageComponentAttachment } from '../Chat/RightPane';
+import { ScheduleModals } from '@/components/ScheduleModals';
+import { scheduleEmailDataArray } from './SendEmailDrawer.data';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
-
   const {
     handleSubmit,
     onSubmit,
@@ -64,8 +55,6 @@ const SendEmailDrawer = (props: any) => {
     loadingOtherScheduleSend,
     isLoadingProcessDraft,
     handleOnClose,
-    isSendLater,
-    handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
 
@@ -82,10 +71,18 @@ const SendEmailDrawer = (props: any) => {
     setIsReplaceTemplate,
     isReplaceTemplate,
     handleUseTemplate,
+
+    methodsScheduleEmail,
+    handleScheduleEmail,
+    onSubmitEmail,
+
+    setIsScheduleDrawerOpen,
+    isScheduleDrawerOpen,
+    scheduleReset,
+    isScheduleExists,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType, emailSettingsData });
 
   const dispatch = useDispatch();
-  const isCrmConnected = false;
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
@@ -165,7 +162,7 @@ const SendEmailDrawer = (props: any) => {
         isLoading={(() => {
           switch (drawerType) {
             case CREATE_EMAIL_TYPES?.NEW_EMAIL:
-              return isSendLater ? loadingOtherScheduleSend : loadingOtherSend;
+              return loadingOtherSend;
             case CREATE_EMAIL_TYPES?.FORWARD:
               return isLoadingForward;
             case CREATE_EMAIL_TYPES?.REPLY:
@@ -176,15 +173,15 @@ const SendEmailDrawer = (props: any) => {
               return false;
           }
         })()}
-        okText={isSendLater ? 'Send Later' : 'Send'}
+        okText={isScheduleExists ? 'Schedule' : 'Send'}
         isOk={true}
         footer={true}
         {...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
-          footerActionText: isSendLater ? 'Send Now' : 'Send Later',
+          footerActionText: 'Send Later',
         })}
         footerActionTextIcon={<TimeClockIcon />}
         submitHandler={handleSubmit(onSubmit)}
-        onFooterActionSubmit={handelSendLaterAction}
+        onFooterActionSubmit={() => setIsScheduleDrawerOpen(true)}
       >
         {isLoadingProcessDraft && (
           <Box sx={styles?.overlayWrapper(theme)}>
@@ -216,7 +213,6 @@ const SendEmailDrawer = (props: any) => {
               </Grid>
               {watchEmailsForm[indexNumbers?.ZERO] && (
                 <Grid item xs={12}>
-                  {/* <RHFTextField name="cc" label="CC" size="small" /> */}
                   <MultiTextField
                     label={'CC'}
                     required={false}
@@ -282,87 +278,7 @@ const SendEmailDrawer = (props: any) => {
                   getOptionLabel={(option: any) => option?.name}
                 />
               </Grid>
-              {isCrmConnected && (
-                <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      background: theme?.palette?.custom?.pastel_yellow,
-                      borderRadius: '6px',
-                      padding: '12px',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 1,
-                        marginBottom: '5px',
-                      }}
-                    >
-                      <Box>
-                        <ExclimatoryCircleIcon />
-                      </Box>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: theme?.palette?.slateBlue?.main }}
-                      >
-                        You haven’t connected your email to the CRM. Connect it
-                        now to keep your conversations synced.
-                      </Typography>
-                    </Box>
 
-                    <Box
-                      sx={{
-                        gap: 1,
-                        display: 'flex',
-                        flexDirection: { xs: 'column', sm: 'row' },
-                      }}
-                    >
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          color: 'grey',
-                          gap: 0.5,
-                          background: theme?.palette?.common?.white,
-                        }}
-                        className="small"
-                      >
-                        <GmailIcon width={'18'} />{' '}
-                        <Typography variant="body2">Gmail</Typography>
-                      </Button>
-
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          color: 'grey',
-                          gap: 0.5,
-                          background: theme?.palette?.common?.white,
-                          whiteSpace: 'nowrap',
-                        }}
-                        className="small"
-                      >
-                        <OutlookIcon width={'22'} />
-                        <Typography variant="body2">
-                          Microsoft Outlook
-                        </Typography>
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          color: 'grey',
-                          gap: 0.5,
-                          background: theme?.palette?.common?.white,
-                        }}
-                        className="small"
-                      >
-                        <SMSIcon width={'18'} />{' '}
-                        <Typography variant="body2">Others</Typography>
-                      </Button>
-                    </Box>
-                  </Box>
-                </Grid>
-              )}
               <Grid item xs={12}>
                 <RHFEditor
                   name="description"
@@ -421,19 +337,6 @@ const SendEmailDrawer = (props: any) => {
                 />
               </Grid>
             </Grid>
-
-            {isSendLater && (
-              <Box sx={{ mt: 2 }}>
-                <RHFDateTimePicker
-                  name="sentDate"
-                  fullWidth
-                  label="Select Date and Time"
-                  size="small"
-                  disablePast
-                  minDateTime={dayjs()}
-                />
-              </Box>
-            )}
           </FormProvider>
           {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
             <Box mt={2}>
@@ -485,6 +388,40 @@ const SendEmailDrawer = (props: any) => {
           message="Are you sure you want to replace changes with email template?"
         />
       </CommonDrawer>
+
+      <ScheduleModals
+        submitButonText="Schedule"
+        type={'schedule'}
+        open={isScheduleDrawerOpen}
+        handleClose={() => {
+          setIsScheduleDrawerOpen(false);
+          scheduleReset();
+        }}
+        handleSubmit={handleScheduleEmail(onSubmitEmail)}
+        isFooter={true}
+        loading={loadingOtherScheduleSend}
+      >
+        <FormProvider
+          methods={methodsScheduleEmail}
+          onSubmit={handleScheduleEmail(onSubmitEmail)}
+        >
+          <Grid container spacing={5}>
+            {scheduleEmailDataArray?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </ScheduleModals>
     </div>
   );
 };

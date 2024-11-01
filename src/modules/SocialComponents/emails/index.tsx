@@ -71,7 +71,7 @@ const Email = () => {
   const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
   const handleOutLookClick = () => {
     if (!outlookFoldersLoading) {
-      if (outlookFoldersData?.data?.length > 0) {
+      if (outlookFoldersData?.data?.folders?.length) {
         router.push(END_POINTS?.CONVERSATION_OUTLOOK_EMAIL_VIEW);
       } else {
         const oauthUrl = `${authURLOutlook?.data}`;
@@ -83,7 +83,7 @@ const Email = () => {
   const { data: authUrlData } = useGetAuthURLGmailQuery({});
   const handleGmailClick = () => {
     if (!gmailFoldersLoading) {
-      if (gmailFoldersData?.data?.labels?.length > 0) {
+      if (gmailFoldersData?.data?.labels?.length) {
         router.push(END_POINTS?.CONVERSATION_GMAIL_EMAIL_VIEW);
       } else {
         const oauthUrl = `${authUrlData?.data}`;

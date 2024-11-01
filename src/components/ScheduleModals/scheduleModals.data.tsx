@@ -7,6 +7,7 @@ export const MODAL_TYPES = {
   EXPORT: 'export',
   RESCHEDULE: 'reschedule',
   OUTCOME: 'outcome',
+  SCHEDULE: 'schedule',
 };
 
 export const ICONS: any = {

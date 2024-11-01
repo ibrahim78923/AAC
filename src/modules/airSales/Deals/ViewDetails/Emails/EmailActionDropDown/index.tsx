@@ -179,7 +179,7 @@ const EmailActionDropDown = (props: EmailActionDropDownProps) => {
         type={'delete'}
         open={openAlertModal === 'Delete'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmitBtn={handleCloseAlert}
       />
     </div>
   );

@@ -13,12 +13,10 @@ const Deals = () => {
   const activeDealsViews = dealViewsData?.data?.filter(
     (item: any) => item?.isActive,
   );
-
   const dealHeaderParams = {
     setSearch,
     dealViewsData: dealViewsData?.data,
   };
-
   return (
     <Box sx={styles?.TableWrapper}>
       <DealHeader dealHeaderParams={dealHeaderParams} />
