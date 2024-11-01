@@ -38,6 +38,7 @@ const useUsers = () => {
     data: productsUsers,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetProductsUsersQuery(productUserParams);
 
   const [updateProductsUsers, { isLoading: updateUserLoading }] =
@@ -112,6 +113,7 @@ const useUsers = () => {
     setCheckedUser,
     isAddUserDrawer,
     setIsAddUserDrawer,
+    isFetching,
   };
 };
 

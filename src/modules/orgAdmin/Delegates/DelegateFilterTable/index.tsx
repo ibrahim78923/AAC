@@ -1,5 +1,5 @@
-import { Box, Button, Grid } from '@mui/material';
-import { FilterrIcon } from '@/assets/icons';
+import { Box, Button, Grid, Tooltip } from '@mui/material';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './DelegateFilter.data';
@@ -17,11 +17,17 @@ const DelegateFilterTable = ({ data }: any) => {
     setIsModalOpen,
     setFilterValue,
     isModalOpen,
+    isFetching,
+    getDelgateDataLoading,
+    handleResetFilterValue,
+    filterValue,
   } = data;
+
+  handleResetFilterValue;
   const tableData = getDelegateData?.data?.delegatedUsers;
   const paginationData = getDelegateData?.data?.meta;
 
-  const { isFilter, setIsFilter, theme } = useDelegateFilterTable();
+  const { isFilterDrawer, setIsFilterDrawer, theme } = useDelegateFilterTable();
 
   return (
     <>
@@ -35,17 +41,37 @@ const DelegateFilterTable = ({ data }: any) => {
                 setSearchBy={setSearchValue}
               />
             </Grid>
-            <Grid item lg={9} md={9} sm={6} xs={12}>
+            <Grid
+              item
+              container
+              justifyContent="end"
+              gap={2}
+              lg={9}
+              md={9}
+              sm={6}
+              xs={12}
+            >
+              <Tooltip title={'Refresh Filter'}>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  onClick={handleResetFilterValue}
+                >
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                   onClick={() => {
-                    setIsFilter(true);
+                    setIsFilterDrawer(true);
                   }}
                   variant="outlined"
                   sx={styles?.fiterButton(theme)}
                   className="small"
+                  startIcon={<FilterrIcon />}
                 >
-                  <FilterrIcon /> Filter
+                  Filter
                 </Button>
               </Box>
             </Grid>
@@ -63,14 +89,16 @@ const DelegateFilterTable = ({ data }: any) => {
             pageLimit={paginationData?.limit}
             totalRecords={paginationData?.total}
             currentPage={paginationData?.page}
+            isLoading={getDelgateDataLoading || isFetching}
           />
         </Grid>
       </Box>
 
-      {isFilter && (
+      {isFilterDrawer && (
         <DelegateFilter
-          isFilter={isFilter}
-          setIsFilter={setIsFilter}
+          isFilterDrawer={isFilterDrawer}
+          setIsFilterDrawer={setIsFilterDrawer}
+          filterValue={filterValue}
           setFilterValue={setFilterValue}
         />
       )}

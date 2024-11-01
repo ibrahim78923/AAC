@@ -30,7 +30,7 @@ export interface RowInterface {
   role: string;
   organization: { name: string };
   activeProducts: { name: string }[];
-  Status: string;
+  status: string;
   createdOn: string;
   createdAt: string;
 }
@@ -39,6 +39,7 @@ export interface ColumnsProps {
   handleUserSwitchChange: (e: string, id: string) => void;
   checkedRows: string;
   handleCheckboxChange: (e: string, id: string) => void;
+  isLoadingStatus: { [key: string]: boolean };
 }
 
 export interface AddUserProps {

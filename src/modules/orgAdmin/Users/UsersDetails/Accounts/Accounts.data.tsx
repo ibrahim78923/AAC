@@ -1,10 +1,14 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, CircularProgress, Typography } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { LogoIcon } from '@/assets/icons';
 import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
-export const companyColumns: any = (handleStatusUpdate: any) => [
+export const companyColumns: any = (
+  handleStatusUpdate: any,
+  isLoadingStatus: any,
+) => [
   {
     accessorFn: (row: any) => row?.product,
     id: 'product',
@@ -54,13 +58,23 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => (
-      <SwitchBtn
-        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
-        handleSwitchChange={(val: any) =>
-          handleStatusUpdate(info?.row?.original?._id, val?.target?.checked)
-        }
-      />
-    ),
+    cell: (info: any) => {
+      const rowId = info?.row?.original?._id;
+      const isLoading = isLoadingStatus[rowId] ?? false;
+      return isLoading ? (
+        <CircularProgress size={25} />
+      ) : (
+        <SwitchBtn
+          handleSwitchChange={(e: any) => {
+            handleStatusUpdate(rowId, e?.target?.checked);
+          }}
+          defaultChecked={
+            info?.row?.original?.status === PRODUCT_USER_STATUS?.ACTIVE
+              ? true
+              : false
+          }
+        />
+      );
+    },
   },
 ];

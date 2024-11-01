@@ -5,14 +5,19 @@ import { delegateFilterArray } from './DelegateFilter.data';
 import useDelegateFilter from './useDelegateFilter';
 
 const DelegateFilter = (props: any) => {
-  const { isFilter, setIsFilter, setFilterValue } = props;
-  const { methods, handleSubmit, onSubmit } = useDelegateFilter(setFilterValue);
+  const { isFilterDrawer, setIsFilterDrawer, filterValue, setFilterValue } =
+    props;
+  const { methods, handleSubmit, onSubmit } = useDelegateFilter(
+    filterValue,
+    setFilterValue,
+    setIsFilterDrawer,
+  );
 
   return (
     <CommonDrawer
-      isDrawerOpen={isFilter}
+      isDrawerOpen={isFilterDrawer}
       onClose={() => {
-        setIsFilter(false);
+        setIsFilterDrawer(false);
       }}
       title="Filters"
       okText="Apply"

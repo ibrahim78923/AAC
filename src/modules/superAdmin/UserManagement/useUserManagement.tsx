@@ -24,6 +24,9 @@ const useUserManagement = () => {
   const [tabVal, setTabVal] = useState<number>(0);
   const [searchVal, setSearchVal] = useState('');
   const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
+  const [isLoadingStatus, setIsLoadingStatus] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [filterValues, setFilterValues] = useState<any>({
     role: '',
     products: {},
@@ -70,7 +73,8 @@ const useUserManagement = () => {
     setSelectedValue(null);
   };
 
-  const handleUserSwitchChange = async (e: any, id: string) => {
+  const handleUserSwitchChange = async (id: string, e: any) => {
+    setIsLoadingStatus((prevState) => ({ ...prevState, [id]: true }));
     const status =
       e?.target?.checked || e?.target?.value === PRODUCT_USER_STATUS?.ACTIVE
         ? PRODUCT_USER_STATUS?.ACTIVE
@@ -84,6 +88,8 @@ const useUserManagement = () => {
       enqueueSnackbar(error?.data?.message, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+    } finally {
+      setIsLoadingStatus((prevState) => ({ ...prevState, [id]: false }));
     }
   };
 
@@ -153,6 +159,7 @@ const useUserManagement = () => {
     productsList,
     page,
     setPage,
+    isLoadingStatus,
   };
 };
 

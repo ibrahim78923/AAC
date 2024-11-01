@@ -26,6 +26,7 @@ const Broadcast = () => {
     isSuccess,
     setPage,
     theme,
+    isFetching,
   } = useBroadcast();
   const columnsParams = {
     setRecordStatus: setRecordStatus,
@@ -62,7 +63,7 @@ const Broadcast = () => {
           count={whatsAppBroadcastData?.data?.meta?.pages}
           onPageChange={(page: any) => setPage(page)}
           setPageLimit={setPageLimit}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           data={broadcastsData}
           isSuccess={isSuccess}
           setPage={setPage}

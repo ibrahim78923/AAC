@@ -271,6 +271,7 @@ export const TASK_TABS_TYPES = {
   PENDING: 'Pending',
   INPROGRESS: 'Inprogress',
   COMPLETE: 'Complete',
+  InProgress: 'INPROGRESS',
 };
 export const TASK_STATUS = {
   CONTACTS: 'contacts',

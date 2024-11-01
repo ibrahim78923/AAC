@@ -37,6 +37,7 @@ const Restore = () => {
     getRestoreDealsLoading,
     isSuccess,
     restoreFilter,
+    restoreFetchingDeals,
   } = useRestore();
 
   const columnsProps = {
@@ -187,6 +188,7 @@ const Restore = () => {
         totalRecords={restoeDealData?.data?.meta?.total}
         isLoading={getRestoreDealsLoading}
         isSuccess={isSuccess}
+        isFetching={restoreFetchingDeals}
         currentPage={restoeDealData?.data?.meta?.page}
       />
     </Box>

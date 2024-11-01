@@ -16,8 +16,12 @@ const Admin = (props: IUsersProps) => {
     pageLimit,
     setPageLimit,
   } = props;
-  const { useGetUsersQuery, handleUserSwitchChange, initialTab } =
-    useUserManagement();
+  const {
+    useGetUsersQuery,
+    handleUserSwitchChange,
+    initialTab,
+    isLoadingStatus,
+  } = useUserManagement();
   const params = {
     page: page,
     limit: pageLimit,
@@ -38,6 +42,7 @@ const Admin = (props: IUsersProps) => {
     handleUserSwitchChange: handleUserSwitchChange,
     checkedRows: checkedRows,
     handleCheckboxChange: handleCheckboxChange,
+    isLoadingStatus,
   };
   const columnParams = superAdminColumns(columnsProps);
 

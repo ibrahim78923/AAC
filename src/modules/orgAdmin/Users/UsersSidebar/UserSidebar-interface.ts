@@ -8,6 +8,8 @@ export interface UsersSidebarProps {
   resetFilter: () => void;
   handleEmpListPaginationChange: any;
   employeeMetaData: any;
+  employeeListLoading: boolean;
+  employeeListFetching: boolean;
 }
 
 export interface FilterUserProps {

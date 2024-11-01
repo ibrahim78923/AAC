@@ -16,11 +16,14 @@ const useProducts = (dealId: any) => {
   const [isOpenAlert, setIsOpenAlert] = useState(false);
 
   const [updateAssociateProduct] = useUpdateAssociateProductMutation();
-  const { data: getDealsAssociateProducts, isLoading: loadingProducts } =
-    useGetAssociateProductsQuery({
-      id: dealId,
-      params: { search: searchName ? searchName : undefined },
-    });
+  const {
+    data: getDealsAssociateProducts,
+    isLoading: loadingProducts,
+    isFetching: fetchingProducts,
+  } = useGetAssociateProductsQuery({
+    id: dealId,
+    params: { search: searchName ? searchName : undefined },
+  });
 
   const handleQuantityChange = async (productId: number, quantity: number) => {
     try {
@@ -84,6 +87,7 @@ const useProducts = (dealId: any) => {
     handleQuantityChange,
     getDealsAssociateProducts,
     loadingProducts,
+    fetchingProducts,
   };
 };
 

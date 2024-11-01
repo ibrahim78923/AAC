@@ -33,6 +33,7 @@ const useTeams = () => {
     data: teamsData,
     isSuccess,
     isLoading: teamsDataLoading,
+    isFetching,
   } = useGetTeamsQuery(params);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -84,6 +85,7 @@ const useTeams = () => {
     handleDeleteTeam,
     isTeamDrawer,
     setIsTeamDrawer,
+    isFetching,
   };
 };
 

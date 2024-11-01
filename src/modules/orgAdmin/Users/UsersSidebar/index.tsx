@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Divider,
   Pagination,
   Tooltip,
@@ -15,7 +16,6 @@ import AddUser from '../Drawers/AddUser';
 import useUsersSidebar from './useUsersSidebar';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { AddCircle } from '@mui/icons-material';
-import useUsers from '../useUsers';
 import { v4 as uuidv4 } from 'uuid';
 import NoData from '@/components/NoData';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
@@ -40,6 +40,8 @@ const UsersSidebar = (props: UsersSidebarProps) => {
     resetFilter,
     handleEmpListPaginationChange,
     employeeMetaData,
+    employeeListLoading,
+    employeeListFetching,
   } = props;
 
   const {
@@ -52,8 +54,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
     theme,
   } = useUsersSidebar();
 
-  const { employeeListLoading } = useUsers();
-  const { handleUserSwitchChange } = useUserManagement();
+  const { handleUserSwitchChange, isLoadingStatus } = useUserManagement();
 
   return (
     <Box
@@ -124,7 +125,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
           </Button>
         </Box>
       </PermissionsGuard>
-      {employeeListLoading ? (
+      {employeeListLoading || employeeListFetching ? (
         <SkeletonComponent numberOfSkeletons={7} />
       ) : (
         <Box>
@@ -198,25 +199,29 @@ const UsersSidebar = (props: UsersSidebarProps) => {
                             ORG_ADMIN_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USERS,
                           ]}
                         >
-                          <StatusBadge
-                            value={item?.status}
-                            disabled={item?._id === user?._id}
-                            onChange={(e: any) =>
-                              handleUserSwitchChange(e, item?._id)
-                            }
-                            options={[
-                              {
-                                label: 'Active',
-                                value: 'ACTIVE',
-                                color: theme?.palette?.success?.main,
-                              },
-                              {
-                                label: 'Inactive',
-                                value: 'INACTIVE',
-                                color: theme?.palette?.error?.main,
-                              },
-                            ]}
-                          />
+                          {isLoadingStatus[item?._id] ? (
+                            <CircularProgress size={25} />
+                          ) : (
+                            <StatusBadge
+                              value={item?.status}
+                              disabled={item?._id === user?._id}
+                              onChange={(e: any) =>
+                                handleUserSwitchChange(item?._id, e)
+                              }
+                              options={[
+                                {
+                                  label: 'Active',
+                                  value: 'ACTIVE',
+                                  color: theme?.palette?.success?.main,
+                                },
+                                {
+                                  label: 'Inactive',
+                                  value: 'INACTIVE',
+                                  color: theme?.palette?.error?.main,
+                                },
+                              ]}
+                            />
+                          )}
                         </PermissionsGuard>
                       </Box>
                       <Typography

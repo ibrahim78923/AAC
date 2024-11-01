@@ -7,7 +7,7 @@ import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { getActiveProductSession } from '@/utils';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
-import { DRAWER_TYPES } from '@/constants/strings';
+import { DRAWER_TYPES, PRODUCT_USER_STATUS } from '@/constants/strings';
 
 const useUsers = () => {
   const ActiveProduct = getActiveProductSession();
@@ -24,6 +24,9 @@ const useUsers = () => {
   const [searchUser, setSearchUser] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
+    {},
+  );
 
   const productUserParams = {
     page: page,
@@ -36,6 +39,7 @@ const useUsers = () => {
     data: productsUsers,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetProductsUsersQuery(productUserParams);
 
   const [updateProductsUsers, { isLoading: updateUserLoading }] =
@@ -53,7 +57,10 @@ const useUsers = () => {
   };
 
   const handleUpdateStatus = async (id: any, value: any) => {
-    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    setLoadingState({ ...loadingState, [id]: true });
+    const statusVal = value?.target?.checked
+      ? PRODUCT_USER_STATUS?.ACTIVE
+      : PRODUCT_USER_STATUS?.INACTIVE;
     try {
       await updateProductsUsers({
         id: id,
@@ -66,6 +73,8 @@ const useUsers = () => {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
+    } finally {
+      setLoadingState({ ...loadingState, [id]: false });
     }
   };
 
@@ -109,6 +118,8 @@ const useUsers = () => {
     setCheckedUser,
     isAddUserDrawer,
     setIsAddUserDrawer,
+    isFetching,
+    loadingState,
   };
 };
 

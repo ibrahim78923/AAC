@@ -41,6 +41,7 @@ const Quotes = () => {
     handleRefresh,
     handleDeleteQoute,
     loadingDeleteQuote,
+    fetchingQuotesList,
   } = useQuotes();
 
   const { activeColumns } = useCustomizeColumn({});
@@ -85,6 +86,7 @@ const Quotes = () => {
           setPageLimit={setPageLimit}
           onPageChange={(page: any) => setPage(page)}
           isPagination
+          isFetching={fetchingQuotesList}
         />
       </Box>
 

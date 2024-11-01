@@ -39,6 +39,7 @@ const useRestore = () => {
     data: restoeDealData,
     isLoading: getRestoreDealsLoading,
     isSuccess,
+    isFetching: restoreFetchingDeals,
   } = useGetRestoreDealsQuery({
     params: restoeApiParam,
   });
@@ -126,6 +127,7 @@ const useRestore = () => {
     setPageLimit,
     getRestoreDealsLoading,
     isSuccess,
+    restoreFetchingDeals,
   };
 };
 

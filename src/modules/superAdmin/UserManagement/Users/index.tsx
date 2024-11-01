@@ -16,7 +16,8 @@ const Users = (props: IUsersProps) => {
     pageLimit,
     setPageLimit,
   } = props;
-  const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
+  const { useGetUsersQuery, handleUserSwitchChange, isLoadingStatus } =
+    useUserManagement();
 
   const params = {
     page: page,
@@ -41,6 +42,7 @@ const Users = (props: IUsersProps) => {
     handleUserSwitchChange: handleUserSwitchChange,
     checkedRows: checkedRows,
     handleCheckboxChange: handleCheckboxChange,
+    isLoadingStatus: isLoadingStatus,
   };
   const columnParams = columns(columnsProps);
   return (

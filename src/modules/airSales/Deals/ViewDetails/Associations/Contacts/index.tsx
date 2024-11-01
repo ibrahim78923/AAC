@@ -88,6 +88,7 @@ const Contacts = ({
               setContactRecord,
             })}
             data={contactsData}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

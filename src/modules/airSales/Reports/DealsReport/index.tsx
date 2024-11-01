@@ -50,6 +50,9 @@ const DealsReport = () => {
     customizeData,
     pipelineDropdown,
     isLoading,
+    isSuccess,
+    isError,
+    isFetching,
   } = useDealsReports();
 
   return (
@@ -245,6 +248,9 @@ const DealsReport = () => {
                   setLimit={setLimit}
                   setSearchBy={setSearchBy}
                   dealsReportsTable={dealsReportsTable}
+                  isLoading={isLoading || isFetching}
+                  isSuccess={isSuccess}
+                  isError={isError}
                 />
               </Box>
             </Box>

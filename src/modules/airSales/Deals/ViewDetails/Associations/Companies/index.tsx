@@ -88,6 +88,7 @@ const Companies = ({
               setCompanyRecord,
             })}
             data={companiesData}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

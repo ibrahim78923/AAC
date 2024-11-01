@@ -6,7 +6,6 @@ export interface AddAccountDrawerProps {
   organizationBasesProducts: any;
   organizationId: string;
   userId: string;
-  productValue: any;
 }
 
 export interface AddCompanyDetailsProps {

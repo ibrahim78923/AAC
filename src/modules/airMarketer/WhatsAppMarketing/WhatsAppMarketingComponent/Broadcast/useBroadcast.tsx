@@ -51,6 +51,7 @@ const useBroadcast = () => {
     data: whatsAppBroadcastData,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetWhatsAppBroadcatsQuery(whatsappParams);
   const broadcastsData = whatsAppBroadcastData?.data?.whatsappbroadcasts;
 
@@ -134,6 +135,7 @@ const useBroadcast = () => {
     setPage,
     theme,
     page,
+    isFetching,
   };
 };
 

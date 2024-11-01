@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
 import { ViewEyeImage } from '@/assets/images';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, TASK_TABS_TYPES } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { generateImage } from '@/utils/avatarUtils';
 import { styles } from './DelegateFilterTable.style';
@@ -101,21 +101,44 @@ export const columns: any = (setIsModalOpen: any, isModalOpen: any) => {
       cell: (info: any) => (info?.getValue() ? `£ ${info?.getValue()}` : 'N/A'),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: any) => row?.delegatedStatus,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box>
+          <Typography
+            variant="body3"
+            sx={{
+              color: theme?.palette?.common?.white,
+              padding: '4px 12px',
+              borderRadius: '16px',
+              backgroundColor:
+                info?.getValue() === TASK_TABS_TYPES?.InProgress
+                  ? theme?.palette?.warning?.main
+                  : theme?.palette?.success?.main,
+              fontWeight: 500,
+              fontSize: '14px',
+            }}
+          >
+            {capitalizeFirstLetter(info?.getValue())}
+          </Typography>
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row?.action,
       id: 'action',
       isSortable: true,
-      cell: () => (
+      cell: (info: any) => (
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() => {
-            setIsModalOpen({ ...isModalOpen, viewDetail: true });
+            setIsModalOpen({
+              ...isModalOpen,
+              viewDetail: true,
+              status: info?.row?.original?.delegatedStatus,
+            });
           }}
         >
           <Image src={ViewEyeImage} alt="no image" />

@@ -1,11 +1,14 @@
 import { UserFeatureIcon } from '@/assets/icons';
 import CommonModal from '@/components/CommonModal';
+import { TASK_TABS_TYPES } from '@/constants';
 import { CheckCircle } from '@mui/icons-material';
 import { Box, Typography, useTheme } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const DelegateViewModal = (props: any) => {
   const { isModalOpen, setIsModalOpen } = props;
   const theme = useTheme();
+
   return (
     <CommonModal
       open={isModalOpen?.viewDetail}
@@ -18,7 +21,12 @@ const DelegateViewModal = (props: any) => {
       title={'Track the application of Air Applecart in real-time'}
       footer={false}
     >
-      <Box sx={{ borderRadius: '16px', background: '#EEF9F1' }}>
+      <Box
+        sx={{
+          borderRadius: '16px',
+          background: theme?.palette?.custom?.successLighter,
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
@@ -56,7 +64,10 @@ const DelegateViewModal = (props: any) => {
       <Box
         sx={{
           borderRadius: '16px',
-          background: '#EEF9F1',
+          background:
+            isModalOpen?.status === TASK_TABS_TYPES?.InProgress
+              ? theme?.palette?.custom?.errorLighter
+              : theme?.palette?.custom?.successLighter,
           marginTop: '1REM',
         }}
       >
@@ -71,7 +82,10 @@ const DelegateViewModal = (props: any) => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <Typography
               sx={{
-                background: `${theme?.palette?.success?.main}`,
+                background:
+                  isModalOpen?.status === TASK_TABS_TYPES?.InProgress
+                    ? theme?.palette?.error?.main
+                    : theme?.palette?.success?.main,
                 padding: '4px 12px',
                 borderRadius: '8px',
                 color: `${theme?.palette?.common?.white}`,
@@ -83,7 +97,10 @@ const DelegateViewModal = (props: any) => {
             </Typography>
             <Typography
               sx={{
-                color: `${theme?.palette?.slateBlue?.main}`,
+                color:
+                  isModalOpen?.status === TASK_TABS_TYPES?.InProgress
+                    ? theme?.palette?.error?.main
+                    : theme?.palette?.slateBlue?.main,
                 fontSize: '18px',
                 fontWeight: 400,
               }}
@@ -91,7 +108,11 @@ const DelegateViewModal = (props: any) => {
               Buy Product Plan
             </Typography>
           </Box>
-          <CheckCircle sx={{ color: `${theme?.palette?.success?.main}` }} />
+          {isModalOpen?.status === TASK_TABS_TYPES?.InProgress ? (
+            <CancelIcon sx={{ color: theme?.palette?.error?.main }} />
+          ) : (
+            <CheckCircle sx={{ color: theme?.palette?.success?.main }} />
+          )}
         </Box>
       </Box>
     </CommonModal>

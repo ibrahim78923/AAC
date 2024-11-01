@@ -24,6 +24,7 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
     deleteAttachmentHandler,
     attachmentsData,
     isLoading,
+    isFetching,
   } = useAttachments(dealId);
 
   return (
@@ -89,6 +90,7 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
               setIsOpenAlert,
             })}
             data={attachmentsData}
+            isLoading={isLoading || isFetching}
           />
         </Grid>
       </Grid>

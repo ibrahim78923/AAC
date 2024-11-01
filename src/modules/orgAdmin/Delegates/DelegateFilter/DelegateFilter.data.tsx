@@ -1,11 +1,17 @@
 import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
+import { DATA_TYPES } from '@/constants/strings';
 
 export const delegateFilterDefaultValues = (data: any) => {
   return {
     status: data?.status ? data?.status : null,
-    fromDate:
-      typeof data?.fromDate === 'object' ? new Date(data?.fromDate) : null,
-    toDate: typeof data?.toDate === 'object' ? new Date(data?.toDate) : null,
+    dateStart:
+      typeof data?.dateStart === DATA_TYPES?.OBJECT
+        ? new Date(data?.dateStart)
+        : null,
+    dateEnd:
+      typeof data?.dateEnd === DATA_TYPES?.OBJECT
+        ? new Date(data?.dateEnd)
+        : null,
   };
 };
 
@@ -22,7 +28,7 @@ export const delegateFilterArray = [
   },
   {
     componentProps: {
-      name: 'fromDate',
+      name: 'dateStart',
       label: 'From Date',
       fullWidth: true,
       select: true,
@@ -32,7 +38,7 @@ export const delegateFilterArray = [
   },
   {
     componentProps: {
-      name: 'toDate',
+      name: 'dateEnd',
       label: 'To Date',
       fullWidth: true,
       select: true,
