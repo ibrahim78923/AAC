@@ -1,21 +1,21 @@
-import { COLLECTION_NAME } from '@/constants/strings';
+import { BACKEND_COLLECTION_NAME } from '@/constants/api';
 
 export const xAxesDataArray: any = {
   INVENTORY: [
     {
       label: 'Inventory Asset Type',
       value: 'inventory_assetType',
-      ref: COLLECTION_NAME?.ASSET_TYPES,
+      ref: BACKEND_COLLECTION_NAME?.ASSET_TYPES,
     },
     {
       label: 'Inventory Location',
       value: 'inventory_locationId',
-      ref: COLLECTION_NAME?.LOCATION,
+      ref: BACKEND_COLLECTION_NAME?.LOCATION,
     },
     {
       label: 'Inventory Department',
       value: 'inventory_departmentId',
-      ref: COLLECTION_NAME?.DEPARTMENT,
+      ref: BACKEND_COLLECTION_NAME?.DEPARTMENT,
     },
     { label: 'Impact', value: 'impact', ref: null },
   ],
@@ -27,35 +27,35 @@ export const xAxesDataArray: any = {
     {
       label: 'Contract Type',
       value: 'contractType',
-      ref: COLLECTION_NAME?.CONTRACT_TYPE,
+      ref: BACKEND_COLLECTION_NAME?.CONTRACT_TYPE,
     },
     { label: 'Status', value: 'status', ref: null },
     {
       label: 'Contract Vendor',
       value: 'contract_vendor',
-      ref: COLLECTION_NAME?.VENDORS,
+      ref: BACKEND_COLLECTION_NAME?.VENDORS,
     },
     {
       label: 'Contract Approver',
       value: 'contract_approver',
-      ref: COLLECTION_NAME?.USERS,
+      ref: BACKEND_COLLECTION_NAME?.USERS,
     },
   ],
   PURCHASE_ORDER: [
     {
       label: 'Purchase Order Vendor',
       value: 'purchaseOrder_vendorId',
-      ref: COLLECTION_NAME?.VENDORS,
+      ref: BACKEND_COLLECTION_NAME?.VENDORS,
     },
     {
       label: 'Purchase Order Location',
       value: 'purchaseOrder_locationId',
-      ref: COLLECTION_NAME?.LOCATION,
+      ref: BACKEND_COLLECTION_NAME?.LOCATION,
     },
     {
       label: 'Purchase Order Department',
       value: 'purchaseOrder_departmentId',
-      ref: COLLECTION_NAME?.DEPARTMENT,
+      ref: BACKEND_COLLECTION_NAME?.DEPARTMENT,
     },
     { label: 'Approval Status', value: 'approvalStatus', ref: null },
   ],
@@ -63,33 +63,33 @@ export const xAxesDataArray: any = {
     {
       label: 'Ticket Requester',
       value: 'ticket_requester',
-      ref: COLLECTION_NAME?.USERS,
+      ref: BACKEND_COLLECTION_NAME?.USERS,
     },
     {
       label: 'Ticket Category',
       value: 'ticket_category',
-      ref: COLLECTION_NAME?.SERVICE_CATEGORIES,
+      ref: BACKEND_COLLECTION_NAME?.SERVICE_CATEGORIES,
     },
     { label: 'Pirority', value: 'pirority', ref: null },
     { label: 'Status', value: 'status', ref: null },
     {
       label: 'Ticket Department',
       value: 'ticket_department',
-      ref: COLLECTION_NAME?.DEPARTMENT,
+      ref: BACKEND_COLLECTION_NAME?.DEPARTMENT,
     },
     { label: 'Source', value: 'source', ref: null },
     { label: 'Impact', value: 'impact', ref: null },
     {
       label: 'Ticket Agent',
       value: 'ticket_agent',
-      ref: COLLECTION_NAME?.USERS,
+      ref: BACKEND_COLLECTION_NAME?.USERS,
     },
   ],
   DEALS: [
     {
       label: 'Deals Pipelines',
       value: 'deals_dealPipelineId',
-      ref: COLLECTION_NAME?.DEAL_PIPELINES,
+      ref: BACKEND_COLLECTION_NAME?.DEAL_PIPELINES,
     },
     { label: 'Priority', value: 'priority', ref: null },
     { label: 'Billing Frequency', value: 'billingFrequency', ref: null },
@@ -99,7 +99,7 @@ export const xAxesDataArray: any = {
     {
       label: 'Goals Pipelines',
       value: 'goals_pipelineId',
-      ref: COLLECTION_NAME?.FORECAST_PIPELINES,
+      ref: BACKEND_COLLECTION_NAME?.FORECAST_PIPELINES,
     },
     { label: 'Target', value: 'target', ref: null },
     { label: 'Status', value: 'status', ref: null },
@@ -109,7 +109,7 @@ export const xAxesDataArray: any = {
     {
       label: 'Campaign Owner ',
       value: 'campaign_campaignOwner',
-      ref: COLLECTION_NAME?.USERS,
+      ref: BACKEND_COLLECTION_NAME?.USERS,
     },
     { label: 'Campaign Status', value: 'campaignStatus', ref: null },
   ],

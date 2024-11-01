@@ -2,6 +2,7 @@ import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
+import { urlFileName } from '@/utils/file';
 
 export const exportTabColumns = [
   {
@@ -24,13 +25,11 @@ export const exportTabColumns = [
     isSortable: true,
     header: 'File Name',
     cell: (info: any) => {
-      const url = new URL(info?.row?.original?.fileName);
-      const fileName = url?.pathname?.replace(/^\//, '');
+      const url = new URL(info?.getValue());
       return (
-        <a href={url?.href} download={fileName}>
+        <a href={url?.href} download={urlFileName(url)}>
           <TruncateText
-            isCapital={false}
-            text={fileName}
+            text={urlFileName(url)}
             boxProps={{ color: 'primary.main' }}
           />
         </a>

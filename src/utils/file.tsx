@@ -88,3 +88,12 @@ export const downloadFiles = async (
     }
   }
 };
+
+export const urlFileName = (url?: any) => {
+  const fileName = url?.pathname
+    ?.split('/')
+    ?.pop()
+    ?.replace(/\.csv$/i, '')
+    ?.replace(/\.xlsx$/i, '');
+  return fileName?.toLowerCase();
+};

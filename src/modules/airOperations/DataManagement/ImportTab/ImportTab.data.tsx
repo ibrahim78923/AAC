@@ -3,6 +3,7 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { uiDateFormat } from '@/lib/date-time';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
+import { urlFileName } from '@/utils/file';
 
 export const importTabColumns = [
   {
@@ -38,12 +39,10 @@ export const importTabColumns = [
     header: 'File Name',
     cell: (info: any) => {
       const url = new URL(info?.getValue());
-      const fileName = url?.pathname?.split('/')?.pop();
       return (
-        <a href={url?.href} download={fileName}>
+        <a href={url?.href} download={urlFileName(url)}>
           <TruncateText
-            isCapital={false}
-            text={fileName}
+            text={urlFileName(url)}
             boxProps={{ color: 'primary.main' }}
           />
         </a>

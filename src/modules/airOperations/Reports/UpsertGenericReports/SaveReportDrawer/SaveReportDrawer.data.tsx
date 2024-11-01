@@ -4,7 +4,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { REPORT_TYPE } from '@/constants/strings';
+import { BACKEND_REPORT_ACCESS } from '@/constants/api';
 import * as Yup from 'yup';
 import {
   SpecialUsersFieldsI,
@@ -25,18 +25,24 @@ import { UsersListDropdown } from './ReportFormFields/UsersListDropdown';
 import { ExistingDashboardListDropdown } from './ReportFormFields/ExistingDashboardListDropdown';
 
 const sharedWithOptionsArray = [
-  { value: REPORT_TYPE?.VIEW_AND_EDIT, label: 'View and Edit' },
-  { value: REPORT_TYPE?.VIEW_ONLY, label: 'View Only' },
+  { value: BACKEND_REPORT_ACCESS?.VIEW_AND_EDIT, label: 'View and Edit' },
+  { value: BACKEND_REPORT_ACCESS?.VIEW_ONLY, label: 'View Only' },
 ];
 const sharedWithArray = [
-  { value: REPORT_TYPE?.PRIVATE, label: 'Private' },
-  { value: REPORT_TYPE?.EVERYONE, label: 'Everyone' },
-  { value: REPORT_TYPE?.SPECIFIC_USERS, label: 'Specific Users' },
+  { value: BACKEND_REPORT_ACCESS?.PRIVATE, label: 'Private' },
+  { value: BACKEND_REPORT_ACCESS?.EVERYONE, label: 'Everyone' },
+  { value: BACKEND_REPORT_ACCESS?.SPECIFIC_USERS, label: 'Specific Users' },
 ];
 const addToDashboardArray = [
-  { value: REPORT_TYPE?.DO_NOT_ADD, label: 'Do not add to a dashboard' },
-  { value: REPORT_TYPE?.ADD_TO_NEW, label: 'Add to new dashboard' },
-  { value: REPORT_TYPE?.ADD_TO_EXISTING, label: 'Add to existing dashboard' },
+  {
+    value: BACKEND_REPORT_ACCESS?.DO_NOT_ADD,
+    label: 'Do not add to a dashboard',
+  },
+  { value: BACKEND_REPORT_ACCESS?.ADD_TO_NEW, label: 'Add to new dashboard' },
+  {
+    value: BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING,
+    label: 'Add to existing dashboard',
+  },
 ];
 
 export const reportsValidationSchema = (reportValidation: any) =>
@@ -53,12 +59,13 @@ export const reportsValidationSchema = (reportValidation: any) =>
       ?.nullable()
       ?.required('Add to dashboard is required'),
     everyoneCondition: Yup?.string()?.when(() =>
-      reportValidation?.selectSharedWith === REPORT_TYPE?.EVERYONE
+      reportValidation?.selectSharedWith === BACKEND_REPORT_ACCESS?.EVERYONE
         ? Yup?.string()?.nullable()?.required('Everyone condition is required')
         : Yup?.string()?.notRequired(),
     ),
     specificUsersConditionOne: Yup?.array()?.when(() =>
-      reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
+      reportValidation?.selectSharedWith ===
+      BACKEND_REPORT_ACCESS?.SPECIFIC_USERS
         ? Yup?.array()?.min(1, 'At least one user is required')
         : Yup?.array()?.notRequired(),
     ),
@@ -71,7 +78,7 @@ export const reportsValidationSchema = (reportValidation: any) =>
         }),
       )
       ?.when('sharedWith', {
-        is: (value: any) => value === REPORT_TYPE?.SPECIFIC_USERS,
+        is: (value: any) => value === BACKEND_REPORT_ACCESS?.SPECIFIC_USERS,
         then: () => {
           return Yup?.array()?.of(
             Yup?.object()?.shape({
@@ -84,12 +91,14 @@ export const reportsValidationSchema = (reportValidation: any) =>
         otherwise: (schema: any) => schema?.notRequired(),
       }),
     addToExistingCondition: Yup?.array()?.when(() =>
-      reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
+      reportValidation?.selectAddToDashboard ===
+      BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING
         ? Yup?.array()?.min(1, 'At least one dashboard is required')
         : Yup?.array()?.notRequired(),
     ),
     addToNewConditionOne: Yup?.string()?.when(() =>
-      reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
+      reportValidation?.selectAddToDashboard ===
+      BACKEND_REPORT_ACCESS?.ADD_TO_NEW
         ? Yup?.string()
             ?.trim()
             ?.required('Dashboard name is required')
@@ -100,17 +109,20 @@ export const reportsValidationSchema = (reportValidation: any) =>
         : Yup?.string()?.notRequired(),
     ),
     addToNewConditionTwo: Yup?.string()?.when(() =>
-      reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
+      reportValidation?.selectAddToDashboard ===
+      BACKEND_REPORT_ACCESS?.ADD_TO_NEW
         ? Yup?.string()?.nullable()?.required('Shared with is required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardEveryoneCondition: Yup?.string()?.when(() =>
-      reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.EVERYONE
+      reportValidation?.selectAddToNewDashboard ===
+      BACKEND_REPORT_ACCESS?.EVERYONE
         ? Yup?.string()?.nullable()?.required('Everyone condition is required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardSpecificUsersConditionOne: Yup?.array()?.when(() =>
-      reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
+      reportValidation?.selectAddToNewDashboard ===
+      BACKEND_REPORT_ACCESS?.SPECIFIC_USERS
         ? Yup?.array()?.min(1, 'At least one user is required')
         : Yup?.array()?.notRequired(),
     ),
@@ -123,7 +135,7 @@ export const reportsValidationSchema = (reportValidation: any) =>
         }),
       )
       ?.when('addToNewConditionTwo', {
-        is: (value: any) => value === REPORT_TYPE?.SPECIFIC_USERS,
+        is: (value: any) => value === BACKEND_REPORT_ACCESS?.SPECIFIC_USERS,
         then: () => {
           return Yup?.array()?.of(
             Yup?.object()?.shape({
@@ -360,7 +372,7 @@ export const specificUsersAccessFormFieldsDynamic = (
         size="small"
         options={[
           {
-            value: REPORT_TYPE?.VIEW_AND_EDIT,
+            value: BACKEND_REPORT_ACCESS?.VIEW_AND_EDIT,
           },
         ]}
       />
@@ -375,7 +387,7 @@ export const specificUsersAccessFormFieldsDynamic = (
         size="small"
         options={[
           {
-            value: REPORT_TYPE?.VIEW_ONLY,
+            value: BACKEND_REPORT_ACCESS?.VIEW_ONLY,
           },
         ]}
       />
