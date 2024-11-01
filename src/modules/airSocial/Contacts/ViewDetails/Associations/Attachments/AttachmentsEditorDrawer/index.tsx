@@ -2,9 +2,14 @@ import { Box, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { attachmentsDataArray } from './AttachmentsEditorDrawer.data';
+import { DRAWER_TITLE } from '@/constants';
 
 const AttachmentsEditorDrawer = (props: any) => {
   const { isOpen, onClose, title, methods, handleSubmit, loading } = props;
+
+  const formFields = attachmentsDataArray(
+    title === DRAWER_TITLE?.VIEW ? true : false,
+  );
 
   return (
     <div>
@@ -12,9 +17,15 @@ const AttachmentsEditorDrawer = (props: any) => {
         isDrawerOpen={isOpen}
         onClose={onClose}
         title={`${title} Attachment`}
-        okText={title === 'Add' ? 'Add' : title === 'Edit' ? 'Edit' : 'View'}
+        okText={
+          title === DRAWER_TITLE?.ADD
+            ? DRAWER_TITLE?.ADD
+            : title === DRAWER_TITLE?.EDIT
+              ? DRAWER_TITLE?.EDIT
+              : DRAWER_TITLE?.VIEW
+        }
         isOk={true}
-        footer={title === 'View' ? false : true}
+        footer={title === DRAWER_TITLE?.VIEW ? false : true}
         submitHandler={handleSubmit}
         isLoading={loading}
       >
@@ -28,7 +39,7 @@ const AttachmentsEditorDrawer = (props: any) => {
                 alignItems: 'center',
               }}
             >
-              {attachmentsDataArray?.map((item: any) => (
+              {formFields?.map((item: any) => (
                 <Grid
                   item
                   xs={12}

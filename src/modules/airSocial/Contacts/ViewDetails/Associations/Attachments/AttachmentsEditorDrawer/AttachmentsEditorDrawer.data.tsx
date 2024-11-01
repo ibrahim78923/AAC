@@ -1,4 +1,4 @@
-import { RHFDropzonePreview } from '@/components/ReactHookForm';
+import { RHFDropzonePreviewAllTypes } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -10,15 +10,22 @@ export const attachmentsDefaultValues = (data: any = {}) => ({
   attachment: data?.s3UploadObject ?? null,
 });
 
-export const attachmentsDataArray = [
+export const attachmentsDataArray = (disabled: boolean = false) => [
   {
     id: 'attachment',
     componentProps: {
       name: 'attachment',
-      label: '',
+      label: 'Attachment',
       fullWidth: true,
+      disabled: disabled,
+      fileType: 'PNG, JPG, and PDF (max 2.44 MB)',
+      accept: {
+        'image/png': ['.png', '.PNG'],
+        'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
+        'application/pdf': ['.pdf'],
+      },
     },
-    component: RHFDropzonePreview,
+    component: RHFDropzonePreviewAllTypes,
     md: 12,
   },
 ];
