@@ -1,19 +1,12 @@
-import { Box, Skeleton } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { TicketCard } from '../TicketCard';
 import { useTicketStatusCount } from './useTicketStatusCount';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TICKET_TYPE } from '../WelcomeCard/WelcomeCard.data';
 
 export const TicketStatusCount = () => {
-  const {
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    ticketsCountsData,
-    refetch,
-    ticketCardWrapper,
-  } = useTicketStatusCount();
+  const { data, isLoading, isFetching, isError, ticketsCountsData, refetch } =
+    useTicketStatusCount();
   if (isLoading || isFetching)
     return (
       <Skeleton
@@ -35,14 +28,15 @@ export const TicketStatusCount = () => {
       </Box>
     );
   return (
-    <Box sx={ticketCardWrapper}>
+    <Grid container spacing={1} sx={{ height: '100%' }}>
       {ticketsCountsData?.map((singleData: any) => (
-        <TicketCard
-          key={singleData?._id}
-          data={singleData}
-          totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
-        />
+        <Grid item xs={12} sm={6} md={5} lg={4} key={singleData?._id}>
+          <TicketCard
+            data={singleData}
+            totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
+          />
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   );
 };

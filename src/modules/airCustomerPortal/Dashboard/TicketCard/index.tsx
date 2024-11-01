@@ -20,6 +20,8 @@ export const TicketCard = (props: TicketCardI) => {
       }}
     >
       <Box
+        display={'flex'}
+        alignItems={'center'}
         sx={{
           display: 'flex',
           gap: 1.2,
