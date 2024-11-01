@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useDeleteEmailCompaniesMutation } from '@/services/commonFeatures/companies';
 import { Gmail_CONST } from '@/constants';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useEmailActionDropdown = ({
   setOpenDrawer,
   selectedCheckboxes,
+  setSelectedCheckboxes,
   companyId,
 }: any) => {
   const theme = useTheme();
@@ -53,13 +54,10 @@ const useEmailActionDropdown = ({
       })?.unwrap();
       setAnchorEl(null);
       handleCloseAlert();
-      enqueueSnackbar('Email Delete successfully', {
-        variant: 'success',
-      });
+      setSelectedCheckboxes([]);
+      successSnackbar('Email Delete successfully');
     } catch (error) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

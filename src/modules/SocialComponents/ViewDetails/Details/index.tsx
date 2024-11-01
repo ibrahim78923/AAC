@@ -46,7 +46,9 @@ const Details = ({ data, isLoading }: any) => {
       ]}
     >
       <Box sx={styles?.horizontalTabsBox}>
-        <Typography variant="h4">Details</Typography>
+        <Typography variant="h4" mb={3}>
+          Details
+        </Typography>
         {data ||
         !isLoading ||
         getDynamicFieldsStatus?.isLoading ||

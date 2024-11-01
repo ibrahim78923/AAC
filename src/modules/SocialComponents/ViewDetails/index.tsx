@@ -40,6 +40,7 @@ const ViewDetails = () => {
   const { data, isLoading } = useGetCompaniesDetailsQuery({
     Id: query?.id,
   });
+  const activeTabValue = query?.activeTab;
 
   const date = new Date(data?.data?.createdAt);
   const hours = date.getHours();
@@ -275,7 +276,10 @@ const ViewDetails = () => {
 
         <Grid item xs={12}>
           <Box>
-            <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
+            <HorizontalTabs
+              tabsDataArray={singleUserDealTabsData}
+              defaultValue={parseFloat(activeTabValue)}
+            >
               <Details data={data?.data} isLoading={isLoading} />
               <ActivityLog companyId={data?.data?._id} />
               <Associations companyId={data?.data?._id} />

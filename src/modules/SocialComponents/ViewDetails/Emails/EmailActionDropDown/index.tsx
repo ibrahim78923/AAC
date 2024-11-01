@@ -25,6 +25,7 @@ const EmailActionDropDown = (props: any) => {
   const {
     setOpenDrawer,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     messageDetailsData,
     isLoadingDetailsMessages,
     isFetchingDetailsMessages,
@@ -45,7 +46,12 @@ const EmailActionDropDown = (props: any) => {
     handleCloseAlert,
     handleDeleteSubmit,
     loadingDelete,
-  } = useEmailActionDropdown({ setOpenDrawer, selectedCheckboxes, companyId });
+  } = useEmailActionDropdown({
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+    companyId,
+  });
 
   const getValueByName = (data: any, targetName: any) => {
     const foundItem = data?.find((item: any) => item?.name === targetName);

@@ -6,34 +6,85 @@ import { Box, Typography } from '@mui/material';
 
 import { AvatarImage, EmpAvatarImage, TicketImage } from '@/assets/images';
 
-export const accordionData = [
-  {
-    empNo: '01',
-    mainHeading: 'Contacts',
-    img: EmpAvatarImage,
-    name: 'Olivya Rhye',
-    email: 'oivyerye@gmail.com',
-    phoneNumber: '+44 779 672 6637',
-  },
-  {
-    empNo: '01',
-    mainHeading: 'Deals',
-    img: TicketImage,
-    name: 'Sample',
-    email: '£ 200.00',
-    stage: 'Appointment Schedule',
-  },
-  {
-    empNo: '0',
-    mainHeading: 'Tickets',
-    description: 'No Tickets associated with this record',
-  },
-  {
-    empNo: '0',
-    mainHeading: 'Attachments',
-    description: 'No Attachments associated with this record',
-  },
-];
+export const accordionData = (apiData: any) => {
+  const data = [];
+
+  if (apiData?.contacts?.length) {
+    apiData?.contacts?.forEach((contact: any, index: any) => {
+      data?.push({
+        empNo: (index + 1)?.toString()?.padStart(2, '0'),
+        mainHeading: 'Contacts',
+        img: EmpAvatarImage,
+        name: `${contact?.firstName} ${contact?.lastName}`,
+        email: contact?.email,
+        phoneNumber: contact?.phoneNumber,
+      });
+    });
+  } else {
+    data?.push({
+      empNo: '0',
+      mainHeading: 'Contacts',
+      description: 'No Contacts associated with this record',
+    });
+  }
+
+  if (apiData?.deals?.length) {
+    apiData?.deals?.forEach((deal: any, index: any) => {
+      data?.push({
+        empNo: (index + 1)?.toString()?.padStart(2, '0'),
+        mainHeading: 'Deals',
+        img: TicketImage,
+        name: apiData?.name,
+        email: apiData?.totalRevenue
+          ? `£ ${apiData?.totalRevenue?.toFixed(2)}`
+          : 'No Revenue Data',
+        stage: deal?.stage || 'No Stage Info',
+      });
+    });
+  } else {
+    data?.push({
+      empNo: '0',
+      mainHeading: 'Deals',
+      description: 'No Deals associated with this record',
+    });
+  }
+
+  if (apiData?.tickets?.length) {
+    apiData?.tickets?.forEach((ticket: any, index: any) => {
+      data?.push({
+        empNo: (index + 1)?.toString()?.padStart(2, '0'),
+        mainHeading: 'Tickets',
+        description: `Ticket ${index + 1}: Associated ticket data`,
+      });
+    });
+  } else {
+    data?.push({
+      empNo: '0',
+      mainHeading: 'Tickets',
+      description: 'No Tickets associated with this record',
+    });
+  }
+
+  // Map Attachments
+  if (apiData?.attachments?.length) {
+    apiData?.attachments?.forEach((attachment: any, index: any) => {
+      data?.push({
+        empNo: (index + 1)?.toString()?.padStart(2, '0'),
+        mainHeading: 'Attachments',
+        img: attachment?.fileUrl,
+        description: `${attachment?.orignalName || 'Unnamed file'}`,
+      });
+    });
+  } else {
+    data?.push({
+      empNo: '0',
+      mainHeading: 'Attachments',
+      description: 'No Attachments associated with this record',
+    });
+  }
+
+  return data;
+};
 
 export const importColumnsData = [
   {

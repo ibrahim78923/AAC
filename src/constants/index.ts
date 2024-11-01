@@ -60,6 +60,7 @@ export const DATE_TIME_FORMAT = {
   MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY-hh:mm A',
   DD_MMM_YYYY_hh_mm_A: 'DD MMM, YYYY - hh:mm A',
   DD_MM_YYYY_hh_mm_A: 'DD/MM/YYYY  hh:mm A',
+  DDDD_MMMM_D_YYYY_HH_M_A: 'dddd, MMMM D, YYYY  hh:mm A',
   YYYY_MM_DDTHH_MM_SS_Z: 'YYYY-MM-DDTHH:mm:ss[Z]',
 };
 
@@ -546,4 +547,8 @@ export const MARKETING_REPORTS_TYPES = {
   CUSTOM: 'CUSTOM',
   TODAY: 'TODAY',
   WEEKLY: 'WEEKLY',
+};
+
+export const ALL_COMPANIES = {
+  ALL_COMPANIES: 'All Companies',
 };

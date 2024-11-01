@@ -8,6 +8,8 @@ import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
 import useCreateCompany from '../CreateCompany/useCreateCompany';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const createViwValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -70,7 +72,7 @@ export const createViewArr = (teamIds: any) => {
       componentProps: {
         name: 'createdDate',
         label: 'Created Date',
-        placeholder: 'Monday, January 30, 2023  12:50 PM',
+        placeholder: dayjs().format(DATE_TIME_FORMAT?.DDDD_MMMM_D_YYYY_HH_M_A),
         fullWidth: true,
       },
       component: RHFSwitchableDatepicker,

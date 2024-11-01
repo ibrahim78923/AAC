@@ -40,6 +40,7 @@ const Emails = ({ companyId }: any) => {
     setOpenDrawer,
     handleCheckboxChange,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     EmailListData,
     EmailListIsLoading,
     EmailListIsFetching,
@@ -74,6 +75,7 @@ const Emails = ({ companyId }: any) => {
                 <EmailActionDropDown
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
+                  setSelectedCheckboxes={setSelectedCheckboxes}
                   messageDetailsData={messageDetailsData}
                   isLoadingDetailsMessages={isLoadingDetailsMessages}
                   isFetchingDetailsMessages={isFetchingDetailsMessages}
@@ -202,8 +204,7 @@ const Emails = ({ companyId }: any) => {
                       name={'name'}
                       onChange={(event) => handleCheckboxChange(event, item)}
                       checked={selectedCheckboxes?.some(
-                        (selectedItem: any) =>
-                          selectedItem?.threadId === item?.threadId,
+                        (selectedItem: any) => selectedItem?._id === item?._id,
                       )}
                     />
                   </Grid>
@@ -311,6 +312,9 @@ const Emails = ({ companyId }: any) => {
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
         companyId={companyId}
+        selectedCheckboxes={selectedCheckboxes}
+        messageDetailsData={messageDetailsData}
+        setSelectedCheckboxes={setSelectedCheckboxes}
       />
     </Box>
   );

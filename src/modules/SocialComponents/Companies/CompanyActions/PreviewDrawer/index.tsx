@@ -25,10 +25,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { accordionData } from '@/mock/modules/SocialComponents/Companies';
 import usePreviewDrawer from './usePreviewDrawer';
 import { v4 as uuidv4 } from 'uuid';
+import { SOCIAL_COMPONENTS } from '@/constants';
+import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
 
 const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
   const { theme, companyDetailsArray, companyDetails } =
     usePreviewDrawer(checkedRows);
+  const navigate = useRouter();
 
   return (
     <>
@@ -85,7 +89,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
           >
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Email" placement="top">
-                <Image src={EmailImage} alt="Icon" />
+                <Image
+                  src={EmailImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 7 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
 
@@ -98,7 +111,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Call" placement="top">
-                <Image src={MobileImage} alt="Icon" />
+                <Image
+                  src={MobileImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 5 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
             <Divider
@@ -110,7 +132,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Notes" placement="top">
-                <Image src={NoteImage} alt="Icon" />
+                <Image
+                  src={NoteImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 4 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
             <Divider
@@ -122,7 +153,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Meeting" placement="top">
-                <Image src={NoteAddImage} alt="Icon" />
+                <Image
+                  src={NoteAddImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 6 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
             <Divider
@@ -134,7 +174,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Task" placement="top">
-                <Image src={ActivitesTimeImage} alt="Icon" />
+                <Image
+                  src={ActivitesTimeImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 3 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
           </Box>
@@ -179,7 +228,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             );
           })}
         </Box>
-        {accordionData?.map((item) => {
+        {accordionData(companyDetails)?.map((item) => {
           return (
             <>
               <Box sx={{ marginTop: '1rem' }}>
@@ -246,10 +295,10 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                       >
                         {item.img ? (
                           <Image
-                            src={item?.img}
+                            src={generateImage(item?.img)}
                             alt="Image"
-                            width={48}
-                            height={48}
+                            width={40}
+                            height={40}
                           />
                         ) : (
                           ''

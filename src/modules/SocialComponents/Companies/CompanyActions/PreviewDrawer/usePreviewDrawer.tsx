@@ -18,7 +18,7 @@ const usePreviewDrawer = (checkedRows: any) => {
     },
     {
       title: 'Phone Number',
-      value: companyDetails?.companyOwner?.phoneNumber ?? 'N/A',
+      value: companyDetails?.phone ?? 'N/A',
     },
     { title: 'Comapny Type', value: companyDetails?.type ?? 'N/A' },
     { title: 'Industry', value: companyDetails?.industry ?? 'N/A' },

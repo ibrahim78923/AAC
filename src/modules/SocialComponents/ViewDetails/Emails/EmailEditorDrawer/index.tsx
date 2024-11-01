@@ -29,13 +29,23 @@ import {
   OutlookIcon,
   SMSIcon,
 } from '@/assets/icons';
+import ClearIcon from '@mui/icons-material/Clear';
 import * as yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, indexNumbers } from '@/constants';
 import CustomLabel from '@/components/CustomLabel';
+import { ImageComponent } from '@/modules/SocialComponents/emails/GoogleMail/Chat/RightPane';
+import { useEffect } from 'react';
 
 const EmailEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, companyId } = props;
+  const {
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+    messageDetailsData,
+  } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -45,7 +55,17 @@ const EmailEditorDrawer = (props: any) => {
     autocompleteValues,
     setAutocompleteValues,
     isLoadingSend,
-  } = useEmailEditorDrawer(setOpenDrawer, companyId);
+    loadingForwardGmail,
+    loadingReplyGmail,
+    forwardAttachments,
+    setForwardAttachments,
+  } = useEmailEditorDrawer(
+    setOpenDrawer,
+    companyId,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+    openDrawer,
+  );
 
   const handleAutocompleteChange = (_: any, newValue: string[]) => {
     setAutocompleteValues(newValue);
@@ -64,9 +84,25 @@ const EmailEditorDrawer = (props: any) => {
   };
   const isValidEmails = checkEmails(autocompleteValues);
 
-  // const removeRePrefix = (title: any) => {
-  //   return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
-  // };
+  useEffect(() => {
+    setForwardAttachments(
+      messageDetailsData?.data[indexNumbers?.ZERO]?.attachments,
+    );
+  }, [messageDetailsData?.data[indexNumbers?.ZERO]?.attachments]);
+
+  const handleRemove = (item: any, attachments: any) => {
+    const updatedAttachments = attachments?.filter(
+      (attachment: any) => attachment !== item,
+    );
+
+    setForwardAttachments(
+      updatedAttachments?.map((attachment: any) => ({
+        base64: attachment?.base64,
+        contentType: attachment?.contentType,
+        fileName: attachment?.fileName,
+      })),
+    );
+  };
 
   return (
     <div>
@@ -92,7 +128,7 @@ const EmailEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer}
         submitHandler={handleSubmit(onSubmit)}
-        isLoading={isLoadingSend}
+        isLoading={isLoadingSend || loadingForwardGmail || loadingReplyGmail}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -109,11 +145,7 @@ const EmailEditorDrawer = (props: any) => {
                     size="small"
                     required={false}
                     disabled
-                    // value={
-                    //   currentGmailAssets?.others?.to?.includes(loggedInEmail)
-                    //     ? currentGmailAssets?.others?.from
-                    //     : currentGmailAssets?.others?.to || ''
-                    // }
+                    value={selectedCheckboxes[indexNumbers?.ZERO]?.from}
                   />
                 </Grid>
               ) : (
@@ -174,7 +206,7 @@ const EmailEditorDrawer = (props: any) => {
                   </>
                 ))}
 
-              {watchEmailsForm[0] &&
+              {watchEmailsForm[indexNumbers?.ZERO] &&
                 (openDrawer === CREATE_EMAIL_TYPES?.REPLY_ALL ||
                   openDrawer === CREATE_EMAIL_TYPES?.NEW_EMAIL) && (
                   <Grid item xs={12}>
@@ -205,7 +237,7 @@ const EmailEditorDrawer = (props: any) => {
                         : 'Re:'
                     }
                     size="small"
-                    // value={removeRePrefix(currentGmailAssets?.others?.subject)}
+                    value={selectedCheckboxes[indexNumbers?.ZERO]?.subject}
                     disabled
                   />
                 )}
@@ -375,6 +407,44 @@ const EmailEditorDrawer = (props: any) => {
                   required={true}
                 />
               </Grid>
+              {openDrawer === CREATE_EMAIL_TYPES?.FORWARD && (
+                <Grid item xs={12}>
+                  <Box sx={{ marginBottom: '10px' }}>
+                    {forwardAttachments &&
+                      forwardAttachments?.map((item: any) => {
+                        return (
+                          <Box
+                            key={uuidv4()}
+                            sx={{
+                              marginTop: '10px',
+                              borderRadius: '8px',
+                              overflow: 'hidden',
+                              display: 'flex',
+                              backgroundColor: theme?.palette?.grey[400],
+                              padding: '10px',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <ImageComponent
+                              base64={item?.data}
+                              contentType={item?.mimeType}
+                              fileName={item?.filename}
+                            />
+
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() =>
+                                handleRemove(item, forwardAttachments)
+                              }
+                            >
+                              <ClearIcon />
+                            </Box>
+                          </Box>
+                        );
+                      })}
+                  </Box>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <RHFDropZone
                   name="attachFile"

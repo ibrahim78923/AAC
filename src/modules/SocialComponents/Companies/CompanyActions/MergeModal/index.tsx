@@ -30,7 +30,7 @@ const MergeModal = ({
   const { theme, companyDetails, methods, seletedCompany } =
     useMergeModal(checkedRows);
   const { getAllCompanies } = useCompanies();
-  const companiesDropdown = getAllCompanies?.companies;
+  const companiesDropdown = getAllCompanies?.data?.companies;
   const [mergeCompanies] = useMergeCompaniesMutation();
 
   return (

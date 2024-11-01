@@ -35,9 +35,7 @@ const useEmails = (companyId: any) => {
     setSelectedCheckboxes((prevSelected: any) =>
       isChecked
         ? [...prevSelected, id]
-        : prevSelected?.filter(
-            (itemId: any) => itemId?.threadId !== id?.threadId,
-          ),
+        : prevSelected?.filter((itemId: any) => itemId?._id !== id?._id),
     );
   };
 
@@ -61,6 +59,7 @@ const useEmails = (companyId: any) => {
     setOpenDrawer,
     handleCheckboxChange,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     EmailListData,
     EmailListIsLoading,
     EmailListIsFetching,
