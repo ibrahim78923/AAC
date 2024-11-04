@@ -3,7 +3,9 @@ import useToggle from '@/hooks/useToggle';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 
-const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
+const useCreateDashboardOptions = (
+  setSelectedDashboard: (id: string) => void,
+) => {
   const theme = useTheme();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -24,7 +26,7 @@ const useCreateDashboardOptions = (selectedDashboard: (id: string) => void) => {
   };
 
   const handleMenuItemClick = (dashboardId: string) => {
-    selectedDashboard(dashboardId);
+    setSelectedDashboard(dashboardId);
     handleCloseMenuOptions();
   };
 

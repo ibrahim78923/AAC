@@ -1,16 +1,14 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, CircularProgress } from '@mui/material';
 import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
-
 import { SwitchBtn } from '@/components/SwitchButton';
-
 import * as Yup from 'yup';
-
-import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
-import { convertIdToShortNumber, getSession } from '@/utils';
+import { getSession } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ACTIVITY_STATUS_MENU } from '@/constants';
 
 export const columns: any = (columnsProps: any) => {
-  const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
+  const { updateStatus, checkedRows, setCheckedRows, loadingState } =
+    columnsProps;
 
   const handleCheckboxChange = (val: any, rowId: string) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
@@ -36,7 +34,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: '_id',
-      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Role ID',
       isSortable: true,
     },
@@ -61,35 +59,44 @@ export const columns: any = (columnsProps: any) => {
       header: 'Company Accounts',
       cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
+
     {
       accessorFn: (row: any) => row?.Status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <SwitchBtn
-          defaultChecked={
-            info?.row?.original?.status === 'ACTIVE' ? true : false
-          }
-          handleSwitchChange={(e: any) =>
-            updateStatus(info?.row?.original?._id, e)
-          }
-        />
-      ),
+      cell: (info: any) => {
+        const rowId = info?.row?.original?._id;
+        const isLoading = loadingState[rowId] ?? false;
+
+        return isLoading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <SwitchBtn
+            handleSwitchChange={(e: any) => {
+              updateStatus(rowId, e?.target?.checked);
+            }}
+            defaultChecked={
+              info?.row?.original?.status === ACTIVITY_STATUS_MENU?.ACTIVE
+            }
+            checked={
+              info?.row?.original?.status === ACTIVITY_STATUS_MENU?.ACTIVE
+            }
+          />
+        );
+      },
     },
   ];
 };
 
 export const addUserSchema = Yup.object().shape({
   productId: Yup?.object()?.required('Field is Required'),
-  organizationCompanyAccountId: Yup?.object()?.required('Field is Required'),
+  organizationCompanyAccountId: Yup?.mixed()?.nullable(),
   name: Yup?.string()?.required('Field is Required'),
 });
 
-export const addUsersArrayData = (productsData: any) => {
+export const addUsersArrayData = (productsData: any, companyAccounts: any) => {
   const { user }: any = getSession();
-
-  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   return [
     {
@@ -110,6 +117,7 @@ export const addUsersArrayData = (productsData: any) => {
         name: 'organizationCompanyAccountId',
         placeholder: 'Select company account',
         required: true,
+        multiple: true,
         apiQuery: companyAccounts,
         getOptionLabel: (option: any) => option?.accountName,
         externalParams: { orgId: user?.organization?._id, limit: 50 },

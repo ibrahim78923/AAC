@@ -67,6 +67,7 @@ export const DATE_TIME_FORMAT = {
 export const ERROR_PAGES = {
   NOT_FOUND: '/404',
   NOT_ACCESS: '/403',
+  NOT_FOUND_DEFAULT: 404,
 };
 
 export const SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES = {

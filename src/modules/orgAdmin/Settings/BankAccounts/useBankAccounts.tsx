@@ -40,6 +40,7 @@ const useBankAccounts = () => {
     data: receiversData,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetReceiverBankAccountsQuery(receiversParams);
 
   const [deleteReceiverBankAccount, { isLoading: deleteAccountLoading }] =
@@ -91,6 +92,7 @@ const useBankAccounts = () => {
     setPage,
     deleteReceiverBankAccount,
     postReceiverBankAccount,
+    isFetching,
   };
 };
 

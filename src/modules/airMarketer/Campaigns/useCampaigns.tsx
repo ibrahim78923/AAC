@@ -7,7 +7,6 @@ import { campaignsOptions } from './Campaigns.data';
 import {
   useDeleteCampaignsMutation,
   useGetCampaignsSaveViewQuery,
-  usePostCampaignsCloneMutation,
   usePostCampaignsSaveViewMutation,
 } from '@/services/airMarketer/campaigns';
 import { compareInitialVals } from './Compaigns.data';
@@ -69,9 +68,6 @@ const useCampaigns = () => {
 
   const [deleteCampaigns, { isLoading: deleteCampaignsLoading }] =
     useDeleteCampaignsMutation();
-
-  const [postCampaignsClone, { isLoading: postCampaignsCloneLoading }] =
-    usePostCampaignsCloneMutation();
 
   const [postCampaignsSaveView, { isLoading: postCampaignsSaveViewLoading }] =
     usePostCampaignsSaveViewMutation();
@@ -169,8 +165,6 @@ const useCampaigns = () => {
     isResetTaskFilter,
     setIsResetTaskFilter,
     deleteCampaignsLoading,
-    postCampaignsCloneLoading,
-    postCampaignsClone,
     deleteCampaigns,
     postCampaignsSaveView,
     postCampaignsSaveViewLoading,

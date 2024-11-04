@@ -51,6 +51,7 @@ const Tasks = () => {
     setAnchorEl,
     selectedRec,
     isListView,
+    isFetching,
     isLoading,
     isSuccess,
     anchorEl,
@@ -237,7 +238,7 @@ const Tasks = () => {
           columns={columns(columnsProps)}
           setPageLimit={setPageLimit}
           data={compaignsTasksData}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           isSuccess={isSuccess}
           setPage={setPage}
           isPagination

@@ -173,7 +173,6 @@ const useCreateForm = (formType: any) => {
           ? AIR_MARKETER?.MARKETER_DASHBOARD
           : AIR_MARKETER?.MANAGE_DASHBOARD,
       );
-      // router?.back();
       enqueueSnackbar(
         `Dashboard ${
           formType === DRAWER_TYPES?.EDIT ? 'Updated' : 'Created'

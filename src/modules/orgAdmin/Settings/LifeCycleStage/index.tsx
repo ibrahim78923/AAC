@@ -40,6 +40,7 @@ const LifeCycleStage = () => {
     isSuccess,
     isLoading,
     loadingDelete,
+    isFetching,
     form,
     getDynamicFieldsStatus,
     lifeCycleStageLoading,
@@ -110,7 +111,7 @@ const LifeCycleStage = () => {
               setPage={setPage}
               setPageLimit={setPageLimit}
               pageLimit={tableRow?.data?.meta?.limit}
-              isLoading={isLoading}
+              isLoading={isLoading || isFetching}
               isSuccess={isSuccess}
             />
           </PermissionsGuard>

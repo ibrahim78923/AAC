@@ -50,6 +50,7 @@ const useTasks = () => {
     data: getCampaignsTasks,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetCampaignsTasksQuery(taskParams);
 
   const compaignsTasksData = getCampaignsTasks?.data?.campaigntasks;
@@ -151,6 +152,7 @@ const useTasks = () => {
     searchValue,
     selectedRec,
     isListView,
+    isFetching,
     isLoading,
     isSuccess,
     anchorEl,

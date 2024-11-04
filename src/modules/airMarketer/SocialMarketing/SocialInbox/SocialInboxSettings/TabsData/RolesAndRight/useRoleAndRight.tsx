@@ -51,6 +51,7 @@ const useRoleAndRight: any = () => {
     data: getPermissions,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetMarketerPermissionsRolesQuery(permissionParams);
 
   const handleChange = () => {
@@ -93,6 +94,7 @@ const useRoleAndRight: any = () => {
     page,
     setPage,
     isSuccess,
+    isFetching,
   };
 };
 

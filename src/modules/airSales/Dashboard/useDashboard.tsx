@@ -19,6 +19,7 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
+import { ERROR_PAGES } from '@/constants';
 const useDashboard = () => {
   const theme = useTheme();
   const { user }: any = getSession();
@@ -53,6 +54,10 @@ const useDashboard = () => {
       pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.DASHBOARD,
     },
   );
+
+  const dashboardNotFound =
+    lazyGetSingleSalesDashboardStatus?.data?.statusCode ===
+    ERROR_PAGES?.NOT_FOUND_DEFAULT;
 
   const ApiPollingHookProps = {
     isFetching: lazyGetSingleSalesDashboardStatus?.isFetching,
@@ -97,7 +102,6 @@ const useDashboard = () => {
       : false;
 
   return {
-    dashboardNotFound: lazyGetSingleSalesDashboardStatus?.isError,
     dashboardLoading: lazyGetSingleSalesDashboardStatus?.isLoading,
     AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS,
     lazyGetSingleSalesDashboardStatus,
@@ -106,6 +110,7 @@ const useDashboard = () => {
     setSelectedDashboard,
     dashboardListLoading,
     dashboardListArray,
+    dashboardNotFound,
     selectedDashboard,
     defaultDashboard,
     apiCallInProgress,

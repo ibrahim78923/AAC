@@ -5,7 +5,7 @@ import EmailThisDashboard from '../EmailThisDashboard';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { DRAWER_TYPES } from '@/constants/strings';
 
-const ShareOptions = ({ selectedDashboard, currentUser }: any) => {
+const ShareOptions = ({ selectedDashboard, currentUser, disabled }: any) => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -49,6 +49,7 @@ const ShareOptions = ({ selectedDashboard, currentUser }: any) => {
           </MenuItem>
 
           <MenuItem
+            disabled={disabled}
             onClick={() => {
               router?.push({
                 pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,

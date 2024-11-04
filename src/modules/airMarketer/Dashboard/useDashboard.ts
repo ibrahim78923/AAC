@@ -5,6 +5,7 @@ import {
 } from '@/config';
 import {
   useGetAllMarketingDashboardsQuery,
+  useGetMarketingDashboardsQuery,
   useLazyGetSMarketingDashboardsListQuery,
 } from '@/services/airMarketer/dasboard';
 import { getSession } from '@/utils';
@@ -13,6 +14,8 @@ import { useState } from 'react';
 import { AIR_MARKETER } from '../../../routesConstants/paths';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { useTheme } from '@mui/material';
+import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
+import { ERROR_PAGES } from '@/constants';
 
 const useDashboard = () => {
   const { user }: any = getSession();
@@ -24,6 +27,19 @@ const useDashboard = () => {
     useState(false);
   const [selectedDashboard, setSelectedDashboard] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const params = {
+    page,
+    limit: pageLimit,
+    owner: currentUser,
+  };
+  const { data: dashboardListArray, isLoading: dashboardListLoading } =
+    useGetMarketingDashboardsQuery({ params: params });
+
+  const defaultDashboard = dashboardListArray?.dynamicdashboards?.find(
+    (item: any) => item?.isDefault,
+  );
 
   const dropdownOptions = useLazyGetSMarketingDashboardsListQuery();
 
@@ -46,6 +62,10 @@ const useDashboard = () => {
 
   const dashboardsData = lazyGetSingleMarketingDashboardStatus?.data?.data;
 
+  const dashboardNotFound =
+    lazyGetSingleMarketingDashboardStatus?.data?.statusCode ===
+    ERROR_PAGES?.NOT_FOUND_DEFAULT;
+
   const apiCallInProgress =
     lazyGetSingleMarketingDashboardStatus?.isLoading ||
     lazyGetSingleMarketingDashboardStatus?.isFetching;
@@ -57,22 +77,32 @@ const useDashboard = () => {
     });
   };
 
+  const disabled =
+    lazyGetSingleMarketingDashboardStatus?.data?.data?.dashboard
+      ?.permissions === MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL
+      ? true
+      : false;
+
   return {
-    dashboardNotFound: lazyGetSingleMarketingDashboardStatus?.isError,
     dashboardLoading: lazyGetSingleMarketingDashboardStatus?.isLoading,
     lazyGetSingleMarketingDashboardStatus,
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,
     setSelectedDashboard,
     selectedDashboard,
+    dashboardNotFound,
     apiCallInProgress,
     handelNavigate,
     dropdownOptions,
     dashboardsData,
+    defaultDashboard,
+    dashboardListLoading,
     currentUser,
+    disabled,
     timeLapse,
     setPage,
     router,
+    setPageLimit,
     theme,
     page,
     user,

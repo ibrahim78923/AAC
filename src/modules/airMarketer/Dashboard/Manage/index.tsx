@@ -31,6 +31,8 @@ const Manage = () => {
     setPageLimit,
     currentUser,
     isLoading,
+    loadingState,
+    isFetching,
     setPage,
     theme,
     router,
@@ -43,6 +45,7 @@ const Manage = () => {
     router: router,
     handleUpdateDefault: handleUpdateDefault,
     currentUser: currentUser,
+    loadingState: loadingState,
   };
 
   const columnParams = columns(columnsProps);
@@ -123,7 +126,7 @@ const Manage = () => {
             pageLimit={marketingDashboardsListArray?.meta?.limit}
             currentPage={marketingDashboardsListArray?.meta?.page}
             setPageLimit={setPageLimit}
-            isLoading={isLoading}
+            isLoading={isLoading || isFetching}
             setPage={setPage}
             isPagination
           />

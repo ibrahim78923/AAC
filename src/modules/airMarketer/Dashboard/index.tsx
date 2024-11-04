@@ -26,47 +26,43 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import { indexNumbers } from '@/constants';
 import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
+import { TruncateText } from '@/components/TruncateText';
 
 const Dashboard = () => {
   const {
     lazyGetSingleMarketingDashboardStatus,
     setSelectedDashboard,
+    selectedDashboard,
     dashboardNotFound,
     apiCallInProgress,
     dashboardLoading,
     dropdownOptions,
     dashboardsData,
     handelNavigate,
+    defaultDashboard,
+    dashboardListLoading,
     currentUser,
+    disabled,
     timeLapse,
     router,
-    theme,
     user,
   } = useDashboard();
 
   return (
     <Grid container spacing={2} sx={{ paddingLeft: '0px' }}>
       <Grid item xs={12}>
-        <Stack direction={{ sm: 'row' }} justifyContent="space-between" gap={1}>
-          {dashboardLoading ? (
-            <Skeleton
-              width={250}
-              height={36}
-              variant={'rectangular'}
-              animation={'wave'}
-            />
-          ) : (
-            <Stack direction="column">
-              <Typography
-                variant="h3"
-                color={theme?.palette?.primary?.main}
-                fontWeight={600}
-              >
-                {capitalizeFirstLetters(dashboardsData?.dashboard?.name)}
-              </Typography>
-            </Stack>
-          )}
-        </Stack>
+        {dashboardLoading ? (
+          <Skeleton
+            width={250}
+            height={25}
+            variant="rectangular"
+            animation="wave"
+          />
+        ) : (
+          <Typography variant="h3" color="primary.main">
+            <TruncateText text={dashboardsData?.dashboard?.name} size={35} />
+          </Typography>
+        )}
       </Grid>
       <Grid item xs={12}>
         <Stack
@@ -83,46 +79,61 @@ const Dashboard = () => {
                 animation={'wave'}
               />
             ) : (
-              <Typography variant="h4">
-                {`Hi ${capitalizeFirstLetters(
-                  user?.firstName ?? '---',
-                )}! Happy to see you again`}
+              <Typography
+                variant="h4"
+                fontWeight={'fontWeightSmall'}
+                color="blue.main"
+              >
+                <Typography component="span" variant="h4">
+                  Hi {capitalizeFirstLetters(user?.firstName) ?? '---'}!
+                </Typography>{' '}
+                Happy to see you again
               </Typography>
             )}
           </Box>
+
           <Stack direction="row" gap={1} flexWrap={'wrap'}>
-            <Button
-              className="small"
-              variant="outlined"
-              color="inherit"
-              size="small"
-              startIcon={<Autorenew />}
-              onClick={lazyGetSingleMarketingDashboardStatus?.refetch}
-              disabled={apiCallInProgress}
-              sx={{
-                fontSize: pxToRem(12),
-                fontWeight: 'fontWeightRegular',
-                textTransform: 'lowercase',
-              }}
-            >
-              {!!apiCallInProgress ? (
-                <Box>
-                  <LinearProgress sx={{ width: pxToRem(70) }} />
-                </Box>
-              ) : (
-                timeLapse?.lastFetchLapseTime
-              )}
-            </Button>
+            {selectedDashboard?.length > 0 && (
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                size="small"
+                startIcon={<Autorenew />}
+                onClick={lazyGetSingleMarketingDashboardStatus?.refetch}
+                disabled={apiCallInProgress}
+                sx={{
+                  fontSize: pxToRem(12),
+                  fontWeight: 'fontWeightRegular',
+                  textTransform: 'lowercase',
+                }}
+              >
+                {!!apiCallInProgress ? (
+                  <Box>
+                    <LinearProgress sx={{ width: pxToRem(70) }} />
+                  </Box>
+                ) : (
+                  timeLapse?.lastFetchLapseTime
+                )}
+              </Button>
+            )}
+
             {!dashboardNotFound && (
               <ShareOptions
                 currentUser={currentUser}
                 selectedDashboard={dashboardsData}
+                disabled={disabled}
               />
             )}
+
             <ManageDashboardOptions
               listData={dropdownOptions}
               selectedDashboard={setSelectedDashboard}
+              isLoading={dashboardListLoading}
+              defaultDashboard={defaultDashboard}
+              setSelectedDashboard={setSelectedDashboard}
             />
+
             <Button
               variant="outlined"
               color="inherit"

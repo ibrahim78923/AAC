@@ -5,13 +5,40 @@ import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import useAuth from '@/hooks/useAuth';
 import { useForm, FormProvider } from 'react-hook-form';
 import useCreateDashboardOptions from './useCreateDashboardOptions';
+import { useEffect } from 'react';
 
 const CreateDashboardOptions = (props: any) => {
-  const { listData, selectedDashboard } = props;
+  const {
+    listData,
+    selectedDashboard,
+    setSelectedDashboard,
+    defaultDashboard,
+  } = props;
   const auth: any = useAuth();
   const productId: any = auth?.product?._id ?? {};
-  const { handleMenuItemClick } = useCreateDashboardOptions(selectedDashboard);
-  const methods = useForm();
+  const { handleMenuItemClick } =
+    useCreateDashboardOptions(setSelectedDashboard);
+  const methods = useForm({
+    defaultValues: {
+      dashboardId: selectedDashboard ? selectedDashboard : defaultDashboard,
+    },
+  });
+  const { watch } = methods;
+  const currDashboardId = watch('dashboardId');
+
+  useEffect(() => {
+    if (currDashboardId?._id) {
+      setSelectedDashboard(currDashboardId?._id);
+    } else {
+      setSelectedDashboard(defaultDashboard?._id || selectedDashboard?._id);
+    }
+  }, [
+    currDashboardId?._id,
+    defaultDashboard,
+    selectedDashboard,
+    setSelectedDashboard,
+  ]);
+
   return (
     <FormProvider {...methods}>
       <RHFAutocompleteAsync
