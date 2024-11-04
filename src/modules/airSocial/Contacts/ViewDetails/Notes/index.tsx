@@ -223,7 +223,7 @@ const Notes = ({ contactId }: any) => {
                         >
                           Created by
                         </Box>{' '}
-                        {note?.updatedBy}
+                        {note?.updatedBy?.firstName} {note?.updatedBy?.lastName}
                       </Typography>
 
                       <Typography

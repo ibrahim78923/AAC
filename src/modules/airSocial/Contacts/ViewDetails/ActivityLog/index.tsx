@@ -13,7 +13,6 @@ import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-k
 const ActivityLog = ({ contactId }: any) => {
   const { theme } = useNameWithStyledWords();
   const filterPayloadValues = {
-    recordType: 'contacts',
     recordId: contactId,
   };
 
