@@ -12,7 +12,18 @@ export const dealsEmailsApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    deleteAssociationEmail: builder.mutation({
+      query: ({ params }: any) => ({
+        url: `${AIR_SALES_DEALS_EMAILS?.DELETE_ASSOCIATED_EMAILS}`,
+        method: 'DELETE',
+        params: params,
+      }),
+      invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
+    }),
   }),
 });
 
-export const { useGetAssociatedEmailsQuery } = dealsEmailsApi;
+export const {
+  useGetAssociatedEmailsQuery,
+  useDeleteAssociationEmailMutation,
+} = dealsEmailsApi;

@@ -18,7 +18,6 @@ import {
 } from './CallsEditorDrawer.data';
 
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
-import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import { attendeesOptions } from '@/mock/modules/airSales/Deals/ViewDetails';
@@ -74,7 +73,7 @@ const CallsEditorDrawer = (props: CallsEditorDrawerProps) => {
               </Grid>
               <Grid item xs={12}>
                 <RHFSelect name="outcomes" label="Outcomes" size="small">
-                  {options?.map((option: any) => (
+                  {[]?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}
                     </option>

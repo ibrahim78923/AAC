@@ -10,18 +10,20 @@ const useEmails = () => {
     data: outlookFoldersData,
     isLoading: outlookFoldersLoading,
     refetch: outLookRefetch,
+    isError: outlookError,
   } = useGetMailFoldersOutlookQuery({});
   const {
     data: gmailFoldersData,
     isLoading: gmailFoldersLoading,
     refetch: gmailRefetch,
+    isError: gmailError,
   } = useGetGmailFoldersQuery({});
 
   const handleCheckboxChange = (item: any) => {
     setSelectedCheckboxes((prevSelected: any) => {
-      if (prevSelected.some((selected: any) => selected._id === item._id)) {
-        return prevSelected.filter(
-          (selected: any) => selected._id !== item._id,
+      if (prevSelected?.some((selected: any) => selected?._id === item?._id)) {
+        return prevSelected?.filter(
+          (selected: any) => selected?._id !== item?._id,
         );
       } else {
         return [...prevSelected, item];
@@ -39,8 +41,10 @@ const useEmails = () => {
     setOpenDrawer,
     selectedCheckboxes,
     handleCheckboxChange,
-    outlookStates: { outlookFoldersData, outlookFoldersLoading },
-    gmailStates: { gmailFoldersData, gmailFoldersLoading },
+    outlookFoldersData: outlookError ? [] : outlookFoldersData,
+    gmailFoldersData: gmailError ? [] : gmailFoldersData,
+    outlookFoldersLoading,
+    gmailFoldersLoading,
   };
 };
 

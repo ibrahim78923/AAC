@@ -698,6 +698,7 @@ export const AIR_SALES = {
 
 export const AIR_SALES_DEALS_EMAILS = {
   GET_ASSOCIATED_EMAILS: '/gmail/get-all-associated-emails',
+  DELETE_ASSOCIATED_EMAILS: '/gmail/delete-associated-emails',
 };
 
 export const SUPER_ADMIN_SETTINGS = {
