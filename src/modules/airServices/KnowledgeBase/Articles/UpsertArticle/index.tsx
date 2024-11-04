@@ -47,17 +47,15 @@ export const UpsertArticle = () => {
     theme,
     newArticleFields,
     articleId,
-    postArticleStatus,
-    patchArticleStatus,
-    isLoading,
-    isFetching,
     cancelBtnHandler,
     isError,
     refetch,
     moveToHome,
+    showLoader,
+    apiCallInProgress,
   } = useUpsertArticle();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
+  if (showLoader) return <SkeletonForm />;
 
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
@@ -139,10 +137,7 @@ export const UpsertArticle = () => {
                     className="small"
                     variant="outlined"
                     type="button"
-                    disabled={
-                      postArticleStatus?.isLoading ||
-                      patchArticleStatus?.isLoading
-                    }
+                    disabled={apiCallInProgress}
                     fullWidth
                     onClick={() => cancelBtnHandler(needApprovals ? '' : DRAFT)}
                   >
@@ -159,10 +154,8 @@ export const UpsertArticle = () => {
                       methods?.handleSubmit?.(upsertArticleSubmit)(PUBLISHED)
                     }
                     fullWidth
-                    loading={
-                      postArticleStatus?.isLoading ||
-                      patchArticleStatus?.isLoading
-                    }
+                    loading={apiCallInProgress}
+                    disabled={showLoader}
                     variant="contained"
                   >
                     {needApprovals ? SEND_FOR_APPROVAL : PUBLISH_NOW_DRAWER}

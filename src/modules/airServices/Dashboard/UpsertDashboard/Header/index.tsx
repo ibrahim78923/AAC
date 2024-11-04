@@ -22,7 +22,7 @@ export const Header = () => {
             : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
         } Dashboard`}
         canMovedBack
-        moveBack={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+        moveBack={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
       />
       {isPortalOpen?.isOpen &&
         isPortalOpen?.action ===

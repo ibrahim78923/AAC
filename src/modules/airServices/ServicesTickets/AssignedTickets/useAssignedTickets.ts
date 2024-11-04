@@ -1,4 +1,4 @@
-import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
+import { useUpdateBulkServicesTicketsMutation } from '@/services/airServices/tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -10,7 +10,6 @@ import {
   setPage,
 } from '@/redux/slices/airServices/tickets/slice';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
-import { ARRAY_INDEX } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
@@ -30,10 +29,8 @@ export const useAssignedTickets = () => {
     (state) => state?.servicesTickets?.isPortalOpen,
   );
 
-  const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
-
-  const [putTicketTrigger, putTicketStatus] =
-    useUpdateSingleServicesTicketByIdMutation();
+  const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
+    useUpdateBulkServicesTicketsMutation();
 
   const methods: UseFormReturn<any> = useForm<any>({
     defaultValues: {
@@ -60,22 +57,22 @@ export const useAssignedTickets = () => {
   const submitAssignedTicketsForm = async (formData: {
     agent: AutocompleteAsyncOptionsI;
   }) => {
-    const assignTicketFormData = new FormData();
-    assignTicketFormData?.append(
-      'isChildTicket',
-      singleTicketDetail?.isChildTicket,
+    const queryParams = new URLSearchParams();
+    selectedTicketLists?.forEach(
+      (ticketId: any) => queryParams?.append('ids', ticketId?._id),
     );
-    assignTicketFormData?.append('requester', singleTicketDetail?.requester);
-    assignTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
-    assignTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
-    assignTicketFormData?.append('status', singleTicketDetail?.status);
-    assignTicketFormData?.append('id', singleTicketDetail?._id);
-    assignTicketFormData?.append('agent', formData?.agent?._id);
-    const putTicketParameter = {
-      body: assignTicketFormData,
+
+    const body = {
+      agent: formData?.agent?._id,
     };
+
+    const apiDataParameter = {
+      queryParams,
+      body,
+    };
+
     try {
-      await putTicketTrigger(putTicketParameter)?.unwrap();
+      await patchBulkUpdateTicketsTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Ticket assigned successfully');
       closePortal?.();
       await refetchApi();
@@ -83,18 +80,22 @@ export const useAssignedTickets = () => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const closePortal = () => {
     reset();
     dispatch(emptySelectedTicketLists());
     dispatch(setIsPortalClose());
   };
 
+  const apiCallInProgress = patchBulkUpdateTicketsStatus?.isLoading;
+
   return {
     methods,
     handleSubmit,
     submitAssignedTicketsForm,
     closePortal,
-    putTicketStatus,
+    patchBulkUpdateTicketsStatus,
     isPortalOpen,
+    apiCallInProgress,
   };
 };

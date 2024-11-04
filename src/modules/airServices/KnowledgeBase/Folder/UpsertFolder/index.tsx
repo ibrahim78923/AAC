@@ -9,7 +9,7 @@ import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const { EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
-const { EDIT, ADD, UPDATE, CREATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
+const { UPDATE, CREATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
 
 export const UpsertFolder = () => {
   const {
@@ -28,13 +28,12 @@ export const UpsertFolder = () => {
     <CustomCommonDialog
       isPortalOpen={isPortalOpen?.isOpen}
       closePortal={closePortal}
-      dialogTitle={`${
-        isPortalOpen?.action === EDIT_FOLDER ? EDIT : ADD
-      } Folder`}
+      dialogTitle={isPortalOpen?.action}
       submitButtonText={isPortalOpen?.action === EDIT_FOLDER ? UPDATE : CREATE}
       showSubmitLoader={apiCallInProgress}
       disabledCancelButton={apiCallInProgress}
       handleSubmitButton={handleSubmit(onSubmit)}
+      disabledSubmitButton={showLoader}
     >
       <FormProvider methods={methods}>
         {showLoader ? (

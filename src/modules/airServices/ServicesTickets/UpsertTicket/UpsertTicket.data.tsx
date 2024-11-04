@@ -4,7 +4,6 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFTextField,
-  RHFDatePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import {
@@ -57,14 +56,24 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
           priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
           plannedEndDate: Yup?.date()
             ?.nullable()
-            ?.required('Planned end date is required'),
+            .min(
+              Yup?.ref('plannedStartDate'),
+              'Planned end date is after planned start date',
+            ),
         }
       : {}),
     department: Yup?.mixed()?.nullable(),
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
-    plannedStartDate: Yup?.date(),
+    plannedStartDate: Yup?.date()
+      ?.nullable()
+      ?.when('plannedEndDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -90,7 +99,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     agent: data?.agentDetails ?? null,
     plannedStartDate: data?.plannedStartDate
       ? localeDateTime(data?.plannedStartDate)
-      : new Date(),
+      : null,
     plannedEndDate: data?.plannedEndDate
       ? localeDateTime(data?.plannedEndDate)
       : null,
@@ -106,6 +115,7 @@ export const upsertTicketFormFieldsDynamic = (
   ticketId?: string,
   getValues?: any,
   setValue?: any,
+  watch?: any,
 ) => {
   return [
     {
@@ -206,9 +216,11 @@ export const upsertTicketFormFieldsDynamic = (
               name: 'plannedStartDate',
               label: 'Planned Start Date',
               fullWidth: true,
-              disabled: true,
+              disablePast: true,
+              ampm: false,
+              textFieldProps: { readOnly: true },
             },
-            component: RHFDatePicker,
+            component: RHFDesktopDateTimePicker,
             md: 12,
           },
           {
@@ -218,9 +230,9 @@ export const upsertTicketFormFieldsDynamic = (
               label: 'Planned End Date',
               fullWidth: true,
               disablePast: true,
-              required: true,
               ampm: false,
               textFieldProps: { readOnly: true },
+              minDateTime: watch('plannedStartDate'),
             },
             component: RHFDesktopDateTimePicker,
             md: 12,

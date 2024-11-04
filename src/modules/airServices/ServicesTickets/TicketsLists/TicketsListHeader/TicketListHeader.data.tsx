@@ -46,7 +46,6 @@ export const ticketsActionDropdownDynamic = (
     id: 2,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Assign To',
-    disabled: selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();
@@ -85,7 +84,6 @@ export const ticketsActionDropdownDynamic = (
     id: 6,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Close',
-    disabled: selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS, {
         status: TICKET_STATUS?.CLOSED,
@@ -97,7 +95,6 @@ export const ticketsActionDropdownDynamic = (
     id: 7,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Spam',
-    disabled: selectedTicketList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.UPDATE_TICKET_STATUS, {
         status: TICKET_STATUS?.SPAM,

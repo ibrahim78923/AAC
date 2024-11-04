@@ -9,8 +9,8 @@ export const AssignedTickets = () => {
     handleSubmit,
     submitAssignedTicketsForm,
     closePortal,
-    putTicketStatus,
     isPortalOpen,
+    apiCallInProgress,
   }: any = useAssignedTickets();
 
   return (
@@ -19,8 +19,8 @@ export const AssignedTickets = () => {
       closePortal={closePortal}
       dialogTitle="Assign To"
       submitButtonText="Assign"
-      showSubmitLoader={putTicketStatus?.isLoading}
-      disabledCancelButton={putTicketStatus?.isLoading}
+      showSubmitLoader={apiCallInProgress}
+      disabledCancelButton={apiCallInProgress}
       handleSubmitButton={handleSubmit(submitAssignedTicketsForm)}
     >
       <FormProvider methods={methods}>

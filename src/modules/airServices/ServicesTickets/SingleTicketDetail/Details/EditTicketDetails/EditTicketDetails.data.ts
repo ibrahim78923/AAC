@@ -1,6 +1,5 @@
 import {
   RHFAutocomplete,
-  RHFDatePicker,
   RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -58,10 +57,20 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
-    plannedStartDate: Yup?.date()?.nullable(),
+    plannedStartDate: Yup?.date()
+      ?.nullable()
+      ?.when('plannedEndDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
     plannedEndDate: Yup?.date()
       ?.nullable()
-      ?.required('Planned end date is required'),
+      .min(
+        Yup?.ref('plannedStartDate'),
+        'Planned end date is after planned start date',
+      ),
     plannedEffort: Yup?.string()?.trim(),
     ...formSchema,
   });
@@ -93,7 +102,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
     agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
       ? localeDateTime(data?.plannedStartDate)
-      : new Date(),
+      : null,
     plannedEndDate: !!data?.plannedEndDate
       ? localeDateTime(data?.plannedEndDate)
       : null,
@@ -224,8 +233,9 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       disabled: true,
       textFieldProps: { readOnly: true },
+      ampm: false,
     },
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
   },
   {
     id: 12,
@@ -234,9 +244,9 @@ export const editTicketDetailsFormFieldsDynamic = (
       label: 'Planned End Date',
       fullWidth: true,
       disablePast: true,
-      required: true,
-      textFieldProps: { readOnly: true },
       ampm: false,
+      textFieldProps: { readOnly: true },
+      minDateTime: watch('plannedStartDate'),
     },
     component: RHFDesktopDateTimePicker,
   },

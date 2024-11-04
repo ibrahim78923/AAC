@@ -1,4 +1,3 @@
-import { Theme, useTheme } from '@mui/material';
 import { NextRouter, useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -43,7 +42,7 @@ export const useUpsertRelatedTicket = () => {
 
   const router: NextRouter = useRouter();
   const { ticketId } = router?.query;
-  const theme: Theme = useTheme();
+
   const [postChildTicketTrigger, postChildTicketStatus] =
     useAddSingleServicesRelatedTicketsMutation();
   const [putChildTicketTrigger, putChildTicketStatus] =
@@ -66,7 +65,7 @@ export const useUpsertRelatedTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues, setError, setValue } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
 
   const submitUpsertTicket = async (data: any) => {
     const { plannedEffort } = getValues();
@@ -100,10 +99,14 @@ export const useUpsertRelatedTicket = () => {
         'plannedEndDate',
         isoDateString(data?.plannedEndDate),
       );
+    !!data?.plannedStartDate &&
+      upsertTicketFormData?.append(
+        'plannedStartDate',
+        isoDateString(data?.plannedStartDate),
+      );
     !!data?.plannedEffort &&
       upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
-    data?.attachFile !== null &&
-      typeof data?.attachFile !== 'string' &&
+    !!data?.attachFile &&
       upsertTicketFormData?.append('fileUrl', data?.attachFile);
     !!data?.associatesAssets?.length &&
       upsertTicketFormData?.append(
@@ -153,7 +156,9 @@ export const useUpsertRelatedTicket = () => {
   };
 
   useEffect(() => {
-    reset(() => upsertTicketDefaultValuesFunction(data?.data?.[0]));
+    reset(() =>
+      upsertTicketDefaultValuesFunction(data?.data?.[ARRAY_INDEX?.ZERO]),
+    );
   }, [data, reset]);
 
   const onClose = () => {
@@ -166,24 +171,25 @@ export const useUpsertRelatedTicket = () => {
     childTicketId,
     getValues,
     setValue,
+    watch,
   );
 
+  const apiCallInProgress =
+    postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading;
+
+  const showLoader = isLoading || isFetching;
+
   return {
-    router,
-    theme,
     handleSubmit,
     submitUpsertTicket,
     methods,
     onClose,
-    postChildTicketStatus,
-    putChildTicketStatus,
-    isLoading,
-    isFetching,
-    ticketId,
     upsertTicketFormFields,
     isError,
-    childTicketId,
     refetch,
     isPortalOpen,
+    childTicketId,
+    apiCallInProgress,
+    showLoader,
   };
 };

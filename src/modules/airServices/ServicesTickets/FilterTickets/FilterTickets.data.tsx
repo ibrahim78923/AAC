@@ -142,8 +142,9 @@ export const ticketsFilterFormFieldsDataFunction = () => [
       fullWidth: true,
       name: 'plannedStartDate',
       label: 'Planned Start Date',
+      ampm: false,
     },
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
   },
   {
     id: 12,

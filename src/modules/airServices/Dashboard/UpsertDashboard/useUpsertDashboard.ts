@@ -220,6 +220,8 @@ export const useUpsertDashboard = () => {
     );
   };
 
+  const showLoader = isLoading || isFetching;
+
   return {
     methods,
     submitCreateDashboardFilterForm,
@@ -227,8 +229,6 @@ export const useUpsertDashboard = () => {
     action,
     handleSubmit,
     upsertServiceDashboardFormFields,
-    isLoading,
-    isFetching,
     isError,
     dashboardWidgetsWatch,
     refetch,
@@ -236,5 +236,6 @@ export const useUpsertDashboard = () => {
     goToManageDashboard,
     setValue,
     openPreviewDashboard,
+    showLoader,
   };
 };

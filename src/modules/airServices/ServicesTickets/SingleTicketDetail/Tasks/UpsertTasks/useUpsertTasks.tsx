@@ -91,7 +91,7 @@ export const useUpsertTasks = () => {
     ),
   });
 
-  const { handleSubmit, reset, getValues, setError, setValue } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
 
   useEffect(() => {
     reset(() =>
@@ -220,12 +220,15 @@ export const useUpsertTasks = () => {
   };
 
   const upsertTicketTaskFormFormFields =
-    upsertTicketTaskFormFormFieldsDynamic?.(getValues, setValue);
+    upsertTicketTaskFormFormFieldsDynamic?.(getValues, setValue, watch);
 
   const apiCallInProgress =
     postTicketTasksStatus?.isLoading ||
     patchTicketTasksStatus?.isLoading ||
     postAttachmentStatus?.isLoading;
+
+  const showLoader =
+    getDynamicFieldsStatus?.isLoading || getDynamicFieldsStatus?.isFetching;
 
   return {
     submitUpsertTicketTasks,
@@ -238,5 +241,6 @@ export const useUpsertTasks = () => {
     getDynamicFormData,
     isPortalOpen,
     apiCallInProgress,
+    showLoader,
   };
 };

@@ -4,23 +4,19 @@ import { CloneReportIcon } from '@/assets/icons';
 import { useUpdateTicketStatus } from './useUpdateTicketStatus';
 
 export const UpdateTicketStatus = () => {
-  const {
-    putSingleTicketStatusStatus,
-    closeModal,
-    updateTicketStatus,
-    isPortalOpen,
-  } = useUpdateTicketStatus();
+  const { apiCallInProgress, closeModal, updateTicketStatus, isPortalOpen } =
+    useUpdateTicketStatus();
 
   return (
     <AlertModals
       typeImage={<CloneReportIcon />}
       type={ALERT_MODALS_TYPE?.INFO}
       message="Do you want to update the ticket status?"
-      open={isPortalOpen?.isOpen as boolean}
+      open={isPortalOpen?.isOpen}
       handleClose={closeModal}
       handleSubmitBtn={updateTicketStatus}
-      loading={putSingleTicketStatusStatus?.isLoading}
-      disableCancelBtn={putSingleTicketStatusStatus?.isLoading}
+      loading={apiCallInProgress}
+      disableCancelBtn={apiCallInProgress}
     />
   );
 };

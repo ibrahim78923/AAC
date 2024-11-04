@@ -157,6 +157,9 @@ export const useUpsertArticle: any = () => {
   };
 
   const newArticleFields = upsertArticleFormFieldsDynamic?.(needApprovals);
+  const showLoader = isLoading || isFetching;
+  const apiCallInProgress =
+    postArticleStatus?.isLoading || patchArticleStatus?.isLoading;
 
   return {
     methods,
@@ -165,13 +168,11 @@ export const useUpsertArticle: any = () => {
     theme,
     newArticleFields,
     articleId,
-    postArticleStatus,
-    patchArticleStatus,
-    isLoading,
-    isFetching,
     cancelBtnHandler,
     isError,
     refetch,
     moveToHome,
+    showLoader,
+    apiCallInProgress,
   };
 };

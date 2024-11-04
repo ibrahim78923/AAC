@@ -21,8 +21,6 @@ export const UpsertDashboard = () => {
     action,
     handleSubmit,
     upsertServiceDashboardFormFields,
-    isLoading,
-    isFetching,
     isError,
     dashboardWidgetsWatch,
     refetch,
@@ -30,9 +28,10 @@ export const UpsertDashboard = () => {
     goToManageDashboard,
     setValue,
     openPreviewDashboard,
+    showLoader,
   } = useUpsertDashboard();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
+  if (showLoader) return <SkeletonForm />;
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
@@ -134,6 +133,7 @@ export const UpsertDashboard = () => {
           variant="contained"
           type="submit"
           loading={apiCallInProgress}
+          disabled={showLoader}
           onClick={handleSubmit(submitCreateDashboardFilterForm)}
         >
           {action === DASHBOARD?.EDIT

@@ -98,7 +98,7 @@ export const useUpsertTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues, setError, setValue } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
 
   const ticketDetailsData = data?.data?.[ARRAY_INDEX?.ZERO];
 
@@ -190,6 +190,11 @@ export const useUpsertTicket = () => {
           'plannedEndDate',
           isoDateString(newFormData?.plannedEndDate),
         );
+      !!newFormData?.plannedStartDate &&
+        upsertTicketFormData?.append(
+          'plannedStartDate',
+          isoDateString(newFormData?.plannedStartDate),
+        );
       !!newFormData?.plannedEffort &&
         upsertTicketFormData?.append(
           'plannedEffort',
@@ -264,6 +269,7 @@ export const useUpsertTicket = () => {
     ticketId,
     getValues,
     setValue,
+    watch,
   );
 
   const apiCallInProgress =

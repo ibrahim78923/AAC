@@ -198,6 +198,11 @@ export const useEditTicketDetails = () => {
           'plannedEndDate',
           isoDateString(newFormData?.plannedEndDate),
         );
+      !!newFormData?.plannedStartDate &&
+        ticketDetailsData?.append(
+          'plannedStartDate',
+          isoDateString(newFormData?.plannedStartDate),
+        );
       !!newFormData?.plannedEffort &&
         ticketDetailsData.append('plannedEffort', newFormData?.plannedEffort);
       ticketDetailsData?.append('isChildTicket', ticketDetail?.isChildTicket);

@@ -1,4 +1,3 @@
-import { ARRAY_INDEX } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   emptySelectedTicketLists,
@@ -8,7 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { PAGINATION } from '@/config';
-import { useUpdateSingleServicesTicketStatusMutation } from '@/services/airServices/tickets';
+import { useUpdateBulkServicesTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
 
@@ -32,34 +31,6 @@ export const useUpdateTicketStatus = () => {
   );
 
   const isMoveBack = !!ticketId;
-  const [putSingleTicketStatusTrigger, putSingleTicketStatusStatus] =
-    useUpdateSingleServicesTicketStatusMutation();
-
-  const updateTicketStatus = async () => {
-    const updateTicketStatusTicketsParameter = {
-      queryParams: {
-        status: isPortalOpen?.status,
-        id: selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id,
-      },
-    };
-    try {
-      await putSingleTicketStatusTrigger(
-        updateTicketStatusTicketsParameter,
-      )?.unwrap();
-      successSnackbar(
-        `Ticket marked as ${isPortalOpen?.status?.toLowerCase()} successfully`,
-      );
-      closeModal?.();
-      await refetchApi?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
-
-  const closeModal = () => {
-    dispatch(emptySelectedTicketLists());
-    dispatch(setIsPortalClose());
-  };
 
   const refetchApi = async () => {
     if (isMoveBack) {
@@ -77,8 +48,43 @@ export const useUpdateTicketStatus = () => {
     await getTicketsListData?.(newPage);
   };
 
+  const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
+    useUpdateBulkServicesTicketsMutation();
+
+  const updateTicketStatus = async () => {
+    const queryParams = new URLSearchParams();
+    selectedTicketLists?.forEach(
+      (ticketId: any) => queryParams?.append('ids', ticketId?._id),
+    );
+
+    const apiDataParameter = {
+      queryParams,
+      body: {
+        status: isPortalOpen?.status,
+      },
+    };
+
+    try {
+      await patchBulkUpdateTicketsTrigger(apiDataParameter)?.unwrap();
+      successSnackbar(
+        `Ticket marked as ${isPortalOpen?.status?.toLowerCase()} successfully`,
+      );
+      closeModal?.();
+      await refetchApi?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const closeModal = () => {
+    dispatch(emptySelectedTicketLists());
+    dispatch(setIsPortalClose());
+  };
+
+  const apiCallInProgress = patchBulkUpdateTicketsStatus?.isLoading;
+
   return {
-    putSingleTicketStatusStatus,
+    apiCallInProgress,
     closeModal,
     updateTicketStatus,
     isPortalOpen,
