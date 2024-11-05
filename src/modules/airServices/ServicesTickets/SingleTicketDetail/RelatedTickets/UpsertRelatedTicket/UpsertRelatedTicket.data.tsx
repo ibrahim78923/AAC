@@ -66,10 +66,15 @@ export const upsertTicketValidationSchema = (childTicketId: string) => {
       ?.when('plannedEndDate', {
         is: (value: any) => value !== null,
         then: () =>
-          Yup?.date()?.nullable()?.required('planned start date is required'),
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
         otherwise: () => Yup?.date()?.nullable(),
       }),
-    plannedEffort: Yup?.string()?.trim(),
+    plannedEndDate: Yup?.date()
+      ?.nullable()
+      .min(
+        Yup?.ref('plannedStartDate'),
+        'Planned end date is after planned start date',
+      ),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
   });
@@ -90,7 +95,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
       ? localeDateTime(data?.plannedStartDate)
-      : new Date(),
+      : null,
     plannedEndDate: !!data?.plannedEndDate
       ? localeDateTime(data?.plannedEndDate)
       : null,
@@ -204,7 +209,6 @@ export const upsertTicketFormFieldsDynamic = (
             name: 'plannedStartDate',
             label: 'Planned Start Date',
             fullWidth: true,
-            disablePast: true,
             ampm: false,
             textFieldProps: { readOnly: true },
           },
@@ -217,7 +221,6 @@ export const upsertTicketFormFieldsDynamic = (
             name: 'plannedEndDate',
             label: 'Planned End Date',
             fullWidth: true,
-            disablePast: true,
             ampm: false,
             textFieldProps: { readOnly: true },
             minDateTime: watch('plannedStartDate'),

@@ -19,7 +19,7 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     defaultValues: getWorkloadDefaultValues?.(dataGet?.extendedProps),
   });
 
-  const { handleSubmit, reset, getValues, setValue, setError } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError, watch } = methods;
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();
@@ -58,7 +58,7 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     reset(getWorkloadDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
-  const workloadDataArray = getWorkloadDataArray(getValues, setValue);
+  const workloadDataArray = getWorkloadDataArray(getValues, setValue, watch);
 
   return {
     handleSubmit,

@@ -1,12 +1,11 @@
 import { TicketTasksTableRowI } from '../Tasks.interface';
 import { Checkbox, Theme, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { DATE_MONTH_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { styles } from '../Tasks.styles';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { TruncateText } from '@/components/TruncateText';
-import { otherDateFormat, uiDateFormat } from '@/lib/date-time';
+import { uiDateFormat } from '@/lib/date-time';
 
 const { TICKET_TASKS_DETAIL } = TICKET_TASKS_ACTIONS_CONSTANT;
 
@@ -95,10 +94,9 @@ export const ticketsTasksListsColumnsDynamic: any = (
       isSortable: true,
       header: 'Due Date',
       cell: (info: any) =>
-        `${otherDateFormat(
-          info?.getValue()?.startDate,
-          DATE_MONTH_FORMAT?.API,
-        )} - ${uiDateFormat(info?.getValue()?.endDate)}`,
+        info?.getValue()?.endDate
+          ? `${uiDateFormat(info?.getValue()?.endDate)}`
+          : '---',
     },
     {
       accessorFn: (row: TicketTasksTableRowI) => row?.assignedUser,

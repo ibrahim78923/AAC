@@ -19,7 +19,7 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
     defaultValues: getWorkloadTicketDefaultValues?.(dataGet?.extendedProps),
   });
 
-  const { handleSubmit, reset, getValues, setValue, setError } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError, watch } = methods;
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();
@@ -65,6 +65,7 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
   const workloadTicketDataArray = getWorkloadTicketDataArray(
     getValues,
     setValue,
+    watch,
   );
 
   return {

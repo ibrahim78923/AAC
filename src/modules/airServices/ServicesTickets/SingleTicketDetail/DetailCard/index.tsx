@@ -6,14 +6,52 @@ import { UserInfo } from '@/components/UserInfo';
 import { AttachFileCard } from '@/components/AttachFileCard';
 import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 
-export const DetailCard = (props: any) => {
-  const { data } = props;
-  const { attachFile } = useDetailCard();
+export const DetailCard = () => {
+  const { attachFile, data, router, isLoading, isFetching, isError, refetch } =
+    useDetailCard();
   const theme = useTheme();
   const ticketDetail = data?.data?.[ZERO];
+
+  if (!router?.isReady) return <SkeletonTable />;
+
+  if (isLoading || isFetching)
+    return (
+      <Box
+        border="2px solid"
+        borderRadius={2}
+        padding={1}
+        borderColor="custom.off_white_three"
+      >
+        <Grid container>
+          {Array.from({ length: 3 })?.map((item: any, id: any) => (
+            <Grid
+              item
+              xs={12}
+              md={3.9}
+              px={1.5}
+              borderRight={{
+                md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              }}
+              borderBottom={{
+                xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                md: 'none',
+              }}
+              key={item ?? `skeleton+${id}`}
+            >
+              <SkeletonTable length={3} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+
+  if (isError)
+    return <ApiErrorState canRefresh refresh={refetch} height={'40vh'} />;
 
   return (
     <Box
@@ -168,10 +206,11 @@ export const DetailCard = (props: any) => {
             </Typography>
             {!!ticketDetail?.status ? (
               <Chip
-                label={ticketDetail?.status ?? '---'}
+                label={ticketDetail?.status?.toLowerCase() ?? '---'}
                 variant="outlined"
                 size="small"
                 color="primary"
+                sx={{ textTransform: 'capitalize' }}
               />
             ) : (
               '---'

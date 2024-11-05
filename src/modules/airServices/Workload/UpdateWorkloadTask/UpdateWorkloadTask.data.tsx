@@ -16,17 +16,17 @@ export const getWorkloadValidationSchema: any = Yup?.object()?.shape({
   description: Yup?.string()?.trim()?.required('Description is Required'),
   assignTo: Yup?.mixed()?.nullable(),
   status: Yup.string()?.required('Status is Required'),
-  startDate: Yup?.date()?.nullable(),
+  startDate: Yup?.date()
+    ?.nullable()
+    ?.when('endDate', {
+      is: (value: any) => value !== null,
+      then: () =>
+        Yup?.date()?.nullable()?.required('Planned start date is required'),
+      otherwise: () => Yup?.date()?.nullable(),
+    }),
   endDate: Yup?.date()
     ?.nullable()
-    ?.test(
-      'is-after-start-date',
-      'End Date must be after Start Date',
-      function (value) {
-        const { startDate } = this.parent;
-        return !startDate || !value || new Date(value) > new Date(startDate);
-      },
-    ),
+    .min(Yup?.ref('startDate'), 'Planned End date is after planned start date'),
   plannedEffort: Yup?.string()?.trim(),
 });
 
@@ -42,7 +42,11 @@ export const getWorkloadDefaultValues = (data?: any) => ({
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const getWorkloadDataArray = (getValues?: any, setValue?: any) => [
+export const getWorkloadDataArray = (
+  getValues?: any,
+  setValue?: any,
+  watch?: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -104,6 +108,7 @@ export const getWorkloadDataArray = (getValues?: any, setValue?: any) => [
       fullWidth: true,
       textFieldProps: { readOnly: true },
       ampm: false,
+      minDateTime: watch('startDate'),
     },
     component: RHFDesktopDateTimePicker,
   },

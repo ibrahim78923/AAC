@@ -56,10 +56,20 @@ export const newIncidentValidationSchema = (form: any) => {
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
-    plannedStartDate: Yup?.date(),
+    plannedStartDate: Yup?.date()
+      ?.nullable()
+      ?.when('plannedEndDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
     plannedEndDate: Yup?.date()
       ?.nullable()
-      ?.required('Planned End Date is Required'),
+      .min(
+        Yup?.ref('plannedStartDate'),
+        'Planned end date is after planned start date',
+      ),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -81,7 +91,7 @@ export const newIncidentsDefaultValuesFunction = (form?: any) => {
     source: null,
     impact: null,
     agent: null,
-    plannedStartDate: new Date(),
+    plannedStartDate: null,
     plannedEndDate: null,
     plannedEffort: '',
     associatesAssets: [],
@@ -92,6 +102,7 @@ export const newIncidentsDefaultValuesFunction = (form?: any) => {
 export const getNewIncidentFormFieldsDynamic = (
   getValues?: any,
   setValue?: any,
+  watch?: any,
 ) => [
   {
     id: 1,
@@ -183,7 +194,6 @@ export const getNewIncidentFormFieldsDynamic = (
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      disabled: true,
       ampm: false,
     },
     component: RHFDesktopDateTimePicker,
@@ -195,10 +205,9 @@ export const getNewIncidentFormFieldsDynamic = (
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
       ampm: false,
-      required: true,
       textFieldProps: { readOnly: true },
+      minDateTime: watch('plannedStartDate'),
     },
     component: RHFDesktopDateTimePicker,
     md: 12,

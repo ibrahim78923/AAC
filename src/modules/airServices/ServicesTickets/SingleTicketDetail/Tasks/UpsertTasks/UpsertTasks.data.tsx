@@ -73,7 +73,7 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
       ?.when('endDate', {
         is: (value: any) => value !== null,
         then: () =>
-          Yup?.date()?.nullable()?.required('planned start date is required'),
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
         otherwise: () => Yup?.date()?.nullable(),
       }),
     endDate: Yup?.date()
@@ -188,7 +188,6 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       name: 'startDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      disablePast: true,
       ampm: false,
       textFieldProps: { readOnly: true },
     },
@@ -201,7 +200,6 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       name: 'endDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
       ampm: false,
       textFieldProps: { readOnly: true },
       minDateTime: watch('startDate'),

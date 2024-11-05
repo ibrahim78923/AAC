@@ -1,5 +1,5 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { COLLECTION_NAME } from '@/constants/strings';
+import { BACKEND_COLLECTION_NAME } from '@/constants/api';
 
 export const XAxesFieldsListDropdown = (props: any) => {
   const { xAxisData, productId, singleFieldDropdown } = props;
@@ -12,18 +12,18 @@ export const XAxesFieldsListDropdown = (props: any) => {
       multiple={true}
       apiQuery={singleFieldDropdown}
       getOptionLabel={(option: any) =>
-        xAxisData?.ref === COLLECTION_NAME?.LOCATION
+        xAxisData?.ref === BACKEND_COLLECTION_NAME?.LOCATION
           ? option?.locationName
-          : xAxisData?.ref === COLLECTION_NAME?.USERS
+          : xAxisData?.ref === BACKEND_COLLECTION_NAME?.USERS
             ? `${option?.firstName} ${option?.lastName}`
             : option?.name
       }
       placeholder="Select Option"
       externalParams={{
-        ...(xAxisData?.ref != COLLECTION_NAME?.USERS && {
+        ...(xAxisData?.ref != BACKEND_COLLECTION_NAME?.USERS && {
           meta: false,
         }),
-        ...(xAxisData?.ref === COLLECTION_NAME?.USERS && {
+        ...(xAxisData?.ref === BACKEND_COLLECTION_NAME?.USERS && {
           productId: productId,
         }),
       }}

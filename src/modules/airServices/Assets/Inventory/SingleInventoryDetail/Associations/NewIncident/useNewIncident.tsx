@@ -71,7 +71,7 @@ export const useNewIncident = (props: {
     defaultValues: newIncidentsDefaultValuesFunction?.(form),
   });
 
-  const { handleSubmit, reset, getValues, setValue } = methods;
+  const { handleSubmit, reset, getValues, setValue, watch } = methods;
 
   const onSubmit = async (formData: any) => {
     const newFormData = filteredEmptyValues(formData);
@@ -228,6 +228,7 @@ export const useNewIncident = (props: {
   const newIncidentFormFieldsDynamic = getNewIncidentFormFieldsDynamic(
     getValues,
     setValue,
+    watch,
   );
 
   return {

@@ -14,7 +14,6 @@ export const SingleTicketDetail = () => {
     isError,
     singleTicketDetailTabs,
     refetch,
-    data,
     childComponentProps,
     router,
   } = useSingleTicketDetails?.();
@@ -34,7 +33,7 @@ export const SingleTicketDetail = () => {
           AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_REQUESTER_DETAILS,
         ]}
       >
-        <DetailCard data={data} />
+        <DetailCard />
       </PermissionsGuard>
       <br />
       <PermissionsTabs spacing={0.3} tabsDataArray={singleTicketDetailTabs} />

@@ -221,7 +221,10 @@ export const ticketsListsColumnDynamic: any = (
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
-      cell: (info: any) => uiDateFormat(localeDateTime(info?.getValue())),
+      cell: (info: any) =>
+        !!info?.getValue()
+          ? uiDateFormat(localeDateTime(info?.getValue()))
+          : '---',
     },
     {
       accessorFn: (row: TicketTableRowI) => row?.plannedEndDate,

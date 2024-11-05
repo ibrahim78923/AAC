@@ -71,7 +71,7 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
       ?.when('plannedEndDate', {
         is: (value: any) => value !== null,
         then: () =>
-          Yup?.date()?.nullable()?.required('planned start date is required'),
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
         otherwise: () => Yup?.date()?.nullable(),
       }),
     plannedEffort: Yup?.string()?.trim(),
@@ -216,7 +216,6 @@ export const upsertTicketFormFieldsDynamic = (
               name: 'plannedStartDate',
               label: 'Planned Start Date',
               fullWidth: true,
-              disablePast: true,
               ampm: false,
               textFieldProps: { readOnly: true },
             },
@@ -229,7 +228,6 @@ export const upsertTicketFormFieldsDynamic = (
               name: 'plannedEndDate',
               label: 'Planned End Date',
               fullWidth: true,
-              disablePast: true,
               ampm: false,
               textFieldProps: { readOnly: true },
               minDateTime: watch('plannedStartDate'),

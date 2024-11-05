@@ -162,8 +162,12 @@ export const useUpsertTasks = () => {
           ),
         ),
         ticketId: ticketId,
-        startDate: isoDateString(filteredEmptyData?.startDate),
-        endDate: isoDateString(filteredEmptyData?.endDate),
+        startDate: !!filteredEmptyData?.startDate
+          ? isoDateString(filteredEmptyData?.startDate)
+          : undefined,
+        endDate: !!filteredEmptyData?.endDate
+          ? isoDateString(filteredEmptyData?.endDate)
+          : undefined,
         assignTo: filteredEmptyData?.agent?._id,
         departmentId: filteredEmptyData?.department?._id,
         notifyBefore: filteredEmptyData?.notifyBefore?._id,

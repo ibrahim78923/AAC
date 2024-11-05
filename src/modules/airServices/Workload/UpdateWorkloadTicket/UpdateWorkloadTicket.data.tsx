@@ -24,10 +24,20 @@ export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
     }),
   agent: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Status is required'),
-  plannedStartDate: Yup?.date(),
+  plannedStartDate: Yup?.date()
+    ?.nullable()
+    ?.when('plannedEndDate', {
+      is: (value: any) => value !== null,
+      then: () =>
+        Yup?.date()?.nullable()?.required('Planned start date is required'),
+      otherwise: () => Yup?.date()?.nullable(),
+    }),
   plannedEndDate: Yup?.date()
     ?.nullable()
-    ?.required('Planned End Date is Required'),
+    .min(
+      Yup?.ref('plannedStartDate'),
+      'Planned end date is after planned start date',
+    ),
   plannedEffort: Yup?.string()?.trim(),
 });
 
@@ -38,12 +48,16 @@ export const getWorkloadTicketDefaultValues = (data?: any) => ({
     ? data?.agentDetails
     : null,
   status: data?.status ? { _id: data?.status, label: data?.status } : null,
-  plannedStartDate: data?.plannedStartDate ?? new Date(),
+  plannedStartDate: data?.plannedStartDate ?? null,
   plannedEndDate: data?.plannedEndDate ?? null,
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const getWorkloadTicketDataArray = (getValues?: any, setValue?: any) => [
+export const getWorkloadTicketDataArray = (
+  getValues?: any,
+  setValue?: any,
+  watch?: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -91,8 +105,8 @@ export const getWorkloadTicketDataArray = (getValues?: any, setValue?: any) => [
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      disabled: true,
       ampm: false,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDesktopDateTimePicker,
   },
@@ -102,10 +116,9 @@ export const getWorkloadTicketDataArray = (getValues?: any, setValue?: any) => [
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
-      required: true,
       textFieldProps: { readOnly: true },
       ampm: false,
+      minDateTime: watch('plannedStartDate'),
     },
     component: RHFDesktopDateTimePicker,
   },
